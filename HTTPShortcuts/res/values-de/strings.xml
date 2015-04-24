@@ -16,6 +16,7 @@
     <string name="label_protocol">Protokol:</string>
     <string name="label_feedback">Feedback:</string>
     <string name="feedback_none">Kein Feedback</string>
+    <string name="feedback_errors_only">Nur Fehler</string>
     <string name="feedback_simple">Einfach</string>
     <string name="feedback_full_response">Server-Antwort</string>
     <string name="action_place">Auf Homescreen platzieren</string>
@@ -34,5 +35,7 @@
     <string name="validation_name_not_empty">Bitte geben Sie einen Namen ein.</string>
     <string name="validation_url_invalid">Bitte geben Sie eine gültige URL ein.</string>
     <string name="error_http">%1$s ist mit status code %2$d fehlgeschlagen.</string>
+    <string name="error_other">%1$s fehlgeschlagen: %2$s</string>
+    <string name="error_set_image">Bild konnte nicht geladen werden.</string>
 
 </resources>
