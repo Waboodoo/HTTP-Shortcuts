@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 
 import android.annotation.SuppressLint;
@@ -11,11 +12,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.provider.MediaStore.Images.Media;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
@@ -32,6 +33,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.Toast;
 import ch.rmy.android.http_shortcuts.shortcuts.Shortcut;
 
 public class EditorActivity extends Activity implements OnClickListener, OnItemSelectedListener, TextWatcher {
@@ -171,9 +173,10 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 		if (v.equals(button)) {
 			saveAndClose();
 		} else if (v.equals(iconView)) {
-			Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-			intent.addCategory(Intent.CATEGORY_OPENABLE);
-			intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+			// Workaround for Kitkat (thanks to http://stackoverflow.com/a/20186938/1082111)
+			Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+			// intent.addCategory(Intent.CATEGORY_OPENABLE);
+			// intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
 			intent.setType("image/*");
 			startActivityForResult(intent, SELECT_ICON);
 		}
@@ -240,37 +243,41 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		super.onActivityResult(requestCode, resultCode, intent);
 
-		switch (requestCode) {
-		case SELECT_ICON:
-			if (resultCode == RESULT_OK) {
-				String iconName = Double.toHexString(Math.random() * 1000000) + ".png";
+		if (requestCode == SELECT_ICON && resultCode == RESULT_OK) {
+			String iconName = Double.toHexString(Math.random() * 1000000) + ".png";
 
-				OutputStream out = null;
+			InputStream in = null;
+			OutputStream out = null;
+			try {
+				in = getContentResolver().openInputStream(intent.getData());
+				Bitmap bitmap = BitmapFactory.decodeStream(in);
+				Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, 96, 96, false);
+				if (bitmap != resizedBitmap) {
+					bitmap.recycle();
+				}
+
+				out = openFileOutput(iconName, 0);
+				resizedBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+				iconView.setImageBitmap(resizedBitmap);
+				out.flush();
+
+				selectedIcon = iconName;
+				hasChanges = true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				iconView.setImageResource(Shortcut.DEFAULT_ICON);
+				selectedIcon = null;
+				hasChanges = true;
+				Toast.makeText(this, R.string.error_set_image, Toast.LENGTH_SHORT).show();
+			} finally {
 				try {
-					Bitmap bitmap = Media.getBitmap(this.getContentResolver(), intent.getData());
-					Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, 96, 96, false);
-					if (bitmap != resizedBitmap) {
-						bitmap.recycle();
+					if (in != null) {
+						in.close();
 					}
-
-					out = openFileOutput(iconName, 0);
-					resizedBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-					iconView.setImageBitmap(resizedBitmap);
-					out.flush();
-
-					selectedIcon = iconName;
-					hasChanges = true;
-				} catch (Exception e) {
-					iconView.setImageResource(Shortcut.DEFAULT_ICON);
-					selectedIcon = null;
-					hasChanges = true;
-				} finally {
-					try {
-						if (out != null) {
-							out.close();
-						}
-					} catch (IOException e) {
+					if (out != null) {
+						out.close();
 					}
+				} catch (IOException e) {
 				}
 			}
 		}
