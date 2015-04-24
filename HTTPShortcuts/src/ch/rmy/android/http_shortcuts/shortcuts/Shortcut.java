@@ -13,6 +13,7 @@ public class Shortcut implements Parcelable {
 	public static final String PROTOCOL_HTTPS = "https";
 
 	public static final int FEEDBACK_NONE = 0;
+	public static final int FEEDBACK_ERRORS_ONLY = 1;
 	public static final int FEEDBACK_SIMPLE = 2;
 	public static final int FEEDBACK_FULL_RESPONSE = 3;
 
@@ -20,8 +21,8 @@ public class Shortcut implements Parcelable {
 
 	public static final String[] METHODS = { METHOD_GET, METHOD_POST };
 	public static final String[] PROTOCOLS = { PROTOCOL_HTTP, PROTOCOL_HTTPS };
-	public static final int[] FEEDBACKS = { FEEDBACK_NONE, FEEDBACK_SIMPLE, FEEDBACK_FULL_RESPONSE };
-	public static final int[] FEEDBACK_RESOURCES = { R.string.feedback_none, R.string.feedback_simple, R.string.feedback_full_response };
+	public static final int[] FEEDBACKS = { FEEDBACK_NONE, FEEDBACK_ERRORS_ONLY, FEEDBACK_SIMPLE, FEEDBACK_FULL_RESPONSE };
+	public static final int[] FEEDBACK_RESOURCES = { R.string.feedback_none, R.string.feedback_errors_only, R.string.feedback_simple, R.string.feedback_full_response };
 
 	private final int id;
 	private String name;

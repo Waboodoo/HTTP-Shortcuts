@@ -40,17 +40,22 @@ public class HttpRequester {
 		}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
+				if (shortcut.getFeedback() == Shortcut.FEEDBACK_NONE) {
+					return;
+				}
+
 				String message;
 				if (error.networkResponse != null) {
 					message = String.format(context.getText(R.string.error_http).toString(), shortcut.getName(), error.networkResponse.statusCode);
 				} else {
 					if (error.getCause() != null) {
-						message = error.getCause().getMessage();
+						message = String.format(context.getText(R.string.error_other).toString(), shortcut.getName(), error.getCause().getMessage());
 					} else if (error.getMessage() != null) {
-						message = error.getMessage();
+						message = String.format(context.getText(R.string.error_other).toString(), shortcut.getName(), error.getMessage());
 					} else {
-						message = "Failed.";
+						message = String.format(context.getText(R.string.error_other).toString(), shortcut.getName(), error.getClass().getSimpleName());
 					}
+					error.printStackTrace();
 				}
 				Toast.makeText(context, message, Toast.LENGTH_LONG).show();
 			}
