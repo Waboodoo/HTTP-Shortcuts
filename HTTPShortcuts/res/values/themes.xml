@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- the theme applied to the application or activity -->
+    <style name="MyTheme"
+           parent="@android:style/Theme.Holo.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <item name="android:buttonStyle">@style/MyButton</item>
+    </style>
+
+    <!-- ActionBar styles -->
+    <style name="MyActionBar"
+           parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/blue</item>
+        <item name="android:icon">@android:color/transparent</item>
+    </style>
+    
+    <style name="MyButton" parent="android:style/Widget.Button">
+	  <item name="android:textSize">19sp</item>
+	  <item name="android:textColor">@android:color/white</item>
+	  <item name="android:background">@color/blue</item>
+	  <item name="android:paddingTop">8dp</item>
+	  <item name="android:paddingBottom">8dp</item>
+	 </style>
+</resources>

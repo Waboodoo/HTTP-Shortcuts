@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">HTTP Shortcuts</string>
+    <string name="shortcuts">Shortcuts</string>
+    <string name="edit_shortcut">Shortcut bearbeiten</string>
+    <string name="create_shortcut">Shortcut erstellen</string>
+    <string name="icon_description">Icon</string>
+    <string name="label_name">Shortcut Name:</string>
+    <string name="label_url">URL:</string>
+    <string name="create_button">Erstellen</string>
+    <string name="save_button">Speichern</string>
+    <string name="label_method">Methode:</string>
+    <string name="label_username">Auth Benutzername (optional):</string>
+    <string name="label_password">Auth Passwort (optional):</string>
+    <string name="label_protocol">Protokol:</string>
+    <string name="label_feedback">Feedback:</string>
+    <string name="feedback_none">Kein Feedback</string>
+    <string name="feedback_simple">Einfach</string>
+    <string name="feedback_full_response">Server-Antwort</string>
+    <string name="action_place">Auf Homescreen platzieren</string>
+    <string name="action_run">Ausführen</string>
+    <string name="action_edit">Bearbeiten</string>
+    <string name="action_duplicate">Duplizieren</string>
+    <string name="action_delete">Löschen</string>
+    <string name="no_shortcuts">Noch keine Shortcuts vorhanden</string>
+    <string name="confirm_delete_title">Löschen bestätigen</string>
+    <string name="confirm_delete_message">Möchten Sie diesen Shortcut wirklich löschen?</string>
+    <string name="confirm_discard_changes_title">Änderungen verwerfen?</string>
+    <string name="confirm_discard_changes_message">Sie haben ungespeicherte Änderungen. Möchten Sie trotzdem fortfahren?</string>
+    <string name="title_activity_execute">Shortcut ausführen</string>
+    <string name="executed">%s ausgeführt.</string>
+    <string name="shortcut_not_found">Shortcut nicht gefunden.</string>
+    <string name="validation_name_not_empty">Bitte geben Sie einen Namen ein.</string>
+    <string name="validation_url_invalid">Bitte geben Sie eine gültige URL ein.</string>
+    <string name="error_http">%1$s ist mit status code %2$d fehlgeschlagen.</string>
+
+</resources>
