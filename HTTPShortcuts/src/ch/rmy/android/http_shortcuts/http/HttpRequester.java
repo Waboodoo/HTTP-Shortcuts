@@ -34,7 +34,6 @@ public class HttpRequester {
 					}
 					Toast.makeText(context, message, Toast.LENGTH_LONG).show();
 					break;
-
 				}
 			}
 		}, new Response.ErrorListener() {

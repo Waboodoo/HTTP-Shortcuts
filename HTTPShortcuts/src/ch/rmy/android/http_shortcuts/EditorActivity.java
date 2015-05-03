@@ -36,6 +36,11 @@ import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 import ch.rmy.android.http_shortcuts.shortcuts.Shortcut;
 
+/**
+ * The activity to create/edit shortcuts.
+ * 
+ * @author Roland Meyer
+ */
 public class EditorActivity extends Activity implements OnClickListener, OnItemSelectedListener, TextWatcher {
 
 	public final static String EXTRA_SHORTCUT = "shortcut";
@@ -49,12 +54,10 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 	private EditText usernameView;
 	private EditText passwordView;
 	private ImageView iconView;
-	private Spinner protocolView;
 	private Spinner methodView;
 	private Spinner feedbackView;
 	private Button button;
 
-	private String selectedProtocol;
 	private String selectedMethod;
 	private int selectedFeedback;
 	private String selectedIcon;
@@ -85,7 +88,7 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 		button = (Button) findViewById(R.id.create_button);
 
 		nameView.setText(shortcut.getName());
-		urlView.setText(shortcut.getURL());
+		urlView.setText(shortcut.getProtocol() + "://" + shortcut.getURL());
 		usernameView.setText(shortcut.getUsername());
 		passwordView.setText(shortcut.getPassword());
 
@@ -105,22 +108,6 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 			}
 		}
 		methodView.setOnItemSelectedListener(this);
-
-		protocolView = (Spinner) findViewById(R.id.input_protocol);
-		String[] protocolStrings = new String[Shortcut.PROTOCOLS.length];
-		for (int i = 0; i < Shortcut.PROTOCOLS.length; i++) {
-			protocolStrings[i] = Shortcut.PROTOCOLS[i] + "://";
-		}
-		SpinnerAdapter protocolAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, protocolStrings);
-		protocolView.setAdapter(protocolAdapter);
-		for (int i = 0; i < Shortcut.PROTOCOLS.length; i++) {
-			if (Shortcut.PROTOCOLS[i].equals(shortcut.getProtocol())) {
-				protocolView.setSelection(i);
-				break;
-			}
-		}
-		selectedProtocol = shortcut.getProtocol();
-		protocolView.setOnItemSelectedListener(this);
 
 		feedbackView = (Spinner) findViewById(R.id.input_feedback);
 		String[] feedbackStrings = new String[Shortcut.FEEDBACKS.length];
@@ -211,15 +198,24 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 			nameView.requestFocus();
 			return;
 		}
-		String url = selectedProtocol + "://" + urlView.getText();
+		String url = urlView.getText().toString();
 		if (urlView.getText().length() == 0 || !(URLUtil.isHttpUrl(url) || URLUtil.isHttpsUrl(url))) {
 			urlView.setError(getText(R.string.validation_url_invalid));
 			urlView.requestFocus();
 			return;
 		}
 
-		shortcut.setURL(urlView.getText().toString());
-		shortcut.setProtocol(selectedProtocol);
+		String protocol;
+		if (URLUtil.isHttpsUrl(url)) {
+			protocol = Shortcut.PROTOCOL_HTTPS;
+			url = url.substring(8);
+		} else {
+			protocol = Shortcut.PROTOCOL_HTTP;
+			url = url.substring(7);
+		}
+
+		shortcut.setURL(url);
+		shortcut.setProtocol(protocol);
 		shortcut.setMethod(selectedMethod);
 		shortcut.setName(nameView.getText().toString().trim());
 		shortcut.setPassword(passwordView.getText().toString());
@@ -286,12 +282,6 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 	@Override
 	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 		switch (parent.getId()) {
-		case R.id.input_protocol:
-			selectedProtocol = Shortcut.PROTOCOLS[position];
-			if (!selectedProtocol.equals(shortcut.getProtocol())) {
-				hasChanges = true;
-			}
-			break;
 		case R.id.input_method:
 			selectedMethod = Shortcut.METHODS[position];
 			if (!selectedMethod.equals(shortcut.getMethod())) {
