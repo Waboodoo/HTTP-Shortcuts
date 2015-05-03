@@ -240,7 +240,7 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 		super.onActivityResult(requestCode, resultCode, intent);
 
 		if (requestCode == SELECT_ICON && resultCode == RESULT_OK) {
-			String iconName = Double.toHexString(Math.random() * 1000000) + ".png";
+			String iconName = Integer.toHexString((int) Math.floor(Math.random() * 1000000)) + ".png";
 
 			InputStream in = null;
 			OutputStream out = null;
