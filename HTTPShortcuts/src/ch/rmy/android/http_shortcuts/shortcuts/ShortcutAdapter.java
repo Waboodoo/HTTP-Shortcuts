@@ -30,7 +30,7 @@ public class ShortcutAdapter extends ArrayAdapter<Shortcut> {
 		nameView.setText(shortcut.getName());
 
 		TextView urlView = (TextView) rowView.findViewById(R.id.url);
-		String subText = shortcut.getMethod() + " " + (shortcut.getMethod().equals(Shortcut.PROTOCOL_HTTPS) ? "https://" : "") + shortcut.getURL();
+		String subText = shortcut.getMethod() + " " + (shortcut.getProtocol().equals(Shortcut.PROTOCOL_HTTPS) ? "https://" : "") + shortcut.getURL();
 		if (subText.length() > 100) {
 			subText = subText.substring(0, 100) + "...";
 		}
