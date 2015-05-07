@@ -174,7 +174,8 @@ public class ListActivity extends Activity implements OnItemClickListener {
 			updateShortcutList();
 			return true;
 		case 5: // duplicate
-			Shortcut newShortcut = shortcut.duplicate();
+			String newName = String.format(getText(R.string.copy).toString(), shortcut.getName());
+			Shortcut newShortcut = shortcut.duplicate(newName);
 			shortcutStorage.storeShortcut(newShortcut);
 			updateShortcutList();
 			return true;

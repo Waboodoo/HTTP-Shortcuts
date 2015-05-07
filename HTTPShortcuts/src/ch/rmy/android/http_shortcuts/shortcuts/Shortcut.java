@@ -184,8 +184,8 @@ public class Shortcut implements Parcelable {
 		return id == 0;
 	}
 
-	public Shortcut duplicate() {
-		return new Shortcut(0, name + " (copy)", protocol, url, method, username, password, iconName, feedback, 0);
+	public Shortcut duplicate(String newName) {
+		return new Shortcut(0, newName, protocol, url, method, username, password, iconName, feedback, 0);
 	}
 
 }

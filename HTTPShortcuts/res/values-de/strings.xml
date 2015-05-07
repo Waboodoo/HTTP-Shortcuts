@@ -39,5 +39,6 @@
     <string name="error_http">%1$s ist mit status code %2$d fehlgeschlagen.</string>
     <string name="error_other">%1$s fehlgeschlagen: %2$s</string>
     <string name="error_set_image">Bild konnte nicht geladen werden.</string>
+    <string name="copy">%1$s (Kopie)</string>
 
 </resources>
