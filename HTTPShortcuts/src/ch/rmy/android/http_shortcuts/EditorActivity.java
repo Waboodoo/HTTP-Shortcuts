@@ -19,6 +19,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,7 +30,6 @@ import android.webkit.URLUtil;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -56,7 +57,6 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 	private ImageView iconView;
 	private Spinner methodView;
 	private Spinner feedbackView;
-	private Button button;
 
 	private String selectedMethod;
 	private int selectedFeedback;
@@ -85,7 +85,6 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 		usernameView = (EditText) findViewById(R.id.input_username);
 		passwordView = (EditText) findViewById(R.id.input_password);
 		iconView = (ImageView) findViewById(R.id.input_icon);
-		button = (Button) findViewById(R.id.create_button);
 
 		nameView.setText(shortcut.getName());
 		urlView.setText(shortcut.getProtocol() + "://" + shortcut.getURL());
@@ -135,14 +134,18 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 
 		if (shortcut.isNew()) {
 			getActionBar().setTitle(R.string.create_shortcut);
-			button.setText(R.string.create_button);
 		} else {
 			getActionBar().setTitle(R.string.edit_shortcut);
-			button.setText(R.string.save_button);
 		}
-		button.setOnClickListener(this);
 
 		hasChanges = false;
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.editor_activity_menu, menu);
+		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
@@ -151,15 +154,16 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 		case android.R.id.home:
 			confirmClose();
 			return true;
+		case R.id.action_save_shortcut:
+			saveAndClose();
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
 	public void onClick(View v) {
-		if (v.equals(button)) {
-			saveAndClose();
-		} else if (v.equals(iconView)) {
+		if (v.equals(iconView)) {
 			// Workaround for Kitkat (thanks to http://stackoverflow.com/a/20186938/1082111)
 			Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 			// intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -199,7 +203,7 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 			return;
 		}
 		String url = urlView.getText().toString();
-		if (urlView.getText().length() == 0 || !(URLUtil.isHttpUrl(url) || URLUtil.isHttpsUrl(url))) {
+		if (urlView.getText().length() == 0 || url.equalsIgnoreCase("http://") || url.equalsIgnoreCase("https://") || !(URLUtil.isHttpUrl(url) || URLUtil.isHttpsUrl(url))) {
 			urlView.setError(getText(R.string.validation_url_invalid));
 			urlView.requestFocus();
 			return;
