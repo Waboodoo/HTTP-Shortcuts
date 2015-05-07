@@ -27,7 +27,7 @@ public class ShortcutAdapter extends ArrayAdapter<Shortcut> {
 		}
 
 		TextView nameView = (TextView) rowView.findViewById(R.id.name);
-		nameView.setText(shortcut.getName());
+		nameView.setText(shortcut.getPosition() + " " + shortcut.getName());
 
 		TextView urlView = (TextView) rowView.findViewById(R.id.url);
 		String subText = shortcut.getMethod() + " " + (shortcut.getProtocol().equals(Shortcut.PROTOCOL_HTTPS) ? "https://" : "") + shortcut.getURL();

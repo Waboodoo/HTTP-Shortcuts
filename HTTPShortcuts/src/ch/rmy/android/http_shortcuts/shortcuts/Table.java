@@ -1,5 +1,10 @@
 package ch.rmy.android.http_shortcuts.shortcuts;
 
+/**
+ * Defines the structure of the database table
+ * 
+ * @author Roland Meyer
+ */
 public class Table {
 
 	protected static final String TABLE_NAME = "shortcuts";
@@ -14,15 +19,31 @@ public class Table {
 	protected static final String COLUMN_ICON = "icon";
 	protected static final String COLUMN_FEEDBACK = "feedback";
 	protected static final String COLUMN_UNUSED = "unused";
+	protected static final String COLUMN_POSITION = "position";
 
+	/**
+	 * @return The sql statement to create the table
+	 */
 	protected static String getCreateStatement() {
-		return "create table " + TABLE_NAME + "(" + COLUMN_ID + " integer primary key autoincrement, " + COLUMN_NAME + " text, " + COLUMN_PROTOCOL + " text, " + COLUMN_URL
-				+ " text, " + COLUMN_METHOD + " text, " + COLUMN_USERNAME + " text, " + COLUMN_PASSWORD + " text, " + COLUMN_ICON + " text, " + COLUMN_FEEDBACK + " integer, "
-				+ COLUMN_UNUSED + " text);";
+		return "create table if not exists " + TABLE_NAME + "(" + COLUMN_ID + " integer primary key autoincrement, " + COLUMN_NAME + " text, " + COLUMN_PROTOCOL + " text, "
+				+ COLUMN_URL + " text, " + COLUMN_METHOD + " text, " + COLUMN_USERNAME + " text, " + COLUMN_PASSWORD + " text, " + COLUMN_ICON + " text, " + COLUMN_FEEDBACK
+				+ " integer, " + COLUMN_UNUSED + " text, " + COLUMN_POSITION + " integer not null default 0);";
 	}
 
-	protected static String getDropStatement() {
-		return "drop table if exists " + TABLE_NAME;
+	/**
+	 * Returns the sql statements needed to upgrade the table from the preceding version.
+	 * 
+	 * @param version
+	 *            The version to update to
+	 * @return The sql statements to update the table
+	 */
+	protected static String[] getUpdateStatements(int version) {
+		switch (version) {
+		case 2:
+			return new String[] { "alter table " + TABLE_NAME + " ADD COLUMN " + COLUMN_POSITION + " integer not null default 0;",
+					"update " + TABLE_NAME + " set " + COLUMN_POSITION + " = " + COLUMN_ID + ";" };
+		}
+		throw new RuntimeException("Unknown version: " + version);
 	}
 
 }

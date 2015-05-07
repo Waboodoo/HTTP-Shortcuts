@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBCreator extends SQLiteOpenHelper {
 
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 	private static final String DATABASE_NAME = "shortcuts.db";
 
 	public DBCreator(Context context) {
@@ -20,7 +20,12 @@ public class DBCreator extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL(Table.getDropStatement());
+		for (int version = oldVersion + 1; version <= newVersion; version++) {
+			for (String statement : Table.getUpdateStatements(version)) {
+				db.execSQL(statement);
+			}
+		}
+
 		onCreate(db);
 	}
 

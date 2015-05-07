@@ -28,6 +28,11 @@ import ch.rmy.android.http_shortcuts.shortcuts.Shortcut;
 import ch.rmy.android.http_shortcuts.shortcuts.ShortcutAdapter;
 import ch.rmy.android.http_shortcuts.shortcuts.ShortcutStorage;
 
+/**
+ * Main activity to list all shortcuts
+ * 
+ * @author Roland Meyer
+ */
 public class ListActivity extends Activity implements OnClickListener, OnItemClickListener {
 
 	private ShortcutStorage shortcutStorage;
@@ -119,8 +124,10 @@ public class ListActivity extends Activity implements OnClickListener, OnItemCli
 		menu.add(0, 0, 0, R.string.action_place);
 		menu.add(0, 1, 0, R.string.action_run);
 		menu.add(0, 2, 0, R.string.action_edit);
-		menu.add(0, 3, 0, R.string.action_duplicate);
-		menu.add(0, 4, 0, R.string.action_delete);
+		menu.add(0, 3, 0, R.string.action_move_up);
+		menu.add(0, 4, 0, R.string.action_move_down);
+		menu.add(0, 5, 0, R.string.action_duplicate);
+		menu.add(0, 6, 0, R.string.action_delete);
 	}
 
 	@Override
@@ -142,12 +149,22 @@ public class ListActivity extends Activity implements OnClickListener, OnItemCli
 			intent.putExtra(EditorActivity.EXTRA_SHORTCUT, shortcut);
 			startActivityForResult(intent, EditorActivity.EDIT_SHORTCUT);
 			return true;
-		case 3: // duplicate
+		case 3:
+			shortcut.setPosition(shortcut.getPosition() - 1);
+			shortcutStorage.storeShortcut(shortcut);
+			updateShortcutList();
+			return true;
+		case 4:
+			shortcut.setPosition(shortcut.getPosition() + 1);
+			shortcutStorage.storeShortcut(shortcut);
+			updateShortcutList();
+			return true;
+		case 5: // duplicate
 			Shortcut newShortcut = shortcut.duplicate();
 			shortcutStorage.storeShortcut(newShortcut);
 			updateShortcutList();
 			return true;
-		case 4: // delete
+		case 6: // delete
 			new AlertDialog.Builder(this).setTitle(R.string.confirm_delete_title).setMessage(R.string.confirm_delete_message)
 					.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 

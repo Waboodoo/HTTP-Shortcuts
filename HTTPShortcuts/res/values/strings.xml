@@ -24,6 +24,8 @@
     <string name="action_edit">Edit</string>
     <string name="action_duplicate">Duplicate</string>
     <string name="action_delete">Delete</string>
+    <string name="action_move_up">Move up</string>
+    <string name="action_move_down">Move down</string>
     <string name="no_shortcuts">No shortcuts yet</string>
     <string name="confirm_delete_title">Confirm delete</string>
     <string name="confirm_delete_message">Do you really want to delete this shortcut?</string>

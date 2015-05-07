@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.shortcuts;
 
+import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 import ch.rmy.android.http_shortcuts.R;
@@ -33,8 +34,9 @@ public class Shortcut implements Parcelable {
 	private String password;
 	private String iconName;
 	private int feedback;
+	private int position;
 
-	protected Shortcut(int id, String name, String protocol, String url, String method, String username, String password, String iconName, int feedback) {
+	protected Shortcut(int id, String name, String protocol, String url, String method, String username, String password, String iconName, int feedback, int position) {
 		this.id = id;
 		this.name = name;
 		this.protocol = protocol;
@@ -44,6 +46,20 @@ public class Shortcut implements Parcelable {
 		this.password = password;
 		this.iconName = iconName;
 		this.feedback = feedback;
+		this.position = position;
+	}
+
+	protected Shortcut(Cursor cursor) {
+		id = cursor.getInt(0);
+		name = cursor.getString(1);
+		protocol = cursor.getString(2);
+		url = cursor.getString(3);
+		method = cursor.getString(4);
+		username = cursor.getString(5);
+		password = cursor.getString(6);
+		iconName = cursor.getString(7);
+		feedback = cursor.getInt(8);
+		position = cursor.getInt(10);
 	}
 
 	public int getID() {
@@ -82,6 +98,10 @@ public class Shortcut implements Parcelable {
 		return feedback;
 	}
 
+	public int getPosition() {
+		return position;
+	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -114,6 +134,10 @@ public class Shortcut implements Parcelable {
 		this.feedback = feedback;
 	}
 
+	public void setPosition(int position) {
+		this.position = position;
+	}
+
 	@Override
 	public int describeContents() {
 		return 0;
@@ -129,6 +153,7 @@ public class Shortcut implements Parcelable {
 		out.writeString(password);
 		out.writeString(iconName);
 		out.writeInt(feedback);
+		out.writeInt(position);
 	}
 
 	public static final Parcelable.Creator<Shortcut> CREATOR = new Parcelable.Creator<Shortcut>() {
@@ -152,6 +177,7 @@ public class Shortcut implements Parcelable {
 		password = in.readString();
 		iconName = in.readString();
 		feedback = in.readInt();
+		position = in.readInt();
 	}
 
 	public boolean isNew() {
@@ -159,7 +185,7 @@ public class Shortcut implements Parcelable {
 	}
 
 	public Shortcut duplicate() {
-		return new Shortcut(0, name + " (copy)", protocol, url, method, username, password, iconName, feedback);
+		return new Shortcut(0, name + " (copy)", protocol, url, method, username, password, iconName, feedback, 0);
 	}
 
 }
