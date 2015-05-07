@@ -9,7 +9,6 @@
         android:id="@+id/shortcut_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/add_shortcut_button"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         tools:listitem="@layout/list_item" >
@@ -25,14 +24,5 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:text="@string/no_shortcuts" />
-
-    <Button
-        android:id="@+id/add_shortcut_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:text="@string/create_shortcut" />
 
 </RelativeLayout>

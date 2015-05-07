@@ -13,14 +13,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import ch.rmy.android.http_shortcuts.http.HttpRequester;
@@ -33,7 +33,7 @@ import ch.rmy.android.http_shortcuts.shortcuts.ShortcutStorage;
  * 
  * @author Roland Meyer
  */
-public class ListActivity extends Activity implements OnClickListener, OnItemClickListener {
+public class ListActivity extends Activity implements OnItemClickListener {
 
 	private ShortcutStorage shortcutStorage;
 	private ShortcutAdapter shortcutAdapter;
@@ -63,8 +63,8 @@ public class ListActivity extends Activity implements OnClickListener, OnItemCli
 		shortcutList.setAdapter(shortcutAdapter);
 		registerForContextMenu(shortcutList);
 
-		Button createButton = (Button) findViewById(R.id.add_shortcut_button);
-		createButton.setOnClickListener(this);
+		// Button createButton = (Button) findViewById(R.id.add_shortcut_button);
+		// createButton.setOnClickListener(this);
 
 		emptyListText = (TextView) findViewById(R.id.no_shortcuts);
 		forwardedToEditor = false;
@@ -84,8 +84,22 @@ public class ListActivity extends Activity implements OnClickListener, OnItemCli
 	}
 
 	@Override
-	public void onClick(View v) {
-		openEditorForCreation();
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.list_activity_menu, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.action_create_shortcut:
+			openEditorForCreation();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+
 	}
 
 	private void openEditorForCreation() {
