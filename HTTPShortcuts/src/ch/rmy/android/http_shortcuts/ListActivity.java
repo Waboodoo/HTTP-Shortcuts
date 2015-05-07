@@ -103,7 +103,7 @@ public class ListActivity extends Activity implements OnClickListener, OnItemCli
 			setResult(RESULT_OK, intent);
 			finish();
 		} else {
-			view.showContextMenu();
+			HttpRequester.executeShortcut(this, shortcut);
 		}
 	}
 
