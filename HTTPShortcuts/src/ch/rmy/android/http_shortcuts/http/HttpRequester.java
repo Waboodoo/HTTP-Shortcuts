@@ -5,6 +5,7 @@ import android.widget.Toast;
 import ch.rmy.android.http_shortcuts.R;
 import ch.rmy.android.http_shortcuts.shortcuts.Shortcut;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -60,6 +61,7 @@ public class HttpRequester {
 			}
 
 		});
+		stringRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 		queue.add(stringRequest);
 	}
 
