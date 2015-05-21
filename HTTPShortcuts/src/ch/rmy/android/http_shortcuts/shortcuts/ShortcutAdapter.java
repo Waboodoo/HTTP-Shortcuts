@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.shortcuts;
 
 import android.content.Context;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,11 +36,7 @@ public class ShortcutAdapter extends ArrayAdapter<Shortcut> {
 		urlView.setText(subText);
 
 		ImageView iconView = (ImageView) rowView.findViewById(R.id.icon);
-		if (shortcut.getIconName() != null) {
-			iconView.setImageURI(Uri.fromFile(getContext().getFileStreamPath(shortcut.getIconName())));
-		} else {
-			iconView.setImageResource(Shortcut.DEFAULT_ICON);
-		}
+		iconView.setImageURI(shortcut.getIconURI(getContext()));
 
 		return rowView;
 	}

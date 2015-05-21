@@ -40,5 +40,9 @@
     <string name="error_other">%1$s fehlgeschlagen: %2$s</string>
     <string name="error_set_image">Bild konnte nicht geladen werden.</string>
     <string name="copy">%1$s (Kopie)</string>
-
+    <string name="choose_ipack">Ipack wählen</string>
+    <string name="change_icon">Icon ändern</string>
+    <string name="choose_image">Bild wählen</string>
+    <string name="choose_ipack_icon">Ipack-Icon wählen</string>
+    
 </resources>

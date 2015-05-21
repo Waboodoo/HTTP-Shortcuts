@@ -1,6 +1,8 @@
 package ch.rmy.android.http_shortcuts.shortcuts;
 
+import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 import ch.rmy.android.http_shortcuts.R;
@@ -186,6 +188,16 @@ public class Shortcut implements Parcelable {
 
 	public Shortcut duplicate(String newName) {
 		return new Shortcut(0, newName, protocol, url, method, username, password, iconName, feedback, 0);
+	}
+
+	public Uri getIconURI(Context context) {
+		if (iconName == null) {
+			return Uri.parse("android.resource://" + context.getPackageName() + "/" + DEFAULT_ICON);
+		} else if (iconName.startsWith("android.resource://")) {
+			return Uri.parse(iconName);
+		} else {
+			return Uri.fromFile(context.getFileStreamPath(iconName));
+		}
 	}
 
 }

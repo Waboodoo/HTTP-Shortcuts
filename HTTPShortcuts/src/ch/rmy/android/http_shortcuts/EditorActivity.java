@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import net.dinglisch.ipack.IpackKeys;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -19,6 +20,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -46,6 +49,7 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 
 	public final static String EXTRA_SHORTCUT = "shortcut";
 	private final static int SELECT_ICON = 1;
+	private final static int SELECT_IPACK_ICON = 3;
 	public final static int EDIT_SHORTCUT = 2;
 
 	private Shortcut shortcut;
@@ -124,12 +128,9 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 		}
 		selectedFeedback = shortcut.getFeedback();
 
-		if (shortcut.getIconName() != null) {
-			iconView.setImageURI(Uri.fromFile(getFileStreamPath(shortcut.getIconName())));
-		} else {
-			iconView.setImageResource(Shortcut.DEFAULT_ICON);
-		}
+		iconView.setImageURI(shortcut.getIconURI(this));
 		iconView.setOnClickListener(this);
+		registerForContextMenu(iconView);
 		selectedIcon = shortcut.getIconName();
 
 		if (shortcut.isNew()) {
@@ -164,13 +165,40 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 	@Override
 	public void onClick(View v) {
 		if (v.equals(iconView)) {
+			openContextMenu(v);
+		}
+	}
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+
+		menu.setHeaderTitle(R.string.change_icon);
+
+		menu.add(0, 0, 0, R.string.choose_image);
+		menu.add(0, 1, 0, R.string.choose_ipack_icon);
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+
+		switch (item.getItemId()) {
+		case 0: // Choose an image
 			// Workaround for Kitkat (thanks to http://stackoverflow.com/a/20186938/1082111)
-			Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+			Intent imageIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 			// intent.addCategory(Intent.CATEGORY_OPENABLE);
 			// intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
-			intent.setType("image/*");
-			startActivityForResult(intent, SELECT_ICON);
+			imageIntent.setType("image/*");
+			startActivityForResult(imageIntent, SELECT_ICON);
+			return true;
+		case 1: // Choose an Ipack
+			Intent iconIntent = Intent.createChooser(new Intent(IpackKeys.Actions.ICON_SELECT), getText(R.string.choose_ipack));
+			startActivityForResult(iconIntent, SELECT_IPACK_ICON);
+			return true;
+
 		}
+
+		return false;
 	}
 
 	@Override
@@ -243,42 +271,53 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		super.onActivityResult(requestCode, resultCode, intent);
 
-		if (requestCode == SELECT_ICON && resultCode == RESULT_OK) {
-			String iconName = Integer.toHexString((int) Math.floor(Math.random() * 1000000)) + ".png";
+		if (resultCode == RESULT_OK) {
+			if (requestCode == SELECT_ICON) {
 
-			InputStream in = null;
-			OutputStream out = null;
-			try {
-				in = getContentResolver().openInputStream(intent.getData());
-				Bitmap bitmap = BitmapFactory.decodeStream(in);
-				Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, 96, 96, false);
-				if (bitmap != resizedBitmap) {
-					bitmap.recycle();
-				}
+				String iconName = Integer.toHexString((int) Math.floor(Math.random() * 1000000)) + ".png";
 
-				out = openFileOutput(iconName, 0);
-				resizedBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-				iconView.setImageBitmap(resizedBitmap);
-				out.flush();
-
-				selectedIcon = iconName;
-				hasChanges = true;
-			} catch (Exception e) {
-				e.printStackTrace();
-				iconView.setImageResource(Shortcut.DEFAULT_ICON);
-				selectedIcon = null;
-				hasChanges = true;
-				Toast.makeText(this, R.string.error_set_image, Toast.LENGTH_SHORT).show();
-			} finally {
+				InputStream in = null;
+				OutputStream out = null;
 				try {
-					if (in != null) {
-						in.close();
+					in = getContentResolver().openInputStream(intent.getData());
+					Bitmap bitmap = BitmapFactory.decodeStream(in);
+					Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, 96, 96, false);
+					if (bitmap != resizedBitmap) {
+						bitmap.recycle();
 					}
-					if (out != null) {
-						out.close();
+
+					out = openFileOutput(iconName, 0);
+					resizedBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+					iconView.setImageBitmap(resizedBitmap);
+					out.flush();
+
+					selectedIcon = iconName;
+					hasChanges = true;
+				} catch (Exception e) {
+					e.printStackTrace();
+					iconView.setImageResource(Shortcut.DEFAULT_ICON);
+					selectedIcon = null;
+					hasChanges = true;
+					Toast.makeText(this, R.string.error_set_image, Toast.LENGTH_SHORT).show();
+				} finally {
+					try {
+						if (in != null) {
+							in.close();
+						}
+						if (out != null) {
+							out.close();
+						}
+					} catch (IOException e) {
 					}
-				} catch (IOException e) {
 				}
+			} else if (requestCode == SELECT_IPACK_ICON && resultCode == RESULT_OK) {
+				String ipackageName = intent.getData().getAuthority();
+				int id = intent.getIntExtra(IpackKeys.Extras.ICON_ID, -1);
+				Uri uri = Uri.parse("android.resource://" + ipackageName + "/" + id);
+				iconView.setImageURI(uri);
+
+				selectedIcon = uri.toString();
+				hasChanges = true;
 			}
 		}
 	}

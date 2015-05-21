@@ -40,5 +40,9 @@
     <string name="error_other">%1$s failed: %2$s</string>
     <string name="error_set_image">Failed to use image as icon.</string>
     <string name="copy">%1$s (copy)</string>
+    <string name="choose_ipack">Choose an Ipack</string>
+    <string name="change_icon">Change icon</string>
+    <string name="choose_image">Choose image</string>
+    <string name="choose_ipack_icon">Choose Ipack icon</string>
 
 </resources>

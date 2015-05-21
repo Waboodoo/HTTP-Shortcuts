@@ -7,10 +7,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore.Images.Media;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -34,6 +35,8 @@ import ch.rmy.android.http_shortcuts.shortcuts.ShortcutStorage;
  * @author Roland Meyer
  */
 public class ListActivity extends Activity implements OnItemClickListener {
+
+	private static final String ACTION_INSTALL_SHORTCUT = "com.android.launcher.action.INSTALL_SHORTCUT";
 
 	private ShortcutStorage shortcutStorage;
 	private ShortcutAdapter shortcutAdapter;
@@ -129,11 +132,6 @@ public class ListActivity extends Activity implements OnItemClickListener {
 		Shortcut shortcut = shortcutStorage.getShortcuts().get(info.position);
 
 		menu.setHeaderTitle(shortcut.getName());
-		if (shortcut.getIconName() != null) {
-			menu.setHeaderIcon(Drawable.createFromPath(getFileStreamPath(shortcut.getIconName()).getAbsolutePath()));
-		} else {
-			menu.setHeaderIcon(Shortcut.DEFAULT_ICON);
-		}
 
 		menu.add(0, 0, 0, R.string.action_place);
 		menu.add(0, 1, 0, R.string.action_run);
@@ -197,23 +195,29 @@ public class ListActivity extends Activity implements OnItemClickListener {
 	}
 
 	private Intent getShortcutPlacementIntent(Shortcut shortcut) {
-
 		Intent shortcutIntent = new Intent(this, ExecuteActivity.class);
 		shortcutIntent.setAction(ExecuteActivity.ACTION_EXECUTE_SHORTCUT);
 		shortcutIntent.putExtra(ExecuteActivity.EXTRA_SHORTCUT_ID, shortcut.getID());
-		// shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		// shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
 		Intent addIntent = new Intent();
 		addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
 		addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcut.getName());
 		if (shortcut.getIconName() != null) {
-			addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON, BitmapFactory.decodeFile(getFileStreamPath(shortcut.getIconName()).getAbsolutePath()));
+
+			Uri uri = shortcut.getIconURI(this);
+			Bitmap icon;
+			try {
+				icon = Media.getBitmap(this.getContentResolver(), uri);
+				addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON, icon);
+
+			} catch (Exception e) {
+				addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(getApplicationContext(), Shortcut.DEFAULT_ICON));
+			}
 		} else {
-			addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.drawable.ic_launcher));
+			addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(getApplicationContext(), Shortcut.DEFAULT_ICON));
 		}
 
-		addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+		addIntent.setAction(ACTION_INSTALL_SHORTCUT);
 
 		return addIntent;
 	}
