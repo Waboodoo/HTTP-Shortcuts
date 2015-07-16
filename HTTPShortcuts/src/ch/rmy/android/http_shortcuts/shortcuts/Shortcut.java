@@ -76,6 +76,10 @@ public class Shortcut implements Parcelable {
 		return name;
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
 	public String getProtocol() {
 		return protocol;
 	}
@@ -110,6 +114,10 @@ public class Shortcut implements Parcelable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public void setMethod(String method) {

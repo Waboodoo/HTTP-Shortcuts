@@ -6,7 +6,8 @@
     <string name="edit_shortcut">Shortcut bearbeiten</string>
     <string name="create_shortcut">Shortcut erstellen</string>
     <string name="icon_description">Icon</string>
-    <string name="label_name">Shortcut Name:</string>
+    <string name="label_name">Shortcut-Name:</string>
+    <string name="label_description">Beschreibung (optional):</string>
     <string name="label_url">URL:</string>
     <string name="create_button">Erstellen</string>
     <string name="save_button">Speichern</string>

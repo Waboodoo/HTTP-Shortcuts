@@ -55,6 +55,7 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 	private Shortcut shortcut;
 
 	private EditText nameView;
+	private EditText descriptionView;
 	private EditText urlView;
 	private EditText usernameView;
 	private EditText passwordView;
@@ -85,17 +86,20 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 		}
 
 		nameView = (EditText) findViewById(R.id.input_shortcut_name);
+		descriptionView = (EditText) findViewById(R.id.input_description);
 		urlView = (EditText) findViewById(R.id.input_url);
 		usernameView = (EditText) findViewById(R.id.input_username);
 		passwordView = (EditText) findViewById(R.id.input_password);
 		iconView = (ImageView) findViewById(R.id.input_icon);
 
 		nameView.setText(shortcut.getName());
+		descriptionView.setText(shortcut.getDescription());
 		urlView.setText(shortcut.getProtocol() + "://" + shortcut.getURL());
 		usernameView.setText(shortcut.getUsername());
 		passwordView.setText(shortcut.getPassword());
 
 		nameView.addTextChangedListener(this);
+		descriptionView.addTextChangedListener(this);
 		urlView.addTextChangedListener(this);
 		usernameView.addTextChangedListener(this);
 		passwordView.addTextChangedListener(this);
@@ -250,6 +254,7 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 		shortcut.setProtocol(protocol);
 		shortcut.setMethod(selectedMethod);
 		shortcut.setName(nameView.getText().toString().trim());
+		shortcut.setDescription(descriptionView.getText().toString().trim());
 		shortcut.setPassword(passwordView.getText().toString());
 		shortcut.setUsername(usernameView.getText().toString());
 		shortcut.setIconName(selectedIcon);

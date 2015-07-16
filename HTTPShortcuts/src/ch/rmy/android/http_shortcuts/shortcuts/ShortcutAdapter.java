@@ -28,12 +28,9 @@ public class ShortcutAdapter extends ArrayAdapter<Shortcut> {
 		TextView nameView = (TextView) rowView.findViewById(R.id.name);
 		nameView.setText(shortcut.getName());
 
-		TextView urlView = (TextView) rowView.findViewById(R.id.url);
-		String subText = shortcut.getMethod() + " " + (shortcut.getProtocol().equals(Shortcut.PROTOCOL_HTTPS) ? "https://" : "") + shortcut.getURL();
-		if (subText.length() > 100) {
-			subText = subText.substring(0, 100) + "...";
-		}
-		urlView.setText(subText);
+		TextView descriptionView = (TextView) rowView.findViewById(R.id.description);
+		descriptionView.setText(shortcut.getDescription());
+		descriptionView.setVisibility((shortcut.getDescription() == null || shortcut.getDescription().isEmpty()) ? View.GONE : View.VISIBLE);
 
 		ImageView iconView = (ImageView) rowView.findViewById(R.id.icon);
 		iconView.setImageURI(shortcut.getIconURI(getContext()));

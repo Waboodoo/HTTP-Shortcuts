@@ -59,6 +59,7 @@ public class ShortcutStorage {
 			values.put(Table.COLUMN_USERNAME, shortcut.getUsername());
 			values.put(Table.COLUMN_PASSWORD, shortcut.getPassword());
 			values.put(Table.COLUMN_FEEDBACK, shortcut.getFeedback());
+			values.put(Table.COLUMN_DESCRIPTION, shortcut.getDescription());
 
 			String iconName = null;
 			if (shortcut.getIconName() != null) {

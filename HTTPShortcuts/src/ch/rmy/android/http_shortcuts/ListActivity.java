@@ -66,9 +66,6 @@ public class ListActivity extends Activity implements OnItemClickListener {
 		shortcutList.setAdapter(shortcutAdapter);
 		registerForContextMenu(shortcutList);
 
-		// Button createButton = (Button) findViewById(R.id.add_shortcut_button);
-		// createButton.setOnClickListener(this);
-
 		emptyListText = (TextView) findViewById(R.id.no_shortcuts);
 		forwardedToEditor = false;
 	}
