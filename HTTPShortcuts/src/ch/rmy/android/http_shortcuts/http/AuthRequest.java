@@ -26,6 +26,8 @@ public class AuthRequest extends StringRequest {
 	public Map<String, String> getHeaders() throws AuthFailureError {
 		Map<String, String> params = new HashMap<String, String>(super.getHeaders());
 
+		params.put("Connection", "close");
+
 		if (!username.isEmpty() || !password.isEmpty()) {
 			String creds = String.format("%s:%s", username, password);
 			String auth = "Basic " + Base64.encodeToString(creds.getBytes(), Base64.DEFAULT);
