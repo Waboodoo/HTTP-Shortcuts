@@ -44,7 +44,7 @@ public class ShortcutStorage {
 	}
 
 	public Shortcut createShortcut() {
-		return new Shortcut(0, "", Shortcut.PROTOCOL_HTTP, "", Shortcut.METHOD_GET, "", "", null, Shortcut.FEEDBACK_SIMPLE, 0);
+		return new Shortcut(0, "", "", Shortcut.PROTOCOL_HTTP, "", Shortcut.METHOD_GET, "", "", null, Shortcut.FEEDBACK_SIMPLE, 0);
 	}
 
 	public void storeShortcut(Shortcut shortcut) {

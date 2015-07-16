@@ -37,10 +37,13 @@ public class Shortcut implements Parcelable {
 	private String iconName;
 	private int feedback;
 	private int position;
+	private String description;
 
-	protected Shortcut(int id, String name, String protocol, String url, String method, String username, String password, String iconName, int feedback, int position) {
+	protected Shortcut(int id, String name, String description, String protocol, String url, String method, String username, String password, String iconName, int feedback,
+			int position) {
 		this.id = id;
 		this.name = name;
+		this.description = description;
 		this.protocol = protocol;
 		this.url = url;
 		this.method = method;
@@ -54,6 +57,7 @@ public class Shortcut implements Parcelable {
 	protected Shortcut(Cursor cursor) {
 		id = cursor.getInt(0);
 		name = cursor.getString(1);
+		description = cursor.getString(11);
 		protocol = cursor.getString(2);
 		url = cursor.getString(3);
 		method = cursor.getString(4);
@@ -156,6 +160,7 @@ public class Shortcut implements Parcelable {
 		out.writeString(iconName);
 		out.writeInt(feedback);
 		out.writeInt(position);
+		out.writeString(description);
 	}
 
 	public static final Parcelable.Creator<Shortcut> CREATOR = new Parcelable.Creator<Shortcut>() {
@@ -180,6 +185,7 @@ public class Shortcut implements Parcelable {
 		iconName = in.readString();
 		feedback = in.readInt();
 		position = in.readInt();
+		description = in.readString();
 	}
 
 	public boolean isNew() {
@@ -187,7 +193,7 @@ public class Shortcut implements Parcelable {
 	}
 
 	public Shortcut duplicate(String newName) {
-		return new Shortcut(0, newName, protocol, url, method, username, password, iconName, feedback, 0);
+		return new Shortcut(0, newName, description, protocol, url, method, username, password, iconName, feedback, 0);
 	}
 
 	public Uri getIconURI(Context context) {
