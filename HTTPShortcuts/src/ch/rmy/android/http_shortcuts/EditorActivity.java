@@ -179,8 +179,9 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 
 		menu.setHeaderTitle(R.string.change_icon);
 
-		menu.add(0, 0, 0, R.string.choose_image);
-		menu.add(0, 1, 0, R.string.choose_ipack_icon);
+		menu.add(Menu.NONE, 2, Menu.NONE, R.string.choose_icon);
+		menu.add(Menu.NONE, 0, Menu.NONE, R.string.choose_image);
+		menu.add(Menu.NONE, 1, Menu.NONE, R.string.choose_ipack_icon);
 	}
 
 	@Override
@@ -199,7 +200,20 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 			Intent iconIntent = Intent.createChooser(new Intent(IpackKeys.Actions.ICON_SELECT), getText(R.string.choose_ipack));
 			startActivityForResult(iconIntent, SELECT_IPACK_ICON);
 			return true;
+		case 2: // Choose a built-in icon
+			IconSelector iconSelector = new IconSelector(this, new OnIconSelectedListener() {
 
+				@Override
+				public void onIconSelected(String resourceName) {
+					iconView.setImageResource(getResources().getIdentifier(resourceName, "drawable", getPackageName()));
+
+					selectedIcon = resourceName;
+					hasChanges = true;
+				}
+
+			});
+			iconSelector.show();
+			return true;
 		}
 
 		return false;

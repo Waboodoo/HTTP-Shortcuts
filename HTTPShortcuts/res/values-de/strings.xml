@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">HTTP Shortcuts</string>
     <string name="shortcuts">Shortcuts</string>
     <string name="edit_shortcut">Shortcut bearbeiten</string>
@@ -43,7 +42,7 @@
     <string name="copy">%1$s (Kopie)</string>
     <string name="choose_ipack">Ipack wählen</string>
     <string name="change_icon">Icon ändern</string>
-    <string name="choose_image">Bild wählen</string>
+    <string name="choose_image">Eigenes Bild wählen</string>
     <string name="choose_ipack_icon">Ipack-Icon wählen</string>
-    
+    <string name="choose_icon">Icon wählen</string>
 </resources>

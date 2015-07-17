@@ -209,8 +209,10 @@ public class Shortcut implements Parcelable {
 			return Uri.parse("android.resource://" + context.getPackageName() + "/" + DEFAULT_ICON);
 		} else if (iconName.startsWith("android.resource://")) {
 			return Uri.parse(iconName);
-		} else {
+		} else if (iconName.endsWith(".png")) {
 			return Uri.fromFile(context.getFileStreamPath(iconName));
+		} else {
+			return Uri.parse("android.resource://" + context.getPackageName() + "/" + context.getResources().getIdentifier(iconName, "drawable", context.getPackageName()));
 		}
 	}
 
