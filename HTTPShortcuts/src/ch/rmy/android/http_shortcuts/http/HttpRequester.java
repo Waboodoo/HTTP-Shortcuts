@@ -58,7 +58,7 @@ public class HttpRequester {
 					if (error.networkResponse != null) {
 						message = String.format(context.getText(R.string.error_http).toString(), shortcut.getName(), error.networkResponse.statusCode);
 					} else {
-						if (error.getCause() != null) {
+						if (error.getCause() != null && error.getCause().getMessage() != null) {
 							message = String.format(context.getText(R.string.error_other).toString(), shortcut.getName(), error.getCause().getMessage());
 						} else if (error.getMessage() != null) {
 							message = String.format(context.getText(R.string.error_other).toString(), shortcut.getName(), error.getMessage());
