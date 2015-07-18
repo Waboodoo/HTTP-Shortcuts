@@ -39,6 +39,7 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 import ch.rmy.android.http_shortcuts.shortcuts.Shortcut;
+import ch.rmy.android.http_shortcuts.shortcuts.ShortcutStorage;
 
 /**
  * The activity to create/edit shortcuts.
@@ -47,11 +48,12 @@ import ch.rmy.android.http_shortcuts.shortcuts.Shortcut;
  */
 public class EditorActivity extends Activity implements OnClickListener, OnItemSelectedListener, TextWatcher {
 
-	public final static String EXTRA_SHORTCUT = "shortcut";
+	public final static String EXTRA_SHORTCUT_ID = "shortcut_id";
 	private final static int SELECT_ICON = 1;
 	private final static int SELECT_IPACK_ICON = 3;
 	public final static int EDIT_SHORTCUT = 2;
 
+	private ShortcutStorage shortcutStorage;
 	private Shortcut shortcut;
 
 	private EditText nameView;
@@ -76,7 +78,13 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 		setContentView(R.layout.activity_editor);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
-		shortcut = (Shortcut) getIntent().getParcelableExtra(EXTRA_SHORTCUT);
+		shortcutStorage = new ShortcutStorage(this);
+		long shortcutID = getIntent().getLongExtra(EXTRA_SHORTCUT_ID, 0);
+		if (shortcutID == 0) {
+			shortcut = shortcutStorage.createShortcut();
+		} else {
+			shortcut = shortcutStorage.getShortcutByID(shortcutID);
+		}
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			Window window = getWindow();
@@ -274,8 +282,10 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 		shortcut.setIconName(selectedIcon);
 		shortcut.setFeedback(selectedFeedback);
 
+		long shortcutID = shortcutStorage.storeShortcut(shortcut);
+
 		Intent returnIntent = new Intent();
-		returnIntent.putExtra(EXTRA_SHORTCUT, shortcut);
+		returnIntent.putExtra(EXTRA_SHORTCUT_ID, shortcutID);
 		setResult(RESULT_OK, returnIntent);
 		finish();
 	}

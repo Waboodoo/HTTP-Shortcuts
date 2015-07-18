@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts;
 
 import java.util.List;
+import java.util.Map;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -104,7 +105,6 @@ public class ListActivity extends Activity implements OnItemClickListener {
 
 	private void openEditorForCreation() {
 		Intent intent = new Intent(this, EditorActivity.class);
-		intent.putExtra(EditorActivity.EXTRA_SHORTCUT, shortcutStorage.createShortcut());
 		startActivityForResult(intent, EditorActivity.EDIT_SHORTCUT);
 	}
 
@@ -117,7 +117,15 @@ public class ListActivity extends Activity implements OnItemClickListener {
 			setResult(RESULT_OK, intent);
 			finish();
 		} else {
-			HttpRequester.executeShortcut(this, shortcut);
+
+			final Map<String, String> parameters;
+			if (shortcut.getMethod() == Shortcut.METHOD_POST) {
+				parameters = shortcutStorage.getPostParametersByID(shortcut.getID());
+			} else {
+				parameters = null;
+			}
+
+			HttpRequester.executeShortcut(this, shortcut, parameters);
 		}
 	}
 
@@ -151,11 +159,19 @@ public class ListActivity extends Activity implements OnItemClickListener {
 			sendBroadcast(shortcutPlacementIntent);
 			return true;
 		case 1: // run
-			HttpRequester.executeShortcut(this, shortcut);
+
+			final Map<String, String> parameters;
+			if (shortcut.getMethod() == Shortcut.METHOD_POST) {
+				parameters = shortcutStorage.getPostParametersByID(shortcut.getID());
+			} else {
+				parameters = null;
+			}
+
+			HttpRequester.executeShortcut(this, shortcut, parameters);
 			return true;
 		case 2: // edit
 			Intent intent = new Intent(this, EditorActivity.class);
-			intent.putExtra(EditorActivity.EXTRA_SHORTCUT, shortcut);
+			intent.putExtra(EditorActivity.EXTRA_SHORTCUT_ID, shortcut.getID());
 			startActivityForResult(intent, EditorActivity.EDIT_SHORTCUT);
 			return true;
 		case 3:
@@ -221,14 +237,13 @@ public class ListActivity extends Activity implements OnItemClickListener {
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		if (requestCode == EditorActivity.EDIT_SHORTCUT && resultCode == RESULT_OK) {
-			Shortcut shortcut = (Shortcut) intent.getParcelableExtra(EditorActivity.EXTRA_SHORTCUT);
-			shortcutStorage.storeShortcut(shortcut);
-
 			updateShortcutList();
 
 			if (shortcutPlacementMode) {
-				Intent shortuctIntent = getShortcutPlacementIntent(shortcut);
-				setResult(RESULT_OK, shortuctIntent);
+				long shortcutID = intent.getLongExtra(EditorActivity.EXTRA_SHORTCUT_ID, 0);
+				Shortcut shortcut = shortcutStorage.getShortcutByID(shortcutID);
+				Intent shortcutIntent = getShortcutPlacementIntent(shortcut);
+				setResult(RESULT_OK, shortcutIntent);
 				finish();
 			}
 		}

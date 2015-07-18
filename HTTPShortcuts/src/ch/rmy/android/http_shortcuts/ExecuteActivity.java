@@ -1,5 +1,7 @@
 package ch.rmy.android.http_shortcuts;
 
+import java.util.Map;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -17,14 +19,22 @@ public class ExecuteActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_execute);
 
-		int shortcutID = getIntent().getIntExtra(EXTRA_SHORTCUT_ID, 0);
+		long shortcutID = getIntent().getLongExtra(EXTRA_SHORTCUT_ID, 0);
 		ShortcutStorage shortcutStorage = new ShortcutStorage(this);
 		Shortcut shortcut = shortcutStorage.getShortcutByID(shortcutID);
 
 		if (shortcut != null) {
-			HttpRequester.executeShortcut(this, shortcut);
+
+			final Map<String, String> parameters;
+			if (shortcut.getMethod() == Shortcut.METHOD_POST) {
+				parameters = shortcutStorage.getPostParametersByID(shortcutID);
+			} else {
+				parameters = null;
+			}
+
+			HttpRequester.executeShortcut(this, shortcut, parameters);
 		} else {
-			Toast.makeText(this, R.string.shortcut_not_found, Toast.LENGTH_LONG).show();
+			Toast.makeText(this, "Shortcut not found: " + shortcutID, Toast.LENGTH_LONG).show();// R.string.shortcut_not_found
 		}
 
 		finish();

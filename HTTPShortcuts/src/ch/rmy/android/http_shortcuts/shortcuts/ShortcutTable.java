@@ -5,9 +5,7 @@ package ch.rmy.android.http_shortcuts.shortcuts;
  * 
  * @author Roland Meyer
  */
-public class Table {
-
-	protected static final int DATABASE_VERSION = 3;
+public class ShortcutTable {
 
 	protected static final String TABLE_NAME = "shortcuts";
 
@@ -47,6 +45,8 @@ public class Table {
 					"update " + TABLE_NAME + " set " + COLUMN_POSITION + " = " + COLUMN_ID + ";" };
 		case 3:
 			return new String[] { "alter table " + TABLE_NAME + " ADD COLUMN " + COLUMN_DESCRIPTION + " text;" };
+		case 4:
+			return new String[] {};
 		}
 		throw new RuntimeException("Unknown version: " + version);
 	}

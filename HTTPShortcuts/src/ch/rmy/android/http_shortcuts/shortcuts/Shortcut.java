@@ -3,11 +3,9 @@ package ch.rmy.android.http_shortcuts.shortcuts;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Parcel;
-import android.os.Parcelable;
 import ch.rmy.android.http_shortcuts.R;
 
-public class Shortcut implements Parcelable {
+public class Shortcut {
 
 	public static final String METHOD_GET = "GET";
 	public static final String METHOD_POST = "POST";
@@ -27,7 +25,7 @@ public class Shortcut implements Parcelable {
 	public static final int[] FEEDBACKS = { FEEDBACK_NONE, FEEDBACK_ERRORS_ONLY, FEEDBACK_SIMPLE, FEEDBACK_FULL_RESPONSE };
 	public static final int[] FEEDBACK_RESOURCES = { R.string.feedback_none, R.string.feedback_errors_only, R.string.feedback_simple, R.string.feedback_full_response };
 
-	private final int id;
+	private final long id;
 	private String name;
 	private String method;
 	private String protocol;
@@ -39,7 +37,7 @@ public class Shortcut implements Parcelable {
 	private int position;
 	private String description;
 
-	protected Shortcut(int id, String name, String description, String protocol, String url, String method, String username, String password, String iconName, int feedback,
+	protected Shortcut(long id, String name, String description, String protocol, String url, String method, String username, String password, String iconName, int feedback,
 			int position) {
 		this.id = id;
 		this.name = name;
@@ -55,7 +53,7 @@ public class Shortcut implements Parcelable {
 	}
 
 	protected Shortcut(Cursor cursor) {
-		id = cursor.getInt(0);
+		id = cursor.getLong(0);
 		name = cursor.getString(1);
 		description = cursor.getString(11);
 		protocol = cursor.getString(2);
@@ -68,7 +66,7 @@ public class Shortcut implements Parcelable {
 		position = cursor.getInt(10);
 	}
 
-	public int getID() {
+	public long getID() {
 		return id;
 	}
 
@@ -150,50 +148,6 @@ public class Shortcut implements Parcelable {
 
 	public void setPosition(int position) {
 		this.position = position;
-	}
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	public void writeToParcel(Parcel out, int flags) {
-		out.writeInt(id);
-		out.writeString(name);
-		out.writeString(protocol);
-		out.writeString(url);
-		out.writeString(method);
-		out.writeString(username);
-		out.writeString(password);
-		out.writeString(iconName);
-		out.writeInt(feedback);
-		out.writeInt(position);
-		out.writeString(description);
-	}
-
-	public static final Parcelable.Creator<Shortcut> CREATOR = new Parcelable.Creator<Shortcut>() {
-
-		public Shortcut createFromParcel(Parcel in) {
-			return new Shortcut(in);
-		}
-
-		public Shortcut[] newArray(int size) {
-			return new Shortcut[size];
-		}
-	};
-
-	private Shortcut(Parcel in) {
-		id = in.readInt();
-		name = in.readString();
-		protocol = in.readString();
-		url = in.readString();
-		method = in.readString();
-		username = in.readString();
-		password = in.readString();
-		iconName = in.readString();
-		feedback = in.readInt();
-		position = in.readInt();
-		description = in.readString();
 	}
 
 	public boolean isNew() {

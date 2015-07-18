@@ -14,6 +14,7 @@ public class AuthRequest extends StringRequest {
 
 	private final String username;
 	private final String password;
+	private Map<String, String> parameters;
 
 	public AuthRequest(int method, String url, String username, String password, Listener<String> listener, ErrorListener errorListener) {
 		super(method, url, listener, errorListener);
@@ -34,6 +35,15 @@ public class AuthRequest extends StringRequest {
 			params.put("Authorization", auth);
 		}
 		return params;
+	}
+
+	@Override
+	public Map<String, String> getParams() {
+		return parameters;
+	}
+
+	public void setParams(Map<String, String> parameters) {
+		this.parameters = parameters;
 	}
 
 }
