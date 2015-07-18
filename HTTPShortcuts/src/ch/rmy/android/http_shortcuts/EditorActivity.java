@@ -35,6 +35,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
@@ -64,6 +65,7 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 	private ImageView iconView;
 	private Spinner methodView;
 	private Spinner feedbackView;
+	private LinearLayout postParamsContainer;
 
 	private String selectedMethod;
 	private int selectedFeedback;
@@ -99,6 +101,7 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 		usernameView = (EditText) findViewById(R.id.input_username);
 		passwordView = (EditText) findViewById(R.id.input_password);
 		iconView = (ImageView) findViewById(R.id.input_icon);
+		postParamsContainer = (LinearLayout) findViewById(R.id.post_params_container);
 
 		nameView.setText(shortcut.getName());
 		descriptionView.setText(shortcut.getDescription());
@@ -123,6 +126,12 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 			}
 		}
 		methodView.setOnItemSelectedListener(this);
+
+		if (selectedMethod == Shortcut.METHOD_GET) {
+			postParamsContainer.setVisibility(View.GONE);
+		} else {
+			postParamsContainer.setVisibility(View.VISIBLE);
+		}
 
 		feedbackView = (Spinner) findViewById(R.id.input_feedback);
 		String[] feedbackStrings = new String[Shortcut.FEEDBACKS.length];
@@ -359,6 +368,13 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 			if (!selectedMethod.equals(shortcut.getMethod())) {
 				hasChanges = true;
 			}
+
+			if (selectedMethod == Shortcut.METHOD_GET) {
+				postParamsContainer.setVisibility(View.GONE);
+			} else {
+				postParamsContainer.setVisibility(View.VISIBLE);
+			}
+
 			break;
 		case R.id.input_feedback:
 			selectedFeedback = Shortcut.FEEDBACKS[position];

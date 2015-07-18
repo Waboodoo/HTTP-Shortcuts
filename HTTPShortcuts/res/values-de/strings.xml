@@ -45,4 +45,5 @@
     <string name="choose_image">Eigenes Bild wählen</string>
     <string name="choose_ipack_icon">Ipack-Icon wählen</string>
     <string name="choose_icon">Icon wählen</string>
+    <string name="label_post_params">POST-Parameter:</string>
 </resources>

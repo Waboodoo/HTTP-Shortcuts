@@ -86,7 +86,7 @@
             android:id="@+id/label_method"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="40dp"
             android:text="@string/label_method" />
 
         <Spinner
@@ -94,11 +94,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <LinearLayout
+            android:id="@+id/post_params_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/label_post_params"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_post_params" />
+
+        </LinearLayout>
+
         <TextView
             android:id="@+id/label_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="40dp"
             android:text="@string/label_username" />
 
         <EditText
@@ -125,7 +140,6 @@
             android:id="@+id/label_feedback"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:text="@string/label_feedback" />
         
         <Spinner
