@@ -34,7 +34,7 @@ public class ExecuteActivity extends Activity {
 
 			HttpRequester.executeShortcut(this, shortcut, parameters);
 		} else {
-			Toast.makeText(this, "Shortcut not found: " + shortcutID, Toast.LENGTH_LONG).show();// R.string.shortcut_not_found
+			Toast.makeText(this, R.string.shortcut_not_found, Toast.LENGTH_LONG).show();
 		}
 
 		finish();
