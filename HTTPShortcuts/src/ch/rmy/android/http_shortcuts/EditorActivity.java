@@ -226,18 +226,14 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 			builder.setTitle(R.string.title_post_param_edit);
 			builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
-					PostParameter parameter = new PostParameter(keyField.getText().toString(), valueField.getText().toString());
-					postParameterAdapter.add(parameter);
-					setListViewHeightBasedOnChildren(postParameterList);
-
-					dialog.cancel();
+					if (!keyField.getText().toString().isEmpty()) {
+						PostParameter parameter = new PostParameter(keyField.getText().toString(), valueField.getText().toString());
+						postParameterAdapter.add(parameter);
+						setListViewHeightBasedOnChildren(postParameterList);
+					}
 				}
 			});
-			builder.setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.cancel();
-				}
-			});
+			builder.setNegativeButton(R.string.dialog_cancel, null);
 
 			builder.show();
 		}
@@ -431,25 +427,20 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 		builder.setTitle(R.string.title_post_param_edit);
 		builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-				parameter.setKey(keyField.getText().toString());
-				parameter.setValue(valueField.getText().toString());
-				postParameterAdapter.notifyDataSetChanged();
-
-				dialog.cancel();
+				if (!keyField.getText().toString().isEmpty()) {
+					parameter.setKey(keyField.getText().toString());
+					parameter.setValue(valueField.getText().toString());
+					postParameterAdapter.notifyDataSetChanged();
+				}
 			}
 		});
 		builder.setNeutralButton(R.string.dialog_remove, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				postParameterAdapter.remove(parameter);
 				setListViewHeightBasedOnChildren(postParameterList);
-				dialog.cancel();
 			}
 		});
-		builder.setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.cancel();
-			}
-		});
+		builder.setNegativeButton(R.string.dialog_cancel, null);
 
 		builder.show();
 	}
