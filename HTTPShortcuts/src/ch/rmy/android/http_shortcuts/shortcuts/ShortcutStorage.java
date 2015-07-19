@@ -1,9 +1,7 @@
 package ch.rmy.android.http_shortcuts.shortcuts;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -134,20 +132,19 @@ public class ShortcutStorage {
 		return null;
 	}
 
-	public Map<String, String> getPostParametersByID(long shortcutID) {
+	public List<PostParameter> getPostParametersByID(long shortcutID) {
 		SQLiteDatabase database = null;
 		Cursor cursor = null;
 
 		try {
 			database = dbHelper.getReadableDatabase();
 
-			Map<String, String> parameters = new HashMap<String, String>();
-
+			List<PostParameter> parameters = new ArrayList<PostParameter>();
 			cursor = database.query(PostParameterTable.TABLE_NAME, null, PostParameterTable.COLUMN_SHORTCUT_ID + " = ?", new String[] { Long.toString(shortcutID) }, null, null,
 					null);
 			cursor.moveToFirst();
 			while (!cursor.isAfterLast()) {
-				parameters.put(cursor.getString(2), cursor.getString(3));
+				parameters.add(new PostParameter(cursor.getString(2), cursor.getString(3)));
 				cursor.moveToNext();
 			}
 			return parameters;

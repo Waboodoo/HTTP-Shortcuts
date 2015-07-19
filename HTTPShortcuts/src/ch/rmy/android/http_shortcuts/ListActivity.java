@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts;
 
 import java.util.List;
-import java.util.Map;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -26,6 +25,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 import ch.rmy.android.http_shortcuts.http.HttpRequester;
+import ch.rmy.android.http_shortcuts.shortcuts.PostParameter;
 import ch.rmy.android.http_shortcuts.shortcuts.Shortcut;
 import ch.rmy.android.http_shortcuts.shortcuts.ShortcutAdapter;
 import ch.rmy.android.http_shortcuts.shortcuts.ShortcutStorage;
@@ -118,7 +118,7 @@ public class ListActivity extends Activity implements OnItemClickListener {
 			finish();
 		} else {
 
-			final Map<String, String> parameters;
+			final List<PostParameter> parameters;
 			if (shortcut.getMethod() == Shortcut.METHOD_POST) {
 				parameters = shortcutStorage.getPostParametersByID(shortcut.getID());
 			} else {
@@ -160,7 +160,7 @@ public class ListActivity extends Activity implements OnItemClickListener {
 			return true;
 		case 1: // run
 
-			final Map<String, String> parameters;
+			final List<PostParameter> parameters;
 			if (shortcut.getMethod() == Shortcut.METHOD_POST) {
 				parameters = shortcutStorage.getPostParametersByID(shortcut.getID());
 			} else {

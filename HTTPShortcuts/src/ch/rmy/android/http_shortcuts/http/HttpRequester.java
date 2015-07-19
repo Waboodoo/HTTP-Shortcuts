@@ -1,6 +1,6 @@
 package ch.rmy.android.http_shortcuts.http;
 
-import java.util.Map;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -8,6 +8,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import android.content.Context;
 import android.widget.Toast;
 import ch.rmy.android.http_shortcuts.R;
+import ch.rmy.android.http_shortcuts.shortcuts.PostParameter;
 import ch.rmy.android.http_shortcuts.shortcuts.Shortcut;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -20,7 +21,7 @@ import com.android.volley.toolbox.Volley;
 
 public class HttpRequester {
 
-	public static void executeShortcut(final Context context, final Shortcut shortcut, final Map<String, String> parameters) {
+	public static void executeShortcut(final Context context, final Shortcut shortcut, final List<PostParameter> parameters) {
 		DefaultHttpClient client = new DefaultHttpClient();
 
 		try {
@@ -73,7 +74,9 @@ public class HttpRequester {
 			});
 
 			if (shortcut.getMethod().equals(Shortcut.METHOD_POST)) {
-				stringRequest.setParams(parameters);
+				for (PostParameter parameter : parameters) {
+					stringRequest.addParameter(parameter.getKey(), parameter.getValue());
+				}
 			}
 
 			stringRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));

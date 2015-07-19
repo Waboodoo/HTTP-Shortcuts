@@ -1,11 +1,12 @@
 package ch.rmy.android.http_shortcuts;
 
-import java.util.Map;
+import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Toast;
 import ch.rmy.android.http_shortcuts.http.HttpRequester;
+import ch.rmy.android.http_shortcuts.shortcuts.PostParameter;
 import ch.rmy.android.http_shortcuts.shortcuts.Shortcut;
 import ch.rmy.android.http_shortcuts.shortcuts.ShortcutStorage;
 
@@ -25,7 +26,7 @@ public class ExecuteActivity extends Activity {
 
 		if (shortcut != null) {
 
-			final Map<String, String> parameters;
+			final List<PostParameter> parameters;
 			if (shortcut.getMethod() == Shortcut.METHOD_POST) {
 				parameters = shortcutStorage.getPostParametersByID(shortcutID);
 			} else {

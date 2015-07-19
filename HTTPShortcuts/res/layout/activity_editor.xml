@@ -106,6 +106,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/label_post_params" />
+            
+	            <ListView
+	                android:id="@+id/post_parameter_list"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                tools:listitem="@layout/post_parameter_item" >
+
+			    </ListView>
+
+	            <Button
+	                android:id="@+id/button_add_post_param"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="@string/button_add_post_param" />
 
         </LinearLayout>
 
@@ -140,6 +154,7 @@
             android:id="@+id/label_feedback"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
             android:text="@string/label_feedback" />
         
         <Spinner

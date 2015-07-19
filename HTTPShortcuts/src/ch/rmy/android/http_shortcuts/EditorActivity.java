@@ -22,23 +22,33 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.URLUtil;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
+import ch.rmy.android.http_shortcuts.shortcuts.PostParameter;
+import ch.rmy.android.http_shortcuts.shortcuts.PostParameterAdapter;
 import ch.rmy.android.http_shortcuts.shortcuts.Shortcut;
 import ch.rmy.android.http_shortcuts.shortcuts.ShortcutStorage;
 
@@ -47,7 +57,7 @@ import ch.rmy.android.http_shortcuts.shortcuts.ShortcutStorage;
  * 
  * @author Roland Meyer
  */
-public class EditorActivity extends Activity implements OnClickListener, OnItemSelectedListener, TextWatcher {
+public class EditorActivity extends Activity implements OnClickListener, OnItemSelectedListener, OnItemClickListener, TextWatcher {
 
 	public final static String EXTRA_SHORTCUT_ID = "shortcut_id";
 	private final static int SELECT_ICON = 1;
@@ -56,6 +66,7 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 
 	private ShortcutStorage shortcutStorage;
 	private Shortcut shortcut;
+	private PostParameterAdapter postParameterAdapter;
 
 	private EditText nameView;
 	private EditText descriptionView;
@@ -66,6 +77,8 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 	private Spinner methodView;
 	private Spinner feedbackView;
 	private LinearLayout postParamsContainer;
+	private ListView postParameterList;
+	private Button postParameterAddButton;
 
 	private String selectedMethod;
 	private int selectedFeedback;
@@ -102,6 +115,8 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 		passwordView = (EditText) findViewById(R.id.input_password);
 		iconView = (ImageView) findViewById(R.id.input_icon);
 		postParamsContainer = (LinearLayout) findViewById(R.id.post_params_container);
+		postParameterList = (ListView) findViewById(R.id.post_parameter_list);
+		postParameterAddButton = (Button) findViewById(R.id.button_add_post_param);
 
 		nameView.setText(shortcut.getName());
 		descriptionView.setText(shortcut.getDescription());
@@ -132,6 +147,11 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 		} else {
 			postParamsContainer.setVisibility(View.VISIBLE);
 		}
+		postParameterAdapter = new PostParameterAdapter(this);
+		postParameterList.setAdapter(postParameterAdapter);
+		postParameterAdapter.addAll(shortcutStorage.getPostParametersByID(shortcutID));
+		postParameterAddButton.setOnClickListener(this);
+		postParameterList.setOnItemClickListener(this);
 
 		feedbackView = (Spinner) findViewById(R.id.input_feedback);
 		String[] feedbackStrings = new String[Shortcut.FEEDBACKS.length];
@@ -164,6 +184,12 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+		setListViewHeightBasedOnChildren(postParameterList);
+	}
+
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.editor_activity_menu, menu);
@@ -187,6 +213,33 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 	public void onClick(View v) {
 		if (v.equals(iconView)) {
 			openContextMenu(v);
+		} else if (v.equals(postParameterAddButton)) {
+			LayoutInflater inflater = LayoutInflater.from(this);
+			View layout = inflater.inflate(R.layout.dialog_edit_post_parameter, null);
+
+			final EditText keyField = (EditText) layout.findViewById(R.id.input_post_param_key);
+
+			final EditText valueField = (EditText) layout.findViewById(R.id.input_post_param_value);
+
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setView(layout);
+			builder.setTitle(R.string.title_post_param_edit);
+			builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					PostParameter parameter = new PostParameter(keyField.getText().toString(), valueField.getText().toString());
+					postParameterAdapter.add(parameter);
+					setListViewHeightBasedOnChildren(postParameterList);
+
+					dialog.cancel();
+				}
+			});
+			builder.setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.cancel();
+				}
+			});
+
+			builder.show();
 		}
 	}
 
@@ -361,6 +414,47 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 	}
 
 	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		final PostParameter parameter = postParameterAdapter.getItem(position);
+
+		LayoutInflater inflater = LayoutInflater.from(this);
+		View layout = inflater.inflate(R.layout.dialog_edit_post_parameter, null);
+
+		final EditText keyField = (EditText) layout.findViewById(R.id.input_post_param_key);
+		keyField.setText(parameter.getKey());
+
+		final EditText valueField = (EditText) layout.findViewById(R.id.input_post_param_value);
+		valueField.setText(parameter.getValue());
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setView(layout);
+		builder.setTitle(R.string.title_post_param_edit);
+		builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				parameter.setKey(keyField.getText().toString());
+				parameter.setValue(valueField.getText().toString());
+				postParameterAdapter.notifyDataSetChanged();
+
+				dialog.cancel();
+			}
+		});
+		builder.setNeutralButton(R.string.dialog_remove, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				postParameterAdapter.remove(parameter);
+				setListViewHeightBasedOnChildren(postParameterList);
+				dialog.cancel();
+			}
+		});
+		builder.setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+
+		builder.show();
+	}
+
+	@Override
 	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 		switch (parent.getId()) {
 		case R.id.input_method:
@@ -417,6 +511,33 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 
 	@Override
 	public void afterTextChanged(Editable s) {
+	}
+
+	/**
+	 * Method for Setting the Height of the ListView dynamically. Hack to fix the issue of not showing all the items of the ListView when placed inside a ScrollView.
+	 * 
+	 * @param listView
+	 */
+	private void setListViewHeightBasedOnChildren(ListView listView) {
+		ListAdapter listAdapter = listView.getAdapter();
+		if (listAdapter == null)
+			return;
+
+		int desiredWidth = MeasureSpec.makeMeasureSpec(listView.getWidth(), MeasureSpec.UNSPECIFIED);
+		int totalHeight = 0;
+		View view = null;
+		for (int i = 0; i < listAdapter.getCount(); i++) {
+			view = listAdapter.getView(i, view, listView);
+			if (i == 0)
+				view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, LayoutParams.WRAP_CONTENT));
+
+			view.measure(desiredWidth, MeasureSpec.UNSPECIFIED);
+			totalHeight += view.getMeasuredHeight();
+		}
+		ViewGroup.LayoutParams params = listView.getLayoutParams();
+		params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+		listView.setLayoutParams(params);
+		listView.requestLayout();
 	}
 
 }

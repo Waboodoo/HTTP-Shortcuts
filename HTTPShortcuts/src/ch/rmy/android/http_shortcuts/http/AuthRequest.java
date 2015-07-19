@@ -14,13 +14,15 @@ public class AuthRequest extends StringRequest {
 
 	private final String username;
 	private final String password;
-	private Map<String, String> parameters;
+	private final Map<String, String> parameters;
 
 	public AuthRequest(int method, String url, String username, String password, Listener<String> listener, ErrorListener errorListener) {
 		super(method, url, listener, errorListener);
 
 		this.username = username;
 		this.password = password;
+
+		parameters = new HashMap<String, String>();
 	}
 
 	@Override
@@ -42,8 +44,8 @@ public class AuthRequest extends StringRequest {
 		return parameters;
 	}
 
-	public void setParams(Map<String, String> parameters) {
-		this.parameters = parameters;
+	public void addParameter(String key, String value) {
+		parameters.put(key, value);
 	}
 
 }
