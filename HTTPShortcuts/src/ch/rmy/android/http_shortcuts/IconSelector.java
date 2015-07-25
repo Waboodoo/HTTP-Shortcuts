@@ -164,6 +164,12 @@ public class IconSelector extends Dialog {
 			i.setScaleType(ImageView.ScaleType.FIT_CENTER);
 			final int w = (int) (16 * getContext().getResources().getDisplayMetrics().density + 0.5f);
 			i.setLayoutParams(new GridView.LayoutParams(w * 2, w * 2));
+			i.setPadding(5, 5, 5, 5);
+
+			if (getContext().getResources().getResourceEntryName(ICONS[position]).startsWith("white")) {
+				i.setBackgroundColor(0xFF000000);
+			}
+
 			return i;
 		}
 

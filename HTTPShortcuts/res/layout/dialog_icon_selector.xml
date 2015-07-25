@@ -3,10 +3,10 @@
     android:id="@+id/icon_selector_grid"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:columnWidth="60dp"
+    android:columnWidth="50dp"
     android:gravity="center"
-    android:horizontalSpacing="10dp"
+    android:horizontalSpacing="5dp"
     android:numColumns="auto_fit"
-    android:padding="10dp"
+    android:padding="5dp"
     android:stretchMode="columnWidth"
-    android:verticalSpacing="10dp" />
+    android:verticalSpacing="5dp" />
