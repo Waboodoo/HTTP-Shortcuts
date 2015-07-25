@@ -2,12 +2,18 @@ package ch.rmy.android.http_shortcuts.shortcuts;
 
 public class PostParameter {
 
+	private final long id;
 	private String key;
 	private String value;
 
-	public PostParameter(String key, String value) {
+	public PostParameter(long id, String key, String value) {
+		this.id = id;
 		this.key = key;
 		this.value = value;
+	}
+
+	public long getID() {
+		return id;
 	}
 
 	public String getKey() {

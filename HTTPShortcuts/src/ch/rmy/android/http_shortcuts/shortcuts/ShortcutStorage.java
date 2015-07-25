@@ -144,7 +144,7 @@ public class ShortcutStorage {
 					null);
 			cursor.moveToFirst();
 			while (!cursor.isAfterLast()) {
-				parameters.add(new PostParameter(cursor.getString(2), cursor.getString(3)));
+				parameters.add(new PostParameter(cursor.getLong(0), cursor.getString(2), cursor.getString(3)));
 				cursor.moveToNext();
 			}
 			return parameters;
@@ -152,6 +152,49 @@ public class ShortcutStorage {
 			if (cursor != null) {
 				cursor.close();
 			}
+			if (database != null) {
+				database.close();
+			}
+		}
+	}
+
+	public void storePostParameters(long shortcutID, List<PostParameter> parameters) {
+		SQLiteDatabase database = dbHelper.getWritableDatabase();
+
+		try {
+			boolean first = true;
+			StringBuilder allIDs = new StringBuilder();
+			for (PostParameter param : parameters) {
+				if (first) {
+					first = false;
+				} else {
+					allIDs.append(',');
+				}
+
+				ContentValues values = new ContentValues();
+				values.put(PostParameterTable.COLUMN_KEY, param.getKey());
+				values.put(PostParameterTable.COLUMN_VALUE, param.getValue());
+				values.put(PostParameterTable.COLUMN_SHORTCUT_ID, shortcutID);
+
+				if (param.getID() == 0) {
+					// parameter is new -> create it
+					long newID = database.insert(PostParameterTable.TABLE_NAME, null, values);
+					allIDs.append(newID);
+
+				} else {
+					// parameter is old -> update it
+					database.update(PostParameterTable.TABLE_NAME, values, PostParameterTable.COLUMN_ID + " = ?", new String[] { Long.toString(param.getID()) });
+					allIDs.append(param.getID());
+
+				}
+			}
+
+			// remove all deleted parameters
+			database.delete(PostParameterTable.TABLE_NAME, PostParameterTable.COLUMN_SHORTCUT_ID + " = ? AND " + PostParameterTable.COLUMN_ID + " NOT IN (" + allIDs.toString()
+					+ ")", new String[] { Long.toString(shortcutID) });
+
+		} finally {
+
 			if (database != null) {
 				database.close();
 			}

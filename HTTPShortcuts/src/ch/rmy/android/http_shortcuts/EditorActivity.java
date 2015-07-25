@@ -3,6 +3,8 @@ package ch.rmy.android.http_shortcuts;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.dinglisch.ipack.IpackKeys;
 import android.annotation.SuppressLint;
@@ -227,7 +229,7 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 			builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					if (!keyField.getText().toString().isEmpty()) {
-						PostParameter parameter = new PostParameter(keyField.getText().toString(), valueField.getText().toString());
+						PostParameter parameter = new PostParameter(0, keyField.getText().toString(), valueField.getText().toString());
 						postParameterAdapter.add(parameter);
 						setListViewHeightBasedOnChildren(postParameterList);
 					}
@@ -341,6 +343,12 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 		shortcut.setFeedback(selectedFeedback);
 
 		long shortcutID = shortcutStorage.storeShortcut(shortcut);
+
+		List<PostParameter> parameters = new ArrayList<PostParameter>();
+		for (int i = 0; i < postParameterAdapter.getCount(); i++) {
+			parameters.add(postParameterAdapter.getItem(i));
+		}
+		shortcutStorage.storePostParameters(shortcutID, parameters);
 
 		Intent returnIntent = new Intent();
 		returnIntent.putExtra(EXTRA_SHORTCUT_ID, shortcutID);

@@ -27,7 +27,7 @@ public class ExecuteActivity extends Activity {
 		if (shortcut != null) {
 
 			final List<PostParameter> parameters;
-			if (shortcut.getMethod() == Shortcut.METHOD_POST) {
+			if (shortcut.getMethod().equals(Shortcut.METHOD_POST)) {
 				parameters = shortcutStorage.getPostParametersByID(shortcutID);
 			} else {
 				parameters = null;
