@@ -185,6 +185,11 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 		selectedFeedback = shortcut.getFeedback();
 
 		iconView.setImageURI(shortcut.getIconURI(this));
+		if (shortcut.getIconName().startsWith("white_")) {
+			iconView.setBackgroundColor(0xFF000000);
+		} else {
+			iconView.setBackgroundColor(0);
+		}
 		iconView.setOnClickListener(this);
 		registerForContextMenu(iconView);
 		selectedIcon = shortcut.getIconName();
@@ -312,6 +317,12 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 				public void onIconSelected(String resourceName) {
 					iconView.setImageResource(getResources().getIdentifier(resourceName, "drawable", getPackageName()));
 
+					if (resourceName.startsWith("white_")) {
+						iconView.setBackgroundColor(0xFF000000);
+					} else {
+						iconView.setBackgroundColor(0);
+					}
+
 					selectedIcon = resourceName;
 					hasChanges = true;
 				}
@@ -427,6 +438,7 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 					out = openFileOutput(iconName, 0);
 					resizedBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
 					iconView.setImageBitmap(resizedBitmap);
+					iconView.setBackgroundColor(0);
 					out.flush();
 
 					selectedIcon = iconName;
@@ -434,6 +446,7 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 				} catch (Exception e) {
 					e.printStackTrace();
 					iconView.setImageResource(Shortcut.DEFAULT_ICON);
+					iconView.setBackgroundColor(0);
 					selectedIcon = null;
 					hasChanges = true;
 					Toast.makeText(this, R.string.error_set_image, Toast.LENGTH_SHORT).show();
@@ -453,6 +466,7 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 				int id = intent.getIntExtra(IpackKeys.Extras.ICON_ID, -1);
 				Uri uri = Uri.parse("android.resource://" + ipackageName + "/" + id);
 				iconView.setImageURI(uri);
+				iconView.setBackgroundColor(0);
 
 				selectedIcon = uri.toString();
 				hasChanges = true;
