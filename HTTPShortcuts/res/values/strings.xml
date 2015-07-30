@@ -33,7 +33,7 @@
     <string name="confirm_discard_changes_message">You have unsaved changes. Are you sure you want to leave?</string>
     <string name="title_activity_execute">Execute Shortcut</string>
     <string name="executed">%s executed.</string>
-    <string name="shortcut_not_found">Shortcut not found.</string>
+    <string name="shortcut_not_found">Shortcut not found. You might have to re-add it to the home screen.</string>
     <string name="validation_name_not_empty">Please enter a name.</string>
     <string name="validation_url_invalid">Please enter a valid HTTP(S) url.</string>
     <string name="error_http">%1$s failed with status code %2$d.</string>

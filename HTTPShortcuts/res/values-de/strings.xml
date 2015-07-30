@@ -33,7 +33,7 @@
     <string name="confirm_discard_changes_message">Sie haben ungespeicherte Änderungen. Möchten Sie trotzdem fortfahren?</string>
     <string name="title_activity_execute">Shortcut ausführen</string>
     <string name="executed">%s ausgeführt.</string>
-    <string name="shortcut_not_found">Shortcut nicht gefunden.</string>
+    <string name="shortcut_not_found">Shortcut nicht gefunden. Der Shortcut muss ev. neu platziert werden.</string>
     <string name="validation_name_not_empty">Bitte geben Sie einen Namen ein.</string>
     <string name="validation_url_invalid">Bitte geben Sie eine gültige HTTP(S)-URL ein.</string>
     <string name="error_http">%1$s ist mit status code %2$d fehlgeschlagen.</string>
