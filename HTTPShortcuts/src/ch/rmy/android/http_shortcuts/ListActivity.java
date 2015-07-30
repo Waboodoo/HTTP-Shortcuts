@@ -5,6 +5,7 @@ import java.util.List;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -215,7 +216,8 @@ public class ListActivity extends Activity implements OnItemClickListener {
 	private Intent getShortcutPlacementIntent(Shortcut shortcut) {
 		Intent shortcutIntent = new Intent(this, ExecuteActivity.class);
 		shortcutIntent.setAction(ExecuteActivity.ACTION_EXECUTE_SHORTCUT);
-		shortcutIntent.putExtra(ExecuteActivity.EXTRA_SHORTCUT_ID, shortcut.getID());
+
+		shortcutIntent.setData(ContentUris.withAppendedId(Uri.fromParts("content", getPackageName(), null), shortcut.getID()));
 
 		Intent addIntent = new Intent();
 		addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);

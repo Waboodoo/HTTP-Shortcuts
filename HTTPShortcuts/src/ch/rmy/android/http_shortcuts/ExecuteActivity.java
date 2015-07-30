@@ -17,14 +17,20 @@ public class ExecuteActivity extends Activity {
 	private static final String TAG = ExecuteActivity.class.getName();
 
 	public static final String ACTION_EXECUTE_SHORTCUT = "ch.rmy.android.http_shortcuts.execute";
-	public static final String EXTRA_SHORTCUT_ID = "id";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_execute);
 
-		long shortcutID = getIntent().getLongExtra(EXTRA_SHORTCUT_ID, -1);
+		long shortcutID;
+		try {
+			String id = getIntent().getData().getLastPathSegment();
+			shortcutID = Long.parseLong(id);
+		} catch (NumberFormatException e) {
+			shortcutID = -1;
+		}
+
 		ShortcutStorage shortcutStorage = new ShortcutStorage(this);
 		Shortcut shortcut = shortcutStorage.getShortcutByID(shortcutID);
 
