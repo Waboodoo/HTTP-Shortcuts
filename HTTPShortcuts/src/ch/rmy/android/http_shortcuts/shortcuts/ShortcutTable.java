@@ -45,10 +45,9 @@ public class ShortcutTable {
 					"update " + TABLE_NAME + " set " + COLUMN_POSITION + " = " + COLUMN_ID + ";" };
 		case 3:
 			return new String[] { "alter table " + TABLE_NAME + " ADD COLUMN " + COLUMN_DESCRIPTION + " text;" };
-		case 4:
+		default:
 			return new String[] {};
 		}
-		throw new RuntimeException("Unknown version: " + version);
 	}
 
 }

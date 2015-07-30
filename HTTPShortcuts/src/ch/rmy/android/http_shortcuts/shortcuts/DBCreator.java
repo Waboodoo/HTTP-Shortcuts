@@ -8,7 +8,7 @@ import android.os.Build;
 
 public class DBCreator extends SQLiteOpenHelper {
 
-	private static final int DATABASE_VERSION = 4;
+	private static final int DATABASE_VERSION = 5;
 	private static final String DATABASE_NAME = "shortcuts.db";
 
 	public DBCreator(Context context) {
@@ -19,6 +19,7 @@ public class DBCreator extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL(ShortcutTable.getCreateStatement());
 		db.execSQL(PostParameterTable.getCreateStatement());
+		db.execSQL(HeaderTable.getCreateStatement());
 	}
 
 	@Override
@@ -28,6 +29,9 @@ public class DBCreator extends SQLiteOpenHelper {
 				db.execSQL(statement);
 			}
 			for (String statement : PostParameterTable.getUpdateStatements(version)) {
+				db.execSQL(statement);
+			}
+			for (String statement : HeaderTable.getUpdateStatements(version)) {
 				db.execSQL(statement);
 			}
 		}

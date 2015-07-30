@@ -150,6 +150,27 @@
             android:ems="10"
             android:inputType="textPassword" />
         
+        <TextView
+            android:id="@+id/label_custom_headers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="@string/label_custom_headers" />
+        
+         <ListView
+             android:id="@+id/custom_headers_list"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             tools:listitem="@layout/custom_headers_item" >
+
+   		</ListView>
+
+         <Button
+             android:id="@+id/button_add_custom_header"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="@string/button_add_custom_header" />
+        
          <TextView
             android:id="@+id/label_feedback"
             android:layout_width="wrap_content"

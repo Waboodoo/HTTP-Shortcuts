@@ -201,6 +201,74 @@ public class ShortcutStorage {
 		}
 	}
 
+	public List<Header> getHeadersByID(long shortcutID) {
+		SQLiteDatabase database = null;
+		Cursor cursor = null;
+
+		try {
+			database = dbHelper.getReadableDatabase();
+
+			List<Header> headers = new ArrayList<Header>();
+			cursor = database.query(HeaderTable.TABLE_NAME, null, HeaderTable.COLUMN_SHORTCUT_ID + " = ?", new String[] { Long.toString(shortcutID) }, null, null, null);
+			cursor.moveToFirst();
+			while (!cursor.isAfterLast()) {
+				headers.add(new Header(cursor.getLong(0), cursor.getString(2), cursor.getString(3)));
+				cursor.moveToNext();
+			}
+			return headers;
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+			if (database != null) {
+				database.close();
+			}
+		}
+	}
+
+	public void storeHeaders(long shortcutID, List<Header> headers) {
+		SQLiteDatabase database = dbHelper.getWritableDatabase();
+
+		try {
+			boolean first = true;
+			StringBuilder allIDs = new StringBuilder();
+			for (Header header : headers) {
+				if (first) {
+					first = false;
+				} else {
+					allIDs.append(',');
+				}
+
+				ContentValues values = new ContentValues();
+				values.put(HeaderTable.COLUMN_KEY, header.getKey());
+				values.put(HeaderTable.COLUMN_VALUE, header.getValue());
+				values.put(HeaderTable.COLUMN_SHORTCUT_ID, shortcutID);
+
+				if (header.getID() == 0) {
+					// header is new -> create it
+					long newID = database.insert(HeaderTable.TABLE_NAME, null, values);
+					allIDs.append(newID);
+
+				} else {
+					// header is old -> update it
+					database.update(HeaderTable.TABLE_NAME, values, HeaderTable.COLUMN_ID + " = ?", new String[] { Long.toString(header.getID()) });
+					allIDs.append(header.getID());
+
+				}
+			}
+
+			// remove all deleted headers
+			database.delete(HeaderTable.TABLE_NAME, HeaderTable.COLUMN_SHORTCUT_ID + " = ? AND " + HeaderTable.COLUMN_ID + " NOT IN (" + allIDs.toString() + ")",
+					new String[] { Long.toString(shortcutID) });
+
+		} finally {
+
+			if (database != null) {
+				database.close();
+			}
+		}
+	}
+
 	private int getMaxPosition(SQLiteDatabase database) {
 		Cursor cursor = null;
 

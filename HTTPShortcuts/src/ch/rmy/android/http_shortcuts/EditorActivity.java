@@ -49,6 +49,8 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
+import ch.rmy.android.http_shortcuts.shortcuts.Header;
+import ch.rmy.android.http_shortcuts.shortcuts.HeaderAdapter;
 import ch.rmy.android.http_shortcuts.shortcuts.PostParameter;
 import ch.rmy.android.http_shortcuts.shortcuts.PostParameterAdapter;
 import ch.rmy.android.http_shortcuts.shortcuts.Shortcut;
@@ -69,6 +71,7 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 	private ShortcutStorage shortcutStorage;
 	private Shortcut shortcut;
 	private PostParameterAdapter postParameterAdapter;
+	private HeaderAdapter customHeaderAdapter;
 
 	private EditText nameView;
 	private EditText descriptionView;
@@ -81,6 +84,8 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 	private LinearLayout postParamsContainer;
 	private ListView postParameterList;
 	private Button postParameterAddButton;
+	private ListView customHeaderList;
+	private Button customHeaderAddButton;
 
 	private String selectedMethod;
 	private int selectedFeedback;
@@ -119,6 +124,8 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 		postParamsContainer = (LinearLayout) findViewById(R.id.post_params_container);
 		postParameterList = (ListView) findViewById(R.id.post_parameter_list);
 		postParameterAddButton = (Button) findViewById(R.id.button_add_post_param);
+		customHeaderList = (ListView) findViewById(R.id.custom_headers_list);
+		customHeaderAddButton = (Button) findViewById(R.id.button_add_custom_header);
 
 		nameView.setText(shortcut.getName());
 		descriptionView.setText(shortcut.getDescription());
@@ -155,6 +162,12 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 		postParameterAddButton.setOnClickListener(this);
 		postParameterList.setOnItemClickListener(this);
 
+		customHeaderAdapter = new HeaderAdapter(this);
+		customHeaderList.setAdapter(customHeaderAdapter);
+		customHeaderAdapter.addAll(shortcutStorage.getHeadersByID(shortcutID));
+		customHeaderAddButton.setOnClickListener(this);
+		customHeaderList.setOnItemClickListener(this);
+
 		feedbackView = (Spinner) findViewById(R.id.input_feedback);
 		String[] feedbackStrings = new String[Shortcut.FEEDBACKS.length];
 		for (int i = 0; i < Shortcut.FEEDBACKS.length; i++) {
@@ -189,6 +202,7 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 	public void onResume() {
 		super.onResume();
 		setListViewHeightBasedOnChildren(postParameterList);
+		setListViewHeightBasedOnChildren(customHeaderList);
 	}
 
 	@Override
@@ -232,6 +246,29 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 						PostParameter parameter = new PostParameter(0, keyField.getText().toString(), valueField.getText().toString());
 						postParameterAdapter.add(parameter);
 						setListViewHeightBasedOnChildren(postParameterList);
+					}
+				}
+			});
+			builder.setNegativeButton(R.string.dialog_cancel, null);
+
+			builder.show();
+		} else if (v.equals(customHeaderAddButton)) {
+			LayoutInflater inflater = LayoutInflater.from(this);
+			View layout = inflater.inflate(R.layout.dialog_edit_custom_header, null);
+
+			final EditText keyField = (EditText) layout.findViewById(R.id.input_custom_header_key);
+
+			final EditText valueField = (EditText) layout.findViewById(R.id.input_custom_header_value);
+
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setView(layout);
+			builder.setTitle(R.string.title_custom_header_edit);
+			builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					if (!keyField.getText().toString().isEmpty()) {
+						Header header = new Header(0, keyField.getText().toString(), valueField.getText().toString());
+						customHeaderAdapter.add(header);
+						setListViewHeightBasedOnChildren(customHeaderList);
 					}
 				}
 			});
@@ -350,6 +387,12 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 		}
 		shortcutStorage.storePostParameters(shortcutID, parameters);
 
+		List<Header> headers = new ArrayList<Header>();
+		for (int i = 0; i < customHeaderAdapter.getCount(); i++) {
+			headers.add(customHeaderAdapter.getItem(i));
+		}
+		shortcutStorage.storeHeaders(shortcutID, headers);
+
 		Intent returnIntent = new Intent();
 		returnIntent.putExtra(EXTRA_SHORTCUT_ID, shortcutID);
 		setResult(RESULT_OK, returnIntent);
@@ -419,38 +462,78 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		final PostParameter parameter = postParameterAdapter.getItem(position);
 
-		LayoutInflater inflater = LayoutInflater.from(this);
-		View layout = inflater.inflate(R.layout.dialog_edit_post_parameter, null);
+		if (parent.equals(postParameterList)) {
 
-		final EditText keyField = (EditText) layout.findViewById(R.id.input_post_param_key);
-		keyField.setText(parameter.getKey());
+			final PostParameter parameter = postParameterAdapter.getItem(position);
 
-		final EditText valueField = (EditText) layout.findViewById(R.id.input_post_param_value);
-		valueField.setText(parameter.getValue());
+			LayoutInflater inflater = LayoutInflater.from(this);
+			View layout = inflater.inflate(R.layout.dialog_edit_post_parameter, null);
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setView(layout);
-		builder.setTitle(R.string.title_post_param_edit);
-		builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				if (!keyField.getText().toString().isEmpty()) {
-					parameter.setKey(keyField.getText().toString());
-					parameter.setValue(valueField.getText().toString());
-					postParameterAdapter.notifyDataSetChanged();
+			final EditText keyField = (EditText) layout.findViewById(R.id.input_post_param_key);
+			keyField.setText(parameter.getKey());
+
+			final EditText valueField = (EditText) layout.findViewById(R.id.input_post_param_value);
+			valueField.setText(parameter.getValue());
+
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setView(layout);
+			builder.setTitle(R.string.title_post_param_edit);
+			builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					if (!keyField.getText().toString().isEmpty()) {
+						parameter.setKey(keyField.getText().toString());
+						parameter.setValue(valueField.getText().toString());
+						postParameterAdapter.notifyDataSetChanged();
+					}
 				}
-			}
-		});
-		builder.setNeutralButton(R.string.dialog_remove, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				postParameterAdapter.remove(parameter);
-				setListViewHeightBasedOnChildren(postParameterList);
-			}
-		});
-		builder.setNegativeButton(R.string.dialog_cancel, null);
+			});
+			builder.setNeutralButton(R.string.dialog_remove, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					postParameterAdapter.remove(parameter);
+					setListViewHeightBasedOnChildren(postParameterList);
+				}
+			});
+			builder.setNegativeButton(R.string.dialog_cancel, null);
 
-		builder.show();
+			builder.show();
+
+		} else if (parent.equals(customHeaderList)) {
+
+			final Header header = customHeaderAdapter.getItem(position);
+
+			LayoutInflater inflater = LayoutInflater.from(this);
+			View layout = inflater.inflate(R.layout.dialog_edit_custom_header, null);
+
+			final EditText keyField = (EditText) layout.findViewById(R.id.input_custom_header_key);
+			keyField.setText(header.getKey());
+
+			final EditText valueField = (EditText) layout.findViewById(R.id.input_custom_header_value);
+			valueField.setText(header.getValue());
+
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setView(layout);
+			builder.setTitle(R.string.title_custom_header_edit);
+			builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					if (!keyField.getText().toString().isEmpty()) {
+						header.setKey(keyField.getText().toString());
+						header.setValue(valueField.getText().toString());
+						customHeaderAdapter.notifyDataSetChanged();
+					}
+				}
+			});
+			builder.setNeutralButton(R.string.dialog_remove, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					customHeaderAdapter.remove(header);
+					setListViewHeightBasedOnChildren(customHeaderList);
+				}
+			});
+			builder.setNegativeButton(R.string.dialog_cancel, null);
+
+			builder.show();
+
+		}
 	}
 
 	@Override

@@ -25,6 +25,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 import ch.rmy.android.http_shortcuts.http.HttpRequester;
+import ch.rmy.android.http_shortcuts.shortcuts.Header;
 import ch.rmy.android.http_shortcuts.shortcuts.PostParameter;
 import ch.rmy.android.http_shortcuts.shortcuts.Shortcut;
 import ch.rmy.android.http_shortcuts.shortcuts.ShortcutAdapter;
@@ -125,7 +126,9 @@ public class ListActivity extends Activity implements OnItemClickListener {
 				parameters = null;
 			}
 
-			HttpRequester.executeShortcut(this, shortcut, parameters);
+			final List<Header> headers = shortcutStorage.getHeadersByID(shortcut.getID());
+
+			HttpRequester.executeShortcut(this, shortcut, parameters, headers);
 		}
 	}
 
@@ -167,7 +170,9 @@ public class ListActivity extends Activity implements OnItemClickListener {
 				parameters = null;
 			}
 
-			HttpRequester.executeShortcut(this, shortcut, parameters);
+			final List<Header> headers = shortcutStorage.getHeadersByID(shortcut.getID());
+
+			HttpRequester.executeShortcut(this, shortcut, parameters, headers);
 			return true;
 		case 2: // edit
 			Intent intent = new Intent(this, EditorActivity.class);

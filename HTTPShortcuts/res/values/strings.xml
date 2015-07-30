@@ -54,4 +54,10 @@
     <string name="dialog_ok">OK</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_remove">Remove</string>
+    <string name="label_custom_headers">Custom headers:</string>
+    <string name="button_add_custom_header">Add header</string>
+    <string name="title_custom_header_edit">Edit header</string>
+    <string name="title_custom_header_add">Add header</string>
+    <string name="label_custom_header_key">Header:</string>
+    <string name="label_custom_header_value">Value:</string>
 </resources>

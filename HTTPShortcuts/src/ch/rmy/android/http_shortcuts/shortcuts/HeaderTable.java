@@ -1,8 +1,8 @@
 package ch.rmy.android.http_shortcuts.shortcuts;
 
-public class PostParameterTable {
+public class HeaderTable {
 
-	protected static final String TABLE_NAME = "post_parameters";
+	protected static final String TABLE_NAME = "headers";
 
 	protected static final String COLUMN_ID = "_id";
 	protected static final String COLUMN_SHORTCUT_ID = "shortcut_id";
@@ -26,11 +26,15 @@ public class PostParameterTable {
 	 */
 	protected static String[] getUpdateStatements(int version) {
 		switch (version) {
+		case 1:
+		case 2:
+		case 3:
 		case 4:
-			return new String[] { getCreateStatement() };
-		default:
 			return new String[] {};
+		case 5:
+			return new String[] { getCreateStatement() };
 		}
+		throw new RuntimeException("Unknown version: " + version);
 	}
 
 }

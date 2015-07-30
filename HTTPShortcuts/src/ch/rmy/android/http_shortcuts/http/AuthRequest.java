@@ -15,6 +15,7 @@ public class AuthRequest extends StringRequest {
 	private final String username;
 	private final String password;
 	private final Map<String, String> parameters;
+	private final Map<String, String> headers;
 
 	public AuthRequest(int method, String url, String username, String password, Listener<String> listener, ErrorListener errorListener) {
 		super(method, url, listener, errorListener);
@@ -23,20 +24,21 @@ public class AuthRequest extends StringRequest {
 		this.password = password;
 
 		parameters = new HashMap<String, String>();
+		headers = new HashMap<String, String>();
 	}
 
 	@Override
 	public Map<String, String> getHeaders() throws AuthFailureError {
-		Map<String, String> params = new HashMap<String, String>(super.getHeaders());
+		headers.putAll(super.getHeaders());
 
-		params.put("Connection", "close");
+		headers.put("Connection", "close");
 
 		if (!username.isEmpty() || !password.isEmpty()) {
 			String creds = String.format("%s:%s", username, password);
 			String auth = "Basic " + Base64.encodeToString(creds.getBytes(), Base64.DEFAULT);
-			params.put("Authorization", auth);
+			headers.put("Authorization", auth);
 		}
-		return params;
+		return headers;
 	}
 
 	@Override
@@ -46,6 +48,10 @@ public class AuthRequest extends StringRequest {
 
 	public void addParameter(String key, String value) {
 		parameters.put(key, value);
+	}
+
+	public void addHeader(String key, String value) {
+		headers.put(key, value);
 	}
 
 }
