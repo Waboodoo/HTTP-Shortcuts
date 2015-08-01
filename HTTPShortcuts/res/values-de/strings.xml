@@ -61,4 +61,17 @@
     <string name="label_custom_header_key">Header:</string>
     <string name="label_custom_header_value">Wert:</string>
     <string name="settings">Einstellungen</string>
+    <string name="settings_title_basic">Allgemeine Einstellungen</string>
+    <string name="settings_click_behavior">Was soll passieren beim Anklicken eines Shortcuts?</string>
+    <string name="settings_click_behavior_run">Shortcut ausführen</string>
+    <string name="settings_click_behavior_edit">Shortcut bearbeiten</string>
+    <string name="settings_click_behavior_menu">Kontextmenü anzeigen</string>
+    <string name="settings_title_import_export">Importieren / Exportieren</string>
+    <string name="settings_import">Shortcuts importieren</string>
+    <string name="settings_export">Shortcuts exportieren</string>
+    <string name="export_success_title">Shortcuts exportiert</string>
+    <string name="export_success_message">Shortcuts wurden erfolgreich nach \"%1$s\" exportiert.\n\nAchtung: eigene Shortcut-Icons werden nicht exportiert.</string>
+    <string name="export_failed_title">Export fehlgeschlagen</string>
+    <string name="export_failed_message">Beim Exportieren der Shortcuts ist ein Problem aufgetreten.</string>
+    <string name="button_ok">OK</string>
 </resources>
