@@ -69,4 +69,10 @@
     <string name="settings_title_import_export">Import / Export</string>
     <string name="settings_import">Import shortcuts</string>
     <string name="settings_export">Export shortcuts</string>
+    
+    <string name="export_success_title">Shortcuts exported</string>
+    <string name="export_success_message">Your shortcuts were successfully exported into \"%1$s\".</string>
+    <string name="export_failed_title">Shortcuts exporting failed</string>
+    <string name="export_failed_message">Your shortcuts could not be exported.</string>
+    <string name="button_ok">OK</string>
 </resources>

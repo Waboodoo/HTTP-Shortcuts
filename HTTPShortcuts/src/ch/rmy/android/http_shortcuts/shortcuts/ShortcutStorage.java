@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.shortcuts;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -263,6 +264,19 @@ public class ShortcutStorage {
 
 		} finally {
 
+			if (database != null) {
+				database.close();
+			}
+		}
+	}
+
+	public File getDatabaseFile() {
+		SQLiteDatabase database = null;
+
+		try {
+			database = dbHelper.getReadableDatabase();
+			return new File(database.getPath());
+		} finally {
 			if (database != null) {
 				database.close();
 			}
