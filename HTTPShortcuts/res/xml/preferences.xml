@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen  xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory 
+        android:title="@string/settings_title_basic">
+        
+        <ListPreference 
+		    android:key="click_behavior"
+		    android:title="@string/settings_click_behavior"
+		    android:entries="@array/click_behaviors"
+		    android:entryValues="@array/click_behaviors_values" android:defaultValue="run"/>
+        
+    </PreferenceCategory>
+   
+    <PreferenceCategory 
+        android:title="@string/settings_title_import_export">
+        
+    	<Preference android:key="import" android:title="@string/settings_import" />
+    	<Preference android:key="export" android:title="@string/settings_export" />
+    	
+     </PreferenceCategory>
+   
+</PreferenceScreen>

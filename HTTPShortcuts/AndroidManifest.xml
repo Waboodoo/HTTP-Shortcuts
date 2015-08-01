@@ -37,6 +37,15 @@
                 android:value=".ListActivity" />
         </activity>
         <activity
+            android:name=".SettingsActivity"
+            android:label="@string/settings"
+            android:parentActivityName=".ListActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ListActivity" />
+        </activity>
+        <activity
             android:name=".ExecuteActivity"
             android:theme="@style/Theme.Transparent"
             android:label="@string/title_activity_execute" >

@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore.Images.Media;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -99,6 +100,10 @@ public class ListActivity extends Activity implements OnItemClickListener {
 		case R.id.action_create_shortcut:
 			openEditorForCreation();
 			return true;
+		case R.id.action_settings:
+			Intent intent = new Intent(this, SettingsActivity.class);
+			startActivity(intent);
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -119,17 +124,15 @@ public class ListActivity extends Activity implements OnItemClickListener {
 			setResult(RESULT_OK, intent);
 			finish();
 		} else {
+			String action = PreferenceManager.getDefaultSharedPreferences(this).getString("click_behavior", "run");
 
-			final List<PostParameter> parameters;
-			if (shortcut.getMethod().equals(Shortcut.METHOD_POST)) {
-				parameters = shortcutStorage.getPostParametersByID(shortcut.getID());
-			} else {
-				parameters = null;
+			if (action.equals("run")) {
+				runShortcut(shortcut);
+			} else if (action.equals("edit")) {
+				editShortcut(shortcut);
+			} else if (action.equals("menu")) {
+				view.showContextMenu();
 			}
-
-			final List<Header> headers = shortcutStorage.getHeadersByID(shortcut.getID());
-
-			HttpRequester.executeShortcut(this, shortcut, parameters, headers);
 		}
 	}
 
@@ -163,22 +166,10 @@ public class ListActivity extends Activity implements OnItemClickListener {
 			sendBroadcast(shortcutPlacementIntent);
 			return true;
 		case 1: // run
-
-			final List<PostParameter> parameters;
-			if (shortcut.getMethod() == Shortcut.METHOD_POST) {
-				parameters = shortcutStorage.getPostParametersByID(shortcut.getID());
-			} else {
-				parameters = null;
-			}
-
-			final List<Header> headers = shortcutStorage.getHeadersByID(shortcut.getID());
-
-			HttpRequester.executeShortcut(this, shortcut, parameters, headers);
+			runShortcut(shortcut);
 			return true;
 		case 2: // edit
-			Intent intent = new Intent(this, EditorActivity.class);
-			intent.putExtra(EditorActivity.EXTRA_SHORTCUT_ID, shortcut.getID());
-			startActivityForResult(intent, EditorActivity.EDIT_SHORTCUT);
+			editShortcut(shortcut);
 			return true;
 		case 3:
 			shortcut.setPosition(shortcut.getPosition() - 1);
@@ -273,6 +264,25 @@ public class ListActivity extends Activity implements OnItemClickListener {
 			forwardedToEditor = true;
 			emptyListText.setVisibility(View.GONE);
 		}
+	}
+
+	private void runShortcut(Shortcut shortcut) {
+		final List<PostParameter> parameters;
+		if (shortcut.getMethod() == Shortcut.METHOD_POST) {
+			parameters = shortcutStorage.getPostParametersByID(shortcut.getID());
+		} else {
+			parameters = null;
+		}
+
+		final List<Header> headers = shortcutStorage.getHeadersByID(shortcut.getID());
+
+		HttpRequester.executeShortcut(this, shortcut, parameters, headers);
+	}
+
+	private void editShortcut(Shortcut shortcut) {
+		Intent intent = new Intent(this, EditorActivity.class);
+		intent.putExtra(EditorActivity.EXTRA_SHORTCUT_ID, shortcut.getID());
+		startActivityForResult(intent, EditorActivity.EDIT_SHORTCUT);
 	}
 
 }
