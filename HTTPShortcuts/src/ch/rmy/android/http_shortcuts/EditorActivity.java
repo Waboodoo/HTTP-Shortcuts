@@ -185,7 +185,7 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 		selectedFeedback = shortcut.getFeedback();
 
 		iconView.setImageURI(shortcut.getIconURI(this));
-		if (shortcut.getIconName().startsWith("white_")) {
+		if (shortcut.getIconName() != null && shortcut.getIconName().startsWith("white_")) {
 			iconView.setBackgroundColor(0xFF000000);
 		} else {
 			iconView.setBackgroundColor(0);

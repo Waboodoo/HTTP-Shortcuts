@@ -35,7 +35,7 @@ public class ShortcutAdapter extends ArrayAdapter<Shortcut> {
 		ImageView iconView = (ImageView) rowView.findViewById(R.id.icon);
 		iconView.setImageURI(shortcut.getIconURI(getContext()));
 
-		if (shortcut.getIconName().startsWith("white_")) {
+		if (shortcut.getIconName() != null && shortcut.getIconName().startsWith("white_")) {
 			iconView.setBackgroundColor(0xFF000000);
 		} else {
 			iconView.setBackgroundColor(0);
