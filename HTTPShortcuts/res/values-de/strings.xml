@@ -74,4 +74,13 @@
     <string name="export_failed_title">Export fehlgeschlagen</string>
     <string name="export_failed_message">Beim Exportieren der Shortcuts ist ein Problem aufgetreten.</string>
     <string name="button_ok">OK</string>
+    <string name="button_cancel">Abbrechen</string>
+    <string name="import_title">Shortcuts importieren</string>
+    <string name="import_howto_message">Platzieren Sie ihre \"%1$s\"-Datei in das Verzeichnis \"%2$s\" um Shortcuts zu importieren.</string>
+    <string name="import_warning_message">Shortcuts werden aus \"%1$s\" importiert. Achtung: alle bisherigen Shortcuts werden verworfen.</string>
+    <string name="import_failed_title">Import fehlgeschlagen</string>
+    <string name="import_failed_message">Beim Importieren der Shortcuts ist ein Problem aufgetreten. Es wurde nichts verändert.</string>
+    <string name="import_success_title">Shortcuts importiert</string>
+    <string name="import_success_message_one">1 Shortcut wurde importiert.</string>
+    <string name="import_success_message">%1$d Shortcuts wurden importiert.</string>
 </resources>

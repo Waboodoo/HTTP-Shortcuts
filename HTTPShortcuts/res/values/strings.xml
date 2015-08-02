@@ -74,4 +74,13 @@
     <string name="export_failed_title">Shortcuts exporting failed</string>
     <string name="export_failed_message">Your shortcuts could not be exported.</string>
     <string name="button_ok">OK</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="import_title">Import shortcuts</string>
+    <string name="import_howto_message">To import shortcuts place your \"%1$s\" file at \"%2$s\".</string>
+    <string name="import_warning_message">Shortcuts will be imported from \"%1$s\". Please note that all your current shortcuts will be lost.</string>
+    <string name="import_failed_title">Import failed</string>
+    <string name="import_failed_message">An error occurred while importing shortcuts. No changes were made.</string>
+    <string name="import_success_title">Shortcuts imported</string>
+    <string name="import_success_message_one">Successfully imported 1 shortcut.</string>
+    <string name="import_success_message">Successfully imported %1$d shortcuts.</string>
 </resources>
