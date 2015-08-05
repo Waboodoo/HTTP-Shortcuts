@@ -45,7 +45,7 @@
     <string name="choose_image">Choose custom image</string>
     <string name="choose_ipack_icon">Choose Ipack icon</string>
     <string name="choose_icon">Choose built-in icon</string>
-    <string name="label_post_params">POST parameters:</string>
+    <string name="label_post_params">Parameters:</string>
     <string name="button_add_post_param">Add parameter</string>
     <string name="title_post_param_edit">Edit parameter</string>
     <string name="title_post_param_add">Add parameter</string>

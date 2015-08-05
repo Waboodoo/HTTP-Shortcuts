@@ -268,10 +268,10 @@ public class ListActivity extends Activity implements OnItemClickListener {
 
 	private void runShortcut(Shortcut shortcut) {
 		final List<PostParameter> parameters;
-		if (shortcut.getMethod().equals(Shortcut.METHOD_POST)) {
-			parameters = shortcutStorage.getPostParametersByID(shortcut.getID());
-		} else {
+		if (shortcut.getMethod().equals(Shortcut.METHOD_GET)) {
 			parameters = null;
+		} else {
+			parameters = shortcutStorage.getPostParametersByID(shortcut.getID());
 		}
 
 		final List<Header> headers = shortcutStorage.getHeadersByID(shortcut.getID());

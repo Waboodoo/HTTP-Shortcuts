@@ -30,7 +30,17 @@ public class HttpRequester {
 			RequestQueue queue = Volley.newRequestQueue(context, new HttpClientStack(client));
 
 			String url = shortcut.getProtocol() + "://" + shortcut.getURL();
-			int method = shortcut.getMethod().equals(Shortcut.METHOD_GET) ? Request.Method.GET : Request.Method.POST;
+			String m = shortcut.getMethod();
+			int method = Request.Method.GET;
+			if (m.equals(Shortcut.METHOD_POST)) {
+				method = Request.Method.POST;
+			} else if (m.equals(Shortcut.METHOD_PUT)) {
+				method = Request.Method.PUT;
+			} else if (m.equals(Shortcut.METHOD_DELETE)) {
+				method = Request.Method.DELETE;
+			} else if (m.equals(Shortcut.METHOD_PATCH)) {
+				method = Request.Method.PATCH;
+			}
 
 			AuthRequest stringRequest = new AuthRequest(method, url, shortcut.getUsername(), shortcut.getPassword(), shortcut.getBodyContent(), new Response.Listener<String>() {
 
@@ -74,7 +84,7 @@ public class HttpRequester {
 
 			});
 
-			if (shortcut.getMethod().equals(Shortcut.METHOD_POST)) {
+			if (parameters != null) {
 				for (PostParameter parameter : parameters) {
 					stringRequest.addParameter(parameter.getKey(), parameter.getValue());
 				}

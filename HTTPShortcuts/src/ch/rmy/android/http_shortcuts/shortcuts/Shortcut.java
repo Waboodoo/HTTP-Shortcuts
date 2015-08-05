@@ -9,6 +9,9 @@ public class Shortcut {
 
 	public static final String METHOD_GET = "GET";
 	public static final String METHOD_POST = "POST";
+	public static final String METHOD_PUT = "PUT";
+	public static final String METHOD_DELETE = "DELETE";
+	public static final String METHOD_PATCH = "PATCH";
 
 	public static final String PROTOCOL_HTTP = "http";
 	public static final String PROTOCOL_HTTPS = "https";
@@ -20,7 +23,7 @@ public class Shortcut {
 
 	public static final int DEFAULT_ICON = R.drawable.ic_launcher;
 
-	public static final String[] METHODS = { METHOD_GET, METHOD_POST };
+	public static final String[] METHODS = { METHOD_GET, METHOD_POST, METHOD_PUT, METHOD_DELETE, METHOD_PATCH };
 	public static final String[] PROTOCOLS = { PROTOCOL_HTTP, PROTOCOL_HTTPS };
 	public static final int[] FEEDBACKS = { FEEDBACK_NONE, FEEDBACK_ERRORS_ONLY, FEEDBACK_SIMPLE, FEEDBACK_FULL_RESPONSE };
 	public static final int[] FEEDBACK_RESOURCES = { R.string.feedback_none, R.string.feedback_errors_only, R.string.feedback_simple, R.string.feedback_full_response };
@@ -129,7 +132,7 @@ public class Shortcut {
 	}
 
 	public void setMethod(String method) {
-		this.method = METHOD_POST.equals(method) ? METHOD_POST : METHOD_GET;
+		this.method = method;
 	}
 
 	public void setProtocol(String protocol) {

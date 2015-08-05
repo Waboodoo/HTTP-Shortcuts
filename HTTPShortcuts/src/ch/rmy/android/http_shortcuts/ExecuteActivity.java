@@ -44,10 +44,10 @@ public class ExecuteActivity extends Activity {
 		if (shortcut != null) {
 
 			final List<PostParameter> parameters;
-			if (shortcut.getMethod().equals(Shortcut.METHOD_POST)) {
-				parameters = shortcutStorage.getPostParametersByID(shortcutID);
-			} else {
+			if (shortcut.getMethod().equals(Shortcut.METHOD_GET)) {
 				parameters = null;
+			} else {
+				parameters = shortcutStorage.getPostParametersByID(shortcutID);
 			}
 
 			final List<Header> headers = shortcutStorage.getHeadersByID(shortcutID);
