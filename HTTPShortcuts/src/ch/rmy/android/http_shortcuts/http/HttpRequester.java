@@ -32,7 +32,7 @@ public class HttpRequester {
 			String url = shortcut.getProtocol() + "://" + shortcut.getURL();
 			int method = shortcut.getMethod().equals(Shortcut.METHOD_GET) ? Request.Method.GET : Request.Method.POST;
 
-			AuthRequest stringRequest = new AuthRequest(method, url, shortcut.getUsername(), shortcut.getPassword(), new Response.Listener<String>() {
+			AuthRequest stringRequest = new AuthRequest(method, url, shortcut.getUsername(), shortcut.getPassword(), shortcut.getBodyContent(), new Response.Listener<String>() {
 
 				@Override
 				public void onResponse(String response) {

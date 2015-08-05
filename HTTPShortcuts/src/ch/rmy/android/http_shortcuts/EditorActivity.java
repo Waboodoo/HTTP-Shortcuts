@@ -86,6 +86,8 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 	private Button postParameterAddButton;
 	private ListView customHeaderList;
 	private Button customHeaderAddButton;
+	private EditText customBodyView;
+	private LinearLayout customBodyContainer;
 
 	private String selectedMethod;
 	private int selectedFeedback;
@@ -126,12 +128,15 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 		postParameterAddButton = (Button) findViewById(R.id.button_add_post_param);
 		customHeaderList = (ListView) findViewById(R.id.custom_headers_list);
 		customHeaderAddButton = (Button) findViewById(R.id.button_add_custom_header);
+		customBodyView = (EditText) findViewById(R.id.input_custom_body);
+		customBodyContainer = (LinearLayout) findViewById(R.id.custom_body_container);
 
 		nameView.setText(shortcut.getName());
 		descriptionView.setText(shortcut.getDescription());
 		urlView.setText(shortcut.getProtocol() + "://" + shortcut.getURL());
 		usernameView.setText(shortcut.getUsername());
 		passwordView.setText(shortcut.getPassword());
+		customBodyView.setText(shortcut.getBodyContent());
 
 		nameView.addTextChangedListener(this);
 		descriptionView.addTextChangedListener(this);
@@ -151,10 +156,12 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 		}
 		methodView.setOnItemSelectedListener(this);
 
-		if (selectedMethod == Shortcut.METHOD_GET) {
+		if (selectedMethod.equals(Shortcut.METHOD_GET)) {
 			postParamsContainer.setVisibility(View.GONE);
+			customBodyContainer.setVisibility(View.GONE);
 		} else {
 			postParamsContainer.setVisibility(View.VISIBLE);
+			customBodyContainer.setVisibility(View.VISIBLE);
 		}
 		postParameterAdapter = new PostParameterAdapter(this);
 		postParameterList.setAdapter(postParameterAdapter);
@@ -388,6 +395,7 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 		shortcut.setPassword(passwordView.getText().toString());
 		shortcut.setUsername(usernameView.getText().toString());
 		shortcut.setIconName(selectedIcon);
+		shortcut.setBodyContent(customBodyView.getText().toString());
 		shortcut.setFeedback(selectedFeedback);
 
 		long shortcutID = shortcutStorage.storeShortcut(shortcut);
@@ -559,10 +567,12 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 				hasChanges = true;
 			}
 
-			if (selectedMethod == Shortcut.METHOD_GET) {
+			if (selectedMethod.equals(Shortcut.METHOD_GET)) {
 				postParamsContainer.setVisibility(View.GONE);
+				customBodyContainer.setVisibility(View.GONE);
 			} else {
 				postParamsContainer.setVisibility(View.VISIBLE);
+				customBodyContainer.setVisibility(View.VISIBLE);
 			}
 
 			break;

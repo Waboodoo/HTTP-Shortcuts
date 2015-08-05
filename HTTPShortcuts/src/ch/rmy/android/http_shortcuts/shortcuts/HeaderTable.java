@@ -26,15 +26,11 @@ public class HeaderTable {
 	 */
 	protected static String[] getUpdateStatements(int version) {
 		switch (version) {
-		case 1:
-		case 2:
-		case 3:
-		case 4:
-			return new String[] {};
 		case 5:
 			return new String[] { getCreateStatement() };
+		default:
+			return new String[] {};
 		}
-		throw new RuntimeException("Unknown version: " + version);
 	}
 
 }

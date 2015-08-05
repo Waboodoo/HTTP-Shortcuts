@@ -36,9 +36,10 @@ public class Shortcut {
 	private int feedback;
 	private int position;
 	private String description;
+	private String bodyContent;
 
-	protected Shortcut(long id, String name, String description, String protocol, String url, String method, String username, String password, String iconName, int feedback,
-			int position) {
+	protected Shortcut(long id, String name, String description, String protocol, String url, String method, String username, String password, String iconName, String bodyContent,
+			int feedback, int position) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -50,6 +51,7 @@ public class Shortcut {
 		this.iconName = iconName;
 		this.feedback = feedback;
 		this.position = position;
+		this.bodyContent = bodyContent;
 	}
 
 	protected Shortcut(Cursor cursor) {
@@ -64,6 +66,10 @@ public class Shortcut {
 		iconName = cursor.getString(7);
 		feedback = cursor.getInt(8);
 		position = cursor.getInt(10);
+		bodyContent = cursor.getString(12);
+		if (bodyContent == null) {
+			bodyContent = "";
+		}
 	}
 
 	public long getID() {
@@ -110,6 +116,10 @@ public class Shortcut {
 		return position;
 	}
 
+	public String getBodyContent() {
+		return bodyContent;
+	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -150,12 +160,16 @@ public class Shortcut {
 		this.position = position;
 	}
 
+	public void setBodyContent(String bodyContent) {
+		this.bodyContent = bodyContent;
+	}
+
 	public boolean isNew() {
 		return id == 0;
 	}
 
 	public Shortcut duplicate(String newName) {
-		return new Shortcut(0, newName, description, protocol, url, method, username, password, iconName, feedback, 0);
+		return new Shortcut(0, newName, description, protocol, url, method, username, password, iconName, bodyContent, feedback, 0);
 	}
 
 	public Uri getIconURI(Context context) {

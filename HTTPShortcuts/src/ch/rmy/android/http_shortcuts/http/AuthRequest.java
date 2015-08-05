@@ -14,17 +14,24 @@ public class AuthRequest extends StringRequest {
 
 	private final String username;
 	private final String password;
+	private final String bodyContent;
 	private final Map<String, String> parameters;
 	private final Map<String, String> headers;
 
-	public AuthRequest(int method, String url, String username, String password, Listener<String> listener, ErrorListener errorListener) {
+	public AuthRequest(int method, String url, String username, String password, String bodyContent, Listener<String> listener, ErrorListener errorListener) {
 		super(method, url, listener, errorListener);
 
 		this.username = username;
 		this.password = password;
+		this.bodyContent = bodyContent;
 
 		parameters = new HashMap<String, String>();
 		headers = new HashMap<String, String>();
+	}
+
+	@Override
+	public byte[] getBody() throws AuthFailureError {
+		return bodyContent.getBytes();
 	}
 
 	@Override

@@ -60,6 +60,7 @@
     <string name="title_custom_header_add">Header hinzufügen</string>
     <string name="label_custom_header_key">Header:</string>
     <string name="label_custom_header_value">Wert:</string>
+    <string name="label_custom_body">Request-Body (optional):</string>
     <string name="settings">Einstellungen</string>
     <string name="settings_title_basic">Allgemeine Einstellungen</string>
     <string name="settings_click_behavior">Was soll passieren beim Anklicken eines Shortcuts?</string>
