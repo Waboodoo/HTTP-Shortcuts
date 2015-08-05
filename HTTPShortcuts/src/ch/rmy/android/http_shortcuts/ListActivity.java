@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -171,12 +172,12 @@ public class ListActivity extends Activity implements OnItemClickListener {
 		case 2: // edit
 			editShortcut(shortcut);
 			return true;
-		case 3:
+		case 3: // move up
 			shortcut.setPosition(shortcut.getPosition() - 1);
 			shortcutStorage.storeShortcut(shortcut);
 			updateShortcutList();
 			return true;
-		case 4:
+		case 4: // move down
 			shortcut.setPosition(shortcut.getPosition() + 1);
 			shortcutStorage.storeShortcut(shortcut);
 			updateShortcutList();
@@ -184,7 +185,22 @@ public class ListActivity extends Activity implements OnItemClickListener {
 		case 5: // duplicate
 			String newName = String.format(getText(R.string.copy).toString(), shortcut.getName());
 			Shortcut newShortcut = shortcut.duplicate(newName);
-			shortcutStorage.storeShortcut(newShortcut);
+			long newId = shortcutStorage.storeShortcut(newShortcut);
+
+			List<PostParameter> oldParameters = shortcutStorage.getPostParametersByID(shortcut.getID());
+			List<PostParameter> newParameters = new ArrayList<PostParameter>();
+			for (PostParameter oldParameter : oldParameters) {
+				newParameters.add(new PostParameter(0, oldParameter.getKey(), oldParameter.getValue()));
+			}
+			shortcutStorage.storePostParameters(newId, newParameters);
+
+			List<Header> oldHeaders = shortcutStorage.getHeadersByID(shortcut.getID());
+			List<Header> newHeaders = new ArrayList<Header>();
+			for (Header oldHeader : oldHeaders) {
+				newHeaders.add(new Header(0, oldHeader.getKey(), oldHeader.getValue()));
+			}
+			shortcutStorage.storeHeaders(newId, newHeaders);
+
 			updateShortcutList();
 			return true;
 		case 6: // delete
