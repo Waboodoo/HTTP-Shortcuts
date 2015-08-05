@@ -49,6 +49,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
+import ch.rmy.android.http_shortcuts.http.HttpRequester;
 import ch.rmy.android.http_shortcuts.shortcuts.Header;
 import ch.rmy.android.http_shortcuts.shortcuts.HeaderAdapter;
 import ch.rmy.android.http_shortcuts.shortcuts.PostParameter;
@@ -232,7 +233,10 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 			confirmClose();
 			return true;
 		case R.id.action_save_shortcut:
-			saveAndClose();
+			compileShortcut(false);
+			return true;
+		case R.id.action_test_shortcut:
+			compileShortcut(true);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -364,10 +368,10 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 		}
 	}
 
-	private void saveAndClose() {
+	private void compileShortcut(boolean testOnly) {
 
 		// Validation
-		if (nameView.getText().toString().matches("^\\s*$")) {
+		if (!testOnly && nameView.getText().toString().matches("^\\s*$")) {
 			nameView.setError(getText(R.string.validation_name_not_empty));
 			nameView.requestFocus();
 			return;
@@ -399,24 +403,29 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 		shortcut.setBodyContent(customBodyView.getText().toString());
 		shortcut.setFeedback(selectedFeedback);
 
-		long shortcutID = shortcutStorage.storeShortcut(shortcut);
-
 		List<PostParameter> parameters = new ArrayList<PostParameter>();
 		for (int i = 0; i < postParameterAdapter.getCount(); i++) {
 			parameters.add(postParameterAdapter.getItem(i));
 		}
-		shortcutStorage.storePostParameters(shortcutID, parameters);
-
 		List<Header> headers = new ArrayList<Header>();
 		for (int i = 0; i < customHeaderAdapter.getCount(); i++) {
 			headers.add(customHeaderAdapter.getItem(i));
 		}
-		shortcutStorage.storeHeaders(shortcutID, headers);
 
-		Intent returnIntent = new Intent();
-		returnIntent.putExtra(EXTRA_SHORTCUT_ID, shortcutID);
-		setResult(RESULT_OK, returnIntent);
-		finish();
+		if (testOnly) {
+			HttpRequester.executeShortcut(this, shortcut, parameters, headers);
+
+		} else {
+			long shortcutID = shortcutStorage.storeShortcut(shortcut);
+
+			shortcutStorage.storePostParameters(shortcutID, parameters);
+			shortcutStorage.storeHeaders(shortcutID, headers);
+
+			Intent returnIntent = new Intent();
+			returnIntent.putExtra(EXTRA_SHORTCUT_ID, shortcutID);
+			setResult(RESULT_OK, returnIntent);
+			finish();
+		}
 	}
 
 	private void cancelAndClose() {

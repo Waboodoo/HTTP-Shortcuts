@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/action_test_shortcut"
+          android:icon="@drawable/ic_test"
+          android:title="@string/test_button"
+          android:showAsAction="ifRoom" />
+    
     <item android:id="@+id/action_save_shortcut"
           android:icon="@drawable/ic_save"
           android:title="@string/save_button"
           android:showAsAction="ifRoom" />
+
 </menu>

@@ -10,6 +10,7 @@
     <string name="label_url">URL:</string>
     <string name="create_button">Erstellen</string>
     <string name="save_button">Speichern</string>
+    <string name="test_button">Testen</string>
     <string name="label_method">Methode:</string>
     <string name="label_username">Auth Benutzername (optional):</string>
     <string name="label_password">Auth Passwort (optional):</string>
