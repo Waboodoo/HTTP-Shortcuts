@@ -143,6 +143,7 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 		urlView.addTextChangedListener(this);
 		usernameView.addTextChangedListener(this);
 		passwordView.addTextChangedListener(this);
+		customBodyView.addTextChangedListener(this);
 
 		methodView = (Spinner) findViewById(R.id.input_method);
 		selectedMethod = shortcut.getMethod();
@@ -507,6 +508,7 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 						parameter.setKey(keyField.getText().toString());
 						parameter.setValue(valueField.getText().toString());
 						postParameterAdapter.notifyDataSetChanged();
+						hasChanges = true;
 					}
 				}
 			});
@@ -514,6 +516,7 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 				public void onClick(DialogInterface dialog, int which) {
 					postParameterAdapter.remove(parameter);
 					setListViewHeightBasedOnChildren(postParameterList);
+					hasChanges = true;
 				}
 			});
 			builder.setNegativeButton(R.string.dialog_cancel, null);
@@ -542,6 +545,7 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 						header.setKey(keyField.getText().toString());
 						header.setValue(valueField.getText().toString());
 						customHeaderAdapter.notifyDataSetChanged();
+						hasChanges = true;
 					}
 				}
 			});
@@ -549,6 +553,7 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 				public void onClick(DialogInterface dialog, int which) {
 					customHeaderAdapter.remove(header);
 					setListViewHeightBasedOnChildren(customHeaderList);
+					hasChanges = true;
 				}
 			});
 			builder.setNegativeButton(R.string.dialog_cancel, null);
