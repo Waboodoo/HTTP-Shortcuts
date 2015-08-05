@@ -15,10 +15,10 @@
     <string name="label_password">Auth Password (optional):</string>
     <string name="label_protocol">Protocol:</string>
     <string name="label_feedback">Feedback:</string>
-    <string name="feedback_none">None</string>
-    <string name="feedback_errors_only">Errors only</string>
-    <string name="feedback_simple">Simple</string>
-    <string name="feedback_full_response">Server Response</string>
+    <string name="feedback_none">No feedback (run silently)</string>
+    <string name="feedback_errors_only">Show errors only</string>
+    <string name="feedback_simple">Show simple toast message</string>
+    <string name="feedback_full_response">Show response in toast message</string>
     <string name="action_place">Place on home screen</string>
     <string name="action_run">Execute</string>
     <string name="action_edit">Edit</string>
