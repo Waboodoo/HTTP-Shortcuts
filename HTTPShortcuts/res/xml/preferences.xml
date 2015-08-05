@@ -7,15 +7,18 @@
 		    android:key="click_behavior"
 		    android:title="@string/settings_click_behavior"
 		    android:entries="@array/click_behaviors"
-		    android:entryValues="@array/click_behaviors_values" android:defaultValue="run"/>
+		    android:entryValues="@array/click_behaviors_values"
+		    android:defaultValue="run"
+		    android:icon="@drawable/settings_click"
+		    />
         
     </PreferenceCategory>
    
     <PreferenceCategory 
         android:title="@string/settings_title_import_export">
         
-    	<Preference android:key="import" android:title="@string/settings_import" />
-    	<Preference android:key="export" android:title="@string/settings_export" />
+    	<Preference android:key="import" android:title="@string/settings_import" android:icon="@drawable/settings_import" />
+    	<Preference android:key="export" android:title="@string/settings_export" android:icon="@drawable/settings_export" />
     	
      </PreferenceCategory>
    
