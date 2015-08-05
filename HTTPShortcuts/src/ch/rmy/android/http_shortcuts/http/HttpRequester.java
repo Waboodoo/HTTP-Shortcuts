@@ -22,6 +22,8 @@ import com.android.volley.toolbox.Volley;
 
 public class HttpRequester {
 
+	private static final int TOAST_MAX_LENGTH = 400;
+
 	public static void executeShortcut(final Context context, final Shortcut shortcut, final List<PostParameter> parameters, final List<Header> headers) {
 		DefaultHttpClient client = new DefaultHttpClient();
 
@@ -52,8 +54,8 @@ public class HttpRequester {
 						break;
 					case Shortcut.FEEDBACK_FULL_RESPONSE:
 						String message = response;
-						if (message.length() > 200) {
-							message = message.substring(0, 200) + "...";
+						if (message.length() > TOAST_MAX_LENGTH) {
+							message = message.substring(0, TOAST_MAX_LENGTH) + "...";
 						}
 						Toast.makeText(context, message, Toast.LENGTH_LONG).show();
 						break;

@@ -160,16 +160,19 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 
 		if (selectedMethod.equals(Shortcut.METHOD_GET)) {
 			postParamsContainer.setVisibility(View.GONE);
-			customBodyContainer.setVisibility(View.GONE);
 		} else {
 			postParamsContainer.setVisibility(View.VISIBLE);
-			customBodyContainer.setVisibility(View.VISIBLE);
 		}
 		postParameterAdapter = new PostParameterAdapter(this);
 		postParameterList.setAdapter(postParameterAdapter);
 		postParameterAdapter.addAll(shortcutStorage.getPostParametersByID(shortcutID));
 		postParameterAddButton.setOnClickListener(this);
 		postParameterList.setOnItemClickListener(this);
+		if (postParameterAdapter.getCount() == 0) {
+			customBodyContainer.setVisibility(View.VISIBLE);
+		} else {
+			customBodyContainer.setVisibility(View.GONE);
+		}
 
 		customHeaderAdapter = new HeaderAdapter(this);
 		customHeaderList.setAdapter(customHeaderAdapter);
@@ -263,6 +266,7 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 						PostParameter parameter = new PostParameter(0, keyField.getText().toString(), valueField.getText().toString());
 						postParameterAdapter.add(parameter);
 						setListViewHeightBasedOnChildren(postParameterList);
+						customBodyContainer.setVisibility(View.GONE);
 					}
 				}
 			});
@@ -526,6 +530,11 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 					postParameterAdapter.remove(parameter);
 					setListViewHeightBasedOnChildren(postParameterList);
 					hasChanges = true;
+					if (postParameterAdapter.getCount() == 0) {
+						customBodyContainer.setVisibility(View.VISIBLE);
+					} else {
+						customBodyContainer.setVisibility(View.GONE);
+					}
 				}
 			});
 			builder.setNegativeButton(R.string.dialog_cancel, null);
@@ -583,10 +592,8 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 
 			if (selectedMethod.equals(Shortcut.METHOD_GET)) {
 				postParamsContainer.setVisibility(View.GONE);
-				customBodyContainer.setVisibility(View.GONE);
 			} else {
 				postParamsContainer.setVisibility(View.VISIBLE);
-				customBodyContainer.setVisibility(View.VISIBLE);
 			}
 
 			break;

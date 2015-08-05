@@ -120,6 +120,28 @@
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
 	                android:text="@string/button_add_post_param" />
+	            
+	            <LinearLayout
+		            android:id="@+id/custom_body_container"
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_marginTop="40dp"
+		            android:orientation="vertical" >
+	            
+		            <TextView
+			            android:id="@+id/label_custom_body"
+			            android:layout_width="wrap_content"
+			            android:layout_height="wrap_content"
+			            android:text="@string/label_custom_body" />
+			
+			        <EditText
+			            android:id="@+id/input_custom_body"
+			            android:layout_width="match_parent"
+			            android:layout_height="wrap_content"
+			            android:ems="10"
+			            android:inputType="textMultiLine|textNoSuggestions"
+			            android:singleLine="false" />
+		        </LinearLayout>
 
         </LinearLayout>
 
@@ -170,29 +192,6 @@
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:text="@string/button_add_custom_header" />
-         
-         <LinearLayout
-            android:id="@+id/custom_body_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:orientation="vertical" >
-         
-	         <TextView
-	            android:id="@+id/label_custom_body"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:text="@string/label_custom_body" />
-	
-	        <EditText
-	            android:id="@+id/input_custom_body"
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:ems="10"
-	            android:inputType="textMultiLine|textNoSuggestions"
-	            android:singleLine="false" />
-        
-        </LinearLayout>
         
          <TextView
             android:id="@+id/label_feedback"

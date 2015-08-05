@@ -31,7 +31,11 @@ public class AuthRequest extends StringRequest {
 
 	@Override
 	public byte[] getBody() throws AuthFailureError {
-		return bodyContent.getBytes();
+		if (bodyContent.isEmpty()) {
+			return super.getBody();
+		} else {
+			return bodyContent.getBytes();
+		}
 	}
 
 	@Override
