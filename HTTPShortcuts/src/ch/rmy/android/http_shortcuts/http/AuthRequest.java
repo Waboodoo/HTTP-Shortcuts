@@ -46,9 +46,10 @@ public class AuthRequest extends StringRequest {
 
 		if (!username.isEmpty() || !password.isEmpty()) {
 			String creds = String.format("%s:%s", username, password);
-			String auth = "Basic " + Base64.encodeToString(creds.getBytes(), Base64.DEFAULT);
+			String auth = "Basic " + Base64.encodeToString(creds.getBytes(), Base64.NO_WRAP);
 			headers.put("Authorization", auth);
 		}
+
 		return headers;
 	}
 
