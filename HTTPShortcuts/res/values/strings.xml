@@ -12,8 +12,8 @@
     <string name="save_button">Save</string>
     <string name="test_button">Test</string>
     <string name="label_method">Method:</string>
-    <string name="label_username">Auth Username (optional):</string>
-    <string name="label_password">Auth Password (optional):</string>
+    <string name="label_username">Authentication Username (optional):</string>
+    <string name="label_password">Authentication Password (optional):</string>
     <string name="label_protocol">Protocol:</string>
     <string name="label_feedback">Feedback:</string>
     <string name="feedback_none">No feedback (run silently)</string>
@@ -55,7 +55,7 @@
     <string name="dialog_ok">OK</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_remove">Remove</string>
-    <string name="label_custom_headers">Custom headers:</string>
+    <string name="label_custom_headers">Request Headers:</string>
     <string name="button_add_custom_header">Add header</string>
     <string name="title_custom_header_edit">Edit header</string>
     <string name="title_custom_header_add">Add header</string>

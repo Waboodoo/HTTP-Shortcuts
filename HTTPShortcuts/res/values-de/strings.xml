@@ -12,8 +12,8 @@
     <string name="save_button">Speichern</string>
     <string name="test_button">Testen</string>
     <string name="label_method">Methode:</string>
-    <string name="label_username">Auth Benutzername (optional):</string>
-    <string name="label_password">Auth Passwort (optional):</string>
+    <string name="label_username">Authentifikation Benutzername (optional):</string>
+    <string name="label_password">Authentifikation Passwort (optional):</string>
     <string name="label_protocol">Protokol:</string>
     <string name="label_feedback">Feedback:</string>
     <string name="feedback_none">Kein Feedback</string>
@@ -55,7 +55,7 @@
     <string name="dialog_ok">OK</string>
     <string name="dialog_cancel">Abbrechen</string>
     <string name="dialog_remove">Entfernen</string>
-    <string name="label_custom_headers">Benutzerdefinierte Header:</string>
+    <string name="label_custom_headers">Request-Header:</string>
     <string name="button_add_custom_header">Header hinzufügen</string>
     <string name="title_custom_header_edit">Header bearbeiten</string>
     <string name="title_custom_header_add">Header hinzufügen</string>
