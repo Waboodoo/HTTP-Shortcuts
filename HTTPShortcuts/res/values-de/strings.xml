@@ -64,7 +64,7 @@
     <string name="label_custom_body">Request-Body (optional):</string>
     <string name="settings">Einstellungen</string>
     <string name="settings_title_basic">Allgemeine Einstellungen</string>
-    <string name="settings_click_behavior">Was soll passieren beim Anklicken eines Shortcuts?</string>
+    <string name="settings_click_behavior">Aktion beim Anklicken von Shortcuts</string>
     <string name="settings_click_behavior_run">Shortcut ausführen</string>
     <string name="settings_click_behavior_edit">Shortcut bearbeiten</string>
     <string name="settings_click_behavior_menu">Kontextmenü anzeigen</string>
@@ -90,4 +90,10 @@
     <string name="timeout_medium">mittel (%1$d Sekunden)</string>
     <string name="timeout_long">lange (%1$d Sekunden)</string>
     <string name="timeout_very_long">sehr lange (%1$d Sekunden)</string>
+    <string name="settings_about">Über diese App</string>
+    <string name="settings_version">Versionsnummer</string>
+    <string name="settings_mail">Entwickler kontaktieren</string>
+    <string name="settings_mail_summary">Fragen, Wünsche, sonstige Kommentare, …</string>
+    <string name="settings_github">Auf Github ansehen</string>
+    <string name="settings_github_summary">Jap, diese App ist Open Source.</string>
 </resources>

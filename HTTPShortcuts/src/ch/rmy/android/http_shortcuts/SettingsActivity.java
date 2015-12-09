@@ -7,12 +7,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.ListPreference;
@@ -20,18 +25,33 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
+import android.view.Window;
+import android.view.WindowManager;
 import ch.rmy.android.http_shortcuts.shortcuts.ShortcutStorage;
 
 public class SettingsActivity extends Activity {
 
+	private static final String CONTACT_SUBJECT = "HTTP Shortcuts";
+	private static final String CONTACT_TEXT = "Dear Roland,\n\n";
+	private static final String DEVELOPER_EMAIL = "android@rmy.ch";
+	private static final String GITHUB_URL = "https://github.com/Waboodoo/HTTP-Shortcuts";
+
 	private static final String SHORTCUT_DATABASE_FILE_NAME = "shortcuts";
 
+	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		SettingsFragment settingsFragment = new SettingsFragment();
 		getFragmentManager().beginTransaction().replace(android.R.id.content, settingsFragment).commit();
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			Window window = getWindow();
+			window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+			window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+			window.setStatusBarColor(getResources().getColor(R.color.dark_blue));
+		}
 	}
 
 	public static class SettingsFragment extends PreferenceFragment {
@@ -117,6 +137,40 @@ public class SettingsActivity extends Activity {
 						dialog.show();
 					}
 
+					return true;
+				}
+
+			});
+
+			final Preference versionPreference = findPreference("version");
+			try {
+				versionPreference.setSummary(getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0).versionName);
+			} catch (NameNotFoundException e) {
+				versionPreference.setSummary("???");
+			}
+
+			final Preference mailPreference = findPreference("mail");
+			mailPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+
+				public boolean onPreferenceClick(Preference preference) {
+					Intent intent = new Intent(Intent.ACTION_SEND);
+					String[] recipients = { DEVELOPER_EMAIL };
+					intent.putExtra(Intent.EXTRA_EMAIL, recipients);
+					intent.putExtra(Intent.EXTRA_SUBJECT, CONTACT_SUBJECT);
+					intent.putExtra(Intent.EXTRA_TEXT, CONTACT_TEXT);
+					intent.setType("text/html");
+					startActivity(Intent.createChooser(intent, getString(R.string.settings_mail)));
+					return true;
+				}
+
+			});
+
+			final Preference githubPreference = findPreference("github");
+			githubPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+
+				public boolean onPreferenceClick(Preference preference) {
+					Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(GITHUB_URL));
+					startActivity(browserIntent);
 					return true;
 				}
 

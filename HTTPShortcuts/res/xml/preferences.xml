@@ -21,5 +21,14 @@
     	<Preference android:key="export" android:title="@string/settings_export" android:icon="@drawable/settings_export" />
     	
      </PreferenceCategory>
+     
+    <PreferenceCategory 
+        android:title="@string/settings_about">
+        
+        <Preference android:key="version" android:title="@string/settings_version" android:icon="@drawable/settings_version" />
+    	<Preference android:key="mail" android:title="@string/settings_mail" android:icon="@drawable/settings_mail" android:summary="@string/settings_mail_summary"/>
+    	<Preference android:key="github" android:title="@string/settings_github" android:icon="@drawable/settings_github"  android:summary="@string/settings_github_summary" />
+    	
+     </PreferenceCategory>
    
 </PreferenceScreen>
