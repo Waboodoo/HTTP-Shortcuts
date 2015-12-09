@@ -85,4 +85,9 @@
     <string name="import_success_title">Shortcuts imported</string>
     <string name="import_success_message_one">Successfully imported 1 shortcut.</string>
     <string name="import_success_message">Successfully imported %1$d shortcuts.</string>
+    <string name="label_timeout">Timeout:</string>
+    <string name="timeout_short">short (%1$d seconds)</string>
+    <string name="timeout_medium">medium (%1$d seconds)</string>
+    <string name="timeout_long">long (%1$d seconds)</string>
+    <string name="timeout_very_long">very long (%1$d seconds)</string>
 </resources>

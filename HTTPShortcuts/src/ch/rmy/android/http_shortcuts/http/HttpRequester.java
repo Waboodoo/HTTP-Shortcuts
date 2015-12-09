@@ -96,7 +96,7 @@ public class HttpRequester {
 				stringRequest.addHeader(header.getKey(), header.getValue());
 			}
 
-			stringRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+			stringRequest.setRetryPolicy(new DefaultRetryPolicy(shortcut.getTimeout(), 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
 			queue.add(stringRequest);
 

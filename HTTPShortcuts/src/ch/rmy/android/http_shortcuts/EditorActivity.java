@@ -82,6 +82,7 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 	private ImageView iconView;
 	private Spinner methodView;
 	private Spinner feedbackView;
+	private Spinner timeoutView;
 	private LinearLayout postParamsContainer;
 	private ListView postParameterList;
 	private Button postParameterAddButton;
@@ -93,6 +94,7 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 	private String selectedMethod;
 	private int selectedFeedback;
 	private String selectedIcon;
+	private int selectedTimeout;
 
 	private boolean hasChanges;
 
@@ -195,6 +197,22 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 			}
 		}
 		selectedFeedback = shortcut.getFeedback();
+
+		timeoutView = (Spinner) findViewById(R.id.input_timeout);
+		String[] timeoutStrings = new String[Shortcut.TIMEOUT_OPTIONS.length];
+		for (int i = 0; i < Shortcut.TIMEOUT_OPTIONS.length; i++) {
+			timeoutStrings[i] = String.format(getText(Shortcut.TIMEOUT_RESOURCES[i]).toString(), Shortcut.TIMEOUT_OPTIONS[i] / 1000);
+		}
+		SpinnerAdapter timeoutAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, timeoutStrings);
+		timeoutView.setOnItemSelectedListener(this);
+		timeoutView.setAdapter(timeoutAdapter);
+		for (int i = 0; i < Shortcut.FEEDBACKS.length; i++) {
+			if (Shortcut.TIMEOUT_OPTIONS[i] == shortcut.getTimeout()) {
+				timeoutView.setSelection(i);
+				break;
+			}
+		}
+		selectedTimeout = shortcut.getTimeout();
 
 		iconView.setImageURI(shortcut.getIconURI(this));
 		if (shortcut.getIconName() != null && shortcut.getIconName().startsWith("white_")) {
@@ -406,6 +424,7 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 		shortcut.setIconName(selectedIcon);
 		shortcut.setBodyContent(customBodyView.getText().toString());
 		shortcut.setFeedback(selectedFeedback);
+		shortcut.setTimeout(selectedTimeout);
 
 		List<PostParameter> parameters = new ArrayList<PostParameter>();
 		for (int i = 0; i < postParameterAdapter.getCount(); i++) {
@@ -600,6 +619,12 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 		case R.id.input_feedback:
 			selectedFeedback = Shortcut.FEEDBACKS[position];
 			if (selectedFeedback != shortcut.getFeedback()) {
+				hasChanges = true;
+			}
+			break;
+		case R.id.input_timeout:
+			selectedTimeout = Shortcut.TIMEOUT_OPTIONS[position];
+			if (selectedTimeout != shortcut.getTimeout()) {
 				hasChanges = true;
 			}
 			break;

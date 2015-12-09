@@ -44,7 +44,7 @@ public class ShortcutStorage {
 	}
 
 	public Shortcut createShortcut() {
-		return new Shortcut(0, "", "", Shortcut.PROTOCOL_HTTP, "", Shortcut.METHOD_GET, "", "", null, "", Shortcut.FEEDBACK_SIMPLE, 0);
+		return new Shortcut(0, "", "", Shortcut.PROTOCOL_HTTP, "", Shortcut.METHOD_GET, "", "", null, "", Shortcut.TIMEOUT_OPTIONS[0], Shortcut.FEEDBACK_SIMPLE, 0);
 	}
 
 	public long storeShortcut(Shortcut shortcut) {
@@ -62,6 +62,7 @@ public class ShortcutStorage {
 			values.put(ShortcutTable.COLUMN_FEEDBACK, shortcut.getFeedback());
 			values.put(ShortcutTable.COLUMN_DESCRIPTION, shortcut.getDescription());
 			values.put(ShortcutTable.COLUMN_BODY_CONTENT, shortcut.getBodyContent());
+			values.put(ShortcutTable.COLUMN_TIMEOUT, shortcut.getTimeout());
 
 			String iconName = null;
 			if (shortcut.getIconName() != null) {

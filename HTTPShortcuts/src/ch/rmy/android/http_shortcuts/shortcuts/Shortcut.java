@@ -27,6 +27,8 @@ public class Shortcut {
 	public static final String[] PROTOCOLS = { PROTOCOL_HTTP, PROTOCOL_HTTPS };
 	public static final int[] FEEDBACKS = { FEEDBACK_NONE, FEEDBACK_ERRORS_ONLY, FEEDBACK_SIMPLE, FEEDBACK_FULL_RESPONSE };
 	public static final int[] FEEDBACK_RESOURCES = { R.string.feedback_none, R.string.feedback_errors_only, R.string.feedback_simple, R.string.feedback_full_response };
+	public static final int[] TIMEOUT_OPTIONS = { 3000, 10000, 30000, 60000 };
+	public static final int[] TIMEOUT_RESOURCES = { R.string.timeout_short, R.string.timeout_medium, R.string.timeout_long, R.string.timeout_very_long };
 
 	private final long id;
 	private String name;
@@ -40,9 +42,10 @@ public class Shortcut {
 	private int position;
 	private String description;
 	private String bodyContent;
+	private int timeout;
 
 	protected Shortcut(long id, String name, String description, String protocol, String url, String method, String username, String password, String iconName, String bodyContent,
-			int feedback, int position) {
+			int timeout, int feedback, int position) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -55,6 +58,7 @@ public class Shortcut {
 		this.feedback = feedback;
 		this.position = position;
 		this.bodyContent = bodyContent;
+		this.timeout = timeout;
 	}
 
 	protected Shortcut(Cursor cursor) {
@@ -72,6 +76,10 @@ public class Shortcut {
 		bodyContent = cursor.getString(12);
 		if (bodyContent == null) {
 			bodyContent = "";
+		}
+		timeout = cursor.getInt(13);
+		if (timeout == 0) {
+			timeout = TIMEOUT_OPTIONS[0];
 		}
 	}
 
@@ -167,12 +175,20 @@ public class Shortcut {
 		this.bodyContent = bodyContent;
 	}
 
+	public int getTimeout() {
+		return timeout;
+	}
+
+	public void setTimeout(int timeout) {
+		this.timeout = timeout;
+	}
+
 	public boolean isNew() {
 		return id == 0;
 	}
 
 	public Shortcut duplicate(String newName) {
-		return new Shortcut(0, newName, description, protocol, url, method, username, password, iconName, bodyContent, feedback, 0);
+		return new Shortcut(0, newName, description, protocol, url, method, username, password, iconName, bodyContent, timeout, feedback, 0);
 	}
 
 	public Uri getIconURI(Context context) {
