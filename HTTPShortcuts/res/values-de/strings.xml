@@ -96,4 +96,7 @@
     <string name="settings_mail_summary">Fragen, Wünsche, sonstige Kommentare, …</string>
     <string name="settings_github">Auf Github ansehen</string>
     <string name="settings_github_summary">Jap, diese App ist Open Source.</string>
+    <string name="changelog_title_whats_new">Was ist neu?</string>
+    <string name="changelog_title">Changelog</string>
+    <string name="changelog_checkbox_show_at_startup">Beim Start anzeigen</string>
 </resources>

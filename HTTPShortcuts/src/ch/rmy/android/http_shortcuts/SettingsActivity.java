@@ -148,6 +148,16 @@ public class SettingsActivity extends Activity {
 			} catch (NameNotFoundException e) {
 				versionPreference.setSummary("???");
 			}
+			versionPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+
+				@Override
+				public boolean onPreferenceClick(Preference preference) {
+					ChangeLogDialog changeLog = new ChangeLogDialog(getActivity(), false);
+					changeLog.show();
+					return true;
+				}
+
+			});
 
 			final Preference mailPreference = findPreference("mail");
 			mailPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {

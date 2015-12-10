@@ -96,4 +96,51 @@
     <string name="settings_mail_summary">Questions, feature requests, other comments, …</string>
     <string name="settings_github">View on Github</string>
     <string name="settings_github_summary">That\'s right, this app is open-source</string>
+    <string name="changelog_title_whats_new">What\'s new?</string>
+    <string name="changelog_title">Changelog</string>
+    <string name="changelog_checkbox_show_at_startup">Show at startup</string>
+    <string name="changelog_text"><![CDATA[
+		<p>
+			<b>Version 1.7.0</b><br>
+			- Shortcuts can have different timeouts (3, 10, 30 or 60 seconds)<br>
+			- Added <i>About</i> section to preferences screen<br>
+			- Added <i>What\'s new</i> dialog<br>
+			- Minor language improvements
+		<p>
+			<b>Version 1.6.1</b><br>
+			- Bugfixes
+		</p>
+		<p>
+			<b>Version 1.6.0</b><br>
+			- Custom headers<br>
+			- Custom request body<br>
+			- Preferences Screen<br>
+			- Import & Export (new permissions needed)<br>
+			- New request methods: <i>PUT</i>, <i>DELETE</i>, <i>PATCH</i><br>
+			- Shortcuts can be tested before being saved<br>
+			- Bugfixes
+		</p>
+		<p>
+			<b>Version 1.5.0</b><br>
+			- Possibility to add <i>POST</i> parameters<br>
+			- More built-in icons, with improved selector dialog
+		</p>
+		<p>
+			<b>Version 1.4.0</b><br>
+			- Built-in icons<br>
+			- Shortcuts can have descriptions for the overview screen<br>
+			- Bugfix: Connections are no longer left idle after use
+		</p>
+		<p>
+			<b>Version 1.2.0</b><br>
+			- Added support for Ipack icons
+		</p>
+		<p>
+			<b>Version 1.1.0</b><br>
+			- Shortcuts can be moved up and down in the shortcut list<br>
+			- Default click action executes the shortcuts instead of opening context menu<br>
+			- Buttons moved into action bar<br>
+			- Bugfixes
+		</p>
+]]></string>
 </resources>

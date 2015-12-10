@@ -73,6 +73,11 @@ public class ListActivity extends Activity implements OnItemClickListener {
 
 		emptyListText = (TextView) findViewById(R.id.no_shortcuts);
 		forwardedToEditor = false;
+
+		ChangeLogDialog changeLog = new ChangeLogDialog(this, true);
+		if (!changeLog.isPermanentlyHidden() && !changeLog.wasAlreadyShown()) {
+			changeLog.show();
+		}
 	}
 
 	@Override

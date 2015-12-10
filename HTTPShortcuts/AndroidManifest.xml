@@ -40,8 +40,7 @@
         <activity
             android:name=".SettingsActivity"
             android:label="@string/settings"
-            android:parentActivityName=".ListActivity"
-            android:windowSoftInputMode="stateVisible|adjustResize" >
+            android:parentActivityName=".ListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ListActivity" />
