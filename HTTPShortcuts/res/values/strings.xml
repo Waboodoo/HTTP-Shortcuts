@@ -100,12 +100,17 @@
     <string name="changelog_title">Changelog</string>
     <string name="changelog_checkbox_show_at_startup">Show at startup</string>
     <string name="changelog_text"><![CDATA[
+        <p>
+			<b>Version 1.8.0</b><br>
+			- Shortcut execution can be delayed when not connected to the internet
+		</p>
 		<p>
 			<b>Version 1.7.0</b><br>
 			- Shortcuts can have different timeouts (3, 10, 30 or 60 seconds)<br>
 			- Added <i>About</i> section to preferences screen<br>
 			- Added <i>What\'s new</i> dialog<br>
 			- Minor language improvements
+		</p>
 		<p>
 			<b>Version 1.6.1</b><br>
 			- Bugfixes
