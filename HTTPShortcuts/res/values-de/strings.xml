@@ -100,4 +100,7 @@
     <string name="changelog_title">Changelog</string>
     <string name="changelog_checkbox_show_at_startup">Beim Start anzeigen</string>
     <string name="execution_delayed">%1$s wird ausgeführt sobald eine Verbindung zum Internet besteht.</string>
+    <string name="label_retry_policy">Bei fehlender Internet-Verbindung</string>
+	<string name="retry_policy_none">Request fehlschlagen lassen</string>
+	<string name="retry_policy_delayed">Request verzögern bis Verbindung besteht</string>
 </resources>
