@@ -23,6 +23,8 @@ public class ShortcutTable {
 	protected static final String COLUMN_DESCRIPTION = "description";
 	protected static final String COLUMN_BODY_CONTENT = "body_content";
 	protected static final String COLUMN_TIMEOUT = "timeout";
+	protected static final String COLUMN_RETRY = "retry";
+	protected static final String COLUMN_RETRY_POLICY = "retry_policy";
 
 	/**
 	 * @return The sql statement to create the table
@@ -31,7 +33,7 @@ public class ShortcutTable {
 		return "create table if not exists " + TABLE_NAME + "(" + COLUMN_ID + " integer primary key autoincrement, " + COLUMN_NAME + " text, " + COLUMN_PROTOCOL + " text, "
 				+ COLUMN_URL + " text, " + COLUMN_METHOD + " text, " + COLUMN_USERNAME + " text, " + COLUMN_PASSWORD + " text, " + COLUMN_ICON + " text, " + COLUMN_FEEDBACK
 				+ " integer, " + COLUMN_UNUSED + " text, " + COLUMN_POSITION + " integer not null default 0, " + COLUMN_DESCRIPTION + " text, " + COLUMN_BODY_CONTENT + " text, "
-				+ COLUMN_TIMEOUT + " integer not null default 0);";
+				+ COLUMN_TIMEOUT + " integer not null default 0, " + COLUMN_RETRY + " integer not null default 0, " + COLUMN_RETRY_POLICY + " integer not null default 0);";
 	}
 
 	/**
@@ -52,6 +54,9 @@ public class ShortcutTable {
 			return new String[] { "alter table " + TABLE_NAME + " ADD COLUMN " + COLUMN_BODY_CONTENT + " text;" };
 		case 7:
 			return new String[] { "alter table " + TABLE_NAME + " ADD COLUMN " + COLUMN_TIMEOUT + " integer not null default 0;" };
+		case 8:
+			return new String[] { "alter table " + TABLE_NAME + " ADD COLUMN " + COLUMN_RETRY + " integer not null default 0;",
+					"alter table " + TABLE_NAME + " ADD COLUMN " + COLUMN_RETRY_POLICY + " integer not null default 0;" };
 		default:
 			return new String[] {};
 		}

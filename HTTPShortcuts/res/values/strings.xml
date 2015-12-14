@@ -143,4 +143,8 @@
 			- Bugfixes
 		</p>
 ]]></string>
+<string name="execution_delayed">%1$s will execute once a connection to the internet is available.</string>
+<string name="label_retry_policy">When not connected to the internet</string>
+<string name="retry_policy_none">drop the request</string>
+<string name="retry_policy_delayed">wait for connection</string>
 </resources>

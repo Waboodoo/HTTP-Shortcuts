@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -83,6 +84,7 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 	private Spinner methodView;
 	private Spinner feedbackView;
 	private Spinner timeoutView;
+	private Spinner retryPolicyView;
 	private LinearLayout postParamsContainer;
 	private ListView postParameterList;
 	private Button postParameterAddButton;
@@ -95,6 +97,7 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 	private int selectedFeedback;
 	private String selectedIcon;
 	private int selectedTimeout;
+	private int selectedRetryPolicy;
 
 	private boolean hasChanges;
 
@@ -183,15 +186,15 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 		customHeaderList.setOnItemClickListener(this);
 
 		feedbackView = (Spinner) findViewById(R.id.input_feedback);
-		String[] feedbackStrings = new String[Shortcut.FEEDBACKS.length];
-		for (int i = 0; i < Shortcut.FEEDBACKS.length; i++) {
+		String[] feedbackStrings = new String[Shortcut.FEEDBACK_OPTIONS.length];
+		for (int i = 0; i < Shortcut.FEEDBACK_OPTIONS.length; i++) {
 			feedbackStrings[i] = getText(Shortcut.FEEDBACK_RESOURCES[i]).toString();
 		}
 		SpinnerAdapter feedbackAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, feedbackStrings);
 		feedbackView.setOnItemSelectedListener(this);
 		feedbackView.setAdapter(feedbackAdapter);
-		for (int i = 0; i < Shortcut.FEEDBACKS.length; i++) {
-			if (Shortcut.FEEDBACKS[i] == shortcut.getFeedback()) {
+		for (int i = 0; i < Shortcut.FEEDBACK_OPTIONS.length; i++) {
+			if (Shortcut.FEEDBACK_OPTIONS[i] == shortcut.getFeedback()) {
 				feedbackView.setSelection(i);
 				break;
 			}
@@ -206,13 +209,29 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 		SpinnerAdapter timeoutAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, timeoutStrings);
 		timeoutView.setOnItemSelectedListener(this);
 		timeoutView.setAdapter(timeoutAdapter);
-		for (int i = 0; i < Shortcut.FEEDBACKS.length; i++) {
+		for (int i = 0; i < Shortcut.TIMEOUT_OPTIONS.length; i++) {
 			if (Shortcut.TIMEOUT_OPTIONS[i] == shortcut.getTimeout()) {
 				timeoutView.setSelection(i);
 				break;
 			}
 		}
 		selectedTimeout = shortcut.getTimeout();
+
+		retryPolicyView = (Spinner) findViewById(R.id.input_retry_policy);
+		String[] retryPolicyStrings = new String[Shortcut.RETRY_POLICY_OPTIONS.length];
+		for (int i = 0; i < Shortcut.RETRY_POLICY_OPTIONS.length; i++) {
+			retryPolicyStrings[i] = getText(Shortcut.RETRY_POLICY_RESOURCES[i]).toString();
+		}
+		SpinnerAdapter retryPolicyAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, retryPolicyStrings);
+		retryPolicyView.setOnItemSelectedListener(this);
+		retryPolicyView.setAdapter(retryPolicyAdapter);
+		for (int i = 0; i < Shortcut.RETRY_POLICY_OPTIONS.length; i++) {
+			if (Shortcut.RETRY_POLICY_OPTIONS[i] == shortcut.getRetryPolicy()) {
+				retryPolicyView.setSelection(i);
+				break;
+			}
+		}
+		selectedRetryPolicy = shortcut.getRetryPolicy();
 
 		iconView.setImageURI(shortcut.getIconURI(this));
 		if (shortcut.getIconName() != null && shortcut.getIconName().startsWith("white_")) {
@@ -425,6 +444,8 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 		shortcut.setBodyContent(customBodyView.getText().toString());
 		shortcut.setFeedback(selectedFeedback);
 		shortcut.setTimeout(selectedTimeout);
+		shortcut.setRetryPolicy(selectedRetryPolicy);
+		Log.i("Retry policy", selectedRetryPolicy + "");
 
 		List<PostParameter> parameters = new ArrayList<PostParameter>();
 		for (int i = 0; i < postParameterAdapter.getCount(); i++) {
@@ -617,7 +638,7 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 
 			break;
 		case R.id.input_feedback:
-			selectedFeedback = Shortcut.FEEDBACKS[position];
+			selectedFeedback = Shortcut.FEEDBACK_OPTIONS[position];
 			if (selectedFeedback != shortcut.getFeedback()) {
 				hasChanges = true;
 			}
@@ -625,6 +646,12 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 		case R.id.input_timeout:
 			selectedTimeout = Shortcut.TIMEOUT_OPTIONS[position];
 			if (selectedTimeout != shortcut.getTimeout()) {
+				hasChanges = true;
+			}
+			break;
+		case R.id.input_retry_policy:
+			selectedRetryPolicy = Shortcut.RETRY_POLICY_OPTIONS[position];
+			if (selectedRetryPolicy != shortcut.getRetryPolicy()) {
 				hasChanges = true;
 			}
 			break;

@@ -29,7 +29,7 @@ public class ShortcutStorage {
 			cursor = database.query(ShortcutTable.TABLE_NAME, null, null, null, null, null, ShortcutTable.COLUMN_POSITION + " ASC");
 			cursor.moveToFirst();
 			while (!cursor.isAfterLast()) {
-				shortcuts.add(new Shortcut(cursor));
+				shortcuts.add(shortcutFromCursor(cursor));
 				cursor.moveToNext();
 			}
 			return shortcuts;
@@ -44,7 +44,7 @@ public class ShortcutStorage {
 	}
 
 	public Shortcut createShortcut() {
-		return new Shortcut(0, "", "", Shortcut.PROTOCOL_HTTP, "", Shortcut.METHOD_GET, "", "", null, "", Shortcut.TIMEOUT_OPTIONS[0], Shortcut.FEEDBACK_SIMPLE, 0);
+		return new Shortcut(0);
 	}
 
 	public long storeShortcut(Shortcut shortcut) {
@@ -63,6 +63,7 @@ public class ShortcutStorage {
 			values.put(ShortcutTable.COLUMN_DESCRIPTION, shortcut.getDescription());
 			values.put(ShortcutTable.COLUMN_BODY_CONTENT, shortcut.getBodyContent());
 			values.put(ShortcutTable.COLUMN_TIMEOUT, shortcut.getTimeout());
+			values.put(ShortcutTable.COLUMN_RETRY_POLICY, shortcut.getRetryPolicy());
 
 			String iconName = null;
 			if (shortcut.getIconName() != null) {
@@ -121,7 +122,7 @@ public class ShortcutStorage {
 					ShortcutTable.COLUMN_NAME + " ASC");
 			cursor.moveToFirst();
 			if (!cursor.isAfterLast()) {
-				return new Shortcut(cursor);
+				return shortcutFromCursor(cursor);
 			}
 		} finally {
 			if (cursor != null) {
@@ -272,6 +273,52 @@ public class ShortcutStorage {
 		}
 	}
 
+	public List<Shortcut> getShortcutsPendingExecution() {
+		SQLiteDatabase database = null;
+		Cursor cursor = null;
+
+		try {
+			database = dbHelper.getWritableDatabase();
+
+			List<Shortcut> shortcuts = new ArrayList<Shortcut>();
+
+			cursor = database.query(ShortcutTable.TABLE_NAME, null, ShortcutTable.COLUMN_RETRY + " = 1", null, null, null, ShortcutTable.COLUMN_POSITION + " ASC");
+			cursor.moveToFirst();
+			while (!cursor.isAfterLast()) {
+				shortcuts.add(shortcutFromCursor(cursor));
+				cursor.moveToNext();
+			}
+
+			ContentValues values = new ContentValues();
+			values.put(ShortcutTable.COLUMN_RETRY, 0);
+			database.update(ShortcutTable.TABLE_NAME, values, ShortcutTable.COLUMN_RETRY + " = 1", null);
+
+			return shortcuts;
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+			if (database != null) {
+				database.close();
+			}
+		}
+	}
+
+	public void markShortcutAsPending(Shortcut shortcut) {
+		SQLiteDatabase database = null;
+
+		try {
+			database = dbHelper.getWritableDatabase();
+			ContentValues values = new ContentValues();
+			values.put(ShortcutTable.COLUMN_RETRY, 1);
+			database.update(ShortcutTable.TABLE_NAME, values, ShortcutTable.COLUMN_ID + " = ?", new String[] { Long.toString(shortcut.getID()) });
+		} finally {
+			if (database != null) {
+				database.close();
+			}
+		}
+	}
+
 	public File getDatabaseFile() {
 		SQLiteDatabase database = null;
 
@@ -303,6 +350,24 @@ public class ShortcutStorage {
 		}
 
 		return 0;
+	}
+
+	private Shortcut shortcutFromCursor(Cursor cursor) {
+		Shortcut shortcut = new Shortcut(cursor.getLong(0));
+		shortcut.setName(cursor.getString(1));
+		shortcut.setDescription(cursor.getString(11));
+		shortcut.setProtocol(cursor.getString(2));
+		shortcut.setURL(cursor.getString(3));
+		shortcut.setMethod(cursor.getString(4));
+		shortcut.setUsername(cursor.getString(5));
+		shortcut.setPassword(cursor.getString(6));
+		shortcut.setIconName(cursor.getString(7));
+		shortcut.setFeedback(cursor.getInt(8));
+		shortcut.setPosition(cursor.getInt(10));
+		shortcut.setBodyContent(cursor.getString(12));
+		shortcut.setRetryPolicy(cursor.getInt(15));
+		shortcut.setTimeout(cursor.getInt(13));
+		return shortcut;
 	}
 
 }

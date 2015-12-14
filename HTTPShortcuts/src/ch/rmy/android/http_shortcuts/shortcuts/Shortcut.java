@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.shortcuts;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.net.Uri;
 import ch.rmy.android.http_shortcuts.R;
 
@@ -21,66 +20,37 @@ public class Shortcut {
 	public static final int FEEDBACK_SIMPLE = 2;
 	public static final int FEEDBACK_FULL_RESPONSE = 3;
 
+	public static final int RETRY_POLICY_NONE = 0;
+	public static final int RETRY_POLICY_WAIT_FOR_INTERNET = 1;
+
 	public static final int DEFAULT_ICON = R.drawable.ic_launcher;
 
 	public static final String[] METHODS = { METHOD_GET, METHOD_POST, METHOD_PUT, METHOD_DELETE, METHOD_PATCH };
 	public static final String[] PROTOCOLS = { PROTOCOL_HTTP, PROTOCOL_HTTPS };
-	public static final int[] FEEDBACKS = { FEEDBACK_NONE, FEEDBACK_ERRORS_ONLY, FEEDBACK_SIMPLE, FEEDBACK_FULL_RESPONSE };
+	public static final int[] FEEDBACK_OPTIONS = { FEEDBACK_NONE, FEEDBACK_ERRORS_ONLY, FEEDBACK_SIMPLE, FEEDBACK_FULL_RESPONSE };
 	public static final int[] FEEDBACK_RESOURCES = { R.string.feedback_none, R.string.feedback_errors_only, R.string.feedback_simple, R.string.feedback_full_response };
 	public static final int[] TIMEOUT_OPTIONS = { 3000, 10000, 30000, 60000 };
 	public static final int[] TIMEOUT_RESOURCES = { R.string.timeout_short, R.string.timeout_medium, R.string.timeout_long, R.string.timeout_very_long };
+	public static final int[] RETRY_POLICY_OPTIONS = { RETRY_POLICY_NONE, RETRY_POLICY_WAIT_FOR_INTERNET };
+	public static final int[] RETRY_POLICY_RESOURCES = { R.string.retry_policy_none, R.string.retry_policy_delayed };
 
 	private final long id;
-	private String name;
-	private String method;
-	private String protocol;
-	private String url;
-	private String username;
-	private String password;
-	private String iconName;
-	private int feedback;
-	private int position;
-	private String description;
+	private String name = "";
+	private String method = METHOD_GET;
+	private String protocol = PROTOCOL_HTTP;
+	private String url = "";
+	private String username = "";
+	private String password = "";
+	private String iconName = null;
+	private int feedback = FEEDBACK_SIMPLE;
+	private int position = 0;
+	private String description = "";
 	private String bodyContent;
-	private int timeout;
+	private int timeout = Shortcut.TIMEOUT_OPTIONS[0];
+	private int retryPolicy = RETRY_POLICY_NONE;
 
-	protected Shortcut(long id, String name, String description, String protocol, String url, String method, String username, String password, String iconName, String bodyContent,
-			int timeout, int feedback, int position) {
+	protected Shortcut(long id) {
 		this.id = id;
-		this.name = name;
-		this.description = description;
-		this.protocol = protocol;
-		this.url = url;
-		this.method = method;
-		this.username = username;
-		this.password = password;
-		this.iconName = iconName;
-		this.feedback = feedback;
-		this.position = position;
-		this.bodyContent = bodyContent;
-		this.timeout = timeout;
-	}
-
-	protected Shortcut(Cursor cursor) {
-		id = cursor.getLong(0);
-		name = cursor.getString(1);
-		description = cursor.getString(11);
-		protocol = cursor.getString(2);
-		url = cursor.getString(3);
-		method = cursor.getString(4);
-		username = cursor.getString(5);
-		password = cursor.getString(6);
-		iconName = cursor.getString(7);
-		feedback = cursor.getInt(8);
-		position = cursor.getInt(10);
-		bodyContent = cursor.getString(12);
-		if (bodyContent == null) {
-			bodyContent = "";
-		}
-		timeout = cursor.getInt(13);
-		if (timeout == 0) {
-			timeout = TIMEOUT_OPTIONS[0];
-		}
 	}
 
 	public long getID() {
@@ -172,7 +142,11 @@ public class Shortcut {
 	}
 
 	public void setBodyContent(String bodyContent) {
-		this.bodyContent = bodyContent;
+		if (bodyContent == null) {
+			this.bodyContent = "";
+		} else {
+			this.bodyContent = bodyContent;
+		}
 	}
 
 	public int getTimeout() {
@@ -180,7 +154,19 @@ public class Shortcut {
 	}
 
 	public void setTimeout(int timeout) {
-		this.timeout = timeout;
+		if (timeout <= 0) {
+			this.timeout = TIMEOUT_OPTIONS[0];
+		} else {
+			this.timeout = timeout;
+		}
+	}
+
+	public int getRetryPolicy() {
+		return retryPolicy;
+	}
+
+	public void setRetryPolicy(int retryPolicy) {
+		this.retryPolicy = retryPolicy;
 	}
 
 	public boolean isNew() {
@@ -188,7 +174,20 @@ public class Shortcut {
 	}
 
 	public Shortcut duplicate(String newName) {
-		return new Shortcut(0, newName, description, protocol, url, method, username, password, iconName, bodyContent, timeout, feedback, 0);
+		Shortcut duplicate = new Shortcut(0);
+		duplicate.setName(newName);
+		duplicate.setBodyContent(bodyContent);
+		duplicate.setDescription(description);
+		duplicate.setFeedback(feedback);
+		duplicate.setIconName(iconName);
+		duplicate.setMethod(method);
+		duplicate.setPassword(password);
+		duplicate.setProtocol(protocol);
+		duplicate.setRetryPolicy(retryPolicy);
+		duplicate.setTimeout(timeout);
+		duplicate.setURL(url);
+		duplicate.setUsername(username);
+		return duplicate;
 	}
 
 	public Uri getIconURI(Context context) {

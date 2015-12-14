@@ -99,4 +99,5 @@
     <string name="changelog_title_whats_new">Was ist neu?</string>
     <string name="changelog_title">Changelog</string>
     <string name="changelog_checkbox_show_at_startup">Beim Start anzeigen</string>
+    <string name="execution_delayed">%1$s wird ausgeführt sobald eine Verbindung zum Internet besteht.</string>
 </resources>

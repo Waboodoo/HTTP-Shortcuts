@@ -3,9 +3,10 @@ package ch.rmy.android.http_shortcuts;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 import ch.rmy.android.http_shortcuts.http.HttpRequester;
 import ch.rmy.android.http_shortcuts.shortcuts.Header;
@@ -15,7 +16,7 @@ import ch.rmy.android.http_shortcuts.shortcuts.ShortcutStorage;
 
 public class ExecuteActivity extends Activity {
 
-	private static final String TAG = ExecuteActivity.class.getName();
+	// private static final String TAG = ExecuteActivity.class.getName();
 
 	public static final String ACTION_EXECUTE_SHORTCUT = "ch.rmy.android.http_shortcuts.execute";
 	public static final String EXTRA_SHORTCUT_ID = "id";
@@ -43,21 +44,32 @@ public class ExecuteActivity extends Activity {
 
 		if (shortcut != null) {
 
-			final List<PostParameter> parameters;
-			if (shortcut.getMethod().equals(Shortcut.METHOD_GET)) {
-				parameters = null;
+			if (isNetworkConnected(this) || shortcut.getRetryPolicy() == Shortcut.RETRY_POLICY_NONE) {
+				final List<PostParameter> parameters;
+				if (shortcut.getMethod().equals(Shortcut.METHOD_GET)) {
+					parameters = null;
+				} else {
+					parameters = shortcutStorage.getPostParametersByID(shortcutID);
+				}
+
+				final List<Header> headers = shortcutStorage.getHeadersByID(shortcutID);
+
+				HttpRequester.executeShortcut(this, shortcut, parameters, headers);
 			} else {
-				parameters = shortcutStorage.getPostParametersByID(shortcutID);
+				if (shortcut.getFeedback() != Shortcut.FEEDBACK_NONE) {
+					Toast.makeText(this, String.format(getText(R.string.execution_delayed).toString(), shortcut.getName()), Toast.LENGTH_LONG).show();
+				}
+				shortcutStorage.markShortcutAsPending(shortcut);
 			}
-
-			final List<Header> headers = shortcutStorage.getHeadersByID(shortcutID);
-
-			HttpRequester.executeShortcut(this, shortcut, parameters, headers);
 		} else {
 			Toast.makeText(this, R.string.shortcut_not_found, Toast.LENGTH_LONG).show();
-			Log.e(TAG, "shortcut id: " + shortcutID);
 		}
 
 		finish();
+	}
+
+	private boolean isNetworkConnected(Context context) {
+		ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		return cm.getActiveNetworkInfo() != null;
 	}
 }
