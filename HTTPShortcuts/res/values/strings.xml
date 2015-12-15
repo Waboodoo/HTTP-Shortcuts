@@ -155,4 +155,5 @@
 <string name="retry_policy_delayed">wait for connection</string>
 <string name="settings_play_store">View in Play Store</string>
 <string name="settings_play_store_summary">Thank you for your ratings and reviews</string>
+<string name="shortcut_duplicated">%1$s duplicated.</string>
 </resources>

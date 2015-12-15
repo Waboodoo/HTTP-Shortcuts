@@ -27,6 +27,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import ch.rmy.android.http_shortcuts.http.HttpRequester;
 import ch.rmy.android.http_shortcuts.shortcuts.Header;
 import ch.rmy.android.http_shortcuts.shortcuts.PostParameter;
@@ -207,6 +208,9 @@ public class ListActivity extends Activity implements OnItemClickListener {
 			shortcutStorage.storeHeaders(newId, newHeaders);
 
 			updateShortcutList();
+
+			Toast.makeText(this, String.format(getText(R.string.shortcut_duplicated).toString(), shortcut.getName()), Toast.LENGTH_SHORT).show();
+
 			return true;
 		case 6: // delete
 			new AlertDialog.Builder(this).setTitle(R.string.confirm_delete_title).setMessage(R.string.confirm_delete_message)
