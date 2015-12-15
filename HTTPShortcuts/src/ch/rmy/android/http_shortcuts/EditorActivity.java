@@ -22,7 +22,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -452,7 +451,6 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 		shortcut.setFeedback(selectedFeedback);
 		shortcut.setTimeout(selectedTimeout);
 		shortcut.setRetryPolicy(selectedRetryPolicy);
-		Log.i("Retry policy", selectedRetryPolicy + "");
 
 		List<PostParameter> parameters = new ArrayList<PostParameter>();
 		for (int i = 0; i < postParameterAdapter.getCount(); i++) {
