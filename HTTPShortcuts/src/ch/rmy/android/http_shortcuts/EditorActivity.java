@@ -413,11 +413,18 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 	private void compileShortcut(boolean testOnly) {
 
 		// Validation
-		if (!testOnly && nameView.getText().toString().matches("^\\s*$")) {
-			nameView.setError(getText(R.string.validation_name_not_empty));
-			nameView.requestFocus();
-			return;
+		if (nameView.getText().toString().matches("^\\s*$")) {
+			if (testOnly) {
+				shortcut.setName("Shortcut");
+			} else {
+				nameView.setError(getText(R.string.validation_name_not_empty));
+				nameView.requestFocus();
+				return;
+			}
+		} else {
+			shortcut.setName(nameView.getText().toString().trim());
 		}
+
 		String url = urlView.getText().toString();
 		if (urlView.getText().length() == 0 || url.equalsIgnoreCase("http://") || url.equalsIgnoreCase("https://") || !(URLUtil.isHttpUrl(url) || URLUtil.isHttpsUrl(url))) {
 			urlView.setError(getText(R.string.validation_url_invalid));
@@ -437,7 +444,6 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
 		shortcut.setURL(url);
 		shortcut.setProtocol(protocol);
 		shortcut.setMethod(selectedMethod);
-		shortcut.setName(nameView.getText().toString().trim());
 		shortcut.setDescription(descriptionView.getText().toString().trim());
 		shortcut.setPassword(passwordView.getText().toString());
 		shortcut.setUsername(usernameView.getText().toString());
