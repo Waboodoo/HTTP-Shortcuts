@@ -133,7 +133,7 @@ public class ListActivity extends Activity implements OnItemClickListener {
 			String action = PreferenceManager.getDefaultSharedPreferences(this).getString("click_behavior", "run");
 
 			if (action.equals("run")) {
-				runShortcut(shortcut);
+				HttpRequester.executeShortcut(this, shortcut, shortcutStorage);
 			} else if (action.equals("edit")) {
 				editShortcut(shortcut);
 			} else if (action.equals("menu")) {
@@ -172,7 +172,7 @@ public class ListActivity extends Activity implements OnItemClickListener {
 			sendBroadcast(shortcutPlacementIntent);
 			return true;
 		case 1: // run
-			runShortcut(shortcut);
+			HttpRequester.executeShortcut(this, shortcut, shortcutStorage);
 			return true;
 		case 2: // edit
 			editShortcut(shortcut);
@@ -285,19 +285,6 @@ public class ListActivity extends Activity implements OnItemClickListener {
 			forwardedToEditor = true;
 			emptyListText.setVisibility(View.GONE);
 		}
-	}
-
-	private void runShortcut(Shortcut shortcut) {
-		final List<PostParameter> parameters;
-		if (shortcut.getMethod().equals(Shortcut.METHOD_GET)) {
-			parameters = null;
-		} else {
-			parameters = shortcutStorage.getPostParametersByID(shortcut.getID());
-		}
-
-		final List<Header> headers = shortcutStorage.getHeadersByID(shortcut.getID());
-
-		HttpRequester.executeShortcut(this, shortcut, parameters, headers);
 	}
 
 	private void editShortcut(Shortcut shortcut) {

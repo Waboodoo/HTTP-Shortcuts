@@ -6,11 +6,13 @@ import java.util.concurrent.TimeUnit;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
 import android.widget.Toast;
 import ch.rmy.android.http_shortcuts.R;
 import ch.rmy.android.http_shortcuts.shortcuts.Header;
 import ch.rmy.android.http_shortcuts.shortcuts.PostParameter;
 import ch.rmy.android.http_shortcuts.shortcuts.Shortcut;
+import ch.rmy.android.http_shortcuts.shortcuts.ShortcutStorage;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -23,6 +25,31 @@ import com.android.volley.toolbox.Volley;
 public class HttpRequester {
 
 	private static final int TOAST_MAX_LENGTH = 400;
+
+	public static void executeShortcut(final Context context, final Shortcut shortcut, final ShortcutStorage shortcutStorage) {
+		if (shortcut != null) {
+
+			if (isNetworkConnected(context) || shortcut.getRetryPolicy() == Shortcut.RETRY_POLICY_NONE) {
+				final List<PostParameter> parameters;
+				if (shortcut.getMethod().equals(Shortcut.METHOD_GET)) {
+					parameters = null;
+				} else {
+					parameters = shortcutStorage.getPostParametersByID(shortcut.getID());
+				}
+
+				final List<Header> headers = shortcutStorage.getHeadersByID(shortcut.getID());
+
+				HttpRequester.executeShortcut(context, shortcut, parameters, headers);
+			} else {
+				if (shortcut.getFeedback() != Shortcut.FEEDBACK_NONE) {
+					Toast.makeText(context, String.format(context.getText(R.string.execution_delayed).toString(), shortcut.getName()), Toast.LENGTH_LONG).show();
+				}
+				shortcutStorage.markShortcutAsPending(shortcut);
+			}
+		} else {
+			Toast.makeText(context, R.string.shortcut_not_found, Toast.LENGTH_LONG).show();
+		}
+	}
 
 	public static void executeShortcut(final Context context, final Shortcut shortcut, final List<PostParameter> parameters, final List<Header> headers) {
 		DefaultHttpClient client = new DefaultHttpClient();
@@ -103,6 +130,11 @@ public class HttpRequester {
 		} finally {
 			client.getConnectionManager().closeIdleConnections(0, TimeUnit.MILLISECONDS);
 		}
+	}
+
+	private static boolean isNetworkConnected(Context context) {
+		ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		return cm.getActiveNetworkInfo() != null;
 	}
 
 }

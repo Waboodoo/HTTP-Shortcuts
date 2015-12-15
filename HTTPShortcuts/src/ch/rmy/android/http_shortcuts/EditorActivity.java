@@ -63,6 +63,7 @@ import ch.rmy.android.http_shortcuts.shortcuts.ShortcutStorage;
  * 
  * @author Roland Meyer
  */
+@SuppressLint("InflateParams")
 public class EditorActivity extends Activity implements OnClickListener, OnItemSelectedListener, OnItemClickListener, TextWatcher {
 
 	public final static String EXTRA_SHORTCUT_ID = "shortcut_id";
