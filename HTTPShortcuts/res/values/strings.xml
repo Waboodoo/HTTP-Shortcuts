@@ -102,7 +102,8 @@
     <string name="changelog_text"><![CDATA[
         <p>
 			<b>Version 1.8.0</b><br>
-			- Shortcut execution can be delayed when not connected to the internet
+			- Shortcut execution can be delayed when not connected to the internet<br>
+			- Added <i>View in Play Store</i> button to preferences screen
 		</p>
 		<p>
 			<b>Version 1.7.0</b><br>
@@ -152,4 +153,6 @@
 <string name="label_retry_policy">When not connected to the internet</string>
 <string name="retry_policy_none">drop the request</string>
 <string name="retry_policy_delayed">wait for connection</string>
+<string name="settings_play_store">View in Play Store</string>
+<string name="settings_play_store_summary">Thank you for your ratings and reviews</string>
 </resources>

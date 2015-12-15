@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,6 +15,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
+@SuppressLint("InflateParams")
 public class ChangeLogDialog {
 
 	private static final String PREFERENCES_NAME = "changelog";
@@ -36,7 +38,7 @@ public class ChangeLogDialog {
 	}
 
 	public boolean wasAlreadyShown() {
-		return getVersion() == preferences.getInt(KEY_LAST_VERSION, 0);
+		return getVersion() <= preferences.getInt(KEY_LAST_VERSION, Integer.MAX_VALUE);
 	}
 
 	public void show() {

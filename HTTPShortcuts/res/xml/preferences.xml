@@ -27,6 +27,7 @@
         
         <Preference android:key="version" android:title="@string/settings_version" android:icon="@drawable/settings_version" />
     	<Preference android:key="mail" android:title="@string/settings_mail" android:icon="@drawable/settings_mail" android:summary="@string/settings_mail_summary"/>
+    	<Preference android:key="play_store" android:title="@string/settings_play_store" android:icon="@drawable/settings_store"  android:summary="@string/settings_play_store_summary" />
     	<Preference android:key="github" android:title="@string/settings_github" android:icon="@drawable/settings_github"  android:summary="@string/settings_github_summary" />
     	
      </PreferenceCategory>

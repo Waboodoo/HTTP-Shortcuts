@@ -103,4 +103,6 @@
     <string name="label_retry_policy">Bei fehlender Internet-Verbindung</string>
 	<string name="retry_policy_none">Request fehlschlagen lassen</string>
 	<string name="retry_policy_delayed">Request verzögern bis Verbindung besteht</string>
+	<string name="settings_visit_play_store">Im Play Store anzeigen</string>
+	<string name="settings_visit_play_store_summary">Vielen Dank für Reviews und Bewertungen</string>
 </resources>

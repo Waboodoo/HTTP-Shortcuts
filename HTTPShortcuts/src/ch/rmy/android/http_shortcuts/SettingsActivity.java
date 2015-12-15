@@ -34,6 +34,7 @@ public class SettingsActivity extends Activity {
 	private static final String CONTACT_SUBJECT = "HTTP Shortcuts";
 	private static final String CONTACT_TEXT = "Dear Roland,\n\n";
 	private static final String DEVELOPER_EMAIL = "android@rmy.ch";
+	private static final String PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts";
 	private static final String GITHUB_URL = "https://github.com/Waboodoo/HTTP-Shortcuts";
 
 	private static final String SHORTCUT_DATABASE_FILE_NAME = "shortcuts";
@@ -170,6 +171,17 @@ public class SettingsActivity extends Activity {
 					intent.putExtra(Intent.EXTRA_TEXT, CONTACT_TEXT);
 					intent.setType("text/html");
 					startActivity(Intent.createChooser(intent, getString(R.string.settings_mail)));
+					return true;
+				}
+
+			});
+
+			final Preference playStorePreference = findPreference("play_store");
+			playStorePreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+
+				public boolean onPreferenceClick(Preference preference) {
+					Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(PLAY_STORE_URL));
+					startActivity(browserIntent);
 					return true;
 				}
 
