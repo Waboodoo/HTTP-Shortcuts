@@ -1,0 +1,236 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+   <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="vertical"
+        android:paddingBottom="20dp"
+        tools:context=".EditorActivity" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_toLeftOf="@+id/input_icon"
+                android:layout_toStartOf="@+id/input_icon"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/label_shortcut_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_name" />
+
+                <EditText
+                    android:id="@+id/input_shortcut_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:singleLine="true" >
+
+                    <requestFocus />
+                </EditText>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/input_icon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:contentDescription="@string/icon_description"
+                android:src="@drawable/ic_launcher" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/label_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_description" />
+
+        <EditText
+            android:id="@+id/input_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textNoSuggestions"
+            android:singleLine="false" />
+        
+        <TextView
+            android:id="@+id/label_url"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_url" />
+
+        <EditText
+            android:id="@+id/input_url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textNoSuggestions|textUri"
+            android:singleLine="true" />
+
+        <TextView
+            android:id="@+id/label_method"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="@string/label_method" />
+
+        <Spinner
+            android:id="@+id/input_method"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:id="@+id/post_params_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/label_post_params"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_post_params" />
+            
+	            <ListView
+	                android:id="@+id/post_parameter_list"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                tools:listitem="@layout/post_parameter_item" >
+
+			    </ListView>
+
+	            <Button
+	                android:id="@+id/button_add_post_param"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="@string/button_add_post_param" />
+	            
+	            <LinearLayout
+		            android:id="@+id/custom_body_container"
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_marginTop="40dp"
+		            android:orientation="vertical" >
+	            
+		            <TextView
+			            android:id="@+id/label_custom_body"
+			            android:layout_width="wrap_content"
+			            android:layout_height="wrap_content"
+			            android:text="@string/label_custom_body" />
+			
+			        <EditText
+			            android:id="@+id/input_custom_body"
+			            android:layout_width="match_parent"
+			            android:layout_height="wrap_content"
+			            android:ems="10"
+			            android:inputType="textMultiLine|textNoSuggestions"
+			            android:singleLine="false" />
+		        </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/label_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="@string/label_username" />
+
+        <EditText
+            android:id="@+id/input_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textNoSuggestions" />
+
+        <TextView
+            android:id="@+id/label_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_password" />
+
+        <EditText
+            android:id="@+id/input_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPassword" />
+        
+        <TextView
+            android:id="@+id/label_custom_headers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="@string/label_custom_headers" />
+        
+         <ListView
+             android:id="@+id/custom_headers_list"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             tools:listitem="@layout/custom_header_item" >
+
+   		</ListView>
+
+         <Button
+             android:id="@+id/button_add_custom_header"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="@string/button_add_custom_header" />
+         
+         <TextView
+            android:id="@+id/label_timeout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="@string/label_timeout" />
+
+        <Spinner
+            android:id="@+id/input_timeout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        
+         <TextView
+            android:id="@+id/label_feedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="@string/label_feedback" />
+        
+        <Spinner
+            android:id="@+id/input_feedback"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+        <TextView
+            android:id="@+id/label_retry_policy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="@string/label_retry_policy" />
+        
+        <Spinner
+            android:id="@+id/input_retry_policy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    </LinearLayout>
+
+</ScrollView>
