@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen  xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory 
+        android:title="@string/settings_title_basic">
+        
+        <ListPreference 
+		    android:key="click_behavior"
+		    android:title="@string/settings_click_behavior"
+		    android:entries="@array/click_behaviors"
+		    android:entryValues="@array/click_behaviors_values"
+		    android:defaultValue="run"
+		    android:icon="@drawable/settings_click"
+		    />
+        
+    </PreferenceCategory>
+   
+    <PreferenceCategory 
+        android:title="@string/settings_title_import_export">
+        
+    	<Preference android:key="import" android:title="@string/settings_import" android:icon="@drawable/settings_import" />
+    	<Preference android:key="export" android:title="@string/settings_export" android:icon="@drawable/settings_export" />
+    	
+     </PreferenceCategory>
+     
+    <PreferenceCategory 
+        android:title="@string/settings_about">
+        
+        <Preference android:key="version" android:title="@string/settings_version" android:icon="@drawable/settings_version" />
+    	<Preference android:key="mail" android:title="@string/settings_mail" android:icon="@drawable/settings_mail" android:summary="@string/settings_mail_summary"/>
+    	<Preference android:key="play_store" android:title="@string/settings_play_store" android:icon="@drawable/settings_store"  android:summary="@string/settings_play_store_summary" />
+    	<Preference android:key="github" android:title="@string/settings_github" android:icon="@drawable/settings_github"  android:summary="@string/settings_github_summary" />
+    	
+     </PreferenceCategory>
+   
+</PreferenceScreen>

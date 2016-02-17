@@ -1,2 +1,7 @@
-/gen
-/bin
+.gradle/
+local.properties
+.idea/
+build/
+*.iml
+gradlew
+gradlew.bat
