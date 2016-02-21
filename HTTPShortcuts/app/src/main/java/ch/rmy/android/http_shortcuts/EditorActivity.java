@@ -3,16 +3,13 @@ package ch.rmy.android.http_shortcuts;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.ContextMenu;
@@ -51,6 +48,8 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import ch.rmy.android.http_shortcuts.http.HttpRequester;
 import ch.rmy.android.http_shortcuts.shortcuts.Header;
 import ch.rmy.android.http_shortcuts.shortcuts.HeaderAdapter;
@@ -77,23 +76,40 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
     private PostParameterAdapter postParameterAdapter;
     private HeaderAdapter customHeaderAdapter;
 
-    private EditText nameView;
-    private EditText descriptionView;
-    private EditText urlView;
-    private EditText usernameView;
-    private EditText passwordView;
-    private ImageView iconView;
-    private Spinner methodView;
-    private Spinner feedbackView;
-    private Spinner timeoutView;
-    private Spinner retryPolicyView;
-    private LinearLayout postParamsContainer;
-    private ListView postParameterList;
-    private Button postParameterAddButton;
-    private ListView customHeaderList;
-    private Button customHeaderAddButton;
-    private EditText customBodyView;
-    private LinearLayout customBodyContainer;
+    @Bind(R.id.input_method)
+    Spinner methodView;
+    @Bind(R.id.input_feedback)
+    Spinner feedbackView;
+    @Bind(R.id.input_timeout)
+    Spinner timeoutView;
+    @Bind(R.id.input_retry_policy)
+    Spinner retryPolicyView;
+    @Bind(R.id.input_shortcut_name)
+    EditText nameView;
+    @Bind(R.id.input_description)
+    EditText descriptionView;
+    @Bind(R.id.input_url)
+    EditText urlView;
+    @Bind(R.id.input_username)
+    EditText usernameView;
+    @Bind(R.id.input_password)
+    EditText passwordView;
+    @Bind(R.id.input_icon)
+    ImageView iconView;
+    @Bind(R.id.post_params_container)
+    LinearLayout postParamsContainer;
+    @Bind(R.id.post_parameter_list)
+    ListView postParameterList;
+    @Bind(R.id.button_add_post_param)
+    Button postParameterAddButton;
+    @Bind(R.id.custom_headers_list)
+    ListView customHeaderList;
+    @Bind(R.id.button_add_custom_header)
+    Button customHeaderAddButton;
+    @Bind(R.id.input_custom_body)
+    EditText customBodyView;
+    @Bind(R.id.custom_body_container)
+    LinearLayout customBodyContainer;
 
     private String selectedMethod;
     private int selectedFeedback;
@@ -108,6 +124,7 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
+        ButterKnife.bind(this);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
         shortcutStorage = new ShortcutStorage(this);
@@ -125,20 +142,6 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
             window.setStatusBarColor(getResources().getColor(R.color.dark_blue));
         }
 
-        nameView = (EditText) findViewById(R.id.input_shortcut_name);
-        descriptionView = (EditText) findViewById(R.id.input_description);
-        urlView = (EditText) findViewById(R.id.input_url);
-        usernameView = (EditText) findViewById(R.id.input_username);
-        passwordView = (EditText) findViewById(R.id.input_password);
-        iconView = (ImageView) findViewById(R.id.input_icon);
-        postParamsContainer = (LinearLayout) findViewById(R.id.post_params_container);
-        postParameterList = (ListView) findViewById(R.id.post_parameter_list);
-        postParameterAddButton = (Button) findViewById(R.id.button_add_post_param);
-        customHeaderList = (ListView) findViewById(R.id.custom_headers_list);
-        customHeaderAddButton = (Button) findViewById(R.id.button_add_custom_header);
-        customBodyView = (EditText) findViewById(R.id.input_custom_body);
-        customBodyContainer = (LinearLayout) findViewById(R.id.custom_body_container);
-
         nameView.setText(shortcut.getName());
         descriptionView.setText(shortcut.getDescription());
         urlView.setText(shortcut.getProtocol() + "://" + shortcut.getURL());
@@ -153,7 +156,6 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
         passwordView.addTextChangedListener(this);
         customBodyView.addTextChangedListener(this);
 
-        methodView = (Spinner) findViewById(R.id.input_method);
         selectedMethod = shortcut.getMethod();
         SpinnerAdapter methodAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, Shortcut.METHODS);
         methodView.setAdapter(methodAdapter);
@@ -187,7 +189,6 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
         customHeaderAddButton.setOnClickListener(this);
         customHeaderList.setOnItemClickListener(this);
 
-        feedbackView = (Spinner) findViewById(R.id.input_feedback);
         String[] feedbackStrings = new String[Shortcut.FEEDBACK_OPTIONS.length];
         for (int i = 0; i < Shortcut.FEEDBACK_OPTIONS.length; i++) {
             feedbackStrings[i] = getText(Shortcut.FEEDBACK_RESOURCES[i]).toString();
@@ -203,7 +204,6 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
         }
         selectedFeedback = shortcut.getFeedback();
 
-        timeoutView = (Spinner) findViewById(R.id.input_timeout);
         String[] timeoutStrings = new String[Shortcut.TIMEOUT_OPTIONS.length];
         for (int i = 0; i < Shortcut.TIMEOUT_OPTIONS.length; i++) {
             timeoutStrings[i] = String.format(getText(Shortcut.TIMEOUT_RESOURCES[i]).toString(), Shortcut.TIMEOUT_OPTIONS[i] / 1000);
@@ -219,7 +219,6 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
         }
         selectedTimeout = shortcut.getTimeout();
 
-        retryPolicyView = (Spinner) findViewById(R.id.input_retry_policy);
         String[] retryPolicyStrings = new String[Shortcut.RETRY_POLICY_OPTIONS.length];
         for (int i = 0; i < Shortcut.RETRY_POLICY_OPTIONS.length; i++) {
             retryPolicyStrings[i] = getText(Shortcut.RETRY_POLICY_RESOURCES[i]).toString();
@@ -293,7 +292,6 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
             View layout = inflater.inflate(R.layout.dialog_edit_post_parameter, null);
 
             final EditText keyField = (EditText) layout.findViewById(R.id.input_post_param_key);
-
             final EditText valueField = (EditText) layout.findViewById(R.id.input_post_param_value);
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -317,7 +315,6 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
             View layout = inflater.inflate(R.layout.dialog_edit_custom_header, null);
 
             final EditText keyField = (EditText) layout.findViewById(R.id.input_custom_header_key);
-
             final EditText valueField = (EditText) layout.findViewById(R.id.input_custom_header_value);
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -668,21 +665,6 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
-    }
-
-    public String getRealPathFromURI(Context context, Uri contentUri) {
-        Cursor cursor = null;
-        try {
-            String[] proj = {MediaStore.Images.Media.DATA};
-            cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
     }
 
     @Override

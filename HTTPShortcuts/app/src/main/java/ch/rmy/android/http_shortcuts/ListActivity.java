@@ -29,6 +29,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import ch.rmy.android.http_shortcuts.http.HttpRequester;
 import ch.rmy.android.http_shortcuts.shortcuts.Header;
 import ch.rmy.android.http_shortcuts.shortcuts.PostParameter;
@@ -45,9 +47,14 @@ public class ListActivity extends Activity implements OnItemClickListener {
 
     private static final String ACTION_INSTALL_SHORTCUT = "com.android.launcher.action.INSTALL_SHORTCUT";
 
+    @Bind(R.id.no_shortcuts)
+    TextView emptyListText;
+    @Bind(R.id.shortcut_list)
+    ListView shortcutList;
+
+
     private ShortcutStorage shortcutStorage;
     private ShortcutAdapter shortcutAdapter;
-    private TextView emptyListText;
 
     private boolean shortcutPlacementMode = false;
     private boolean forwardedToEditor = false;
@@ -57,6 +64,7 @@ public class ListActivity extends Activity implements OnItemClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+        ButterKnife.bind(this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
@@ -68,12 +76,10 @@ public class ListActivity extends Activity implements OnItemClickListener {
         shortcutStorage = new ShortcutStorage(this);
         shortcutAdapter = new ShortcutAdapter(this);
 
-        ListView shortcutList = (ListView) findViewById(R.id.shortcut_list);
         shortcutList.setOnItemClickListener(this);
         shortcutList.setAdapter(shortcutAdapter);
         registerForContextMenu(shortcutList);
 
-        emptyListText = (TextView) findViewById(R.id.no_shortcuts);
         forwardedToEditor = false;
 
         ChangeLogDialog changeLog = new ChangeLogDialog(this, true);
