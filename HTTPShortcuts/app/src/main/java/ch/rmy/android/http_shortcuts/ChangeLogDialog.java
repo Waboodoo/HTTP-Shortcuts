@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -15,16 +14,24 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 @SuppressLint("InflateParams")
 public class ChangeLogDialog {
 
-    private static final String PREFERENCES_NAME = "changelog";
-    private static final String KEY_PERMANENTLY_HIDDEN = "permanenty_hidden";
+    private static final String PREFERENCES_NAME = "change_log";
+    private static final String KEY_PERMANENTLY_HIDDEN = "permanently_hidden";
     private static final String KEY_LAST_VERSION = "last_version";
 
     private final Context context;
     private final SharedPreferences preferences;
     private final boolean whatsNew;
+
+    @Bind(R.id.changelog_text)
+    TextView text;
+    @Bind(R.id.checkbox_show_at_startup)
+    CheckBox showAtStartupCheckbox;
 
     public ChangeLogDialog(Context context, boolean whatsNew) {
         this.context = context;
@@ -48,18 +55,12 @@ public class ChangeLogDialog {
 
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.changelog_dialog, null);
+        ButterKnife.bind(this, view);
 
         new AlertDialog.Builder(context).setView(view).setTitle(whatsNew ? R.string.changelog_title_whats_new : R.string.changelog_title)
-                .setIcon(android.R.drawable.ic_menu_info_details).setNegativeButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-
-            }
-        }).show();
-
-        TextView text = (TextView) view.findViewById(R.id.changelog_text);
+                .setIcon(android.R.drawable.ic_menu_info_details).setNeutralButton(android.R.string.ok, null).show();
         text.setText(Html.fromHtml(context.getString(R.string.changelog_text)));
 
-        CheckBox showAtStartupCheckbox = (CheckBox) view.findViewById(R.id.checkbox_show_at_startup);
         showAtStartupCheckbox.setChecked(!isPermanentlyHidden());
         showAtStartupCheckbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
