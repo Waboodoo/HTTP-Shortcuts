@@ -1,14 +1,12 @@
 package ch.rmy.android.http_shortcuts;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore.Images.Media;
@@ -18,8 +16,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -30,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import ch.rmy.android.http_shortcuts.http.HttpRequester;
 import ch.rmy.android.http_shortcuts.shortcuts.Header;
 import ch.rmy.android.http_shortcuts.shortcuts.PostParameter;
@@ -43,7 +38,7 @@ import ch.rmy.android.http_shortcuts.shortcuts.ShortcutStorage;
  *
  * @author Roland Meyer
  */
-public class ListActivity extends Activity implements OnItemClickListener {
+public class ListActivity extends BaseActivity implements OnItemClickListener {
 
     private static final String ACTION_INSTALL_SHORTCUT = "com.android.launcher.action.INSTALL_SHORTCUT";
 
@@ -51,7 +46,6 @@ public class ListActivity extends Activity implements OnItemClickListener {
     TextView emptyListText;
     @Bind(R.id.shortcut_list)
     ListView shortcutList;
-
 
     private ShortcutStorage shortcutStorage;
     private ShortcutAdapter shortcutAdapter;
@@ -64,14 +58,7 @@ public class ListActivity extends Activity implements OnItemClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-        ButterKnife.bind(this);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(getResources().getColor(R.color.dark_blue));
-        }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         shortcutStorage = new ShortcutStorage(this);
         shortcutAdapter = new ShortcutAdapter(this);
@@ -121,7 +108,6 @@ public class ListActivity extends Activity implements OnItemClickListener {
             default:
                 return super.onOptionsItemSelected(item);
         }
-
     }
 
     private void openEditorForCreation() {

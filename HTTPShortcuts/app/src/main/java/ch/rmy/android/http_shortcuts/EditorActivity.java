@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -49,7 +48,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import ch.rmy.android.http_shortcuts.http.HttpRequester;
 import ch.rmy.android.http_shortcuts.shortcuts.Header;
 import ch.rmy.android.http_shortcuts.shortcuts.HeaderAdapter;
@@ -64,7 +62,7 @@ import ch.rmy.android.http_shortcuts.shortcuts.ShortcutStorage;
  * @author Roland Meyer
  */
 @SuppressLint("InflateParams")
-public class EditorActivity extends Activity implements OnClickListener, OnItemSelectedListener, OnItemClickListener, TextWatcher {
+public class EditorActivity extends BaseActivity implements OnClickListener, OnItemSelectedListener, OnItemClickListener, TextWatcher {
 
     public final static String EXTRA_SHORTCUT_ID = "shortcut_id";
     private final static int SELECT_ICON = 1;
@@ -124,8 +122,6 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
-        ButterKnife.bind(this);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         shortcutStorage = new ShortcutStorage(this);
         long shortcutID = getIntent().getLongExtra(EXTRA_SHORTCUT_ID, 0);
@@ -157,7 +153,7 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
         customBodyView.addTextChangedListener(this);
 
         selectedMethod = shortcut.getMethod();
-        SpinnerAdapter methodAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, Shortcut.METHODS);
+        SpinnerAdapter methodAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, Shortcut.METHODS);
         methodView.setAdapter(methodAdapter);
         for (int i = 0; i < Shortcut.METHODS.length; i++) {
             if (Shortcut.METHODS[i].equals(shortcut.getMethod())) {
@@ -193,7 +189,7 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
         for (int i = 0; i < Shortcut.FEEDBACK_OPTIONS.length; i++) {
             feedbackStrings[i] = getText(Shortcut.FEEDBACK_RESOURCES[i]).toString();
         }
-        SpinnerAdapter feedbackAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, feedbackStrings);
+        SpinnerAdapter feedbackAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, feedbackStrings);
         feedbackView.setOnItemSelectedListener(this);
         feedbackView.setAdapter(feedbackAdapter);
         for (int i = 0; i < Shortcut.FEEDBACK_OPTIONS.length; i++) {
@@ -208,7 +204,7 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
         for (int i = 0; i < Shortcut.TIMEOUT_OPTIONS.length; i++) {
             timeoutStrings[i] = String.format(getText(Shortcut.TIMEOUT_RESOURCES[i]).toString(), Shortcut.TIMEOUT_OPTIONS[i] / 1000);
         }
-        SpinnerAdapter timeoutAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, timeoutStrings);
+        SpinnerAdapter timeoutAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, timeoutStrings);
         timeoutView.setOnItemSelectedListener(this);
         timeoutView.setAdapter(timeoutAdapter);
         for (int i = 0; i < Shortcut.TIMEOUT_OPTIONS.length; i++) {
@@ -223,7 +219,7 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
         for (int i = 0; i < Shortcut.RETRY_POLICY_OPTIONS.length; i++) {
             retryPolicyStrings[i] = getText(Shortcut.RETRY_POLICY_RESOURCES[i]).toString();
         }
-        SpinnerAdapter retryPolicyAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, retryPolicyStrings);
+        SpinnerAdapter retryPolicyAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, retryPolicyStrings);
         retryPolicyView.setOnItemSelectedListener(this);
         retryPolicyView.setAdapter(retryPolicyAdapter);
         for (int i = 0; i < Shortcut.RETRY_POLICY_OPTIONS.length; i++) {
@@ -245,9 +241,9 @@ public class EditorActivity extends Activity implements OnClickListener, OnItemS
         selectedIcon = shortcut.getIconName();
 
         if (shortcut.isNew()) {
-            getActionBar().setTitle(R.string.create_shortcut);
+            setTitle(R.string.create_shortcut);
         } else {
-            getActionBar().setTitle(R.string.edit_shortcut);
+            setTitle(R.string.edit_shortcut);
         }
 
         hasChanges = false;
