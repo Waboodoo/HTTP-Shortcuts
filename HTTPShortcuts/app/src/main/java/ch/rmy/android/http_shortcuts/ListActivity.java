@@ -58,7 +58,6 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         shortcutStorage = new ShortcutStorage(this);
         shortcutAdapter = new ShortcutAdapter(this);
@@ -76,14 +75,15 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
     }
 
     @Override
+    protected void enableUpArrow() {
+
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
 
-        if (Intent.ACTION_CREATE_SHORTCUT.equals(getIntent().getAction())) {
-            shortcutPlacementMode = true;
-        } else {
-            shortcutPlacementMode = false;
-        }
+        shortcutPlacementMode = Intent.ACTION_CREATE_SHORTCUT.equals(getIntent().getAction());
 
         updateShortcutList();
     }
@@ -126,12 +126,16 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
         } else {
             String action = PreferenceManager.getDefaultSharedPreferences(this).getString("click_behavior", "run");
 
-            if (action.equals("run")) {
-                HttpRequester.executeShortcut(this, shortcut, shortcutStorage);
-            } else if (action.equals("edit")) {
-                editShortcut(shortcut);
-            } else if (action.equals("menu")) {
-                view.showContextMenu();
+            switch (action) {
+                case "run":
+                    HttpRequester.executeShortcut(this, shortcut, shortcutStorage);
+                    break;
+                case "edit":
+                    editShortcut(shortcut);
+                    break;
+                case "menu":
+                    view.showContextMenu();
+                    break;
             }
         }
     }

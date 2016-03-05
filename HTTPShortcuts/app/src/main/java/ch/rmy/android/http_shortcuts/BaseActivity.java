@@ -1,6 +1,9 @@
 package ch.rmy.android.http_shortcuts;
 
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -21,7 +24,19 @@ public abstract class BaseActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         updateStatusBarColor();
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        enableUpArrow();
+    }
+
+    protected void enableUpArrow() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            Drawable upArrow = getResources().getDrawable(R.drawable.up_arrow);
+            if (upArrow != null) {
+                upArrow.setColorFilter(getResources().getColor(android.R.color.white), PorterDuff.Mode.SRC_ATOP);
+                actionBar.setHomeAsUpIndicator(upArrow);
+            }
+        }
     }
 
     @Override
