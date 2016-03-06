@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="click_behaviors">
-	    <item>@string/settings_click_behavior_run</item>
-	    <item>@string/settings_click_behavior_edit</item>
-	    <item>@string/settings_click_behavior_menu</item>
-	</string-array>
-	<string-array name="click_behaviors_values">
-	    <item>run</item>
-	    <item>edit</item>
-	    <item>menu</item>
-	</string-array>
+    <string-array name="click_behaviors" translatable="false">
+        <item>@string/settings_click_behavior_run</item>
+        <item>@string/settings_click_behavior_edit</item>
+        <item>@string/settings_click_behavior_menu</item>
+    </string-array>
+    <string-array name="click_behaviors_values" translatable="false">
+        <item>run</item>
+        <item>edit</item>
+        <item>menu</item>
+    </string-array>
 </resources>
