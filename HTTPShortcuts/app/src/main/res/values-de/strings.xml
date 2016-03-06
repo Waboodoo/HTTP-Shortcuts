@@ -101,8 +101,9 @@
     <string name="changelog_checkbox_show_at_startup">Beim Start anzeigen</string>
     <string name="execution_delayed">%1$s wird ausgeführt sobald eine Verbindung zum Internet besteht.</string>
     <string name="label_retry_policy">Bei fehlender Internet-Verbindung</string>
-	<string name="retry_policy_none">Request fehlschlagen lassen</string>
-	<string name="retry_policy_delayed">Request verzögern bis Verbindung besteht</string>
-	<string name="settings_visit_play_store">Im Play Store anzeigen</string>
-	<string name="settings_visit_play_store_summary">Vielen Dank für Reviews und Bewertungen</string>
+    <string name="retry_policy_none">Request fehlschlagen lassen</string>
+    <string name="retry_policy_delayed">Request verzögern bis Verbindung besteht</string>
+    <string name="settings_play_store">Im Play Store anzeigen</string>
+    <string name="settings_play_store_summary">Vielen Dank für Reviews und Bewertungen</string>
+    <string name="shortcut_duplicated">%1$s dupliziert.</string>
 </resources>

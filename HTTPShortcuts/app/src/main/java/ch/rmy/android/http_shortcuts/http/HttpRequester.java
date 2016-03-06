@@ -56,7 +56,6 @@ public class HttpRequester {
         DefaultHttpClient client = new DefaultHttpClient();
 
         try {
-
             RequestQueue queue = Volley.newRequestQueue(context, new HttpClientStack(client));
 
             String url = shortcut.getProtocol() + "://" + shortcut.getURL();

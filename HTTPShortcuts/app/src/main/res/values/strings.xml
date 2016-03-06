@@ -99,7 +99,7 @@
     <string name="changelog_title_whats_new">What\'s new?</string>
     <string name="changelog_title">Changelog</string>
     <string name="changelog_checkbox_show_at_startup">Show at startup</string>
-    <string name="changelog_text"><![CDATA[
+    <string name="changelog_text" translatable="false"><![CDATA[
         <p>
 			<b>Version 1.8.0</b><br>
 			- Shortcut execution can be delayed when not connected to the internet<br>
@@ -149,11 +149,11 @@
 			- Bugfixes
 		</p>
 ]]></string>
-<string name="execution_delayed">%1$s will execute once a connection to the internet is available.</string>
-<string name="label_retry_policy">When not connected to the internet</string>
-<string name="retry_policy_none">drop the request</string>
-<string name="retry_policy_delayed">wait for connection</string>
-<string name="settings_play_store">View in Play Store</string>
-<string name="settings_play_store_summary">Thank you for your ratings and reviews</string>
-<string name="shortcut_duplicated">%1$s duplicated.</string>
+    <string name="execution_delayed">%1$s will execute once a connection to the internet is available.</string>
+    <string name="label_retry_policy">When not connected to the internet</string>
+    <string name="retry_policy_none">drop the request</string>
+    <string name="retry_policy_delayed">wait for connection</string>
+    <string name="settings_play_store">View in Play Store</string>
+    <string name="settings_play_store_summary">Thank you for your ratings and reviews</string>
+    <string name="shortcut_duplicated">%1$s duplicated.</string>
 </resources>

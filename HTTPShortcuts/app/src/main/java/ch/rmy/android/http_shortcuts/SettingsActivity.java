@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,7 +9,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.ListPreference;
@@ -18,8 +16,6 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
-import android.view.Window;
-import android.view.WindowManager;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,7 +26,7 @@ import java.io.OutputStream;
 
 import ch.rmy.android.http_shortcuts.shortcuts.ShortcutStorage;
 
-public class SettingsActivity extends Activity {
+public class SettingsActivity extends BaseActivity {
 
     private static final String CONTACT_SUBJECT = "HTTP Shortcuts";
     private static final String CONTACT_TEXT = "Dear Roland,\n\n";
@@ -44,16 +40,10 @@ public class SettingsActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_settings);
 
         SettingsFragment settingsFragment = new SettingsFragment();
-        getFragmentManager().beginTransaction().replace(android.R.id.content, settingsFragment).commit();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(getResources().getColor(R.color.dark_blue));
-        }
+        getFragmentManager().beginTransaction().replace(R.id.settings_view, settingsFragment).commit();
     }
 
     public static class SettingsFragment extends PreferenceFragment {
@@ -82,13 +72,7 @@ public class SettingsActivity extends Activity {
                 public boolean onPreferenceClick(Preference preference) {
                     ShortcutStorage database = new ShortcutStorage(getActivity());
                     File sourceFile = database.getDatabaseFile();
-                    File targetFile = null;
-                    int counter = 0;
-                    do {
-                        counter++;
-                        targetFile = new File(Environment.getExternalStorageDirectory(), SHORTCUT_DATABASE_FILE_NAME + (counter == 1 ? "" : "_" + counter) + ".db");
-                    } while (targetFile.exists());
-
+                    File targetFile = getFileForExport();
                     ExportDatabaseTask copyTask = new ExportDatabaseTask(getActivity());
                     copyTask.execute(sourceFile, targetFile);
 
@@ -199,6 +183,17 @@ public class SettingsActivity extends Activity {
 
             });
 
+        }
+
+        private File getFileForExport() {
+            File targetFile;
+            int counter = 0;
+            do {
+                counter++;
+                String fileName = SHORTCUT_DATABASE_FILE_NAME + (counter == 1 ? "" : "_" + counter) + ".db";
+                targetFile = new File(Environment.getExternalStorageDirectory(), fileName);
+            } while (targetFile.exists());
+            return targetFile;
         }
 
     }
