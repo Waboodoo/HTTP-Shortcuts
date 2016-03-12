@@ -25,14 +25,20 @@ public abstract class BaseActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         updateStatusBarColor();
         setSupportActionBar(toolbar);
-        enableUpArrow();
+        if (getNavigateUpIcon() != 0) {
+            enableNavigateUpButton(getNavigateUpIcon());
+        }
     }
 
-    protected void enableUpArrow() {
+    protected int getNavigateUpIcon() {
+        return R.drawable.up_arrow;
+    }
+
+    private void enableNavigateUpButton(int iconResource) {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            Drawable upArrow = getResources().getDrawable(R.drawable.up_arrow);
+            Drawable upArrow = getResources().getDrawable(iconResource);
             if (upArrow != null) {
                 upArrow.setColorFilter(getResources().getColor(android.R.color.white), PorterDuff.Mode.SRC_ATOP);
                 actionBar.setHomeAsUpIndicator(upArrow);

@@ -84,8 +84,8 @@ public class ListActivity extends BaseActivity implements OnShortcutClickedListe
     }
 
     @Override
-    protected void enableUpArrow() {
-
+    protected int getNavigateUpIcon() {
+        return 0;
     }
 
     @Override
