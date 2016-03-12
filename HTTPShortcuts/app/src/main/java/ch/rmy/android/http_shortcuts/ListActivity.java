@@ -1,15 +1,14 @@
 package ch.rmy.android.http_shortcuts;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.ContentUris;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore.Images.Media;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +19,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.ArrayList;
@@ -213,16 +213,19 @@ public class ListActivity extends BaseActivity implements OnShortcutClickedListe
 
                 return;
             case 6: // delete
-                new AlertDialog.Builder(this).setTitle(R.string.confirm_delete_title).setMessage(R.string.confirm_delete_message)
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
+                (new MaterialDialog.Builder(this))
+                        .title(R.string.confirm_delete_title)
+                        .content(R.string.confirm_delete_message)
+                        .positiveText(R.string.label_yes)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                 shortcutStorage.deleteShortcut(shortcut);
                                 updateShortcutList();
                             }
-
-                        }).setNegativeButton(android.R.string.no, null).show();
+                        })
+                        .negativeText(R.string.label_no)
+                        .show();
                 return;
         }
 

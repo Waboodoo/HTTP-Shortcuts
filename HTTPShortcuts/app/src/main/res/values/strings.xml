@@ -156,4 +156,6 @@
     <string name="settings_play_store">View in Play Store</string>
     <string name="settings_play_store_summary">Thank you for your ratings and reviews</string>
     <string name="shortcut_duplicated">%1$s duplicated.</string>
+    <string name="label_yes">Yes</string>
+    <string name="label_no">No</string>
 </resources>

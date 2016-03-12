@@ -37,6 +37,7 @@ public class ShortcutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void updateShortcuts(List<Shortcut> shortcuts) {
         this.shortcuts.clear();
         this.shortcuts.addAll(shortcuts);
+        notifyDataSetChanged();
     }
 
     public void setOnShortcutClickListener(OnShortcutClickedListener clickListener) {
