@@ -34,7 +34,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -386,16 +385,15 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
     private void confirmClose() {
         if (hasChanges) {
             (new MaterialDialog.Builder(this))
-                    .title(R.string.confirm_discard_changes_title)
                     .content(R.string.confirm_discard_changes_message)
-                    .positiveText(R.string.label_yes)
+                    .positiveText(R.string.dialog_discard)
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(MaterialDialog dialog, DialogAction which) {
                             cancelAndClose();
                         }
                     })
-                    .negativeText(R.string.label_no)
+                    .negativeText(R.string.dialog_cancel)
                     .show();
         } else {
             cancelAndClose();
@@ -508,7 +506,7 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
                     iconView.setBackgroundColor(0);
                     selectedIcon = null;
                     hasChanges = true;
-                    Toast.makeText(this, R.string.error_set_image, Toast.LENGTH_SHORT).show();
+                    showSnackbar(getString(R.string.error_set_image));
                 } finally {
                     try {
                         if (in != null) {
@@ -520,7 +518,7 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
                     } catch (IOException e) {
                     }
                 }
-            } else if (requestCode == SELECT_IPACK_ICON && resultCode == RESULT_OK) {
+            } else if (requestCode == SELECT_IPACK_ICON) {
                 String ipackageName = intent.getData().getAuthority();
                 int id = intent.getIntExtra(IpackKeys.Extras.ICON_ID, -1);
                 Uri uri = Uri.parse("android.resource://" + ipackageName + "/" + id);

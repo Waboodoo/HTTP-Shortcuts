@@ -28,10 +28,9 @@
     <string name="action_move_up">Move up</string>
     <string name="action_move_down">Move down</string>
     <string name="no_shortcuts">No shortcuts yet</string>
-    <string name="confirm_delete_title">Confirm delete</string>
-    <string name="confirm_delete_message">Do you really want to delete this shortcut?</string>
-    <string name="confirm_discard_changes_title">Discard changes?</string>
-    <string name="confirm_discard_changes_message">You have unsaved changes. Are you sure you want to leave?</string>
+    <string name="confirm_delete_message">Delete this shortcut?</string>
+    <string name="confirm_discard_changes_message">You have unsaved changes. Discard changes?</string>
+    <string name="dialog_discard">Discard</string>
     <string name="title_activity_execute">Execute Shortcut</string>
     <string name="executed">%s executed.</string>
     <string name="shortcut_not_found">Shortcut not found. You might have to re-add it to the home screen.</string>
@@ -156,6 +155,6 @@
     <string name="settings_play_store">View in Play Store</string>
     <string name="settings_play_store_summary">Thank you for your ratings and reviews</string>
     <string name="shortcut_duplicated">%1$s duplicated.</string>
-    <string name="label_yes">Yes</string>
-    <string name="label_no">No</string>
+    <string name="shortcut_deleted">%1$s deleted.</string>
+    <string name="dialog_delete">Delete</string>
 </resources>

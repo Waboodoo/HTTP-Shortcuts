@@ -16,7 +16,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -163,70 +162,93 @@ public class ListActivity extends BaseActivity implements OnShortcutClickedListe
                 .show();
     }
 
-    private void performContextMenuAction(int action, final Shortcut shortcut) {
+    private void performContextMenuAction(int action, Shortcut shortcut) {
         switch (action) {
-            case 0: // place shortcut
-                Intent shortcutPlacementIntent = getShortcutPlacementIntent(shortcut);
-                sendBroadcast(shortcutPlacementIntent);
+            case 0:
+                placeShortcutOnHomeScreen(shortcut);
                 return;
-            case 1: // run
+            case 1:
                 HttpRequester.executeShortcut(this, shortcut, shortcutStorage);
                 return;
-            case 2: // edit
+            case 2:
                 editShortcut(shortcut);
                 return;
-            case 3: // move up
-                shortcut.setPosition(shortcut.getPosition() - 1);
-                shortcutStorage.storeShortcut(shortcut);
-                updateShortcutList();
+            case 3:
+                moveShortcutUp(shortcut);
                 return;
-            case 4: // move down
-                shortcut.setPosition(shortcut.getPosition() + 1);
-                shortcutStorage.storeShortcut(shortcut);
-                updateShortcutList();
+            case 4:
+                moveShortcutDown(shortcut);
                 return;
-            case 5: // duplicate
-                String newName = String.format(getText(R.string.copy).toString(), shortcut.getName());
-                Shortcut newShortcut = shortcut.duplicate(newName);
-                long newId = shortcutStorage.storeShortcut(newShortcut);
-
-                List<PostParameter> oldParameters = shortcutStorage.getPostParametersByID(shortcut.getID());
-                List<PostParameter> newParameters = new ArrayList<PostParameter>();
-                for (PostParameter oldParameter : oldParameters) {
-                    newParameters.add(new PostParameter(0, oldParameter.getKey(), oldParameter.getValue()));
-                }
-                shortcutStorage.storePostParameters(newId, newParameters);
-
-                List<Header> oldHeaders = shortcutStorage.getHeadersByID(shortcut.getID());
-                List<Header> newHeaders = new ArrayList<Header>();
-                for (Header oldHeader : oldHeaders) {
-                    newHeaders.add(new Header(0, oldHeader.getKey(), oldHeader.getValue()));
-                }
-                shortcutStorage.storeHeaders(newId, newHeaders);
-
-                updateShortcutList();
-
-                Toast.makeText(this, String.format(getText(R.string.shortcut_duplicated).toString(), shortcut.getName()), Toast.LENGTH_SHORT).show();
-
+            case 5:
+                duplicateShortcut(shortcut);
                 return;
-            case 6: // delete
-                (new MaterialDialog.Builder(this))
-                        .title(R.string.confirm_delete_title)
-                        .content(R.string.confirm_delete_message)
-                        .positiveText(R.string.label_yes)
-                        .onPositive(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                shortcutStorage.deleteShortcut(shortcut);
-                                updateShortcutList();
-                            }
-                        })
-                        .negativeText(R.string.label_no)
-                        .show();
+            case 6:
+                showDeleteDialog(shortcut);
                 return;
         }
 
         return;
+    }
+
+    private void placeShortcutOnHomeScreen(Shortcut shortcut) {
+        Intent shortcutPlacementIntent = getShortcutPlacementIntent(shortcut);
+        sendBroadcast(shortcutPlacementIntent);
+    }
+
+    private void moveShortcutUp(Shortcut shortcut) {
+        shortcut.setPosition(shortcut.getPosition() - 1);
+        shortcutStorage.storeShortcut(shortcut);
+        updateShortcutList();
+    }
+
+    private void moveShortcutDown(Shortcut shortcut) {
+        shortcut.setPosition(shortcut.getPosition() + 1);
+        shortcutStorage.storeShortcut(shortcut);
+        updateShortcutList();
+    }
+
+    private void duplicateShortcut(Shortcut shortcut) {
+        String newName = String.format(getText(R.string.copy).toString(), shortcut.getName());
+        Shortcut newShortcut = shortcut.duplicate(newName);
+        long newId = shortcutStorage.storeShortcut(newShortcut);
+
+        List<PostParameter> oldParameters = shortcutStorage.getPostParametersByID(shortcut.getID());
+        List<PostParameter> newParameters = new ArrayList<>();
+        for (PostParameter oldParameter : oldParameters) {
+            newParameters.add(new PostParameter(0, oldParameter.getKey(), oldParameter.getValue()));
+        }
+        shortcutStorage.storePostParameters(newId, newParameters);
+
+        List<Header> oldHeaders = shortcutStorage.getHeadersByID(shortcut.getID());
+        List<Header> newHeaders = new ArrayList<>();
+        for (Header oldHeader : oldHeaders) {
+            newHeaders.add(new Header(0, oldHeader.getKey(), oldHeader.getValue()));
+        }
+        shortcutStorage.storeHeaders(newId, newHeaders);
+
+        updateShortcutList();
+        showSnackbar(String.format(getText(R.string.shortcut_duplicated).toString(), shortcut.getName()));
+
+    }
+
+    private void showDeleteDialog(final Shortcut shortcut) {
+        (new MaterialDialog.Builder(this))
+                .content(R.string.confirm_delete_message)
+                .positiveText(R.string.dialog_delete)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        deleteShortcut(shortcut);
+                    }
+                })
+                .negativeText(R.string.dialog_cancel)
+                .show();
+    }
+
+    private void deleteShortcut(Shortcut shortcut) {
+        shortcutStorage.deleteShortcut(shortcut);
+        updateShortcutList();
+        showSnackbar(String.format(getText(R.string.shortcut_deleted).toString(), shortcut.getName()));
     }
 
     private Intent getShortcutPlacementIntent(Shortcut shortcut) {
