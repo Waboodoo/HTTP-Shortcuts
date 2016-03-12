@@ -22,6 +22,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'com.android.support:design:23.2.0'
     compile files('libs/volley.jar')
-    compile files('libs/org.apache.http.legacy.jar')
+    compile 'com.squareup.okhttp:okhttp:2.7.5'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.7.5'
     compile 'com.jakewharton:butterknife:7.0.1'
 }
