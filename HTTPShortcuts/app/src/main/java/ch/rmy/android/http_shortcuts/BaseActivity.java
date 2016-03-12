@@ -8,6 +8,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -47,7 +49,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected void showSnackbar(CharSequence message) {
-        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT).show();
+        View baseView = ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
+        Snackbar.make(baseView, message, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
