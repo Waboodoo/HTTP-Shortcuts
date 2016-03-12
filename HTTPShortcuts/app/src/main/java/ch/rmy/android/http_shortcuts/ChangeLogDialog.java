@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -13,6 +12,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
+
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -57,8 +58,11 @@ public class ChangeLogDialog {
         View view = layoutInflater.inflate(R.layout.changelog_dialog, null);
         ButterKnife.bind(this, view);
 
-        new AlertDialog.Builder(context).setView(view).setTitle(whatsNew ? R.string.changelog_title_whats_new : R.string.changelog_title)
-                .setIcon(android.R.drawable.ic_menu_info_details).setNeutralButton(android.R.string.ok, null).show();
+        new MaterialDialog.Builder(context)
+                .customView(view, false)
+                .title(whatsNew ? R.string.changelog_title_whats_new : R.string.changelog_title)
+                .positiveText(android.R.string.ok)
+                .show();
         text.setText(Html.fromHtml(context.getString(R.string.changelog_text)));
 
         showAtStartupCheckbox.setChecked(!isPermanentlyHidden());
