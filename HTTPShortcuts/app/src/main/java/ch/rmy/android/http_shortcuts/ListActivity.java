@@ -64,6 +64,7 @@ public class ListActivity extends BaseActivity implements OnShortcutClickedListe
         shortcutAdapter.setOnShortcutClickListener(this);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         shortcutList.setLayoutManager(manager);
+        shortcutList.setHasFixedSize(true);
         shortcutList.addItemDecoration(new ShortcutListDecorator(this, R.drawable.list_divider));
         shortcutList.setAdapter(shortcutAdapter);
         registerForContextMenu(shortcutList);
@@ -193,6 +194,7 @@ public class ListActivity extends BaseActivity implements OnShortcutClickedListe
     private void placeShortcutOnHomeScreen(Shortcut shortcut) {
         Intent shortcutPlacementIntent = getShortcutPlacementIntent(shortcut);
         sendBroadcast(shortcutPlacementIntent);
+        showSnackbar(String.format(getString(R.string.shortcut_placed).toString(), shortcut.getName()));
     }
 
     private void moveShortcutUp(Shortcut shortcut) {

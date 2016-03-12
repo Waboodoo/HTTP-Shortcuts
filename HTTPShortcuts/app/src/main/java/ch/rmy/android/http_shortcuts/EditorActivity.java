@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
@@ -365,9 +366,9 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
                         iconView.setImageResource(getResources().getIdentifier(resourceName, "drawable", getPackageName()));
 
                         if (resourceName.startsWith("white_")) {
-                            iconView.setBackgroundColor(0xFF000000);
+                            iconView.setBackgroundColor(Color.BLACK);
                         } else {
-                            iconView.setBackgroundColor(0);
+                            iconView.setBackgroundColor(Color.TRANSPARENT);
                         }
 
                         selectedIcon = resourceName;
