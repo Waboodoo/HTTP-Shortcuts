@@ -9,13 +9,10 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HttpClientStack;
 import com.android.volley.toolbox.Volley;
-
-import org.apache.http.impl.client.DefaultHttpClient;
+import com.squareup.okhttp.OkHttpClient;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import ch.rmy.android.http_shortcuts.R;
 import ch.rmy.android.http_shortcuts.shortcuts.Header;
@@ -53,83 +50,81 @@ public class HttpRequester {
     }
 
     public static void executeShortcut(final Context context, final Shortcut shortcut, final List<PostParameter> parameters, final List<Header> headers) {
-        DefaultHttpClient client = new DefaultHttpClient();
+        String url = shortcut.getProtocol() + "://" + shortcut.getURL();
+        int method = getMethod(shortcut);
 
-        try {
-            RequestQueue queue = Volley.newRequestQueue(context, new HttpClientStack(client));
+        OkHttpClient client = HttpClients.getDefaultOkHttpClient();
+        RequestQueue queue = Volley.newRequestQueue(context, new OkHttpStack(client));
 
-            String url = shortcut.getProtocol() + "://" + shortcut.getURL();
-            String m = shortcut.getMethod();
-            int method = Request.Method.GET;
-            if (m.equals(Shortcut.METHOD_POST)) {
-                method = Request.Method.POST;
-            } else if (m.equals(Shortcut.METHOD_PUT)) {
-                method = Request.Method.PUT;
-            } else if (m.equals(Shortcut.METHOD_DELETE)) {
-                method = Request.Method.DELETE;
-            } else if (m.equals(Shortcut.METHOD_PATCH)) {
-                method = Request.Method.PATCH;
-            }
+        AuthRequest stringRequest = new AuthRequest(method, url, shortcut.getUsername(), shortcut.getPassword(), shortcut.getBodyContent(), new Response.Listener<String>() {
 
-            AuthRequest stringRequest = new AuthRequest(method, url, shortcut.getUsername(), shortcut.getPassword(), shortcut.getBodyContent(), new Response.Listener<String>() {
-
-                @Override
-                public void onResponse(String response) {
-                    switch (shortcut.getFeedback()) {
-                        case Shortcut.FEEDBACK_SIMPLE:
-                            Toast.makeText(context, String.format(context.getText(R.string.executed).toString(), shortcut.getName()), Toast.LENGTH_SHORT).show();
-                            break;
-                        case Shortcut.FEEDBACK_FULL_RESPONSE:
-                            String message = response;
-                            if (message.length() > TOAST_MAX_LENGTH) {
-                                message = message.substring(0, TOAST_MAX_LENGTH) + "...";
-                            }
-                            Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-                            break;
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    if (shortcut.getFeedback() == Shortcut.FEEDBACK_NONE) {
-                        return;
-                    }
-
-                    String message;
-                    if (error.networkResponse != null) {
-                        message = String.format(context.getText(R.string.error_http).toString(), shortcut.getName(), error.networkResponse.statusCode);
-                    } else {
-                        if (error.getCause() != null && error.getCause().getMessage() != null) {
-                            message = String.format(context.getText(R.string.error_other).toString(), shortcut.getName(), error.getCause().getMessage());
-                        } else if (error.getMessage() != null) {
-                            message = String.format(context.getText(R.string.error_other).toString(), shortcut.getName(), error.getMessage());
-                        } else {
-                            message = String.format(context.getText(R.string.error_other).toString(), shortcut.getName(), error.getClass().getSimpleName());
+            @Override
+            public void onResponse(String response) {
+                switch (shortcut.getFeedback()) {
+                    case Shortcut.FEEDBACK_SIMPLE:
+                        Toast.makeText(context, String.format(context.getText(R.string.executed).toString(), shortcut.getName()), Toast.LENGTH_SHORT).show();
+                        break;
+                    case Shortcut.FEEDBACK_FULL_RESPONSE:
+                        String message = response;
+                        if (message.length() > TOAST_MAX_LENGTH) {
+                            message = message.substring(0, TOAST_MAX_LENGTH) + "…";
                         }
-                        error.printStackTrace();
+                        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+                        break;
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (shortcut.getFeedback() == Shortcut.FEEDBACK_NONE) {
+                    return;
+                }
+
+                String message;
+                if (error.networkResponse != null) {
+                    message = String.format(context.getText(R.string.error_http).toString(), shortcut.getName(), error.networkResponse.statusCode);
+                } else {
+                    if (error.getCause() != null && error.getCause().getMessage() != null) {
+                        message = String.format(context.getText(R.string.error_other).toString(), shortcut.getName(), error.getCause().getMessage());
+                    } else if (error.getMessage() != null) {
+                        message = String.format(context.getText(R.string.error_other).toString(), shortcut.getName(), error.getMessage());
+                    } else {
+                        message = String.format(context.getText(R.string.error_other).toString(), shortcut.getName(), error.getClass().getSimpleName());
                     }
-                    Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+                    error.printStackTrace();
                 }
-
-            });
-
-            if (parameters != null) {
-                for (PostParameter parameter : parameters) {
-                    stringRequest.addParameter(parameter.getKey(), parameter.getValue());
-                }
+                Toast.makeText(context, message, Toast.LENGTH_LONG).show();
             }
 
-            for (Header header : headers) {
-                stringRequest.addHeader(header.getKey(), header.getValue());
+        });
+
+        if (parameters != null) {
+            for (PostParameter parameter : parameters) {
+                stringRequest.addParameter(parameter.getKey(), parameter.getValue());
             }
-
-            stringRequest.setRetryPolicy(new DefaultRetryPolicy(shortcut.getTimeout(), 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
-            queue.add(stringRequest);
-
-        } finally {
-            client.getConnectionManager().closeIdleConnections(0, TimeUnit.MILLISECONDS);
         }
+
+        for (Header header : headers) {
+            stringRequest.addHeader(header.getKey(), header.getValue());
+        }
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(shortcut.getTimeout(), 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        queue.add(stringRequest);
+    }
+
+    private static int getMethod(Shortcut shortcut) {
+        String m = shortcut.getMethod();
+        int method = Request.Method.GET;
+        if (m.equals(Shortcut.METHOD_POST)) {
+            method = Request.Method.POST;
+        } else if (m.equals(Shortcut.METHOD_PUT)) {
+            method = Request.Method.PUT;
+        } else if (m.equals(Shortcut.METHOD_DELETE)) {
+            method = Request.Method.DELETE;
+        } else if (m.equals(Shortcut.METHOD_PATCH)) {
+            method = Request.Method.PATCH;
+        }
+        return method;
     }
 
     private static boolean isNetworkConnected(Context context) {
