@@ -1,8 +1,7 @@
 package ch.rmy.android.http_shortcuts;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,7 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -281,50 +279,47 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
         if (v.equals(iconView)) {
             openIconSelectionDialog();
         } else if (v.equals(postParameterAddButton)) {
-            LayoutInflater inflater = LayoutInflater.from(this);
-            View layout = inflater.inflate(R.layout.dialog_edit_post_parameter, null);
 
-            final EditText keyField = (EditText) layout.findViewById(R.id.input_post_param_key);
-            final EditText valueField = (EditText) layout.findViewById(R.id.input_post_param_value);
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setView(layout);
-            builder.setTitle(R.string.title_post_param_edit);
-            builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    if (!keyField.getText().toString().isEmpty()) {
-                        PostParameter parameter = new PostParameter(0, keyField.getText().toString(), valueField.getText().toString());
-                        postParameterAdapter.add(parameter);
-                        setListViewHeightBasedOnChildren(postParameterList);
-                        customBodyContainer.setVisibility(View.GONE);
-                    }
-                }
-            });
-            builder.setNegativeButton(R.string.dialog_cancel, null);
-
-            builder.show();
+            (new MaterialDialog.Builder(this))
+                    .customView(R.layout.dialog_edit_post_parameter, false)
+                    .title(R.string.title_post_param_edit)
+                    .positiveText(R.string.dialog_ok)
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(MaterialDialog dialog, DialogAction which) {
+                            EditText keyField = (EditText) dialog.findViewById(R.id.input_post_param_key);
+                            EditText valueField = (EditText) dialog.findViewById(R.id.input_post_param_value);
+                            if (!keyField.getText().toString().isEmpty()) {
+                                PostParameter parameter = new PostParameter(0, keyField.getText().toString(), valueField.getText().toString());
+                                postParameterAdapter.add(parameter);
+                                setListViewHeightBasedOnChildren(postParameterList);
+                                customBodyContainer.setVisibility(View.GONE);
+                            }
+                        }
+                    })
+                    .negativeText(R.string.dialog_cancel)
+                    .show();
         } else if (v.equals(customHeaderAddButton)) {
-            LayoutInflater inflater = LayoutInflater.from(this);
-            View layout = inflater.inflate(R.layout.dialog_edit_custom_header, null);
 
-            final EditText keyField = (EditText) layout.findViewById(R.id.input_custom_header_key);
-            final EditText valueField = (EditText) layout.findViewById(R.id.input_custom_header_value);
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setView(layout);
-            builder.setTitle(R.string.title_custom_header_edit);
-            builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    if (!keyField.getText().toString().isEmpty()) {
-                        Header header = new Header(0, keyField.getText().toString(), valueField.getText().toString());
-                        customHeaderAdapter.add(header);
-                        setListViewHeightBasedOnChildren(customHeaderList);
-                    }
-                }
-            });
-            builder.setNegativeButton(R.string.dialog_cancel, null);
-
-            builder.show();
+            (new MaterialDialog.Builder(this))
+                    .customView(R.layout.dialog_edit_custom_header, false)
+                    .title(R.string.title_custom_header_edit)
+                    .positiveText(R.string.dialog_ok)
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(MaterialDialog dialog, DialogAction which) {
+                            EditText keyField = (EditText) dialog.findViewById(R.id.input_custom_header_key);
+                            EditText valueField = (EditText) dialog.findViewById(R.id.input_custom_header_value);
+                            if (!keyField.getText().toString().isEmpty()) {
+                                Header header = new Header(0, keyField.getText().toString(), valueField.getText().toString());
+                                customHeaderAdapter.add(header);
+                                setListViewHeightBasedOnChildren(customHeaderList);
+                            }
+                        }
+                    })
+                    .negativeText(R.string.dialog_cancel)
+                    .show();
         }
     }
 
@@ -542,83 +537,89 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         if (parent.equals(postParameterList)) {
-
             final PostParameter parameter = postParameterAdapter.getItem(position);
 
-            LayoutInflater inflater = LayoutInflater.from(this);
-            View layout = inflater.inflate(R.layout.dialog_edit_post_parameter, null);
+            Dialog dialog = (new MaterialDialog.Builder(this))
+                    .customView(R.layout.dialog_edit_post_parameter, false)
+                    .title(R.string.title_post_param_edit)
+                    .positiveText(R.string.dialog_ok)
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(MaterialDialog dialog, DialogAction which) {
+                            EditText keyField = (EditText) dialog.findViewById(R.id.input_post_param_key);
+                            EditText valueField = (EditText) dialog.findViewById(R.id.input_post_param_value);
+                            if (!keyField.getText().toString().isEmpty()) {
+                                parameter.setKey(keyField.getText().toString());
+                                parameter.setValue(valueField.getText().toString());
+                                postParameterAdapter.notifyDataSetChanged();
+                                hasChanges = true;
+                            }
+                        }
+                    })
+                    .neutralText(R.string.dialog_remove)
+                    .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(MaterialDialog dialog, DialogAction which) {
+                            postParameterAdapter.remove(parameter);
+                            setListViewHeightBasedOnChildren(postParameterList);
+                            hasChanges = true;
+                            if (postParameterAdapter.getCount() == 0) {
+                                customBodyContainer.setVisibility(View.VISIBLE);
+                            } else {
+                                customBodyContainer.setVisibility(View.GONE);
+                            }
+                        }
+                    })
+                    .negativeText(R.string.dialog_cancel)
+                    .build();
 
-            final EditText keyField = (EditText) layout.findViewById(R.id.input_post_param_key);
+            EditText keyField = (EditText) dialog.findViewById(R.id.input_post_param_key);
             keyField.setText(parameter.getKey());
 
-            final EditText valueField = (EditText) layout.findViewById(R.id.input_post_param_value);
+            EditText valueField = (EditText) dialog.findViewById(R.id.input_post_param_value);
             valueField.setText(parameter.getValue());
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setView(layout);
-            builder.setTitle(R.string.title_post_param_edit);
-            builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    if (!keyField.getText().toString().isEmpty()) {
-                        parameter.setKey(keyField.getText().toString());
-                        parameter.setValue(valueField.getText().toString());
-                        postParameterAdapter.notifyDataSetChanged();
-                        hasChanges = true;
-                    }
-                }
-            });
-            builder.setNeutralButton(R.string.dialog_remove, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    postParameterAdapter.remove(parameter);
-                    setListViewHeightBasedOnChildren(postParameterList);
-                    hasChanges = true;
-                    if (postParameterAdapter.getCount() == 0) {
-                        customBodyContainer.setVisibility(View.VISIBLE);
-                    } else {
-                        customBodyContainer.setVisibility(View.GONE);
-                    }
-                }
-            });
-            builder.setNegativeButton(R.string.dialog_cancel, null);
-
-            builder.show();
+            dialog.show();
 
         } else if (parent.equals(customHeaderList)) {
 
             final Header header = customHeaderAdapter.getItem(position);
 
-            LayoutInflater inflater = LayoutInflater.from(this);
-            View layout = inflater.inflate(R.layout.dialog_edit_custom_header, null);
+            Dialog dialog = (new MaterialDialog.Builder(this))
+                    .customView(R.layout.dialog_edit_custom_header, false)
+                    .title(R.string.title_custom_header_edit)
+                    .positiveText(R.string.dialog_ok)
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(MaterialDialog dialog, DialogAction which) {
+                            EditText keyField = (EditText) dialog.findViewById(R.id.input_custom_header_key);
+                            EditText valueField = (EditText) dialog.findViewById(R.id.input_custom_header_value);
+                            if (!keyField.getText().toString().isEmpty()) {
+                                header.setKey(keyField.getText().toString());
+                                header.setValue(valueField.getText().toString());
+                                customHeaderAdapter.notifyDataSetChanged();
+                                hasChanges = true;
+                            }
+                        }
+                    }).neutralText(R.string.dialog_remove)
+                    .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(MaterialDialog dialog, DialogAction which) {
+                            customHeaderAdapter.remove(header);
+                            setListViewHeightBasedOnChildren(customHeaderList);
+                            hasChanges = true;
+                        }
+                    })
+                    .negativeText(R.string.dialog_cancel)
+                    .build();
 
-            final EditText keyField = (EditText) layout.findViewById(R.id.input_custom_header_key);
+            EditText keyField = (EditText) dialog.findViewById(R.id.input_custom_header_key);
             keyField.setText(header.getKey());
 
-            final EditText valueField = (EditText) layout.findViewById(R.id.input_custom_header_value);
+            EditText valueField = (EditText) dialog.findViewById(R.id.input_custom_header_value);
             valueField.setText(header.getValue());
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setView(layout);
-            builder.setTitle(R.string.title_custom_header_edit);
-            builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    if (!keyField.getText().toString().isEmpty()) {
-                        header.setKey(keyField.getText().toString());
-                        header.setValue(valueField.getText().toString());
-                        customHeaderAdapter.notifyDataSetChanged();
-                        hasChanges = true;
-                    }
-                }
-            });
-            builder.setNeutralButton(R.string.dialog_remove, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    customHeaderAdapter.remove(header);
-                    setListViewHeightBasedOnChildren(customHeaderList);
-                    hasChanges = true;
-                }
-            });
-            builder.setNegativeButton(R.string.dialog_cancel, null);
-
-            builder.show();
+            dialog.show();
 
         }
     }
