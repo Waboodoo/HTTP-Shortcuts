@@ -16,7 +16,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -43,8 +42,6 @@ public class ListActivity extends BaseActivity implements OnShortcutClickedListe
 
     private static final String ACTION_INSTALL_SHORTCUT = "com.android.launcher.action.INSTALL_SHORTCUT";
 
-    @Bind(R.id.no_shortcuts)
-    TextView emptyListText;
     @Bind(R.id.shortcut_list)
     RecyclerView shortcutList;
     @Bind(R.id.button_create_shortcut)
@@ -280,16 +277,12 @@ public class ListActivity extends BaseActivity implements OnShortcutClickedListe
         shortcutAdapter.updateShortcuts(shortcuts);
 
         if (shortcuts.isEmpty()) {
-
             if (!forwardedToEditor && shortcutPlacementMode) {
                 forwardedToEditor = true;
                 openEditorForCreation();
             }
-
-            emptyListText.setVisibility(View.VISIBLE);
         } else {
             forwardedToEditor = true;
-            emptyListText.setVisibility(View.GONE);
         }
     }
 

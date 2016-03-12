@@ -8,30 +8,12 @@
 
     <include layout="@layout/toolbar_layout"/>
 
-    <RelativeLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/shortcut_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/shortcut_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/list_item"/>
-
-        <TextView
-            android:id="@+id/no_shortcuts"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentStart="true"
-            android:gravity="center"
-            android:text="@string/no_shortcuts"
-            tools:visibility="gone"/>
-
-    </RelativeLayout>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:listitem="@layout/list_item"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/button_create_shortcut"

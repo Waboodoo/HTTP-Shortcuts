@@ -20,6 +20,9 @@ import ch.rmy.android.http_shortcuts.listeners.OnShortcutClickedListener;
 
 public class ShortcutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private static final int TYPE_SHORTCUT = 0;
+    private static final int TYPE_EMPTY_MARKER = 1;
+
     private final Context context;
     private final List<Shortcut> shortcuts = new ArrayList<>();
     private OnShortcutClickedListener clickListener;
@@ -30,7 +33,19 @@ public class ShortcutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     @Override
+    public int getItemViewType(int position) {
+        if (shortcuts.isEmpty()) {
+            return TYPE_EMPTY_MARKER;
+        } else {
+            return TYPE_SHORTCUT;
+        }
+    }
+
+    @Override
     public long getItemId(int position) {
+        if (shortcuts.isEmpty()) {
+            return -1;
+        }
         return shortcuts.get(position).getID();
     }
 
@@ -46,17 +61,27 @@ public class ShortcutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-        return shortcuts.size();
+        if (shortcuts.isEmpty()) {
+            return 1;
+        } else {
+            return shortcuts.size();
+        }
     }
 
     @Override
-    public ShortcutViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ShortcutViewHolder(parent);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == TYPE_EMPTY_MARKER) {
+            return new EmptyMarkerViewHolder(parent);
+        } else {
+            return new ShortcutViewHolder(parent);
+        }
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((ShortcutViewHolder) holder).setShortcut(shortcuts.get(position));
+        if (holder instanceof ShortcutViewHolder) {
+            ((ShortcutViewHolder) holder).setShortcut(shortcuts.get(position));
+        }
     }
 
     public class ShortcutViewHolder extends RecyclerView.ViewHolder {
@@ -107,6 +132,14 @@ public class ShortcutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             } else {
                 return Color.TRANSPARENT;
             }
+        }
+
+    }
+
+    private class EmptyMarkerViewHolder extends RecyclerView.ViewHolder {
+
+        public EmptyMarkerViewHolder(ViewGroup parent) {
+            super(LayoutInflater.from(context).inflate(R.layout.list_empty_item, parent, false));
         }
     }
 
