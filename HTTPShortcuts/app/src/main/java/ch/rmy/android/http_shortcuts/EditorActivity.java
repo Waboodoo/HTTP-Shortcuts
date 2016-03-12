@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -22,8 +21,6 @@ import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.view.Window;
-import android.view.WindowManager;
 import android.webkit.URLUtil;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -39,6 +36,9 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import net.dinglisch.ipack.IpackKeys;
 
 import java.io.IOException;
@@ -49,6 +49,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import ch.rmy.android.http_shortcuts.http.HttpRequester;
+import ch.rmy.android.http_shortcuts.icons.IconSelector;
 import ch.rmy.android.http_shortcuts.listeners.OnIconSelectedListener;
 import ch.rmy.android.http_shortcuts.shortcuts.Header;
 import ch.rmy.android.http_shortcuts.shortcuts.HeaderAdapter;
@@ -384,15 +385,18 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
 
     private void confirmClose() {
         if (hasChanges) {
-            new AlertDialog.Builder(this).setTitle(R.string.confirm_discard_changes_title).setMessage(R.string.confirm_discard_changes_message)
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
+            (new MaterialDialog.Builder(this))
+                    .title(R.string.confirm_discard_changes_title)
+                    .content(R.string.confirm_discard_changes_message)
+                    .positiveText(R.string.label_yes)
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                        public void onClick(MaterialDialog dialog, DialogAction which) {
                             cancelAndClose();
                         }
-
-                    }).setNegativeButton(android.R.string.no, null).show();
+                    })
+                    .negativeText(R.string.label_no)
+                    .show();
         } else {
             cancelAndClose();
         }
@@ -467,8 +471,7 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
     }
 
     private void cancelAndClose() {
-        Intent returnIntent = new Intent();
-        setResult(RESULT_CANCELED, returnIntent);
+        setResult(RESULT_CANCELED);
         finish();
     }
 

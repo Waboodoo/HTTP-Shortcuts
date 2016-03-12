@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts;
+package ch.rmy.android.http_shortcuts.icons;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import ch.rmy.android.http_shortcuts.R;
 import ch.rmy.android.http_shortcuts.listeners.OnIconSelectedListener;
 
 /**
