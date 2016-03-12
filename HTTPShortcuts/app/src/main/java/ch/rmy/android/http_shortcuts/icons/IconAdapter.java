@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 import ch.rmy.android.http_shortcuts.listeners.OnIconSelectedListener;
 
-class IconAdapter extends RecyclerView.Adapter<IconViewHolder> {
+public class IconAdapter extends RecyclerView.Adapter<IconViewHolder> {
 
     private final Context context;
     private final OnIconSelectedListener listener;

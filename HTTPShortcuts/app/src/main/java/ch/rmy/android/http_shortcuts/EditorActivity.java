@@ -11,8 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -232,7 +230,6 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
             iconView.setBackgroundColor(0);
         }
         iconView.setOnClickListener(this);
-        registerForContextMenu(iconView);
         selectedIcon = shortcut.getIconName();
 
         if (shortcut.isNew()) {
@@ -282,7 +279,7 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
     @Override
     public void onClick(View v) {
         if (v.equals(iconView)) {
-            openContextMenu(v);
+            openIconSelectionDialog();
         } else if (v.equals(postParameterAddButton)) {
             LayoutInflater inflater = LayoutInflater.from(this);
             View layout = inflater.inflate(R.layout.dialog_edit_post_parameter, null);
@@ -331,56 +328,60 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
         }
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-
-        menu.setHeaderTitle(R.string.change_icon);
-
-        menu.add(Menu.NONE, 2, Menu.NONE, R.string.choose_icon);
-        menu.add(Menu.NONE, 0, Menu.NONE, R.string.choose_image);
-        menu.add(Menu.NONE, 1, Menu.NONE, R.string.choose_ipack_icon);
+    private void openIconSelectionDialog() {
+        (new MaterialDialog.Builder(this))
+                .title(R.string.change_icon)
+                .items(R.array.context_menu_choose_icon)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+                        switch (which) {
+                            case 0:
+                                openBuiltInIconSelectionDialog();
+                                return;
+                            case 1:
+                                openImagePicker();
+                                return;
+                            case 2:
+                                openIpackPicker();
+                                return;
+                        }
+                    }
+                })
+                .show();
     }
 
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
+    private void openBuiltInIconSelectionDialog() {
+        IconSelector iconSelector = new IconSelector(this, new OnIconSelectedListener() {
 
-        switch (item.getItemId()) {
-            case 0: // Choose an image
-                // Workaround for Kitkat (thanks to http://stackoverflow.com/a/20186938/1082111)
-                Intent imageIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                // intent.addCategory(Intent.CATEGORY_OPENABLE);
-                // intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
-                imageIntent.setType("image/*");
-                startActivityForResult(imageIntent, SELECT_ICON);
-                return true;
-            case 1: // Choose an Ipack
-                Intent iconIntent = Intent.createChooser(new Intent(IpackKeys.Actions.ICON_SELECT), getText(R.string.choose_ipack));
-                startActivityForResult(iconIntent, SELECT_IPACK_ICON);
-                return true;
-            case 2: // Choose a built-in icon
-                IconSelector iconSelector = new IconSelector(this, new OnIconSelectedListener() {
+            @Override
+            public void onIconSelected(String resourceName) {
+                iconView.setImageResource(getResources().getIdentifier(resourceName, "drawable", getPackageName()));
 
-                    @Override
-                    public void onIconSelected(String resourceName) {
-                        iconView.setImageResource(getResources().getIdentifier(resourceName, "drawable", getPackageName()));
+                if (resourceName.startsWith("white_")) {
+                    iconView.setBackgroundColor(Color.BLACK);
+                } else {
+                    iconView.setBackgroundColor(Color.TRANSPARENT);
+                }
 
-                        if (resourceName.startsWith("white_")) {
-                            iconView.setBackgroundColor(Color.BLACK);
-                        } else {
-                            iconView.setBackgroundColor(Color.TRANSPARENT);
-                        }
+                selectedIcon = resourceName;
+                hasChanges = true;
+            }
 
-                        selectedIcon = resourceName;
-                        hasChanges = true;
-                    }
+        });
+        iconSelector.show();
+    }
 
-                });
-                iconSelector.show();
-                return true;
-        }
+    private void openImagePicker() {
+        // Workaround for Kitkat (thanks to http://stackoverflow.com/a/20186938/1082111)
+        Intent imageIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        imageIntent.setType("image/*");
+        startActivityForResult(imageIntent, SELECT_ICON);
+    }
 
-        return false;
+    private void openIpackPicker() {
+        Intent iconIntent = Intent.createChooser(new Intent(IpackKeys.Actions.ICON_SELECT), getText(R.string.choose_ipack));
+        startActivityForResult(iconIntent, SELECT_IPACK_ICON);
     }
 
     @Override
