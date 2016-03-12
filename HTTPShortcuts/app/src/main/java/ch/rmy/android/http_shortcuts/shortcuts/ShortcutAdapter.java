@@ -1,48 +1,112 @@
 package ch.rmy.android.http_shortcuts.shortcuts;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import ch.rmy.android.http_shortcuts.R;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ShortcutAdapter extends ArrayAdapter<Shortcut> {
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import ch.rmy.android.http_shortcuts.R;
+import ch.rmy.android.http_shortcuts.listeners.OnShortcutClickedListener;
+
+public class ShortcutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    private final Context context;
+    private final List<Shortcut> shortcuts = new ArrayList<>();
+    private OnShortcutClickedListener clickListener;
 
     public ShortcutAdapter(Context context) {
-        super(context, R.layout.list_item);
+        this.context = context;
+        setHasStableIds(true);
     }
 
     @Override
-    public View getView(int position, View rowView, ViewGroup parent) {
+    public long getItemId(int position) {
+        return shortcuts.get(position).getID();
+    }
 
-        Shortcut shortcut = getItem(position);
+    public void updateShortcuts(List<Shortcut> shortcuts) {
+        this.shortcuts.clear();
+        this.shortcuts.addAll(shortcuts);
+    }
 
-        if (rowView == null) {
-            LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            rowView = inflater.inflate(R.layout.list_item, parent, false);
+    public void setOnShortcutClickListener(OnShortcutClickedListener clickListener) {
+        this.clickListener = clickListener;
+    }
+
+    @Override
+    public int getItemCount() {
+        return shortcuts.size();
+    }
+
+    @Override
+    public ShortcutViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new ShortcutViewHolder(parent);
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        ((ShortcutViewHolder) holder).setShortcut(shortcuts.get(position));
+    }
+
+    public class ShortcutViewHolder extends RecyclerView.ViewHolder {
+
+        @Bind(R.id.name)
+        TextView name;
+        @Bind(R.id.description)
+        TextView description;
+        @Bind(R.id.icon)
+        ImageView icon;
+        private Shortcut shortcut;
+
+        public ShortcutViewHolder(ViewGroup parent) {
+            super(LayoutInflater.from(context).inflate(R.layout.list_item, parent, false));
+            ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (clickListener != null) {
+                        clickListener.onShortcutClicked(shortcut, v);
+                    }
+                }
+            });
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (clickListener != null) {
+                        clickListener.onShortcutLongClicked(shortcut, itemView);
+                        return true;
+                    }
+                    return false;
+                }
+            });
         }
 
-        TextView nameView = (TextView) rowView.findViewById(R.id.name);
-        nameView.setText(shortcut.getName());
-
-        TextView descriptionView = (TextView) rowView.findViewById(R.id.description);
-        descriptionView.setText(shortcut.getDescription());
-        descriptionView.setVisibility((shortcut.getDescription() == null || shortcut.getDescription().isEmpty()) ? View.GONE : View.VISIBLE);
-
-        ImageView iconView = (ImageView) rowView.findViewById(R.id.icon);
-        iconView.setImageURI(shortcut.getIconURI(getContext()));
-
-        if (shortcut.getIconName() != null && shortcut.getIconName().startsWith("white_")) {
-            iconView.setBackgroundColor(0xFF000000);
-        } else {
-            iconView.setBackgroundColor(0);
+        public void setShortcut(Shortcut shortcut) {
+            this.shortcut = shortcut;
+            name.setText(shortcut.getName());
+            description.setText(shortcut.getDescription());
+            description.setVisibility(TextUtils.isEmpty(shortcut.getDescription()) ? View.GONE : View.VISIBLE);
+            icon.setImageURI(shortcut.getIconURI(context));
+            icon.setBackgroundColor(getAppropriateBackgroundColor(shortcut.getIconName()));
         }
 
-        return rowView;
+        private int getAppropriateBackgroundColor(String iconName) {
+            if (iconName != null && iconName.startsWith("white_")) {
+                return Color.BLACK;
+            } else {
+                return Color.TRANSPARENT;
+            }
+        }
     }
 
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="transparent" type="color">#00000000</item>
-    <item name="blue" type="color">#FF01ADD8</item>
-    <item name="dark_blue" type="color">#FF018FA3</item>
+    <item name="primary" type="color">#FF03A9F4</item>
+    <item name="primary_dark" type="color">#FF0277BD</item>
+    <item name="divider" type="color">#FFE0E0E0</item>
 </resources>

@@ -10,4 +10,13 @@
         <item>edit</item>
         <item>menu</item>
     </string-array>
+    <string-array name="context_menu_items">
+        <item>@string/action_place</item>
+        <item>@string/action_run</item>
+        <item>@string/action_edit</item>
+        <item>@string/action_move_up</item>
+        <item>@string/action_move_down</item>
+        <item>@string/action_duplicate</item>
+        <item>@string/action_delete</item>
+    </string-array>
 </resources>

@@ -49,6 +49,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import ch.rmy.android.http_shortcuts.http.HttpRequester;
+import ch.rmy.android.http_shortcuts.listeners.OnIconSelectedListener;
 import ch.rmy.android.http_shortcuts.shortcuts.Header;
 import ch.rmy.android.http_shortcuts.shortcuts.HeaderAdapter;
 import ch.rmy.android.http_shortcuts.shortcuts.PostParameter;
@@ -129,13 +130,6 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
             shortcut = shortcutStorage.createShortcut();
         } else {
             shortcut = shortcutStorage.getShortcutByID(shortcutID);
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(getResources().getColor(R.color.dark_blue));
         }
 
         nameView.setText(shortcut.getName());

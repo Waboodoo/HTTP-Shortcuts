@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -9,6 +10,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+
+import ch.rmy.android.http_shortcuts.listeners.OnIconSelectedListener;
 
 /**
  * A dialog window that lists all built-in icons, from which the user can select one.
@@ -179,7 +182,7 @@ public class IconSelector extends Dialog {
             i.setPadding(5, 5, 5, 5);
 
             if (getContext().getResources().getResourceEntryName(ICONS[position]).startsWith("white")) {
-                i.setBackgroundColor(0xFF000000);
+                i.setBackgroundColor(Color.BLACK);
             }
 
             return i;
