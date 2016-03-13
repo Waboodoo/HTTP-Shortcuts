@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="ch.rmy.android.http_shortcuts"
-          xmlns:android="http://schemas.android.com/apk/res/android"
-          android:versionCode="12"
-          android:versionName="1.8.0">
+<manifest
+    package="ch.rmy.android.http_shortcuts"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="12"
+    android:versionName="1.8.0">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
@@ -11,6 +12,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
+        android:name="ch.rmy.android.http_shortcuts.Application"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"

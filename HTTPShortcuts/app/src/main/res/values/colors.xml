@@ -3,5 +3,6 @@
     <item name="transparent" type="color">#00000000</item>
     <item name="primary" type="color">#FF03A9F4</item>
     <item name="primary_dark" type="color">#FF0277BD</item>
+    <item name="secondary_grey" type="color">#FF757575</item>
     <item name="divider" type="color">#FFEBEBEB</item>
 </resources>

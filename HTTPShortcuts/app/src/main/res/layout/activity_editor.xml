@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                                  xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 xmlns:ls="http://schemas.android.com/apk/res-auto"
                                                  xmlns:tools="http://schemas.android.com/tools"
                                                  android:layout_width="match_parent"
                                                  android:layout_height="match_parent"
@@ -16,10 +17,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:orientation="vertical"
-            android:paddingBottom="20dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
             tools:context=".EditorActivity">
+
+            <TextView
+                style="@style/SubHeader"
+                android:text="@string/section_appearance"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -28,35 +33,30 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
                     android:layout_toLeftOf="@+id/input_icon"
                     android:layout_toStartOf="@+id/input_icon"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/label_shortcut_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/label_name"/>
-
-                    <EditText
-                        android:id="@+id/input_shortcut_name"
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:inputType="text"
-                        android:singleLine="true">
+                        android:layout_height="wrap_content">
 
-                        <requestFocus/>
-                    </EditText>
+                        <EditText
+                            android:id="@+id/input_shortcut_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/label_name"
+                            android:inputType="text"
+                            android:singleLine="true">
+
+                        </EditText>
+                    </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
 
                 <ImageView
                     android:id="@+id/input_icon"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
@@ -64,57 +64,51 @@
                     android:src="@drawable/ic_launcher"/>
             </RelativeLayout>
 
-            <TextView
-                android:id="@+id/label_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/label_description"/>
-
-            <EditText
-                android:id="@+id/input_description"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textNoSuggestions"
-                android:singleLine="false"/>
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/input_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/label_description"
+                    android:inputType="textNoSuggestions"
+                    android:singleLine="false"/>
+            </android.support.design.widget.TextInputLayout>
 
             <TextView
-                android:id="@+id/label_url"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/label_url"/>
+                style="@style/SubHeader"
+                android:text="@string/section_basic_request"/>
 
-            <EditText
-                android:id="@+id/input_url"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textNoSuggestions|textUri"
-                android:singleLine="true"/>
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/label_method"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:text="@string/label_method"/>
+                <EditText
+                    android:id="@+id/input_url"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/label_url"
+                    android:inputType="textNoSuggestions|textUri"
+                    android:singleLine="true"/>
+            </android.support.design.widget.TextInputLayout>
 
-            <Spinner
+            <com.farbod.labelledspinner.LabelledSpinner
                 android:id="@+id/input_method"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                ls:labelText="@string/label_method"/>
 
             <LinearLayout
                 android:id="@+id/post_params_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/label_post_params"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/Label"
                     android:text="@string/label_post_params"/>
 
                 <ListView
@@ -135,58 +129,69 @@
                     android:id="@+id/custom_body_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/label_custom_body"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/label_custom_body"/>
-
-                    <EditText
-                        android:id="@+id/input_custom_body"
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:inputType="textMultiLine|textNoSuggestions"
-                        android:singleLine="false"/>
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/input_custom_body"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="@string/label_custom_body"
+                            android:inputType="textMultiLine|textNoSuggestions"
+                            android:singleLine="false"/>
+                    </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/label_username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:text="@string/label_username"/>
-
-            <EditText
-                android:id="@+id/input_username"
+            <com.farbod.labelledspinner.LabelledSpinner
+                android:id="@+id/input_feedback"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textNoSuggestions"/>
+                ls:labelText="@string/label_feedback"/>
 
             <TextView
-                android:id="@+id/label_password"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/label_password"/>
+                style="@style/SubHeader"
+                android:text="@string/section_authentication"/>
 
-            <EditText
-                android:id="@+id/input_password"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPassword"/>
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/input_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/label_username"
+                    android:inputType="textNoSuggestions"/>
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/input_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/label_password"
+                    android:inputType="textPassword"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                style="@style/SubHeader"
+                android:text="@string/section_advanced_settings"/>
 
             <TextView
                 android:id="@+id/label_custom_headers"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                style="@style/Label"
                 android:text="@string/label_custom_headers"/>
 
             <ListView
@@ -203,43 +208,17 @@
                 android:layout_height="wrap_content"
                 android:text="@string/button_add_custom_header"/>
 
-            <TextView
-                android:id="@+id/label_timeout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:text="@string/label_timeout"/>
-
-            <Spinner
+            <com.farbod.labelledspinner.LabelledSpinner
                 android:id="@+id/input_timeout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:id="@+id/label_feedback"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:text="@string/label_feedback"/>
+                ls:labelText="@string/label_timeout"/>
 
-            <Spinner
-                android:id="@+id/input_feedback"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
-
-            <TextView
-                android:id="@+id/label_retry_policy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:text="@string/label_retry_policy"/>
-
-            <Spinner
+            <com.farbod.labelledspinner.LabelledSpinner
                 android:id="@+id/input_retry_policy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                />
+                ls:labelText="@string/label_retry_policy"/>
 
         </LinearLayout>
 

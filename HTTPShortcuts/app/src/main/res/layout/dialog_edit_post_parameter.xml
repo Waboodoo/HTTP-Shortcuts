@@ -10,36 +10,36 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/label_post_param_key"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/label_post_param_key"/>
-
-        <EditText
-            android:id="@+id/input_post_param_key"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="text"
-            android:singleLine="true">
+            android:layout_height="wrap_content">
 
-            <requestFocus/>
-        </EditText>
+            <EditText
+                android:id="@+id/input_post_param_key"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/label_post_param_key"
+                android:inputType="text"
+                android:singleLine="true">
 
-        <TextView
-            android:id="@+id/label_post_param_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/label_post_param_value"/>
+                <requestFocus/>
+            </EditText>
+        </android.support.design.widget.TextInputLayout>
 
-        <EditText
-            android:id="@+id/input_post_param_value"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="text"
-            android:singleLine="true"/>
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/input_post_param_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/label_post_param_value"
+                android:inputType="text"
+                android:singleLine="true"/>
+        </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 
 </ScrollView>

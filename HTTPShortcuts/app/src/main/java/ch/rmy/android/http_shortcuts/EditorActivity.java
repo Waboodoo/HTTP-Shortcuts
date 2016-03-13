@@ -21,19 +21,16 @@ import android.view.ViewGroup.LayoutParams;
 import android.webkit.URLUtil;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.farbod.labelledspinner.LabelledSpinner;
 
 import net.dinglisch.ipack.IpackKeys;
 
@@ -60,7 +57,7 @@ import ch.rmy.android.http_shortcuts.shortcuts.ShortcutStorage;
  * @author Roland Meyer
  */
 @SuppressLint("InflateParams")
-public class EditorActivity extends BaseActivity implements OnClickListener, OnItemSelectedListener, OnItemClickListener, TextWatcher {
+public class EditorActivity extends BaseActivity implements OnClickListener, LabelledSpinner.OnItemChosenListener, OnItemClickListener, TextWatcher {
 
     public final static String EXTRA_SHORTCUT_ID = "shortcut_id";
     private final static int SELECT_ICON = 1;
@@ -73,13 +70,13 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
     private HeaderAdapter customHeaderAdapter;
 
     @Bind(R.id.input_method)
-    Spinner methodView;
+    LabelledSpinner methodView;
     @Bind(R.id.input_feedback)
-    Spinner feedbackView;
+    LabelledSpinner feedbackView;
     @Bind(R.id.input_timeout)
-    Spinner timeoutView;
+    LabelledSpinner timeoutView;
     @Bind(R.id.input_retry_policy)
-    Spinner retryPolicyView;
+    LabelledSpinner retryPolicyView;
     @Bind(R.id.input_shortcut_name)
     EditText nameView;
     @Bind(R.id.input_description)
@@ -144,15 +141,15 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
         customBodyView.addTextChangedListener(this);
 
         selectedMethod = shortcut.getMethod();
-        SpinnerAdapter methodAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, Shortcut.METHODS);
-        methodView.setAdapter(methodAdapter);
+        methodView.setItemsArray(Shortcut.METHODS);
+        hideErrorLabel(methodView);
         for (int i = 0; i < Shortcut.METHODS.length; i++) {
             if (Shortcut.METHODS[i].equals(shortcut.getMethod())) {
                 methodView.setSelection(i);
                 break;
             }
         }
-        methodView.setOnItemSelectedListener(this);
+        methodView.setOnItemChosenListener(this);
 
         if (selectedMethod.equals(Shortcut.METHOD_GET)) {
             postParamsContainer.setVisibility(View.GONE);
@@ -180,9 +177,9 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
         for (int i = 0; i < Shortcut.FEEDBACK_OPTIONS.length; i++) {
             feedbackStrings[i] = getText(Shortcut.FEEDBACK_RESOURCES[i]).toString();
         }
-        SpinnerAdapter feedbackAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, feedbackStrings);
-        feedbackView.setOnItemSelectedListener(this);
-        feedbackView.setAdapter(feedbackAdapter);
+        feedbackView.setOnItemChosenListener(this);
+        feedbackView.setItemsArray(feedbackStrings);
+        hideErrorLabel(feedbackView);
         for (int i = 0; i < Shortcut.FEEDBACK_OPTIONS.length; i++) {
             if (Shortcut.FEEDBACK_OPTIONS[i] == shortcut.getFeedback()) {
                 feedbackView.setSelection(i);
@@ -195,9 +192,9 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
         for (int i = 0; i < Shortcut.TIMEOUT_OPTIONS.length; i++) {
             timeoutStrings[i] = String.format(getText(Shortcut.TIMEOUT_RESOURCES[i]).toString(), Shortcut.TIMEOUT_OPTIONS[i] / 1000);
         }
-        SpinnerAdapter timeoutAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, timeoutStrings);
-        timeoutView.setOnItemSelectedListener(this);
-        timeoutView.setAdapter(timeoutAdapter);
+        timeoutView.setOnItemChosenListener(this);
+        timeoutView.setItemsArray(timeoutStrings);
+        hideErrorLabel(timeoutView);
         for (int i = 0; i < Shortcut.TIMEOUT_OPTIONS.length; i++) {
             if (Shortcut.TIMEOUT_OPTIONS[i] == shortcut.getTimeout()) {
                 timeoutView.setSelection(i);
@@ -210,9 +207,9 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
         for (int i = 0; i < Shortcut.RETRY_POLICY_OPTIONS.length; i++) {
             retryPolicyStrings[i] = getText(Shortcut.RETRY_POLICY_RESOURCES[i]).toString();
         }
-        SpinnerAdapter retryPolicyAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, retryPolicyStrings);
-        retryPolicyView.setOnItemSelectedListener(this);
-        retryPolicyView.setAdapter(retryPolicyAdapter);
+        retryPolicyView.setOnItemChosenListener(this);
+        retryPolicyView.setItemsArray(retryPolicyStrings);
+        hideErrorLabel(retryPolicyView);
         for (int i = 0; i < Shortcut.RETRY_POLICY_OPTIONS.length; i++) {
             if (Shortcut.RETRY_POLICY_OPTIONS[i] == shortcut.getRetryPolicy()) {
                 retryPolicyView.setSelection(i);
@@ -625,8 +622,8 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        switch (parent.getId()) {
+    public void onItemChosen(View view, AdapterView<?> parent, View itemView, int position, long id) {
+        switch (view.getId()) {
             case R.id.input_method:
                 selectedMethod = Shortcut.METHODS[position];
                 if (!selectedMethod.equals(shortcut.getMethod())) {
@@ -662,7 +659,7 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
+    public void onNothingChosen(View labelledSpinner, AdapterView<?> adapterView) {
 
     }
 
@@ -705,6 +702,10 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
         listView.requestLayout();
+    }
+
+    private void hideErrorLabel(LabelledSpinner spinner) {
+        spinner.getChildAt(3).setVisibility(View.GONE);
     }
 
 }
