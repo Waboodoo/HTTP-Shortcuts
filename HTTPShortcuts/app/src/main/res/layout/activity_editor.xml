@@ -17,6 +17,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:orientation="vertical"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
@@ -111,40 +113,24 @@
                     style="@style/Label"
                     android:text="@string/label_post_params"/>
 
-                <ListView
+                <ch.rmy.android.http_shortcuts.key_value_pairs.KeyValueList
                     android:id="@+id/post_parameter_list"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:listitem="@layout/post_parameter_item">
+                    android:layout_height="wrap_content"/>
 
-                </ListView>
-
-                <Button
-                    android:id="@+id/button_add_post_param"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/button_add_post_param"/>
-
-                <LinearLayout
-                    android:id="@+id/custom_body_container"
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content">
 
-                    <android.support.design.widget.TextInputLayout
+                    <EditText
+                        android:id="@+id/input_custom_body"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <EditText
-                            android:id="@+id/input_custom_body"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:ems="10"
-                            android:hint="@string/label_custom_body"
-                            android:inputType="textMultiLine|textNoSuggestions"
-                            android:singleLine="false"/>
-                    </android.support.design.widget.TextInputLayout>
-                </LinearLayout>
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/label_custom_body"
+                        android:inputType="textMultiLine|textNoSuggestions"
+                        android:singleLine="false"/>
+                </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
 
@@ -194,19 +180,10 @@
                 style="@style/Label"
                 android:text="@string/label_custom_headers"/>
 
-            <ListView
+            <ch.rmy.android.http_shortcuts.key_value_pairs.KeyValueList
                 android:id="@+id/custom_headers_list"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:listitem="@layout/custom_header_item">
-
-            </ListView>
-
-            <Button
-                android:id="@+id/button_add_custom_header"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/button_add_custom_header"/>
+                android:layout_height="wrap_content"/>
 
             <com.farbod.labelledspinner.LabelledSpinner
                 android:id="@+id/input_timeout"

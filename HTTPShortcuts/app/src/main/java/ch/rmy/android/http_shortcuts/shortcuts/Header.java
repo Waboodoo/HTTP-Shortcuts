@@ -1,6 +1,8 @@
 package ch.rmy.android.http_shortcuts.shortcuts;
 
-public class Header {
+import ch.rmy.android.http_shortcuts.key_value_pairs.KeyValuePair;
+
+public class Header implements KeyValuePair {
 
     private final long id;
     private String key;

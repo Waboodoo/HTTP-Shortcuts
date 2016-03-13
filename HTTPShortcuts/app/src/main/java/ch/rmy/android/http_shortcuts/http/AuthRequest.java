@@ -34,7 +34,14 @@ public class AuthRequest extends StringRequest {
         if (bodyContent.isEmpty()) {
             return super.getBody();
         } else {
-            return bodyContent.getBytes();
+            byte[] regularBody = super.getBody();
+            byte[] customBody = bodyContent.getBytes();
+            byte[] mergedBody = new byte[regularBody.length + customBody.length];
+
+            System.arraycopy(regularBody, 0, mergedBody, 0, regularBody.length);
+            System.arraycopy(customBody, 0, mergedBody, regularBody.length, customBody.length);
+
+            return mergedBody;
         }
     }
 

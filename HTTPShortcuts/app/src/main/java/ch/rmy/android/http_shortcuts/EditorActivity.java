@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,19 +13,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.webkit.URLUtil;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -37,17 +29,17 @@ import net.dinglisch.ipack.IpackKeys;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import ch.rmy.android.http_shortcuts.http.HttpRequester;
 import ch.rmy.android.http_shortcuts.icons.IconSelector;
+import ch.rmy.android.http_shortcuts.key_value_pairs.KeyValueList;
+import ch.rmy.android.http_shortcuts.key_value_pairs.KeyValuePairFactory;
+import ch.rmy.android.http_shortcuts.key_value_pairs.OnKeyValueChangeListener;
 import ch.rmy.android.http_shortcuts.listeners.OnIconSelectedListener;
 import ch.rmy.android.http_shortcuts.shortcuts.Header;
-import ch.rmy.android.http_shortcuts.shortcuts.HeaderAdapter;
 import ch.rmy.android.http_shortcuts.shortcuts.PostParameter;
-import ch.rmy.android.http_shortcuts.shortcuts.PostParameterAdapter;
 import ch.rmy.android.http_shortcuts.shortcuts.Shortcut;
 import ch.rmy.android.http_shortcuts.shortcuts.ShortcutStorage;
 
@@ -57,7 +49,7 @@ import ch.rmy.android.http_shortcuts.shortcuts.ShortcutStorage;
  * @author Roland Meyer
  */
 @SuppressLint("InflateParams")
-public class EditorActivity extends BaseActivity implements OnClickListener, LabelledSpinner.OnItemChosenListener, OnItemClickListener, TextWatcher {
+public class EditorActivity extends BaseActivity implements LabelledSpinner.OnItemChosenListener, TextWatcher {
 
     public final static String EXTRA_SHORTCUT_ID = "shortcut_id";
     private final static int SELECT_ICON = 1;
@@ -66,8 +58,6 @@ public class EditorActivity extends BaseActivity implements OnClickListener, Lab
 
     private ShortcutStorage shortcutStorage;
     private Shortcut shortcut;
-    private PostParameterAdapter postParameterAdapter;
-    private HeaderAdapter customHeaderAdapter;
 
     @Bind(R.id.input_method)
     LabelledSpinner methodView;
@@ -92,17 +82,11 @@ public class EditorActivity extends BaseActivity implements OnClickListener, Lab
     @Bind(R.id.post_params_container)
     LinearLayout postParamsContainer;
     @Bind(R.id.post_parameter_list)
-    ListView postParameterList;
-    @Bind(R.id.button_add_post_param)
-    Button postParameterAddButton;
+    KeyValueList postParameterList;
     @Bind(R.id.custom_headers_list)
-    ListView customHeaderList;
-    @Bind(R.id.button_add_custom_header)
-    Button customHeaderAddButton;
+    KeyValueList customHeaderList;
     @Bind(R.id.input_custom_body)
     EditText customBodyView;
-    @Bind(R.id.custom_body_container)
-    LinearLayout customBodyContainer;
 
     private String selectedMethod;
     private int selectedFeedback;
@@ -111,6 +95,13 @@ public class EditorActivity extends BaseActivity implements OnClickListener, Lab
     private int selectedRetryPolicy;
 
     private boolean hasChanges;
+
+    private OnKeyValueChangeListener keyValueChangeListener = new OnKeyValueChangeListener() {
+        @Override
+        public void onChange() {
+            hasChanges = true;
+        }
+    };
 
     @SuppressLint("NewApi")
     @Override
@@ -156,22 +147,33 @@ public class EditorActivity extends BaseActivity implements OnClickListener, Lab
         } else {
             postParamsContainer.setVisibility(View.VISIBLE);
         }
-        postParameterAdapter = new PostParameterAdapter(this);
-        postParameterList.setAdapter(postParameterAdapter);
-        postParameterAdapter.addAll(shortcutStorage.getPostParametersByID(shortcutID));
-        postParameterAddButton.setOnClickListener(this);
-        postParameterList.setOnItemClickListener(this);
-        if (postParameterAdapter.getCount() == 0) {
-            customBodyContainer.setVisibility(View.VISIBLE);
-        } else {
-            customBodyContainer.setVisibility(View.GONE);
-        }
+        postParameterList.addItems(shortcutStorage.getPostParametersByID(shortcutID));
+        postParameterList.setButtonText(R.string.button_add_post_param);
+        postParameterList.setAddDialogTitle(R.string.title_post_param_add);
+        postParameterList.setEditDialogTitle(R.string.title_post_param_edit);
+        postParameterList.setKeyLabel(R.string.label_post_param_key);
+        postParameterList.setValueLabel(R.string.label_post_param_value);
+        postParameterList.setItemFactory(new KeyValuePairFactory<PostParameter>() {
+            @Override
+            public PostParameter create(String key, String value) {
+                return new PostParameter(0, key, value);
+            }
+        });
+        postParameterList.setOnKeyValueChangeListener(keyValueChangeListener);
 
-        customHeaderAdapter = new HeaderAdapter(this);
-        customHeaderList.setAdapter(customHeaderAdapter);
-        customHeaderAdapter.addAll(shortcutStorage.getHeadersByID(shortcutID));
-        customHeaderAddButton.setOnClickListener(this);
-        customHeaderList.setOnItemClickListener(this);
+        customHeaderList.addItems(shortcutStorage.getHeadersByID(shortcutID));
+        customHeaderList.setButtonText(R.string.button_add_custom_header);
+        customHeaderList.setAddDialogTitle(R.string.title_custom_header_add);
+        customHeaderList.setEditDialogTitle(R.string.title_custom_header_edit);
+        customHeaderList.setKeyLabel(R.string.label_custom_header_key);
+        customHeaderList.setValueLabel(R.string.label_custom_header_value);
+        customHeaderList.setItemFactory(new KeyValuePairFactory<Header>() {
+            @Override
+            public Header create(String key, String value) {
+                return new Header(0, key, value);
+            }
+        });
+        customHeaderList.setOnKeyValueChangeListener(keyValueChangeListener);
 
         String[] feedbackStrings = new String[Shortcut.FEEDBACK_OPTIONS.length];
         for (int i = 0; i < Shortcut.FEEDBACK_OPTIONS.length; i++) {
@@ -224,7 +226,12 @@ public class EditorActivity extends BaseActivity implements OnClickListener, Lab
         } else {
             iconView.setBackgroundColor(0);
         }
-        iconView.setOnClickListener(this);
+        iconView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openIconSelectionDialog();
+            }
+        });
         selectedIcon = shortcut.getIconName();
 
         if (shortcut.isNew()) {
@@ -234,13 +241,6 @@ public class EditorActivity extends BaseActivity implements OnClickListener, Lab
         }
 
         hasChanges = false;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        setListViewHeightBasedOnChildren(postParameterList);
-        setListViewHeightBasedOnChildren(customHeaderList);
     }
 
     @Override
@@ -269,55 +269,6 @@ public class EditorActivity extends BaseActivity implements OnClickListener, Lab
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v.equals(iconView)) {
-            openIconSelectionDialog();
-        } else if (v.equals(postParameterAddButton)) {
-
-
-            (new MaterialDialog.Builder(this))
-                    .customView(R.layout.dialog_edit_post_parameter, false)
-                    .title(R.string.title_post_param_edit)
-                    .positiveText(R.string.dialog_ok)
-                    .onPositive(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(MaterialDialog dialog, DialogAction which) {
-                            EditText keyField = (EditText) dialog.findViewById(R.id.input_post_param_key);
-                            EditText valueField = (EditText) dialog.findViewById(R.id.input_post_param_value);
-                            if (!keyField.getText().toString().isEmpty()) {
-                                PostParameter parameter = new PostParameter(0, keyField.getText().toString(), valueField.getText().toString());
-                                postParameterAdapter.add(parameter);
-                                setListViewHeightBasedOnChildren(postParameterList);
-                                customBodyContainer.setVisibility(View.GONE);
-                            }
-                        }
-                    })
-                    .negativeText(R.string.dialog_cancel)
-                    .show();
-        } else if (v.equals(customHeaderAddButton)) {
-
-            (new MaterialDialog.Builder(this))
-                    .customView(R.layout.dialog_edit_custom_header, false)
-                    .title(R.string.title_custom_header_edit)
-                    .positiveText(R.string.dialog_ok)
-                    .onPositive(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(MaterialDialog dialog, DialogAction which) {
-                            EditText keyField = (EditText) dialog.findViewById(R.id.input_custom_header_key);
-                            EditText valueField = (EditText) dialog.findViewById(R.id.input_custom_header_value);
-                            if (!keyField.getText().toString().isEmpty()) {
-                                Header header = new Header(0, keyField.getText().toString(), valueField.getText().toString());
-                                customHeaderAdapter.add(header);
-                                setListViewHeightBasedOnChildren(customHeaderList);
-                            }
-                        }
-                    })
-                    .negativeText(R.string.dialog_cancel)
-                    .show();
-        }
     }
 
     private void openIconSelectionDialog() {
@@ -442,14 +393,9 @@ public class EditorActivity extends BaseActivity implements OnClickListener, Lab
         shortcut.setTimeout(selectedTimeout);
         shortcut.setRetryPolicy(selectedRetryPolicy);
 
-        List<PostParameter> parameters = new ArrayList<PostParameter>();
-        for (int i = 0; i < postParameterAdapter.getCount(); i++) {
-            parameters.add(postParameterAdapter.getItem(i));
-        }
-        List<Header> headers = new ArrayList<Header>();
-        for (int i = 0; i < customHeaderAdapter.getCount(); i++) {
-            headers.add(customHeaderAdapter.getItem(i));
-        }
+
+        List<PostParameter> parameters = postParameterList.getItems();
+        List<Header> headers = customHeaderList.getItems();
 
         if (testOnly) {
             HttpRequester.executeShortcut(this, shortcut, parameters, headers);
@@ -531,97 +477,6 @@ public class EditorActivity extends BaseActivity implements OnClickListener, Lab
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-        if (parent.equals(postParameterList)) {
-            final PostParameter parameter = postParameterAdapter.getItem(position);
-
-            Dialog dialog = (new MaterialDialog.Builder(this))
-                    .customView(R.layout.dialog_edit_post_parameter, false)
-                    .title(R.string.title_post_param_edit)
-                    .positiveText(R.string.dialog_ok)
-                    .onPositive(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(MaterialDialog dialog, DialogAction which) {
-                            EditText keyField = (EditText) dialog.findViewById(R.id.input_post_param_key);
-                            EditText valueField = (EditText) dialog.findViewById(R.id.input_post_param_value);
-                            if (!keyField.getText().toString().isEmpty()) {
-                                parameter.setKey(keyField.getText().toString());
-                                parameter.setValue(valueField.getText().toString());
-                                postParameterAdapter.notifyDataSetChanged();
-                                hasChanges = true;
-                            }
-                        }
-                    })
-                    .neutralText(R.string.dialog_remove)
-                    .onNeutral(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(MaterialDialog dialog, DialogAction which) {
-                            postParameterAdapter.remove(parameter);
-                            setListViewHeightBasedOnChildren(postParameterList);
-                            hasChanges = true;
-                            if (postParameterAdapter.getCount() == 0) {
-                                customBodyContainer.setVisibility(View.VISIBLE);
-                            } else {
-                                customBodyContainer.setVisibility(View.GONE);
-                            }
-                        }
-                    })
-                    .negativeText(R.string.dialog_cancel)
-                    .build();
-
-            EditText keyField = (EditText) dialog.findViewById(R.id.input_post_param_key);
-            keyField.setText(parameter.getKey());
-
-            EditText valueField = (EditText) dialog.findViewById(R.id.input_post_param_value);
-            valueField.setText(parameter.getValue());
-
-            dialog.show();
-
-        } else if (parent.equals(customHeaderList)) {
-
-            final Header header = customHeaderAdapter.getItem(position);
-
-            Dialog dialog = (new MaterialDialog.Builder(this))
-                    .customView(R.layout.dialog_edit_custom_header, false)
-                    .title(R.string.title_custom_header_edit)
-                    .positiveText(R.string.dialog_ok)
-                    .onPositive(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(MaterialDialog dialog, DialogAction which) {
-                            EditText keyField = (EditText) dialog.findViewById(R.id.input_custom_header_key);
-                            EditText valueField = (EditText) dialog.findViewById(R.id.input_custom_header_value);
-                            if (!keyField.getText().toString().isEmpty()) {
-                                header.setKey(keyField.getText().toString());
-                                header.setValue(valueField.getText().toString());
-                                customHeaderAdapter.notifyDataSetChanged();
-                                hasChanges = true;
-                            }
-                        }
-                    }).neutralText(R.string.dialog_remove)
-                    .onNeutral(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(MaterialDialog dialog, DialogAction which) {
-                            customHeaderAdapter.remove(header);
-                            setListViewHeightBasedOnChildren(customHeaderList);
-                            hasChanges = true;
-                        }
-                    })
-                    .negativeText(R.string.dialog_cancel)
-                    .build();
-
-            EditText keyField = (EditText) dialog.findViewById(R.id.input_custom_header_key);
-            keyField.setText(header.getKey());
-
-            EditText valueField = (EditText) dialog.findViewById(R.id.input_custom_header_value);
-            valueField.setText(header.getValue());
-
-            dialog.show();
-
-        }
-    }
-
-    @Override
     public void onItemChosen(View view, AdapterView<?> parent, View itemView, int position, long id) {
         switch (view.getId()) {
             case R.id.input_method:
@@ -675,33 +530,6 @@ public class EditorActivity extends BaseActivity implements OnClickListener, Lab
 
     @Override
     public void afterTextChanged(Editable s) {
-    }
-
-    /**
-     * Method for Setting the Height of the ListView dynamically. Hack to fix the issue of not showing all the items of the ListView when placed inside a ScrollView.
-     *
-     * @param listView
-     */
-    private void setListViewHeightBasedOnChildren(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null)
-            return;
-
-        int desiredWidth = MeasureSpec.makeMeasureSpec(listView.getWidth(), MeasureSpec.UNSPECIFIED);
-        int totalHeight = 0;
-        View view = null;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            view = listAdapter.getView(i, view, listView);
-            if (i == 0)
-                view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, LayoutParams.WRAP_CONTENT));
-
-            view.measure(desiredWidth, MeasureSpec.UNSPECIFIED);
-            totalHeight += view.getMeasuredHeight();
-        }
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
-        listView.requestLayout();
     }
 
     private void hideErrorLabel(LabelledSpinner spinner) {

@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.shortcuts;
+package ch.rmy.android.http_shortcuts.key_value_pairs;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,19 +9,19 @@ import android.widget.TextView;
 
 import ch.rmy.android.http_shortcuts.R;
 
-public class PostParameterAdapter extends ArrayAdapter<PostParameter> {
+public class KeyValueAdapter<T extends KeyValuePair> extends ArrayAdapter<T> {
 
-    public PostParameterAdapter(Context context) {
-        super(context, R.layout.post_parameter_item);
+    public KeyValueAdapter(Context context) {
+        super(context, R.layout.key_value_item);
     }
 
     @Override
     public View getView(int position, View rowView, ViewGroup parent) {
-        PostParameter parameter = getItem(position);
+        T parameter = getItem(position);
 
         if (rowView == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            rowView = inflater.inflate(R.layout.post_parameter_item, parent, false);
+            rowView = inflater.inflate(R.layout.key_value_item, parent, false);
         }
 
         TextView keyView = (TextView) rowView.findViewById(R.id.text_key);

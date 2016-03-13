@@ -11,15 +11,14 @@
         android:orientation="vertical">
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/key_value_key_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <EditText
-                android:id="@+id/input_post_param_key"
+                android:id="@+id/key_value_key"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/label_post_param_key"
                 android:inputType="text"
                 android:singleLine="true">
 
@@ -28,15 +27,14 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/key_value_value_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <EditText
-                android:id="@+id/input_post_param_value"
+                android:id="@+id/key_value_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/label_post_param_value"
                 android:inputType="text"
                 android:singleLine="true"/>
         </android.support.design.widget.TextInputLayout>
