@@ -1,19 +1,15 @@
 package ch.rmy.android.http_shortcuts;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,22 +18,19 @@ import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.view.Window;
-import android.view.WindowManager;
 import android.webkit.URLUtil;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
-import android.widget.Toast;
+
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.farbod.labelledspinner.LabelledSpinner;
 
 import net.dinglisch.ipack.IpackKeys;
 
@@ -49,6 +42,8 @@ import java.util.List;
 
 import butterknife.Bind;
 import ch.rmy.android.http_shortcuts.http.HttpRequester;
+import ch.rmy.android.http_shortcuts.icons.IconSelector;
+import ch.rmy.android.http_shortcuts.listeners.OnIconSelectedListener;
 import ch.rmy.android.http_shortcuts.shortcuts.Header;
 import ch.rmy.android.http_shortcuts.shortcuts.HeaderAdapter;
 import ch.rmy.android.http_shortcuts.shortcuts.PostParameter;
@@ -62,7 +57,7 @@ import ch.rmy.android.http_shortcuts.shortcuts.ShortcutStorage;
  * @author Roland Meyer
  */
 @SuppressLint("InflateParams")
-public class EditorActivity extends BaseActivity implements OnClickListener, OnItemSelectedListener, OnItemClickListener, TextWatcher {
+public class EditorActivity extends BaseActivity implements OnClickListener, LabelledSpinner.OnItemChosenListener, OnItemClickListener, TextWatcher {
 
     public final static String EXTRA_SHORTCUT_ID = "shortcut_id";
     private final static int SELECT_ICON = 1;
@@ -75,13 +70,13 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
     private HeaderAdapter customHeaderAdapter;
 
     @Bind(R.id.input_method)
-    Spinner methodView;
+    LabelledSpinner methodView;
     @Bind(R.id.input_feedback)
-    Spinner feedbackView;
+    LabelledSpinner feedbackView;
     @Bind(R.id.input_timeout)
-    Spinner timeoutView;
+    LabelledSpinner timeoutView;
     @Bind(R.id.input_retry_policy)
-    Spinner retryPolicyView;
+    LabelledSpinner retryPolicyView;
     @Bind(R.id.input_shortcut_name)
     EditText nameView;
     @Bind(R.id.input_description)
@@ -131,13 +126,6 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
             shortcut = shortcutStorage.getShortcutByID(shortcutID);
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(getResources().getColor(R.color.dark_blue));
-        }
-
         nameView.setText(shortcut.getName());
         descriptionView.setText(shortcut.getDescription());
         urlView.setText(shortcut.getProtocol() + "://" + shortcut.getURL());
@@ -153,15 +141,15 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
         customBodyView.addTextChangedListener(this);
 
         selectedMethod = shortcut.getMethod();
-        SpinnerAdapter methodAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, Shortcut.METHODS);
-        methodView.setAdapter(methodAdapter);
+        methodView.setItemsArray(Shortcut.METHODS);
+        hideErrorLabel(methodView);
         for (int i = 0; i < Shortcut.METHODS.length; i++) {
             if (Shortcut.METHODS[i].equals(shortcut.getMethod())) {
                 methodView.setSelection(i);
                 break;
             }
         }
-        methodView.setOnItemSelectedListener(this);
+        methodView.setOnItemChosenListener(this);
 
         if (selectedMethod.equals(Shortcut.METHOD_GET)) {
             postParamsContainer.setVisibility(View.GONE);
@@ -189,9 +177,9 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
         for (int i = 0; i < Shortcut.FEEDBACK_OPTIONS.length; i++) {
             feedbackStrings[i] = getText(Shortcut.FEEDBACK_RESOURCES[i]).toString();
         }
-        SpinnerAdapter feedbackAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, feedbackStrings);
-        feedbackView.setOnItemSelectedListener(this);
-        feedbackView.setAdapter(feedbackAdapter);
+        feedbackView.setOnItemChosenListener(this);
+        feedbackView.setItemsArray(feedbackStrings);
+        hideErrorLabel(feedbackView);
         for (int i = 0; i < Shortcut.FEEDBACK_OPTIONS.length; i++) {
             if (Shortcut.FEEDBACK_OPTIONS[i] == shortcut.getFeedback()) {
                 feedbackView.setSelection(i);
@@ -204,9 +192,9 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
         for (int i = 0; i < Shortcut.TIMEOUT_OPTIONS.length; i++) {
             timeoutStrings[i] = String.format(getText(Shortcut.TIMEOUT_RESOURCES[i]).toString(), Shortcut.TIMEOUT_OPTIONS[i] / 1000);
         }
-        SpinnerAdapter timeoutAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, timeoutStrings);
-        timeoutView.setOnItemSelectedListener(this);
-        timeoutView.setAdapter(timeoutAdapter);
+        timeoutView.setOnItemChosenListener(this);
+        timeoutView.setItemsArray(timeoutStrings);
+        hideErrorLabel(timeoutView);
         for (int i = 0; i < Shortcut.TIMEOUT_OPTIONS.length; i++) {
             if (Shortcut.TIMEOUT_OPTIONS[i] == shortcut.getTimeout()) {
                 timeoutView.setSelection(i);
@@ -219,9 +207,9 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
         for (int i = 0; i < Shortcut.RETRY_POLICY_OPTIONS.length; i++) {
             retryPolicyStrings[i] = getText(Shortcut.RETRY_POLICY_RESOURCES[i]).toString();
         }
-        SpinnerAdapter retryPolicyAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, retryPolicyStrings);
-        retryPolicyView.setOnItemSelectedListener(this);
-        retryPolicyView.setAdapter(retryPolicyAdapter);
+        retryPolicyView.setOnItemChosenListener(this);
+        retryPolicyView.setItemsArray(retryPolicyStrings);
+        hideErrorLabel(retryPolicyView);
         for (int i = 0; i < Shortcut.RETRY_POLICY_OPTIONS.length; i++) {
             if (Shortcut.RETRY_POLICY_OPTIONS[i] == shortcut.getRetryPolicy()) {
                 retryPolicyView.setSelection(i);
@@ -237,7 +225,6 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
             iconView.setBackgroundColor(0);
         }
         iconView.setOnClickListener(this);
-        registerForContextMenu(iconView);
         selectedIcon = shortcut.getIconName();
 
         if (shortcut.isNew()) {
@@ -264,6 +251,11 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
     }
 
     @Override
+    protected int getNavigateUpIcon() {
+        return R.drawable.ic_clear;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -282,105 +274,106 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
     @Override
     public void onClick(View v) {
         if (v.equals(iconView)) {
-            openContextMenu(v);
+            openIconSelectionDialog();
         } else if (v.equals(postParameterAddButton)) {
-            LayoutInflater inflater = LayoutInflater.from(this);
-            View layout = inflater.inflate(R.layout.dialog_edit_post_parameter, null);
 
-            final EditText keyField = (EditText) layout.findViewById(R.id.input_post_param_key);
-            final EditText valueField = (EditText) layout.findViewById(R.id.input_post_param_value);
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setView(layout);
-            builder.setTitle(R.string.title_post_param_edit);
-            builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    if (!keyField.getText().toString().isEmpty()) {
-                        PostParameter parameter = new PostParameter(0, keyField.getText().toString(), valueField.getText().toString());
-                        postParameterAdapter.add(parameter);
-                        setListViewHeightBasedOnChildren(postParameterList);
-                        customBodyContainer.setVisibility(View.GONE);
-                    }
-                }
-            });
-            builder.setNegativeButton(R.string.dialog_cancel, null);
-
-            builder.show();
-        } else if (v.equals(customHeaderAddButton)) {
-            LayoutInflater inflater = LayoutInflater.from(this);
-            View layout = inflater.inflate(R.layout.dialog_edit_custom_header, null);
-
-            final EditText keyField = (EditText) layout.findViewById(R.id.input_custom_header_key);
-            final EditText valueField = (EditText) layout.findViewById(R.id.input_custom_header_value);
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setView(layout);
-            builder.setTitle(R.string.title_custom_header_edit);
-            builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    if (!keyField.getText().toString().isEmpty()) {
-                        Header header = new Header(0, keyField.getText().toString(), valueField.getText().toString());
-                        customHeaderAdapter.add(header);
-                        setListViewHeightBasedOnChildren(customHeaderList);
-                    }
-                }
-            });
-            builder.setNegativeButton(R.string.dialog_cancel, null);
-
-            builder.show();
-        }
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-
-        menu.setHeaderTitle(R.string.change_icon);
-
-        menu.add(Menu.NONE, 2, Menu.NONE, R.string.choose_icon);
-        menu.add(Menu.NONE, 0, Menu.NONE, R.string.choose_image);
-        menu.add(Menu.NONE, 1, Menu.NONE, R.string.choose_ipack_icon);
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case 0: // Choose an image
-                // Workaround for Kitkat (thanks to http://stackoverflow.com/a/20186938/1082111)
-                Intent imageIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                // intent.addCategory(Intent.CATEGORY_OPENABLE);
-                // intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
-                imageIntent.setType("image/*");
-                startActivityForResult(imageIntent, SELECT_ICON);
-                return true;
-            case 1: // Choose an Ipack
-                Intent iconIntent = Intent.createChooser(new Intent(IpackKeys.Actions.ICON_SELECT), getText(R.string.choose_ipack));
-                startActivityForResult(iconIntent, SELECT_IPACK_ICON);
-                return true;
-            case 2: // Choose a built-in icon
-                IconSelector iconSelector = new IconSelector(this, new OnIconSelectedListener() {
-
-                    @Override
-                    public void onIconSelected(String resourceName) {
-                        iconView.setImageResource(getResources().getIdentifier(resourceName, "drawable", getPackageName()));
-
-                        if (resourceName.startsWith("white_")) {
-                            iconView.setBackgroundColor(0xFF000000);
-                        } else {
-                            iconView.setBackgroundColor(0);
+            (new MaterialDialog.Builder(this))
+                    .customView(R.layout.dialog_edit_post_parameter, false)
+                    .title(R.string.title_post_param_edit)
+                    .positiveText(R.string.dialog_ok)
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(MaterialDialog dialog, DialogAction which) {
+                            EditText keyField = (EditText) dialog.findViewById(R.id.input_post_param_key);
+                            EditText valueField = (EditText) dialog.findViewById(R.id.input_post_param_value);
+                            if (!keyField.getText().toString().isEmpty()) {
+                                PostParameter parameter = new PostParameter(0, keyField.getText().toString(), valueField.getText().toString());
+                                postParameterAdapter.add(parameter);
+                                setListViewHeightBasedOnChildren(postParameterList);
+                                customBodyContainer.setVisibility(View.GONE);
+                            }
                         }
+                    })
+                    .negativeText(R.string.dialog_cancel)
+                    .show();
+        } else if (v.equals(customHeaderAddButton)) {
 
-                        selectedIcon = resourceName;
-                        hasChanges = true;
-                    }
-
-                });
-                iconSelector.show();
-                return true;
+            (new MaterialDialog.Builder(this))
+                    .customView(R.layout.dialog_edit_custom_header, false)
+                    .title(R.string.title_custom_header_edit)
+                    .positiveText(R.string.dialog_ok)
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(MaterialDialog dialog, DialogAction which) {
+                            EditText keyField = (EditText) dialog.findViewById(R.id.input_custom_header_key);
+                            EditText valueField = (EditText) dialog.findViewById(R.id.input_custom_header_value);
+                            if (!keyField.getText().toString().isEmpty()) {
+                                Header header = new Header(0, keyField.getText().toString(), valueField.getText().toString());
+                                customHeaderAdapter.add(header);
+                                setListViewHeightBasedOnChildren(customHeaderList);
+                            }
+                        }
+                    })
+                    .negativeText(R.string.dialog_cancel)
+                    .show();
         }
+    }
 
-        return false;
+    private void openIconSelectionDialog() {
+        (new MaterialDialog.Builder(this))
+                .title(R.string.change_icon)
+                .items(R.array.context_menu_choose_icon)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+                        switch (which) {
+                            case 0:
+                                openBuiltInIconSelectionDialog();
+                                return;
+                            case 1:
+                                openImagePicker();
+                                return;
+                            case 2:
+                                openIpackPicker();
+                                return;
+                        }
+                    }
+                })
+                .show();
+    }
+
+    private void openBuiltInIconSelectionDialog() {
+        IconSelector iconSelector = new IconSelector(this, new OnIconSelectedListener() {
+
+            @Override
+            public void onIconSelected(String resourceName) {
+                iconView.setImageResource(getResources().getIdentifier(resourceName, "drawable", getPackageName()));
+
+                if (resourceName.startsWith("white_")) {
+                    iconView.setBackgroundColor(Color.BLACK);
+                } else {
+                    iconView.setBackgroundColor(Color.TRANSPARENT);
+                }
+
+                selectedIcon = resourceName;
+                hasChanges = true;
+            }
+
+        });
+        iconSelector.show();
+    }
+
+    private void openImagePicker() {
+        // Workaround for Kitkat (thanks to http://stackoverflow.com/a/20186938/1082111)
+        Intent imageIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        imageIntent.setType("image/*");
+        startActivityForResult(imageIntent, SELECT_ICON);
+    }
+
+    private void openIpackPicker() {
+        Intent iconIntent = Intent.createChooser(new Intent(IpackKeys.Actions.ICON_SELECT), getText(R.string.choose_ipack));
+        startActivityForResult(iconIntent, SELECT_IPACK_ICON);
     }
 
     @Override
@@ -390,15 +383,17 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
 
     private void confirmClose() {
         if (hasChanges) {
-            new AlertDialog.Builder(this).setTitle(R.string.confirm_discard_changes_title).setMessage(R.string.confirm_discard_changes_message)
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
+            (new MaterialDialog.Builder(this))
+                    .content(R.string.confirm_discard_changes_message)
+                    .positiveText(R.string.dialog_discard)
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                        public void onClick(MaterialDialog dialog, DialogAction which) {
                             cancelAndClose();
                         }
-
-                    }).setNegativeButton(android.R.string.no, null).show();
+                    })
+                    .negativeText(R.string.dialog_cancel)
+                    .show();
         } else {
             cancelAndClose();
         }
@@ -473,8 +468,7 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
     }
 
     private void cancelAndClose() {
-        Intent returnIntent = new Intent();
-        setResult(RESULT_CANCELED, returnIntent);
+        setResult(RESULT_CANCELED);
         finish();
     }
 
@@ -511,7 +505,7 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
                     iconView.setBackgroundColor(0);
                     selectedIcon = null;
                     hasChanges = true;
-                    Toast.makeText(this, R.string.error_set_image, Toast.LENGTH_SHORT).show();
+                    showSnackbar(getString(R.string.error_set_image));
                 } finally {
                     try {
                         if (in != null) {
@@ -523,7 +517,7 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
                     } catch (IOException e) {
                     }
                 }
-            } else if (requestCode == SELECT_IPACK_ICON && resultCode == RESULT_OK) {
+            } else if (requestCode == SELECT_IPACK_ICON) {
                 String ipackageName = intent.getData().getAuthority();
                 int id = intent.getIntExtra(IpackKeys.Extras.ICON_ID, -1);
                 Uri uri = Uri.parse("android.resource://" + ipackageName + "/" + id);
@@ -540,90 +534,96 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         if (parent.equals(postParameterList)) {
-
             final PostParameter parameter = postParameterAdapter.getItem(position);
 
-            LayoutInflater inflater = LayoutInflater.from(this);
-            View layout = inflater.inflate(R.layout.dialog_edit_post_parameter, null);
+            Dialog dialog = (new MaterialDialog.Builder(this))
+                    .customView(R.layout.dialog_edit_post_parameter, false)
+                    .title(R.string.title_post_param_edit)
+                    .positiveText(R.string.dialog_ok)
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(MaterialDialog dialog, DialogAction which) {
+                            EditText keyField = (EditText) dialog.findViewById(R.id.input_post_param_key);
+                            EditText valueField = (EditText) dialog.findViewById(R.id.input_post_param_value);
+                            if (!keyField.getText().toString().isEmpty()) {
+                                parameter.setKey(keyField.getText().toString());
+                                parameter.setValue(valueField.getText().toString());
+                                postParameterAdapter.notifyDataSetChanged();
+                                hasChanges = true;
+                            }
+                        }
+                    })
+                    .neutralText(R.string.dialog_remove)
+                    .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(MaterialDialog dialog, DialogAction which) {
+                            postParameterAdapter.remove(parameter);
+                            setListViewHeightBasedOnChildren(postParameterList);
+                            hasChanges = true;
+                            if (postParameterAdapter.getCount() == 0) {
+                                customBodyContainer.setVisibility(View.VISIBLE);
+                            } else {
+                                customBodyContainer.setVisibility(View.GONE);
+                            }
+                        }
+                    })
+                    .negativeText(R.string.dialog_cancel)
+                    .build();
 
-            final EditText keyField = (EditText) layout.findViewById(R.id.input_post_param_key);
+            EditText keyField = (EditText) dialog.findViewById(R.id.input_post_param_key);
             keyField.setText(parameter.getKey());
 
-            final EditText valueField = (EditText) layout.findViewById(R.id.input_post_param_value);
+            EditText valueField = (EditText) dialog.findViewById(R.id.input_post_param_value);
             valueField.setText(parameter.getValue());
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setView(layout);
-            builder.setTitle(R.string.title_post_param_edit);
-            builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    if (!keyField.getText().toString().isEmpty()) {
-                        parameter.setKey(keyField.getText().toString());
-                        parameter.setValue(valueField.getText().toString());
-                        postParameterAdapter.notifyDataSetChanged();
-                        hasChanges = true;
-                    }
-                }
-            });
-            builder.setNeutralButton(R.string.dialog_remove, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    postParameterAdapter.remove(parameter);
-                    setListViewHeightBasedOnChildren(postParameterList);
-                    hasChanges = true;
-                    if (postParameterAdapter.getCount() == 0) {
-                        customBodyContainer.setVisibility(View.VISIBLE);
-                    } else {
-                        customBodyContainer.setVisibility(View.GONE);
-                    }
-                }
-            });
-            builder.setNegativeButton(R.string.dialog_cancel, null);
-
-            builder.show();
+            dialog.show();
 
         } else if (parent.equals(customHeaderList)) {
 
             final Header header = customHeaderAdapter.getItem(position);
 
-            LayoutInflater inflater = LayoutInflater.from(this);
-            View layout = inflater.inflate(R.layout.dialog_edit_custom_header, null);
+            Dialog dialog = (new MaterialDialog.Builder(this))
+                    .customView(R.layout.dialog_edit_custom_header, false)
+                    .title(R.string.title_custom_header_edit)
+                    .positiveText(R.string.dialog_ok)
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(MaterialDialog dialog, DialogAction which) {
+                            EditText keyField = (EditText) dialog.findViewById(R.id.input_custom_header_key);
+                            EditText valueField = (EditText) dialog.findViewById(R.id.input_custom_header_value);
+                            if (!keyField.getText().toString().isEmpty()) {
+                                header.setKey(keyField.getText().toString());
+                                header.setValue(valueField.getText().toString());
+                                customHeaderAdapter.notifyDataSetChanged();
+                                hasChanges = true;
+                            }
+                        }
+                    }).neutralText(R.string.dialog_remove)
+                    .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(MaterialDialog dialog, DialogAction which) {
+                            customHeaderAdapter.remove(header);
+                            setListViewHeightBasedOnChildren(customHeaderList);
+                            hasChanges = true;
+                        }
+                    })
+                    .negativeText(R.string.dialog_cancel)
+                    .build();
 
-            final EditText keyField = (EditText) layout.findViewById(R.id.input_custom_header_key);
+            EditText keyField = (EditText) dialog.findViewById(R.id.input_custom_header_key);
             keyField.setText(header.getKey());
 
-            final EditText valueField = (EditText) layout.findViewById(R.id.input_custom_header_value);
+            EditText valueField = (EditText) dialog.findViewById(R.id.input_custom_header_value);
             valueField.setText(header.getValue());
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setView(layout);
-            builder.setTitle(R.string.title_custom_header_edit);
-            builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    if (!keyField.getText().toString().isEmpty()) {
-                        header.setKey(keyField.getText().toString());
-                        header.setValue(valueField.getText().toString());
-                        customHeaderAdapter.notifyDataSetChanged();
-                        hasChanges = true;
-                    }
-                }
-            });
-            builder.setNeutralButton(R.string.dialog_remove, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    customHeaderAdapter.remove(header);
-                    setListViewHeightBasedOnChildren(customHeaderList);
-                    hasChanges = true;
-                }
-            });
-            builder.setNegativeButton(R.string.dialog_cancel, null);
-
-            builder.show();
+            dialog.show();
 
         }
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        switch (parent.getId()) {
+    public void onItemChosen(View view, AdapterView<?> parent, View itemView, int position, long id) {
+        switch (view.getId()) {
             case R.id.input_method:
                 selectedMethod = Shortcut.METHODS[position];
                 if (!selectedMethod.equals(shortcut.getMethod())) {
@@ -659,7 +659,7 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
+    public void onNothingChosen(View labelledSpinner, AdapterView<?> adapterView) {
 
     }
 
@@ -702,6 +702,10 @@ public class EditorActivity extends BaseActivity implements OnClickListener, OnI
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
         listView.requestLayout();
+    }
+
+    private void hideErrorLabel(LabelledSpinner spinner) {
+        spinner.getChildAt(3).setVisibility(View.GONE);
     }
 
 }

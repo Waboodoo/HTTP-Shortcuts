@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts;
+package ch.rmy.android.http_shortcuts.listeners;
 
 public interface OnIconSelectedListener {
 

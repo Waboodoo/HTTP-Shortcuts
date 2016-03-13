@@ -1,32 +1,31 @@
 package ch.rmy.android.http_shortcuts;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.ContentUris;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore.Images.Media;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
+import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import ch.rmy.android.http_shortcuts.http.HttpRequester;
+import ch.rmy.android.http_shortcuts.listeners.OnShortcutClickedListener;
 import ch.rmy.android.http_shortcuts.shortcuts.Header;
 import ch.rmy.android.http_shortcuts.shortcuts.PostParameter;
 import ch.rmy.android.http_shortcuts.shortcuts.Shortcut;
@@ -38,14 +37,14 @@ import ch.rmy.android.http_shortcuts.shortcuts.ShortcutStorage;
  *
  * @author Roland Meyer
  */
-public class ListActivity extends BaseActivity implements OnItemClickListener {
+public class ListActivity extends BaseActivity implements OnShortcutClickedListener {
 
     private static final String ACTION_INSTALL_SHORTCUT = "com.android.launcher.action.INSTALL_SHORTCUT";
 
-    @Bind(R.id.no_shortcuts)
-    TextView emptyListText;
     @Bind(R.id.shortcut_list)
-    ListView shortcutList;
+    RecyclerView shortcutList;
+    @Bind(R.id.button_create_shortcut)
+    FloatingActionButton createButton;
 
     private ShortcutStorage shortcutStorage;
     private ShortcutAdapter shortcutAdapter;
@@ -62,7 +61,11 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
         shortcutStorage = new ShortcutStorage(this);
         shortcutAdapter = new ShortcutAdapter(this);
 
-        shortcutList.setOnItemClickListener(this);
+        shortcutAdapter.setOnShortcutClickListener(this);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        shortcutList.setLayoutManager(manager);
+        shortcutList.setHasFixedSize(true);
+        shortcutList.addItemDecoration(new ShortcutListDecorator(this, R.drawable.list_divider));
         shortcutList.setAdapter(shortcutAdapter);
         registerForContextMenu(shortcutList);
 
@@ -72,11 +75,18 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
         if (!changeLog.isPermanentlyHidden() && !changeLog.wasAlreadyShown()) {
             changeLog.show();
         }
+
+        createButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openEditorForCreation();
+            }
+        });
     }
 
     @Override
-    protected void enableUpArrow() {
-
+    protected int getNavigateUpIcon() {
+        return 0;
     }
 
     @Override
@@ -98,9 +108,6 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_create_shortcut:
-                openEditorForCreation();
-                return true;
             case R.id.action_settings:
                 Intent intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
@@ -116,9 +123,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Shortcut shortcut = shortcutStorage.getShortcuts().get(position);
-
+    public void onShortcutClicked(Shortcut shortcut, View view) {
         if (shortcutPlacementMode) {
             Intent intent = getShortcutPlacementIntent(shortcut);
             setResult(RESULT_OK, intent);
@@ -134,96 +139,118 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
                     editShortcut(shortcut);
                     break;
                 case "menu":
-                    view.showContextMenu();
+                    showContextMenu(shortcut);
                     break;
             }
         }
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-        Shortcut shortcut = shortcutStorage.getShortcuts().get(info.position);
-
-        menu.setHeaderTitle(shortcut.getName());
-
-        menu.add(0, 0, 0, R.string.action_place);
-        menu.add(0, 1, 0, R.string.action_run);
-        menu.add(0, 2, 0, R.string.action_edit);
-        menu.add(0, 3, 0, R.string.action_move_up);
-        menu.add(0, 4, 0, R.string.action_move_down);
-        menu.add(0, 5, 0, R.string.action_duplicate);
-        menu.add(0, 6, 0, R.string.action_delete);
+    public void onShortcutLongClicked(Shortcut shortcut, View view) {
+        showContextMenu(shortcut);
     }
 
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+    private void showContextMenu(final Shortcut shortcut) {
+        (new MaterialDialog.Builder(this))
+                .title(shortcut.getName())
+                .items(R.array.context_menu_items)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                        performContextMenuAction(which, shortcut);
+                    }
+                })
+                .show();
+    }
 
-        final Shortcut shortcut = shortcutStorage.getShortcuts().get(info.position);
-
-        switch (item.getItemId()) {
-            case 0: // place shortcut
-                Intent shortcutPlacementIntent = getShortcutPlacementIntent(shortcut);
-                sendBroadcast(shortcutPlacementIntent);
-                return true;
-            case 1: // run
+    private void performContextMenuAction(int action, Shortcut shortcut) {
+        switch (action) {
+            case 0:
+                placeShortcutOnHomeScreen(shortcut);
+                return;
+            case 1:
                 HttpRequester.executeShortcut(this, shortcut, shortcutStorage);
-                return true;
-            case 2: // edit
+                return;
+            case 2:
                 editShortcut(shortcut);
-                return true;
-            case 3: // move up
-                shortcut.setPosition(shortcut.getPosition() - 1);
-                shortcutStorage.storeShortcut(shortcut);
-                updateShortcutList();
-                return true;
-            case 4: // move down
-                shortcut.setPosition(shortcut.getPosition() + 1);
-                shortcutStorage.storeShortcut(shortcut);
-                updateShortcutList();
-                return true;
-            case 5: // duplicate
-                String newName = String.format(getText(R.string.copy).toString(), shortcut.getName());
-                Shortcut newShortcut = shortcut.duplicate(newName);
-                long newId = shortcutStorage.storeShortcut(newShortcut);
-
-                List<PostParameter> oldParameters = shortcutStorage.getPostParametersByID(shortcut.getID());
-                List<PostParameter> newParameters = new ArrayList<PostParameter>();
-                for (PostParameter oldParameter : oldParameters) {
-                    newParameters.add(new PostParameter(0, oldParameter.getKey(), oldParameter.getValue()));
-                }
-                shortcutStorage.storePostParameters(newId, newParameters);
-
-                List<Header> oldHeaders = shortcutStorage.getHeadersByID(shortcut.getID());
-                List<Header> newHeaders = new ArrayList<Header>();
-                for (Header oldHeader : oldHeaders) {
-                    newHeaders.add(new Header(0, oldHeader.getKey(), oldHeader.getValue()));
-                }
-                shortcutStorage.storeHeaders(newId, newHeaders);
-
-                updateShortcutList();
-
-                Toast.makeText(this, String.format(getText(R.string.shortcut_duplicated).toString(), shortcut.getName()), Toast.LENGTH_SHORT).show();
-
-                return true;
-            case 6: // delete
-                new AlertDialog.Builder(this).setTitle(R.string.confirm_delete_title).setMessage(R.string.confirm_delete_message)
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                shortcutStorage.deleteShortcut(shortcut);
-                                updateShortcutList();
-                            }
-
-                        }).setNegativeButton(android.R.string.no, null).show();
-                return true;
+                return;
+            case 3:
+                moveShortcutUp(shortcut);
+                return;
+            case 4:
+                moveShortcutDown(shortcut);
+                return;
+            case 5:
+                duplicateShortcut(shortcut);
+                return;
+            case 6:
+                showDeleteDialog(shortcut);
+                return;
         }
 
-        return false;
+        return;
+    }
+
+    private void placeShortcutOnHomeScreen(Shortcut shortcut) {
+        Intent shortcutPlacementIntent = getShortcutPlacementIntent(shortcut);
+        sendBroadcast(shortcutPlacementIntent);
+        showSnackbar(String.format(getString(R.string.shortcut_placed).toString(), shortcut.getName()));
+    }
+
+    private void moveShortcutUp(Shortcut shortcut) {
+        shortcut.setPosition(shortcut.getPosition() - 1);
+        shortcutStorage.storeShortcut(shortcut);
+        updateShortcutList();
+    }
+
+    private void moveShortcutDown(Shortcut shortcut) {
+        shortcut.setPosition(shortcut.getPosition() + 1);
+        shortcutStorage.storeShortcut(shortcut);
+        updateShortcutList();
+    }
+
+    private void duplicateShortcut(Shortcut shortcut) {
+        String newName = String.format(getText(R.string.copy).toString(), shortcut.getName());
+        Shortcut newShortcut = shortcut.duplicate(newName);
+        long newId = shortcutStorage.storeShortcut(newShortcut);
+
+        List<PostParameter> oldParameters = shortcutStorage.getPostParametersByID(shortcut.getID());
+        List<PostParameter> newParameters = new ArrayList<>();
+        for (PostParameter oldParameter : oldParameters) {
+            newParameters.add(new PostParameter(0, oldParameter.getKey(), oldParameter.getValue()));
+        }
+        shortcutStorage.storePostParameters(newId, newParameters);
+
+        List<Header> oldHeaders = shortcutStorage.getHeadersByID(shortcut.getID());
+        List<Header> newHeaders = new ArrayList<>();
+        for (Header oldHeader : oldHeaders) {
+            newHeaders.add(new Header(0, oldHeader.getKey(), oldHeader.getValue()));
+        }
+        shortcutStorage.storeHeaders(newId, newHeaders);
+
+        updateShortcutList();
+        showSnackbar(String.format(getText(R.string.shortcut_duplicated).toString(), shortcut.getName()));
+
+    }
+
+    private void showDeleteDialog(final Shortcut shortcut) {
+        (new MaterialDialog.Builder(this))
+                .content(R.string.confirm_delete_message)
+                .positiveText(R.string.dialog_delete)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        deleteShortcut(shortcut);
+                    }
+                })
+                .negativeText(R.string.dialog_cancel)
+                .show();
+    }
+
+    private void deleteShortcut(Shortcut shortcut) {
+        shortcutStorage.deleteShortcut(shortcut);
+        updateShortcutList();
+        showSnackbar(String.format(getText(R.string.shortcut_deleted).toString(), shortcut.getName()));
     }
 
     private Intent getShortcutPlacementIntent(Shortcut shortcut) {
@@ -271,20 +298,15 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 
     private void updateShortcutList() {
         List<Shortcut> shortcuts = shortcutStorage.getShortcuts();
-        shortcutAdapter.clear();
-        shortcutAdapter.addAll(shortcuts);
+        shortcutAdapter.updateShortcuts(shortcuts);
 
         if (shortcuts.isEmpty()) {
-
             if (!forwardedToEditor && shortcutPlacementMode) {
                 forwardedToEditor = true;
                 openEditorForCreation();
             }
-
-            emptyListText.setVisibility(View.VISIBLE);
         } else {
             forwardedToEditor = true;
-            emptyListText.setVisibility(View.GONE);
         }
     }
 

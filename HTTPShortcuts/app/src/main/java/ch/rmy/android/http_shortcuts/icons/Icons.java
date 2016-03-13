@@ -1,23 +1,10 @@
-package ch.rmy.android.http_shortcuts;
+package ch.rmy.android.http_shortcuts.icons;
 
-import android.app.Dialog;
-import android.content.Context;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
-import android.widget.GridView;
-import android.widget.ImageView;
+import ch.rmy.android.http_shortcuts.R;
 
-/**
- * A dialog window that lists all built-in icons, from which the user can select one.
- *
- * @author Roland Meyer
- */
-public class IconSelector extends Dialog {
+public class Icons {
 
-    private static final int[] ICONS = {R.drawable.circle_blue, R.drawable.circle_cyan, R.drawable.circle_green, R.drawable.circle_magenta, R.drawable.circle_orange,
+    protected static final int[] ICONS = {R.drawable.circle_blue, R.drawable.circle_cyan, R.drawable.circle_green, R.drawable.circle_magenta, R.drawable.circle_orange,
             R.drawable.circle_purple, R.drawable.circle_red, R.drawable.circle_yellow, R.drawable.black_battery_charging, R.drawable.black_box, R.drawable.black_alarm_clock,
             R.drawable.black_clock, R.drawable.black_calendar_date, R.drawable.black_camera, R.drawable.black_cctv_camera, R.drawable.black_car,
             R.drawable.black_transport_school_bus, R.drawable.black_cycling, R.drawable.black_spaceship, R.drawable.black_cloud, R.drawable.black_color,
@@ -134,69 +121,5 @@ public class IconSelector extends Dialog {
             R.drawable.white_shape_lightning, R.drawable.white_button, R.drawable.white_swap_down, R.drawable.white_swap_left, R.drawable.white_swap_right,
             R.drawable.white_swap_up, R.drawable.white_table_fan, R.drawable.white_video_camera, R.drawable.white_table_lamp, R.drawable.white_remote_control,
             R.drawable.white_television, R.drawable.white_toy};
-
-    /**
-     * Creates the icon selection dialog.
-     *
-     * @param context  The context
-     * @param listener Used as callback when the user selects an icon.
-     */
-    public IconSelector(Context context, final OnIconSelectedListener listener) {
-        super(context);
-
-        setContentView(R.layout.dialog_icon_selector);
-        setTitle(R.string.choose_icon);
-        GridView grid = (GridView) findViewById(R.id.icon_selector_grid);
-        grid.setAdapter(new IconAdapter());
-
-        grid.setOnItemClickListener(new OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                IconSelector.this.dismiss();
-                listener.onIconSelected(getContext().getResources().getResourceEntryName(ICONS[position]));
-            }
-
-        });
-
-        setCancelable(true);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-    }
-
-    private class IconAdapter extends BaseAdapter {
-
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ImageView i = new ImageView(getContext());
-            i.setImageResource(ICONS[position]);
-            i.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            final int w = (int) (16 * getContext().getResources().getDisplayMetrics().density + 0.5f);
-            i.setLayoutParams(new GridView.LayoutParams(w * 2, w * 2));
-            i.setPadding(5, 5, 5, 5);
-
-            if (getContext().getResources().getResourceEntryName(ICONS[position]).startsWith("white")) {
-                i.setBackgroundColor(0xFF000000);
-            }
-
-            return i;
-        }
-
-        public final int getCount() {
-            return ICONS.length;
-        }
-
-        public final long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-    }
 
 }

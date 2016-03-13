@@ -8,34 +8,18 @@
 
     <include layout="@layout/toolbar_layout"/>
 
-    <RelativeLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/shortcut_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:listitem="@layout/list_item"/>
 
-        <ListView
-            android:id="@+id/shortcut_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            tools:listitem="@layout/list_item">
-
-        </ListView>
-
-        <TextView
-            android:id="@+id/no_shortcuts"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentStart="true"
-            android:gravity="center"
-            android:text="@string/no_shortcuts"
-            tools:visibility="gone"/>
-
-    </RelativeLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/button_create_shortcut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_create"/>
 </android.support.design.widget.CoordinatorLayout>

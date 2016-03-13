@@ -1,10 +1,7 @@
 package ch.rmy.android.http_shortcuts;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
@@ -16,6 +13,9 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
+
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -90,37 +90,25 @@ public class SettingsActivity extends BaseActivity {
                     final File targetFile = database.getDatabaseFile();
 
                     if (sourceFile.exists()) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        AlertDialog dialog = builder.create();
-
-                        dialog.setTitle(R.string.import_title);
-                        dialog.setMessage(getActivity().getString(R.string.import_warning_message, sourceFile.getAbsolutePath()));
-
-                        dialog.setButton(AlertDialog.BUTTON_POSITIVE, getActivity().getString(R.string.button_ok), new OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                ImportDatabaseTask copyTask = new ImportDatabaseTask(getActivity());
-                                copyTask.execute(sourceFile, targetFile);
-                            }
-
-                        });
-                        dialog.setButton(AlertDialog.BUTTON_NEGATIVE, getActivity().getString(R.string.button_cancel), (OnClickListener) null);
-                        dialog.setCanceledOnTouchOutside(true);
-
-                        dialog.show();
-
+                        (new MaterialDialog.Builder(getActivity()))
+                                .title(R.string.import_title)
+                                .content(R.string.import_warning_message, sourceFile.getAbsolutePath())
+                                .positiveText(R.string.button_ok)
+                                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                                        ImportDatabaseTask copyTask = new ImportDatabaseTask(getActivity());
+                                        copyTask.execute(sourceFile, targetFile);
+                                    }
+                                })
+                                .negativeText(R.string.button_cancel)
+                                .show();
                     } else {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        AlertDialog dialog = builder.create();
-
-                        dialog.setTitle(R.string.import_title);
-                        dialog.setMessage(getActivity().getString(R.string.import_howto_message, sourceFile.getName(), sourceFile.getParentFile().getAbsolutePath()));
-
-                        dialog.setButton(AlertDialog.BUTTON_POSITIVE, getActivity().getString(R.string.button_ok), (OnClickListener) null);
-                        dialog.setCanceledOnTouchOutside(true);
-
-                        dialog.show();
+                        (new MaterialDialog.Builder(getActivity()))
+                                .title(R.string.import_title)
+                                .content(R.string.import_howto_message, sourceFile.getName(), sourceFile.getParentFile().getAbsolutePath())
+                                .positiveText(R.string.button_ok)
+                                .show();
                     }
 
                     return true;
@@ -219,20 +207,14 @@ public class SettingsActivity extends BaseActivity {
         }
 
         protected void onPostExecute(String path) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            AlertDialog dialog = builder.create();
-
+            MaterialDialog.Builder builder = (new MaterialDialog.Builder(context))
+                    .positiveText(R.string.button_ok);
             if (path == null) {
-                dialog.setTitle(R.string.export_failed_title);
-                dialog.setMessage(context.getString(R.string.export_failed_message));
+                builder.title(R.string.export_failed_title).content(R.string.export_failed_message);
             } else {
-                dialog.setTitle(R.string.export_success_title);
-                dialog.setMessage(context.getString(R.string.export_success_message, path));
+                builder.title(R.string.export_success_title).content(R.string.export_success_message, path);
             }
-            dialog.setButton(AlertDialog.BUTTON_POSITIVE, context.getString(R.string.button_ok), (OnClickListener) null);
-            dialog.setCanceledOnTouchOutside(true);
-
-            dialog.show();
+            builder.show();
         }
 
     }
@@ -275,25 +257,19 @@ public class SettingsActivity extends BaseActivity {
         }
 
         protected void onPostExecute(Integer count) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            AlertDialog dialog = builder.create();
+            MaterialDialog.Builder builder = (new MaterialDialog.Builder(context))
+                    .positiveText(R.string.button_ok);
 
             if (count == 0) {
-                dialog.setTitle(R.string.import_failed_title);
-                dialog.setMessage(context.getString(R.string.import_failed_message));
+                builder
+                        .title(R.string.import_failed_title)
+                        .content(R.string.import_failed_message);
             } else {
-                dialog.setTitle(R.string.import_success_title);
-                if (count == 1) {
-                    dialog.setMessage(context.getString(R.string.import_success_message_one));
-                } else {
-                    dialog.setMessage(context.getString(R.string.import_success_message, count.intValue()));
-                }
+                builder
+                        .title(R.string.import_success_title)
+                        .content(count == 1 ? R.string.import_success_message_one : R.string.import_success_message, count);
             }
-
-            dialog.setButton(AlertDialog.BUTTON_POSITIVE, context.getString(R.string.button_ok), (OnClickListener) null);
-            dialog.setCanceledOnTouchOutside(true);
-
-            dialog.show();
+            builder.show();
         }
 
     }
