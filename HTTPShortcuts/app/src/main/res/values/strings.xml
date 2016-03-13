@@ -12,8 +12,8 @@
     <string name="save_button">Save</string>
     <string name="test_button">Test</string>
     <string name="label_method">Method</string>
-    <string name="label_username">Authentication Username</string>
-    <string name="label_password">Authentication Password</string>
+    <string name="label_username">Username</string>
+    <string name="label_password">Password</string>
     <string name="label_protocol">Protocol</string>
     <string name="label_feedback">Feedback</string>
     <string name="feedback_none">No feedback (run silently)</string>
