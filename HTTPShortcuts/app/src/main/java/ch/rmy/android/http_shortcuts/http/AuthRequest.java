@@ -36,6 +36,9 @@ public class AuthRequest extends StringRequest {
         } else {
             byte[] regularBody = super.getBody();
             byte[] customBody = bodyContent.getBytes();
+            if (regularBody == null) {
+                return customBody;
+            }
             byte[] mergedBody = new byte[regularBody.length + customBody.length];
 
             System.arraycopy(regularBody, 0, mergedBody, 0, regularBody.length);
