@@ -32,7 +32,7 @@
             android:name=".EditorActivity"
             android:label="@string/edit_shortcut"
             android:parentActivityName=".ListActivity"
-            android:windowSoftInputMode="stateVisible|adjustResize">
+            android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ListActivity"/>

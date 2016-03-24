@@ -1,6 +1,8 @@
 package ch.rmy.android.http_shortcuts.shortcuts;
 
-public class PostParameter {
+import ch.rmy.android.http_shortcuts.key_value_pairs.KeyValuePair;
+
+public class PostParameter implements KeyValuePair {
 
     private final long id;
     private String key;
