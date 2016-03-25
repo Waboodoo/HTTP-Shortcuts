@@ -24,8 +24,8 @@ import butterknife.Bind;
 import ch.rmy.android.http_shortcuts.http.HttpRequester;
 import ch.rmy.android.http_shortcuts.listeners.OnShortcutClickedListener;
 import ch.rmy.android.http_shortcuts.realm.Controller;
+import ch.rmy.android.http_shortcuts.realm.models.Category;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
-import io.realm.RealmResults;
 
 /**
  * Main activity to list all shortcuts
@@ -36,12 +36,16 @@ public class ListActivity extends BaseActivity implements OnShortcutClickedListe
 
     private static final String ACTION_INSTALL_SHORTCUT = "com.android.launcher.action.INSTALL_SHORTCUT";
 
+    private final static int REQUEST_CREATE_SHORTCUT = 1;
+    private final static int REQUEST_EDIT_SHORTCUT = 2;
+
     @Bind(R.id.shortcut_list)
     RecyclerView shortcutList;
     @Bind(R.id.button_create_shortcut)
     FloatingActionButton createButton;
 
     private Controller controller;
+    private Category category;
 
     private boolean shortcutPlacementMode = false;
 
@@ -52,8 +56,8 @@ public class ListActivity extends BaseActivity implements OnShortcutClickedListe
         setContentView(R.layout.activity_list);
 
         controller = new Controller(this);
-        RealmResults<Shortcut> shortcuts = controller.getShortcuts();
-        ShortcutAdapter adapter = new ShortcutAdapter(this, shortcuts);
+        category = controller.getCategories().get(0);
+        ShortcutAdapter adapter = new ShortcutAdapter(this, category);
 
         adapter.setOnShortcutClickListener(this);
         LinearLayoutManager manager = new LinearLayoutManager(this);
@@ -71,7 +75,7 @@ public class ListActivity extends BaseActivity implements OnShortcutClickedListe
         });
 
         shortcutPlacementMode = Intent.ACTION_CREATE_SHORTCUT.equals(getIntent().getAction());
-        if (shortcuts.isEmpty() && shortcutPlacementMode) {
+        if (category.getShortcuts().isEmpty() && shortcutPlacementMode) {
             openEditorForCreation();
             // TODO: Store state that forward has occured
         } else {
@@ -122,7 +126,7 @@ public class ListActivity extends BaseActivity implements OnShortcutClickedListe
 
     private void openEditorForCreation() {
         Intent intent = new Intent(this, EditorActivity.class);
-        startActivityForResult(intent, EditorActivity.EDIT_SHORTCUT);
+        startActivityForResult(intent, REQUEST_CREATE_SHORTCUT);
     }
 
     @Override
@@ -178,10 +182,10 @@ public class ListActivity extends BaseActivity implements OnShortcutClickedListe
                 editShortcut(shortcut);
                 return;
             case 3:
-                controller.moveShortcut(shortcut, Controller.DIRECTION_UP);
+                moveShortcut(shortcut, -1);
                 return;
             case 4:
-                controller.moveShortcut(shortcut, Controller.DIRECTION_DOWN);
+                moveShortcut(shortcut, 1);
                 return;
             case 5:
                 duplicateShortcut(shortcut);
@@ -207,12 +211,28 @@ public class ListActivity extends BaseActivity implements OnShortcutClickedListe
     private void editShortcut(Shortcut shortcut) {
         Intent intent = new Intent(this, EditorActivity.class);
         intent.putExtra(EditorActivity.EXTRA_SHORTCUT_ID, shortcut.getId());
-        startActivityForResult(intent, EditorActivity.EDIT_SHORTCUT);
+        startActivityForResult(intent, REQUEST_EDIT_SHORTCUT);
+    }
+
+    private void moveShortcut(Shortcut shortcut, int offset) {
+        int position = category.getShortcuts().indexOf(shortcut) + offset;
+        if (position < 0 || position > category.getShortcuts().size()) {
+            return;
+        }
+        if (position == category.getShortcuts().size()) {
+            controller.moveShortcut(shortcut, category);
+        } else {
+            controller.moveShortcut(shortcut, position);
+        }
     }
 
     private void duplicateShortcut(Shortcut shortcut) {
         String newName = String.format(getText(R.string.copy).toString(), shortcut.getName());
-        controller.duplicateShortcut(shortcut, newName);
+        Shortcut duplicate = controller.persist(shortcut.duplicate(newName));
+        controller.moveShortcut(duplicate, category);
+        int position = category.getShortcuts().indexOf(shortcut);
+        controller.moveShortcut(duplicate, position + 1);
+
         showSnackbar(String.format(getText(R.string.shortcut_duplicated).toString(), shortcut.getName()));
     }
 
@@ -266,16 +286,28 @@ public class ListActivity extends BaseActivity implements OnShortcutClickedListe
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == EditorActivity.EDIT_SHORTCUT && resultCode == RESULT_OK) {
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+
+        if (requestCode == REQUEST_CREATE_SHORTCUT) {
+            long shortcutId = intent.getLongExtra(EditorActivity.EXTRA_SHORTCUT_ID, 0);
+            Shortcut shortcut = controller.getShortcutById(shortcutId);
+            if (shortcut == null) {
+                return;
+            }
+            controller.moveShortcut(shortcut, category);
 
             if (shortcutPlacementMode) {
-                long shortcutId = intent.getLongExtra(EditorActivity.EXTRA_SHORTCUT_ID, 0);
-                Shortcut shortcut = controller.getShortcutById(shortcutId);
-                Intent shortcutIntent = getShortcutPlacementIntent(shortcut);
-                setResult(RESULT_OK, shortcutIntent);
-                finish();
+                returnForHomeScreen(shortcut);
             }
         }
+    }
+
+    private void returnForHomeScreen(Shortcut shortcut) {
+        Intent shortcutIntent = getShortcutPlacementIntent(shortcut);
+        setResult(RESULT_OK, shortcutIntent);
+        finish();
     }
 
 }

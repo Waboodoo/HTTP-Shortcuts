@@ -12,7 +12,6 @@ import io.realm.annotations.Required;
 public class Shortcut extends RealmObject {
 
     public static final String FIELD_ID = "id";
-    public static final String FIELD_POSITION = "position";
     public static final String FIELD_RETRY_STATUS = "retryStatus";
 
     public static final String METHOD_GET = "GET";
@@ -56,7 +55,6 @@ public class Shortcut extends RealmObject {
     private String iconName;
     @Required
     private String feedback;
-    private int position;
     @Required
     private String description;
     @Required
@@ -131,14 +129,6 @@ public class Shortcut extends RealmObject {
 
     public void setFeedback(String feedback) {
         this.feedback = feedback;
-    }
-
-    public int getPosition() {
-        return position;
-    }
-
-    public void setPosition(int position) {
-        this.position = position;
     }
 
     public String getDescription() {
@@ -228,7 +218,6 @@ public class Shortcut extends RealmObject {
         duplicate.setTimeout(getTimeout());
         duplicate.setUrl(getUrl());
         duplicate.setUsername(getUsername());
-        duplicate.setPosition(getPosition() + 1);
         return duplicate;
     }
 

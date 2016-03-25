@@ -49,7 +49,6 @@ public class EditorActivity extends BaseActivity {
     public final static String EXTRA_SHORTCUT_ID = "shortcut_id";
     private final static int SELECT_ICON = 1;
     private final static int SELECT_IPACK_ICON = 3;
-    public final static int EDIT_SHORTCUT = 2;
 
     private Controller controller;
     private Shortcut shortcut;
@@ -363,9 +362,9 @@ public class EditorActivity extends BaseActivity {
         if (testOnly) {
             HttpRequester.executeShortcut(this, shortcut);
         } else {
-            long shortcutID = controller.copyToRealm(shortcut);
+            Shortcut persistedShortcut = controller.persist(shortcut);
             Intent returnIntent = new Intent();
-            returnIntent.putExtra(EXTRA_SHORTCUT_ID, shortcutID);
+            returnIntent.putExtra(EXTRA_SHORTCUT_ID, persistedShortcut.getId());
             setResult(RESULT_OK, returnIntent);
             finish();
         }
