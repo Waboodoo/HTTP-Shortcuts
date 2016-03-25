@@ -231,8 +231,8 @@ public class ListActivity extends BaseActivity implements OnShortcutClickedListe
     }
 
     private void deleteShortcut(Shortcut shortcut) {
-        controller.deleteShortcut(shortcut);
         showSnackbar(String.format(getText(R.string.shortcut_deleted).toString(), shortcut.getName()));
+        controller.deleteShortcut(shortcut);
     }
 
     private Intent getShortcutPlacementIntent(Shortcut shortcut) {

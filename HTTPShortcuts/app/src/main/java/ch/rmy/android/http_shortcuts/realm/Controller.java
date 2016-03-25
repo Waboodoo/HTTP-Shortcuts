@@ -80,8 +80,7 @@ public class Controller {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                realm.copyToRealm(shortcut);
-
+                realm.copyToRealmOrUpdate(shortcut);
             }
         });
         return shortcut.getId();
