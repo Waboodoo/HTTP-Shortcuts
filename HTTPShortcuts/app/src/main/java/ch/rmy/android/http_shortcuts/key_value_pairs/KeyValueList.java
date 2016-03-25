@@ -36,7 +36,6 @@ public class KeyValueList<T extends KeyValuePair> extends FrameLayout {
     private int editDialogTitle;
     private int keyLabel;
     private int valueLabel;
-    private OnKeyValueChangeListener listener;
 
     public KeyValueList(Context context) {
         super(context);
@@ -90,7 +89,6 @@ public class KeyValueList<T extends KeyValuePair> extends FrameLayout {
                             T newItem = factory.create(keyField.getText().toString(), valueField.getText().toString());
                             adapter.add(newItem);
                             updateListViewHeightBasedOnChildren();
-                            notifyListener();
                         }
                     }
                 })
@@ -117,7 +115,6 @@ public class KeyValueList<T extends KeyValuePair> extends FrameLayout {
                             item.setKey(keyField.getText().toString());
                             item.setValue(valueField.getText().toString());
                             adapter.notifyDataSetChanged();
-                            notifyListener();
                         }
                     }
                 })
@@ -127,7 +124,6 @@ public class KeyValueList<T extends KeyValuePair> extends FrameLayout {
                     public void onClick(MaterialDialog dialog, DialogAction which) {
                         adapter.remove(item);
                         updateListViewHeightBasedOnChildren();
-                        notifyListener();
                     }
                 })
                 .negativeText(R.string.dialog_cancel)
@@ -140,12 +136,6 @@ public class KeyValueList<T extends KeyValuePair> extends FrameLayout {
         ((TextInputLayout) dialog.findViewById(R.id.key_value_value_layout)).setHint(getContext().getString(valueLabel));
 
         dialog.show();
-    }
-
-    private void notifyListener() {
-        if (listener != null) {
-            listener.onChange();
-        }
     }
 
     public void addItems(Collection<T> items) {
@@ -183,10 +173,6 @@ public class KeyValueList<T extends KeyValuePair> extends FrameLayout {
 
     public void setValueLabel(int resId) {
         this.valueLabel = resId;
-    }
-
-    public void setOnKeyValueChangeListener(OnKeyValueChangeListener listener) {
-        this.listener = listener;
     }
 
     private void updateListViewHeightBasedOnChildren() {

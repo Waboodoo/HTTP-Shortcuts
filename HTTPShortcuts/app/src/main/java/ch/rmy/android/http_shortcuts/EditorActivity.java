@@ -7,15 +7,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.URLUtil;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,19 +26,17 @@ import net.dinglisch.ipack.IpackKeys;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.List;
 
 import butterknife.Bind;
 import ch.rmy.android.http_shortcuts.http.HttpRequester;
 import ch.rmy.android.http_shortcuts.icons.IconSelector;
 import ch.rmy.android.http_shortcuts.key_value_pairs.KeyValueList;
 import ch.rmy.android.http_shortcuts.key_value_pairs.KeyValuePairFactory;
-import ch.rmy.android.http_shortcuts.key_value_pairs.OnKeyValueChangeListener;
 import ch.rmy.android.http_shortcuts.listeners.OnIconSelectedListener;
-import ch.rmy.android.http_shortcuts.shortcuts.Header;
-import ch.rmy.android.http_shortcuts.shortcuts.PostParameter;
-import ch.rmy.android.http_shortcuts.shortcuts.Shortcut;
-import ch.rmy.android.http_shortcuts.shortcuts.ShortcutStorage;
+import ch.rmy.android.http_shortcuts.realm.Controller;
+import ch.rmy.android.http_shortcuts.realm.models.Header;
+import ch.rmy.android.http_shortcuts.realm.models.Parameter;
+import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 
 /**
  * The activity to create/edit shortcuts.
@@ -49,14 +44,14 @@ import ch.rmy.android.http_shortcuts.shortcuts.ShortcutStorage;
  * @author Roland Meyer
  */
 @SuppressLint("InflateParams")
-public class EditorActivity extends BaseActivity implements LabelledSpinner.OnItemChosenListener, TextWatcher {
+public class EditorActivity extends BaseActivity {
 
     public final static String EXTRA_SHORTCUT_ID = "shortcut_id";
     private final static int SELECT_ICON = 1;
     private final static int SELECT_IPACK_ICON = 3;
     public final static int EDIT_SHORTCUT = 2;
 
-    private ShortcutStorage shortcutStorage;
+    private Controller controller;
     private Shortcut shortcut;
 
     @Bind(R.id.input_method)
@@ -82,26 +77,13 @@ public class EditorActivity extends BaseActivity implements LabelledSpinner.OnIt
     @Bind(R.id.post_params_container)
     LinearLayout postParamsContainer;
     @Bind(R.id.post_parameter_list)
-    KeyValueList postParameterList;
+    KeyValueList<Parameter> parameterList;
     @Bind(R.id.custom_headers_list)
-    KeyValueList customHeaderList;
+    KeyValueList<Header> customHeaderList;
     @Bind(R.id.input_custom_body)
     EditText customBodyView;
 
-    private String selectedMethod;
-    private int selectedFeedback;
     private String selectedIcon;
-    private int selectedTimeout;
-    private int selectedRetryPolicy;
-
-    private boolean hasChanges;
-
-    private OnKeyValueChangeListener keyValueChangeListener = new OnKeyValueChangeListener() {
-        @Override
-        public void onChange() {
-            hasChanges = true;
-        }
-    };
 
     @SuppressLint("NewApi")
     @Override
@@ -109,59 +91,54 @@ public class EditorActivity extends BaseActivity implements LabelledSpinner.OnIt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
-        shortcutStorage = new ShortcutStorage(this);
-        long shortcutID = getIntent().getLongExtra(EXTRA_SHORTCUT_ID, 0);
-        if (shortcutID == 0) {
-            shortcut = shortcutStorage.createShortcut();
+        controller = new Controller(this);
+
+        long shortcutId = getIntent().getLongExtra(EXTRA_SHORTCUT_ID, 0);
+        if (shortcutId == 0) {
+            shortcut = Shortcut.createNew();
         } else {
-            shortcut = shortcutStorage.getShortcutByID(shortcutID);
+            shortcut = controller.getDetachedShortcutById(shortcutId);
+            // TODO: Add null check
         }
 
         nameView.setText(shortcut.getName());
         descriptionView.setText(shortcut.getDescription());
-        urlView.setText(shortcut.getProtocol() + "://" + shortcut.getURL());
+        urlView.setText(shortcut.getUrl());
         usernameView.setText(shortcut.getUsername());
         passwordView.setText(shortcut.getPassword());
         customBodyView.setText(shortcut.getBodyContent());
 
-        nameView.addTextChangedListener(this);
-        descriptionView.addTextChangedListener(this);
-        urlView.addTextChangedListener(this);
-        usernameView.addTextChangedListener(this);
-        passwordView.addTextChangedListener(this);
-        customBodyView.addTextChangedListener(this);
-
-        selectedMethod = shortcut.getMethod();
-        methodView.setItemsArray(Shortcut.METHODS);
+        methodView.setItemsArray(Shortcut.METHOD_OPTIONS);
         hideErrorLabel(methodView);
-        for (int i = 0; i < Shortcut.METHODS.length; i++) {
-            if (Shortcut.METHODS[i].equals(shortcut.getMethod())) {
+        for (int i = 0; i < Shortcut.METHOD_OPTIONS.length; i++) {
+            if (Shortcut.METHOD_OPTIONS[i].equals(shortcut.getMethod())) {
                 methodView.setSelection(i);
                 break;
             }
         }
-        methodView.setOnItemChosenListener(this);
 
-        if (selectedMethod.equals(Shortcut.METHOD_GET)) {
+        if (Shortcut.METHOD_GET.equals(shortcut.getMethod())) {
             postParamsContainer.setVisibility(View.GONE);
         } else {
             postParamsContainer.setVisibility(View.VISIBLE);
         }
-        postParameterList.addItems(shortcutStorage.getPostParametersByID(shortcutID));
-        postParameterList.setButtonText(R.string.button_add_post_param);
-        postParameterList.setAddDialogTitle(R.string.title_post_param_add);
-        postParameterList.setEditDialogTitle(R.string.title_post_param_edit);
-        postParameterList.setKeyLabel(R.string.label_post_param_key);
-        postParameterList.setValueLabel(R.string.label_post_param_value);
-        postParameterList.setItemFactory(new KeyValuePairFactory<PostParameter>() {
+        parameterList.addItems(shortcut.getParameters());
+        parameterList.setButtonText(R.string.button_add_post_param);
+        parameterList.setAddDialogTitle(R.string.title_post_param_add);
+        parameterList.setEditDialogTitle(R.string.title_post_param_edit);
+        parameterList.setKeyLabel(R.string.label_post_param_key);
+        parameterList.setValueLabel(R.string.label_post_param_value);
+        parameterList.setItemFactory(new KeyValuePairFactory<Parameter>() {
             @Override
-            public PostParameter create(String key, String value) {
-                return new PostParameter(0, key, value);
+            public Parameter create(String key, String value) {
+                Parameter parameter = new Parameter();
+                parameter.setKey(key);
+                parameter.setValue(value);
+                return parameter;
             }
         });
-        postParameterList.setOnKeyValueChangeListener(keyValueChangeListener);
 
-        customHeaderList.addItems(shortcutStorage.getHeadersByID(shortcutID));
+        customHeaderList.addItems(shortcut.getHeaders());
         customHeaderList.setButtonText(R.string.button_add_custom_header);
         customHeaderList.setAddDialogTitle(R.string.title_custom_header_add);
         customHeaderList.setEditDialogTitle(R.string.title_custom_header_edit);
@@ -170,31 +147,30 @@ public class EditorActivity extends BaseActivity implements LabelledSpinner.OnIt
         customHeaderList.setItemFactory(new KeyValuePairFactory<Header>() {
             @Override
             public Header create(String key, String value) {
-                return new Header(0, key, value);
+                Header header = new Header();
+                header.setKey(key);
+                header.setValue(value);
+                return header;
             }
         });
-        customHeaderList.setOnKeyValueChangeListener(keyValueChangeListener);
 
         String[] feedbackStrings = new String[Shortcut.FEEDBACK_OPTIONS.length];
         for (int i = 0; i < Shortcut.FEEDBACK_OPTIONS.length; i++) {
             feedbackStrings[i] = getText(Shortcut.FEEDBACK_RESOURCES[i]).toString();
         }
-        feedbackView.setOnItemChosenListener(this);
         feedbackView.setItemsArray(feedbackStrings);
         hideErrorLabel(feedbackView);
         for (int i = 0; i < Shortcut.FEEDBACK_OPTIONS.length; i++) {
-            if (Shortcut.FEEDBACK_OPTIONS[i] == shortcut.getFeedback()) {
+            if (Shortcut.FEEDBACK_OPTIONS[i].equals(shortcut.getFeedback())) {
                 feedbackView.setSelection(i);
                 break;
             }
         }
-        selectedFeedback = shortcut.getFeedback();
 
         String[] timeoutStrings = new String[Shortcut.TIMEOUT_OPTIONS.length];
         for (int i = 0; i < Shortcut.TIMEOUT_OPTIONS.length; i++) {
             timeoutStrings[i] = String.format(getText(Shortcut.TIMEOUT_RESOURCES[i]).toString(), Shortcut.TIMEOUT_OPTIONS[i] / 1000);
         }
-        timeoutView.setOnItemChosenListener(this);
         timeoutView.setItemsArray(timeoutStrings);
         hideErrorLabel(timeoutView);
         for (int i = 0; i < Shortcut.TIMEOUT_OPTIONS.length; i++) {
@@ -203,28 +179,25 @@ public class EditorActivity extends BaseActivity implements LabelledSpinner.OnIt
                 break;
             }
         }
-        selectedTimeout = shortcut.getTimeout();
 
         String[] retryPolicyStrings = new String[Shortcut.RETRY_POLICY_OPTIONS.length];
         for (int i = 0; i < Shortcut.RETRY_POLICY_OPTIONS.length; i++) {
             retryPolicyStrings[i] = getText(Shortcut.RETRY_POLICY_RESOURCES[i]).toString();
         }
-        retryPolicyView.setOnItemChosenListener(this);
         retryPolicyView.setItemsArray(retryPolicyStrings);
         hideErrorLabel(retryPolicyView);
         for (int i = 0; i < Shortcut.RETRY_POLICY_OPTIONS.length; i++) {
-            if (Shortcut.RETRY_POLICY_OPTIONS[i] == shortcut.getRetryPolicy()) {
+            if (Shortcut.RETRY_POLICY_OPTIONS[i].equals(shortcut.getRetryPolicy())) {
                 retryPolicyView.setSelection(i);
                 break;
             }
         }
-        selectedRetryPolicy = shortcut.getRetryPolicy();
 
         iconView.setImageURI(shortcut.getIconURI(this));
         if (shortcut.getIconName() != null && shortcut.getIconName().startsWith("white_")) {
-            iconView.setBackgroundColor(0xFF000000);
+            iconView.setBackgroundColor(Color.BLACK);
         } else {
-            iconView.setBackgroundColor(0);
+            iconView.setBackgroundColor(Color.TRANSPARENT);
         }
         iconView.setOnClickListener(new OnClickListener() {
             @Override
@@ -239,8 +212,6 @@ public class EditorActivity extends BaseActivity implements LabelledSpinner.OnIt
         } else {
             setTitle(R.string.edit_shortcut);
         }
-
-        hasChanges = false;
     }
 
     @Override
@@ -308,7 +279,6 @@ public class EditorActivity extends BaseActivity implements LabelledSpinner.OnIt
                 }
 
                 selectedIcon = resourceName;
-                hasChanges = true;
             }
 
         });
@@ -333,7 +303,7 @@ public class EditorActivity extends BaseActivity implements LabelledSpinner.OnIt
     }
 
     private void confirmClose() {
-        if (hasChanges) {
+        if (hasChanges()) {
             (new MaterialDialog.Builder(this))
                     .content(R.string.confirm_discard_changes_message)
                     .positiveText(R.string.dialog_discard)
@@ -350,9 +320,11 @@ public class EditorActivity extends BaseActivity implements LabelledSpinner.OnIt
         }
     }
 
-    private void compileShortcut(boolean testOnly) {
+    private boolean hasChanges() {
+        return false; // TODO
+    }
 
-        // Validation
+    private void compileShortcut(boolean testOnly) {
         if (nameView.getText().toString().matches("^\\s*$")) {
             if (testOnly) {
                 shortcut.setName("Shortcut");
@@ -366,51 +338,44 @@ public class EditorActivity extends BaseActivity implements LabelledSpinner.OnIt
         }
 
         String url = urlView.getText().toString();
-        if (urlView.getText().length() == 0 || url.equalsIgnoreCase("http://") || url.equalsIgnoreCase("https://") || !(URLUtil.isHttpUrl(url) || URLUtil.isHttpsUrl(url))) {
+        if (!isUrlValid(url)) {
             urlView.setError(getText(R.string.validation_url_invalid));
             urlView.requestFocus();
             return;
         }
 
-        String protocol;
-        if (URLUtil.isHttpsUrl(url)) {
-            protocol = Shortcut.PROTOCOL_HTTPS;
-            url = url.substring(8);
-        } else {
-            protocol = Shortcut.PROTOCOL_HTTP;
-            url = url.substring(7);
-        }
-
-        shortcut.setURL(url);
-        shortcut.setProtocol(protocol);
-        shortcut.setMethod(selectedMethod);
+        shortcut.setUrl(url);
+        shortcut.setMethod(Shortcut.METHOD_OPTIONS[methodView.getSpinner().getSelectedItemPosition()]);
         shortcut.setDescription(descriptionView.getText().toString().trim());
         shortcut.setPassword(passwordView.getText().toString());
         shortcut.setUsername(usernameView.getText().toString());
         shortcut.setIconName(selectedIcon);
         shortcut.setBodyContent(customBodyView.getText().toString());
-        shortcut.setFeedback(selectedFeedback);
-        shortcut.setTimeout(selectedTimeout);
-        shortcut.setRetryPolicy(selectedRetryPolicy);
+        shortcut.setFeedback(Shortcut.FEEDBACK_OPTIONS[feedbackView.getSpinner().getSelectedItemPosition()]);
+        shortcut.setTimeout(Shortcut.TIMEOUT_OPTIONS[timeoutView.getSpinner().getSelectedItemPosition()]);
+        shortcut.setRetryPolicy(Shortcut.RETRY_POLICY_OPTIONS[retryPolicyView.getSpinner().getSelectedItemPosition()]);
 
-
-        List<PostParameter> parameters = postParameterList.getItems();
-        List<Header> headers = customHeaderList.getItems();
+        shortcut.getParameters().clear();
+        shortcut.getParameters().addAll(parameterList.getItems());
+        shortcut.getHeaders().clear();
+        shortcut.getHeaders().addAll(customHeaderList.getItems());
 
         if (testOnly) {
-            HttpRequester.executeShortcut(this, shortcut, parameters, headers);
-
+            HttpRequester.executeShortcut(this, shortcut);
         } else {
-            long shortcutID = shortcutStorage.storeShortcut(shortcut);
-
-            shortcutStorage.storePostParameters(shortcutID, parameters);
-            shortcutStorage.storeHeaders(shortcutID, headers);
-
+            long shortcutID = controller.copyToRealm(shortcut);
             Intent returnIntent = new Intent();
             returnIntent.putExtra(EXTRA_SHORTCUT_ID, shortcutID);
             setResult(RESULT_OK, returnIntent);
             finish();
         }
+    }
+
+    private boolean isUrlValid(String url) {
+        if (urlView.getText().length() == 0 || url.equalsIgnoreCase("http://") || url.equalsIgnoreCase("https://")) {
+            return false;
+        }
+        return URLUtil.isHttpUrl(url) || URLUtil.isHttpsUrl(url);
     }
 
     private void cancelAndClose() {
@@ -444,13 +409,11 @@ public class EditorActivity extends BaseActivity implements LabelledSpinner.OnIt
                     out.flush();
 
                     selectedIcon = iconName;
-                    hasChanges = true;
                 } catch (Exception e) {
                     e.printStackTrace();
                     iconView.setImageResource(Shortcut.DEFAULT_ICON);
                     iconView.setBackgroundColor(0);
                     selectedIcon = null;
-                    hasChanges = true;
                     showSnackbar(getString(R.string.error_set_image));
                 } finally {
                     try {
@@ -471,65 +434,8 @@ public class EditorActivity extends BaseActivity implements LabelledSpinner.OnIt
                 iconView.setBackgroundColor(0);
 
                 selectedIcon = uri.toString();
-                hasChanges = true;
             }
         }
-    }
-
-    @Override
-    public void onItemChosen(View view, AdapterView<?> parent, View itemView, int position, long id) {
-        switch (view.getId()) {
-            case R.id.input_method:
-                selectedMethod = Shortcut.METHODS[position];
-                if (!selectedMethod.equals(shortcut.getMethod())) {
-                    hasChanges = true;
-                }
-
-                if (selectedMethod.equals(Shortcut.METHOD_GET)) {
-                    postParamsContainer.setVisibility(View.GONE);
-                } else {
-                    postParamsContainer.setVisibility(View.VISIBLE);
-                }
-
-                break;
-            case R.id.input_feedback:
-                selectedFeedback = Shortcut.FEEDBACK_OPTIONS[position];
-                if (selectedFeedback != shortcut.getFeedback()) {
-                    hasChanges = true;
-                }
-                break;
-            case R.id.input_timeout:
-                selectedTimeout = Shortcut.TIMEOUT_OPTIONS[position];
-                if (selectedTimeout != shortcut.getTimeout()) {
-                    hasChanges = true;
-                }
-                break;
-            case R.id.input_retry_policy:
-                selectedRetryPolicy = Shortcut.RETRY_POLICY_OPTIONS[position];
-                if (selectedRetryPolicy != shortcut.getRetryPolicy()) {
-                    hasChanges = true;
-                }
-                break;
-        }
-    }
-
-    @Override
-    public void onNothingChosen(View labelledSpinner, AdapterView<?> adapterView) {
-
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        hasChanges = true;
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
     }
 
     private void hideErrorLabel(LabelledSpinner spinner) {

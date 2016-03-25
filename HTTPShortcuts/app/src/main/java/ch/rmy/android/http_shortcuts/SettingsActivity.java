@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import ch.rmy.android.http_shortcuts.shortcuts.ShortcutStorage;
+import ch.rmy.android.http_shortcuts.legacy_database.ShortcutStorage;
 
 public class SettingsActivity extends BaseActivity {
 

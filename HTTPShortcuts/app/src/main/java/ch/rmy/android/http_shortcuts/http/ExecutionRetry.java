@@ -5,21 +5,30 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 
-import java.util.List;
 
-import ch.rmy.android.http_shortcuts.shortcuts.Shortcut;
-import ch.rmy.android.http_shortcuts.shortcuts.ShortcutStorage;
+import ch.rmy.android.http_shortcuts.realm.Controller;
+import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
+import io.realm.RealmResults;
 
 public class ExecutionRetry extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (isNetworkConnected(context)) {
-            ShortcutStorage shortcutStorage = new ShortcutStorage(context);
-            List<Shortcut> pendingShortcuts = shortcutStorage.getShortcutsPendingExecution();
 
-            for (Shortcut shortcut : pendingShortcuts) {
-                HttpRequester.executeShortcut(context, shortcut, shortcutStorage);
+        Controller controller = null;
+        try {
+            controller = new Controller(context);
+
+            if (isNetworkConnected(context)) {
+                RealmResults<Shortcut> pendingShortcuts = controller.getShortcutsPendingExecution();
+
+                for (Shortcut shortcut : pendingShortcuts) {
+                    HttpRequester.executeShortcut(context, shortcut.getId(), controller);
+                }
+            }
+        } finally {
+            if (controller != null) {
+                controller.destroy();
             }
         }
     }

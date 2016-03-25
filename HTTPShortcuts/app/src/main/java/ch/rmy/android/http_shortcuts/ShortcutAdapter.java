@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.shortcuts;
+package ch.rmy.android.http_shortcuts;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -15,8 +15,10 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import ch.rmy.android.http_shortcuts.R;
 import ch.rmy.android.http_shortcuts.listeners.OnShortcutClickedListener;
+import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
+import io.realm.RealmChangeListener;
+import io.realm.RealmResults;
 
 public class ShortcutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -24,12 +26,20 @@ public class ShortcutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private static final int TYPE_EMPTY_MARKER = 1;
 
     private final Context context;
-    private final List<Shortcut> shortcuts = new ArrayList<>();
+    private final RealmResults<Shortcut> shortcuts;
     private OnShortcutClickedListener clickListener;
 
-    public ShortcutAdapter(Context context) {
+    public ShortcutAdapter(Context context, RealmResults<Shortcut> shortcuts) {
         this.context = context;
+        this.shortcuts = shortcuts;
         setHasStableIds(true);
+
+        shortcuts.addChangeListener(new RealmChangeListener() {
+            @Override
+            public void onChange() {
+                notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
@@ -46,13 +56,7 @@ public class ShortcutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (shortcuts.isEmpty()) {
             return -1;
         }
-        return shortcuts.get(position).getID();
-    }
-
-    public void updateShortcuts(List<Shortcut> shortcuts) {
-        this.shortcuts.clear();
-        this.shortcuts.addAll(shortcuts);
-        notifyDataSetChanged();
+        return shortcuts.get(position).getId();
     }
 
     public void setOnShortcutClickListener(OnShortcutClickedListener clickListener) {

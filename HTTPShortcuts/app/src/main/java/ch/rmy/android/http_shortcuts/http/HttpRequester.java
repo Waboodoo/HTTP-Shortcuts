@@ -12,45 +12,36 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.squareup.okhttp.OkHttpClient;
 
-import java.util.List;
-
 import ch.rmy.android.http_shortcuts.R;
-import ch.rmy.android.http_shortcuts.shortcuts.Header;
-import ch.rmy.android.http_shortcuts.shortcuts.PostParameter;
-import ch.rmy.android.http_shortcuts.shortcuts.Shortcut;
-import ch.rmy.android.http_shortcuts.shortcuts.ShortcutStorage;
+import ch.rmy.android.http_shortcuts.realm.Controller;
+import ch.rmy.android.http_shortcuts.realm.models.Header;
+import ch.rmy.android.http_shortcuts.realm.models.Parameter;
+import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 
 public class HttpRequester {
 
     private static final int TOAST_MAX_LENGTH = 400;
 
-    public static void executeShortcut(final Context context, final Shortcut shortcut, final ShortcutStorage shortcutStorage) {
+    public static void executeShortcut(final Context context, final long shortcutId, Controller controller) {
+        Shortcut shortcut = controller.getShortcutById(shortcutId);
         if (shortcut != null) {
 
-            if (isNetworkConnected(context) || shortcut.getRetryPolicy() == Shortcut.RETRY_POLICY_NONE) {
-                final List<PostParameter> parameters;
-                if (shortcut.getMethod().equals(Shortcut.METHOD_GET)) {
-                    parameters = null;
-                } else {
-                    parameters = shortcutStorage.getPostParametersByID(shortcut.getID());
-                }
-
-                final List<Header> headers = shortcutStorage.getHeadersByID(shortcut.getID());
-
-                HttpRequester.executeShortcut(context, shortcut, parameters, headers);
+            if (isNetworkConnected(context) || Shortcut.RETRY_POLICY_NONE.equals(shortcut.getRetryPolicy())) {
+                HttpRequester.executeShortcut(context, shortcut);
             } else {
-                if (shortcut.getFeedback() != Shortcut.FEEDBACK_NONE) {
+                if (Shortcut.FEEDBACK_NONE.equals(shortcut.getFeedback())) {
                     Toast.makeText(context, String.format(context.getText(R.string.execution_delayed).toString(), shortcut.getName()), Toast.LENGTH_LONG).show();
                 }
-                shortcutStorage.markShortcutAsPending(shortcut);
+                // TODO
+                //shortcutStorage.markShortcutAsPending(shortcut);
             }
         } else {
             Toast.makeText(context, R.string.shortcut_not_found, Toast.LENGTH_LONG).show();
         }
     }
 
-    public static void executeShortcut(final Context context, final Shortcut shortcut, final List<PostParameter> parameters, final List<Header> headers) {
-        String url = shortcut.getProtocol() + "://" + shortcut.getURL();
+    public static void executeShortcut(final Context context, final Shortcut shortcut) {
+        String url = shortcut.getUrl();
         int method = getMethod(shortcut);
 
         OkHttpClient client = HttpClients.getDefaultOkHttpClient();
@@ -76,7 +67,7 @@ public class HttpRequester {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if (shortcut.getFeedback() == Shortcut.FEEDBACK_NONE) {
+                if (Shortcut.FEEDBACK_NONE.equals(shortcut.getFeedback())) {
                     return;
                 }
 
@@ -98,13 +89,11 @@ public class HttpRequester {
 
         });
 
-        if (parameters != null) {
-            for (PostParameter parameter : parameters) {
-                stringRequest.addParameter(parameter.getKey(), parameter.getValue());
-            }
+        for (Parameter parameter : shortcut.getParameters()) {
+            stringRequest.addParameter(parameter.getKey(), parameter.getValue());
         }
 
-        for (Header header : headers) {
+        for (Header header : shortcut.getHeaders()) {
             stringRequest.addHeader(header.getKey(), header.getValue());
         }
 
@@ -113,18 +102,18 @@ public class HttpRequester {
     }
 
     private static int getMethod(Shortcut shortcut) {
-        String m = shortcut.getMethod();
-        int method = Request.Method.GET;
-        if (m.equals(Shortcut.METHOD_POST)) {
-            method = Request.Method.POST;
-        } else if (m.equals(Shortcut.METHOD_PUT)) {
-            method = Request.Method.PUT;
-        } else if (m.equals(Shortcut.METHOD_DELETE)) {
-            method = Request.Method.DELETE;
-        } else if (m.equals(Shortcut.METHOD_PATCH)) {
-            method = Request.Method.PATCH;
+        switch (shortcut.getMethod()) {
+            case Shortcut.METHOD_POST:
+                return Request.Method.POST;
+            case Shortcut.METHOD_PUT:
+                return Request.Method.PUT;
+            case Shortcut.METHOD_DELETE:
+                return Request.Method.DELETE;
+            case Shortcut.METHOD_PATCH:
+                return Request.Method.PATCH;
+            default:
+                return Request.Method.GET;
         }
-        return method;
     }
 
     private static boolean isNetworkConnected(Context context) {
