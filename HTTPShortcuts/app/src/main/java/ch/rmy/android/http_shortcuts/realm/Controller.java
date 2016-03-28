@@ -9,11 +9,13 @@ import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmList;
+import io.realm.RealmObject;
 import io.realm.RealmResults;
 
 public class Controller {
 
     private static final int SCHEMA_VERSION = 1;
+    private static final String FIELD_ID = "id";
 
     private final Realm realm;
 
@@ -36,6 +38,7 @@ public class Controller {
             public void execute(Realm realm) {
                 Category defaultCategory = new Category();
                 defaultCategory.setName(defaultCategoryName);
+                defaultCategory.setId(generateId(Category.class));
 
                 Base newBase = new Base();
                 newBase.setCategories(new RealmList<Category>());
@@ -49,8 +52,12 @@ public class Controller {
         realm.close();
     }
 
+    public Category getCategoryById(long id) {
+        return realm.where(Category.class).equalTo(FIELD_ID, id).findFirst();
+    }
+
     public Shortcut getShortcutById(long id) {
-        return realm.where(Shortcut.class).equalTo(Shortcut.FIELD_ID, id).findFirst();
+        return realm.where(Shortcut.class).equalTo(FIELD_ID, id).findFirst();
     }
 
     public Shortcut getDetachedShortcutById(long id) {
@@ -61,8 +68,12 @@ public class Controller {
         return realm.copyFromRealm(shortcut);
     }
 
+    public Base getBase() {
+        return realm.where(Base.class).findFirst();
+    }
+
     public RealmList<Category> getCategories() {
-        return realm.where(Base.class).findFirst().getCategories();
+        return getBase().getCategories();
     }
 
     public void deleteShortcut(final Shortcut shortcut) {
@@ -108,7 +119,7 @@ public class Controller {
 
     public Shortcut persist(final Shortcut shortcut) {
         if (shortcut.isNew()) {
-            shortcut.setId(generateId());
+            shortcut.setId(generateId(Shortcut.class));
         }
 
         realm.executeTransaction(new Realm.Transaction() {
@@ -120,8 +131,8 @@ public class Controller {
         return getShortcutById(shortcut.getId());
     }
 
-    private long generateId() {
-        Number maxId = realm.where(Shortcut.class).max(Shortcut.FIELD_ID);
+    private long generateId(Class<? extends RealmObject> clazz) {
+        Number maxId = realm.where(clazz).max(FIELD_ID);
         long maxIdLong = maxId != null ? maxId.longValue() : 0;
         return maxIdLong + 1;
     }

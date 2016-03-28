@@ -18,7 +18,7 @@
         android:label="@string/app_name"
         android:theme="@style/LightTheme">
         <activity
-            android:name=".ListActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -31,19 +31,19 @@
         <activity
             android:name=".EditorActivity"
             android:label="@string/edit_shortcut"
-            android:parentActivityName=".ListActivity"
+            android:parentActivityName=".MainActivity"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ListActivity"/>
+                android:value=".MainActivity"/>
         </activity>
         <activity
             android:name=".SettingsActivity"
             android:label="@string/settings"
-            android:parentActivityName=".ListActivity">
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ListActivity"/>
+                android:value=".MainActivity"/>
         </activity>
         <activity
             android:name=".ExecuteActivity"

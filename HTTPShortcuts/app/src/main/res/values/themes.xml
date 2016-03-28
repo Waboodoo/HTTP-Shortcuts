@@ -13,5 +13,4 @@
         <item name="android:textColorPrimaryInverse">@android:color/white</item>
         <item name="selectableItemBackground">?android:selectableItemBackground</item>
     </style>
-
 </resources>

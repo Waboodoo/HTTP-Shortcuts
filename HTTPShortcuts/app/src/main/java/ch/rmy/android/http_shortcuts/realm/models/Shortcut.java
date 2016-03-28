@@ -11,7 +11,6 @@ import io.realm.annotations.Required;
 
 public class Shortcut extends RealmObject {
 
-    public static final String FIELD_ID = "id";
     public static final String FIELD_RETRY_STATUS = "retryStatus";
 
     public static final String METHOD_GET = "GET";
