@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.realm;
 import android.content.Context;
 
 import ch.rmy.android.http_shortcuts.R;
+import ch.rmy.android.http_shortcuts.legacy_database.Migration;
 import ch.rmy.android.http_shortcuts.realm.models.Base;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
@@ -29,6 +30,9 @@ public class Controller {
         if (realm.where(Base.class).count() == 0) {
             setupBase(context);
         }
+
+        Migration migration = new Migration(context, this);
+        migration.migrate();
     }
 
     private void setupBase(Context context) {
@@ -114,7 +118,7 @@ public class Controller {
     }
 
     public RealmResults<Shortcut> getShortcutsPendingExecution() {
-        return realm.where(Shortcut.class).equalTo(Shortcut.FIELD_RETRY_STATUS, Shortcut.RETRY_STATUS_WAITING).findAll();
+        return null; // TODO
     }
 
     public Shortcut persist(final Shortcut shortcut) {

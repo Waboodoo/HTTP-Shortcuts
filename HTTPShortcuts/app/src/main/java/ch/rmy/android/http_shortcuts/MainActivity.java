@@ -157,7 +157,7 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
     public void placeShortcutOnHomeScreen(Shortcut shortcut) {
         Intent shortcutPlacementIntent = getShortcutPlacementIntent(shortcut);
         sendBroadcast(shortcutPlacementIntent);
-        showSnackbar(String.format(getString(R.string.shortcut_placed).toString(), shortcut.getName()));
+        showSnackbar(String.format(getString(R.string.shortcut_placed), shortcut.getName()));
     }
 
     @Override

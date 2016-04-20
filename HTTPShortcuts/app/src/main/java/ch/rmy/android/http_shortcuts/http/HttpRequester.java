@@ -23,7 +23,7 @@ public class HttpRequester {
     private static final int TOAST_MAX_LENGTH = 400;
 
     public static void executeShortcut(final Context context, final long shortcutId, Controller controller) {
-        Shortcut shortcut = controller.getShortcutById(shortcutId);
+        Shortcut shortcut = controller.getDetachedShortcutById(shortcutId);
         if (shortcut != null) {
 
             if (isNetworkConnected(context) || Shortcut.RETRY_POLICY_NONE.equals(shortcut.getRetryPolicy())) {

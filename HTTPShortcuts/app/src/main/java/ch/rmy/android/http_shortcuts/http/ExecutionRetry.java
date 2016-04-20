@@ -5,10 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 
-
 import ch.rmy.android.http_shortcuts.realm.Controller;
-import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
-import io.realm.RealmResults;
 
 public class ExecutionRetry extends BroadcastReceiver {
 
@@ -19,13 +16,13 @@ public class ExecutionRetry extends BroadcastReceiver {
         try {
             controller = new Controller(context);
 
-            if (isNetworkConnected(context)) {
+            /*if (isNetworkConnected(context)) { //TODO
                 RealmResults<Shortcut> pendingShortcuts = controller.getShortcutsPendingExecution();
 
                 for (Shortcut shortcut : pendingShortcuts) {
                     HttpRequester.executeShortcut(context, shortcut.getId(), controller);
                 }
-            }
+            }*/
         } finally {
             if (controller != null) {
                 controller.destroy();

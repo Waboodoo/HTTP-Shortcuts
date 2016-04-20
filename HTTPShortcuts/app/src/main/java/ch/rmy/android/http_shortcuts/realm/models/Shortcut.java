@@ -27,8 +27,6 @@ public class Shortcut extends RealmObject {
     public static final String RETRY_POLICY_NONE = "none";
     public static final String RETRY_POLICY_WAIT_FOR_INTERNET = "wait_for_internet";
 
-    public static final String RETRY_STATUS_WAITING = "waiting";
-
     public static final int DEFAULT_ICON = R.drawable.ic_launcher;
 
     public static final String[] METHOD_OPTIONS = {METHOD_GET, METHOD_POST, METHOD_PUT, METHOD_DELETE, METHOD_PATCH};
@@ -63,8 +61,6 @@ public class Shortcut extends RealmObject {
     private String retryPolicy;
     private RealmList<Header> headers;
     private RealmList<Parameter> parameters;
-
-    private String retryStatus;
 
     public long getId() {
         return id;
@@ -178,14 +174,6 @@ public class Shortcut extends RealmObject {
         this.parameters = parameters;
     }
 
-    public String getRetryStatus() {
-        return retryStatus;
-    }
-
-    public void setRetryStatus(String retryStatus) {
-        this.retryStatus = retryStatus;
-    }
-
     public boolean isNew() {
         return id == 0;
     }
@@ -217,6 +205,23 @@ public class Shortcut extends RealmObject {
         duplicate.setTimeout(getTimeout());
         duplicate.setUrl(getUrl());
         duplicate.setUsername(getUsername());
+
+        duplicate.setParameters(new RealmList<Parameter>());
+        for (Parameter parameter : getParameters()) {
+            Parameter duplicatedParameter = new Parameter();
+            duplicatedParameter.setKey(parameter.getKey());
+            duplicatedParameter.setValue(parameter.getValue());
+            duplicate.getParameters().add(duplicatedParameter);
+        }
+
+        duplicate.setHeaders(new RealmList<Header>());
+        for (Header header : getHeaders()) {
+            Header duplicatedHeader = new Header();
+            duplicatedHeader.setKey(header.getKey());
+            duplicatedHeader.setValue(header.getValue());
+            duplicate.getHeaders().add(duplicatedHeader);
+        }
+
         return duplicate;
     }
 
