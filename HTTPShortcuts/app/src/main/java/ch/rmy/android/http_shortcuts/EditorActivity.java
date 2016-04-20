@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.URLUtil;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -109,6 +110,18 @@ public class EditorActivity extends BaseActivity {
 
         methodView.setItemsArray(Shortcut.METHOD_OPTIONS);
         hideErrorLabel(methodView);
+        methodView.setOnItemChosenListener(new LabelledSpinner.OnItemChosenListener() {
+            @Override
+            public void onItemChosen(View labelledSpinner, AdapterView<?> adapterView, View itemView, int position, long id) {
+                boolean methodIsGet = Shortcut.METHOD_OPTIONS[methodView.getSpinner().getSelectedItemPosition()].equals(Shortcut.METHOD_GET);
+                postParamsContainer.setVisibility(methodIsGet ? View.GONE : View.VISIBLE);
+            }
+
+            @Override
+            public void onNothingChosen(View labelledSpinner, AdapterView<?> adapterView) {
+
+            }
+        });
         for (int i = 0; i < Shortcut.METHOD_OPTIONS.length; i++) {
             if (Shortcut.METHOD_OPTIONS[i].equals(shortcut.getMethod())) {
                 methodView.setSelection(i);
