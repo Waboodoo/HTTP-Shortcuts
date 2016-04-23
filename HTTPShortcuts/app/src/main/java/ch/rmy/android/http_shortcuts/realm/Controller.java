@@ -40,8 +40,7 @@ public class Controller {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                Category defaultCategory = new Category();
-                defaultCategory.setName(defaultCategoryName);
+                Category defaultCategory = Category.createNew(defaultCategoryName);
                 defaultCategory.setId(generateId(Category.class));
 
                 Base newBase = new Base();

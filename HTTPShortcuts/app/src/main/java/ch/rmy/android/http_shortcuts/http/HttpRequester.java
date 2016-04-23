@@ -30,7 +30,7 @@ public class HttpRequester {
                 HttpRequester.executeShortcut(context, shortcut);
             } else {
                 if (Shortcut.FEEDBACK_NONE.equals(shortcut.getFeedback())) {
-                    Toast.makeText(context, String.format(context.getText(R.string.execution_delayed).toString(), shortcut.getName()), Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, String.format(context.getText(R.string.execution_delayed).toString(), shortcut.getSafeName(context)), Toast.LENGTH_LONG).show();
                 }
                 // TODO
                 //shortcutStorage.markShortcutAsPending(shortcut);
@@ -53,7 +53,7 @@ public class HttpRequester {
             public void onResponse(String response) {
                 switch (shortcut.getFeedback()) {
                     case Shortcut.FEEDBACK_SIMPLE:
-                        Toast.makeText(context, String.format(context.getText(R.string.executed).toString(), shortcut.getName()), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, String.format(context.getText(R.string.executed).toString(), shortcut.getSafeName(context)), Toast.LENGTH_SHORT).show();
                         break;
                     case Shortcut.FEEDBACK_FULL_RESPONSE:
                         String message = response;
@@ -71,16 +71,18 @@ public class HttpRequester {
                     return;
                 }
 
+                String name = shortcut.getSafeName(context);
+
                 String message;
                 if (error.networkResponse != null) {
-                    message = String.format(context.getText(R.string.error_http).toString(), shortcut.getName(), error.networkResponse.statusCode);
+                    message = String.format(context.getText(R.string.error_http).toString(), name, error.networkResponse.statusCode);
                 } else {
                     if (error.getCause() != null && error.getCause().getMessage() != null) {
-                        message = String.format(context.getText(R.string.error_other).toString(), shortcut.getName(), error.getCause().getMessage());
+                        message = String.format(context.getText(R.string.error_other).toString(), name, error.getCause().getMessage());
                     } else if (error.getMessage() != null) {
-                        message = String.format(context.getText(R.string.error_other).toString(), shortcut.getName(), error.getMessage());
+                        message = String.format(context.getText(R.string.error_other).toString(), name, error.getMessage());
                     } else {
-                        message = String.format(context.getText(R.string.error_other).toString(), shortcut.getName(), error.getClass().getSimpleName());
+                        message = String.format(context.getText(R.string.error_other).toString(), name, error.getClass().getSimpleName());
                     }
                     error.printStackTrace();
                 }

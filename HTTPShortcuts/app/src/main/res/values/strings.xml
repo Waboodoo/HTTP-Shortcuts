@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">HTTP Shortcuts</string>
     <string name="shortcuts">Shortcuts</string>
+    <string name="shortcut_safe_name">Shortcut</string>
     <string name="edit_shortcut">Edit Shortcut</string>
     <string name="create_shortcut">Create Shortcut</string>
     <string name="icon_description">Icon</string>

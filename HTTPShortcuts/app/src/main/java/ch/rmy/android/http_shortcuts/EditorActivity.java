@@ -12,7 +12,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.webkit.URLUtil;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -38,6 +37,8 @@ import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Header;
 import ch.rmy.android.http_shortcuts.realm.models.Parameter;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
+import ch.rmy.android.http_shortcuts.utils.Validation;
+import ch.rmy.android.http_shortcuts.utils.ViewUtil;
 
 /**
  * The activity to create/edit shortcuts.
@@ -52,6 +53,7 @@ public class EditorActivity extends BaseActivity {
     private final static int SELECT_IPACK_ICON = 3;
 
     private Controller controller;
+    private Shortcut oldShortcut;
     private Shortcut shortcut;
 
     @Bind(R.id.input_method)
@@ -96,8 +98,10 @@ public class EditorActivity extends BaseActivity {
         long shortcutId = getIntent().getLongExtra(EXTRA_SHORTCUT_ID, 0);
         if (shortcutId == 0) {
             shortcut = Shortcut.createNew();
+            oldShortcut = Shortcut.createNew();
         } else {
             shortcut = controller.getDetachedShortcutById(shortcutId);
+            oldShortcut = controller.getDetachedShortcutById(shortcutId);
             // TODO: Add null check
         }
 
@@ -241,17 +245,44 @@ public class EditorActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
+            case android.R.id.home: {
                 confirmClose();
                 return true;
-            case R.id.action_save_shortcut:
-                compileShortcut(false);
+            }
+            case R.id.action_save_shortcut: {
+                compileShortcut();
+                if (validate(false)) {
+                    Shortcut persistedShortcut = controller.persist(shortcut);
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra(EXTRA_SHORTCUT_ID, persistedShortcut.getId());
+                    setResult(RESULT_OK, returnIntent);
+                    finish();
+                }
                 return true;
-            case R.id.action_test_shortcut:
-                compileShortcut(true);
+            }
+            case R.id.action_test_shortcut: {
+                compileShortcut();
+                if (validate(true)) {
+                    HttpRequester.executeShortcut(this, shortcut);
+                }
                 return true;
+            }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private boolean validate(boolean testOnly) {
+        if (!testOnly && Validation.isEmpty(shortcut.getName())) {
+            nameView.setError(getText(R.string.validation_name_not_empty));
+            ViewUtil.focus(nameView);
+            return false;
+        }
+        if (!Validation.isValidUrl(shortcut.getUrl())) {
+            urlView.setError(getText(R.string.validation_url_invalid));
+            ViewUtil.focus(urlView);
+            return false;
+        }
+        return true;
     }
 
     private void openIconSelectionDialog() {
@@ -315,6 +346,7 @@ public class EditorActivity extends BaseActivity {
     }
 
     private void confirmClose() {
+        compileShortcut();
         if (hasChanges()) {
             (new MaterialDialog.Builder(this))
                     .content(R.string.confirm_discard_changes_message)
@@ -333,30 +365,12 @@ public class EditorActivity extends BaseActivity {
     }
 
     private boolean hasChanges() {
-        return false; // TODO
+        return !oldShortcut.equals(shortcut);
     }
 
-    private void compileShortcut(boolean testOnly) {
-        if (nameView.getText().toString().matches("^\\s*$")) {
-            if (testOnly) {
-                shortcut.setName("Shortcut");
-            } else {
-                nameView.setError(getText(R.string.validation_name_not_empty));
-                nameView.requestFocus();
-                return;
-            }
-        } else {
-            shortcut.setName(nameView.getText().toString().trim());
-        }
-
-        String url = urlView.getText().toString();
-        if (!isUrlValid(url)) {
-            urlView.setError(getText(R.string.validation_url_invalid));
-            urlView.requestFocus();
-            return;
-        }
-
-        shortcut.setUrl(url);
+    private void compileShortcut() {
+        shortcut.setName(nameView.getText().toString().trim());
+        shortcut.setUrl(urlView.getText().toString());
         shortcut.setMethod(Shortcut.METHOD_OPTIONS[methodView.getSpinner().getSelectedItemPosition()]);
         shortcut.setDescription(descriptionView.getText().toString().trim());
         shortcut.setPassword(passwordView.getText().toString());
@@ -371,23 +385,6 @@ public class EditorActivity extends BaseActivity {
         shortcut.getParameters().addAll(parameterList.getItems());
         shortcut.getHeaders().clear();
         shortcut.getHeaders().addAll(customHeaderList.getItems());
-
-        if (testOnly) {
-            HttpRequester.executeShortcut(this, shortcut);
-        } else {
-            Shortcut persistedShortcut = controller.persist(shortcut);
-            Intent returnIntent = new Intent();
-            returnIntent.putExtra(EXTRA_SHORTCUT_ID, persistedShortcut.getId());
-            setResult(RESULT_OK, returnIntent);
-            finish();
-        }
-    }
-
-    private boolean isUrlValid(String url) {
-        if (urlView.getText().length() == 0 || url.equalsIgnoreCase("http://") || url.equalsIgnoreCase("https://")) {
-            return false;
-        }
-        return URLUtil.isHttpUrl(url) || URLUtil.isHttpsUrl(url);
     }
 
     private void cancelAndClose() {
@@ -451,7 +448,7 @@ public class EditorActivity extends BaseActivity {
     }
 
     private void hideErrorLabel(LabelledSpinner spinner) {
-        spinner.getChildAt(3).setVisibility(View.GONE);
+        spinner.getErrorLabel().setVisibility(View.GONE);
     }
 
 }

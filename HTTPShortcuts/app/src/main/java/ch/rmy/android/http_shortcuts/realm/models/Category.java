@@ -37,4 +37,33 @@ public class Category extends RealmObject {
         this.name = name;
     }
 
+    public static Category createNew(String name) {
+        Category category = new Category();
+        category.setId(0);
+        category.setName(name);
+        category.setShortcuts(new RealmList<Shortcut>());
+        return category;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Category category = (Category) o;
+
+        if (getId() != category.getId()) return false;
+        if (!getName().equals(category.getName())) return false;
+        return getShortcuts().equals(category.getShortcuts());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (getId() ^ (getId() >>> 32));
+        result = 31 * result + getName().hashCode();
+        result = 31 * result + getShortcuts().hashCode();
+        return result;
+    }
+
 }

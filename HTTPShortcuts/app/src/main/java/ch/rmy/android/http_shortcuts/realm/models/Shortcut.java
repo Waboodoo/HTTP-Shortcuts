@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 
 import ch.rmy.android.http_shortcuts.R;
+import ch.rmy.android.http_shortcuts.utils.Validation;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -181,6 +182,11 @@ public class Shortcut extends RealmObject {
     public static Shortcut createNew() {
         Shortcut shortcut = new Shortcut();
         shortcut.setId(0);
+        shortcut.setName("");
+        shortcut.setDescription("");
+        shortcut.setUsername("");
+        shortcut.setPassword("");
+        shortcut.setBodyContent("");
         shortcut.setMethod(METHOD_GET);
         shortcut.setUrl("http://");
         shortcut.setTimeout(TIMEOUT_OPTIONS[1]);
@@ -239,4 +245,53 @@ public class Shortcut extends RealmObject {
         }
     }
 
+    public String getSafeName(Context context) {
+        if (Validation.isEmpty(name)) {
+            return context.getString(R.string.shortcut_safe_name);
+        }
+        return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Shortcut shortcut = (Shortcut) o;
+
+        if (getId() != shortcut.getId()) return false;
+        if (getTimeout() != shortcut.getTimeout()) return false;
+        if (!getName().equals(shortcut.getName())) return false;
+        if (!getMethod().equals(shortcut.getMethod())) return false;
+        if (!getUrl().equals(shortcut.getUrl())) return false;
+        if (!getUsername().equals(shortcut.getUsername())) return false;
+        if (!getPassword().equals(shortcut.getPassword())) return false;
+        if (getIconName() != null ? !getIconName().equals(shortcut.getIconName()) : shortcut.getIconName() != null)
+            return false;
+        if (!getFeedback().equals(shortcut.getFeedback())) return false;
+        if (!getDescription().equals(shortcut.getDescription())) return false;
+        if (!getBodyContent().equals(shortcut.getBodyContent())) return false;
+        if (!getRetryPolicy().equals(shortcut.getRetryPolicy())) return false;
+        if (!getHeaders().equals(shortcut.getHeaders())) return false;
+        return getParameters().equals(shortcut.getParameters());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (getId() ^ (getId() >>> 32));
+        result = 31 * result + getName().hashCode();
+        result = 31 * result + getMethod().hashCode();
+        result = 31 * result + getUrl().hashCode();
+        result = 31 * result + getUsername().hashCode();
+        result = 31 * result + getPassword().hashCode();
+        result = 31 * result + (getIconName() != null ? getIconName().hashCode() : 0);
+        result = 31 * result + getFeedback().hashCode();
+        result = 31 * result + getDescription().hashCode();
+        result = 31 * result + getBodyContent().hashCode();
+        result = 31 * result + getTimeout();
+        result = 31 * result + getRetryPolicy().hashCode();
+        result = 31 * result + getHeaders().hashCode();
+        result = 31 * result + getParameters().hashCode();
+        return result;
+    }
 }
