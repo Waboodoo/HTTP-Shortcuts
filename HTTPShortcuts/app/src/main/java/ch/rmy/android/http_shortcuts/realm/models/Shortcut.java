@@ -214,18 +214,12 @@ public class Shortcut extends RealmObject {
 
         duplicate.setParameters(new RealmList<Parameter>());
         for (Parameter parameter : getParameters()) {
-            Parameter duplicatedParameter = new Parameter();
-            duplicatedParameter.setKey(parameter.getKey());
-            duplicatedParameter.setValue(parameter.getValue());
-            duplicate.getParameters().add(duplicatedParameter);
+            duplicate.getParameters().add(Parameter.createNew(parameter.getKey(), parameter.getValue()));
         }
 
         duplicate.setHeaders(new RealmList<Header>());
         for (Header header : getHeaders()) {
-            Header duplicatedHeader = new Header();
-            duplicatedHeader.setKey(header.getKey());
-            duplicatedHeader.setValue(header.getValue());
-            duplicate.getHeaders().add(duplicatedHeader);
+            duplicate.getHeaders().add(Header.createNew(header.getKey(), header.getValue()));
         }
 
         return duplicate;
@@ -294,4 +288,29 @@ public class Shortcut extends RealmObject {
         result = 31 * result + getParameters().hashCode();
         return result;
     }
+
+    public static String[] getFeedbackOptions(Context context) {
+        String[] feedbackStrings = new String[Shortcut.FEEDBACK_OPTIONS.length];
+        for (int i = 0; i < Shortcut.FEEDBACK_OPTIONS.length; i++) {
+            feedbackStrings[i] = context.getString(Shortcut.FEEDBACK_RESOURCES[i]);
+        }
+        return feedbackStrings;
+    }
+
+    public static String[] getTimeoutOptions(Context context) {
+        String[] timeoutStrings = new String[Shortcut.TIMEOUT_OPTIONS.length];
+        for (int i = 0; i < Shortcut.TIMEOUT_OPTIONS.length; i++) {
+            timeoutStrings[i] = context.getString(Shortcut.TIMEOUT_RESOURCES[i], Shortcut.TIMEOUT_OPTIONS[i] / 1000);
+        }
+        return timeoutStrings;
+    }
+
+    public static String[] getRetryPolicyOptions(Context context) {
+        String[] retryPolicyStrings = new String[Shortcut.RETRY_POLICY_OPTIONS.length];
+        for (int i = 0; i < Shortcut.RETRY_POLICY_OPTIONS.length; i++) {
+            retryPolicyStrings[i] = context.getString(Shortcut.RETRY_POLICY_RESOURCES[i]);
+        }
+        return retryPolicyStrings;
+    }
+
 }

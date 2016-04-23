@@ -89,17 +89,11 @@ public class Migration {
     }
 
     private Header migrateHeader(LegacyHeader oldHeader) {
-        Header header = new Header();
-        header.setKey(oldHeader.getKey());
-        header.setValue(oldHeader.getValue());
-        return header;
+        return Header.createNew(oldHeader.getKey(), oldHeader.getValue());
     }
 
     private Parameter migrateParameter(LegacyParameter oldParameter) {
-        Parameter parameter = new Parameter();
-        parameter.setKey(oldParameter.getKey());
-        parameter.setValue(oldParameter.getValue());
-        return parameter;
+        return Parameter.createNew(oldParameter.getKey(), oldParameter.getValue());
     }
 
     private String sanitize(String string) {

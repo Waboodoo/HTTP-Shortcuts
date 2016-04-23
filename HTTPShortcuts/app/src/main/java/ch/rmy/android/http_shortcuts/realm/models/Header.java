@@ -27,6 +27,13 @@ public class Header extends RealmObject implements KeyValuePair {
         this.value = value;
     }
 
+    public static Header createNew(String key, String value) {
+        Header header = new Header();
+        header.setKey(key);
+        header.setValue(value);
+        return header;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -45,4 +52,5 @@ public class Header extends RealmObject implements KeyValuePair {
         result = 31 * result + getValue().hashCode();
         return result;
     }
+
 }

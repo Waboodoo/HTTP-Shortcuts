@@ -31,6 +31,13 @@ public class Parameter extends RealmObject implements KeyValuePair {
         this.value = value;
     }
 
+    public static Parameter createNew(String key, String value) {
+        Parameter parameter = new Parameter();
+        parameter.setKey(key);
+        parameter.setValue(value);
+        return parameter;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

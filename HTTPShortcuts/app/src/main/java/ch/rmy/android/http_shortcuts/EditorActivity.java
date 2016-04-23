@@ -11,7 +11,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
@@ -36,6 +35,8 @@ import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Header;
 import ch.rmy.android.http_shortcuts.realm.models.Parameter;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
+import ch.rmy.android.http_shortcuts.utils.ArrayUtil;
+import ch.rmy.android.http_shortcuts.utils.OnItemChosenListener;
 import ch.rmy.android.http_shortcuts.utils.Validation;
 import ch.rmy.android.http_shortcuts.utils.ViewUtil;
 
@@ -99,9 +100,16 @@ public class EditorActivity extends BaseActivity {
         } else {
             shortcut = controller.getDetachedShortcutById(shortcutId);
             oldShortcut = controller.getDetachedShortcutById(shortcutId);
-            // TODO: Add null check
+            if (shortcut == null) {
+                finish();
+                return;
+            }
         }
 
+        initViews();
+    }
+
+    private void initViews() {
         nameView.setText(shortcut.getName());
         descriptionView.setText(shortcut.getDescription());
         urlView.setText(shortcut.getUrl());
@@ -111,30 +119,15 @@ public class EditorActivity extends BaseActivity {
 
         methodView.setItemsArray(Shortcut.METHOD_OPTIONS);
         hideErrorLabel(methodView);
-        methodView.setOnItemChosenListener(new LabelledSpinner.OnItemChosenListener() {
+        methodView.setOnItemChosenListener(new OnItemChosenListener() {
             @Override
-            public void onItemChosen(View labelledSpinner, AdapterView<?> adapterView, View itemView, int position, long id) {
-                boolean methodIsGet = Shortcut.METHOD_OPTIONS[methodView.getSpinner().getSelectedItemPosition()].equals(Shortcut.METHOD_GET);
-                postParamsContainer.setVisibility(methodIsGet ? View.GONE : View.VISIBLE);
-            }
-
-            @Override
-            public void onNothingChosen(View labelledSpinner, AdapterView<?> adapterView) {
-
+            public void onSelectionChanged() {
+                updateCustomBody();
             }
         });
-        for (int i = 0; i < Shortcut.METHOD_OPTIONS.length; i++) {
-            if (Shortcut.METHOD_OPTIONS[i].equals(shortcut.getMethod())) {
-                methodView.setSelection(i);
-                break;
-            }
-        }
+        methodView.setSelection(ArrayUtil.findIndex(Shortcut.METHOD_OPTIONS, shortcut.getMethod()));
+        updateCustomBody();
 
-        if (Shortcut.METHOD_GET.equals(shortcut.getMethod())) {
-            postParamsContainer.setVisibility(View.GONE);
-        } else {
-            postParamsContainer.setVisibility(View.VISIBLE);
-        }
         parameterList.addItems(shortcut.getParameters());
         parameterList.setButtonText(R.string.button_add_post_param);
         parameterList.setAddDialogTitle(R.string.title_post_param_add);
@@ -144,10 +137,7 @@ public class EditorActivity extends BaseActivity {
         parameterList.setItemFactory(new KeyValuePairFactory<Parameter>() {
             @Override
             public Parameter create(String key, String value) {
-                Parameter parameter = new Parameter();
-                parameter.setKey(key);
-                parameter.setValue(value);
-                return parameter;
+                return Parameter.createNew(key, value);
             }
         });
 
@@ -160,51 +150,21 @@ public class EditorActivity extends BaseActivity {
         customHeaderList.setItemFactory(new KeyValuePairFactory<Header>() {
             @Override
             public Header create(String key, String value) {
-                Header header = new Header();
-                header.setKey(key);
-                header.setValue(value);
-                return header;
+                return Header.createNew(key, value);
             }
         });
 
-        String[] feedbackStrings = new String[Shortcut.FEEDBACK_OPTIONS.length];
-        for (int i = 0; i < Shortcut.FEEDBACK_OPTIONS.length; i++) {
-            feedbackStrings[i] = getText(Shortcut.FEEDBACK_RESOURCES[i]).toString();
-        }
-        feedbackView.setItemsArray(feedbackStrings);
+        feedbackView.setItemsArray(Shortcut.getFeedbackOptions(this));
         hideErrorLabel(feedbackView);
-        for (int i = 0; i < Shortcut.FEEDBACK_OPTIONS.length; i++) {
-            if (Shortcut.FEEDBACK_OPTIONS[i].equals(shortcut.getFeedback())) {
-                feedbackView.setSelection(i);
-                break;
-            }
-        }
+        feedbackView.setSelection(ArrayUtil.findIndex(Shortcut.FEEDBACK_OPTIONS, shortcut.getFeedback()));
 
-        String[] timeoutStrings = new String[Shortcut.TIMEOUT_OPTIONS.length];
-        for (int i = 0; i < Shortcut.TIMEOUT_OPTIONS.length; i++) {
-            timeoutStrings[i] = String.format(getText(Shortcut.TIMEOUT_RESOURCES[i]).toString(), Shortcut.TIMEOUT_OPTIONS[i] / 1000);
-        }
-        timeoutView.setItemsArray(timeoutStrings);
+        timeoutView.setItemsArray(Shortcut.getTimeoutOptions(this));
         hideErrorLabel(timeoutView);
-        for (int i = 0; i < Shortcut.TIMEOUT_OPTIONS.length; i++) {
-            if (Shortcut.TIMEOUT_OPTIONS[i] == shortcut.getTimeout()) {
-                timeoutView.setSelection(i);
-                break;
-            }
-        }
+        timeoutView.setSelection(ArrayUtil.findIndex(Shortcut.TIMEOUT_OPTIONS, shortcut.getTimeout()));
 
-        String[] retryPolicyStrings = new String[Shortcut.RETRY_POLICY_OPTIONS.length];
-        for (int i = 0; i < Shortcut.RETRY_POLICY_OPTIONS.length; i++) {
-            retryPolicyStrings[i] = getText(Shortcut.RETRY_POLICY_RESOURCES[i]).toString();
-        }
-        retryPolicyView.setItemsArray(retryPolicyStrings);
+        retryPolicyView.setItemsArray(Shortcut.getRetryPolicyOptions(this));
         hideErrorLabel(retryPolicyView);
-        for (int i = 0; i < Shortcut.RETRY_POLICY_OPTIONS.length; i++) {
-            if (Shortcut.RETRY_POLICY_OPTIONS[i].equals(shortcut.getRetryPolicy())) {
-                retryPolicyView.setSelection(i);
-                break;
-            }
-        }
+        retryPolicyView.setSelection(ArrayUtil.findIndex(Shortcut.RETRY_POLICY_OPTIONS, shortcut.getRetryPolicy()));
 
         updateIcon();
         iconView.setOnClickListener(new OnClickListener() {
@@ -214,11 +174,12 @@ public class EditorActivity extends BaseActivity {
             }
         });
 
-        if (shortcut.isNew()) {
-            setTitle(R.string.create_shortcut);
-        } else {
-            setTitle(R.string.edit_shortcut);
-        }
+        setTitle(shortcut.isNew() ? R.string.create_shortcut : R.string.edit_shortcut);
+    }
+
+    private void updateCustomBody() {
+        boolean methodIsGet = Shortcut.METHOD_OPTIONS[methodView.getSpinner().getSelectedItemPosition()].equals(Shortcut.METHOD_GET);
+        postParamsContainer.setVisibility(methodIsGet ? View.GONE : View.VISIBLE);
     }
 
     private void updateIcon() {
@@ -245,39 +206,47 @@ public class EditorActivity extends BaseActivity {
                 return true;
             }
             case R.id.action_save_shortcut: {
-                compileShortcut();
-                if (validate(false)) {
-                    Shortcut persistedShortcut = controller.persist(shortcut);
-                    Intent returnIntent = new Intent();
-                    returnIntent.putExtra(EXTRA_SHORTCUT_ID, persistedShortcut.getId());
-                    setResult(RESULT_OK, returnIntent);
-                    finish();
-                }
+                trySave();
                 return true;
             }
             case R.id.action_test_shortcut: {
-                compileShortcut();
-                if (validate(true)) {
-                    HttpRequester.executeShortcut(this, shortcut);
-                }
+                test();
                 return true;
             }
         }
         return super.onOptionsItemSelected(item);
     }
 
+    private void trySave() {
+        compileShortcut();
+        if (validate(false)) {
+            Shortcut persistedShortcut = controller.persist(shortcut);
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra(EXTRA_SHORTCUT_ID, persistedShortcut.getId());
+            setResult(RESULT_OK, returnIntent);
+            finish();
+        }
+    }
+
     private boolean validate(boolean testOnly) {
         if (!testOnly && Validation.isEmpty(shortcut.getName())) {
-            nameView.setError(getText(R.string.validation_name_not_empty));
+            nameView.setError(getString(R.string.validation_name_not_empty));
             ViewUtil.focus(nameView);
             return false;
         }
         if (!Validation.isValidUrl(shortcut.getUrl())) {
-            urlView.setError(getText(R.string.validation_url_invalid));
+            urlView.setError(getString(R.string.validation_url_invalid));
             ViewUtil.focus(urlView);
             return false;
         }
         return true;
+    }
+
+    private void test() {
+        compileShortcut();
+        if (validate(true)) {
+            HttpRequester.executeShortcut(this, shortcut);
+        }
     }
 
     private void openIconSelectionDialog() {
@@ -324,7 +293,7 @@ public class EditorActivity extends BaseActivity {
     }
 
     private void openIpackPicker() {
-        Intent iconIntent = Intent.createChooser(new Intent(IpackKeys.Actions.ICON_SELECT), getText(R.string.choose_ipack));
+        Intent iconIntent = Intent.createChooser(new Intent(IpackKeys.Actions.ICON_SELECT), getString(R.string.choose_ipack));
         startActivityForResult(iconIntent, SELECT_IPACK_ICON);
     }
 
@@ -383,54 +352,50 @@ public class EditorActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
 
-        if (resultCode == RESULT_OK) {
-            if (requestCode == SELECT_ICON) {
+        if (resultCode == RESULT_OK && requestCode == SELECT_ICON) {
+            //FIXME: Generate better file names
+            String iconName = Integer.toHexString((int) Math.floor(Math.random() * 1000000)) + ".png";
 
-                String iconName = Integer.toHexString((int) Math.floor(Math.random() * 1000000)) + ".png";
-
-                InputStream in = null;
-                OutputStream out = null;
-                try {
-                    in = getContentResolver().openInputStream(intent.getData());
-                    Bitmap bitmap = BitmapFactory.decodeStream(in);
-                    Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, 96, 96, false);
-                    if (bitmap != resizedBitmap) {
-                        bitmap.recycle();
-                    }
-
-                    out = openFileOutput(iconName, 0);
-                    resizedBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-                    iconView.setImageBitmap(resizedBitmap);
-                    iconView.setBackgroundColor(0);
-                    out.flush();
-
-                    shortcut.setIconName(iconName);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    iconView.setImageResource(Shortcut.DEFAULT_ICON);
-                    iconView.setBackgroundColor(0);
-                    shortcut.setIconName(null);
-                    showSnackbar(getString(R.string.error_set_image));
-                } finally {
-                    try {
-                        if (in != null) {
-                            in.close();
-                        }
-                        if (out != null) {
-                            out.close();
-                        }
-                    } catch (IOException e) {
-                    }
+            InputStream in = null;
+            OutputStream out = null;
+            try {
+                in = getContentResolver().openInputStream(intent.getData());
+                Bitmap bitmap = BitmapFactory.decodeStream(in);
+                Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, 96, 96, false);
+                if (bitmap != resizedBitmap) {
+                    bitmap.recycle();
                 }
-            } else if (requestCode == SELECT_IPACK_ICON) {
-                String ipackageName = intent.getData().getAuthority();
-                int id = intent.getIntExtra(IpackKeys.Extras.ICON_ID, -1);
-                Uri uri = Uri.parse("android.resource://" + ipackageName + "/" + id);
-                iconView.setImageURI(uri);
-                iconView.setBackgroundColor(0);
 
-                shortcut.setIconName(uri.toString());
+                out = openFileOutput(iconName, 0);
+                resizedBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                out.flush();
+
+                shortcut.setIconName(iconName);
+                updateIcon();
+            } catch (Exception e) {
+                e.printStackTrace();
+                shortcut.setIconName(null);
+                updateIcon();
+                showSnackbar(getString(R.string.error_set_image));
+            } finally {
+                try {
+                    if (in != null) {
+                        in.close();
+                    }
+                    if (out != null) {
+                        out.close();
+                    }
+                } catch (IOException e) {
+                }
             }
+        } else if (requestCode == SELECT_IPACK_ICON) {
+            String ipackageName = intent.getData().getAuthority();
+            int id = intent.getIntExtra(IpackKeys.Extras.ICON_ID, -1);
+            Uri uri = Uri.parse("android.resource://" + ipackageName + "/" + id);
+            iconView.setImageURI(uri);
+            iconView.setBackgroundColor(0);
+
+            shortcut.setIconName(uri.toString());
         }
     }
 
