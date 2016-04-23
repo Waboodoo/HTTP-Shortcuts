@@ -1,17 +1,16 @@
 package ch.rmy.android.http_shortcuts;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import ch.rmy.android.http_shortcuts.icons.IconView;
 import ch.rmy.android.http_shortcuts.listeners.OnShortcutClickedListener;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
@@ -92,7 +91,7 @@ public class ShortcutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         @Bind(R.id.description)
         TextView description;
         @Bind(R.id.icon)
-        ImageView icon;
+        IconView icon;
         private Shortcut shortcut;
 
         public ShortcutViewHolder(ViewGroup parent) {
@@ -123,16 +122,7 @@ public class ShortcutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             name.setText(shortcut.getName());
             description.setText(shortcut.getDescription());
             description.setVisibility(TextUtils.isEmpty(shortcut.getDescription()) ? View.GONE : View.VISIBLE);
-            icon.setImageURI(shortcut.getIconURI(context));
-            icon.setBackgroundColor(getAppropriateBackgroundColor(shortcut.getIconName()));
-        }
-
-        private int getAppropriateBackgroundColor(String iconName) {
-            if (iconName != null && iconName.startsWith("white_")) {
-                return Color.BLACK;
-            } else {
-                return Color.TRANSPARENT;
-            }
+            icon.setImageURI(shortcut.getIconURI(context), shortcut.getIconName());
         }
 
     }

@@ -38,9 +38,9 @@ public class IconSelector {
         IconAdapter adapter = new IconAdapter(context, new OnIconSelectedListener() {
 
             @Override
-            public void onIconSelected(String resourceName) {
+            public void onIconSelected(String iconName) {
                 dialog.dismiss();
-                listener.onIconSelected(resourceName);
+                listener.onIconSelected(iconName);
             }
         });
         grid.setAdapter(adapter);

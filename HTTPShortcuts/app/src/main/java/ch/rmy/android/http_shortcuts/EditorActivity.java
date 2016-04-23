@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,7 +13,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -30,6 +28,7 @@ import java.io.OutputStream;
 import butterknife.Bind;
 import ch.rmy.android.http_shortcuts.http.HttpRequester;
 import ch.rmy.android.http_shortcuts.icons.IconSelector;
+import ch.rmy.android.http_shortcuts.icons.IconView;
 import ch.rmy.android.http_shortcuts.key_value_pairs.KeyValueList;
 import ch.rmy.android.http_shortcuts.key_value_pairs.KeyValuePairFactory;
 import ch.rmy.android.http_shortcuts.listeners.OnIconSelectedListener;
@@ -75,7 +74,7 @@ public class EditorActivity extends BaseActivity {
     @Bind(R.id.input_password)
     EditText passwordView;
     @Bind(R.id.input_icon)
-    ImageView iconView;
+    IconView iconView;
     @Bind(R.id.post_params_container)
     LinearLayout postParamsContainer;
     @Bind(R.id.post_parameter_list)
@@ -84,8 +83,6 @@ public class EditorActivity extends BaseActivity {
     KeyValueList<Header> customHeaderList;
     @Bind(R.id.input_custom_body)
     EditText customBodyView;
-
-    private String selectedIcon;
 
     @SuppressLint("NewApi")
     @Override
@@ -209,25 +206,23 @@ public class EditorActivity extends BaseActivity {
             }
         }
 
-        iconView.setImageURI(shortcut.getIconURI(this));
-        if (shortcut.getIconName() != null && shortcut.getIconName().startsWith("white_")) {
-            iconView.setBackgroundColor(Color.BLACK);
-        } else {
-            iconView.setBackgroundColor(Color.TRANSPARENT);
-        }
+        updateIcon();
         iconView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 openIconSelectionDialog();
             }
         });
-        selectedIcon = shortcut.getIconName();
 
         if (shortcut.isNew()) {
             setTitle(R.string.create_shortcut);
         } else {
             setTitle(R.string.edit_shortcut);
         }
+    }
+
+    private void updateIcon() {
+        iconView.setImageURI(shortcut.getIconURI(this), shortcut.getIconName());
     }
 
     @Override
@@ -312,16 +307,9 @@ public class EditorActivity extends BaseActivity {
         IconSelector iconSelector = new IconSelector(this, new OnIconSelectedListener() {
 
             @Override
-            public void onIconSelected(String resourceName) {
-                iconView.setImageResource(getResources().getIdentifier(resourceName, "drawable", getPackageName()));
-
-                if (resourceName.startsWith("white_")) {
-                    iconView.setBackgroundColor(Color.BLACK);
-                } else {
-                    iconView.setBackgroundColor(Color.TRANSPARENT);
-                }
-
-                selectedIcon = resourceName;
+            public void onIconSelected(String iconName) {
+                shortcut.setIconName(iconName);
+                updateIcon();
             }
 
         });
@@ -375,7 +363,6 @@ public class EditorActivity extends BaseActivity {
         shortcut.setDescription(descriptionView.getText().toString().trim());
         shortcut.setPassword(passwordView.getText().toString());
         shortcut.setUsername(usernameView.getText().toString());
-        shortcut.setIconName(selectedIcon);
         shortcut.setBodyContent(customBodyView.getText().toString());
         shortcut.setFeedback(Shortcut.FEEDBACK_OPTIONS[feedbackView.getSpinner().getSelectedItemPosition()]);
         shortcut.setTimeout(Shortcut.TIMEOUT_OPTIONS[timeoutView.getSpinner().getSelectedItemPosition()]);
@@ -417,12 +404,12 @@ public class EditorActivity extends BaseActivity {
                     iconView.setBackgroundColor(0);
                     out.flush();
 
-                    selectedIcon = iconName;
+                    shortcut.setIconName(iconName);
                 } catch (Exception e) {
                     e.printStackTrace();
                     iconView.setImageResource(Shortcut.DEFAULT_ICON);
                     iconView.setBackgroundColor(0);
-                    selectedIcon = null;
+                    shortcut.setIconName(null);
                     showSnackbar(getString(R.string.error_set_image));
                 } finally {
                     try {
@@ -442,7 +429,7 @@ public class EditorActivity extends BaseActivity {
                 iconView.setImageURI(uri);
                 iconView.setBackgroundColor(0);
 
-                selectedIcon = uri.toString();
+                shortcut.setIconName(uri.toString());
             }
         }
     }

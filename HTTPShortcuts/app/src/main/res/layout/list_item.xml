@@ -11,7 +11,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp">
 
-    <ImageView
+    <ch.rmy.android.http_shortcuts.icons.IconView
         android:id="@+id/icon"
         android:layout_width="44dp"
         android:layout_height="44dp"
@@ -22,6 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="72dp"
         android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
         android:gravity="center_vertical"
         android:orientation="vertical">
 
