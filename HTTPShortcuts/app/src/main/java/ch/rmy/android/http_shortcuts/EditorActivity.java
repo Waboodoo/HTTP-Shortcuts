@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,6 +37,7 @@ import ch.rmy.android.http_shortcuts.realm.models.Header;
 import ch.rmy.android.http_shortcuts.realm.models.Parameter;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 import ch.rmy.android.http_shortcuts.utils.ArrayUtil;
+import ch.rmy.android.http_shortcuts.utils.GsonUtil;
 import ch.rmy.android.http_shortcuts.utils.OnItemChosenListener;
 import ch.rmy.android.http_shortcuts.utils.Validation;
 import ch.rmy.android.http_shortcuts.utils.ViewUtil;
@@ -51,6 +53,7 @@ public class EditorActivity extends BaseActivity {
     public final static String EXTRA_SHORTCUT_ID = "shortcut_id";
     private final static int SELECT_ICON = 1;
     private final static int SELECT_IPACK_ICON = 3;
+    private static final String STATE_JSON_SHORTCUT = "shortcut_json";
 
     private Controller controller;
     private Shortcut oldShortcut;
@@ -94,17 +97,16 @@ public class EditorActivity extends BaseActivity {
         controller = new Controller(this);
 
         long shortcutId = getIntent().getLongExtra(EXTRA_SHORTCUT_ID, 0);
-        if (shortcutId == 0) {
-            shortcut = Shortcut.createNew();
-            oldShortcut = Shortcut.createNew();
+        if (savedInstanceState != null && savedInstanceState.containsKey(STATE_JSON_SHORTCUT)) {
+            shortcut = GsonUtil.fromJson(savedInstanceState.getString(STATE_JSON_SHORTCUT));
         } else {
-            shortcut = controller.getDetachedShortcutById(shortcutId);
-            oldShortcut = controller.getDetachedShortcutById(shortcutId);
-            if (shortcut == null) {
-                finish();
-                return;
-            }
+            shortcut = shortcutId == 0 ? Shortcut.createNew() : controller.getDetachedShortcutById(shortcutId);
         }
+        if (shortcut == null) {
+            finish();
+            return;
+        }
+        oldShortcut = shortcutId == 0 ? Shortcut.createNew() : controller.getDetachedShortcutById(shortcutId);
 
         initViews();
     }
@@ -259,13 +261,13 @@ public class EditorActivity extends BaseActivity {
                         switch (which) {
                             case 0:
                                 openBuiltInIconSelectionDialog();
-                                return;
+                                break;
                             case 1:
                                 openImagePicker();
-                                return;
+                                break;
                             case 2:
                                 openIpackPicker();
-                                return;
+                                break;
                         }
                     }
                 })
@@ -310,7 +312,7 @@ public class EditorActivity extends BaseActivity {
                     .positiveText(R.string.dialog_discard)
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
-                        public void onClick(MaterialDialog dialog, DialogAction which) {
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                             cancelAndClose();
                         }
                     })
@@ -403,4 +405,10 @@ public class EditorActivity extends BaseActivity {
         spinner.getErrorLabel().setVisibility(View.GONE);
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        compileShortcut();
+        outState.putString(STATE_JSON_SHORTCUT, GsonUtil.toJson(shortcut));
+    }
 }
