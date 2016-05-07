@@ -1,30 +1,24 @@
 package ch.rmy.android.http_shortcuts;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
+import com.nononsenseapps.filepicker.FilePickerActivity;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
-import ch.rmy.android.http_shortcuts.legacy_database.ShortcutStorage;
+import ch.rmy.android.http_shortcuts.import_export.ExportTask;
+import ch.rmy.android.http_shortcuts.realm.Controller;
+import ch.rmy.android.http_shortcuts.realm.models.Base;
+import ch.rmy.android.http_shortcuts.utils.Settings;
 
 public class SettingsActivity extends BaseActivity {
 
@@ -34,7 +28,8 @@ public class SettingsActivity extends BaseActivity {
     private static final String PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts";
     private static final String GITHUB_URL = "https://github.com/Waboodoo/HTTP-Shortcuts";
 
-    private static final String SHORTCUT_DATABASE_FILE_NAME = "shortcuts";
+    private static final int REQUEST_PICK_DIR_FOR_EXPORT = 1;
+    private static final int REQUEST_PICK_FILE_FOR_IMPORT = 2;
 
     @SuppressLint("NewApi")
     @Override
@@ -70,12 +65,7 @@ public class SettingsActivity extends BaseActivity {
             exportPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
                 public boolean onPreferenceClick(Preference preference) {
-                    ShortcutStorage database = new ShortcutStorage(getActivity());
-                    File sourceFile = database.getDatabaseFile();
-                    File targetFile = getFileForExport();
-                    ExportDatabaseTask copyTask = new ExportDatabaseTask(getActivity());
-                    copyTask.execute(sourceFile, targetFile);
-
+                    openFilePickerForExport();
                     return true;
                 }
 
@@ -85,32 +75,7 @@ public class SettingsActivity extends BaseActivity {
             importPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
                 public boolean onPreferenceClick(Preference preference) {
-                    ShortcutStorage database = new ShortcutStorage(getActivity());
-                    final File sourceFile = new File(Environment.getExternalStorageDirectory(), SHORTCUT_DATABASE_FILE_NAME + ".db");
-                    final File targetFile = database.getDatabaseFile();
-
-                    if (sourceFile.exists()) {
-                        (new MaterialDialog.Builder(getActivity()))
-                                .title(R.string.import_title)
-                                .content(R.string.import_warning_message, sourceFile.getAbsolutePath())
-                                .positiveText(R.string.button_ok)
-                                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                    @Override
-                                    public void onClick(MaterialDialog dialog, DialogAction which) {
-                                        ImportDatabaseTask copyTask = new ImportDatabaseTask(getActivity());
-                                        copyTask.execute(sourceFile, targetFile);
-                                    }
-                                })
-                                .negativeText(R.string.button_cancel)
-                                .show();
-                    } else {
-                        (new MaterialDialog.Builder(getActivity()))
-                                .title(R.string.import_title)
-                                .content(R.string.import_howto_message, sourceFile.getName(), sourceFile.getParentFile().getAbsolutePath())
-                                .positiveText(R.string.button_ok)
-                                .show();
-                    }
-
+                    openFilePickerForImport();
                     return true;
                 }
 
@@ -126,8 +91,7 @@ public class SettingsActivity extends BaseActivity {
 
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    ChangeLogDialog changeLog = new ChangeLogDialog(getActivity(), false);
-                    changeLog.show();
+                    new ChangeLogDialog(getActivity(), false).show();
                     return true;
                 }
 
@@ -137,13 +101,7 @@ public class SettingsActivity extends BaseActivity {
             mailPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
                 public boolean onPreferenceClick(Preference preference) {
-                    Intent intent = new Intent(Intent.ACTION_SEND);
-                    String[] recipients = {DEVELOPER_EMAIL};
-                    intent.putExtra(Intent.EXTRA_EMAIL, recipients);
-                    intent.putExtra(Intent.EXTRA_SUBJECT, CONTACT_SUBJECT);
-                    intent.putExtra(Intent.EXTRA_TEXT, CONTACT_TEXT);
-                    intent.setType("text/html");
-                    startActivity(Intent.createChooser(intent, getString(R.string.settings_mail)));
+                    sendMail();
                     return true;
                 }
 
@@ -153,8 +111,7 @@ public class SettingsActivity extends BaseActivity {
             playStorePreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
                 public boolean onPreferenceClick(Preference preference) {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(PLAY_STORE_URL));
-                    startActivity(browserIntent);
+                    openPlayStore();
                     return true;
                 }
 
@@ -164,144 +121,86 @@ public class SettingsActivity extends BaseActivity {
             githubPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
                 public boolean onPreferenceClick(Preference preference) {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(GITHUB_URL));
-                    startActivity(browserIntent);
+                    gotoGithub();
                     return true;
                 }
 
             });
-
         }
 
-        private File getFileForExport() {
-            File targetFile;
-            int counter = 0;
-            do {
-                counter++;
-                String fileName = SHORTCUT_DATABASE_FILE_NAME + (counter == 1 ? "" : "_" + counter) + ".db";
-                targetFile = new File(Environment.getExternalStorageDirectory(), fileName);
-            } while (targetFile.exists());
-            return targetFile;
+        private void openFilePickerForExport() {
+            Intent intent = new Intent(getActivity(), FilePickerActivity.class);
+            intent.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
+            intent.putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, true);
+            intent.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_DIR);
+            intent.putExtra(FilePickerActivity.EXTRA_START_PATH, new Settings(getActivity()).getImportExportDirectory());
+            startActivityForResult(intent, REQUEST_PICK_DIR_FOR_EXPORT);
         }
 
-    }
-
-    private static class ExportDatabaseTask extends AsyncTask<File, Integer, String> {
-
-        private final Context context;
-
-        protected ExportDatabaseTask(Context context) {
-            this.context = context;
+        private void openFilePickerForImport() {
+            Intent intent = new Intent(getActivity(), FilePickerActivity.class);
+            intent.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
+            intent.putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, false);
+            intent.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_FILE);
+            intent.putExtra(FilePickerActivity.EXTRA_START_PATH, new Settings(getActivity()).getImportExportDirectory());
+            startActivityForResult(intent, REQUEST_PICK_FILE_FOR_IMPORT);
         }
 
-        protected String doInBackground(File... files) {
-            File sourceFile = files[0];
-            File targetFile = files[1];
+        private void sendMail() {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            String[] recipients = {DEVELOPER_EMAIL};
+            intent.putExtra(Intent.EXTRA_EMAIL, recipients);
+            intent.putExtra(Intent.EXTRA_SUBJECT, CONTACT_SUBJECT);
+            intent.putExtra(Intent.EXTRA_TEXT, CONTACT_TEXT);
+            intent.setType("text/html");
+            startActivity(Intent.createChooser(intent, getString(R.string.settings_mail)));
+        }
 
-            boolean success = copyFile(sourceFile, targetFile);
-            if (success) {
-                return targetFile.getAbsolutePath();
+        private void openPlayStore() {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(PLAY_STORE_URL));
+            startActivity(browserIntent);
+        }
+
+        private void gotoGithub() {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(GITHUB_URL));
+            startActivity(browserIntent);
+        }
+
+        @Override
+        public void onActivityResult(int requestCode, int resultCode, Intent data) {
+            if (resultCode != RESULT_OK) {
+                return;
             }
-
-            return null;
-        }
-
-        protected void onPostExecute(String path) {
-            MaterialDialog.Builder builder = (new MaterialDialog.Builder(context))
-                    .positiveText(R.string.button_ok);
-            if (path == null) {
-                builder.title(R.string.export_failed_title).content(R.string.export_failed_message);
-            } else {
-                builder.title(R.string.export_success_title).content(R.string.export_success_message, path);
-            }
-            builder.show();
-        }
-
-    }
-
-    private static class ImportDatabaseTask extends AsyncTask<File, Integer, Integer> {
-
-        private final Context context;
-
-        protected ImportDatabaseTask(Context context) {
-            this.context = context;
-        }
-
-        protected Integer doInBackground(File... files) {
-            File sourceFile = files[0];
-            File targetFile = files[1];
-            File tempFile = null;
-
-            if (targetFile.exists()) {
-                tempFile = new File(targetFile.getParentFile(), "temp.db");
-                targetFile.renameTo(tempFile);
-            }
-
-            boolean success = copyFile(sourceFile, targetFile);
-            if (success) {
-                ShortcutStorage database = new ShortcutStorage(context);
-                int count = database.getShortcuts().size();
-
-                if (count > 0) {
-                    if (tempFile != null && tempFile.exists()) {
-                        tempFile.delete();
-                    }
-                    return count;
+            switch (requestCode) {
+                case REQUEST_PICK_DIR_FOR_EXPORT: {
+                    Uri uri = data.getData();
+                    String path = uri.getPath();
+                    persistPath(path);
+                    startExport(path);
+                    break;
+                }
+                case REQUEST_PICK_FILE_FOR_IMPORT: {
+                    Uri uri = data.getData();
+                    String path = new File(uri.getPath()).getParent();
+                    persistPath(path);
+                    break;
                 }
             }
-
-            if (tempFile != null && tempFile.exists()) {
-                tempFile.renameTo(targetFile);
-            }
-            return 0;
         }
 
-        protected void onPostExecute(Integer count) {
-            MaterialDialog.Builder builder = (new MaterialDialog.Builder(context))
-                    .positiveText(R.string.button_ok);
-
-            if (count == 0) {
-                builder
-                        .title(R.string.import_failed_title)
-                        .content(R.string.import_failed_message);
-            } else {
-                builder
-                        .title(R.string.import_success_title)
-                        .content(count == 1 ? R.string.import_success_message_one : R.string.import_success_message, count);
-            }
-            builder.show();
+        private void persistPath(String path) {
+            new Settings(getActivity()).setImportExportDirectory(path);
         }
 
-    }
+        private void startExport(String directoryPath) {
+            Controller controller = new Controller(getActivity());
+            Object data = controller.export();
+            controller.destroy();
 
-    private static boolean copyFile(File sourceFile, File targetFile) {
-        InputStream in = null;
-        OutputStream out = null;
-
-        try {
-            try {
-                in = new FileInputStream(sourceFile);
-                out = new FileOutputStream(targetFile);
-
-                byte[] buf = new byte[1024];
-                int len;
-                while ((len = in.read(buf)) > 0) {
-                    out.write(buf, 0, len);
-                }
-
-                return true;
-            } finally {
-                if (in != null) {
-                    in.close();
-                }
-                if (out != null) {
-                    out.close();
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            ExportTask task = new ExportTask(getActivity(), data, directoryPath);
+            task.execute();
         }
+
     }
 
 }

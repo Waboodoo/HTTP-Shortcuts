@@ -71,10 +71,9 @@
     <string name="settings_title_import_export">Import / Export</string>
     <string name="settings_import">Import shortcuts</string>
     <string name="settings_export">Export shortcuts</string>
-    <string name="export_success_title">Shortcuts exported</string>
-    <string name="export_success_message">Your shortcuts were successfully exported into \"%1$s\".\n\nPlease note that custom icons are not exported.</string>
-    <string name="export_failed_title">Shortcuts exporting failed</string>
-    <string name="export_failed_message">Your shortcuts could not be exported.</string>
+    <string name="export_success">Shortcuts successfully exported.\n\nPlease note that custom icons can not be exported.</string>
+    <string name="export_failed">Exporting shortcuts failed</string>
+    <string name="export_in_progress">Exporting…</string>
     <string name="button_ok">OK</string>
     <string name="button_cancel">Cancel</string>
     <string name="import_title">Import shortcuts</string>

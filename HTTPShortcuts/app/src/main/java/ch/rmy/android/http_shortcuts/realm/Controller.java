@@ -71,8 +71,12 @@ public class Controller {
         return realm.copyFromRealm(shortcut);
     }
 
-    public Base getBase() {
+    private Base getBase() {
         return realm.where(Base.class).findFirst();
+    }
+
+    public Object export() {
+        return realm.copyFromRealm(getBase());
     }
 
     public RealmList<Category> getCategories() {

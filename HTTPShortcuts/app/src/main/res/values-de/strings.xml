@@ -69,10 +69,8 @@
     <string name="settings_title_import_export">Importieren / Exportieren</string>
     <string name="settings_import">Shortcuts importieren</string>
     <string name="settings_export">Shortcuts exportieren</string>
-    <string name="export_success_title">Shortcuts exportiert</string>
-    <string name="export_success_message">Shortcuts wurden erfolgreich nach \"%1$s\" exportiert.\n\nAchtung: eigene Shortcut-Icons werden nicht exportiert.</string>
-    <string name="export_failed_title">Export fehlgeschlagen</string>
-    <string name="export_failed_message">Beim Exportieren der Shortcuts ist ein Problem aufgetreten.</string>
+    <string name="export_success">Exportiert erfolgreich\n\nAchtung: eigene Shortcut-Icons können nicht exportiert werden.</string>
+    <string name="export_failed">Export fehlgeschlagen</string>
     <string name="button_ok">OK</string>
     <string name="button_cancel">Abbrechen</string>
     <string name="import_title">Shortcuts importieren</string>
@@ -112,4 +110,6 @@
     <string name="section_authentication">Authentifizierung</string>
     <string name="section_basic_request">Allgemeine Einstellungen</string>
     <string name="shortcut_placed">%1$s auf Homescreen platziert.</string>
+    <string name="export_in_progress">Exportiere…</string>
+    <string name="shortcut_safe_name">Shortcut</string>
 </resources>

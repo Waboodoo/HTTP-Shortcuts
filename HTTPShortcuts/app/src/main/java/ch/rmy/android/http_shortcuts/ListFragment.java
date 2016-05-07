@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,6 +22,7 @@ import ch.rmy.android.http_shortcuts.listeners.OnShortcutClickedListener;
 import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
+import ch.rmy.android.http_shortcuts.utils.Settings;
 
 public class ListFragment extends Fragment implements OnShortcutClickedListener {
 
@@ -35,7 +35,6 @@ public class ListFragment extends Fragment implements OnShortcutClickedListener 
     @Bind(R.id.shortcut_list)
     RecyclerView shortcutList;
 
-    private long categoryId;
     private boolean shortcutPlacementMode;
 
     private Controller controller;
@@ -55,7 +54,7 @@ public class ListFragment extends Fragment implements OnShortcutClickedListener 
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        categoryId = getArguments().getLong(ARGUMENT_CATEGORY_ID);
+        long categoryId = getArguments().getLong(ARGUMENT_CATEGORY_ID);
         shortcutPlacementMode = getArguments().getBoolean(ARGUMENT_PLACEMENT_MODE);
 
         controller = new Controller(getContext());
@@ -92,16 +91,15 @@ public class ListFragment extends Fragment implements OnShortcutClickedListener 
         if (shortcutPlacementMode) {
             getTabHost().returnForHomeScreen(shortcut);
         } else {
-            String action = PreferenceManager.getDefaultSharedPreferences(getContext()).getString("click_behavior", "run");
-
+            String action = new Settings(getContext()).getClickBehavior();
             switch (action) {
-                case "run":
+                case Settings.CLICK_BEHAVIOR_RUN:
                     executeShortcut(shortcut);
                     break;
-                case "edit":
+                case Settings.CLICK_BEHAVIOR_EDIT:
                     editShortcut(shortcut);
                     break;
-                case "menu":
+                case Settings.CLICK_BEHAVIOR_MENU:
                     showContextMenu(shortcut);
                     break;
             }

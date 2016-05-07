@@ -54,6 +54,11 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.nononsenseapps.filepicker.FilePickerActivity"
+            android:label=".FilePickerActivity"
+            android:theme="@style/FilePickerTheme"/>
+
         <receiver android:name="ch.rmy.android.http_shortcuts.http.ExecutionRetry">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>

@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
+import io.realm.RealmObject;
 
 public class GsonUtil {
 
@@ -19,30 +20,27 @@ public class GsonUtil {
         return gson.fromJson(json, Shortcut.class);
     }
 
+    public static void export(Object object, Appendable writer) {
+        Gson gson = getJsonBuilder().setPrettyPrinting().create();
+        gson.toJson(object, writer);
+    }
+
     private static GsonBuilder getJsonBuilder() {
         return (new GsonBuilder()).addSerializationExclusionStrategy(new RealmExclusionStrategy());
     }
 
     private static class RealmExclusionStrategy implements ExclusionStrategy {
 
-        private static final String[] EXCLUDED_FIELDS = {
-                "listeners", "currentTableVersion", "isCompleted"
-        };
-
         @Override
         public boolean shouldSkipField(FieldAttributes f) {
-            for (String fieldName : EXCLUDED_FIELDS) {
-                if (fieldName.equals(f.getName())) {
-                    return true;
-                }
-            }
-            return false;
+            return f.getDeclaringClass().equals(RealmObject.class);
         }
 
         @Override
         public boolean shouldSkipClass(Class<?> clazz) {
             return false;
         }
+
     }
 
 }
