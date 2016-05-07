@@ -9,13 +9,11 @@
     <string name="label_name">Shortcut Name</string>
     <string name="label_description">Description</string>
     <string name="label_url">URL</string>
-    <string name="create_button">Create</string>
     <string name="save_button">Save</string>
     <string name="test_button">Test</string>
     <string name="label_method">Method</string>
     <string name="label_username">Username</string>
     <string name="label_password">Password</string>
-    <string name="label_protocol">Protocol</string>
     <string name="label_feedback">Feedback</string>
     <string name="feedback_none">No feedback (run silently)</string>
     <string name="feedback_errors_only">Show errors only</string>
@@ -75,7 +73,6 @@
     <string name="export_failed">Exporting shortcuts failed</string>
     <string name="export_in_progress">Exporting…</string>
     <string name="button_ok">OK</string>
-    <string name="button_cancel">Cancel</string>
     <string name="import_title">Import shortcuts</string>
     <string name="import_howto_message">To import shortcuts place your \"%1$s\" file at \"%2$s\".</string>
     <string name="import_warning_message">Shortcuts will be imported from \"%1$s\". Please note that all your current shortcuts will be lost.</string>
@@ -85,10 +82,15 @@
     <string name="import_success_message_one">Successfully imported 1 shortcut.</string>
     <string name="import_success_message">Successfully imported %1$d shortcuts.</string>
     <string name="label_timeout">Timeout</string>
-    <string name="timeout_short">short (%1$d seconds)</string>
-    <string name="timeout_medium">medium (%1$d seconds)</string>
-    <string name="timeout_long">long (%1$d seconds)</string>
-    <string name="timeout_very_long">very long (%1$d seconds)</string>
+    <string name="timeout_format">%1$s (%2$s)</string>
+    <plurals name="timeout_seconds">
+        <item quantity="one">%d second</item>
+        <item quantity="other">%d seconds</item>
+    </plurals>
+    <string name="timeout_short">short</string>
+    <string name="timeout_medium">medium</string>
+    <string name="timeout_long">long</string>
+    <string name="timeout_very_long">very long</string>
     <string name="settings_about">About this app</string>
     <string name="settings_version">Version number</string>
     <string name="settings_mail">Contact developer</string>

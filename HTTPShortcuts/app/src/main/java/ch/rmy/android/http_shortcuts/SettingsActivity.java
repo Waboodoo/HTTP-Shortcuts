@@ -17,7 +17,6 @@ import java.io.File;
 
 import ch.rmy.android.http_shortcuts.import_export.ExportTask;
 import ch.rmy.android.http_shortcuts.realm.Controller;
-import ch.rmy.android.http_shortcuts.realm.models.Base;
 import ch.rmy.android.http_shortcuts.utils.Settings;
 
 public class SettingsActivity extends BaseActivity {
@@ -174,15 +173,17 @@ public class SettingsActivity extends BaseActivity {
             switch (requestCode) {
                 case REQUEST_PICK_DIR_FOR_EXPORT: {
                     Uri uri = data.getData();
-                    String path = uri.getPath();
-                    persistPath(path);
-                    startExport(path);
+                    String directoryPath = uri.getPath();
+                    persistPath(directoryPath);
+                    startExport(directoryPath);
                     break;
                 }
                 case REQUEST_PICK_FILE_FOR_IMPORT: {
                     Uri uri = data.getData();
-                    String path = new File(uri.getPath()).getParent();
-                    persistPath(path);
+                    String filePath = uri.getPath();
+                    String directoryPath = new File(filePath).getParent();
+                    persistPath(directoryPath);
+                    startImport(filePath);
                     break;
                 }
             }
@@ -199,6 +200,10 @@ public class SettingsActivity extends BaseActivity {
 
             ExportTask task = new ExportTask(getActivity(), data, directoryPath);
             task.execute();
+        }
+
+        private void startImport(String filePath) {
+            // TODO: Import shortcuts
         }
 
     }

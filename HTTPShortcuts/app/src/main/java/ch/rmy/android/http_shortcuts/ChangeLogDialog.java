@@ -2,8 +2,6 @@ package ch.rmy.android.http_shortcuts;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -17,16 +15,12 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import ch.rmy.android.http_shortcuts.utils.Settings;
 
-@SuppressLint("InflateParams")
 public class ChangeLogDialog {
 
-    private static final String PREFERENCES_NAME = "change_log";
-    private static final String KEY_PERMANENTLY_HIDDEN = "permanently_hidden";
-    private static final String KEY_LAST_VERSION = "last_version";
-
     private final Context context;
-    private final SharedPreferences preferences;
+    private final Settings settings;
     private final boolean whatsNew;
 
     @Bind(R.id.changelog_text)
@@ -38,21 +32,20 @@ public class ChangeLogDialog {
         this.context = context;
         this.whatsNew = whatsNew;
 
-        preferences = context.getSharedPreferences(PREFERENCES_NAME, 0);
+        settings = new Settings(context);
     }
 
     public boolean isPermanentlyHidden() {
-        return preferences.getBoolean(KEY_PERMANENTLY_HIDDEN, false);
+        return settings.isChangeLogPermanentlyHidden();
     }
 
     public boolean wasAlreadyShown() {
-        return getVersion() <= preferences.getInt(KEY_LAST_VERSION, Integer.MAX_VALUE);
+        return getVersion() <= settings.getChangeLogLastVersion();
     }
 
+    @SuppressLint("InflateParams")
     public void show() {
-        Editor editor = preferences.edit();
-        editor.putInt(KEY_LAST_VERSION, getVersion());
-        editor.commit();
+        settings.setChangeLogLastVersion(getVersion());
 
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.changelog_dialog, null);
@@ -70,13 +63,10 @@ public class ChangeLogDialog {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Editor editor = preferences.edit();
-                editor.putBoolean(KEY_PERMANENTLY_HIDDEN, !isChecked);
-                editor.commit();
+                settings.setChangeLogPermanentlyHidden(isChecked);
             }
 
         });
-
     }
 
     private int getVersion() {

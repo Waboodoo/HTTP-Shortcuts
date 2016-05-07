@@ -8,13 +8,11 @@
     <string name="label_name">Shortcut-Name</string>
     <string name="label_description">Beschreibung</string>
     <string name="label_url">URL</string>
-    <string name="create_button">Erstellen</string>
     <string name="save_button">Speichern</string>
     <string name="test_button">Testen</string>
     <string name="label_method">Methode</string>
     <string name="label_username">Benutzername</string>
     <string name="label_password">Passwort</string>
-    <string name="label_protocol">Protokol</string>
     <string name="label_feedback">Feedback</string>
     <string name="feedback_none">Kein Feedback</string>
     <string name="feedback_errors_only">Nur Fehler</string>
@@ -72,7 +70,6 @@
     <string name="export_success">Exportiert erfolgreich\n\nAchtung: eigene Shortcut-Icons können nicht exportiert werden.</string>
     <string name="export_failed">Export fehlgeschlagen</string>
     <string name="button_ok">OK</string>
-    <string name="button_cancel">Abbrechen</string>
     <string name="import_title">Shortcuts importieren</string>
     <string name="import_howto_message">Platzieren Sie ihre \"%1$s\"-Datei in das Verzeichnis \"%2$s\" um Shortcuts zu importieren.</string>
     <string name="import_warning_message">Shortcuts werden aus \"%1$s\" importiert. Achtung: alle bisherigen Shortcuts werden verworfen.</string>
@@ -82,10 +79,14 @@
     <string name="import_success_message_one">1 Shortcut wurde importiert.</string>
     <string name="import_success_message">%1$d Shortcuts wurden importiert.</string>
     <string name="label_timeout">Timeout</string>
-    <string name="timeout_short">kurz (%1$d Sekunden)</string>
-    <string name="timeout_medium">mittel (%1$d Sekunden)</string>
-    <string name="timeout_long">lange (%1$d Sekunden)</string>
-    <string name="timeout_very_long">sehr lange (%1$d Sekunden)</string>
+    <plurals name="timeout_seconds">
+        <item quantity="one">%d Sekunde</item>
+        <item quantity="other">%d Sekunden</item>
+    </plurals>
+    <string name="timeout_short">kurz</string>
+    <string name="timeout_medium">mittel</string>
+    <string name="timeout_long">lange</string>
+    <string name="timeout_very_long">sehr lange</string>
     <string name="settings_about">Über diese App</string>
     <string name="settings_version">Versionsnummer</string>
     <string name="settings_mail">Entwickler kontaktieren</string>
@@ -112,4 +113,5 @@
     <string name="shortcut_placed">%1$s auf Homescreen platziert.</string>
     <string name="export_in_progress">Exportiere…</string>
     <string name="shortcut_safe_name">Shortcut</string>
+    <string name="timeout_format">%1$s (%2$s)</string>
 </resources>

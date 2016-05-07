@@ -11,6 +11,9 @@ public class ExecutionRetry extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        if (!ConnectivityManager.CONNECTIVITY_ACTION.equals(intent.getAction())) {
+            return;
+        }
 
         Controller controller = null;
         try {

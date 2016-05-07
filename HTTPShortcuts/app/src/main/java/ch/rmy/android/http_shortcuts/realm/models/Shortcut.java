@@ -300,7 +300,10 @@ public class Shortcut extends RealmObject {
     public static String[] getTimeoutOptions(Context context) {
         String[] timeoutStrings = new String[Shortcut.TIMEOUT_OPTIONS.length];
         for (int i = 0; i < Shortcut.TIMEOUT_OPTIONS.length; i++) {
-            timeoutStrings[i] = context.getString(Shortcut.TIMEOUT_RESOURCES[i], Shortcut.TIMEOUT_OPTIONS[i] / 1000);
+            String timeName = context.getString(Shortcut.TIMEOUT_RESOURCES[i]);
+            int seconds = Shortcut.TIMEOUT_OPTIONS[i] / 1000;
+            String secondsString = context.getResources().getQuantityString(R.plurals.timeout_seconds, seconds, seconds);
+            timeoutStrings[i] = context.getString(R.string.timeout_format, timeName, secondsString);
         }
         return timeoutStrings;
     }
