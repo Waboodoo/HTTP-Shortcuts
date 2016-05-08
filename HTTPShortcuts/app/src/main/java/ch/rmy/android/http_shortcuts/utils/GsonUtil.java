@@ -5,6 +5,9 @@ import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.Reader;
+
+import ch.rmy.android.http_shortcuts.realm.models.Base;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 import io.realm.RealmObject;
 
@@ -20,9 +23,14 @@ public class GsonUtil {
         return gson.fromJson(json, Shortcut.class);
     }
 
-    public static void export(Object object, Appendable writer) {
+    public static void exportData(Base base, Appendable writer) {
         Gson gson = getJsonBuilder().setPrettyPrinting().create();
-        gson.toJson(object, writer);
+        gson.toJson(base, writer);
+    }
+
+    public static Base importData(Reader reader) {
+        Gson gson = getJsonBuilder().create();
+        return gson.fromJson(reader, Base.class);
     }
 
     private static GsonBuilder getJsonBuilder() {

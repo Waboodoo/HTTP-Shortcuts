@@ -10,13 +10,16 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
+import android.support.annotation.NonNull;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.nononsenseapps.filepicker.FilePickerActivity;
 
 import java.io.File;
 
 import ch.rmy.android.http_shortcuts.import_export.ExportTask;
-import ch.rmy.android.http_shortcuts.realm.Controller;
+import ch.rmy.android.http_shortcuts.import_export.ImportTask;
 import ch.rmy.android.http_shortcuts.utils.Settings;
 
 public class SettingsActivity extends BaseActivity {
@@ -64,7 +67,7 @@ public class SettingsActivity extends BaseActivity {
             exportPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
                 public boolean onPreferenceClick(Preference preference) {
-                    openFilePickerForExport();
+                    showExportInstructions();
                     return true;
                 }
 
@@ -74,7 +77,7 @@ public class SettingsActivity extends BaseActivity {
             importPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
                 public boolean onPreferenceClick(Preference preference) {
-                    openFilePickerForImport();
+                    showImportInstructions();
                     return true;
                 }
 
@@ -125,6 +128,34 @@ public class SettingsActivity extends BaseActivity {
                 }
 
             });
+        }
+
+        private void showExportInstructions() {
+            new MaterialDialog.Builder(getActivity())
+                    .positiveText(R.string.button_ok)
+                    .negativeText(R.string.button_cancel)
+                    .content(R.string.export_instructions)
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            openFilePickerForExport();
+                        }
+                    })
+                    .show();
+        }
+
+        private void showImportInstructions() {
+            new MaterialDialog.Builder(getActivity())
+                    .positiveText(R.string.button_ok)
+                    .negativeText(R.string.button_cancel)
+                    .content(R.string.import_instructions)
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            openFilePickerForImport();
+                        }
+                    })
+                    .show();
         }
 
         private void openFilePickerForExport() {
@@ -194,16 +225,13 @@ public class SettingsActivity extends BaseActivity {
         }
 
         private void startExport(String directoryPath) {
-            Controller controller = new Controller(getActivity());
-            Object data = controller.export();
-            controller.destroy();
-
-            ExportTask task = new ExportTask(getActivity(), data, directoryPath);
-            task.execute();
+            ExportTask task = new ExportTask(getActivity(), getView());
+            task.execute(directoryPath);
         }
 
         private void startImport(String filePath) {
-            // TODO: Import shortcuts
+            ImportTask task = new ImportTask(getActivity(), getView());
+            task.execute(filePath);
         }
 
     }

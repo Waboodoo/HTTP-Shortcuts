@@ -2,6 +2,8 @@ package ch.rmy.android.http_shortcuts.realm;
 
 import android.content.Context;
 
+import java.util.List;
+
 import ch.rmy.android.http_shortcuts.R;
 import ch.rmy.android.http_shortcuts.legacy_database.Migration;
 import ch.rmy.android.http_shortcuts.realm.models.Base;
@@ -75,8 +77,20 @@ public class Controller {
         return realm.where(Base.class).findFirst();
     }
 
-    public Object export() {
+    public Base exportBase() {
         return realm.copyFromRealm(getBase());
+    }
+
+    public void importBase(final Base base) {
+        final Base oldBase = getBase();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                List<Category> persistedCategories = realm.copyToRealmOrUpdate(base.getCategories());
+                oldBase.getCategories().clear();
+                oldBase.getCategories().addAll(persistedCategories);
+            }
+        });
     }
 
     public RealmList<Category> getCategories() {

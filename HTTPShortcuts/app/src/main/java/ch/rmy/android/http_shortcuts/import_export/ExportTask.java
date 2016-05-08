@@ -1,10 +1,7 @@
 package ch.rmy.android.http_shortcuts.import_export;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.os.AsyncTask;
-
-import com.afollestad.materialdialogs.MaterialDialog;
+import android.view.View;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -13,39 +10,31 @@ import java.io.IOException;
 import java.io.Writer;
 
 import ch.rmy.android.http_shortcuts.R;
+import ch.rmy.android.http_shortcuts.realm.Controller;
+import ch.rmy.android.http_shortcuts.realm.models.Base;
 import ch.rmy.android.http_shortcuts.utils.GsonUtil;
-import ch.rmy.android.http_shortcuts.utils.ProgressDialog;
 
-public class ExportTask extends AsyncTask<Void, Void, Boolean> {
+public class ExportTask extends SimpleTask {
 
     private static final String FILE_NAME = "shortcuts";
     private static final String FILE_EXTENSION = ".json";
 
-    private final Context context;
-    private final Object data;
-    private final String directoryPath;
-
-    private Dialog progressDialog;
-
-    public ExportTask(Context context, Object data, String directoryPath) {
-        this.context = context;
-        this.data = data;
-        this.directoryPath = directoryPath;
+    public ExportTask(Context context, View baseView) {
+        super(context, baseView);
     }
 
     @Override
-    protected void onPreExecute() {
-        progressDialog = ProgressDialog.show(context, R.string.export_in_progress);
-    }
+    protected Boolean doInBackground(String... path) {
+        Controller controller = new Controller(getContext());
+        Base base = controller.exportBase();
+        controller.destroy();
 
-    @Override
-    protected Boolean doInBackground(Void... params) {
-        File file = getFile();
+        File file = getFile(path[0]);
         Writer writer = null;
         try {
             try {
                 writer = new BufferedWriter(new FileWriter(file));
-                GsonUtil.export(data, writer);
+                GsonUtil.exportData(base, writer);
             } finally {
                 if (writer != null) {
                     writer.close();
@@ -58,7 +47,7 @@ public class ExportTask extends AsyncTask<Void, Void, Boolean> {
         return true;
     }
 
-    private File getFile() {
+    private File getFile(String directoryPath) {
         File directory = new File(directoryPath);
 
         File file = new File(directory, FILE_NAME + FILE_EXTENSION);
@@ -71,12 +60,18 @@ public class ExportTask extends AsyncTask<Void, Void, Boolean> {
     }
 
     @Override
-    protected void onPostExecute(Boolean success) {
-        progressDialog.dismiss();
-
-        new MaterialDialog.Builder(context)
-                .positiveText(R.string.button_ok)
-                .content(success ? R.string.export_success : R.string.export_failed)
-                .show();
+    protected String getProgressMessage() {
+        return getString(R.string.export_in_progress);
     }
+
+    @Override
+    protected String getSuccessMessage() {
+        return getString(R.string.export_success);
+    }
+
+    @Override
+    protected String getFailureMessage() {
+        return getString(R.string.export_failed);
+    }
+
 }
