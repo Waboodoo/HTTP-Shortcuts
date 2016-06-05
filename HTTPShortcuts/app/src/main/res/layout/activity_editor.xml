@@ -96,7 +96,7 @@
                     android:singleLine="true"/>
             </android.support.design.widget.TextInputLayout>
 
-            <com.farbod.labelledspinner.LabelledSpinner
+            <com.satsuware.usefulviews.LabelledSpinner
                 android:id="@+id/input_method"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -134,7 +134,7 @@
 
             </LinearLayout>
 
-            <com.farbod.labelledspinner.LabelledSpinner
+            <com.satsuware.usefulviews.LabelledSpinner
                 android:id="@+id/input_feedback"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -185,13 +185,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-            <com.farbod.labelledspinner.LabelledSpinner
+            <com.satsuware.usefulviews.LabelledSpinner
                 android:id="@+id/input_timeout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 ls:labelText="@string/label_timeout"/>
 
-            <com.farbod.labelledspinner.LabelledSpinner
+            <com.satsuware.usefulviews.LabelledSpinner
                 android:id="@+id/input_retry_policy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

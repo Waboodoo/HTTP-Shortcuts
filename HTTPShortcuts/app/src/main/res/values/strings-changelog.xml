@@ -2,7 +2,7 @@
 <resources>
     <string name="changelog_text" translatable="false"><![CDATA[
         <p>
-			<b>Version 1.9.0</b><br>
+			<b>Version 1.9.1</b><br>
 			- Layout improvements<br>
 			- Import/Export uses JSON format now<br>
 			- Bugfixes

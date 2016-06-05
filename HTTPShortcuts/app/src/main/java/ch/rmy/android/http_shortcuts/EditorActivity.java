@@ -19,7 +19,7 @@ import android.widget.LinearLayout;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.VolleyError;
-import com.farbod.labelledspinner.LabelledSpinner;
+import com.satsuware.usefulviews.LabelledSpinner;
 
 import net.dinglisch.ipack.IpackKeys;
 

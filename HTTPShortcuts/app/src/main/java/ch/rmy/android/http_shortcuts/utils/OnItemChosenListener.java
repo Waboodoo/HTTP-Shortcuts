@@ -3,7 +3,7 @@ package ch.rmy.android.http_shortcuts.utils;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.farbod.labelledspinner.LabelledSpinner;
+import com.satsuware.usefulviews.LabelledSpinner;
 
 public abstract class OnItemChosenListener implements LabelledSpinner.OnItemChosenListener {
 
