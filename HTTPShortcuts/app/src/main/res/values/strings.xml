@@ -112,4 +112,5 @@
     <string name="section_basic_request">Basic request settings</string>
     <string name="section_advanced_settings">Advanced settings</string>
     <string name="section_authentication">Authentication</string>
+    <string name="warning_icon_or_name_change">Please note that changes to the name or icon are not automatically applied to shortcuts that are already added to the home screen. You will have to add them again for the changes to take effect. All other changes are automatically applied.</string>
 </resources>

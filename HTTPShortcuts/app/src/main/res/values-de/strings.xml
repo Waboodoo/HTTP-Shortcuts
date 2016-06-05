@@ -112,4 +112,5 @@
     <string name="export_in_progress">Exportiere…</string>
     <string name="shortcut_safe_name">Shortcut</string>
     <string name="timeout_format">%1$s (%2$s)</string>
+    <string name="warning_icon_or_name_change">Beachte dass Änderungen des Namens oder Icons nicht automatisch angewendet werden auf Shortcuts, die bereits dem Homescreen hinzugefügt wurden. Um die Änderungen zu übernehmen musst du sie erneut platzieren.</string>
 </resources>

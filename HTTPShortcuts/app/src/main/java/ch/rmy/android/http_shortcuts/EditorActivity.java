@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -231,7 +232,20 @@ public class EditorActivity extends BaseActivity {
             Intent returnIntent = new Intent();
             returnIntent.putExtra(EXTRA_SHORTCUT_ID, persistedShortcut.getId());
             setResult(RESULT_OK, returnIntent);
-            finish();
+            if (!oldShortcut.isNew() && nameOrIconChanged()) {
+                (new MaterialDialog.Builder(this))
+                        .content(R.string.warning_icon_or_name_change)
+                        .positiveText(R.string.dialog_ok)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                finish();
+                            }
+                        })
+                        .show();
+            } else {
+                finish();
+            }
         }
     }
 
@@ -247,6 +261,10 @@ public class EditorActivity extends BaseActivity {
             return false;
         }
         return true;
+    }
+
+    private boolean nameOrIconChanged() {
+        return !TextUtils.equals(oldShortcut.getName(), shortcut.getName()) || !TextUtils.equals(oldShortcut.getIconName(), shortcut.getIconName());
     }
 
     private void test() {
