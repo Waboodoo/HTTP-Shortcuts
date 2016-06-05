@@ -1,14 +1,14 @@
-package ch.rmy.android.http_shortcuts.shortcuts;
+package ch.rmy.android.http_shortcuts.legacy_database;
 
 import ch.rmy.android.http_shortcuts.key_value_pairs.KeyValuePair;
 
-public class PostParameter implements KeyValuePair {
+public class LegacyParameter implements KeyValuePair {
 
     private final long id;
     private String key;
     private String value;
 
-    public PostParameter(long id, String key, String value) {
+    public LegacyParameter(long id, String key, String value) {
         this.id = id;
         this.key = key;
         this.value = value;

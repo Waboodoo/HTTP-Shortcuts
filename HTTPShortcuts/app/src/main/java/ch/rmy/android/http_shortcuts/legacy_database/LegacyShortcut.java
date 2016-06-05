@@ -1,11 +1,11 @@
-package ch.rmy.android.http_shortcuts.shortcuts;
+package ch.rmy.android.http_shortcuts.legacy_database;
 
 import android.content.Context;
 import android.net.Uri;
 
 import ch.rmy.android.http_shortcuts.R;
 
-public class Shortcut {
+public class LegacyShortcut {
 
     public static final String METHOD_GET = "GET";
     public static final String METHOD_POST = "POST";
@@ -47,10 +47,10 @@ public class Shortcut {
     private int position = 0;
     private String description = "";
     private String bodyContent;
-    private int timeout = Shortcut.TIMEOUT_OPTIONS[0];
+    private int timeout = LegacyShortcut.TIMEOUT_OPTIONS[0];
     private int retryPolicy = RETRY_POLICY_NONE;
 
-    protected Shortcut(long id) {
+    protected LegacyShortcut(long id) {
         this.id = id;
     }
 
@@ -174,8 +174,8 @@ public class Shortcut {
         return id == 0;
     }
 
-    public Shortcut duplicate(String newName) {
-        Shortcut duplicate = new Shortcut(0);
+    public LegacyShortcut duplicate(String newName) {
+        LegacyShortcut duplicate = new LegacyShortcut(0);
         duplicate.setName(newName);
         duplicate.setBodyContent(bodyContent);
         duplicate.setDescription(description);

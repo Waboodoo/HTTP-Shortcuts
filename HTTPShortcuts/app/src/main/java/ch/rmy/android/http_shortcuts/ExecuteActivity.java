@@ -1,12 +1,11 @@
 package ch.rmy.android.http_shortcuts;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
-import ch.rmy.android.http_shortcuts.http.HttpRequester;
-import ch.rmy.android.http_shortcuts.shortcuts.Shortcut;
-import ch.rmy.android.http_shortcuts.shortcuts.ShortcutStorage;
+import ch.rmy.android.http_shortcuts.http.Executor;
 
 public class ExecuteActivity extends Activity {
 
@@ -16,27 +15,28 @@ public class ExecuteActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_execute);
 
-        long shortcutID = -1;
-        Uri uri = getIntent().getData();
+        long shortcutId = getShortcutId(getIntent());
+        Executor executor = new Executor(this);
+        executor.execute(shortcutId);
+
+        finish();
+    }
+
+    private static long getShortcutId(Intent intent) {
+        long shortcutId = -1;
+        Uri uri = intent.getData();
         if (uri != null) {
             try {
                 String id = uri.getLastPathSegment();
-                shortcutID = Long.parseLong(id);
+                shortcutId = Long.parseLong(id);
             } catch (NumberFormatException e) {
             }
         }
-        if (shortcutID == -1) {
-            shortcutID = getIntent().getLongExtra(EXTRA_SHORTCUT_ID, -1); // for backwards compatibility
+        if (shortcutId == -1) {
+            return intent.getLongExtra(EXTRA_SHORTCUT_ID, -1); // for backwards compatibility
         }
-
-        ShortcutStorage shortcutStorage = new ShortcutStorage(this);
-        Shortcut shortcut = shortcutStorage.getShortcutByID(shortcutID);
-
-        HttpRequester.executeShortcut(this, shortcut, shortcutStorage);
-
-        finish();
+        return shortcutId;
     }
 
 }

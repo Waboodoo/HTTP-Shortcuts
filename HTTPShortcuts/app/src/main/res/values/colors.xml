@@ -4,5 +4,5 @@
     <item name="primary" type="color">#FF03A9F4</item>
     <item name="primary_dark" type="color">#FF0277BD</item>
     <item name="secondary_grey" type="color">#FF757575</item>
-    <item name="divider" type="color">#FFEBEBEB</item>
+    <item name="divider" type="color">#FFE0E0E0</item>
 </resources>

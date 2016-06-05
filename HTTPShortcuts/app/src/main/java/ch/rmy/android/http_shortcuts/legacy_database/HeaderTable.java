@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.shortcuts;
+package ch.rmy.android.http_shortcuts.legacy_database;
 
 public class HeaderTable {
 

@@ -1,22 +1,20 @@
-package ch.rmy.android.http_shortcuts.shortcuts;
+package ch.rmy.android.http_shortcuts;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import ch.rmy.android.http_shortcuts.R;
+import ch.rmy.android.http_shortcuts.icons.IconView;
 import ch.rmy.android.http_shortcuts.listeners.OnShortcutClickedListener;
+import ch.rmy.android.http_shortcuts.realm.models.Category;
+import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
+import io.realm.RealmChangeListener;
 
 public class ShortcutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -24,17 +22,25 @@ public class ShortcutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private static final int TYPE_EMPTY_MARKER = 1;
 
     private final Context context;
-    private final List<Shortcut> shortcuts = new ArrayList<>();
+    private final Category category;
     private OnShortcutClickedListener clickListener;
 
-    public ShortcutAdapter(Context context) {
+    public ShortcutAdapter(Context context, Category category) {
         this.context = context;
+        this.category = category;
         setHasStableIds(true);
+
+        category.addChangeListener(new RealmChangeListener() {
+            @Override
+            public void onChange() {
+                notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (shortcuts.isEmpty()) {
+        if (category.getShortcuts().isEmpty()) {
             return TYPE_EMPTY_MARKER;
         } else {
             return TYPE_SHORTCUT;
@@ -43,16 +49,10 @@ public class ShortcutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public long getItemId(int position) {
-        if (shortcuts.isEmpty()) {
+        if (category.getShortcuts().isEmpty()) {
             return -1;
         }
-        return shortcuts.get(position).getID();
-    }
-
-    public void updateShortcuts(List<Shortcut> shortcuts) {
-        this.shortcuts.clear();
-        this.shortcuts.addAll(shortcuts);
-        notifyDataSetChanged();
+        return category.getShortcuts().get(position).getId();
     }
 
     public void setOnShortcutClickListener(OnShortcutClickedListener clickListener) {
@@ -61,10 +61,10 @@ public class ShortcutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-        if (shortcuts.isEmpty()) {
+        if (category.getShortcuts().isEmpty()) {
             return 1;
         } else {
-            return shortcuts.size();
+            return category.getShortcuts().size();
         }
     }
 
@@ -80,7 +80,7 @@ public class ShortcutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ShortcutViewHolder) {
-            ((ShortcutViewHolder) holder).setShortcut(shortcuts.get(position));
+            ((ShortcutViewHolder) holder).setShortcut(category.getShortcuts().get(position));
         }
     }
 
@@ -91,7 +91,7 @@ public class ShortcutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         @Bind(R.id.description)
         TextView description;
         @Bind(R.id.icon)
-        ImageView icon;
+        IconView icon;
         private Shortcut shortcut;
 
         public ShortcutViewHolder(ViewGroup parent) {
@@ -122,16 +122,7 @@ public class ShortcutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             name.setText(shortcut.getName());
             description.setText(shortcut.getDescription());
             description.setVisibility(TextUtils.isEmpty(shortcut.getDescription()) ? View.GONE : View.VISIBLE);
-            icon.setImageURI(shortcut.getIconURI(context));
-            icon.setBackgroundColor(getAppropriateBackgroundColor(shortcut.getIconName()));
-        }
-
-        private int getAppropriateBackgroundColor(String iconName) {
-            if (iconName != null && iconName.startsWith("white_")) {
-                return Color.BLACK;
-            } else {
-                return Color.TRANSPARENT;
-            }
+            icon.setImageURI(shortcut.getIconURI(context), shortcut.getIconName());
         }
 
     }

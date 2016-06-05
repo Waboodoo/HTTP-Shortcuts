@@ -1,14 +1,14 @@
-package ch.rmy.android.http_shortcuts.shortcuts;
+package ch.rmy.android.http_shortcuts.legacy_database;
 
 import ch.rmy.android.http_shortcuts.key_value_pairs.KeyValuePair;
 
-public class Header implements KeyValuePair {
+public class LegacyHeader implements KeyValuePair {
 
     private final long id;
     private String key;
     private String value;
 
-    public Header(long id, String key, String value) {
+    public LegacyHeader(long id, String key, String value) {
         this.id = id;
         this.key = key;
         this.value = value;

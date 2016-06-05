@@ -48,7 +48,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    protected void showSnackbar(CharSequence message) {
+    public void showSnackbar(CharSequence message) {
         View baseView = ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
         Snackbar.make(baseView, message, Snackbar.LENGTH_SHORT).show();
     }

@@ -14,4 +14,20 @@
         <item name="selectableItemBackground">?android:selectableItemBackground</item>
     </style>
 
+
+    <style name="FilePickerTheme" parent="NNF_BaseTheme.Light">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/primary</item>
+
+        <item name="nnf_toolbarTheme">@style/ToolbarTheme</item>
+        <item name="alertDialogTheme">@style/FilePickerAlertDialogTheme</item>
+    </style>
+
+    <style name="FilePickerAlertDialogTheme" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/primary</item>
+    </style>
+
 </resources>
