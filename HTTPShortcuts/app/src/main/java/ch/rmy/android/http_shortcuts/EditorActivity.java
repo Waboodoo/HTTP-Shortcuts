@@ -17,9 +17,13 @@ import android.widget.LinearLayout;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.android.volley.VolleyError;
 import com.farbod.labelledspinner.LabelledSpinner;
 
 import net.dinglisch.ipack.IpackKeys;
+
+import org.jdeferred.DoneCallback;
+import org.jdeferred.FailCallback;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,6 +31,7 @@ import java.io.OutputStream;
 
 import butterknife.Bind;
 import ch.rmy.android.http_shortcuts.http.HttpRequester;
+import ch.rmy.android.http_shortcuts.http.ResponseHandler;
 import ch.rmy.android.http_shortcuts.icons.IconSelector;
 import ch.rmy.android.http_shortcuts.icons.IconView;
 import ch.rmy.android.http_shortcuts.key_value_pairs.KeyValueList;
@@ -247,7 +252,18 @@ public class EditorActivity extends BaseActivity {
     private void test() {
         compileShortcut();
         if (validate(true)) {
-            HttpRequester.executeShortcut(this, shortcut);
+            final ResponseHandler responseHandler = new ResponseHandler(this);
+            HttpRequester.executeShortcut(this, shortcut).done(new DoneCallback<String>() {
+                @Override
+                public void onDone(String response) {
+                    responseHandler.handleSuccess(shortcut, response);
+                }
+            }).fail(new FailCallback<VolleyError>() {
+                @Override
+                public void onFail(VolleyError error) {
+                    responseHandler.handleFailure(shortcut, error);
+                }
+            });
         }
     }
 

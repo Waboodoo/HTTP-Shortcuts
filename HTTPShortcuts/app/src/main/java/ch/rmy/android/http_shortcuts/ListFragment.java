@@ -17,7 +17,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import ch.rmy.android.http_shortcuts.http.HttpRequester;
+import ch.rmy.android.http_shortcuts.http.Executor;
 import ch.rmy.android.http_shortcuts.listeners.OnShortcutClickedListener;
 import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
@@ -40,6 +40,7 @@ public class ListFragment extends Fragment implements OnShortcutClickedListener 
     private Controller controller;
     private Category category;
     private ShortcutAdapter adapter;
+    private Executor executor;
 
     public static ListFragment newInstance(Category category, boolean shortcutPlacementMode) {
         ListFragment fragment = new ListFragment();
@@ -58,6 +59,7 @@ public class ListFragment extends Fragment implements OnShortcutClickedListener 
         shortcutPlacementMode = getArguments().getBoolean(ARGUMENT_PLACEMENT_MODE);
 
         controller = new Controller(getContext());
+        executor = new Executor(getContext());
 
         category = controller.getCategoryById(categoryId);
         adapter = new ShortcutAdapter(getContext(), category);
@@ -148,13 +150,10 @@ public class ListFragment extends Fragment implements OnShortcutClickedListener 
                 showDeleteDialog(shortcut);
                 return;
         }
-
-        return;
     }
 
-
     private void executeShortcut(Shortcut shortcut) {
-        HttpRequester.executeShortcut(getContext(), shortcut.getId(), controller);
+        executor.execute(shortcut.getId());
     }
 
     private void editShortcut(Shortcut shortcut) {

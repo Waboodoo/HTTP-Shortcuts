@@ -74,7 +74,7 @@
     <string name="export_instructions">Wählen Sie das Verzeichnis in welches Ihre Shortcuts exportiert werden sollen.\n\nAchtung: eigene Shortcut-Icons können nicht exportiert werden.</string>
     <string name="import_failed">Import fehlgeschlagen.</string>
     <string name="import_in_progress">Importiere…</string>
-    <string name="import_instructions">Wählen Sie die Datei aus welcher Sie Shortcuts importieren möchten.\n\nAchtung: alle bisheren Shortcuts werden verworfen.</string>
+    <string name="import_instructions">Wählen Sie die Datei aus welcher Sie Shortcuts importieren möchten.\n\nAchtung: bestehende Shortcuts können überschrieben werden.</string>
     <string name="import_success">Import erfolgreich.</string>
     <string name="label_timeout">Timeout</string>
     <plurals name="timeout_seconds">

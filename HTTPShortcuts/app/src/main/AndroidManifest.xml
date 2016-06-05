@@ -48,6 +48,7 @@
         <activity
             android:name=".ExecuteActivity"
             android:label="@string/title_activity_execute"
+            android:launchMode="singleInstance"
             android:theme="@style/Theme.Transparent">
             <intent-filter>
                 <action android:name="ch.rmy.android.http_shortcuts.execute"/>
@@ -59,11 +60,13 @@
             android:label=".FilePickerActivity"
             android:theme="@style/FilePickerTheme"/>
 
-        <receiver android:name="ch.rmy.android.http_shortcuts.http.ExecutionRetry">
+        <receiver android:name="ch.rmy.android.http_shortcuts.http.ServiceStarter">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
             </intent-filter>
         </receiver>
+
+        <service android:name=".http.ExecutionService"/>
     </application>
 
 </manifest>

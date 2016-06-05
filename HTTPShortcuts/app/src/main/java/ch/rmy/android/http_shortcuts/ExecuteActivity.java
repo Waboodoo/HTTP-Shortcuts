@@ -5,24 +5,20 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
-import ch.rmy.android.http_shortcuts.http.HttpRequester;
-import ch.rmy.android.http_shortcuts.realm.Controller;
+import ch.rmy.android.http_shortcuts.http.Executor;
 
 public class ExecuteActivity extends Activity {
 
     public static final String ACTION_EXECUTE_SHORTCUT = "ch.rmy.android.http_shortcuts.execute";
     public static final String EXTRA_SHORTCUT_ID = "id";
 
-    private Controller controller;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_execute);
 
-        controller = new Controller(this);
         long shortcutId = getShortcutId(getIntent());
-        HttpRequester.executeShortcut(this, shortcutId, controller);
+        Executor executor = new Executor(this);
+        executor.execute(shortcutId);
 
         finish();
     }
@@ -43,9 +39,4 @@ public class ExecuteActivity extends Activity {
         return shortcutId;
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        controller.destroy();
-    }
 }

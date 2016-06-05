@@ -8,6 +8,7 @@ import ch.rmy.android.http_shortcuts.R;
 import ch.rmy.android.http_shortcuts.legacy_database.Migration;
 import ch.rmy.android.http_shortcuts.realm.models.Base;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
+import ch.rmy.android.http_shortcuts.realm.models.PendingExecution;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -17,24 +18,22 @@ import io.realm.RealmResults;
 
 public class Controller {
 
-    private static final int SCHEMA_VERSION = 1;
     private static final String FIELD_ID = "id";
 
     private final Realm realm;
 
     public Controller(Context context) {
         RealmConfiguration config = new RealmConfiguration.Builder(context)
-                .schemaVersion(SCHEMA_VERSION)
                 .build();
 
         realm = Realm.getInstance(config);
 
         if (realm.where(Base.class).count() == 0) {
             setupBase(context);
-        }
 
-        Migration migration = new Migration(context, this);
-        migration.migrate();
+            Migration migration = new Migration(context, this);
+            migration.migrate();
+        }
     }
 
     private void setupBase(Context context) {
@@ -134,8 +133,36 @@ public class Controller {
         });
     }
 
-    public RealmResults<Shortcut> getShortcutsPendingExecution() {
-        return null; // TODO
+    public RealmResults<PendingExecution> getShortcutsPendingExecution() {
+        return realm
+                .where(PendingExecution.class)
+                .findAllSorted(PendingExecution.FIELD_ENQUEUED_AT);
+    }
+
+    public void createPendingExecution(final Shortcut shortcut) {
+        long existingPendingExecutions = realm
+                .where(PendingExecution.class)
+                .equalTo(PendingExecution.FIELD_SHORTCUT_ID, shortcut.getId())
+                .count();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.copyToRealm(PendingExecution.createNew(shortcut));
+            }
+        });
+    }
+
+    public void removePendingExecution(final PendingExecution pendingExecution) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                pendingExecution.removeFromRealm();
+            }
+        });
+    }
+
+    public void refresh() {
+        realm.refresh();
     }
 
     public Shortcut persist(final Shortcut shortcut) {

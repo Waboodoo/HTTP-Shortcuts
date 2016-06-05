@@ -75,7 +75,7 @@
     <string name="export_in_progress">Exporting…</string>
     <string name="button_ok">OK</string>
     <string name="button_cancel">Cancel</string>
-    <string name="import_instructions">Select the file to import shortcuts from.\n\nPlease note that all your current shortcuts will be lost.</string>
+    <string name="import_instructions">Select the file to import shortcuts from.\n\nPlease note that your current shortcuts might be overwritten.</string>
     <string name="import_failed">Importing shortcuts failed.</string>
     <string name="import_success">Shortcuts successfully imported.</string>
     <string name="import_in_progress">Importing…</string>

@@ -1,8 +1,6 @@
 package ch.rmy.android.http_shortcuts.http;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -12,95 +10,51 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.squareup.okhttp.OkHttpClient;
 
-import ch.rmy.android.http_shortcuts.R;
-import ch.rmy.android.http_shortcuts.realm.Controller;
+import org.jdeferred.Deferred;
+import org.jdeferred.Promise;
+import org.jdeferred.impl.DeferredObject;
+
 import ch.rmy.android.http_shortcuts.realm.models.Header;
 import ch.rmy.android.http_shortcuts.realm.models.Parameter;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 
 public class HttpRequester {
 
-    private static final int TOAST_MAX_LENGTH = 400;
-
-    public static void executeShortcut(final Context context, final long shortcutId, Controller controller) {
-        Shortcut shortcut = controller.getDetachedShortcutById(shortcutId);
-        if (shortcut != null) {
-
-            if (isNetworkConnected(context) || Shortcut.RETRY_POLICY_NONE.equals(shortcut.getRetryPolicy())) {
-                HttpRequester.executeShortcut(context, shortcut);
-            } else {
-                if (Shortcut.FEEDBACK_NONE.equals(shortcut.getFeedback())) {
-                    Toast.makeText(context, String.format(context.getText(R.string.execution_delayed).toString(), shortcut.getSafeName(context)), Toast.LENGTH_LONG).show();
-                }
-                // TODO
-                //shortcutStorage.markShortcutAsPending(shortcut);
-            }
-        } else {
-            Toast.makeText(context, R.string.shortcut_not_found, Toast.LENGTH_LONG).show();
-        }
-    }
-
-    public static void executeShortcut(final Context context, final Shortcut shortcut) {
-        String url = shortcut.getUrl();
-        int method = getMethod(shortcut);
+    public static Promise<String, VolleyError, Void> executeShortcut(final Context context, final Shortcut detachedShortcut) {
+        String url = detachedShortcut.getUrl();
+        int method = getMethod(detachedShortcut);
 
         OkHttpClient client = HttpClients.getDefaultOkHttpClient();
         RequestQueue queue = Volley.newRequestQueue(context, new OkHttpStack(client));
 
-        AuthRequest stringRequest = new AuthRequest(method, url, shortcut.getUsername(), shortcut.getPassword(), shortcut.getBodyContent(), new Response.Listener<String>() {
+        final Deferred<String, VolleyError, Void> deferred = new DeferredObject<>();
 
+        Promise<String, VolleyError, Void> promise = deferred.promise();
+
+        AuthRequest stringRequest = new AuthRequest(method, url, detachedShortcut.getUsername(), detachedShortcut.getPassword(), detachedShortcut.getBodyContent(), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                switch (shortcut.getFeedback()) {
-                    case Shortcut.FEEDBACK_SIMPLE:
-                        Toast.makeText(context, String.format(context.getText(R.string.executed).toString(), shortcut.getSafeName(context)), Toast.LENGTH_SHORT).show();
-                        break;
-                    case Shortcut.FEEDBACK_FULL_RESPONSE:
-                        String message = response;
-                        if (message.length() > TOAST_MAX_LENGTH) {
-                            message = message.substring(0, TOAST_MAX_LENGTH) + "…";
-                        }
-                        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-                        break;
-                }
+                deferred.resolve(response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if (Shortcut.FEEDBACK_NONE.equals(shortcut.getFeedback())) {
-                    return;
-                }
-
-                String name = shortcut.getSafeName(context);
-
-                String message;
-                if (error.networkResponse != null) {
-                    message = String.format(context.getText(R.string.error_http).toString(), name, error.networkResponse.statusCode);
-                } else {
-                    if (error.getCause() != null && error.getCause().getMessage() != null) {
-                        message = String.format(context.getText(R.string.error_other).toString(), name, error.getCause().getMessage());
-                    } else if (error.getMessage() != null) {
-                        message = String.format(context.getText(R.string.error_other).toString(), name, error.getMessage());
-                    } else {
-                        message = String.format(context.getText(R.string.error_other).toString(), name, error.getClass().getSimpleName());
-                    }
-                    error.printStackTrace();
-                }
-                Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+                deferred.reject(error);
             }
-
         });
 
-        for (Parameter parameter : shortcut.getParameters()) {
+        for (Parameter parameter : detachedShortcut.getParameters()) {
             stringRequest.addParameter(parameter.getKey(), parameter.getValue());
         }
 
-        for (Header header : shortcut.getHeaders()) {
+        for (Header header : detachedShortcut.getHeaders()) {
             stringRequest.addHeader(header.getKey(), header.getValue());
         }
 
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(shortcut.getTimeout(), 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(detachedShortcut.getTimeout(), 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(stringRequest);
+
+        return promise;
     }
 
     private static int getMethod(Shortcut shortcut) {
@@ -116,11 +70,6 @@ public class HttpRequester {
             default:
                 return Request.Method.GET;
         }
-    }
-
-    private static boolean isNetworkConnected(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm.getActiveNetworkInfo() != null;
     }
 
 }

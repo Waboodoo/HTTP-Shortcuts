@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.legacy_database;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.util.List;
 
@@ -12,8 +11,6 @@ import ch.rmy.android.http_shortcuts.realm.models.Parameter;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 
 public class Migration {
-
-    private static final String TAG = Migration.class.getName();
 
     private final Context context;
     private final Controller controller;
@@ -36,8 +33,6 @@ public class Migration {
             Shortcut persistedShortcut = controller.persist(newShortcut);
             controller.moveShortcut(persistedShortcut, category);
         }
-
-        Log.d(TAG, "deleted: " + storage.getDatabaseFile().delete());
     }
 
     private Shortcut migrateShortcut(LegacyShortcut oldShortcut, List<LegacyHeader> oldHeaders, List<LegacyParameter> oldParameters) {
