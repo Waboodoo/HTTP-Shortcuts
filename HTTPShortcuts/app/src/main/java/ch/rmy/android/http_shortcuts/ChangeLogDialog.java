@@ -63,7 +63,7 @@ public class ChangeLogDialog {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                settings.setChangeLogPermanentlyHidden(isChecked);
+                settings.setChangeLogPermanentlyHidden(!isChecked);
             }
 
         });
