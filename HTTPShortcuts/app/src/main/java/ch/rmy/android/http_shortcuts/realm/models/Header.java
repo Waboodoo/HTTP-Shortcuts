@@ -6,6 +6,42 @@ import io.realm.annotations.Required;
 
 public class Header extends RealmObject implements KeyValuePair {
 
+    public static final String[] SUGGESTED_KEYS = {
+            "Accept",
+            "Accept-Charset",
+            "Accept-Encoding",
+            "Accept-Language",
+            "Accept-Datetime",
+            "Authorization",
+            "Cache-Control",
+            "Connection",
+            "Cookie",
+            "Content-Length",
+            "Content-MD5",
+            "Content-Type",
+            "Date",
+            "Expect",
+            "Forwarded",
+            "From",
+            "Host",
+            "If-Match",
+            "If-Modified-Since",
+            "If-None-Match",
+            "If-Range",
+            "If-Unmodified-Since",
+            "Max-Forwards",
+            "Origin",
+            "Pragma",
+            "Proxy-Authorization",
+            "Range",
+            "Referer",
+            "TE",
+            "User-Agent",
+            "Upgrade",
+            "Via",
+            "Warning"
+    };
+
     @Required
     private String key;
     @Required
