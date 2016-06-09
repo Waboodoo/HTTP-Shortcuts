@@ -7,6 +7,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -36,6 +38,7 @@ public class KeyValueList<T extends KeyValuePair> extends FrameLayout {
     private int editDialogTitle;
     private int keyLabel;
     private int valueLabel;
+    private ArrayAdapter<String> suggestionAdapter;
 
     public KeyValueList(Context context) {
         super(context);
@@ -97,6 +100,9 @@ public class KeyValueList<T extends KeyValuePair> extends FrameLayout {
 
         ((TextInputLayout) dialog.findViewById(R.id.key_value_key_layout)).setHint(getContext().getString(keyLabel));
         ((TextInputLayout) dialog.findViewById(R.id.key_value_value_layout)).setHint(getContext().getString(valueLabel));
+        if (suggestionAdapter != null) {
+            ((AutoCompleteTextView) dialog.findViewById(R.id.key_value_key)).setAdapter(suggestionAdapter);
+        }
 
         dialog.show();
     }
@@ -134,6 +140,10 @@ public class KeyValueList<T extends KeyValuePair> extends FrameLayout {
 
         ((TextInputLayout) dialog.findViewById(R.id.key_value_key_layout)).setHint(getContext().getString(keyLabel));
         ((TextInputLayout) dialog.findViewById(R.id.key_value_value_layout)).setHint(getContext().getString(valueLabel));
+
+        if (suggestionAdapter != null) {
+            ((AutoCompleteTextView) dialog.findViewById(R.id.key_value_key)).setAdapter(suggestionAdapter);
+        }
 
         dialog.show();
     }
@@ -173,6 +183,10 @@ public class KeyValueList<T extends KeyValuePair> extends FrameLayout {
 
     public void setValueLabel(int resId) {
         this.valueLabel = resId;
+    }
+
+    public void setSuggestions(String[] suggestions) {
+        this.suggestionAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, suggestions);
     }
 
     private void updateListViewHeightBasedOnChildren() {

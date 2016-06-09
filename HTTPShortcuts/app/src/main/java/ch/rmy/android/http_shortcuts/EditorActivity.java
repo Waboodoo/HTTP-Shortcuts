@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
@@ -161,6 +162,7 @@ public class EditorActivity extends BaseActivity {
                 return Header.createNew(key, value);
             }
         });
+        customHeaderList.setSuggestions(Header.SUGGESTED_KEYS);
 
         feedbackView.setItemsArray(Shortcut.getFeedbackOptions(this));
         hideErrorLabel(feedbackView);

@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/key_value_key"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
                 android:singleLine="true">
 
                 <requestFocus/>
-            </EditText>
+            </AutoCompleteTextView>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
