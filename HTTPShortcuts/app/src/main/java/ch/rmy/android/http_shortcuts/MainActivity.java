@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -28,6 +29,8 @@ import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 public class MainActivity extends BaseActivity implements ListFragment.TabHost {
 
     private static final String ACTION_INSTALL_SHORTCUT = "com.android.launcher.action.INSTALL_SHORTCUT";
+
+    private final static int REQUEST_CREATE_SHORTCUT = 1;
 
     @Bind(R.id.button_create_shortcut)
     FloatingActionButton createButton;
@@ -67,16 +70,13 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
     }
 
     private void openEditorForCreation() {
-        adapter.getItem(viewPager.getCurrentItem()).openEditorForCreation();
+        Intent intent = new Intent(this, EditorActivity.class);
+        startActivityForResult(intent, REQUEST_CREATE_SHORTCUT);
     }
 
     private void setupViewPager() {
         adapter = new CategoryPagerAdapter(getSupportFragmentManager());
-
-        for (Category category : controller.getCategories()) {
-            adapter.addFragment(ListFragment.newInstance(category, shortcutPlacementMode), category.getName());
-        }
-
+        adapter.setCategories(controller.getCategories(), shortcutPlacementMode);
         viewPager.setAdapter(adapter);
 
         tabLayout.setupWithViewPager(viewPager);
@@ -87,6 +87,36 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
         if (!changeLog.isPermanentlyHidden() && !changeLog.wasAlreadyShown()) {
             changeLog.show();
         }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+
+        if (requestCode == REQUEST_CREATE_SHORTCUT) {
+            long shortcutId = intent.getLongExtra(EditorActivity.EXTRA_SHORTCUT_ID, 0);
+            Shortcut shortcut = controller.getShortcutById(shortcutId);
+            if (shortcut == null) {
+                return;
+            }
+
+            ListFragment currentListFragment = adapter.getItem(viewPager.getCurrentItem());
+            long categoryId = currentListFragment.getCategoryId();
+            Category category = controller.getCategoryById(categoryId);
+            controller.moveShortcut(shortcut, category);
+
+            if (shortcutPlacementMode) {
+                returnForHomeScreen(shortcut);
+            }
+        }
+    }
+
+    @Override
+    public void returnForHomeScreen(Shortcut shortcut) {
+        Intent shortcutIntent = getShortcutPlacementIntent(shortcut);
+        setResult(RESULT_OK, shortcutIntent);
+        finish();
     }
 
     @Override
@@ -158,13 +188,6 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
         Intent shortcutPlacementIntent = getShortcutPlacementIntent(shortcut);
         sendBroadcast(shortcutPlacementIntent);
         showSnackbar(String.format(getString(R.string.shortcut_placed), shortcut.getName()));
-    }
-
-    @Override
-    public void returnForHomeScreen(Shortcut shortcut) {
-        Intent shortcutIntent = getShortcutPlacementIntent(shortcut);
-        setResult(RESULT_OK, shortcutIntent);
-        finish();
     }
 
 }
