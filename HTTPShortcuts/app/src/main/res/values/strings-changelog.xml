@@ -4,7 +4,9 @@
         <p>
 			<b>Version 1.9.1</b><br>
 			- Layout improvements<br>
+			- Auto-complete suggestions for custom headers<br>
 			- Import/Export uses JSON format now<br>
+			- Improved execution retries after reconnecting with the internet<br>
 			- Bugfixes
 		</p>
         <p>
