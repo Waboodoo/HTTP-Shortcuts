@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import butterknife.Bind;
+import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog;
 import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;

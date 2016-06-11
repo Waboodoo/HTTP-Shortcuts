@@ -15,6 +15,7 @@ public class Settings {
     private static final String KEY_IMPORT_EXPORT_DIR = "import_export_dir";
     private static final String KEY_CHANGE_LOG_PERMANENTLY_HIDDEN = "change_log_permanently_hidden";
     private static final String KEY_CHANGE_LOG_LAST_VERSION = "change_log_last_version";
+    private static final String KEY_ICON_NAME_CHANGE_PERMANENTLY_HIDDEN = "icon_name_change_permanently_hidden";
 
     private final SharedPreferences preferences;
 
@@ -51,6 +52,14 @@ public class Settings {
 
     public void setChangeLogLastVersion(int version) {
         preferences.edit().putInt(KEY_CHANGE_LOG_LAST_VERSION, version).apply();
+    }
+
+    public boolean isIconNameWarningPermanentlyHidden() {
+        return preferences.getBoolean(KEY_ICON_NAME_CHANGE_PERMANENTLY_HIDDEN, false);
+    }
+
+    public void setIconNameWarningPermanentlyHidden(boolean hidden) {
+        preferences.edit().putBoolean(KEY_ICON_NAME_CHANGE_PERMANENTLY_HIDDEN, hidden).apply();
     }
 
 }

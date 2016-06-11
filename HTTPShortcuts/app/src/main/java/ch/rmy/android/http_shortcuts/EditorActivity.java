@@ -13,7 +13,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
@@ -32,6 +31,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import butterknife.Bind;
+import ch.rmy.android.http_shortcuts.dialogs.IconNameChangeDialog;
 import ch.rmy.android.http_shortcuts.http.HttpRequester;
 import ch.rmy.android.http_shortcuts.http.ResponseHandler;
 import ch.rmy.android.http_shortcuts.icons.IconSelector;
@@ -234,17 +234,14 @@ public class EditorActivity extends BaseActivity {
             Intent returnIntent = new Intent();
             returnIntent.putExtra(EXTRA_SHORTCUT_ID, persistedShortcut.getId());
             setResult(RESULT_OK, returnIntent);
-            if (!oldShortcut.isNew() && nameOrIconChanged()) {
-                (new MaterialDialog.Builder(this))
-                        .content(R.string.warning_icon_or_name_change)
-                        .positiveText(R.string.dialog_ok)
-                        .onPositive(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                finish();
-                            }
-                        })
-                        .show();
+            IconNameChangeDialog dialog = new IconNameChangeDialog(this);
+            if (!oldShortcut.isNew() && nameOrIconChanged() && dialog.shouldShow()) {
+                dialog.show(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        finish();
+                    }
+                });
             } else {
                 finish();
             }
