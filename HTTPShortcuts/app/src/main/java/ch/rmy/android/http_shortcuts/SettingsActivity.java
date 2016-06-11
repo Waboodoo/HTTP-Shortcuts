@@ -18,6 +18,7 @@ import com.nononsenseapps.filepicker.FilePickerActivity;
 
 import java.io.File;
 
+import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog;
 import ch.rmy.android.http_shortcuts.import_export.ExportTask;
 import ch.rmy.android.http_shortcuts.import_export.ImportTask;
 import ch.rmy.android.http_shortcuts.utils.Settings;
