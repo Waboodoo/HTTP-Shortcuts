@@ -22,25 +22,35 @@ public class ShortcutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private static final int TYPE_EMPTY_MARKER = 1;
 
     private final Context context;
-    private final Category category;
+    private Category category;
     private OnShortcutClickedListener clickListener;
 
-    public ShortcutAdapter(Context context, Category category) {
-        this.context = context;
-        this.category = category;
-        setHasStableIds(true);
+    private final RealmChangeListener changeListener = new RealmChangeListener() {
+        @Override
+        public void onChange() {
+            notifyDataSetChanged();
+        }
+    };
 
-        category.addChangeListener(new RealmChangeListener() {
-            @Override
-            public void onChange() {
-                notifyDataSetChanged();
-            }
-        });
+    public ShortcutAdapter(Context context) {
+        this.context = context;
+        setHasStableIds(true);
+    }
+
+    public void setCategory(Category category) {
+        if (this.category != null) {
+            this.category.removeChangeListener(changeListener);
+        }
+        this.category = category;
+        if (this.category != null) {
+            this.category.addChangeListener(changeListener);
+        }
+        notifyDataSetChanged();
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (category.getShortcuts().isEmpty()) {
+        if (category == null || category.getShortcuts().isEmpty()) {
             return TYPE_EMPTY_MARKER;
         } else {
             return TYPE_SHORTCUT;
@@ -49,7 +59,7 @@ public class ShortcutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public long getItemId(int position) {
-        if (category.getShortcuts().isEmpty()) {
+        if (category == null || category.getShortcuts().isEmpty()) {
             return -1;
         }
         return category.getShortcuts().get(position).getId();
@@ -61,7 +71,7 @@ public class ShortcutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-        if (category.getShortcuts().isEmpty()) {
+        if (category == null || category.getShortcuts().isEmpty()) {
             return 1;
         } else {
             return category.getShortcuts().size();

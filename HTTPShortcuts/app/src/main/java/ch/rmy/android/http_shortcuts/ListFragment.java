@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -26,43 +25,50 @@ import ch.rmy.android.http_shortcuts.utils.Settings;
 
 public class ListFragment extends Fragment implements OnShortcutClickedListener {
 
-    private final static int REQUEST_CREATE_SHORTCUT = 1;
     private final static int REQUEST_EDIT_SHORTCUT = 2;
-
-    public static final String ARGUMENT_CATEGORY_ID = "category_id";
-    public static final String ARGUMENT_PLACEMENT_MODE = "placement_mode";
 
     @Bind(R.id.shortcut_list)
     RecyclerView shortcutList;
 
+    private long categoryId;
     private boolean shortcutPlacementMode;
+    @Nullable
+    private Category category;
 
     private Controller controller;
-    private Category category;
     private ShortcutAdapter adapter;
     private Executor executor;
-
-    public static ListFragment newInstance(Category category, boolean shortcutPlacementMode) {
-        ListFragment fragment = new ListFragment();
-        Bundle arguments = new Bundle();
-        arguments.putLong(ARGUMENT_CATEGORY_ID, category.getId());
-        arguments.putBoolean(ARGUMENT_PLACEMENT_MODE, shortcutPlacementMode);
-        fragment.setArguments(arguments);
-        return fragment;
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        long categoryId = getArguments().getLong(ARGUMENT_CATEGORY_ID);
-        shortcutPlacementMode = getArguments().getBoolean(ARGUMENT_PLACEMENT_MODE);
-
         controller = new Controller(getContext());
         executor = new Executor(getContext());
+        adapter = new ShortcutAdapter(getContext());
 
+        onCategoryChanged();
+    }
+
+    public void setCategoryId(long categoryId) {
+        this.categoryId = categoryId;
+        onCategoryChanged();
+    }
+
+    private void onCategoryChanged() {
+        if (controller == null) {
+            return;
+        }
         category = controller.getCategoryById(categoryId);
-        adapter = new ShortcutAdapter(getContext(), category);
+        adapter.setCategory(category);
+    }
+
+    public long getCategoryId() {
+        return categoryId;
+    }
+
+    public String getCategoryName() {
+        return category == null ? "" : category.getName();
     }
 
     @Override
@@ -87,6 +93,9 @@ public class ListFragment extends Fragment implements OnShortcutClickedListener 
         return view;
     }
 
+    public void setShortcutPlacementMode(boolean enabled) {
+        this.shortcutPlacementMode = enabled;
+    }
 
     @Override
     public void onShortcutClicked(Shortcut shortcut, View view) {
@@ -201,30 +210,6 @@ public class ListFragment extends Fragment implements OnShortcutClickedListener 
     private void deleteShortcut(Shortcut shortcut) {
         getTabHost().showSnackbar(String.format(getText(R.string.shortcut_deleted).toString(), shortcut.getName()));
         controller.deleteShortcut(shortcut);
-    }
-
-    public void openEditorForCreation() {
-        Intent intent = new Intent(getContext(), EditorActivity.class);
-        startActivityForResult(intent, REQUEST_CREATE_SHORTCUT);
-    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (resultCode != Activity.RESULT_OK) {
-            return;
-        }
-
-        if (requestCode == REQUEST_CREATE_SHORTCUT) {
-            long shortcutId = intent.getLongExtra(EditorActivity.EXTRA_SHORTCUT_ID, 0);
-            Shortcut shortcut = controller.getShortcutById(shortcutId);
-            if (shortcut == null) {
-                return;
-            }
-            controller.moveShortcut(shortcut, category);
-
-            if (shortcutPlacementMode) {
-                getTabHost().returnForHomeScreen(shortcut);
-            }
-        }
     }
 
     private TabHost getTabHost() {
