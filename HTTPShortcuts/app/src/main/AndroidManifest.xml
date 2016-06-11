@@ -2,7 +2,7 @@
 <manifest
     package="ch.rmy.android.http_shortcuts"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:versionCode="14"
+    android:versionCode="15"
     android:versionName="1.9.1">
 
     <uses-permission android:name="android.permission.INTERNET"/>
