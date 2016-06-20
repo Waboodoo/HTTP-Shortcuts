@@ -12,21 +12,25 @@ import java.util.Map;
 
 public class AuthRequest extends StringRequest {
 
-    private final String username;
-    private final String password;
     private final String bodyContent;
     private final Map<String, String> parameters;
     private final Map<String, String> headers;
+    private String contentType;
 
     public AuthRequest(int method, String url, String username, String password, String bodyContent, Listener<String> listener, ErrorListener errorListener) {
         super(method, url, listener, errorListener);
 
-        this.username = username;
-        this.password = password;
         this.bodyContent = bodyContent;
 
         parameters = new HashMap<>();
         headers = new HashMap<>();
+
+        headers.put("Connection", "close");
+        if (!username.isEmpty() || !password.isEmpty()) {
+            String authorization = String.format("%s:%s", username, password);
+            String encodedAuthorization = "Basic " + Base64.encodeToString(authorization.getBytes(), Base64.NO_WRAP);
+            headers.put("Authorization", encodedAuthorization);
+        }
     }
 
     @Override
@@ -50,17 +54,15 @@ public class AuthRequest extends StringRequest {
 
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
-        headers.putAll(super.getHeaders());
-
-        headers.put("Connection", "close");
-
-        if (!username.isEmpty() || !password.isEmpty()) {
-            String creds = String.format("%s:%s", username, password);
-            String auth = "Basic " + Base64.encodeToString(creds.getBytes(), Base64.NO_WRAP);
-            headers.put("Authorization", auth);
-        }
-
         return headers;
+    }
+
+    @Override
+    public String getBodyContentType() {
+        if (contentType != null) {
+            return contentType;
+        }
+        return super.getBodyContentType();
     }
 
     @Override
@@ -73,7 +75,11 @@ public class AuthRequest extends StringRequest {
     }
 
     public void addHeader(String key, String value) {
-        headers.put(key, value);
+        if (key.equals("Content-Type")) {
+            contentType = value;
+        } else {
+            headers.put(key, value);
+        }
     }
 
 }
