@@ -2,6 +2,10 @@
 <resources>
     <string name="changelog_text" translatable="false"><![CDATA[
         <p>
+            <b>Version 1.9.2.</b><br>
+            - Bugfixes
+        </p>
+        <p>
 			<b>Version 1.9.1</b><br>
 			- Layout improvements<br>
 			- Auto-complete suggestions for custom headers<br>
