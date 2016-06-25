@@ -23,8 +23,9 @@ public class HttpRequester {
     public static Promise<String, VolleyError, Void> executeShortcut(final Context context, final Shortcut detachedShortcut) {
         String url = detachedShortcut.getUrl();
         int method = getMethod(detachedShortcut);
+        boolean acceptAllCertificates = detachedShortcut.isAcceptAllCertificates();
 
-        OkHttpClient client = HttpClients.getDefaultOkHttpClient();
+        OkHttpClient client = acceptAllCertificates ? HttpClients.getUnsafeOkHttpClient() : HttpClients.getDefaultOkHttpClient();
         RequestQueue queue = Volley.newRequestQueue(context, new OkHttpStack(client));
 
         final Deferred<String, VolleyError, Void> deferred = new DeferredObject<>();

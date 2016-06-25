@@ -5,13 +5,12 @@ import android.content.Context;
 import java.util.List;
 
 import ch.rmy.android.http_shortcuts.R;
-import ch.rmy.android.http_shortcuts.legacy_database.Migration;
+import ch.rmy.android.http_shortcuts.legacy_database.LegacyMigration;
 import ch.rmy.android.http_shortcuts.realm.models.Base;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
 import ch.rmy.android.http_shortcuts.realm.models.PendingExecution;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
@@ -23,15 +22,12 @@ public class Controller {
     private final Realm realm;
 
     public Controller(Context context) {
-        RealmConfiguration config = new RealmConfiguration.Builder(context)
-                .build();
-
-        realm = Realm.getInstance(config);
+        realm = RealmFactory.getRealm(context);
 
         if (realm.where(Base.class).count() == 0) {
             setupBase(context);
 
-            Migration migration = new Migration(context, this);
+            LegacyMigration migration = new LegacyMigration(context, this);
             migration.migrate();
         }
     }
