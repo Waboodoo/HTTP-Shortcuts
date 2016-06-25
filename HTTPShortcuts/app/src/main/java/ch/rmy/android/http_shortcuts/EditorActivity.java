@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
@@ -94,6 +95,8 @@ public class EditorActivity extends BaseActivity {
     KeyValueList<Header> customHeaderList;
     @Bind(R.id.input_custom_body)
     EditText customBodyView;
+    @Bind(R.id.input_accept_all_certificates)
+    CheckBox acceptCertificatesCheckbox;
 
     @SuppressLint("NewApi")
     @Override
@@ -175,6 +178,8 @@ public class EditorActivity extends BaseActivity {
         retryPolicyView.setItemsArray(Shortcut.getRetryPolicyOptions(this));
         hideErrorLabel(retryPolicyView);
         retryPolicyView.setSelection(ArrayUtil.findIndex(Shortcut.RETRY_POLICY_OPTIONS, shortcut.getRetryPolicy()));
+
+        acceptCertificatesCheckbox.setChecked(shortcut.isAcceptAllCertificates());
 
         updateIcon();
         iconView.setOnClickListener(new OnClickListener() {
@@ -371,6 +376,7 @@ public class EditorActivity extends BaseActivity {
         shortcut.setFeedback(Shortcut.FEEDBACK_OPTIONS[feedbackView.getSpinner().getSelectedItemPosition()]);
         shortcut.setTimeout(Shortcut.TIMEOUT_OPTIONS[timeoutView.getSpinner().getSelectedItemPosition()]);
         shortcut.setRetryPolicy(Shortcut.RETRY_POLICY_OPTIONS[retryPolicyView.getSpinner().getSelectedItemPosition()]);
+        shortcut.setAcceptAllCertificates(acceptCertificatesCheckbox.isChecked());
 
         shortcut.getParameters().clear();
         shortcut.getParameters().addAll(parameterList.getItems());
