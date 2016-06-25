@@ -10,12 +10,12 @@ import ch.rmy.android.http_shortcuts.realm.models.Header;
 import ch.rmy.android.http_shortcuts.realm.models.Parameter;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 
-public class Migration {
+public class LegacyMigration {
 
     private final Context context;
     private final Controller controller;
 
-    public Migration(Context context, Controller controller) {
+    public LegacyMigration(Context context, Controller controller) {
         this.context = context;
         this.controller = controller;
     }

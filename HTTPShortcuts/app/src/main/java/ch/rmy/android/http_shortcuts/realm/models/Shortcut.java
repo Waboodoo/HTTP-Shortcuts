@@ -62,6 +62,7 @@ public class Shortcut extends RealmObject {
     private String retryPolicy;
     private RealmList<Header> headers;
     private RealmList<Parameter> parameters;
+    private boolean acceptAllCertificates;
 
     public long getId() {
         return id;
@@ -173,6 +174,14 @@ public class Shortcut extends RealmObject {
 
     public void setParameters(RealmList<Parameter> parameters) {
         this.parameters = parameters;
+    }
+
+    public boolean isAcceptAllCertificates() {
+        return acceptAllCertificates;
+    }
+
+    public void setAcceptAllCertificates(boolean acceptAllCertificates) {
+        this.acceptAllCertificates = acceptAllCertificates;
     }
 
     public boolean isNew() {
