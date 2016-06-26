@@ -15,10 +15,12 @@ Find the app on the [Play Store](https://play.google.com/store/apps/details?id=c
 
 #Screenshots
 
-![Image](https://raw.githubusercontent.com/Waboodoo/HTTP-Shortcuts/master/Screenshots/main_screen.png)
-![Image](https://raw.githubusercontent.com/Waboodoo/HTTP-Shortcuts/master/Screenshots/shortcut_options.png)
-![Image](https://raw.githubusercontent.com/Waboodoo/HTTP-Shortcuts/master/Screenshots/editor.png)
-![Image](https://raw.githubusercontent.com/Waboodoo/HTTP-Shortcuts/master/Screenshots/home_screen_with_shortcuts.png)
+![Image](https://raw.githubusercontent.com/Waboodoo/HTTP-Shortcuts/master/Screenshots/main_screen_small.png)
+![Image](https://raw.githubusercontent.com/Waboodoo/HTTP-Shortcuts/master/Screenshots/shortcut_options_small.png)
+![Image](https://raw.githubusercontent.com/Waboodoo/HTTP-Shortcuts/master/Screenshots/editor_small.png)
+![Image](https://raw.githubusercontent.com/Waboodoo/HTTP-Shortcuts/master/Screenshots/home_screen_with_shortcuts_small.png)
+![Image](https://raw.githubusercontent.com/Waboodoo/HTTP-Shortcuts/master/Screenshots/icons_small.png)
+![Image](https://raw.githubusercontent.com/Waboodoo/HTTP-Shortcuts/master/Screenshots/headers_small.png)
 
 
 
