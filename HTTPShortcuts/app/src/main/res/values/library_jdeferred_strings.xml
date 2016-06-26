@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="define_int_Jdeferred" translatable="false">year;owner</string>
+    <string name="library_Jdeferred_author" translatable="false">Ray Tsang</string>
+    <string name="library_Jdeferred_libraryName" translatable="false">JDeferred</string>
+    <string name="library_Jdeferred_libraryDescription" translatable="false">JDeferred is a Java Deferred/Promise library similar to JQuery\'s Deferred Object..</string>
+    <string name="library_Jdeferred_libraryWebsite" translatable="false">https://github.com/jdeferred/jdeferred</string>
+    <string name="library_Jdeferred_licenseId" translatable="false">apache_2_0</string>
+    <!-- Custom variables section -->
+    <string name="library_Jdeferred_owner" translatable="false">Ray Tsang</string>
+    <string name="library_Jdeferred_year" translatable="false">2015</string>
+</resources>

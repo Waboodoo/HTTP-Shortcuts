@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="define_int_Bitsies" translatable="false">year;owner</string>
+    <string name="library_Bitsies_author" translatable="false">Recep Kütük</string>
+    <string name="library_Bitsies_libraryName" translatable="false">Bitsies</string>
+    <string name="library_Bitsies_libraryDescription" translatable="false">A set of beautiful colorful flat icons</string>
+    <string name="library_Bitsies_libraryWebsite" translatable="false">http://recepkutuk.com/bitsies/</string>
+    <string name="library_Bitsies_licenseId" translatable="false">cc30</string>
+    <!-- Custom variables section -->
+    <string name="library_Bitsies_owner" translatable="false">Recep Kütük</string>
+    <string name="library_Bitsies_year" translatable="false">2015</string>
+</resources>

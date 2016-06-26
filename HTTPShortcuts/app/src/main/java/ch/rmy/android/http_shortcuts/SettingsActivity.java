@@ -129,6 +129,16 @@ public class SettingsActivity extends BaseActivity {
                 }
 
             });
+
+            final Preference licensesPreference = findPreference("licenses");
+            licensesPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+
+                public boolean onPreferenceClick(Preference preference) {
+                    showLicenses();
+                    return true;
+                }
+
+            });
         }
 
         private void showExportInstructions() {
@@ -195,6 +205,11 @@ public class SettingsActivity extends BaseActivity {
         private void gotoGithub() {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(GITHUB_URL));
             startActivity(browserIntent);
+        }
+
+        private void showLicenses() {
+            Intent licensesIntent = new Intent(getActivity(), LicensesActivity.class);
+            startActivity(licensesIntent);
         }
 
         @Override
