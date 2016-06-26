@@ -33,16 +33,16 @@
         android:title="@string/settings_about">
 
         <com.afollestad.materialdialogs.prefs.MaterialPreference
-            android:icon="@drawable/settings_version"
+            android:icon="@drawable/ic_version"
             android:key="version"
             android:title="@string/settings_version"/>
         <com.afollestad.materialdialogs.prefs.MaterialPreference
-            android:icon="@drawable/settings_mail"
+            android:icon="@drawable/ic_mail"
             android:key="mail"
             android:summary="@string/settings_mail_summary"
             android:title="@string/settings_mail"/>
         <com.afollestad.materialdialogs.prefs.MaterialPreference
-            android:icon="@drawable/settings_store"
+            android:icon="@drawable/ic_star"
             android:key="play_store"
             android:summary="@string/settings_play_store_summary"
             android:title="@string/settings_play_store"/>
