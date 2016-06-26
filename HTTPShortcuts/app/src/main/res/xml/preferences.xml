@@ -51,6 +51,11 @@
             android:key="github"
             android:summary="@string/settings_github_summary"
             android:title="@string/settings_github"/>
+        <com.afollestad.materialdialogs.prefs.MaterialPreference
+            android:icon="@drawable/ic_licenses"
+            android:key="licenses"
+            android:summary="@string/settings_licenses_summary"
+            android:title="@string/settings_licenses"/>
 
     </PreferenceCategory>
 

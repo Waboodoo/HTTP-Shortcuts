@@ -54,6 +54,9 @@
                 <action android:name="ch.rmy.android.http_shortcuts.execute"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name=".LicensesActivity"
+            android:label="@string/title_licenses"/>
 
         <activity
             android:name="com.nononsenseapps.filepicker.FilePickerActivity"
