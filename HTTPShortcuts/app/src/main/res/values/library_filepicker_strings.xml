@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="define_int_Filepicker" translatable="false">year;owner</string>
+    <string name="library_Filepicker_author" translatable="false">Jonas Kalderstam</string>
+    <string name="library_Filepicker_libraryName" translatable="false">NoNonsense-FilePicker</string>
+    <string name="library_Filepicker_libraryDescription" translatable="false">An extendable material design file picker library.</string>
+    <string name="library_Filepicker_libraryWebsite" translatable="false">https://github.com/spacecowboy/NoNonsense-FilePicker</string>
+    <string name="library_Filepicker_licenseId" translatable="false">mpl</string>
+    <!-- Custom variables section -->
+    <string name="library_Filepicker_owner" translatable="false">Jonas Kalderstam</string>
+    <string name="library_Filepicker_year" translatable="false">2016</string>
+</resources>

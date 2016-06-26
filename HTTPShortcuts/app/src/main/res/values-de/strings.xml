@@ -116,7 +116,7 @@
     <string name="dialog_checkbox_do_not_show_again">Nicht erneut anzeigen</string>
     <string name="label_accept_all_certificates">Alle Zertifikate akzeptieren</string>
     <string name="label_certificates">Zertifikate</string>
-    <string name="title_licenses">Lizenzen</string>
-    <string name="settings_licenses">Lizenzen</string>
+    <string name="title_licenses">Anerkennungen</string>
+    <string name="settings_licenses">Anerkennungen</string>
     <string name="settings_licenses_summary"><![CDATA[Verwendete Libraries & Resourcen]]></string>
 </resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="define_int_Flaticons" translatable="false">year;owner</string>
+    <string name="library_Flaticons_author" translatable="false">Nick Roach</string>
+    <string name="library_Flaticons_libraryName" translatable="false">Flat Icons</string>
+    <string name="library_Flaticons_libraryDescription" translatable="false">A set of beautiful flat icons, in single and multiple color.</string>
+    <string name="library_Flaticons_libraryWebsite" translatable="false">https://www.elegantthemes.com/blog/freebie-of-the-week/beautiful-flat-icons-for-free</string>
+    <string name="library_Flaticons_licenseId" translatable="false">gpl_2_0</string>
+    <!-- Custom variables section -->
+    <string name="library_Flaticons_owner" translatable="false">Nick Roach</string>
+    <string name="library_Flaticons_year" translatable="false">2013</string>
+</resources>

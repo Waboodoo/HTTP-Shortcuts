@@ -8,6 +8,20 @@ import com.mikepenz.aboutlibraries.LibsBuilder;
 
 public class LicensesActivity extends BaseActivity {
 
+    private static final String[] LIBRARIES = {
+            "butterknife",
+            "gson",
+            "materialdialogs",
+            "okhttp",
+            "recyclerview_v7",
+            "realm",
+            "volleyplus",
+            "flaticons",
+            "bitsies",
+            "filepicker",
+            "jdeferred"
+    };
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -16,7 +30,7 @@ public class LicensesActivity extends BaseActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_host);
         if (fragment == null) {
-            fragment = new LibsBuilder().supportFragment();
+            fragment = new LibsBuilder().withAutoDetect(false).withLibraries(LIBRARIES).withLicenseShown(true).supportFragment();
             fragmentManager.beginTransaction().add(R.id.fragment_host, fragment).commit();
         }
     }
