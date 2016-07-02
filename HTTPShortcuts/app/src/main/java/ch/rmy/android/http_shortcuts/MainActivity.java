@@ -91,7 +91,7 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
         super.onResume();
         List<Category> categories = controller.getCategories();
         tabLayout.setVisibility(categories.size() > 1 ? View.VISIBLE : View.GONE);
-        if (viewPager.getCurrentItem() <= categories.size()) {
+        if (viewPager.getCurrentItem() >= categories.size()) {
             viewPager.setCurrentItem(0);
         }
         adapter.setCategories(categories, shortcutPlacementMode);

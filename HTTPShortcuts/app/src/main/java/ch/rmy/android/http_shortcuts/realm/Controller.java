@@ -84,7 +84,7 @@ public class Controller implements Destroyable {
             @Override
             public void execute(Realm realm) {
                 List<Category> persistedCategories = realm.copyToRealmOrUpdate(base.getCategories());
-                oldBase.getCategories().clear();
+                oldBase.getCategories().removeAll(persistedCategories);
                 oldBase.getCategories().addAll(persistedCategories);
             }
         });
