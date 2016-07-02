@@ -87,7 +87,7 @@ public class ListFragment extends Fragment {
             return;
         }
         category = controller.getCategoryById(categoryId);
-        adapter.setCategory(category);
+        adapter.setParent(category);
     }
 
     public long getCategoryId() {
@@ -110,7 +110,7 @@ public class ListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_list, parent, false);
         ButterKnife.bind(this, view);
 
-        adapter.setOnShortcutClickListener(clickListener);
+        adapter.setOnItemClickListener(clickListener);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         shortcutList.setLayoutManager(manager);
         shortcutList.setHasFixedSize(true);

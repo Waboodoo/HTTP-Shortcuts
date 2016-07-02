@@ -1,100 +1,37 @@
 package ch.rmy.android.http_shortcuts;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import ch.rmy.android.http_shortcuts.icons.IconView;
-import ch.rmy.android.http_shortcuts.listeners.OnItemClickedListener;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
-import io.realm.RealmChangeListener;
 
-public class ShortcutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-    private static final int TYPE_SHORTCUT = 0;
-    private static final int TYPE_EMPTY_MARKER = 1;
-
-    private final Context context;
-    private Category category;
-    private OnItemClickedListener<Shortcut> clickListener;
-
-    private final RealmChangeListener<Category> changeListener = new RealmChangeListener<Category>() {
-        @Override
-        public void onChange(Category category) {
-            notifyDataSetChanged();
-        }
-    };
+public class ShortcutAdapter extends BaseAdapter<Category, Shortcut> {
 
     public ShortcutAdapter(Context context) {
-        this.context = context;
-        setHasStableIds(true);
-    }
-
-    public void setCategory(Category category) {
-        if (this.category != null) {
-            this.category.removeChangeListener(changeListener);
-        }
-        this.category = category;
-        if (this.category != null) {
-            this.category.addChangeListener(changeListener);
-        }
-        notifyDataSetChanged();
+        super(context);
     }
 
     @Override
-    public int getItemViewType(int position) {
-        if (category == null || category.getShortcuts().isEmpty()) {
-            return TYPE_EMPTY_MARKER;
-        } else {
-            return TYPE_SHORTCUT;
-        }
+    protected ShortcutViewHolder createViewHolder(ViewGroup parentView) {
+        return new ShortcutViewHolder(parentView);
     }
 
     @Override
-    public long getItemId(int position) {
-        if (category == null || category.getShortcuts().isEmpty()) {
-            return -1;
-        }
-        return category.getShortcuts().get(position).getId();
+    protected List<Shortcut> getItems(Category category) {
+        return category.getShortcuts();
     }
 
-    public void setOnShortcutClickListener(OnItemClickedListener<Shortcut> clickListener) {
-        this.clickListener = clickListener;
-    }
-
-    @Override
-    public int getItemCount() {
-        if (category == null || category.getShortcuts().isEmpty()) {
-            return 1;
-        } else {
-            return category.getShortcuts().size();
-        }
-    }
-
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == TYPE_EMPTY_MARKER) {
-            return new EmptyMarkerViewHolder(parent);
-        } else {
-            return new ShortcutViewHolder(parent);
-        }
-    }
-
-    @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof ShortcutViewHolder) {
-            ((ShortcutViewHolder) holder).setShortcut(category.getShortcuts().get(position));
-        }
-    }
-
-    public class ShortcutViewHolder extends RecyclerView.ViewHolder {
+    public class ShortcutViewHolder extends BaseViewHolder {
 
         @Bind(R.id.name)
         TextView name;
@@ -102,33 +39,14 @@ public class ShortcutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         TextView description;
         @Bind(R.id.icon)
         IconView icon;
-        private Shortcut shortcut;
 
         public ShortcutViewHolder(ViewGroup parent) {
             super(LayoutInflater.from(context).inflate(R.layout.shortcut_list_item, parent, false));
             ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (clickListener != null) {
-                        clickListener.onItemClicked(shortcut);
-                    }
-                }
-            });
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    if (clickListener != null) {
-                        clickListener.onItemLongClicked(shortcut);
-                        return true;
-                    }
-                    return false;
-                }
-            });
         }
 
-        public void setShortcut(Shortcut shortcut) {
-            this.shortcut = shortcut;
+        @Override
+        protected void updateViews(Shortcut shortcut) {
             name.setText(shortcut.getName());
             description.setText(shortcut.getDescription());
             description.setVisibility(TextUtils.isEmpty(shortcut.getDescription()) ? View.GONE : View.VISIBLE);
@@ -137,11 +55,5 @@ public class ShortcutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     }
 
-    private class EmptyMarkerViewHolder extends RecyclerView.ViewHolder {
-
-        public EmptyMarkerViewHolder(ViewGroup parent) {
-            super(LayoutInflater.from(context).inflate(R.layout.list_empty_item, parent, false));
-        }
-    }
 
 }

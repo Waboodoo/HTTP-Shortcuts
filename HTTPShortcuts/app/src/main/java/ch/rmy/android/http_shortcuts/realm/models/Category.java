@@ -5,7 +5,7 @@ import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
-public class Category extends RealmObject {
+public class Category extends RealmObject implements HasId {
 
     @PrimaryKey
     private long id;
@@ -13,6 +13,7 @@ public class Category extends RealmObject {
     private String name;
     private RealmList<Shortcut> shortcuts;
 
+    @Override
     public long getId() {
         return id;
     }

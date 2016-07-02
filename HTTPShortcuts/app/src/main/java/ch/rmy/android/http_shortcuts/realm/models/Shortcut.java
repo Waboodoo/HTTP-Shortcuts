@@ -10,7 +10,7 @@ import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
-public class Shortcut extends RealmObject {
+public class Shortcut extends RealmObject implements HasId {
 
     public static final String FIELD_ID = "id";
 
@@ -64,6 +64,7 @@ public class Shortcut extends RealmObject {
     private RealmList<Parameter> parameters;
     private boolean acceptAllCertificates;
 
+    @Override
     public long getId() {
         return id;
     }

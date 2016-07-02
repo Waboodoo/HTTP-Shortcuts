@@ -35,7 +35,8 @@ public class CategoriesActivity extends BaseActivity {
         setContentView(R.layout.activity_categories);
 
         controller = destroyer.own(new Controller(this));
-        adapter = destroyer.own(new CategoryAdapter(this, controller.getBase()));
+        adapter = destroyer.own(new CategoryAdapter(this));
+        adapter.setParent(controller.getBase());
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
         categoryList.setLayoutManager(manager);
@@ -43,6 +44,6 @@ public class CategoriesActivity extends BaseActivity {
         categoryList.addItemDecoration(new ShortcutListDecorator(this, R.drawable.list_divider));
         categoryList.setAdapter(adapter);
 
-        adapter.setOnCategoryClickListener(clickedListener);
+        adapter.setOnItemClickListener(clickedListener);
     }
 }
