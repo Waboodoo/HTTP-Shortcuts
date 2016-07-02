@@ -27,7 +27,7 @@
     <string name="action_move_up">Move up</string>
     <string name="action_move_down">Move down</string>
     <string name="no_shortcuts">No shortcuts yet</string>
-    <string name="confirm_delete_message">Delete this shortcut?</string>
+    <string name="confirm_delete_shortcut_message">Delete this shortcut?</string>
     <string name="confirm_discard_changes_message">You have unsaved changes. Discard changes?</string>
     <string name="dialog_discard">Discard</string>
     <string name="title_activity_execute">Execute Shortcut</string>
@@ -120,4 +120,8 @@
     <string name="settings_licenses">Acknowledgement</string>
     <string name="settings_licenses_summary"><![CDATA[Libraries & resources used]]></string>
     <string name="title_categories">Categories</string>
+    <string name="action_rename">Rename</string>
+    <string name="title_rename_category">Rename Category</string>
+    <string name="confirm_delete_category_message">Delete this category?</string>
+    <string name="message_category_renamed">Category renamed.</string>
 </resources>

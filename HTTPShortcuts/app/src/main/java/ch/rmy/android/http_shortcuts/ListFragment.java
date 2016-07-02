@@ -127,7 +127,7 @@ public class ListFragment extends Fragment {
     private void showContextMenu(final Shortcut shortcut) {
         (new MaterialDialog.Builder(getContext()))
                 .title(shortcut.getName())
-                .items(R.array.context_menu_items)
+                .items(R.array.shortcut_menu_items)
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override
                     public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
@@ -197,7 +197,7 @@ public class ListFragment extends Fragment {
 
     private void showDeleteDialog(final Shortcut shortcut) {
         (new MaterialDialog.Builder(getContext()))
-                .content(R.string.confirm_delete_message)
+                .content(R.string.confirm_delete_shortcut_message)
                 .positiveText(R.string.dialog_delete)
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override

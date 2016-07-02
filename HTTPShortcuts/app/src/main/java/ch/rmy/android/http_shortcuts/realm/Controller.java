@@ -131,6 +131,15 @@ public class Controller implements Destroyable {
         });
     }
 
+    public void renameCategory(final Category category, final String newName) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                category.setName(newName);
+            }
+        });
+    }
+
     public RealmResults<PendingExecution> getShortcutsPendingExecution() {
         return realm
                 .where(PendingExecution.class)

@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -49,6 +50,10 @@ public abstract class BaseActivity extends AppCompatActivity {
                 actionBar.setHomeAsUpIndicator(upArrow);
             }
         }
+    }
+
+    public void showSnackbar(@StringRes int message) {
+        showSnackbar(getString(message));
     }
 
     public void showSnackbar(CharSequence message) {
