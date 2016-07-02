@@ -15,11 +15,14 @@ import android.view.WindowManager;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import ch.rmy.android.http_shortcuts.utils.Destroyer;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+
+    protected final Destroyer destroyer = new Destroyer();
 
     @Override
     public void setContentView(int layoutResID) {
@@ -71,4 +74,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        destroyer.destroy();
+    }
 }

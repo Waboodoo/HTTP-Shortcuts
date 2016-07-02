@@ -119,4 +119,5 @@
     <string name="title_licenses">Acknowledgement</string>
     <string name="settings_licenses">Acknowledgement</string>
     <string name="settings_licenses_summary"><![CDATA[Libraries & resources used]]></string>
+    <string name="title_categories">Categories</string>
 </resources>

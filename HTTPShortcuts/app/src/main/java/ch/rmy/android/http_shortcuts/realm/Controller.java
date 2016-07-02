@@ -10,12 +10,13 @@ import ch.rmy.android.http_shortcuts.realm.models.Base;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
 import ch.rmy.android.http_shortcuts.realm.models.PendingExecution;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
+import ch.rmy.android.http_shortcuts.utils.Destroyable;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
 
-public class Controller {
+public class Controller implements Destroyable {
 
     private static final String FIELD_ID = "id";
 
@@ -48,6 +49,7 @@ public class Controller {
         });
     }
 
+    @Override
     public void destroy() {
         realm.close();
     }
@@ -68,7 +70,7 @@ public class Controller {
         return realm.copyFromRealm(shortcut);
     }
 
-    private Base getBase() {
+    public Base getBase() {
         return realm.where(Base.class).findFirst();
     }
 

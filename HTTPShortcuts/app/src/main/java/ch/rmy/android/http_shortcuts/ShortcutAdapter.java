@@ -11,7 +11,7 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import ch.rmy.android.http_shortcuts.icons.IconView;
-import ch.rmy.android.http_shortcuts.listeners.OnShortcutClickedListener;
+import ch.rmy.android.http_shortcuts.listeners.OnItemClickedListener;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 import io.realm.RealmChangeListener;
@@ -23,7 +23,7 @@ public class ShortcutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private final Context context;
     private Category category;
-    private OnShortcutClickedListener clickListener;
+    private OnItemClickedListener<Shortcut> clickListener;
 
     private final RealmChangeListener<Category> changeListener = new RealmChangeListener<Category>() {
         @Override
@@ -65,7 +65,7 @@ public class ShortcutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return category.getShortcuts().get(position).getId();
     }
 
-    public void setOnShortcutClickListener(OnShortcutClickedListener clickListener) {
+    public void setOnShortcutClickListener(OnItemClickedListener<Shortcut> clickListener) {
         this.clickListener = clickListener;
     }
 
@@ -105,13 +105,13 @@ public class ShortcutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private Shortcut shortcut;
 
         public ShortcutViewHolder(ViewGroup parent) {
-            super(LayoutInflater.from(context).inflate(R.layout.list_item, parent, false));
+            super(LayoutInflater.from(context).inflate(R.layout.shortcut_list_item, parent, false));
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (clickListener != null) {
-                        clickListener.onShortcutClicked(shortcut, v);
+                        clickListener.onItemClicked(shortcut);
                     }
                 }
             });
@@ -119,7 +119,7 @@ public class ShortcutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 @Override
                 public boolean onLongClick(View v) {
                     if (clickListener != null) {
-                        clickListener.onShortcutLongClicked(shortcut, itemView);
+                        clickListener.onItemLongClicked(shortcut);
                         return true;
                     }
                     return false;

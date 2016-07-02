@@ -49,11 +49,11 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list);
+        setContentView(R.layout.activity_main);
 
         shortcutPlacementMode = Intent.ACTION_CREATE_SHORTCUT.equals(getIntent().getAction());
 
-        controller = new Controller(this);
+        controller = destroyer.own(new Controller(this));
 
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,12 +121,6 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        controller.destroy();
-    }
-
-    @Override
     protected int getNavigateUpIcon() {
         return 0;
     }
@@ -134,7 +128,7 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.list_activity_menu, menu);
+        inflater.inflate(R.menu.main_activity_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -144,6 +138,9 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
             case R.id.action_settings:
                 openSettings();
                 return true;
+            case R.id.action_categories:
+                openCategoriesEditor();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -151,6 +148,11 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
 
     private void openSettings() {
         Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
+    private void openCategoriesEditor() {
+        Intent intent = new Intent(this, CategoriesActivity.class);
         startActivity(intent);
     }
 

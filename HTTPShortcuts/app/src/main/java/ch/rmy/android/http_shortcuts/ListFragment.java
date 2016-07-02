@@ -17,13 +17,13 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import ch.rmy.android.http_shortcuts.http.Executor;
-import ch.rmy.android.http_shortcuts.listeners.OnShortcutClickedListener;
+import ch.rmy.android.http_shortcuts.listeners.OnItemClickedListener;
 import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 import ch.rmy.android.http_shortcuts.utils.Settings;
 
-public class ListFragment extends Fragment implements OnShortcutClickedListener {
+public class ListFragment extends Fragment {
 
     private final static int REQUEST_EDIT_SHORTCUT = 2;
 
@@ -38,6 +38,33 @@ public class ListFragment extends Fragment implements OnShortcutClickedListener 
     private Controller controller;
     private ShortcutAdapter adapter;
     private Executor executor;
+
+    private final OnItemClickedListener<Shortcut> clickListener = new OnItemClickedListener<Shortcut>() {
+        @Override
+        public void onItemClicked(Shortcut shortcut) {
+            if (shortcutPlacementMode) {
+                getTabHost().returnForHomeScreen(shortcut);
+            } else {
+                String action = new Settings(getContext()).getClickBehavior();
+                switch (action) {
+                    case Settings.CLICK_BEHAVIOR_RUN:
+                        executeShortcut(shortcut);
+                        break;
+                    case Settings.CLICK_BEHAVIOR_EDIT:
+                        editShortcut(shortcut);
+                        break;
+                    case Settings.CLICK_BEHAVIOR_MENU:
+                        showContextMenu(shortcut);
+                        break;
+                }
+            }
+        }
+
+        @Override
+        public void onItemLongClicked(Shortcut shortcut) {
+            showContextMenu(shortcut);
+        }
+    };
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,7 +110,7 @@ public class ListFragment extends Fragment implements OnShortcutClickedListener 
         View view = inflater.inflate(R.layout.fragment_list, parent, false);
         ButterKnife.bind(this, view);
 
-        adapter.setOnShortcutClickListener(this);
+        adapter.setOnShortcutClickListener(clickListener);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         shortcutList.setLayoutManager(manager);
         shortcutList.setHasFixedSize(true);
@@ -95,31 +122,6 @@ public class ListFragment extends Fragment implements OnShortcutClickedListener 
 
     public void setShortcutPlacementMode(boolean enabled) {
         this.shortcutPlacementMode = enabled;
-    }
-
-    @Override
-    public void onShortcutClicked(Shortcut shortcut, View view) {
-        if (shortcutPlacementMode) {
-            getTabHost().returnForHomeScreen(shortcut);
-        } else {
-            String action = new Settings(getContext()).getClickBehavior();
-            switch (action) {
-                case Settings.CLICK_BEHAVIOR_RUN:
-                    executeShortcut(shortcut);
-                    break;
-                case Settings.CLICK_BEHAVIOR_EDIT:
-                    editShortcut(shortcut);
-                    break;
-                case Settings.CLICK_BEHAVIOR_MENU:
-                    showContextMenu(shortcut);
-                    break;
-            }
-        }
-    }
-
-    @Override
-    public void onShortcutLongClicked(Shortcut shortcut, View view) {
-        showContextMenu(shortcut);
     }
 
     private void showContextMenu(final Shortcut shortcut) {
