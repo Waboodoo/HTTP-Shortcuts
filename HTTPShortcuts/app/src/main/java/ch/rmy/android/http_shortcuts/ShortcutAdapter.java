@@ -25,9 +25,9 @@ public class ShortcutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private Category category;
     private OnShortcutClickedListener clickListener;
 
-    private final RealmChangeListener changeListener = new RealmChangeListener() {
+    private final RealmChangeListener<Category> changeListener = new RealmChangeListener<Category>() {
         @Override
-        public void onChange() {
+        public void onChange(Category category) {
             notifyDataSetChanged();
         }
     };

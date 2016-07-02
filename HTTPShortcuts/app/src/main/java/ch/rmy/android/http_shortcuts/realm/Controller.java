@@ -96,7 +96,7 @@ public class Controller {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                shortcut.removeFromRealm();
+                shortcut.deleteFromRealm();
             }
         });
     }
@@ -140,25 +140,23 @@ public class Controller {
                 .where(PendingExecution.class)
                 .equalTo(PendingExecution.FIELD_SHORTCUT_ID, shortcut.getId())
                 .count();
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                realm.copyToRealm(PendingExecution.createNew(shortcut));
-            }
-        });
+        if (existingPendingExecutions == 0) {
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    realm.copyToRealm(PendingExecution.createNew(shortcut));
+                }
+            });
+        }
     }
 
     public void removePendingExecution(final PendingExecution pendingExecution) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                pendingExecution.removeFromRealm();
+                pendingExecution.deleteFromRealm();
             }
         });
-    }
-
-    public void refresh() {
-        realm.refresh();
     }
 
     public Shortcut persist(final Shortcut shortcut) {

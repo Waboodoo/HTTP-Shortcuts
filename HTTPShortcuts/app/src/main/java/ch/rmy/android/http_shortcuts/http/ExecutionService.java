@@ -22,9 +22,13 @@ public class ExecutionService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         final Controller controller = new Controller(this);
-        RealmResults<PendingExecution> pendingExecutions = controller.getShortcutsPendingExecution();
 
-        while (!pendingExecutions.isEmpty() && Connectivity.isNetworkConnected(this)) {
+        while (Connectivity.isNetworkConnected(this)) {
+            RealmResults<PendingExecution> pendingExecutions = controller.getShortcutsPendingExecution();
+            if (pendingExecutions.isEmpty()) {
+                break;
+            }
+
             final PendingExecution pendingExecution = pendingExecutions.first();
             long id = pendingExecution.getShortcutId();
             controller.removePendingExecution(pendingExecution);
@@ -33,10 +37,8 @@ public class ExecutionService extends IntentService {
                 Thread.sleep(INITIAL_DELAY);
                 executeShortcut(id);
             } catch (InterruptedException e) {
-
+                break;
             }
-
-            controller.refresh();
         }
 
         controller.destroy();
