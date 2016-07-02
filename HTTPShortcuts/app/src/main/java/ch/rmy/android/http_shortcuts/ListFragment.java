@@ -16,6 +16,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import ch.rmy.android.http_shortcuts.adapters.ShortcutAdapter;
 import ch.rmy.android.http_shortcuts.http.Executor;
 import ch.rmy.android.http_shortcuts.listeners.OnItemClickedListener;
 import ch.rmy.android.http_shortcuts.realm.Controller;
@@ -92,10 +93,6 @@ public class ListFragment extends Fragment {
 
     public long getCategoryId() {
         return categoryId;
-    }
-
-    public String getCategoryName() {
-        return category == null ? "" : category.getName();
     }
 
     @Override

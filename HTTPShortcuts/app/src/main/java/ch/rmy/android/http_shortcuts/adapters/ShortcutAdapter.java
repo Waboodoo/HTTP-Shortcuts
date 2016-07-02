@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts;
+package ch.rmy.android.http_shortcuts.adapters;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -11,6 +11,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import ch.rmy.android.http_shortcuts.R;
 import ch.rmy.android.http_shortcuts.icons.IconView;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
@@ -31,7 +32,7 @@ public class ShortcutAdapter extends BaseAdapter<Category, Shortcut> {
         return category.getShortcuts();
     }
 
-    public class ShortcutViewHolder extends BaseViewHolder {
+    public class ShortcutViewHolder extends BaseViewHolder<Shortcut> {
 
         @Bind(R.id.name)
         TextView name;
@@ -41,7 +42,7 @@ public class ShortcutAdapter extends BaseAdapter<Category, Shortcut> {
         IconView icon;
 
         public ShortcutViewHolder(ViewGroup parent) {
-            super(LayoutInflater.from(context).inflate(R.layout.shortcut_list_item, parent, false));
+            super(LayoutInflater.from(context).inflate(R.layout.shortcut_list_item, parent, false), ShortcutAdapter.this);
             ButterKnife.bind(this, itemView);
         }
 

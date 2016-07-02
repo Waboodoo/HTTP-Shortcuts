@@ -98,6 +98,8 @@ public class Controller implements Destroyable {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
+                shortcut.getHeaders().deleteAllFromRealm();
+                shortcut.getParameters().deleteAllFromRealm();
                 shortcut.deleteFromRealm();
             }
         });
@@ -131,11 +133,48 @@ public class Controller implements Destroyable {
         });
     }
 
+    public void createCategory(final String name) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmList<Category> categories = getBase().getCategories();
+                Category category = realm.copyToRealm(Category.createNew(name));
+                category.setId(generateId(Category.class));
+                categories.add(category);
+            }
+        });
+    }
+
     public void renameCategory(final Category category, final String newName) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 category.setName(newName);
+            }
+        });
+    }
+
+    public void moveCategory(final Category category, final int position) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmList<Category> categories = getBase().getCategories();
+                int oldPosition = categories.indexOf(category);
+                categories.move(oldPosition, position);
+            }
+        });
+    }
+
+    public void deleteCategory(final Category category) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                for (Shortcut shortcut : category.getShortcuts()) {
+                    shortcut.getHeaders().deleteAllFromRealm();
+                    shortcut.getParameters().deleteAllFromRealm();
+                }
+                category.getShortcuts().deleteAllFromRealm();
+                category.deleteFromRealm();
             }
         });
     }

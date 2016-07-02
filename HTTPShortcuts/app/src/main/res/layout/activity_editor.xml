@@ -50,6 +50,7 @@
                             android:layout_height="wrap_content"
                             android:hint="@string/label_name"
                             android:inputType="text"
+                            android:maxLength="40"
                             android:singleLine="true">
 
                         </EditText>
@@ -77,6 +78,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/label_description"
                     android:inputType="textNoSuggestions"
+                    android:maxLength="200"
                     android:singleLine="false"/>
             </android.support.design.widget.TextInputLayout>
 

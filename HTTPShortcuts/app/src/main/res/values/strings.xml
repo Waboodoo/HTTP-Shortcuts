@@ -122,6 +122,15 @@
     <string name="title_categories">Categories</string>
     <string name="action_rename">Rename</string>
     <string name="title_rename_category">Rename Category</string>
+    <string name="placeholder_category_name">Enter Category Name…</string>
+    <string name="title_create_category">Create Category</string>
     <string name="confirm_delete_category_message">Delete this category?</string>
+    <string name="confirm_delete_non_empty_category_message">Delete this category?\n\nAll shortcuts contained within will be deleted.</string>
     <string name="message_category_renamed">Category renamed.</string>
+    <string name="message_category_created">Category created.</string>
+    <string name="message_category_deleted">Category deleted.</string>
+    <plurals name="shortcut_count">
+        <item quantity="one">%d shortcut</item>
+        <item quantity="other">%d shortcuts</item>
+    </plurals>
 </resources>

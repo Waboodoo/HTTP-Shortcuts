@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore.Images.Media;
@@ -16,7 +17,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.List;
+
 import butterknife.Bind;
+import ch.rmy.android.http_shortcuts.adapters.CategoryPagerAdapter;
 import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog;
 import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
@@ -67,7 +71,8 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
             checkChangeLog();
         }
 
-        tabLayout.setVisibility(controller.getCategories().size() > 1 ? View.VISIBLE : View.GONE);
+        tabLayout.setTabTextColors(Color.WHITE, Color.WHITE);
+        tabLayout.setSelectedTabIndicatorColor(Color.WHITE);
     }
 
     private void openEditorForCreation() {
@@ -77,10 +82,19 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
 
     private void setupViewPager() {
         adapter = new CategoryPagerAdapter(getSupportFragmentManager());
-        adapter.setCategories(controller.getCategories(), shortcutPlacementMode);
         viewPager.setAdapter(adapter);
-
         tabLayout.setupWithViewPager(viewPager);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        List<Category> categories = controller.getCategories();
+        tabLayout.setVisibility(categories.size() > 1 ? View.VISIBLE : View.GONE);
+        if (viewPager.getCurrentItem() <= categories.size()) {
+            viewPager.setCurrentItem(0);
+        }
+        adapter.setCategories(categories, shortcutPlacementMode);
     }
 
     private void checkChangeLog() {

@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts;
+package ch.rmy.android.http_shortcuts.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.rmy.android.http_shortcuts.ListFragment;
+import ch.rmy.android.http_shortcuts.R;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
 
 public class CategoryPagerAdapter extends FragmentPagerAdapter {
@@ -14,6 +16,7 @@ public class CategoryPagerAdapter extends FragmentPagerAdapter {
     private final FragmentManager fragmentManager;
 
     private List<ListFragment> fragments = new ArrayList<>();
+    private List<String> names = new ArrayList<>();
 
     public CategoryPagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
@@ -30,11 +33,19 @@ public class CategoryPagerAdapter extends FragmentPagerAdapter {
             }
         }
 
-        for (int i = 0; i < fragments.size(); i++) {
-            ListFragment fragment = fragments.get(i);
-            fragment.setCategoryId(categories.get(i).getId());
-            fragment.setShortcutPlacementMode(shortcutPlacementMode);
+        while (fragments.size() > categories.size()) {
+            fragments.remove(fragments.size() - 1);
         }
+
+        names.clear();
+        for (int i = 0; i < fragments.size(); i++) {
+            Category category = categories.get(i);
+            ListFragment fragment = fragments.get(i);
+            fragment.setCategoryId(category.getId());
+            fragment.setShortcutPlacementMode(shortcutPlacementMode);
+            names.add(category.getName());
+        }
+        notifyDataSetChanged();
     }
 
     @Override
@@ -49,7 +60,7 @@ public class CategoryPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return fragments.get(position).getCategoryName();
+        return names.get(position);
     }
 
     private static String makeFragmentName(int position) {
