@@ -188,12 +188,12 @@ public class SettingsActivity extends BaseActivity {
         }
 
         private void sendMail() {
-            Intent intent = new Intent(Intent.ACTION_SEND);
+            Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + DEVELOPER_EMAIL));
             String[] recipients = {DEVELOPER_EMAIL};
             intent.putExtra(Intent.EXTRA_EMAIL, recipients);
             intent.putExtra(Intent.EXTRA_SUBJECT, CONTACT_SUBJECT);
             intent.putExtra(Intent.EXTRA_TEXT, CONTACT_TEXT);
-            intent.setType("text/html");
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(Intent.createChooser(intent, getString(R.string.settings_mail)));
         }
 
