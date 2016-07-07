@@ -114,7 +114,7 @@
     <string name="timeout_format">%1$s (%2$s)</string>
     <string name="warning_icon_or_name_change">Bitte beachten Sie, dass Änderungen des Namens oder Icons nicht automatisch angewendet werden auf Shortcuts, die bereits dem Homescreen hinzugefügt wurden. Um die Änderungen zu übernehmen müssen Sie sie erneut platzieren.</string>
     <string name="dialog_checkbox_do_not_show_again">Nicht erneut anzeigen</string>
-    <string name="label_accept_all_certificates">Alle Zertifikate akzeptieren</string>
+    <string name="label_accept_all_certificates">Jegliche Zertifikate akzeptieren</string>
     <string name="label_certificates">Zertifikate</string>
     <string name="title_licenses">Anerkennungen</string>
     <string name="settings_licenses">Anerkennungen</string>
