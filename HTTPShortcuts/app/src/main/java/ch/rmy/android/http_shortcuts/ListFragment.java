@@ -14,6 +14,9 @@ import android.view.ViewGroup;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import ch.rmy.android.http_shortcuts.adapters.ShortcutAdapter;
@@ -40,6 +43,7 @@ public class ListFragment extends Fragment {
     private Controller controller;
     private ShortcutAdapter adapter;
     private Executor executor;
+    private List<Category> categories;
 
     private final OnItemClickedListener<Shortcut> clickListener = new OnItemClickedListener<Shortcut>() {
         @Override
@@ -75,6 +79,7 @@ public class ListFragment extends Fragment {
         controller = new Controller(getContext());
         executor = new Executor(getContext());
         adapter = new ShortcutAdapter(getContext());
+        categories = controller.getCategories();
 
         onCategoryChanged();
     }
@@ -160,6 +165,14 @@ public class ListFragment extends Fragment {
                 }
             });
         }
+        if (categories.size() > 1) {
+            builder.item(R.string.action_move_to_category, new MenuDialogBuilder.Action() {
+                @Override
+                public void execute() {
+                    showMoveToCategoryDialog(shortcut);
+                }
+            });
+        }
         builder.item(R.string.action_duplicate, new MenuDialogBuilder.Action() {
             @Override
             public void execute() {
@@ -200,6 +213,35 @@ public class ListFragment extends Fragment {
         } else {
             controller.moveShortcut(shortcut, position);
         }
+    }
+
+    private void showMoveToCategoryDialog(final Shortcut shortcut) {
+        List<CharSequence> categoryNames = new ArrayList<>();
+        final List<Category> categories = new ArrayList<>();
+        for (Category category : this.categories) {
+            if (category.getId() != this.category.getId()) {
+                categoryNames.add(category.getName());
+                categories.add(category);
+            }
+        }
+
+        new MaterialDialog.Builder(getContext())
+                .title(R.string.title_move_to_category)
+                .items(categoryNames)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+                        if (which < categories.size() && categories.get(which).isValid()) {
+                            moveShortcut(shortcut, categories.get(which));
+                        }
+                    }
+                })
+                .show();
+    }
+
+    private void moveShortcut(Shortcut shortcut, Category category) {
+        controller.moveShortcut(shortcut, category);
+        getTabHost().showSnackbar(String.format(getText(R.string.shortcut_moved).toString(), shortcut.getName()));
     }
 
     private void duplicateShortcut(Shortcut shortcut) {

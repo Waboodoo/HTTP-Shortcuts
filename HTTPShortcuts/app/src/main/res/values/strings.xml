@@ -26,6 +26,7 @@
     <string name="action_delete">Delete</string>
     <string name="action_move_up">Move up</string>
     <string name="action_move_down">Move down</string>
+    <string name="action_move_to_category">Move to category…</string>
     <string name="no_shortcuts">No shortcuts yet</string>
     <string name="confirm_delete_shortcut_message">Delete this shortcut?</string>
     <string name="confirm_discard_changes_message">You have unsaved changes. Discard changes?</string>
@@ -105,6 +106,7 @@
     <string name="settings_play_store">View in Play Store</string>
     <string name="settings_play_store_summary">Thank you for your ratings and reviews</string>
     <string name="shortcut_duplicated">%1$s duplicated.</string>
+    <string name="shortcut_moved">%1$s moved.</string>
     <string name="shortcut_deleted">%1$s deleted.</string>
     <string name="shortcut_placed">%1$s placed on home screen.</string>
     <string name="dialog_delete">Delete</string>
@@ -124,8 +126,7 @@
     <string name="title_rename_category">Rename Category</string>
     <string name="placeholder_category_name">Enter Category Name…</string>
     <string name="title_create_category">Create Category</string>
-    <string name="confirm_delete_category_message">Delete this category?</string>
-    <string name="confirm_delete_non_empty_category_message">Delete this category?\n\nAll shortcuts contained within will be deleted.</string>
+    <string name="confirm_delete_category_message">Delete this category?\n\nAll shortcuts contained within will be deleted.</string>
     <string name="message_category_renamed">Category renamed.</string>
     <string name="message_category_created">Category created.</string>
     <string name="message_category_deleted">Category deleted.</string>
@@ -133,4 +134,5 @@
         <item quantity="one">%d shortcut</item>
         <item quantity="other">%d shortcuts</item>
     </plurals>
+    <string name="title_move_to_category">Move to category</string>
 </resources>

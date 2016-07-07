@@ -157,8 +157,12 @@ public class CategoriesActivity extends BaseActivity {
     }
 
     private void showDeleteDialog(final Category category) {
+        if (category.getShortcuts().isEmpty()) {
+            deleteCategory(category);
+            return;
+        }
         (new MaterialDialog.Builder(this))
-                .content(category.getShortcuts().isEmpty() ? R.string.confirm_delete_category_message : R.string.confirm_delete_non_empty_category_message)
+                .content(R.string.confirm_delete_category_message)
                 .positiveText(R.string.dialog_delete)
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override

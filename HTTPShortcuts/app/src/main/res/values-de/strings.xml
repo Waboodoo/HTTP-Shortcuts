@@ -120,8 +120,7 @@
     <string name="settings_licenses">Anerkennungen</string>
     <string name="settings_licenses_summary"><![CDATA[Verwendete Libraries & Ressourcen]]></string>
     <string name="action_rename">Umbenennen</string>
-    <string name="confirm_delete_category_message">Diese Kategorie wirklich löschen?</string>
-    <string name="confirm_delete_non_empty_category_message">Diese Kategorie wirklich löschen?\n\nAlle darin enthaltenen Shortcuts werden gelöscht.</string>
+    <string name="confirm_delete_category_message">Diese Kategorie wirklich löschen?\n\nAlle darin enthaltenen Shortcuts werden gelöscht.</string>
     <string name="message_category_created">Kategorie erstellt.</string>
     <string name="message_category_deleted">Kategorie gelöscht.</string>
     <string name="message_category_renamed">Kategorie umbenannt.</string>
@@ -129,4 +128,7 @@
     <string name="title_categories">Kategorien</string>
     <string name="title_create_category">Kategorie erstellen</string>
     <string name="title_rename_category">Kategorie umbenennen</string>
+    <string name="action_move_to_category">In Kategorie verschieben…</string>
+    <string name="shortcut_moved">%1$s verschoben.</string>
+    <string name="title_move_to_category">In Kategorie verschieben</string>
 </resources>
