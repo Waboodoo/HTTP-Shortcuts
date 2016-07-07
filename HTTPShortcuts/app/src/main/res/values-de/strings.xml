@@ -26,7 +26,7 @@
     <string name="action_move_up">Nach oben verschieben</string>
     <string name="action_move_down">Nach unten verschieben</string>
     <string name="no_shortcuts">Noch keine Shortcuts vorhanden</string>
-    <string name="confirm_delete_message">Diesen Shortcut wirklich löschen?</string>
+    <string name="confirm_delete_shortcut_message">Diesen Shortcut wirklich löschen?</string>
     <string name="confirm_discard_changes_message">Sie haben ungespeicherte Änderungen. Änderungen verwerfen?</string>
     <string name="title_activity_execute">Shortcut ausführen</string>
     <string name="executed">%s ausgeführt.</string>
@@ -119,4 +119,14 @@
     <string name="title_licenses">Anerkennungen</string>
     <string name="settings_licenses">Anerkennungen</string>
     <string name="settings_licenses_summary"><![CDATA[Verwendete Libraries & Resourcen]]></string>
+    <string name="action_rename">Umbenennen</string>
+    <string name="confirm_delete_category_message">Diese Kategorie wirklich löschen?</string>
+    <string name="confirm_delete_non_empty_category_message">Diese Kategorie wirklich löschen?\n\nAlle darin enthaltenen Shortcuts werden gelöscht.</string>
+    <string name="message_category_created">Kategorie erstellt.</string>
+    <string name="message_category_deleted">Kategorie gelöscht.</string>
+    <string name="message_category_renamed">Kategorie umbenannt.</string>
+    <string name="placeholder_category_name">Kategorienamen eingeben…</string>
+    <string name="title_categories">Kategorien</string>
+    <string name="title_create_category">Kategorie erstellen</string>
+    <string name="title_rename_category">Kategorie umbenennen</string>
 </resources>

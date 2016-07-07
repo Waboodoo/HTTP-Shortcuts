@@ -104,7 +104,7 @@ public class EditorActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
-        controller = new Controller(this);
+        controller = destroyer.own(new Controller(this));
 
         long shortcutId = getIntent().getLongExtra(EXTRA_SHORTCUT_ID, 0);
         if (savedInstanceState != null && savedInstanceState.containsKey(STATE_JSON_SHORTCUT)) {

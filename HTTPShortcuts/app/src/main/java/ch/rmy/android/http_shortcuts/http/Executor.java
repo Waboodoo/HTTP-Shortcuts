@@ -30,6 +30,7 @@ public class Executor {
         final Shortcut shortcut = controller.getShortcutById(shortcutId);
         if (shortcut == null) {
             Toast.makeText(context, R.string.shortcut_not_found, Toast.LENGTH_LONG).show();
+            controller.destroy();
             return;
         }
 

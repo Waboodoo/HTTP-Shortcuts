@@ -38,6 +38,15 @@
                 android:value=".MainActivity"/>
         </activity>
         <activity
+            android:name=".CategoriesActivity"
+            android:label="@string/title_categories"
+            android:parentActivityName=".MainActivity"
+            android:windowSoftInputMode="adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
+        </activity>
+        <activity
             android:name=".SettingsActivity"
             android:label="@string/settings"
             android:parentActivityName=".MainActivity">

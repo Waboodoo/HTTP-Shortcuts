@@ -16,14 +16,15 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import ch.rmy.android.http_shortcuts.adapters.ShortcutAdapter;
 import ch.rmy.android.http_shortcuts.http.Executor;
-import ch.rmy.android.http_shortcuts.listeners.OnShortcutClickedListener;
+import ch.rmy.android.http_shortcuts.listeners.OnItemClickedListener;
 import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 import ch.rmy.android.http_shortcuts.utils.Settings;
 
-public class ListFragment extends Fragment implements OnShortcutClickedListener {
+public class ListFragment extends Fragment {
 
     private final static int REQUEST_EDIT_SHORTCUT = 2;
 
@@ -38,6 +39,33 @@ public class ListFragment extends Fragment implements OnShortcutClickedListener 
     private Controller controller;
     private ShortcutAdapter adapter;
     private Executor executor;
+
+    private final OnItemClickedListener<Shortcut> clickListener = new OnItemClickedListener<Shortcut>() {
+        @Override
+        public void onItemClicked(Shortcut shortcut) {
+            if (shortcutPlacementMode) {
+                getTabHost().returnForHomeScreen(shortcut);
+            } else {
+                String action = new Settings(getContext()).getClickBehavior();
+                switch (action) {
+                    case Settings.CLICK_BEHAVIOR_RUN:
+                        executeShortcut(shortcut);
+                        break;
+                    case Settings.CLICK_BEHAVIOR_EDIT:
+                        editShortcut(shortcut);
+                        break;
+                    case Settings.CLICK_BEHAVIOR_MENU:
+                        showContextMenu(shortcut);
+                        break;
+                }
+            }
+        }
+
+        @Override
+        public void onItemLongClicked(Shortcut shortcut) {
+            showContextMenu(shortcut);
+        }
+    };
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,15 +88,11 @@ public class ListFragment extends Fragment implements OnShortcutClickedListener 
             return;
         }
         category = controller.getCategoryById(categoryId);
-        adapter.setCategory(category);
+        adapter.setParent(category);
     }
 
     public long getCategoryId() {
         return categoryId;
-    }
-
-    public String getCategoryName() {
-        return category == null ? "" : category.getName();
     }
 
     @Override
@@ -83,7 +107,7 @@ public class ListFragment extends Fragment implements OnShortcutClickedListener 
         View view = inflater.inflate(R.layout.fragment_list, parent, false);
         ButterKnife.bind(this, view);
 
-        adapter.setOnShortcutClickListener(this);
+        adapter.setOnItemClickListener(clickListener);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         shortcutList.setLayoutManager(manager);
         shortcutList.setHasFixedSize(true);
@@ -97,35 +121,10 @@ public class ListFragment extends Fragment implements OnShortcutClickedListener 
         this.shortcutPlacementMode = enabled;
     }
 
-    @Override
-    public void onShortcutClicked(Shortcut shortcut, View view) {
-        if (shortcutPlacementMode) {
-            getTabHost().returnForHomeScreen(shortcut);
-        } else {
-            String action = new Settings(getContext()).getClickBehavior();
-            switch (action) {
-                case Settings.CLICK_BEHAVIOR_RUN:
-                    executeShortcut(shortcut);
-                    break;
-                case Settings.CLICK_BEHAVIOR_EDIT:
-                    editShortcut(shortcut);
-                    break;
-                case Settings.CLICK_BEHAVIOR_MENU:
-                    showContextMenu(shortcut);
-                    break;
-            }
-        }
-    }
-
-    @Override
-    public void onShortcutLongClicked(Shortcut shortcut, View view) {
-        showContextMenu(shortcut);
-    }
-
     private void showContextMenu(final Shortcut shortcut) {
         (new MaterialDialog.Builder(getContext()))
                 .title(shortcut.getName())
-                .items(R.array.context_menu_items)
+                .items(R.array.shortcut_menu_items)
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override
                     public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
@@ -195,7 +194,7 @@ public class ListFragment extends Fragment implements OnShortcutClickedListener 
 
     private void showDeleteDialog(final Shortcut shortcut) {
         (new MaterialDialog.Builder(getContext()))
-                .content(R.string.confirm_delete_message)
+                .content(R.string.confirm_delete_shortcut_message)
                 .positiveText(R.string.dialog_delete)
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override

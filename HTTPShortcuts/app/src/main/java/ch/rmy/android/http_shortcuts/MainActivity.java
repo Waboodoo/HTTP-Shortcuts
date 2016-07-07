@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore.Images.Media;
@@ -16,7 +17,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.List;
+
 import butterknife.Bind;
+import ch.rmy.android.http_shortcuts.adapters.CategoryPagerAdapter;
 import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog;
 import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
@@ -49,11 +53,11 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list);
+        setContentView(R.layout.activity_main);
 
         shortcutPlacementMode = Intent.ACTION_CREATE_SHORTCUT.equals(getIntent().getAction());
 
-        controller = new Controller(this);
+        controller = destroyer.own(new Controller(this));
 
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +71,8 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
             checkChangeLog();
         }
 
-        tabLayout.setVisibility(controller.getCategories().size() > 1 ? View.VISIBLE : View.GONE);
+        tabLayout.setTabTextColors(Color.WHITE, Color.WHITE);
+        tabLayout.setSelectedTabIndicatorColor(Color.WHITE);
     }
 
     private void openEditorForCreation() {
@@ -77,10 +82,19 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
 
     private void setupViewPager() {
         adapter = new CategoryPagerAdapter(getSupportFragmentManager());
-        adapter.setCategories(controller.getCategories(), shortcutPlacementMode);
         viewPager.setAdapter(adapter);
-
         tabLayout.setupWithViewPager(viewPager);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        List<Category> categories = controller.getCategories();
+        tabLayout.setVisibility(categories.size() > 1 ? View.VISIBLE : View.GONE);
+        if (viewPager.getCurrentItem() >= categories.size()) {
+            viewPager.setCurrentItem(0);
+        }
+        adapter.setCategories(categories, shortcutPlacementMode);
     }
 
     private void checkChangeLog() {
@@ -121,12 +135,6 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        controller.destroy();
-    }
-
-    @Override
     protected int getNavigateUpIcon() {
         return 0;
     }
@@ -134,7 +142,7 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.list_activity_menu, menu);
+        inflater.inflate(R.menu.main_activity_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -144,6 +152,9 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
             case R.id.action_settings:
                 openSettings();
                 return true;
+            case R.id.action_categories:
+                openCategoriesEditor();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -151,6 +162,11 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
 
     private void openSettings() {
         Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
+    private void openCategoriesEditor() {
+        Intent intent = new Intent(this, CategoriesActivity.class);
         startActivity(intent);
     }
 

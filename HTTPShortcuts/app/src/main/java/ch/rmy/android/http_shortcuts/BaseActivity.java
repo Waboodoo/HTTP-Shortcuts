@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -15,11 +16,14 @@ import android.view.WindowManager;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import ch.rmy.android.http_shortcuts.utils.Destroyer;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+
+    protected final Destroyer destroyer = new Destroyer();
 
     @Override
     public void setContentView(int layoutResID) {
@@ -48,6 +52,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    public void showSnackbar(@StringRes int message) {
+        showSnackbar(getString(message));
+    }
+
     public void showSnackbar(CharSequence message) {
         View baseView = ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
         Snackbar.make(baseView, message, Snackbar.LENGTH_SHORT).show();
@@ -71,4 +79,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        destroyer.destroy();
+    }
 }

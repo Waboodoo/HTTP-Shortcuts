@@ -10,12 +10,13 @@ import ch.rmy.android.http_shortcuts.realm.models.Base;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
 import ch.rmy.android.http_shortcuts.realm.models.PendingExecution;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
+import ch.rmy.android.http_shortcuts.utils.Destroyable;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
 
-public class Controller {
+public class Controller implements Destroyable {
 
     private static final String FIELD_ID = "id";
 
@@ -48,6 +49,7 @@ public class Controller {
         });
     }
 
+    @Override
     public void destroy() {
         realm.close();
     }
@@ -68,7 +70,7 @@ public class Controller {
         return realm.copyFromRealm(shortcut);
     }
 
-    private Base getBase() {
+    public Base getBase() {
         return realm.where(Base.class).findFirst();
     }
 
@@ -82,7 +84,7 @@ public class Controller {
             @Override
             public void execute(Realm realm) {
                 List<Category> persistedCategories = realm.copyToRealmOrUpdate(base.getCategories());
-                oldBase.getCategories().clear();
+                oldBase.getCategories().removeAll(persistedCategories);
                 oldBase.getCategories().addAll(persistedCategories);
             }
         });
@@ -96,6 +98,8 @@ public class Controller {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
+                shortcut.getHeaders().deleteAllFromRealm();
+                shortcut.getParameters().deleteAllFromRealm();
                 shortcut.deleteFromRealm();
             }
         });
@@ -125,6 +129,52 @@ public class Controller {
                     category.getShortcuts().remove(shortcut);
                 }
                 targetCategory.getShortcuts().add(shortcut);
+            }
+        });
+    }
+
+    public void createCategory(final String name) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmList<Category> categories = getBase().getCategories();
+                Category category = realm.copyToRealm(Category.createNew(name));
+                category.setId(generateId(Category.class));
+                categories.add(category);
+            }
+        });
+    }
+
+    public void renameCategory(final Category category, final String newName) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                category.setName(newName);
+            }
+        });
+    }
+
+    public void moveCategory(final Category category, final int position) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmList<Category> categories = getBase().getCategories();
+                int oldPosition = categories.indexOf(category);
+                categories.move(oldPosition, position);
+            }
+        });
+    }
+
+    public void deleteCategory(final Category category) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                for (Shortcut shortcut : category.getShortcuts()) {
+                    shortcut.getHeaders().deleteAllFromRealm();
+                    shortcut.getParameters().deleteAllFromRealm();
+                }
+                category.getShortcuts().deleteAllFromRealm();
+                category.deleteFromRealm();
             }
         });
     }
