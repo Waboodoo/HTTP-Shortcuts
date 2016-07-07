@@ -118,7 +118,7 @@
     <string name="label_certificates">Zertifikate</string>
     <string name="title_licenses">Anerkennungen</string>
     <string name="settings_licenses">Anerkennungen</string>
-    <string name="settings_licenses_summary"><![CDATA[Verwendete Libraries & Resourcen]]></string>
+    <string name="settings_licenses_summary"><![CDATA[Verwendete Libraries & Ressourcen]]></string>
     <string name="action_rename">Umbenennen</string>
     <string name="confirm_delete_category_message">Diese Kategorie wirklich löschen?</string>
     <string name="confirm_delete_non_empty_category_message">Diese Kategorie wirklich löschen?\n\nAlle darin enthaltenen Shortcuts werden gelöscht.</string>
