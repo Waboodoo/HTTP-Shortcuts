@@ -10,15 +10,12 @@ import android.view.View;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import butterknife.Bind;
 import ch.rmy.android.http_shortcuts.adapters.CategoryAdapter;
 import ch.rmy.android.http_shortcuts.listeners.OnItemClickedListener;
 import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
+import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder;
 import io.realm.RealmList;
 
 public class CategoriesActivity extends BaseActivity {
@@ -91,38 +88,42 @@ public class CategoriesActivity extends BaseActivity {
     }
 
     private void showContextMenu(final Category category) {
-        List<String> options = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.category_menu_items)));
-        if (categories.size() <= 1) {
-            options.remove(options.size() - 1);
-        }
 
-        (new MaterialDialog.Builder(this))
-                .title(category.getName())
-                .items(options)
-                .itemsCallback(new MaterialDialog.ListCallback() {
-                    @Override
-                    public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                        performContextMenuAction(which, category);
-                    }
-                })
-                .show();
-    }
+        MenuDialogBuilder builder = new MenuDialogBuilder(this)
+                .title(category.getName());
 
-    private void performContextMenuAction(int action, Category category) {
-        switch (action) {
-            case 0:
+        builder.item(R.string.action_rename, new MenuDialogBuilder.Action() {
+            @Override
+            public void execute() {
                 showRenameDialog(category);
-                return;
-            case 1:
-                moveCategory(category, -1);
-                return;
-            case 2:
-                moveCategory(category, 1);
-                return;
-            case 3:
-                showDeleteDialog(category);
-                return;
+            }
+        });
+        if (canMoveCategory(category, -1)) {
+            builder.item(R.string.action_move_up, new MenuDialogBuilder.Action() {
+                @Override
+                public void execute() {
+                    moveCategory(category, -1);
+                }
+            });
         }
+        if (canMoveCategory(category, 1)) {
+            builder.item(R.string.action_move_down, new MenuDialogBuilder.Action() {
+                @Override
+                public void execute() {
+                    moveCategory(category, 1);
+                }
+            });
+        }
+        if (categories.size() > 1) {
+            builder.item(R.string.action_delete, new MenuDialogBuilder.Action() {
+                @Override
+                public void execute() {
+                    showDeleteDialog(category);
+                }
+            });
+        }
+
+        builder.show();
     }
 
     private void showRenameDialog(final Category category) {
@@ -142,11 +143,16 @@ public class CategoriesActivity extends BaseActivity {
         showSnackbar(R.string.message_category_renamed);
     }
 
-    private void moveCategory(Category category, int offset) {
+    private boolean canMoveCategory(Category category, int offset) {
         int position = categories.indexOf(category) + offset;
-        if (position < 0 || position >= categories.size()) {
+        return position >= 0 && position < categories.size();
+    }
+
+    private void moveCategory(Category category, int offset) {
+        if (!canMoveCategory(category, offset)) {
             return;
         }
+        int position = categories.indexOf(category) + offset;
         controller.moveCategory(category, position);
     }
 
