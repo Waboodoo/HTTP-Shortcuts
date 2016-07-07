@@ -58,6 +58,8 @@
             android:name=".ExecuteActivity"
             android:label="@string/title_activity_execute"
             android:launchMode="singleInstance"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
             android:theme="@style/Theme.Transparent">
             <intent-filter>
                 <action android:name="ch.rmy.android.http_shortcuts.execute"/>
