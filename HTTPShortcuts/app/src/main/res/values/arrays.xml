@@ -10,12 +10,6 @@
         <item>edit</item>
         <item>menu</item>
     </string-array>
-    <string-array name="category_menu_items">
-        <item>@string/action_rename</item>
-        <item>@string/action_move_up</item>
-        <item>@string/action_move_down</item>
-        <item>@string/action_delete</item>
-    </string-array>
     <string-array name="context_menu_choose_icon">
         <item>@string/choose_icon</item>
         <item>@string/choose_image</item>
