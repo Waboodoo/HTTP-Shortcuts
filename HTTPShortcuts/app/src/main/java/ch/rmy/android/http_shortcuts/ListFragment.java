@@ -22,6 +22,7 @@ import ch.rmy.android.http_shortcuts.listeners.OnItemClickedListener;
 import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
+import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder;
 import ch.rmy.android.http_shortcuts.utils.Settings;
 
 public class ListFragment extends Fragment {
@@ -122,42 +123,56 @@ public class ListFragment extends Fragment {
     }
 
     private void showContextMenu(final Shortcut shortcut) {
-        (new MaterialDialog.Builder(getContext()))
-                .title(shortcut.getName())
-                .items(R.array.shortcut_menu_items)
-                .itemsCallback(new MaterialDialog.ListCallback() {
-                    @Override
-                    public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                        performContextMenuAction(which, shortcut);
-                    }
-                })
-                .show();
-    }
+        MenuDialogBuilder builder = new MenuDialogBuilder(getContext())
+                .title(shortcut.getName());
 
-    private void performContextMenuAction(int action, Shortcut shortcut) {
-        switch (action) {
-            case 0:
+        builder.item(R.string.action_place, new MenuDialogBuilder.Action() {
+            @Override
+            public void execute() {
                 getTabHost().placeShortcutOnHomeScreen(shortcut);
-                return;
-            case 1:
+            }
+        });
+        builder.item(R.string.action_run, new MenuDialogBuilder.Action() {
+            @Override
+            public void execute() {
                 executeShortcut(shortcut);
-                return;
-            case 2:
+            }
+        });
+        builder.item(R.string.action_edit, new MenuDialogBuilder.Action() {
+            @Override
+            public void execute() {
                 editShortcut(shortcut);
-                return;
-            case 3:
-                moveShortcut(shortcut, -1);
-                return;
-            case 4:
-                moveShortcut(shortcut, 1);
-                return;
-            case 5:
-                duplicateShortcut(shortcut);
-                return;
-            case 6:
-                showDeleteDialog(shortcut);
-                return;
+            }
+        });
+        if (canMoveShortcut(shortcut, -1)) {
+            builder.item(R.string.action_move_up, new MenuDialogBuilder.Action() {
+                @Override
+                public void execute() {
+                    moveShortcut(shortcut, -1);
+                }
+            });
         }
+        if (canMoveShortcut(shortcut, 1)) {
+            builder.item(R.string.action_move_down, new MenuDialogBuilder.Action() {
+                @Override
+                public void execute() {
+                    moveShortcut(shortcut, 1);
+                }
+            });
+        }
+        builder.item(R.string.action_duplicate, new MenuDialogBuilder.Action() {
+            @Override
+            public void execute() {
+                duplicateShortcut(shortcut);
+            }
+        });
+        builder.item(R.string.action_delete, new MenuDialogBuilder.Action() {
+            @Override
+            public void execute() {
+                showDeleteDialog(shortcut);
+            }
+        });
+        builder.show();
     }
 
     private void executeShortcut(Shortcut shortcut) {
@@ -170,11 +185,16 @@ public class ListFragment extends Fragment {
         startActivityForResult(intent, REQUEST_EDIT_SHORTCUT);
     }
 
-    private void moveShortcut(Shortcut shortcut, int offset) {
+    private boolean canMoveShortcut(Shortcut shortcut, int offset) {
         int position = category.getShortcuts().indexOf(shortcut) + offset;
-        if (position < 0 || position > category.getShortcuts().size()) {
+        return position >= 0 && position < category.getShortcuts().size();
+    }
+
+    private void moveShortcut(Shortcut shortcut, int offset) {
+        if (!canMoveShortcut(shortcut, offset)) {
             return;
         }
+        int position = category.getShortcuts().indexOf(shortcut) + offset;
         if (position == category.getShortcuts().size()) {
             controller.moveShortcut(shortcut, category);
         } else {
