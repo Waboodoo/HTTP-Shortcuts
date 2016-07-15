@@ -34,6 +34,7 @@ import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 public class MainActivity extends BaseActivity implements ListFragment.TabHost {
 
     private static final String ACTION_INSTALL_SHORTCUT = "com.android.launcher.action.INSTALL_SHORTCUT";
+    private static final String ACTION_UNINSTALL_SHORTCUT = "com.android.launcher.action.UNINSTALL_SHORTCUT";
 
     private final static int REQUEST_CREATE_SHORTCUT = 1;
 
@@ -129,7 +130,7 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
 
     @Override
     public void returnForHomeScreen(Shortcut shortcut) {
-        Intent shortcutIntent = getShortcutPlacementIntent(shortcut);
+        Intent shortcutIntent = getShortcutPlacementIntent(shortcut, true);
         setResult(RESULT_OK, shortcutIntent);
         finish();
     }
@@ -170,7 +171,7 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
         startActivity(intent);
     }
 
-    private Intent getShortcutPlacementIntent(Shortcut shortcut) {
+    private Intent getShortcutPlacementIntent(Shortcut shortcut, boolean install) {
         Intent shortcutIntent = new Intent(this, ExecuteActivity.class);
         shortcutIntent.setAction(ExecuteActivity.ACTION_EXECUTE_SHORTCUT);
 
@@ -195,16 +196,19 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
             addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(getApplicationContext(), Shortcut.DEFAULT_ICON));
         }
 
-        addIntent.setAction(ACTION_INSTALL_SHORTCUT);
+        addIntent.setAction(install ? ACTION_INSTALL_SHORTCUT : ACTION_UNINSTALL_SHORTCUT);
 
         return addIntent;
     }
 
     @Override
     public void placeShortcutOnHomeScreen(Shortcut shortcut) {
-        Intent shortcutPlacementIntent = getShortcutPlacementIntent(shortcut);
-        sendBroadcast(shortcutPlacementIntent);
+        sendBroadcast(getShortcutPlacementIntent(shortcut, true));
         showSnackbar(String.format(getString(R.string.shortcut_placed), shortcut.getName()));
     }
 
+    @Override
+    public void removeShortcutFromHomeScreen(Shortcut shortcut) {
+        sendBroadcast(getShortcutPlacementIntent(shortcut, false));
+    }
 }

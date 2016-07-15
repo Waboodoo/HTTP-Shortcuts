@@ -270,6 +270,7 @@ public class ListFragment extends Fragment {
 
     private void deleteShortcut(Shortcut shortcut) {
         getTabHost().showSnackbar(String.format(getText(R.string.shortcut_deleted).toString(), shortcut.getName()));
+        getTabHost().removeShortcutFromHomeScreen(shortcut);
         controller.deleteShortcut(shortcut);
     }
 
@@ -282,6 +283,8 @@ public class ListFragment extends Fragment {
         void returnForHomeScreen(Shortcut shortcut);
 
         void placeShortcutOnHomeScreen(Shortcut shortcut);
+
+        void removeShortcutFromHomeScreen(Shortcut shortcut);
 
         void showSnackbar(CharSequence message);
 
