@@ -4,12 +4,13 @@ A simple Android app that allows you to create shortcuts that can be placed on y
 
 - GET, POST, PUT, DELETE and PATCH
 - HTTP and HTTPS
-- Optional HTTP basic authentication
+- Basic authentication
 - Custom headers
 - Custom body content
 - Option to accept all certificates
 - Built-in icons, support for Ipack icons and custom icons
-- Display response as a toast, or hide it
+- Display response as a toast, or run silently
+- Grouping into categories
 
 Find the app on the [Play Store](https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts)!
 
