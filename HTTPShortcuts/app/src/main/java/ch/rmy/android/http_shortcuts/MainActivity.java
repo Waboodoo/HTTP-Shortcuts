@@ -88,8 +88,8 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart() {
+        super.onStart();
         List<Category> categories = controller.getCategories();
         tabLayout.setVisibility(categories.size() > 1 ? View.VISIBLE : View.GONE);
         if (viewPager.getCurrentItem() >= categories.size()) {
@@ -117,9 +117,15 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
                 return;
             }
 
-            ListFragment currentListFragment = adapter.getItem(viewPager.getCurrentItem());
-            long categoryId = currentListFragment.getCategoryId();
-            Category category = controller.getCategoryById(categoryId);
+            Category category;
+            int currentCategory = viewPager.getCurrentItem();
+            if (currentCategory < adapter.getCount()) {
+                ListFragment currentListFragment = adapter.getItem(currentCategory);
+                long categoryId = currentListFragment.getCategoryId();
+                category = controller.getCategoryById(categoryId);
+            } else {
+                category = controller.getCategories().first();
+            }
             controller.moveShortcut(shortcut, category);
 
             if (shortcutPlacementMode) {
