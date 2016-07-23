@@ -2,8 +2,8 @@
 <manifest
     package="ch.rmy.android.http_shortcuts"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:versionCode="17"
-    android:versionName="1.10.0">
+    android:versionCode="18"
+    android:versionName="1.10.1">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
