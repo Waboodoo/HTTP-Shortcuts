@@ -82,6 +82,26 @@
         </receiver>
 
         <service android:name=".http.ExecutionService"/>
+
+        <activity
+            android:name=".plugin.PluginEditActivity"
+            android:exported="true"
+            android:icon="@drawable/ic_plugin"
+            android:label="@string/plugin_name">
+            <intent-filter>
+                <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING"/>
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name=".plugin.PluginBroadcastReceiver"
+            android:exported="true"
+            android:process=":background">
+            <intent-filter>
+                <action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING"/>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ContentUris;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -25,6 +24,7 @@ import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog;
 import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
+import ch.rmy.android.http_shortcuts.utils.IntentFactory;
 
 /**
  * Main activity to list all shortcuts
@@ -32,6 +32,9 @@ import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
  * @author Roland Meyer
  */
 public class MainActivity extends BaseActivity implements ListFragment.TabHost {
+
+    public static final String EXTRA_SELECTION_ID = "ch.rmy.android.http_shortcuts.shortcut_id";
+    public static final String EXTRA_SELECTION_NAME = "ch.rmy.android.http_shortcuts.shortcut_name";
 
     private static final String ACTION_INSTALL_SHORTCUT = "com.android.launcher.action.INSTALL_SHORTCUT";
     private static final String ACTION_UNINSTALL_SHORTCUT = "com.android.launcher.action.UNINSTALL_SHORTCUT";
@@ -48,7 +51,7 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
     private Controller controller;
     private CategoryPagerAdapter adapter;
 
-    private boolean shortcutPlacementMode = false;
+    private SelectionMode selectionMode = SelectionMode.NORMAL;
 
     @SuppressLint("NewApi")
     @Override
@@ -56,7 +59,7 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        shortcutPlacementMode = Intent.ACTION_CREATE_SHORTCUT.equals(getIntent().getAction());
+        selectionMode = SelectionMode.determineMode(getIntent());
 
         controller = destroyer.own(new Controller(this));
 
@@ -68,7 +71,7 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
         });
         setupViewPager();
 
-        if (!shortcutPlacementMode) {
+        if (selectionMode == SelectionMode.NORMAL) {
             checkChangeLog();
         }
 
@@ -95,7 +98,7 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
         if (viewPager.getCurrentItem() >= categories.size()) {
             viewPager.setCurrentItem(0);
         }
-        adapter.setCategories(categories, shortcutPlacementMode);
+        adapter.setCategories(categories, selectionMode);
     }
 
     private void checkChangeLog() {
@@ -128,16 +131,33 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
             }
             controller.moveShortcut(shortcut, category);
 
-            if (shortcutPlacementMode) {
-                returnForHomeScreen(shortcut);
-            }
+            selectShortcut(shortcut);
         }
     }
 
     @Override
-    public void returnForHomeScreen(Shortcut shortcut) {
+    public void selectShortcut(Shortcut shortcut) {
+        switch (selectionMode) {
+            case HOME_SCREEN:
+                returnForHomeScreen(shortcut);
+                break;
+            case PLUGIN:
+                returnForPlugin(shortcut);
+                break;
+        }
+    }
+
+    private void returnForHomeScreen(Shortcut shortcut) {
         Intent shortcutIntent = getShortcutPlacementIntent(shortcut, true);
         setResult(RESULT_OK, shortcutIntent);
+        finish();
+    }
+
+    private void returnForPlugin(Shortcut shortcut) {
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_SELECTION_ID, shortcut.getId());
+        intent.putExtra(EXTRA_SELECTION_NAME, shortcut.getName());
+        setResult(RESULT_OK, intent);
         finish();
     }
 
@@ -178,12 +198,7 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
     }
 
     private Intent getShortcutPlacementIntent(Shortcut shortcut, boolean install) {
-        Intent shortcutIntent = new Intent(this, ExecuteActivity.class);
-        shortcutIntent.setAction(ExecuteActivity.ACTION_EXECUTE_SHORTCUT);
-
-        Uri uri = ContentUris.withAppendedId(Uri.fromParts("content", getPackageName(), null), shortcut.getId());
-        shortcutIntent.setData(uri);
-
+        Intent shortcutIntent = IntentFactory.createIntent(this, shortcut.getId());
         Intent addIntent = new Intent();
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcut.getName());

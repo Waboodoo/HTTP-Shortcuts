@@ -36,7 +36,7 @@ public class ListFragment extends Fragment {
     RecyclerView shortcutList;
 
     private long categoryId;
-    private boolean shortcutPlacementMode;
+    private SelectionMode selectionMode;
     @Nullable
     private Category category;
 
@@ -48,21 +48,24 @@ public class ListFragment extends Fragment {
     private final OnItemClickedListener<Shortcut> clickListener = new OnItemClickedListener<Shortcut>() {
         @Override
         public void onItemClicked(Shortcut shortcut) {
-            if (shortcutPlacementMode) {
-                getTabHost().returnForHomeScreen(shortcut);
-            } else {
-                String action = new Settings(getContext()).getClickBehavior();
-                switch (action) {
-                    case Settings.CLICK_BEHAVIOR_RUN:
-                        executeShortcut(shortcut);
-                        break;
-                    case Settings.CLICK_BEHAVIOR_EDIT:
-                        editShortcut(shortcut);
-                        break;
-                    case Settings.CLICK_BEHAVIOR_MENU:
-                        showContextMenu(shortcut);
-                        break;
-                }
+            switch (selectionMode) {
+                case HOME_SCREEN:
+                case PLUGIN:
+                    getTabHost().selectShortcut(shortcut);
+                    break;
+                default:
+                    String action = new Settings(getContext()).getClickBehavior();
+                    switch (action) {
+                        case Settings.CLICK_BEHAVIOR_RUN:
+                            executeShortcut(shortcut);
+                            break;
+                        case Settings.CLICK_BEHAVIOR_EDIT:
+                            editShortcut(shortcut);
+                            break;
+                        case Settings.CLICK_BEHAVIOR_MENU:
+                            showContextMenu(shortcut);
+                            break;
+                    }
             }
         }
 
@@ -123,8 +126,8 @@ public class ListFragment extends Fragment {
         return view;
     }
 
-    public void setShortcutPlacementMode(boolean enabled) {
-        this.shortcutPlacementMode = enabled;
+    public void setSelectionMode(SelectionMode selectionMode) {
+        this.selectionMode = selectionMode;
     }
 
     private void showContextMenu(final Shortcut shortcut) {
@@ -280,7 +283,7 @@ public class ListFragment extends Fragment {
 
     public interface TabHost {
 
-        void returnForHomeScreen(Shortcut shortcut);
+        void selectShortcut(Shortcut shortcut);
 
         void placeShortcutOnHomeScreen(Shortcut shortcut);
 
