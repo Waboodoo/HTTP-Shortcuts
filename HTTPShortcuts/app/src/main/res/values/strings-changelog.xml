@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="changelog_text" translatable="false"><![CDATA[
+    	<p>
+			<b>Version 1.11.0</b><br>
+			- Added plugin support for integration with automation apps
+	</p>
         <p>
 			<b>Version 1.10.1</b><br>
 			- Shortcuts are removed from homescreen when deleted in app<br>
 			- Fixed a crash when saving shortcuts
-		</p>
+	</p>
         <p>
 			<b>Version 1.10.0</b><br>
 			- Shortcuts can be organized into categories<br>
@@ -13,7 +17,7 @@
 			- More icons<br>
 			- <i>Acknowledgements</i> section in settings screen<br>
 			- Bugfixes
-		</p>
+	</p>
         <p>
             <b>Version 1.9.2</b><br>
             - Bugfixes
