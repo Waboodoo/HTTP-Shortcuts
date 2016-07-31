@@ -9,6 +9,7 @@ import java.util.List;
 
 import ch.rmy.android.http_shortcuts.ListFragment;
 import ch.rmy.android.http_shortcuts.R;
+import ch.rmy.android.http_shortcuts.SelectionMode;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
 
 public class CategoryPagerAdapter extends FragmentPagerAdapter {
@@ -23,7 +24,7 @@ public class CategoryPagerAdapter extends FragmentPagerAdapter {
         this.fragmentManager = fragmentManager;
     }
 
-    public void setCategories(List<Category> categories, boolean shortcutPlacementMode) {
+    public void setCategories(List<Category> categories, SelectionMode selectionMode) {
         for (int i = fragments.size(); i < categories.size(); i++) {
             Fragment restoredFragment = fragmentManager.findFragmentByTag(makeFragmentName(i));
             if (restoredFragment != null && restoredFragment instanceof ListFragment) {
@@ -42,7 +43,7 @@ public class CategoryPagerAdapter extends FragmentPagerAdapter {
             Category category = categories.get(i);
             ListFragment fragment = fragments.get(i);
             fragment.setCategoryId(category.getId());
-            fragment.setShortcutPlacementMode(shortcutPlacementMode);
+            fragment.setSelectionMode(selectionMode);
             names.add(category.getName());
         }
         notifyDataSetChanged();

@@ -131,4 +131,5 @@
     <string name="action_move_to_category">In Kategorie verschieben…</string>
     <string name="shortcut_moved">%1$s verschoben.</string>
     <string name="title_move_to_category">In Kategorie verschieben</string>
+    <string name="plugin_name">HTTP-Shortcut ausführen</string>
 </resources>
