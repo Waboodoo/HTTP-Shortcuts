@@ -182,6 +182,9 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
             case R.id.action_categories:
                 openCategoriesEditor();
                 return true;
+            case R.id.action_variables:
+                openVariablesEditor();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -194,6 +197,11 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
 
     private void openCategoriesEditor() {
         Intent intent = new Intent(this, CategoriesActivity.class);
+        startActivity(intent);
+    }
+
+    private void openVariablesEditor() {
+        Intent intent = new Intent(this, VariablesActivity.class);
         startActivity(intent);
     }
 

@@ -1,12 +1,16 @@
 package ch.rmy.android.http_shortcuts.realm;
 
+import ch.rmy.android.http_shortcuts.realm.models.Base;
 import io.realm.DynamicRealm;
+import io.realm.DynamicRealmObject;
+import io.realm.RealmList;
 import io.realm.RealmMigration;
+import io.realm.RealmObjectSchema;
 import io.realm.RealmSchema;
 
 public class DatabaseMigration implements RealmMigration {
 
-    public static final int VERSION = 1;
+    public static final int VERSION = 2;
 
     @Override
     public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
@@ -20,6 +24,25 @@ public class DatabaseMigration implements RealmMigration {
         switch (newVersion) {
             case 1: { // 1.10.0
                 schema.get("Shortcut").addField("acceptAllCertificates", boolean.class);
+                break;
+            }
+            case 2: { // 1.11.0
+                RealmObjectSchema optionSchema = schema.create("Option")
+                        .addField("key", String.class)
+                        .addField("value", String.class);
+                RealmObjectSchema variableSchema = schema.create("Variable")
+                        .addField("id", long.class).addPrimaryKey("id")
+                        .addField("key", String.class)
+                        .addField("type", String.class)
+                        .addField("value", String.class)
+                        .addRealmListField("options", optionSchema);
+                schema.get("Base")
+                        .addRealmListField("variables", variableSchema);
+                DynamicRealmObject base = realm.where("Base").findFirst();
+                if (base != null) {
+                    base.setList("variables", new RealmList<Base>());
+                }
+
                 break;
             }
             default:

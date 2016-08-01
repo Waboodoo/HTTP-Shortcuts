@@ -136,4 +136,5 @@
     </plurals>
     <string name="title_move_to_category">Move to category</string>
     <string name="plugin_name">Execute HTTP Shortcut</string>
+    <string name="title_variables">Variables</string>
 </resources>

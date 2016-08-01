@@ -10,6 +10,7 @@ import ch.rmy.android.http_shortcuts.realm.models.Base;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
 import ch.rmy.android.http_shortcuts.realm.models.PendingExecution;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
+import ch.rmy.android.http_shortcuts.realm.models.Variable;
 import ch.rmy.android.http_shortcuts.utils.Destroyable;
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -43,6 +44,7 @@ public class Controller implements Destroyable {
 
                 Base newBase = new Base();
                 newBase.setCategories(new RealmList<Category>());
+                newBase.setVariables(new RealmList<Variable>());
                 newBase.getCategories().add(defaultCategory);
                 realm.copyToRealm(newBase);
             }
@@ -92,6 +94,10 @@ public class Controller implements Destroyable {
 
     public RealmList<Category> getCategories() {
         return getBase().getCategories();
+    }
+
+    public RealmList<Variable> getVariables() {
+        return getBase().getVariables();
     }
 
     public void deleteShortcut(final Shortcut shortcut) {
