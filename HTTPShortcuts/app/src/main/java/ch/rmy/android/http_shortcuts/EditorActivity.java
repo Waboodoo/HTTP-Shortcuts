@@ -30,6 +30,7 @@ import org.jdeferred.FailCallback;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
 
 import butterknife.Bind;
 import ch.rmy.android.http_shortcuts.dialogs.IconNameChangeDialog;
@@ -44,10 +45,12 @@ import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Header;
 import ch.rmy.android.http_shortcuts.realm.models.Parameter;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
+import ch.rmy.android.http_shortcuts.realm.models.Variable;
 import ch.rmy.android.http_shortcuts.utils.ArrayUtil;
 import ch.rmy.android.http_shortcuts.utils.GsonUtil;
 import ch.rmy.android.http_shortcuts.utils.OnItemChosenListener;
 import ch.rmy.android.http_shortcuts.utils.Validation;
+import ch.rmy.android.http_shortcuts.utils.VariableFormatter;
 import ch.rmy.android.http_shortcuts.utils.ViewUtil;
 
 /**
@@ -66,6 +69,7 @@ public class EditorActivity extends BaseActivity {
     private Controller controller;
     private Shortcut oldShortcut;
     private Shortcut shortcut;
+    private List<Variable> variables;
 
     @Bind(R.id.input_method)
     LabelledSpinner methodView;
@@ -104,7 +108,11 @@ public class EditorActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
+        destroyer.own(parameterList);
+        destroyer.own(customHeaderList);
+
         controller = destroyer.own(new Controller(this));
+        variables = controller.getVariables();
 
         long shortcutId = getIntent().getLongExtra(EXTRA_SHORTCUT_ID, 0);
         if (savedInstanceState != null && savedInstanceState.containsKey(STATE_JSON_SHORTCUT)) {
@@ -128,6 +136,11 @@ public class EditorActivity extends BaseActivity {
         usernameView.setText(shortcut.getUsername());
         passwordView.setText(shortcut.getPassword());
         customBodyView.setText(shortcut.getBodyContent());
+
+        bindVariableFormatter(urlView);
+        bindVariableFormatter(usernameView);
+        bindVariableFormatter(passwordView);
+        bindVariableFormatter(customBodyView);
 
         methodView.setItemsArray(Shortcut.METHOD_OPTIONS);
         hideErrorLabel(methodView);
@@ -190,6 +203,10 @@ public class EditorActivity extends BaseActivity {
         });
 
         setTitle(shortcut.isNew() ? R.string.create_shortcut : R.string.edit_shortcut);
+    }
+
+    private void bindVariableFormatter(EditText editText) {
+        destroyer.own(VariableFormatter.bind(editText, variables));
     }
 
     private void updateCustomBody() {

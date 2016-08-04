@@ -6,6 +6,8 @@ import io.realm.annotations.PrimaryKey;
 
 public class Variable extends RealmObject implements HasId {
 
+    public static final String TYPE_CONSTANT = "constant";
+
     @PrimaryKey
     private long id;
 
@@ -14,6 +16,14 @@ public class Variable extends RealmObject implements HasId {
 
     private String value;
     private RealmList<Option> options;
+
+    public static Variable createNew(String key, String type) {
+        Variable variable = new Variable();
+        variable.setKey(key);
+        variable.setType(type);
+        variable.setValue("");
+        return variable;
+    }
 
     @Override
     public long getId() {

@@ -6,8 +6,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import java.util.List;
-
 import butterknife.Bind;
 import ch.rmy.android.http_shortcuts.adapters.VariableAdapter;
 import ch.rmy.android.http_shortcuts.listeners.OnItemClickedListener;

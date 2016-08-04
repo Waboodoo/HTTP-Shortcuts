@@ -229,6 +229,18 @@ public class Controller implements Destroyable {
         return getShortcutById(shortcut.getId());
     }
 
+    public void createVariable(final String key, final String type) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmList<Variable> variables = getBase().getVariables();
+                Variable variable = realm.copyToRealm(Variable.createNew(key, type));
+                variable.setId(generateId(Variable.class));
+                variables.add(variable);
+            }
+        });
+    }
+
     private long generateId(Class<? extends RealmObject> clazz) {
         Number maxId = realm.where(clazz).max(FIELD_ID);
         long maxIdLong = maxId != null ? maxId.longValue() : 0;
