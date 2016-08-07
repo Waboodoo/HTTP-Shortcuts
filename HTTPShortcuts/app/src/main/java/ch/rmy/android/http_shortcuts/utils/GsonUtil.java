@@ -8,14 +8,13 @@ import com.google.gson.GsonBuilder;
 import java.io.Reader;
 
 import ch.rmy.android.http_shortcuts.realm.models.Base;
-import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 import io.realm.RealmObject;
 
 public class GsonUtil {
 
-    public static String toJson(Shortcut shortcut) {
+    public static String toJson(RealmObject item) {
         Gson gson = getJsonBuilder().create();
-        return gson.toJson(shortcut);
+        return gson.toJson(item);
     }
 
     public static <T extends RealmObject> T fromJson(String json, Class<T> clazz) {

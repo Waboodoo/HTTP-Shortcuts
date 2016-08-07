@@ -116,4 +116,11 @@ public class VariableEditorActivity extends BaseActivity {
         return true;
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        compileVariable();
+        outState.putString(STATE_JSON_VARIABLE, GsonUtil.toJson(variable));
+    }
+
 }

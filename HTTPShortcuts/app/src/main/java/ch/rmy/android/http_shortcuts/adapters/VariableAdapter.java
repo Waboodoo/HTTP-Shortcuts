@@ -12,6 +12,7 @@ import butterknife.ButterKnife;
 import ch.rmy.android.http_shortcuts.R;
 import ch.rmy.android.http_shortcuts.realm.models.Base;
 import ch.rmy.android.http_shortcuts.realm.models.Variable;
+import ch.rmy.android.http_shortcuts.utils.ArrayUtil;
 
 public class VariableAdapter extends BaseAdapter<Base, Variable> {
 
@@ -33,6 +34,8 @@ public class VariableAdapter extends BaseAdapter<Base, Variable> {
 
         @Bind(R.id.name)
         TextView name;
+        @Bind(R.id.type)
+        TextView type;
 
         public VariableViewHolder(ViewGroup parent) {
             super(LayoutInflater.from(context).inflate(R.layout.list_item_variable, parent, false), VariableAdapter.this);
@@ -42,6 +45,7 @@ public class VariableAdapter extends BaseAdapter<Base, Variable> {
         @Override
         protected void updateViews(Variable variable) {
             name.setText(variable.getKey());
+            type.setText(Variable.TYPE_RESOURCES[ArrayUtil.findIndex(Variable.TYPE_OPTIONS, variable.getType())]);
         }
 
     }

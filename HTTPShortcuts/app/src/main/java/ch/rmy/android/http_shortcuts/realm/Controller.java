@@ -250,7 +250,9 @@ public class Controller implements Destroyable {
             @Override
             public void execute(Realm realm) {
                 Variable newVariable = realm.copyToRealmOrUpdate(variable);
-                getVariables().add(newVariable);
+                if (variable.isNew()) {
+                    getVariables().add(newVariable);
+                }
             }
         });
         return getVariableById(variable.getId());
