@@ -230,6 +230,7 @@ public class Controller implements Destroyable {
     }
 
     public void createVariable(final String key, final String type) {
+        //TODO: Make sure the variable does not exist yet
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {

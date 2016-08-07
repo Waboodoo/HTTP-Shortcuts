@@ -10,9 +10,14 @@ import org.jdeferred.DoneCallback;
 import org.jdeferred.FailCallback;
 import org.jdeferred.Promise;
 
+import java.util.List;
+
 import ch.rmy.android.http_shortcuts.R;
 import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
+import ch.rmy.android.http_shortcuts.realm.models.Variable;
+import ch.rmy.android.http_shortcuts.variables.ResolvedVariables;
+import ch.rmy.android.http_shortcuts.variables.VariableResolver;
 
 public class Executor {
 
@@ -34,26 +39,37 @@ public class Executor {
             return;
         }
 
-        HttpRequester.executeShortcut(context, shortcut).done(new DoneCallback<String>() {
+        List<Variable> variables = controller.getVariables();
+        new VariableResolver(context).resolve(shortcut, variables).done(new DoneCallback<ResolvedVariables>() {
             @Override
-            public void onDone(String response) {
-                responseHandler.handleSuccess(shortcut, response);
-            }
-        }).fail(new FailCallback<VolleyError>() {
-            @Override
-            public void onFail(VolleyError error) {
-                if (Shortcut.RETRY_POLICY_WAIT_FOR_INTERNET.equals(shortcut.getRetryPolicy()) && error.networkResponse == null) {
-                    controller.createPendingExecution(shortcut);
-                    if (!Shortcut.FEEDBACK_NONE.equals(shortcut.getFeedback())) {
-                        Toast.makeText(context, String.format(context.getText(R.string.execution_delayed).toString(), shortcut.getSafeName(context)), Toast.LENGTH_LONG).show();
+            public void onDone(ResolvedVariables resolvedVariables) {
+                HttpRequester.executeShortcut(context, shortcut, resolvedVariables).done(new DoneCallback<String>() {
+                    @Override
+                    public void onDone(String response) {
+                        responseHandler.handleSuccess(shortcut, response);
                     }
-                } else {
-                    responseHandler.handleFailure(shortcut, error);
-                }
+                }).fail(new FailCallback<VolleyError>() {
+                    @Override
+                    public void onFail(VolleyError error) {
+                        if (Shortcut.RETRY_POLICY_WAIT_FOR_INTERNET.equals(shortcut.getRetryPolicy()) && error.networkResponse == null) {
+                            controller.createPendingExecution(shortcut);
+                            if (!Shortcut.FEEDBACK_NONE.equals(shortcut.getFeedback())) {
+                                Toast.makeText(context, String.format(context.getText(R.string.execution_delayed).toString(), shortcut.getSafeName(context)), Toast.LENGTH_LONG).show();
+                            }
+                        } else {
+                            responseHandler.handleFailure(shortcut, error);
+                        }
+                    }
+                }).always(new AlwaysCallback<String, VolleyError>() {
+                    @Override
+                    public void onAlways(Promise.State state, String resolved, VolleyError rejected) {
+                        controller.destroy();
+                    }
+                });
             }
-        }).always(new AlwaysCallback<String, VolleyError>() {
+        }).fail(new FailCallback<Throwable>() {
             @Override
-            public void onAlways(Promise.State state, String resolved, VolleyError rejected) {
+            public void onFail(Throwable result) {
                 controller.destroy();
             }
         });

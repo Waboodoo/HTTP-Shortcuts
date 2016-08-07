@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.utils;
+package ch.rmy.android.http_shortcuts.variables;
 
 import android.graphics.Typeface;
 import android.text.Editable;
@@ -10,23 +10,20 @@ import android.widget.EditText;
 
 import java.util.List;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import ch.rmy.android.http_shortcuts.realm.models.Variable;
+import ch.rmy.android.http_shortcuts.utils.Destroyable;
 
 public class VariableFormatter implements TextWatcher, Destroyable {
 
     private static final int FORMAT_COLOR = 0xFF3F51B5;
-
-    private static final String REGEX = "\\{\\{[A-Za-z][A-Za-z0-9]*\\}\\}";
-    private static final Pattern PATTERN = Pattern.compile(REGEX);
 
     private final EditText editText;
     private final List<Variable> variables;
 
     public static Destroyable bind(EditText editText, List<Variable> variables) {
         VariableFormatter formatter = new VariableFormatter(editText, variables);
-        editText.addTextChangedListener(formatter);
+        formatter.afterTextChanged(editText.getEditableText());
         return formatter;
     }
 
@@ -49,13 +46,13 @@ public class VariableFormatter implements TextWatcher, Destroyable {
     public void afterTextChanged(Editable s) {
         editText.removeTextChangedListener(this);
         clearFormatting(s);
-        Matcher matcher = PATTERN.matcher(s);
+        Matcher matcher = Variables.match(s);
         int previousEnd = 0;
         while (matcher.find()) {
             if (matcher.start() < previousEnd) {
                 continue;
             }
-            String variableName = s.subSequence(matcher.start() + 2, matcher.end() - 2).toString();
+            String variableName = s.subSequence(matcher.start() + Variables.PREFIX_LENGTH, matcher.end() - Variables.SUFFIX_LENGTH).toString();
             if (isValidVariable(variableName)) {
                 format(s, matcher.start(), matcher.end());
                 previousEnd = matcher.end();

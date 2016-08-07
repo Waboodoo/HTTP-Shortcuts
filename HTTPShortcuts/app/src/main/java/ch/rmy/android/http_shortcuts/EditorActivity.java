@@ -50,8 +50,10 @@ import ch.rmy.android.http_shortcuts.utils.ArrayUtil;
 import ch.rmy.android.http_shortcuts.utils.GsonUtil;
 import ch.rmy.android.http_shortcuts.utils.OnItemChosenListener;
 import ch.rmy.android.http_shortcuts.utils.Validation;
-import ch.rmy.android.http_shortcuts.utils.VariableFormatter;
 import ch.rmy.android.http_shortcuts.utils.ViewUtil;
+import ch.rmy.android.http_shortcuts.variables.ResolvedVariables;
+import ch.rmy.android.http_shortcuts.variables.VariableFormatter;
+import ch.rmy.android.http_shortcuts.variables.VariableResolver;
 
 /**
  * The activity to create/edit shortcuts.
@@ -291,19 +293,28 @@ public class EditorActivity extends BaseActivity {
     private void test() {
         compileShortcut();
         if (validate(true)) {
-            final ResponseHandler responseHandler = new ResponseHandler(this);
-            HttpRequester.executeShortcut(this, shortcut).done(new DoneCallback<String>() {
+            new VariableResolver(this).resolve(shortcut, variables).done(new DoneCallback<ResolvedVariables>() {
                 @Override
-                public void onDone(String response) {
-                    responseHandler.handleSuccess(shortcut, response);
-                }
-            }).fail(new FailCallback<VolleyError>() {
-                @Override
-                public void onFail(VolleyError error) {
-                    responseHandler.handleFailure(shortcut, error);
+                public void onDone(ResolvedVariables resolvedVariables) {
+                    execute(resolvedVariables);
                 }
             });
         }
+    }
+
+    private void execute(ResolvedVariables resolvedVariables) {
+        final ResponseHandler responseHandler = new ResponseHandler(this);
+        HttpRequester.executeShortcut(this, shortcut, resolvedVariables).done(new DoneCallback<String>() {
+            @Override
+            public void onDone(String response) {
+                responseHandler.handleSuccess(shortcut, response);
+            }
+        }).fail(new FailCallback<VolleyError>() {
+            @Override
+            public void onFail(VolleyError error) {
+                responseHandler.handleFailure(shortcut, error);
+            }
+        });
     }
 
     private void openIconSelectionDialog() {

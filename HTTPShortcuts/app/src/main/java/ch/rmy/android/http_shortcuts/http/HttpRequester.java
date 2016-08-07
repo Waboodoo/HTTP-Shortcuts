@@ -17,11 +17,12 @@ import org.jdeferred.impl.DeferredObject;
 import ch.rmy.android.http_shortcuts.realm.models.Header;
 import ch.rmy.android.http_shortcuts.realm.models.Parameter;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
+import ch.rmy.android.http_shortcuts.variables.ResolvedVariables;
+import ch.rmy.android.http_shortcuts.variables.Variables;
 
 public class HttpRequester {
 
-    public static Promise<String, VolleyError, Void> executeShortcut(final Context context, final Shortcut detachedShortcut) {
-        String url = detachedShortcut.getUrl();
+    public static Promise<String, VolleyError, Void> executeShortcut(final Context context, final Shortcut detachedShortcut, ResolvedVariables variables) {
         int method = getMethod(detachedShortcut);
         boolean acceptAllCertificates = detachedShortcut.isAcceptAllCertificates();
 
@@ -30,14 +31,18 @@ public class HttpRequester {
 
         final Deferred<String, VolleyError, Void> deferred = new DeferredObject<>();
 
-        Promise<String, VolleyError, Void> promise = deferred.promise();
-
-        AuthRequest stringRequest = new AuthRequest(method, url, detachedShortcut.getUsername(), detachedShortcut.getPassword(), detachedShortcut.getBodyContent(), new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                deferred.resolve(response);
-            }
-        }, new Response.ErrorListener() {
+        AuthRequest stringRequest = new AuthRequest(
+                method,
+                Variables.insert(detachedShortcut.getUrl(), variables),
+                Variables.insert(detachedShortcut.getUsername(), variables),
+                Variables.insert(detachedShortcut.getPassword(), variables),
+                Variables.insert(detachedShortcut.getBodyContent(), variables),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        deferred.resolve(response);
+                    }
+                }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 deferred.reject(error);
@@ -45,17 +50,23 @@ public class HttpRequester {
         });
 
         for (Parameter parameter : detachedShortcut.getParameters()) {
-            stringRequest.addParameter(parameter.getKey(), parameter.getValue());
+            stringRequest.addParameter(
+                    Variables.insert(parameter.getKey(), variables),
+                    Variables.insert(parameter.getValue(), variables)
+            );
         }
 
         for (Header header : detachedShortcut.getHeaders()) {
-            stringRequest.addHeader(header.getKey(), header.getValue());
+            stringRequest.addHeader(
+                    Variables.insert(header.getKey(), variables),
+                    Variables.insert(header.getValue(), variables)
+            );
         }
 
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(detachedShortcut.getTimeout(), 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(stringRequest);
 
-        return promise;
+        return deferred.promise();
     }
 
     private static int getMethod(Shortcut shortcut) {

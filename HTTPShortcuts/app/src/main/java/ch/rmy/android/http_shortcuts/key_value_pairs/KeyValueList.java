@@ -27,7 +27,7 @@ import ch.rmy.android.http_shortcuts.R;
 import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.utils.Destroyable;
 import ch.rmy.android.http_shortcuts.utils.Destroyer;
-import ch.rmy.android.http_shortcuts.utils.VariableFormatter;
+import ch.rmy.android.http_shortcuts.variables.VariableFormatter;
 
 public class KeyValueList<T extends KeyValuePair> extends FrameLayout implements Destroyable {
 
