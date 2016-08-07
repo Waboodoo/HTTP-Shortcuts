@@ -137,4 +137,12 @@
     <string name="title_move_to_category">Move to category</string>
     <string name="plugin_name">Execute HTTP Shortcut</string>
     <string name="title_variables">Variables</string>
+    <string name="edit_variable">Edit variable</string>
+    <string name="label_variable_type">Variable type</string>
+    <string name="label_variable_name">Variable name</string>
+    <string name="variable_type_constant">Constant</string>
+    <string name="variable_type_text">Text</string>
+    <string name="variable_type_number">Number</string>
+    <string name="variable_type_select">Select</string>
+    <string name="variable_type_toggle">Toggle</string>
 </resources>

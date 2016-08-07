@@ -12,8 +12,6 @@ import io.realm.annotations.Required;
 
 public class Shortcut extends RealmObject implements HasId {
 
-    public static final String FIELD_ID = "id";
-
     public static final String METHOD_GET = "GET";
     public static final String METHOD_POST = "POST";
     public static final String METHOD_PUT = "PUT";
@@ -185,6 +183,7 @@ public class Shortcut extends RealmObject implements HasId {
         this.acceptAllCertificates = acceptAllCertificates;
     }
 
+    @Override
     public boolean isNew() {
         return id == 0;
     }

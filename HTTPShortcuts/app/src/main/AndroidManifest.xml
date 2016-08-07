@@ -57,6 +57,15 @@
                 android:value=".MainActivity"/>
         </activity>
         <activity
+            android:name=".VariableEditorActivity"
+            android:label="@string/edit_variable"
+            android:parentActivityName=".VariablesActivity"
+            android:windowSoftInputMode="adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".VariablesActivity"/>
+        </activity>
+        <activity
             android:name=".SettingsActivity"
             android:label="@string/settings"
             android:parentActivityName=".MainActivity">

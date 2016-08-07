@@ -18,9 +18,9 @@ public class GsonUtil {
         return gson.toJson(shortcut);
     }
 
-    public static Shortcut fromJson(String json) {
+    public static <T extends RealmObject> T fromJson(String json, Class<T> clazz) {
         Gson gson = getJsonBuilder().create();
-        return gson.fromJson(json, Shortcut.class);
+        return gson.fromJson(json, clazz);
     }
 
     public static void exportData(Base base, Appendable writer) {

@@ -4,4 +4,8 @@ public interface HasId {
 
     long getId();
 
+    void setId(long id);
+
+    boolean isNew();
+
 }

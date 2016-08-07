@@ -63,7 +63,7 @@ import ch.rmy.android.http_shortcuts.variables.VariableResolver;
 @SuppressLint("InflateParams")
 public class EditorActivity extends BaseActivity {
 
-    public final static String EXTRA_SHORTCUT_ID = "shortcut_id";
+    public final static String EXTRA_SHORTCUT_ID = "ch.rmy.android.http_shortcuts.EditorActivity.shortcut_id";
     private final static int SELECT_ICON = 1;
     private final static int SELECT_IPACK_ICON = 3;
     private static final String STATE_JSON_SHORTCUT = "shortcut_json";
@@ -118,7 +118,7 @@ public class EditorActivity extends BaseActivity {
 
         long shortcutId = getIntent().getLongExtra(EXTRA_SHORTCUT_ID, 0);
         if (savedInstanceState != null && savedInstanceState.containsKey(STATE_JSON_SHORTCUT)) {
-            shortcut = GsonUtil.fromJson(savedInstanceState.getString(STATE_JSON_SHORTCUT));
+            shortcut = GsonUtil.fromJson(savedInstanceState.getString(STATE_JSON_SHORTCUT), Shortcut.class);
         } else {
             shortcut = shortcutId == 0 ? Shortcut.createNew() : controller.getDetachedShortcutById(shortcutId);
         }
@@ -145,7 +145,7 @@ public class EditorActivity extends BaseActivity {
         bindVariableFormatter(customBodyView);
 
         methodView.setItemsArray(Shortcut.METHOD_OPTIONS);
-        hideErrorLabel(methodView);
+        ViewUtil.hideErrorLabel(methodView);
         methodView.setOnItemChosenListener(new OnItemChosenListener() {
             @Override
             public void onSelectionChanged() {
@@ -183,15 +183,15 @@ public class EditorActivity extends BaseActivity {
         customHeaderList.setSuggestions(Header.SUGGESTED_KEYS);
 
         feedbackView.setItemsArray(Shortcut.getFeedbackOptions(this));
-        hideErrorLabel(feedbackView);
+        ViewUtil.hideErrorLabel(feedbackView);
         feedbackView.setSelection(ArrayUtil.findIndex(Shortcut.FEEDBACK_OPTIONS, shortcut.getFeedback()));
 
         timeoutView.setItemsArray(Shortcut.getTimeoutOptions(this));
-        hideErrorLabel(timeoutView);
+        ViewUtil.hideErrorLabel(timeoutView);
         timeoutView.setSelection(ArrayUtil.findIndex(Shortcut.TIMEOUT_OPTIONS, shortcut.getTimeout()));
 
         retryPolicyView.setItemsArray(Shortcut.getRetryPolicyOptions(this));
-        hideErrorLabel(retryPolicyView);
+        ViewUtil.hideErrorLabel(retryPolicyView);
         retryPolicyView.setSelection(ArrayUtil.findIndex(Shortcut.RETRY_POLICY_OPTIONS, shortcut.getRetryPolicy()));
 
         acceptCertificatesCheckbox.setChecked(shortcut.isAcceptAllCertificates());
@@ -466,10 +466,6 @@ public class EditorActivity extends BaseActivity {
 
             shortcut.setIconName(uri.toString());
         }
-    }
-
-    private void hideErrorLabel(LabelledSpinner spinner) {
-        spinner.getErrorLabel().setVisibility(View.GONE);
     }
 
     @Override

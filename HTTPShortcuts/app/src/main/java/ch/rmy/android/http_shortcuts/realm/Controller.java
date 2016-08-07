@@ -64,12 +64,24 @@ public class Controller implements Destroyable {
         return realm.where(Shortcut.class).equalTo(FIELD_ID, id).findFirst();
     }
 
+    public Variable getVariableById(long id) {
+        return realm.where(Variable.class).equalTo(FIELD_ID, id).findFirst();
+    }
+
     public Shortcut getDetachedShortcutById(long id) {
         Shortcut shortcut = getShortcutById(id);
         if (shortcut == null) {
             return null;
         }
         return realm.copyFromRealm(shortcut);
+    }
+
+    public Variable getDetachedVariableById(long id) {
+        Variable variable = getVariableById(id);
+        if (variable == null) {
+            return null;
+        }
+        return realm.copyFromRealm(variable);
     }
 
     public Base getBase() {
@@ -229,17 +241,19 @@ public class Controller implements Destroyable {
         return getShortcutById(shortcut.getId());
     }
 
-    public void createVariable(final String key, final String type) {
-        //TODO: Make sure the variable does not exist yet
+    public Variable persist(final Variable variable) {
+        if (variable.isNew()) {
+            variable.setId(generateId(Variable.class));
+        }
+
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                RealmList<Variable> variables = getBase().getVariables();
-                Variable variable = realm.copyToRealm(Variable.createNew(key, type));
-                variable.setId(generateId(Variable.class));
-                variables.add(variable);
+                Variable newVariable = realm.copyToRealmOrUpdate(variable);
+                getVariables().add(newVariable);
             }
         });
+        return getVariableById(variable.getId());
     }
 
     private long generateId(Class<? extends RealmObject> clazz) {
