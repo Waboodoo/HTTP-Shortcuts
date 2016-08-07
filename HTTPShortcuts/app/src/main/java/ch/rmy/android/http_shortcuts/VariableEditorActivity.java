@@ -60,6 +60,8 @@ public class VariableEditorActivity extends BaseActivity {
         typeSpinner.setItemsArray(Variable.getTypeOptions(this));
         ViewUtil.hideErrorLabel(typeSpinner);
         typeSpinner.setSelection(ArrayUtil.findIndex(Variable.TYPE_OPTIONS, variable.getType()));
+
+        setTitle(variable.isNew() ? R.string.create_variable : R.string.edit_variable);
     }
 
     @Override

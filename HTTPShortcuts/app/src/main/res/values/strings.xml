@@ -138,6 +138,7 @@
     <string name="plugin_name">Execute HTTP Shortcut</string>
     <string name="title_variables">Variables</string>
     <string name="edit_variable">Edit variable</string>
+    <string name="create_variable">Create variable</string>
     <string name="label_variable_type">Variable type</string>
     <string name="label_variable_name">Variable name</string>
     <string name="variable_type_constant">Constant</string>
