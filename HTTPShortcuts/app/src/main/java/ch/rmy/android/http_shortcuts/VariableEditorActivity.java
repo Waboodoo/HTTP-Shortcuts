@@ -1,6 +1,8 @@
 package ch.rmy.android.http_shortcuts;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.Menu;
@@ -15,7 +17,9 @@ import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Variable;
 import ch.rmy.android.http_shortcuts.utils.ArrayUtil;
 import ch.rmy.android.http_shortcuts.utils.GsonUtil;
+import ch.rmy.android.http_shortcuts.utils.SimpleTextWatcher;
 import ch.rmy.android.http_shortcuts.utils.ViewUtil;
+import ch.rmy.android.http_shortcuts.variables.Variables;
 
 public class VariableEditorActivity extends BaseActivity {
 
@@ -56,6 +60,19 @@ public class VariableEditorActivity extends BaseActivity {
     private void initViews() {
         //TODO: Restrict input to allowed characters
         nameView.setText(variable.getKey());
+        final ColorStateList defaultColor = nameView.getTextColors();
+        nameView.addTextChangedListener(new SimpleTextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (Variables.isValidVariableName(s.toString())) {
+                    nameView.setTextColor(defaultColor);
+                    nameView.setError(null);
+                } else {
+                    nameView.setTextColor(Color.RED);
+                    nameView.setError(s.length() == 0 ? null : getString(R.string.warning_invalid_variable_name));
+                }
+            }
+        });
 
         typeSpinner.setItemsArray(Variable.getTypeOptions(this));
         ViewUtil.hideErrorLabel(typeSpinner);

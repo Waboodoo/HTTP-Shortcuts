@@ -39,7 +39,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/label_variable_name"
-                    android:inputType="text"
                     android:maxLength="20"
                     android:singleLine="true">
 

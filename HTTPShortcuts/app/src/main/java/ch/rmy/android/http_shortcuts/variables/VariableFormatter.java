@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts.variables;
 import android.graphics.Typeface;
 import android.text.Editable;
 import android.text.Spanned;
-import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.widget.EditText;
@@ -13,8 +12,9 @@ import java.util.regex.Matcher;
 
 import ch.rmy.android.http_shortcuts.realm.models.Variable;
 import ch.rmy.android.http_shortcuts.utils.Destroyable;
+import ch.rmy.android.http_shortcuts.utils.SimpleTextWatcher;
 
-public class VariableFormatter implements TextWatcher, Destroyable {
+public class VariableFormatter extends SimpleTextWatcher implements Destroyable {
 
     private static final int FORMAT_COLOR = 0xFF3F51B5;
 
@@ -30,16 +30,6 @@ public class VariableFormatter implements TextWatcher, Destroyable {
     private VariableFormatter(EditText editText, List<Variable> variables) {
         this.editText = editText;
         this.variables = variables;
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
     }
 
     @Override

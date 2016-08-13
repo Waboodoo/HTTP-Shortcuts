@@ -7,11 +7,19 @@ public class Variables {
 
     public static final int PREFIX_LENGTH = 2;
     public static final int SUFFIX_LENGTH = 2;
-    private static final String REGEX = "\\{\\{[A-Za-z][A-Za-z0-9]*\\}\\}";
-    private static final Pattern PATTERN = Pattern.compile(REGEX);
+
+    private static final String VARIABLE_NAME_REGEX = "[A-Za-z0-9]+";
+    private static final String FULL_VARIABLE_NAME_REGEX = "^" + VARIABLE_NAME_REGEX + "$";
+    private static final String PLACEHOLDER_REGEX = "\\{\\{" + VARIABLE_NAME_REGEX + "\\}\\}";
+
+    private static final Pattern PATTERN = Pattern.compile(PLACEHOLDER_REGEX);
 
     public static Matcher match(CharSequence s) {
         return PATTERN.matcher(s);
+    }
+
+    public static boolean isValidVariableName(String variableName) {
+        return variableName.matches(FULL_VARIABLE_NAME_REGEX);
     }
 
     public static String insert(String string, ResolvedVariables variables) {

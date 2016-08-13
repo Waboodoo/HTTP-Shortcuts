@@ -146,4 +146,5 @@
     <string name="variable_type_number">Number</string>
     <string name="variable_type_select">Select</string>
     <string name="variable_type_toggle">Toggle</string>
+    <string name="warning_invalid_variable_name">Variable names may only contain letters and digits.</string>
 </resources>
