@@ -1,5 +1,7 @@
 package ch.rmy.android.http_shortcuts.variables;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,6 +37,16 @@ public class Variables {
         }
         builder.append(string.substring(previousEnd, string.length()));
         return builder.toString();
+    }
+
+    public static Set<String> extractVariableNames(String string) {
+        Set<String> discoveredVariables = new HashSet<>();
+        Matcher matcher = match(string);
+        while (matcher.find()) {
+            String variableName = string.substring(matcher.start() + PREFIX_LENGTH, matcher.end() - SUFFIX_LENGTH);
+            discoveredVariables.add(variableName);
+        }
+        return discoveredVariables;
     }
 
 }
