@@ -1,7 +1,11 @@
 package ch.rmy.android.http_shortcuts.variables;
 
 import android.content.Context;
-import android.os.Handler;
+import android.content.DialogInterface;
+import android.support.annotation.NonNull;
+
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import org.jdeferred.Deferred;
 import org.jdeferred.Promise;
@@ -19,12 +23,14 @@ import ch.rmy.android.http_shortcuts.realm.models.Variable;
 
 public class VariableResolver {
 
-    public VariableResolver(Context context) {
+    private final Context context;
 
+    public VariableResolver(Context context) {
+        this.context = context;
     }
 
-    public Promise<ResolvedVariables, Throwable, Void> resolve(Shortcut shortcut, List<Variable> variables) {
-        final Deferred<ResolvedVariables, Throwable, Void> deferred = new DeferredObject<>();
+    public Promise<ResolvedVariables, Void, Void> resolve(Shortcut shortcut, List<Variable> variables) {
+        final Deferred<ResolvedVariables, Void, Void> deferred = new DeferredObject<>();
 
         Set<String> requiredVariableNames = extractVariableNames(shortcut);
         final List<Variable> variablesToResolve = new ArrayList<>();
@@ -41,16 +47,28 @@ public class VariableResolver {
         if (variablesToResolve.isEmpty()) {
             deferred.resolve(builder.build());
         } else {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    for (Variable variable : variablesToResolve) {
-                        builder.add(variable.getKey(), String.valueOf((int) (Math.random() * 1000)));
-                    }
 
-                    deferred.resolve(builder.build());
-                }
-            }, 5000);
+            for (Variable variable : variablesToResolve) {
+                builder.add(variable.getKey(), "cats");
+            }
+
+            new MaterialDialog.Builder(context)
+                    .positiveText("Send")
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            deferred.resolve(builder.build());
+                        }
+                    })
+                    .dismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            if (deferred.isPending()) {
+                                deferred.reject(null);
+                            }
+                        }
+                    })
+                    .show();
         }
 
         return deferred.promise();

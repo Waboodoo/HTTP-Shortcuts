@@ -6,9 +6,12 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 
 import org.jdeferred.AlwaysCallback;
+import org.jdeferred.Deferred;
 import org.jdeferred.DoneCallback;
+import org.jdeferred.DoneFilter;
 import org.jdeferred.FailCallback;
 import org.jdeferred.Promise;
+import org.jdeferred.impl.DeferredObject;
 
 import java.util.List;
 
@@ -29,50 +32,62 @@ public class Executor {
         this.responseHandler = new ResponseHandler(context);
     }
 
-    public void execute(final long shortcutId) {
+    public Promise<Void, Void, Void> execute(final long shortcutId) {
         final Controller controller = new Controller(context);
 
         final Shortcut shortcut = controller.getShortcutById(shortcutId);
         if (shortcut == null) {
             Toast.makeText(context, R.string.shortcut_not_found, Toast.LENGTH_LONG).show();
             controller.destroy();
-            return;
+
+            final Deferred<Void, Void, Void> deferred = new DeferredObject<>();
+            deferred.reject(null);
+            return deferred.promise();
         }
 
         List<Variable> variables = controller.getVariables();
-        new VariableResolver(context).resolve(shortcut, variables).done(new DoneCallback<ResolvedVariables>() {
-            @Override
-            public void onDone(ResolvedVariables resolvedVariables) {
-                HttpRequester.executeShortcut(context, shortcut, resolvedVariables).done(new DoneCallback<String>() {
+        return new VariableResolver(context)
+                .resolve(shortcut, variables)
+                .done(new DoneCallback<ResolvedVariables>() {
                     @Override
-                    public void onDone(String response) {
-                        responseHandler.handleSuccess(shortcut, response);
-                    }
-                }).fail(new FailCallback<VolleyError>() {
-                    @Override
-                    public void onFail(VolleyError error) {
-                        if (Shortcut.RETRY_POLICY_WAIT_FOR_INTERNET.equals(shortcut.getRetryPolicy()) && error.networkResponse == null) {
-                            controller.createPendingExecution(shortcut);
-                            if (!Shortcut.FEEDBACK_NONE.equals(shortcut.getFeedback())) {
-                                Toast.makeText(context, String.format(context.getText(R.string.execution_delayed).toString(), shortcut.getSafeName(context)), Toast.LENGTH_LONG).show();
+                    public void onDone(ResolvedVariables resolvedVariables) {
+                        HttpRequester.executeShortcut(context, shortcut, resolvedVariables).done(new DoneCallback<String>() {
+                            @Override
+                            public void onDone(String response) {
+                                responseHandler.handleSuccess(shortcut, response);
                             }
-                        } else {
-                            responseHandler.handleFailure(shortcut, error);
-                        }
+                        }).fail(new FailCallback<VolleyError>() {
+                            @Override
+                            public void onFail(VolleyError error) {
+                                if (Shortcut.RETRY_POLICY_WAIT_FOR_INTERNET.equals(shortcut.getRetryPolicy()) && error.networkResponse == null) {
+                                    controller.createPendingExecution(shortcut);
+                                    if (!Shortcut.FEEDBACK_NONE.equals(shortcut.getFeedback())) {
+                                        Toast.makeText(context, String.format(context.getText(R.string.execution_delayed).toString(), shortcut.getSafeName(context)), Toast.LENGTH_LONG).show();
+                                    }
+                                } else {
+                                    responseHandler.handleFailure(shortcut, error);
+                                }
+                            }
+                        }).always(new AlwaysCallback<String, VolleyError>() {
+                            @Override
+                            public void onAlways(Promise.State state, String resolved, VolleyError rejected) {
+                                controller.destroy();
+                            }
+                        });
                     }
-                }).always(new AlwaysCallback<String, VolleyError>() {
+                })
+                .fail(new FailCallback<Void>() {
                     @Override
-                    public void onAlways(Promise.State state, String resolved, VolleyError rejected) {
+                    public void onFail(Void result) {
                         controller.destroy();
                     }
+                })
+                .then(new DoneFilter<ResolvedVariables, Void>() {
+                    @Override
+                    public Void filterDone(ResolvedVariables result) {
+                        return null;
+                    }
                 });
-            }
-        }).fail(new FailCallback<Throwable>() {
-            @Override
-            public void onFail(Throwable result) {
-                controller.destroy();
-            }
-        });
     }
 
 }

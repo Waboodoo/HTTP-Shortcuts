@@ -75,6 +75,7 @@
         </activity>
         <activity
             android:name=".ExecuteActivity"
+            android:configChanges="orientation|screenSize"
             android:excludeFromRecents="true"
             android:label="@string/title_activity_execute"
             android:launchMode="singleInstance"
