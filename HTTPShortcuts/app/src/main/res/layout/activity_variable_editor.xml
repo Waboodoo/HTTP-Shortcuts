@@ -24,12 +24,6 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp">
 
-            <com.satsuware.usefulviews.LabelledSpinner
-                android:id="@+id/input_variable_type"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                ls:labelText="@string/label_variable_type"/>
-
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -44,6 +38,27 @@
 
                 </EditText>
             </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/input_variable_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/label_variable_title"
+                    android:maxLength="20"
+                    android:singleLine="true">
+
+                </EditText>
+            </android.support.design.widget.TextInputLayout>
+
+            <com.satsuware.usefulviews.LabelledSpinner
+                android:id="@+id/input_variable_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                ls:labelText="@string/label_variable_type"/>
 
         </LinearLayout>
 

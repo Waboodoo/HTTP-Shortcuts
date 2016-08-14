@@ -29,6 +29,8 @@ public class VariableEditorActivity extends BaseActivity {
     LabelledSpinner typeSpinner;
     @Bind(R.id.input_variable_name)
     EditText nameView;
+    @Bind(R.id.input_variable_title)
+    EditText titleView;
 
     private Controller controller;
     private Variable oldVariable;
@@ -57,8 +59,8 @@ public class VariableEditorActivity extends BaseActivity {
     }
 
     private void initViews() {
-        //TODO: Restrict input to allowed characters
         nameView.setText(variable.getKey());
+        titleView.setText(variable.getTitle());
         final ColorStateList defaultColor = nameView.getTextColors();
         nameView.addTextChangedListener(new SimpleTextWatcher() {
             @Override
@@ -121,6 +123,7 @@ public class VariableEditorActivity extends BaseActivity {
     }
 
     private void compileVariable() {
+        variable.setTitle(titleView.getText().toString().trim());
         variable.setKey(nameView.getText().toString().trim());
         variable.setType(Variable.TYPE_OPTIONS[typeSpinner.getSpinner().getSelectedItemPosition()]);
     }
