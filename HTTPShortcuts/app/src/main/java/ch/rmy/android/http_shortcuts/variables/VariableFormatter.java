@@ -5,7 +5,7 @@ import android.text.Editable;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
-import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -18,23 +18,23 @@ public class VariableFormatter extends SimpleTextWatcher implements Destroyable 
 
     private static final int FORMAT_COLOR = 0xFF3F51B5;
 
-    private final EditText editText;
+    private final TextView textView;
     private final List<Variable> variables;
 
-    public static Destroyable bind(EditText editText, List<Variable> variables) {
-        VariableFormatter formatter = new VariableFormatter(editText, variables);
-        formatter.afterTextChanged(editText.getEditableText());
+    public static Destroyable bind(TextView textView, List<Variable> variables) {
+        VariableFormatter formatter = new VariableFormatter(textView, variables);
+        formatter.afterTextChanged(textView.getEditableText());
         return formatter;
     }
 
-    private VariableFormatter(EditText editText, List<Variable> variables) {
-        this.editText = editText;
+    private VariableFormatter(TextView editText, List<Variable> variables) {
+        this.textView = editText;
         this.variables = variables;
     }
 
     @Override
     public void afterTextChanged(Editable s) {
-        editText.removeTextChangedListener(this);
+        textView.removeTextChangedListener(this);
         clearFormatting(s);
         Matcher matcher = Variables.match(s);
         int previousEnd = 0;
@@ -48,7 +48,7 @@ public class VariableFormatter extends SimpleTextWatcher implements Destroyable 
                 previousEnd = matcher.end();
             }
         }
-        editText.addTextChangedListener(this);
+        textView.addTextChangedListener(this);
     }
 
     private boolean isValidVariable(String variableName) {
@@ -76,6 +76,6 @@ public class VariableFormatter extends SimpleTextWatcher implements Destroyable 
 
     @Override
     public void destroy() {
-        editText.removeTextChangedListener(this);
+        textView.removeTextChangedListener(this);
     }
 }

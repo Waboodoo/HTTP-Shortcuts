@@ -150,4 +150,7 @@
     <string name="warning_invalid_variable_name">Variable names may only contain letters and digits.</string>
     <string name="confirm_delete_variable_message">Delete this variable?</string>
     <string name="variable_deleted">%1$s deleted.</string>
+    <string name="label_url_encode">URL encode</string>
+    <string name="label_json_encode">JSON encode</string>
+    <string name="section_basic_variable_settings">Basic settings</string>
 </resources>

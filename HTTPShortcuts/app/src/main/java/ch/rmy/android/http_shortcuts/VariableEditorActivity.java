@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.satsuware.usefulviews.LabelledSpinner;
@@ -31,6 +32,10 @@ public class VariableEditorActivity extends BaseActivity {
     EditText nameView;
     @Bind(R.id.input_variable_title)
     EditText titleView;
+    @Bind(R.id.input_url_encode)
+    CheckBox urlEncode;
+    @Bind(R.id.input_json_encode)
+    CheckBox jsonEncode;
 
     private Controller controller;
     private Variable oldVariable;
@@ -79,6 +84,9 @@ public class VariableEditorActivity extends BaseActivity {
         ViewUtil.hideErrorLabel(typeSpinner);
         typeSpinner.setSelection(ArrayUtil.findIndex(Variable.TYPE_OPTIONS, variable.getType()));
 
+        urlEncode.setChecked(variable.isUrlEncode());
+        jsonEncode.setChecked(variable.isJsonEncode());
+
         setTitle(variable.isNew() ? R.string.create_variable : R.string.edit_variable);
     }
 
@@ -126,6 +134,8 @@ public class VariableEditorActivity extends BaseActivity {
         variable.setTitle(titleView.getText().toString().trim());
         variable.setKey(nameView.getText().toString().trim());
         variable.setType(Variable.TYPE_OPTIONS[typeSpinner.getSpinner().getSelectedItemPosition()]);
+        variable.setUrlEncode(urlEncode.isChecked());
+        variable.setJsonEncode(jsonEncode.isChecked());
     }
 
     private boolean validate() {

@@ -24,6 +24,10 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp">
 
+            <TextView
+                style="@style/SubHeader"
+                android:text="@string/section_basic_variable_settings"/>
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -59,6 +63,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 ls:labelText="@string/label_variable_type"/>
+
+            <TextView
+                style="@style/SubHeader"
+                android:text="@string/section_advanced_settings"/>
+
+            <CheckBox
+                android:id="@+id/input_url_encode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_url_encode"/>
+
+            <CheckBox
+                android:id="@+id/input_json_encode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_json_encode"/>
 
         </LinearLayout>
 
