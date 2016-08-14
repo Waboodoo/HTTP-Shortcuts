@@ -32,9 +32,12 @@ public class DatabaseMigration implements RealmMigration {
                         .addField("value", String.class);
                 RealmObjectSchema variableSchema = schema.create("Variable")
                         .addField("id", long.class).addPrimaryKey("id")
-                        .addField("key", String.class)
-                        .addField("type", String.class)
+                        .addField("key", String.class).setRequired("key", true)
+                        .addField("type", String.class).setRequired("type", true)
                         .addField("value", String.class)
+                        .addField("title", String.class).setRequired("title", true)
+                        .addField("urlEncode", boolean.class)
+                        .addField("jsonEncode", boolean.class)
                         .addRealmListField("options", optionSchema);
                 schema.get("Base")
                         .addRealmListField("variables", variableSchema);

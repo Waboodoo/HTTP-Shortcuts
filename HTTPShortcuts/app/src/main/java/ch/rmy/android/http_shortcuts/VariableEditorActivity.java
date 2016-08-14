@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts;
 
-import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -116,10 +115,7 @@ public class VariableEditorActivity extends BaseActivity {
     private void trySave() {
         compileVariable();
         if (validate()) {
-            Variable persistedVariable = controller.persist(variable);
-            Intent returnIntent = new Intent();
-            returnIntent.putExtra(EXTRA_VARIABLE_ID, persistedVariable.getId());
-            setResult(RESULT_OK, returnIntent);
+            controller.persist(variable);
             finish();
         }
     }

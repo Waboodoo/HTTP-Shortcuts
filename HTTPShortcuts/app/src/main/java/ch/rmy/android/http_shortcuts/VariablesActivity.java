@@ -2,21 +2,23 @@ package ch.rmy.android.http_shortcuts;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import butterknife.Bind;
 import ch.rmy.android.http_shortcuts.adapters.VariableAdapter;
 import ch.rmy.android.http_shortcuts.listeners.OnItemClickedListener;
 import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Variable;
+import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder;
 
 public class VariablesActivity extends BaseActivity {
-
-    private final static int REQUEST_CREATE_VARIABLE = 2;
-    private final static int REQUEST_EDIT_VARIABLE = 3;
 
     @Bind(R.id.variable_list)
     RecyclerView variableList;
@@ -34,8 +36,7 @@ public class VariablesActivity extends BaseActivity {
 
         @Override
         public void onItemLongClicked(Variable variable) {
-            // TODO: Show context menu (edit, delete)
-            editVariable(variable);
+            showContextMenu(variable);
         }
     };
 
@@ -65,15 +66,53 @@ public class VariablesActivity extends BaseActivity {
         });
     }
 
+    private void openEditorForCreation() {
+        Intent intent = new Intent(this, VariableEditorActivity.class);
+        startActivity(intent);
+    }
+
     private void editVariable(Variable variable) {
         Intent intent = new Intent(this, VariableEditorActivity.class);
         intent.putExtra(VariableEditorActivity.EXTRA_VARIABLE_ID, variable.getId());
-        startActivityForResult(intent, REQUEST_EDIT_VARIABLE);
+        startActivity(intent);
     }
 
-    private void openEditorForCreation() {
-        Intent intent = new Intent(this, VariableEditorActivity.class);
-        startActivityForResult(intent, REQUEST_CREATE_VARIABLE);
+    private void showContextMenu(final Variable variable) {
+        MenuDialogBuilder builder = new MenuDialogBuilder(this)
+                .title(variable.getKey());
+
+        builder.item(R.string.action_edit, new MenuDialogBuilder.Action() {
+            @Override
+            public void execute() {
+                editVariable(variable);
+            }
+        });
+        builder.item(R.string.action_delete, new MenuDialogBuilder.Action() {
+            @Override
+            public void execute() {
+                showDeleteDialog(variable);
+            }
+        });
+        builder.show();
+    }
+
+    private void showDeleteDialog(final Variable variable) {
+        (new MaterialDialog.Builder(this))
+                .content(R.string.confirm_delete_variable_message)
+                .positiveText(R.string.dialog_delete)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        deleteVariable(variable);
+                    }
+                })
+                .negativeText(R.string.dialog_cancel)
+                .show();
+    }
+
+    private void deleteVariable(Variable variable) {
+        showSnackbar(String.format(getText(R.string.variable_deleted).toString(), variable.getKey()));
+        controller.deleteVariable(variable);
     }
 
 }

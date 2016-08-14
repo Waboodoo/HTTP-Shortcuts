@@ -197,6 +197,16 @@ public class Controller implements Destroyable {
         });
     }
 
+    public void deleteVariable(final Variable variable) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                variable.getOptions().deleteAllFromRealm();
+                variable.deleteFromRealm();
+            }
+        });
+    }
+
     public RealmResults<PendingExecution> getShortcutsPendingExecution() {
         return realm
                 .where(PendingExecution.class)
@@ -242,7 +252,8 @@ public class Controller implements Destroyable {
     }
 
     public Variable persist(final Variable variable) {
-        if (variable.isNew()) {
+        final boolean isNew = variable.isNew();
+        if (isNew) {
             variable.setId(generateId(Variable.class));
         }
 
@@ -250,7 +261,7 @@ public class Controller implements Destroyable {
             @Override
             public void execute(Realm realm) {
                 Variable newVariable = realm.copyToRealmOrUpdate(variable);
-                if (variable.isNew()) {
+                if (isNew) {
                     getVariables().add(newVariable);
                 }
             }

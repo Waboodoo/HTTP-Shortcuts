@@ -6,6 +6,7 @@ import ch.rmy.android.http_shortcuts.R;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
 
 public class Variable extends RealmObject implements HasId {
 
@@ -32,17 +33,26 @@ public class Variable extends RealmObject implements HasId {
     @PrimaryKey
     private long id;
 
+    @Required
     private String key;
+    @Required
     private String type;
 
     private String value;
     private RealmList<Option> options;
+
+    private boolean urlEncode;
+    private boolean jsonEncode;
+
+    @Required
+    private String title;
 
     public static Variable createNew() {
         Variable variable = new Variable();
         variable.setKey("");
         variable.setType(TYPE_CONSTANT);
         variable.setValue("");
+        variable.setTitle("");
         return variable;
     }
 
@@ -90,6 +100,30 @@ public class Variable extends RealmObject implements HasId {
 
     public void setOptions(RealmList<Option> options) {
         this.options = options;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public boolean isUrlEncode() {
+        return urlEncode;
+    }
+
+    public void setUrlEncode(boolean urlEncode) {
+        this.urlEncode = urlEncode;
+    }
+
+    public boolean isJsonEncode() {
+        return jsonEncode;
+    }
+
+    public void setJsonEncode(boolean jsonEncode) {
+        this.jsonEncode = jsonEncode;
     }
 
     public static String[] getTypeOptions(Context context) {

@@ -147,4 +147,6 @@
     <string name="variable_type_select">Select</string>
     <string name="variable_type_toggle">Toggle</string>
     <string name="warning_invalid_variable_name">Variable names may only contain letters and digits.</string>
+    <string name="confirm_delete_variable_message">Delete this variable?</string>
+    <string name="variable_deleted">%1$s deleted.</string>
 </resources>
