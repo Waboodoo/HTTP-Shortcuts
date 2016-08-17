@@ -22,13 +22,22 @@ public class ExecuteActivity extends Activity {
 
         long shortcutId = getShortcutId(getIntent());
         Executor executor = new Executor(this);
-        executor.execute(shortcutId).always(new AlwaysCallback<Void, Void>() {
-            @Override
-            public void onAlways(Promise.State state, Void resolved, Void rejected) {
-                finish();
-                overridePendingTransition(0, 0);
-            }
-        });
+        Promise<Void, Void, Void> promise = executor.execute(shortcutId);
+        if (promise.isPending()) {
+            promise.always(new AlwaysCallback<Void, Void>() {
+                @Override
+                public void onAlways(Promise.State state, Void resolved, Void rejected) {
+                    finishWithoutAnimation();
+                }
+            });
+        } else {
+            finishWithoutAnimation();
+        }
+    }
+
+    private void finishWithoutAnimation() {
+        finish();
+        overridePendingTransition(0, 0);
     }
 
     private static long getShortcutId(Intent intent) {
