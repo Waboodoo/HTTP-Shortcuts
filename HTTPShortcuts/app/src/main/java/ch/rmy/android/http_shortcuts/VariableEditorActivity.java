@@ -4,6 +4,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,9 +18,13 @@ import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Variable;
 import ch.rmy.android.http_shortcuts.utils.ArrayUtil;
 import ch.rmy.android.http_shortcuts.utils.GsonUtil;
+import ch.rmy.android.http_shortcuts.utils.OnItemChosenListener;
 import ch.rmy.android.http_shortcuts.utils.SimpleTextWatcher;
 import ch.rmy.android.http_shortcuts.utils.ViewUtil;
 import ch.rmy.android.http_shortcuts.variables.Variables;
+import ch.rmy.android.http_shortcuts.variables.types.BaseVariableType;
+import ch.rmy.android.http_shortcuts.variables.types.TypeFactory;
+import ch.rmy.android.http_shortcuts.variables.types.VariableEditorFragment;
 
 public class VariableEditorActivity extends BaseActivity {
 
@@ -28,8 +33,8 @@ public class VariableEditorActivity extends BaseActivity {
 
     @Bind(R.id.input_variable_type)
     LabelledSpinner typeSpinner;
-    @Bind(R.id.input_variable_name)
-    EditText nameView;
+    @Bind(R.id.input_variable_key)
+    EditText keyView;
     @Bind(R.id.input_variable_title)
     EditText titleView;
     @Bind(R.id.input_url_encode)
@@ -40,6 +45,8 @@ public class VariableEditorActivity extends BaseActivity {
     private Controller controller;
     private Variable oldVariable;
     private Variable variable;
+
+    private VariableEditorFragment fragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,21 +68,22 @@ public class VariableEditorActivity extends BaseActivity {
         oldVariable = variableId == 0 ? Variable.createNew() : controller.getDetachedVariableById(variableId);
 
         initViews();
+        initTypeSelector();
     }
 
     private void initViews() {
-        nameView.setText(variable.getKey());
+        keyView.setText(variable.getKey());
         titleView.setText(variable.getTitle());
-        final ColorStateList defaultColor = nameView.getTextColors();
-        nameView.addTextChangedListener(new SimpleTextWatcher() {
+        final ColorStateList defaultColor = keyView.getTextColors();
+        keyView.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (Variables.isValidVariableName(s.toString())) {
-                    nameView.setTextColor(defaultColor);
-                    nameView.setError(null);
+                    keyView.setTextColor(defaultColor);
+                    keyView.setError(null);
                 } else {
-                    nameView.setTextColor(Color.RED);
-                    nameView.setError(s.length() == 0 ? null : getString(R.string.warning_invalid_variable_name));
+                    keyView.setTextColor(Color.RED);
+                    keyView.setError(s.length() == 0 ? null : getString(R.string.warning_invalid_variable_key));
                 }
             }
         });
@@ -88,6 +96,37 @@ public class VariableEditorActivity extends BaseActivity {
         jsonEncode.setChecked(variable.isJsonEncode());
 
         setTitle(variable.isNew() ? R.string.create_variable : R.string.edit_variable);
+
+        updateTypeEditor();
+    }
+
+    private void initTypeSelector() {
+        typeSpinner.setOnItemChosenListener(new OnItemChosenListener() {
+            @Override
+            public void onSelectionChanged() {
+                updateTypeEditor();
+            }
+        });
+    }
+
+    private void updateTypeEditor() {
+        compileVariable();
+        BaseVariableType variableType = TypeFactory.getType(getSelectedType());
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragment = variableType.getEditorFragment(fragmentManager);
+
+        fragmentManager
+                .beginTransaction()
+                .replace(R.id.variable_type_fragment_container, fragment, variableType.getTag())
+                .commit();
+    }
+
+    public void onFragmentStarted() {
+        fragment.updateViews(variable);
+    }
+
+    private String getSelectedType() {
+        return Variable.TYPE_OPTIONS[typeSpinner.getSpinner().getSelectedItemPosition()];
     }
 
     @Override
@@ -132,10 +171,14 @@ public class VariableEditorActivity extends BaseActivity {
 
     private void compileVariable() {
         variable.setTitle(titleView.getText().toString().trim());
-        variable.setKey(nameView.getText().toString().trim());
+        variable.setKey(keyView.getText().toString().trim());
         variable.setType(Variable.TYPE_OPTIONS[typeSpinner.getSpinner().getSelectedItemPosition()]);
         variable.setUrlEncode(urlEncode.isChecked());
         variable.setJsonEncode(jsonEncode.isChecked());
+
+        if (fragment != null) {
+            fragment.compileIntoVariable(variable);
+        }
     }
 
     private boolean validate() {

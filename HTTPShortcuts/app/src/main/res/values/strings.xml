@@ -140,14 +140,14 @@
     <string name="edit_variable">Edit variable</string>
     <string name="create_variable">Create variable</string>
     <string name="label_variable_type">Type</string>
-    <string name="label_variable_name">Name</string>
-    <string name="label_variable_title">Title</string>
+    <string name="label_variable_key">Key</string>
+    <string name="label_variable_title">Title (optional)</string>
     <string name="variable_type_constant">Constant</string>
     <string name="variable_type_text">Text</string>
     <string name="variable_type_number">Number</string>
     <string name="variable_type_select">Select</string>
     <string name="variable_type_toggle">Toggle</string>
-    <string name="warning_invalid_variable_name">Variable names may only contain letters and digits.</string>
+    <string name="warning_invalid_variable_key">Variable keys may only contain letters and digits.</string>
     <string name="confirm_delete_variable_message">Delete this variable?</string>
     <string name="variable_deleted">%1$s deleted.</string>
     <string name="label_url_encode">URL encode</string>

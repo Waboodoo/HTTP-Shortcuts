@@ -33,10 +33,10 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/input_variable_name"
+                    android:id="@+id/input_variable_key"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/label_variable_name"
+                    android:hint="@string/label_variable_key"
                     android:maxLength="20"
                     android:singleLine="true">
 
@@ -63,6 +63,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 ls:labelText="@string/label_variable_type"/>
+
+            <FrameLayout
+                android:id="@+id/variable_type_fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
             <TextView
                 style="@style/SubHeader"

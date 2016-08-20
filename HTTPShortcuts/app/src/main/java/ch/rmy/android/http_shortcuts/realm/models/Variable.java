@@ -18,7 +18,8 @@ public class Variable extends RealmObject implements HasId {
 
     public static final String[] TYPE_OPTIONS = {
             TYPE_CONSTANT,
-            TYPE_TEXT, TYPE_NUMBER,
+            TYPE_TEXT,
+            TYPE_NUMBER,
             TYPE_SELECT,
             TYPE_TOGGLE
     };
