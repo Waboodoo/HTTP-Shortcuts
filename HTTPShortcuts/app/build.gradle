@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "ch.rmy.android.http_shortcuts"
@@ -23,7 +23,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'io.realm:realm-gradle-plugin:1.1.0'
+        classpath 'io.realm:realm-gradle-plugin:1.1.1'
     }
 }
 
