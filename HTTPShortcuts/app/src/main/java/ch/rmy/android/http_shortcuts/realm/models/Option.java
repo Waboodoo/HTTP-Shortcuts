@@ -27,4 +27,22 @@ public class Option extends RealmObject implements KeyValuePair {
     public void setValue(String value) {
         this.value = value;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Option option = (Option) o;
+
+        if (!getKey().equals(option.getKey())) return false;
+        return getValue().equals(option.getValue());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getKey().hashCode();
+        result = 31 * result + getValue().hashCode();
+        return result;
+    }
 }

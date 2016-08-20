@@ -54,6 +54,7 @@ public class Variable extends RealmObject implements HasId {
         variable.setType(TYPE_CONSTANT);
         variable.setValue("");
         variable.setTitle("");
+        variable.setOptions(new RealmList<Option>());
         return variable;
     }
 
@@ -135,4 +136,31 @@ public class Variable extends RealmObject implements HasId {
         return typeStrings;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Variable variable = (Variable) o;
+
+        if (isUrlEncode() != variable.isUrlEncode()) return false;
+        if (isJsonEncode() != variable.isJsonEncode()) return false;
+        if (!getKey().equals(variable.getKey())) return false;
+        if (!getType().equals(variable.getType())) return false;
+        if (!getValue().equals(variable.getValue())) return false;
+        if (!getOptions().equals(variable.getOptions())) return false;
+        return getTitle().equals(variable.getTitle());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getKey().hashCode();
+        result = 31 * result + getType().hashCode();
+        result = 31 * result + getValue().hashCode();
+        result = 31 * result + getOptions().hashCode();
+        result = 31 * result + (isUrlEncode() ? 1 : 0);
+        result = 31 * result + (isJsonEncode() ? 1 : 0);
+        result = 31 * result + getTitle().hashCode();
+        return result;
+    }
 }

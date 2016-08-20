@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.view.Menu;
@@ -11,6 +12,8 @@ import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.satsuware.usefulviews.LabelledSpinner;
 
 import butterknife.Bind;
@@ -157,8 +160,26 @@ public class VariableEditorActivity extends BaseActivity {
     }
 
     private void confirmClose() {
-        //TODO: Check for changes and prompt
-        finish();
+        compileVariable();
+        if (hasChanges()) {
+            (new MaterialDialog.Builder(this))
+                    .content(R.string.confirm_discard_changes_message)
+                    .positiveText(R.string.dialog_discard)
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            finish();
+                        }
+                    })
+                    .negativeText(R.string.dialog_cancel)
+                    .show();
+        } else {
+            finish();
+        }
+    }
+
+    private boolean hasChanges() {
+        return !oldVariable.equals(variable);
     }
 
     private void trySave() {
