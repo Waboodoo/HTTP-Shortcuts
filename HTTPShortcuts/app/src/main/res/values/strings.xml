@@ -28,6 +28,7 @@
     <string name="action_move_down">Move down</string>
     <string name="action_move_to_category">Move to category…</string>
     <string name="no_shortcuts">No shortcuts yet</string>
+    <string name="no_variables">No variables yet</string>
     <string name="confirm_delete_shortcut_message">Delete this shortcut?</string>
     <string name="confirm_discard_changes_message">You have unsaved changes. Discard changes?</string>
     <string name="dialog_discard">Discard</string>

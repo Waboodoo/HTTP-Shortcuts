@@ -30,6 +30,11 @@ public class VariableAdapter extends BaseAdapter<Base, Variable> {
         return new VariableViewHolder(parentView);
     }
 
+    @Override
+    protected int getEmptyMarkerStringResource() {
+        return R.string.no_variables;
+    }
+
     public class VariableViewHolder extends BaseViewHolder<Variable> {
 
         @Bind(R.id.name)
