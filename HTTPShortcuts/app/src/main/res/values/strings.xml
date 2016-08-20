@@ -154,4 +154,6 @@
     <string name="label_url_encode">URL encode</string>
     <string name="label_json_encode">JSON encode</string>
     <string name="section_basic_variable_settings">Basic settings</string>
+    <string name="validation_key_non_empty">Variable key must not be empty.</string>
+    <string name="validation_key_already_exists">Another variable with this key already exists.</string>
 </resources>

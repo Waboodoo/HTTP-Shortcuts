@@ -68,6 +68,10 @@ public class Controller implements Destroyable {
         return realm.where(Variable.class).equalTo(FIELD_ID, id).findFirst();
     }
 
+    public Variable getVariableByKey(String key) {
+        return realm.where(Variable.class).equalTo(Variable.FIELD_KEY, key).findFirst();
+    }
+
     public Shortcut getDetachedShortcutById(long id) {
         Shortcut shortcut = getShortcutById(id);
         if (shortcut == null) {

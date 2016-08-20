@@ -10,6 +10,8 @@ import io.realm.annotations.Required;
 
 public class Variable extends RealmObject implements HasId {
 
+    public static final String FIELD_KEY = "key";
+
     public static final String TYPE_CONSTANT = "constant";
     public static final String TYPE_TEXT = "text";
     public static final String TYPE_NUMBER = "number";

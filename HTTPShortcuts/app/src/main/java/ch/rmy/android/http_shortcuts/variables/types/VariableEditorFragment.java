@@ -38,4 +38,8 @@ public class VariableEditorFragment extends Fragment {
 
     }
 
+    public boolean validate() {
+        return true;
+    }
+
 }

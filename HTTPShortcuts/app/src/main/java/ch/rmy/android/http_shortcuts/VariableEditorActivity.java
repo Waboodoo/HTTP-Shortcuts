@@ -203,8 +203,20 @@ public class VariableEditorActivity extends BaseActivity {
     }
 
     private boolean validate() {
-        //TODO: Validate inputs and display error messages
-        //TODO: Check if the variable key is unique
+        if (variable.getKey().isEmpty()) {
+            keyView.setError(getString(R.string.validation_key_non_empty));
+            ViewUtil.focus(keyView);
+            return false;
+        }
+        Variable otherVariable = controller.getVariableByKey(variable.getKey());
+        if (otherVariable != null && otherVariable.getId() != variable.getId()) {
+            keyView.setError(getString(R.string.validation_key_already_exists));
+            ViewUtil.focus(keyView);
+            return false;
+        }
+        if (fragment != null && !fragment.validate()) {
+            return false;
+        }
         return true;
     }
 
