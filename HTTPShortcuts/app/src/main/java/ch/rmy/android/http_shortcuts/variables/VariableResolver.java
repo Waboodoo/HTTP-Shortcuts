@@ -70,7 +70,7 @@ public class VariableResolver {
                 deferredValue.done(new DoneCallback<String>() {
                     @Override
                     public void onDone(String result) {
-                        builder.add(variable.getKey(), result);
+                        builder.add(variable, result);
 
                         if (index + 1 >= waitingDialogs.size()) {
                             deferred.resolve(builder.build());
@@ -93,7 +93,7 @@ public class VariableResolver {
 
             if (variableType instanceof SyncVariableType) {
                 final String value = ((SyncVariableType) variableType).resolveValue(controller, variable);
-                builder.add(variable.getKey(), value);
+                builder.add(variable, value);
             }
         }
 

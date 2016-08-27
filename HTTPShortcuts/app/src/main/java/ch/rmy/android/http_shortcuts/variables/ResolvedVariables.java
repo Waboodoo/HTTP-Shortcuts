@@ -1,15 +1,17 @@
 package ch.rmy.android.http_shortcuts.variables;
 
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
+
+import ch.rmy.android.http_shortcuts.realm.models.Variable;
 
 public class ResolvedVariables {
 
     private final Map<String, String> variableValues = new HashMap<>();
-
-    protected ResolvedVariables() {
-
-    }
 
     public boolean hasValue(String variableName) {
         return variableValues.containsKey(variableName);
@@ -27,8 +29,19 @@ public class ResolvedVariables {
             resolvedVariables = new ResolvedVariables();
         }
 
-        protected Builder add(String key, String value) {
-            resolvedVariables.variableValues.put(key, value);
+        protected Builder add(Variable variable, String value) {
+            if (variable.isJsonEncode()) {
+                value = JSONObject.quote(value);
+                value = value.substring(1, value.length()-1);
+            }
+            if (variable.isUrlEncode()) {
+                try {
+                    value = URLEncoder.encode(value, "utf-8");
+                } catch (UnsupportedEncodingException e) {
+                    // what kind of stupid system does not support utf-8?!
+                }
+            }
+            resolvedVariables.variableValues.put(variable.getKey(), value);
             return this;
         }
 
