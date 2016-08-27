@@ -15,6 +15,7 @@ public class Variable extends RealmObject implements HasId {
     public static final String TYPE_CONSTANT = "constant";
     public static final String TYPE_TEXT = "text";
     public static final String TYPE_NUMBER = "number";
+    public static final String TYPE_PASSWORD = "password";
     public static final String TYPE_SELECT = "select";
     public static final String TYPE_TOGGLE = "toggle";
 
@@ -22,6 +23,7 @@ public class Variable extends RealmObject implements HasId {
             TYPE_CONSTANT,
             TYPE_TEXT,
             TYPE_NUMBER,
+            TYPE_PASSWORD,
             TYPE_SELECT,
             TYPE_TOGGLE
     };
@@ -29,6 +31,7 @@ public class Variable extends RealmObject implements HasId {
             R.string.variable_type_constant,
             R.string.variable_type_text,
             R.string.variable_type_number,
+            R.string.variable_type_password,
             R.string.variable_type_select,
             R.string.variable_type_toggle
     };

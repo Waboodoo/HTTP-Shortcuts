@@ -12,6 +12,12 @@ public class TypeFactory {
                 return new TextType();
             case Variable.TYPE_NUMBER:
                 return new NumberType();
+            case Variable.TYPE_PASSWORD:
+                return new PasswordType();
+            case Variable.TYPE_TOGGLE:
+                return new ToggleType();
+            case Variable.TYPE_SELECT:
+                return new SelectType();
         }
         throw new IllegalArgumentException("Unknown type: " + type);
     }

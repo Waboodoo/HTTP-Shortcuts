@@ -28,7 +28,7 @@ public class DatabaseMigration implements RealmMigration {
             }
             case 2: { // 1.11.0
                 RealmObjectSchema optionSchema = schema.create("Option")
-                        .addField("key", String.class)
+                        .addField("label", String.class)
                         .addField("value", String.class);
                 RealmObjectSchema variableSchema = schema.create("Variable")
                         .addField("id", long.class).addPrimaryKey("id")

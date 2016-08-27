@@ -146,6 +146,7 @@
     <string name="variable_type_constant">Constant</string>
     <string name="variable_type_text">Text</string>
     <string name="variable_type_number">Number</string>
+    <string name="variable_type_password">Password</string>
     <string name="variable_type_select">Select</string>
     <string name="variable_type_toggle">Toggle</string>
     <string name="warning_invalid_variable_key">Variable keys may only contain letters and digits.</string>
