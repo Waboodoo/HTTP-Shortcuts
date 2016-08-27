@@ -1,13 +1,20 @@
 package ch.rmy.android.http_shortcuts.variables;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.text.TextUtils;
+
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import org.jdeferred.AlwaysCallback;
 import org.jdeferred.Deferred;
+import org.jdeferred.DoneCallback;
+import org.jdeferred.FailCallback;
 import org.jdeferred.Promise;
 import org.jdeferred.impl.DeferredObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,38 +38,69 @@ public class VariableResolver {
     }
 
     public Promise<ResolvedVariables, Void, Void> resolve(Shortcut shortcut, List<Variable> variables) {
-        final Deferred<ResolvedVariables, Void, Void> deferred = new DeferredObject<>();
-        final Controller controller = new Controller(context);
-
         Set<String> requiredVariableNames = extractVariableNames(shortcut);
-        final List<Variable> variablesToResolve = new ArrayList<>();
+        List<Variable> variablesToResolve = filterVariablesByName(variables, requiredVariableNames);
+        return resolveVariables(variablesToResolve);
+    }
 
+    private List<Variable> filterVariablesByName(List<Variable> variables, Collection<String> variableNames) {
+        final List<Variable> filteredVariables = new ArrayList<>();
         for (Variable variable : variables) {
-            if (requiredVariableNames.contains(variable.getKey())) {
-                variablesToResolve.add(variable);
+            if (variableNames.contains(variable.getKey())) {
+                filteredVariables.add(variable);
             }
         }
+        return filteredVariables;
+    }
 
+    private Promise<ResolvedVariables, Void, Void> resolveVariables(List<Variable> variablesToResolve) {
+        final Controller controller = new Controller(context);
+        final Deferred<ResolvedVariables, Void, Void> deferred = new DeferredObject<>();
         final ResolvedVariables.Builder builder = new ResolvedVariables.Builder();
 
-        boolean async = false;
-        for (Variable variable : variablesToResolve) {
+        final List<MaterialDialog.Builder> waitingDialogs = new ArrayList<>();
+        int i = 0;
+        for (final Variable variable : variablesToResolve) {
             BaseVariableType variableType = TypeFactory.getType(variable.getType());
 
             if (variableType instanceof AsyncVariableType) {
-                async = true;
-                //TODO
+                final int index = i++;
+
+                final Deferred<String, Void, Void> deferredValue = new DeferredObject<>();
+                deferredValue.done(new DoneCallback<String>() {
+                    @Override
+                    public void onDone(String result) {
+                        builder.add(variable.getKey(), result);
+
+                        if (index + 1 >= waitingDialogs.size()) {
+                            deferred.resolve(builder.build());
+                        } else {
+                            waitingDialogs.get(index + 1).show();
+                        }
+                    }
+                }).fail(new FailCallback<Void>() {
+                    @Override
+                    public void onFail(Void result) {
+                        deferred.reject(null);
+                    }
+                });
+
+                MaterialDialog.Builder dialogBuilder = getDialogBuilder(variable, deferredValue);
+                ((AsyncVariableType) variableType).setupDialog(controller, variable, dialogBuilder, deferredValue);
+
+                waitingDialogs.add(dialogBuilder);
             }
+
             if (variableType instanceof SyncVariableType) {
                 final String value = ((SyncVariableType) variableType).resolveValue(controller, variable);
                 builder.add(variable.getKey(), value);
             }
         }
 
-        if (async) {
-            // TODO: Show UI
-        } else {
+        if (waitingDialogs.isEmpty()) {
             deferred.resolve(builder.build());
+        } else {
+            waitingDialogs.get(0).show();
         }
 
         return deferred.promise().always(new AlwaysCallback<ResolvedVariables, Void>() {
@@ -71,6 +109,22 @@ public class VariableResolver {
                 controller.destroy();
             }
         });
+    }
+
+    private MaterialDialog.Builder getDialogBuilder(Variable variable, final Deferred<String, Void, Void> deferred) {
+        MaterialDialog.Builder dialogBuilder = new MaterialDialog.Builder(context);
+        if (!TextUtils.isEmpty(variable.getTitle())) {
+            dialogBuilder.title(variable.getTitle());
+        }
+        dialogBuilder.dismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                if (deferred.isPending()) {
+                    deferred.reject(null);
+                }
+            }
+        });
+        return dialogBuilder;
     }
 
     private Set<String> extractVariableNames(Shortcut shortcut) {
