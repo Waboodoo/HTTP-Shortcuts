@@ -75,7 +75,7 @@ public class AuthRequest extends StringRequest {
     }
 
     public void addHeader(String key, String value) {
-        if (key.equals("Content-Type")) {
+        if (key.equalsIgnoreCase("Content-Type")) {
             contentType = value;
         } else {
             headers.put(key, value);
