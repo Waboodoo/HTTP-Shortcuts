@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
@@ -25,6 +26,7 @@ import ch.rmy.android.http_shortcuts.utils.OnItemChosenListener;
 import ch.rmy.android.http_shortcuts.utils.SimpleTextWatcher;
 import ch.rmy.android.http_shortcuts.utils.ViewUtil;
 import ch.rmy.android.http_shortcuts.variables.Variables;
+import ch.rmy.android.http_shortcuts.variables.types.AsyncVariableType;
 import ch.rmy.android.http_shortcuts.variables.types.BaseVariableType;
 import ch.rmy.android.http_shortcuts.variables.types.TypeFactory;
 import ch.rmy.android.http_shortcuts.variables.types.VariableEditorFragment;
@@ -117,6 +119,8 @@ public class VariableEditorActivity extends BaseActivity {
         BaseVariableType variableType = TypeFactory.getType(getSelectedType());
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragment = variableType.getEditorFragment(fragmentManager);
+
+        titleView.setVisibility(variableType instanceof AsyncVariableType ? View.VISIBLE : View.GONE);
 
         fragmentManager
                 .beginTransaction()

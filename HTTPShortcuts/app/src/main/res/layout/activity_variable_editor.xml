@@ -43,6 +43,12 @@
                 </EditText>
             </android.support.design.widget.TextInputLayout>
 
+            <com.satsuware.usefulviews.LabelledSpinner
+                android:id="@+id/input_variable_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                ls:labelText="@string/label_variable_type"/>
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -57,12 +63,6 @@
 
                 </EditText>
             </android.support.design.widget.TextInputLayout>
-
-            <com.satsuware.usefulviews.LabelledSpinner
-                android:id="@+id/input_variable_type"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                ls:labelText="@string/label_variable_type"/>
 
             <FrameLayout
                 android:id="@+id/variable_type_fragment_container"
