@@ -25,4 +25,9 @@ public class ToggleType extends BaseVariableType implements SyncVariableType {
         return variable.getOptions().get(index).getValue();
     }
 
+    @Override
+    protected VariableEditorFragment createEditorFragment() {
+        return new ToggleEditorFragment();
+    }
+
 }

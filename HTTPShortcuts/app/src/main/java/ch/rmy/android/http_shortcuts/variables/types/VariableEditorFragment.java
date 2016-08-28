@@ -21,7 +21,12 @@ public class VariableEditorFragment extends Fragment {
     public final View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View view = inflater.inflate(getLayoutResource(), parent, false);
         ButterKnife.bind(this, view);
+        setupViews(view);
         return view;
+    }
+
+    protected void setupViews(View parent) {
+
     }
 
     @Override
