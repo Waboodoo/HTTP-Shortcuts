@@ -12,7 +12,9 @@ A simple Android app that allows you to create shortcuts that can be placed on y
 - Display response as a toast, or run silently
 - Grouping into categories
 
-Find the app on the [Play Store](https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts)!
+<a href="https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts">
+<img alt="Get it on Google Play" src="http://steverichey.github.io/google-play-badge-svg/img/en_get.svg" />
+</a>
 
 #Screenshots
 
