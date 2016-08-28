@@ -421,7 +421,11 @@ public class EditorActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
 
-        if (resultCode == RESULT_OK && requestCode == SELECT_ICON) {
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+
+        if (requestCode == SELECT_ICON) {
             //FIXME: Generate better file names
             String iconName = Integer.toHexString((int) Math.floor(Math.random() * 1000000)) + ".png";
 
@@ -461,10 +465,8 @@ public class EditorActivity extends BaseActivity {
             String ipackageName = intent.getData().getAuthority();
             int id = intent.getIntExtra(IpackKeys.Extras.ICON_ID, -1);
             Uri uri = Uri.parse("android.resource://" + ipackageName + "/" + id);
-            iconView.setImageURI(uri);
-            iconView.setBackgroundColor(0);
-
             shortcut.setIconName(uri.toString());
+            updateIcon();
         }
     }
 

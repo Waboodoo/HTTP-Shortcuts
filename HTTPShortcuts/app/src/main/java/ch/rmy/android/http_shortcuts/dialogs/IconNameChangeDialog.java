@@ -27,6 +27,8 @@ public class IconNameChangeDialog {
                 .positiveText(R.string.dialog_ok)
                 .onPositive(callback)
                 .customView(R.layout.dialog_icon_name_changes, true)
+                .cancelable(false)
+                .canceledOnTouchOutside(false)
                 .build();
 
         CheckBox checkBox = (CheckBox) dialog.findViewById(R.id.checkbox_do_not_show_again);
