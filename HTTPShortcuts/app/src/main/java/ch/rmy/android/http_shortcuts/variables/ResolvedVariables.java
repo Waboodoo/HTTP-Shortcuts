@@ -4,9 +4,12 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import ch.rmy.android.http_shortcuts.realm.models.ResolvedVariable;
 import ch.rmy.android.http_shortcuts.realm.models.Variable;
 
 public class ResolvedVariables {
@@ -21,6 +24,14 @@ public class ResolvedVariables {
         return variableValues.get(variableName);
     }
 
+    public List<ResolvedVariable> toList() {
+        List<ResolvedVariable> resolvedVariables = new ArrayList<>();
+        for (Map.Entry<String, String> entries : variableValues.entrySet()) {
+            resolvedVariables.add(ResolvedVariable.createNew(entries.getKey(), entries.getValue()));
+        }
+        return resolvedVariables;
+    }
+
     public static class Builder {
 
         private final ResolvedVariables resolvedVariables;
@@ -32,7 +43,7 @@ public class ResolvedVariables {
         protected Builder add(Variable variable, String value) {
             if (variable.isJsonEncode()) {
                 value = JSONObject.quote(value);
-                value = value.substring(1, value.length()-1);
+                value = value.substring(1, value.length() - 1);
             }
             if (variable.isUrlEncode()) {
                 try {

@@ -27,6 +27,9 @@ public class DatabaseMigration implements RealmMigration {
                 break;
             }
             case 2: { // 1.11.0
+                RealmObjectSchema resolvedVariableSchema = schema.create("ResolvedVariable")
+                        .addField("key", String.class)
+                        .addField("value", String.class);
                 RealmObjectSchema optionSchema = schema.create("Option")
                         .addField("label", String.class)
                         .addField("value", String.class);
@@ -41,6 +44,9 @@ public class DatabaseMigration implements RealmMigration {
                         .addRealmListField("options", optionSchema);
                 schema.get("Base")
                         .addRealmListField("variables", variableSchema);
+                schema.get("PendingExecution")
+                        .addRealmListField("resolvedVariables", resolvedVariableSchema);
+
                 DynamicRealmObject base = realm.where("Base").findFirst();
                 if (base != null) {
                     base.setList("variables", new RealmList<Base>());

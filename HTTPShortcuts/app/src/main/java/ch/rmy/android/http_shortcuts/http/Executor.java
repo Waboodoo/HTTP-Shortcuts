@@ -13,7 +13,9 @@ import org.jdeferred.FailCallback;
 import org.jdeferred.Promise;
 import org.jdeferred.impl.DeferredObject;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ch.rmy.android.http_shortcuts.R;
 import ch.rmy.android.http_shortcuts.realm.Controller;
@@ -33,6 +35,10 @@ public class Executor {
     }
 
     public Promise<Void, Void, Void> execute(final long shortcutId) {
+        return execute(shortcutId, new HashMap<String, String>());
+    }
+
+    public Promise<Void, Void, Void> execute(final long shortcutId, Map<String, String> variableValues) {
         final Controller controller = new Controller(context);
 
         final Shortcut shortcut = controller.getShortcutById(shortcutId);
@@ -47,10 +53,10 @@ public class Executor {
 
         List<Variable> variables = controller.getVariables();
         return new VariableResolver(context)
-                .resolve(shortcut, variables)
+                .resolve(shortcut, variables, variableValues)
                 .done(new DoneCallback<ResolvedVariables>() {
                     @Override
-                    public void onDone(ResolvedVariables resolvedVariables) {
+                    public void onDone(final ResolvedVariables resolvedVariables) {
                         HttpRequester.executeShortcut(context, shortcut, resolvedVariables).done(new DoneCallback<String>() {
                             @Override
                             public void onDone(String response) {
@@ -60,7 +66,7 @@ public class Executor {
                             @Override
                             public void onFail(VolleyError error) {
                                 if (Shortcut.RETRY_POLICY_WAIT_FOR_INTERNET.equals(shortcut.getRetryPolicy()) && error.networkResponse == null) {
-                                    controller.createPendingExecution(shortcut);
+                                    controller.createPendingExecution(shortcut, resolvedVariables.toList());
                                     if (!Shortcut.FEEDBACK_NONE.equals(shortcut.getFeedback())) {
                                         Toast.makeText(context, String.format(context.getText(R.string.execution_delayed).toString(), shortcut.getSafeName(context)), Toast.LENGTH_LONG).show();
                                     }

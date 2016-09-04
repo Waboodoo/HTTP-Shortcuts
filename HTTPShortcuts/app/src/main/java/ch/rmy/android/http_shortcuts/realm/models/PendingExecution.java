@@ -1,7 +1,9 @@
 package ch.rmy.android.http_shortcuts.realm.models;
 
 import java.util.Date;
+import java.util.List;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.Index;
 import io.realm.annotations.PrimaryKey;
@@ -16,8 +18,15 @@ public class PendingExecution extends RealmObject {
     @Index
     private Date enqueuedAt;
 
-    public static PendingExecution createNew(Shortcut shortcut) {
+    private RealmList<ResolvedVariable> resolvedVariables;
+
+    public static PendingExecution createNew(Shortcut shortcut, List<ResolvedVariable> resolvedVariables) {
         PendingExecution pendingExecution = new PendingExecution();
+
+        RealmList<ResolvedVariable> resolvedVariableList = new RealmList<>();
+        resolvedVariableList.addAll(resolvedVariables);
+
+        pendingExecution.setResolvedVariables(resolvedVariableList);
         pendingExecution.setShortcutId(shortcut.getId());
         pendingExecution.setEnqueuedAt(new Date());
         return pendingExecution;
@@ -37,6 +46,14 @@ public class PendingExecution extends RealmObject {
 
     public void setEnqueuedAt(Date enqueuedAt) {
         this.enqueuedAt = enqueuedAt;
+    }
+
+    public RealmList<ResolvedVariable> getResolvedVariables() {
+        return resolvedVariables;
+    }
+
+    public void setResolvedVariables(RealmList<ResolvedVariable> resolvedVariables) {
+        this.resolvedVariables = resolvedVariables;
     }
 
 }

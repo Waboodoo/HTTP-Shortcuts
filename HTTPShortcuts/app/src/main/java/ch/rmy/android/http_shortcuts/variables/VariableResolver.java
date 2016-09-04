@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.variables;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import ch.rmy.android.http_shortcuts.realm.Controller;
@@ -38,9 +40,13 @@ public class VariableResolver {
     }
 
     public Promise<ResolvedVariables, Void, Void> resolve(Shortcut shortcut, List<Variable> variables) {
+        return resolve(shortcut, variables, null);
+    }
+
+    public Promise<ResolvedVariables, Void, Void> resolve(Shortcut shortcut, List<Variable> variables, @Nullable Map<String, String> preResolvedValues) {
         Set<String> requiredVariableNames = extractVariableNames(shortcut);
         List<Variable> variablesToResolve = filterVariablesByName(variables, requiredVariableNames);
-        return resolveVariables(variablesToResolve);
+        return resolveVariables(variablesToResolve, preResolvedValues);
     }
 
     private List<Variable> filterVariablesByName(List<Variable> variables, Collection<String> variableNames) {
@@ -53,7 +59,7 @@ public class VariableResolver {
         return filteredVariables;
     }
 
-    private Promise<ResolvedVariables, Void, Void> resolveVariables(List<Variable> variablesToResolve) {
+    private Promise<ResolvedVariables, Void, Void> resolveVariables(List<Variable> variablesToResolve, @Nullable Map<String, String> preResolvedValues) {
         final Controller controller = new Controller(context);
         final Deferred<ResolvedVariables, Void, Void> deferred = new DeferredObject<>();
         final ResolvedVariables.Builder builder = new ResolvedVariables.Builder();
@@ -61,6 +67,11 @@ public class VariableResolver {
         final List<MaterialDialog.Builder> waitingDialogs = new ArrayList<>();
         int i = 0;
         for (final Variable variable : variablesToResolve) {
+            if (preResolvedValues != null && preResolvedValues.containsKey(variable.getKey())) {
+                builder.add(variable, preResolvedValues.get(variable.getKey()));
+                continue;
+            }
+
             BaseVariableType variableType = TypeFactory.getType(variable.getType());
 
             if (variableType instanceof AsyncVariableType) {
@@ -89,9 +100,7 @@ public class VariableResolver {
                 ((AsyncVariableType) variableType).setupDialog(controller, variable, dialogBuilder, deferredValue);
 
                 waitingDialogs.add(dialogBuilder);
-            }
-
-            if (variableType instanceof SyncVariableType) {
+            } else if (variableType instanceof SyncVariableType) {
                 final String value = ((SyncVariableType) variableType).resolveValue(controller, variable);
                 builder.add(variable, value);
             }

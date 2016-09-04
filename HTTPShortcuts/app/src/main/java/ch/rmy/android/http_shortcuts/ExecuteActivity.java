@@ -8,12 +8,17 @@ import android.os.Bundle;
 import org.jdeferred.AlwaysCallback;
 import org.jdeferred.Promise;
 
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+
 import ch.rmy.android.http_shortcuts.http.Executor;
 
 public class ExecuteActivity extends Activity {
 
     public static final String ACTION_EXECUTE_SHORTCUT = "ch.rmy.android.http_shortcuts.execute";
     public static final String EXTRA_SHORTCUT_ID = "id";
+    public static final String EXTRA_VARIABLE_VALUES = "variable_values";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,8 +26,9 @@ public class ExecuteActivity extends Activity {
         overridePendingTransition(0, 0);
 
         long shortcutId = getShortcutId(getIntent());
+        Map<String, String> variableValues = getVariableValues(getIntent());
         Executor executor = new Executor(this);
-        Promise<Void, Void, Void> promise = executor.execute(shortcutId);
+        Promise<Void, Void, Void> promise = executor.execute(shortcutId, variableValues);
         if (promise.isPending()) {
             promise.always(new AlwaysCallback<Void, Void>() {
                 @Override
@@ -54,6 +60,14 @@ public class ExecuteActivity extends Activity {
             return intent.getLongExtra(EXTRA_SHORTCUT_ID, -1); // for backwards compatibility
         }
         return shortcutId;
+    }
+
+    private Map<String, String> getVariableValues(Intent intent) {
+        Serializable serializable = intent.getSerializableExtra(EXTRA_VARIABLE_VALUES);
+        if (serializable instanceof Map) {
+            return (Map<String, String>) serializable;
+        }
+        return new HashMap<>();
     }
 
 }

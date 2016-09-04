@@ -9,6 +9,7 @@ import ch.rmy.android.http_shortcuts.legacy_database.LegacyMigration;
 import ch.rmy.android.http_shortcuts.realm.models.Base;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
 import ch.rmy.android.http_shortcuts.realm.models.PendingExecution;
+import ch.rmy.android.http_shortcuts.realm.models.ResolvedVariable;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 import ch.rmy.android.http_shortcuts.realm.models.Variable;
 import ch.rmy.android.http_shortcuts.utils.Destroyable;
@@ -230,7 +231,7 @@ public class Controller implements Destroyable {
                 .findAllSorted(PendingExecution.FIELD_ENQUEUED_AT);
     }
 
-    public void createPendingExecution(final Shortcut shortcut) {
+    public void createPendingExecution(final Shortcut shortcut, final List<ResolvedVariable> resolvedVariables) {
         long existingPendingExecutions = realm
                 .where(PendingExecution.class)
                 .equalTo(PendingExecution.FIELD_SHORTCUT_ID, shortcut.getId())
@@ -239,7 +240,7 @@ public class Controller implements Destroyable {
             realm.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
-                    realm.copyToRealm(PendingExecution.createNew(shortcut));
+                    realm.copyToRealm(PendingExecution.createNew(shortcut, resolvedVariables));
                 }
             });
         }
