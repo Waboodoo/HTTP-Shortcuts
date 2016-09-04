@@ -22,7 +22,7 @@ public class SelectType extends BaseVariableType implements AsyncVariableType {
             items.add(option.getLabel());
         }
 
-        builder.items()
+        builder.items(items)
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override
                     public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
@@ -32,4 +32,10 @@ public class SelectType extends BaseVariableType implements AsyncVariableType {
                     }
                 });
     }
+
+    @Override
+    protected SelectEditorFragment createEditorFragment() {
+        return new SelectEditorFragment();
+    }
+
 }

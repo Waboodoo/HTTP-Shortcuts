@@ -160,4 +160,9 @@
     <string name="title_add_toggle_option">Add value</string>
     <string name="button_add_toggle_option">Add value</string>
     <string name="section_toggle_options">Toggle values</string>
+    <string name="title_add_select_option">Add option</string>
+    <string name="button_add_select_option">Add option</string>
+    <string name="section_select_options">Selectable Options</string>
+    <string name="label_select_label">Label</string>
+    <string name="label_select_value">Value</string>
 </resources>
