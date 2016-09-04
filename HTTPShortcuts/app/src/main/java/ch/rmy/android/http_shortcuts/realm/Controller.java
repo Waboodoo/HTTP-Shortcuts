@@ -113,6 +113,10 @@ public class Controller implements Destroyable {
                 List<Category> persistedCategories = realm.copyToRealmOrUpdate(base.getCategories());
                 oldBase.getCategories().removeAll(persistedCategories);
                 oldBase.getCategories().addAll(persistedCategories);
+
+                List<Variable> persistedVariables = realm.copyToRealmOrUpdate(base.getVariables());
+                oldBase.getVariables().removeAll(persistedVariables);
+                oldBase.getVariables().addAll(persistedVariables);
             }
         });
     }
