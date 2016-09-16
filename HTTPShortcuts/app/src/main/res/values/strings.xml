@@ -142,7 +142,7 @@
     <string name="create_variable">Create variable</string>
     <string name="label_variable_type">Type</string>
     <string name="label_variable_key">Key</string>
-    <string name="label_variable_title">Title (optional)</string>
+    <string name="label_variable_title">Dialog Title (optional)</string>
     <string name="variable_type_constant">Constant</string>
     <string name="variable_type_text">Text Input</string>
     <string name="variable_type_number">Number Input</string>
