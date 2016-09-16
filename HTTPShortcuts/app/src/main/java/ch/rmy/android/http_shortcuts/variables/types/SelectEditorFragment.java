@@ -122,8 +122,15 @@ public class SelectEditorFragment extends VariableEditorFragment {
     }
 
     @Override
-    public void compileIntoVariable(Variable variable) {
-
+    public boolean validate() {
+        if (variable.getOptions().size() < 2) {
+            new MaterialDialog.Builder(getContext())
+                    .content(R.string.error_not_enough_select_values)
+                    .positiveText(R.string.dialog_ok)
+                    .show();
+            return false;
+        }
+        return true;
     }
 
 }
