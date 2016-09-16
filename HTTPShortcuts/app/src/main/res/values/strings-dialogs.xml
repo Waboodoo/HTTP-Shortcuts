@@ -80,7 +80,7 @@
 			- Bugfixes
 		</p>
 ]]></string>
-    <string name="help_variables"><![CDATA[
+    <string name="help_variables" translatable="false"><![CDATA[
         <p>
             <b>What are variables?</b><br>
             Variables allow you to inject pieces of information dynamically into your shortcuts when executing them. A variable consists of a key and a value which is resolved at execution time, based on its type. For some variable types this means that a prompt dialog is shown that asks for a value, others can be resolved without user input.
