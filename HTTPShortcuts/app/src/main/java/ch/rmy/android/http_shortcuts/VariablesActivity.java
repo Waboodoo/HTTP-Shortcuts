@@ -6,6 +6,9 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -13,6 +16,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import butterknife.Bind;
 import ch.rmy.android.http_shortcuts.adapters.VariableAdapter;
+import ch.rmy.android.http_shortcuts.dialogs.HelpDialogBuilder;
 import ch.rmy.android.http_shortcuts.listeners.OnItemClickedListener;
 import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Variable;
@@ -113,6 +117,30 @@ public class VariablesActivity extends BaseActivity {
     private void deleteVariable(Variable variable) {
         showSnackbar(String.format(getText(R.string.variable_deleted).toString(), variable.getKey()));
         controller.deleteVariable(variable);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.variables_activity_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_show_help) {
+            showHelp();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void showHelp() {
+        destroyer.own(new HelpDialogBuilder(this)
+                .title(R.string.help_title_variables)
+                .message(R.string.help_variables)
+                .build()
+        ).show();
     }
 
 }

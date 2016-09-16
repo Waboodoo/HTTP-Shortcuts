@@ -3,7 +3,8 @@
     <string name="changelog_text" translatable="false"><![CDATA[
     	<p>
 			<b>Version 1.11.0</b><br>
-			- Added plugin support for integration with automation apps
+			- Variables: inject custom values through prompt dialogs<br>
+			- Plugin support for integration with automation apps (e.g. Tasker)
 	</p>
         <p>
 			<b>Version 1.10.1</b><br>
@@ -79,4 +80,35 @@
 			- Bugfixes
 		</p>
 ]]></string>
+    <string name="help_variables"><![CDATA[
+        <p>
+            <b>What are variables?</b><br>
+            Variables allow you to inject pieces of information dynamically into your shortcuts when executing them. A variable consists of a key and a value which is resolved at execution time, based on its type. For some variable types this means that a prompt dialog is shown that asks for a value, others can be resolved without user input.
+        </p>
+        <p>
+            <b>How do I use variables?</b><br>
+            Each variable has a key, e.g. <i>example</i>. You can then use this key as a placeholder in all your shortcuts\' url, parameters, body, authentication and header fields by surrounding it with <i>{{</i> and <i>}}</i>, e.g. <i>{{example}}</i>. It should then change color to indicate that it is recognized as a valid placeholder.</p>
+        <p>
+            When executing a shortcut that contains variable placeholders all of them are resolved according to their type.
+        </p>
+        <p>
+            <b>What are the different types of variables?</b><br>
+            There are 6 different types of variables:</p>
+        <p>
+            <u>Constant</u><br>
+            A <i>constant</i> always has the same value. There is no prompt dialog. It can be used to store a piece of information that is shared across multiple shortcut, such as an authentication token or a domain name. This way it can easily be changed.
+        </p>
+        <p>
+            <u>Toggle</u><br>
+            The <i>toggle</i> type consists of a list of values. There is no prompt dialog. Every time it is used it resolves to the next value in the list. When the last value is reached it starts again from the first.
+        </p>
+        <p>
+            <u>Selection</u><br>
+            The <i>selection</i> type consists of a list of options, each of which has a value and a label. It triggers a dialog from which one of the options can be selected.
+        </p>
+        <p>
+            <u>Text, Number and Password</u><br>
+            The <i>text</i>, <i>number</i> and <i>password</i> types trigger a prompt dialog where a value can be entered into a text field.
+        </p>
+    ]]></string>
 </resources>

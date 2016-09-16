@@ -165,4 +165,6 @@
     <string name="section_select_options">Selectable Options</string>
     <string name="label_select_label">Label</string>
     <string name="label_select_value">Value</string>
+    <string name="button_show_help">Show Help</string>
+    <string name="help_title_variables">Variables</string>
 </resources>
