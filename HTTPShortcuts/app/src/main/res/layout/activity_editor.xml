@@ -171,7 +171,7 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="@string/label_password"
-                    android:inputType="textPassword"/>
+                    android:inputType="textNoSuggestions"/>
             </android.support.design.widget.TextInputLayout>
 
             <TextView

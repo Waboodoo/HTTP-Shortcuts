@@ -38,6 +38,11 @@ public class Category extends RealmObject implements HasId {
         this.name = name;
     }
 
+    @Override
+    public boolean isNew() {
+        return id == 0;
+    }
+
     public static Category createNew(String name) {
         Category category = new Category();
         category.setId(0);

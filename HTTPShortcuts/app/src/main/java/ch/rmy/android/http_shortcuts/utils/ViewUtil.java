@@ -1,8 +1,11 @@
 package ch.rmy.android.http_shortcuts.utils;
 
 import android.os.Build;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+
+import com.satsuware.usefulviews.LabelledSpinner;
 
 public class ViewUtil {
 
@@ -17,6 +20,10 @@ public class ViewUtil {
         } else {
             view.setBackgroundDrawable(null);
         }
+    }
+
+    public static void hideErrorLabel(LabelledSpinner spinner) {
+        spinner.getErrorLabel().setVisibility(View.GONE);
     }
 
 }

@@ -1,9 +1,11 @@
 package ch.rmy.android.http_shortcuts.adapters;
 
 import android.content.Context;
+import android.support.annotation.StringRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -94,10 +96,14 @@ public abstract class BaseAdapter<T extends RealmObject, U extends RealmObject &
 
     @Override
     public final RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return viewType == TYPE_EMPTY_MARKER ? new EmptyMarkerViewHolder(parent) : createViewHolder(parent);
+        return viewType == TYPE_EMPTY_MARKER ? new EmptyMarkerViewHolder(parent, getEmptyMarkerStringResource()) : createViewHolder(parent);
     }
 
     protected abstract BaseViewHolder createViewHolder(ViewGroup parentView);
+
+    protected int getEmptyMarkerStringResource() {
+        return 0;
+    }
 
     @Override
     public final void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
@@ -106,11 +112,13 @@ public abstract class BaseAdapter<T extends RealmObject, U extends RealmObject &
         }
     }
 
-
     private class EmptyMarkerViewHolder extends RecyclerView.ViewHolder {
 
-        public EmptyMarkerViewHolder(ViewGroup parent) {
+        public EmptyMarkerViewHolder(ViewGroup parent, @StringRes int textRes) {
             super(LayoutInflater.from(context).inflate(R.layout.list_empty_item, parent, false));
+            if (textRes != 0) {
+                ((TextView) itemView.findViewById(R.id.empty_marker)).setText(textRes);
+            }
         }
     }
 

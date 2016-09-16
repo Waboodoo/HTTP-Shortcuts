@@ -30,6 +30,7 @@ import org.jdeferred.FailCallback;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
 
 import butterknife.Bind;
 import ch.rmy.android.http_shortcuts.dialogs.IconNameChangeDialog;
@@ -44,11 +45,15 @@ import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Header;
 import ch.rmy.android.http_shortcuts.realm.models.Parameter;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
+import ch.rmy.android.http_shortcuts.realm.models.Variable;
 import ch.rmy.android.http_shortcuts.utils.ArrayUtil;
 import ch.rmy.android.http_shortcuts.utils.GsonUtil;
 import ch.rmy.android.http_shortcuts.utils.OnItemChosenListener;
 import ch.rmy.android.http_shortcuts.utils.Validation;
 import ch.rmy.android.http_shortcuts.utils.ViewUtil;
+import ch.rmy.android.http_shortcuts.variables.ResolvedVariables;
+import ch.rmy.android.http_shortcuts.variables.VariableFormatter;
+import ch.rmy.android.http_shortcuts.variables.VariableResolver;
 
 /**
  * The activity to create/edit shortcuts.
@@ -58,7 +63,7 @@ import ch.rmy.android.http_shortcuts.utils.ViewUtil;
 @SuppressLint("InflateParams")
 public class EditorActivity extends BaseActivity {
 
-    public final static String EXTRA_SHORTCUT_ID = "shortcut_id";
+    public final static String EXTRA_SHORTCUT_ID = "ch.rmy.android.http_shortcuts.EditorActivity.shortcut_id";
     private final static int SELECT_ICON = 1;
     private final static int SELECT_IPACK_ICON = 3;
     private static final String STATE_JSON_SHORTCUT = "shortcut_json";
@@ -66,6 +71,7 @@ public class EditorActivity extends BaseActivity {
     private Controller controller;
     private Shortcut oldShortcut;
     private Shortcut shortcut;
+    private List<Variable> variables;
 
     @Bind(R.id.input_method)
     LabelledSpinner methodView;
@@ -104,11 +110,15 @@ public class EditorActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
+        destroyer.own(parameterList);
+        destroyer.own(customHeaderList);
+
         controller = destroyer.own(new Controller(this));
+        variables = controller.getVariables();
 
         long shortcutId = getIntent().getLongExtra(EXTRA_SHORTCUT_ID, 0);
         if (savedInstanceState != null && savedInstanceState.containsKey(STATE_JSON_SHORTCUT)) {
-            shortcut = GsonUtil.fromJson(savedInstanceState.getString(STATE_JSON_SHORTCUT));
+            shortcut = GsonUtil.fromJson(savedInstanceState.getString(STATE_JSON_SHORTCUT), Shortcut.class);
         } else {
             shortcut = shortcutId == 0 ? Shortcut.createNew() : controller.getDetachedShortcutById(shortcutId);
         }
@@ -129,8 +139,13 @@ public class EditorActivity extends BaseActivity {
         passwordView.setText(shortcut.getPassword());
         customBodyView.setText(shortcut.getBodyContent());
 
+        bindVariableFormatter(urlView);
+        bindVariableFormatter(usernameView);
+        bindVariableFormatter(passwordView);
+        bindVariableFormatter(customBodyView);
+
         methodView.setItemsArray(Shortcut.METHOD_OPTIONS);
-        hideErrorLabel(methodView);
+        ViewUtil.hideErrorLabel(methodView);
         methodView.setOnItemChosenListener(new OnItemChosenListener() {
             @Override
             public void onSelectionChanged() {
@@ -168,15 +183,15 @@ public class EditorActivity extends BaseActivity {
         customHeaderList.setSuggestions(Header.SUGGESTED_KEYS);
 
         feedbackView.setItemsArray(Shortcut.getFeedbackOptions(this));
-        hideErrorLabel(feedbackView);
+        ViewUtil.hideErrorLabel(feedbackView);
         feedbackView.setSelection(ArrayUtil.findIndex(Shortcut.FEEDBACK_OPTIONS, shortcut.getFeedback()));
 
         timeoutView.setItemsArray(Shortcut.getTimeoutOptions(this));
-        hideErrorLabel(timeoutView);
+        ViewUtil.hideErrorLabel(timeoutView);
         timeoutView.setSelection(ArrayUtil.findIndex(Shortcut.TIMEOUT_OPTIONS, shortcut.getTimeout()));
 
         retryPolicyView.setItemsArray(Shortcut.getRetryPolicyOptions(this));
-        hideErrorLabel(retryPolicyView);
+        ViewUtil.hideErrorLabel(retryPolicyView);
         retryPolicyView.setSelection(ArrayUtil.findIndex(Shortcut.RETRY_POLICY_OPTIONS, shortcut.getRetryPolicy()));
 
         acceptCertificatesCheckbox.setChecked(shortcut.isAcceptAllCertificates());
@@ -190,6 +205,10 @@ public class EditorActivity extends BaseActivity {
         });
 
         setTitle(shortcut.isNew() ? R.string.create_shortcut : R.string.edit_shortcut);
+    }
+
+    private void bindVariableFormatter(EditText editText) {
+        destroyer.own(VariableFormatter.bind(editText, variables));
     }
 
     private void updateCustomBody() {
@@ -274,19 +293,28 @@ public class EditorActivity extends BaseActivity {
     private void test() {
         compileShortcut();
         if (validate(true)) {
-            final ResponseHandler responseHandler = new ResponseHandler(this);
-            HttpRequester.executeShortcut(this, shortcut).done(new DoneCallback<String>() {
+            new VariableResolver(this).resolve(shortcut, variables).done(new DoneCallback<ResolvedVariables>() {
                 @Override
-                public void onDone(String response) {
-                    responseHandler.handleSuccess(shortcut, response);
-                }
-            }).fail(new FailCallback<VolleyError>() {
-                @Override
-                public void onFail(VolleyError error) {
-                    responseHandler.handleFailure(shortcut, error);
+                public void onDone(ResolvedVariables resolvedVariables) {
+                    execute(resolvedVariables);
                 }
             });
         }
+    }
+
+    private void execute(ResolvedVariables resolvedVariables) {
+        final ResponseHandler responseHandler = new ResponseHandler(this);
+        HttpRequester.executeShortcut(this, shortcut, resolvedVariables).done(new DoneCallback<String>() {
+            @Override
+            public void onDone(String response) {
+                responseHandler.handleSuccess(shortcut, response);
+            }
+        }).fail(new FailCallback<VolleyError>() {
+            @Override
+            public void onFail(VolleyError error) {
+                responseHandler.handleFailure(shortcut, error);
+            }
+        });
     }
 
     private void openIconSelectionDialog() {
@@ -393,7 +421,11 @@ public class EditorActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
 
-        if (resultCode == RESULT_OK && requestCode == SELECT_ICON) {
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+
+        if (requestCode == SELECT_ICON) {
             //FIXME: Generate better file names
             String iconName = Integer.toHexString((int) Math.floor(Math.random() * 1000000)) + ".png";
 
@@ -433,15 +465,9 @@ public class EditorActivity extends BaseActivity {
             String ipackageName = intent.getData().getAuthority();
             int id = intent.getIntExtra(IpackKeys.Extras.ICON_ID, -1);
             Uri uri = Uri.parse("android.resource://" + ipackageName + "/" + id);
-            iconView.setImageURI(uri);
-            iconView.setBackgroundColor(0);
-
             shortcut.setIconName(uri.toString());
+            updateIcon();
         }
-    }
-
-    private void hideErrorLabel(LabelledSpinner spinner) {
-        spinner.getErrorLabel().setVisibility(View.GONE);
     }
 
     @Override

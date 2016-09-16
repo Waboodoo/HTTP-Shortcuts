@@ -45,7 +45,7 @@ public class CategoryAdapter extends BaseAdapter<Base, Category> {
         ViewGroup smallIconContainer;
 
         public CategoryViewHolder(ViewGroup parent) {
-            super(LayoutInflater.from(context).inflate(R.layout.category_list_item, parent, false), CategoryAdapter.this);
+            super(LayoutInflater.from(context).inflate(R.layout.list_item_category, parent, false), CategoryAdapter.this);
             ButterKnife.bind(this, itemView);
         }
 

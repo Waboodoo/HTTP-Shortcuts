@@ -32,6 +32,11 @@ public class ShortcutAdapter extends BaseAdapter<Category, Shortcut> {
         return category.getShortcuts();
     }
 
+    @Override
+    protected int getEmptyMarkerStringResource() {
+        return R.string.no_shortcuts;
+    }
+
     public class ShortcutViewHolder extends BaseViewHolder<Shortcut> {
 
         @Bind(R.id.name)

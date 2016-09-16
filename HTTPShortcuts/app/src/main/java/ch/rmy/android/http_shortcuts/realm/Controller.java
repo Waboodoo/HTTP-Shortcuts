@@ -9,7 +9,9 @@ import ch.rmy.android.http_shortcuts.legacy_database.LegacyMigration;
 import ch.rmy.android.http_shortcuts.realm.models.Base;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
 import ch.rmy.android.http_shortcuts.realm.models.PendingExecution;
+import ch.rmy.android.http_shortcuts.realm.models.ResolvedVariable;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
+import ch.rmy.android.http_shortcuts.realm.models.Variable;
 import ch.rmy.android.http_shortcuts.utils.Destroyable;
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -43,6 +45,7 @@ public class Controller implements Destroyable {
 
                 Base newBase = new Base();
                 newBase.setCategories(new RealmList<Category>());
+                newBase.setVariables(new RealmList<Variable>());
                 newBase.getCategories().add(defaultCategory);
                 realm.copyToRealm(newBase);
             }
@@ -62,12 +65,37 @@ public class Controller implements Destroyable {
         return realm.where(Shortcut.class).equalTo(FIELD_ID, id).findFirst();
     }
 
+    public Variable getVariableById(long id) {
+        return realm.where(Variable.class).equalTo(FIELD_ID, id).findFirst();
+    }
+
+    public Variable getVariableByKey(String key) {
+        return realm.where(Variable.class).equalTo(Variable.FIELD_KEY, key).findFirst();
+    }
+
+    public void setVariableValue(final Variable variable, final String value) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                variable.setValue(value);
+            }
+        });
+    }
+
     public Shortcut getDetachedShortcutById(long id) {
         Shortcut shortcut = getShortcutById(id);
         if (shortcut == null) {
             return null;
         }
         return realm.copyFromRealm(shortcut);
+    }
+
+    public Variable getDetachedVariableById(long id) {
+        Variable variable = getVariableById(id);
+        if (variable == null) {
+            return null;
+        }
+        return realm.copyFromRealm(variable);
     }
 
     public Base getBase() {
@@ -86,12 +114,20 @@ public class Controller implements Destroyable {
                 List<Category> persistedCategories = realm.copyToRealmOrUpdate(base.getCategories());
                 oldBase.getCategories().removeAll(persistedCategories);
                 oldBase.getCategories().addAll(persistedCategories);
+
+                List<Variable> persistedVariables = realm.copyToRealmOrUpdate(base.getVariables());
+                oldBase.getVariables().removeAll(persistedVariables);
+                oldBase.getVariables().addAll(persistedVariables);
             }
         });
     }
 
     public RealmList<Category> getCategories() {
         return getBase().getCategories();
+    }
+
+    public RealmList<Variable> getVariables() {
+        return getBase().getVariables();
     }
 
     public void deleteShortcut(final Shortcut shortcut) {
@@ -179,13 +215,23 @@ public class Controller implements Destroyable {
         });
     }
 
+    public void deleteVariable(final Variable variable) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                variable.getOptions().deleteAllFromRealm();
+                variable.deleteFromRealm();
+            }
+        });
+    }
+
     public RealmResults<PendingExecution> getShortcutsPendingExecution() {
         return realm
                 .where(PendingExecution.class)
                 .findAllSorted(PendingExecution.FIELD_ENQUEUED_AT);
     }
 
-    public void createPendingExecution(final Shortcut shortcut) {
+    public void createPendingExecution(final Shortcut shortcut, final List<ResolvedVariable> resolvedVariables) {
         long existingPendingExecutions = realm
                 .where(PendingExecution.class)
                 .equalTo(PendingExecution.FIELD_SHORTCUT_ID, shortcut.getId())
@@ -194,7 +240,7 @@ public class Controller implements Destroyable {
             realm.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
-                    realm.copyToRealm(PendingExecution.createNew(shortcut));
+                    realm.copyToRealm(PendingExecution.createNew(shortcut, resolvedVariables));
                 }
             });
         }
@@ -221,6 +267,24 @@ public class Controller implements Destroyable {
             }
         });
         return getShortcutById(shortcut.getId());
+    }
+
+    public Variable persist(final Variable variable) {
+        final boolean isNew = variable.isNew();
+        if (isNew) {
+            variable.setId(generateId(Variable.class));
+        }
+
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                Variable newVariable = realm.copyToRealmOrUpdate(variable);
+                if (isNew) {
+                    getVariables().add(newVariable);
+                }
+            }
+        });
+        return getVariableById(variable.getId());
     }
 
     private long generateId(Class<? extends RealmObject> clazz) {

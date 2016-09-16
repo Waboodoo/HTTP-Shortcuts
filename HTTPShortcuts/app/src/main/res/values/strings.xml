@@ -28,6 +28,7 @@
     <string name="action_move_down">Move down</string>
     <string name="action_move_to_category">Move to category…</string>
     <string name="no_shortcuts">No shortcuts yet</string>
+    <string name="no_variables">No variables yet</string>
     <string name="confirm_delete_shortcut_message">Delete this shortcut?</string>
     <string name="confirm_discard_changes_message">You have unsaved changes. Discard changes?</string>
     <string name="dialog_discard">Discard</string>
@@ -136,4 +137,34 @@
     </plurals>
     <string name="title_move_to_category">Move to category</string>
     <string name="plugin_name">Execute HTTP Shortcut</string>
+    <string name="title_variables">Variables</string>
+    <string name="edit_variable">Edit variable</string>
+    <string name="create_variable">Create variable</string>
+    <string name="label_variable_type">Type</string>
+    <string name="label_variable_key">Key</string>
+    <string name="label_variable_title">Dialog Title (optional)</string>
+    <string name="variable_type_constant">Constant</string>
+    <string name="variable_type_text">Text Input</string>
+    <string name="variable_type_number">Number Input</string>
+    <string name="variable_type_password">Password Input</string>
+    <string name="variable_type_select">Selection</string>
+    <string name="variable_type_toggle">Toggle</string>
+    <string name="warning_invalid_variable_key">Variable keys may only contain letters and digits.</string>
+    <string name="confirm_delete_variable_message">Delete this variable?</string>
+    <string name="variable_deleted">%1$s deleted.</string>
+    <string name="label_url_encode">URL encode</string>
+    <string name="label_json_encode">JSON encode</string>
+    <string name="section_basic_variable_settings">Basic settings</string>
+    <string name="validation_key_non_empty">Variable key must not be empty.</string>
+    <string name="validation_key_already_exists">Another variable with this key already exists.</string>
+    <string name="title_add_toggle_option">Add value</string>
+    <string name="button_add_toggle_option">Add value</string>
+    <string name="section_toggle_options">Toggle values</string>
+    <string name="title_add_select_option">Add option</string>
+    <string name="button_add_select_option">Add option</string>
+    <string name="section_select_options">Selectable Options</string>
+    <string name="label_select_label">Label</string>
+    <string name="label_select_value">Value</string>
+    <string name="button_show_help">Show Help</string>
+    <string name="help_title_variables">Variables</string>
 </resources>

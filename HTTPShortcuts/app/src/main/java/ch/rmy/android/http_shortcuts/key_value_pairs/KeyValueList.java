@@ -24,8 +24,12 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import ch.rmy.android.http_shortcuts.R;
+import ch.rmy.android.http_shortcuts.realm.Controller;
+import ch.rmy.android.http_shortcuts.utils.Destroyable;
+import ch.rmy.android.http_shortcuts.utils.Destroyer;
+import ch.rmy.android.http_shortcuts.variables.VariableFormatter;
 
-public class KeyValueList<T extends KeyValuePair> extends FrameLayout {
+public class KeyValueList<T extends KeyValuePair> extends FrameLayout implements Destroyable {
 
     @Bind(R.id.key_value_list)
     ListView listView;
@@ -39,6 +43,10 @@ public class KeyValueList<T extends KeyValuePair> extends FrameLayout {
     private int keyLabel;
     private int valueLabel;
     private ArrayAdapter<String> suggestionAdapter;
+
+    private Controller controller;
+
+    private final Destroyer destroyer = new Destroyer();
 
     public KeyValueList(Context context) {
         super(context);
@@ -58,6 +66,8 @@ public class KeyValueList<T extends KeyValuePair> extends FrameLayout {
     private void init() {
         inflate(getContext(), R.layout.key_value_list, this);
         ButterKnife.bind(this, this);
+
+        controller = destroyer.own(new Controller(getContext()));
 
         adapter = new KeyValueAdapter<>(getContext());
         listView.setAdapter(adapter);
@@ -79,38 +89,19 @@ public class KeyValueList<T extends KeyValuePair> extends FrameLayout {
     }
 
     private void showAddDialog() {
-        Dialog dialog = (new MaterialDialog.Builder(getContext()))
-                .customView(R.layout.dialog_key_value_editor, false)
-                .title(addDialogTitle)
-                .positiveText(R.string.dialog_ok)
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(MaterialDialog dialog, DialogAction which) {
-                        EditText keyField = (EditText) dialog.findViewById(R.id.key_value_key);
-                        EditText valueField = (EditText) dialog.findViewById(R.id.key_value_value);
-                        if (!keyField.getText().toString().isEmpty()) {
-                            T newItem = factory.create(keyField.getText().toString(), valueField.getText().toString());
-                            adapter.add(newItem);
-                            updateListViewHeightBasedOnChildren();
-                        }
-                    }
-                })
-                .negativeText(R.string.dialog_cancel)
-                .build();
-
-        ((TextInputLayout) dialog.findViewById(R.id.key_value_key_layout)).setHint(getContext().getString(keyLabel));
-        ((TextInputLayout) dialog.findViewById(R.id.key_value_value_layout)).setHint(getContext().getString(valueLabel));
-        if (suggestionAdapter != null) {
-            ((AutoCompleteTextView) dialog.findViewById(R.id.key_value_key)).setAdapter(suggestionAdapter);
-        }
-
-        dialog.show();
+        showDialog(null);
     }
 
     private void showEditDialog(final T item) {
-        Dialog dialog = (new MaterialDialog.Builder(getContext()))
+        showDialog(item);
+    }
+
+    private void showDialog(final T item) {
+        final boolean isNew = item == null;
+
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(getContext())
                 .customView(R.layout.dialog_key_value_editor, false)
-                .title(editDialogTitle)
+                .title(isNew ? addDialogTitle : editDialogTitle)
                 .positiveText(R.string.dialog_ok)
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
@@ -118,31 +109,47 @@ public class KeyValueList<T extends KeyValuePair> extends FrameLayout {
                         EditText keyField = (EditText) dialog.findViewById(R.id.key_value_key);
                         EditText valueField = (EditText) dialog.findViewById(R.id.key_value_value);
                         if (!keyField.getText().toString().isEmpty()) {
-                            item.setKey(keyField.getText().toString());
-                            item.setValue(valueField.getText().toString());
-                            adapter.notifyDataSetChanged();
+                            if (isNew) {
+                                T newItem = factory.create(keyField.getText().toString(), valueField.getText().toString());
+                                adapter.add(newItem);
+                                updateListViewHeightBasedOnChildren();
+                            } else {
+                                item.setKey(keyField.getText().toString());
+                                item.setValue(valueField.getText().toString());
+                                adapter.notifyDataSetChanged();
+                            }
                         }
                     }
-                })
-                .neutralText(R.string.dialog_remove)
-                .onNeutral(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(MaterialDialog dialog, DialogAction which) {
-                        adapter.remove(item);
-                        updateListViewHeightBasedOnChildren();
-                    }
-                })
-                .negativeText(R.string.dialog_cancel)
-                .build();
+                });
+        if (!isNew) {
+            builder.neutralText(R.string.dialog_remove)
+                    .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(MaterialDialog dialog, DialogAction which) {
+                            adapter.remove(item);
+                            updateListViewHeightBasedOnChildren();
+                        }
+                    });
+        }
 
-        ((EditText) dialog.findViewById(R.id.key_value_key)).setText(item.getKey());
-        ((EditText) dialog.findViewById(R.id.key_value_value)).setText(item.getValue());
+        builder.negativeText(R.string.dialog_cancel);
+
+        Dialog dialog = builder.build();
+
+        AutoCompleteTextView keyInput = (AutoCompleteTextView) dialog.findViewById(R.id.key_value_key);
+        EditText valueInput = (EditText) dialog.findViewById(R.id.key_value_value);
+        if (!isNew) {
+            keyInput.setText(item.getKey());
+            valueInput.setText(item.getValue());
+        }
+        destroyer.own(VariableFormatter.bind(keyInput, controller.getVariables()));
+        destroyer.own(VariableFormatter.bind(valueInput, controller.getVariables()));
 
         ((TextInputLayout) dialog.findViewById(R.id.key_value_key_layout)).setHint(getContext().getString(keyLabel));
         ((TextInputLayout) dialog.findViewById(R.id.key_value_value_layout)).setHint(getContext().getString(valueLabel));
 
         if (suggestionAdapter != null) {
-            ((AutoCompleteTextView) dialog.findViewById(R.id.key_value_key)).setAdapter(suggestionAdapter);
+            keyInput.setAdapter(suggestionAdapter);
         }
 
         dialog.show();
@@ -205,5 +212,10 @@ public class KeyValueList<T extends KeyValuePair> extends FrameLayout {
         params.height = totalHeight + (listView.getDividerHeight() * (adapter.getCount() - 1));
         listView.setLayoutParams(params);
         listView.requestLayout();
+    }
+
+    @Override
+    public void destroy() {
+        destroyer.destroy();
     }
 }
