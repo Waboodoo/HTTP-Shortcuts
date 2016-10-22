@@ -10,7 +10,7 @@ import io.realm.RealmSchema;
 
 public class DatabaseMigration implements RealmMigration {
 
-    public static final int VERSION = 2;
+    public static final int VERSION = 3;
 
     @Override
     public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
@@ -51,6 +51,33 @@ public class DatabaseMigration implements RealmMigration {
                 if (base != null) {
                     base.setList("variables", new RealmList<Base>());
                 }
+
+                break;
+            }
+            case 3: { // 1.12.0
+                RealmObjectSchema shortcutSchema = schema.get("Shortcut");
+                shortcutSchema.addField("feedbackErrorsOnly", boolean.class);
+                shortcutSchema.transform(new RealmObjectSchema.Function() {
+                    @Override
+                    public void apply(DynamicRealmObject obj) {
+                        String oldFeedback = obj.getString("feedback");
+                        switch (oldFeedback) {
+                            case "errors_only": {
+                                obj.setBoolean("feedbackErrorsOnly", true);
+                                obj.setString("feedback", "toast");
+                                break;
+                            }
+                            case "simple_response": {
+                                obj.setString("feedback", "simple_toast");
+                                break;
+                            }
+                            case "full_response": {
+                                obj.setString("feedback", "toast");
+                                break;
+                            }
+                        }
+                    }
+                });
 
                 break;
             }

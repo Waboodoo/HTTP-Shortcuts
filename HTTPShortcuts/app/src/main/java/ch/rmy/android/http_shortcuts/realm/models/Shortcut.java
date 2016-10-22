@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 
 import ch.rmy.android.http_shortcuts.R;
+import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils;
 import ch.rmy.android.http_shortcuts.utils.Validation;
 import io.realm.RealmList;
 import io.realm.RealmObject;
@@ -19,22 +20,18 @@ public class Shortcut extends RealmObject implements HasId {
     public static final String METHOD_PATCH = "PATCH";
 
     public static final String FEEDBACK_NONE = "none";
-    public static final String FEEDBACK_ERRORS_ONLY = "errors_only";
-    public static final String FEEDBACK_SIMPLE = "simple_response";
-    public static final String FEEDBACK_FULL_RESPONSE = "full_response";
+    public static final String FEEDBACK_TOAST_SIMPLE = "simple_toast";
+    public static final String FEEDBACK_TOAST = "toast";
+    public static final String FEEDBACK_DIALOG = "dialog";
 
     public static final String RETRY_POLICY_NONE = "none";
     public static final String RETRY_POLICY_WAIT_FOR_INTERNET = "wait_for_internet";
 
-    public static final int DEFAULT_ICON = R.drawable.ic_launcher;
-
     public static final String[] METHOD_OPTIONS = {METHOD_GET, METHOD_POST, METHOD_PUT, METHOD_DELETE, METHOD_PATCH};
-    public static final String[] FEEDBACK_OPTIONS = {FEEDBACK_NONE, FEEDBACK_ERRORS_ONLY, FEEDBACK_SIMPLE, FEEDBACK_FULL_RESPONSE};
-    public static final int[] FEEDBACK_RESOURCES = {R.string.feedback_none, R.string.feedback_errors_only, R.string.feedback_simple, R.string.feedback_full_response};
+    public static final String[] FEEDBACK_OPTIONS = {FEEDBACK_NONE, FEEDBACK_TOAST_SIMPLE, FEEDBACK_TOAST, FEEDBACK_DIALOG};
     public static final int[] TIMEOUT_OPTIONS = {3000, 10000, 30000, 60000};
-    public static final int[] TIMEOUT_RESOURCES = {R.string.timeout_short, R.string.timeout_medium, R.string.timeout_long, R.string.timeout_very_long};
+
     public static final String[] RETRY_POLICY_OPTIONS = {RETRY_POLICY_NONE, RETRY_POLICY_WAIT_FOR_INTERNET};
-    public static final int[] RETRY_POLICY_RESOURCES = {R.string.retry_policy_none, R.string.retry_policy_delayed};
 
     @PrimaryKey
     private long id;
@@ -51,6 +48,7 @@ public class Shortcut extends RealmObject implements HasId {
     private String iconName;
     @Required
     private String feedback;
+    private boolean feedbackErrorsOnly;
     @Required
     private String description;
     @Required
@@ -127,6 +125,14 @@ public class Shortcut extends RealmObject implements HasId {
         this.feedback = feedback;
     }
 
+    public boolean isFeedbackErrorsOnly() {
+        return feedbackErrorsOnly;
+    }
+
+    public void setFeedbackErrorsOnly(boolean feedbackErrorsOnly) {
+        this.feedbackErrorsOnly = feedbackErrorsOnly;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -199,7 +205,7 @@ public class Shortcut extends RealmObject implements HasId {
         shortcut.setMethod(METHOD_GET);
         shortcut.setUrl("http://");
         shortcut.setTimeout(TIMEOUT_OPTIONS[1]);
-        shortcut.setFeedback(FEEDBACK_SIMPLE);
+        shortcut.setFeedback(FEEDBACK_TOAST_SIMPLE);
         shortcut.setRetryPolicy(RETRY_POLICY_NONE);
         shortcut.setParameters(new RealmList<Parameter>());
         shortcut.setHeaders(new RealmList<Header>());
@@ -213,6 +219,7 @@ public class Shortcut extends RealmObject implements HasId {
         duplicate.setBodyContent(getBodyContent());
         duplicate.setDescription(getDescription());
         duplicate.setFeedback(getFeedback());
+        duplicate.setFeedbackErrorsOnly(isFeedbackErrorsOnly());
         duplicate.setIconName(getIconName());
         duplicate.setMethod(getMethod());
         duplicate.setPassword(getPassword());
@@ -237,7 +244,7 @@ public class Shortcut extends RealmObject implements HasId {
     public Uri getIconURI(Context context) {
         String packageName = context.getPackageName();
         if (iconName == null) {
-            return Uri.parse("android.resource://" + packageName + "/" + DEFAULT_ICON);
+            return Uri.parse("android.resource://" + packageName + "/" + ShortcutUIUtils.DEFAULT_ICON);
         } else if (iconName.startsWith("android.resource://")) {
             return Uri.parse(iconName);
         } else if (iconName.endsWith(".png")) {
@@ -296,33 +303,6 @@ public class Shortcut extends RealmObject implements HasId {
         result = 31 * result + getHeaders().hashCode();
         result = 31 * result + getParameters().hashCode();
         return result;
-    }
-
-    public static String[] getFeedbackOptions(Context context) {
-        String[] feedbackStrings = new String[Shortcut.FEEDBACK_OPTIONS.length];
-        for (int i = 0; i < Shortcut.FEEDBACK_OPTIONS.length; i++) {
-            feedbackStrings[i] = context.getString(Shortcut.FEEDBACK_RESOURCES[i]);
-        }
-        return feedbackStrings;
-    }
-
-    public static String[] getTimeoutOptions(Context context) {
-        String[] timeoutStrings = new String[Shortcut.TIMEOUT_OPTIONS.length];
-        for (int i = 0; i < Shortcut.TIMEOUT_OPTIONS.length; i++) {
-            String timeName = context.getString(Shortcut.TIMEOUT_RESOURCES[i]);
-            int seconds = Shortcut.TIMEOUT_OPTIONS[i] / 1000;
-            String secondsString = context.getResources().getQuantityString(R.plurals.timeout_seconds, seconds, seconds);
-            timeoutStrings[i] = context.getString(R.string.timeout_format, timeName, secondsString);
-        }
-        return timeoutStrings;
-    }
-
-    public static String[] getRetryPolicyOptions(Context context) {
-        String[] retryPolicyStrings = new String[Shortcut.RETRY_POLICY_OPTIONS.length];
-        for (int i = 0; i < Shortcut.RETRY_POLICY_OPTIONS.length; i++) {
-            retryPolicyStrings[i] = context.getString(Shortcut.RETRY_POLICY_RESOURCES[i]);
-        }
-        return retryPolicyStrings;
     }
 
 }

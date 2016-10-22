@@ -16,8 +16,8 @@
     <string name="label_feedback">Feedback</string>
     <string name="feedback_none">Kein Feedback</string>
     <string name="feedback_errors_only">Nur Fehler</string>
-    <string name="feedback_simple">Einfach</string>
-    <string name="feedback_full_response">Server-Antwort</string>
+    <string name="feedback_simple_toast">Einfach</string>
+    <string name="feedback_response_toast">Server-Antwort</string>
     <string name="action_place">Auf Homescreen platzieren</string>
     <string name="action_run">Ausführen</string>
     <string name="action_edit">Bearbeiten</string>

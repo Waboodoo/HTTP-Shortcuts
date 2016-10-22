@@ -20,16 +20,18 @@ public class ResponseHandler {
 
     public void handleSuccess(Shortcut shortcut, String response) {
         switch (shortcut.getFeedback()) {
-            case Shortcut.FEEDBACK_SIMPLE:
+            case Shortcut.FEEDBACK_TOAST_SIMPLE:
                 Toast.makeText(context, String.format(context.getText(R.string.executed).toString(), shortcut.getSafeName(context)), Toast.LENGTH_SHORT).show();
                 break;
-            case Shortcut.FEEDBACK_FULL_RESPONSE:
+            case Shortcut.FEEDBACK_TOAST:
                 String message = response;
                 if (message.length() > TOAST_MAX_LENGTH) {
                     message = message.substring(0, TOAST_MAX_LENGTH) + "…";
                 }
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show();
                 break;
+            case Shortcut.FEEDBACK_DIALOG:
+                Toast.makeText(context, "Not yet implemented", Toast.LENGTH_LONG).show(); // TODO
         }
     }
 

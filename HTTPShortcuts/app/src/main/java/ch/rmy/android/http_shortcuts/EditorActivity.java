@@ -49,6 +49,7 @@ import ch.rmy.android.http_shortcuts.realm.models.Variable;
 import ch.rmy.android.http_shortcuts.utils.ArrayUtil;
 import ch.rmy.android.http_shortcuts.utils.GsonUtil;
 import ch.rmy.android.http_shortcuts.utils.OnItemChosenListener;
+import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils;
 import ch.rmy.android.http_shortcuts.utils.Validation;
 import ch.rmy.android.http_shortcuts.utils.ViewUtil;
 import ch.rmy.android.http_shortcuts.variables.ResolvedVariables;
@@ -182,15 +183,15 @@ public class EditorActivity extends BaseActivity {
         });
         customHeaderList.setSuggestions(Header.SUGGESTED_KEYS);
 
-        feedbackView.setItemsArray(Shortcut.getFeedbackOptions(this));
+        feedbackView.setItemsArray(ShortcutUIUtils.getFeedbackOptions(this));
         ViewUtil.hideErrorLabel(feedbackView);
         feedbackView.setSelection(ArrayUtil.findIndex(Shortcut.FEEDBACK_OPTIONS, shortcut.getFeedback()));
 
-        timeoutView.setItemsArray(Shortcut.getTimeoutOptions(this));
+        timeoutView.setItemsArray(ShortcutUIUtils.getTimeoutOptions(this));
         ViewUtil.hideErrorLabel(timeoutView);
         timeoutView.setSelection(ArrayUtil.findIndex(Shortcut.TIMEOUT_OPTIONS, shortcut.getTimeout()));
 
-        retryPolicyView.setItemsArray(Shortcut.getRetryPolicyOptions(this));
+        retryPolicyView.setItemsArray(ShortcutUIUtils.getRetryPolicyOptions(this));
         ViewUtil.hideErrorLabel(retryPolicyView);
         retryPolicyView.setSelection(ArrayUtil.findIndex(Shortcut.RETRY_POLICY_OPTIONS, shortcut.getRetryPolicy()));
 

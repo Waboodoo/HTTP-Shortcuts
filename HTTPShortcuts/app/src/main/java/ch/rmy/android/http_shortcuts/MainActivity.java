@@ -25,6 +25,7 @@ import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 import ch.rmy.android.http_shortcuts.utils.IntentFactory;
+import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils;
 
 /**
  * Main activity to list all shortcuts
@@ -219,10 +220,10 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
                 addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON, icon);
 
             } catch (Exception e) {
-                addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(getApplicationContext(), Shortcut.DEFAULT_ICON));
+                addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(getApplicationContext(), ShortcutUIUtils.DEFAULT_ICON));
             }
         } else {
-            addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(getApplicationContext(), Shortcut.DEFAULT_ICON));
+            addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(getApplicationContext(), ShortcutUIUtils.DEFAULT_ICON));
         }
 
         addIntent.setAction(install ? ACTION_INSTALL_SHORTCUT : ACTION_UNINSTALL_SHORTCUT);
