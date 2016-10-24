@@ -16,9 +16,10 @@
     <string name="label_password">Password</string>
     <string name="label_feedback">Feedback</string>
     <string name="feedback_none">No feedback (run silently)</string>
-    <string name="feedback_simple_toast">Show simple toast message</string>
-    <string name="feedback_response_toast">Show response in toast message</string>
-    <string name="feedback_dialog">Show response in dialog</string>
+    <string name="feedback_simple_toast">Simple toast</string>
+    <string name="feedback_response_toast">Toast</string>
+    <string name="feedback_dialog">Dialog</string>
+    <string name="feedback_activity">Window</string>
     <string name="action_place">Place on home screen</string>
     <string name="action_run">Execute</string>
     <string name="action_edit">Edit</string>

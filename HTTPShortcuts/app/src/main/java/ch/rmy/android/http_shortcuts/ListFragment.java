@@ -20,11 +20,11 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import ch.rmy.android.http_shortcuts.adapters.ShortcutAdapter;
-import ch.rmy.android.http_shortcuts.http.Executor;
 import ch.rmy.android.http_shortcuts.listeners.OnItemClickedListener;
 import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
+import ch.rmy.android.http_shortcuts.utils.IntentFactory;
 import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder;
 import ch.rmy.android.http_shortcuts.utils.Settings;
 
@@ -42,7 +42,6 @@ public class ListFragment extends Fragment {
 
     private Controller controller;
     private ShortcutAdapter adapter;
-    private Executor executor;
     private List<Category> categories;
 
     private final OnItemClickedListener<Shortcut> clickListener = new OnItemClickedListener<Shortcut>() {
@@ -80,7 +79,6 @@ public class ListFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         controller = new Controller(getContext());
-        executor = new Executor(getContext());
         adapter = new ShortcutAdapter(getContext());
         categories = controller.getCategories();
 
@@ -192,7 +190,8 @@ public class ListFragment extends Fragment {
     }
 
     private void executeShortcut(Shortcut shortcut) {
-        executor.execute(shortcut.getId());
+        Intent intent = IntentFactory.createIntent(getContext(), shortcut.getId());
+        startActivity(intent);
     }
 
     private void editShortcut(Shortcut shortcut) {

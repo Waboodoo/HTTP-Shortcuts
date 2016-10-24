@@ -1,8 +1,10 @@
 package ch.rmy.android.http_shortcuts;
 
+import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
@@ -20,6 +22,7 @@ import ch.rmy.android.http_shortcuts.utils.Destroyer;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
+    @Nullable
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
@@ -29,11 +32,17 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void setContentView(int layoutResID) {
         super.setContentView(layoutResID);
         ButterKnife.bind(this);
-        updateStatusBarColor();
-        setSupportActionBar(toolbar);
-        if (getNavigateUpIcon() != 0) {
-            enableNavigateUpButton(getNavigateUpIcon());
+        if (toolbar != null) {
+            updateStatusBarColor();
+            setSupportActionBar(toolbar);
+            if (getNavigateUpIcon() != 0) {
+                enableNavigateUpButton(getNavigateUpIcon());
+            }
         }
+    }
+
+    protected Context getContext() {
+        return this;
     }
 
     protected int getNavigateUpIcon() {

@@ -19,13 +19,9 @@ import android.widget.LinearLayout;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.android.volley.VolleyError;
 import com.satsuware.usefulviews.LabelledSpinner;
 
 import net.dinglisch.ipack.IpackKeys;
-
-import org.jdeferred.DoneCallback;
-import org.jdeferred.FailCallback;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,8 +30,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import ch.rmy.android.http_shortcuts.dialogs.IconNameChangeDialog;
-import ch.rmy.android.http_shortcuts.http.HttpRequester;
-import ch.rmy.android.http_shortcuts.http.ResponseHandler;
 import ch.rmy.android.http_shortcuts.icons.IconSelector;
 import ch.rmy.android.http_shortcuts.icons.IconView;
 import ch.rmy.android.http_shortcuts.key_value_pairs.KeyValueList;
@@ -48,13 +42,12 @@ import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 import ch.rmy.android.http_shortcuts.realm.models.Variable;
 import ch.rmy.android.http_shortcuts.utils.ArrayUtil;
 import ch.rmy.android.http_shortcuts.utils.GsonUtil;
+import ch.rmy.android.http_shortcuts.utils.IntentFactory;
 import ch.rmy.android.http_shortcuts.utils.OnItemChosenListener;
 import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils;
 import ch.rmy.android.http_shortcuts.utils.Validation;
 import ch.rmy.android.http_shortcuts.utils.ViewUtil;
-import ch.rmy.android.http_shortcuts.variables.ResolvedVariables;
 import ch.rmy.android.http_shortcuts.variables.VariableFormatter;
-import ch.rmy.android.http_shortcuts.variables.VariableResolver;
 
 /**
  * The activity to create/edit shortcuts.
@@ -68,6 +61,10 @@ public class EditorActivity extends BaseActivity {
     private final static int SELECT_ICON = 1;
     private final static int SELECT_IPACK_ICON = 3;
     private static final String STATE_JSON_SHORTCUT = "shortcut_json";
+
+    private static final long TEMPORARY_ID = -1;
+
+    private long shortcutId;
 
     private Controller controller;
     private Shortcut oldShortcut;
@@ -117,7 +114,7 @@ public class EditorActivity extends BaseActivity {
         controller = destroyer.own(new Controller(this));
         variables = controller.getVariables();
 
-        long shortcutId = getIntent().getLongExtra(EXTRA_SHORTCUT_ID, 0);
+        shortcutId = getIntent().getLongExtra(EXTRA_SHORTCUT_ID, 0);
         if (savedInstanceState != null && savedInstanceState.containsKey(STATE_JSON_SHORTCUT)) {
             shortcut = GsonUtil.fromJson(savedInstanceState.getString(STATE_JSON_SHORTCUT), Shortcut.class);
         } else {
@@ -255,6 +252,7 @@ public class EditorActivity extends BaseActivity {
     private void trySave() {
         compileShortcut();
         if (validate(false)) {
+            shortcut.setId(shortcutId);
             Shortcut persistedShortcut = controller.persist(shortcut);
             Intent returnIntent = new Intent();
             returnIntent.putExtra(EXTRA_SHORTCUT_ID, persistedShortcut.getId());
@@ -294,28 +292,11 @@ public class EditorActivity extends BaseActivity {
     private void test() {
         compileShortcut();
         if (validate(true)) {
-            new VariableResolver(this).resolve(shortcut, variables).done(new DoneCallback<ResolvedVariables>() {
-                @Override
-                public void onDone(ResolvedVariables resolvedVariables) {
-                    execute(resolvedVariables);
-                }
-            });
+            shortcut.setId(TEMPORARY_ID);
+            controller.persist(shortcut);
+            Intent intent = IntentFactory.createIntent(this, TEMPORARY_ID);
+            startActivity(intent);
         }
-    }
-
-    private void execute(ResolvedVariables resolvedVariables) {
-        final ResponseHandler responseHandler = new ResponseHandler(this);
-        HttpRequester.executeShortcut(this, shortcut, resolvedVariables).done(new DoneCallback<String>() {
-            @Override
-            public void onDone(String response) {
-                responseHandler.handleSuccess(shortcut, response);
-            }
-        }).fail(new FailCallback<VolleyError>() {
-            @Override
-            public void onFail(VolleyError error) {
-                responseHandler.handleFailure(shortcut, error);
-            }
-        });
     }
 
     private void openIconSelectionDialog() {
