@@ -24,7 +24,7 @@ import ch.rmy.android.http_shortcuts.listeners.OnItemClickedListener;
 import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
-import ch.rmy.android.http_shortcuts.utils.IntentFactory;
+import ch.rmy.android.http_shortcuts.utils.IntentUtil;
 import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder;
 import ch.rmy.android.http_shortcuts.utils.Settings;
 
@@ -190,7 +190,7 @@ public class ListFragment extends Fragment {
     }
 
     private void executeShortcut(Shortcut shortcut) {
-        Intent intent = IntentFactory.createIntent(getContext(), shortcut.getId());
+        Intent intent = IntentUtil.createIntent(getContext(), shortcut.getId());
         startActivity(intent);
     }
 

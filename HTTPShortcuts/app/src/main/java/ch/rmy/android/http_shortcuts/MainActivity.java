@@ -24,7 +24,7 @@ import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog;
 import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
-import ch.rmy.android.http_shortcuts.utils.IntentFactory;
+import ch.rmy.android.http_shortcuts.utils.IntentUtil;
 import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils;
 
 /**
@@ -207,7 +207,7 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
     }
 
     private Intent getShortcutPlacementIntent(Shortcut shortcut, boolean install) {
-        Intent shortcutIntent = IntentFactory.createIntent(this, shortcut.getId());
+        Intent shortcutIntent = IntentUtil.createIntent(this, shortcut.getId());
         Intent addIntent = new Intent();
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcut.getName());

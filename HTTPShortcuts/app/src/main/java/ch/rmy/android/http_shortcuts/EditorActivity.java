@@ -42,7 +42,7 @@ import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 import ch.rmy.android.http_shortcuts.realm.models.Variable;
 import ch.rmy.android.http_shortcuts.utils.ArrayUtil;
 import ch.rmy.android.http_shortcuts.utils.GsonUtil;
-import ch.rmy.android.http_shortcuts.utils.IntentFactory;
+import ch.rmy.android.http_shortcuts.utils.IntentUtil;
 import ch.rmy.android.http_shortcuts.utils.OnItemChosenListener;
 import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils;
 import ch.rmy.android.http_shortcuts.utils.Validation;
@@ -294,7 +294,7 @@ public class EditorActivity extends BaseActivity {
         if (validate(true)) {
             shortcut.setId(TEMPORARY_ID);
             controller.persist(shortcut);
-            Intent intent = IntentFactory.createIntent(this, TEMPORARY_ID);
+            Intent intent = IntentUtil.createIntent(this, TEMPORARY_ID);
             startActivity(intent);
         }
     }

@@ -170,4 +170,7 @@
     <string name="help_title_variables">Variables</string>
     <string name="error_not_enough_toggle_values">Please add at least two values.</string>
     <string name="error_not_enough_select_values">Please add at least two selectable options.</string>
+    <string name="share_button">Share</string>
+    <string name="share_title">Share…</string>
+    <string name="progress_dialog_message">%1$s…</string>
 </resources>

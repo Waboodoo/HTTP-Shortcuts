@@ -1,9 +1,13 @@
 package ch.rmy.android.http_shortcuts;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,8 +19,6 @@ import org.jdeferred.DoneCallback;
 import org.jdeferred.FailCallback;
 import org.jdeferred.Promise;
 
-import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,49 +28,54 @@ import ch.rmy.android.http_shortcuts.http.Response;
 import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 import ch.rmy.android.http_shortcuts.realm.models.Variable;
+import ch.rmy.android.http_shortcuts.utils.IntentUtil;
 import ch.rmy.android.http_shortcuts.variables.ResolvedVariables;
 import ch.rmy.android.http_shortcuts.variables.VariableResolver;
+import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 
 public class ExecuteActivity extends BaseActivity {
 
-    public static final String ACTION_EXECUTE_SHORTCUT = "ch.rmy.android.http_shortcuts.execute";
+    public static final String ACTION_EXECUTE_SHORTCUT = "ch.rmy.android.http_shortcuts.resolveVariablesAndExecute";
     public static final String EXTRA_SHORTCUT_ID = "id";
     public static final String EXTRA_VARIABLE_VALUES = "variable_values";
 
     private static final int TOAST_MAX_LENGTH = 400;
 
     private Controller controller;
+    private Shortcut shortcut;
+    private Response lastResponse;
+
+    private ProgressDialog progressDialog;
 
     @Bind(R.id.response_text)
     TextView responseText;
+    @Bind(R.id.progress_spinner)
+    CircularProgressBar progressSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        long shortcutId = getShortcutId(getIntent());
-        Map<String, String> variableValues = getVariableValues(getIntent());
+        long shortcutId = IntentUtil.getShortcutId(getIntent());
+        Map<String, String> variableValues = IntentUtil.getVariableValues(getIntent());
 
         controller = new Controller(getContext());
-        final Shortcut shortcut = controller.getShortcutById(shortcutId);
+        shortcut = controller.getShortcutById(shortcutId);
 
         if (shortcut == null) {
             showToast(getString(R.string.shortcut_not_found), Toast.LENGTH_LONG);
+            controller.destroy();
             finishWithoutAnimation();
             return;
         }
 
-        if (shortcut.feedbackUsesUI()) {
-            switch (shortcut.getFeedback()) {
-                case Shortcut.FEEDBACK_ACTIVITY: {
-                    setTheme(R.style.LightTheme);
-                    setContentView(R.layout.activity_execute);
-                    break;
-                }
-            }
+        if (Shortcut.FEEDBACK_ACTIVITY.equals(shortcut.getFeedback())) {
+            setTheme(R.style.LightTheme);
+            setContentView(R.layout.activity_execute);
+            setTitle(shortcut.getName());
         }
 
-        Promise promise = execute(shortcut, variableValues);
+        Promise promise = resolveVariablesAndExecute(variableValues);
 
         if (promise.isPending()) {
             promise.done(new DoneCallback() {
@@ -91,60 +98,14 @@ public class ExecuteActivity extends BaseActivity {
         }
     }
 
-    private static long getShortcutId(Intent intent) {
-        long shortcutId = -1;
-        Uri uri = intent.getData();
-        if (uri != null) {
-            try {
-                String id = uri.getLastPathSegment();
-                shortcutId = Long.parseLong(id);
-            } catch (NumberFormatException e) {
-            }
-        }
-        if (shortcutId == -1) {
-            return intent.getLongExtra(EXTRA_SHORTCUT_ID, -1); // for backwards compatibility
-        }
-        return shortcutId;
-    }
-
-    private static Map<String, String> getVariableValues(Intent intent) {
-        Serializable serializable = intent.getSerializableExtra(EXTRA_VARIABLE_VALUES);
-        if (serializable instanceof Map) {
-            return (Map<String, String>) serializable;
-        }
-        return new HashMap<>();
-    }
-
-    public Promise execute(final Shortcut shortcut, Map<String, String> variableValues) {
+    public Promise resolveVariablesAndExecute(Map<String, String> variableValues) {
         List<Variable> variables = controller.getVariables();
         return new VariableResolver(this)
                 .resolve(shortcut, variables, variableValues)
                 .done(new DoneCallback<ResolvedVariables>() {
                     @Override
-                    public void onDone(final ResolvedVariables resolvedVariables) {
-                        HttpRequester.executeShortcut(getContext(), shortcut, resolvedVariables).done(new DoneCallback<Response>() {
-                            @Override
-                            public void onDone(Response response) {
-                                handleSuccess(shortcut, response);
-                            }
-                        }).fail(new FailCallback<VolleyError>() {
-                            @Override
-                            public void onFail(VolleyError error) {
-                                if (Shortcut.RETRY_POLICY_WAIT_FOR_INTERNET.equals(shortcut.getRetryPolicy()) && error.networkResponse == null) {
-                                    controller.createPendingExecution(shortcut, resolvedVariables.toList());
-                                    if (!Shortcut.FEEDBACK_NONE.equals(shortcut.getFeedback())) {
-                                        showToast(String.format(getContext().getString(R.string.execution_delayed), shortcut.getSafeName(getContext())), Toast.LENGTH_LONG);
-                                    }
-                                } else {
-                                    handleFail(shortcut, error);
-                                }
-                            }
-                        }).always(new AlwaysCallback<Response, VolleyError>() {
-                            @Override
-                            public void onAlways(Promise.State state, Response resolved, VolleyError rejected) {
-                                controller.destroy();
-                            }
-                        });
+                    public void onDone(ResolvedVariables resolvedVariables) {
+                        execute(resolvedVariables);
                     }
                 }).fail(new FailCallback<Void>() {
                     @Override
@@ -154,7 +115,68 @@ public class ExecuteActivity extends BaseActivity {
                 });
     }
 
-    private void handleSuccess(Shortcut shortcut, Response response) {
+    private void execute(final ResolvedVariables resolvedVariables) {
+        showProgress();
+        HttpRequester.executeShortcut(getContext(), shortcut, resolvedVariables).done(new DoneCallback<Response>() {
+            @Override
+            public void onDone(Response response) {
+                handleSuccess(response);
+            }
+        }).fail(new FailCallback<VolleyError>() {
+            @Override
+            public void onFail(VolleyError error) {
+                if (Shortcut.RETRY_POLICY_WAIT_FOR_INTERNET.equals(shortcut.getRetryPolicy()) && error.networkResponse == null) {
+                    controller.createPendingExecution(shortcut, resolvedVariables.toList());
+                    if (!Shortcut.FEEDBACK_NONE.equals(shortcut.getFeedback())) {
+                        showToast(String.format(getContext().getString(R.string.execution_delayed), shortcut.getSafeName(getContext())), Toast.LENGTH_LONG);
+                    }
+                } else {
+                    handleFail(error);
+                }
+            }
+        }).always(new AlwaysCallback<Response, VolleyError>() {
+            @Override
+            public void onAlways(Promise.State state, Response resolved, VolleyError rejected) {
+                hideProgress();
+                controller.destroy();
+            }
+        });
+    }
+
+    private void showProgress() {
+        switch (shortcut.getFeedback()) {
+            case Shortcut.FEEDBACK_DIALOG: {
+                if (progressDialog == null) {
+                    progressDialog = ProgressDialog.show(getContext(), null, String.format(getString(R.string.progress_dialog_message), shortcut.getName()));
+                }
+                break;
+            }
+            case Shortcut.FEEDBACK_ACTIVITY: {
+                progressSpinner.setVisibility(View.VISIBLE);
+                responseText.setVisibility(View.GONE);
+                break;
+            }
+        }
+    }
+
+    private void hideProgress() {
+        switch (shortcut.getFeedback()) {
+            case Shortcut.FEEDBACK_DIALOG: {
+                if (progressDialog != null) {
+                    progressDialog.dismiss();
+                    progressDialog = null;
+                }
+            }
+            case Shortcut.FEEDBACK_ACTIVITY: {
+                progressSpinner.setVisibility(View.GONE);
+                responseText.setVisibility(View.VISIBLE);
+                break;
+            }
+        }
+    }
+
+    private void handleSuccess(Response response) {
+        setLastResponse(response);
         switch (shortcut.getFeedback()) {
             case Shortcut.FEEDBACK_TOAST_SIMPLE: {
                 showToast(String.format(getString(R.string.executed), shortcut.getSafeName(getContext())), Toast.LENGTH_SHORT);
@@ -189,7 +211,8 @@ public class ExecuteActivity extends BaseActivity {
         return string.length() > maxLength ? string.substring(0, maxLength) + "…" : string;
     }
 
-    private void handleFail(Shortcut shortcut, VolleyError error) {
+    private void handleFail(VolleyError error) {
+        setLastResponse(null);
         if (Shortcut.FEEDBACK_NONE.equals(shortcut.getFeedback())) {
             return;
         }
@@ -216,10 +239,42 @@ public class ExecuteActivity extends BaseActivity {
         Toast.makeText(getContext(), message, duration).show();
     }
 
+    private void setLastResponse(Response response) {
+        this.lastResponse = response;
+        invalidateOptionsMenu();
+    }
+
     private void finishWithoutAnimation() {
         overridePendingTransition(0, 0);
         finish();
         overridePendingTransition(0, 0);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.execute_activity_menu, menu);
+        menu.findItem(R.id.action_share_response).setVisible(lastResponse != null);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_share_response) {
+            shareLastResponse();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void shareLastResponse() {
+        if (lastResponse == null) {
+            return;
+        }
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, lastResponse.getBody());
+        startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_title)));
     }
 
     @Override
