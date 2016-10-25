@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.VolleyError;
 
+import org.jdeferred.AlwaysCallback;
 import org.jdeferred.DoneCallback;
 import org.jdeferred.FailCallback;
 import org.jdeferred.Promise;
@@ -48,7 +49,7 @@ public class ExecuteActivity extends BaseActivity {
         long shortcutId = getShortcutId(getIntent());
         Map<String, String> variableValues = getVariableValues(getIntent());
 
-        controller = destroyer.own(new Controller(getContext()));
+        controller = new Controller(getContext());
         final Shortcut shortcut = controller.getShortcutById(shortcutId);
 
         if (shortcut == null) {
@@ -138,7 +139,17 @@ public class ExecuteActivity extends BaseActivity {
                                     handleFail(shortcut, error);
                                 }
                             }
+                        }).always(new AlwaysCallback<Response, VolleyError>() {
+                            @Override
+                            public void onAlways(Promise.State state, Response resolved, VolleyError rejected) {
+                                controller.destroy();
+                            }
                         });
+                    }
+                }).fail(new FailCallback<Void>() {
+                    @Override
+                    public void onFail(Void result) {
+                        controller.destroy();
                     }
                 });
     }
