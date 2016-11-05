@@ -68,11 +68,11 @@ public class ExecuteActivity extends BaseActivity {
             finishWithoutAnimation();
             return;
         }
+        setTitle(shortcut.getName());
 
         if (Shortcut.FEEDBACK_ACTIVITY.equals(shortcut.getFeedback())) {
             setTheme(R.style.LightTheme);
             setContentView(R.layout.activity_execute);
-            setTitle(shortcut.getName());
         }
 
         Promise promise = resolveVariablesAndExecute(variableValues);
@@ -120,7 +120,8 @@ public class ExecuteActivity extends BaseActivity {
         HttpRequester.executeShortcut(getContext(), shortcut, resolvedVariables).done(new DoneCallback<Response>() {
             @Override
             public void onDone(Response response) {
-                handleSuccess(response);
+                setLastResponse(response);
+                displayOutput(generateOutputFromResponse(response));
             }
         }).fail(new FailCallback<VolleyError>() {
             @Override
@@ -130,8 +131,10 @@ public class ExecuteActivity extends BaseActivity {
                     if (!Shortcut.FEEDBACK_NONE.equals(shortcut.getFeedback())) {
                         showToast(String.format(getContext().getString(R.string.execution_delayed), shortcut.getSafeName(getContext())), Toast.LENGTH_LONG);
                     }
+                    finishWithoutAnimation();
                 } else {
-                    handleFail(error);
+                    setLastResponse(null);
+                    displayOutput(generateOutputFromError(error));
                 }
             }
         }).always(new AlwaysCallback<Response, VolleyError>() {
@@ -141,6 +144,39 @@ public class ExecuteActivity extends BaseActivity {
                 controller.destroy();
             }
         });
+    }
+
+    private String generateOutputFromResponse(Response response) {
+        return response.getBody();
+    }
+
+    private String generateOutputFromError(VolleyError error) {
+        String name = shortcut.getSafeName(getContext());
+
+        if (error.networkResponse != null) {
+            StringBuilder builder = new StringBuilder();
+            builder.append(String.format(getString(R.string.error_http), name, error.networkResponse.statusCode));
+
+            if (error.networkResponse.data != null) {
+                try {
+                    builder.append("\n");
+                    builder.append("\n");
+                    builder.append(new String(error.networkResponse.data));
+                } catch (Exception e) {
+
+                }
+            }
+
+            return builder.toString();
+        } else {
+            if (error.getCause() != null && error.getCause().getMessage() != null) {
+                return String.format(getString(R.string.error_other), name, error.getCause().getMessage());
+            } else if (error.getMessage() != null) {
+                return String.format(getString(R.string.error_other), name, error.getMessage());
+            } else {
+                return String.format(getString(R.string.error_other), name, error.getClass().getSimpleName());
+            }
+        }
     }
 
     private void showProgress() {
@@ -166,6 +202,7 @@ public class ExecuteActivity extends BaseActivity {
                     progressDialog.dismiss();
                     progressDialog = null;
                 }
+                break;
             }
             case Shortcut.FEEDBACK_ACTIVITY: {
                 progressSpinner.setVisibility(View.GONE);
@@ -175,21 +212,20 @@ public class ExecuteActivity extends BaseActivity {
         }
     }
 
-    private void handleSuccess(Response response) {
-        setLastResponse(response);
+    private void displayOutput(String output) {
         switch (shortcut.getFeedback()) {
             case Shortcut.FEEDBACK_TOAST_SIMPLE: {
                 showToast(String.format(getString(R.string.executed), shortcut.getSafeName(getContext())), Toast.LENGTH_SHORT);
                 break;
             }
             case Shortcut.FEEDBACK_TOAST: {
-                showToast(truncateIfNeeded(response.getBody(), TOAST_MAX_LENGTH), Toast.LENGTH_LONG);
+                showToast(truncateIfNeeded(output, TOAST_MAX_LENGTH), Toast.LENGTH_LONG);
                 break;
             }
             case Shortcut.FEEDBACK_DIALOG: {
                 new MaterialDialog.Builder(getContext())
                         .title(shortcut.getName())
-                        .content(response.getBody())
+                        .content(output)
                         .positiveText(R.string.button_ok)
                         .dismissListener(new DialogInterface.OnDismissListener() {
                             @Override
@@ -201,7 +237,7 @@ public class ExecuteActivity extends BaseActivity {
                 break;
             }
             case Shortcut.FEEDBACK_ACTIVITY: {
-                responseText.setText(response.getBody());
+                responseText.setText(output);
                 break;
             }
         }
@@ -209,30 +245,6 @@ public class ExecuteActivity extends BaseActivity {
 
     private static String truncateIfNeeded(String string, int maxLength) {
         return string.length() > maxLength ? string.substring(0, maxLength) + "…" : string;
-    }
-
-    private void handleFail(VolleyError error) {
-        setLastResponse(null);
-        if (Shortcut.FEEDBACK_NONE.equals(shortcut.getFeedback())) {
-            return;
-        }
-
-        String name = shortcut.getSafeName(getContext());
-
-        String message;
-        if (error.networkResponse != null) {
-            message = String.format(getString(R.string.error_http), name, error.networkResponse.statusCode);
-        } else {
-            if (error.getCause() != null && error.getCause().getMessage() != null) {
-                message = String.format(getString(R.string.error_other), name, error.getCause().getMessage());
-            } else if (error.getMessage() != null) {
-                message = String.format(getString(R.string.error_other), name, error.getMessage());
-            } else {
-                message = String.format(getString(R.string.error_other), name, error.getClass().getSimpleName());
-            }
-            error.printStackTrace();
-        }
-        showToast(message, Toast.LENGTH_LONG);
     }
 
     private void showToast(String message, int duration) {
@@ -245,6 +257,7 @@ public class ExecuteActivity extends BaseActivity {
     }
 
     private void finishWithoutAnimation() {
+        hideProgress();
         overridePendingTransition(0, 0);
         finish();
         overridePendingTransition(0, 0);

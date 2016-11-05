@@ -9,7 +9,7 @@ import com.android.volley.toolbox.StringRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AuthRequest extends StringRequest {
+class AuthRequest extends StringRequest {
 
     private final ResponseListener responseListener;
     private final String bodyContent;
@@ -17,7 +17,7 @@ public class AuthRequest extends StringRequest {
     private final Map<String, String> headers;
     private String contentType;
 
-    public AuthRequest(int method, String url, String username, String password, String bodyContent, ResponseListener responseListener, ErrorListener errorListener) {
+    AuthRequest(int method, String url, String username, String password, String bodyContent, ResponseListener responseListener, ErrorListener errorListener) {
         super(method, url, null, errorListener);
         this.responseListener = responseListener;
         this.bodyContent = bodyContent;
