@@ -34,14 +34,27 @@ public class Executor {
         this.responseHandler = new ResponseHandler(context);
     }
 
+    public Promise<Void, Void, Void> execute(final String shortcutName) {
+        final Controller controller = new Controller(context);
+
+        Shortcut shortcut = controller.getShortcutByName(shortcutName);
+
+        long shortcutId = -1;
+        if (shortcut != null) {
+            shortcutId = shortcut.getId();
+        }
+
+        return execute(shortcutId, new HashMap<String, String>());
+    }
+
     public Promise<Void, Void, Void> execute(final long shortcutId) {
         return execute(shortcutId, new HashMap<String, String>());
     }
 
     public Promise<Void, Void, Void> execute(final long shortcutId, Map<String, String> variableValues) {
         final Controller controller = new Controller(context);
-
         final Shortcut shortcut = controller.getShortcutById(shortcutId);
+
         if (shortcut == null) {
             Toast.makeText(context, R.string.shortcut_not_found, Toast.LENGTH_LONG).show();
             controller.destroy();
