@@ -21,6 +21,7 @@ import io.realm.RealmResults;
 public class Controller implements Destroyable {
 
     private static final String FIELD_ID = "id";
+    private static final String FIELD_NAME = "name";
 
     private final Realm realm;
 
@@ -63,6 +64,10 @@ public class Controller implements Destroyable {
 
     public Shortcut getShortcutById(long id) {
         return realm.where(Shortcut.class).equalTo(FIELD_ID, id).findFirst();
+    }
+
+    public Shortcut getShortcutByName(String name) {
+        return realm.where(Shortcut.class).equalTo(FIELD_NAME, name).findFirst();
     }
 
     public Variable getVariableById(long id) {
