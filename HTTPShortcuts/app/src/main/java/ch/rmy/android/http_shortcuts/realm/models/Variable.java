@@ -47,6 +47,7 @@ public class Variable extends RealmObject implements HasId {
     private String value;
     private RealmList<Option> options;
 
+    private boolean rememberValue;
     private boolean urlEncode;
     private boolean jsonEncode;
 
@@ -117,6 +118,14 @@ public class Variable extends RealmObject implements HasId {
         this.title = title;
     }
 
+    public boolean isRememberValue() {
+        return rememberValue;
+    }
+
+    public void setRememberValue(boolean rememberValue) {
+        this.rememberValue = rememberValue;
+    }
+
     public boolean isUrlEncode() {
         return urlEncode;
     }
@@ -148,6 +157,7 @@ public class Variable extends RealmObject implements HasId {
 
         Variable variable = (Variable) o;
 
+        if (isRememberValue() != variable.isRememberValue()) return false;
         if (isUrlEncode() != variable.isUrlEncode()) return false;
         if (isJsonEncode() != variable.isJsonEncode()) return false;
         if (!getKey().equals(variable.getKey())) return false;
@@ -163,6 +173,7 @@ public class Variable extends RealmObject implements HasId {
         result = 31 * result + getType().hashCode();
         result = 31 * result + getValue().hashCode();
         result = 31 * result + getOptions().hashCode();
+        result = 31 * result + (isRememberValue() ? 1 : 0);
         result = 31 * result + (isUrlEncode() ? 1 : 0);
         result = 31 * result + (isJsonEncode() ? 1 : 0);
         result = 31 * result + getTitle().hashCode();

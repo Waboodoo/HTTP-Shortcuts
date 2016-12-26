@@ -13,12 +13,17 @@ public class TextType extends BaseVariableType implements AsyncVariableType {
 
     @Override
     public void setupDialog(final Controller controller, final Variable variable, MaterialDialog.Builder builder, final Deferred<String, Void, Void> deferredValue) {
-        builder.input(null, variable.getValue(), new MaterialDialog.InputCallback() {
+        builder.input(null, variable.isRememberValue() ? variable.getValue() : "", new MaterialDialog.InputCallback() {
             @Override
             public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                 deferredValue.resolve(input.toString());
                 controller.setVariableValue(variable, input.toString());
             }
         });
+    }
+
+    @Override
+    protected VariableEditorFragment createEditorFragment() {
+        return new TextEditorFragment();
     }
 }

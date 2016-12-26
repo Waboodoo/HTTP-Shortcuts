@@ -10,7 +10,7 @@ import io.realm.RealmSchema;
 
 public class DatabaseMigration implements RealmMigration {
 
-    public static final int VERSION = 2;
+    public static final int VERSION = 3;
 
     @Override
     public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
@@ -52,6 +52,10 @@ public class DatabaseMigration implements RealmMigration {
                     base.setList("variables", new RealmList<Base>());
                 }
 
+                break;
+            }
+            case 3: { // 1.12.0
+                schema.get("Variable").addField("rememberValue", boolean.class);
                 break;
             }
 

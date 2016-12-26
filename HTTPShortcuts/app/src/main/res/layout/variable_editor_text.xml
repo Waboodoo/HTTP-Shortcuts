@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <TextView
+        style="@style/SubHeader"
+        android:text="@string/section_input_options"/>
+
+    <CheckBox
+        android:id="@+id/input_remember_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/label_remember_value"/>
+
+</LinearLayout>
