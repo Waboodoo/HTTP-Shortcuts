@@ -7,7 +7,7 @@ import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 
 public class ShortcutUIUtils {
 
-    private static final int[] FEEDBACK_RESOURCES = {R.string.feedback_none, R.string.feedback_simple_toast, R.string.feedback_response_toast, R.string.feedback_dialog, R.string.feedback_activity};
+    private static final int[] FEEDBACK_RESOURCES = {R.string.feedback_none, R.string.feedback_simple_toast, R.string.feedback_simple_toast_error, R.string.feedback_response_toast, R.string.feedback_response_toast_error, R.string.feedback_dialog, R.string.feedback_activity};
     private static final int[] TIMEOUT_RESOURCES = {R.string.timeout_short, R.string.timeout_medium, R.string.timeout_long, R.string.timeout_very_long};
     private static final int[] RETRY_POLICY_RESOURCES = {R.string.retry_policy_none, R.string.retry_policy_delayed};
     public static final int DEFAULT_ICON = R.drawable.ic_launcher;

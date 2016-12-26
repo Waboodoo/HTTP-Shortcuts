@@ -14,10 +14,12 @@
     <string name="label_method">Method</string>
     <string name="label_username">Username</string>
     <string name="label_password">Password</string>
-    <string name="label_feedback">Feedback</string>
-    <string name="feedback_none">No feedback (run silently)</string>
+    <string name="label_feedback">Response type</string>
+    <string name="feedback_none">Ignore response (run silently)</string>
     <string name="feedback_simple_toast">Simple toast</string>
+    <string name="feedback_simple_toast_error">Simple toast (errors only)</string>
     <string name="feedback_response_toast">Response in Toast</string>
+    <string name="feedback_response_toast_error">Response in Toast (errors only)</string>
     <string name="feedback_dialog">Response in Dialog</string>
     <string name="feedback_activity">Response in Window</string>
     <string name="action_place">Place on home screen</string>
@@ -114,6 +116,7 @@
     <string name="dialog_delete">Delete</string>
     <string name="section_appearance">Appearance</string>
     <string name="section_basic_request">Basic request settings</string>
+    <string name="section_response">Response settings</string>
     <string name="section_advanced_settings">Advanced settings</string>
     <string name="section_authentication">Authentication</string>
     <string name="warning_icon_or_name_change">Please note that changes to the name or icon are not automatically applied to shortcuts that are already added to the home screen. You will have to add them again for the changes to take effect. All other changes are automatically applied.</string>

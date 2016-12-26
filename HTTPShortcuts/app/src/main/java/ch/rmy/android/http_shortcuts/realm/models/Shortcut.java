@@ -20,8 +20,10 @@ public class Shortcut extends RealmObject implements HasId {
     public static final String METHOD_PATCH = "PATCH";
 
     public static final String FEEDBACK_NONE = "none";
-    public static final String FEEDBACK_TOAST_SIMPLE = "simple_toast";
-    public static final String FEEDBACK_TOAST = "toast";
+    public static final String FEEDBACK_TOAST_SIMPLE = "simple_response";
+    public static final String FEEDBACK_TOAST_SIMPLE_ERRORS = "simple_response_errors";
+    public static final String FEEDBACK_TOAST = "full_response";
+    public static final String FEEDBACK_TOAST_ERRORS = "errors_only";
     public static final String FEEDBACK_DIALOG = "dialog";
     public static final String FEEDBACK_ACTIVITY = "activity";
 
@@ -29,7 +31,7 @@ public class Shortcut extends RealmObject implements HasId {
     public static final String RETRY_POLICY_WAIT_FOR_INTERNET = "wait_for_internet";
 
     public static final String[] METHOD_OPTIONS = {METHOD_GET, METHOD_POST, METHOD_PUT, METHOD_DELETE, METHOD_PATCH};
-    public static final String[] FEEDBACK_OPTIONS = {FEEDBACK_NONE, FEEDBACK_TOAST_SIMPLE, FEEDBACK_TOAST, FEEDBACK_DIALOG, FEEDBACK_ACTIVITY};
+    public static final String[] FEEDBACK_OPTIONS = {FEEDBACK_NONE, FEEDBACK_TOAST_SIMPLE, FEEDBACK_TOAST_SIMPLE_ERRORS, FEEDBACK_TOAST, FEEDBACK_TOAST_ERRORS, FEEDBACK_DIALOG, FEEDBACK_ACTIVITY};
     public static final int[] TIMEOUT_OPTIONS = {3000, 10000, 30000, 60000};
 
     public static final String[] RETRY_POLICY_OPTIONS = {RETRY_POLICY_NONE, RETRY_POLICY_WAIT_FOR_INTERNET};
@@ -49,7 +51,6 @@ public class Shortcut extends RealmObject implements HasId {
     private String iconName;
     @Required
     private String feedback;
-    private boolean feedbackErrorsOnly;
     @Required
     private String description;
     @Required
@@ -124,14 +125,6 @@ public class Shortcut extends RealmObject implements HasId {
 
     public void setFeedback(String feedback) {
         this.feedback = feedback;
-    }
-
-    public boolean isFeedbackErrorsOnly() {
-        return feedbackErrorsOnly;
-    }
-
-    public void setFeedbackErrorsOnly(boolean feedbackErrorsOnly) {
-        this.feedbackErrorsOnly = feedbackErrorsOnly;
     }
 
     public String getDescription() {
@@ -220,7 +213,6 @@ public class Shortcut extends RealmObject implements HasId {
         duplicate.setBodyContent(getBodyContent());
         duplicate.setDescription(getDescription());
         duplicate.setFeedback(getFeedback());
-        duplicate.setFeedbackErrorsOnly(isFeedbackErrorsOnly());
         duplicate.setIconName(getIconName());
         duplicate.setMethod(getMethod());
         duplicate.setPassword(getPassword());
@@ -307,5 +299,13 @@ public class Shortcut extends RealmObject implements HasId {
 
     public boolean feedbackUsesUI() {
         return FEEDBACK_DIALOG.equals(getFeedback()) || FEEDBACK_ACTIVITY.equals(getFeedback());
+    }
+
+    public boolean isFeedbackErrorsOnly() {
+        return FEEDBACK_TOAST_ERRORS.equals(getFeedback()) || FEEDBACK_TOAST_SIMPLE_ERRORS.equals(getFeedback());
+    }
+
+    public boolean isRetryAllowed() {
+        return !FEEDBACK_ACTIVITY.equals(getFeedback()) && !FEEDBACK_DIALOG.equals(getFeedback());
     }
 }

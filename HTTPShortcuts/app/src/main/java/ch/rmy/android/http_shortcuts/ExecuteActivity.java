@@ -68,7 +68,7 @@ public class ExecuteActivity extends BaseActivity {
             finishWithoutAnimation();
             return;
         }
-        setTitle(shortcut.getName());
+        setTitle(shortcut.getSafeName(getContext()));
 
         if (Shortcut.FEEDBACK_ACTIVITY.equals(shortcut.getFeedback())) {
             setTheme(R.style.LightTheme);
@@ -121,12 +121,17 @@ public class ExecuteActivity extends BaseActivity {
             @Override
             public void onDone(Response response) {
                 setLastResponse(response);
-                displayOutput(generateOutputFromResponse(response));
+                if (shortcut.isFeedbackErrorsOnly()) {
+                    finishWithoutAnimation();
+                } else {
+                    boolean simple = shortcut.getFeedback().equals(Shortcut.FEEDBACK_TOAST_SIMPLE);
+                    displayOutput(simple ? String.format(getString(R.string.executed), shortcut.getSafeName(getContext())) : generateOutputFromResponse(response));
+                }
             }
         }).fail(new FailCallback<VolleyError>() {
             @Override
             public void onFail(VolleyError error) {
-                if (Shortcut.RETRY_POLICY_WAIT_FOR_INTERNET.equals(shortcut.getRetryPolicy()) && error.networkResponse == null) {
+                if (!shortcut.feedbackUsesUI() && Shortcut.RETRY_POLICY_WAIT_FOR_INTERNET.equals(shortcut.getRetryPolicy()) && error.networkResponse == null) {
                     controller.createPendingExecution(shortcut, resolvedVariables.toList());
                     if (!Shortcut.FEEDBACK_NONE.equals(shortcut.getFeedback())) {
                         showToast(String.format(getContext().getString(R.string.execution_delayed), shortcut.getSafeName(getContext())), Toast.LENGTH_LONG);
@@ -134,7 +139,8 @@ public class ExecuteActivity extends BaseActivity {
                     finishWithoutAnimation();
                 } else {
                     setLastResponse(null);
-                    displayOutput(generateOutputFromError(error));
+                    boolean simple = shortcut.getFeedback().equals(Shortcut.FEEDBACK_TOAST_SIMPLE_ERRORS) || shortcut.getFeedback().equals(Shortcut.FEEDBACK_TOAST_SIMPLE);
+                    displayOutput(generateOutputFromError(error, simple));
                 }
             }
         }).always(new AlwaysCallback<Response, VolleyError>() {
@@ -150,14 +156,14 @@ public class ExecuteActivity extends BaseActivity {
         return response.getBody();
     }
 
-    private String generateOutputFromError(VolleyError error) {
+    private String generateOutputFromError(VolleyError error, boolean simple) {
         String name = shortcut.getSafeName(getContext());
 
         if (error.networkResponse != null) {
             StringBuilder builder = new StringBuilder();
             builder.append(String.format(getString(R.string.error_http), name, error.networkResponse.statusCode));
 
-            if (error.networkResponse.data != null) {
+            if (!simple && error.networkResponse.data != null) {
                 try {
                     builder.append("\n");
                     builder.append("\n");
@@ -183,7 +189,7 @@ public class ExecuteActivity extends BaseActivity {
         switch (shortcut.getFeedback()) {
             case Shortcut.FEEDBACK_DIALOG: {
                 if (progressDialog == null) {
-                    progressDialog = ProgressDialog.show(getContext(), null, String.format(getString(R.string.progress_dialog_message), shortcut.getName()));
+                    progressDialog = ProgressDialog.show(getContext(), null, String.format(getString(R.string.progress_dialog_message), shortcut.getSafeName(getContext())));
                 }
                 break;
             }
@@ -214,17 +220,19 @@ public class ExecuteActivity extends BaseActivity {
 
     private void displayOutput(String output) {
         switch (shortcut.getFeedback()) {
-            case Shortcut.FEEDBACK_TOAST_SIMPLE: {
-                showToast(String.format(getString(R.string.executed), shortcut.getSafeName(getContext())), Toast.LENGTH_SHORT);
+            case Shortcut.FEEDBACK_TOAST_SIMPLE:
+            case Shortcut.FEEDBACK_TOAST_SIMPLE_ERRORS: {
+                showToast(output, Toast.LENGTH_SHORT);
                 break;
             }
-            case Shortcut.FEEDBACK_TOAST: {
+            case Shortcut.FEEDBACK_TOAST:
+            case Shortcut.FEEDBACK_TOAST_ERRORS: {
                 showToast(truncateIfNeeded(output, TOAST_MAX_LENGTH), Toast.LENGTH_LONG);
                 break;
             }
             case Shortcut.FEEDBACK_DIALOG: {
                 new MaterialDialog.Builder(getContext())
-                        .title(shortcut.getName())
+                        .title(shortcut.getSafeName(getContext()))
                         .content(output)
                         .positiveText(R.string.button_ok)
                         .dismissListener(new DialogInterface.OnDismissListener() {
