@@ -94,6 +94,21 @@
             android:label=".FilePickerActivity"
             android:theme="@style/FilePickerTheme"/>
 
+        <!-- EXPERIMENTAL -->
+        <activity
+            android:name=".VoiceActivity"
+            android:configChanges="orientation|screenSize"
+            android:excludeFromRecents="true"
+            android:label="@string/title_activity_execute"
+            android:launchMode="singleInstance"
+            android:noHistory="true"
+            android:theme="@style/Theme.Transparent">
+            <intent-filter>
+                <action android:name="com.google.android.gms.actions.SEARCH_ACTION"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
         <receiver android:name="ch.rmy.android.http_shortcuts.http.ServiceStarter">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>

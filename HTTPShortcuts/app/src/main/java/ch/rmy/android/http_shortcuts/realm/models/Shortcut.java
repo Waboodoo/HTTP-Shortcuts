@@ -13,6 +13,8 @@ import io.realm.annotations.Required;
 
 public class Shortcut extends RealmObject implements HasId {
 
+    public static final String FIELD_NAME = "name";
+
     public static final String METHOD_GET = "GET";
     public static final String METHOD_POST = "POST";
     public static final String METHOD_PUT = "PUT";

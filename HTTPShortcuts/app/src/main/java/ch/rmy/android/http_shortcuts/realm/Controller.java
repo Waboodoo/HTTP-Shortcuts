@@ -12,6 +12,7 @@ import ch.rmy.android.http_shortcuts.realm.models.ResolvedVariable;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 import ch.rmy.android.http_shortcuts.realm.models.Variable;
 import ch.rmy.android.http_shortcuts.utils.Destroyable;
+import io.realm.Case;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmObject;
@@ -59,6 +60,11 @@ public class Controller implements Destroyable {
 
     public Shortcut getShortcutById(long id) {
         return realm.where(Shortcut.class).equalTo(FIELD_ID, id).findFirst();
+    }
+
+
+    public Shortcut getShortcutByName(String shortcutName) {
+        return realm.where(Shortcut.class).equalTo(Shortcut.FIELD_NAME, shortcutName, Case.INSENSITIVE).findFirst();
     }
 
     public Variable getVariableById(long id) {
