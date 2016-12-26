@@ -23,6 +23,7 @@ import ch.rmy.android.http_shortcuts.adapters.ShortcutAdapter;
 import ch.rmy.android.http_shortcuts.listeners.OnItemClickedListener;
 import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
+import ch.rmy.android.http_shortcuts.realm.models.PendingExecution;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 import ch.rmy.android.http_shortcuts.utils.IntentUtil;
 import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder;
@@ -96,6 +97,7 @@ public class ListFragment extends Fragment {
         }
         category = controller.getCategoryById(categoryId);
         adapter.setParent(category);
+        adapter.setPendingShortcuts(controller.getShortcutsPendingExecution());
     }
 
     public long getCategoryId() {
@@ -180,6 +182,14 @@ public class ListFragment extends Fragment {
                 duplicateShortcut(shortcut);
             }
         });
+        if (getPendingExecution(shortcut) != null) {
+            builder.item(R.string.action_cancel_pending, new MenuDialogBuilder.Action() {
+                @Override
+                public void execute() {
+                    cancelPendingExecution(shortcut);
+                }
+            });
+        }
         builder.item(R.string.action_delete, new MenuDialogBuilder.Action() {
             @Override
             public void execute() {
@@ -187,6 +197,15 @@ public class ListFragment extends Fragment {
             }
         });
         builder.show();
+    }
+
+    private PendingExecution getPendingExecution(Shortcut shortcut) {
+        for (PendingExecution pendingExecution : controller.getShortcutsPendingExecution()) {
+            if (pendingExecution.getShortcutId() == shortcut.getId()) {
+                return pendingExecution;
+            }
+        }
+        return null;
     }
 
     private void executeShortcut(Shortcut shortcut) {
@@ -243,17 +262,26 @@ public class ListFragment extends Fragment {
 
     private void moveShortcut(Shortcut shortcut, Category category) {
         controller.moveShortcut(shortcut, category);
-        getTabHost().showSnackbar(String.format(getText(R.string.shortcut_moved).toString(), shortcut.getName()));
+        getTabHost().showSnackbar(String.format(getString(R.string.shortcut_moved), shortcut.getName()));
     }
 
     private void duplicateShortcut(Shortcut shortcut) {
-        String newName = String.format(getText(R.string.copy).toString(), shortcut.getName());
+        String newName = String.format(getString(R.string.copy), shortcut.getName());
         Shortcut duplicate = controller.persist(shortcut.duplicate(newName));
         controller.moveShortcut(duplicate, category);
         int position = category.getShortcuts().indexOf(shortcut);
         controller.moveShortcut(duplicate, position + 1);
 
-        getTabHost().showSnackbar(String.format(getText(R.string.shortcut_duplicated).toString(), shortcut.getName()));
+        getTabHost().showSnackbar(String.format(getString(R.string.shortcut_duplicated), shortcut.getName()));
+    }
+
+    private void cancelPendingExecution(Shortcut shortcut) {
+        PendingExecution pendingExecution = getPendingExecution(shortcut);
+        if (pendingExecution == null) {
+            return;
+        }
+        controller.removePendingExecution(pendingExecution);
+        getTabHost().showSnackbar(String.format(getString(R.string.pending_shortcut_execution_cancelled), shortcut.getName()));
     }
 
     private void showDeleteDialog(final Shortcut shortcut) {
@@ -271,7 +299,7 @@ public class ListFragment extends Fragment {
     }
 
     private void deleteShortcut(Shortcut shortcut) {
-        getTabHost().showSnackbar(String.format(getText(R.string.shortcut_deleted).toString(), shortcut.getName()));
+        getTabHost().showSnackbar(String.format(getString(R.string.shortcut_deleted), shortcut.getName()));
         getTabHost().removeShortcutFromHomeScreen(shortcut);
         controller.deleteShortcut(shortcut);
     }

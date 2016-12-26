@@ -115,7 +115,7 @@ public class VariablesActivity extends BaseActivity {
     }
 
     private void deleteVariable(Variable variable) {
-        showSnackbar(String.format(getText(R.string.variable_deleted).toString(), variable.getKey()));
+        showSnackbar(String.format(getString(R.string.variable_deleted), variable.getKey()));
         controller.deleteVariable(variable);
     }
 

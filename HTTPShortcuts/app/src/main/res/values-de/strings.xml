@@ -174,4 +174,6 @@
     <string name="share_title">Teilen…</string>
     <string name="label_remember_value">Wert merken</string>
     <string name="section_input_options">Eingabeoptionen</string>
+    <string name="action_cancel_pending">Ausstehende Ausführung abbrechen</string>
+    <string name="pending_shortcut_execution_cancelled">%1$s abgebrochen.</string>
 </resources>
