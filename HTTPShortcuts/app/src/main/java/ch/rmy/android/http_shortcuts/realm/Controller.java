@@ -5,7 +5,6 @@ import android.content.Context;
 import java.util.List;
 
 import ch.rmy.android.http_shortcuts.R;
-import ch.rmy.android.http_shortcuts.legacy_database.LegacyMigration;
 import ch.rmy.android.http_shortcuts.realm.models.Base;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
 import ch.rmy.android.http_shortcuts.realm.models.PendingExecution;
@@ -29,9 +28,6 @@ public class Controller implements Destroyable {
 
         if (realm.where(Base.class).count() == 0) {
             setupBase(context);
-
-            LegacyMigration migration = new LegacyMigration(context, this);
-            migration.migrate();
         }
     }
 
@@ -231,16 +227,16 @@ public class Controller implements Destroyable {
                 .findAllSorted(PendingExecution.FIELD_ENQUEUED_AT);
     }
 
-    public void createPendingExecution(final Shortcut shortcut, final List<ResolvedVariable> resolvedVariables) {
+    public void createPendingExecution(final long shortcutId, final List<ResolvedVariable> resolvedVariables) {
         long existingPendingExecutions = realm
                 .where(PendingExecution.class)
-                .equalTo(PendingExecution.FIELD_SHORTCUT_ID, shortcut.getId())
+                .equalTo(PendingExecution.FIELD_SHORTCUT_ID, shortcutId)
                 .count();
         if (existingPendingExecutions == 0) {
             realm.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
-                    realm.copyToRealm(PendingExecution.createNew(shortcut, resolvedVariables));
+                    realm.copyToRealm(PendingExecution.createNew(shortcutId, resolvedVariables));
                 }
             });
         }

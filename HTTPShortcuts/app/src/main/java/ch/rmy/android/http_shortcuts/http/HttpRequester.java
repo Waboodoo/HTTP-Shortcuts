@@ -5,7 +5,6 @@ import android.content.Context;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.squareup.okhttp.OkHttpClient;
@@ -22,14 +21,14 @@ import ch.rmy.android.http_shortcuts.variables.Variables;
 
 public class HttpRequester {
 
-    public static Promise<String, VolleyError, Void> executeShortcut(final Context context, final Shortcut detachedShortcut, ResolvedVariables variables) {
+    public static Promise<Response, VolleyError, Void> executeShortcut(final Context context, final Shortcut detachedShortcut, ResolvedVariables variables) {
         int method = getMethod(detachedShortcut);
         boolean acceptAllCertificates = detachedShortcut.isAcceptAllCertificates();
 
         OkHttpClient client = acceptAllCertificates ? HttpClients.getUnsafeOkHttpClient() : HttpClients.getDefaultOkHttpClient();
         RequestQueue queue = Volley.newRequestQueue(context, new OkHttpStack(client));
 
-        final Deferred<String, VolleyError, Void> deferred = new DeferredObject<>();
+        final Deferred<Response, VolleyError, Void> deferred = new DeferredObject<>();
 
         AuthRequest stringRequest = new AuthRequest(
                 method,
@@ -37,12 +36,12 @@ public class HttpRequester {
                 Variables.insert(detachedShortcut.getUsername(), variables),
                 Variables.insert(detachedShortcut.getPassword(), variables),
                 Variables.insert(detachedShortcut.getBodyContent(), variables),
-                new Response.Listener<String>() {
+                new ResponseListener() {
                     @Override
-                    public void onResponse(String response) {
+                    public void onResponse(Response response) {
                         deferred.resolve(response);
                     }
-                }, new Response.ErrorListener() {
+                }, new com.android.volley.Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 deferred.reject(error);

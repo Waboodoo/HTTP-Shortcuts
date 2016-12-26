@@ -19,13 +19,9 @@ import android.widget.LinearLayout;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.android.volley.VolleyError;
 import com.satsuware.usefulviews.LabelledSpinner;
 
 import net.dinglisch.ipack.IpackKeys;
-
-import org.jdeferred.DoneCallback;
-import org.jdeferred.FailCallback;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,8 +30,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import ch.rmy.android.http_shortcuts.dialogs.IconNameChangeDialog;
-import ch.rmy.android.http_shortcuts.http.HttpRequester;
-import ch.rmy.android.http_shortcuts.http.ResponseHandler;
 import ch.rmy.android.http_shortcuts.icons.IconSelector;
 import ch.rmy.android.http_shortcuts.icons.IconView;
 import ch.rmy.android.http_shortcuts.key_value_pairs.KeyValueList;
@@ -48,12 +42,12 @@ import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 import ch.rmy.android.http_shortcuts.realm.models.Variable;
 import ch.rmy.android.http_shortcuts.utils.ArrayUtil;
 import ch.rmy.android.http_shortcuts.utils.GsonUtil;
+import ch.rmy.android.http_shortcuts.utils.IntentUtil;
 import ch.rmy.android.http_shortcuts.utils.OnItemChosenListener;
+import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils;
 import ch.rmy.android.http_shortcuts.utils.Validation;
 import ch.rmy.android.http_shortcuts.utils.ViewUtil;
-import ch.rmy.android.http_shortcuts.variables.ResolvedVariables;
 import ch.rmy.android.http_shortcuts.variables.VariableFormatter;
-import ch.rmy.android.http_shortcuts.variables.VariableResolver;
 
 /**
  * The activity to create/edit shortcuts.
@@ -67,6 +61,10 @@ public class EditorActivity extends BaseActivity {
     private final static int SELECT_ICON = 1;
     private final static int SELECT_IPACK_ICON = 3;
     private static final String STATE_JSON_SHORTCUT = "shortcut_json";
+
+    private static final long TEMPORARY_ID = -1;
+
+    private long shortcutId;
 
     private Controller controller;
     private Shortcut oldShortcut;
@@ -104,6 +102,14 @@ public class EditorActivity extends BaseActivity {
     @Bind(R.id.input_accept_all_certificates)
     CheckBox acceptCertificatesCheckbox;
 
+    private final OnItemChosenListener itemChosenListener = new OnItemChosenListener() {
+        @Override
+        public void onSelectionChanged() {
+            compileShortcut();
+            updateUI();
+        }
+    };
+
     @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +122,7 @@ public class EditorActivity extends BaseActivity {
         controller = destroyer.own(new Controller(this));
         variables = controller.getVariables();
 
-        long shortcutId = getIntent().getLongExtra(EXTRA_SHORTCUT_ID, 0);
+        shortcutId = getIntent().getLongExtra(EXTRA_SHORTCUT_ID, 0);
         if (savedInstanceState != null && savedInstanceState.containsKey(STATE_JSON_SHORTCUT)) {
             shortcut = GsonUtil.fromJson(savedInstanceState.getString(STATE_JSON_SHORTCUT), Shortcut.class);
         } else {
@@ -146,14 +152,8 @@ public class EditorActivity extends BaseActivity {
 
         methodView.setItemsArray(Shortcut.METHOD_OPTIONS);
         ViewUtil.hideErrorLabel(methodView);
-        methodView.setOnItemChosenListener(new OnItemChosenListener() {
-            @Override
-            public void onSelectionChanged() {
-                updateCustomBody();
-            }
-        });
+        methodView.setOnItemChosenListener(itemChosenListener);
         methodView.setSelection(ArrayUtil.findIndex(Shortcut.METHOD_OPTIONS, shortcut.getMethod()));
-        updateCustomBody();
 
         parameterList.addItems(shortcut.getParameters());
         parameterList.setButtonText(R.string.button_add_post_param);
@@ -182,21 +182,21 @@ public class EditorActivity extends BaseActivity {
         });
         customHeaderList.setSuggestions(Header.SUGGESTED_KEYS);
 
-        feedbackView.setItemsArray(Shortcut.getFeedbackOptions(this));
+        feedbackView.setItemsArray(ShortcutUIUtils.getFeedbackOptions(this));
+        feedbackView.setOnItemChosenListener(itemChosenListener);
         ViewUtil.hideErrorLabel(feedbackView);
         feedbackView.setSelection(ArrayUtil.findIndex(Shortcut.FEEDBACK_OPTIONS, shortcut.getFeedback()));
 
-        timeoutView.setItemsArray(Shortcut.getTimeoutOptions(this));
+        timeoutView.setItemsArray(ShortcutUIUtils.getTimeoutOptions(this));
         ViewUtil.hideErrorLabel(timeoutView);
         timeoutView.setSelection(ArrayUtil.findIndex(Shortcut.TIMEOUT_OPTIONS, shortcut.getTimeout()));
 
-        retryPolicyView.setItemsArray(Shortcut.getRetryPolicyOptions(this));
+        retryPolicyView.setItemsArray(ShortcutUIUtils.getRetryPolicyOptions(this));
         ViewUtil.hideErrorLabel(retryPolicyView);
         retryPolicyView.setSelection(ArrayUtil.findIndex(Shortcut.RETRY_POLICY_OPTIONS, shortcut.getRetryPolicy()));
 
         acceptCertificatesCheckbox.setChecked(shortcut.isAcceptAllCertificates());
 
-        updateIcon();
         iconView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -205,19 +205,17 @@ public class EditorActivity extends BaseActivity {
         });
 
         setTitle(shortcut.isNew() ? R.string.create_shortcut : R.string.edit_shortcut);
+        updateUI();
     }
 
     private void bindVariableFormatter(EditText editText) {
         destroyer.own(VariableFormatter.bind(editText, variables));
     }
 
-    private void updateCustomBody() {
-        boolean methodIsGet = Shortcut.METHOD_OPTIONS[methodView.getSpinner().getSelectedItemPosition()].equals(Shortcut.METHOD_GET);
-        postParamsContainer.setVisibility(methodIsGet ? View.GONE : View.VISIBLE);
-    }
-
-    private void updateIcon() {
+    private void updateUI() {
         iconView.setImageURI(shortcut.getIconURI(this), shortcut.getIconName());
+        retryPolicyView.setVisibility(shortcut.isRetryAllowed() ? View.VISIBLE : View.GONE);
+        postParamsContainer.setVisibility(Shortcut.METHOD_GET.equals(shortcut.getMethod()) ? View.GONE : View.VISIBLE);
     }
 
     @Override
@@ -254,6 +252,7 @@ public class EditorActivity extends BaseActivity {
     private void trySave() {
         compileShortcut();
         if (validate(false)) {
+            shortcut.setId(shortcutId);
             Shortcut persistedShortcut = controller.persist(shortcut);
             Intent returnIntent = new Intent();
             returnIntent.putExtra(EXTRA_SHORTCUT_ID, persistedShortcut.getId());
@@ -293,28 +292,11 @@ public class EditorActivity extends BaseActivity {
     private void test() {
         compileShortcut();
         if (validate(true)) {
-            new VariableResolver(this).resolve(shortcut, variables).done(new DoneCallback<ResolvedVariables>() {
-                @Override
-                public void onDone(ResolvedVariables resolvedVariables) {
-                    execute(resolvedVariables);
-                }
-            });
+            shortcut.setId(TEMPORARY_ID);
+            controller.persist(shortcut);
+            Intent intent = IntentUtil.createIntent(this, TEMPORARY_ID);
+            startActivity(intent);
         }
-    }
-
-    private void execute(ResolvedVariables resolvedVariables) {
-        final ResponseHandler responseHandler = new ResponseHandler(this);
-        HttpRequester.executeShortcut(this, shortcut, resolvedVariables).done(new DoneCallback<String>() {
-            @Override
-            public void onDone(String response) {
-                responseHandler.handleSuccess(shortcut, response);
-            }
-        }).fail(new FailCallback<VolleyError>() {
-            @Override
-            public void onFail(VolleyError error) {
-                responseHandler.handleFailure(shortcut, error);
-            }
-        });
     }
 
     private void openIconSelectionDialog() {
@@ -346,7 +328,7 @@ public class EditorActivity extends BaseActivity {
             @Override
             public void onIconSelected(String iconName) {
                 shortcut.setIconName(iconName);
-                updateIcon();
+                updateUI();
             }
 
         });
@@ -444,11 +426,9 @@ public class EditorActivity extends BaseActivity {
                 out.flush();
 
                 shortcut.setIconName(iconName);
-                updateIcon();
             } catch (Exception e) {
                 e.printStackTrace();
                 shortcut.setIconName(null);
-                updateIcon();
                 showSnackbar(getString(R.string.error_set_image));
             } finally {
                 try {
@@ -466,8 +446,8 @@ public class EditorActivity extends BaseActivity {
             int id = intent.getIntExtra(IpackKeys.Extras.ICON_ID, -1);
             Uri uri = Uri.parse("android.resource://" + ipackageName + "/" + id);
             shortcut.setIconName(uri.toString());
-            updateIcon();
         }
+        updateUI();
     }
 
     @Override

@@ -14,11 +14,14 @@
     <string name="label_method">Method</string>
     <string name="label_username">Username</string>
     <string name="label_password">Password</string>
-    <string name="label_feedback">Feedback</string>
-    <string name="feedback_none">No feedback (run silently)</string>
-    <string name="feedback_errors_only">Show errors only</string>
-    <string name="feedback_simple">Show simple toast message</string>
-    <string name="feedback_full_response">Show response in toast message</string>
+    <string name="label_feedback">Response type</string>
+    <string name="feedback_none">Ignore response (run silently)</string>
+    <string name="feedback_simple_toast">Simple Toast</string>
+    <string name="feedback_simple_toast_error">Simple Toast (errors only)</string>
+    <string name="feedback_response_toast">Response in Toast</string>
+    <string name="feedback_response_toast_error">Response in Toast (errors only)</string>
+    <string name="feedback_dialog">Response in Dialog</string>
+    <string name="feedback_activity">Response in Window</string>
     <string name="action_place">Place on home screen</string>
     <string name="action_run">Execute</string>
     <string name="action_edit">Edit</string>
@@ -112,8 +115,9 @@
     <string name="shortcut_placed">%1$s placed on home screen.</string>
     <string name="dialog_delete">Delete</string>
     <string name="section_appearance">Appearance</string>
-    <string name="section_basic_request">Basic request settings</string>
-    <string name="section_advanced_settings">Advanced settings</string>
+    <string name="section_basic_request">Basic Request Settings</string>
+    <string name="section_response">Response Settings</string>
+    <string name="section_advanced_settings">Advanced Settings</string>
     <string name="section_authentication">Authentication</string>
     <string name="warning_icon_or_name_change">Please note that changes to the name or icon are not automatically applied to shortcuts that are already added to the home screen. You will have to add them again for the changes to take effect. All other changes are automatically applied.</string>
     <string name="dialog_checkbox_do_not_show_again">Don\'t show again</string>
@@ -154,12 +158,12 @@
     <string name="variable_deleted">%1$s deleted.</string>
     <string name="label_url_encode">URL encode</string>
     <string name="label_json_encode">JSON encode</string>
-    <string name="section_basic_variable_settings">Basic settings</string>
+    <string name="section_basic_variable_settings">Basic Settings</string>
     <string name="validation_key_non_empty">Variable key must not be empty.</string>
     <string name="validation_key_already_exists">Another variable with this key already exists.</string>
     <string name="title_add_toggle_option">Add value</string>
     <string name="button_add_toggle_option">Add value</string>
-    <string name="section_toggle_options">Toggle values</string>
+    <string name="section_toggle_options">Toggle Values</string>
     <string name="title_add_select_option">Add option</string>
     <string name="button_add_select_option">Add option</string>
     <string name="section_select_options">Selectable Options</string>
@@ -169,4 +173,7 @@
     <string name="help_title_variables">Variables</string>
     <string name="error_not_enough_toggle_values">Please add at least two values.</string>
     <string name="error_not_enough_select_values">Please add at least two selectable options.</string>
+    <string name="share_button">Share</string>
+    <string name="share_title">Share…</string>
+    <string name="progress_dialog_message">%1$s…</string>
 </resources>

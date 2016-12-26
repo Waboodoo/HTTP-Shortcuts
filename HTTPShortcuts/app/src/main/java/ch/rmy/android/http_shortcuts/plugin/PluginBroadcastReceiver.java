@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 
 import com.twofortyfouram.locale.sdk.client.receiver.AbstractPluginSettingReceiver;
 
-import ch.rmy.android.http_shortcuts.utils.IntentFactory;
+import ch.rmy.android.http_shortcuts.utils.IntentUtil;
 
 public final class PluginBroadcastReceiver extends AbstractPluginSettingReceiver {
 
@@ -24,7 +24,7 @@ public final class PluginBroadcastReceiver extends AbstractPluginSettingReceiver
     @Override
     protected void firePluginSetting(@NonNull final Context context, @NonNull final Bundle bundle) {
         long shortcutId = PluginBundleManager.getShortcutId(bundle);
-        Intent intent = IntentFactory.createIntent(context, shortcutId);
+        Intent intent = IntentUtil.createIntent(context, shortcutId);
         context.startActivity(intent);
     }
 

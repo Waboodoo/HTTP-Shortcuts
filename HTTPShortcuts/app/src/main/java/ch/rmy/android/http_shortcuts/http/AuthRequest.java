@@ -4,22 +4,22 @@ import android.util.Base64;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response.ErrorListener;
-import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.StringRequest;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class AuthRequest extends StringRequest {
+class AuthRequest extends StringRequest {
 
+    private final ResponseListener responseListener;
     private final String bodyContent;
     private final Map<String, String> parameters;
     private final Map<String, String> headers;
     private String contentType;
 
-    public AuthRequest(int method, String url, String username, String password, String bodyContent, Listener<String> listener, ErrorListener errorListener) {
-        super(method, url, listener, errorListener);
-
+    AuthRequest(int method, String url, String username, String password, String bodyContent, ResponseListener responseListener, ErrorListener errorListener) {
+        super(method, url, null, errorListener);
+        this.responseListener = responseListener;
         this.bodyContent = bodyContent;
 
         parameters = new HashMap<>();
@@ -70,16 +70,21 @@ public class AuthRequest extends StringRequest {
         return parameters;
     }
 
-    public void addParameter(String key, String value) {
+    void addParameter(String key, String value) {
         parameters.put(key, value);
     }
 
-    public void addHeader(String key, String value) {
+    void addHeader(String key, String value) {
         if (key.equalsIgnoreCase("Content-Type")) {
             contentType = value;
         } else {
             headers.put(key, value);
         }
+    }
+
+    @Override
+    protected void deliverResponse(String body) {
+        responseListener.onResponse(new Response(body));
     }
 
 }

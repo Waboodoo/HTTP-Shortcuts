@@ -54,6 +54,7 @@ public class DatabaseMigration implements RealmMigration {
 
                 break;
             }
+
             default:
                 throw new IllegalArgumentException("Missing migration for version " + newVersion);
         }

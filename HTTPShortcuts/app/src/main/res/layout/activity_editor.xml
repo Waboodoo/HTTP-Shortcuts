@@ -78,8 +78,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/label_description"
                     android:inputType="textNoSuggestions"
-                    android:maxLength="200"
-                    android:singleLine="false"/>
+                    android:maxLength="200"/>
             </android.support.design.widget.TextInputLayout>
 
             <TextView
@@ -96,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/label_url"
                     android:inputType="textNoSuggestions|textUri"
-                    android:singleLine="true"/>
+                    android:maxLines="1"/>
             </android.support.design.widget.TextInputLayout>
 
             <com.satsuware.usefulviews.LabelledSpinner
@@ -131,11 +130,14 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:hint="@string/label_custom_body"
-                        android:inputType="textMultiLine|textNoSuggestions"
-                        android:singleLine="false"/>
+                        android:inputType="textMultiLine|textNoSuggestions"/>
                 </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
+
+            <TextView
+                style="@style/SubHeader"
+                android:text="@string/section_response"/>
 
             <com.satsuware.usefulviews.LabelledSpinner
                 android:id="@+id/input_feedback"
