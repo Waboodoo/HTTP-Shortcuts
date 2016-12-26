@@ -150,6 +150,10 @@ public class Variable extends RealmObject implements HasId {
         return typeStrings;
     }
 
+    public boolean isResetAfterUse() {
+        return !isRememberValue() && (TYPE_TEXT.equals(getType()) || TYPE_NUMBER.equals(getType()) || TYPE_PASSWORD.equals(getType()));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
