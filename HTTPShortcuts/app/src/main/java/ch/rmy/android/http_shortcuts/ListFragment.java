@@ -96,6 +96,7 @@ public class ListFragment extends Fragment {
         }
         category = controller.getCategoryById(categoryId);
         adapter.setParent(category);
+        adapter.setPendingShortcuts(controller.getShortcutsPendingExecution());
     }
 
     public long getCategoryId() {
