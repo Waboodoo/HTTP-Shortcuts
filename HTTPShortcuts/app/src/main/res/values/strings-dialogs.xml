@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="changelog_text" translatable="false"><![CDATA[
+        <p>
+            <b>Version 1.12.0</b><br>
+            - New response options: show in dialog or window<br>
+            - Option to remember/forget variable values<br>
+            - Pending executions can be cancelled
+        </p>
     	<p>
 			<b>Version 1.11.0</b><br>
 			- Variables: inject custom values through prompt dialogs<br>
