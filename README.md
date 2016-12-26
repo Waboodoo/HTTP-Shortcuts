@@ -9,8 +9,8 @@ A simple Android app that allows you to create shortcuts that can be placed on y
 - Custom body content
 - Option to accept all certificates
 - Built-in icons, support for Ipack icons and custom icons
-- Display response as a toast, or run silently
-- Grouping into categories
+- Display response as a toast, window or dialog, or run silently
+- Grouping into categories through tabs
 - Dynamic variables
 - 3rd party integration (e.g. Tasker)
 
