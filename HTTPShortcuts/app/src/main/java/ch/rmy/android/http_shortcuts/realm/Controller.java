@@ -227,16 +227,16 @@ public class Controller implements Destroyable {
                 .findAllSorted(PendingExecution.FIELD_ENQUEUED_AT);
     }
 
-    public void createPendingExecution(final Shortcut shortcut, final List<ResolvedVariable> resolvedVariables) {
+    public void createPendingExecution(final long shortcutId, final List<ResolvedVariable> resolvedVariables) {
         long existingPendingExecutions = realm
                 .where(PendingExecution.class)
-                .equalTo(PendingExecution.FIELD_SHORTCUT_ID, shortcut.getId())
+                .equalTo(PendingExecution.FIELD_SHORTCUT_ID, shortcutId)
                 .count();
         if (existingPendingExecutions == 0) {
             realm.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
-                    realm.copyToRealm(PendingExecution.createNew(shortcut, resolvedVariables));
+                    realm.copyToRealm(PendingExecution.createNew(shortcutId, resolvedVariables));
                 }
             });
         }

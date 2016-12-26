@@ -60,7 +60,7 @@ public class ExecuteActivity extends BaseActivity {
         Map<String, String> variableValues = IntentUtil.getVariableValues(getIntent());
 
         controller = new Controller(getContext());
-        shortcut = controller.getShortcutById(shortcutId);
+        shortcut = controller.getDetachedShortcutById(shortcutId);
 
         if (shortcut == null) {
             showToast(getString(R.string.shortcut_not_found), Toast.LENGTH_LONG);
@@ -132,7 +132,7 @@ public class ExecuteActivity extends BaseActivity {
             @Override
             public void onFail(VolleyError error) {
                 if (!shortcut.feedbackUsesUI() && Shortcut.RETRY_POLICY_WAIT_FOR_INTERNET.equals(shortcut.getRetryPolicy()) && error.networkResponse == null) {
-                    controller.createPendingExecution(shortcut, resolvedVariables.toList());
+                    controller.createPendingExecution(shortcut.getId(), resolvedVariables.toList());
                     if (!Shortcut.FEEDBACK_NONE.equals(shortcut.getFeedback())) {
                         showToast(String.format(getContext().getString(R.string.execution_delayed), shortcut.getSafeName(getContext())), Toast.LENGTH_LONG);
                     }

@@ -20,14 +20,14 @@ public class PendingExecution extends RealmObject {
 
     private RealmList<ResolvedVariable> resolvedVariables;
 
-    public static PendingExecution createNew(Shortcut shortcut, List<ResolvedVariable> resolvedVariables) {
+    public static PendingExecution createNew(long shortcutId, List<ResolvedVariable> resolvedVariables) {
         PendingExecution pendingExecution = new PendingExecution();
 
         RealmList<ResolvedVariable> resolvedVariableList = new RealmList<>();
         resolvedVariableList.addAll(resolvedVariables);
 
         pendingExecution.setResolvedVariables(resolvedVariableList);
-        pendingExecution.setShortcutId(shortcut.getId());
+        pendingExecution.setShortcutId(shortcutId);
         pendingExecution.setEnqueuedAt(new Date());
         return pendingExecution;
     }
