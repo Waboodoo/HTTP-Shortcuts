@@ -39,10 +39,6 @@ public class VariableResolver {
         this.context = context;
     }
 
-    public Promise<ResolvedVariables, Void, Void> resolve(Shortcut shortcut, List<Variable> variables) {
-        return resolve(shortcut, variables, null);
-    }
-
     public Promise<ResolvedVariables, Void, Void> resolve(Shortcut shortcut, List<Variable> variables, @Nullable Map<String, String> preResolvedValues) {
         Set<String> requiredVariableNames = extractVariableNames(shortcut);
         List<Variable> variablesToResolve = filterVariablesByName(variables, requiredVariableNames);
@@ -59,7 +55,7 @@ public class VariableResolver {
         return filteredVariables;
     }
 
-    private Promise<ResolvedVariables, Void, Void> resolveVariables(List<Variable> variablesToResolve, @Nullable Map<String, String> preResolvedValues) {
+    private Promise<ResolvedVariables, Void, Void> resolveVariables(final List<Variable> variablesToResolve, @Nullable Map<String, String> preResolvedValues) {
         final Controller controller = new Controller(context);
         final Deferred<ResolvedVariables, Void, Void> deferred = new DeferredObject<>();
         final ResolvedVariables.Builder builder = new ResolvedVariables.Builder();
@@ -115,9 +111,18 @@ public class VariableResolver {
         return deferred.promise().always(new AlwaysCallback<ResolvedVariables, Void>() {
             @Override
             public void onAlways(Promise.State state, ResolvedVariables resolved, Void rejected) {
+                resetVariableValues(controller, variablesToResolve);
                 controller.destroy();
             }
         });
+    }
+
+    private void resetVariableValues(Controller controller, List<Variable> variables) {
+        for (Variable variable : variables) {
+            if (variable.isResetAfterUse()) {
+                controller.setVariableValue(variable, "");
+            }
+        }
     }
 
     private MaterialDialog.Builder getDialogBuilder(Variable variable, final Deferred<String, Void, Void> deferred) {
