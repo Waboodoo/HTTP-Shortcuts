@@ -1,8 +1,17 @@
 package ch.rmy.android.http_shortcuts.icons;
 
+import android.content.Context;
+
+import java.util.Random;
+
 import ch.rmy.android.http_shortcuts.R;
 
 public class Icons {
+
+    public static String getRandomIcon(Context context) {
+        int resId = ICONS[new Random().nextInt(ICONS.length)];
+        return context.getResources().getResourceEntryName(resId);
+    }
 
     protected static final int[] ICONS = {
             R.drawable.circle_blue,

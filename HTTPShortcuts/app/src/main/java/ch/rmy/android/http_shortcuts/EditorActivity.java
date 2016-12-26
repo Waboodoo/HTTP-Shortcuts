@@ -32,6 +32,7 @@ import butterknife.Bind;
 import ch.rmy.android.http_shortcuts.dialogs.IconNameChangeDialog;
 import ch.rmy.android.http_shortcuts.icons.IconSelector;
 import ch.rmy.android.http_shortcuts.icons.IconView;
+import ch.rmy.android.http_shortcuts.icons.Icons;
 import ch.rmy.android.http_shortcuts.key_value_pairs.KeyValueList;
 import ch.rmy.android.http_shortcuts.key_value_pairs.KeyValuePairFactory;
 import ch.rmy.android.http_shortcuts.listeners.OnIconSelectedListener;
@@ -61,6 +62,7 @@ public class EditorActivity extends BaseActivity {
     private final static int SELECT_ICON = 1;
     private final static int SELECT_IPACK_ICON = 3;
     private static final String STATE_JSON_SHORTCUT = "shortcut_json";
+    private static final String STATE_INITIAL_ICON = "initial_icon";
 
     private static final long TEMPORARY_ID = -1;
 
@@ -133,6 +135,14 @@ public class EditorActivity extends BaseActivity {
             return;
         }
         oldShortcut = shortcutId == 0 ? Shortcut.createNew() : controller.getDetachedShortcutById(shortcutId);
+        if (shortcut.isNew()) {
+            if (shortcut.getIconName() == null) {
+                shortcut.setIconName(Icons.getRandomIcon(getContext()));
+                oldShortcut.setIconName(shortcut.getIconName());
+            } else if (savedInstanceState != null && savedInstanceState.containsKey(STATE_INITIAL_ICON)) {
+                oldShortcut.setIconName(savedInstanceState.getString(STATE_INITIAL_ICON));
+            }
+        }
 
         initViews();
     }
@@ -455,5 +465,6 @@ public class EditorActivity extends BaseActivity {
         super.onSaveInstanceState(outState);
         compileShortcut();
         outState.putString(STATE_JSON_SHORTCUT, GsonUtil.toJson(shortcut));
+        outState.putString(STATE_INITIAL_ICON, oldShortcut.getIconName());
     }
 }
