@@ -262,17 +262,17 @@ public class ListFragment extends Fragment {
 
     private void moveShortcut(Shortcut shortcut, Category category) {
         controller.moveShortcut(shortcut, category);
-        getTabHost().showSnackbar(String.format(getText(R.string.shortcut_moved).toString(), shortcut.getName()));
+        getTabHost().showSnackbar(String.format(getString(R.string.shortcut_moved), shortcut.getName()));
     }
 
     private void duplicateShortcut(Shortcut shortcut) {
-        String newName = String.format(getText(R.string.copy).toString(), shortcut.getName());
+        String newName = String.format(getString(R.string.copy), shortcut.getName());
         Shortcut duplicate = controller.persist(shortcut.duplicate(newName));
         controller.moveShortcut(duplicate, category);
         int position = category.getShortcuts().indexOf(shortcut);
         controller.moveShortcut(duplicate, position + 1);
 
-        getTabHost().showSnackbar(String.format(getText(R.string.shortcut_duplicated).toString(), shortcut.getName()));
+        getTabHost().showSnackbar(String.format(getString(R.string.shortcut_duplicated), shortcut.getName()));
     }
 
     private void cancelPendingExecution(Shortcut shortcut) {
@@ -281,7 +281,7 @@ public class ListFragment extends Fragment {
             return;
         }
         controller.removePendingExecution(pendingExecution);
-        getTabHost().showSnackbar(String.format(getText(R.string.pending_shortcut_execution_cancelled).toString(), shortcut.getName()));
+        getTabHost().showSnackbar(String.format(getString(R.string.pending_shortcut_execution_cancelled), shortcut.getName()));
     }
 
     private void showDeleteDialog(final Shortcut shortcut) {
@@ -299,7 +299,7 @@ public class ListFragment extends Fragment {
     }
 
     private void deleteShortcut(Shortcut shortcut) {
-        getTabHost().showSnackbar(String.format(getText(R.string.shortcut_deleted).toString(), shortcut.getName()));
+        getTabHost().showSnackbar(String.format(getString(R.string.shortcut_deleted), shortcut.getName()));
         getTabHost().removeShortcutFromHomeScreen(shortcut);
         controller.deleteShortcut(shortcut);
     }
