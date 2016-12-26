@@ -172,4 +172,6 @@
     <string name="section_response">Response-Einstellungen</string>
     <string name="share_button">Teilen</string>
     <string name="share_title">Teilen…</string>
+    <string name="label_remember_value">Wert merken</string>
+    <string name="section_input_options">Eingabeoptionen</string>
 </resources>
