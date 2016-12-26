@@ -13,11 +13,10 @@
     <string name="label_method">Methode</string>
     <string name="label_username">Benutzername</string>
     <string name="label_password">Passwort</string>
-    <string name="label_feedback">Feedback</string>
-    <string name="feedback_none">Kein Feedback</string>
-    <string name="feedback_errors_only">Nur Fehler</string>
-    <string name="feedback_simple_toast">Einfach</string>
-    <string name="feedback_response_toast">Server-Antwort</string>
+    <string name="label_feedback">Response-Typ</string>
+    <string name="feedback_none">Response ignorieren</string>
+    <string name="feedback_simple_toast">Einfacher Toast</string>
+    <string name="feedback_response_toast">Response in Toast</string>
     <string name="action_place">Auf Homescreen platzieren</string>
     <string name="action_run">Ausführen</string>
     <string name="action_edit">Bearbeiten</string>
@@ -165,4 +164,12 @@
     <string name="warning_invalid_variable_key">Schlüssel darf nur Zahlen und Buchstaben enthalten.</string>
     <string name="error_not_enough_select_values">Bitte mindestens zwei Auswahloptionen hinzufügen.</string>
     <string name="error_not_enough_toggle_values">Bitte mindestens zwei Toggle-Werte hinzufügen.</string>
+    <string name="feedback_activity">Response in Fenster</string>
+    <string name="feedback_dialog">Response in Dialog</string>
+    <string name="feedback_response_toast_error">Response in Toast (nur Fehler)</string>
+    <string name="feedback_simple_toast_error">Einfacher Toast (nur Fehler)</string>
+    <string name="progress_dialog_message">%1$s…</string>
+    <string name="section_response">Response-Einstellungen</string>
+    <string name="share_button">Teilen</string>
+    <string name="share_title">Teilen…</string>
 </resources>
