@@ -1,11 +1,7 @@
 package ch.rmy.android.http_shortcuts.variables;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
-
-import com.afollestad.materialdialogs.MaterialDialog;
 
 import org.jdeferred.AlwaysCallback;
 import org.jdeferred.Deferred;
@@ -60,7 +56,7 @@ public class VariableResolver {
         final Deferred<ResolvedVariables, Void, Void> deferred = new DeferredObject<>();
         final ResolvedVariables.Builder builder = new ResolvedVariables.Builder();
 
-        final List<MaterialDialog.Builder> waitingDialogs = new ArrayList<>();
+        final List<Showable> waitingDialogs = new ArrayList<>();
         int i = 0;
         for (final Variable variable : variablesToResolve) {
             if (preResolvedValues != null && preResolvedValues.containsKey(variable.getKey())) {
@@ -92,10 +88,9 @@ public class VariableResolver {
                     }
                 });
 
-                MaterialDialog.Builder dialogBuilder = getDialogBuilder(variable, deferredValue);
-                ((AsyncVariableType) variableType).setupDialog(controller, variable, dialogBuilder, deferredValue);
+                Showable dialog = ((AsyncVariableType) variableType).createDialog(context, controller, variable, deferredValue);
 
-                waitingDialogs.add(dialogBuilder);
+                waitingDialogs.add(dialog);
             } else if (variableType instanceof SyncVariableType) {
                 final String value = ((SyncVariableType) variableType).resolveValue(controller, variable);
                 builder.add(variable, value);
@@ -123,22 +118,6 @@ public class VariableResolver {
                 controller.setVariableValue(variable, "");
             }
         }
-    }
-
-    private MaterialDialog.Builder getDialogBuilder(Variable variable, final Deferred<String, Void, Void> deferred) {
-        MaterialDialog.Builder dialogBuilder = new MaterialDialog.Builder(context);
-        if (!TextUtils.isEmpty(variable.getTitle())) {
-            dialogBuilder.title(variable.getTitle());
-        }
-        dialogBuilder.dismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                if (deferred.isPending()) {
-                    deferred.reject(null);
-                }
-            }
-        });
-        return dialogBuilder;
     }
 
     private Set<String> extractVariableNames(Shortcut shortcut) {

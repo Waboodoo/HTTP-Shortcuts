@@ -1,14 +1,15 @@
 package ch.rmy.android.http_shortcuts.variables.types;
 
-import com.afollestad.materialdialogs.MaterialDialog;
+import android.content.Context;
 
 import org.jdeferred.Deferred;
 
 import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Variable;
+import ch.rmy.android.http_shortcuts.variables.Showable;
 
 public interface AsyncVariableType {
 
-    void setupDialog(Controller controller, Variable variable, MaterialDialog.Builder builder, Deferred<String, Void, Void> deferredValue);
+    Showable createDialog(Context context, Controller controller, Variable variable, Deferred<String, Void, Void> deferredValue);
 
 }

@@ -1,5 +1,7 @@
 package ch.rmy.android.http_shortcuts.variables.types;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
 import android.text.InputType;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -8,13 +10,26 @@ import org.jdeferred.Deferred;
 
 import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Variable;
+import ch.rmy.android.http_shortcuts.variables.Showable;
 
-public class NumberType extends TextType {
+class NumberType extends TextType {
 
     @Override
-    public void setupDialog(Controller controller, Variable variable, MaterialDialog.Builder builder, Deferred<String, Void, Void> deferredValue) {
-        super.setupDialog(controller, variable, builder, deferredValue);
-        builder.inputType(InputType.TYPE_CLASS_NUMBER);
+    public Showable createDialog(Context context, final Controller controller, final Variable variable, final Deferred<String, Void, Void> deferredValue) {
+        final MaterialDialog.Builder builder = createDialogBuilder(context, variable, deferredValue);
+        builder.input(null, variable.isRememberValue() ? variable.getValue() : "", new MaterialDialog.InputCallback() {
+            @Override
+            public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+                deferredValue.resolve(input.toString());
+                controller.setVariableValue(variable, input.toString());
+            }
+        }).inputType(InputType.TYPE_CLASS_NUMBER);
+        return new Showable() {
+            @Override
+            public void show() {
+                builder.show();
+            }
+        };
     }
 
 }
