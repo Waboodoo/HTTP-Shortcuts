@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="define_int_Vintagechroma" translatable="false">year;owner</string>
+    <string name="library_Vintagechroma_author" translatable="false">Pavel Sikun</string>
+    <string name="library_Vintagechroma_libraryName" translatable="false">VintageChroma</string>
+    <string name="library_Vintagechroma_libraryDescription" translatable="false">A Beautiful Material color picker view for Android.</string>
+    <string name="library_Vintagechroma_libraryWebsite" translatable="false">https://github.com/MrBIMC/VintageChroma</string>
+    <string name="library_Vintagechroma_licenseId" translatable="false">apache_2_0</string>
+    <!-- Custom variables section -->
+    <string name="library_Vintagechroma_owner" translatable="false">Pavel Sikun</string>
+    <string name="library_Vintagechroma_year" translatable="false">2016</string>
+</resources>

@@ -19,7 +19,8 @@ public class LicensesActivity extends BaseActivity {
             "flaticons",
             "bitsies",
             "filepicker",
-            "jdeferred"
+            "jdeferred",
+            "vintagechroma"
     };
 
     @Override
