@@ -6,8 +6,6 @@ public class TypeFactory {
 
     public static BaseVariableType getType(String type) {
         switch (type) {
-            case Variable.TYPE_CONSTANT:
-                return new ConstantType();
             case Variable.TYPE_TEXT:
                 return new TextType();
             case Variable.TYPE_NUMBER:
@@ -18,8 +16,12 @@ public class TypeFactory {
                 return new ToggleType();
             case Variable.TYPE_SELECT:
                 return new SelectType();
+            case Variable.TYPE_COLOR:
+                return new ColorType();
+            case Variable.TYPE_CONSTANT:
+            default:
+                return new ConstantType();
         }
-        throw new IllegalArgumentException("Unknown type: " + type);
     }
 
 }

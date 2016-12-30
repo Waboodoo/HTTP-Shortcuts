@@ -120,7 +120,7 @@ public class VariableEditorActivity extends BaseActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragment = variableType.getEditorFragment(fragmentManager);
 
-        titleView.setVisibility(variableType instanceof AsyncVariableType ? View.VISIBLE : View.GONE);
+        titleView.setVisibility(variableType instanceof AsyncVariableType && ((AsyncVariableType) variableType).hasTitle() ? View.VISIBLE : View.GONE);
 
         fragmentManager
                 .beginTransaction()

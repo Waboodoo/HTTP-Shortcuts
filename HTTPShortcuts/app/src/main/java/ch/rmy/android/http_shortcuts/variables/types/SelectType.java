@@ -18,6 +18,11 @@ import ch.rmy.android.http_shortcuts.variables.Showable;
 class SelectType extends BaseVariableType implements AsyncVariableType {
 
     @Override
+    public boolean hasTitle() {
+        return true;
+    }
+
+    @Override
     public Showable createDialog(Context context, final Controller controller, final Variable variable, final Deferred<String, Void, Void> deferredValue) {
         List<CharSequence> items = new ArrayList<>();
         for (Option option : variable.getOptions()) {

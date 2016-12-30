@@ -18,20 +18,23 @@ public class Variable extends RealmObject implements HasId {
     public static final String TYPE_PASSWORD = "password";
     public static final String TYPE_SELECT = "select";
     public static final String TYPE_TOGGLE = "toggle";
+    public static final String TYPE_COLOR = "color";
 
     public static final String[] TYPE_OPTIONS = {
             TYPE_CONSTANT,
             TYPE_TEXT,
             TYPE_NUMBER,
             TYPE_PASSWORD,
+            TYPE_COLOR,
             TYPE_SELECT,
-            TYPE_TOGGLE
+            TYPE_TOGGLE,
     };
     public static final int[] TYPE_RESOURCES = {
             R.string.variable_type_constant,
             R.string.variable_type_text,
             R.string.variable_type_number,
             R.string.variable_type_password,
+            R.string.variable_type_color,
             R.string.variable_type_select,
             R.string.variable_type_toggle
     };
@@ -151,7 +154,7 @@ public class Variable extends RealmObject implements HasId {
     }
 
     public boolean isResetAfterUse() {
-        return !isRememberValue() && (TYPE_TEXT.equals(getType()) || TYPE_NUMBER.equals(getType()) || TYPE_PASSWORD.equals(getType()));
+        return !isRememberValue() && (TYPE_TEXT.equals(getType()) || TYPE_NUMBER.equals(getType()) || TYPE_PASSWORD.equals(getType()) || TYPE_COLOR.equals(getType()));
     }
 
     @Override

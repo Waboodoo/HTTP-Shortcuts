@@ -14,6 +14,11 @@ import ch.rmy.android.http_shortcuts.variables.Showable;
 class TextType extends BaseVariableType implements AsyncVariableType {
 
     @Override
+    public boolean hasTitle() {
+        return true;
+    }
+
+    @Override
     public Showable createDialog(Context context, final Controller controller, final Variable variable, final Deferred<String, Void, Void> deferredValue) {
         final MaterialDialog.Builder builder = createDialogBuilder(context, variable, deferredValue);
         builder.input(null, variable.isRememberValue() ? variable.getValue() : "", new MaterialDialog.InputCallback() {
@@ -35,4 +40,5 @@ class TextType extends BaseVariableType implements AsyncVariableType {
     protected VariableEditorFragment createEditorFragment() {
         return new TextEditorFragment();
     }
+
 }
