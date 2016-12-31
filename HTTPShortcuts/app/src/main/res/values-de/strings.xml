@@ -176,4 +176,5 @@
     <string name="section_input_options">Eingabeoptionen</string>
     <string name="action_cancel_pending">Ausstehende Ausführung abbrechen</string>
     <string name="pending_shortcut_execution_cancelled">%1$s abgebrochen.</string>
+    <string name="variable_type_color">Farbeingabe</string>
 </resources>

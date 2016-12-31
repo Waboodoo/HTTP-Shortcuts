@@ -59,6 +59,7 @@ dependencies {
     compile group: 'com.twofortyfouram', name: 'android-plugin-client-sdk-for-locale', version: '[4.0.2, 5.0['
     compile 'com.github.castorflex.smoothprogressbar:library:1.1.0'
     compile 'com.github.castorflex.smoothprogressbar:library-circular:1.1.0'
+    compile 'com.pavelsikun:vintage-chroma:1.5'
 }
 
 apply plugin: 'realm-android'

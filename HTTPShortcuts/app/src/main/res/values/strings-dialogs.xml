@@ -3,7 +3,7 @@
     <string name="changelog_text" translatable="false"><![CDATA[
         <p>
             <b>Version 1.13.0</b><br>
-
+            - New variable type: color
         </p>
         <p>
             <b>Version 1.12.0</b><br>
@@ -103,7 +103,7 @@
         </p>
         <p>
             <b>What are the different types of variables?</b><br>
-            There are 6 different types of variables:</p>
+            There are 7 different types of variables:</p>
         <p>
             <u>Constant</u><br>
             A <i>constant</i> always has the same value. There is no prompt dialog. It can be used to store a piece of information that is shared across multiple shortcut, such as an authentication token or a domain name. This way it can easily be changed.
@@ -119,6 +119,10 @@
         <p>
             <u>Text, Number and Password</u><br>
             The <i>text</i>, <i>number</i> and <i>password</i> types trigger a prompt dialog where a value can be entered into a text field.
+        </p>
+        <p>
+            <u>Color</u><br>
+            The <i>color</i> type triggers a prompt dialog where a color can be selected. Its value is returned in RGB hex format (e.g. ff0000 for red).
         </p>
     ]]></string>
 </resources>

@@ -12,4 +12,6 @@ public interface AsyncVariableType {
 
     Showable createDialog(Context context, Controller controller, Variable variable, Deferred<String, Void, Void> deferredValue);
 
+    boolean hasTitle();
+
 }
