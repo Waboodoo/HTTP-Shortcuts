@@ -3,7 +3,7 @@
     <string name="changelog_text" translatable="false"><![CDATA[
         <p>
             <b>Version 1.13.0</b><br>
-
+            - New variable type: color
         </p>
         <p>
             <b>Version 1.12.0</b><br>
