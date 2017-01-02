@@ -181,4 +181,5 @@
     <string name="label_remember_value">Remember value</string>
     <string name="action_cancel_pending">Cancel pending execution</string>
     <string name="pending_shortcut_execution_cancelled">%1$s cancelled.</string>
+    <string name="action_send_to">Send to…</string>
 </resources>

@@ -13,19 +13,16 @@ import ch.rmy.android.http_shortcuts.utils.IntentUtil;
 // THIS IMPLEMENTATION IS EXPERIMENTAL ONLY
 public class VoiceActivity extends BaseActivity {
 
-    private Controller controller;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         String shortcutName = getIntent().getStringExtra(SearchManager.QUERY);
         if (shortcutName == null) {
-            finishWithoutAnimation();
             return;
         }
 
-        controller = destroyer.own(new Controller(getContext()));
+        Controller controller = destroyer.own(new Controller(getContext()));
         Shortcut shortcut = controller.getShortcutByName(shortcutName);
         if (shortcut == null) {
             Toast.makeText(getContext(), "Shortcut \"" + shortcutName + "\" not found", Toast.LENGTH_LONG).show();
@@ -38,9 +35,4 @@ public class VoiceActivity extends BaseActivity {
         finishWithoutAnimation();
     }
 
-    private void finishWithoutAnimation() {
-        overridePendingTransition(0, 0);
-        finish();
-        overridePendingTransition(0, 0);
-    }
 }
