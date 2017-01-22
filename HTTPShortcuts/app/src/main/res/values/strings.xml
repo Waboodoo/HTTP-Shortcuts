@@ -162,6 +162,7 @@
     <string name="section_basic_variable_settings">Basic Settings</string>
     <string name="validation_key_non_empty">Variable key must not be empty.</string>
     <string name="validation_key_already_exists">Another variable with this key already exists.</string>
+    <string name="validation_protected_variable_key">This variable key cannot be used.</string>
     <string name="title_add_toggle_option">Add value</string>
     <string name="button_add_toggle_option">Add value</string>
     <string name="section_toggle_options">Toggle Values</string>

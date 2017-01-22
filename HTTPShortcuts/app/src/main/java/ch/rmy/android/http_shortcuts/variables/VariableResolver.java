@@ -120,7 +120,7 @@ public class VariableResolver {
         }
     }
 
-    private Set<String> extractVariableNames(Shortcut shortcut) {
+    public static Set<String> extractVariableNames(Shortcut shortcut) {
         Set<String> discoveredVariables = new HashSet<>();
 
         discoveredVariables.addAll(Variables.extractVariableNames(shortcut.getUrl()));

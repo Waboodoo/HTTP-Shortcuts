@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.utils;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.StringRes;
 import android.view.View;
 
@@ -31,6 +32,11 @@ public class MenuDialogBuilder {
     public MenuDialogBuilder item(CharSequence name, Action action) {
         names.add(name);
         actions.add(action);
+        return this;
+    }
+
+    public MenuDialogBuilder dismissListener(DialogInterface.OnDismissListener onDismissListener) {
+        builder.dismissListener(onDismissListener);
         return this;
     }
 

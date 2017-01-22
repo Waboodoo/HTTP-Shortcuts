@@ -1,12 +1,23 @@
 package ch.rmy.android.http_shortcuts;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import java.util.HashMap;
+import com.afollestad.materialdialogs.MaterialDialog;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
+
+import ch.rmy.android.http_shortcuts.realm.Controller;
+import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 import ch.rmy.android.http_shortcuts.utils.IntentUtil;
+import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder;
+import ch.rmy.android.http_shortcuts.variables.VariableProvider;
+import ch.rmy.android.http_shortcuts.variables.VariableResolver;
 
 public class ShareActivity extends BaseActivity {
 
@@ -28,19 +39,71 @@ public class ShareActivity extends BaseActivity {
         }
 
         HashMap<String, String> variableValues = new HashMap<>();
-        variableValues.put("share", text); // TODO: Move this into a constant somewhere
+        variableValues.put(VariableProvider.INTERNAL_VARIABLE_SHARE, text);
+
+        Controller controller = destroyer.own(new Controller(getContext()));
+        List<Shortcut> shortcuts = getTargetableShortcuts(controller);
+
+        if (shortcuts.size() == 1) {
+            executeShortcut(shortcuts.get(0), variableValues);
+            finishWithoutAnimation();
+        } else if (shortcuts.isEmpty()) {
+            showInstructions();
+        } else {
+            showShortcutSelection(shortcuts, variableValues);
+        }
 
         // TODO:
-        // - Scan all shortcuts and find the ones that use the {{share}} variable
-        // - If there are none, quit with an error
-        // - If there are multiple, display a select dialog
         // - Write documentation
         // - Variable input auto complete
-        // - Make sure {{share}} variable is always present and cannot be modified (invisible in editor?)
+        // - Translate
+    }
 
-        Intent intent = IntentUtil.createIntent(getContext(), 7, variableValues);
+    private List<Shortcut> getTargetableShortcuts(Controller controller) {
+        List<Shortcut> shortcuts = new ArrayList<>();
+        for (Shortcut shortcut : controller.getShortcuts()) {
+            Set<String> variableNames = VariableResolver.extractVariableNames(shortcut);
+            if (variableNames.contains(VariableProvider.INTERNAL_VARIABLE_SHARE)) {
+                shortcuts.add(shortcut);
+            }
+        }
+        return shortcuts;
+    }
+
+    private void executeShortcut(Shortcut shortcut, HashMap<String, String> variableValues) {
+        Intent intent = IntentUtil.createIntent(getContext(), shortcut.getId(), variableValues);
         startActivity(intent);
-        finishWithoutAnimation();
+    }
+
+    private void showInstructions() {
+        new MaterialDialog.Builder(getContext())
+                .title("No suitable shortcuts found") // TODO
+                .content("Foo") // TODO
+                .dismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        finishWithoutAnimation();
+                    }
+                })
+                .show();
+    }
+
+    private void showShortcutSelection(List<Shortcut> shortcuts, final HashMap<String, String> variableValues) {
+        MenuDialogBuilder builder = new MenuDialogBuilder(getContext());
+        for (final Shortcut shortcut : shortcuts) {
+            builder.item(shortcut.getName(), new MenuDialogBuilder.Action() {
+                @Override
+                public void execute() {
+                    executeShortcut(shortcut, variableValues);
+                }
+            });
+        }
+        builder.dismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                finishWithoutAnimation();
+            }
+        }).show();
     }
 
 }

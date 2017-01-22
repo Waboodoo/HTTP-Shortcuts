@@ -49,6 +49,9 @@ import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils;
 import ch.rmy.android.http_shortcuts.utils.Validation;
 import ch.rmy.android.http_shortcuts.utils.ViewUtil;
 import ch.rmy.android.http_shortcuts.variables.VariableFormatter;
+import ch.rmy.android.http_shortcuts.variables.VariableProvider;
+
+import static ch.rmy.android.http_shortcuts.realm.models.Shortcut.TEMPORARY_ID;
 
 /**
  * The activity to create/edit shortcuts.
@@ -63,8 +66,6 @@ public class EditorActivity extends BaseActivity {
     private final static int SELECT_IPACK_ICON = 3;
     private static final String STATE_JSON_SHORTCUT = "shortcut_json";
     private static final String STATE_INITIAL_ICON = "initial_icon";
-
-    private static final long TEMPORARY_ID = -1;
 
     private long shortcutId;
 
@@ -122,7 +123,7 @@ public class EditorActivity extends BaseActivity {
         destroyer.own(customHeaderList);
 
         controller = destroyer.own(new Controller(this));
-        variables = controller.getVariables();
+        variables = VariableProvider.getVariables(controller);
 
         shortcutId = getIntent().getLongExtra(EXTRA_SHORTCUT_ID, 0);
         if (savedInstanceState != null && savedInstanceState.containsKey(STATE_JSON_SHORTCUT)) {

@@ -25,6 +25,7 @@ import ch.rmy.android.http_shortcuts.utils.GsonUtil;
 import ch.rmy.android.http_shortcuts.utils.OnItemChosenListener;
 import ch.rmy.android.http_shortcuts.utils.SimpleTextWatcher;
 import ch.rmy.android.http_shortcuts.utils.ViewUtil;
+import ch.rmy.android.http_shortcuts.variables.VariableProvider;
 import ch.rmy.android.http_shortcuts.variables.Variables;
 import ch.rmy.android.http_shortcuts.variables.types.AsyncVariableType;
 import ch.rmy.android.http_shortcuts.variables.types.BaseVariableType;
@@ -218,10 +219,12 @@ public class VariableEditorActivity extends BaseActivity {
             ViewUtil.focus(keyView);
             return false;
         }
-        if (fragment != null && !fragment.validate()) {
+        if (VariableProvider.isInternalVariable(variable.getKey())) {
+            keyView.setError(getString(R.string.validation_protected_variable_key));
+            ViewUtil.focus(keyView);
             return false;
         }
-        return true;
+        return fragment == null || fragment.validate();
     }
 
     @Override
