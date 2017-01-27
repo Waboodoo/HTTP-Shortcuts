@@ -23,7 +23,6 @@ A simple Android app that allows you to create shortcuts that can be placed on y
 ![Image](/Screenshots/main_screen_small.png)
 ![Image](/Screenshots/shortcut_options_small.png)
 ![Image](/Screenshots/editor_small.png)
-![Image](/Screenshots/home_screen_with_shortcuts_small.png)
 ![Image](/Screenshots/icons_small.png)
 ![Image](/Screenshots/headers_small.png)
 ![Image](/Screenshots/variable_small.png)
