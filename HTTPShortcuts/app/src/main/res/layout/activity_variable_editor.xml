@@ -85,6 +85,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/label_json_encode"/>
 
+            <CheckBox
+                android:id="@+id/input_allow_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_allow_share_into"/>
+
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>

@@ -161,6 +161,14 @@ public class Variable extends RealmObject implements HasId {
         return (getFlags() & FLAG_SHARE_TEXT) != 0;
     }
 
+    public void setShareText(boolean shareText) {
+        if (shareText) {
+            setFlags(getFlags() | FLAG_SHARE_TEXT);
+        } else {
+            setFlags(getFlags() & (~FLAG_SHARE_TEXT));
+        }
+    }
+
     public static String[] getTypeOptions(Context context) {
         String[] typeStrings = new String[Variable.TYPE_OPTIONS.length];
         for (int i = 0; i < Variable.TYPE_OPTIONS.length; i++) {

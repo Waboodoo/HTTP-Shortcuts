@@ -46,6 +46,8 @@ public class VariableEditorActivity extends BaseActivity {
     CheckBox urlEncode;
     @Bind(R.id.input_json_encode)
     CheckBox jsonEncode;
+    @Bind(R.id.input_allow_share)
+    CheckBox allowShare;
 
     private Controller controller;
     private Variable oldVariable;
@@ -99,6 +101,7 @@ public class VariableEditorActivity extends BaseActivity {
 
         urlEncode.setChecked(variable.isUrlEncode());
         jsonEncode.setChecked(variable.isJsonEncode());
+        allowShare.setChecked(variable.isShareText());
 
         setTitle(variable.isNew() ? R.string.create_variable : R.string.edit_variable);
 
@@ -200,6 +203,7 @@ public class VariableEditorActivity extends BaseActivity {
         variable.setType(Variable.TYPE_OPTIONS[typeSpinner.getSpinner().getSelectedItemPosition()]);
         variable.setUrlEncode(urlEncode.isChecked());
         variable.setJsonEncode(jsonEncode.isChecked());
+        variable.setShareText(allowShare.isChecked());
 
         if (fragment != null) {
             fragment.compileIntoVariable(variable);

@@ -57,11 +57,6 @@ public class ShareActivity extends BaseActivity {
         } else {
             showShortcutSelection(shortcuts, variableValues);
         }
-
-        // TODO:
-        // - Write documentation
-        // - Variable input auto complete
-        // - Translate
     }
 
     private Set<String> getTargetableVariables(Controller controller) {
