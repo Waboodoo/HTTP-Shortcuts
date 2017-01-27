@@ -39,6 +39,8 @@ public class Variable extends RealmObject implements HasId {
             R.string.variable_type_toggle
     };
 
+    private static final int FLAG_SHARE_TEXT = 0x1;
+
     @PrimaryKey
     private long id;
 
@@ -53,6 +55,8 @@ public class Variable extends RealmObject implements HasId {
     private boolean rememberValue;
     private boolean urlEncode;
     private boolean jsonEncode;
+
+    private int flags;
 
     @Required
     private String title;
@@ -143,6 +147,26 @@ public class Variable extends RealmObject implements HasId {
 
     public void setJsonEncode(boolean jsonEncode) {
         this.jsonEncode = jsonEncode;
+    }
+
+    public int getFlags() {
+        return flags;
+    }
+
+    public void setFlags(int flags) {
+        this.flags = flags;
+    }
+
+    public boolean isShareText() {
+        return (getFlags() & FLAG_SHARE_TEXT) != 0;
+    }
+
+    public void setShareText(boolean shareText) {
+        if (shareText) {
+            setFlags(getFlags() | FLAG_SHARE_TEXT);
+        } else {
+            setFlags(getFlags() & (~FLAG_SHARE_TEXT));
+        }
     }
 
     public static String[] getTypeOptions(Context context) {

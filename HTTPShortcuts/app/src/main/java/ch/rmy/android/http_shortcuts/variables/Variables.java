@@ -7,8 +7,8 @@ import java.util.regex.Pattern;
 
 public class Variables {
 
-    public static final int PREFIX_LENGTH = 2;
-    public static final int SUFFIX_LENGTH = 2;
+    static final int PREFIX_LENGTH = 2;
+    static final int SUFFIX_LENGTH = 2;
 
     private static final String VARIABLE_NAME_REGEX = "[A-Za-z0-9]+";
     private static final String FULL_VARIABLE_NAME_REGEX = "^" + VARIABLE_NAME_REGEX + "$";
@@ -39,7 +39,7 @@ public class Variables {
         return builder.toString();
     }
 
-    public static Set<String> extractVariableNames(String string) {
+    static Set<String> extractVariableNames(String string) {
         Set<String> discoveredVariables = new HashSet<>();
         Matcher matcher = match(string);
         while (matcher.find()) {

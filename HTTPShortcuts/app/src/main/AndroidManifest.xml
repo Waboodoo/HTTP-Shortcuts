@@ -90,6 +90,21 @@
             android:label="@string/title_licenses"/>
 
         <activity
+            android:name=".ShareActivity"
+            android:configChanges="orientation|screenSize"
+            android:excludeFromRecents="true"
+            android:label="@string/action_send_to"
+            android:launchMode="singleInstance"
+            android:noHistory="true"
+            android:theme="@style/Theme.Transparent">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/plain"/>
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name="com.nononsenseapps.filepicker.FilePickerActivity"
             android:label=".FilePickerActivity"
             android:theme="@style/FilePickerTheme"/>

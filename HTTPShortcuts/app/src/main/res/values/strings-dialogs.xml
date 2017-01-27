@@ -3,7 +3,8 @@
     <string name="changelog_text" translatable="false"><![CDATA[
         <p>
             <b>Version 1.13.0</b><br>
-            - New variable type: color
+            - New variable type: color<br>
+            - Allow sharing text snippets into variables
         </p>
         <p>
             <b>Version 1.12.0</b><br>
@@ -123,6 +124,10 @@
         <p>
             <u>Color</u><br>
             The <i>color</i> type triggers a prompt dialog where a color can be selected. Its value is returned in RGB hex format (e.g. ff0000 for red).
+        </p>
+        <p>
+            <b>What does <i>Allow 'Share …'</i> mean? / How can I share text into variables?</b>
+            In the advanced settings section of a variable you can mark it as <i>Allow 'Share …'</i>. This makes it possible to provide the value of this variable through Android's <i>Share</i>-dialog, e.g. by sharing a URL or text snippet from another app. The variable will then assume the shared value during execution.
         </p>
     ]]></string>
 </resources>

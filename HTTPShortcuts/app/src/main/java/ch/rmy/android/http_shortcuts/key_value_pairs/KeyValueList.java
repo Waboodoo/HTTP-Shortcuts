@@ -25,6 +25,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import ch.rmy.android.http_shortcuts.R;
 import ch.rmy.android.http_shortcuts.realm.Controller;
+import ch.rmy.android.http_shortcuts.realm.models.Variable;
 import ch.rmy.android.http_shortcuts.utils.Destroyable;
 import ch.rmy.android.http_shortcuts.utils.Destroyer;
 import ch.rmy.android.http_shortcuts.variables.VariableFormatter;
@@ -142,8 +143,10 @@ public class KeyValueList<T extends KeyValuePair> extends FrameLayout implements
             keyInput.setText(item.getKey());
             valueInput.setText(item.getValue());
         }
-        destroyer.own(VariableFormatter.bind(keyInput, controller.getVariables()));
-        destroyer.own(VariableFormatter.bind(valueInput, controller.getVariables()));
+
+        List<Variable> variables = controller.getVariables();
+        destroyer.own(VariableFormatter.bind(keyInput, variables));
+        destroyer.own(VariableFormatter.bind(valueInput, variables));
 
         ((TextInputLayout) dialog.findViewById(R.id.key_value_key_layout)).setHint(getContext().getString(keyLabel));
         ((TextInputLayout) dialog.findViewById(R.id.key_value_value_layout)).setHint(getContext().getString(valueLabel));

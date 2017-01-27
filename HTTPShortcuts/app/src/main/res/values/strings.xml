@@ -181,4 +181,8 @@
     <string name="label_remember_value">Remember value</string>
     <string name="action_cancel_pending">Cancel pending execution</string>
     <string name="pending_shortcut_execution_cancelled">%1$s cancelled.</string>
+    <string name="action_send_to">Send to…</string>
+    <string name="error_not_suitable_shortcuts">No suitable shortcuts found.\n\nTo use this feature you need to have at least one shortcut that uses a variable that allows \'Share …\'.\n\nSee the documentation in the variable section for more information.</string>
+    <string name="error_sharing_feature_not_available_yet">Sorry, but sharing text files into shortcuts is not yet supported. It will probably be added sometime in the future.\nYou can, however, share text snippets already. See the documentation in the variable section for more information.\n\nThank you for your understanding.</string>
+    <string name="label_allow_share_into">Allow \'Share …\'</string>
 </resources>
