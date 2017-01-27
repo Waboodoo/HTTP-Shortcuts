@@ -30,7 +30,6 @@ import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 import ch.rmy.android.http_shortcuts.realm.models.Variable;
 import ch.rmy.android.http_shortcuts.utils.IntentUtil;
 import ch.rmy.android.http_shortcuts.variables.ResolvedVariables;
-import ch.rmy.android.http_shortcuts.variables.VariableProvider;
 import ch.rmy.android.http_shortcuts.variables.VariableResolver;
 import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 
@@ -100,7 +99,7 @@ public class ExecuteActivity extends BaseActivity {
     }
 
     public Promise resolveVariablesAndExecute(Map<String, String> variableValues) {
-        List<Variable> variables = VariableProvider.getVariables(controller);
+        List<Variable> variables = controller.getVariables();
         return new VariableResolver(this)
                 .resolve(shortcut, variables, variableValues)
                 .done(new DoneCallback<ResolvedVariables>() {

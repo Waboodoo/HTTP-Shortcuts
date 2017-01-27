@@ -29,7 +29,6 @@ import ch.rmy.android.http_shortcuts.realm.models.Variable;
 import ch.rmy.android.http_shortcuts.utils.Destroyable;
 import ch.rmy.android.http_shortcuts.utils.Destroyer;
 import ch.rmy.android.http_shortcuts.variables.VariableFormatter;
-import ch.rmy.android.http_shortcuts.variables.VariableProvider;
 
 public class KeyValueList<T extends KeyValuePair> extends FrameLayout implements Destroyable {
 
@@ -145,7 +144,7 @@ public class KeyValueList<T extends KeyValuePair> extends FrameLayout implements
             valueInput.setText(item.getValue());
         }
 
-        List<Variable> variables = VariableProvider.getVariables(controller);
+        List<Variable> variables = controller.getVariables();
         destroyer.own(VariableFormatter.bind(keyInput, variables));
         destroyer.own(VariableFormatter.bind(valueInput, variables));
 

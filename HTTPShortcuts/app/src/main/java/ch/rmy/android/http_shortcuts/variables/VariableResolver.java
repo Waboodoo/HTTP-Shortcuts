@@ -36,7 +36,7 @@ public class VariableResolver {
     }
 
     public Promise<ResolvedVariables, Void, Void> resolve(Shortcut shortcut, List<Variable> variables, @Nullable Map<String, String> preResolvedValues) {
-        Set<String> requiredVariableNames = extractVariableNames(shortcut);
+        Set<String> requiredVariableNames = extractVariableKeys(shortcut);
         List<Variable> variablesToResolve = filterVariablesByName(variables, requiredVariableNames);
         return resolveVariables(variablesToResolve, preResolvedValues);
     }
@@ -120,7 +120,7 @@ public class VariableResolver {
         }
     }
 
-    public static Set<String> extractVariableNames(Shortcut shortcut) {
+    public static Set<String> extractVariableKeys(Shortcut shortcut) {
         Set<String> discoveredVariables = new HashSet<>();
 
         discoveredVariables.addAll(Variables.extractVariableNames(shortcut.getUrl()));

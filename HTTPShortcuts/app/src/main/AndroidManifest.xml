@@ -91,7 +91,12 @@
 
         <activity
             android:name=".ShareActivity"
-            android:label="@string/action_send_to">
+            android:configChanges="orientation|screenSize"
+            android:excludeFromRecents="true"
+            android:label="@string/action_send_to"
+            android:launchMode="singleInstance"
+            android:noHistory="true"
+            android:theme="@style/Theme.Transparent">
             <intent-filter>
                 <action android:name="android.intent.action.SEND"/>
                 <category android:name="android.intent.category.DEFAULT"/>

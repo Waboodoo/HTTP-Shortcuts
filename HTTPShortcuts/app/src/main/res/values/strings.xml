@@ -162,7 +162,6 @@
     <string name="section_basic_variable_settings">Basic Settings</string>
     <string name="validation_key_non_empty">Variable key must not be empty.</string>
     <string name="validation_key_already_exists">Another variable with this key already exists.</string>
-    <string name="validation_protected_variable_key">This variable key cannot be used.</string>
     <string name="title_add_toggle_option">Add value</string>
     <string name="button_add_toggle_option">Add value</string>
     <string name="section_toggle_options">Toggle Values</string>
@@ -183,4 +182,6 @@
     <string name="action_cancel_pending">Cancel pending execution</string>
     <string name="pending_shortcut_execution_cancelled">%1$s cancelled.</string>
     <string name="action_send_to">Send to…</string>
+    <string name="error_not_suitable_shortcuts">No suitable shortcuts found.\n\nTo use this feature you need to have at least one shortcut that uses a variable that is marked as \'Share receiver\'.\n\nSee the documentation in the variable section for more information.</string>
+    <string name="error_sharing_feature_not_available_yet">Sorry, but sharing text files into shortcuts is not yet supported. It will probably be added sometime in the future.\nYou can, however, share text snippets already. See the documentation in the variable section for more information.\n\nThank you for your understanding.</string>
 </resources>

@@ -49,7 +49,6 @@ import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils;
 import ch.rmy.android.http_shortcuts.utils.Validation;
 import ch.rmy.android.http_shortcuts.utils.ViewUtil;
 import ch.rmy.android.http_shortcuts.variables.VariableFormatter;
-import ch.rmy.android.http_shortcuts.variables.VariableProvider;
 
 import static ch.rmy.android.http_shortcuts.realm.models.Shortcut.TEMPORARY_ID;
 
@@ -123,7 +122,7 @@ public class EditorActivity extends BaseActivity {
         destroyer.own(customHeaderList);
 
         controller = destroyer.own(new Controller(this));
-        variables = VariableProvider.getVariables(controller);
+        variables = controller.getVariables();
 
         shortcutId = getIntent().getLongExtra(EXTRA_SHORTCUT_ID, 0);
         if (savedInstanceState != null && savedInstanceState.containsKey(STATE_JSON_SHORTCUT)) {
