@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.realm;
 
 import android.content.Context;
 
+import java.util.Collection;
 import java.util.List;
 
 import ch.rmy.android.http_shortcuts.R;
@@ -295,4 +296,7 @@ public class Controller implements Destroyable {
         return maxIdLong + 1;
     }
 
+    public Collection<Shortcut> getShortcuts() {
+        return realm.where(Shortcut.class).notEqualTo(FIELD_ID, Shortcut.TEMPORARY_ID).findAll();
+    }
 }

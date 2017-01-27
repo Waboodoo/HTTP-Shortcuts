@@ -14,9 +14,17 @@ import ch.rmy.android.http_shortcuts.ExecuteActivity;
 public class IntentUtil {
 
     public static Intent createIntent(Context context, long shortcutId) {
+        return createIntent(context, shortcutId, null);
+    }
+
+    public static Intent createIntent(Context context, long shortcutId, HashMap<String, String> variableValues) {
         Intent intent = new Intent(context, ExecuteActivity.class);
         intent.setAction(ExecuteActivity.ACTION_EXECUTE_SHORTCUT);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION);
+
+        if (variableValues != null) {
+            intent.putExtra(ExecuteActivity.EXTRA_VARIABLE_VALUES, variableValues);
+        }
 
         Uri uri = ContentUris.withAppendedId(Uri.fromParts("content", context.getPackageName(), null), shortcutId);
         intent.setData(uri);

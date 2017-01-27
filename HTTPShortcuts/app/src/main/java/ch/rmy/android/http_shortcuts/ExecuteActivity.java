@@ -264,11 +264,10 @@ public class ExecuteActivity extends BaseActivity {
         invalidateOptionsMenu();
     }
 
-    private void finishWithoutAnimation() {
+    @Override
+    protected void finishWithoutAnimation() {
         hideProgress();
-        overridePendingTransition(0, 0);
-        finish();
-        overridePendingTransition(0, 0);
+        super.finishWithoutAnimation();
     }
 
     @Override

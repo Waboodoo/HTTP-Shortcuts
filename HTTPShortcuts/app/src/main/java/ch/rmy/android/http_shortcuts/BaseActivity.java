@@ -88,6 +88,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    protected void finishWithoutAnimation() {
+        overridePendingTransition(0, 0);
+        finish();
+        overridePendingTransition(0, 0);
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
