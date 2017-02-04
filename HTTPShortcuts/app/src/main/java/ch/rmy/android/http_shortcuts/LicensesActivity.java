@@ -20,7 +20,8 @@ public class LicensesActivity extends BaseActivity {
             "bitsies",
             "filepicker",
             "jdeferred",
-            "vintagechroma"
+            "vintagechroma",
+            "codeviewandroid"
     };
 
     @Override
