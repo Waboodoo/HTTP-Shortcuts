@@ -1,4 +1,5 @@
 # HTTP Shortcuts for Android
+<img src="./HTTPShortcuts/app/src/main/res/drawable-xxxhdpi/ic_launcher.png" align="right" style="margin-left: 1em;"/>
 
 A simple Android app that allows you to create shortcuts that can be placed on your home screen. Each shortcut, when clicked, triggers an HTTP request.
 
@@ -11,11 +12,11 @@ A simple Android app that allows you to create shortcuts that can be placed on y
 - Built-in icons, support for Ipack icons and custom icons
 - Display response as a toast, window or dialog, or run silently
 - Grouping into categories through tabs
-- Dynamic variables
+- Value injection through variables (text, numbers, passwords, selections, colors, ...)
 - 3rd party integration (e.g. Tasker)
 
 <a href="https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts">
-<img alt="Get it on Google Play" src="http://steverichey.github.io/google-play-badge-svg/img/en_get.svg" />
+<img alt="Get it on Google Play" src="http://steverichey.github.io/google-play-badge-svg/img/en_get.svg" width="280" />
 </a>
 
 #Screenshots
