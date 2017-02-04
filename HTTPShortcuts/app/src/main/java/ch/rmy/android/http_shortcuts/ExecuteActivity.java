@@ -202,7 +202,7 @@ public class ExecuteActivity extends BaseActivity {
     }
 
     private void hideProgress() {
-        if (shortcut == null || !shortcut.isValid()) {
+        if (shortcut == null) {
             return;
         }
         switch (shortcut.getFeedback()) {
