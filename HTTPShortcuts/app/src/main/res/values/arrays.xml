@@ -15,4 +15,23 @@
         <item>@string/choose_image</item>
         <item>@string/choose_ipack_icon</item>
     </string-array>
+
+    <string-array name="themes" translatable="false">
+        <item>@string/theme_blue</item>
+        <item>@string/theme_green</item>
+        <item>@string/theme_red</item>
+        <item>@string/theme_orange</item>
+        <item>@string/theme_purple</item>
+        <item>@string/theme_grey</item>
+        <item>@string/theme_indigo</item>
+    </string-array>
+    <string-array name="themes_values" translatable="false">
+        <item>blue</item>
+        <item>green</item>
+        <item>red</item>
+        <item>orange</item>
+        <item>purple</item>
+        <item>grey</item>
+        <item>indigo</item>
+    </string-array>
 </resources>

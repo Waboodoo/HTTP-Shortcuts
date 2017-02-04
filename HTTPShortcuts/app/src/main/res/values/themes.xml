@@ -7,6 +7,42 @@
         <item name="colorAccent">@color/primary</item>
     </style>
 
+    <style name="LightThemeAlt1" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary_alt1</item>
+        <item name="colorPrimaryDark">@color/primary_dark_alt1</item>
+        <item name="colorAccent">@color/primary_alt1</item>
+    </style>
+
+    <style name="LightThemeAlt2" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary_alt2</item>
+        <item name="colorPrimaryDark">@color/primary_dark_alt2</item>
+        <item name="colorAccent">@color/primary_alt2</item>
+    </style>
+
+    <style name="LightThemeAlt3" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary_alt3</item>
+        <item name="colorPrimaryDark">@color/primary_dark_alt3</item>
+        <item name="colorAccent">@color/primary_alt3</item>
+    </style>
+
+    <style name="LightThemeAlt4" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary_alt4</item>
+        <item name="colorPrimaryDark">@color/primary_dark_alt4</item>
+        <item name="colorAccent">@color/primary_alt4</item>
+    </style>
+
+    <style name="LightThemeAlt5" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary_alt5</item>
+        <item name="colorPrimaryDark">@color/primary_dark_alt5</item>
+        <item name="colorAccent">@color/primary_alt5</item>
+    </style>
+
+    <style name="LightThemeAlt6" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary_alt6</item>
+        <item name="colorPrimaryDark">@color/primary_dark_alt6</item>
+        <item name="colorAccent">@color/primary_alt6</item>
+    </style>
+
     <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="android:textColorSecondary">@android:color/white</item>

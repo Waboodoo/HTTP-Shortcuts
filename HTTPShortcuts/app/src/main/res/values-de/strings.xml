@@ -182,4 +182,12 @@
     <string name="error_sharing_feature_not_available_yet">Sorry, aber das teilen von Text-Dateien wird derzeit noch nicht unterstützt. Das teilen von Text-Fragmenten ist jedoch bereits möglich. Konsultiere dazu die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informationen.\n\nDanke für dein Verständnis.</string>
     <string name="label_allow_share_into">\'Teilen …\' erlauben</string>
     <string name="section_request_details">Request Details</string>
+    <string name="settings_theme">Theme</string>
+    <string name="theme_blue">Blau</string>
+    <string name="theme_green">Grün</string>
+    <string name="theme_grey">Grau</string>
+    <string name="theme_indigo">Indigo</string>
+    <string name="theme_orange">Orange</string>
+    <string name="theme_purple">Violett</string>
+    <string name="theme_red">Rot</string>
 </resources>

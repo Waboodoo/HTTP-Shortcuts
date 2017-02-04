@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
@@ -19,6 +20,7 @@ import android.view.WindowManager;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import ch.rmy.android.http_shortcuts.utils.Destroyer;
+import ch.rmy.android.http_shortcuts.utils.ThemeHelper;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -27,9 +29,17 @@ public abstract class BaseActivity extends AppCompatActivity {
     Toolbar toolbar;
 
     protected final Destroyer destroyer = new Destroyer();
+    private ThemeHelper themeHelper;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.themeHelper = new ThemeHelper(getContext());
+    }
 
     @Override
     public void setContentView(int layoutResID) {
+        setTheme(themeHelper.getTheme());
         super.setContentView(layoutResID);
         ButterKnife.bind(this);
         if (toolbar != null) {
@@ -84,7 +94,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(getResources().getColor(R.color.primary_dark));
+            window.setStatusBarColor(themeHelper.getStatusBarColor());
         }
     }
 
