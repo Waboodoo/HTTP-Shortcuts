@@ -75,6 +75,7 @@
     <string name="settings_click_behavior_run">Execute the shortcut</string>
     <string name="settings_click_behavior_edit">Edit the shortcut</string>
     <string name="settings_click_behavior_menu">Show the options menu</string>
+    <string name="title_export">Export</string>
     <string name="settings_title_import_export">Import / Export</string>
     <string name="settings_import">Import shortcuts</string>
     <string name="settings_export">Export shortcuts</string>
@@ -219,4 +220,6 @@
     <string name="theme_orange">Orange</string>
     <string name="theme_purple">Purple</string>
     <string name="theme_indigo">Indigo</string>
+    <string name="button_export_to_filesystem">Local storage</string>
+    <string name="button_export_send_to">Send to…</string>
 </resources>

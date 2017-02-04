@@ -20,6 +20,11 @@ public class MenuDialogBuilder {
         builder = new MaterialDialog.Builder(context);
     }
 
+    public MenuDialogBuilder title(@StringRes int title) {
+        builder.title(builder.getContext().getString(title));
+        return this;
+    }
+
     public MenuDialogBuilder title(CharSequence title) {
         builder.title(title);
         return this;

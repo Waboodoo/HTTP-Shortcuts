@@ -21,6 +21,10 @@ import java.io.File;
 import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog;
 import ch.rmy.android.http_shortcuts.import_export.ExportTask;
 import ch.rmy.android.http_shortcuts.import_export.ImportTask;
+import ch.rmy.android.http_shortcuts.realm.Controller;
+import ch.rmy.android.http_shortcuts.realm.models.Base;
+import ch.rmy.android.http_shortcuts.utils.GsonUtil;
+import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder;
 import ch.rmy.android.http_shortcuts.utils.Settings;
 
 public class SettingsActivity extends BaseActivity {
@@ -88,7 +92,7 @@ public class SettingsActivity extends BaseActivity {
             exportPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
                 public boolean onPreferenceClick(Preference preference) {
-                    showExportInstructions();
+                    showExportOptions();
                     return true;
                 }
 
@@ -172,6 +176,23 @@ public class SettingsActivity extends BaseActivity {
             preference.setSummary(preference.getEntries()[index]);
         }
 
+        private void showExportOptions() {
+            new MenuDialogBuilder(getActivity())
+                    .title(R.string.title_export)
+                    .item(R.string.button_export_to_filesystem, new MenuDialogBuilder.Action() {
+                        @Override
+                        public void execute() {
+                            showExportInstructions();
+                        }
+                    })
+                    .item(R.string.button_export_send_to, new MenuDialogBuilder.Action() {
+                        @Override
+                        public void execute() {
+                            sendExport();
+                        }
+                    }).show();
+        }
+
         private void showExportInstructions() {
             new MaterialDialog.Builder(getActivity())
                     .positiveText(R.string.button_ok)
@@ -184,6 +205,20 @@ public class SettingsActivity extends BaseActivity {
                         }
                     })
                     .show();
+        }
+
+        private void sendExport() {
+            Controller controller = new Controller(getActivity());
+            try {
+                Base base = controller.exportBase();
+                String data = GsonUtil.exportData(base);
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("application/json");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, data);
+                startActivity(Intent.createChooser(sharingIntent, getString(R.string.title_export)));
+            } finally {
+                controller.destroy();
+            }
         }
 
         private void showImportInstructions() {
