@@ -24,7 +24,7 @@ import java.util.Map;
 
 import butterknife.Bind;
 import ch.rmy.android.http_shortcuts.http.HttpRequester;
-import ch.rmy.android.http_shortcuts.http.Response;
+import ch.rmy.android.http_shortcuts.http.ShortcutResponse;
 import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 import ch.rmy.android.http_shortcuts.realm.models.Variable;
@@ -32,6 +32,7 @@ import ch.rmy.android.http_shortcuts.utils.IntentUtil;
 import ch.rmy.android.http_shortcuts.variables.ResolvedVariables;
 import ch.rmy.android.http_shortcuts.variables.VariableResolver;
 import fr.castorflex.android.circularprogressbar.CircularProgressBar;
+import io.github.kbiakov.codeview.CodeView;
 
 public class ExecuteActivity extends BaseActivity {
 
@@ -43,12 +44,16 @@ public class ExecuteActivity extends BaseActivity {
 
     private Controller controller;
     private Shortcut shortcut;
-    private Response lastResponse;
+    private ShortcutResponse lastResponse;
 
     private ProgressDialog progressDialog;
 
     @Bind(R.id.response_text)
     TextView responseText;
+    @Bind(R.id.response_text_container)
+    View responseTextContainer;
+    @Bind(R.id.formatted_response_text)
+    CodeView formattedResponseText;
     @Bind(R.id.progress_spinner)
     CircularProgressBar progressSpinner;
 
@@ -117,15 +122,16 @@ public class ExecuteActivity extends BaseActivity {
 
     private void execute(final ResolvedVariables resolvedVariables) {
         showProgress();
-        HttpRequester.executeShortcut(getContext(), shortcut, resolvedVariables).done(new DoneCallback<Response>() {
+        HttpRequester.executeShortcut(getContext(), shortcut, resolvedVariables).done(new DoneCallback<ShortcutResponse>() {
             @Override
-            public void onDone(Response response) {
+            public void onDone(ShortcutResponse response) {
                 setLastResponse(response);
                 if (shortcut.isFeedbackErrorsOnly()) {
                     finishWithoutAnimation();
                 } else {
                     boolean simple = shortcut.getFeedback().equals(Shortcut.FEEDBACK_TOAST_SIMPLE);
-                    displayOutput(simple ? String.format(getString(R.string.executed), shortcut.getSafeName(getContext())) : generateOutputFromResponse(response));
+                    String output = simple ? String.format(getString(R.string.executed), shortcut.getSafeName(getContext())) : generateOutputFromResponse(response);
+                    displayOutput(output, response.getContentType());
                 }
             }
         }).fail(new FailCallback<VolleyError>() {
@@ -140,20 +146,20 @@ public class ExecuteActivity extends BaseActivity {
                 } else {
                     setLastResponse(null);
                     boolean simple = shortcut.getFeedback().equals(Shortcut.FEEDBACK_TOAST_SIMPLE_ERRORS) || shortcut.getFeedback().equals(Shortcut.FEEDBACK_TOAST_SIMPLE);
-                    displayOutput(generateOutputFromError(error, simple));
+                    displayOutput(generateOutputFromError(error, simple), ShortcutResponse.TYPE_TEXT);
                 }
             }
-        }).always(new AlwaysCallback<Response, VolleyError>() {
+        }).always(new AlwaysCallback<ShortcutResponse, VolleyError>() {
             @Override
-            public void onAlways(Promise.State state, Response resolved, VolleyError rejected) {
+            public void onAlways(Promise.State state, ShortcutResponse resolved, VolleyError rejected) {
                 hideProgress();
                 controller.destroy();
             }
         });
     }
 
-    private String generateOutputFromResponse(Response response) {
-        return response.getBody();
+    private String generateOutputFromResponse(ShortcutResponse response) {
+        return response.getBodyAsString();
     }
 
     private String generateOutputFromError(VolleyError error, boolean simple) {
@@ -195,7 +201,8 @@ public class ExecuteActivity extends BaseActivity {
             }
             case Shortcut.FEEDBACK_ACTIVITY: {
                 progressSpinner.setVisibility(View.VISIBLE);
-                responseText.setVisibility(View.GONE);
+                responseTextContainer.setVisibility(View.GONE);
+                formattedResponseText.setVisibility(View.GONE);
                 break;
             }
         }
@@ -215,13 +222,12 @@ public class ExecuteActivity extends BaseActivity {
             }
             case Shortcut.FEEDBACK_ACTIVITY: {
                 progressSpinner.setVisibility(View.GONE);
-                responseText.setVisibility(View.VISIBLE);
                 break;
             }
         }
     }
 
-    private void displayOutput(String output) {
+    private void displayOutput(String output, String type) {
         switch (shortcut.getFeedback()) {
             case Shortcut.FEEDBACK_TOAST_SIMPLE:
             case Shortcut.FEEDBACK_TOAST_SIMPLE_ERRORS: {
@@ -248,7 +254,16 @@ public class ExecuteActivity extends BaseActivity {
                 break;
             }
             case Shortcut.FEEDBACK_ACTIVITY: {
-                responseText.setText(output);
+                if (type.equals(ShortcutResponse.TYPE_JSON)) {
+                    formattedResponseText.setCode(output, "json");
+                    formattedResponseText.setVisibility(View.VISIBLE);
+                } else if (type.equals(ShortcutResponse.TYPE_XML)) {
+                    formattedResponseText.setCode(output, "xml");
+                    formattedResponseText.setVisibility(View.VISIBLE);
+                } else {
+                    responseText.setText(output);
+                    responseTextContainer.setVisibility(View.VISIBLE);
+                }
                 break;
             }
         }
@@ -262,7 +277,7 @@ public class ExecuteActivity extends BaseActivity {
         Toast.makeText(getContext(), message, duration).show();
     }
 
-    private void setLastResponse(Response response) {
+    private void setLastResponse(ShortcutResponse response) {
         this.lastResponse = response;
         invalidateOptionsMenu();
     }
@@ -277,8 +292,12 @@ public class ExecuteActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.execute_activity_menu, menu);
-        menu.findItem(R.id.action_share_response).setVisible(lastResponse != null);
+        menu.findItem(R.id.action_share_response).setVisible(canShareResponse());
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private boolean canShareResponse() {
+        return lastResponse != null;
     }
 
     @Override
@@ -291,12 +310,12 @@ public class ExecuteActivity extends BaseActivity {
     }
 
     private void shareLastResponse() {
-        if (lastResponse == null) {
+        if (!canShareResponse()) {
             return;
         }
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-        sharingIntent.setType("text/plain");
-        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, lastResponse.getBody());
+        sharingIntent.setType(ShortcutResponse.TYPE_TEXT);
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, lastResponse.getBodyAsString());
         startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_title)));
     }
 
