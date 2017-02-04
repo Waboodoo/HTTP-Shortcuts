@@ -28,6 +28,7 @@ import ch.rmy.android.http_shortcuts.http.ShortcutResponse;
 import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 import ch.rmy.android.http_shortcuts.realm.models.Variable;
+import ch.rmy.android.http_shortcuts.utils.GsonUtil;
 import ch.rmy.android.http_shortcuts.utils.IntentUtil;
 import ch.rmy.android.http_shortcuts.variables.ResolvedVariables;
 import ch.rmy.android.http_shortcuts.variables.VariableResolver;
@@ -254,15 +255,22 @@ public class ExecuteActivity extends BaseActivity {
                 break;
             }
             case Shortcut.FEEDBACK_ACTIVITY: {
-                if (type.equals(ShortcutResponse.TYPE_JSON)) {
-                    formattedResponseText.setCode(output, "json");
-                    formattedResponseText.setVisibility(View.VISIBLE);
-                } else if (type.equals(ShortcutResponse.TYPE_XML)) {
-                    formattedResponseText.setCode(output, "xml");
-                    formattedResponseText.setVisibility(View.VISIBLE);
-                } else {
-                    responseText.setText(output);
-                    responseTextContainer.setVisibility(View.VISIBLE);
+                switch (type) {
+                    case ShortcutResponse.TYPE_JSON: {
+                        formattedResponseText.setCode(GsonUtil.prettyPrint(output), "json");
+                        formattedResponseText.setVisibility(View.VISIBLE);
+                        break;
+                    }
+                    case ShortcutResponse.TYPE_XML: {
+                        formattedResponseText.setCode(output, "xml");
+                        formattedResponseText.setVisibility(View.VISIBLE);
+                        break;
+                    }
+                    default: {
+                        responseText.setText(output);
+                        responseTextContainer.setVisibility(View.VISIBLE);
+                        break;
+                    }
                 }
                 break;
             }
