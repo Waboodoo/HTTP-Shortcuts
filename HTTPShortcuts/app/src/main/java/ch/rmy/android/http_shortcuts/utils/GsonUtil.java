@@ -4,6 +4,9 @@ import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
 
 import java.io.Reader;
 
@@ -11,6 +14,17 @@ import ch.rmy.android.http_shortcuts.realm.models.Base;
 import io.realm.RealmObject;
 
 public class GsonUtil {
+
+    public static String prettyPrint(String jsonString) {
+        try {
+            JsonParser parser = new JsonParser();
+            JsonObject json = parser.parse(jsonString).getAsJsonObject();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            return gson.toJson(json);
+        } catch (JsonParseException e) {
+            return jsonString;
+        }
+    }
 
     public static String toJson(RealmObject item) {
         Gson gson = getJsonBuilder().create();

@@ -1,8 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="transparent" type="color">#00000000</item>
     <item name="primary" type="color">#FF03A9F4</item>
     <item name="primary_dark" type="color">#FF0277BD</item>
+
+    <item name="primary_alt1" type="color">#FF4CAF50</item>
+    <item name="primary_dark_alt1" type="color">#FF2E7D32</item>
+
+    <item name="primary_alt2" type="color">#FFF44336</item>
+    <item name="primary_dark_alt2" type="color">#FFC62828</item>
+
+    <item name="primary_alt3" type="color">#FF673AB7</item>
+    <item name="primary_dark_alt3" type="color">#FF4527A0</item>
+
+    <item name="primary_alt4" type="color">#FF607D8B</item>
+    <item name="primary_dark_alt4" type="color">#FF37474F</item>
+
+    <item name="primary_alt5" type="color">#FFFFC107</item>
+    <item name="primary_dark_alt5" type="color">#FFFF8F00</item>
+
+    <item name="primary_alt6" type="color">#FF3F51B5</item>
+    <item name="primary_dark_alt6" type="color">#FF283593</item>
+
+    <item name="transparent" type="color">#00000000</item>
     <item name="secondary_grey" type="color">#FF757575</item>
     <item name="divider" type="color">#FFE0E0E0</item>
 </resources>
