@@ -21,16 +21,16 @@ import ch.rmy.android.http_shortcuts.variables.Variables;
 
 public class HttpRequester {
 
-    public static Promise<Response, VolleyError, Void> executeShortcut(final Context context, final Shortcut detachedShortcut, ResolvedVariables variables) {
+    public static Promise<ShortcutResponse, VolleyError, Void> executeShortcut(final Context context, final Shortcut detachedShortcut, ResolvedVariables variables) {
         int method = getMethod(detachedShortcut);
         boolean acceptAllCertificates = detachedShortcut.isAcceptAllCertificates();
 
         OkHttpClient client = acceptAllCertificates ? HttpClients.getUnsafeOkHttpClient() : HttpClients.getDefaultOkHttpClient();
         RequestQueue queue = Volley.newRequestQueue(context, new OkHttpStack(client));
 
-        final Deferred<Response, VolleyError, Void> deferred = new DeferredObject<>();
+        final Deferred<ShortcutResponse, VolleyError, Void> deferred = new DeferredObject<>();
 
-        AuthRequest stringRequest = new AuthRequest(
+        ShortcutRequest stringRequest = new ShortcutRequest(
                 method,
                 Variables.insert(detachedShortcut.getUrl(), variables),
                 Variables.insert(detachedShortcut.getUsername(), variables),
@@ -38,7 +38,7 @@ public class HttpRequester {
                 Variables.insert(detachedShortcut.getBodyContent(), variables),
                 new ResponseListener() {
                     @Override
-                    public void onResponse(Response response) {
+                    public void onResponse(ShortcutResponse response) {
                         deferred.resolve(response);
                     }
                 }, new com.android.volley.Response.ErrorListener() {

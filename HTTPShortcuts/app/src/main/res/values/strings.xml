@@ -118,13 +118,14 @@
     <string name="section_basic_request">Basic Request Settings</string>
     <string name="section_response">Response Settings</string>
     <string name="section_advanced_settings">Advanced Settings</string>
+    <string name="section_request_details">Request Details</string>
     <string name="section_authentication">Authentication</string>
     <string name="warning_icon_or_name_change">Please note that changes to the name or icon are not automatically applied to shortcuts that are already added to the home screen. You will have to add them again for the changes to take effect. All other changes are automatically applied.</string>
     <string name="dialog_checkbox_do_not_show_again">Don\'t show again</string>
     <string name="label_certificates">Certificates</string>
     <string name="label_accept_all_certificates">Accept any certificate</string>
-    <string name="title_licenses">Acknowledgement</string>
-    <string name="settings_licenses">Acknowledgement</string>
+    <string name="title_licenses">Acknowledgements</string>
+    <string name="settings_licenses">Acknowledgements</string>
     <string name="settings_licenses_summary"><![CDATA[Libraries & resources used]]></string>
     <string name="title_categories">Categories</string>
     <string name="action_rename">Rename</string>

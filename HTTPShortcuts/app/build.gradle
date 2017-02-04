@@ -31,6 +31,9 @@ repositories {
     maven {
         url 'https://github.com/uPhyca/stetho-realm/raw/master/maven-repo'
     }
+    maven {
+        url "https://jitpack.io"
+    }
 }
 
 dependencies {
@@ -60,6 +63,7 @@ dependencies {
     compile 'com.github.castorflex.smoothprogressbar:library:1.1.0'
     compile 'com.github.castorflex.smoothprogressbar:library-circular:1.1.0'
     compile 'com.pavelsikun:vintage-chroma:1.5'
+    compile 'com.github.softwee:codeview-android:1.2.0'
 }
 
 apply plugin: 'realm-android'

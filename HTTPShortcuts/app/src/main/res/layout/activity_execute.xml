@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                 xmlns:tools="http://schemas.android.com/tools"
-                                                 android:layout_width="match_parent"
-                                                 android:layout_height="match_parent"
-                                                 tools:context=".ExecuteActivity">
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ExecuteActivity">
 
     <include layout="@layout/toolbar_layout"/>
 
@@ -13,7 +14,13 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+        <io.github.kbiakov.codeview.CodeView
+            android:id="@+id/formatted_response_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
         <android.support.v4.widget.NestedScrollView
+            android:id="@+id/response_text_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
