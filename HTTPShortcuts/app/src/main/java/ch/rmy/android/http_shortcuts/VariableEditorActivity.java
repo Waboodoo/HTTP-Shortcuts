@@ -166,6 +166,11 @@ public class VariableEditorActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        confirmClose();
+    }
+
     private void confirmClose() {
         compileVariable();
         if (hasChanges()) {
