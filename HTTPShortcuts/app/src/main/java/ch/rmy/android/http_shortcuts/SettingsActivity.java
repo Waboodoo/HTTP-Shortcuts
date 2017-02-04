@@ -25,8 +25,11 @@ import ch.rmy.android.http_shortcuts.utils.Settings;
 
 public class SettingsActivity extends BaseActivity {
 
+    public static final int REQUEST_SETTINGS = 52;
+    public static final String EXTRA_THEME_CHANGED = "theme_changed";
+
     private static final String CONTACT_SUBJECT = "HTTP Shortcuts";
-    private static final String CONTACT_TEXT = "Dear Roland,\n\n";
+    private static final String CONTACT_TEXT = "Hey Roland,\n\n";
     private static final String DEVELOPER_EMAIL = "android@rmy.ch";
     private static final String PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts";
     private static final String GITHUB_URL = "https://github.com/Waboodoo/HTTP-Shortcuts";
@@ -57,12 +60,29 @@ public class SettingsActivity extends BaseActivity {
 
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    clickBehaviorPreference.setSummary(clickBehaviorPreference.getEntries()[clickBehaviorPreference.findIndexOfValue((String) newValue)]);
+                    updateSummary(clickBehaviorPreference, newValue);
                     return true;
                 }
 
             });
-            clickBehaviorPreference.setSummary(clickBehaviorPreference.getEntries()[clickBehaviorPreference.findIndexOfValue(clickBehaviorPreference.getValue())]);
+            updateSummary(clickBehaviorPreference, null);
+
+            final ListPreference themePreference = (ListPreference) findPreference("theme");
+            themePreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    updateSummary(themePreference, newValue);
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra(EXTRA_THEME_CHANGED, true);
+                    getActivity().setResult(RESULT_OK, returnIntent);
+                    getActivity().finish();
+                    getActivity().overridePendingTransition(0, 0);
+                    return true;
+                }
+
+            });
+            updateSummary(themePreference, null);
 
             final Preference exportPreference = findPreference("export");
             exportPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
@@ -139,6 +159,17 @@ public class SettingsActivity extends BaseActivity {
                 }
 
             });
+        }
+
+        private void updateSummary(ListPreference preference, Object value) {
+            if (value == null) {
+                value = preference.getValue();
+            }
+            int index = preference.findIndexOfValue((String) value);
+            if (index == -1) {
+                index = 0;
+            }
+            preference.setSummary(preference.getEntries()[index]);
         }
 
         private void showExportInstructions() {

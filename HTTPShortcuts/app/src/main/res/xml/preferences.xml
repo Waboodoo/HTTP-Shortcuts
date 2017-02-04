@@ -11,7 +11,17 @@
             android:key="click_behavior"
             android:persistent="true"
             android:title="@string/settings_click_behavior"
-            />
+        />
+
+        <com.afollestad.materialdialogs.prefs.MaterialListPreference
+            android:defaultValue="blue"
+            android:entries="@array/themes"
+            android:entryValues="@array/themes_values"
+            android:icon="@drawable/ic_theme"
+            android:key="theme"
+            android:persistent="true"
+            android:title="@string/settings_theme"
+        />
 
     </PreferenceCategory>
 

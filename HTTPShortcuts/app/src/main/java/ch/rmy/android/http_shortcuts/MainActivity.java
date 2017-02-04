@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -110,29 +109,39 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (resultCode != Activity.RESULT_OK) {
+        if (resultCode != RESULT_OK) {
             return;
         }
+        switch (requestCode) {
+            case REQUEST_CREATE_SHORTCUT: {
+                long shortcutId = intent.getLongExtra(EditorActivity.EXTRA_SHORTCUT_ID, 0);
+                Shortcut shortcut = controller.getShortcutById(shortcutId);
+                if (shortcut == null) {
+                    return;
+                }
 
-        if (requestCode == REQUEST_CREATE_SHORTCUT) {
-            long shortcutId = intent.getLongExtra(EditorActivity.EXTRA_SHORTCUT_ID, 0);
-            Shortcut shortcut = controller.getShortcutById(shortcutId);
-            if (shortcut == null) {
-                return;
+                Category category;
+                int currentCategory = viewPager.getCurrentItem();
+                if (currentCategory < adapter.getCount()) {
+                    ListFragment currentListFragment = adapter.getItem(currentCategory);
+                    long categoryId = currentListFragment.getCategoryId();
+                    category = controller.getCategoryById(categoryId);
+                } else {
+                    category = controller.getCategories().first();
+                }
+                controller.moveShortcut(shortcut, category);
+
+                selectShortcut(shortcut);
+                break;
             }
-
-            Category category;
-            int currentCategory = viewPager.getCurrentItem();
-            if (currentCategory < adapter.getCount()) {
-                ListFragment currentListFragment = adapter.getItem(currentCategory);
-                long categoryId = currentListFragment.getCategoryId();
-                category = controller.getCategoryById(categoryId);
-            } else {
-                category = controller.getCategories().first();
+            case SettingsActivity.REQUEST_SETTINGS: {
+                if (intent != null && intent.getBooleanExtra(SettingsActivity.EXTRA_THEME_CHANGED, false)) {
+                    recreate();
+                    openSettings();
+                    overridePendingTransition(0, 0);
+                }
+                break;
             }
-            controller.moveShortcut(shortcut, category);
-
-            selectShortcut(shortcut);
         }
     }
 
@@ -193,7 +202,7 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
 
     private void openSettings() {
         Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, SettingsActivity.REQUEST_SETTINGS);
     }
 
     private void openCategoriesEditor() {
