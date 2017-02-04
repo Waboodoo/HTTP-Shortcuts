@@ -2,6 +2,12 @@
 <resources>
     <string name="changelog_text" translatable="false"><![CDATA[
         <p>
+            <b>Version 1.14.0</b><br>
+            - Syntax highlighting for JSON and XML responses<br>
+            - Themes<br>
+            - Minor Bugfixes
+        </p>
+        <p>
             <b>Version 1.13.0</b><br>
             - New variable type: color<br>
             - Allow sharing text snippets into variables<br>
