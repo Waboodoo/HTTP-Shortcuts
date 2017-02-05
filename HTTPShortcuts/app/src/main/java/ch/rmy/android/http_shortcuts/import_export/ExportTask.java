@@ -14,7 +14,7 @@ import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Base;
 import ch.rmy.android.http_shortcuts.utils.GsonUtil;
 
-public class ExportTask extends SimpleTask {
+public class ExportTask extends SimpleTask<String> {
 
     private static final String FILE_NAME = "shortcuts";
     private static final String FILE_EXTENSION = ".json";

@@ -1,33 +1,35 @@
 package ch.rmy.android.http_shortcuts.import_export;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.View;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.Reader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import ch.rmy.android.http_shortcuts.R;
 import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Base;
 import ch.rmy.android.http_shortcuts.utils.GsonUtil;
 
-public class ImportTask extends SimpleTask {
+public class ImportTask extends SimpleTask<Uri> {
 
     public ImportTask(Context context, View baseView) {
         super(context, baseView);
     }
 
     @Override
-    protected Boolean doInBackground(String... path) {
-        String filePath = path[0];
+    protected Boolean doInBackground(Uri... uris) {
+        Uri uri = uris[0];
 
         Controller controller = null;
         Reader reader = null;
         try {
             try {
                 controller = new Controller(getContext());
-                reader = new BufferedReader(new FileReader(filePath));
+                InputStream inputStream = getContext().getContentResolver().openInputStream(uri);
+                reader = new BufferedReader(new InputStreamReader(inputStream));
                 Base base = GsonUtil.importData(reader);
                 controller.importBase(base);
             } finally {

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -40,6 +41,9 @@ public class SettingsActivity extends BaseActivity {
 
     private static final int REQUEST_PICK_DIR_FOR_EXPORT = 1;
     private static final int REQUEST_PICK_FILE_FOR_IMPORT = 2;
+    private static final int REQUEST_IMPORT_FROM_DOCUMENTS = 3;
+
+    private static final String IMPORT_EXPORT_FILE_TYPE = "text/plain";
 
     @SuppressLint("NewApi")
     @Override
@@ -102,7 +106,7 @@ public class SettingsActivity extends BaseActivity {
             importPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
                 public boolean onPreferenceClick(Preference preference) {
-                    showImportInstructions();
+                    showImportOptions();
                     return true;
                 }
 
@@ -213,12 +217,29 @@ public class SettingsActivity extends BaseActivity {
                 Base base = controller.exportBase();
                 String data = GsonUtil.exportData(base);
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-                sharingIntent.setType("application/json");
+                sharingIntent.setType(IMPORT_EXPORT_FILE_TYPE);
                 sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, data);
                 startActivity(Intent.createChooser(sharingIntent, getString(R.string.title_export)));
             } finally {
                 controller.destroy();
             }
+        }
+
+        private void showImportOptions() {
+            new MenuDialogBuilder(getActivity())
+                    .title(R.string.title_import)
+                    .item(R.string.button_import_from_filesystem, new MenuDialogBuilder.Action() {
+                        @Override
+                        public void execute() {
+                            showImportInstructions();
+                        }
+                    })
+                    .item(R.string.button_import_from_general, new MenuDialogBuilder.Action() {
+                        @Override
+                        public void execute() {
+                            openGeneralPickerForImport();
+                        }
+                    }).show();
         }
 
         private void showImportInstructions() {
@@ -229,7 +250,7 @@ public class SettingsActivity extends BaseActivity {
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            openFilePickerForImport();
+                            openLocalFilePickerForImport();
                         }
                     })
                     .show();
@@ -244,13 +265,26 @@ public class SettingsActivity extends BaseActivity {
             startActivityForResult(intent, REQUEST_PICK_DIR_FOR_EXPORT);
         }
 
-        private void openFilePickerForImport() {
+        private void openLocalFilePickerForImport() {
             Intent intent = new Intent(getActivity(), FilePickerActivity.class);
             intent.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
             intent.putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, false);
             intent.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_FILE);
             intent.putExtra(FilePickerActivity.EXTRA_START_PATH, new Settings(getActivity()).getImportExportDirectory());
             startActivityForResult(intent, REQUEST_PICK_FILE_FOR_IMPORT);
+        }
+
+        private void openGeneralPickerForImport() {
+            Intent pickerIntent;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                pickerIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            } else {
+                pickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
+            }
+            pickerIntent.setType(IMPORT_EXPORT_FILE_TYPE);
+            pickerIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            pickerIntent.addCategory(Intent.CATEGORY_OPENABLE);
+            startActivityForResult(pickerIntent, REQUEST_IMPORT_FROM_DOCUMENTS);
         }
 
         private void sendMail() {
@@ -279,24 +313,29 @@ public class SettingsActivity extends BaseActivity {
         }
 
         @Override
-        public void onActivityResult(int requestCode, int resultCode, Intent data) {
-            if (resultCode != RESULT_OK) {
+        public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+            if (resultCode != RESULT_OK || intent == null) {
                 return;
             }
             switch (requestCode) {
                 case REQUEST_PICK_DIR_FOR_EXPORT: {
-                    Uri uri = data.getData();
+                    Uri uri = intent.getData();
                     String directoryPath = uri.getPath();
                     persistPath(directoryPath);
                     startExport(directoryPath);
                     break;
                 }
                 case REQUEST_PICK_FILE_FOR_IMPORT: {
-                    Uri uri = data.getData();
+                    Uri uri = intent.getData();
                     String filePath = uri.getPath();
                     String directoryPath = new File(filePath).getParent();
                     persistPath(directoryPath);
-                    startImport(filePath);
+                    startImport(uri);
+                    break;
+                }
+                case REQUEST_IMPORT_FROM_DOCUMENTS: {
+                    Uri uri = intent.getData();
+                    startImport(uri);
                     break;
                 }
             }
@@ -311,9 +350,9 @@ public class SettingsActivity extends BaseActivity {
             task.execute(directoryPath);
         }
 
-        private void startImport(String filePath) {
+        private void startImport(Uri uri) {
             ImportTask task = new ImportTask(getActivity(), getView());
-            task.execute(filePath);
+            task.execute(uri);
         }
 
     }
