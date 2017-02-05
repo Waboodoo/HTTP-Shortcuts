@@ -26,6 +26,7 @@ import net.dinglisch.ipack.IpackKeys;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.List;
 
 import butterknife.Bind;
@@ -49,6 +50,7 @@ import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils;
 import ch.rmy.android.http_shortcuts.utils.Validation;
 import ch.rmy.android.http_shortcuts.utils.ViewUtil;
 import ch.rmy.android.http_shortcuts.variables.VariableFormatter;
+import ch.rmy.curlparser.CurlCommand;
 
 import static ch.rmy.android.http_shortcuts.realm.models.Shortcut.TEMPORARY_ID;
 
@@ -60,7 +62,9 @@ import static ch.rmy.android.http_shortcuts.realm.models.Shortcut.TEMPORARY_ID;
 @SuppressLint("InflateParams")
 public class EditorActivity extends BaseActivity {
 
-    public final static String EXTRA_SHORTCUT_ID = "ch.rmy.android.http_shortcuts.EditorActivity.shortcut_id";
+    public static final String EXTRA_SHORTCUT_ID = "ch.rmy.android.http_shortcuts.EditorActivity.shortcut_id";
+    public static final String EXTRA_CURL_COMMAND = "ch.rmy.android.http_shortcuts.EditorActivity.curl_command";
+
     private final static int SELECT_ICON = 1;
     private final static int SELECT_IPACK_ICON = 3;
     private static final String STATE_JSON_SHORTCUT = "shortcut_json";
@@ -136,6 +140,12 @@ public class EditorActivity extends BaseActivity {
         }
         oldShortcut = shortcutId == 0 ? Shortcut.createNew() : controller.getDetachedShortcutById(shortcutId);
         if (shortcut.isNew()) {
+
+            Serializable curlCommand = getIntent().getSerializableExtra(EXTRA_CURL_COMMAND);
+            if (curlCommand != null) {
+                extractFromCurlCommand(shortcut, (CurlCommand) curlCommand);
+            }
+
             if (shortcut.getIconName() == null) {
                 shortcut.setIconName(Icons.getRandomIcon(getContext()));
                 oldShortcut.setIconName(shortcut.getIconName());
@@ -145,6 +155,10 @@ public class EditorActivity extends BaseActivity {
         }
 
         initViews();
+    }
+
+    private void extractFromCurlCommand(Shortcut shortcut, CurlCommand curlCommand) {
+        shortcut.setUrl(curlCommand.getUrl());
     }
 
     private void initViews() {
