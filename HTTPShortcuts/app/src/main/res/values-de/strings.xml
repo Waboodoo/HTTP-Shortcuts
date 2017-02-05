@@ -190,4 +190,10 @@
     <string name="theme_orange">Orange</string>
     <string name="theme_purple">Violett</string>
     <string name="theme_red">Rot</string>
+    <string name="button_export_send_to">Andere App</string>
+    <string name="button_export_to_filesystem">Lokales Dateisystem</string>
+    <string name="button_import_from_filesystem">Lokales Dateisystem</string>
+    <string name="button_import_from_general">Dokumente</string>
+    <string name="title_export">Exportieren</string>
+    <string name="title_import">Importieren</string>
 </resources>
