@@ -24,6 +24,7 @@ import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 import ch.rmy.android.http_shortcuts.utils.IntentUtil;
+import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder;
 import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils;
 
 /**
@@ -66,7 +67,7 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openEditorForCreation();
+                showCreateOptions();
             }
         });
         setupViewPager();
@@ -77,6 +78,22 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
 
         tabLayout.setTabTextColors(Color.WHITE, Color.WHITE);
         tabLayout.setSelectedTabIndicatorColor(Color.WHITE);
+    }
+
+    private void showCreateOptions() {
+        new MenuDialogBuilder(this)
+                .item(R.string.button_create_new, new MenuDialogBuilder.Action() {
+                    @Override
+                    public void execute() {
+                        openEditorForCreation();
+                    }
+                })
+                .item(R.string.button_curl_import, new MenuDialogBuilder.Action() {
+                    @Override
+                    public void execute() {
+                        openCurlImport();
+                    }
+                }).show();
     }
 
     private void openEditorForCreation() {
@@ -213,6 +230,11 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
     private void openVariablesEditor() {
         Intent intent = new Intent(this, VariablesActivity.class);
         startActivity(intent);
+    }
+
+    private void openCurlImport() {
+        Intent intent = new Intent(this, CurlImportActivity.class);
+        startActivityForResult(intent, REQUEST_CREATE_SHORTCUT);
     }
 
     private Intent getShortcutPlacementIntent(Shortcut shortcut, boolean install) {

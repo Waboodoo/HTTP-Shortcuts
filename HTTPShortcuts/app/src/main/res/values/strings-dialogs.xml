@@ -4,8 +4,10 @@
         <p>
             <b>Version 1.14.0</b><br>
             - Syntax highlighting for JSON and XML responses<br>
+            - Import shortcuts from CURL commands<br>
+            - Improved import &amp; export<br>
             - Themes<br>
-            - Minor Bugfixes
+            - Minor bugfixes
         </p>
         <p>
             <b>Version 1.13.0</b><br>
