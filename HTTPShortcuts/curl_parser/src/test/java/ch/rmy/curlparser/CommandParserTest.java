@@ -10,9 +10,9 @@ public class CommandParserTest {
 
     @Test
     public void testParser() {
-        String target = "curl -X \"Hello 'World'\" \"escaped \\\" quotes\" --bla 'foo'";
+        String target = "curl -X \"Hello 'World'\" \"escaped \\\" quotes and backslashes \\\\\" --bla 'foo'";
         String[] expected = new String[]{
-                "curl", "-X", "Hello 'World'", "escaped \\\" quotes", "--bla", "foo"
+                "curl", "-X", "Hello 'World'", "escaped \" quotes and backslashes \\", "--bla", "foo"
         };
         List<String> arguments = CommandParser.parseCommand(target);
         String[] actual = arguments.toArray(new String[arguments.size()]);

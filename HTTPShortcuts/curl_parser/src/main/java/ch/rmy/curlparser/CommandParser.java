@@ -22,15 +22,16 @@ class CommandParser {
         StringBuilder builder = new StringBuilder();
 
         String previousToken = "";
+        String currentToken = "";
         while (tokenizer.hasMoreTokens()) {
-            String currentToken = tokenizer.nextToken();
+            previousToken = currentToken;
+            currentToken = tokenizer.nextToken();
             switch (state) {
                 case SINGLE_QUOTE: {
                     if ("\'".equals(currentToken) && !previousToken.equals("\\")) {
                         state = State.INIT;
                         flush = true;
-                    } else {
-                        builder.append(currentToken);
+                        continue;
                     }
                     break;
                 }
@@ -38,29 +39,35 @@ class CommandParser {
                     if ("\"".equals(currentToken) && !previousToken.equals("\\")) {
                         state = State.INIT;
                         flush = true;
-                    } else {
-                        builder.append(currentToken);
+                        continue;
                     }
                     break;
                 }
                 default: {
                     if ("\'".equals(currentToken)) {
                         state = State.SINGLE_QUOTE;
+                        continue;
                     } else if ("\"".equals(currentToken)) {
                         state = State.DOUBLE_QUOTE;
+                        continue;
                     } else if (" ".equals(currentToken)) {
                         if (flush || builder.length() > 0) {
                             arguments.add(builder.toString());
                             builder.setLength(0);
                         }
-                    } else {
-                        builder.append(currentToken);
+                        continue;
                     }
                     flush = false;
                     break;
                 }
             }
-            previousToken = currentToken;
+            if ("\\".equals(currentToken) && !"\\".equals(previousToken)) {
+                continue;
+            }
+            builder.append(currentToken);
+            if ("\\".equals(currentToken) && "\\".equals(previousToken)) {
+                currentToken = "";
+            }
         }
         return arguments;
     }
