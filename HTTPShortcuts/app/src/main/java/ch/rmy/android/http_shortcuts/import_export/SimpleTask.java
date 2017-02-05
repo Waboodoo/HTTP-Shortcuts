@@ -7,7 +7,7 @@ import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
-public abstract class SimpleTask extends AsyncTask<String, Void, Boolean> {
+public abstract class SimpleTask<T> extends AsyncTask<T, Void, Boolean> {
 
     private final Context context;
     private final View baseView;

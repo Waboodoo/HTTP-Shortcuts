@@ -41,6 +41,11 @@ public class GsonUtil {
         gson.toJson(base, writer);
     }
 
+    public static String exportData(Base base) {
+        Gson gson = getJsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(base);
+    }
+
     public static Base importData(Reader reader) {
         Gson gson = getJsonBuilder().create();
         return gson.fromJson(reader, Base.class);

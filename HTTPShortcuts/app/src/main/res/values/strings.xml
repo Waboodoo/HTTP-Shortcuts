@@ -219,4 +219,10 @@
     <string name="theme_orange">Orange</string>
     <string name="theme_purple">Purple</string>
     <string name="theme_indigo">Indigo</string>
+    <string name="title_export">Export to…</string>
+    <string name="button_export_to_filesystem">Local storage</string>
+    <string name="button_export_send_to">Other app</string>
+    <string name="title_import">Import from…</string>
+    <string name="button_import_from_filesystem">Local storage</string>
+    <string name="button_import_from_general">Documents</string>
 </resources>
