@@ -7,6 +7,7 @@ import android.view.View;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 
 import ch.rmy.android.http_shortcuts.R;
 import ch.rmy.android.http_shortcuts.realm.Controller;
