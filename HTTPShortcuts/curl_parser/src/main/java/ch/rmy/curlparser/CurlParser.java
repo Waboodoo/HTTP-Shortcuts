@@ -34,7 +34,7 @@ public class CurlParser {
                     }
                     case "-H":
                     case "--header": {
-                        String[] header = iterator.next().split(": ", 0);
+                        String[] header = iterator.next().split(": ", 2);
                         if (header.length == 2) {
                             command.headers.put(header[0], header[1]);
                         }
@@ -43,6 +43,7 @@ public class CurlParser {
                     case "-d":
                     case "--data": {
                         command.data = iterator.next();
+                        command.method = "POST";
                         continue;
                     }
                     case "-m":
@@ -53,6 +54,34 @@ public class CurlParser {
                         } catch (NumberFormatException e) {
 
                         }
+                        continue;
+                    }
+                    case "-u":
+                    case "--user": {
+                        String[] credentials = iterator.next().split(":", 2);
+                        command.username = credentials[0];
+                        if (credentials.length > 1) {
+                            command.password = credentials[1];
+                        }
+                        continue;
+                    }
+                    case "-A":
+                    case "--user-agent <name>": {
+                        command.headers.put("User-Agent", iterator.next());
+                        continue;
+                    }
+                    case "--url": {
+                        String url = iterator.next();
+                        if (url.toLowerCase().startsWith("http")) {
+                            command.url = url;
+                        } else {
+                            command.url = "http://" + url;
+                        }
+                        continue;
+                    }
+                    case "-e":
+                    case "--referer": {
+                        command.headers.put("Referer", iterator.next());
                         continue;
                     }
                 }

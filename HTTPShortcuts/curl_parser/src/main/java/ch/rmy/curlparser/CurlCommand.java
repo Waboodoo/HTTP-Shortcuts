@@ -11,6 +11,8 @@ public class CurlCommand implements Serializable {
     Map<String, String> headers = new HashMap<>();
     String data = "";
     int timeout = 0;
+    String username = "";
+    String password = "";
 
     public String getUrl() {
         return url;
@@ -30,6 +32,14 @@ public class CurlCommand implements Serializable {
 
     public int getTimeout() {
         return timeout;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
 }

@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import ch.rmy.android.http_shortcuts.dialogs.IconNameChangeDialog;
@@ -159,6 +160,16 @@ public class EditorActivity extends BaseActivity {
 
     private void extractFromCurlCommand(Shortcut shortcut, CurlCommand curlCommand) {
         shortcut.setUrl(curlCommand.getUrl());
+        shortcut.setMethod(curlCommand.getMethod());
+        shortcut.setBodyContent(curlCommand.getData());
+        shortcut.setUsername(curlCommand.getUsername());
+        shortcut.setPassword(curlCommand.getPassword());
+        if (curlCommand.getTimeout() != 0) {
+            shortcut.setTimeout(curlCommand.getTimeout());
+        }
+        for (Map.Entry<String, String> header : curlCommand.getHeaders().entrySet()) {
+            shortcut.getHeaders().add(Header.createNew(header.getKey(), header.getValue()));
+        }
     }
 
     private void initViews() {
