@@ -225,7 +225,7 @@
     <string name="title_import">Import from…</string>
     <string name="button_import_from_filesystem">Local storage</string>
     <string name="button_import_from_general">Documents</string>
-    <string name="button_create_new">Create new</string>
+    <string name="button_create_new">Create new shortcut</string>
     <string name="button_curl_import">From CURL command</string>
     <string name="title_curl_import">CURL import</string>
     <string name="instructions_curl_import">Type or paste a CURL command below to create a new shortcut from it. Please note that this feature is experimental and that only a very limited subset of CURL options are recognized.</string>

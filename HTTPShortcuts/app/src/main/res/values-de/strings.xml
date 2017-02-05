@@ -196,4 +196,9 @@
     <string name="button_import_from_general">Dokumente</string>
     <string name="title_export">Exportieren</string>
     <string name="title_import">Importieren</string>
+    <string name="button_create_new">Neuen Shortcut</string>
+    <string name="button_curl_import">Aus CURL-Befehl erstellen</string>
+    <string name="curl_import_button">Importieren</string>
+    <string name="instructions_curl_import">Geben Sie einen CURL-Befehl ein oder fügen ihn ein um daraus einen neuen Shortcut zu erstellen. Bitte beachten Sie, dass dieses Feature experimentell ist und nur eine limitiere Teilmenge von CURL-Optionen unterstützt wird.
+    </string>
 </resources>
