@@ -13,6 +13,7 @@ A simple Android app that allows you to create shortcuts that can be placed on y
 - Display response as a toast, window or dialog, or run silently
 - Grouping into categories through tabs
 - Value injection through variables (text, numbers, passwords, selections, colors, ...)
+- Create shortcuts from CURL commands
 - 3rd party integration (e.g. Tasker)
 
 <a href="https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts">
