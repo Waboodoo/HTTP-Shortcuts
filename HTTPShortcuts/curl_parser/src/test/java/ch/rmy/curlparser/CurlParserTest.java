@@ -21,4 +21,36 @@ public class CurlParserTest {
         assertEquals("bar", command.password);
     }
 
+    @Test
+    public void testUrlEncodedData() {
+        String target = "curl --data-urlencode \"Hä&?4\"";
+        CurlCommand command = CurlParser.parse(target);
+        assertEquals("H%C3%83%C2%A4%26%3F4", command.data);
+    }
+
+    @Test
+    public void testUrlEncodedData2() {
+        String target = "curl --data-urlencode \"föö=Hä&?4\"";
+        CurlCommand command = CurlParser.parse(target);
+        assertEquals("föö=H%C3%83%C2%A4%26%3F4", command.data);
+    }
+
+    @Test
+    public void testNoSpaceAfterArgument() {
+        String target = "curl -ufoo:bar -XPOST";
+        CurlCommand command = CurlParser.parse(target);
+
+        assertEquals("POST", command.method);
+        assertEquals("foo", command.username);
+        assertEquals("bar", command.password);
+    }
+
+    @Test
+    public void testMultipleDataArguments() {
+        String target = "curl --data Hello -d \" world\"";
+        CurlCommand command = CurlParser.parse(target);
+
+        assertEquals("Hello world", command.data);
+    }
+
 }

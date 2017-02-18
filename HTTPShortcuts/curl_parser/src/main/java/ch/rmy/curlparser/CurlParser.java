@@ -1,5 +1,7 @@
 package ch.rmy.curlparser;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -24,6 +26,13 @@ public class CurlParser {
                 continue;
             }
 
+            if (argument.startsWith("-") && !argument.startsWith("--") && argument.length() > 2) {
+                String argumentParameter = argument.substring(2);
+                argument = argument.substring(0, 2);
+                iterator.add(argumentParameter);
+                iterator.previous();
+            }
+
             // arguments with 1 parameter
             if (iterator.hasNext()) {
                 switch (argument) {
@@ -41,8 +50,25 @@ public class CurlParser {
                         continue;
                     }
                     case "-d":
-                    case "--data": {
-                        command.data = iterator.next();
+                    case "--data":
+                    case "--data-binary":
+                    case "--data-urlencode": {
+                        String data = iterator.next();
+                        if (argument.equals("--data-urlencode")) {
+                            try {
+                                if (data.contains("=")) {
+                                    String[] parts = data.split("=", 2);
+                                    data = parts[0] + "=" + URLEncoder.encode(parts[1], "utf-8");
+                                } else {
+                                    data = URLEncoder.encode(data, "utf-8");
+                                }
+                            } catch (UnsupportedEncodingException e) {
+                            }
+                        }
+                        if (!command.data.isEmpty()) {
+                            data = command.data + data;
+                        }
+                        command.data = data;
                         command.method = "POST";
                         continue;
                     }
