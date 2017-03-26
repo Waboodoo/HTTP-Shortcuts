@@ -1,1 +1,1 @@
-include ':app', ':curl_parser'
+include ':app', ':curl_command'
