@@ -2,6 +2,11 @@
 <resources>
     <string name="changelog_text" translatable="false"><![CDATA[
         <p>
+            <b>Version 1.15.0</b><br>
+            - Chinese Translations<br>
+            - Minor bugfixes
+        </p>
+        <p>
             <b>Version 1.14.0</b><br>
             - Syntax highlighting for JSON and XML responses<br>
             - Import shortcuts from CURL commands<br>
