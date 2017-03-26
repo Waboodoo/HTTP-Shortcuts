@@ -32,7 +32,7 @@ A simple Android app that allows you to create shortcuts that can be placed on y
 
 
 # Translations
-- German: [Roland Meyer](https://github.com/Waboodo)
+- German: [Roland Meyer](https://github.com/Waboodoo)
 - Chinese: [Kevin Mao](https://github.com/yuanrunmao)
 
 Help me translate this app, feel free to open a pull request.
