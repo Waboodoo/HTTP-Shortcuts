@@ -11,8 +11,8 @@ import android.widget.EditText;
 
 import butterknife.Bind;
 import ch.rmy.android.http_shortcuts.utils.SimpleTextWatcher;
-import ch.rmy.curlparser.CurlCommand;
-import ch.rmy.curlparser.CurlParser;
+import ch.rmy.curlcommand.CurlCommand;
+import ch.rmy.curlcommand.CurlParser;
 
 public class CurlImportActivity extends BaseActivity {
 

@@ -1,4 +1,4 @@
-package ch.rmy.curlparser;
+package ch.rmy.curlcommand;
 
 import java.util.ArrayList;
 import java.util.List;
