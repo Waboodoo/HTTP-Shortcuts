@@ -1,7 +1,5 @@
 package ch.rmy.curlcommand;
 
-import com.google.common.collect.ImmutableMap;
-
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +11,7 @@ public class CurlCommand implements Serializable {
 
     private String url = "";
     private String method = METHOD_GET;
-    private Map<String, String> headers;
+    private Map<String, String> headers = new HashMap<>();
     private String data = "";
     private int timeout = 0;
     private String username = "";
@@ -50,7 +48,6 @@ public class CurlCommand implements Serializable {
     public static class Builder {
 
         private final CurlCommand curlCommand = new CurlCommand();
-        private final Map<String, String> headers = new HashMap<>();
 
         public Builder url(String url) {
             curlCommand.url = url;
@@ -86,12 +83,11 @@ public class CurlCommand implements Serializable {
         }
 
         public Builder header(String key, String value) {
-            headers.put(key, value);
+            curlCommand.headers.put(key, value);
             return this;
         }
 
         public CurlCommand build() {
-            curlCommand.headers = ImmutableMap.copyOf(headers);
             return curlCommand;
         }
 

@@ -25,7 +25,9 @@ public class CurlConstructor {
             builder.option("-H", header.getKey() + ": " + header.getValue());
         }
 
-        builder.option("-d", curlCommand.getData());
+        if (!curlCommand.getData().isEmpty()) {
+            builder.option("-d", curlCommand.getData());
+        }
 
         return builder.build();
     }

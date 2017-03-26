@@ -1,7 +1,5 @@
 package ch.rmy.curlcommand;
 
-import com.google.common.net.HttpHeaders;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
@@ -90,7 +88,7 @@ public class CurlParser {
                     }
                     case "-A":
                     case "--user-agent <name>": {
-                        builder.header(HttpHeaders.USER_AGENT, iterator.next());
+                        builder.header("User-Agent", iterator.next());
                         continue;
                     }
                     case "--url": {
@@ -104,7 +102,7 @@ public class CurlParser {
                     }
                     case "-e":
                     case "--referer": {
-                        builder.header(HttpHeaders.REFERER, iterator.next());
+                        builder.header("Referer", iterator.next());
                         continue;
                     }
                 }
