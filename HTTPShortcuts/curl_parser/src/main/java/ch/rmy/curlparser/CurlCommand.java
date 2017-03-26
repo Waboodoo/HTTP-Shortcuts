@@ -6,8 +6,11 @@ import java.util.Map;
 
 public class CurlCommand implements Serializable {
 
+    public static final String METHOD_GET = "GET";
+    public static final String METHOD_POST = "POST";
+
     String url = "";
-    String method = "GET";
+    String method = METHOD_GET;
     Map<String, String> headers = new HashMap<>();
     String data = "";
     int timeout = 0;

@@ -69,7 +69,9 @@ public class CurlParser {
                             data = command.data + data;
                         }
                         command.data = data;
-                        command.method = "POST";
+                        if (CurlCommand.METHOD_GET.equals(command.method)) {
+                            command.method = CurlCommand.METHOD_POST;
+                        }
                         continue;
                     }
                     case "-m":
@@ -117,7 +119,7 @@ public class CurlParser {
             switch (argument) {
                 case "-G":
                 case "--get": {
-                    command.method = "GET";
+                    command.method = CurlCommand.METHOD_GET;
                     continue;
                 }
             }

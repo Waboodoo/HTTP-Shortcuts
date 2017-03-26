@@ -53,4 +53,14 @@ public class CurlParserTest {
         assertEquals("Hello world", command.data);
     }
 
+    @Test
+    public void testMethodChangeWithData() {
+        String target = "curl 'https://foo?bar' -X PUT --data-binary '{}' --compressed";
+        CurlCommand command = CurlParser.parse(target);
+
+        assertEquals("PUT", command.method);
+        assertEquals("https://foo?bar", command.url);
+        assertEquals("{}", command.data);
+    }
+
 }
