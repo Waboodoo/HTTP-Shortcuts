@@ -3,6 +3,7 @@
     <string name="changelog_text" translatable="false"><![CDATA[
         <p>
             <b>Version 1.15.0</b><br>
+            - Shortcuts can be exported as CURL commands<br>
             - Chinese Translations<br>
             - Minor bugfixes
         </p>
