@@ -20,7 +20,7 @@ A simple Android app that allows you to create shortcuts that can be placed on y
 <img alt="Get it on Google Play" src="http://steverichey.github.io/google-play-badge-svg/img/en_get.svg" width="280" />
 </a>
 
-#Screenshots
+# Screenshots
 
 ![Image](/Screenshots/main_screen_small.png)
 ![Image](/Screenshots/shortcut_options_small.png)
@@ -31,4 +31,8 @@ A simple Android app that allows you to create shortcuts that can be placed on y
 ![Image](/Screenshots/variable_placeholder_small.png)
 
 
+# Translations
+- German: [Roland Meyer](https://github.com/Waboodo)
+- Chinese: [Kevin Mao](https://github.com/yuanrunmao)
 
+Help me translate this app, feel free to open a pull request.
