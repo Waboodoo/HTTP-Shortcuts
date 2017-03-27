@@ -1,4 +1,4 @@
-package ch.rmy.curlparser;
+package ch.rmy.curlcommand;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -10,14 +10,14 @@ public class CurlParser {
     public static CurlCommand parse(String commandString) {
         List<String> arguments = CommandParser.parseCommand(commandString);
         CurlParser curlParser = new CurlParser(arguments);
-        return curlParser.command;
+        return curlParser.builder.build();
     }
 
-    private final CurlCommand command = new CurlCommand();
+    private final CurlCommand.Builder builder = new CurlCommand.Builder();
 
     private CurlParser(List<String> arguments) {
         ListIterator<String> iterator = arguments.listIterator();
-
+        boolean urlFound = false;
         while (iterator.hasNext()) {
             int index = iterator.nextIndex();
             String argument = iterator.next();
@@ -38,14 +38,14 @@ public class CurlParser {
                 switch (argument) {
                     case "-X":
                     case "--request": {
-                        command.method = iterator.next();
+                        builder.method(iterator.next());
                         continue;
                     }
                     case "-H":
                     case "--header": {
                         String[] header = iterator.next().split(": ", 2);
                         if (header.length == 2) {
-                            command.headers.put(header[0], header[1]);
+                            builder.header(header[0], header[1]);
                         }
                         continue;
                     }
@@ -65,51 +65,44 @@ public class CurlParser {
                             } catch (UnsupportedEncodingException e) {
                             }
                         }
-                        if (!command.data.isEmpty()) {
-                            data = command.data + data;
-                        }
-                        command.data = data;
-                        if (CurlCommand.METHOD_GET.equals(command.method)) {
-                            command.method = CurlCommand.METHOD_POST;
-                        }
+                        builder.data(data);
                         continue;
                     }
                     case "-m":
                     case "--max-time":
                     case "--connect-timeout": {
                         try {
-                            command.timeout = Integer.parseInt(iterator.next());
+                            builder.timeout(Integer.parseInt(iterator.next()));
                         } catch (NumberFormatException e) {
-
                         }
                         continue;
                     }
                     case "-u":
                     case "--user": {
                         String[] credentials = iterator.next().split(":", 2);
-                        command.username = credentials[0];
+                        builder.username(credentials[0]);
                         if (credentials.length > 1) {
-                            command.password = credentials[1];
+                            builder.password(credentials[1]);
                         }
                         continue;
                     }
                     case "-A":
                     case "--user-agent <name>": {
-                        command.headers.put("User-Agent", iterator.next());
+                        builder.header("User-Agent", iterator.next());
                         continue;
                     }
                     case "--url": {
                         String url = iterator.next();
                         if (url.toLowerCase().startsWith("http")) {
-                            command.url = url;
+                            builder.url(url);
                         } else {
-                            command.url = "http://" + url;
+                            builder.url("http://" + url);
                         }
                         continue;
                     }
                     case "-e":
                     case "--referer": {
-                        command.headers.put("Referer", iterator.next());
+                        builder.header("Referer", iterator.next());
                         continue;
                     }
                 }
@@ -119,15 +112,17 @@ public class CurlParser {
             switch (argument) {
                 case "-G":
                 case "--get": {
-                    command.method = CurlCommand.METHOD_GET;
+                    builder.method(CurlCommand.METHOD_GET);
                     continue;
                 }
             }
 
             if (argument.toLowerCase().startsWith("http")) {
-                command.url = argument;
-            } else if (!argument.startsWith("-") && command.url.isEmpty()) {
-                command.url = "http://" + argument;
+                urlFound = true;
+                builder.url(argument);
+            } else if (!argument.startsWith("-") && !urlFound) {
+                urlFound = true;
+                builder.url("http://" + argument);
             }
         }
     }

@@ -51,7 +51,7 @@ import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils;
 import ch.rmy.android.http_shortcuts.utils.Validation;
 import ch.rmy.android.http_shortcuts.utils.ViewUtil;
 import ch.rmy.android.http_shortcuts.variables.VariableFormatter;
-import ch.rmy.curlparser.CurlCommand;
+import ch.rmy.curlcommand.CurlCommand;
 
 import static ch.rmy.android.http_shortcuts.realm.models.Shortcut.TEMPORARY_ID;
 

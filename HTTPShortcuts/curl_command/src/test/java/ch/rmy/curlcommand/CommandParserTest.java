@@ -1,4 +1,4 @@
-package ch.rmy.curlparser;
+package ch.rmy.curlcommand;
 
 import org.junit.Test;
 

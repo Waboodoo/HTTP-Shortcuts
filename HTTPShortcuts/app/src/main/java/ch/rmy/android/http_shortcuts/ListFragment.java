@@ -14,20 +14,27 @@ import android.view.ViewGroup;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import ch.rmy.android.http_shortcuts.adapters.ShortcutAdapter;
+import ch.rmy.android.http_shortcuts.dialogs.CurlExportDialog;
 import ch.rmy.android.http_shortcuts.listeners.OnItemClickedListener;
 import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
+import ch.rmy.android.http_shortcuts.realm.models.Header;
+import ch.rmy.android.http_shortcuts.realm.models.Parameter;
 import ch.rmy.android.http_shortcuts.realm.models.PendingExecution;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 import ch.rmy.android.http_shortcuts.utils.IntentUtil;
 import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder;
 import ch.rmy.android.http_shortcuts.utils.Settings;
+import ch.rmy.curlcommand.CurlCommand;
+import ch.rmy.curlcommand.CurlConstructor;
 
 public class ListFragment extends Fragment {
 
@@ -190,6 +197,12 @@ public class ListFragment extends Fragment {
                 }
             });
         }
+        builder.item(R.string.action_curl_export, new MenuDialogBuilder.Action() {
+            @Override
+            public void execute() {
+                showCurlExportDialog(shortcut);
+            }
+        });
         builder.item(R.string.action_delete, new MenuDialogBuilder.Action() {
             @Override
             public void execute() {
@@ -282,6 +295,39 @@ public class ListFragment extends Fragment {
         }
         controller.removePendingExecution(pendingExecution);
         getTabHost().showSnackbar(String.format(getString(R.string.pending_shortcut_execution_cancelled), shortcut.getName()));
+    }
+
+    private void showCurlExportDialog(final Shortcut shortcut) {
+        CurlCommand.Builder builder = new CurlCommand.Builder()
+                .url(shortcut.getUrl())
+                .username(shortcut.getUsername())
+                .password(shortcut.getPassword())
+                .method(shortcut.getMethod())
+                .timeout(shortcut.getTimeout());
+
+        for (Header header : shortcut.getHeaders()) {
+            builder.header(header.getKey(), header.getValue());
+        }
+
+        for (Parameter parameter : shortcut.getParameters()) {
+            try {
+                builder.data(URLEncoder.encode(parameter.getKey(), "UTF-8")
+                        + "="
+                        + URLEncoder.encode(parameter.getValue(), "UTF-8")
+                        + "&"
+                );
+            } catch (UnsupportedEncodingException e) {
+
+            }
+        }
+
+        builder.data(shortcut.getBodyContent());
+
+        new CurlExportDialog(
+                getContext(),
+                shortcut.getSafeName(getContext()),
+                CurlConstructor.toCurlCommandString(builder.build())
+        ).show();
     }
 
     private void showDeleteDialog(final Shortcut shortcut) {
