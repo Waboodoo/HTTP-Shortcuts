@@ -36,12 +36,16 @@ public class ChangeLogDialog {
         settings = new Settings(context);
     }
 
-    public boolean isPermanentlyHidden() {
-        return settings.isChangeLogPermanentlyHidden();
+    public boolean shouldShow() {
+        if (isPermanentlyHidden()) {
+            return false;
+        }
+        int lastSeenVersion = settings.getChangeLogLastVersion();
+        return getVersion() > lastSeenVersion && lastSeenVersion != 0;
     }
 
-    public boolean wasAlreadyShown() {
-        return getVersion() <= settings.getChangeLogLastVersion();
+    private boolean isPermanentlyHidden() {
+        return settings.isChangeLogPermanentlyHidden();
     }
 
     @SuppressLint("InflateParams")

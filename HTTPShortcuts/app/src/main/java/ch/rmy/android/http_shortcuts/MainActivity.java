@@ -113,7 +113,7 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
 
     private void checkChangeLog() {
         ChangeLogDialog changeLog = new ChangeLogDialog(this, true);
-        if (!changeLog.isPermanentlyHidden() && !changeLog.wasAlreadyShown()) {
+        if (changeLog.shouldShow()) {
             changeLog.show();
         }
     }
