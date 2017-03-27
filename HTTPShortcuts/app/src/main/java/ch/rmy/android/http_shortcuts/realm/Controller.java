@@ -292,7 +292,7 @@ public class Controller implements Destroyable {
 
     private long generateId(Class<? extends RealmObject> clazz) {
         Number maxId = realm.where(clazz).max(FIELD_ID);
-        long maxIdLong = maxId != null ? maxId.longValue() : 0;
+        long maxIdLong = Math.max(maxId != null ? maxId.longValue() : 0, 0);
         return maxIdLong + 1;
     }
 
