@@ -22,7 +22,7 @@ public class VoiceActivity extends BaseActivity {
             return;
         }
 
-        Controller controller = destroyer.own(new Controller(getContext()));
+        Controller controller = destroyer.own(new Controller());
         Shortcut shortcut = controller.getShortcutByName(shortcutName);
         if (shortcut == null) {
             Toast.makeText(getContext(), "Shortcut \"" + shortcutName + "\" not found", Toast.LENGTH_LONG).show();

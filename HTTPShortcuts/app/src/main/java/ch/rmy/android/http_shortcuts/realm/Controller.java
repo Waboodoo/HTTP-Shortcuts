@@ -25,21 +25,23 @@ public class Controller implements Destroyable {
 
     private final Realm realm;
 
-    public Controller(Context context) {
-        realm = RealmFactory.getRealm(context);
+    public static void init(Context context) {
+        Realm.init(context);
 
+        Realm realm = RealmFactory.getRealm();
         if (realm.where(Base.class).count() == 0) {
-            setupBase(context);
+            setupBase(context, realm);
         }
+        realm.close();
     }
 
-    private void setupBase(Context context) {
+    private static void setupBase(Context context, Realm realm) {
         final String defaultCategoryName = context.getString(R.string.shortcuts);
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 Category defaultCategory = Category.createNew(defaultCategoryName);
-                defaultCategory.setId(generateId(Category.class));
+                defaultCategory.setId(1);
 
                 Base newBase = new Base();
                 newBase.setCategories(new RealmList<Category>());
@@ -48,6 +50,10 @@ public class Controller implements Destroyable {
                 realm.copyToRealm(newBase);
             }
         });
+    }
+
+    public Controller() {
+        realm = RealmFactory.getRealm();
     }
 
     @Override

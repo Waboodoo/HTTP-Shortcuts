@@ -212,8 +212,9 @@ public class SettingsActivity extends BaseActivity {
         }
 
         private void sendExport() {
-            Controller controller = new Controller(getActivity());
+            Controller controller = null;
             try {
+                controller = new Controller();
                 Base base = controller.exportBase();
                 String data = GsonUtil.exportData(base);
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
@@ -221,7 +222,9 @@ public class SettingsActivity extends BaseActivity {
                 sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, data);
                 startActivity(Intent.createChooser(sharingIntent, getString(R.string.title_export)));
             } finally {
-                controller.destroy();
+                if (controller != null) {
+                    controller.destroy();
+                }
             }
         }
 

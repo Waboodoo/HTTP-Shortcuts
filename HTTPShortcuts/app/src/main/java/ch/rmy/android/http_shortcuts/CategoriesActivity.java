@@ -49,7 +49,7 @@ public class CategoriesActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categories);
 
-        controller = destroyer.own(new Controller(this));
+        controller = destroyer.own(new Controller());
         categories = controller.getCategories();
         adapter = destroyer.own(new CategoryAdapter(this));
         adapter.setParent(controller.getBase());

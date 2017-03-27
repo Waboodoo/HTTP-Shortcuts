@@ -60,7 +60,7 @@ public class VariableEditorActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_variable_editor);
 
-        controller = destroyer.own(new Controller(this));
+        controller = destroyer.own(new Controller());
 
         long variableId = getIntent().getLongExtra(EXTRA_VARIABLE_ID, 0);
         if (savedInstanceState != null && savedInstanceState.containsKey(STATE_JSON_VARIABLE)) {

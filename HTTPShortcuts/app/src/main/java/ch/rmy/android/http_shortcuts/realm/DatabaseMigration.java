@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.realm;
 
-import ch.rmy.android.http_shortcuts.realm.models.Base;
 import io.realm.DynamicRealm;
 import io.realm.DynamicRealmObject;
 import io.realm.RealmList;
@@ -49,7 +48,7 @@ class DatabaseMigration implements RealmMigration {
 
                 DynamicRealmObject base = realm.where("Base").findFirst();
                 if (base != null) {
-                    base.setList("variables", new RealmList<Base>());
+                    base.setList("variables", new RealmList<DynamicRealmObject>());
                 }
 
                 break;

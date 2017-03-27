@@ -65,7 +65,7 @@ public class ExecuteActivity extends BaseActivity {
         long shortcutId = IntentUtil.getShortcutId(getIntent());
         Map<String, String> variableValues = IntentUtil.getVariableValues(getIntent());
 
-        controller = new Controller(getContext());
+        controller = new Controller();
         shortcut = controller.getDetachedShortcutById(shortcutId);
 
         if (shortcut == null) {

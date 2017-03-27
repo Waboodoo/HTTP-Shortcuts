@@ -126,7 +126,7 @@ public class EditorActivity extends BaseActivity {
         destroyer.own(parameterList);
         destroyer.own(customHeaderList);
 
-        controller = destroyer.own(new Controller(this));
+        controller = destroyer.own(new Controller());
         variables = controller.getVariables();
 
         shortcutId = getIntent().getLongExtra(EXTRA_SHORTCUT_ID, 0);
