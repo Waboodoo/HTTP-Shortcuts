@@ -2,11 +2,8 @@ package ch.rmy.android.http_shortcuts;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore.Images.Media;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -25,7 +22,6 @@ import ch.rmy.android.http_shortcuts.realm.models.Category;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 import ch.rmy.android.http_shortcuts.utils.IntentUtil;
 import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder;
-import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils;
 
 /**
  * Main activity to list all shortcuts
@@ -36,9 +32,6 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
 
     public static final String EXTRA_SELECTION_ID = "ch.rmy.android.http_shortcuts.shortcut_id";
     public static final String EXTRA_SELECTION_NAME = "ch.rmy.android.http_shortcuts.shortcut_name";
-
-    private static final String ACTION_INSTALL_SHORTCUT = "com.android.launcher.action.INSTALL_SHORTCUT";
-    private static final String ACTION_UNINSTALL_SHORTCUT = "com.android.launcher.action.UNINSTALL_SHORTCUT";
 
     private final static int REQUEST_CREATE_SHORTCUT = 1;
 
@@ -175,7 +168,7 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
     }
 
     private void returnForHomeScreen(Shortcut shortcut) {
-        Intent shortcutIntent = getShortcutPlacementIntent(shortcut, true);
+        Intent shortcutIntent = IntentUtil.getShortcutPlacementIntent(getContext(), shortcut, true);
         setResult(RESULT_OK, shortcutIntent);
         finish();
     }
@@ -237,39 +230,14 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
         startActivityForResult(intent, REQUEST_CREATE_SHORTCUT);
     }
 
-    private Intent getShortcutPlacementIntent(Shortcut shortcut, boolean install) {
-        Intent shortcutIntent = IntentUtil.createIntent(this, shortcut.getId());
-        Intent addIntent = new Intent();
-        addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
-        addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcut.getName());
-        if (shortcut.getIconName() != null) {
-
-            Uri iconUri = shortcut.getIconURI(this);
-            Bitmap icon;
-            try {
-                icon = Media.getBitmap(this.getContentResolver(), iconUri);
-                addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON, icon);
-
-            } catch (Exception e) {
-                addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(getApplicationContext(), ShortcutUIUtils.DEFAULT_ICON));
-            }
-        } else {
-            addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(getApplicationContext(), ShortcutUIUtils.DEFAULT_ICON));
-        }
-
-        addIntent.setAction(install ? ACTION_INSTALL_SHORTCUT : ACTION_UNINSTALL_SHORTCUT);
-
-        return addIntent;
-    }
-
     @Override
     public void placeShortcutOnHomeScreen(Shortcut shortcut) {
-        sendBroadcast(getShortcutPlacementIntent(shortcut, true));
+        sendBroadcast(IntentUtil.getShortcutPlacementIntent(getContext(), shortcut, true));
         showSnackbar(String.format(getString(R.string.shortcut_placed), shortcut.getName()));
     }
 
     @Override
     public void removeShortcutFromHomeScreen(Shortcut shortcut) {
-        sendBroadcast(getShortcutPlacementIntent(shortcut, false));
+        sendBroadcast(IntentUtil.getShortcutPlacementIntent(getContext(), shortcut, false));
     }
 }

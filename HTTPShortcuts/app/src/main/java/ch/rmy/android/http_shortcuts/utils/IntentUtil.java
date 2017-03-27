@@ -3,15 +3,22 @@ package ch.rmy.android.http_shortcuts.utils;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.provider.MediaStore;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 import ch.rmy.android.http_shortcuts.ExecuteActivity;
+import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 
 public class IntentUtil {
+
+    private static final String ACTION_INSTALL_SHORTCUT = "com.android.launcher.action.INSTALL_SHORTCUT";
+    private static final String ACTION_UNINSTALL_SHORTCUT = "com.android.launcher.action.UNINSTALL_SHORTCUT";
+    private static final String EXTRA_SHORTCUT_DUPLICATE = "duplicate";
 
     public static Intent createIntent(Context context, long shortcutId) {
         return createIntent(context, shortcutId, null);
@@ -53,6 +60,30 @@ public class IntentUtil {
             return (Map<String, String>) serializable;
         }
         return new HashMap<>();
+    }
+
+    public static Intent getShortcutPlacementIntent(Context context, Shortcut shortcut, boolean install) {
+        Intent shortcutIntent = IntentUtil.createIntent(context, shortcut.getId());
+        Intent addIntent = new Intent();
+        addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
+        addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcut.getName());
+        addIntent.putExtra(EXTRA_SHORTCUT_DUPLICATE, true);
+        if (shortcut.getIconName() != null) {
+            Uri iconUri = shortcut.getIconURI(context);
+            Bitmap icon;
+            try {
+                icon = MediaStore.Images.Media.getBitmap(context.getContentResolver(), iconUri);
+                addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON, icon);
+            } catch (Exception e) {
+                addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(context.getApplicationContext(), ShortcutUIUtils.DEFAULT_ICON));
+            }
+        } else {
+            addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(context.getApplicationContext(), ShortcutUIUtils.DEFAULT_ICON));
+        }
+
+        addIntent.setAction(install ? ACTION_INSTALL_SHORTCUT : ACTION_UNINSTALL_SHORTCUT);
+
+        return addIntent;
     }
 
 }
