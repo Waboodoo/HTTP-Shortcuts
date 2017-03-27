@@ -52,7 +52,7 @@ public class VariableResolver {
     }
 
     private Promise<ResolvedVariables, Void, Void> resolveVariables(final List<Variable> variablesToResolve, @Nullable Map<String, String> preResolvedValues) {
-        final Controller controller = new Controller(context);
+        final Controller controller = new Controller();
         final Deferred<ResolvedVariables, Void, Void> deferred = new DeferredObject<>();
         final ResolvedVariables.Builder builder = new ResolvedVariables.Builder();
 

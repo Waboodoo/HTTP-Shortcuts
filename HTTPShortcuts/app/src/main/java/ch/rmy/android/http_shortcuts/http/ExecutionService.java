@@ -22,7 +22,7 @@ public class ExecutionService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        final Controller controller = new Controller(this);
+        final Controller controller = new Controller();
 
         while (Connectivity.isNetworkConnected(this)) {
             RealmResults<PendingExecution> pendingExecutions = controller.getShortcutsPendingExecution();

@@ -25,7 +25,7 @@ public class ExportTask extends SimpleTask<String> {
 
     @Override
     protected Boolean doInBackground(String... path) {
-        Controller controller = new Controller(getContext());
+        Controller controller = new Controller();
         Base base = controller.exportBase();
         controller.destroy();
 

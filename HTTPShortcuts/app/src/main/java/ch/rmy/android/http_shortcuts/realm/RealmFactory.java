@@ -1,21 +1,19 @@
 package ch.rmy.android.http_shortcuts.realm;
 
-import android.content.Context;
-
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
-public class RealmFactory {
+class RealmFactory {
 
     private static RealmConfiguration config;
 
-    protected static Realm getRealm(Context context) {
-        return Realm.getInstance(getConfiguration(context));
+    static Realm getRealm() {
+        return Realm.getInstance(getConfiguration());
     }
 
-    private static RealmConfiguration getConfiguration(Context context) {
+    private static RealmConfiguration getConfiguration() {
         if (config == null) {
-            config = new RealmConfiguration.Builder(context)
+            config = new RealmConfiguration.Builder()
                     .schemaVersion(DatabaseMigration.VERSION)
                     .migration(new DatabaseMigration())
                     .build();

@@ -49,7 +49,7 @@ public class VariablesActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_variables);
 
-        controller = destroyer.own(new Controller(this));
+        controller = destroyer.own(new Controller());
 
         adapter = destroyer.own(new VariableAdapter(this));
         adapter.setParent(controller.getBase());

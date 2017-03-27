@@ -55,7 +55,7 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
 
         selectionMode = SelectionMode.determineMode(getIntent());
 
-        controller = destroyer.own(new Controller(this));
+        controller = destroyer.own(new Controller());
 
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override

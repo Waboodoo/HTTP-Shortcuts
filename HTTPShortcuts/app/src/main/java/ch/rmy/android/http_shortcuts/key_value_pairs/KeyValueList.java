@@ -68,7 +68,7 @@ public class KeyValueList<T extends KeyValuePair> extends FrameLayout implements
         inflate(getContext(), R.layout.key_value_list, this);
         ButterKnife.bind(this, this);
 
-        controller = destroyer.own(new Controller(getContext()));
+        controller = destroyer.own(new Controller());
 
         adapter = new KeyValueAdapter<>(getContext());
         listView.setAdapter(adapter);

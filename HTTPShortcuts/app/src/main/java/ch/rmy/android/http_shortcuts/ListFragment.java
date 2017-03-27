@@ -86,7 +86,7 @@ public class ListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        controller = new Controller(getContext());
+        controller = new Controller();
         adapter = new ShortcutAdapter(getContext());
         categories = controller.getCategories();
 

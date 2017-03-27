@@ -40,7 +40,7 @@ public class ShareActivity extends BaseActivity {
             return;
         }
 
-        Controller controller = destroyer.own(new Controller(getContext()));
+        Controller controller = destroyer.own(new Controller());
         Set<String> variables = getTargetableVariables(controller);
         List<Shortcut> shortcuts = getTargetableShortcuts(controller, variables);
 
