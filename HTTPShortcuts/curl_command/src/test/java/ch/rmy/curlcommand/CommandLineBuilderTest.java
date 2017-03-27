@@ -8,7 +8,7 @@ public class CommandLineBuilderTest {
 
     @Test
     public void testCommandLineBuilder() {
-        String expected = "foo -bla 25 --foo-bar \"Hello \\\"World\\\"\" true -bla \"Hello\" \"\\\"World\\\"\"";
+        String expected = "foo -bla 25 --foo-bar \"Hello \\\"World\\\"\" true -bla Hello \"\\\"World\\\"\"";
         String actual = new CommandLineBuilder("foo")
                 .option("-bla")
                 .argument(25)
@@ -16,6 +16,16 @@ public class CommandLineBuilderTest {
                 .argument("Hello \"World\"")
                 .argument(true)
                 .option("-bla", "Hello", "\"World\"")
+                .build();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testBackslashes() {
+        String expected = "foo \" \\\" \\";
+        String actual = new CommandLineBuilder("foo")
+                .argument(" \\")
+                .argument("\\")
                 .build();
         assertEquals(expected, actual);
     }

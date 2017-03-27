@@ -29,7 +29,7 @@ public class CommandLineBuilder {
     }
 
     private String escape(String string) {
-        return "\"" + string.replaceAll("\"", Matcher.quoteReplacement("\\\"")) + "\"";
+        return "\"" + string.replaceAll("\\\\", Matcher.quoteReplacement("\\")).replaceAll("\"", Matcher.quoteReplacement("\\\"")) + "\"";
     }
 
     public CommandLineBuilder option(String option, Object... arguments) {
