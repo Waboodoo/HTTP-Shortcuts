@@ -183,8 +183,9 @@ public class Controller implements Destroyable {
             @Override
             public void execute(Realm realm) {
                 RealmList<Category> categories = getBase().getCategories();
-                Category category = realm.copyToRealm(Category.createNew(name));
+                Category category = Category.createNew(name);
                 category.setId(generateId(Category.class));
+                category = realm.copyToRealm(category);
                 categories.add(category);
             }
         });
