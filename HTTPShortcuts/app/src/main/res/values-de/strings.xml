@@ -202,4 +202,5 @@
     <string name="instructions_curl_import">Geben Sie einen CURL-Befehl ein oder fügen ihn ein um daraus einen neuen Shortcut zu erstellen. Bitte beachten Sie, dass dieses Feature experimentell ist und nur eine limitiere Teilmenge von CURL-Optionen unterstützt wird.</string>
     <string name="title_curl_import">CURL-Import</string>
     <string name="action_curl_export">CURL-Export</string>
+    <string name="action_move">Verschieben</string>
 </resources>

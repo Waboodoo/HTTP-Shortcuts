@@ -159,27 +159,11 @@ public class ListFragment extends Fragment {
                 editShortcut(shortcut);
             }
         });
-        if (canMoveShortcut(shortcut, -1)) {
-            builder.item(R.string.action_move_up, new MenuDialogBuilder.Action() {
+        if (canMoveShortcut(shortcut)) {
+            builder.item(R.string.action_move, new MenuDialogBuilder.Action() {
                 @Override
                 public void execute() {
-                    moveShortcut(shortcut, -1);
-                }
-            });
-        }
-        if (canMoveShortcut(shortcut, 1)) {
-            builder.item(R.string.action_move_down, new MenuDialogBuilder.Action() {
-                @Override
-                public void execute() {
-                    moveShortcut(shortcut, 1);
-                }
-            });
-        }
-        if (categories.size() > 1) {
-            builder.item(R.string.action_move_to_category, new MenuDialogBuilder.Action() {
-                @Override
-                public void execute() {
-                    showMoveToCategoryDialog(shortcut);
+                    openMoveDialog(shortcut);
                 }
             });
         }
@@ -232,9 +216,42 @@ public class ListFragment extends Fragment {
         startActivityForResult(intent, REQUEST_EDIT_SHORTCUT);
     }
 
+    private boolean canMoveShortcut(Shortcut shortcut) {
+        return canMoveShortcut(shortcut, -1) || canMoveShortcut(shortcut, +1) || categories.size() > 1;
+    }
+
     private boolean canMoveShortcut(Shortcut shortcut, int offset) {
         int position = category.getShortcuts().indexOf(shortcut) + offset;
         return position >= 0 && position < category.getShortcuts().size();
+    }
+
+    private void openMoveDialog(final Shortcut shortcut) {
+        MenuDialogBuilder builder = new MenuDialogBuilder(getContext());
+        if (canMoveShortcut(shortcut, -1)) {
+            builder.item(R.string.action_move_up, new MenuDialogBuilder.Action() {
+                @Override
+                public void execute() {
+                    moveShortcut(shortcut, -1);
+                }
+            });
+        }
+        if (canMoveShortcut(shortcut, 1)) {
+            builder.item(R.string.action_move_down, new MenuDialogBuilder.Action() {
+                @Override
+                public void execute() {
+                    moveShortcut(shortcut, 1);
+                }
+            });
+        }
+        if (categories.size() > 1) {
+            builder.item(R.string.action_move_to_category, new MenuDialogBuilder.Action() {
+                @Override
+                public void execute() {
+                    showMoveToCategoryDialog(shortcut);
+                }
+            });
+        }
+        builder.show();
     }
 
     private void moveShortcut(Shortcut shortcut, int offset) {

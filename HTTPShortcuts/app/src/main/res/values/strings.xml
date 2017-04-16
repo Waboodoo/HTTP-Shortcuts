@@ -28,6 +28,7 @@
     <string name="action_duplicate">Duplicate</string>
     <string name="action_delete">Delete</string>
     <string name="action_curl_export">CURL export</string>
+    <string name="action_move">Move</string>
     <string name="action_move_up">Move up</string>
     <string name="action_move_down">Move down</string>
     <string name="action_move_to_category">Move to category…</string>
