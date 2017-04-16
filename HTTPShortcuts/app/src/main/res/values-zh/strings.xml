@@ -197,5 +197,5 @@
     <string name="action_cancel_pending">取消正在处理的请求</string>
     <string name="error_not_suitable_shortcuts">没有找到合适的快捷方式，要使用这个特性。你必须至少要有一个使用了共享变量的快捷方式。查阅文档中关于变量部分以获取更多信息。</string>
     <string name="error_sharing_feature_not_available_yet">很抱歉，目前还不支持在快捷方式中共享文本文件，后续可能会添加上，现阶段您可以共享文本。查阅文档中关于变量部分以获取更多信息。感谢您的理解。</string>
-    <string name="action_curl_export">CURL出口</string>
+    <string name="action_curl_export">CURL 导出</string>
 </resources>
