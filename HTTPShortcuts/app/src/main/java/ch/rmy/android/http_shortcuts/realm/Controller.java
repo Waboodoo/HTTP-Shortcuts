@@ -200,6 +200,15 @@ public class Controller implements Destroyable {
         });
     }
 
+    public void setLayoutType(final Category category, final String layoutType) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                category.setLayoutType(layoutType);
+            }
+        });
+    }
+
     public void moveCategory(final Category category, final int position) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
@@ -306,4 +315,5 @@ public class Controller implements Destroyable {
     public Collection<Shortcut> getShortcuts() {
         return realm.where(Shortcut.class).notEqualTo(FIELD_ID, Shortcut.TEMPORARY_ID).findAll();
     }
+
 }

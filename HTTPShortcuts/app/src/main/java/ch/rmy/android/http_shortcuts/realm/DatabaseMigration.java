@@ -5,11 +5,12 @@ import io.realm.DynamicRealmObject;
 import io.realm.RealmList;
 import io.realm.RealmMigration;
 import io.realm.RealmObjectSchema;
+import io.realm.RealmResults;
 import io.realm.RealmSchema;
 
 class DatabaseMigration implements RealmMigration {
 
-    static final int VERSION = 4;
+    static final int VERSION = 5;
 
     @Override
     public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
@@ -59,6 +60,14 @@ class DatabaseMigration implements RealmMigration {
             }
             case 4: { // 1.13.0
                 schema.get("Variable").addField("flags", int.class);
+                break;
+            }
+            case 5: { // 1.16.0
+                schema.get("Category").addField("layoutType", String.class);
+                RealmResults<DynamicRealmObject> categories = realm.where("Category").findAll();
+                for (DynamicRealmObject category : categories) {
+                    category.setString("layoutType", "linear_list");
+                }
                 break;
             }
 

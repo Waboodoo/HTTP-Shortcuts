@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +24,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import ch.rmy.android.http_shortcuts.adapters.ShortcutAdapter;
+import ch.rmy.android.http_shortcuts.adapters.ShortcutGridAdapter;
+import ch.rmy.android.http_shortcuts.adapters.ShortcutListAdapter;
 import ch.rmy.android.http_shortcuts.dialogs.CurlExportDialog;
 import ch.rmy.android.http_shortcuts.listeners.OnItemClickedListener;
 import ch.rmy.android.http_shortcuts.realm.Controller;
@@ -49,8 +53,10 @@ public class ListFragment extends Fragment {
     private Category category;
 
     private Controller controller;
-    private ShortcutAdapter adapter;
     private List<Category> categories;
+
+    private String layoutType;
+    private RecyclerView.ItemDecoration listDivider;
 
     private final OnItemClickedListener<Shortcut> clickListener = new OnItemClickedListener<Shortcut>() {
         @Override
@@ -87,10 +93,9 @@ public class ListFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         controller = new Controller();
-        adapter = new ShortcutAdapter(getContext());
         categories = controller.getCategories();
 
-        onCategoryChanged();
+        listDivider = new ShortcutListDecorator(getContext(), R.drawable.list_divider);
     }
 
     public void setCategoryId(long categoryId) {
@@ -103,8 +108,43 @@ public class ListFragment extends Fragment {
             return;
         }
         category = controller.getCategoryById(categoryId);
+
+        if (category != null && !category.getLayoutType().equals(layoutType)) {
+            layoutType = category.getLayoutType();
+            onLayoutTypeChanged();
+        }
+    }
+
+    private void onLayoutTypeChanged() {
+        RecyclerView.LayoutManager manager;
+        ShortcutAdapter adapter;
+        switch (layoutType) {
+            case Category.LAYOUT_GRID: {
+                adapter = new ShortcutGridAdapter(getContext());
+                manager = new GridLayoutManager(getContext(), getNumberOfColumns());
+                shortcutList.removeItemDecoration(listDivider);
+                break;
+            }
+            case Category.LAYOUT_LINEAR_LIST:
+            default: {
+                adapter = new ShortcutListAdapter(getContext());
+                manager = new LinearLayoutManager(getContext());
+                shortcutList.addItemDecoration(listDivider);
+                break;
+            }
+        }
         adapter.setParent(category);
         adapter.setPendingShortcuts(controller.getShortcutsPendingExecution());
+        adapter.setOnItemClickListener(clickListener);
+
+        shortcutList.setLayoutManager(manager);
+        shortcutList.setAdapter(adapter);
+    }
+
+    public int getNumberOfColumns() {
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        return (int) (dpWidth / 90);
     }
 
     public long getCategoryId() {
@@ -122,14 +162,8 @@ public class ListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, parent, false);
         ButterKnife.bind(this, view);
-
-        adapter.setOnItemClickListener(clickListener);
-        LinearLayoutManager manager = new LinearLayoutManager(getContext());
-        shortcutList.setLayoutManager(manager);
         shortcutList.setHasFixedSize(true);
-        shortcutList.addItemDecoration(new ShortcutListDecorator(getContext(), R.drawable.list_divider));
-        shortcutList.setAdapter(adapter);
-
+        onCategoryChanged();
         return view;
     }
 
@@ -371,7 +405,7 @@ public class ListFragment extends Fragment {
         return (TabHost) getActivity();
     }
 
-    public interface TabHost {
+    interface TabHost {
 
         void selectShortcut(Shortcut shortcut);
 

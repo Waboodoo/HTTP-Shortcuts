@@ -203,4 +203,8 @@
     <string name="title_curl_import">CURL-Import</string>
     <string name="action_curl_export">CURL-Export</string>
     <string name="action_move">Verschieben</string>
+    <string name="action_change_category_layout_type">Layouttyp ändern</string>
+    <string name="layout_type_grid">Gitter</string>
+    <string name="layout_type_linear_list">Liste</string>
+    <string name="message_layout_type_changed">Layouttyp geändert</string>
 </resources>

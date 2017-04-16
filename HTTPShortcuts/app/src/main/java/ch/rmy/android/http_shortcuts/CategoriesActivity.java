@@ -88,7 +88,6 @@ public class CategoriesActivity extends BaseActivity {
     }
 
     private void showContextMenu(final Category category) {
-
         MenuDialogBuilder builder = new MenuDialogBuilder(this)
                 .title(category.getName());
 
@@ -96,6 +95,12 @@ public class CategoriesActivity extends BaseActivity {
             @Override
             public void execute() {
                 showRenameDialog(category);
+            }
+        });
+        builder.item(R.string.action_change_category_layout_type, new MenuDialogBuilder.Action() {
+            @Override
+            public void execute() {
+                showLayoutTypeDialog(category);
             }
         });
         if (canMoveCategory(category, -1)) {
@@ -138,9 +143,31 @@ public class CategoriesActivity extends BaseActivity {
                 }).show();
     }
 
+    private void showLayoutTypeDialog(final Category category) {
+        new MenuDialogBuilder(this)
+                .item(R.string.layout_type_linear_list, new MenuDialogBuilder.Action() {
+                    @Override
+                    public void execute() {
+                        changeLayoutType(category, Category.LAYOUT_LINEAR_LIST);
+                    }
+                })
+                .item(R.string.layout_type_grid, new MenuDialogBuilder.Action() {
+                    @Override
+                    public void execute() {
+                        changeLayoutType(category, Category.LAYOUT_GRID);
+                    }
+                })
+                .show();
+    }
+
     private void renameCategory(Category category, String newName) {
         controller.renameCategory(category, newName);
         showSnackbar(R.string.message_category_renamed);
+    }
+
+    private void changeLayoutType(Category category, String layoutType) {
+        controller.setLayoutType(category, layoutType);
+        showSnackbar(R.string.message_layout_type_changed);
     }
 
     private boolean canMoveCategory(Category category, int offset) {

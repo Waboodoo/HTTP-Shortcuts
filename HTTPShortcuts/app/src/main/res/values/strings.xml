@@ -145,6 +145,10 @@
     <string name="settings_licenses_summary"><![CDATA[Libraries & resources used]]></string>
     <string name="title_categories">Categories</string>
     <string name="action_rename">Rename</string>
+    <string name="action_change_category_layout_type">Change layout type</string>
+    <string name="message_layout_type_changed">Layout type changed</string>
+    <string name="layout_type_linear_list">List</string>
+    <string name="layout_type_grid">Grid</string>
     <string name="title_rename_category">Rename Category</string>
     <string name="placeholder_category_name">Enter Category Name…</string>
     <string name="title_create_category">Create Category</string>
@@ -230,6 +234,9 @@
     <string name="button_create_new">Create new shortcut</string>
     <string name="button_curl_import">From CURL command</string>
     <string name="title_curl_import">CURL import</string>
-    <string name="instructions_curl_import">Type or paste a CURL command below to create a new shortcut from it. Please note that this feature is experimental and that only a limited subset of CURL options is recognized.</string>
+    <string name="instructions_curl_import">Type or paste a CURL command below to create a new
+        shortcut from it. Please note that this feature is experimental and that only a limited
+        subset of CURL options is recognized.
+    </string>
     <string name="curl_import_button">Import</string>
 </resources>
