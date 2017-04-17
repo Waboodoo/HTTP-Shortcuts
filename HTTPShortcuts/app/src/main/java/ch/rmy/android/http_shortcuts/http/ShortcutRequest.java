@@ -1,12 +1,11 @@
 package ch.rmy.android.http_shortcuts.http;
 
-import android.util.Base64;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
+import com.squareup.okhttp.Credentials;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,9 +28,7 @@ class ShortcutRequest extends Request<ShortcutResponse> {
 
         headers.put("Connection", "close");
         if (!username.isEmpty() || !password.isEmpty()) {
-            String authorization = String.format("%s:%s", username, password);
-            String encodedAuthorization = "Basic " + Base64.encodeToString(authorization.getBytes(), Base64.NO_WRAP);
-            headers.put("Authorization", encodedAuthorization);
+            headers.put("Authorization", Credentials.basic(username, password));
         }
     }
 

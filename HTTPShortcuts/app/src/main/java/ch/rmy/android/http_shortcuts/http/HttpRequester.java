@@ -30,7 +30,7 @@ public class HttpRequester {
 
         final Deferred<ShortcutResponse, VolleyError, Void> deferred = new DeferredObject<>();
 
-        ShortcutRequest stringRequest = new ShortcutRequest(
+        ShortcutRequest request = new ShortcutRequest(
                 method,
                 Variables.insert(detachedShortcut.getUrl(), variables),
                 Variables.insert(detachedShortcut.getUsername(), variables),
@@ -49,21 +49,21 @@ public class HttpRequester {
         });
 
         for (Parameter parameter : detachedShortcut.getParameters()) {
-            stringRequest.addParameter(
+            request.addParameter(
                     Variables.insert(parameter.getKey(), variables),
                     Variables.insert(parameter.getValue(), variables)
             );
         }
 
         for (Header header : detachedShortcut.getHeaders()) {
-            stringRequest.addHeader(
+            request.addHeader(
                     Variables.insert(header.getKey(), variables),
                     Variables.insert(header.getValue(), variables)
             );
         }
 
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(detachedShortcut.getTimeout(), 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        queue.add(stringRequest);
+        request.setRetryPolicy(new DefaultRetryPolicy(detachedShortcut.getTimeout(), 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        queue.add(request);
 
         return deferred.promise();
     }

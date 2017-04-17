@@ -39,7 +39,7 @@ dependencies {
     compile project(path: ':curl_command')
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support:design:25.1.0'
-    compile files('libs/volley.jar')
+    compile 'com.android.volley:volley:1.0.0'
     compile 'com.squareup.okhttp:okhttp:2.7.5'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.7.5'
     compile 'com.jakewharton:butterknife:7.0.1'
