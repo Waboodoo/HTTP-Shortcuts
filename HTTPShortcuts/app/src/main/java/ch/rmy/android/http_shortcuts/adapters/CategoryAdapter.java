@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -43,6 +44,8 @@ public class CategoryAdapter extends BaseAdapter<Base, Category> {
         TextView description;
         @Bind(R.id.small_icons)
         ViewGroup smallIconContainer;
+        @Bind(R.id.layout_type_icon)
+        ImageView layoutTypeIcon;
 
         public CategoryViewHolder(ViewGroup parent) {
             super(LayoutInflater.from(context).inflate(R.layout.list_item_category, parent, false), CategoryAdapter.this);
@@ -56,6 +59,7 @@ public class CategoryAdapter extends BaseAdapter<Base, Category> {
             description.setText(context.getResources().getQuantityString(R.plurals.shortcut_count, count, count));
 
             updateIcons(category.getShortcuts());
+            updateLayoutTypeIcon(category.getLayoutType());
         }
 
         private void updateIcons(List<Shortcut> shortcuts) {
@@ -80,6 +84,20 @@ public class CategoryAdapter extends BaseAdapter<Base, Category> {
             }
             while (smallIconContainer.getChildCount() > number) {
                 smallIconContainer.removeViewAt(0);
+            }
+        }
+
+        private void updateLayoutTypeIcon(String layoutType) {
+            switch (layoutType) {
+                case Category.LAYOUT_GRID: {
+                    layoutTypeIcon.setImageResource(R.drawable.ic_grid);
+                    break;
+                }
+                case Category.LAYOUT_LINEAR_LIST:
+                default: {
+                    layoutTypeIcon.setImageResource(R.drawable.ic_list);
+                    break;
+                }
             }
         }
 
