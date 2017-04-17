@@ -1,35 +1,39 @@
 package ch.rmy.android.http_shortcuts.http;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.Response.ErrorListener;
+import com.android.volley.VolleyError;
 import com.squareup.okhttp.Credentials;
+
+import org.jdeferred.Deferred;
+import org.jdeferred.Promise;
+import org.jdeferred.impl.DeferredObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
+
 class ShortcutRequest extends Request<ShortcutResponse> {
 
-    private final ResponseListener responseListener;
-    private final String bodyContent;
-    private final Map<String, String> parameters;
-    private final Map<String, String> headers;
+    private final Deferred<ShortcutResponse, VolleyError, Void> deferred;
+    private final Map<String, String> parameters = new HashMap<>();
+    private final Map<String, String> headers = new HashMap<>();
+    private String bodyContent;
     private String contentType;
 
-    ShortcutRequest(int method, String url, String username, String password, String bodyContent, ResponseListener responseListener, ErrorListener errorListener) {
-        super(method, url, errorListener);
-        this.responseListener = responseListener;
-        this.bodyContent = bodyContent;
-
-        parameters = new HashMap<>();
-        headers = new HashMap<>();
-
+    private ShortcutRequest(int method, String url, final Deferred<ShortcutResponse, VolleyError, Void> deferred) {
+        super(method, url, new com.android.volley.Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                deferred.reject(error);
+            }
+        });
+        this.deferred = deferred;
         headers.put("Connection", "close");
-        if (!username.isEmpty() || !password.isEmpty()) {
-            headers.put("Authorization", Credentials.basic(username, password));
-        }
     }
 
     @Override
@@ -69,18 +73,6 @@ class ShortcutRequest extends Request<ShortcutResponse> {
         return parameters;
     }
 
-    void addParameter(String key, String value) {
-        parameters.put(key, value);
-    }
-
-    void addHeader(String key, String value) {
-        if (key.equalsIgnoreCase("Content-Type")) {
-            contentType = value;
-        } else {
-            headers.put(key, value);
-        }
-    }
-
     @Override
     protected Response<ShortcutResponse> parseNetworkResponse(NetworkResponse response) {
         ShortcutResponse shortcutResponse = new ShortcutResponse(response.statusCode, response.headers, response.data);
@@ -89,7 +81,69 @@ class ShortcutRequest extends Request<ShortcutResponse> {
 
     @Override
     protected void deliverResponse(ShortcutResponse response) {
-        responseListener.onResponse(response);
+        deferred.resolve(response);
+    }
+
+    Promise<ShortcutResponse, VolleyError, Void> getPromise() {
+        return deferred.promise();
+    }
+
+    static class Builder {
+
+        private final ShortcutRequest request;
+
+        Builder(String method, String url) {
+            request = new ShortcutRequest(getMethod(method), url, new DeferredObject<ShortcutResponse, VolleyError, Void>());
+        }
+
+        private static int getMethod(String method) {
+            switch (method) {
+                case Shortcut.METHOD_POST:
+                    return Request.Method.POST;
+                case Shortcut.METHOD_PUT:
+                    return Request.Method.PUT;
+                case Shortcut.METHOD_DELETE:
+                    return Request.Method.DELETE;
+                case Shortcut.METHOD_PATCH:
+                    return Request.Method.PATCH;
+                default:
+                    return Request.Method.GET;
+            }
+        }
+
+        Builder basicAuth(String username, String password) {
+            request.headers.put("Authorization", Credentials.basic(username, password));
+            return this;
+        }
+
+        Builder body(String body) {
+            request.bodyContent = body;
+            return this;
+        }
+
+        Builder parameter(String key, String value) {
+            request.parameters.put(key, value);
+            return this;
+        }
+
+        Builder header(String key, String value) {
+            if (key.equalsIgnoreCase("Content-Type")) {
+                request.contentType = value;
+            } else {
+                request.headers.put(key, value);
+            }
+            return this;
+        }
+
+        Builder timeout(int timeout) {
+            request.setRetryPolicy(new DefaultRetryPolicy(timeout, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            return this;
+        }
+
+        ShortcutRequest build() {
+            return request;
+        }
+
     }
 
 }
