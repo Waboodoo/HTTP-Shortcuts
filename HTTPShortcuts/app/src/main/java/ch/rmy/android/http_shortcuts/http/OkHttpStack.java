@@ -8,11 +8,11 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class OkHttpStack extends HurlStack {
+class OkHttpStack extends HurlStack {
 
     private final OkUrlFactory okUrlFactory;
 
-    public OkHttpStack(OkHttpClient client) {
+    OkHttpStack(OkHttpClient client) {
         this.okUrlFactory = new OkUrlFactory(client);
     }
 

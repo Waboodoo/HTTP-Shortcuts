@@ -11,13 +11,13 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-public class HttpClients {
+class HttpClients {
 
-    public static OkHttpClient getDefaultOkHttpClient() {
+    static OkHttpClient getDefaultOkHttpClient() {
         return new OkHttpClient();
     }
 
-    public static OkHttpClient getUnsafeOkHttpClient() {
+    static OkHttpClient getUnsafeOkHttpClient() {
         OkHttpClient okHttpClient = new OkHttpClient();
 
         try {
