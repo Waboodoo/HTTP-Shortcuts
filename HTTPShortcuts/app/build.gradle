@@ -8,6 +8,7 @@ android {
         applicationId "ch.rmy.android.http_shortcuts"
         minSdkVersion 15
         targetSdkVersion 25
+        buildConfigField "String", "BUGSNAG_API_KEY", "\"${rootProject.ext.bugsnagAPIKey}\""
     }
 
     buildTypes {
@@ -76,6 +77,9 @@ dependencies {
     // Tasker integration
     compile group: 'com.twofortyfouram', name: 'android-plugin-client-sdk-for-locale', version: '[4.0.2, 5.0['
     compile 'com.google.code.gson:gson:2.7'
+
+    /* Crash Reporting */
+    compile 'com.bugsnag:bugsnag-android:3.+'
 
 }
 

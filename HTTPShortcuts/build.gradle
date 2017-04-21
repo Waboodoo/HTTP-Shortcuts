@@ -7,6 +7,9 @@ buildscript {
         classpath 'io.realm:realm-gradle-plugin:3.0.0'
     }
 }
+ext {
+    bugsnagAPIKey = System.getenv("BUGSNAG_API_KEY") ?: ''
+}
 
 allprojects {
     repositories {
