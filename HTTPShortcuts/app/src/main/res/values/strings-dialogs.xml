@@ -3,6 +3,8 @@
     <string name="changelog_text" translatable="false"><![CDATA[
         <p>
             <b>Version 1.16.0</b><br>
+            - Support for Digest Auth<br>
+            - Support for OPTIONS, HEAD and TRACE methods<br>
             - Categories can have different layout types: list or grid
         </p>
         <p>
