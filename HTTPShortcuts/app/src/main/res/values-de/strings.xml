@@ -207,4 +207,7 @@
     <string name="layout_type_grid">Gitter</string>
     <string name="layout_type_linear_list">Liste</string>
     <string name="message_layout_type_changed">Layouttyp geändert</string>
+    <string name="authentication_basic">Basic Authentication</string>
+    <string name="authentication_digest">Digest Authentication</string>
+    <string name="authentication_none">Keine Authentifizierung</string>
 </resources>
