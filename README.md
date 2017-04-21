@@ -3,8 +3,13 @@
 
 A simple Android app that allows you to create shortcuts that can be placed on your home screen. Each shortcut, when clicked, triggers an HTTP request.
 
-- GET, POST, PUT, DELETE and PATCH
+<a href="https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts">
+<img alt="Get it on Google Play" src="http://steverichey.github.io/google-play-badge-svg/img/en_get.svg" width="280" />
+</a>
+
+## Features
 - HTTP and HTTPS
+- GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS and TRACE
 - Basic Authentication & Digest Authentication
 - Custom request headers
 - Custom request body (text only)
@@ -17,9 +22,6 @@ A simple Android app that allows you to create shortcuts that can be placed on y
 - 3rd party integration (e.g. Tasker)
 - Themes
 
-<a href="https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts">
-<img alt="Get it on Google Play" src="http://steverichey.github.io/google-play-badge-svg/img/en_get.svg" width="280" />
-</a>
 
 ## Screenshots
 
