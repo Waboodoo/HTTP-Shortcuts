@@ -105,35 +105,45 @@
                 android:layout_height="wrap_content"
                 ls:labelText="@string/label_method"/>
 
-            <TextView
-                style="@style/Label"
-                android:text="@string/section_authentication"/>
-
-            <android.support.design.widget.TextInputLayout
+            <com.satsuware.usefulviews.LabelledSpinner
+                android:id="@+id/input_authentication"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                ls:labelText="@string/section_authentication"/>
 
-                <EditText
-                    android:id="@+id/input_username"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="@string/label_username"
-                    android:inputType="textNoSuggestions"/>
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
+            <LinearLayout
+                android:id="@+id/authentication_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <EditText
-                    android:id="@+id/input_password"
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="@string/label_password"
-                    android:inputType="textNoSuggestions"/>
-            </android.support.design.widget.TextInputLayout>
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/input_username"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/label_username"
+                        android:inputType="textNoSuggestions"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/input_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/label_password"
+                        android:inputType="textNoSuggestions"/>
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
 
             <TextView
                 style="@style/SubHeader"

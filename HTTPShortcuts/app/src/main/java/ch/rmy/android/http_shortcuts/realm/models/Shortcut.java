@@ -40,6 +40,11 @@ public class Shortcut extends RealmObject implements HasId {
 
     public static final String[] RETRY_POLICY_OPTIONS = {RETRY_POLICY_NONE, RETRY_POLICY_WAIT_FOR_INTERNET};
 
+    public static final String AUTHENTICATION_BASIC = "basic";
+    public static final String AUTHENTICATION_DIGEST = "digest";
+
+    public static final String[] AUTHENTICATION_OPTIONS = {null, AUTHENTICATION_BASIC, AUTHENTICATION_DIGEST};
+
     @PrimaryKey
     private long id;
     @Required
@@ -65,6 +70,7 @@ public class Shortcut extends RealmObject implements HasId {
     private RealmList<Header> headers;
     private RealmList<Parameter> parameters;
     private boolean acceptAllCertificates;
+    private String authentication;
 
     @Override
     public long getId() {
@@ -187,6 +193,14 @@ public class Shortcut extends RealmObject implements HasId {
         this.acceptAllCertificates = acceptAllCertificates;
     }
 
+    public String getAuthentication() {
+        return authentication;
+    }
+
+    public void setAuthentication(String authentication) {
+        this.authentication = authentication;
+    }
+
     @Override
     public boolean isNew() {
         return id == 0;
@@ -224,6 +238,7 @@ public class Shortcut extends RealmObject implements HasId {
         duplicate.setTimeout(getTimeout());
         duplicate.setUrl(getUrl());
         duplicate.setUsername(getUsername());
+        duplicate.setAuthentication(getAuthentication());
 
         duplicate.setParameters(new RealmList<Parameter>());
         for (Parameter parameter : getParameters()) {
@@ -274,6 +289,8 @@ public class Shortcut extends RealmObject implements HasId {
         if (!getPassword().equals(shortcut.getPassword())) return false;
         if (getIconName() != null ? !getIconName().equals(shortcut.getIconName()) : shortcut.getIconName() != null)
             return false;
+        if (getAuthentication() != null ? !getAuthentication().equals(shortcut.getAuthentication()) : shortcut.getAuthentication() != null)
+            return false;
         if (!getFeedback().equals(shortcut.getFeedback())) return false;
         if (!getDescription().equals(shortcut.getDescription())) return false;
         if (!getBodyContent().equals(shortcut.getBodyContent())) return false;
@@ -291,6 +308,7 @@ public class Shortcut extends RealmObject implements HasId {
         result = 31 * result + getUsername().hashCode();
         result = 31 * result + getPassword().hashCode();
         result = 31 * result + (getIconName() != null ? getIconName().hashCode() : 0);
+        result = 31 * result + (getAuthentication() != null ? getAuthentication().hashCode() : 0);
         result = 31 * result + getFeedback().hashCode();
         result = 31 * result + getDescription().hashCode();
         result = 31 * result + getBodyContent().hashCode();
@@ -299,6 +317,10 @@ public class Shortcut extends RealmObject implements HasId {
         result = 31 * result + getHeaders().hashCode();
         result = 31 * result + getParameters().hashCode();
         return result;
+    }
+
+    public boolean allowsBody() {
+        return !METHOD_GET.equals(getMethod());
     }
 
     public boolean feedbackUsesUI() {
@@ -312,4 +334,17 @@ public class Shortcut extends RealmObject implements HasId {
     public boolean isRetryAllowed() {
         return !FEEDBACK_ACTIVITY.equals(getFeedback()) && !FEEDBACK_DIALOG.equals(getFeedback());
     }
+
+    public boolean usesAuthentication() {
+        return usesBasicAuthentication() || usesDigestAuthentication();
+    }
+
+    public boolean usesBasicAuthentication() {
+        return AUTHENTICATION_BASIC.equals(getAuthentication());
+    }
+
+    public boolean usesDigestAuthentication() {
+        return AUTHENTICATION_DIGEST.equals(getAuthentication());
+    }
+
 }

@@ -53,6 +53,8 @@ import ch.rmy.android.http_shortcuts.utils.ViewUtil;
 import ch.rmy.android.http_shortcuts.variables.VariableFormatter;
 import ch.rmy.curlcommand.CurlCommand;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static ch.rmy.android.http_shortcuts.realm.models.Shortcut.TEMPORARY_ID;
 
 /**
@@ -92,6 +94,8 @@ public class EditorActivity extends BaseActivity {
     EditText descriptionView;
     @Bind(R.id.input_url)
     EditText urlView;
+    @Bind(R.id.input_authentication)
+    LabelledSpinner authenticationView;
     @Bind(R.id.input_username)
     EditText usernameView;
     @Bind(R.id.input_password)
@@ -108,6 +112,8 @@ public class EditorActivity extends BaseActivity {
     EditText customBodyView;
     @Bind(R.id.input_accept_all_certificates)
     CheckBox acceptCertificatesCheckbox;
+    @Bind(R.id.authentication_container)
+    LinearLayout authenticationContainer;
 
     private final OnItemChosenListener itemChosenListener = new OnItemChosenListener() {
         @Override
@@ -164,6 +170,9 @@ public class EditorActivity extends BaseActivity {
         shortcut.setBodyContent(curlCommand.getData());
         shortcut.setUsername(curlCommand.getUsername());
         shortcut.setPassword(curlCommand.getPassword());
+        if (!TextUtils.isEmpty(curlCommand.getUsername()) || !TextUtils.isEmpty(curlCommand.getPassword())) {
+            shortcut.setAuthentication(Shortcut.AUTHENTICATION_BASIC);
+        }
         if (curlCommand.getTimeout() != 0) {
             shortcut.setTimeout(curlCommand.getTimeout());
         }
@@ -189,6 +198,11 @@ public class EditorActivity extends BaseActivity {
         ViewUtil.hideErrorLabel(methodView);
         methodView.setOnItemChosenListener(itemChosenListener);
         methodView.setSelection(ArrayUtil.findIndex(Shortcut.METHOD_OPTIONS, shortcut.getMethod()));
+
+        authenticationView.setItemsArray(ShortcutUIUtils.getAuthenticationOptions(getContext()));
+        ViewUtil.hideErrorLabel(authenticationView);
+        authenticationView.setOnItemChosenListener(itemChosenListener);
+        authenticationView.setSelection(ArrayUtil.findIndex(Shortcut.AUTHENTICATION_OPTIONS, shortcut.getAuthentication()));
 
         parameterList.addItems(shortcut.getParameters());
         parameterList.setButtonText(R.string.button_add_post_param);
@@ -217,16 +231,16 @@ public class EditorActivity extends BaseActivity {
         });
         customHeaderList.setSuggestions(Header.SUGGESTED_KEYS);
 
-        feedbackView.setItemsArray(ShortcutUIUtils.getFeedbackOptions(this));
+        feedbackView.setItemsArray(ShortcutUIUtils.getFeedbackOptions(getContext()));
         feedbackView.setOnItemChosenListener(itemChosenListener);
         ViewUtil.hideErrorLabel(feedbackView);
         feedbackView.setSelection(ArrayUtil.findIndex(Shortcut.FEEDBACK_OPTIONS, shortcut.getFeedback()));
 
-        timeoutView.setItemsArray(ShortcutUIUtils.getTimeoutOptions(this));
+        timeoutView.setItemsArray(ShortcutUIUtils.getTimeoutOptions(getContext()));
         ViewUtil.hideErrorLabel(timeoutView);
         timeoutView.setSelection(ArrayUtil.findIndex(Shortcut.TIMEOUT_OPTIONS, shortcut.getTimeout()));
 
-        retryPolicyView.setItemsArray(ShortcutUIUtils.getRetryPolicyOptions(this));
+        retryPolicyView.setItemsArray(ShortcutUIUtils.getRetryPolicyOptions(getContext()));
         ViewUtil.hideErrorLabel(retryPolicyView);
         retryPolicyView.setSelection(ArrayUtil.findIndex(Shortcut.RETRY_POLICY_OPTIONS, shortcut.getRetryPolicy()));
 
@@ -249,8 +263,9 @@ public class EditorActivity extends BaseActivity {
 
     private void updateUI() {
         iconView.setImageURI(shortcut.getIconURI(this), shortcut.getIconName());
-        retryPolicyView.setVisibility(shortcut.isRetryAllowed() ? View.VISIBLE : View.GONE);
-        postParamsContainer.setVisibility(Shortcut.METHOD_GET.equals(shortcut.getMethod()) ? View.GONE : View.VISIBLE);
+        retryPolicyView.setVisibility(shortcut.isRetryAllowed() ? VISIBLE : GONE);
+        postParamsContainer.setVisibility(shortcut.allowsBody() ? VISIBLE : GONE);
+        authenticationContainer.setVisibility(shortcut.usesAuthentication() ? VISIBLE : GONE);
     }
 
     @Override
@@ -420,6 +435,7 @@ public class EditorActivity extends BaseActivity {
         shortcut.setBodyContent(customBodyView.getText().toString());
         shortcut.setFeedback(Shortcut.FEEDBACK_OPTIONS[feedbackView.getSpinner().getSelectedItemPosition()]);
         shortcut.setTimeout(Shortcut.TIMEOUT_OPTIONS[timeoutView.getSpinner().getSelectedItemPosition()]);
+        shortcut.setAuthentication(Shortcut.AUTHENTICATION_OPTIONS[authenticationView.getSpinner().getSelectedItemPosition()]);
         shortcut.setRetryPolicy(Shortcut.RETRY_POLICY_OPTIONS[retryPolicyView.getSpinner().getSelectedItemPosition()]);
         shortcut.setAcceptAllCertificates(acceptCertificatesCheckbox.isChecked());
 

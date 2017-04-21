@@ -6,8 +6,8 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.squareup.okhttp.Credentials;
 
+import org.apache.http.HttpHeaders;
 import org.jdeferred.Deferred;
 import org.jdeferred.Promise;
 import org.jdeferred.impl.DeferredObject;
@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
+import okhttp3.Credentials;
 
 class ShortcutRequest extends Request<ShortcutResponse> {
 
@@ -33,7 +34,7 @@ class ShortcutRequest extends Request<ShortcutResponse> {
             }
         });
         this.deferred = deferred;
-        headers.put("Connection", "close");
+        headers.put(HttpHeaders.CONNECTION, "close");
     }
 
     @Override
@@ -112,7 +113,7 @@ class ShortcutRequest extends Request<ShortcutResponse> {
         }
 
         Builder basicAuth(String username, String password) {
-            request.headers.put("Authorization", Credentials.basic(username, password));
+            request.headers.put(HttpHeaders.AUTHORIZATION, Credentials.basic(username, password));
             return this;
         }
 
@@ -127,7 +128,7 @@ class ShortcutRequest extends Request<ShortcutResponse> {
         }
 
         Builder header(String key, String value) {
-            if (key.equalsIgnoreCase("Content-Type")) {
+            if (key.equalsIgnoreCase(HttpHeaders.CONTENT_TYPE)) {
                 request.contentType = value;
             } else {
                 request.headers.put(key, value);

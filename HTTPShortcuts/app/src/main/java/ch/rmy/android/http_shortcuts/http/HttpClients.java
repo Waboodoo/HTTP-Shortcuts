@@ -1,6 +1,11 @@
 package ch.rmy.android.http_shortcuts.http;
 
-import com.squareup.okhttp.OkHttpClient;
+
+import android.support.annotation.Nullable;
+
+import com.burgstaller.okhttp.digest.Credentials;
+import com.burgstaller.okhttp.digest.DigestAuthenticator;
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 
 import java.security.cert.CertificateException;
 
@@ -8,20 +13,31 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+
+import okhttp3.OkHttpClient;
 
 class HttpClients {
 
-    static OkHttpClient getDefaultOkHttpClient() {
-        return new OkHttpClient();
+    static OkHttpClient getClient(boolean acceptAllCertificates, @Nullable String username, @Nullable String password) {
+        OkHttpClient.Builder builder = acceptAllCertificates ? getUnsafeOkHttpClientBuilder() : getDefaultOkHttpClientBuilder();
+
+        if (username != null && password != null) {
+            DigestAuthenticator authenticator = new DigestAuthenticator(new Credentials(username, password));
+            builder = builder.authenticator(authenticator);
+        }
+
+        builder = builder.addNetworkInterceptor(new StethoInterceptor());
+        return builder.build();
     }
 
-    static OkHttpClient getUnsafeOkHttpClient() {
-        OkHttpClient okHttpClient = new OkHttpClient();
+    private static OkHttpClient.Builder getDefaultOkHttpClientBuilder() {
+        return new OkHttpClient.Builder();
+    }
 
+    private static OkHttpClient.Builder getUnsafeOkHttpClientBuilder() {
         try {
-            final TrustManager[] trustAllCerts = new TrustManager[]{
+            final X509TrustManager[] trustAllCerts = new X509TrustManager[]{
                     new X509TrustManager() {
                         @Override
                         public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
@@ -42,15 +58,14 @@ class HttpClients {
             sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
             SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
 
-            okHttpClient.setSslSocketFactory(sslSocketFactory);
-            okHttpClient.setHostnameVerifier(new HostnameVerifier() {
-                @Override
-                public boolean verify(String hostname, SSLSession session) {
-                    return true;
-                }
-            });
-
-            return okHttpClient;
+            return new OkHttpClient.Builder()
+                    .sslSocketFactory(sslSocketFactory, trustAllCerts[0])
+                    .hostnameVerifier(new HostnameVerifier() {
+                        @Override
+                        public boolean verify(String hostname, SSLSession session) {
+                            return true;
+                        }
+                    });
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="define_int_Okhttpdigest" translatable="false">year;owner</string>
+    <string name="library_Okhttpdigest_author" translatable="false">Rainer Burgstaller</string>
+    <string name="library_Okhttpdigest_libraryName" translatable="false">okhttp-digest</string>
+    <string name="library_Okhttpdigest_libraryDescription" translatable="false">A digest authenticator for okhttp</string>
+    <string name="library_Okhttpdigest_libraryWebsite" translatable="false">https://github.com/rburgst/okhttp-digest</string>
+    <string name="library_Okhttpdigest_licenseId" translatable="false">apache_2_0</string>
+    <!-- Custom variables section -->
+    <string name="library_Okhttpdigest_owner" translatable="false">Rainer Burgstaller</string>
+    <string name="library_Okhttpdigest_year" translatable="false">2017</string>
+</resources>
