@@ -15,13 +15,15 @@ public class LicensesActivity extends BaseActivity {
             "okhttp",
             "recyclerview_v7",
             "realm",
-            "volleyplus",
+            "volley",
             "flaticons",
             "bitsies",
             "filepicker",
             "jdeferred",
             "vintagechroma",
-            "codeviewandroid"
+            "codeviewandroid",
+            "stetho",
+            "okhttpdigest"
     };
 
     @Override

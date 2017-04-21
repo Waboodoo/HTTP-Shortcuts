@@ -56,7 +56,7 @@ dependencies {
     compile 'com.google.code.gson:gson:1.7.2'
     compile 'com.nononsenseapps:filepicker:2.5.2'
     compile 'org.jdeferred:jdeferred-android-aar:1.2.4'
-    compile('com.mikepenz:aboutlibraries:5.6.8@aar') {
+    compile('com.mikepenz:aboutlibraries:5.9.5@aar') {
         transitive = true
     }
     compile group: 'com.twofortyfouram', name: 'android-plugin-client-sdk-for-locale', version: '[4.0.2, 5.0['

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="define_int_Volley" translatable="false">year;owner</string>
+    <string name="library_Volley_author" translatable="false">Google</string>
+    <string name="library_Volley_libraryName" translatable="false">Volley</string>
+    <string name="library_Volley_libraryDescription" translatable="false">Volley is an HTTP library that makes networking for Android apps easier and most importantly, faster.</string>
+    <string name="library_Volley_libraryWebsite" translatable="false">https://github.com/google/volley</string>
+    <string name="library_Volley_licenseId" translatable="false">apache_2_0</string>
+    <!-- Custom variables section -->
+    <string name="library_Volley_owner" translatable="false">Google</string>
+    <string name="library_Volley_year" translatable="false">2017</string>
+</resources>
