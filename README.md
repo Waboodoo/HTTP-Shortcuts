@@ -5,16 +5,17 @@ A simple Android app that allows you to create shortcuts that can be placed on y
 
 - GET, POST, PUT, DELETE and PATCH
 - HTTP and HTTPS
-- Basic authentication
-- Custom headers
-- Custom body content
-- Option to accept all certificates
+- Basic Authentication & Digest Authentication
+- Custom request headers
+- Custom request body (text only)
+- Option to accept all certificates (if you know what you're doing)
 - Built-in icons, support for Ipack icons and custom icons
 - Display response as a toast, window or dialog, or run silently
 - Grouping into categories through tabs
 - Value injection through variables (text, numbers, passwords, selections, colors, ...)
-- Create shortcuts from CURL commands
+- Import & Export in JSON or cURL format
 - 3rd party integration (e.g. Tasker)
+- Themes
 
 <a href="https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts">
 <img alt="Get it on Google Play" src="http://steverichey.github.io/google-play-badge-svg/img/en_get.svg" width="280" />
@@ -34,11 +35,11 @@ A simple Android app that allows you to create shortcuts that can be placed on y
 ## Hints for Experts
 
 ### Inspect Network Requests
-This app uses [Stetho](https://github.com/facebook/stetho), which means you can debug the internal state and the network requests that are sent from your PC:
-1. Connect your phone to the PC with a USB cable
-2. Open the app
-3. Open Chrome
-4. Go to <a href="chrome://inspect">chrome://inspect</a>
+This app uses [Stetho](https://github.com/facebook/stetho), which means you can debug the internal state and the network requests that are sent:
+1. Connect your phone to a PC with a USB cable
+2. Open the app on the phone
+3. Open Chrome on the PC
+4. Go to chrome://inspect
 5. Click the *inspect* button below "HTTP Shortcuts (powered by Stetho)"
 
 ### Bulk Creation / Modifying of Shortcuts
