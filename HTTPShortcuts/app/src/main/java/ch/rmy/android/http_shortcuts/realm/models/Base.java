@@ -5,8 +5,17 @@ import io.realm.RealmObject;
 
 public class Base extends RealmObject {
 
+    private long version = 6;
     private RealmList<Category> categories;
     private RealmList<Variable> variables;
+
+    public long getVersion() {
+        return version;
+    }
+
+    public void setVersion(long version) {
+        this.version = version;
+    }
 
     public RealmList<Category> getCategories() {
         return categories;
