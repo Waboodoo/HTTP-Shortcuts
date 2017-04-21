@@ -194,10 +194,10 @@ public class EditorActivity extends BaseActivity {
         bindVariableFormatter(passwordView);
         bindVariableFormatter(customBodyView);
 
-        methodView.setItemsArray(Shortcut.METHOD_OPTIONS);
+        methodView.setItemsArray(Shortcut.METHODS);
         ViewUtil.hideErrorLabel(methodView);
         methodView.setOnItemChosenListener(itemChosenListener);
-        methodView.setSelection(ArrayUtil.findIndex(Shortcut.METHOD_OPTIONS, shortcut.getMethod()));
+        methodView.setSelection(ArrayUtil.findIndex(Shortcut.METHODS, shortcut.getMethod()));
 
         authenticationView.setItemsArray(ShortcutUIUtils.getAuthenticationOptions(getContext()));
         ViewUtil.hideErrorLabel(authenticationView);
@@ -428,7 +428,7 @@ public class EditorActivity extends BaseActivity {
     private void compileShortcut() {
         shortcut.setName(nameView.getText().toString().trim());
         shortcut.setUrl(urlView.getText().toString());
-        shortcut.setMethod(Shortcut.METHOD_OPTIONS[methodView.getSpinner().getSelectedItemPosition()]);
+        shortcut.setMethod(Shortcut.METHODS[methodView.getSpinner().getSelectedItemPosition()]);
         shortcut.setDescription(descriptionView.getText().toString().trim());
         shortcut.setPassword(passwordView.getText().toString());
         shortcut.setUsername(usernameView.getText().toString());

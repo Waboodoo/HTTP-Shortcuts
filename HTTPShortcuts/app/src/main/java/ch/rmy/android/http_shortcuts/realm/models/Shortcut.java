@@ -22,6 +22,9 @@ public class Shortcut extends RealmObject implements HasId {
     public static final String METHOD_PUT = "PUT";
     public static final String METHOD_DELETE = "DELETE";
     public static final String METHOD_PATCH = "PATCH";
+    public static final String METHOD_HEAD = "HEAD";
+    public static final String METHOD_OPTIONS = "OPTIONS";
+    public static final String METHOD_TRACE = "TRACE";
 
     public static final String FEEDBACK_NONE = "none";
     public static final String FEEDBACK_TOAST_SIMPLE = "simple_response";
@@ -34,7 +37,7 @@ public class Shortcut extends RealmObject implements HasId {
     public static final String RETRY_POLICY_NONE = "none";
     public static final String RETRY_POLICY_WAIT_FOR_INTERNET = "wait_for_internet";
 
-    public static final String[] METHOD_OPTIONS = {METHOD_GET, METHOD_POST, METHOD_PUT, METHOD_DELETE, METHOD_PATCH};
+    public static final String[] METHODS = {METHOD_GET, METHOD_POST, METHOD_PUT, METHOD_DELETE, METHOD_PATCH, METHOD_HEAD, METHOD_OPTIONS, METHOD_TRACE};
     public static final String[] FEEDBACK_OPTIONS = {FEEDBACK_NONE, FEEDBACK_TOAST_SIMPLE, FEEDBACK_TOAST_SIMPLE_ERRORS, FEEDBACK_TOAST, FEEDBACK_TOAST_ERRORS, FEEDBACK_DIALOG, FEEDBACK_ACTIVITY};
     public static final int[] TIMEOUT_OPTIONS = {3000, 10000, 30000, 60000};
 
@@ -320,23 +323,31 @@ public class Shortcut extends RealmObject implements HasId {
     }
 
     public boolean allowsBody() {
-        return !METHOD_GET.equals(getMethod());
+        return METHOD_POST.equals(getMethod())
+                || METHOD_PUT.equals(getMethod())
+                || METHOD_DELETE.equals(getMethod())
+                || METHOD_PATCH.equals(getMethod())
+                || METHOD_OPTIONS.equals(getMethod());
     }
 
     public boolean feedbackUsesUI() {
-        return FEEDBACK_DIALOG.equals(getFeedback()) || FEEDBACK_ACTIVITY.equals(getFeedback());
+        return FEEDBACK_DIALOG.equals(getFeedback())
+                || FEEDBACK_ACTIVITY.equals(getFeedback());
     }
 
     public boolean isFeedbackErrorsOnly() {
-        return FEEDBACK_TOAST_ERRORS.equals(getFeedback()) || FEEDBACK_TOAST_SIMPLE_ERRORS.equals(getFeedback());
+        return FEEDBACK_TOAST_ERRORS.equals(getFeedback())
+                || FEEDBACK_TOAST_SIMPLE_ERRORS.equals(getFeedback());
     }
 
     public boolean isRetryAllowed() {
-        return !FEEDBACK_ACTIVITY.equals(getFeedback()) && !FEEDBACK_DIALOG.equals(getFeedback());
+        return !FEEDBACK_ACTIVITY.equals(getFeedback())
+                && !FEEDBACK_DIALOG.equals(getFeedback());
     }
 
     public boolean usesAuthentication() {
-        return usesBasicAuthentication() || usesDigestAuthentication();
+        return usesBasicAuthentication()
+                || usesDigestAuthentication();
     }
 
     public boolean usesBasicAuthentication() {

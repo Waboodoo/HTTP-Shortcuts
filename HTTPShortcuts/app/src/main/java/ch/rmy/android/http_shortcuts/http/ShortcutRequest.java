@@ -100,15 +100,21 @@ class ShortcutRequest extends Request<ShortcutResponse> {
         private static int getMethod(String method) {
             switch (method) {
                 case Shortcut.METHOD_POST:
-                    return Request.Method.POST;
+                    return Method.POST;
                 case Shortcut.METHOD_PUT:
-                    return Request.Method.PUT;
+                    return Method.PUT;
                 case Shortcut.METHOD_DELETE:
-                    return Request.Method.DELETE;
+                    return Method.DELETE;
                 case Shortcut.METHOD_PATCH:
-                    return Request.Method.PATCH;
+                    return Method.PATCH;
+                case Shortcut.METHOD_OPTIONS:
+                    return Method.OPTIONS;
+                case Shortcut.METHOD_HEAD:
+                    return Method.HEAD;
+                case Shortcut.METHOD_TRACE:
+                    return Method.TRACE;
                 default:
-                    return Request.Method.GET;
+                    return Method.GET;
             }
         }
 
