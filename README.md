@@ -31,8 +31,22 @@ A simple Android app that allows you to create shortcuts that can be placed on y
 ![Image](/Screenshots/variable_placeholder_small.png)
 
 
+# Hints for Experts
+
+## Inspect Network Requests
+This app uses [Stetho](https://github.com/facebook/stetho), which means you can debug the internal state and the network requests that are sent from your PC:
+1. Connect your phone to the PC with a USB cable
+2. Open the app
+3. Open Chrome
+4. Go to <a href="chrome://inspect">chrome://inspect</a>
+5. Click the *inspect* button below "HTTP Shortcuts (powered by Stetho)"
+
+## Bulk Creation / Modifying of Shortcuts
+If you want to add or edit a lot of shortcuts at once it can be very cumbersome to do so through the app's UI. An easy solution is to go to the apps settings and use the export feature. It provides you with a JSON file that you can easily modify with any tool you want. Once you are done you can import it again and voila: you have all your changes in the app.
+
+
 # Translations
 - German: [Roland Meyer](https://github.com/Waboodoo)
 - Chinese: [Kevin Mao](https://github.com/yuanrunmao)
 
-Help me translate this app, feel free to open a pull request.
+Help me translate this app, feel free to open a pull request to add new languages or to fix translation mistakes.
