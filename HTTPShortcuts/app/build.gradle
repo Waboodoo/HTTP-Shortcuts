@@ -40,8 +40,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support:design:25.1.0'
     compile 'com.android.volley:volley:1.0.0'
-    compile 'com.squareup.okhttp:okhttp:2.7.5'
-    compile 'com.squareup.okhttp:okhttp-urlconnection:2.7.5'
+    compile 'com.squareup.okhttp3:okhttp:3.7.0'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile('com.github.afollestad.material-dialogs:core:0.8.5.6@aar') {
         transitive = true
@@ -51,6 +50,7 @@ dependencies {
     }
     compile 'com.satsuware.lib:usefulviews:2.3.1'
     compile 'com.facebook.stetho:stetho:1.4.1'
+    compile 'com.facebook.stetho:stetho-okhttp3:1.5.0'
     compile 'com.uphyca:stetho_realm:2.0.0'
     // Using old version on purpose to avoid a bug where serializing a RealmObject freezes the app
     compile 'com.google.code.gson:gson:1.7.2'
@@ -64,6 +64,9 @@ dependencies {
     compile 'com.github.castorflex.smoothprogressbar:library-circular:1.1.0'
     compile 'com.pavelsikun:vintage-chroma:1.5'
     compile 'com.github.softwee:codeview-android:1.2.0'
+
+    compile 'com.burgstaller:okhttp-digest:1.12'
+    compile 'org.apache.httpcomponents:httpcore:4.4.1'
 }
 
 apply plugin: 'realm-android'

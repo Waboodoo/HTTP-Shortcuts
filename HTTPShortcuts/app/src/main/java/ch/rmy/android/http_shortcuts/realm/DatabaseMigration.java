@@ -1,5 +1,7 @@
 package ch.rmy.android.http_shortcuts.realm;
 
+import android.text.TextUtils;
+
 import io.realm.DynamicRealm;
 import io.realm.DynamicRealmObject;
 import io.realm.RealmList;
@@ -10,7 +12,7 @@ import io.realm.RealmSchema;
 
 class DatabaseMigration implements RealmMigration {
 
-    static final int VERSION = 5;
+    static final int VERSION = 6;
 
     @Override
     public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
@@ -67,6 +69,16 @@ class DatabaseMigration implements RealmMigration {
                 RealmResults<DynamicRealmObject> categories = realm.where("Category").findAll();
                 for (DynamicRealmObject category : categories) {
                     category.setString("layoutType", "linear_list");
+                }
+                break;
+            }
+            case 6: { // 1.16.0
+                schema.get("Shortcut").addField("authentication", String.class);
+                RealmResults<DynamicRealmObject> shortcuts = realm.where("Shortcut").findAll();
+                for (DynamicRealmObject shortcut : shortcuts) {
+                    if (!TextUtils.isEmpty(shortcut.getString("username")) || !TextUtils.isEmpty(shortcut.getString("password"))) {
+                        shortcut.setString("authentication", "basic");
+                    }
                 }
                 break;
             }
