@@ -75,8 +75,7 @@ dependencies {
     compile 'org.jdeferred:jdeferred-android-aar:1.2.4'
     // Tasker integration
     compile group: 'com.twofortyfouram', name: 'android-plugin-client-sdk-for-locale', version: '[4.0.2, 5.0['
-    // Using old version on purpose to avoid a bug where serializing a RealmObject freezes the app
-    compile 'com.google.code.gson:gson:1.7.2'
+    compile 'com.google.code.gson:gson:2.7'
 
 }
 
