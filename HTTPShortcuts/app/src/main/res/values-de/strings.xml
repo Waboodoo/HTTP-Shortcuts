@@ -197,11 +197,11 @@
     <string name="title_export">Exportieren</string>
     <string name="title_import">Importieren</string>
     <string name="button_create_new">Neuen Shortcut</string>
-    <string name="button_curl_import">Aus CURL-Befehl erstellen</string>
+    <string name="button_curl_import">Aus cURL-Befehl erstellen</string>
     <string name="curl_import_button">Importieren</string>
-    <string name="instructions_curl_import">Geben Sie einen CURL-Befehl ein oder fügen ihn ein um daraus einen neuen Shortcut zu erstellen. Bitte beachten Sie, dass dieses Feature experimentell ist und nur eine limitiere Teilmenge von CURL-Optionen unterstützt wird.</string>
-    <string name="title_curl_import">CURL-Import</string>
-    <string name="action_curl_export">CURL-Export</string>
+    <string name="instructions_curl_import">Geben Sie einen cURL-Befehl ein oder fügen ihn ein um daraus einen neuen Shortcut zu erstellen. Bitte beachten Sie, dass dieses Feature experimentell ist und nur eine limitiere Teilmenge von cURL-Optionen unterstützt wird.</string>
+    <string name="title_curl_import">cURL-Import</string>
+    <string name="action_curl_export">cURL-Export</string>
     <string name="action_move">Verschieben</string>
     <string name="action_change_category_layout_type">Layouttyp ändern</string>
     <string name="layout_type_grid">Gitter</string>

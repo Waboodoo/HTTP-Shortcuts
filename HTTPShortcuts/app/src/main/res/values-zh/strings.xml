@@ -17,7 +17,7 @@
     <string name="button_add_toggle_option">添加值</string>
     <string name="button_cancel">取消</string>
     <string name="button_create_new">新建快捷方式</string>
-    <string name="button_curl_import">从 CURL 命令行创建</string>
+    <string name="button_curl_import">从 cURL 命令行创建</string>
     <string name="button_export_send_to">其他应用</string>
     <string name="button_export_to_filesystem">本地存储</string>
     <string name="button_import_from_filesystem">本地存储</string>
@@ -166,7 +166,7 @@
     <string name="title_add_toggle_option">添加值</string>
     <string name="title_categories">分类</string>
     <string name="title_create_category">新建分类</string>
-    <string name="title_curl_import">从 CURL 命令行创建</string>
+    <string name="title_curl_import">从 cURL 命令行创建</string>
     <string name="title_custom_header_add">添加头部</string>
     <string name="title_custom_header_edit">编辑头部</string>
     <string name="title_export">导出……</string>
@@ -192,11 +192,11 @@
     <string name="section_toggle_options">切换值</string>
     <string name="variable_type_toggle">切换</string>
     <string name="warning_icon_or_name_change">请注意，在修改快捷方式的名称和图标后，主屏幕上对应的名称和图标并不会同步改变。你必须再次将其添加到主屏幕，随后这些修改才会生效。</string>
-    <string name="instructions_curl_import">在下面输入或粘贴一条 CURL 命令以新建一个快捷方式。请注意，这是一个实验性功能，目前只能识别部分 CURL 参数。</string>
+    <string name="instructions_curl_import">在下面输入或粘贴一条 cURL 命令以新建一个快捷方式。请注意，这是一个实验性功能，目前只能识别部分 cURL 参数。</string>
     <string name="error_set_image">无法使用该图片作为快捷方式的图标</string>
     <string name="action_cancel_pending">取消正在处理的请求</string>
     <string name="error_not_suitable_shortcuts">没有找到合适的快捷方式，要使用这个特性。你必须至少要有一个使用了共享变量的快捷方式。查阅文档中关于变量部分以获取更多信息。</string>
     <string name="error_sharing_feature_not_available_yet">很抱歉，目前还不支持在快捷方式中共享文本文件，后续可能会添加上，现阶段您可以共享文本。查阅文档中关于变量部分以获取更多信息。感谢您的理解。</string>
-    <string name="action_curl_export">CURL 导出</string>
+    <string name="action_curl_export">cURL 导出</string>
     <string name="action_move">搬到</string>
 </resources>

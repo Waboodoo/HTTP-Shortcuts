@@ -7,14 +7,14 @@
         </p>
         <p>
             <b>Version 1.15.0</b><br>
-            - Shortcuts can be exported as CURL commands<br>
+            - Shortcuts can be exported as cURL commands<br>
             - Chinese Translations<br>
             - Minor bugfixes
         </p>
         <p>
             <b>Version 1.14.0</b><br>
             - Syntax highlighting for JSON and XML responses<br>
-            - Import shortcuts from CURL commands<br>
+            - Import shortcuts from cURL commands<br>
             - Improved import &amp; export<br>
             - Themes<br>
             - Minor bugfixes
