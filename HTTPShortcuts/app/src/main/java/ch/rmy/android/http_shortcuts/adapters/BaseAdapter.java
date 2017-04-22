@@ -7,16 +7,15 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.List;
-
 import ch.rmy.android.http_shortcuts.R;
 import ch.rmy.android.http_shortcuts.listeners.OnItemClickedListener;
 import ch.rmy.android.http_shortcuts.realm.models.HasId;
 import ch.rmy.android.http_shortcuts.utils.Destroyable;
 import io.realm.RealmChangeListener;
+import io.realm.RealmList;
 import io.realm.RealmObject;
 
-public abstract class BaseAdapter<T extends RealmObject, U extends RealmObject & HasId> extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Destroyable {
+public abstract class BaseAdapter<T extends RealmObject & HasId> extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Destroyable {
 
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_EMPTY_MARKER = 1;
@@ -24,12 +23,12 @@ public abstract class BaseAdapter<T extends RealmObject, U extends RealmObject &
     private static final int ID_EMPTY_MARKER = -1;
 
     protected final Context context;
-    OnItemClickedListener<U> clickListener;
-    private T parent;
+    OnItemClickedListener<T> clickListener;
+    private RealmList<T> items;
 
-    private final RealmChangeListener<T> changeListener = new RealmChangeListener<T>() {
+    private final RealmChangeListener<RealmList<T>> changeListener = new RealmChangeListener<RealmList<T>>() {
         @Override
-        public void onChange(T parent) {
+        public void onChange(RealmList<T> items) {
             notifyDataSetChanged();
         }
     };
@@ -39,25 +38,25 @@ public abstract class BaseAdapter<T extends RealmObject, U extends RealmObject &
         setHasStableIds(true);
     }
 
-    public final void setParent(T parent) {
-        if (this.parent != null) {
-            this.parent.removeChangeListener(changeListener);
+    public final void setItems(RealmList<T> items) {
+        if (this.items != null) {
+            this.items.removeChangeListener(changeListener);
         }
-        this.parent = parent;
-        if (this.parent != null) {
-            this.parent.addChangeListener(changeListener);
+        this.items = items;
+        if (this.items != null) {
+            this.items.addChangeListener(changeListener);
         }
         notifyDataSetChanged();
     }
 
     @Override
     public final void destroy() {
-        if (this.parent != null) {
-            this.parent.removeChangeListener(changeListener);
+        if (this.items != null) {
+            this.items.removeChangeListener(changeListener);
         }
     }
 
-    public final void setOnItemClickListener(OnItemClickedListener<U> clickListener) {
+    public final void setOnItemClickListener(OnItemClickedListener<T> clickListener) {
         this.clickListener = clickListener;
     }
 
@@ -70,10 +69,8 @@ public abstract class BaseAdapter<T extends RealmObject, U extends RealmObject &
         }
     }
 
-    protected abstract List<U> getItems(T parent);
-
-    private final U getItem(int position) {
-        return getItems(parent).get(position);
+    private T getItem(int position) {
+        return items.get(position);
     }
 
     @Override
@@ -87,7 +84,7 @@ public abstract class BaseAdapter<T extends RealmObject, U extends RealmObject &
     }
 
     protected final int getCount() {
-        return parent == null || !parent.isValid() ? 0 : getItems(parent).size();
+        return items == null || !items.isValid() ? 0 : items.size();
     }
 
     protected final boolean isEmpty() {
@@ -114,7 +111,7 @@ public abstract class BaseAdapter<T extends RealmObject, U extends RealmObject &
 
     private class EmptyMarkerViewHolder extends RecyclerView.ViewHolder {
 
-        public EmptyMarkerViewHolder(ViewGroup parent, @StringRes int textRes) {
+        EmptyMarkerViewHolder(ViewGroup parent, @StringRes int textRes) {
             super(LayoutInflater.from(context).inflate(R.layout.list_empty_item, parent, false));
             if (textRes != 0) {
                 ((TextView) itemView.findViewById(R.id.empty_marker)).setText(textRes);

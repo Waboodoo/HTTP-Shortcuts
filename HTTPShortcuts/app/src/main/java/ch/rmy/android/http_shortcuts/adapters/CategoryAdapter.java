@@ -14,21 +14,15 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import ch.rmy.android.http_shortcuts.R;
 import ch.rmy.android.http_shortcuts.icons.IconView;
-import ch.rmy.android.http_shortcuts.realm.models.Base;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 
-public class CategoryAdapter extends BaseAdapter<Base, Category> {
+public class CategoryAdapter extends BaseAdapter<Category> {
 
     private static final int MAX_ICONS = 5;
 
     public CategoryAdapter(Context context) {
         super(context);
-    }
-
-    @Override
-    protected List<Category> getItems(Base base) {
-        return base.getCategories();
     }
 
     @Override

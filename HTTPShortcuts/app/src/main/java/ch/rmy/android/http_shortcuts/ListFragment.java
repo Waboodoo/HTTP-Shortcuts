@@ -57,7 +57,6 @@ public class ListFragment extends Fragment {
     private Controller controller;
     private List<Category> categories;
 
-    private String layoutType;
     private RecyclerView.ItemDecoration listDivider;
 
     private final OnItemClickedListener<Shortcut> clickListener = new OnItemClickedListener<Shortcut>() {
@@ -81,6 +80,7 @@ public class ListFragment extends Fragment {
                             showContextMenu(shortcut);
                             break;
                     }
+                    break;
             }
         }
 
@@ -110,18 +110,14 @@ public class ListFragment extends Fragment {
             return;
         }
         category = controller.getCategoryById(categoryId);
-
-        String newCategoryType = category.getLayoutType();
-        if (category.getShortcuts().isEmpty()) {
-            newCategoryType = Category.LAYOUT_LINEAR_LIST;
+        if (category == null) {
+            return;
         }
-        if (category != null && !newCategoryType.equals(layoutType)) {
-            layoutType = newCategoryType;
-            onLayoutTypeChanged();
-        }
-    }
 
-    private void onLayoutTypeChanged() {
+        final String layoutType = category.getShortcuts().isEmpty()
+                ? Category.LAYOUT_LINEAR_LIST
+                : category.getLayoutType();
+
         RecyclerView.LayoutManager manager;
         ShortcutAdapter adapter;
         switch (layoutType) {
@@ -139,9 +135,9 @@ public class ListFragment extends Fragment {
                 break;
             }
         }
-        adapter.setParent(category);
         adapter.setPendingShortcuts(controller.getShortcutsPendingExecution());
         adapter.setOnItemClickListener(clickListener);
+        adapter.setItems(category.getShortcuts());
 
         shortcutList.setLayoutManager(manager);
         shortcutList.setAdapter(adapter);

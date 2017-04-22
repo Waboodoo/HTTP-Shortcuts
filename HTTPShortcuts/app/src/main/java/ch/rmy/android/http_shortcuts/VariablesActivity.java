@@ -53,7 +53,7 @@ public class VariablesActivity extends BaseActivity {
         controller = destroyer.own(new Controller());
 
         adapter = destroyer.own(new VariableAdapter(this));
-        adapter.setParent(controller.getBase());
+        adapter.setItems(controller.getBase().getVariables());
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
         variableList.setLayoutManager(manager);

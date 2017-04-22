@@ -5,24 +5,16 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import ch.rmy.android.http_shortcuts.R;
-import ch.rmy.android.http_shortcuts.realm.models.Base;
 import ch.rmy.android.http_shortcuts.realm.models.Variable;
 import ch.rmy.android.http_shortcuts.utils.ArrayUtil;
 
-public class VariableAdapter extends BaseAdapter<Base, Variable> {
+public class VariableAdapter extends BaseAdapter<Variable> {
 
     public VariableAdapter(Context context) {
         super(context);
-    }
-
-    @Override
-    protected List<Variable> getItems(Base base) {
-        return base.getVariables();
     }
 
     @Override
