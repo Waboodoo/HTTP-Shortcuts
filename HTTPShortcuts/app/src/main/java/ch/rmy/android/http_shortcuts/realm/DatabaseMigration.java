@@ -10,9 +10,9 @@ import io.realm.RealmObjectSchema;
 import io.realm.RealmResults;
 import io.realm.RealmSchema;
 
-class DatabaseMigration implements RealmMigration {
+public class DatabaseMigration implements RealmMigration {
 
-    static final int VERSION = 7;
+    public static final int VERSION = 7;
 
     @Override
     public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {

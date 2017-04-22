@@ -5,7 +5,7 @@ import io.realm.RealmObject;
 
 public class Base extends RealmObject {
 
-    private long version = 6;
+    private long version = 4;
     private RealmList<Category> categories;
     private RealmList<Variable> variables;
 

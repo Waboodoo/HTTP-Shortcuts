@@ -20,8 +20,8 @@ public class Application extends android.app.Application {
                 Stetho.newInitializerBuilder(this)
                         .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
                         .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
-                        .build());
-
+                        .build()
+        );
     }
 
 }

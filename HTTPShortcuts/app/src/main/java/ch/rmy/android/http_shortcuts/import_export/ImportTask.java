@@ -32,6 +32,7 @@ public class ImportTask extends SimpleTask<Uri> {
                 InputStream inputStream = getContext().getContentResolver().openInputStream(uri);
                 reader = new BufferedReader(new InputStreamReader(inputStream));
                 Base base = GsonUtil.importData(reader);
+                ImportMigrator.migrate(base);
                 controller.importBase(base);
             } finally {
                 if (reader != null) {
