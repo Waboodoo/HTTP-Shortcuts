@@ -12,7 +12,7 @@ import io.realm.RealmSchema;
 
 public class DatabaseMigration implements RealmMigration {
 
-    public static final int VERSION = 7;
+    public static final int VERSION = 8;
 
     @Override
     public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
@@ -84,6 +84,10 @@ public class DatabaseMigration implements RealmMigration {
             }
             case 7: { // 1.16.0
                 schema.get("Base").addField("version", long.class);
+                break;
+            }
+            case 8: { // 1.17.0
+                schema.get("Shortcut").addField("launcherShortcut", boolean.class);
                 break;
             }
 

@@ -13,6 +13,7 @@ import ch.rmy.android.http_shortcuts.R;
 import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Base;
 import ch.rmy.android.http_shortcuts.utils.GsonUtil;
+import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager;
 
 public class ImportTask extends SimpleTask<Uri> {
 
@@ -34,6 +35,7 @@ public class ImportTask extends SimpleTask<Uri> {
                 Base base = GsonUtil.importData(reader);
                 ImportMigrator.migrate(base);
                 controller.importBase(base);
+                LauncherShortcutManager.updateAppShortcuts(getContext(), controller.getCategories());
             } finally {
                 if (reader != null) {
                     reader.close();

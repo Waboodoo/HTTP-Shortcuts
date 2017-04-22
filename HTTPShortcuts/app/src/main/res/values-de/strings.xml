@@ -210,4 +210,5 @@
     <string name="authentication_basic">Basic Authentication</string>
     <string name="authentication_digest">Digest Authentication</string>
     <string name="authentication_none">Keine Authentifizierung</string>
+    <string name="label_launcher_shortcut">Als App-Shortcut auf Launcher anzeigen</string>
 </resources>
