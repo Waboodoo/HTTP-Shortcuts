@@ -6,7 +6,8 @@
             - Support for Digest Auth<br>
             - Support for OPTIONS, HEAD and TRACE methods<br>
             - Launcher Shortcuts (Android 7.1 and up only)<br>
-            - Categories can have different layout types: list or grid
+            - Categories can have different layout types: list or grid<br>
+            - Minor bugfixes & other improvements
         </p>
         <p>
             <b>Version 1.15.0</b><br>
