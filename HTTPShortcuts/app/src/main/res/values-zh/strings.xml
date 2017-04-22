@@ -49,7 +49,6 @@
     <string name="edit_shortcut">编辑快捷方式</string>
     <string name="edit_variable">编辑变量</string>
     <string name="error_http">%1$s 执行失败，状态码 %2$d</string>
-    <string name="error_not_enough_select_values">请至少添加两个可选项</string>
     <string name="error_not_enough_toggle_values">请至少添加两个值</string>
     <string name="error_other">%1$s 执行失败： %2$s</string>
     <string name="executed">%s 已执行</string>
