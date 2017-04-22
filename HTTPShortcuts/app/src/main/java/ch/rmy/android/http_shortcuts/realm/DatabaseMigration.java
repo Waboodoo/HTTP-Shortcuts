@@ -96,7 +96,7 @@ public class DatabaseMigration implements RealmMigration {
 
     private void updateVersionNumber(DynamicRealm realm, long version) {
         DynamicRealmObject base = realm.where("Base").findFirst();
-        if (base != null) {
+        if (base != null && version >= 7) {
             base.setLong("version", version);
         }
     }

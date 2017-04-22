@@ -12,7 +12,7 @@ public class Application extends android.app.Application {
 
     public void onCreate() {
         super.onCreate();
-        if (!TextUtils.isEmpty(BuildConfig.BUGSNAG_API_KEY)) {
+        if (!TextUtils.isEmpty(BuildConfig.BUGSNAG_API_KEY) && !BuildConfig.DEBUG) {
             Bugsnag.init(this, BuildConfig.BUGSNAG_API_KEY);
         }
         Controller.init(this);

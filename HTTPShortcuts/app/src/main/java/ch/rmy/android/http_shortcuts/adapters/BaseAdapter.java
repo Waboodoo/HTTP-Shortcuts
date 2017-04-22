@@ -24,7 +24,7 @@ public abstract class BaseAdapter<T extends RealmObject, U extends RealmObject &
     private static final int ID_EMPTY_MARKER = -1;
 
     protected final Context context;
-    protected OnItemClickedListener<U> clickListener;
+    OnItemClickedListener<U> clickListener;
     private T parent;
 
     private final RealmChangeListener<T> changeListener = new RealmChangeListener<T>() {
@@ -34,7 +34,7 @@ public abstract class BaseAdapter<T extends RealmObject, U extends RealmObject &
         }
     };
 
-    public BaseAdapter(Context context) {
+    BaseAdapter(Context context) {
         this.context = context;
         setHasStableIds(true);
     }
@@ -72,7 +72,7 @@ public abstract class BaseAdapter<T extends RealmObject, U extends RealmObject &
 
     protected abstract List<U> getItems(T parent);
 
-    protected final U getItem(int position) {
+    private final U getItem(int position) {
         return getItems(parent).get(position);
     }
 
