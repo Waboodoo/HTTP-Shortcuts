@@ -22,6 +22,7 @@ import ch.rmy.android.http_shortcuts.realm.models.Category;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 import ch.rmy.android.http_shortcuts.utils.IntentUtil;
 import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder;
+import ch.rmy.android.http_shortcuts.utils.SelectionMode;
 
 /**
  * Main activity to list all shortcuts

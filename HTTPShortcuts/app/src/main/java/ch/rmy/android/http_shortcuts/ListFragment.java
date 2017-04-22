@@ -36,6 +36,7 @@ import ch.rmy.android.http_shortcuts.realm.models.PendingExecution;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 import ch.rmy.android.http_shortcuts.utils.IntentUtil;
 import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder;
+import ch.rmy.android.http_shortcuts.utils.SelectionMode;
 import ch.rmy.android.http_shortcuts.utils.Settings;
 import ch.rmy.curlcommand.CurlCommand;
 import ch.rmy.curlcommand.CurlConstructor;
