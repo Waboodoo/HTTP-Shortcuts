@@ -16,6 +16,7 @@ import ch.rmy.android.http_shortcuts.listeners.OnItemClickedListener;
 import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
 import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder;
+import ch.rmy.android.http_shortcuts.utils.ShortcutListDecorator;
 import io.realm.RealmList;
 
 public class CategoriesActivity extends BaseActivity {

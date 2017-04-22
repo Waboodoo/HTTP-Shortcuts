@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.key_value_pairs;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,14 +10,15 @@ import android.widget.TextView;
 
 import ch.rmy.android.http_shortcuts.R;
 
-public class KeyValueAdapter<T extends KeyValuePair> extends ArrayAdapter<T> {
+class KeyValueAdapter<T extends KeyValuePair> extends ArrayAdapter<T> {
 
-    public KeyValueAdapter(Context context) {
+    KeyValueAdapter(Context context) {
         super(context, R.layout.key_value_item);
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View rowView, ViewGroup parent) {
+    public View getView(int position, View rowView, @NonNull ViewGroup parent) {
         T parameter = getItem(position);
 
         if (rowView == null) {

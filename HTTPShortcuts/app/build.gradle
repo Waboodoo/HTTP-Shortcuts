@@ -8,6 +8,8 @@ android {
         applicationId "ch.rmy.android.http_shortcuts"
         minSdkVersion 15
         targetSdkVersion 25
+        versionName rootProject.ext.versionName
+        versionCode rootProject.ext.versionCode
         buildConfigField "String", "BUGSNAG_API_KEY", "\"${rootProject.ext.bugsnagAPIKey}\""
     }
 
