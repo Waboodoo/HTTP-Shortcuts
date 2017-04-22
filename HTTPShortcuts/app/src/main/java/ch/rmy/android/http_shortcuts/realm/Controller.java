@@ -313,7 +313,10 @@ public class Controller implements Destroyable {
     }
 
     public Collection<Shortcut> getShortcuts() {
-        return realm.where(Shortcut.class).notEqualTo(FIELD_ID, Shortcut.TEMPORARY_ID).findAll();
+        return realm
+                .where(Shortcut.class)
+                .notEqualTo(FIELD_ID, Shortcut.TEMPORARY_ID)
+                .findAll();
     }
 
 }

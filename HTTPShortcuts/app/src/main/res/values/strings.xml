@@ -242,4 +242,5 @@
     <string name="authentication_none">No Authentication</string>
     <string name="authentication_basic">Basic Authentication</string>
     <string name="authentication_digest">Digest Authentication</string>
+    <string name="label_launcher_shortcut">Show as app shortcut on launcher</string>
 </resources>

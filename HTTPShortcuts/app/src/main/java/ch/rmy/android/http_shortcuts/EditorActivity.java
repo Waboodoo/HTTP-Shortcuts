@@ -114,6 +114,8 @@ public class EditorActivity extends BaseActivity {
     CheckBox acceptCertificatesCheckbox;
     @Bind(R.id.authentication_container)
     LinearLayout authenticationContainer;
+    @Bind(R.id.input_launcher_shortcut)
+    CheckBox launcherShortcutCheckbox;
 
     private final OnItemChosenListener itemChosenListener = new OnItemChosenListener() {
         @Override
@@ -245,6 +247,7 @@ public class EditorActivity extends BaseActivity {
         retryPolicyView.setSelection(ArrayUtil.findIndex(Shortcut.RETRY_POLICY_OPTIONS, shortcut.getRetryPolicy()));
 
         acceptCertificatesCheckbox.setChecked(shortcut.isAcceptAllCertificates());
+        launcherShortcutCheckbox.setChecked(shortcut.isLauncherShortcut());
 
         iconView.setOnClickListener(new OnClickListener() {
             @Override
@@ -266,6 +269,8 @@ public class EditorActivity extends BaseActivity {
         retryPolicyView.setVisibility(shortcut.isRetryAllowed() ? VISIBLE : GONE);
         postParamsContainer.setVisibility(shortcut.allowsBody() ? VISIBLE : GONE);
         authenticationContainer.setVisibility(shortcut.usesAuthentication() ? VISIBLE : GONE);
+
+        launcherShortcutCheckbox.setVisibility(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M ? VISIBLE : GONE);
     }
 
     @Override
@@ -438,6 +443,7 @@ public class EditorActivity extends BaseActivity {
         shortcut.setAuthentication(Shortcut.AUTHENTICATION_OPTIONS[authenticationView.getSpinner().getSelectedItemPosition()]);
         shortcut.setRetryPolicy(Shortcut.RETRY_POLICY_OPTIONS[retryPolicyView.getSpinner().getSelectedItemPosition()]);
         shortcut.setAcceptAllCertificates(acceptCertificatesCheckbox.isChecked());
+        shortcut.setLauncherShortcut(launcherShortcutCheckbox.isChecked());
 
         shortcut.getParameters().clear();
         shortcut.getParameters().addAll(parameterList.getItems());

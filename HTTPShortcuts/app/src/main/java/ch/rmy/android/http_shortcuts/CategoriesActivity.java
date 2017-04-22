@@ -15,6 +15,7 @@ import ch.rmy.android.http_shortcuts.adapters.CategoryAdapter;
 import ch.rmy.android.http_shortcuts.listeners.OnItemClickedListener;
 import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
+import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager;
 import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder;
 import ch.rmy.android.http_shortcuts.utils.ShortcutListDecorator;
 import io.realm.RealmList;
@@ -182,6 +183,7 @@ public class CategoriesActivity extends BaseActivity {
         }
         int position = categories.indexOf(category) + offset;
         controller.moveCategory(category, position);
+        LauncherShortcutManager.updateAppShortcuts(getContext(), controller.getCategories());
     }
 
     private void showDeleteDialog(final Category category) {
@@ -205,6 +207,7 @@ public class CategoriesActivity extends BaseActivity {
     private void deleteCategory(Category category) {
         controller.deleteCategory(category);
         showSnackbar(R.string.message_category_deleted);
+        LauncherShortcutManager.updateAppShortcuts(getContext(), controller.getCategories());
     }
 
 }

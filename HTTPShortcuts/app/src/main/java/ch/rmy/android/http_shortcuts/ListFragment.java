@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -35,6 +36,7 @@ import ch.rmy.android.http_shortcuts.realm.models.Parameter;
 import ch.rmy.android.http_shortcuts.realm.models.PendingExecution;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 import ch.rmy.android.http_shortcuts.utils.IntentUtil;
+import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager;
 import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder;
 import ch.rmy.android.http_shortcuts.utils.SelectionMode;
 import ch.rmy.android.http_shortcuts.utils.Settings;
@@ -300,6 +302,7 @@ public class ListFragment extends Fragment {
         } else {
             controller.moveShortcut(shortcut, position);
         }
+        LauncherShortcutManager.updateAppShortcuts(getContext(), controller.getCategories());
     }
 
     private void showMoveToCategoryDialog(final Shortcut shortcut) {
@@ -329,6 +332,7 @@ public class ListFragment extends Fragment {
     private void moveShortcut(Shortcut shortcut, Category category) {
         controller.moveShortcut(shortcut, category);
         getTabHost().showSnackbar(String.format(getString(R.string.shortcut_moved), shortcut.getName()));
+        LauncherShortcutManager.updateAppShortcuts(getContext(), controller.getCategories());
     }
 
     private void duplicateShortcut(Shortcut shortcut) {
@@ -337,6 +341,7 @@ public class ListFragment extends Fragment {
         controller.moveShortcut(duplicate, category);
         int position = category.getShortcuts().indexOf(shortcut);
         controller.moveShortcut(duplicate, position + 1);
+        LauncherShortcutManager.updateAppShortcuts(getContext(), controller.getCategories());
 
         getTabHost().showSnackbar(String.format(getString(R.string.shortcut_duplicated), shortcut.getName()));
     }
@@ -401,10 +406,18 @@ public class ListFragment extends Fragment {
         getTabHost().showSnackbar(String.format(getString(R.string.shortcut_deleted), shortcut.getName()));
         getTabHost().removeShortcutFromHomeScreen(shortcut);
         controller.deleteShortcut(shortcut);
+        LauncherShortcutManager.updateAppShortcuts(getContext(), controller.getCategories());
     }
 
     private TabHost getTabHost() {
         return (TabHost) getActivity();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_EDIT_SHORTCUT) {
+            LauncherShortcutManager.updateAppShortcuts(getContext(), controller.getCategories());
+        }
     }
 
     interface TabHost {

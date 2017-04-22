@@ -1,7 +1,12 @@
 package ch.rmy.android.http_shortcuts.realm.models;
 
 import android.content.Context;
+import android.graphics.drawable.Icon;
 import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+
+import java.util.List;
 
 import ch.rmy.android.http_shortcuts.R;
 import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils;
@@ -16,6 +21,7 @@ public class Shortcut extends RealmObject implements HasId {
     public static final long TEMPORARY_ID = -1;
 
     public static final String FIELD_NAME = "name";
+    public static final String FIELD_LAUNCHER_SHORTCUT = "launcherShortcut";
 
     public static final String METHOD_GET = "GET";
     public static final String METHOD_POST = "POST";
@@ -74,6 +80,7 @@ public class Shortcut extends RealmObject implements HasId {
     private RealmList<Parameter> parameters;
     private boolean acceptAllCertificates;
     private String authentication;
+    private boolean launcherShortcut;
 
     @Override
     public long getId() {
@@ -204,6 +211,14 @@ public class Shortcut extends RealmObject implements HasId {
         this.authentication = authentication;
     }
 
+    public boolean isLauncherShortcut() {
+        return launcherShortcut;
+    }
+
+    public void setLauncherShortcut(boolean launcherShortcut) {
+        this.launcherShortcut = launcherShortcut;
+    }
+
     @Override
     public boolean isNew() {
         return id == 0;
@@ -242,6 +257,7 @@ public class Shortcut extends RealmObject implements HasId {
         duplicate.setUrl(getUrl());
         duplicate.setUsername(getUsername());
         duplicate.setAuthentication(getAuthentication());
+        duplicate.setLauncherShortcut(isLauncherShortcut());
 
         duplicate.setParameters(new RealmList<Parameter>());
         for (Parameter parameter : getParameters()) {
@@ -267,6 +283,26 @@ public class Shortcut extends RealmObject implements HasId {
         } else {
             int identifier = context.getResources().getIdentifier(iconName, "drawable", context.getPackageName());
             return Uri.parse("android.resource://" + packageName + "/" + identifier);
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public Icon getIcon(Context context) {
+        try {
+            String packageName = context.getPackageName();
+            if (iconName == null) {
+                return Icon.createWithResource(packageName, ShortcutUIUtils.DEFAULT_ICON);
+            } else if (iconName.startsWith("android.resource://")) {
+                List<String> pathSegments = Uri.parse(iconName).getPathSegments();
+                return Icon.createWithResource(pathSegments.get(0), Integer.parseInt(pathSegments.get(1)));
+            } else if (iconName.endsWith(".png")) {
+                return null; // TODO: Generate Icon from Bitmap
+            } else {
+                int identifier = context.getResources().getIdentifier(iconName, "drawable", context.getPackageName());
+                return Icon.createWithResource(packageName, identifier);
+            }
+        } catch (Exception e) {
+            return null;
         }
     }
 
@@ -298,6 +334,7 @@ public class Shortcut extends RealmObject implements HasId {
         if (!getDescription().equals(shortcut.getDescription())) return false;
         if (!getBodyContent().equals(shortcut.getBodyContent())) return false;
         if (!getRetryPolicy().equals(shortcut.getRetryPolicy())) return false;
+        if (isLauncherShortcut() != shortcut.isLauncherShortcut()) return false;
         if (!getHeaders().equals(shortcut.getHeaders())) return false;
         return getParameters().equals(shortcut.getParameters());
     }
@@ -319,6 +356,7 @@ public class Shortcut extends RealmObject implements HasId {
         result = 31 * result + getRetryPolicy().hashCode();
         result = 31 * result + getHeaders().hashCode();
         result = 31 * result + getParameters().hashCode();
+        result = 31 * result + (isLauncherShortcut() ? 42 : 0);
         return result;
     }
 
