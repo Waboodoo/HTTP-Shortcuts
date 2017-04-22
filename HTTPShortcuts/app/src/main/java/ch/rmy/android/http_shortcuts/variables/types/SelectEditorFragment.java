@@ -123,7 +123,7 @@ public class SelectEditorFragment extends VariableEditorFragment {
 
     @Override
     public boolean validate() {
-        if (variable.getOptions().size() < 2) {
+        if (variable.getOptions().isEmpty()) {
             new MaterialDialog.Builder(getContext())
                     .content(R.string.error_not_enough_select_values)
                     .positiveText(R.string.dialog_ok)

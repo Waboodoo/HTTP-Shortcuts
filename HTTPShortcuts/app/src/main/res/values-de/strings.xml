@@ -162,7 +162,7 @@
     <string name="variable_type_text">Texteingabe</string>
     <string name="variable_type_toggle">Toggle</string>
     <string name="warning_invalid_variable_key">Schlüssel darf nur Zahlen und Buchstaben enthalten.</string>
-    <string name="error_not_enough_select_values">Bitte mindestens zwei Auswahloptionen hinzufügen.</string>
+    <string name="error_not_enough_select_values">Bitte mindestens eine Auswahloption hinzufügen.</string>
     <string name="error_not_enough_toggle_values">Bitte mindestens zwei Toggle-Werte hinzufügen.</string>
     <string name="feedback_activity">Response in Fenster</string>
     <string name="feedback_dialog">Response in Dialog</string>

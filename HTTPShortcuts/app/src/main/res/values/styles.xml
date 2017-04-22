@@ -25,7 +25,7 @@
         <item name="android:layout_height">48dp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:textColor">@color/secondary_grey</item>
+        <item name="android:textColor">?android:colorPrimary</item>
     </style>
 
     <style name="Label">

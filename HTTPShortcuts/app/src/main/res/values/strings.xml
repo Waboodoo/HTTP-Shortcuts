@@ -14,7 +14,7 @@
     <string name="label_method">Method</string>
     <string name="label_username">Username</string>
     <string name="label_password">Password</string>
-    <string name="label_feedback">Response type</string>
+    <string name="label_feedback">Response Type</string>
     <string name="feedback_none">Ignore response (run silently)</string>
     <string name="feedback_simple_toast">Simple Toast</string>
     <string name="feedback_simple_toast_error">Simple Toast (errors only)</string>
@@ -69,10 +69,10 @@
     <string name="title_custom_header_add">Add header</string>
     <string name="label_custom_header_key">Header</string>
     <string name="label_custom_header_value">Value</string>
-    <string name="label_custom_body">Body Content</string>
+    <string name="label_custom_body">Request Body</string>
     <string name="settings">Settings</string>
     <string name="settings_theme">Theme</string>
-    <string name="settings_title_basic">Basic settings</string>
+    <string name="settings_title_basic">Basic Settings</string>
     <string name="settings_click_behavior">Shortcut click action</string>
     <string name="settings_click_behavior_run">Execute the shortcut</string>
     <string name="settings_click_behavior_edit">Edit the shortcut</string>
@@ -104,7 +104,7 @@
     <string name="timeout_medium">medium</string>
     <string name="timeout_long">long</string>
     <string name="timeout_very_long">very long</string>
-    <string name="settings_about">About this app</string>
+    <string name="settings_about">About this App</string>
     <string name="settings_version">Version number</string>
     <string name="settings_mail">Contact developer</string>
     <string name="settings_mail_summary">Questions, feature requests, other comments, …</string>
@@ -139,7 +139,7 @@
     </string>
     <string name="dialog_checkbox_do_not_show_again">Don\'t show again</string>
     <string name="label_certificates">Certificates</string>
-    <string name="label_accept_all_certificates">Accept any certificate</string>
+    <string name="label_accept_all_certificates">Accept any certificate (I know what I\'m doing)</string>
     <string name="title_licenses">Acknowledgements</string>
     <string name="settings_licenses">Acknowledgements</string>
     <string name="settings_licenses_summary"><![CDATA[Libraries & resources used]]></string>
@@ -198,8 +198,7 @@
     <string name="button_show_help">Show Help</string>
     <string name="help_title_variables">Variables</string>
     <string name="error_not_enough_toggle_values">Please add at least two values.</string>
-    <string name="error_not_enough_select_values">Please add at least two selectable options.
-    </string>
+    <string name="error_not_enough_select_values">Please add at least one selectable option.</string>
     <string name="share_button">Share</string>
     <string name="share_title">Share…</string>
     <string name="progress_dialog_message">%1$s…</string>

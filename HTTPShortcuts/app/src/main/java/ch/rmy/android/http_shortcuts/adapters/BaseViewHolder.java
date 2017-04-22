@@ -10,7 +10,7 @@ abstract class BaseViewHolder<T extends RealmObject & HasId> extends RecyclerVie
 
     private T item;
 
-    public BaseViewHolder(View parent, final BaseAdapter<?, T> baseAdapter) {
+    BaseViewHolder(View parent, final BaseAdapter<T> baseAdapter) {
         super(parent);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
