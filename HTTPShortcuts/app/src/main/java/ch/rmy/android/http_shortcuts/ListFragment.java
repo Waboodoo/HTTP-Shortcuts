@@ -299,6 +299,7 @@ public class ListFragment extends Fragment {
         int position = category.getShortcuts().indexOf(shortcut) + offset;
         if (position == category.getShortcuts().size()) {
             controller.moveShortcut(shortcut, category);
+            onCategoryChanged();
         } else {
             controller.moveShortcut(shortcut, position);
         }
