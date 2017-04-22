@@ -133,14 +133,19 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
 
                 Category category;
                 int currentCategory = viewPager.getCurrentItem();
+                ListFragment currentListFragment = null;
                 if (currentCategory < adapter.getCount()) {
-                    ListFragment currentListFragment = adapter.getItem(currentCategory);
+                    currentListFragment = adapter.getItem(currentCategory);
                     long categoryId = currentListFragment.getCategoryId();
                     category = controller.getCategoryById(categoryId);
                 } else {
                     category = controller.getCategories().first();
                 }
                 controller.moveShortcut(shortcut, category);
+
+                if (currentListFragment != null) {
+                    currentListFragment.onCategoryChanged();
+                }
 
                 selectShortcut(shortcut);
                 break;

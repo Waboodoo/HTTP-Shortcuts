@@ -105,14 +105,18 @@ public class ListFragment extends Fragment {
         onCategoryChanged();
     }
 
-    private void onCategoryChanged() {
+    public void onCategoryChanged() {
         if (controller == null) {
             return;
         }
         category = controller.getCategoryById(categoryId);
 
-        if (category != null && !category.getLayoutType().equals(layoutType)) {
-            layoutType = category.getLayoutType();
+        String newCategoryType = category.getLayoutType();
+        if (category.getShortcuts().isEmpty()) {
+            newCategoryType = Category.LAYOUT_LINEAR_LIST;
+        }
+        if (category != null && !newCategoryType.equals(layoutType)) {
+            layoutType = newCategoryType;
             onLayoutTypeChanged();
         }
     }
@@ -401,6 +405,7 @@ public class ListFragment extends Fragment {
         getTabHost().showSnackbar(String.format(getString(R.string.shortcut_deleted), shortcut.getName()));
         getTabHost().removeShortcutFromHomeScreen(shortcut);
         controller.deleteShortcut(shortcut);
+        onCategoryChanged();
     }
 
     private TabHost getTabHost() {
