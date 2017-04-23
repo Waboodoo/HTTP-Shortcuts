@@ -76,7 +76,9 @@ public class ChangeLogDialog {
 
     private int getVersion() {
         try {
-            return context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
+            return (context.getPackageManager()
+                    .getPackageInfo(context.getPackageName(), 0)
+                    .versionCode / 1000) * 1000;
         } catch (NameNotFoundException e) {
             return 0;
         }
