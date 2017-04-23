@@ -270,7 +270,7 @@ public class EditorActivity extends BaseActivity {
         postParamsContainer.setVisibility(shortcut.allowsBody() ? VISIBLE : GONE);
         authenticationContainer.setVisibility(shortcut.usesAuthentication() ? VISIBLE : GONE);
 
-        launcherShortcutCheckbox.setVisibility(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M ? VISIBLE : GONE);
+        launcherShortcutCheckbox.setVisibility(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N_MR1 ? VISIBLE : GONE);
     }
 
     @Override

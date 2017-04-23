@@ -1,11 +1,11 @@
 package ch.rmy.android.http_shortcuts.utils;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
 import android.graphics.drawable.Icon;
 import android.os.Build;
+import android.support.annotation.RequiresApi;
 
 import com.bugsnag.android.Bugsnag;
 
@@ -21,12 +21,12 @@ public class LauncherShortcutManager {
     private static final String ID_PREFIX = "shortcut_";
 
     public static void updateAppShortcuts(Context context, Collection<Category> categories) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N_MR1) {
             update(context, categories);
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.N_MR1)
+    @RequiresApi(Build.VERSION_CODES.N_MR1)
     private static void update(Context context, Collection<Category> categories) {
         try {
             ShortcutManager shortcutManager = context.getSystemService(ShortcutManager.class);
@@ -46,6 +46,7 @@ public class LauncherShortcutManager {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.N_MR1)
     private static List<ShortcutInfo> createLauncherShortcuts(Context context, Collection<Category> categories, int max) {
         int count = 0;
         List<ShortcutInfo> launcherShortcuts = new ArrayList<>();
@@ -63,7 +64,7 @@ public class LauncherShortcutManager {
         return launcherShortcuts;
     }
 
-    @TargetApi(Build.VERSION_CODES.N_MR1)
+    @RequiresApi(Build.VERSION_CODES.N_MR1)
     private static ShortcutInfo createShortcutInfo(Context context, Shortcut shortcut, int rank) {
         ShortcutInfo.Builder builder = new ShortcutInfo.Builder(context, ID_PREFIX + shortcut.getId())
                 .setShortLabel(shortcut.getName())
