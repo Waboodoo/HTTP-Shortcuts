@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
+import ch.rmy.android.http_shortcuts.utils.UserAgentUtil;
 import okhttp3.Credentials;
 
 class ShortcutRequest extends Request<ShortcutResponse> {
@@ -35,6 +36,7 @@ class ShortcutRequest extends Request<ShortcutResponse> {
         });
         this.deferred = deferred;
         headers.put(HttpHeaders.CONNECTION, "close");
+        headers.put(HttpHeaders.USER_AGENT, UserAgentUtil.getUserAgent());
     }
 
     @Override
