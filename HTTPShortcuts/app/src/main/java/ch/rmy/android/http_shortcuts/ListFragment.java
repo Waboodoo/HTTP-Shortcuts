@@ -126,6 +126,9 @@ public class ListFragment extends Fragment {
             return;
         }
         category.getShortcuts().addChangeListener(shortcutChangeListener);
+        if (shortcutList == null) {
+            return;
+        }
 
         RecyclerView.LayoutManager manager;
         ShortcutAdapter adapter;
@@ -154,7 +157,7 @@ public class ListFragment extends Fragment {
     }
 
     private void onShortcutsChanged(List<Shortcut> shortcuts) {
-        if (shortcutList.getLayoutManager() instanceof GridLayoutManager) {
+        if (shortcutList != null && shortcutList.getLayoutManager() instanceof GridLayoutManager) {
             ((GridLayoutManager) shortcutList.getLayoutManager()).setEmpty(shortcuts.isEmpty());
         }
         LauncherShortcutManager.updateAppShortcuts(getContext(), controller.getCategories());
