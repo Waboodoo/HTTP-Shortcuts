@@ -1,6 +1,8 @@
 # HTTP Shortcuts for Android
 <img src="./HTTPShortcuts/app/src/main/res/drawable-xxxhdpi/ic_launcher.png" align="right" style="margin-left: 1em;"/>
 
+![Version](https://img.shields.io/badge/version-1.16.1-green.svg)
+
 A simple Android app that allows you to create shortcuts that can be placed on your home screen. Each shortcut, when clicked, triggers an HTTP request.
 
 <a href="https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts">
