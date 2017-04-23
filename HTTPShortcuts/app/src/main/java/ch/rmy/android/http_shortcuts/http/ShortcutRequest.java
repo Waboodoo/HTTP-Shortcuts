@@ -39,21 +39,18 @@ class ShortcutRequest extends Request<ShortcutResponse> {
 
     @Override
     public byte[] getBody() throws AuthFailureError {
-        if (bodyContent.isEmpty()) {
-            return super.getBody();
-        } else {
-            byte[] regularBody = super.getBody();
-            byte[] customBody = bodyContent.getBytes();
-            if (regularBody == null) {
-                return customBody;
-            }
-            byte[] mergedBody = new byte[regularBody.length + customBody.length];
-
-            System.arraycopy(regularBody, 0, mergedBody, 0, regularBody.length);
-            System.arraycopy(customBody, 0, mergedBody, regularBody.length, customBody.length);
-
-            return mergedBody;
+        byte[] regularBody = super.getBody();
+        byte[] customBody = bodyContent.getBytes();
+        if (regularBody == null) {
+            return customBody;
         }
+        byte[] mergedBody = new byte[regularBody.length + customBody.length];
+
+        System.arraycopy(regularBody, 0, mergedBody, 0, regularBody.length);
+        System.arraycopy(customBody, 0, mergedBody, regularBody.length, customBody.length);
+
+        return mergedBody;
+
     }
 
     @Override
