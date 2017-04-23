@@ -21,7 +21,6 @@ import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 import ch.rmy.android.http_shortcuts.utils.IntentUtil;
-import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager;
 import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder;
 import ch.rmy.android.http_shortcuts.utils.SelectionMode;
 
@@ -135,20 +134,14 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
 
                 Category category;
                 int currentCategory = viewPager.getCurrentItem();
-                ListFragment currentListFragment = null;
                 if (currentCategory < adapter.getCount()) {
-                    currentListFragment = adapter.getItem(currentCategory);
+                    ListFragment currentListFragment = adapter.getItem(currentCategory);
                     long categoryId = currentListFragment.getCategoryId();
                     category = controller.getCategoryById(categoryId);
                 } else {
                     category = controller.getCategories().first();
                 }
                 controller.moveShortcut(shortcut, category);
-                LauncherShortcutManager.updateAppShortcuts(getContext(), controller.getCategories());
-
-                if (currentListFragment != null) {
-                    currentListFragment.onCategoryChanged();
-                }
 
                 selectShortcut(shortcut);
                 break;

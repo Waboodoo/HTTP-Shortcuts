@@ -1,15 +1,12 @@
 package ch.rmy.android.http_shortcuts;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +32,7 @@ import ch.rmy.android.http_shortcuts.realm.models.Header;
 import ch.rmy.android.http_shortcuts.realm.models.Parameter;
 import ch.rmy.android.http_shortcuts.realm.models.PendingExecution;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
+import ch.rmy.android.http_shortcuts.utils.GridLayoutManager;
 import ch.rmy.android.http_shortcuts.utils.IntentUtil;
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager;
 import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder;
@@ -43,6 +41,8 @@ import ch.rmy.android.http_shortcuts.utils.Settings;
 import ch.rmy.android.http_shortcuts.utils.ShortcutListDecorator;
 import ch.rmy.curlcommand.CurlCommand;
 import ch.rmy.curlcommand.CurlConstructor;
+import io.realm.RealmChangeListener;
+import io.realm.RealmList;
 
 public class ListFragment extends Fragment {
 
@@ -60,6 +60,13 @@ public class ListFragment extends Fragment {
     private List<Category> categories;
 
     private RecyclerView.ItemDecoration listDivider;
+
+    private final RealmChangeListener<RealmList<Shortcut>> shortcutChangeListener = new RealmChangeListener<RealmList<Shortcut>>() {
+        @Override
+        public void onChange(RealmList<Shortcut> shortcuts) {
+            onShortcutsChanged(shortcuts);
+        }
+    };
 
     private final OnItemClickedListener<Shortcut> clickListener = new OnItemClickedListener<Shortcut>() {
         @Override
@@ -107,25 +114,25 @@ public class ListFragment extends Fragment {
         onCategoryChanged();
     }
 
-    public void onCategoryChanged() {
+    private void onCategoryChanged() {
         if (controller == null) {
             return;
+        }
+        if (category != null) {
+            category.getShortcuts().removeChangeListener(shortcutChangeListener);
         }
         category = controller.getCategoryById(categoryId);
         if (category == null) {
             return;
         }
-
-        final String layoutType = category.getShortcuts().isEmpty()
-                ? Category.LAYOUT_LINEAR_LIST
-                : category.getLayoutType();
+        category.getShortcuts().addChangeListener(shortcutChangeListener);
 
         RecyclerView.LayoutManager manager;
         ShortcutAdapter adapter;
-        switch (layoutType) {
+        switch (category.getLayoutType()) {
             case Category.LAYOUT_GRID: {
                 adapter = new ShortcutGridAdapter(getContext());
-                manager = new GridLayoutManager(getContext(), getNumberOfColumns());
+                manager = new GridLayoutManager(getContext());
                 shortcutList.removeItemDecoration(listDivider);
                 break;
             }
@@ -143,12 +150,14 @@ public class ListFragment extends Fragment {
 
         shortcutList.setLayoutManager(manager);
         shortcutList.setAdapter(adapter);
+        onShortcutsChanged(category.getShortcuts());
     }
 
-    public int getNumberOfColumns() {
-        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-        return (int) (dpWidth / 90);
+    private void onShortcutsChanged(List<Shortcut> shortcuts) {
+        if (shortcutList.getLayoutManager() instanceof GridLayoutManager) {
+            ((GridLayoutManager) shortcutList.getLayoutManager()).setEmpty(shortcuts.isEmpty());
+        }
+        LauncherShortcutManager.updateAppShortcuts(getContext(), controller.getCategories());
     }
 
     public long getCategoryId() {
@@ -158,6 +167,9 @@ public class ListFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (category != null) {
+            category.getShortcuts().removeAllChangeListeners();
+        }
         controller.destroy();
     }
 
@@ -299,11 +311,9 @@ public class ListFragment extends Fragment {
         int position = category.getShortcuts().indexOf(shortcut) + offset;
         if (position == category.getShortcuts().size()) {
             controller.moveShortcut(shortcut, category);
-            onCategoryChanged();
         } else {
             controller.moveShortcut(shortcut, position);
         }
-        LauncherShortcutManager.updateAppShortcuts(getContext(), controller.getCategories());
     }
 
     private void showMoveToCategoryDialog(final Shortcut shortcut) {
@@ -333,7 +343,6 @@ public class ListFragment extends Fragment {
     private void moveShortcut(Shortcut shortcut, Category category) {
         controller.moveShortcut(shortcut, category);
         getTabHost().showSnackbar(String.format(getString(R.string.shortcut_moved), shortcut.getName()));
-        LauncherShortcutManager.updateAppShortcuts(getContext(), controller.getCategories());
     }
 
     private void duplicateShortcut(Shortcut shortcut) {
@@ -342,7 +351,6 @@ public class ListFragment extends Fragment {
         controller.moveShortcut(duplicate, category);
         int position = category.getShortcuts().indexOf(shortcut);
         controller.moveShortcut(duplicate, position + 1);
-        LauncherShortcutManager.updateAppShortcuts(getContext(), controller.getCategories());
 
         getTabHost().showSnackbar(String.format(getString(R.string.shortcut_duplicated), shortcut.getName()));
     }
@@ -407,19 +415,10 @@ public class ListFragment extends Fragment {
         getTabHost().showSnackbar(String.format(getString(R.string.shortcut_deleted), shortcut.getName()));
         getTabHost().removeShortcutFromHomeScreen(shortcut);
         controller.deleteShortcut(shortcut);
-        onCategoryChanged();
-        LauncherShortcutManager.updateAppShortcuts(getContext(), controller.getCategories());
     }
 
     private TabHost getTabHost() {
         return (TabHost) getActivity();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_EDIT_SHORTCUT) {
-            LauncherShortcutManager.updateAppShortcuts(getContext(), controller.getCategories());
-        }
     }
 
     interface TabHost {
