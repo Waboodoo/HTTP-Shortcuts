@@ -7,6 +7,8 @@ import android.content.pm.ShortcutManager;
 import android.graphics.drawable.Icon;
 import android.os.Build;
 
+import com.bugsnag.android.Bugsnag;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -26,12 +28,22 @@ public class LauncherShortcutManager {
 
     @TargetApi(Build.VERSION_CODES.N_MR1)
     private static void update(Context context, Collection<Category> categories) {
-        ShortcutManager shortcutManager = context.getSystemService(ShortcutManager.class);
-        int max = shortcutManager.getMaxShortcutCountPerActivity();
+        try {
+            ShortcutManager shortcutManager = context.getSystemService(ShortcutManager.class);
+            int max;
+            try {
+                max = shortcutManager.getMaxShortcutCountPerActivity();
+            } catch (Exception e) {
+                Bugsnag.notify(e);
+                max = 5;
+            }
 
-        List<ShortcutInfo> launcherShortcuts = createLauncherShortcuts(context, categories, max);
+            List<ShortcutInfo> launcherShortcuts = createLauncherShortcuts(context, categories, max);
 
-        shortcutManager.setDynamicShortcuts(launcherShortcuts);
+            shortcutManager.setDynamicShortcuts(launcherShortcuts);
+        } catch(Exception e) {
+            Bugsnag.notify(e);
+        }
     }
 
     private static List<ShortcutInfo> createLauncherShortcuts(Context context, Collection<Category> categories, int max) {
