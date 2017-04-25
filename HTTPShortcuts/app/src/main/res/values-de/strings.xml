@@ -50,7 +50,7 @@
     <string name="dialog_ok">OK</string>
     <string name="dialog_cancel">Abbrechen</string>
     <string name="dialog_remove">Entfernen</string>
-    <string name="label_custom_headers">Request-Header</string>
+    <string name="section_request_headers">Request-Header</string>
     <string name="button_add_custom_header">Header hinzufügen</string>
     <string name="title_custom_header_edit">Header bearbeiten</string>
     <string name="title_custom_header_add">Header hinzufügen</string>

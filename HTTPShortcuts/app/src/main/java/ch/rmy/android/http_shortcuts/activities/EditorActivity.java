@@ -47,6 +47,7 @@ import ch.rmy.android.http_shortcuts.realm.models.Variable;
 import ch.rmy.android.http_shortcuts.utils.ArrayUtil;
 import ch.rmy.android.http_shortcuts.utils.GsonUtil;
 import ch.rmy.android.http_shortcuts.utils.IntentUtil;
+import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager;
 import ch.rmy.android.http_shortcuts.utils.OnItemChosenListener;
 import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils;
 import ch.rmy.android.http_shortcuts.utils.Validation;
@@ -115,6 +116,8 @@ public class EditorActivity extends BaseActivity {
     CheckBox acceptCertificatesCheckbox;
     @Bind(R.id.authentication_container)
     LinearLayout authenticationContainer;
+    @Bind(R.id.section_request_body)
+    LinearLayout requestBodyContainer;
     @Bind(R.id.input_launcher_shortcut)
     CheckBox launcherShortcutCheckbox;
 
@@ -198,12 +201,12 @@ public class EditorActivity extends BaseActivity {
         bindVariableFormatter(customBodyView);
 
         methodView.setItemsArray(Shortcut.METHODS);
-        ViewUtil.hideErrorLabel(methodView);
+        ViewUtil.fixLabelledSpinner(methodView);
         methodView.setOnItemChosenListener(itemChosenListener);
         methodView.setSelection(ArrayUtil.findIndex(Shortcut.METHODS, shortcut.getMethod()));
 
         authenticationView.setItemsArray(ShortcutUIUtils.getAuthenticationOptions(getContext()));
-        ViewUtil.hideErrorLabel(authenticationView);
+        ViewUtil.fixLabelledSpinner(authenticationView);
         authenticationView.setOnItemChosenListener(itemChosenListener);
         authenticationView.setSelection(ArrayUtil.findIndex(Shortcut.AUTHENTICATION_OPTIONS, shortcut.getAuthentication()));
 
@@ -236,15 +239,15 @@ public class EditorActivity extends BaseActivity {
 
         feedbackView.setItemsArray(ShortcutUIUtils.getFeedbackOptions(getContext()));
         feedbackView.setOnItemChosenListener(itemChosenListener);
-        ViewUtil.hideErrorLabel(feedbackView);
+        ViewUtil.fixLabelledSpinner(feedbackView);
         feedbackView.setSelection(ArrayUtil.findIndex(Shortcut.FEEDBACK_OPTIONS, shortcut.getFeedback()));
 
         timeoutView.setItemsArray(ShortcutUIUtils.getTimeoutOptions(getContext()));
-        ViewUtil.hideErrorLabel(timeoutView);
+        ViewUtil.fixLabelledSpinner(timeoutView);
         timeoutView.setSelection(ArrayUtil.findIndex(Shortcut.TIMEOUT_OPTIONS, shortcut.getTimeout()));
 
         retryPolicyView.setItemsArray(ShortcutUIUtils.getRetryPolicyOptions(getContext()));
-        ViewUtil.hideErrorLabel(retryPolicyView);
+        ViewUtil.fixLabelledSpinner(retryPolicyView);
         retryPolicyView.setSelection(ArrayUtil.findIndex(Shortcut.RETRY_POLICY_OPTIONS, shortcut.getRetryPolicy()));
 
         acceptCertificatesCheckbox.setChecked(shortcut.isAcceptAllCertificates());
@@ -268,10 +271,10 @@ public class EditorActivity extends BaseActivity {
     private void updateUI() {
         iconView.setImageURI(shortcut.getIconURI(this), shortcut.getIconName());
         retryPolicyView.setVisibility(shortcut.isRetryAllowed() ? VISIBLE : GONE);
-        postParamsContainer.setVisibility(shortcut.allowsBody() ? VISIBLE : GONE);
+        requestBodyContainer.setVisibility(shortcut.allowsBody() ? VISIBLE : GONE);
         authenticationContainer.setVisibility(shortcut.usesAuthentication() ? VISIBLE : GONE);
 
-        launcherShortcutCheckbox.setVisibility(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N_MR1 ? VISIBLE : GONE);
+        launcherShortcutCheckbox.setVisibility(LauncherShortcutManager.supportsLauncherShortcuts() ? VISIBLE : GONE);
     }
 
     @Override

@@ -63,7 +63,8 @@
     <string name="dialog_ok">OK</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_remove">Remove</string>
-    <string name="label_custom_headers">Request Headers</string>
+    <string name="section_request_headers">Request Headers</string>
+    <string name="section_request_body">Request Body</string>
     <string name="button_add_custom_header">Add header</string>
     <string name="title_custom_header_edit">Edit header</string>
     <string name="title_custom_header_add">Add header</string>
@@ -132,6 +133,7 @@
     <string name="section_advanced_settings">Advanced Settings</string>
     <string name="section_request_details">Request Details</string>
     <string name="section_authentication">Authentication</string>
+    <string name="label_authentication_method">Authentication Method</string>
     <string name="warning_icon_or_name_change">Please note that changes to the name or icon are not
         automatically applied to shortcuts that are already added to the home screen. You will have
         to add them again for the changes to take effect. All other changes are automatically
@@ -139,7 +141,8 @@
     </string>
     <string name="dialog_checkbox_do_not_show_again">Don\'t show again</string>
     <string name="label_certificates">Certificates</string>
-    <string name="label_accept_all_certificates">Accept any certificate (I know what I\'m doing)</string>
+    <string name="label_accept_all_certificates">Accept any certificate (I know what I\'m doing)
+    </string>
     <string name="title_licenses">Acknowledgements</string>
     <string name="settings_licenses">Acknowledgements</string>
     <string name="settings_licenses_summary"><![CDATA[Libraries & resources used]]></string>
@@ -198,7 +201,8 @@
     <string name="button_show_help">Show Help</string>
     <string name="help_title_variables">Variables</string>
     <string name="error_not_enough_toggle_values">Please add at least two values.</string>
-    <string name="error_not_enough_select_values">Please add at least one selectable option.</string>
+    <string name="error_not_enough_select_values">Please add at least one selectable option.
+    </string>
     <string name="share_button">Share</string>
     <string name="share_title">Share…</string>
     <string name="progress_dialog_message">%1$s…</string>

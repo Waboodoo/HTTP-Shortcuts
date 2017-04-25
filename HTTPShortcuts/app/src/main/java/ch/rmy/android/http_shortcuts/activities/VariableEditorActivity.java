@@ -97,7 +97,7 @@ public class VariableEditorActivity extends BaseActivity {
         });
 
         typeSpinner.setItemsArray(Variable.getTypeOptions(this));
-        ViewUtil.hideErrorLabel(typeSpinner);
+        ViewUtil.fixLabelledSpinner(typeSpinner);
         typeSpinner.setSelection(ArrayUtil.findIndex(Variable.TYPE_OPTIONS, variable.getType()));
 
         urlEncode.setChecked(variable.isUrlEncode());

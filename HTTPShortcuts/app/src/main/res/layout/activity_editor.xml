@@ -92,6 +92,12 @@
                 style="@style/SubHeader"
                 android:text="@string/section_basic_request"/>
 
+            <com.satsuware.usefulviews.LabelledSpinner
+                android:id="@+id/input_method"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                ls:labelText="@string/label_method"/>
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -105,17 +111,15 @@
                     android:maxLines="1"/>
             </android.support.design.widget.TextInputLayout>
 
-            <com.satsuware.usefulviews.LabelledSpinner
-                android:id="@+id/input_method"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                ls:labelText="@string/label_method"/>
+            <TextView
+                style="@style/SubHeader"
+                android:text="@string/section_authentication"/>
 
             <com.satsuware.usefulviews.LabelledSpinner
                 android:id="@+id/input_authentication"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                ls:labelText="@string/section_authentication"/>
+                ls:labelText="@string/label_authentication_method"/>
 
             <LinearLayout
                 android:id="@+id/authentication_container"
@@ -153,12 +157,7 @@
 
             <TextView
                 style="@style/SubHeader"
-                android:text="@string/section_request_details"/>
-
-            <TextView
-                android:id="@+id/label_custom_headers"
-                style="@style/Label"
-                android:text="@string/label_custom_headers"/>
+                android:text="@string/section_request_headers"/>
 
             <ch.rmy.android.http_shortcuts.key_value_pairs.KeyValueList
                 android:id="@+id/custom_headers_list"
@@ -166,20 +165,32 @@
                 android:layout_height="wrap_content"/>
 
             <LinearLayout
-                android:id="@+id/post_params_container"
+                android:id="@+id/section_request_body"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/label_post_params"
-                    style="@style/Label"
-                    android:text="@string/label_post_params"/>
+                    style="@style/SubHeader"
+                    android:text="@string/section_request_body"/>
 
-                <ch.rmy.android.http_shortcuts.key_value_pairs.KeyValueList
-                    android:id="@+id/post_parameter_list"
+                <LinearLayout
+                    android:id="@+id/post_params_container"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/label_post_params"
+                        style="@style/Label"
+                        android:text="@string/label_post_params"/>
+
+                    <ch.rmy.android.http_shortcuts.key_value_pairs.KeyValueList
+                        android:id="@+id/post_parameter_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
@@ -213,7 +224,6 @@
             <TextView
                 android:id="@+id/label_certificates"
                 style="@style/Label"
-                android:layout_marginTop="10dp"
                 android:text="@string/label_certificates"/>
 
             <CheckBox

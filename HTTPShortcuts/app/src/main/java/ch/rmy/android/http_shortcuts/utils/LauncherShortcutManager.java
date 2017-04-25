@@ -20,6 +20,10 @@ public class LauncherShortcutManager {
 
     private static final String ID_PREFIX = "shortcut_";
 
+    public static boolean supportsLauncherShortcuts() {
+        return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N_MR1;
+    }
+
     public static void updateAppShortcuts(Context context, Collection<Category> categories) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N_MR1) {
             update(context, categories);
@@ -41,7 +45,7 @@ public class LauncherShortcutManager {
             List<ShortcutInfo> launcherShortcuts = createLauncherShortcuts(context, categories, max);
 
             shortcutManager.setDynamicShortcuts(launcherShortcuts);
-        } catch(Exception e) {
+        } catch (Exception e) {
             Bugsnag.notify(e);
         }
     }

@@ -76,7 +76,7 @@
     <string name="label_custom_body">请求体</string>
     <string name="label_custom_header_key">头部</string>
     <string name="label_custom_header_value">值</string>
-    <string name="label_custom_headers">头部</string>
+    <string name="section_request_headers">头部</string>
     <string name="label_description">描述</string>
     <string name="label_feedback">响应的类型</string>
     <string name="label_json_encode">JSON 编码</string>
