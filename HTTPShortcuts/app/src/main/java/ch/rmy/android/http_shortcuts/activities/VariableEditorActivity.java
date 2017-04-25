@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts;
+package ch.rmy.android.http_shortcuts.activities;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -18,6 +18,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.satsuware.usefulviews.LabelledSpinner;
 
 import butterknife.Bind;
+import ch.rmy.android.http_shortcuts.R;
 import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Variable;
 import ch.rmy.android.http_shortcuts.utils.ArrayUtil;
@@ -33,7 +34,7 @@ import ch.rmy.android.http_shortcuts.variables.types.VariableEditorFragment;
 
 public class VariableEditorActivity extends BaseActivity {
 
-    public final static String EXTRA_VARIABLE_ID = "ch.rmy.android.http_shortcuts.VariableEditorActivity.variable_id";
+    public final static String EXTRA_VARIABLE_ID = "ch.rmy.android.http_shortcuts.activities.VariableEditorActivity.variable_id";
     private static final String STATE_JSON_VARIABLE = "variable_json";
 
     @Bind(R.id.input_variable_type)

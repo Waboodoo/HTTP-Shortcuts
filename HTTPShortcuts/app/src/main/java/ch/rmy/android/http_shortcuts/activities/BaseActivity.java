@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts;
+package ch.rmy.android.http_shortcuts.activities;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
@@ -19,6 +19,7 @@ import android.view.WindowManager;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import ch.rmy.android.http_shortcuts.R;
 import ch.rmy.android.http_shortcuts.utils.Destroyer;
 import ch.rmy.android.http_shortcuts.utils.ThemeHelper;
 

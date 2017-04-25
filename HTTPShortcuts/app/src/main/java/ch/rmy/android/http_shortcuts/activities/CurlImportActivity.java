@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts;
+package ch.rmy.android.http_shortcuts.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import butterknife.Bind;
+import ch.rmy.android.http_shortcuts.R;
 import ch.rmy.android.http_shortcuts.utils.SimpleTextWatcher;
 import ch.rmy.curlcommand.CurlCommand;
 import ch.rmy.curlcommand.CurlParser;

@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts;
+package ch.rmy.android.http_shortcuts.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +21,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import ch.rmy.android.http_shortcuts.R;
 import ch.rmy.android.http_shortcuts.adapters.ShortcutAdapter;
 import ch.rmy.android.http_shortcuts.adapters.ShortcutGridAdapter;
 import ch.rmy.android.http_shortcuts.adapters.ShortcutListAdapter;

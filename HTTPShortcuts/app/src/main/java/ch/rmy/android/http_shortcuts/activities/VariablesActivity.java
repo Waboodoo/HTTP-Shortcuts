@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts;
+package ch.rmy.android.http_shortcuts.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +15,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import butterknife.Bind;
+import ch.rmy.android.http_shortcuts.R;
 import ch.rmy.android.http_shortcuts.adapters.VariableAdapter;
 import ch.rmy.android.http_shortcuts.dialogs.HelpDialogBuilder;
 import ch.rmy.android.http_shortcuts.listeners.OnItemClickedListener;

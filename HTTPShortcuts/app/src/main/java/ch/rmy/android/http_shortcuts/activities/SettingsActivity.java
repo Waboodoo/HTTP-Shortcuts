@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts;
+package ch.rmy.android.http_shortcuts.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -19,6 +19,7 @@ import com.nononsenseapps.filepicker.FilePickerActivity;
 
 import java.io.File;
 
+import ch.rmy.android.http_shortcuts.R;
 import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog;
 import ch.rmy.android.http_shortcuts.import_export.ExportTask;
 import ch.rmy.android.http_shortcuts.import_export.ImportTask;

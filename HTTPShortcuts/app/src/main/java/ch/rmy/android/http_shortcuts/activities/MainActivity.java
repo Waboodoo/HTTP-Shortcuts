@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts;
+package ch.rmy.android.http_shortcuts.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -15,6 +15,7 @@ import android.view.View;
 import java.util.List;
 
 import butterknife.Bind;
+import ch.rmy.android.http_shortcuts.R;
 import ch.rmy.android.http_shortcuts.adapters.CategoryPagerAdapter;
 import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog;
 import ch.rmy.android.http_shortcuts.realm.Controller;

@@ -13,7 +13,7 @@ import com.pavelsikun.vintagechroma.colormode.ColorMode;
 
 import org.jdeferred.Deferred;
 
-import ch.rmy.android.http_shortcuts.BaseActivity;
+import ch.rmy.android.http_shortcuts.activities.BaseActivity;
 import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Variable;
 import ch.rmy.android.http_shortcuts.variables.Showable;

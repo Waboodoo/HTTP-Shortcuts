@@ -7,8 +7,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.rmy.android.http_shortcuts.ListFragment;
 import ch.rmy.android.http_shortcuts.R;
+import ch.rmy.android.http_shortcuts.activities.ListFragment;
 import ch.rmy.android.http_shortcuts.realm.models.Category;
 import ch.rmy.android.http_shortcuts.utils.SelectionMode;
 

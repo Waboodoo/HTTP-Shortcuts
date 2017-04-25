@@ -1,10 +1,12 @@
-package ch.rmy.android.http_shortcuts;
+package ch.rmy.android.http_shortcuts.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import com.mikepenz.aboutlibraries.LibsBuilder;
+
+import ch.rmy.android.http_shortcuts.R;
 
 public class LicensesActivity extends BaseActivity {
 

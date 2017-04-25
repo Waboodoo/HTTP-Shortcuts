@@ -17,7 +17,7 @@
         android:label="@string/app_name"
         android:theme="@style/LightTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -28,60 +28,60 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".EditorActivity"
+            android:name=".activities.EditorActivity"
             android:label="@string/edit_shortcut"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".activities.MainActivity"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
+                android:value=".activities.MainActivity"/>
         </activity>
         <activity
-            android:name=".CategoriesActivity"
+            android:name=".activities.CategoriesActivity"
             android:label="@string/title_categories"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".activities.MainActivity"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
+                android:value=".activities.MainActivity"/>
         </activity>
         <activity
-            android:name=".CurlImportActivity"
+            android:name=".activities.CurlImportActivity"
             android:label="@string/title_curl_import"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".activities.MainActivity"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
+                android:value=".activities.MainActivity"/>
         </activity>
         <activity
-            android:name=".VariablesActivity"
+            android:name=".activities.VariablesActivity"
             android:label="@string/title_variables"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".activities.MainActivity"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
+                android:value=".activities.MainActivity"/>
         </activity>
         <activity
-            android:name=".VariableEditorActivity"
+            android:name=".activities.VariableEditorActivity"
             android:label="@string/edit_variable"
-            android:parentActivityName=".VariablesActivity"
+            android:parentActivityName=".activities.VariablesActivity"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".VariablesActivity"/>
+                android:value=".activities.VariablesActivity"/>
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name=".activities.SettingsActivity"
             android:label="@string/settings"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
+                android:value=".activities.MainActivity"/>
         </activity>
         <activity
-            android:name=".ExecuteActivity"
+            android:name=".activities.ExecuteActivity"
             android:configChanges="orientation|screenSize"
             android:excludeFromRecents="true"
             android:label="@string/title_activity_execute"
@@ -93,11 +93,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LicensesActivity"
+            android:name=".activities.LicensesActivity"
             android:label="@string/title_licenses"/>
 
         <activity
-            android:name=".ShareActivity"
+            android:name=".activities.ShareActivity"
             android:configChanges="orientation|screenSize"
             android:excludeFromRecents="true"
             android:label="@string/action_send_to"
@@ -118,7 +118,7 @@
 
         <!-- EXPERIMENTAL -->
         <activity
-            android:name=".VoiceActivity"
+            android:name=".activities.VoiceActivity"
             android:configChanges="orientation|screenSize"
             android:excludeFromRecents="true"
             android:label="@string/title_activity_execute"

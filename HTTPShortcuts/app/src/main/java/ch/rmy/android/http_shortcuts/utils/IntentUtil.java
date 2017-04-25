@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import ch.rmy.android.http_shortcuts.ExecuteActivity;
+import ch.rmy.android.http_shortcuts.activities.ExecuteActivity;
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut;
 
 public class IntentUtil {

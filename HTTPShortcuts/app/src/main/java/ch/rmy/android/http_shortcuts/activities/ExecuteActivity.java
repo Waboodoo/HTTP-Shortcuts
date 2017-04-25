@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts;
+package ch.rmy.android.http_shortcuts.activities;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
+import ch.rmy.android.http_shortcuts.R;
 import ch.rmy.android.http_shortcuts.http.HttpRequester;
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse;
 import ch.rmy.android.http_shortcuts.realm.Controller;

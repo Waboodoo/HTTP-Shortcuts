@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts;
+package ch.rmy.android.http_shortcuts.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
+import ch.rmy.android.http_shortcuts.R;
 import ch.rmy.android.http_shortcuts.dialogs.IconNameChangeDialog;
 import ch.rmy.android.http_shortcuts.icons.IconSelector;
 import ch.rmy.android.http_shortcuts.icons.IconView;
@@ -65,8 +66,8 @@ import static ch.rmy.android.http_shortcuts.realm.models.Shortcut.TEMPORARY_ID;
 @SuppressLint("InflateParams")
 public class EditorActivity extends BaseActivity {
 
-    public static final String EXTRA_SHORTCUT_ID = "ch.rmy.android.http_shortcuts.EditorActivity.shortcut_id";
-    public static final String EXTRA_CURL_COMMAND = "ch.rmy.android.http_shortcuts.EditorActivity.curl_command";
+    public static final String EXTRA_SHORTCUT_ID = "ch.rmy.android.http_shortcuts.activities.EditorActivity.shortcut_id";
+    public static final String EXTRA_CURL_COMMAND = "ch.rmy.android.http_shortcuts.activities.EditorActivity.curl_command";
 
     private final static int SELECT_ICON = 1;
     private final static int SELECT_IPACK_ICON = 3;

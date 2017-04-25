@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
 import ch.rmy.android.http_shortcuts.R;
-import ch.rmy.android.http_shortcuts.VariableEditorActivity;
+import ch.rmy.android.http_shortcuts.activities.VariableEditorActivity;
 import ch.rmy.android.http_shortcuts.realm.models.Variable;
 
 public class VariableEditorFragment extends Fragment {

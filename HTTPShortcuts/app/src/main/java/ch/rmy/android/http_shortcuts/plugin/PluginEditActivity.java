@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 
 import com.twofortyfouram.locale.sdk.client.ui.activity.AbstractFragmentPluginActivity;
 
-import ch.rmy.android.http_shortcuts.MainActivity;
+import ch.rmy.android.http_shortcuts.activities.MainActivity;
 
 public class PluginEditActivity extends AbstractFragmentPluginActivity {
 
