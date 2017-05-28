@@ -353,8 +353,17 @@ public class ListFragment extends Fragment {
         String newName = String.format(getString(R.string.copy), shortcut.getName());
         Shortcut duplicate = controller.persist(shortcut.duplicate(newName));
         controller.moveShortcut(duplicate, category);
-        int position = category.getShortcuts().indexOf(shortcut);
-        controller.moveShortcut(duplicate, position + 1);
+
+        int position = category.getShortcuts().size();
+        int i = 0;
+        for (Shortcut s : category.getShortcuts()) {
+            if (s.getId() == shortcut.getId()) {
+                position = i+1;
+                break;
+            }
+            i++;
+        }
+        controller.moveShortcut(duplicate, position);
 
         getTabHost().showSnackbar(String.format(getString(R.string.shortcut_duplicated), shortcut.getName()));
     }

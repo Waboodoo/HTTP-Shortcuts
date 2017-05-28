@@ -155,7 +155,15 @@ public class Controller implements Destroyable {
             @Override
             public void execute(Realm realm) {
                 for (Category category : getCategories()) {
-                    int oldPosition = category.getShortcuts().indexOf(shortcut);
+                    int oldPosition = -1;
+                    int i = 0;
+                    for (Shortcut s : category.getShortcuts()) {
+                        if (s.getId() == shortcut.getId()) {
+                            oldPosition = i;
+                            break;
+                        }
+                        i++;
+                    }
                     if (oldPosition != -1) {
                         category.getShortcuts().move(oldPosition, position);
                     } else {
@@ -171,7 +179,15 @@ public class Controller implements Destroyable {
             @Override
             public void execute(Realm realm) {
                 for (Category category : getCategories()) {
-                    category.getShortcuts().remove(shortcut);
+                    if (category.getId() == targetCategory.getId()) {
+                        for (Shortcut s : category.getShortcuts()) {
+                            if (s.getId() == shortcut.getId()) {
+                                return;
+                            }
+                        }
+                    } else {
+                        category.getShortcuts().remove(shortcut);
+                    }
                 }
                 targetCategory.getShortcuts().add(shortcut);
             }
