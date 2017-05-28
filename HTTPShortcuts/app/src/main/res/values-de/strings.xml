@@ -181,7 +181,7 @@
     <string name="error_not_suitable_shortcuts">Keine verwendbaren Shortcuts gefunden.\n\nUm dieses Feature zu verwenden muss mindestens ein Shortcut vorhanden sein der eine Variable verwendet welche \'Teilen …\' erlaubt.\n\nKonsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informationen.</string>
     <string name="error_sharing_feature_not_available_yet">Sorry, aber das teilen von Text-Dateien wird derzeit noch nicht unterstützt. Das teilen von Text-Fragmenten ist jedoch bereits möglich. Konsultiere dazu die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informationen.\n\nDanke für dein Verständnis.</string>
     <string name="label_allow_share_into">\'Teilen …\' erlauben</string>
-    <string name="section_request_details">Request Details</string>
+    <string name="section_request_details">Request-Details</string>
     <string name="settings_theme">Theme</string>
     <string name="theme_blue">Blau</string>
     <string name="theme_green">Grün</string>
@@ -204,11 +204,13 @@
     <string name="action_curl_export">cURL-Export</string>
     <string name="action_move">Verschieben</string>
     <string name="action_change_category_layout_type">Layouttyp ändern</string>
-    <string name="layout_type_grid">Gitter</string>
+    <string name="layout_type_grid">Raster</string>
     <string name="layout_type_linear_list">Liste</string>
     <string name="message_layout_type_changed">Layouttyp geändert</string>
     <string name="authentication_basic">Basic Authentication</string>
     <string name="authentication_digest">Digest Authentication</string>
     <string name="authentication_none">Keine Authentifizierung</string>
     <string name="label_launcher_shortcut">Als App-Shortcut auf Launcher anzeigen</string>
+    <string name="label_authentication_method">Authentifizierungsart</string>
+    <string name="section_request_body">Request-Body</string>
 </resources>
