@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.realm;
 
 import android.text.TextUtils;
 
+import ch.rmy.android.http_shortcuts.utils.UUIDUtils;
 import io.realm.DynamicRealm;
 import io.realm.DynamicRealmObject;
 import io.realm.RealmList;
@@ -12,7 +13,7 @@ import io.realm.RealmSchema;
 
 public class DatabaseMigration implements RealmMigration {
 
-    public static final int VERSION = 8;
+    public static final int VERSION = 9;
 
     @Override
     public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
@@ -86,8 +87,29 @@ public class DatabaseMigration implements RealmMigration {
                 schema.get("Base").addField("version", long.class);
                 break;
             }
-            case 8: { // 1.17.0
+            case 8: { // 1.16.1
                 schema.get("Shortcut").addField("launcherShortcut", boolean.class);
+                break;
+            }
+            case 9: { // 1.16.2
+                schema.get("Parameter").addField("id", String.class);
+                schema.get("Header").addField("id", String.class);
+                schema.get("Option").addField("id", String.class);
+                RealmResults<DynamicRealmObject> parameters = realm.where("Parameter").findAll();
+                for (DynamicRealmObject parameter : parameters) {
+                    parameter.setString("id", UUIDUtils.create());
+                }
+                RealmResults<DynamicRealmObject> headers = realm.where("Header").findAll();
+                for (DynamicRealmObject header : headers) {
+                    header.setString("id", UUIDUtils.create());
+                }
+                RealmResults<DynamicRealmObject> options = realm.where("Option").findAll();
+                for (DynamicRealmObject option : options) {
+                    option.setString("id", UUIDUtils.create());
+                }
+                schema.get("Parameter").addPrimaryKey("id");
+                schema.get("Header").addPrimaryKey("id");
+                schema.get("Option").addPrimaryKey("id");
                 break;
             }
 

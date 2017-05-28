@@ -103,9 +103,7 @@ public class SelectEditorFragment extends VariableEditorFragment {
     }
 
     private void addNewOption(String label, String value) {
-        Option option = new Option();
-        option.setLabel(label);
-        option.setValue(value);
+        Option option = Option.createNew(label, value);
         variable.getOptions().add(option);
         updateViews(variable);
     }

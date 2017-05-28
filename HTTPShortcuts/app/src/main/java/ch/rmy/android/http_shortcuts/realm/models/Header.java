@@ -1,7 +1,9 @@
 package ch.rmy.android.http_shortcuts.realm.models;
 
 import ch.rmy.android.http_shortcuts.key_value_pairs.KeyValuePair;
+import ch.rmy.android.http_shortcuts.utils.UUIDUtils;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
 public class Header extends RealmObject implements KeyValuePair {
@@ -42,10 +44,21 @@ public class Header extends RealmObject implements KeyValuePair {
             "Warning"
     };
 
+    @PrimaryKey
+    private String id;
+
     @Required
     private String key;
     @Required
     private String value;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getKey() {
         return key;
@@ -65,6 +78,7 @@ public class Header extends RealmObject implements KeyValuePair {
 
     public static Header createNew(String key, String value) {
         Header header = new Header();
+        header.setId(UUIDUtils.create());
         header.setKey(key);
         header.setValue(value);
         return header;
@@ -78,6 +92,7 @@ public class Header extends RealmObject implements KeyValuePair {
         Header header = (Header) o;
 
         if (!getKey().equals(header.getKey())) return false;
+        if (!getId().equals(header.getId())) return false;
         return getValue().equals(header.getValue());
 
     }
@@ -86,6 +101,7 @@ public class Header extends RealmObject implements KeyValuePair {
     public int hashCode() {
         int result = getKey().hashCode();
         result = 31 * result + getValue().hashCode();
+        result = 31 * result + getId().hashCode();
         return result;
     }
 
