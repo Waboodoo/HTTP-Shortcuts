@@ -158,6 +158,20 @@
             </intent-filter>
         </receiver>
 
+        <activity-alias
+            android:name=".ExecuteActivity"
+            android:targetActivity=".activities.ExecuteActivity"
+            android:configChanges="orientation|screenSize"
+            android:excludeFromRecents="true"
+            android:label="@string/title_activity_execute"
+            android:launchMode="singleInstance"
+            android:noHistory="true"
+            android:theme="@style/Theme.Transparent">
+            <intent-filter>
+                <action android:name="ch.rmy.android.http_shortcuts.execute"/>
+            </intent-filter>
+        </activity-alias>
+
     </application>
 
 </manifest>
