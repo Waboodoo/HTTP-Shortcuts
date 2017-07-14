@@ -2,13 +2,13 @@ package ch.rmy.android.http_shortcuts.icons;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
 import ch.rmy.android.http_shortcuts.R;
-import ch.rmy.android.http_shortcuts.utils.ViewUtil;
+import ch.rmy.android.http_shortcuts.utils.UIUtil;
 
-public class IconView extends ImageView {
+public class IconView extends AppCompatImageView {
 
     private String iconName;
 
@@ -35,7 +35,7 @@ public class IconView extends ImageView {
         if (requiresBackground()) {
             setBackgroundResource(R.drawable.icon_background);
         } else {
-            ViewUtil.clearBackground(this);
+            UIUtil.clearBackground(this);
         }
     }
 

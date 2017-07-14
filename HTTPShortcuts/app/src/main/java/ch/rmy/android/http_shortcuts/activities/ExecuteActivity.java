@@ -82,19 +82,19 @@ public class ExecuteActivity extends BaseActivity {
             setContentView(R.layout.activity_execute);
         }
 
-        Promise promise = resolveVariablesAndExecute(variableValues);
+        Promise<ResolvedVariables, Void, Void> promise = resolveVariablesAndExecute(variableValues);
 
         if (promise.isPending()) {
-            promise.done(new DoneCallback() {
+            promise.done(new DoneCallback<ResolvedVariables>() {
                 @Override
-                public void onDone(Object result) {
+                public void onDone(ResolvedVariables result) {
                     if (!shortcut.feedbackUsesUI()) {
                         finishWithoutAnimation();
                     }
                 }
-            }).fail(new FailCallback() {
+            }).fail(new FailCallback<Void>() {
                 @Override
-                public void onFail(Object result) {
+                public void onFail(Void result) {
                     finishWithoutAnimation();
                 }
             });
@@ -105,7 +105,7 @@ public class ExecuteActivity extends BaseActivity {
         }
     }
 
-    public Promise resolveVariablesAndExecute(Map<String, String> variableValues) {
+    public Promise<ResolvedVariables, Void, Void> resolveVariablesAndExecute(Map<String, String> variableValues) {
         List<Variable> variables = controller.getVariables();
         return new VariableResolver(this)
                 .resolve(shortcut, variables, variableValues)

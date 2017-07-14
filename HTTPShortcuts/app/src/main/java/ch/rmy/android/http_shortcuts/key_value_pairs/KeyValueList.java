@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.key_value_pairs;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.util.AttributeSet;
 import android.view.View;
@@ -106,7 +107,7 @@ public class KeyValueList<T extends KeyValuePair> extends FrameLayout implements
                 .positiveText(R.string.dialog_ok)
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
-                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         EditText keyField = (EditText) dialog.findViewById(R.id.key_value_key);
                         EditText valueField = (EditText) dialog.findViewById(R.id.key_value_value);
                         if (!keyField.getText().toString().isEmpty()) {
@@ -126,7 +127,7 @@ public class KeyValueList<T extends KeyValuePair> extends FrameLayout implements
             builder.neutralText(R.string.dialog_remove)
                     .onNeutral(new MaterialDialog.SingleButtonCallback() {
                         @Override
-                        public void onClick(MaterialDialog dialog, DialogAction which) {
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                             adapter.remove(item);
                             updateListViewHeightBasedOnChildren();
                         }
@@ -164,7 +165,7 @@ public class KeyValueList<T extends KeyValuePair> extends FrameLayout implements
     }
 
     public List<T> getItems() {
-        List<T> list = new ArrayList<T>();
+        List<T> list = new ArrayList<>();
         for (int i = 0; i < adapter.getCount(); i++) {
             list.add(adapter.getItem(i));
         }

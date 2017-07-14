@@ -52,6 +52,7 @@ public class Parameter extends RealmObject implements KeyValuePair {
         return parameter;
     }
 
+    @SuppressWarnings("SimplifiableIfStatement")
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

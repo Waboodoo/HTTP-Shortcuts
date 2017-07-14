@@ -50,8 +50,8 @@ import ch.rmy.android.http_shortcuts.utils.IntentUtil;
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager;
 import ch.rmy.android.http_shortcuts.utils.OnItemChosenListener;
 import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils;
+import ch.rmy.android.http_shortcuts.utils.UIUtil;
 import ch.rmy.android.http_shortcuts.utils.Validation;
-import ch.rmy.android.http_shortcuts.utils.ViewUtil;
 import ch.rmy.android.http_shortcuts.variables.VariableFormatter;
 import ch.rmy.curlcommand.CurlCommand;
 
@@ -201,12 +201,12 @@ public class EditorActivity extends BaseActivity {
         bindVariableFormatter(customBodyView);
 
         methodView.setItemsArray(Shortcut.METHODS);
-        ViewUtil.fixLabelledSpinner(methodView);
+        UIUtil.fixLabelledSpinner(methodView);
         methodView.setOnItemChosenListener(itemChosenListener);
         methodView.setSelection(ArrayUtil.findIndex(Shortcut.METHODS, shortcut.getMethod()));
 
         authenticationView.setItemsArray(ShortcutUIUtils.getAuthenticationOptions(getContext()));
-        ViewUtil.fixLabelledSpinner(authenticationView);
+        UIUtil.fixLabelledSpinner(authenticationView);
         authenticationView.setOnItemChosenListener(itemChosenListener);
         authenticationView.setSelection(ArrayUtil.findIndex(Shortcut.AUTHENTICATION_OPTIONS, shortcut.getAuthentication()));
 
@@ -239,15 +239,15 @@ public class EditorActivity extends BaseActivity {
 
         feedbackView.setItemsArray(ShortcutUIUtils.getFeedbackOptions(getContext()));
         feedbackView.setOnItemChosenListener(itemChosenListener);
-        ViewUtil.fixLabelledSpinner(feedbackView);
+        UIUtil.fixLabelledSpinner(feedbackView);
         feedbackView.setSelection(ArrayUtil.findIndex(Shortcut.FEEDBACK_OPTIONS, shortcut.getFeedback()));
 
         timeoutView.setItemsArray(ShortcutUIUtils.getTimeoutOptions(getContext()));
-        ViewUtil.fixLabelledSpinner(timeoutView);
+        UIUtil.fixLabelledSpinner(timeoutView);
         timeoutView.setSelection(ArrayUtil.findIndex(Shortcut.TIMEOUT_OPTIONS, shortcut.getTimeout()));
 
         retryPolicyView.setItemsArray(ShortcutUIUtils.getRetryPolicyOptions(getContext()));
-        ViewUtil.fixLabelledSpinner(retryPolicyView);
+        UIUtil.fixLabelledSpinner(retryPolicyView);
         retryPolicyView.setSelection(ArrayUtil.findIndex(Shortcut.RETRY_POLICY_OPTIONS, shortcut.getRetryPolicy()));
 
         acceptCertificatesCheckbox.setChecked(shortcut.isAcceptAllCertificates());
@@ -333,12 +333,12 @@ public class EditorActivity extends BaseActivity {
     private boolean validate(boolean testOnly) {
         if (!testOnly && Validation.isEmpty(shortcut.getName())) {
             nameView.setError(getString(R.string.validation_name_not_empty));
-            ViewUtil.focus(nameView);
+            UIUtil.focus(nameView);
             return false;
         }
         if (!Validation.isAcceptableUrl(shortcut.getUrl())) {
             urlView.setError(getString(R.string.validation_url_invalid));
-            ViewUtil.focus(urlView);
+            UIUtil.focus(urlView);
             return false;
         }
         return true;

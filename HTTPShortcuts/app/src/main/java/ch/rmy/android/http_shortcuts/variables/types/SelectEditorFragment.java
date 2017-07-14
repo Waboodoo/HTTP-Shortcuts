@@ -93,7 +93,7 @@ public class SelectEditorFragment extends VariableEditorFragment {
                     .neutralText(R.string.dialog_remove)
                     .onNeutral(new MaterialDialog.SingleButtonCallback() {
                         @Override
-                        public void onClick(MaterialDialog dialog, DialogAction which) {
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                             removeOption(index);
                         }
                     });

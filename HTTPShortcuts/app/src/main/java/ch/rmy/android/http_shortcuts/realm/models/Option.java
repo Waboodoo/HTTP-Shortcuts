@@ -44,6 +44,7 @@ public class Option extends RealmObject {
         return option;
     }
 
+    @SuppressWarnings("SimplifiableIfStatement")
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

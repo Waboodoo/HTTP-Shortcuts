@@ -275,6 +275,9 @@ public class ListFragment extends Fragment {
     }
 
     private boolean canMoveShortcut(Shortcut shortcut, int offset) {
+        if (category == null) {
+            return false;
+        }
         int position = category.getShortcuts().indexOf(shortcut) + offset;
         return position >= 0 && position < category.getShortcuts().size();
     }
@@ -309,7 +312,7 @@ public class ListFragment extends Fragment {
     }
 
     private void moveShortcut(Shortcut shortcut, int offset) {
-        if (!canMoveShortcut(shortcut, offset)) {
+        if (!canMoveShortcut(shortcut, offset) || category == null) {
             return;
         }
         int position = category.getShortcuts().indexOf(shortcut) + offset;
@@ -321,6 +324,9 @@ public class ListFragment extends Fragment {
     }
 
     private void showMoveToCategoryDialog(final Shortcut shortcut) {
+        if (this.category == null) {
+            return;
+        }
         List<CharSequence> categoryNames = new ArrayList<>();
         final List<Category> categories = new ArrayList<>();
         for (Category category : this.categories) {
@@ -350,6 +356,9 @@ public class ListFragment extends Fragment {
     }
 
     private void duplicateShortcut(Shortcut shortcut) {
+        if (category == null) {
+            return;
+        }
         String newName = String.format(getString(R.string.copy), shortcut.getName());
         Shortcut duplicate = controller.persist(shortcut.duplicate(newName));
         controller.moveShortcut(duplicate, category);

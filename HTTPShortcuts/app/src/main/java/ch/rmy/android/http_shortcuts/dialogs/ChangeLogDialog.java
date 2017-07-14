@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts.dialogs;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -16,6 +15,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import ch.rmy.android.http_shortcuts.R;
+import ch.rmy.android.http_shortcuts.utils.HTMLUtil;
 import ch.rmy.android.http_shortcuts.utils.Settings;
 
 public class ChangeLogDialog {
@@ -61,7 +61,7 @@ public class ChangeLogDialog {
                 .title(whatsNew ? R.string.changelog_title_whats_new : R.string.changelog_title)
                 .positiveText(android.R.string.ok)
                 .show();
-        text.setText(Html.fromHtml(context.getString(R.string.changelog_text)));
+        text.setText(HTMLUtil.getHTML(context, R.string.changelog_text));
 
         showAtStartupCheckbox.setChecked(!isPermanentlyHidden());
         showAtStartupCheckbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {

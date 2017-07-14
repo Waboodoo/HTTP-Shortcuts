@@ -81,7 +81,7 @@ dependencies {
     compile 'com.twofortyfouram:android-plugin-client-sdk-for-locale:[4.0.2, 5.0['
     compile 'com.google.code.gson:gson:2.7'
     /* Crash Reporting */
-    compile 'com.bugsnag:bugsnag-android:3.+'
+    compile 'com.bugsnag:bugsnag-android:3.4.0'
 }
 
 apply plugin: 'realm-android'

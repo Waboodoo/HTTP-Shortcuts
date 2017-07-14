@@ -84,6 +84,7 @@ public class Header extends RealmObject implements KeyValuePair {
         return header;
     }
 
+    @SuppressWarnings("SimplifiableIfStatement")
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

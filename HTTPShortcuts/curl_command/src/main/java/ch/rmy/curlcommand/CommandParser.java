@@ -21,7 +21,7 @@ class CommandParser {
         boolean flush = false;
         StringBuilder builder = new StringBuilder();
 
-        String previousToken = "";
+        String previousToken;
         String currentToken = "";
         while (tokenizer.hasMoreTokens()) {
             previousToken = currentToken;

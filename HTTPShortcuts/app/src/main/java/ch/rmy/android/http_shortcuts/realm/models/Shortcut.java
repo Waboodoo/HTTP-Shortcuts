@@ -313,6 +313,7 @@ public class Shortcut extends RealmObject implements HasId {
         return name;
     }
 
+    @SuppressWarnings("SimplifiableIfStatement")
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

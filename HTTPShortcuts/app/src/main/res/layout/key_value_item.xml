@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_weight=".5"
         android:ellipsize="end"
-        android:singleLine="true"
+        android:maxLines="1"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold"/>
 
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_weight=".5"
         android:ellipsize="end"
-        android:singleLine="true"
+        android:maxLines="1"
         android:textAppearance="?android:attr/textAppearanceMedium"
         />
 

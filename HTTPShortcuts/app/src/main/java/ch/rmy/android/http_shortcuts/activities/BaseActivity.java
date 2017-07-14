@@ -22,6 +22,7 @@ import butterknife.ButterKnife;
 import ch.rmy.android.http_shortcuts.R;
 import ch.rmy.android.http_shortcuts.utils.Destroyer;
 import ch.rmy.android.http_shortcuts.utils.ThemeHelper;
+import ch.rmy.android.http_shortcuts.utils.UIUtil;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -64,9 +65,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            Drawable upArrow = getResources().getDrawable(iconResource);
+            Drawable upArrow = UIUtil.getDrawable(getContext(), iconResource);
             if (upArrow != null) {
-                upArrow.setColorFilter(getResources().getColor(android.R.color.white), PorterDuff.Mode.SRC_ATOP);
+                upArrow.setColorFilter(UIUtil.getColor(getContext(), android.R.color.white), PorterDuff.Mode.SRC_ATOP);
                 actionBar.setHomeAsUpIndicator(upArrow);
             }
         }

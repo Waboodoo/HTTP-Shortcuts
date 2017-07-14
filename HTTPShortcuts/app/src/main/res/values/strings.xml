@@ -131,7 +131,6 @@
     <string name="section_basic_request">Basic Request Settings</string>
     <string name="section_response">Response Settings</string>
     <string name="section_advanced_settings">Advanced Settings</string>
-    <string name="section_request_details">Request Details</string>
     <string name="section_authentication">Authentication</string>
     <string name="label_authentication_method">Authentication Method</string>
     <string name="warning_icon_or_name_change">Please note that changes to the name or icon are not
@@ -154,6 +153,7 @@
     <string name="layout_type_grid">Grid</string>
     <string name="title_rename_category">Rename Category</string>
     <string name="placeholder_category_name">Enter Category Name…</string>
+    <string name="placeholder_value">Value</string>
     <string name="title_create_category">Create Category</string>
     <string name="confirm_delete_category_message">Delete this category?\n\nAll shortcuts contained
         within will be deleted.

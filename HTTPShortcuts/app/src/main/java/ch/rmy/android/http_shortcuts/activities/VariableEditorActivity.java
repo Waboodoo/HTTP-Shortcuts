@@ -25,7 +25,7 @@ import ch.rmy.android.http_shortcuts.utils.ArrayUtil;
 import ch.rmy.android.http_shortcuts.utils.GsonUtil;
 import ch.rmy.android.http_shortcuts.utils.OnItemChosenListener;
 import ch.rmy.android.http_shortcuts.utils.SimpleTextWatcher;
-import ch.rmy.android.http_shortcuts.utils.ViewUtil;
+import ch.rmy.android.http_shortcuts.utils.UIUtil;
 import ch.rmy.android.http_shortcuts.variables.Variables;
 import ch.rmy.android.http_shortcuts.variables.types.AsyncVariableType;
 import ch.rmy.android.http_shortcuts.variables.types.BaseVariableType;
@@ -97,7 +97,7 @@ public class VariableEditorActivity extends BaseActivity {
         });
 
         typeSpinner.setItemsArray(Variable.getTypeOptions(this));
-        ViewUtil.fixLabelledSpinner(typeSpinner);
+        UIUtil.fixLabelledSpinner(typeSpinner);
         typeSpinner.setSelection(ArrayUtil.findIndex(Variable.TYPE_OPTIONS, variable.getType()));
 
         urlEncode.setChecked(variable.isUrlEncode());
@@ -219,13 +219,13 @@ public class VariableEditorActivity extends BaseActivity {
     private boolean validate() {
         if (variable.getKey().isEmpty()) {
             keyView.setError(getString(R.string.validation_key_non_empty));
-            ViewUtil.focus(keyView);
+            UIUtil.focus(keyView);
             return false;
         }
         Variable otherVariable = controller.getVariableByKey(variable.getKey());
         if (otherVariable != null && otherVariable.getId() != variable.getId()) {
             keyView.setError(getString(R.string.validation_key_already_exists));
-            ViewUtil.focus(keyView);
+            UIUtil.focus(keyView);
             return false;
         }
         return fragment == null || fragment.validate();

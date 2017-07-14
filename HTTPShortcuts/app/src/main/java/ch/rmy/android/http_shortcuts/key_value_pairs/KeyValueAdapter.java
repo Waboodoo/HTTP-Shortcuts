@@ -26,11 +26,13 @@ class KeyValueAdapter<T extends KeyValuePair> extends ArrayAdapter<T> {
             rowView = inflater.inflate(R.layout.key_value_item, parent, false);
         }
 
-        TextView keyView = (TextView) rowView.findViewById(R.id.text_key);
-        keyView.setText(parameter.getKey());
+        if (parameter != null) {
+            TextView keyView = (TextView) rowView.findViewById(R.id.text_key);
+            keyView.setText(parameter.getKey());
 
-        TextView valueView = (TextView) rowView.findViewById(R.id.text_value);
-        valueView.setText("= " + parameter.getValue());
+            TextView valueView = (TextView) rowView.findViewById(R.id.text_value);
+            valueView.setText(parameter.getValue());
+        }
         return rowView;
     }
 

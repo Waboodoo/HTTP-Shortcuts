@@ -8,7 +8,7 @@
         android:id="@+id/input_variable_value"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Value"
+        android:hint="@string/placeholder_value"
         android:maxLength="300">
 
     </EditText>

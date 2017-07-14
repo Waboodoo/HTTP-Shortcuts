@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/label_select_label"
             android:inputType="text"
-            android:singleLine="true">
+            android:maxLines="1">
 
             <requestFocus/>
         </EditText>
@@ -31,6 +31,6 @@
             android:layout_height="wrap_content"
             android:hint="@string/label_select_value"
             android:inputType="text"
-            android:singleLine="true"/>
+            android:maxLines="1"/>
     </android.support.design.widget.TextInputLayout>
 </LinearLayout>

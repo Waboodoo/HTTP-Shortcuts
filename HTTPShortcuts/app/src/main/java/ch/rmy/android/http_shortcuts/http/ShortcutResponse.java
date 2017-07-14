@@ -13,12 +13,10 @@ public class ShortcutResponse {
 
     private static final String HEADER_CONTENT_TYPE = "Content-Type";
 
-    private final int statusCode;
     private final Map<String, String> headers;
     private final byte[] data;
 
-    ShortcutResponse(int statusCode, Map<String, String> headers, byte[] data) {
-        this.statusCode = statusCode;
+    ShortcutResponse(Map<String, String> headers, byte[] data) {
         this.headers = headers;
         this.data = data;
     }

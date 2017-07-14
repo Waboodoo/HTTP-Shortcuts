@@ -32,7 +32,6 @@ public class VariablesActivity extends BaseActivity {
     FloatingActionButton createButton;
 
     private Controller controller;
-    private VariableAdapter adapter;
 
     private OnItemClickedListener<Variable> clickedListener = new OnItemClickedListener<Variable>() {
         @Override
@@ -53,7 +52,7 @@ public class VariablesActivity extends BaseActivity {
 
         controller = destroyer.own(new Controller());
 
-        adapter = destroyer.own(new VariableAdapter(this));
+        VariableAdapter adapter = destroyer.own(new VariableAdapter(this));
         adapter.setItems(controller.getBase().getVariables());
 
         LinearLayoutManager manager = new LinearLayoutManager(this);

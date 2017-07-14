@@ -22,6 +22,5 @@
     <item name="primary_dark_alt6" type="color">#FF283593</item>
 
     <item name="transparent" type="color">#00000000</item>
-    <item name="secondary_grey" type="color">#FF757575</item>
     <item name="divider" type="color">#FFE0E0E0</item>
 </resources>

@@ -45,6 +45,7 @@ import okhttp3.ResponseBody;
 /**
  * {@link HttpStack HttpStack} backed by OkHttp 3.
  */
+@SuppressWarnings("ALL")
 public final class OkHttpStack implements HttpStack {
     private final OkHttpClient client;
 

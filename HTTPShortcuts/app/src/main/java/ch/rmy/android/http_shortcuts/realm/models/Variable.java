@@ -181,6 +181,7 @@ public class Variable extends RealmObject implements HasId {
         return !isRememberValue() && (TYPE_TEXT.equals(getType()) || TYPE_NUMBER.equals(getType()) || TYPE_PASSWORD.equals(getType()) || TYPE_COLOR.equals(getType()));
     }
 
+    @SuppressWarnings("SimplifiableIfStatement")
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

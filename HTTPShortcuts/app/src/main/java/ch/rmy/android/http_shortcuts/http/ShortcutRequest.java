@@ -75,7 +75,7 @@ class ShortcutRequest extends Request<ShortcutResponse> {
 
     @Override
     protected Response<ShortcutResponse> parseNetworkResponse(NetworkResponse response) {
-        ShortcutResponse shortcutResponse = new ShortcutResponse(response.statusCode, response.headers, response.data);
+        ShortcutResponse shortcutResponse = new ShortcutResponse(response.headers, response.data);
         return Response.success(shortcutResponse, null);
     }
 

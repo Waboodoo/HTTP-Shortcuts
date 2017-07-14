@@ -32,7 +32,6 @@ public class CategoriesActivity extends BaseActivity {
 
     private Controller controller;
     private RealmList<Category> categories;
-    private CategoryAdapter adapter;
 
     private OnItemClickedListener<Category> clickedListener = new OnItemClickedListener<Category>() {
         @Override
@@ -53,7 +52,7 @@ public class CategoriesActivity extends BaseActivity {
 
         controller = destroyer.own(new Controller());
         categories = controller.getCategories();
-        adapter = destroyer.own(new CategoryAdapter(this));
+        CategoryAdapter adapter = destroyer.own(new CategoryAdapter(this));
         adapter.setItems(controller.getBase().getCategories());
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
@@ -78,7 +77,7 @@ public class CategoriesActivity extends BaseActivity {
                 .inputRange(NAME_MIN_LENGTH, NAME_MAX_LENGTH)
                 .input(getString(R.string.placeholder_category_name), null, new MaterialDialog.InputCallback() {
                     @Override
-                    public void onInput(MaterialDialog dialog, CharSequence input) {
+                    public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                         createCategory(input.toString());
                     }
                 }).show();
@@ -139,7 +138,7 @@ public class CategoriesActivity extends BaseActivity {
                 .inputRange(NAME_MIN_LENGTH, NAME_MAX_LENGTH)
                 .input(getString(R.string.placeholder_category_name), category.getName(), new MaterialDialog.InputCallback() {
                     @Override
-                    public void onInput(MaterialDialog dialog, CharSequence input) {
+                    public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                         renameCategory(category, input.toString());
                     }
                 }).show();

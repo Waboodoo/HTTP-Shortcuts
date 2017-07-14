@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.dialogs;
 
 import android.content.Context;
 import android.support.annotation.StringRes;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -12,6 +11,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import ch.rmy.android.http_shortcuts.R;
+import ch.rmy.android.http_shortcuts.utils.HTMLUtil;
 
 public class HelpDialogBuilder {
 
@@ -38,7 +38,7 @@ public class HelpDialogBuilder {
     }
 
     public HelpDialogBuilder message(@StringRes int message) {
-        text.setText(Html.fromHtml(view.getContext().getString(message)));
+        text.setText(HTMLUtil.getHTML(view.getContext(), message));
         return this;
     }
 

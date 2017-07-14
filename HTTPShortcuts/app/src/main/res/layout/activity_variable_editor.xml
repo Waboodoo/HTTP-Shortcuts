@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                 xmlns:ls="http://schemas.android.com/apk/res-auto"
-                                                 xmlns:tools="http://schemas.android.com/tools"
-                                                 android:layout_width="match_parent"
-                                                 android:layout_height="match_parent"
-                                                 tools:context=".activities.VariableEditorActivity">
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ls="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.VariableEditorActivity">
 
     <include layout="@layout/toolbar_layout"/>
 
@@ -38,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/label_variable_key"
                     android:maxLength="20"
-                    android:singleLine="true">
+                    android:maxLines="1">
 
                 </EditText>
             </android.support.design.widget.TextInputLayout>
@@ -59,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/label_variable_title"
                     android:maxLength="20"
-                    android:singleLine="true">
+                    android:maxLines="1">
 
                 </EditText>
             </android.support.design.widget.TextInputLayout>
