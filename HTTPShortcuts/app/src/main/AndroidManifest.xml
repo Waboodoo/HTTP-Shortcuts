@@ -15,6 +15,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
+        android:roundIcon="@drawable/ic_launcher"
         android:theme="@style/LightTheme">
         <activity
             android:name=".activities.MainActivity"
@@ -160,12 +161,12 @@
 
         <activity-alias
             android:name=".ExecuteActivity"
-            android:targetActivity=".activities.ExecuteActivity"
             android:configChanges="orientation|screenSize"
             android:excludeFromRecents="true"
             android:label="@string/title_activity_execute"
             android:launchMode="singleInstance"
             android:noHistory="true"
+            android:targetActivity=".activities.ExecuteActivity"
             android:theme="@style/Theme.Transparent">
             <intent-filter>
                 <action android:name="ch.rmy.android.http_shortcuts.execute"/>
