@@ -44,7 +44,7 @@
         screen.
     </string>
     <string name="validation_name_not_empty">Please enter a name.</string>
-    <string name="validation_url_invalid">Please enter a valid HTTP(S) url.</string>
+    <string name="validation_url_invalid">Please enter a HTTP(S) url.</string>
     <string name="error_http">%1$s failed with status code %2$d.</string>
     <string name="error_other">%1$s failed: %2$s</string>
     <string name="error_set_image">Failed to use image as icon.</string>

@@ -336,7 +336,7 @@ public class EditorActivity extends BaseActivity {
             ViewUtil.focus(nameView);
             return false;
         }
-        if (!Validation.isValidUrl(shortcut.getUrl())) {
+        if (!Validation.isAcceptableUrl(shortcut.getUrl())) {
             urlView.setError(getString(R.string.validation_url_invalid));
             ViewUtil.focus(urlView);
             return false;
