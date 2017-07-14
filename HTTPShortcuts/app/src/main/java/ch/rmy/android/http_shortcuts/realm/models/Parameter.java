@@ -46,7 +46,7 @@ public class Parameter extends RealmObject implements KeyValuePair {
 
     public static Parameter createNew(String key, String value) {
         Parameter parameter = new Parameter();
-        parameter.setId(UUIDUtils.create());
+        parameter.setId(UUIDUtils.INSTANCE.create());
         parameter.setKey(key);
         parameter.setValue(value);
         return parameter;

@@ -97,15 +97,15 @@ public class DatabaseMigration implements RealmMigration {
                 schema.get("Option").addField("id", String.class);
                 RealmResults<DynamicRealmObject> parameters = realm.where("Parameter").findAll();
                 for (DynamicRealmObject parameter : parameters) {
-                    parameter.setString("id", UUIDUtils.create());
+                    parameter.setString("id", UUIDUtils.INSTANCE.create());
                 }
                 RealmResults<DynamicRealmObject> headers = realm.where("Header").findAll();
                 for (DynamicRealmObject header : headers) {
-                    header.setString("id", UUIDUtils.create());
+                    header.setString("id", UUIDUtils.INSTANCE.create());
                 }
                 RealmResults<DynamicRealmObject> options = realm.where("Option").findAll();
                 for (DynamicRealmObject option : options) {
-                    option.setString("id", UUIDUtils.create());
+                    option.setString("id", UUIDUtils.INSTANCE.create());
                 }
                 schema.get("Parameter").addPrimaryKey("id");
                 schema.get("Header").addPrimaryKey("id");

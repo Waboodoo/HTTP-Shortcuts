@@ -1,19 +1,17 @@
-package ch.rmy.android.http_shortcuts.icons;
+package ch.rmy.android.http_shortcuts.icons
 
-import android.content.Context;
+import android.content.Context
+import ch.rmy.android.http_shortcuts.R
+import java.util.*
 
-import java.util.Random;
+object Icons {
 
-import ch.rmy.android.http_shortcuts.R;
-
-public class Icons {
-
-    public static String getRandomIcon(Context context) {
-        int resId = ICONS[new Random().nextInt(ICONS.length)];
-        return context.getResources().getResourceEntryName(resId);
+    fun getRandomIcon(context: Context): String {
+        val resId = ICONS[Random().nextInt(ICONS.size)]
+        return context.resources.getResourceEntryName(resId)
     }
 
-    protected static final int[] ICONS = {
+    internal val ICONS = intArrayOf(
             R.drawable.circle_blue,
             R.drawable.circle_cyan,
             R.drawable.circle_green,
@@ -1193,6 +1191,7 @@ public class Icons {
             R.drawable.white_table_lamp,
             R.drawable.white_remote_control,
             R.drawable.white_television,
-            R.drawable.white_toy};
+            R.drawable.white_toy
+    )
 
 }

@@ -38,7 +38,6 @@ import ch.rmy.android.http_shortcuts.icons.IconView;
 import ch.rmy.android.http_shortcuts.icons.Icons;
 import ch.rmy.android.http_shortcuts.key_value_pairs.KeyValueList;
 import ch.rmy.android.http_shortcuts.key_value_pairs.KeyValuePairFactory;
-import ch.rmy.android.http_shortcuts.listeners.OnIconSelectedListener;
 import ch.rmy.android.http_shortcuts.realm.Controller;
 import ch.rmy.android.http_shortcuts.realm.models.Header;
 import ch.rmy.android.http_shortcuts.realm.models.Parameter;
@@ -54,6 +53,8 @@ import ch.rmy.android.http_shortcuts.utils.UIUtil;
 import ch.rmy.android.http_shortcuts.utils.Validation;
 import ch.rmy.android.http_shortcuts.variables.VariableFormatter;
 import ch.rmy.curlcommand.CurlCommand;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -160,7 +161,7 @@ public class EditorActivity extends BaseActivity {
             }
 
             if (shortcut.getIconName() == null) {
-                shortcut.setIconName(Icons.getRandomIcon(getContext()));
+                shortcut.setIconName(Icons.INSTANCE.getRandomIcon(getContext()));
                 oldShortcut.setIconName(shortcut.getIconName());
             } else if (savedInstanceState != null && savedInstanceState.containsKey(STATE_INITIAL_ICON)) {
                 oldShortcut.setIconName(savedInstanceState.getString(STATE_INITIAL_ICON));
@@ -331,12 +332,12 @@ public class EditorActivity extends BaseActivity {
     }
 
     private boolean validate(boolean testOnly) {
-        if (!testOnly && Validation.isEmpty(shortcut.getName())) {
+        if (!testOnly && Validation.INSTANCE.isEmpty(shortcut.getName())) {
             nameView.setError(getString(R.string.validation_name_not_empty));
             UIUtil.focus(nameView);
             return false;
         }
-        if (!Validation.isAcceptableUrl(shortcut.getUrl())) {
+        if (!Validation.INSTANCE.isAcceptableUrl(shortcut.getUrl())) {
             urlView.setError(getString(R.string.validation_url_invalid));
             UIUtil.focus(urlView);
             return false;
@@ -382,14 +383,13 @@ public class EditorActivity extends BaseActivity {
     }
 
     private void openBuiltInIconSelectionDialog() {
-        IconSelector iconSelector = new IconSelector(this, new OnIconSelectedListener() {
-
+        IconSelector iconSelector = new IconSelector(this, new Function1<String, Unit>() {
             @Override
-            public void onIconSelected(String iconName) {
+            public Unit invoke(String iconName) {
                 shortcut.setIconName(iconName);
                 updateUI();
+                return null;
             }
-
         });
         iconSelector.show();
     }

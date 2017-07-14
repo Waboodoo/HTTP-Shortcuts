@@ -38,7 +38,7 @@ public class HelpDialogBuilder {
     }
 
     public HelpDialogBuilder message(@StringRes int message) {
-        text.setText(HTMLUtil.getHTML(view.getContext(), message));
+        text.setText(HTMLUtil.INSTANCE.getHTML(view.getContext(), message));
         return this;
     }
 

@@ -36,7 +36,7 @@ class ShortcutRequest extends Request<ShortcutResponse> {
         });
         this.deferred = deferred;
         headers.put(HttpHeaders.CONNECTION, "close");
-        headers.put(HttpHeaders.USER_AGENT, UserAgentUtil.getUserAgent());
+        headers.put(HttpHeaders.USER_AGENT, UserAgentUtil.INSTANCE.getUserAgent());
     }
 
     @Override

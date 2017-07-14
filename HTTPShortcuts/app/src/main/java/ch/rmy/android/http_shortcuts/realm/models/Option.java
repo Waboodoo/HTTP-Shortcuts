@@ -38,7 +38,7 @@ public class Option extends RealmObject {
 
     public static Option createNew(String label, String value) {
         Option option = new Option();
-        option.setId(UUIDUtils.create());
+        option.setId(UUIDUtils.INSTANCE.create());
         option.setLabel(label);
         option.setValue(value);
         return option;

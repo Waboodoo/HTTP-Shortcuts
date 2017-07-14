@@ -78,7 +78,7 @@ public class Header extends RealmObject implements KeyValuePair {
 
     public static Header createNew(String key, String value) {
         Header header = new Header();
-        header.setId(UUIDUtils.create());
+        header.setId(UUIDUtils.INSTANCE.create());
         header.setKey(key);
         header.setValue(value);
         return header;

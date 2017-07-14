@@ -43,17 +43,17 @@ class ImportMigrator {
                 for (Category category : base.getCategories()) {
                     for (Shortcut shortcut : category.getShortcuts()) {
                         for (Header header : shortcut.getHeaders()) {
-                            header.setId(UUIDUtils.create());
+                            header.setId(UUIDUtils.INSTANCE.create());
                         }
                         for (Parameter parameter : shortcut.getParameters()) {
-                            parameter.setId(UUIDUtils.create());
+                            parameter.setId(UUIDUtils.INSTANCE.create());
                         }
                     }
                 }
                 for (Variable variable : base.getVariables()) {
                     if (variable.getOptions() != null) {
                         for (Option option : variable.getOptions()) {
-                            option.setId(UUIDUtils.create());
+                            option.setId(UUIDUtils.INSTANCE.create());
                         }
                     }
                 }

@@ -307,7 +307,7 @@ public class Shortcut extends RealmObject implements HasId {
     }
 
     public String getSafeName(Context context) {
-        if (Validation.isEmpty(name)) {
+        if (Validation.INSTANCE.isEmpty(name)) {
             return context.getString(R.string.shortcut_safe_name);
         }
         return name;
