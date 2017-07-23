@@ -45,8 +45,8 @@ object LauncherShortcutManager {
         var count = 0
         val launcherShortcuts = ArrayList<ShortcutInfo>()
         for (category in categories) {
-            for (shortcut in category.shortcuts) {
-                if (shortcut.isLauncherShortcut) {
+            for (shortcut in category.shortcuts!!) {
+                if (shortcut.launcherShortcut) {
                     val rank = max - count + 1
                     launcherShortcuts.add(createShortcutInfo(context, shortcut, rank))
                     if (++count >= max) {

@@ -27,7 +27,7 @@ public class ResolvedVariables {
     public List<ResolvedVariable> toList() {
         List<ResolvedVariable> resolvedVariables = new ArrayList<>();
         for (Map.Entry<String, String> entries : variableValues.entrySet()) {
-            resolvedVariables.add(ResolvedVariable.createNew(entries.getKey(), entries.getValue()));
+            resolvedVariables.add(ResolvedVariable.Companion.createNew(entries.getKey(), entries.getValue()));
         }
         return resolvedVariables;
     }
@@ -41,11 +41,11 @@ public class ResolvedVariables {
         }
 
         protected Builder add(Variable variable, String value) {
-            if (variable.isJsonEncode()) {
+            if (variable.getJsonEncode()) {
                 value = JSONObject.quote(value);
                 value = value.substring(1, value.length() - 1);
             }
-            if (variable.isUrlEncode()) {
+            if (variable.getUrlEncode()) {
                 try {
                     value = URLEncoder.encode(value, "utf-8");
                 } catch (UnsupportedEncodingException e) {

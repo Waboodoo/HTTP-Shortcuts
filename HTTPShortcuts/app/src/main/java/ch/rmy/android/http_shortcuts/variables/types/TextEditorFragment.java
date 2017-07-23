@@ -18,7 +18,7 @@ public class TextEditorFragment extends VariableEditorFragment {
 
     @Override
     public void updateViews(Variable variable) {
-        rememberValue.setChecked(variable.isRememberValue());
+        rememberValue.setChecked(variable.getRememberValue());
     }
 
     @Override

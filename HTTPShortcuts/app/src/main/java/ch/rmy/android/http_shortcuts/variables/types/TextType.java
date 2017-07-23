@@ -21,7 +21,7 @@ class TextType extends BaseVariableType implements AsyncVariableType {
     @Override
     public Showable createDialog(Context context, final Controller controller, final Variable variable, final Deferred<String, Void, Void> deferredValue) {
         final MaterialDialog.Builder builder = createDialogBuilder(context, variable, deferredValue);
-        builder.input(null, variable.isRememberValue() ? variable.getValue() : "", new MaterialDialog.InputCallback() {
+        builder.input(null, variable.getRememberValue() ? variable.getValue() : "", new MaterialDialog.InputCallback() {
             @Override
             public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                 deferredValue.resolve(input.toString());

@@ -4,6 +4,7 @@ import android.content.Context
 
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
+import ch.rmy.android.http_shortcuts.realm.models.Variable
 
 object ShortcutUIUtils {
 
@@ -18,6 +19,8 @@ object ShortcutUIUtils {
     fun getRetryPolicyOptions(context: Context) = getOptions(context, Shortcut.RETRY_POLICY_OPTIONS, RETRY_POLICY_RESOURCES)
 
     fun getAuthenticationOptions(context: Context) = getOptions(context, Shortcut.AUTHENTICATION_OPTIONS, AUTHENTICATION_RESOURCES)
+
+    fun getVariableTypeOptions(context: Context) = getOptions(context, Variable.TYPE_OPTIONS, Variable.TYPE_RESOURCES)
 
     fun getTimeoutOptions(context: Context): Array<String> {
         return Array<String>(Shortcut.TIMEOUT_OPTIONS.size, { i ->

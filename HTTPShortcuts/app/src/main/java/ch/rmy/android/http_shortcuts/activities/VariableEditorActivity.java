@@ -24,6 +24,7 @@ import ch.rmy.android.http_shortcuts.realm.models.Variable;
 import ch.rmy.android.http_shortcuts.utils.ArrayUtil;
 import ch.rmy.android.http_shortcuts.utils.GsonUtil;
 import ch.rmy.android.http_shortcuts.utils.OnItemChosenListener;
+import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils;
 import ch.rmy.android.http_shortcuts.utils.SimpleTextWatcher;
 import ch.rmy.android.http_shortcuts.utils.UIUtil;
 import ch.rmy.android.http_shortcuts.variables.Variables;
@@ -67,13 +68,13 @@ public class VariableEditorActivity extends BaseActivity {
         if (savedInstanceState != null && savedInstanceState.containsKey(STATE_JSON_VARIABLE)) {
             variable = GsonUtil.INSTANCE.fromJson(savedInstanceState.getString(STATE_JSON_VARIABLE), Variable.class);
         } else {
-            variable = variableId == 0 ? Variable.createNew() : controller.getDetachedVariableById(variableId);
+            variable = variableId == 0 ? Variable.Companion.createNew() : controller.getDetachedVariableById(variableId);
         }
         if (variable == null) {
             finish();
             return;
         }
-        oldVariable = variableId == 0 ? Variable.createNew() : controller.getDetachedVariableById(variableId);
+        oldVariable = variableId == 0 ? Variable.Companion.createNew() : controller.getDetachedVariableById(variableId);
 
         initViews();
         initTypeSelector();
@@ -96,12 +97,12 @@ public class VariableEditorActivity extends BaseActivity {
             }
         });
 
-        typeSpinner.setItemsArray(Variable.getTypeOptions(this));
+        typeSpinner.setItemsArray(ShortcutUIUtils.INSTANCE.getVariableTypeOptions(getContext()));
         UIUtil.INSTANCE.fixLabelledSpinner(typeSpinner);
-        typeSpinner.setSelection(ArrayUtil.INSTANCE.findIndex(Variable.TYPE_OPTIONS, variable.getType()));
+        typeSpinner.setSelection(ArrayUtil.INSTANCE.findIndex(Variable.Companion.getTYPE_OPTIONS(), variable.getType()));
 
-        urlEncode.setChecked(variable.isUrlEncode());
-        jsonEncode.setChecked(variable.isJsonEncode());
+        urlEncode.setChecked(variable.getUrlEncode());
+        jsonEncode.setChecked(variable.getJsonEncode());
         allowShare.setChecked(variable.isShareText());
 
         setTitle(variable.isNew() ? R.string.create_variable : R.string.edit_variable);
@@ -137,7 +138,7 @@ public class VariableEditorActivity extends BaseActivity {
     }
 
     private String getSelectedType() {
-        return Variable.TYPE_OPTIONS[typeSpinner.getSpinner().getSelectedItemPosition()];
+        return Variable.Companion.getTYPE_OPTIONS()[typeSpinner.getSpinner().getSelectedItemPosition()];
     }
 
     @Override
@@ -206,7 +207,7 @@ public class VariableEditorActivity extends BaseActivity {
     private void compileVariable() {
         variable.setTitle(titleView.getText().toString().trim());
         variable.setKey(keyView.getText().toString().trim());
-        variable.setType(Variable.TYPE_OPTIONS[typeSpinner.getSpinner().getSelectedItemPosition()]);
+        variable.setType(Variable.Companion.getTYPE_OPTIONS()[typeSpinner.getSpinner().getSelectedItemPosition()]);
         variable.setUrlEncode(urlEncode.isChecked());
         variable.setJsonEncode(jsonEncode.isChecked());
         variable.setShareText(allowShare.isChecked());

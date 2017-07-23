@@ -65,7 +65,7 @@ class ColorType extends BaseVariableType implements AsyncVariableType {
     }
 
     private int getInitialColor(Variable variable) {
-        if (variable.isRememberValue() && variable.getValue().length() == 6) {
+        if (variable.getRememberValue() && variable.getValue().length() == 6) {
             try {
                 int color = Integer.parseInt(variable.getValue(), 16);
                 return color + 0xff000000;

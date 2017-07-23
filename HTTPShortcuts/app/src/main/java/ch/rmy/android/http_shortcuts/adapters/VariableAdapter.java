@@ -42,7 +42,7 @@ public class VariableAdapter extends BaseAdapter<Variable> {
         @Override
         protected void updateViews(Variable variable) {
             name.setText(variable.getKey());
-            type.setText(Variable.TYPE_RESOURCES[ArrayUtil.INSTANCE.findIndex(Variable.TYPE_OPTIONS, variable.getType())]);
+            type.setText(Variable.Companion.getTYPE_RESOURCES()[ArrayUtil.INSTANCE.findIndex(Variable.Companion.getTYPE_OPTIONS(), variable.getType())]);
         }
 
     }

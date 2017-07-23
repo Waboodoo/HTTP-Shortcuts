@@ -51,7 +51,7 @@ public class ToggleEditorFragment extends VariableEditorFragment {
     }
 
     private void addNewOption(String value) {
-        Option option = Option.createNew(value, value);
+        Option option = Option.Companion.createNew(value, value);
         variable.getOptions().add(option);
         updateViews(variable);
     }

@@ -22,7 +22,7 @@ public class HttpRequester {
         final String username = Variables.insert(detachedShortcut.getUsername(), variables);
         final String password = Variables.insert(detachedShortcut.getPassword(), variables);
         final String body = Variables.insert(detachedShortcut.getBodyContent(), variables);
-        final boolean acceptAllCertificates = detachedShortcut.isAcceptAllCertificates();
+        final boolean acceptAllCertificates = detachedShortcut.getAcceptAllCertificates();
 
         ShortcutRequest.Builder builder = new ShortcutRequest.Builder(detachedShortcut.getMethod(), url)
                 .body(body)

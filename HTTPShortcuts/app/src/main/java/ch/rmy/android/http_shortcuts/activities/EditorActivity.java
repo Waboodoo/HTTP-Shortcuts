@@ -145,13 +145,13 @@ public class EditorActivity extends BaseActivity {
         if (savedInstanceState != null && savedInstanceState.containsKey(STATE_JSON_SHORTCUT)) {
             shortcut = GsonUtil.INSTANCE.fromJson(savedInstanceState.getString(STATE_JSON_SHORTCUT), Shortcut.class);
         } else {
-            shortcut = shortcutId == 0 ? Shortcut.createNew() : controller.getDetachedShortcutById(shortcutId);
+            shortcut = shortcutId == 0 ? Shortcut.Companion.createNew() : controller.getDetachedShortcutById(shortcutId);
         }
         if (shortcut == null) {
             finish();
             return;
         }
-        oldShortcut = shortcutId == 0 ? Shortcut.createNew() : controller.getDetachedShortcutById(shortcutId);
+        oldShortcut = shortcutId == 0 ? Shortcut.Companion.createNew() : controller.getDetachedShortcutById(shortcutId);
         if (shortcut.isNew()) {
 
             Serializable curlCommand = getIntent().getSerializableExtra(EXTRA_CURL_COMMAND);
@@ -183,7 +183,7 @@ public class EditorActivity extends BaseActivity {
             shortcut.setTimeout(curlCommand.getTimeout());
         }
         for (Map.Entry<String, String> header : curlCommand.getHeaders().entrySet()) {
-            shortcut.getHeaders().add(Header.createNew(header.getKey(), header.getValue()));
+            shortcut.getHeaders().add(Header.Companion.createNew(header.getKey(), header.getValue()));
         }
     }
 
@@ -200,15 +200,15 @@ public class EditorActivity extends BaseActivity {
         bindVariableFormatter(passwordView);
         bindVariableFormatter(customBodyView);
 
-        methodView.setItemsArray(Shortcut.METHODS);
+        methodView.setItemsArray(Shortcut.Companion.getMETHODS());
         UIUtil.INSTANCE.fixLabelledSpinner(methodView);
         methodView.setOnItemChosenListener(itemChosenListener);
-        methodView.setSelection(ArrayUtil.INSTANCE.findIndex(Shortcut.METHODS, shortcut.getMethod()));
+        methodView.setSelection(ArrayUtil.INSTANCE.findIndex(Shortcut.Companion.getMETHODS(), shortcut.getMethod()));
 
         authenticationView.setItemsArray(ShortcutUIUtils.INSTANCE.getAuthenticationOptions(getContext()));
         UIUtil.INSTANCE.fixLabelledSpinner(authenticationView);
         authenticationView.setOnItemChosenListener(itemChosenListener);
-        authenticationView.setSelection(ArrayUtil.INSTANCE.findIndex(Shortcut.AUTHENTICATION_OPTIONS, shortcut.getAuthentication()));
+        authenticationView.setSelection(ArrayUtil.INSTANCE.findIndex(Shortcut.Companion.getAUTHENTICATION_OPTIONS(), shortcut.getAuthentication()));
 
         parameterList.addItems(shortcut.getParameters());
         parameterList.setButtonText(R.string.button_add_post_param);
@@ -219,7 +219,7 @@ public class EditorActivity extends BaseActivity {
         parameterList.setItemFactory(new KeyValuePairFactory<Parameter>() {
             @Override
             public Parameter create(String key, String value) {
-                return Parameter.createNew(key, value);
+                return Parameter.Companion.createNew(key, value);
             }
         });
 
@@ -232,26 +232,26 @@ public class EditorActivity extends BaseActivity {
         customHeaderList.setItemFactory(new KeyValuePairFactory<Header>() {
             @Override
             public Header create(String key, String value) {
-                return Header.createNew(key, value);
+                return Header.Companion.createNew(key, value);
             }
         });
-        customHeaderList.setSuggestions(Header.SUGGESTED_KEYS);
+        customHeaderList.setSuggestions(Header.Companion.getSUGGESTED_KEYS());
 
         feedbackView.setItemsArray(ShortcutUIUtils.INSTANCE.getFeedbackOptions(getContext()));
         feedbackView.setOnItemChosenListener(itemChosenListener);
         UIUtil.INSTANCE.fixLabelledSpinner(feedbackView);
-        feedbackView.setSelection(ArrayUtil.INSTANCE.findIndex(Shortcut.FEEDBACK_OPTIONS, shortcut.getFeedback()));
+        feedbackView.setSelection(ArrayUtil.INSTANCE.findIndex(Shortcut.Companion.getFEEDBACK_OPTIONS(), shortcut.getFeedback()));
 
         timeoutView.setItemsArray(ShortcutUIUtils.INSTANCE.getTimeoutOptions(getContext()));
         UIUtil.INSTANCE.fixLabelledSpinner(timeoutView);
-        timeoutView.setSelection(ArrayUtil.INSTANCE.findIndex(Shortcut.TIMEOUT_OPTIONS, shortcut.getTimeout()));
+        timeoutView.setSelection(ArrayUtil.INSTANCE.findIndex(Shortcut.Companion.getTIMEOUT_OPTIONS(), shortcut.getTimeout()));
 
         retryPolicyView.setItemsArray(ShortcutUIUtils.INSTANCE.getRetryPolicyOptions(getContext()));
         UIUtil.INSTANCE.fixLabelledSpinner(retryPolicyView);
-        retryPolicyView.setSelection(ArrayUtil.INSTANCE.findIndex(Shortcut.RETRY_POLICY_OPTIONS, shortcut.getRetryPolicy()));
+        retryPolicyView.setSelection(ArrayUtil.INSTANCE.findIndex(Shortcut.Companion.getRETRY_POLICY_OPTIONS(), shortcut.getRetryPolicy()));
 
-        acceptCertificatesCheckbox.setChecked(shortcut.isAcceptAllCertificates());
-        launcherShortcutCheckbox.setChecked(shortcut.isLauncherShortcut());
+        acceptCertificatesCheckbox.setChecked(shortcut.getAcceptAllCertificates());
+        launcherShortcutCheckbox.setChecked(shortcut.getLauncherShortcut());
 
         iconView.setOnClickListener(new OnClickListener() {
             @Override
@@ -436,15 +436,15 @@ public class EditorActivity extends BaseActivity {
     private void compileShortcut() {
         shortcut.setName(nameView.getText().toString().trim());
         shortcut.setUrl(urlView.getText().toString());
-        shortcut.setMethod(Shortcut.METHODS[methodView.getSpinner().getSelectedItemPosition()]);
+        shortcut.setMethod(Shortcut.Companion.getMETHODS()[methodView.getSpinner().getSelectedItemPosition()]);
         shortcut.setDescription(descriptionView.getText().toString().trim());
         shortcut.setPassword(passwordView.getText().toString());
         shortcut.setUsername(usernameView.getText().toString());
         shortcut.setBodyContent(customBodyView.getText().toString());
-        shortcut.setFeedback(Shortcut.FEEDBACK_OPTIONS[feedbackView.getSpinner().getSelectedItemPosition()]);
-        shortcut.setTimeout(Shortcut.TIMEOUT_OPTIONS[timeoutView.getSpinner().getSelectedItemPosition()]);
-        shortcut.setAuthentication(Shortcut.AUTHENTICATION_OPTIONS[authenticationView.getSpinner().getSelectedItemPosition()]);
-        shortcut.setRetryPolicy(Shortcut.RETRY_POLICY_OPTIONS[retryPolicyView.getSpinner().getSelectedItemPosition()]);
+        shortcut.setFeedback(Shortcut.Companion.getFEEDBACK_OPTIONS()[feedbackView.getSpinner().getSelectedItemPosition()]);
+        shortcut.setTimeout(Shortcut.Companion.getTIMEOUT_OPTIONS()[timeoutView.getSpinner().getSelectedItemPosition()]);
+        shortcut.setAuthentication(Shortcut.Companion.getAUTHENTICATION_OPTIONS()[authenticationView.getSpinner().getSelectedItemPosition()]);
+        shortcut.setRetryPolicy(Shortcut.Companion.getRETRY_POLICY_OPTIONS()[retryPolicyView.getSpinner().getSelectedItemPosition()]);
         shortcut.setAcceptAllCertificates(acceptCertificatesCheckbox.isChecked());
         shortcut.setLauncherShortcut(launcherShortcutCheckbox.isChecked());
 
