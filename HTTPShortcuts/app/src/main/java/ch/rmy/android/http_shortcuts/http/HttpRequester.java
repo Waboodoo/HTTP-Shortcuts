@@ -18,10 +18,10 @@ import okhttp3.OkHttpClient;
 public class HttpRequester {
 
     public static Promise<ShortcutResponse, VolleyError, Void> executeShortcut(final Context context, final Shortcut detachedShortcut, ResolvedVariables variables) {
-        final String url = Variables.insert(detachedShortcut.getUrl(), variables);
-        final String username = Variables.insert(detachedShortcut.getUsername(), variables);
-        final String password = Variables.insert(detachedShortcut.getPassword(), variables);
-        final String body = Variables.insert(detachedShortcut.getBodyContent(), variables);
+        final String url = Variables.INSTANCE.insert(detachedShortcut.getUrl(), variables);
+        final String username = Variables.INSTANCE.insert(detachedShortcut.getUsername(), variables);
+        final String password = Variables.INSTANCE.insert(detachedShortcut.getPassword(), variables);
+        final String body = Variables.INSTANCE.insert(detachedShortcut.getBodyContent(), variables);
         final boolean acceptAllCertificates = detachedShortcut.getAcceptAllCertificates();
 
         ShortcutRequest.Builder builder = new ShortcutRequest.Builder(detachedShortcut.getMethod(), url)
@@ -34,15 +34,15 @@ public class HttpRequester {
 
         for (Parameter parameter : detachedShortcut.getParameters()) {
             builder = builder.parameter(
-                    Variables.insert(parameter.getKey(), variables),
-                    Variables.insert(parameter.getValue(), variables)
+                    Variables.INSTANCE.insert(parameter.getKey(), variables),
+                    Variables.INSTANCE.insert(parameter.getValue(), variables)
             );
         }
 
         for (Header header : detachedShortcut.getHeaders()) {
             builder = builder.header(
-                    Variables.insert(header.getKey(), variables),
-                    Variables.insert(header.getValue(), variables)
+                    Variables.INSTANCE.insert(header.getKey(), variables),
+                    Variables.INSTANCE.insert(header.getValue(), variables)
             );
         }
 

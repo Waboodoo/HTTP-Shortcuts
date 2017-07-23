@@ -82,7 +82,7 @@ public class ShareActivity extends BaseActivity {
     }
 
     private boolean hasShareVariable(Shortcut shortcut, Set<String> variableKeys) {
-        Set<String> variableKeysInShortcut = VariableResolver.extractVariableKeys(shortcut);
+        Set<String> variableKeysInShortcut = VariableResolver.Companion.extractVariableKeys(shortcut);
         for (String key : variableKeys) {
             if (variableKeysInShortcut.contains(key)) {
                 return true;

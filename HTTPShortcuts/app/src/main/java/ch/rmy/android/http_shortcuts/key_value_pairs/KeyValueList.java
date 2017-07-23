@@ -146,8 +146,8 @@ public class KeyValueList<T extends KeyValuePair> extends FrameLayout implements
         }
 
         List<Variable> variables = controller.getVariables();
-        destroyer.own(VariableFormatter.bind(keyInput, variables));
-        destroyer.own(VariableFormatter.bind(valueInput, variables));
+        destroyer.own(VariableFormatter.Companion.bind(keyInput, variables));
+        destroyer.own(VariableFormatter.Companion.bind(valueInput, variables));
 
         ((TextInputLayout) dialog.findViewById(R.id.key_value_key_layout)).setHint(getContext().getString(keyLabel));
         ((TextInputLayout) dialog.findViewById(R.id.key_value_value_layout)).setHint(getContext().getString(valueLabel));

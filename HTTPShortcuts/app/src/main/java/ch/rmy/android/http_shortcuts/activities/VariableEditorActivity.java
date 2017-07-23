@@ -87,7 +87,7 @@ public class VariableEditorActivity extends BaseActivity {
         keyView.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (Variables.isValidVariableName(s.toString())) {
+                if (Variables.INSTANCE.isValidVariableName(s.toString())) {
                     keyView.setTextColor(defaultColor);
                     keyView.setError(null);
                 } else {
@@ -121,7 +121,7 @@ public class VariableEditorActivity extends BaseActivity {
 
     private void updateTypeEditor() {
         compileVariable();
-        BaseVariableType variableType = TypeFactory.getType(getSelectedType());
+        BaseVariableType variableType = TypeFactory.INSTANCE.getType(getSelectedType());
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragment = variableType.getEditorFragment(fragmentManager);
 

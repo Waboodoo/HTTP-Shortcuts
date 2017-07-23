@@ -67,12 +67,12 @@ open class Shortcut : RealmObject(), HasId {
 
         duplicate.parameters = RealmList<Parameter>()
         for (parameter in parameters!!) {
-            duplicate!!.parameters!!.add(Parameter.createNew(parameter.key!!, parameter.value!!))
+            duplicate.parameters!!.add(Parameter.createNew(parameter.key!!, parameter.value!!))
         }
 
         duplicate.headers = RealmList<Header>()
         for (header in headers!!) {
-            duplicate!!.headers!!.add(Header.createNew(header.key!!, header.value!!))
+            duplicate.headers!!.add(Header.createNew(header.key!!, header.value!!))
         }
 
         return duplicate

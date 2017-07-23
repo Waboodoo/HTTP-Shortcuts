@@ -265,7 +265,7 @@ public class EditorActivity extends BaseActivity {
     }
 
     private void bindVariableFormatter(EditText editText) {
-        destroyer.own(VariableFormatter.bind(editText, variables));
+        destroyer.own(VariableFormatter.Companion.bind(editText, variables));
     }
 
     private void updateUI() {
