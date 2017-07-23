@@ -275,7 +275,7 @@ public class Shortcut extends RealmObject implements HasId {
     public Uri getIconURI(Context context) {
         String packageName = context.getPackageName();
         if (iconName == null) {
-            return Uri.parse("android.resource://" + packageName + "/" + ShortcutUIUtils.DEFAULT_ICON);
+            return Uri.parse("android.resource://" + packageName + "/" + ShortcutUIUtils.INSTANCE.getDEFAULT_ICON());
         } else if (iconName.startsWith("android.resource://")) {
             return Uri.parse(iconName);
         } else if (iconName.endsWith(".png")) {
@@ -291,7 +291,7 @@ public class Shortcut extends RealmObject implements HasId {
         try {
             String packageName = context.getPackageName();
             if (iconName == null) {
-                return Icon.createWithResource(packageName, ShortcutUIUtils.DEFAULT_ICON);
+                return Icon.createWithResource(packageName, ShortcutUIUtils.INSTANCE.getDEFAULT_ICON());
             } else if (iconName.startsWith("android.resource://")) {
                 List<String> pathSegments = Uri.parse(iconName).getPathSegments();
                 return Icon.createWithResource(pathSegments.get(0), Integer.parseInt(pathSegments.get(1)));

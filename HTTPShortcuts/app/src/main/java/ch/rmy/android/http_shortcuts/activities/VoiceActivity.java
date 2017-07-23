@@ -30,7 +30,7 @@ public class VoiceActivity extends BaseActivity {
             return;
         }
 
-        Intent intent = IntentUtil.createIntent(getContext(), shortcut.getId());
+        Intent intent = IntentUtil.INSTANCE.createIntent(getContext(), shortcut.getId());
         startActivity(intent);
         finishWithoutAnimation();
     }

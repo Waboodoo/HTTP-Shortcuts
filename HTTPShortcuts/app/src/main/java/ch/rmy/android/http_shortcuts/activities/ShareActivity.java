@@ -92,7 +92,7 @@ public class ShareActivity extends BaseActivity {
     }
 
     private void executeShortcut(Shortcut shortcut, HashMap<String, String> variableValues) {
-        Intent intent = IntentUtil.createIntent(getContext(), shortcut.getId(), variableValues);
+        Intent intent = IntentUtil.INSTANCE.createIntent(getContext(), shortcut.getId(), variableValues);
         startActivity(intent);
     }
 

@@ -14,7 +14,7 @@ public class ServiceStarter extends BroadcastReceiver {
         if (!ConnectivityManager.CONNECTIVITY_ACTION.equals(intent.getAction())) {
             return;
         }
-        if (!Connectivity.isNetworkConnected(context)) {
+        if (!Connectivity.INSTANCE.isNetworkConnected(context)) {
             return;
         }
         context.startService(new Intent(context, ExecutionService.class));

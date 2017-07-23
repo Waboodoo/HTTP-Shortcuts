@@ -55,7 +55,7 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        selectionMode = SelectionMode.determineMode(getIntent());
+        selectionMode = SelectionMode.Companion.determineMode(getIntent());
 
         controller = destroyer.own(new Controller());
 
@@ -171,7 +171,7 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
     }
 
     private void returnForHomeScreen(Shortcut shortcut) {
-        Intent shortcutIntent = IntentUtil.getShortcutPlacementIntent(getContext(), shortcut, true);
+        Intent shortcutIntent = IntentUtil.INSTANCE.getShortcutPlacementIntent(getContext(), shortcut, true);
         setResult(RESULT_OK, shortcutIntent);
         finish();
     }
@@ -235,12 +235,12 @@ public class MainActivity extends BaseActivity implements ListFragment.TabHost {
 
     @Override
     public void placeShortcutOnHomeScreen(Shortcut shortcut) {
-        sendBroadcast(IntentUtil.getShortcutPlacementIntent(getContext(), shortcut, true));
+        sendBroadcast(IntentUtil.INSTANCE.getShortcutPlacementIntent(getContext(), shortcut, true));
         showSnackbar(String.format(getString(R.string.shortcut_placed), shortcut.getName()));
     }
 
     @Override
     public void removeShortcutFromHomeScreen(Shortcut shortcut) {
-        sendBroadcast(IntentUtil.getShortcutPlacementIntent(getContext(), shortcut, false));
+        sendBroadcast(IntentUtil.INSTANCE.getShortcutPlacementIntent(getContext(), shortcut, false));
     }
 }

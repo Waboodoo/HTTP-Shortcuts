@@ -217,7 +217,7 @@ public class SettingsActivity extends BaseActivity {
             try {
                 controller = new Controller();
                 Base base = controller.exportBase();
-                String data = GsonUtil.exportData(base);
+                String data = GsonUtil.INSTANCE.exportData(base);
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                 sharingIntent.setType(IMPORT_EXPORT_FILE_TYPE);
                 sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, data);

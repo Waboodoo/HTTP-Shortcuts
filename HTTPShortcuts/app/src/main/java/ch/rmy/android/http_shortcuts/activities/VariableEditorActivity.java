@@ -65,7 +65,7 @@ public class VariableEditorActivity extends BaseActivity {
 
         long variableId = getIntent().getLongExtra(EXTRA_VARIABLE_ID, 0);
         if (savedInstanceState != null && savedInstanceState.containsKey(STATE_JSON_VARIABLE)) {
-            variable = GsonUtil.fromJson(savedInstanceState.getString(STATE_JSON_VARIABLE), Variable.class);
+            variable = GsonUtil.INSTANCE.fromJson(savedInstanceState.getString(STATE_JSON_VARIABLE), Variable.class);
         } else {
             variable = variableId == 0 ? Variable.createNew() : controller.getDetachedVariableById(variableId);
         }
@@ -97,8 +97,8 @@ public class VariableEditorActivity extends BaseActivity {
         });
 
         typeSpinner.setItemsArray(Variable.getTypeOptions(this));
-        UIUtil.fixLabelledSpinner(typeSpinner);
-        typeSpinner.setSelection(ArrayUtil.findIndex(Variable.TYPE_OPTIONS, variable.getType()));
+        UIUtil.INSTANCE.fixLabelledSpinner(typeSpinner);
+        typeSpinner.setSelection(ArrayUtil.INSTANCE.findIndex(Variable.TYPE_OPTIONS, variable.getType()));
 
         urlEncode.setChecked(variable.isUrlEncode());
         jsonEncode.setChecked(variable.isJsonEncode());
@@ -219,13 +219,13 @@ public class VariableEditorActivity extends BaseActivity {
     private boolean validate() {
         if (variable.getKey().isEmpty()) {
             keyView.setError(getString(R.string.validation_key_non_empty));
-            UIUtil.focus(keyView);
+            UIUtil.INSTANCE.focus(keyView);
             return false;
         }
         Variable otherVariable = controller.getVariableByKey(variable.getKey());
         if (otherVariable != null && otherVariable.getId() != variable.getId()) {
             keyView.setError(getString(R.string.validation_key_already_exists));
-            UIUtil.focus(keyView);
+            UIUtil.INSTANCE.focus(keyView);
             return false;
         }
         return fragment == null || fragment.validate();
@@ -235,7 +235,7 @@ public class VariableEditorActivity extends BaseActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         compileVariable();
-        outState.putString(STATE_JSON_VARIABLE, GsonUtil.toJson(variable));
+        outState.putString(STATE_JSON_VARIABLE, GsonUtil.INSTANCE.toJson(variable));
     }
 
 }

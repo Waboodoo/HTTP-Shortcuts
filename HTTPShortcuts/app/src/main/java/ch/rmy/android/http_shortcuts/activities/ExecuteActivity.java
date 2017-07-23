@@ -63,8 +63,8 @@ public class ExecuteActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        long shortcutId = IntentUtil.getShortcutId(getIntent());
-        Map<String, String> variableValues = IntentUtil.getVariableValues(getIntent());
+        long shortcutId = IntentUtil.INSTANCE.getShortcutId(getIntent());
+        Map<String, String> variableValues = IntentUtil.INSTANCE.getVariableValues(getIntent());
 
         controller = new Controller();
         shortcut = controller.getDetachedShortcutById(shortcutId);
@@ -258,7 +258,7 @@ public class ExecuteActivity extends BaseActivity {
             case Shortcut.FEEDBACK_ACTIVITY: {
                 switch (type) {
                     case ShortcutResponse.TYPE_JSON: {
-                        formattedResponseText.setCode(GsonUtil.prettyPrint(output), "json");
+                        formattedResponseText.setCode(GsonUtil.INSTANCE.prettyPrint(output), "json");
                         formattedResponseText.setVisibility(View.VISIBLE);
                         break;
                     }

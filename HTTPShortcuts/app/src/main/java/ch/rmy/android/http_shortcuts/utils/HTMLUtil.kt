@@ -8,6 +8,7 @@ import android.text.Spanned
 
 object HTMLUtil {
 
+    @Suppress("DEPRECATION")
     fun getHTML(context: Context, @StringRes stringRes: Int): Spanned {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             return Html.fromHtml(context.getString(stringRes), 0)

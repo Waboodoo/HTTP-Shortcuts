@@ -24,7 +24,7 @@ public final class PluginBroadcastReceiver extends AbstractPluginSettingReceiver
     @Override
     protected void firePluginSetting(@NonNull final Context context, @NonNull final Bundle bundle) {
         long shortcutId = PluginBundleManager.getShortcutId(bundle);
-        Intent intent = IntentUtil.createIntent(context, shortcutId);
+        Intent intent = IntentUtil.INSTANCE.createIntent(context, shortcutId);
         context.startActivity(intent);
     }
 

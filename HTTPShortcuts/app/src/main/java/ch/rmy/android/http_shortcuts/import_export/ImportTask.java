@@ -35,10 +35,10 @@ public class ImportTask extends SimpleTask<Uri> {
                     return false;
                 }
                 reader = new BufferedReader(new InputStreamReader(inputStream));
-                Base base = GsonUtil.importData(reader);
+                Base base = GsonUtil.INSTANCE.importData(reader);
                 ImportMigrator.migrate(base);
                 controller.importBase(base);
-                LauncherShortcutManager.updateAppShortcuts(getContext(), controller.getCategories());
+                LauncherShortcutManager.INSTANCE.updateAppShortcuts(getContext(), controller.getCategories());
             } finally {
                 if (reader != null) {
                     reader.close();

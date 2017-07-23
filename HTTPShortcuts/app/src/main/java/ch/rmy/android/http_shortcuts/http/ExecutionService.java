@@ -24,7 +24,7 @@ public class ExecutionService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         final Controller controller = new Controller();
 
-        while (Connectivity.isNetworkConnected(this)) {
+        while (Connectivity.INSTANCE.isNetworkConnected(this)) {
             RealmResults<PendingExecution> pendingExecutions = controller.getShortcutsPendingExecution();
             if (pendingExecutions.isEmpty()) {
                 break;
@@ -51,7 +51,7 @@ public class ExecutionService extends IntentService {
     }
 
     private void executeShortcut(long id, HashMap<String, String> variableValues) {
-        Intent shortcutIntent = IntentUtil.createIntent(this, id, variableValues);
+        Intent shortcutIntent = IntentUtil.INSTANCE.createIntent(this, id, variableValues);
         startActivity(shortcutIntent);
     }
 

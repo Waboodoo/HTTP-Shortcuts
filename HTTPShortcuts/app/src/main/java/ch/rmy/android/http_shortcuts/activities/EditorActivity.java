@@ -21,8 +21,6 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.satsuware.usefulviews.LabelledSpinner;
 
-import net.dinglisch.ipack.IpackKeys;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -46,6 +44,7 @@ import ch.rmy.android.http_shortcuts.realm.models.Variable;
 import ch.rmy.android.http_shortcuts.utils.ArrayUtil;
 import ch.rmy.android.http_shortcuts.utils.GsonUtil;
 import ch.rmy.android.http_shortcuts.utils.IntentUtil;
+import ch.rmy.android.http_shortcuts.utils.IpackUtil;
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager;
 import ch.rmy.android.http_shortcuts.utils.OnItemChosenListener;
 import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils;
@@ -144,7 +143,7 @@ public class EditorActivity extends BaseActivity {
 
         shortcutId = getIntent().getLongExtra(EXTRA_SHORTCUT_ID, 0);
         if (savedInstanceState != null && savedInstanceState.containsKey(STATE_JSON_SHORTCUT)) {
-            shortcut = GsonUtil.fromJson(savedInstanceState.getString(STATE_JSON_SHORTCUT), Shortcut.class);
+            shortcut = GsonUtil.INSTANCE.fromJson(savedInstanceState.getString(STATE_JSON_SHORTCUT), Shortcut.class);
         } else {
             shortcut = shortcutId == 0 ? Shortcut.createNew() : controller.getDetachedShortcutById(shortcutId);
         }
@@ -202,14 +201,14 @@ public class EditorActivity extends BaseActivity {
         bindVariableFormatter(customBodyView);
 
         methodView.setItemsArray(Shortcut.METHODS);
-        UIUtil.fixLabelledSpinner(methodView);
+        UIUtil.INSTANCE.fixLabelledSpinner(methodView);
         methodView.setOnItemChosenListener(itemChosenListener);
-        methodView.setSelection(ArrayUtil.findIndex(Shortcut.METHODS, shortcut.getMethod()));
+        methodView.setSelection(ArrayUtil.INSTANCE.findIndex(Shortcut.METHODS, shortcut.getMethod()));
 
-        authenticationView.setItemsArray(ShortcutUIUtils.getAuthenticationOptions(getContext()));
-        UIUtil.fixLabelledSpinner(authenticationView);
+        authenticationView.setItemsArray(ShortcutUIUtils.INSTANCE.getAuthenticationOptions(getContext()));
+        UIUtil.INSTANCE.fixLabelledSpinner(authenticationView);
         authenticationView.setOnItemChosenListener(itemChosenListener);
-        authenticationView.setSelection(ArrayUtil.findIndex(Shortcut.AUTHENTICATION_OPTIONS, shortcut.getAuthentication()));
+        authenticationView.setSelection(ArrayUtil.INSTANCE.findIndex(Shortcut.AUTHENTICATION_OPTIONS, shortcut.getAuthentication()));
 
         parameterList.addItems(shortcut.getParameters());
         parameterList.setButtonText(R.string.button_add_post_param);
@@ -238,18 +237,18 @@ public class EditorActivity extends BaseActivity {
         });
         customHeaderList.setSuggestions(Header.SUGGESTED_KEYS);
 
-        feedbackView.setItemsArray(ShortcutUIUtils.getFeedbackOptions(getContext()));
+        feedbackView.setItemsArray(ShortcutUIUtils.INSTANCE.getFeedbackOptions(getContext()));
         feedbackView.setOnItemChosenListener(itemChosenListener);
-        UIUtil.fixLabelledSpinner(feedbackView);
-        feedbackView.setSelection(ArrayUtil.findIndex(Shortcut.FEEDBACK_OPTIONS, shortcut.getFeedback()));
+        UIUtil.INSTANCE.fixLabelledSpinner(feedbackView);
+        feedbackView.setSelection(ArrayUtil.INSTANCE.findIndex(Shortcut.FEEDBACK_OPTIONS, shortcut.getFeedback()));
 
-        timeoutView.setItemsArray(ShortcutUIUtils.getTimeoutOptions(getContext()));
-        UIUtil.fixLabelledSpinner(timeoutView);
-        timeoutView.setSelection(ArrayUtil.findIndex(Shortcut.TIMEOUT_OPTIONS, shortcut.getTimeout()));
+        timeoutView.setItemsArray(ShortcutUIUtils.INSTANCE.getTimeoutOptions(getContext()));
+        UIUtil.INSTANCE.fixLabelledSpinner(timeoutView);
+        timeoutView.setSelection(ArrayUtil.INSTANCE.findIndex(Shortcut.TIMEOUT_OPTIONS, shortcut.getTimeout()));
 
-        retryPolicyView.setItemsArray(ShortcutUIUtils.getRetryPolicyOptions(getContext()));
-        UIUtil.fixLabelledSpinner(retryPolicyView);
-        retryPolicyView.setSelection(ArrayUtil.findIndex(Shortcut.RETRY_POLICY_OPTIONS, shortcut.getRetryPolicy()));
+        retryPolicyView.setItemsArray(ShortcutUIUtils.INSTANCE.getRetryPolicyOptions(getContext()));
+        UIUtil.INSTANCE.fixLabelledSpinner(retryPolicyView);
+        retryPolicyView.setSelection(ArrayUtil.INSTANCE.findIndex(Shortcut.RETRY_POLICY_OPTIONS, shortcut.getRetryPolicy()));
 
         acceptCertificatesCheckbox.setChecked(shortcut.isAcceptAllCertificates());
         launcherShortcutCheckbox.setChecked(shortcut.isLauncherShortcut());
@@ -275,7 +274,7 @@ public class EditorActivity extends BaseActivity {
         requestBodyContainer.setVisibility(shortcut.allowsBody() ? VISIBLE : GONE);
         authenticationContainer.setVisibility(shortcut.usesAuthentication() ? VISIBLE : GONE);
 
-        launcherShortcutCheckbox.setVisibility(LauncherShortcutManager.supportsLauncherShortcuts() ? VISIBLE : GONE);
+        launcherShortcutCheckbox.setVisibility(LauncherShortcutManager.INSTANCE.supportsLauncherShortcuts() ? VISIBLE : GONE);
     }
 
     @Override
@@ -334,12 +333,12 @@ public class EditorActivity extends BaseActivity {
     private boolean validate(boolean testOnly) {
         if (!testOnly && Validation.INSTANCE.isEmpty(shortcut.getName())) {
             nameView.setError(getString(R.string.validation_name_not_empty));
-            UIUtil.focus(nameView);
+            UIUtil.INSTANCE.focus(nameView);
             return false;
         }
         if (!Validation.INSTANCE.isAcceptableUrl(shortcut.getUrl())) {
             urlView.setError(getString(R.string.validation_url_invalid));
-            UIUtil.focus(urlView);
+            UIUtil.INSTANCE.focus(urlView);
             return false;
         }
         return true;
@@ -354,7 +353,7 @@ public class EditorActivity extends BaseActivity {
         if (validate(true)) {
             shortcut.setId(TEMPORARY_ID);
             controller.persist(shortcut);
-            Intent intent = IntentUtil.createIntent(this, TEMPORARY_ID);
+            Intent intent = IntentUtil.INSTANCE.createIntent(this, TEMPORARY_ID);
             startActivity(intent);
         }
     }
@@ -402,7 +401,7 @@ public class EditorActivity extends BaseActivity {
     }
 
     private void openIpackPicker() {
-        Intent iconIntent = Intent.createChooser(new Intent(IpackKeys.Actions.ICON_SELECT), getString(R.string.choose_ipack));
+        Intent iconIntent = IpackUtil.INSTANCE.getIpackIntent(getContext());
         startActivityForResult(iconIntent, SELECT_IPACK_ICON);
     }
 
@@ -503,9 +502,7 @@ public class EditorActivity extends BaseActivity {
                 }
             }
         } else if (requestCode == SELECT_IPACK_ICON) {
-            String ipackageName = intent.getData().getAuthority();
-            int id = intent.getIntExtra(IpackKeys.Extras.ICON_ID, -1);
-            Uri uri = Uri.parse("android.resource://" + ipackageName + "/" + id);
+            Uri uri = IpackUtil.INSTANCE.getIpackUri(intent);
             shortcut.setIconName(uri.toString());
         }
         updateUI();
@@ -515,7 +512,7 @@ public class EditorActivity extends BaseActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         compileShortcut();
-        outState.putString(STATE_JSON_SHORTCUT, GsonUtil.toJson(shortcut));
+        outState.putString(STATE_JSON_SHORTCUT, GsonUtil.INSTANCE.toJson(shortcut));
         outState.putString(STATE_INITIAL_ICON, oldShortcut.getIconName());
     }
 }

@@ -34,7 +34,7 @@ public class ExportTask extends SimpleTask<String> {
         try {
             try {
                 writer = new BufferedWriter(new FileWriter(file));
-                GsonUtil.exportData(base, writer);
+                GsonUtil.INSTANCE.exportData(base, writer);
             } finally {
                 if (writer != null) {
                     writer.close();

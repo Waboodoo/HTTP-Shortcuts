@@ -65,9 +65,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            Drawable upArrow = UIUtil.getDrawable(getContext(), iconResource);
+            Drawable upArrow = UIUtil.INSTANCE.getDrawable(getContext(), iconResource);
             if (upArrow != null) {
-                upArrow.setColorFilter(UIUtil.getColor(getContext(), android.R.color.white), PorterDuff.Mode.SRC_ATOP);
+                upArrow.setColorFilter(UIUtil.INSTANCE.getColor(getContext(), android.R.color.white), PorterDuff.Mode.SRC_ATOP);
                 actionBar.setHomeAsUpIndicator(upArrow);
             }
         }

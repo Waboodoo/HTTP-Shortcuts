@@ -161,7 +161,7 @@ public class ListFragment extends Fragment {
         if (shortcutList != null && shortcutList.getLayoutManager() instanceof GridLayoutManager) {
             ((GridLayoutManager) shortcutList.getLayoutManager()).setEmpty(shortcuts.isEmpty());
         }
-        LauncherShortcutManager.updateAppShortcuts(getContext(), controller.getCategories());
+        LauncherShortcutManager.INSTANCE.updateAppShortcuts(getContext(), controller.getCategories());
     }
 
     public long getCategoryId() {
@@ -260,7 +260,7 @@ public class ListFragment extends Fragment {
     }
 
     private void executeShortcut(Shortcut shortcut) {
-        Intent intent = IntentUtil.createIntent(getContext(), shortcut.getId());
+        Intent intent = IntentUtil.INSTANCE.createIntent(getContext(), shortcut.getId());
         startActivity(intent);
     }
 
@@ -367,7 +367,7 @@ public class ListFragment extends Fragment {
         int i = 0;
         for (Shortcut s : category.getShortcuts()) {
             if (s.getId() == shortcut.getId()) {
-                position = i+1;
+                position = i + 1;
                 break;
             }
             i++;
