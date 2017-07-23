@@ -55,7 +55,7 @@ class KeyValueList<T : KeyValuePair> : FrameLayout, Destroyable {
 
         button!!.setOnClickListener { showAddDialog() }
 
-        listView!!.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+        listView!!.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
             val item = adapter!!.getItem(position)
             showEditDialog(item)
         }
@@ -76,7 +76,7 @@ class KeyValueList<T : KeyValuePair> : FrameLayout, Destroyable {
                 .customView(R.layout.dialog_key_value_editor, false)
                 .title(if (isNew) addDialogTitle else editDialogTitle)
                 .positiveText(R.string.dialog_ok)
-                .onPositive { dialog, which ->
+                .onPositive { dialog, _ ->
                     val keyField = dialog.findViewById(R.id.key_value_key) as EditText
                     val valueField = dialog.findViewById(R.id.key_value_value) as EditText
                     if (!keyField.text.toString().isEmpty()) {
@@ -93,7 +93,7 @@ class KeyValueList<T : KeyValuePair> : FrameLayout, Destroyable {
                 }
         if (!isNew) {
             builder.neutralText(R.string.dialog_remove)
-                    .onNeutral { dialog, which ->
+                    .onNeutral { _, _ ->
                         adapter!!.remove(item)
                         updateListViewHeightBasedOnChildren()
                     }
