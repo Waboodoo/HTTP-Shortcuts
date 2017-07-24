@@ -6,7 +6,7 @@ class Destroyer : Destroyable {
 
     private val destroyables = HashSet<Destroyable>()
 
-    fun <T : Destroyable> own(destroyable: T): T {
+    fun <T> own(destroyable: T): T where T : Destroyable {
         destroyables.add(destroyable)
         return destroyable
     }

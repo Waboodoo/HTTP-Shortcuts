@@ -61,7 +61,7 @@ public class VariablesActivity extends BaseActivity {
         variableList.addItemDecoration(new ShortcutListDecorator(this, R.drawable.list_divider));
         variableList.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(clickedListener);
+        adapter.setClickListener(clickedListener);
 
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,11 +137,13 @@ public class VariablesActivity extends BaseActivity {
     }
 
     private void showHelp() {
-        destroyer.own(new HelpDialogBuilder(this)
-                .title(R.string.help_title_variables)
-                .message(R.string.help_variables)
-                .build()
-        ).show();
+        destroyer.own(
+                new HelpDialogBuilder(this)
+                        .title(R.string.help_title_variables)
+                        .message(R.string.help_variables)
+                        .build()
+                        .show()
+        );
     }
 
 }

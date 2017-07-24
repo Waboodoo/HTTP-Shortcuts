@@ -34,8 +34,6 @@ class HelpDialogBuilder(context: Context) {
         return this
     }
 
-    fun build(): HelpDialog {
-        return HelpDialog(builder.build())
-    }
+    fun build() = HelpDialog(builder.build())
 
 }

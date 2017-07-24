@@ -149,7 +149,7 @@ public class ListFragment extends Fragment {
             }
         }
         adapter.setPendingShortcuts(controller.getShortcutsPendingExecution());
-        adapter.setOnItemClickListener(clickListener);
+        adapter.setClickListener(clickListener);
         adapter.setItems(category.getShortcuts());
 
         shortcutList.setLayoutManager(manager);

@@ -2,7 +2,7 @@ package ch.rmy.android.http_shortcuts.utils
 
 object ArrayUtil {
 
-    fun findIndex(items: Array<Any>, item: Any): Int {
+    fun <T> findIndex(items: Array<T>, item: T): Int {
         return items.indices.firstOrNull { equals(items[it], item) } ?: 0
     }
 

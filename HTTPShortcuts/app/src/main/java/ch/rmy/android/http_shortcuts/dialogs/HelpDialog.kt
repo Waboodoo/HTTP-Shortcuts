@@ -4,13 +4,15 @@ import android.app.Dialog
 
 import ch.rmy.android.http_shortcuts.utils.Destroyable
 
-class HelpDialog constructor(private val dialog: Dialog) : Destroyable {
+class HelpDialog constructor(private val dialog: Dialog) {
 
-    fun show() {
+    fun show(): Destroyable {
         dialog.show()
+        return object : Destroyable {
+            override fun destroy() {
+                dialog.dismiss()
+            }
+        }
     }
 
-    override fun destroy() {
-        dialog.dismiss()
-    }
 }

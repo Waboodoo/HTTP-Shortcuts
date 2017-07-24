@@ -61,7 +61,7 @@ public class CategoriesActivity extends BaseActivity {
         categoryList.addItemDecoration(new ShortcutListDecorator(this, R.drawable.list_divider));
         categoryList.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(clickedListener);
+        adapter.setClickListener(clickedListener);
 
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
