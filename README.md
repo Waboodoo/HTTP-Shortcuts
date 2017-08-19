@@ -49,9 +49,15 @@ This app uses [Stetho](https://github.com/facebook/stetho), which means you can 
 ### Bulk Creation / Modifying of Shortcuts
 If you want to add or edit a lot of shortcuts at once it can be very cumbersome to do so through the app's UI. An easy solution is to go to the apps settings and use the export feature. It provides you with a JSON file that you can easily modify with any tool you want. Once you are done you can import it again and voila: you have all your changes in the app.
 
+## Acknowledgments
 
-## Translations
+### Features
+- Adding basic voice command support: [Adrián López](https://github.com/adrianlzt)
+- Improving quality of generated icons: [idmadj](https://github.com/idmadj)
+
+### Translations
 - German: [Roland Meyer](https://github.com/Waboodoo)
+- Brazilian Portuguese: [Eduardo Folly](https://github.com/idmadj)
 - Chinese: [Kevin Mao](https://github.com/yuanrunmao)
 
 Help me translate this app, feel free to open a pull request to add new languages or to fix translation mistakes.
