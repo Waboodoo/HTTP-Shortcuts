@@ -1,10 +1,14 @@
 package ch.rmy.android.http_shortcuts.activities;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -476,7 +480,8 @@ public class EditorActivity extends BaseActivity {
             try {
                 in = getContentResolver().openInputStream(intent.getData());
                 Bitmap bitmap = BitmapFactory.decodeStream(in);
-                Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, 96, 96, false);
+                int bitmapSize = getIconSize();
+                Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, bitmapSize, bitmapSize, true);
                 if (bitmap != resizedBitmap) {
                     bitmap.recycle();
                 }
@@ -506,6 +511,18 @@ public class EditorActivity extends BaseActivity {
             shortcut.setIconName(uri.toString());
         }
         updateUI();
+    }
+
+    private int getIconSize() {
+        int appIconSize = (int) getResources().getDimension(android.R.dimen.app_icon_size);
+        int launcherIconSize = Build.VERSION.SDK_INT >= 11 ? getLauncherLargeIconSize() : 0;
+        return launcherIconSize > appIconSize ? launcherIconSize : appIconSize;
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    private int getLauncherLargeIconSize() {
+        ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        return activityManager.getLauncherLargeIconSize();
     }
 
     @Override
