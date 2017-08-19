@@ -11,7 +11,7 @@ open class TextType : BaseVariableType(), AsyncVariableType {
     override fun hasTitle() = true
 
     override fun createDialog(context: Context, controller: Controller, variable: Variable, deferredValue: Deferred<String, Void, Void>): Showable {
-        val builder = BaseVariableType.Companion.createDialogBuilder(context, variable, deferredValue)
+        val builder = BaseVariableType.createDialogBuilder(context, variable, deferredValue)
         builder.input(null, if (variable.rememberValue) variable.value else "") { _, input ->
             deferredValue.resolve(input.toString())
             controller.setVariableValue(variable, input.toString())

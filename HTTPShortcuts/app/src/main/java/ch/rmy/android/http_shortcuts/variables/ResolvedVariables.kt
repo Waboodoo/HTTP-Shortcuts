@@ -35,7 +35,7 @@ class ResolvedVariables {
             var encodedValue = value
             if (variable.jsonEncode) {
                 encodedValue = JSONObject.quote(encodedValue)
-                encodedValue = value.substring(1, encodedValue.length - 1)
+                encodedValue = encodedValue.substring(1, encodedValue.length - 1)
             }
             if (variable.urlEncode) {
                 try {

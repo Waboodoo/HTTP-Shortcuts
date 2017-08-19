@@ -56,7 +56,9 @@ class VariableResolver(private val context: Context) {
                     } else {
                         waitingDialogs[index + 1].show()
                     }
-                }.fail { deferred.reject(null) }
+                }.fail {
+                    deferred.reject(null)
+                }
 
                 val dialog = variableType.createDialog(context, controller, variable, deferredValue)
 

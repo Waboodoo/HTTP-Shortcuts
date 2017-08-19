@@ -66,7 +66,9 @@ class ExecuteActivity : BaseActivity() {
                 if (!shortcut!!.feedbackUsesUI()) {
                     finishWithoutAnimation()
                 }
-            }.fail { finishWithoutAnimation() }
+            }.fail {
+                finishWithoutAnimation()
+            }
         } else {
             if (!shortcut!!.feedbackUsesUI()) {
                 finishWithoutAnimation()
@@ -78,7 +80,13 @@ class ExecuteActivity : BaseActivity() {
         val variables = controller!!.variables
         return VariableResolver(this)
                 .resolve(shortcut!!, variables, variableValues)
-                .done { resolvedVariables -> execute(resolvedVariables) }.fail { controller!!.destroy() }
+                .done {
+                    resolvedVariables ->
+                    execute(resolvedVariables)
+                }
+                .fail {
+                    controller!!.destroy()
+                }
     }
 
     private fun execute(resolvedVariables: ResolvedVariables) {
