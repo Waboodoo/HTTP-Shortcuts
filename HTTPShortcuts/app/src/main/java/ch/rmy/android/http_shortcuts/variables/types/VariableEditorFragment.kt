@@ -14,9 +14,12 @@ open class VariableEditorFragment : Fragment() {
     protected open val layoutResource = R.layout.empty_layout
 
     override fun onCreateView(inflater: LayoutInflater?, parent: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater!!.inflate(layoutResource, parent, false)
-        setupViews(view)
-        return view
+        return inflater!!.inflate(layoutResource, parent, false)
+    }
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupViews(view!!)
     }
 
     protected open fun setupViews(parent: View) {

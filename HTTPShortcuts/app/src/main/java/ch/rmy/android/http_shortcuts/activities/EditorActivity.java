@@ -135,10 +135,10 @@ public class EditorActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
-        destroyer.own(parameterList);
-        destroyer.own(customHeaderList);
+        getDestroyer().own(parameterList);
+        getDestroyer().own(customHeaderList);
 
-        controller = destroyer.own(new Controller());
+        controller = getDestroyer().own(new Controller());
         variables = controller.getVariables();
 
         shortcutId = getIntent().getLongExtra(EXTRA_SHORTCUT_ID, 0);
@@ -265,7 +265,7 @@ public class EditorActivity extends BaseActivity {
     }
 
     private void bindVariableFormatter(EditText editText) {
-        destroyer.own(VariableFormatter.Companion.bind(editText, variables));
+        getDestroyer().own(VariableFormatter.Companion.bind(editText, variables));
     }
 
     private void updateUI() {

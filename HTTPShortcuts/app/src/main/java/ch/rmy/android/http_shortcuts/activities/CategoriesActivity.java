@@ -50,9 +50,9 @@ public class CategoriesActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categories);
 
-        controller = destroyer.own(new Controller());
+        controller = getDestroyer().own(new Controller());
         categories = controller.getCategories();
-        CategoryAdapter adapter = destroyer.own(new CategoryAdapter(this));
+        CategoryAdapter adapter = getDestroyer().own(new CategoryAdapter(this));
         adapter.setItems(controller.getBase().getCategories());
 
         LinearLayoutManager manager = new LinearLayoutManager(this);

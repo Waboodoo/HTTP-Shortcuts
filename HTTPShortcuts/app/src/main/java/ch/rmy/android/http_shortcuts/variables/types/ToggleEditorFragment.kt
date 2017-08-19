@@ -1,12 +1,14 @@
 package ch.rmy.android.http_shortcuts.variables.types
 
 import android.view.View
+import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.realm.models.Option
 import ch.rmy.android.http_shortcuts.realm.models.Variable
 import com.afollestad.materialdialogs.MaterialDialog
-import kotlinx.android.synthetic.main.variable_editor_toggle.*
+import kotterknife.bindView
 
 class ToggleEditorFragment : VariableEditorFragment() {
 
@@ -14,8 +16,11 @@ class ToggleEditorFragment : VariableEditorFragment() {
 
     override val layoutResource = R.layout.variable_editor_toggle
 
+    val toggleOptionsAddButton: Button by bindView(R.id.toggle_options_add_button)
+    val toggleOptionsList: LinearLayout by bindView(R.id.toggle_options_list)
+
     override fun setupViews(parent: View) {
-        toggle_options_add_button.setOnClickListener { showAddDialog() }
+        toggleOptionsAddButton.setOnClickListener { showAddDialog() }
     }
 
     private fun showAddDialog() {
@@ -33,16 +38,16 @@ class ToggleEditorFragment : VariableEditorFragment() {
 
     override fun updateViews(variable: Variable) {
         this.variable = variable
-        toggle_options_list.removeAllViews()
+        toggleOptionsList.removeAllViews()
         var i = 0
         for (option in variable.options!!) {
-            toggle_options_list.addView(createOptionView(option, i))
+            toggleOptionsList.addView(createOptionView(option, i))
             i++
         }
     }
 
     private fun createOptionView(option: Option, index: Int): View {
-        val optionView = getLayoutInflater(null).inflate(R.layout.toggle_option, toggle_options_list, false)
+        val optionView = getLayoutInflater(null).inflate(R.layout.toggle_option, toggleOptionsList, false)
         (optionView.findViewById(R.id.toggle_option_value) as TextView).text = option.value
         optionView.setOnClickListener { showEditDialog(option, index) }
         return optionView

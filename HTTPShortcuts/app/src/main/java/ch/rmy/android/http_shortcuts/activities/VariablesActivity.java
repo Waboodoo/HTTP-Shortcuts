@@ -50,9 +50,9 @@ public class VariablesActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_variables);
 
-        controller = destroyer.own(new Controller());
+        controller = getDestroyer().own(new Controller());
 
-        VariableAdapter adapter = destroyer.own(new VariableAdapter(this));
+        VariableAdapter adapter = getDestroyer().own(new VariableAdapter(this));
         adapter.setItems(controller.getBase().getVariables());
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
@@ -137,7 +137,7 @@ public class VariablesActivity extends BaseActivity {
     }
 
     private void showHelp() {
-        destroyer.own(
+        getDestroyer().own(
                 new HelpDialogBuilder(this)
                         .title(R.string.help_title_variables)
                         .message(R.string.help_variables)

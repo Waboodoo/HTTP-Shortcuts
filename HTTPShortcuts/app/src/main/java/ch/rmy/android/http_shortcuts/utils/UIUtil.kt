@@ -35,7 +35,7 @@ object UIUtil {
     }
 
     @Suppress("DEPRECATION")
-    fun getDrawable(context: Context, @DrawableRes drawableRes: Int): Drawable {
+    fun getDrawable(context: Context, @DrawableRes drawableRes: Int): Drawable? {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             return context.resources.getDrawable(drawableRes, context.theme)
         } else {

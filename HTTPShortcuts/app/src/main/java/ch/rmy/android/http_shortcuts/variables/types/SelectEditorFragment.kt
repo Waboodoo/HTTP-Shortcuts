@@ -1,12 +1,14 @@
 package ch.rmy.android.http_shortcuts.variables.types
 
 import android.view.View
+import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.realm.models.Option
 import ch.rmy.android.http_shortcuts.realm.models.Variable
 import com.afollestad.materialdialogs.MaterialDialog
-import kotlinx.android.synthetic.main.variable_editor_select.*
+import kotterknife.bindView
 
 class SelectEditorFragment : VariableEditorFragment() {
 
@@ -14,22 +16,25 @@ class SelectEditorFragment : VariableEditorFragment() {
 
     override val layoutResource = R.layout.variable_editor_select
 
+    val selectOptionsAddButton: Button by bindView(R.id.select_options_add_button)
+    val selectOptionsList: LinearLayout by bindView(R.id.select_options_list)
+
     override fun setupViews(parent: View) {
-        select_options_add_button.setOnClickListener { showEditDialog(null, -1) }
+        selectOptionsAddButton.setOnClickListener { showEditDialog(null, -1) }
     }
 
     override fun updateViews(variable: Variable) {
         this.variable = variable
-        select_options_list.removeAllViews()
+        selectOptionsList.removeAllViews()
         var i = 0
         for (option in variable.options!!) {
-            select_options_list.addView(createOptionView(option, i))
+            selectOptionsList.addView(createOptionView(option, i))
             i++
         }
     }
 
     private fun createOptionView(option: Option, index: Int): View {
-        val optionView = getLayoutInflater(null).inflate(R.layout.select_option, select_options_list, false)
+        val optionView = getLayoutInflater(null).inflate(R.layout.select_option, selectOptionsList, false)
         (optionView.findViewById(R.id.select_option_label) as TextView).text = option.label
         optionView.setOnClickListener { showEditDialog(option, index) }
         return optionView
