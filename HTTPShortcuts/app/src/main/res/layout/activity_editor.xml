@@ -175,7 +175,6 @@
                     android:text="@string/section_request_body"/>
 
                 <LinearLayout
-                    android:id="@+id/post_params_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">

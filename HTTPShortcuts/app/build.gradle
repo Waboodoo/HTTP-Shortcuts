@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions' // TODO: Remove this
 
 android {
     compileSdkVersion 25
@@ -50,7 +49,6 @@ dependencies {
     /* UI */
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
-    compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.satsuware.lib:usefulviews:2.3.1'
     compile 'com.github.castorflex.smoothprogressbar:library:1.1.0'
     compile 'com.github.castorflex.smoothprogressbar:library-circular:1.1.0'

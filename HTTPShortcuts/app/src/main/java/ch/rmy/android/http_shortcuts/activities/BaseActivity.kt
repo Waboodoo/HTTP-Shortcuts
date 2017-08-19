@@ -10,7 +10,6 @@ import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.ViewGroup
 import android.view.WindowManager
-import butterknife.ButterKnife
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.ThemeHelper
@@ -31,17 +30,12 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun setContentView(layoutResID: Int) {
         setTheme(themeHelper!!.theme)
         super.setContentView(layoutResID)
-        bindViews()
         toolbar = findViewById(R.id.toolbar) as Toolbar? ?: return
         updateStatusBarColor()
         setSupportActionBar(toolbar)
         if (navigateUpIcon != 0) {
             enableNavigateUpButton(navigateUpIcon)
         }
-    }
-
-    open fun bindViews() { // TODO: Remove this once everything is migrated to Kotlin
-        ButterKnife.bind(this);
     }
 
     protected val context = this

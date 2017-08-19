@@ -10,7 +10,7 @@ class MenuDialogBuilder(context: Context) {
 
     private val builder: MaterialDialog.Builder = MaterialDialog.Builder(context)
     private val names = ArrayList<CharSequence>()
-    private val actions = ArrayList<Action>()
+    private val actions = ArrayList<() -> Unit>()
 
     fun title(@StringRes title: Int): MenuDialogBuilder {
         builder.title(builder.context.getString(title))
@@ -22,11 +22,11 @@ class MenuDialogBuilder(context: Context) {
         return this
     }
 
-    fun item(@StringRes name: Int, action: Action): MenuDialogBuilder {
+    fun item(@StringRes name: Int, action: () -> Unit): MenuDialogBuilder {
         return item(builder.context.getString(name), action)
     }
 
-    fun item(name: CharSequence, action: Action): MenuDialogBuilder {
+    fun item(name: CharSequence, action: () -> Unit): MenuDialogBuilder {
         names.add(name)
         actions.add(action)
         return this
@@ -39,14 +39,8 @@ class MenuDialogBuilder(context: Context) {
 
     fun show() {
         builder.items(names).itemsCallback { _, _, which, _ ->
-            actions[which].execute()
+            actions[which]()
         }.show()
-    }
-
-    interface Action {
-
-        fun execute()
-
     }
 
 }

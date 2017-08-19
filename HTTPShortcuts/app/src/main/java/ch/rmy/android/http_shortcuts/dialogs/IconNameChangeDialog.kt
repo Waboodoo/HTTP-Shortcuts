@@ -20,7 +20,7 @@ class IconNameChangeDialog(private val context: Context) {
                 .build()
 
         val checkBox = dialog.findViewById(R.id.checkbox_do_not_show_again) as CheckBox
-        checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
+        checkBox.setOnCheckedChangeListener { _, isChecked ->
             settings.isIconNameWarningPermanentlyHidden = isChecked
         }
 

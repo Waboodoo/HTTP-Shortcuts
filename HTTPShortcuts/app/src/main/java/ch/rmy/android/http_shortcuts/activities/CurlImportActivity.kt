@@ -22,7 +22,7 @@ class CurlImportActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_curl_import)
 
-        curlCommand!!.addTextChangedListener(object : SimpleTextWatcher() {
+        curlCommand.addTextChangedListener(object : SimpleTextWatcher() {
             override fun afterTextChanged(s: Editable) {
                 checkIfCommandEmpty()
             }
@@ -30,7 +30,7 @@ class CurlImportActivity : BaseActivity() {
     }
 
     private fun checkIfCommandEmpty() {
-        val commandEmpty = curlCommand!!.text.isEmpty()
+        val commandEmpty = curlCommand.text.isEmpty()
         if (this.commandEmpty != commandEmpty) {
             this.commandEmpty = commandEmpty
             invalidateOptionsMenu()
@@ -40,7 +40,7 @@ class CurlImportActivity : BaseActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.curl_import_activity_menu, menu)
-        menu.findItem(R.id.action_create_from_curl).isVisible = curlCommand!!.text.isNotEmpty()
+        menu.findItem(R.id.action_create_from_curl).isVisible = curlCommand.text.isNotEmpty()
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -55,7 +55,7 @@ class CurlImportActivity : BaseActivity() {
     }
 
     private fun startImport() {
-        val commandString = curlCommand!!.text.toString()
+        val commandString = curlCommand.text.toString()
         val command = CurlParser.parse(commandString)
 
         val intent = Intent(this, EditorActivity::class.java)
