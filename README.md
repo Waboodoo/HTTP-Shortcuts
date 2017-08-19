@@ -52,12 +52,12 @@ If you want to add or edit a lot of shortcuts at once it can be very cumbersome 
 ## Acknowledgments
 
 ### Features
-- [Adrián López](https://github.com/adrianlzt): Adding basic voice command support
-- [idmadj](https://github.com/idmadj): Improving quality of generated icons
+- Adding basic voice command support: [Adrián López](https://github.com/adrianlzt)
+- Improving quality of generated icons: [idmadj](https://github.com/idmadj)
 
 ### Translations
 - German: [Roland Meyer](https://github.com/Waboodoo)
-- Brazilian Portuguese [Eduardo Folly](https://github.com/idmadj)
+- Brazilian Portuguese: [Eduardo Folly](https://github.com/idmadj)
 - Chinese: [Kevin Mao](https://github.com/yuanrunmao)
 
 Help me translate this app, feel free to open a pull request to add new languages or to fix translation mistakes.
