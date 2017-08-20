@@ -91,7 +91,7 @@ class ExecuteActivity : BaseActivity() {
 
     private fun execute(resolvedVariables: ResolvedVariables) {
         showProgress()
-        HttpRequester.executeShortcut(context, shortcut, resolvedVariables).done { response ->
+        HttpRequester.executeShortcut(context, shortcut!!, resolvedVariables).done { response ->
             setLastResponse(response)
             if (shortcut!!.isFeedbackErrorsOnly()) {
                 finishWithoutAnimation()

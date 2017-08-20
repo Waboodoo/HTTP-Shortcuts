@@ -24,7 +24,6 @@ import ch.rmy.android.http_shortcuts.icons.IconSelector
 import ch.rmy.android.http_shortcuts.icons.IconView
 import ch.rmy.android.http_shortcuts.icons.Icons
 import ch.rmy.android.http_shortcuts.key_value_pairs.KeyValueList
-import ch.rmy.android.http_shortcuts.key_value_pairs.KeyValuePairFactory
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Header
 import ch.rmy.android.http_shortcuts.realm.models.Parameter
@@ -163,11 +162,7 @@ class EditorActivity : BaseActivity() {
         parameterList.setEditDialogTitle(R.string.title_post_param_edit)
         parameterList.setKeyLabel(R.string.label_post_param_key)
         parameterList.setValueLabel(R.string.label_post_param_value)
-        parameterList.setItemFactory(object : KeyValuePairFactory<Parameter> {
-            override fun create(key: String, value: String): Parameter {
-                return Parameter.createNew(key, value)
-            }
-        })
+        parameterList.setItemFactory({ key, value -> Parameter.createNew(key, value) })
 
         customHeaderList.addItems(shortcut!!.headers!!)
         customHeaderList.setButtonText(R.string.button_add_custom_header)
@@ -175,11 +170,7 @@ class EditorActivity : BaseActivity() {
         customHeaderList.setEditDialogTitle(R.string.title_custom_header_edit)
         customHeaderList.setKeyLabel(R.string.label_custom_header_key)
         customHeaderList.setValueLabel(R.string.label_custom_header_value)
-        customHeaderList.setItemFactory(object : KeyValuePairFactory<Header> {
-            override fun create(key: String, value: String): Header {
-                return Header.createNew(key, value)
-            }
-        })
+        customHeaderList.setItemFactory({ key, value -> Header.createNew(key, value) })
         customHeaderList.setSuggestions(Header.SUGGESTED_KEYS)
 
         feedbackView.setItemsArray(ShortcutUIUtils.getFeedbackOptions(context))

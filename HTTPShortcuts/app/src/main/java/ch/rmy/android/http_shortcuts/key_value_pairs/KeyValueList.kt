@@ -20,7 +20,7 @@ class KeyValueList<T : KeyValuePair> : FrameLayout, Destroyable {
     internal var listView: ListView? = null
 
     private var adapter: KeyValueAdapter<T>? = null
-    private var factory: KeyValuePairFactory<T>? = null
+    private var factory: ((key: String, value: String) -> T)? = null
     private var addDialogTitle: Int = 0
     private var editDialogTitle: Int = 0
     private var keyLabel: Int = 0
@@ -81,7 +81,7 @@ class KeyValueList<T : KeyValuePair> : FrameLayout, Destroyable {
                     val valueField = dialog.findViewById(R.id.key_value_value) as EditText
                     if (!keyField.text.toString().isEmpty()) {
                         if (isNew) {
-                            val newItem = factory!!.create(keyField.text.toString(), valueField.text.toString())
+                            val newItem = factory!!(keyField.text.toString(), valueField.text.toString())
                             adapter!!.add(newItem)
                             updateListViewHeightBasedOnChildren()
                         } else {
@@ -150,7 +150,7 @@ class KeyValueList<T : KeyValuePair> : FrameLayout, Destroyable {
         this.editDialogTitle = resId
     }
 
-    fun setItemFactory(factory: KeyValuePairFactory<T>) {
+    fun setItemFactory(factory: (key: String, value: String) -> T) {
         this.factory = factory
     }
 
