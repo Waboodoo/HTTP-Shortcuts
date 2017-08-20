@@ -29,4 +29,8 @@ open class Header : RealmObject(), KeyValuePair {
         }
     }
 
+    fun isSameAs(other: Header): Boolean {
+        return other.key == key && other.value == value
+    }
+
 }

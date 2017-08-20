@@ -47,7 +47,7 @@ internal object HttpClients {
 
             return OkHttpClient.Builder()
                     .sslSocketFactory(sslSocketFactory, trustAllCerts[0])
-                    .hostnameVerifier { hostname, session -> true }
+                    .hostnameVerifier { _, _ -> true }
         } catch (e: Exception) {
             throw RuntimeException(e)
         }

@@ -322,7 +322,7 @@ class EditorActivity : BaseActivity() {
             MaterialDialog.Builder(this)
                     .content(R.string.confirm_discard_changes_message)
                     .positiveText(R.string.dialog_discard)
-                    .onPositive { dialog, which -> cancelAndClose() }
+                    .onPositive { _, _ -> cancelAndClose() }
                     .negativeText(R.string.dialog_cancel)
                     .show()
         } else {
@@ -330,9 +330,7 @@ class EditorActivity : BaseActivity() {
         }
     }
 
-    private fun hasChanges(): Boolean {
-        return oldShortcut != shortcut
-    }
+    private fun hasChanges() = !oldShortcut!!.isSameAs(shortcut!!)
 
     private fun compileShortcut() {
         shortcut!!.name = nameView.text.toString().trim { it <= ' ' }

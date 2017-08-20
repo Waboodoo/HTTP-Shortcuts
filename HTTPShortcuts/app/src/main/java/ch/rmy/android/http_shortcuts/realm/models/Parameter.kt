@@ -27,4 +27,8 @@ open class Parameter : RealmObject(), KeyValuePair {
         }
     }
 
+    fun isSameAs(other: Parameter): Boolean {
+        return other.key == key && other.value == value
+    }
+
 }

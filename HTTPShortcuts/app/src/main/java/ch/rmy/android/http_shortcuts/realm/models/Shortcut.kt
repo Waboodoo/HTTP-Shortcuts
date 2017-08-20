@@ -152,6 +152,35 @@ open class Shortcut : RealmObject(), HasId {
         return AUTHENTICATION_DIGEST == authentication
     }
 
+    fun isSameAs(other: Shortcut): Boolean {
+        if (other.name != name ||
+                other.bodyContent != bodyContent ||
+                other.description != description ||
+                other.feedback != feedback ||
+                other.iconName != iconName ||
+                other.method != method ||
+                other.password != password ||
+                other.retryPolicy != retryPolicy ||
+                other.timeout != timeout ||
+                other.url != url ||
+                other.username != username ||
+                other.authentication != authentication ||
+                other.launcherShortcut != launcherShortcut ||
+                other.acceptAllCertificates != acceptAllCertificates ||
+                other.parameters!!.size != parameters!!.size ||
+                other.headers!!.size != headers!!.size
+                ) {
+            return false;
+        }
+        if (other.parameters!!.indices.any { !parameters!![it].isSameAs(other.parameters!![it]) }) {
+            return false;
+        }
+        if (other.headers!!.indices.any { !headers!![it].isSameAs(other.headers!![it]) }) {
+            return false;
+        }
+        return true;
+    }
+
     companion object {
 
         const val TEMPORARY_ID: Long = -1
