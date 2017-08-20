@@ -43,6 +43,21 @@ open class Variable : RealmObject(), HasId {
         return !rememberValue && (TYPE_TEXT == type || TYPE_NUMBER == type || TYPE_PASSWORD == type || TYPE_COLOR == type)
     }
 
+    fun isSameAs(other: Variable): Boolean {
+        if (other.key != key ||
+                other.type != type ||
+                other.value != value ||
+                other.title != title ||
+                other.options!!.size != options!!.size
+                ) {
+            return false
+        }
+        if (other.options!!.indices.any { !options!![it].isSameAs(other.options!![it]) }) {
+            return false;
+        }
+        return true
+    }
+
     companion object {
 
         const val FIELD_KEY = "key"

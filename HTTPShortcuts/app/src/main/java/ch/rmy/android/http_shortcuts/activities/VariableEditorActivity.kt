@@ -155,9 +155,7 @@ class VariableEditorActivity : BaseActivity() {
         }
     }
 
-    private fun hasChanges(): Boolean {
-        return oldVariable != variable // TODO
-    }
+    private fun hasChanges() = !oldVariable!!.isSameAs(variable!!)
 
     private fun trySave() {
         compileVariable()
