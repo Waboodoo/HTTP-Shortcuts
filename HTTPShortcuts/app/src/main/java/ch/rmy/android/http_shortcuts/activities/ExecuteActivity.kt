@@ -19,6 +19,7 @@ import ch.rmy.android.http_shortcuts.variables.ResolvedVariables
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import com.afollestad.materialdialogs.MaterialDialog
 import com.android.volley.VolleyError
+import com.bugsnag.android.Bugsnag
 import fr.castorflex.android.circularprogressbar.CircularProgressBar
 import io.github.kbiakov.codeview.CodeView
 import kotterknife.bindView
@@ -237,7 +238,7 @@ class ExecuteActivity : BaseActivity() {
     }
 
     private fun canShareResponse(): Boolean {
-        return lastResponse != null
+        return lastResponse != null && lastResponse!!.bodyAsString.length < MAX_SHARE_LENGTH
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -252,10 +253,15 @@ class ExecuteActivity : BaseActivity() {
         if (!canShareResponse()) {
             return
         }
-        val sharingIntent = Intent(android.content.Intent.ACTION_SEND)
-        sharingIntent.type = ShortcutResponse.TYPE_TEXT
-        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, lastResponse!!.bodyAsString)
-        startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_title)))
+        try {
+            val sharingIntent = Intent(android.content.Intent.ACTION_SEND)
+            sharingIntent.type = ShortcutResponse.TYPE_TEXT
+            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, lastResponse!!.bodyAsString)
+            startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_title)))
+        } catch (e: Exception) {
+            Toast.makeText(context, R.string.error_share_failed, Toast.LENGTH_LONG).show()
+            Bugsnag.notify(e)
+        }
     }
 
     override val navigateUpIcon = R.drawable.ic_clear
@@ -267,6 +273,8 @@ class ExecuteActivity : BaseActivity() {
         const val EXTRA_VARIABLE_VALUES = "variable_values"
 
         private const val TOAST_MAX_LENGTH = 400
+
+        private const val MAX_SHARE_LENGTH = 800000
 
         private fun truncateIfNeeded(string: String, maxLength: Int): String {
             return if (string.length > maxLength) string.substring(0, maxLength) + "…" else string

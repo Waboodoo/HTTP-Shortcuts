@@ -246,4 +246,5 @@
     <string name="authentication_basic">Basic Authentication</string>
     <string name="authentication_digest">Digest Authentication</string>
     <string name="label_launcher_shortcut">Show as app shortcut on launcher</string>
+    <string name="error_share_failed">An error occurred while sharing.</string>
 </resources>
