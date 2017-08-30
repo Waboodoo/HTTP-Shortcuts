@@ -10,6 +10,7 @@ import ch.rmy.android.http_shortcuts.adapters.ShortcutAdapter
 import ch.rmy.android.http_shortcuts.adapters.ShortcutGridAdapter
 import ch.rmy.android.http_shortcuts.adapters.ShortcutListAdapter
 import ch.rmy.android.http_shortcuts.dialogs.CurlExportDialog
+import ch.rmy.android.http_shortcuts.http.ExecutionService
 import ch.rmy.android.http_shortcuts.listeners.OnItemClickedListener
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Category
@@ -285,6 +286,7 @@ class ListFragment : BaseFragment() {
         val pendingExecution = getPendingExecution(shortcut) ?: return
         controller!!.removePendingExecution(pendingExecution)
         tabHost.showSnackbar(String.format(getString(R.string.pending_shortcut_execution_cancelled), shortcut.name))
+        ExecutionService.start(context)
     }
 
     private fun showCurlExportDialog(shortcut: Shortcut) {
@@ -334,6 +336,7 @@ class ListFragment : BaseFragment() {
         tabHost.showSnackbar(String.format(getString(R.string.shortcut_deleted), shortcut.name))
         tabHost.removeShortcutFromHomeScreen(shortcut)
         controller!!.deleteShortcut(shortcut)
+        ExecutionService.start(context)
     }
 
     private val tabHost: TabHost

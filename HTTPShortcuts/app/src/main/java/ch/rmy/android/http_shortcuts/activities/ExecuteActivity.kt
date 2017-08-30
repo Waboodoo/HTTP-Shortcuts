@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.http.ExecutionService
 import ch.rmy.android.http_shortcuts.http.HttpRequester
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.realm.Controller
@@ -104,6 +105,7 @@ class ExecuteActivity : BaseActivity() {
         }.fail { error ->
             if (!shortcut!!.feedbackUsesUI() && Shortcut.RETRY_POLICY_WAIT_FOR_INTERNET == shortcut!!.retryPolicy && error.networkResponse == null) {
                 controller!!.createPendingExecution(shortcut!!.id, resolvedVariables.toList())
+                ExecutionService.start(context)
                 if (Shortcut.FEEDBACK_NONE != shortcut!!.feedback) {
                     showToast(String.format(context.getString(R.string.execution_delayed), shortcut!!.getSafeName(context)), Toast.LENGTH_LONG)
                 }
@@ -259,7 +261,7 @@ class ExecuteActivity : BaseActivity() {
             sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, lastResponse!!.bodyAsString)
             startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_title)))
         } catch (e: Exception) {
-            Toast.makeText(context, R.string.error_share_failed, Toast.LENGTH_LONG).show()
+            showToast(getString(R.string.error_share_failed), Toast.LENGTH_LONG)
             Bugsnag.notify(e)
         }
     }
