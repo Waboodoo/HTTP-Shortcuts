@@ -69,9 +69,10 @@ open class Variable : RealmObject(), HasId {
         const val TYPE_SELECT = "select"
         const val TYPE_TOGGLE = "toggle"
         const val TYPE_COLOR = "color"
+        const val TYPE_DATE = "date"
 
-        val TYPE_OPTIONS = arrayOf(TYPE_CONSTANT, TYPE_TEXT, TYPE_NUMBER, TYPE_PASSWORD, TYPE_COLOR, TYPE_SELECT, TYPE_TOGGLE)
-        val TYPE_RESOURCES = intArrayOf(R.string.variable_type_constant, R.string.variable_type_text, R.string.variable_type_number, R.string.variable_type_password, R.string.variable_type_color, R.string.variable_type_select, R.string.variable_type_toggle)
+        val TYPE_OPTIONS = arrayOf(TYPE_CONSTANT, TYPE_TEXT, TYPE_NUMBER, TYPE_PASSWORD, TYPE_COLOR, TYPE_SELECT, TYPE_TOGGLE, TYPE_DATE)
+        val TYPE_RESOURCES = intArrayOf(R.string.variable_type_constant, R.string.variable_type_text, R.string.variable_type_number, R.string.variable_type_password, R.string.variable_type_color, R.string.variable_type_select, R.string.variable_type_toggle, R.string.variable_type_date)
 
         private const val FLAG_SHARE_TEXT = 0x1
 

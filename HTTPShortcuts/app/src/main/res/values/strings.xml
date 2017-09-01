@@ -179,6 +179,7 @@
     <string name="variable_type_password">Password Input</string>
     <string name="variable_type_select">Selection</string>
     <string name="variable_type_toggle">Toggle</string>
+    <string name="variable_type_date">Date</string>
     <string name="variable_type_color">Color Input</string>
     <string name="warning_invalid_variable_key">Variable keys may only contain letters and digits.
     </string>

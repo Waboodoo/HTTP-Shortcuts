@@ -2,6 +2,10 @@
 <resources>
     <string name="changelog_text" translatable="false"><![CDATA[
         <p>
+            <b>Version 1.17.0</b><br>
+            - Coming soon
+        </p>
+        <p>
             <b>Version 1.16.0</b><br>
             - Support for Digest Auth<br>
             - Support for OPTIONS, HEAD and TRACE methods<br>
@@ -147,6 +151,10 @@
         <p>
             <u>Color</u><br>
             The <i>color</i> type triggers a prompt dialog where a color can be selected. Its value is returned in RGB hex format (e.g. ff0000 for red).
+        </p>
+        <p>
+            <u>Date</u><br>
+            The <i>date</i> type triggers a prompt dialog where a date can be selected.
         </p>
         <p>
             <b>What does <i>Allow \'Share …\'</i> mean?</b><br><b>How can I share text into variables?</b><br>
