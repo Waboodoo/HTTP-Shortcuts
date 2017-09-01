@@ -3,7 +3,11 @@
     <string name="changelog_text" translatable="false"><![CDATA[
         <p>
             <b>Version 1.17.0</b><br>
-            - Coming soon
+            - New variable type: date<br>
+            - Fixed/improved retry on failure<br>
+            - Portuguese translations<br>
+            - Improved quality of custom icons<br>
+            - Minor bugfixes
         </p>
         <p>
             <b>Version 1.16.0</b><br>
@@ -16,7 +20,7 @@
         <p>
             <b>Version 1.15.0</b><br>
             - Shortcuts can be exported as cURL commands<br>
-            - Chinese Translations<br>
+            - Chinese translations<br>
             - Minor bugfixes
         </p>
         <p>
