@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+ Loco xml export: Android string resources
+ Project: HTTP Shortcuts
+ Release: Working copy
+ Locale: de, German
+ Exported by: Roland Meyer
+ Exported at: Fri, 01 Sep 2017 18:32:47 +0200
+-->
 <resources>
     <string name="app_name">HTTP Shortcuts</string>
     <string name="shortcuts">Shortcuts</string>
+    <string name="shortcut_safe_name">Shortcut</string>
     <string name="edit_shortcut">Shortcut bearbeiten</string>
     <string name="create_shortcut">Shortcut erstellen</string>
     <string name="icon_description">Icon</string>
@@ -16,17 +25,26 @@
     <string name="label_feedback">Response-Typ</string>
     <string name="feedback_none">Response ignorieren</string>
     <string name="feedback_simple_toast">Einfacher Toast</string>
+    <string name="feedback_simple_toast_error">Einfacher Toast (nur Fehler)</string>
     <string name="feedback_response_toast">Response in Toast</string>
+    <string name="feedback_response_toast_error">Response in Toast (nur Fehler)</string>
+    <string name="feedback_dialog">Response in Dialog</string>
+    <string name="feedback_activity">Response in Fenster</string>
     <string name="action_place">Auf Homescreen platzieren</string>
     <string name="action_run">Ausführen</string>
     <string name="action_edit">Bearbeiten</string>
     <string name="action_duplicate">Duplizieren</string>
     <string name="action_delete">Löschen</string>
+    <string name="action_curl_export">cURL-Export</string>
+    <string name="action_move">Verschieben</string>
     <string name="action_move_up">Nach oben verschieben</string>
     <string name="action_move_down">Nach unten verschieben</string>
+    <string name="action_move_to_category">In Kategorie verschieben…</string>
     <string name="no_shortcuts">Noch keine Shortcuts vorhanden</string>
+    <string name="no_variables">Noch keine Variablen vorhanden</string>
     <string name="confirm_delete_shortcut_message">Diesen Shortcut wirklich löschen?</string>
     <string name="confirm_discard_changes_message">Sie haben ungespeicherte Änderungen. Änderungen verwerfen?</string>
+    <string name="dialog_discard">Verwerfen</string>
     <string name="title_activity_execute">Shortcut ausführen</string>
     <string name="executed">%s ausgeführt.</string>
     <string name="shortcut_not_found">Shortcut nicht gefunden. Der Shortcut muss ev. neu platziert werden.</string>
@@ -51,6 +69,7 @@
     <string name="dialog_cancel">Abbrechen</string>
     <string name="dialog_remove">Entfernen</string>
     <string name="section_request_headers">Request-Header</string>
+    <string name="section_request_body">Request-Body</string>
     <string name="button_add_custom_header">Header hinzufügen</string>
     <string name="title_custom_header_edit">Header bearbeiten</string>
     <string name="title_custom_header_add">Header hinzufügen</string>
@@ -58,6 +77,7 @@
     <string name="label_custom_header_value">Wert</string>
     <string name="label_custom_body">Request-Body (optional):</string>
     <string name="settings">Einstellungen</string>
+    <string name="settings_theme">Theme</string>
     <string name="settings_title_basic">Allgemeine Einstellungen</string>
     <string name="settings_click_behavior">Aktion beim Anklicken von Shortcuts</string>
     <string name="settings_click_behavior_run">Shortcut ausführen</string>
@@ -66,16 +86,20 @@
     <string name="settings_title_import_export">Importieren / Exportieren</string>
     <string name="settings_import">Shortcuts importieren</string>
     <string name="settings_export">Shortcuts exportieren</string>
+    <string name="export_instructions">Wählen Sie das Verzeichnis in welches Ihre Shortcuts
+        exportiert werden sollen.\n\nAchtung: eigene Shortcut-Icons können nicht exportiert werden.
+    </string>
     <string name="export_success">Export erfolgreich</string>
     <string name="export_failed">Export fehlgeschlagen</string>
+    <string name="export_in_progress">Exportiere…</string>
     <string name="button_ok">OK</string>
     <string name="button_cancel">Abbrechen</string>
-    <string name="export_instructions">Wählen Sie das Verzeichnis in welches Ihre Shortcuts exportiert werden sollen.\n\nAchtung: eigene Shortcut-Icons können nicht exportiert werden.</string>
-    <string name="import_failed">Import fehlgeschlagen.</string>
-    <string name="import_in_progress">Importiere…</string>
     <string name="import_instructions">Wählen Sie die Datei aus welcher Sie Shortcuts importieren möchten.\n\nAchtung: bestehende Shortcuts können überschrieben werden.</string>
+    <string name="import_failed">Import fehlgeschlagen.</string>
     <string name="import_success">Import erfolgreich.</string>
+    <string name="import_in_progress">Importiere…</string>
     <string name="label_timeout">Timeout</string>
+    <string name="timeout_format">%1$s (%2$s)</string>
     <plurals name="timeout_seconds">
         <item quantity="one">%d Sekunde</item>
         <item quantity="other">%d Sekunden</item>
@@ -100,122 +124,122 @@
     <string name="settings_play_store">Im Play Store anzeigen</string>
     <string name="settings_play_store_summary">Vielen Dank für Reviews und Bewertungen</string>
     <string name="shortcut_duplicated">%1$s dupliziert.</string>
+    <string name="shortcut_moved">%1$s verschoben.</string>
     <string name="shortcut_deleted">%1$s gelöscht.</string>
-    <string name="dialog_delete">Löschen</string>
-    <string name="dialog_discard">Verwerfen</string>
-    <string name="section_advanced_settings">Erweiterte Einstellungen</string>
-    <string name="section_appearance">Erscheinung</string>
-    <string name="section_authentication">Authentifizierung</string>
-    <string name="section_basic_request">Allgemeine Einstellungen</string>
     <string name="shortcut_placed">%1$s auf Homescreen platziert.</string>
-    <string name="export_in_progress">Exportiere…</string>
-    <string name="shortcut_safe_name">Shortcut</string>
-    <string name="timeout_format">%1$s (%2$s)</string>
+    <string name="dialog_delete">Löschen</string>
+    <string name="section_appearance">Erscheinung</string>
+    <string name="section_basic_request">Allgemeine Einstellungen</string>
+    <string name="section_response">Response-Einstellungen</string>
+    <string name="section_advanced_settings">Erweiterte Einstellungen</string>
+    <string name="section_authentication">Authentifizierung</string>
+    <string name="label_authentication_method">Authentifizierungsart</string>
     <string name="warning_icon_or_name_change">Bitte beachten Sie, dass Änderungen des Namens oder Icons nicht automatisch angewendet werden auf Shortcuts, die bereits dem Homescreen hinzugefügt wurden. Um die Änderungen zu übernehmen müssen Sie sie erneut platzieren.</string>
     <string name="dialog_checkbox_do_not_show_again">Nicht erneut anzeigen</string>
-    <string name="label_accept_all_certificates">Jegliche Zertifikate akzeptieren</string>
     <string name="label_certificates">Zertifikate</string>
+    <string name="label_accept_all_certificates">Jegliche Zertifikate akzeptieren</string>
     <string name="title_licenses">Anerkennungen</string>
     <string name="settings_licenses">Anerkennungen</string>
-    <string name="settings_licenses_summary"><![CDATA[Verwendete Libraries & Ressourcen]]></string>
+    <string name="settings_licenses_summary">Verwendete Libraries &amp; Ressourcen</string>
+    <string name="title_categories">Kategorien</string>
     <string name="action_rename">Umbenennen</string>
+    <string name="action_change_category_layout_type">Layouttyp ändern</string>
+    <string name="message_layout_type_changed">Layouttyp geändert</string>
+    <string name="layout_type_linear_list">Liste</string>
+    <string name="layout_type_grid">Raster</string>
+    <string name="title_rename_category">Kategorie umbenennen</string>
+    <string name="placeholder_category_name">Kategorienamen eingeben…</string>
+    <string name="placeholder_value">Wert</string>
+    <string name="title_create_category">Kategorie erstellen</string>
     <string name="confirm_delete_category_message">Diese Kategorie wirklich löschen?\n\nAlle darin enthaltenen Shortcuts werden gelöscht.</string>
+    <string name="message_category_renamed">Kategorie umbenannt.</string>
     <string name="message_category_created">Kategorie erstellt.</string>
     <string name="message_category_deleted">Kategorie gelöscht.</string>
-    <string name="message_category_renamed">Kategorie umbenannt.</string>
-    <string name="placeholder_category_name">Kategorienamen eingeben…</string>
-    <string name="title_categories">Kategorien</string>
-    <string name="title_create_category">Kategorie erstellen</string>
-    <string name="title_rename_category">Kategorie umbenennen</string>
-    <string name="action_move_to_category">In Kategorie verschieben…</string>
-    <string name="shortcut_moved">%1$s verschoben.</string>
+    <plurals name="shortcut_count">
+        <item quantity="one">%d shortcut</item>
+        <item quantity="other">%d shortcuts</item>
+    </plurals>
     <string name="title_move_to_category">In Kategorie verschieben</string>
     <string name="plugin_name">HTTP-Shortcut ausführen</string>
-    <string name="button_add_select_option">Option hinzufügen</string>
-    <string name="button_add_toggle_option">Wert hinzufügen</string>
-    <string name="button_show_help">Hilfe</string>
-    <string name="confirm_delete_variable_message">Diese Variable wirklich löschen?</string>
-    <string name="create_variable">Variable erstellen</string>
+    <string name="title_variables">Variablen</string>
     <string name="edit_variable">Variable bearbeiten</string>
-    <string name="help_title_variables">Variablen</string>
-    <string name="label_json_encode">Kodieren für JSON</string>
-    <string name="label_select_label">Label</string>
-    <string name="label_select_value">Wert</string>
-    <string name="label_url_encode">Kodieren für URLs</string>
+    <string name="create_variable">Variable erstellen</string>
+    <string name="label_variable_type">Typ</string>
     <string name="label_variable_key">Schlüssel</string>
     <string name="label_variable_title">Dialog-Titel (optional)</string>
-    <string name="label_variable_type">Typ</string>
-    <string name="no_variables">Noch keine Variablen vorhanden</string>
-    <string name="section_basic_variable_settings">Allgemeine Einstellungen</string>
-    <string name="section_select_options">Auswahloptionen</string>
-    <string name="section_toggle_options">Toggle-Werte</string>
-    <string name="title_add_select_option">Option hinzufügen</string>
-    <string name="title_add_toggle_option">Wert hinzufügen</string>
-    <string name="title_variables">Variablen</string>
-    <string name="validation_key_already_exists">Es existiert bereits eine Variable mit diesem Schlüssel.</string>
-    <string name="validation_key_non_empty">Schlüssel darf nicht leer sein.</string>
-    <string name="variable_deleted">%1$s gelöscht.</string>
+    <string name="label_variable_date_format">Datumsformat</string>
     <string name="variable_type_constant">Konstante</string>
+    <string name="variable_type_text">Texteingabe</string>
     <string name="variable_type_number">Zahleingabe</string>
     <string name="variable_type_password">Passworteingabe</string>
     <string name="variable_type_select">Auswahl</string>
-    <string name="variable_type_text">Texteingabe</string>
     <string name="variable_type_toggle">Toggle</string>
+    <string name="variable_type_date">Datum</string>
+    <string name="variable_type_color">Farbeingabe</string>
     <string name="warning_invalid_variable_key">Schlüssel darf nur Zahlen und Buchstaben enthalten.</string>
-    <string name="error_not_enough_select_values">Bitte mindestens eine Auswahloption hinzufügen.</string>
+    <string name="confirm_delete_variable_message">Diese Variable wirklich löschen?</string>
+    <string name="variable_deleted">%1$s gelöscht.</string>
+    <string name="label_url_encode">Kodieren für URLs</string>
+    <string name="label_json_encode">Kodieren für JSON</string>
+    <string name="section_basic_variable_settings">Allgemeine Einstellungen</string>
+    <string name="validation_key_non_empty">Schlüssel darf nicht leer sein.</string>
+    <string name="validation_key_already_exists">Es existiert bereits eine Variable mit diesem
+        Schlüssel.
+    </string>
+    <string name="title_add_toggle_option">Wert hinzufügen</string>
+    <string name="button_add_toggle_option">Wert hinzufügen</string>
+    <string name="section_toggle_options">Toggle-Werte</string>
+    <string name="title_add_select_option">Option hinzufügen</string>
+    <string name="button_add_select_option">Option hinzufügen</string>
+    <string name="section_select_options">Auswahloptionen</string>
+    <string name="label_select_label">Label</string>
+    <string name="label_select_value">Wert</string>
+    <string name="button_show_help">Hilfe</string>
+    <string name="help_title_variables">Variablen</string>
     <string name="error_not_enough_toggle_values">Bitte mindestens zwei Toggle-Werte hinzufügen.</string>
-    <string name="feedback_activity">Response in Fenster</string>
-    <string name="feedback_dialog">Response in Dialog</string>
-    <string name="feedback_response_toast_error">Response in Toast (nur Fehler)</string>
-    <string name="feedback_simple_toast_error">Einfacher Toast (nur Fehler)</string>
-    <string name="progress_dialog_message">%1$s…</string>
-    <string name="section_response">Response-Einstellungen</string>
+    <string name="error_not_enough_select_values">Bitte mindestens eine Auswahloption hinzufügen.
+    </string>
+    <string name="error_invalid_date_format">Das Datumsformat ist ungültig.</string>
     <string name="share_button">Teilen</string>
     <string name="share_title">Teilen…</string>
-    <string name="label_remember_value">Wert merken</string>
+    <string name="progress_dialog_message">%1$s…</string>
     <string name="section_input_options">Eingabeoptionen</string>
+    <string name="label_remember_value">Wert merken</string>
     <string name="action_cancel_pending">Ausstehende Ausführung abbrechen</string>
     <string name="pending_shortcut_execution_cancelled">%1$s abgebrochen.</string>
-    <string name="variable_type_color">Farbeingabe</string>
     <string name="action_send_to">Senden an…</string>
     <string name="error_not_suitable_shortcuts">Keine verwendbaren Shortcuts gefunden.\n\nUm dieses Feature zu verwenden muss mindestens ein Shortcut vorhanden sein der eine Variable verwendet welche \'Teilen …\' erlaubt.\n\nKonsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informationen.</string>
     <string name="error_sharing_feature_not_available_yet">Sorry, aber das teilen von Text-Dateien wird derzeit noch nicht unterstützt. Das teilen von Text-Fragmenten ist jedoch bereits möglich. Konsultiere dazu die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informationen.\n\nDanke für dein Verständnis.</string>
     <string name="label_allow_share_into">\'Teilen …\' erlauben</string>
-    <string name="settings_theme">Theme</string>
     <string name="theme_blue">Blau</string>
     <string name="theme_green">Grün</string>
+    <string name="theme_red">Rot</string>
     <string name="theme_grey">Grau</string>
-    <string name="theme_indigo">Indigo</string>
     <string name="theme_orange">Orange</string>
     <string name="theme_purple">Violett</string>
-    <string name="theme_red">Rot</string>
-    <string name="button_export_send_to">Andere App</string>
+    <string name="theme_indigo">Indigo</string>
+    <string name="title_export">Exportieren</string>
     <string name="button_export_to_filesystem">Lokales Dateisystem</string>
+    <string name="button_export_send_to">Andere App</string>
+    <string name="title_import">Importieren</string>
     <string name="button_import_from_filesystem">Lokales Dateisystem</string>
     <string name="button_import_from_general">Dokumente</string>
-    <string name="title_export">Exportieren</string>
-    <string name="title_import">Importieren</string>
     <string name="button_create_new">Neuen Shortcut</string>
     <string name="button_curl_import">Aus cURL-Befehl erstellen</string>
-    <string name="curl_import_button">Importieren</string>
-    <string name="instructions_curl_import">Geben Sie einen cURL-Befehl ein oder fügen ihn ein um daraus einen neuen Shortcut zu erstellen. Bitte beachten Sie, dass dieses Feature experimentell ist und nur eine limitiere Teilmenge von cURL-Optionen unterstützt wird.</string>
     <string name="title_curl_import">cURL-Import</string>
-    <string name="action_curl_export">cURL-Export</string>
-    <string name="action_move">Verschieben</string>
-    <string name="action_change_category_layout_type">Layouttyp ändern</string>
-    <string name="layout_type_grid">Raster</string>
-    <string name="layout_type_linear_list">Liste</string>
-    <string name="message_layout_type_changed">Layouttyp geändert</string>
+    <string name="instructions_curl_import">Geben Sie einen cURL-Befehl ein oder fügen ihn ein um
+        daraus einen neuen Shortcut zu erstellen. Bitte beachten Sie, dass dieses Feature
+        experimentell ist und nur eine limitiere Teilmenge von cURL-Optionen unterstützt wird.
+    </string>
+    <string name="curl_import_button">Importieren</string>
+    <string name="authentication_none">Keine Authentifizierung</string>
     <string name="authentication_basic">Basic Authentication</string>
     <string name="authentication_digest">Digest Authentication</string>
-    <string name="authentication_none">Keine Authentifizierung</string>
     <string name="label_launcher_shortcut">Als App-Shortcut auf Launcher anzeigen</string>
-    <string name="label_authentication_method">Authentifizierungsart</string>
-    <string name="section_request_body">Request-Body</string>
-    <string name="placeholder_value">Wert</string>
-    <string name="error_invalid_date_format">Das Datumsformat ist ungültig.</string>
     <string name="error_share_failed">Beim Teilen ist ein Fehler aufgetreten.</string>
-    <string name="label_variable_date_format">Datumsformat</string>
     <string name="title_shortcuts_pending">HTTP Shortcuts</string>
-    <string name="variable_type_date">Datum</string>
+    <plurals name="message_shortcuts_pending">
+        <item quantity="one">1 shortcut waiting to execute</item>
+        <item quantity="other">%d shortcuts waiting to execute</item>
+    </plurals>
 </resources>
