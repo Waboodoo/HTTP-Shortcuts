@@ -23,6 +23,8 @@ open class Variable : RealmObject(), HasId {
     var urlEncode: Boolean = false
     var jsonEncode: Boolean = false
 
+    var data: String? = null
+
     var flags: Int = 0
 
     @Required

@@ -28,8 +28,13 @@ internal class DateType : BaseVariableType(), AsyncVariableType {
                     val year = datePicker.getDatePicker().getYear()
                     newDate.set(year, month, day)
                     if (deferredValue.isPending) {
-                        deferredValue.resolve(newDate.getTime().toString()) // TODO: Add formats
-                        controller.setVariableValue(variable, DATE_FORMAT.format(newDate.time))
+                        try {
+                            val dateFormat = SimpleDateFormat(variable.data)
+                            deferredValue.resolve(dateFormat.format(newDate.time))
+                            controller.setVariableValue(variable, DATE_FORMAT.format(newDate.time))
+                        } catch (e: Exception) {
+                            deferredValue.reject(null)
+                        }
                     }
                 })
         datePicker.setButton(DialogInterface.BUTTON_NEGATIVE, context.getString(R.string.button_cancel), { _, _ -> })
@@ -59,11 +64,12 @@ internal class DateType : BaseVariableType(), AsyncVariableType {
         return calendar
     }
 
-    override fun createEditorFragment() = TextEditorFragment()
+    override fun createEditorFragment() = DateEditorFragment()
 
     companion object {
 
         private val DATE_FORMAT = SimpleDateFormat("yyyy-mm-dd")
+
 
     }
 
