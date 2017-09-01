@@ -213,4 +213,9 @@
     <string name="label_authentication_method">Authentifizierungsart</string>
     <string name="section_request_body">Request-Body</string>
     <string name="placeholder_value">Wert</string>
+    <string name="error_invalid_date_format">Das Datumsformat ist ungültig.</string>
+    <string name="error_share_failed">Beim Teilen ist ein Fehler aufgetreten.</string>
+    <string name="label_variable_date_format">Datumsformat</string>
+    <string name="title_shortcuts_pending">HTTP Shortcuts</string>
+    <string name="variable_type_date">Datum</string>
 </resources>
