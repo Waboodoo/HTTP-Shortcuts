@@ -97,17 +97,23 @@
     <string name="import_in_progress">Importing…</string>
     <string name="label_timeout">Timeout</string>
     <string name="timeout_format">%1$s (%2$s)</string>
+    <!-- Used in various places to indicate a number of seconds, e.g. for a delay. %s is a placeholder for the actual number. -->
     <plurals name="seconds">
         <item quantity="one">%d second</item>
         <item quantity="other">%d seconds</item>
     </plurals>
+    <!-- Used in various places to indicate a number of minutes, e.g. for a delay. %s is a placeholder for the actual number. -->
     <plurals name="minutes">
         <item quantity="one">%d minute</item>
         <item quantity="other">%d minutes</item>
     </plurals>
+    <!-- Timeout option: short, i.e. only a few seconds -->
     <string name="timeout_short">short</string>
+    <!-- Timeout option: medium, i.e. around 10 seconds -->
     <string name="timeout_medium">medium</string>
+    <!-- Timeout option: long, i.e. around 30 seconds -->
     <string name="timeout_long">long</string>
+    <!-- Timeout option: very long, i.e. around 60 seconds -->
     <string name="timeout_very_long">very long</string>
     <string name="settings_about">About this App</string>
     <string name="settings_version">Version number</string>
@@ -118,6 +124,7 @@
     <string name="changelog_title_whats_new">What\'s new?</string>
     <string name="changelog_title">Changelog</string>
     <string name="changelog_checkbox_show_at_startup">Show at startup</string>
+    <!-- Message displayed when the shortcut cannot be executed because there is no internet connection. %1$s is a placeholder for the shortcut name. -->
     <string name="execution_delayed">%1$s will execute once a connection to the internet is
         available.
     </string>

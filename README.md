@@ -19,7 +19,7 @@ A simple Android app that allows you to create shortcuts that can be placed on y
 - Built-in icons, support for Ipack icons and custom icons
 - Display response as a toast, window or dialog, or run silently
 - Grouping into categories through tabs
-- Value injection through variables (text, numbers, passwords, selections, colors, ...)
+- Value injection through variables (text, numbers, passwords, selections, colors, dates, ...)
 - Import & Export in JSON or cURL format
 - 3rd party integration (e.g. Tasker)
 - Themes
