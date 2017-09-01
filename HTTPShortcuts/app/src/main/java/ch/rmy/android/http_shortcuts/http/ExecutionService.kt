@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.http
 
+import android.app.AlarmManager
 import android.app.PendingIntent
 import android.app.Service
 import android.content.BroadcastReceiver
@@ -13,10 +14,11 @@ import android.support.v7.app.NotificationCompat
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.MainActivity
 import ch.rmy.android.http_shortcuts.realm.Controller
+import ch.rmy.android.http_shortcuts.realm.models.PendingExecution
 import ch.rmy.android.http_shortcuts.utils.Connectivity
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
+import io.realm.RealmResults
 import java.util.*
-
 
 class ExecutionService : Service() {
 
@@ -44,8 +46,10 @@ class ExecutionService : Service() {
             updateNotification(pendingExecutions.size)
 
             while (Connectivity.isNetworkConnected(context)) {
-                val pendingExecution = pendingExecutions.first()
+                val pendingExecution = getNextToProcess(pendingExecutions) ?: break
+
                 val id = pendingExecution.shortcutId
+                val tryNumber = pendingExecution.tryNumber + 1
                 val variableValues = HashMap<String, String>()
                 for (resolvedVariable in pendingExecution.resolvedVariables!!) {
                     variableValues.put(resolvedVariable.key!!, resolvedVariable.value!!)
@@ -55,7 +59,7 @@ class ExecutionService : Service() {
 
                 try {
                     Thread.sleep(INITIAL_DELAY.toLong())
-                    executeShortcut(id, variableValues)
+                    executeShortcut(id, variableValues, tryNumber)
                 } catch (e: InterruptedException) {
                     break
                 }
@@ -71,6 +75,17 @@ class ExecutionService : Service() {
         return Service.START_STICKY
     }
 
+    private fun getNextToProcess(pendingExecutions: RealmResults<PendingExecution>): PendingExecution? {
+        val now = Calendar.getInstance().time
+        for (pendingExecution in pendingExecutions) {
+            val waitUntil = pendingExecution.waitUntil
+            if (waitUntil == null || waitUntil.before(now)) {
+                return pendingExecution
+            }
+        }
+        return null
+    }
+
     private fun updateNotification(size: Int) {
         val intent = Intent(context, MainActivity::class.java)
         val builder = NotificationCompat.Builder(context)
@@ -82,8 +97,8 @@ class ExecutionService : Service() {
         startForeground(NOTIFICATION_ID, builder.build())
     }
 
-    private fun executeShortcut(id: Long, variableValues: HashMap<String, String>) {
-        val shortcutIntent = IntentUtil.createIntent(context, id, variableValues)
+    private fun executeShortcut(id: Long, variableValues: HashMap<String, String>, tryNumber: Int) {
+        val shortcutIntent = IntentUtil.createIntent(context, id, variableValues, tryNumber)
         startActivity(shortcutIntent)
     }
 
@@ -103,8 +118,16 @@ class ExecutionService : Service() {
 
         private const val NOTIFICATION_ID = 1
 
-        fun start(context: Context) {
-            context.startService(Intent(context, ExecutionService::class.java))
+        fun start(context: Context, executionTime: Date? = null) {
+            if (executionTime != null) {
+                val now = Calendar.getInstance().time
+                val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                val serviceIntent = Intent(context, RestarterService::class.java)
+                val pendingIntent = PendingIntent.getBroadcast(context, 1, serviceIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+                alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + executionTime.time - now.time, pendingIntent)
+            } else {
+                context.startService(Intent(context, ExecutionService::class.java))
+            }
         }
 
     }

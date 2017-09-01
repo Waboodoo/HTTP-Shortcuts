@@ -153,6 +153,8 @@
             </intent-filter>
         </receiver>
 
+        <receiver android:name=".http.RestarterService"/>
+
         <activity-alias
             android:name=".ExecuteActivity"
             android:configChanges="orientation|screenSize"

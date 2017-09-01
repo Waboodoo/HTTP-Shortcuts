@@ -25,6 +25,7 @@ import fr.castorflex.android.circularprogressbar.CircularProgressBar
 import io.github.kbiakov.codeview.CodeView
 import kotterknife.bindView
 import org.jdeferred.Promise
+import java.util.*
 
 class ExecuteActivity : BaseActivity() {
 
@@ -44,6 +45,7 @@ class ExecuteActivity : BaseActivity() {
 
         val shortcutId = IntentUtil.getShortcutId(intent)
         val variableValues = IntentUtil.getVariableValues(intent)
+        val tryNumber = intent.extras?.getInt(EXTRA_TRY_NUMBER) ?: 0
 
         controller = Controller()
         shortcut = controller!!.getDetachedShortcutById(shortcutId)
@@ -61,7 +63,7 @@ class ExecuteActivity : BaseActivity() {
             setContentView(R.layout.activity_execute)
         }
 
-        val promise = resolveVariablesAndExecute(variableValues)
+        val promise = resolveVariablesAndExecute(variableValues, tryNumber)
 
         if (promise.isPending) {
             promise.done {
@@ -78,20 +80,20 @@ class ExecuteActivity : BaseActivity() {
         }
     }
 
-    fun resolveVariablesAndExecute(variableValues: Map<String, String>): Promise<ResolvedVariables, Void, Void> {
+    fun resolveVariablesAndExecute(variableValues: Map<String, String>, tryNumber: Int): Promise<ResolvedVariables, Void, Void> {
         val variables = controller!!.variables
         return VariableResolver(this)
                 .resolve(shortcut!!, variables, variableValues)
                 .done {
                     resolvedVariables ->
-                    execute(resolvedVariables)
+                    execute(resolvedVariables, tryNumber)
                 }
                 .fail {
                     controller!!.destroy()
                 }
     }
 
-    private fun execute(resolvedVariables: ResolvedVariables) {
+    private fun execute(resolvedVariables: ResolvedVariables, tryNumber: Int) {
         showProgress()
         HttpRequester.executeShortcut(context, shortcut!!, resolvedVariables).done { response ->
             setLastResponse(response)
@@ -104,9 +106,8 @@ class ExecuteActivity : BaseActivity() {
             }
         }.fail { error ->
             if (!shortcut!!.feedbackUsesUI() && Shortcut.RETRY_POLICY_WAIT_FOR_INTERNET == shortcut!!.retryPolicy && error.networkResponse == null) {
-                controller!!.createPendingExecution(shortcut!!.id, resolvedVariables.toList())
-                ExecutionService.start(context)
-                if (Shortcut.FEEDBACK_NONE != shortcut!!.feedback) {
+                rescheduleExecution(resolvedVariables, tryNumber)
+                if (Shortcut.FEEDBACK_NONE != shortcut!!.feedback && tryNumber == 0) {
                     showToast(String.format(context.getString(R.string.execution_delayed), shortcut!!.getSafeName(context)), Toast.LENGTH_LONG)
                 }
                 finishWithoutAnimation()
@@ -120,6 +121,18 @@ class ExecuteActivity : BaseActivity() {
             controller!!.destroy()
         }
     }
+
+    private fun rescheduleExecution(resolvedVariables: ResolvedVariables, tryNumber: Int) {
+        if (tryNumber < MAX_RETRY) {
+            val calendar = Calendar.getInstance()
+            calendar.add(Calendar.SECOND, calculateDelay(tryNumber))
+            val waitUntil = calendar.time
+            controller!!.createPendingExecution(shortcut!!.id, resolvedVariables.toList(), tryNumber, waitUntil)
+            ExecutionService.start(context, waitUntil)
+        }
+    }
+
+    private fun calculateDelay(tryNumber: Int) = Math.pow(RETRY_BACKOFF, tryNumber.toDouble()).toInt()
 
     private fun generateOutputFromResponse(response: ShortcutResponse) = response.bodyAsString
 
@@ -273,6 +286,10 @@ class ExecuteActivity : BaseActivity() {
         const val ACTION_EXECUTE_SHORTCUT = "ch.rmy.android.http_shortcuts.resolveVariablesAndExecute"
         const val EXTRA_SHORTCUT_ID = "id"
         const val EXTRA_VARIABLE_VALUES = "variable_values"
+        const val EXTRA_TRY_NUMBER = "try_number"
+
+        private const val MAX_RETRY = 5
+        private const val RETRY_BACKOFF = 2.4
 
         private const val TOAST_MAX_LENGTH = 400
 

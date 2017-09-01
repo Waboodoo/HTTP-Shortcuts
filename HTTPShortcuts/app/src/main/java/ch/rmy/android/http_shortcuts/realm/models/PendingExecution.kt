@@ -13,6 +13,9 @@ open class PendingExecution : RealmObject() {
     @Index
     var enqueuedAt: Date? = null
 
+    var tryNumber: Int = 0
+    var waitUntil: Date? = null
+
     var resolvedVariables: RealmList<ResolvedVariable>? = null
 
     companion object {
@@ -20,7 +23,7 @@ open class PendingExecution : RealmObject() {
         val FIELD_SHORTCUT_ID = "shortcutId"
         val FIELD_ENQUEUED_AT = "enqueuedAt"
 
-        fun createNew(shortcutId: Long, resolvedVariables: List<ResolvedVariable>): PendingExecution {
+        fun createNew(shortcutId: Long, resolvedVariables: List<ResolvedVariable> = emptyList(), tryNumber: Int = 0, waitUntil: Date? = null): PendingExecution {
             val pendingExecution = PendingExecution()
 
             val resolvedVariableList = RealmList<ResolvedVariable>()
@@ -28,6 +31,8 @@ open class PendingExecution : RealmObject() {
 
             pendingExecution.resolvedVariables = resolvedVariableList
             pendingExecution.shortcutId = shortcutId
+            pendingExecution.tryNumber = tryNumber
+            pendingExecution.waitUntil = waitUntil
             pendingExecution.enqueuedAt = Date()
             return pendingExecution
         }
