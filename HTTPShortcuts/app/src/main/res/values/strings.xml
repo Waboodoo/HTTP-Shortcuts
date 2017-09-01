@@ -173,12 +173,14 @@
     <string name="label_variable_type">Type</string>
     <string name="label_variable_key">Key</string>
     <string name="label_variable_title">Dialog Title (optional)</string>
+    <string name="label_variable_date_format">Date Format</string>
     <string name="variable_type_constant">Constant</string>
     <string name="variable_type_text">Text Input</string>
     <string name="variable_type_number">Number Input</string>
     <string name="variable_type_password">Password Input</string>
     <string name="variable_type_select">Selection</string>
     <string name="variable_type_toggle">Toggle</string>
+    <string name="variable_type_date">Date</string>
     <string name="variable_type_color">Color Input</string>
     <string name="warning_invalid_variable_key">Variable keys may only contain letters and digits.
     </string>
@@ -203,6 +205,7 @@
     <string name="error_not_enough_toggle_values">Please add at least two values.</string>
     <string name="error_not_enough_select_values">Please add at least one selectable option.
     </string>
+    <string name="error_invalid_date_format">The date format is not valid.</string>
     <string name="share_button">Share</string>
     <string name="share_title">Share…</string>
     <string name="progress_dialog_message">%1$s…</string>

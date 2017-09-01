@@ -107,6 +107,9 @@ class DatabaseMigration : RealmMigration {
                 pendingExecutionSchema.addField("tryNumber", Int::class.javaPrimitiveType)
                 pendingExecutionSchema.addField("waitUntil", Date::class.java)
             }
+            12 -> { // 1.17.0
+                schema.get("Variable").addField("data", String::class.java)
+            }
 
             else -> throw IllegalArgumentException("Missing migration for version " + newVersion)
         }
@@ -123,7 +126,7 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 11
+        const val VERSION = 12
 
     }
 
