@@ -43,6 +43,7 @@ open class Shortcut : RealmObject(), HasId {
     var acceptAllCertificates: Boolean = false
     var authentication: String? = AUTHENTICATION_NONE
     var launcherShortcut: Boolean = false
+    var delay: Int = 0
 
     override val isNew: Boolean
         get() = id == 0L
@@ -64,6 +65,7 @@ open class Shortcut : RealmObject(), HasId {
         duplicate.authentication = authentication
         duplicate.launcherShortcut = launcherShortcut
         duplicate.acceptAllCertificates = acceptAllCertificates
+        duplicate.delay = delay
 
         duplicate.parameters = RealmList<Parameter>()
         for (parameter in parameters!!) {
@@ -167,6 +169,7 @@ open class Shortcut : RealmObject(), HasId {
                 other.authentication != authentication ||
                 other.launcherShortcut != launcherShortcut ||
                 other.acceptAllCertificates != acceptAllCertificates ||
+                other.delay != delay ||
                 other.parameters!!.size != parameters!!.size ||
                 other.headers!!.size != headers!!.size
                 ) {
@@ -211,6 +214,7 @@ open class Shortcut : RealmObject(), HasId {
         val METHODS = arrayOf(METHOD_GET, METHOD_POST, METHOD_PUT, METHOD_DELETE, METHOD_PATCH, METHOD_HEAD, METHOD_OPTIONS, METHOD_TRACE)
         val FEEDBACK_OPTIONS = arrayOf(FEEDBACK_NONE, FEEDBACK_TOAST_SIMPLE, FEEDBACK_TOAST_SIMPLE_ERRORS, FEEDBACK_TOAST, FEEDBACK_TOAST_ERRORS, FEEDBACK_DIALOG, FEEDBACK_ACTIVITY)
         val TIMEOUT_OPTIONS = intArrayOf(3000, 10000, 30000, 60000)
+        val DELAY_OPTIONS = intArrayOf(0, 5000, 10000, 30000, 60000, 120000, 300000, 600000)
 
         val RETRY_POLICY_OPTIONS = arrayOf(RETRY_POLICY_NONE, RETRY_POLICY_WAIT_FOR_INTERNET)
 
@@ -234,6 +238,7 @@ open class Shortcut : RealmObject(), HasId {
             shortcut.feedback = FEEDBACK_TOAST_SIMPLE
             shortcut.retryPolicy = RETRY_POLICY_NONE
             shortcut.authentication = AUTHENTICATION_NONE
+            shortcut.delay = 0
             shortcut.parameters = RealmList<Parameter>()
             shortcut.headers = RealmList<Header>()
             return shortcut

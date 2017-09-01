@@ -110,6 +110,9 @@ class DatabaseMigration : RealmMigration {
             12 -> { // 1.17.0
                 schema.get("Variable").addField("data", String::class.java)
             }
+            13 -> { // 1.17.0
+                schema.get("Shortcut").addField("delay", Int::class.javaPrimitiveType)
+            }
 
             else -> throw IllegalArgumentException("Missing migration for version " + newVersion)
         }
@@ -126,7 +129,7 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 12
+        const val VERSION = 13
 
     }
 

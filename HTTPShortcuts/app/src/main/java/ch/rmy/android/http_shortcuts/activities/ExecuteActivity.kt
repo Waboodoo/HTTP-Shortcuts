@@ -14,6 +14,7 @@ import ch.rmy.android.http_shortcuts.http.HttpRequester
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
+import ch.rmy.android.http_shortcuts.utils.DateUtil
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.variables.ResolvedVariables
@@ -25,7 +26,6 @@ import fr.castorflex.android.circularprogressbar.CircularProgressBar
 import io.github.kbiakov.codeview.CodeView
 import kotterknife.bindView
 import org.jdeferred.Promise
-import java.util.*
 
 class ExecuteActivity : BaseActivity() {
 
@@ -80,13 +80,25 @@ class ExecuteActivity : BaseActivity() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        ExecutionService.start(context)
+    }
+
     fun resolveVariablesAndExecute(variableValues: Map<String, String>, tryNumber: Int): Promise<ResolvedVariables, Void, Void> {
         val variables = controller!!.variables
         return VariableResolver(this)
                 .resolve(shortcut!!, variables, variableValues)
                 .done {
                     resolvedVariables ->
-                    execute(resolvedVariables, tryNumber)
+                    if (tryNumber == 0 && shortcut!!.delay > 0) {
+                        val waitUntil = DateUtil.calculateDate(shortcut!!.delay)
+                        controller!!.createPendingExecution(shortcut!!.id, resolvedVariables.toList(), tryNumber, waitUntil)
+                        ExecutionService.start(context, waitUntil)
+                        controller!!.destroy()
+                    } else {
+                        execute(resolvedVariables, tryNumber)
+                    }
                 }
                 .fail {
                     controller!!.destroy()
@@ -124,15 +136,13 @@ class ExecuteActivity : BaseActivity() {
 
     private fun rescheduleExecution(resolvedVariables: ResolvedVariables, tryNumber: Int) {
         if (tryNumber < MAX_RETRY) {
-            val calendar = Calendar.getInstance()
-            calendar.add(Calendar.SECOND, calculateDelay(tryNumber))
-            val waitUntil = calendar.time
+            val waitUntil = DateUtil.calculateDate(calculateDelay(tryNumber))
             controller!!.createPendingExecution(shortcut!!.id, resolvedVariables.toList(), tryNumber, waitUntil)
             ExecutionService.start(context, waitUntil)
         }
     }
 
-    private fun calculateDelay(tryNumber: Int) = Math.pow(RETRY_BACKOFF, tryNumber.toDouble()).toInt()
+    private fun calculateDelay(tryNumber: Int) = Math.pow(RETRY_BACKOFF, tryNumber.toDouble()).toInt() * 1000
 
     private fun generateOutputFromResponse(response: ShortcutResponse) = response.bodyAsString
 

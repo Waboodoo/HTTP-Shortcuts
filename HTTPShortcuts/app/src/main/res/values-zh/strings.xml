@@ -98,9 +98,6 @@
     <string name="import_in_progress">正在导出快捷方式……</string>
     <string name="label_timeout">超时时间</string>
     <string name="timeout_format">%1$s （%2$s）</string>
-    <plurals name="timeout_seconds">
-        <item quantity="other"></item>
-    </plurals>
     <string name="timeout_short">短</string>
     <string name="timeout_medium">中</string>
     <string name="timeout_long">长</string>

@@ -50,24 +50,25 @@ class EditorActivity : BaseActivity() {
     private var shortcut: Shortcut? = null
     private var variables: List<Variable>? = null
 
-    internal val methodView: LabelledSpinner by bindView(R.id.input_method)
-    internal val feedbackView: LabelledSpinner by bindView(R.id.input_feedback)
-    internal val timeoutView: LabelledSpinner by bindView(R.id.input_timeout)
-    internal val retryPolicyView: LabelledSpinner by bindView(R.id.input_retry_policy)
-    internal val nameView: EditText by bindView(R.id.input_shortcut_name)
-    internal val descriptionView: EditText by bindView(R.id.input_description)
-    internal val urlView: EditText by bindView(R.id.input_url)
-    internal val authenticationView: LabelledSpinner by bindView(R.id.input_authentication)
-    internal val usernameView: EditText by bindView(R.id.input_username)
-    internal val passwordView: EditText by bindView(R.id.input_password)
-    internal val iconView: IconView by bindView(R.id.input_icon)
-    internal val parameterList: KeyValueList<Parameter> by bindView(R.id.post_parameter_list)
-    internal val customHeaderList: KeyValueList<Header> by bindView(R.id.custom_headers_list)
-    internal val customBodyView: EditText by bindView(R.id.input_custom_body)
-    internal val acceptCertificatesCheckbox: CheckBox by bindView(R.id.input_accept_all_certificates)
-    internal val authenticationContainer: LinearLayout by bindView(R.id.authentication_container)
-    internal val requestBodyContainer: LinearLayout by bindView(R.id.section_request_body)
-    internal val launcherShortcutCheckbox: CheckBox by bindView(R.id.input_launcher_shortcut)
+    private val methodView: LabelledSpinner by bindView(R.id.input_method)
+    private val feedbackView: LabelledSpinner by bindView(R.id.input_feedback)
+    private val timeoutView: LabelledSpinner by bindView(R.id.input_timeout)
+    private val retryPolicyView: LabelledSpinner by bindView(R.id.input_retry_policy)
+    private val nameView: EditText by bindView(R.id.input_shortcut_name)
+    private val descriptionView: EditText by bindView(R.id.input_description)
+    private val urlView: EditText by bindView(R.id.input_url)
+    private val authenticationView: LabelledSpinner by bindView(R.id.input_authentication)
+    private val usernameView: EditText by bindView(R.id.input_username)
+    private val passwordView: EditText by bindView(R.id.input_password)
+    private val iconView: IconView by bindView(R.id.input_icon)
+    private val parameterList: KeyValueList<Parameter> by bindView(R.id.post_parameter_list)
+    private val customHeaderList: KeyValueList<Header> by bindView(R.id.custom_headers_list)
+    private val customBodyView: EditText by bindView(R.id.input_custom_body)
+    private val acceptCertificatesCheckbox: CheckBox by bindView(R.id.input_accept_all_certificates)
+    private val authenticationContainer: LinearLayout by bindView(R.id.authentication_container)
+    private val requestBodyContainer: LinearLayout by bindView(R.id.section_request_body)
+    private val launcherShortcutCheckbox: CheckBox by bindView(R.id.input_launcher_shortcut)
+    private val delayView: LabelledSpinner by bindView(R.id.input_delay_execution)
 
     private val itemChosenListener = object : OnItemChosenListener() {
         override fun onSelectionChanged() {
@@ -188,6 +189,10 @@ class EditorActivity : BaseActivity() {
 
         acceptCertificatesCheckbox.isChecked = shortcut!!.acceptAllCertificates
         launcherShortcutCheckbox.isChecked = shortcut!!.launcherShortcut
+
+        delayView.setItemsArray(ShortcutUIUtils.getDelayOptions(context))
+        UIUtil.fixLabelledSpinner(delayView)
+        delayView.setSelection(ArrayUtil.findIndex(Shortcut.DELAY_OPTIONS, shortcut!!.delay))
 
         iconView.setOnClickListener { openIconSelectionDialog() }
 
@@ -342,6 +347,7 @@ class EditorActivity : BaseActivity() {
         shortcut!!.bodyContent = customBodyView.text.toString()
         shortcut!!.feedback = Shortcut.FEEDBACK_OPTIONS[feedbackView.spinner.selectedItemPosition]
         shortcut!!.timeout = Shortcut.TIMEOUT_OPTIONS[timeoutView.spinner.selectedItemPosition]
+        shortcut!!.delay = Shortcut.DELAY_OPTIONS[delayView.spinner.selectedItemPosition]
         shortcut!!.authentication = Shortcut.AUTHENTICATION_OPTIONS[authenticationView.spinner.selectedItemPosition]
         shortcut!!.retryPolicy = Shortcut.RETRY_POLICY_OPTIONS[retryPolicyView.spinner.selectedItemPosition]
         shortcut!!.acceptAllCertificates = acceptCertificatesCheckbox.isChecked

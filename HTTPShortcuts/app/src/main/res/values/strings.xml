@@ -97,9 +97,13 @@
     <string name="import_in_progress">Importing…</string>
     <string name="label_timeout">Timeout</string>
     <string name="timeout_format">%1$s (%2$s)</string>
-    <plurals name="timeout_seconds">
+    <plurals name="seconds">
         <item quantity="one">%d second</item>
         <item quantity="other">%d seconds</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">%d minute</item>
+        <item quantity="other">%d minutes</item>
     </plurals>
     <string name="timeout_short">short</string>
     <string name="timeout_medium">medium</string>
@@ -118,6 +122,7 @@
         available.
     </string>
     <string name="label_retry_policy">When not connected to the internet</string>
+    <string name="label_delay_execution">Delay execution</string>
     <string name="retry_policy_none">drop the request</string>
     <string name="retry_policy_delayed">wait for connection</string>
     <string name="settings_play_store">View in Play Store</string>
@@ -255,4 +260,5 @@
         <item quantity="one">1 shortcut waiting to execute</item>
         <item quantity="other">%d shortcuts waiting to execute</item>
     </plurals>
+    <string name="label_no_delay">No delay</string>
 </resources>

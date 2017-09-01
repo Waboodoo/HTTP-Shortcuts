@@ -26,8 +26,22 @@ object ShortcutUIUtils {
         return Array<String>(Shortcut.TIMEOUT_OPTIONS.size, { i ->
             val timeName = context.getString(TIMEOUT_RESOURCES[i])
             val seconds = Shortcut.TIMEOUT_OPTIONS[i] / 1000
-            val secondsString = context.resources.getQuantityString(R.plurals.timeout_seconds, seconds, seconds)
+            val secondsString = context.resources.getQuantityString(R.plurals.seconds, seconds, seconds)
             context.getString(R.string.timeout_format, timeName, secondsString)
+        })
+    }
+
+    fun getDelayOptions(context: Context): Array<String> {
+        return Array<String>(Shortcut.DELAY_OPTIONS.size, { i ->
+            val seconds = Shortcut.DELAY_OPTIONS[i] / 1000
+            if (seconds == 0) {
+                context.resources.getString(R.string.label_no_delay)
+            } else if (seconds < 60) {
+                context.resources.getQuantityString(R.plurals.seconds, seconds, seconds)
+            } else {
+                val minutes = seconds / 60
+                context.resources.getQuantityString(R.plurals.minutes, minutes, minutes)
+            }
         })
     }
 

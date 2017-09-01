@@ -238,6 +238,12 @@
                 ls:labelText="@string/label_timeout"/>
 
             <com.satsuware.usefulviews.LabelledSpinner
+                android:id="@+id/input_delay_execution"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                ls:labelText="@string/label_delay_execution"/>
+
+            <com.satsuware.usefulviews.LabelledSpinner
                 android:id="@+id/input_retry_policy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
