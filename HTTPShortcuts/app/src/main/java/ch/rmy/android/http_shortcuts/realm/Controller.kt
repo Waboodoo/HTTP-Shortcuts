@@ -5,6 +5,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.realm.models.*
 import ch.rmy.android.http_shortcuts.utils.Destroyable
 import io.realm.*
+import java.util.*
 
 class Controller : Destroyable {
 
@@ -65,7 +66,12 @@ class Controller : Destroyable {
         get() = base.variables!!
 
     fun deleteShortcut(shortcut: Shortcut) {
-        realm.executeTransaction {
+        realm.executeTransaction { realm ->
+            realm
+                    .where(PendingExecution::class.java)
+                    .equalTo(PendingExecution.FIELD_SHORTCUT_ID, shortcut.id)
+                    .findAll()
+                    .deleteAllFromRealm()
             shortcut.headers!!.deleteAllFromRealm()
             shortcut.parameters!!.deleteAllFromRealm()
             shortcut.deleteFromRealm()
@@ -159,13 +165,17 @@ class Controller : Destroyable {
                 .where(PendingExecution::class.java)
                 .findAllSorted(PendingExecution.FIELD_ENQUEUED_AT)
 
-    fun createPendingExecution(shortcutId: Long, resolvedVariables: List<ResolvedVariable>) {
+    fun createPendingExecution(shortcutId: Long, resolvedVariables: List<ResolvedVariable>, tryNumber: Int = 0, waitUntil: Date? = null) {
         val existingPendingExecutions = realm
                 .where(PendingExecution::class.java)
                 .equalTo(PendingExecution.FIELD_SHORTCUT_ID, shortcutId)
                 .count()
+
         if (existingPendingExecutions == 0L) {
-            realm.executeTransaction { realm -> realm.copyToRealm(PendingExecution.createNew(shortcutId, resolvedVariables)) }
+            realm.executeTransaction {
+                realm ->
+                realm.copyToRealm(PendingExecution.createNew(shortcutId, resolvedVariables, tryNumber, waitUntil))
+            }
         }
     }
 

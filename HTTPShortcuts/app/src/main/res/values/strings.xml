@@ -247,4 +247,9 @@
     <string name="authentication_digest">Digest Authentication</string>
     <string name="label_launcher_shortcut">Show as app shortcut on launcher</string>
     <string name="error_share_failed">An error occurred while sharing.</string>
+    <string name="title_shortcuts_pending">HTTP Shortcuts</string>
+    <plurals name="message_shortcuts_pending">
+        <item quantity="one">1 shortcut waiting to execute</item>
+        <item quantity="other">%d shortcuts waiting to execute</item>
+    </plurals>
 </resources>

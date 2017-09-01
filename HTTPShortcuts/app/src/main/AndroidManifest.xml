@@ -132,12 +132,6 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name="ch.rmy.android.http_shortcuts.http.ServiceStarter">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
-            </intent-filter>
-        </receiver>
-
         <service android:name=".http.ExecutionService"/>
 
         <activity
@@ -158,6 +152,8 @@
                 <action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING"/>
             </intent-filter>
         </receiver>
+
+        <receiver android:name=".http.RestarterService"/>
 
         <activity-alias
             android:name=".ExecuteActivity"

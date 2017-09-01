@@ -6,6 +6,7 @@ import io.realm.DynamicRealm
 import io.realm.DynamicRealmObject
 import io.realm.RealmList
 import io.realm.RealmMigration
+import java.util.*
 
 class DatabaseMigration : RealmMigration {
 
@@ -101,6 +102,11 @@ class DatabaseMigration : RealmMigration {
                     }
                 }
             }
+            11 -> { // 1.17.0
+                val pendingExecutionSchema = schema.get("PendingExecution")
+                pendingExecutionSchema.addField("tryNumber", Int::class.javaPrimitiveType)
+                pendingExecutionSchema.addField("waitUntil", Date::class.java)
+            }
 
             else -> throw IllegalArgumentException("Missing migration for version " + newVersion)
         }
@@ -117,7 +123,7 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 10
+        const val VERSION = 11
 
     }
 
