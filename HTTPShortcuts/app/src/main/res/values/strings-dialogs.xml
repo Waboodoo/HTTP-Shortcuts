@@ -5,6 +5,7 @@
             <b>Version 1.17.0</b><br>
             - New variable type: date<br>
             - Fixed/improved retry on failure<br>
+            - Option to delay shortcut execution<br>
             - Portuguese translations<br>
             - Improved quality of custom icons<br>
             - Minor bugfixes

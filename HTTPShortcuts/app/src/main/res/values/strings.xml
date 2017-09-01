@@ -254,11 +254,15 @@
     <string name="authentication_basic">Basic Authentication</string>
     <string name="authentication_digest">Digest Authentication</string>
     <string name="label_launcher_shortcut">Show as app shortcut on launcher</string>
+    <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
     <string name="error_share_failed">An error occurred while sharing.</string>
+    <!-- Title displayed in notification when there are shortcuts waiting to be executed at a later time -->
     <string name="title_shortcuts_pending">HTTP Shortcuts</string>
+    <!-- Message displayed in notification when there are shortcuts waiting to be executed at a later time -->
     <plurals name="message_shortcuts_pending">
         <item quantity="one">1 shortcut waiting to execute</item>
         <item quantity="other">%d shortcuts waiting to execute</item>
     </plurals>
+    <!-- Option to delay the execution of a shortcut. Default option is "No delay" -->
     <string name="label_no_delay">No delay</string>
 </resources>
