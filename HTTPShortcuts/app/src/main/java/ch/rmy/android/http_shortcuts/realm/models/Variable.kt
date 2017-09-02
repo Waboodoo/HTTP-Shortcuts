@@ -1,10 +1,13 @@
 package ch.rmy.android.http_shortcuts.realm.models
 
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.Required
+import java.util.*
+
 
 open class Variable : RealmObject(), HasId {
 
@@ -60,6 +63,16 @@ open class Variable : RealmObject(), HasId {
         return true
     }
 
+    var dataForType: Map<String, Any?>?
+        get() {
+            return GsonUtil.fromJsonString<Map<String, Any?>>(data).get(type!!)
+        }
+        set(value) {
+            val dataMap = HashMap(GsonUtil.fromJsonString<Map<String, Any?>>(data))
+            dataMap.put(type!!, value)
+            data = GsonUtil.toJson(dataMap)
+        }
+
     companion object {
 
         const val FIELD_KEY = "key"
@@ -72,9 +85,10 @@ open class Variable : RealmObject(), HasId {
         const val TYPE_TOGGLE = "toggle"
         const val TYPE_COLOR = "color"
         const val TYPE_DATE = "date"
+        const val TYPE_TIME = "time"
 
-        val TYPE_OPTIONS = arrayOf(TYPE_CONSTANT, TYPE_TEXT, TYPE_NUMBER, TYPE_PASSWORD, TYPE_COLOR, TYPE_SELECT, TYPE_TOGGLE, TYPE_DATE)
-        val TYPE_RESOURCES = intArrayOf(R.string.variable_type_constant, R.string.variable_type_text, R.string.variable_type_number, R.string.variable_type_password, R.string.variable_type_color, R.string.variable_type_select, R.string.variable_type_toggle, R.string.variable_type_date)
+        val TYPE_OPTIONS = arrayOf(TYPE_CONSTANT, TYPE_TEXT, TYPE_NUMBER, TYPE_PASSWORD, TYPE_DATE, TYPE_TIME, TYPE_COLOR, TYPE_SELECT, TYPE_TOGGLE)
+        val TYPE_RESOURCES = intArrayOf(R.string.variable_type_constant, R.string.variable_type_text, R.string.variable_type_number, R.string.variable_type_password, R.string.variable_type_date, R.string.variable_type_time, R.string.variable_type_color, R.string.variable_type_select, R.string.variable_type_toggle)
 
         private const val FLAG_SHARE_TEXT = 0x1
 

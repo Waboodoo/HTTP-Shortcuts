@@ -2,8 +2,10 @@ package ch.rmy.android.http_shortcuts.utils
 
 import ch.rmy.android.http_shortcuts.realm.models.Base
 import com.google.gson.*
+import com.google.gson.reflect.TypeToken
 import io.realm.RealmObject
 import java.io.Reader
+import java.util.*
 
 object GsonUtil {
 
@@ -41,6 +43,21 @@ object GsonUtil {
     fun importData(reader: Reader): Base {
         val gson = jsonBuilder.create()
         return gson.fromJson(reader, Base::class.java)
+    }
+
+    fun <T> fromJsonString(jsonString: String?): Map<String, T> {
+        if (jsonString == null) {
+            return Collections.emptyMap()
+        }
+        val gson = jsonBuilder.create()
+        val type = object : TypeToken<Map<String, T>>() {
+        }.type
+        return gson.fromJson(jsonString, type)
+    }
+
+    fun toJson(item: Map<String, Any>): String {
+        val gson = jsonBuilder.create()
+        return gson.toJson(item)
     }
 
     private val jsonBuilder: GsonBuilder

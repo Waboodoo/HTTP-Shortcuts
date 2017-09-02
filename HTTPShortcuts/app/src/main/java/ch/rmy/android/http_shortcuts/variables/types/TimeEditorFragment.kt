@@ -9,24 +9,24 @@ import kotterknife.bindView
 import java.text.SimpleDateFormat
 import java.util.*
 
-class DateEditorFragment : VariableEditorFragment() {
+class TimeEditorFragment : VariableEditorFragment() {
 
     private var variable: Variable? = null
 
-    override val layoutResource = R.layout.variable_editor_date
+    override val layoutResource = R.layout.variable_editor_time
 
     val inputRememberValue: CheckBox by bindView(R.id.input_remember_value)
-    val dateFormat: EditText by bindView(R.id.input_variable_date_format)
+    val timeFormat: EditText by bindView(R.id.input_variable_time_format)
 
     override fun updateViews(variable: Variable) {
         this.variable = variable
         inputRememberValue.isChecked = variable.rememberValue
-        dateFormat.setText(variable.dataForType?.get(DateType.KEY_FORMAT)?.toString() ?: DateType.DEFAULT_FORMAT)
+        timeFormat.setText(variable.dataForType?.get(TimeType.KEY_FORMAT)?.toString() ?: TimeType.DEFAULT_FORMAT)
     }
 
     override fun validate(): Boolean {
         try {
-            SimpleDateFormat(variable?.dataForType?.get(DateType.KEY_FORMAT)?.toString())
+            SimpleDateFormat(variable?.dataForType?.get(TimeType.KEY_FORMAT)?.toString())
         } catch (e: Exception) {
             MaterialDialog.Builder(context)
                     .content(R.string.error_invalid_date_format)
@@ -40,7 +40,7 @@ class DateEditorFragment : VariableEditorFragment() {
     override fun compileIntoVariable(variable: Variable) {
         variable.rememberValue = inputRememberValue.isChecked
         val dataMap = HashMap<String, String>()
-        dataMap.put(DateType.KEY_FORMAT, dateFormat.text.toString())
+        dataMap.put(TimeType.KEY_FORMAT, timeFormat.text.toString())
         variable.dataForType = dataMap
     }
 

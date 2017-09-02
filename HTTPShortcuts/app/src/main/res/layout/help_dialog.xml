@@ -13,6 +13,7 @@
             android:id="@+id/help_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:linksClickable="true"
             android:padding="10dp"
             android:textSize="14sp"/>
     </ScrollView>

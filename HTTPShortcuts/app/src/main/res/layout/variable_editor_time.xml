@@ -13,10 +13,10 @@
         android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/input_variable_date_format"
+            android:id="@+id/input_variable_time_format"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/label_variable_date_format"
+            android:hint="@string/label_variable_time_format"
             android:maxLength="20"
             android:maxLines="1"/>
 

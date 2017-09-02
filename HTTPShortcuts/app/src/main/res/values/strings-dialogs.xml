@@ -3,7 +3,7 @@
     <string name="changelog_text" translatable="false"><![CDATA[
         <p>
             <b>Version 1.17.0</b><br>
-            - New variable type: date<br>
+            - New variable types: date & time<br>
             - Fixed/improved retry on failure<br>
             - Option to delay shortcut execution<br>
             - Portuguese translations<br>
@@ -154,12 +154,12 @@
             The <i>text</i>, <i>number</i> and <i>password</i> types trigger a prompt dialog where a value can be entered into a text field.
         </p>
         <p>
-            <u>Color</u><br>
-            The <i>color</i> type triggers a prompt dialog where a color can be selected. Its value is returned in RGB hex format (e.g. ff0000 for red).
+            <u>Date and Time</u><br>
+            The <i>date</i> and <i>time</i> types trigger a prompt dialog where a date or time can be selected. The output format can be specified according to Android\'s <a href="https://developer.android.com/reference/java/text/SimpleDateFormat.html">SimpleDateFormat</a>.
         </p>
         <p>
-            <u>Date</u><br>
-            The <i>date</i> type triggers a prompt dialog where a date can be selected.
+            <u>Color</u><br>
+            The <i>color</i> type triggers a prompt dialog where a color can be selected. Its value is returned in RGB hex format (e.g. ff0000 for red).
         </p>
         <p>
             <b>What does <i>Allow \'Share …\'</i> mean?</b><br><b>How can I share text into variables?</b><br>

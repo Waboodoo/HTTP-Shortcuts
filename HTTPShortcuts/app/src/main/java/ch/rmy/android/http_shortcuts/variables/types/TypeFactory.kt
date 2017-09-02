@@ -13,6 +13,7 @@ object TypeFactory {
             Variable.TYPE_SELECT -> SelectType()
             Variable.TYPE_COLOR -> ColorType()
             Variable.TYPE_DATE -> DateType()
+            Variable.TYPE_TIME -> TimeType()
             else -> ConstantType()
         }
     }

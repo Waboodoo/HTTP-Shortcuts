@@ -166,16 +166,15 @@ class VariableEditorActivity : BaseActivity() {
     }
 
     private fun compileVariable() {
+        if (fragment != null) {
+            fragment!!.compileIntoVariable(variable!!)
+        }
         variable!!.title = titleView.text.toString().trim { it <= ' ' }
         variable!!.key = keyView.text.toString().trim { it <= ' ' }
         variable!!.type = Variable.TYPE_OPTIONS[typeSpinner.spinner.selectedItemPosition]
         variable!!.urlEncode = urlEncode.isChecked
         variable!!.jsonEncode = jsonEncode.isChecked
         variable!!.isShareText = allowShare.isChecked
-
-        if (fragment != null) {
-            fragment!!.compileIntoVariable(variable!!)
-        }
     }
 
     private fun validate(): Boolean {
