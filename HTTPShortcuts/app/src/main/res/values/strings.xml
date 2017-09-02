@@ -55,14 +55,11 @@
     <string name="no_shortcuts">no shortcuts yet</string>
     <string name="no_variables">no variables yet</string>
     <string name="confirm_delete_shortcut_message">Delete this shortcut?</string>
-    <string name="confirm_discard_changes_message">You have unsaved changes. Discard changes?
-    </string>
+    <string name="confirm_discard_changes_message">You have unsaved changes. Discard changes?</string>
     <string name="dialog_discard">Discard</string>
     <string name="title_activity_execute">Execute Shortcut</string>
     <string name="executed">%s executed.</string>
-    <string name="shortcut_not_found">Shortcut not found. You might have to re-add it to the home
-        screen.
-    </string>
+    <string name="shortcut_not_found">Shortcut not found. You might have to re-add it to the home screen.</string>
     <string name="validation_name_not_empty">Please enter a name.</string>
     <string name="validation_url_invalid">Please enter a HTTP(S) url.</string>
     <string name="error_http">%1$s failed with status code %2$d.</string>
@@ -101,17 +98,13 @@
     <string name="settings_title_import_export">Import / Export</string>
     <string name="settings_import">Import shortcuts</string>
     <string name="settings_export">Export shortcuts</string>
-    <string name="export_instructions">Select the directory into which to export your
-        shortcuts.\n\nPlease note that custom icons can not be exported.
-    </string>
+    <string name="export_instructions">Select the directory into which to export your shortcuts.\n\nPlease note that custom icons can not be exported.</string>
     <string name="export_success">Shortcuts successfully exported.</string>
     <string name="export_failed">Exporting shortcuts failed.</string>
     <string name="export_in_progress">Exporting…</string>
     <string name="button_ok">OK</string>
     <string name="button_cancel">Cancel</string>
-    <string name="import_instructions">Select the file to import shortcuts from.\n\nPlease note that
-        your current shortcuts might be overwritten.
-    </string>
+    <string name="import_instructions">Select the file to import shortcuts from.\n\nPlease note that your current shortcuts might be overwritten.</string>
     <string name="import_failed">Importing shortcuts failed.</string>
     <string name="import_success">Shortcuts successfully imported.</string>
     <string name="import_in_progress">Importing…</string>
@@ -145,9 +138,7 @@
     <string name="changelog_title">Changelog</string>
     <string name="changelog_checkbox_show_at_startup">Show at startup</string>
     <!-- Message displayed when the shortcut cannot be executed because there is no internet connection. %1$s is a placeholder for the shortcut name. -->
-    <string name="execution_delayed">%1$s will execute once a connection to the internet is
-        available.
-    </string>
+    <string name="execution_delayed">%1$s will execute once a connection to the internet is available.</string>
     <string name="label_retry_policy">When not connected to the internet</string>
     <string name="label_delay_execution">Delay execution</string>
     <string name="retry_policy_none">drop the request</string>
@@ -165,16 +156,11 @@
     <string name="section_advanced_settings">Advanced Settings</string>
     <string name="section_authentication">Authentication</string>
     <string name="label_authentication_method">Authentication Method</string>
-    <string name="warning_icon_or_name_change">Please note that changes to the name or icon are not
-        automatically applied to shortcuts that are already added to the home screen. You will have
-        to add them again for the changes to take effect. All other changes are automatically
-        applied.
-    </string>
+    <string name="warning_icon_or_name_change">Please note that changes to the name or icon are not automatically applied to shortcuts that are already added to the home screen. You will have to add them again for the changes to take effect. All other changes are automatically applied.</string>
     <string name="dialog_checkbox_do_not_show_again">Don\'t show again</string>
     <string name="label_certificates">Certificates</string>
     <!-- Label above checkbox in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
-    <string name="label_accept_all_certificates">Accept any certificate (I know what I\'m doing)
-    </string>
+    <string name="label_accept_all_certificates">Accept any certificate (I know what I\'m doing)</string>
     <string name="title_licenses">Acknowledgements</string>
     <string name="settings_licenses">Acknowledgements</string>
     <string name="settings_licenses_summary"><![CDATA[Libraries & resources used]]></string>
@@ -188,9 +174,7 @@
     <string name="placeholder_category_name">Enter Category Name…</string>
     <string name="placeholder_value">Value</string>
     <string name="title_create_category">Create Category</string>
-    <string name="confirm_delete_category_message">Delete this category?\n\nAll shortcuts contained
-        within will be deleted.
-    </string>
+    <string name="confirm_delete_category_message">Delete this category?\n\nAll shortcuts contained within will be deleted.</string>
     <string name="message_category_renamed">Category renamed.</string>
     <string name="message_category_created">Category created.</string>
     <string name="message_category_deleted">Category deleted.</string>
@@ -217,16 +201,14 @@
     <string name="variable_type_date">Date Input</string>
     <string name="variable_type_time">Time Input</string>
     <string name="variable_type_color">Color Input</string>
-    <string name="warning_invalid_variable_key">Variable keys may only contain letters and digits.
-    </string>
+    <string name="warning_invalid_variable_key">Variable keys may only contain letters and digits.</string>
     <string name="confirm_delete_variable_message">Delete this variable?</string>
     <string name="variable_deleted">%1$s deleted.</string>
     <string name="label_url_encode">URL encode</string>
     <string name="label_json_encode">JSON encode</string>
     <string name="section_basic_variable_settings">Basic Settings</string>
     <string name="validation_key_non_empty">Variable key must not be empty.</string>
-    <string name="validation_key_already_exists">Another variable with this key already exists.
-    </string>
+    <string name="validation_key_already_exists">Another variable with this key already exists.</string>
     <string name="title_add_toggle_option">Add value</string>
     <string name="button_add_toggle_option">Add value</string>
     <string name="section_toggle_options">Toggle Values</string>
@@ -238,8 +220,7 @@
     <string name="button_show_help">Show Help</string>
     <string name="help_title_variables">Variables</string>
     <string name="error_not_enough_toggle_values">Please add at least two values.</string>
-    <string name="error_not_enough_select_values">Please add at least one selectable option.
-    </string>
+    <string name="error_not_enough_select_values">Please add at least one selectable option.</string>
     <string name="error_invalid_date_format">The date format is not valid.</string>
     <string name="error_invalid_time_format">The time format is not valid.</string>
     <string name="share_button">Share</string>
@@ -250,15 +231,8 @@
     <string name="action_cancel_pending">Cancel pending execution</string>
     <string name="pending_shortcut_execution_cancelled">%1$s cancelled.</string>
     <string name="action_send_to">Send to…</string>
-    <string name="error_not_suitable_shortcuts">No suitable shortcuts found.\n\nTo use this feature
-        you need to have at least one shortcut that uses a variable that allows \'Share …\'.\n\nSee
-        the documentation in the variable section for more information.
-    </string>
-    <string name="error_sharing_feature_not_available_yet">Sorry, but sharing text files into
-        shortcuts is not yet supported. It will probably be added sometime in the future.\nYou can,
-        however, share text snippets already. See the documentation in the variable section for more
-        information.\n\nThank you for your understanding.
-    </string>
+    <string name="error_not_suitable_shortcuts">No suitable shortcuts found.\n\nTo use this feature you need to have at least one shortcut that uses a variable that allows \'Share …\'.\n\nSee the documentation in the variable section for more information.</string>
+    <string name="error_sharing_feature_not_available_yet">Sorry, but sharing text files into shortcuts is not yet supported. It will probably be added sometime in the future.\nYou can, however, share text snippets already. See the documentation in the variable section for more information.\n\nThank you for your understanding.</string>
     <string name="label_allow_share_into">Allow \'Share …\'</string>
     <string name="theme_blue">Blue</string>
     <string name="theme_green">Green</string>
@@ -276,10 +250,7 @@
     <string name="button_create_new">Create new shortcut</string>
     <string name="button_curl_import">From cURL command</string>
     <string name="title_curl_import">cURL import</string>
-    <string name="instructions_curl_import">Type or paste a cURL command below to create a new
-        shortcut from it. Please note that this feature is experimental and that only a limited
-        subset of cURL options is recognized.
-    </string>
+    <string name="instructions_curl_import">Type or paste a cURL command below to create a new shortcut from it. Please note that this feature is experimental and that only a limited subset of cURL options is recognized.</string>
     <string name="curl_import_button">Import</string>
     <string name="authentication_none">No Authentication</string>
     <string name="authentication_basic">Basic Authentication</string>
