@@ -1,24 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- The name of the app -->
     <string name="app_name">HTTP Shortcuts</string>
+    <!-- The name of the default category -->
     <string name="shortcuts">Shortcuts</string>
+    <!-- The name used as a fallback for shortcuts without a name -->
     <string name="shortcut_safe_name">Shortcut</string>
+    <!-- Title in editor when editing a shortcut -->
     <string name="edit_shortcut">Edit Shortcut</string>
+    <!-- Title in editor when creating a new shortcut -->
     <string name="create_shortcut">Create Shortcut</string>
+    <!-- Content description of icon image, accessibility information -->
     <string name="icon_description">Icon</string>
+    <!-- Label above input field in editor, for shortcut name -->
     <string name="label_name">Shortcut Name</string>
+    <!-- Label above input field in editor, for shortcut description -->
     <string name="label_description">Description</string>
+    <!-- Label above input field in editor, for shortcut URL -->
     <string name="label_url">URL</string>
+    <!-- Button to save changes made to shortcut/variable -->
     <string name="save_button">Save</string>
+    <!-- Button to test changes made to shortcut -->
     <string name="test_button">Test</string>
+    <!-- Label above input field in editor, for shortcut HTTP method (GET, POST, PUT, ...) -->
     <string name="label_method">Method</string>
+    <!-- Label above input field in editor, for shortcut authentication username -->
     <string name="label_username">Username</string>
+    <!-- Label above input field in editor, for shortcut authentication password -->
     <string name="label_password">Password</string>
+    <!-- Label above input field in editor, for shortcut response type dropdown -->
     <string name="label_feedback">Response Type</string>
+    <!-- Option in dropdown, for shortcut response type: ignore response -->
     <string name="feedback_none">Ignore response (run silently)</string>
+    <!-- Option in dropdown, for shortcut response type: show simple Toast (Android notification) -->
     <string name="feedback_simple_toast">Simple Toast</string>
+    <!-- Option in dropdown, for shortcut response type: show simple Toast but only for errors (Android notification) -->
     <string name="feedback_simple_toast_error">Simple Toast (errors only)</string>
+    <!-- Option in dropdown, for shortcut response type: show complete response in Toast (Android notification) -->
     <string name="feedback_response_toast">Response in Toast</string>
+    <!-- Option in dropdown, for shortcut response type: show complete response in Toast for errors (Android notification) -->
     <string name="feedback_response_toast_error">Response in Toast (errors only)</string>
     <string name="feedback_dialog">Response in Dialog</string>
     <string name="feedback_activity">Response in Window</string>
@@ -152,6 +172,7 @@
     </string>
     <string name="dialog_checkbox_do_not_show_again">Don\'t show again</string>
     <string name="label_certificates">Certificates</string>
+    <!-- Label above checkbox in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
     <string name="label_accept_all_certificates">Accept any certificate (I know what I\'m doing)
     </string>
     <string name="title_licenses">Acknowledgements</string>
