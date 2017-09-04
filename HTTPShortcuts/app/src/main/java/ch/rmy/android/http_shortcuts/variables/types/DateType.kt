@@ -71,7 +71,7 @@ internal class DateType : BaseVariableType(), AsyncVariableType {
         const val KEY_FORMAT = "format"
         const val DEFAULT_FORMAT = "yyyy-MM-dd"
 
-        private val DATE_FORMAT = SimpleDateFormat("yyyy-mm-dd")
+        private val DATE_FORMAT = SimpleDateFormat("yyyy-MM-dd")
 
 
     }
