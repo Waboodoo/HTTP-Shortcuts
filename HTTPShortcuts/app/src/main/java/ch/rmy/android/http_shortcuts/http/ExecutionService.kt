@@ -93,7 +93,7 @@ class ExecutionService : Service() {
                 .setContentText(context.resources.getQuantityString(R.plurals.message_shortcuts_pending, size, size))
                 .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.ic_launcher))
                 .setContentIntent(PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT))
-                .setSmallIcon(R.drawable.ic_waiting)
+                .setSmallIcon(R.drawable.ic_waiting_white)
         startForeground(NOTIFICATION_ID, builder.build())
     }
 
