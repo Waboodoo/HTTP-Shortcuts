@@ -49,6 +49,9 @@ This app uses [Stetho](https://github.com/facebook/stetho), which means you can 
 ### Bulk Creation / Modifying of Shortcuts
 If you want to add or edit a lot of shortcuts at once it can be very cumbersome to do so through the app's UI. An easy solution is to go to the apps settings and use the export feature. It provides you with a JSON file that you can easily modify with any tool you want. Once you are done you can import it again and voila: you have all your changes in the app.
 
+### Customize look-and-feel of shortcuts
+As opposed to Android's home screen widgets, home screen shortcuts are very limitted in how they can be customized, i.e. only icon and label can be specified. If you wish to change the look-and-feel of your shortcuts beyond that, I recommend you have a look at some third-party apps that allow you to create custom widgets. I recommend [Elixir 2 - Widgets](https://play.google.com/store/apps/details?id=com.bartat.android.elixir.widget&hl=en), which I personally use to combine multiple shortcuts into a nice looking widget.
+
 ## Acknowledgments
 
 ### Features
