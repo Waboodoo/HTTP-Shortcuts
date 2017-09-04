@@ -5,28 +5,48 @@
  Release: Working copy
  Locale: pt, Portuguese
  Exported by: Roland Meyer
- Exported at: Fri, 01 Sep 2017 18:32:47 +0200
+ Exported at: Mon, 04 Sep 2017 18:50:51 +0200
 -->
 <resources>
+    <!-- The name of the app -->
     <string name="app_name">HTTP Shortcuts</string>
+    <!-- The name of the default category -->
     <string name="shortcuts">Atalhos</string>
+    <!-- The name used as a fallback for shortcuts without a name -->
     <string name="shortcut_safe_name">Atalho</string>
+    <!-- Title in editor when editing a shortcut -->
     <string name="edit_shortcut">Editar Atalho</string>
+    <!-- Title in editor when creating a new shortcut -->
     <string name="create_shortcut">Criar Atalho</string>
+    <!-- Content description of icon image, accessibility information -->
     <string name="icon_description">Ícone</string>
+    <!-- Label above input field in editor, for shortcut name -->
     <string name="label_name">Nome do Atalho</string>
+    <!-- Label above input field in editor, for shortcut description -->
     <string name="label_description">Descrição</string>
+    <!-- Label above input field in editor, for shortcut URL -->
     <string name="label_url">URL</string>
+    <!-- Button to save changes made to shortcut/variable -->
     <string name="save_button">Salvar</string>
+    <!-- Button to test changes made to shortcut -->
     <string name="test_button">Testar</string>
+    <!-- Label above input field in editor, for shortcut HTTP method (GET, POST, PUT, ...) -->
     <string name="label_method">Método</string>
+    <!-- Label above input field in editor, for shortcut authentication username -->
     <string name="label_username">Usuário</string>
+    <!-- Label above input field in editor, for shortcut authentication password -->
     <string name="label_password">Senha</string>
+    <!-- Label above input field in editor, for shortcut response type dropdown -->
     <string name="label_feedback">Tipo da Resposta</string>
+    <!-- Option in dropdown, for shortcut response type: ignore response -->
     <string name="feedback_none">Ignorar resposta (executar em silêncio)</string>
+    <!-- Option in dropdown, for shortcut response type: show simple Toast (Android notification) -->
     <string name="feedback_simple_toast">Toast Simples</string>
+    <!-- Option in dropdown, for shortcut response type: show simple Toast but only for errors (Android notification) -->
     <string name="feedback_simple_toast_error">Toast Simples (somente erros)</string>
+    <!-- Option in dropdown, for shortcut response type: show complete response in Toast (Android notification) -->
     <string name="feedback_response_toast">Resposta no Toast</string>
+    <!-- Option in dropdown, for shortcut response type: show complete response in Toast for errors (Android notification) -->
     <string name="feedback_response_toast_error">Resposta no Toast (erros somente)</string>
     <string name="feedback_dialog">Resposta no Diálogo</string>
     <string name="feedback_activity">Resposta na Janela</string>
@@ -43,15 +63,11 @@
     <string name="no_shortcuts">nenhum atalho ainda</string>
     <string name="no_variables">nenhuma variável ainda</string>
     <string name="confirm_delete_shortcut_message">Excluir este atalho?</string>
-    <string name="confirm_discard_changes_message">Você tem modificações não salvas. Deseja
-        descarta-las?
-    </string>
+    <string name="confirm_discard_changes_message">Você tem modificações não salvas. Deseja descarta-las?</string>
     <string name="dialog_discard">Descartar</string>
     <string name="title_activity_execute">Executar Atalho</string>
     <string name="executed">%s executado.</string>
-    <string name="shortcut_not_found">Atalho não encontrado. Talvez seja necessário adiciona-lo
-        novamente à tela inicial.
-    </string>
+    <string name="shortcut_not_found">Atalho não encontrado. Talvez seja necessário adiciona-lo novamente à tela inicial.</string>
     <string name="validation_name_not_empty">Por favor, informe um nome.</string>
     <string name="validation_url_invalid">Por favor, informe uma URL HTTP(S).</string>
     <string name="error_http">%1$s falhou com o código de status %2$d.</string>
@@ -90,40 +106,41 @@
     <string name="settings_title_import_export">Importar / Exportar</string>
     <string name="settings_import">Importar atalhos</string>
     <string name="settings_export">Exportar atalhos</string>
-    <string name="export_instructions">Selecione o diretório no qual deseja exportar seus
-        atalhos.\n\nObserve que os ícones customizados não serão exportados.
-    </string>
+    <string name="export_instructions">Selecione o diretório no qual deseja exportar seus atalhos.\n\nObserve que os ícones customizados não serão exportados.</string>
     <string name="export_success">Atalhos exportados com sucesso.</string>
     <string name="export_failed">Exportação de atalhos falhou.</string>
     <string name="export_in_progress">Exportando…</string>
     <string name="button_ok">OK</string>
     <string name="button_cancel">Cancelar</string>
-    <string name="import_instructions">Selecione o arquivo para importar os atalhos.\n\nObserve que
-        os seus atalhos atuais podem ser substituídos.
-    </string>
+    <string name="import_instructions">Selecione o arquivo para importar os atalhos.\n\nObserve que os seus atalhos atuais podem ser substituídos.</string>
     <string name="import_failed">Importação de atalhos falhou.</string>
     <string name="import_success">Atalhos importados com sucesso.</string>
     <string name="import_in_progress">Importando…</string>
     <string name="label_timeout">Tempo de Espera</string>
     <string name="timeout_format">%1$s (%2$s)</string>
+    <plurals name="timeout_seconds">
+        <item quantity="one">%d second</item>
+        <item quantity="other">%d seconds</item>
+    </plurals>
+    <!-- Timeout option: short, i.e. only a few seconds -->
     <string name="timeout_short">curto</string>
+    <!-- Timeout option: medium, i.e. around 10 seconds -->
     <string name="timeout_medium">médio</string>
+    <!-- Timeout option: long, i.e. around 30 seconds -->
     <string name="timeout_long">longo</string>
+    <!-- Timeout option: very long, i.e. around 60 seconds -->
     <string name="timeout_very_long">muito longo</string>
     <string name="settings_about">Sobre este App</string>
     <string name="settings_version">Versão</string>
     <string name="settings_mail">Contate o desenvolvedor</string>
-    <string name="settings_mail_summary">Perguntas, requisição de funcionalidades, outros
-        comentários, …
-    </string>
+    <string name="settings_mail_summary">Perguntas, requisição de funcionalidades, outros comentários, …</string>
     <string name="settings_github">Veja no Github</string>
     <string name="settings_github_summary">Certíssimo, este aplicativo é de código aberto</string>
     <string name="changelog_title_whats_new">Novidades?</string>
     <string name="changelog_title">Changelog</string>
     <string name="changelog_checkbox_show_at_startup">Mostrar ao iniciar</string>
-    <string name="execution_delayed">%1$s será executado uma vez que a conexão com a internet esteja
-        disponível.
-    </string>
+    <!-- Message displayed when the shortcut cannot be executed because there is no internet connection. %1$s is a placeholder for the shortcut name. -->
+    <string name="execution_delayed">%1$s será executado uma vez que a conexão com a internet esteja disponível.</string>
     <string name="label_retry_policy">Quando não estiver conectado na Internet</string>
     <string name="retry_policy_none">descartar a requisição</string>
     <string name="retry_policy_delayed">aguardar pela conexão</string>
@@ -140,16 +157,11 @@
     <string name="section_advanced_settings">Configurações Avançadas</string>
     <string name="section_authentication">Autenticação</string>
     <string name="label_authentication_method">Método de Autenticação</string>
-    <string name="warning_icon_or_name_change">Observe que as alterações no nome ou ícone não serão
-        aplicadas automaticamente aos atalhos que já estão na tela inicial. Você terá que
-        adicioná-los novamente para que as alterações tenham efeito. Todas as outras alterações são
-        aplicadas automaticamente.
-    </string>
+    <string name="warning_icon_or_name_change">Observe que as alterações no nome ou ícone não serão aplicadas automaticamente aos atalhos que já estão na tela inicial. Você terá que adicioná-los novamente para que as alterações tenham efeito. Todas as outras alterações são aplicadas automaticamente.</string>
     <string name="dialog_checkbox_do_not_show_again">Não mostrar novamente</string>
     <string name="label_certificates">Certificados</string>
-    <string name="label_accept_all_certificates">Aceitar qualquer certificado (Sei o que estou
-        fazendo)
-    </string>
+    <!-- Label above checkbox in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
+    <string name="label_accept_all_certificates">Aceitar qualquer certificado (Sei o que estou fazendo)</string>
     <string name="title_licenses">Agradecimentos</string>
     <string name="settings_licenses">Agradecimentos</string>
     <string name="settings_licenses_summary">Bibliotecas &amp; recursos usados</string>
@@ -163,15 +175,13 @@
     <string name="placeholder_category_name">Informe o Nome da Categoria…</string>
     <string name="placeholder_value">Valor</string>
     <string name="title_create_category">Criar Categoria</string>
-    <string name="confirm_delete_category_message">Excluir esta categoria?\n\nTodos os atalhos
-        contidos nela serão excluídos.
-    </string>
+    <string name="confirm_delete_category_message">Excluir esta categoria?\n\nTodos os atalhos contidos nela serão excluídos.</string>
     <string name="message_category_renamed">Categoria renomeada.</string>
     <string name="message_category_created">Categoria criada.</string>
     <string name="message_category_deleted">Categoria excluída.</string>
     <plurals name="shortcut_count">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <item quantity="one">%d shortcut</item>
+        <item quantity="other">%d shortcuts</item>
     </plurals>
     <string name="title_move_to_category">Mover para categoria</string>
     <string name="plugin_name">Executar HTTP Shortcut</string>
@@ -181,18 +191,16 @@
     <string name="label_variable_type">Tipo</string>
     <string name="label_variable_key">Chave</string>
     <string name="label_variable_title">Título do Diálogo (opcional)</string>
-    <string name="label_variable_date_format"></string>
+    <string name="label_variable_date_format">Date Format</string>
     <string name="variable_type_constant">Constante</string>
     <string name="variable_type_text">Campo de texto</string>
     <string name="variable_type_number">Campo numérico</string>
     <string name="variable_type_password">Campo de senha</string>
     <string name="variable_type_select">Seleção</string>
     <string name="variable_type_toggle">Alternar</string>
-    <string name="variable_type_date"></string>
+    <string name="variable_type_date">Date Input</string>
     <string name="variable_type_color">Campo de cor</string>
-    <string name="warning_invalid_variable_key">As chaves de variável devem conter somente letras e
-        números.
-    </string>
+    <string name="warning_invalid_variable_key">As chaves de variável devem conter somente letras e números.</string>
     <string name="confirm_delete_variable_message">Excluir esta variável?</string>
     <string name="variable_deleted">%1$s excluída.</string>
     <string name="label_url_encode">Codificar URL</string>
@@ -210,12 +218,9 @@
     <string name="label_select_value">Valor</string>
     <string name="button_show_help">Mostrar Ajuda</string>
     <string name="help_title_variables">Variáveis</string>
-    <string name="error_not_enough_toggle_values">Por favor, adicione ao menos dois valores.
-    </string>
-    <string name="error_not_enough_select_values">Por favor, adicione ao menos uma opção
-        selecionável.
-    </string>
-    <string name="error_invalid_date_format"></string>
+    <string name="error_not_enough_toggle_values">Por favor, adicione ao menos dois valores.</string>
+    <string name="error_not_enough_select_values">Por favor, adicione ao menos uma opção selecionável.</string>
+    <string name="error_invalid_date_format">The date format is not valid.</string>
     <string name="share_button">Compartilhar</string>
     <string name="share_title">Compartilhar…</string>
     <string name="progress_dialog_message">%1$s…</string>
@@ -224,16 +229,8 @@
     <string name="action_cancel_pending">Cancelar execução pendente</string>
     <string name="pending_shortcut_execution_cancelled">%1$s cancelado.</string>
     <string name="action_send_to">Enviar para…</string>
-    <string name="error_not_suitable_shortcuts">Não foram encontrados atalhos adequados.\n\nPara
-        usar este recurso, você precisa ter ao menos um atalho que use uma variável que permita
-        \'Compartilhar…\'.\n\nConsulte a documentação na seção variável para obter mais informações.
-    </string>
-    <string name="error_sharing_feature_not_available_yet">Desculpe, mas o compartilhamento de
-        arquivos texto em atalhos não é suportado ainda. Provavelmente será adicionado em algum
-        momento no futuro.\nNo entando, você já pode compartilhar fragmentos de texto. Consulte a
-        documentação na seção variável para obter mais informações.\n\nObrigado pela sua
-        compreensão.
-    </string>
+    <string name="error_not_suitable_shortcuts">Não foram encontrados atalhos adequados.\n\nPara usar este recurso, você precisa ter ao menos um atalho que use uma variável que permita \'Compartilhar…\'.\n\nConsulte a documentação na seção variável para obter mais informações.</string>
+    <string name="error_sharing_feature_not_available_yet">Desculpe, mas o compartilhamento de arquivos texto em atalhos não é suportado ainda. Provavelmente será adicionado em algum momento no futuro.\nNo entando, você já pode compartilhar fragmentos de texto. Consulte a documentação na seção variável para obter mais informações.\n\nObrigado pela sua compreensão.</string>
     <string name="label_allow_share_into">Permitir \'Compartilhar…\'</string>
     <string name="theme_blue">Azul</string>
     <string name="theme_green">Verde</string>
@@ -251,19 +248,35 @@
     <string name="button_create_new">Criar novo atalho</string>
     <string name="button_curl_import">De comando cURL</string>
     <string name="title_curl_import">Importar cURL</string>
-    <string name="instructions_curl_import">Digite ou cole abaixo um comando cURL para criar um novo
-        atalho. Observe que este recurso é experimental e que apenas um subconjunto limitado de
-        opções cURL é reconhecido.
-    </string>
+    <string name="instructions_curl_import">Digite ou cole abaixo um comando cURL para criar um novo atalho. Observe que este recurso é experimental e que apenas um subconjunto limitado de opções cURL é reconhecido.</string>
     <string name="curl_import_button">Importar</string>
     <string name="authentication_none">Sem Autenticação</string>
     <string name="authentication_basic">Autenticação Básica</string>
     <string name="authentication_digest">Autenticação Digest</string>
     <string name="label_launcher_shortcut">Mostrar como atalho de aplicativo no iniciador</string>
-    <string name="error_share_failed"></string>
-    <string name="title_shortcuts_pending"></string>
+    <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
+    <string name="error_share_failed">An error occurred while sharing.</string>
+    <!-- Title displayed in notification when there are shortcuts waiting to be executed at a later time -->
+    <string name="title_shortcuts_pending">HTTP Shortcuts</string>
     <plurals name="message_shortcuts_pending">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <!-- Message displayed in notification when there are shortcuts waiting to be executed at a later time -->
+        <item quantity="one">1 shortcut waiting to execute</item>
+        <item quantity="other">%d shortcuts waiting to execute</item>
     </plurals>
+    <plurals name="seconds">
+        <!-- Used in various places to indicate a number of seconds, e.g. for a delay. %s is a placeholder for the actual number. -->
+        <item quantity="one">%d second</item>
+        <item quantity="other">%d seconds</item>
+    </plurals>
+    <plurals name="minutes">
+        <!-- Used in various places to indicate a number of minutes, e.g. for a delay. %s is a placeholder for the actual number. -->
+        <item quantity="one">%d minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+    <string name="label_delay_execution">Delay execution</string>
+    <!-- Option to delay the execution of a shortcut. Default option is "No delay" -->
+    <string name="label_no_delay">No delay</string>
+    <string name="label_variable_time_format">Time Format</string>
+    <string name="variable_type_time">Time Input</string>
+    <string name="error_invalid_time_format">The time format is not valid.</string>
 </resources>

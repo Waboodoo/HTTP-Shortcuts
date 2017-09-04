@@ -5,28 +5,48 @@
  Release: Working copy
  Locale: zh, Chinese
  Exported by: Roland Meyer
- Exported at: Fri, 01 Sep 2017 18:32:47 +0200
+ Exported at: Mon, 04 Sep 2017 18:50:51 +0200
 -->
 <resources>
+    <!-- The name of the app -->
     <string name="app_name">HTTP 快捷方式</string>
+    <!-- The name of the default category -->
     <string name="shortcuts">快捷方式</string>
+    <!-- The name used as a fallback for shortcuts without a name -->
     <string name="shortcut_safe_name">快捷方式</string>
+    <!-- Title in editor when editing a shortcut -->
     <string name="edit_shortcut">编辑快捷方式</string>
+    <!-- Title in editor when creating a new shortcut -->
     <string name="create_shortcut">新建快捷方式</string>
+    <!-- Content description of icon image, accessibility information -->
     <string name="icon_description">图标</string>
+    <!-- Label above input field in editor, for shortcut name -->
     <string name="label_name">名称</string>
+    <!-- Label above input field in editor, for shortcut description -->
     <string name="label_description">描述</string>
+    <!-- Label above input field in editor, for shortcut URL -->
     <string name="label_url">地址</string>
+    <!-- Button to save changes made to shortcut/variable -->
     <string name="save_button">保存</string>
+    <!-- Button to test changes made to shortcut -->
     <string name="test_button">测试</string>
+    <!-- Label above input field in editor, for shortcut HTTP method (GET, POST, PUT, ...) -->
     <string name="label_method">方法</string>
+    <!-- Label above input field in editor, for shortcut authentication username -->
     <string name="label_username">用户名</string>
+    <!-- Label above input field in editor, for shortcut authentication password -->
     <string name="label_password">密码</string>
+    <!-- Label above input field in editor, for shortcut response type dropdown -->
     <string name="label_feedback">响应的类型</string>
+    <!-- Option in dropdown, for shortcut response type: ignore response -->
     <string name="feedback_none">忽略响应（静默执行）</string>
+    <!-- Option in dropdown, for shortcut response type: show simple Toast (Android notification) -->
     <string name="feedback_simple_toast">简易吐司</string>
+    <!-- Option in dropdown, for shortcut response type: show simple Toast but only for errors (Android notification) -->
     <string name="feedback_simple_toast_error">简易吐司（仅出错时）</string>
+    <!-- Option in dropdown, for shortcut response type: show complete response in Toast (Android notification) -->
     <string name="feedback_response_toast">在吐司中显示响应</string>
+    <!-- Option in dropdown, for shortcut response type: show complete response in Toast for errors (Android notification) -->
     <string name="feedback_response_toast_error">在吐司中显示响应（仅出错时）</string>
     <string name="feedback_dialog">在对话框中显示响应</string>
     <string name="feedback_activity">在窗口中显示响应</string>
@@ -69,7 +89,7 @@
     <string name="dialog_cancel">取消</string>
     <string name="dialog_remove">移除</string>
     <string name="section_request_headers">头部</string>
-    <string name="section_request_body"></string>
+    <string name="section_request_body">Request Body</string>
     <string name="button_add_custom_header">添加头部</string>
     <string name="title_custom_header_edit">编辑头部</string>
     <string name="title_custom_header_add">添加头部</string>
@@ -98,9 +118,17 @@
     <string name="import_in_progress">正在导出快捷方式……</string>
     <string name="label_timeout">超时时间</string>
     <string name="timeout_format">%1$s （%2$s）</string>
+    <plurals name="timeout_seconds">
+        <item quantity="one">%d second</item>
+        <item quantity="other">%d seconds</item>
+    </plurals>
+    <!-- Timeout option: short, i.e. only a few seconds -->
     <string name="timeout_short">短</string>
+    <!-- Timeout option: medium, i.e. around 10 seconds -->
     <string name="timeout_medium">中</string>
+    <!-- Timeout option: long, i.e. around 30 seconds -->
     <string name="timeout_long">长</string>
+    <!-- Timeout option: very long, i.e. around 60 seconds -->
     <string name="timeout_very_long">很长</string>
     <string name="settings_about">关于应用</string>
     <string name="settings_version">版本号</string>
@@ -111,6 +139,7 @@
     <string name="changelog_title_whats_new">有哪些更新？</string>
     <string name="changelog_title">更新日志</string>
     <string name="changelog_checkbox_show_at_startup">在启动时显示</string>
+    <!-- Message displayed when the shortcut cannot be executed because there is no internet connection. %1$s is a placeholder for the shortcut name. -->
     <string name="execution_delayed">当网络连接可用时 %1$s 将会被执行</string>
     <string name="label_retry_policy">当未连接到互联网时</string>
     <string name="retry_policy_none">取消请求</string>
@@ -127,22 +156,21 @@
     <string name="section_response">响应设置</string>
     <string name="section_advanced_settings">高级设置</string>
     <string name="section_authentication">身份认证</string>
-    <string name="label_authentication_method"></string>
-    <string name="warning_icon_or_name_change">
-        请注意，在修改快捷方式的名称和图标后，主屏幕上对应的名称和图标并不会同步改变。你必须再次将其添加到主屏幕，随后这些修改才会生效。
-    </string>
+    <string name="label_authentication_method">Authentication Method</string>
+    <string name="warning_icon_or_name_change">请注意，在修改快捷方式的名称和图标后，主屏幕上对应的名称和图标并不会同步改变。你必须再次将其添加到主屏幕，随后这些修改才会生效。</string>
     <string name="dialog_checkbox_do_not_show_again">不要再提示</string>
     <string name="label_certificates">证书</string>
+    <!-- Label above checkbox in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
     <string name="label_accept_all_certificates">接受所有证书</string>
     <string name="title_licenses">鸣谢</string>
     <string name="settings_licenses">鸣谢</string>
     <string name="settings_licenses_summary">使用到的库和资源</string>
     <string name="title_categories">分类</string>
     <string name="action_rename">重命名</string>
-    <string name="action_change_category_layout_type"></string>
-    <string name="message_layout_type_changed"></string>
-    <string name="layout_type_linear_list"></string>
-    <string name="layout_type_grid"></string>
+    <string name="action_change_category_layout_type">Change layout type</string>
+    <string name="message_layout_type_changed">Layout type changed</string>
+    <string name="layout_type_linear_list">List</string>
+    <string name="layout_type_grid">Grid</string>
     <string name="title_rename_category">重命名分类</string>
     <string name="placeholder_category_name">输入分类名称…</string>
     <string name="placeholder_value">值</string>
@@ -152,7 +180,8 @@
     <string name="message_category_created">分类已创建</string>
     <string name="message_category_deleted">分类已删除</string>
     <plurals name="shortcut_count">
-        <item quantity="other"></item>
+        <item quantity="one">%d shortcut</item>
+        <item quantity="other">%d shortcuts</item>
     </plurals>
     <string name="title_move_to_category">移动到分类</string>
     <string name="plugin_name">执行 HTTP 快捷方式</string>
@@ -162,14 +191,14 @@
     <string name="label_variable_type">类型</string>
     <string name="label_variable_key">键</string>
     <string name="label_variable_title">对话框标题（可选）</string>
-    <string name="label_variable_date_format"></string>
+    <string name="label_variable_date_format">Date Format</string>
     <string name="variable_type_constant">常量</string>
     <string name="variable_type_text">输入文本</string>
     <string name="variable_type_number">输入数字</string>
     <string name="variable_type_password">输入密码</string>
     <string name="variable_type_select">选项</string>
     <string name="variable_type_toggle">切换</string>
-    <string name="variable_type_date"></string>
+    <string name="variable_type_date">Date Input</string>
     <string name="variable_type_color">输入色值</string>
     <string name="warning_invalid_variable_key">变量的键名只能包含字母和数字</string>
     <string name="confirm_delete_variable_message">确定删除这个变量？</string>
@@ -190,8 +219,8 @@
     <string name="button_show_help">帮助信息</string>
     <string name="help_title_variables">变量</string>
     <string name="error_not_enough_toggle_values">请至少添加两个值</string>
-    <string name="error_not_enough_select_values"></string>
-    <string name="error_invalid_date_format"></string>
+    <string name="error_not_enough_select_values">Please add at least one selectable option.</string>
+    <string name="error_invalid_date_format">The date format is not valid.</string>
     <string name="share_button">分享</string>
     <string name="share_title">分享…</string>
     <string name="progress_dialog_message">%1$s…</string>
@@ -219,17 +248,35 @@
     <string name="button_create_new">新建快捷方式</string>
     <string name="button_curl_import">从 cURL 命令行创建</string>
     <string name="title_curl_import">从 cURL 命令行创建</string>
-    <string name="instructions_curl_import">在下面输入或粘贴一条 cURL 命令以新建一个快捷方式。请注意，这是一个实验性功能，目前只能识别部分 cURL
-        参数。
-    </string>
+    <string name="instructions_curl_import">在下面输入或粘贴一条 cURL 命令以新建一个快捷方式。请注意，这是一个实验性功能，目前只能识别部分 cURL 参数。</string>
     <string name="curl_import_button">导入</string>
-    <string name="authentication_none"></string>
-    <string name="authentication_basic"></string>
-    <string name="authentication_digest"></string>
-    <string name="label_launcher_shortcut"></string>
-    <string name="error_share_failed"></string>
-    <string name="title_shortcuts_pending"></string>
+    <string name="authentication_none">No Authentication</string>
+    <string name="authentication_basic">Basic Authentication</string>
+    <string name="authentication_digest">Digest Authentication</string>
+    <string name="label_launcher_shortcut">Show as app shortcut on launcher</string>
+    <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
+    <string name="error_share_failed">An error occurred while sharing.</string>
+    <!-- Title displayed in notification when there are shortcuts waiting to be executed at a later time -->
+    <string name="title_shortcuts_pending">HTTP Shortcuts</string>
     <plurals name="message_shortcuts_pending">
-        <item quantity="other"></item>
+        <!-- Message displayed in notification when there are shortcuts waiting to be executed at a later time -->
+        <item quantity="one">1 shortcut waiting to execute</item>
+        <item quantity="other">%d shortcuts waiting to execute</item>
     </plurals>
+    <plurals name="seconds">
+        <!-- Used in various places to indicate a number of seconds, e.g. for a delay. %s is a placeholder for the actual number. -->
+        <item quantity="one">%d second</item>
+        <item quantity="other">%d seconds</item>
+    </plurals>
+    <plurals name="minutes">
+        <!-- Used in various places to indicate a number of minutes, e.g. for a delay. %s is a placeholder for the actual number. -->
+        <item quantity="one">%d minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+    <string name="label_delay_execution">Delay execution</string>
+    <!-- Option to delay the execution of a shortcut. Default option is "No delay" -->
+    <string name="label_no_delay">No delay</string>
+    <string name="label_variable_time_format">Time Format</string>
+    <string name="variable_type_time">Time Input</string>
+    <string name="error_invalid_time_format">The time format is not valid.</string>
 </resources>
