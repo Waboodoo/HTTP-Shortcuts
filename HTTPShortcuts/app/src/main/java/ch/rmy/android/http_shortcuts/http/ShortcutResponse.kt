@@ -8,7 +8,7 @@ class ShortcutResponse internal constructor(private val headers: Map<String, Str
     val bodyAsString: String
         get() {
             return try {
-                data.toString(Charset.forName(HttpHeaderParser.parseCharset(headers)))
+                data.toString(Charset.forName(HttpHeaderParser.parseCharset(headers, "UTF-8")))
             } catch (e: Exception) {
                 String(data)
             }
