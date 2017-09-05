@@ -18,7 +18,7 @@ class ShortcutGridAdapter(context: Context) : ShortcutAdapter(context) {
 
         override fun updateViews(item: Shortcut) {
             name.text = item.name
-            icon.setImageURI(item.getIconURI(context), item.iconName!!)
+            icon.setImageURI(item.getIconURI(context), item.iconName)
         }
 
     }

@@ -35,7 +35,7 @@ class CategoryAdapter(context: Context) : BaseAdapter<Category>(context) {
             var i = 0
             for (shortcut in shortcuts) {
                 val icon = smallIconContainer.getChildAt(i) as IconView
-                icon.setImageURI(shortcut.getIconURI(context), shortcut.iconName!!)
+                icon.setImageURI(shortcut.getIconURI(context), shortcut.iconName)
                 i++
                 if (i >= MAX_ICONS) {
                     break

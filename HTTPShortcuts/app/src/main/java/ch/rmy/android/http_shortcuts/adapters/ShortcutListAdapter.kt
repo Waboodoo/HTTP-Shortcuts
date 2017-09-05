@@ -24,7 +24,7 @@ class ShortcutListAdapter(context: Context) : ShortcutAdapter(context) {
             name.text = item.name
             description.text = item.description
             description.visibility = if (TextUtils.isEmpty(item.description)) View.GONE else View.VISIBLE
-            icon.setImageURI(item.getIconURI(context), item.iconName!!)
+            icon.setImageURI(item.getIconURI(context), item.iconName)
             waitingIcon.visibility = if (isPendingExecution(item.id)) View.VISIBLE else View.GONE
         }
 

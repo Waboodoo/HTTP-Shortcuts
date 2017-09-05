@@ -205,7 +205,7 @@ class EditorActivity : BaseActivity() {
     }
 
     private fun updateUI() {
-        iconView.setImageURI(shortcut!!.getIconURI(this), shortcut!!.iconName!!)
+        iconView.setImageURI(shortcut!!.getIconURI(this), shortcut!!.iconName)
         retryPolicyView.visibility = if (shortcut!!.isRetryAllowed()) VISIBLE else GONE
         requestBodyContainer.visibility = if (shortcut!!.allowsBody()) VISIBLE else GONE
         authenticationContainer.visibility = if (shortcut!!.usesAuthentication()) VISIBLE else GONE
@@ -364,14 +364,14 @@ class EditorActivity : BaseActivity() {
         finish()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
 
         if (resultCode != Activity.RESULT_OK) {
             return
         }
 
-        if (requestCode == SELECT_ICON) {
+        if (requestCode == SELECT_ICON && intent != null) {
             //FIXME: Generate better file names
             val iconName = Integer.toHexString(Math.floor(Math.random() * 1000000).toInt()) + ".png"
 
@@ -403,7 +403,7 @@ class EditorActivity : BaseActivity() {
                 }
 
             }
-        } else if (requestCode == SELECT_IPACK_ICON) {
+        } else if (requestCode == SELECT_IPACK_ICON && intent != null) {
             val uri = IpackUtil.getIpackUri(intent)
             shortcut!!.iconName = uri.toString()
         }

@@ -37,7 +37,7 @@ class IconView : AppCompatImageView {
         return iconName != null && iconName!!.startsWith("white_")
     }
 
-    fun setImageURI(uri: Uri, iconName: String) {
+    fun setImageURI(uri: Uri, iconName: String?) {
         setImageURI(uri)
         this.iconName = iconName
         updateBackground()
