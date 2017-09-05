@@ -63,8 +63,8 @@ class CurlImportActivity : BaseActivity() {
         startActivityForResult(intent, REQUEST_CREATE_SHORTCUT)
     }
 
-    public override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent) {
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CREATE_SHORTCUT) {
+    public override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CREATE_SHORTCUT && intent != null) {
             val shortcutId = intent.getLongExtra(EditorActivity.EXTRA_SHORTCUT_ID, 0)
             val returnIntent = Intent()
             returnIntent.putExtra(EditorActivity.EXTRA_SHORTCUT_ID, shortcutId)
