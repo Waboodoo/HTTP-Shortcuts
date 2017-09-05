@@ -20,7 +20,7 @@ class ChangeLogDialog(private val context: Context, private val whatsNew: Boolea
             return false
         }
         val lastSeenVersion = settings.changeLogLastVersion
-        return version > lastSeenVersion && lastSeenVersion != 0
+        return version != lastSeenVersion && lastSeenVersion != 0
     }
 
     private val isPermanentlyHidden: Boolean
@@ -48,12 +48,13 @@ class ChangeLogDialog(private val context: Context, private val whatsNew: Boolea
         }
     }
 
-    private val version = try {
-        context.packageManager
-                .getPackageInfo(context.packageName, 0)
-                .versionCode / 1000 * 1000
-    } catch (e: NameNotFoundException) {
-        0
-    }
+    private val version
+        get() = try {
+            context.packageManager
+                    .getPackageInfo(context.packageName, 0)
+                    .versionCode / 1000000
+        } catch (e: NameNotFoundException) {
+            0
+        }
 
 }
