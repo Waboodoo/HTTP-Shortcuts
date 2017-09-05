@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: de, German
  Exported by: Roland Meyer
- Exported at: Mon, 04 Sep 2017 18:50:51 +0200
+ Exported at: Tue, 05 Sep 2017 19:52:25 +0200
 -->
 <resources>
     <!-- The name of the app -->
@@ -97,7 +97,7 @@
     <string name="label_custom_header_value">Wert</string>
     <string name="label_custom_body">Request-Body (optional):</string>
     <string name="settings">Einstellungen</string>
-    <string name="settings_theme">Theme</string>
+    <string name="settings_theme">Farbschema</string>
     <string name="settings_title_basic">Allgemeine Einstellungen</string>
     <string name="settings_click_behavior">Aktion beim Anklicken von Shortcuts</string>
     <string name="settings_click_behavior_run">Shortcut ausführen</string>
