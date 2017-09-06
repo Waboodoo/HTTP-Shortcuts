@@ -23,7 +23,7 @@ class VariablesActivity : BaseActivity() {
     internal val variableList: RecyclerView by bindView(R.id.variable_list)
     internal val createButton: FloatingActionButton by bindView(R.id.button_create_variable)
 
-    private var controller: Controller? = null
+    private val controller: Controller by lazy { destroyer.own(Controller()) }
 
     private val clickedListener = object : OnItemClickedListener<Variable> {
         override fun onItemClicked(item: Variable) {
@@ -39,10 +39,8 @@ class VariablesActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_variables)
 
-        controller = destroyer.own(Controller())
-
         val adapter = destroyer.own(VariableAdapter(this))
-        adapter.setItems(controller!!.base.variables!!)
+        adapter.setItems(controller.base.variables!!)
 
         val manager = LinearLayoutManager(this)
         variableList.layoutManager = manager
@@ -88,7 +86,7 @@ class VariablesActivity : BaseActivity() {
 
     private fun deleteVariable(variable: Variable) {
         showSnackbar(String.format(getString(R.string.variable_deleted), variable.key))
-        controller!!.deleteVariable(variable)
+        controller.deleteVariable(variable)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -29,7 +29,7 @@ import org.jdeferred.Promise
 
 class ExecuteActivity : BaseActivity() {
 
-    private var controller: Controller? = null
+    private var controller = Controller()
     private var shortcut: Shortcut? = null
     private var lastResponse: ShortcutResponse? = null
 
@@ -47,12 +47,11 @@ class ExecuteActivity : BaseActivity() {
         val variableValues = IntentUtil.getVariableValues(intent)
         val tryNumber = intent.extras?.getInt(EXTRA_TRY_NUMBER) ?: 0
 
-        controller = Controller()
-        shortcut = controller!!.getDetachedShortcutById(shortcutId)
+        shortcut = controller.getDetachedShortcutById(shortcutId)
 
         if (shortcut == null) {
             showToast(getString(R.string.shortcut_not_found), Toast.LENGTH_LONG)
-            controller!!.destroy()
+            controller.destroy()
             finishWithoutAnimation()
             return
         }
@@ -86,22 +85,22 @@ class ExecuteActivity : BaseActivity() {
     }
 
     fun resolveVariablesAndExecute(variableValues: Map<String, String>, tryNumber: Int): Promise<ResolvedVariables, Void, Void> {
-        val variables = controller!!.variables
+        val variables = controller.variables
         return VariableResolver(this)
                 .resolve(shortcut!!, variables, variableValues)
                 .done {
                     resolvedVariables ->
                     if (tryNumber == 0 && shortcut!!.delay > 0) {
                         val waitUntil = DateUtil.calculateDate(shortcut!!.delay)
-                        controller!!.createPendingExecution(shortcut!!.id, resolvedVariables.toList(), tryNumber, waitUntil)
+                        controller.createPendingExecution(shortcut!!.id, resolvedVariables.toList(), tryNumber, waitUntil)
                         ExecutionService.start(context, waitUntil)
-                        controller!!.destroy()
+                        controller.destroy()
                     } else {
                         execute(resolvedVariables, tryNumber)
                     }
                 }
                 .fail {
-                    controller!!.destroy()
+                    controller.destroy()
                 }
     }
 
@@ -130,14 +129,14 @@ class ExecuteActivity : BaseActivity() {
             }
         }.always { _, _, _ ->
             hideProgress()
-            controller!!.destroy()
+            controller.destroy()
         }
     }
 
     private fun rescheduleExecution(resolvedVariables: ResolvedVariables, tryNumber: Int) {
         if (tryNumber < MAX_RETRY) {
             val waitUntil = DateUtil.calculateDate(calculateDelay(tryNumber))
-            controller!!.createPendingExecution(shortcut!!.id, resolvedVariables.toList(), tryNumber, waitUntil)
+            controller.createPendingExecution(shortcut!!.id, resolvedVariables.toList(), tryNumber, waitUntil)
             ExecutionService.start(context, waitUntil)
         }
     }

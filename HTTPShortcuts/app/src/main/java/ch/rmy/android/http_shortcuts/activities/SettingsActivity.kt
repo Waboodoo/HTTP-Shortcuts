@@ -29,9 +29,7 @@ class SettingsActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-
-        val settingsFragment = SettingsFragment()
-        fragmentManager.beginTransaction().replace(R.id.settings_view, settingsFragment).commit()
+        fragmentManager.beginTransaction().replace(R.id.settings_view, SettingsFragment()).commit()
     }
 
     class SettingsFragment : PreferenceFragment() {
@@ -191,11 +189,10 @@ class SettingsActivity : BaseActivity() {
         }
 
         private fun openGeneralPickerForImport() {
-            val pickerIntent: Intent
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                pickerIntent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+            val pickerIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                Intent(Intent.ACTION_OPEN_DOCUMENT)
             } else {
-                pickerIntent = Intent(Intent.ACTION_GET_CONTENT)
+                Intent(Intent.ACTION_GET_CONTENT)
             }
             pickerIntent.type = IMPORT_EXPORT_FILE_TYPE
             pickerIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)

@@ -20,8 +20,8 @@ class CategoriesActivity : BaseActivity() {
     internal val categoryList: RecyclerView by bindView(R.id.category_list)
     internal val createButton: FloatingActionButton by bindView(R.id.button_create_category)
 
-    private var controller: Controller? = null
-    private var categories: RealmList<Category>? = null
+    private val controller: Controller by lazy { destroyer.own(Controller()) }
+    private val categories: RealmList<Category> by lazy { controller.categories }
 
     private val clickedListener = object : OnItemClickedListener<Category> {
         override fun onItemClicked(item: Category) {
@@ -37,10 +37,8 @@ class CategoriesActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_categories)
 
-        controller = destroyer.own(Controller())
-        categories = controller!!.categories
         val adapter = destroyer.own(CategoryAdapter(this))
-        adapter.setItems(controller!!.base.categories!!)
+        adapter.setItems(controller.base.categories!!)
 
         val manager = LinearLayoutManager(this)
         categoryList.layoutManager = manager
@@ -61,7 +59,7 @@ class CategoriesActivity : BaseActivity() {
     }
 
     private fun createCategory(name: String) {
-        controller!!.createCategory(name)
+        controller.createCategory(name)
         showSnackbar(R.string.message_category_created)
     }
 
@@ -83,7 +81,7 @@ class CategoriesActivity : BaseActivity() {
                 moveCategory(category, 1)
             })
         }
-        if (categories!!.size > 1) {
+        if (categories.size > 1) {
             builder.item(R.string.action_delete, {
                 showDeleteDialog(category)
             })
@@ -111,26 +109,26 @@ class CategoriesActivity : BaseActivity() {
     }
 
     private fun renameCategory(category: Category, newName: String) {
-        controller!!.renameCategory(category, newName)
+        controller.renameCategory(category, newName)
         showSnackbar(R.string.message_category_renamed)
     }
 
     private fun changeLayoutType(category: Category, layoutType: String) {
-        controller!!.setLayoutType(category, layoutType)
+        controller.setLayoutType(category, layoutType)
         showSnackbar(R.string.message_layout_type_changed)
     }
 
     private fun canMoveCategory(category: Category, offset: Int): Boolean {
-        val position = categories!!.indexOf(category) + offset
-        return position >= 0 && position < categories!!.size
+        val position = categories.indexOf(category) + offset
+        return position >= 0 && position < categories.size
     }
 
     private fun moveCategory(category: Category, offset: Int) {
         if (!canMoveCategory(category, offset)) {
             return
         }
-        val position = categories!!.indexOf(category) + offset
-        controller!!.moveCategory(category, position)
+        val position = categories.indexOf(category) + offset
+        controller.moveCategory(category, position)
     }
 
     private fun showDeleteDialog(category: Category) {
@@ -147,7 +145,7 @@ class CategoriesActivity : BaseActivity() {
     }
 
     private fun deleteCategory(category: Category) {
-        controller!!.deleteCategory(category)
+        controller.deleteCategory(category)
         showSnackbar(R.string.message_category_deleted)
     }
 
@@ -156,5 +154,4 @@ class CategoriesActivity : BaseActivity() {
         private const val NAME_MIN_LENGTH = 1
         private const val NAME_MAX_LENGTH = 20
     }
-
 }

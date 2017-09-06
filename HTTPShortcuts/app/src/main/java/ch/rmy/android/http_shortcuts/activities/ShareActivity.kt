@@ -60,13 +60,7 @@ class ShareActivity : BaseActivity() {
     }
 
     private fun getTargetableShortcuts(controller: Controller, variableKeys: Set<String>): List<Shortcut> {
-        val shortcuts = ArrayList<Shortcut>()
-        for (shortcut in controller.shortcuts) {
-            if (hasShareVariable(shortcut, variableKeys)) {
-                shortcuts.add(shortcut)
-            }
-        }
-        return shortcuts
+        return controller.shortcuts.filter { hasShareVariable(it, variableKeys) }
     }
 
     private fun hasShareVariable(shortcut: Shortcut, variableKeys: Set<String>): Boolean {

@@ -13,11 +13,11 @@ class IconView : AppCompatImageView {
     var iconName: String? = null
         private set
 
-    constructor(context: Context) : super(context) {}
+    constructor(context: Context) : super(context)
 
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {}
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     override fun setImageResource(resId: Int) {
         super.setImageResource(resId)
@@ -34,7 +34,7 @@ class IconView : AppCompatImageView {
     }
 
     private fun requiresBackground(): Boolean {
-        return iconName != null && iconName!!.startsWith("white_")
+        return iconName?.startsWith("white_") ?: false
     }
 
     fun setImageURI(uri: Uri, iconName: String?) {

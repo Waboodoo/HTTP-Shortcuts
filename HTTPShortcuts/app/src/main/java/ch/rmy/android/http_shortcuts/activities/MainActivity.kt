@@ -29,7 +29,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     internal val viewPager: ViewPager by bindView(R.id.view_pager)
     internal val tabLayout: TabLayout by bindView(R.id.tabs)
 
-    private var controller: Controller? = null
+    private val controller: Controller by lazy { destroyer.own(Controller()) }
     private var adapter: CategoryPagerAdapter? = null
 
     private var selectionMode = SelectionMode.NORMAL
@@ -40,8 +40,6 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
         setContentView(R.layout.activity_main)
 
         selectionMode = SelectionMode.determineMode(intent)
-
-        controller = destroyer.own(Controller())
 
         createButton.setOnClickListener { showCreateOptions() }
         setupViewPager()
@@ -79,7 +77,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
 
     override fun onStart() {
         super.onStart()
-        val categories = controller!!.categories
+        val categories = controller.categories
         tabLayout.visibility = if (categories.size > 1) View.VISIBLE else View.GONE
         if (viewPager.currentItem >= categories.size) {
             viewPager.currentItem = 0
@@ -102,18 +100,18 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
         when (requestCode) {
             REQUEST_CREATE_SHORTCUT -> {
                 val shortcutId = intent!!.getLongExtra(EditorActivity.EXTRA_SHORTCUT_ID, 0)
-                val shortcut = controller!!.getShortcutById(shortcutId) ?: return
+                val shortcut = controller.getShortcutById(shortcutId) ?: return
 
                 val category: Category
                 val currentCategory = viewPager.currentItem
                 if (currentCategory < adapter!!.count) {
                     val currentListFragment = adapter!!.getItem(currentCategory)
                     val categoryId = currentListFragment.categoryId
-                    category = controller!!.getCategoryById(categoryId)
+                    category = controller.getCategoryById(categoryId)
                 } else {
-                    category = controller!!.categories.first()
+                    category = controller.categories.first()
                 }
-                controller!!.moveShortcut(shortcut, category)
+                controller.moveShortcut(shortcut, category)
 
                 selectShortcut(shortcut)
             }

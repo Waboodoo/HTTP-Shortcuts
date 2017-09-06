@@ -34,6 +34,7 @@ import ch.rmy.android.http_shortcuts.utils.*
 import ch.rmy.android.http_shortcuts.variables.VariableFormatter
 import ch.rmy.curlcommand.CurlCommand
 import com.afollestad.materialdialogs.MaterialDialog
+import com.bugsnag.android.Bugsnag
 import com.satsuware.usefulviews.LabelledSpinner
 import kotterknife.bindView
 import java.io.IOException
@@ -45,10 +46,11 @@ class EditorActivity : BaseActivity() {
 
     private var shortcutId: Long = 0
 
-    private var controller: Controller? = null
-    private var oldShortcut: Shortcut? = null
-    private var shortcut: Shortcut? = null
-    private var variables: List<Variable>? = null
+    private val controller: Controller by lazy { destroyer.own(Controller()) }
+    private val variables: List<Variable> by lazy { controller.variables }
+
+    private lateinit var oldShortcut: Shortcut
+    private lateinit var shortcut: Shortcut
 
     private val methodView: LabelledSpinner by bindView(R.id.input_method)
     private val feedbackView: LabelledSpinner by bindView(R.id.input_feedback)
@@ -85,32 +87,31 @@ class EditorActivity : BaseActivity() {
         destroyer.own(parameterList)
         destroyer.own(customHeaderList)
 
-        controller = destroyer.own(Controller())
-        variables = controller!!.variables
-
         shortcutId = intent.getLongExtra(EXTRA_SHORTCUT_ID, 0)
-        if (savedInstanceState != null && savedInstanceState.containsKey(STATE_JSON_SHORTCUT)) {
-            shortcut = GsonUtil.fromJson(savedInstanceState.getString(STATE_JSON_SHORTCUT)!!, Shortcut::class.java)
+        val shortcut = if (savedInstanceState != null && savedInstanceState.containsKey(STATE_JSON_SHORTCUT)) {
+            GsonUtil.fromJson(savedInstanceState.getString(STATE_JSON_SHORTCUT)!!, Shortcut::class.java)
         } else {
-            shortcut = if (shortcutId == 0L) Shortcut.createNew() else controller!!.getDetachedShortcutById(shortcutId)
+            if (shortcutId == 0L) Shortcut.createNew() else controller.getDetachedShortcutById(shortcutId)
         }
         if (shortcut == null) {
             finish()
             return
         }
-        oldShortcut = if (shortcutId == 0L) Shortcut.createNew() else controller!!.getDetachedShortcutById(shortcutId)
-        if (shortcut!!.isNew) {
+        this.shortcut = shortcut
+        oldShortcut = (if (shortcutId != 0L) controller.getDetachedShortcutById(shortcutId) else null) ?: Shortcut.createNew()
+
+        if (shortcut.isNew) {
 
             val curlCommand = intent.getSerializableExtra(EXTRA_CURL_COMMAND)
             if (curlCommand != null) {
-                extractFromCurlCommand(shortcut!!, curlCommand as CurlCommand)
+                extractFromCurlCommand(shortcut, curlCommand as CurlCommand)
             }
 
-            if (shortcut!!.iconName == null) {
-                shortcut!!.iconName = Icons.getRandomIcon(context)
-                oldShortcut!!.iconName = shortcut!!.iconName
+            if (shortcut.iconName == null) {
+                shortcut.iconName = Icons.getRandomIcon(context)
+                oldShortcut.iconName = shortcut.iconName
             } else if (savedInstanceState != null && savedInstanceState.containsKey(STATE_INITIAL_ICON)) {
-                oldShortcut!!.iconName = savedInstanceState.getString(STATE_INITIAL_ICON)
+                oldShortcut.iconName = savedInstanceState.getString(STATE_INITIAL_ICON)
             }
         }
 
@@ -135,12 +136,12 @@ class EditorActivity : BaseActivity() {
     }
 
     private fun initViews() {
-        nameView.setText(shortcut!!.name)
-        descriptionView.setText(shortcut!!.description)
-        urlView.setText(shortcut!!.url)
-        usernameView.setText(shortcut!!.username)
-        passwordView.setText(shortcut!!.password)
-        customBodyView.setText(shortcut!!.bodyContent)
+        nameView.setText(shortcut.name)
+        descriptionView.setText(shortcut.description)
+        urlView.setText(shortcut.url)
+        usernameView.setText(shortcut.username)
+        passwordView.setText(shortcut.password)
+        customBodyView.setText(shortcut.bodyContent)
 
         bindVariableFormatter(urlView)
         bindVariableFormatter(usernameView)
@@ -150,14 +151,14 @@ class EditorActivity : BaseActivity() {
         methodView.setItemsArray(Shortcut.METHODS)
         UIUtil.fixLabelledSpinner(methodView)
         methodView.onItemChosenListener = itemChosenListener
-        methodView.setSelection(ArrayUtil.findIndex(Shortcut.METHODS, shortcut!!.method))
+        methodView.setSelection(ArrayUtil.findIndex(Shortcut.METHODS, shortcut.method))
 
         authenticationView.setItemsArray(ShortcutUIUtils.getAuthenticationOptions(context))
         UIUtil.fixLabelledSpinner(authenticationView)
         authenticationView.onItemChosenListener = itemChosenListener
-        authenticationView.setSelection(ArrayUtil.findIndex(Shortcut.AUTHENTICATION_OPTIONS, shortcut!!.authentication!!))
+        authenticationView.setSelection(ArrayUtil.findIndex(Shortcut.AUTHENTICATION_OPTIONS, shortcut.authentication!!))
 
-        parameterList.addItems(shortcut!!.parameters!!)
+        parameterList.addItems(shortcut.parameters!!)
         parameterList.setButtonText(R.string.button_add_post_param)
         parameterList.setAddDialogTitle(R.string.title_post_param_add)
         parameterList.setEditDialogTitle(R.string.title_post_param_edit)
@@ -165,7 +166,7 @@ class EditorActivity : BaseActivity() {
         parameterList.setValueLabel(R.string.label_post_param_value)
         parameterList.setItemFactory({ key, value -> Parameter.createNew(key, value) })
 
-        customHeaderList.addItems(shortcut!!.headers!!)
+        customHeaderList.addItems(shortcut.headers!!)
         customHeaderList.setButtonText(R.string.button_add_custom_header)
         customHeaderList.setAddDialogTitle(R.string.title_custom_header_add)
         customHeaderList.setEditDialogTitle(R.string.title_custom_header_edit)
@@ -177,38 +178,38 @@ class EditorActivity : BaseActivity() {
         feedbackView.setItemsArray(ShortcutUIUtils.getFeedbackOptions(context))
         feedbackView.onItemChosenListener = itemChosenListener
         UIUtil.fixLabelledSpinner(feedbackView)
-        feedbackView.setSelection(ArrayUtil.findIndex(Shortcut.FEEDBACK_OPTIONS, shortcut!!.feedback!!))
+        feedbackView.setSelection(ArrayUtil.findIndex(Shortcut.FEEDBACK_OPTIONS, shortcut.feedback!!))
 
         timeoutView.setItemsArray(ShortcutUIUtils.getTimeoutOptions(context))
         UIUtil.fixLabelledSpinner(timeoutView)
-        timeoutView.setSelection(ArrayUtil.findIndex(Shortcut.TIMEOUT_OPTIONS, shortcut!!.timeout))
+        timeoutView.setSelection(ArrayUtil.findIndex(Shortcut.TIMEOUT_OPTIONS, shortcut.timeout))
 
         retryPolicyView.setItemsArray(ShortcutUIUtils.getRetryPolicyOptions(context))
         UIUtil.fixLabelledSpinner(retryPolicyView)
-        retryPolicyView.setSelection(ArrayUtil.findIndex(Shortcut.RETRY_POLICY_OPTIONS, shortcut!!.retryPolicy!!))
+        retryPolicyView.setSelection(ArrayUtil.findIndex(Shortcut.RETRY_POLICY_OPTIONS, shortcut.retryPolicy!!))
 
-        acceptCertificatesCheckbox.isChecked = shortcut!!.acceptAllCertificates
-        launcherShortcutCheckbox.isChecked = shortcut!!.launcherShortcut
+        acceptCertificatesCheckbox.isChecked = shortcut.acceptAllCertificates
+        launcherShortcutCheckbox.isChecked = shortcut.launcherShortcut
 
         delayView.setItemsArray(ShortcutUIUtils.getDelayOptions(context))
         UIUtil.fixLabelledSpinner(delayView)
-        delayView.setSelection(ArrayUtil.findIndex(Shortcut.DELAY_OPTIONS, shortcut!!.delay))
+        delayView.setSelection(ArrayUtil.findIndex(Shortcut.DELAY_OPTIONS, shortcut.delay))
 
         iconView.setOnClickListener { openIconSelectionDialog() }
 
-        setTitle(if (shortcut!!.isNew) R.string.create_shortcut else R.string.edit_shortcut)
+        setTitle(if (shortcut.isNew) R.string.create_shortcut else R.string.edit_shortcut)
         updateUI()
     }
 
     private fun bindVariableFormatter(editText: EditText) {
-        destroyer.own(VariableFormatter.bind(editText, variables!!))
+        destroyer.own(VariableFormatter.bind(editText, variables))
     }
 
     private fun updateUI() {
-        iconView.setImageURI(shortcut!!.getIconURI(this), shortcut!!.iconName)
-        retryPolicyView.visibility = if (shortcut!!.isRetryAllowed()) VISIBLE else GONE
-        requestBodyContainer.visibility = if (shortcut!!.allowsBody()) VISIBLE else GONE
-        authenticationContainer.visibility = if (shortcut!!.usesAuthentication()) VISIBLE else GONE
+        iconView.setImageURI(shortcut.getIconURI(this), shortcut.iconName)
+        retryPolicyView.visibility = if (shortcut.isRetryAllowed()) VISIBLE else GONE
+        requestBodyContainer.visibility = if (shortcut.allowsBody()) VISIBLE else GONE
+        authenticationContainer.visibility = if (shortcut.usesAuthentication()) VISIBLE else GONE
 
         launcherShortcutCheckbox.visibility = if (LauncherShortcutManager.supportsLauncherShortcuts()) VISIBLE else GONE
     }
@@ -241,13 +242,13 @@ class EditorActivity : BaseActivity() {
     private fun trySave() {
         compileShortcut()
         if (validate(false)) {
-            shortcut!!.id = shortcutId
-            val persistedShortcut = controller!!.persist(shortcut!!)
+            shortcut.id = shortcutId
+            val persistedShortcut = controller.persist(shortcut)
             val returnIntent = Intent()
             returnIntent.putExtra(EXTRA_SHORTCUT_ID, persistedShortcut.id)
             setResult(Activity.RESULT_OK, returnIntent)
             val dialog = IconNameChangeDialog(this)
-            if (!oldShortcut!!.isNew && nameOrIconChanged() && dialog.shouldShow()) {
+            if (!oldShortcut.isNew && nameOrIconChanged() && dialog.shouldShow()) {
                 dialog.show(MaterialDialog.SingleButtonCallback { _, _ -> finish() })
             } else {
                 finish()
@@ -256,12 +257,12 @@ class EditorActivity : BaseActivity() {
     }
 
     private fun validate(testOnly: Boolean): Boolean {
-        if (!testOnly && Validation.isEmpty(shortcut!!.name!!)) {
+        if (!testOnly && Validation.isEmpty(shortcut.name!!)) {
             nameView.error = getString(R.string.validation_name_not_empty)
             UIUtil.focus(nameView)
             return false
         }
-        if (!Validation.isAcceptableUrl(shortcut!!.url!!)) {
+        if (!Validation.isAcceptableUrl(shortcut.url!!)) {
             urlView.error = getString(R.string.validation_url_invalid)
             UIUtil.focus(urlView)
             return false
@@ -270,14 +271,14 @@ class EditorActivity : BaseActivity() {
     }
 
     private fun nameOrIconChanged(): Boolean {
-        return !TextUtils.equals(oldShortcut!!.name, shortcut!!.name) || !TextUtils.equals(oldShortcut!!.iconName, shortcut!!.iconName)
+        return !TextUtils.equals(oldShortcut.name, shortcut.name) || !TextUtils.equals(oldShortcut.iconName, shortcut.iconName)
     }
 
     private fun test() {
         compileShortcut()
         if (validate(true)) {
-            shortcut!!.id = TEMPORARY_ID
-            controller!!.persist(shortcut!!)
+            shortcut.id = TEMPORARY_ID
+            controller.persist(shortcut)
             val intent = IntentUtil.createIntent(this, TEMPORARY_ID)
             startActivity(intent)
         }
@@ -299,7 +300,7 @@ class EditorActivity : BaseActivity() {
 
     private fun openBuiltInIconSelectionDialog() {
         val iconSelector = IconSelector(this) { iconName ->
-            shortcut!!.iconName = iconName
+            shortcut.iconName = iconName
             updateUI()
         }
         iconSelector.show()
@@ -335,28 +336,28 @@ class EditorActivity : BaseActivity() {
         }
     }
 
-    private fun hasChanges() = !oldShortcut!!.isSameAs(shortcut!!)
+    private fun hasChanges() = !oldShortcut.isSameAs(shortcut)
 
     private fun compileShortcut() {
-        shortcut!!.name = nameView.text.toString().trim { it <= ' ' }
-        shortcut!!.url = urlView.text.toString()
-        shortcut!!.method = Shortcut.METHODS[methodView.spinner.selectedItemPosition]
-        shortcut!!.description = descriptionView.text.toString().trim { it <= ' ' }
-        shortcut!!.password = passwordView.text.toString()
-        shortcut!!.username = usernameView.text.toString()
-        shortcut!!.bodyContent = customBodyView.text.toString()
-        shortcut!!.feedback = Shortcut.FEEDBACK_OPTIONS[feedbackView.spinner.selectedItemPosition]
-        shortcut!!.timeout = Shortcut.TIMEOUT_OPTIONS[timeoutView.spinner.selectedItemPosition]
-        shortcut!!.delay = Shortcut.DELAY_OPTIONS[delayView.spinner.selectedItemPosition]
-        shortcut!!.authentication = Shortcut.AUTHENTICATION_OPTIONS[authenticationView.spinner.selectedItemPosition]
-        shortcut!!.retryPolicy = Shortcut.RETRY_POLICY_OPTIONS[retryPolicyView.spinner.selectedItemPosition]
-        shortcut!!.acceptAllCertificates = acceptCertificatesCheckbox.isChecked
-        shortcut!!.launcherShortcut = launcherShortcutCheckbox.isChecked
+        shortcut.name = nameView.text.toString().trim { it <= ' ' }
+        shortcut.url = urlView.text.toString()
+        shortcut.method = Shortcut.METHODS[methodView.spinner.selectedItemPosition]
+        shortcut.description = descriptionView.text.toString().trim { it <= ' ' }
+        shortcut.password = passwordView.text.toString()
+        shortcut.username = usernameView.text.toString()
+        shortcut.bodyContent = customBodyView.text.toString()
+        shortcut.feedback = Shortcut.FEEDBACK_OPTIONS[feedbackView.spinner.selectedItemPosition]
+        shortcut.timeout = Shortcut.TIMEOUT_OPTIONS[timeoutView.spinner.selectedItemPosition]
+        shortcut.delay = Shortcut.DELAY_OPTIONS[delayView.spinner.selectedItemPosition]
+        shortcut.authentication = Shortcut.AUTHENTICATION_OPTIONS[authenticationView.spinner.selectedItemPosition]
+        shortcut.retryPolicy = Shortcut.RETRY_POLICY_OPTIONS[retryPolicyView.spinner.selectedItemPosition]
+        shortcut.acceptAllCertificates = acceptCertificatesCheckbox.isChecked
+        shortcut.launcherShortcut = launcherShortcutCheckbox.isChecked
 
-        shortcut!!.parameters!!.clear()
-        shortcut!!.parameters!!.addAll(parameterList.items)
-        shortcut!!.headers!!.clear()
-        shortcut!!.headers!!.addAll(customHeaderList.items)
+        shortcut.parameters!!.clear()
+        shortcut.parameters!!.addAll(parameterList.items)
+        shortcut.headers!!.clear()
+        shortcut.headers!!.addAll(customHeaderList.items)
     }
 
     private fun cancelAndClose() {
@@ -390,10 +391,10 @@ class EditorActivity : BaseActivity() {
                 resizedBitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream)
                 outStream!!.flush()
 
-                shortcut!!.iconName = iconName
+                shortcut.iconName = iconName
             } catch (e: Exception) {
-                e.printStackTrace()
-                shortcut!!.iconName = null
+                Bugsnag.notify(e)
+                shortcut.iconName = null
                 showSnackbar(getString(R.string.error_set_image))
             } finally {
                 try {
@@ -405,7 +406,7 @@ class EditorActivity : BaseActivity() {
             }
         } else if (requestCode == SELECT_IPACK_ICON && intent != null) {
             val uri = IpackUtil.getIpackUri(intent)
-            shortcut!!.iconName = uri.toString()
+            shortcut.iconName = uri.toString()
         }
         updateUI()
     }
@@ -427,8 +428,8 @@ class EditorActivity : BaseActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         compileShortcut()
-        outState.putString(STATE_JSON_SHORTCUT, GsonUtil.toJson(shortcut!!))
-        outState.putString(STATE_INITIAL_ICON, oldShortcut!!.iconName)
+        outState.putString(STATE_JSON_SHORTCUT, GsonUtil.toJson(shortcut))
+        outState.putString(STATE_INITIAL_ICON, oldShortcut.iconName)
     }
 
     companion object {

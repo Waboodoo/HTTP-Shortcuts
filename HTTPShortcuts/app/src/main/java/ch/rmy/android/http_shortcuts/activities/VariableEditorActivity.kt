@@ -28,9 +28,9 @@ class VariableEditorActivity : BaseActivity() {
     internal val jsonEncode: CheckBox by bindView(R.id.input_json_encode)
     internal val allowShare: CheckBox by bindView(R.id.input_allow_share)
 
-    private var controller: Controller? = null
-    private var oldVariable: Variable? = null
-    private var variable: Variable? = null
+    private val controller: Controller by lazy { destroyer.own(Controller()) }
+    private lateinit var variable: Variable
+    private lateinit var oldVariable: Variable
 
     private var fragment: VariableEditorFragment? = null
 
@@ -38,27 +38,26 @@ class VariableEditorActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_variable_editor)
 
-        controller = destroyer.own(Controller())
-
         val variableId = intent.getLongExtra(EXTRA_VARIABLE_ID, 0)
-        if (savedInstanceState != null && savedInstanceState.containsKey(STATE_JSON_VARIABLE)) {
-            variable = GsonUtil.fromJson(savedInstanceState.getString(STATE_JSON_VARIABLE)!!, Variable::class.java)
+        val variable = if (savedInstanceState != null && savedInstanceState.containsKey(STATE_JSON_VARIABLE)) {
+            GsonUtil.fromJson(savedInstanceState.getString(STATE_JSON_VARIABLE)!!, Variable::class.java)
         } else {
-            variable = if (variableId == 0L) Variable.createNew() else controller!!.getDetachedVariableById(variableId)
+            if (variableId == 0L) Variable.createNew() else controller.getDetachedVariableById(variableId)
         }
         if (variable == null) {
             finish()
             return
         }
-        oldVariable = if (variableId == 0L) Variable.createNew() else controller!!.getDetachedVariableById(variableId)
+        this.variable = variable
+        oldVariable = (if (variableId != 0L) controller.getDetachedVariableById(variableId) else null) ?: Variable.createNew()
 
         initViews()
         initTypeSelector()
     }
 
     private fun initViews() {
-        keyView.setText(variable!!.key)
-        titleView.setText(variable!!.title)
+        keyView.setText(variable.key)
+        titleView.setText(variable.title)
         val defaultColor = keyView.textColors
         keyView.addTextChangedListener(object : SimpleTextWatcher() {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
@@ -74,13 +73,13 @@ class VariableEditorActivity : BaseActivity() {
 
         typeSpinner.setItemsArray(ShortcutUIUtils.getVariableTypeOptions(context))
         UIUtil.fixLabelledSpinner(typeSpinner)
-        typeSpinner.setSelection(ArrayUtil.findIndex(Variable.TYPE_OPTIONS, variable!!.type!!))
+        typeSpinner.setSelection(ArrayUtil.findIndex(Variable.TYPE_OPTIONS, variable.type!!))
 
-        urlEncode.isChecked = variable!!.urlEncode
-        jsonEncode.isChecked = variable!!.jsonEncode
-        allowShare.isChecked = variable!!.isShareText
+        urlEncode.isChecked = variable.urlEncode
+        jsonEncode.isChecked = variable.jsonEncode
+        allowShare.isChecked = variable.isShareText
 
-        setTitle(if (variable!!.isNew) R.string.create_variable else R.string.edit_variable)
+        setTitle(if (variable.isNew) R.string.create_variable else R.string.edit_variable)
 
         updateTypeEditor()
     }
@@ -108,7 +107,7 @@ class VariableEditorActivity : BaseActivity() {
     }
 
     fun onFragmentStarted() {
-        fragment!!.updateViews(variable!!)
+        fragment!!.updateViews(variable)
     }
 
     private val selectedType: String
@@ -155,36 +154,36 @@ class VariableEditorActivity : BaseActivity() {
         }
     }
 
-    private fun hasChanges() = !oldVariable!!.isSameAs(variable!!)
+    private fun hasChanges() = !oldVariable.isSameAs(variable)
 
     private fun trySave() {
         compileVariable()
         if (validate()) {
-            controller!!.persist(variable!!)
+            controller.persist(variable)
             finish()
         }
     }
 
     private fun compileVariable() {
         if (fragment != null) {
-            fragment!!.compileIntoVariable(variable!!)
+            fragment!!.compileIntoVariable(variable)
         }
-        variable!!.title = titleView.text.toString().trim { it <= ' ' }
-        variable!!.key = keyView.text.toString().trim { it <= ' ' }
-        variable!!.type = Variable.TYPE_OPTIONS[typeSpinner.spinner.selectedItemPosition]
-        variable!!.urlEncode = urlEncode.isChecked
-        variable!!.jsonEncode = jsonEncode.isChecked
-        variable!!.isShareText = allowShare.isChecked
+        variable.title = titleView.text.toString().trim { it <= ' ' }
+        variable.key = keyView.text.toString().trim { it <= ' ' }
+        variable.type = Variable.TYPE_OPTIONS[typeSpinner.spinner.selectedItemPosition]
+        variable.urlEncode = urlEncode.isChecked
+        variable.jsonEncode = jsonEncode.isChecked
+        variable.isShareText = allowShare.isChecked
     }
 
     private fun validate(): Boolean {
-        if (variable!!.key!!.isEmpty()) {
+        if (variable.key!!.isEmpty()) {
             keyView.error = getString(R.string.validation_key_non_empty)
             UIUtil.focus(keyView)
             return false
         }
-        val otherVariable = controller!!.getVariableByKey(variable!!.key!!)
-        if (otherVariable != null && otherVariable.id != variable!!.id) {
+        val otherVariable = controller.getVariableByKey(variable.key!!)
+        if (otherVariable?.id != variable.id) {
             keyView.error = getString(R.string.validation_key_already_exists)
             UIUtil.focus(keyView)
             return false
@@ -195,7 +194,7 @@ class VariableEditorActivity : BaseActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         compileVariable()
-        outState.putString(STATE_JSON_VARIABLE, GsonUtil.toJson(variable!!))
+        outState.putString(STATE_JSON_VARIABLE, GsonUtil.toJson(variable))
     }
 
     companion object {
