@@ -28,7 +28,7 @@ class VariableEditorActivity : BaseActivity() {
     internal val jsonEncode: CheckBox by bindView(R.id.input_json_encode)
     internal val allowShare: CheckBox by bindView(R.id.input_allow_share)
 
-    private val controller: Controller by lazy { destroyer.own(Controller()) }
+    private val controller by lazy { destroyer.own(Controller()) }
     private lateinit var variable: Variable
     private lateinit var oldVariable: Variable
 

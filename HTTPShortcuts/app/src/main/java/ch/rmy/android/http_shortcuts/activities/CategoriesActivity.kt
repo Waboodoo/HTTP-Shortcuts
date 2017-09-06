@@ -12,7 +12,6 @@ import ch.rmy.android.http_shortcuts.realm.models.Category
 import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.utils.ShortcutListDecorator
 import com.afollestad.materialdialogs.MaterialDialog
-import io.realm.RealmList
 import kotterknife.bindView
 
 class CategoriesActivity : BaseActivity() {
@@ -20,8 +19,8 @@ class CategoriesActivity : BaseActivity() {
     internal val categoryList: RecyclerView by bindView(R.id.category_list)
     internal val createButton: FloatingActionButton by bindView(R.id.button_create_category)
 
-    private val controller: Controller by lazy { destroyer.own(Controller()) }
-    private val categories: RealmList<Category> by lazy { controller.categories }
+    private val controller by lazy { destroyer.own(Controller()) }
+    private val categories by lazy { controller.categories }
 
     private val clickedListener = object : OnItemClickedListener<Category> {
         override fun onItemClicked(item: Category) {

@@ -29,7 +29,6 @@ import ch.rmy.android.http_shortcuts.realm.models.Header
 import ch.rmy.android.http_shortcuts.realm.models.Parameter
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut.Companion.TEMPORARY_ID
-import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.*
 import ch.rmy.android.http_shortcuts.variables.VariableFormatter
 import ch.rmy.curlcommand.CurlCommand
@@ -46,8 +45,8 @@ class EditorActivity : BaseActivity() {
 
     private var shortcutId: Long = 0
 
-    private val controller: Controller by lazy { destroyer.own(Controller()) }
-    private val variables: List<Variable> by lazy { controller.variables }
+    private val controller by lazy { destroyer.own(Controller()) }
+    private val variables by lazy { controller.variables }
 
     private lateinit var oldShortcut: Shortcut
     private lateinit var shortcut: Shortcut

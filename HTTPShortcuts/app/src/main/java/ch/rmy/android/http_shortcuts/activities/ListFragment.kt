@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities
 
 import android.content.Intent
-import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -41,10 +40,10 @@ class ListFragment : BaseFragment() {
     private var selectionMode: SelectionMode? = null
     private var category: Category? = null
 
-    private var controller: Controller? = null
-    private var categories: List<Category>? = null
+    private val controller by lazy { Controller() }
+    private val categories by lazy { controller.categories }
 
-    private var listDivider: RecyclerView.ItemDecoration? = null
+    private val listDivider: RecyclerView.ItemDecoration by lazy { ShortcutListDecorator(context, R.drawable.list_divider) }
 
     private val shortcutChangeListener = RealmChangeListener<RealmList<Shortcut>> { shortcuts -> onShortcutsChanged(shortcuts) }
 
@@ -68,23 +67,12 @@ class ListFragment : BaseFragment() {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        controller = Controller()
-        categories = controller!!.categories
-
-        listDivider = ShortcutListDecorator(context, R.drawable.list_divider)
-    }
-
     private fun onCategoryChanged() {
-        if (controller == null) {
+        if (context == null) {
             return
         }
-        if (category != null) {
-            category!!.shortcuts!!.removeChangeListener(shortcutChangeListener)
-        }
-        category = controller!!.getCategoryById(this.categoryId)
+        category?.shortcuts!!.removeChangeListener(shortcutChangeListener)
+        category = controller.getCategoryById(this.categoryId)
         if (category == null) {
             return
         }
@@ -104,7 +92,7 @@ class ListFragment : BaseFragment() {
                 shortcutList.addItemDecoration(listDivider)
             }
         }
-        adapter.setPendingShortcuts(controller!!.shortcutsPendingExecution)
+        adapter.setPendingShortcuts(controller.shortcutsPendingExecution)
         adapter.clickListener = clickListener
         adapter.setItems(category!!.shortcuts!!)
 
@@ -117,7 +105,7 @@ class ListFragment : BaseFragment() {
         if (shortcutList.layoutManager is GridLayoutManager) {
             (shortcutList.layoutManager as GridLayoutManager).setEmpty(shortcuts.isEmpty())
         }
-        LauncherShortcutManager.updateAppShortcuts(context, controller!!.categories)
+        LauncherShortcutManager.updateAppShortcuts(context, controller.categories)
     }
 
     override fun onDestroy() {
@@ -125,7 +113,7 @@ class ListFragment : BaseFragment() {
         if (category != null) {
             category!!.shortcuts!!.removeAllChangeListeners()
         }
-        controller!!.destroy()
+        controller.destroy()
     }
 
     override fun setupViews(parent: View) {
@@ -173,7 +161,7 @@ class ListFragment : BaseFragment() {
     }
 
     private fun getPendingExecution(shortcut: Shortcut): PendingExecution? {
-        return controller!!.shortcutsPendingExecution.firstOrNull { it.shortcutId == shortcut.id }
+        return controller.shortcutsPendingExecution.firstOrNull { it.shortcutId == shortcut.id }
     }
 
     private fun executeShortcut(shortcut: Shortcut) {
@@ -188,7 +176,7 @@ class ListFragment : BaseFragment() {
     }
 
     private fun canMoveShortcut(shortcut: Shortcut): Boolean {
-        return canMoveShortcut(shortcut, -1) || canMoveShortcut(shortcut, +1) || categories!!.size > 1
+        return canMoveShortcut(shortcut, -1) || canMoveShortcut(shortcut, +1) || categories.size > 1
     }
 
     private fun canMoveShortcut(shortcut: Shortcut, offset: Int): Boolean {
@@ -211,7 +199,7 @@ class ListFragment : BaseFragment() {
                 moveShortcut(shortcut, 1)
             })
         }
-        if (categories!!.size > 1) {
+        if (categories.size > 1) {
             builder.item(R.string.action_move_to_category, {
                 showMoveToCategoryDialog(shortcut)
             })
@@ -225,9 +213,9 @@ class ListFragment : BaseFragment() {
         }
         val position = category!!.shortcuts!!.indexOf(shortcut) + offset
         if (position == category!!.shortcuts!!.size) {
-            controller!!.moveShortcut(shortcut, category!!)
+            controller.moveShortcut(shortcut, category!!)
         } else {
-            controller!!.moveShortcut(shortcut, position)
+            controller.moveShortcut(shortcut, position)
         }
     }
 
@@ -237,7 +225,7 @@ class ListFragment : BaseFragment() {
         }
         val categoryNames = ArrayList<CharSequence>()
         val categories = ArrayList<Category>()
-        for (category in this.categories!!) {
+        for (category in this.categories) {
             if (category.id != this.category!!.id) {
                 categoryNames.add(category.name!!)
                 categories.add(category)
@@ -256,7 +244,7 @@ class ListFragment : BaseFragment() {
     }
 
     private fun moveShortcut(shortcut: Shortcut, category: Category) {
-        controller!!.moveShortcut(shortcut, category)
+        controller.moveShortcut(shortcut, category)
         tabHost.showSnackbar(String.format(getString(R.string.shortcut_moved), shortcut.name))
     }
 
@@ -265,8 +253,8 @@ class ListFragment : BaseFragment() {
             return
         }
         val newName = String.format(getString(R.string.copy), shortcut.name)
-        val duplicate = controller!!.persist(shortcut.duplicate(newName))
-        controller!!.moveShortcut(duplicate, category!!)
+        val duplicate = controller.persist(shortcut.duplicate(newName))
+        controller.moveShortcut(duplicate, category!!)
 
         var position = category!!.shortcuts!!.size
         var i = 0
@@ -277,14 +265,14 @@ class ListFragment : BaseFragment() {
             }
             i++
         }
-        controller!!.moveShortcut(duplicate, position)
+        controller.moveShortcut(duplicate, position)
 
         tabHost.showSnackbar(String.format(getString(R.string.shortcut_duplicated), shortcut.name))
     }
 
     private fun cancelPendingExecution(shortcut: Shortcut) {
         val pendingExecution = getPendingExecution(shortcut) ?: return
-        controller!!.removePendingExecution(pendingExecution)
+        controller.removePendingExecution(pendingExecution)
         tabHost.showSnackbar(String.format(getString(R.string.pending_shortcut_execution_cancelled), shortcut.name))
         ExecutionService.start(context)
     }
@@ -335,7 +323,7 @@ class ListFragment : BaseFragment() {
     private fun deleteShortcut(shortcut: Shortcut) {
         tabHost.showSnackbar(String.format(getString(R.string.shortcut_deleted), shortcut.name))
         tabHost.removeShortcutFromHomeScreen(shortcut)
-        controller!!.deleteShortcut(shortcut)
+        controller.deleteShortcut(shortcut)
         ExecutionService.start(context)
     }
 

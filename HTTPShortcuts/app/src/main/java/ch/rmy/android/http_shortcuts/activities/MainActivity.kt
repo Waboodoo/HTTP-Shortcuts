@@ -29,7 +29,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     internal val viewPager: ViewPager by bindView(R.id.view_pager)
     internal val tabLayout: TabLayout by bindView(R.id.tabs)
 
-    private val controller: Controller by lazy { destroyer.own(Controller()) }
+    private val controller by lazy { destroyer.own(Controller()) }
     private var adapter: CategoryPagerAdapter? = null
 
     private var selectionMode = SelectionMode.NORMAL
