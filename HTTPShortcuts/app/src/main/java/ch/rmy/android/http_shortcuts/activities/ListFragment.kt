@@ -71,7 +71,7 @@ class ListFragment : BaseFragment() {
         if (context == null) {
             return
         }
-        category?.shortcuts!!.removeChangeListener(shortcutChangeListener)
+        category?.shortcuts?.removeChangeListener(shortcutChangeListener)
         category = controller.getCategoryById(this.categoryId)
         if (category == null) {
             return
