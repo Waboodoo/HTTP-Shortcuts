@@ -7,9 +7,7 @@ import com.twofortyfouram.locale.sdk.client.receiver.AbstractPluginSettingReceiv
 
 class PluginBroadcastReceiver : AbstractPluginSettingReceiver() {
 
-    override fun isBundleValid(bundle: Bundle): Boolean {
-        return PluginBundleManager.isBundleValid(bundle)
-    }
+    override fun isBundleValid(bundle: Bundle) = PluginBundleManager.isBundleValid(bundle)
 
     override fun isAsync() = false
 

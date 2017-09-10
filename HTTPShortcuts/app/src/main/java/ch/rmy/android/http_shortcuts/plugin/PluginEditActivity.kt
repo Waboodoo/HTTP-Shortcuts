@@ -20,13 +20,13 @@ class PluginEditActivity : AbstractFragmentPluginActivity() {
         startActivityForResult(intent, REQUEST_SELECT)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-        super.onActivityResult(requestCode, resultCode, data)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
+        super.onActivityResult(requestCode, resultCode, intent)
         if (requestCode == REQUEST_SELECT) {
-            if (resultCode == Activity.RESULT_OK) {
-                val id = data.extras.getLong(MainActivity.EXTRA_SELECTION_ID)
+            if (resultCode == Activity.RESULT_OK && intent != null) {
+                val id = intent.extras.getLong(MainActivity.EXTRA_SELECTION_ID)
                 bundle = PluginBundleManager.generateBundle(id)
-                name = data.extras.getString(MainActivity.EXTRA_SELECTION_NAME)
+                name = intent.extras.getString(MainActivity.EXTRA_SELECTION_NAME)
             }
             finish()
         }
