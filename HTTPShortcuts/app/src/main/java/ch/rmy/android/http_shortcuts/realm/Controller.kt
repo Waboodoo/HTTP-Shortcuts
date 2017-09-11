@@ -15,15 +15,15 @@ class Controller : Destroyable {
         realm.close()
     }
 
-    fun getCategoryById(id: Long) = realm.where(Category::class.java).equalTo(FIELD_ID, id).findFirst()
+    fun getCategoryById(id: Long): Category? = realm.where(Category::class.java).equalTo(FIELD_ID, id).findFirst()
 
-    fun getShortcutById(id: Long) = realm.where(Shortcut::class.java).equalTo(FIELD_ID, id).findFirst()
+    fun getShortcutById(id: Long): Shortcut? = realm.where(Shortcut::class.java).equalTo(FIELD_ID, id).findFirst()
 
-    fun getShortcutByName(shortcutName: String) = realm.where(Shortcut::class.java).equalTo(Shortcut.FIELD_NAME, shortcutName, Case.INSENSITIVE).findFirst()
+    fun getShortcutByName(shortcutName: String): Shortcut? = realm.where(Shortcut::class.java).equalTo(Shortcut.FIELD_NAME, shortcutName, Case.INSENSITIVE).findFirst()
 
-    fun getVariableById(id: Long) = realm.where(Variable::class.java).equalTo(FIELD_ID, id).findFirst()
+    fun getVariableById(id: Long): Variable? = realm.where(Variable::class.java).equalTo(FIELD_ID, id).findFirst()
 
-    fun getVariableByKey(key: String) = realm.where(Variable::class.java).equalTo(Variable.FIELD_KEY, key).findFirst()
+    fun getVariableByKey(key: String): Variable? = realm.where(Variable::class.java).equalTo(Variable.FIELD_KEY, key).findFirst()
 
     fun setVariableValue(variable: Variable, value: String) {
         realm.executeTransaction { variable.value = value }
@@ -189,7 +189,7 @@ class Controller : Destroyable {
         }
 
         realm.executeTransaction { realm -> realm.copyToRealmOrUpdate(shortcut) }
-        return getShortcutById(shortcut.id)
+        return getShortcutById(shortcut.id)!!
     }
 
     fun persist(variable: Variable): Variable {
@@ -204,7 +204,7 @@ class Controller : Destroyable {
                 variables.add(newVariable)
             }
         }
-        return getVariableById(variable.id)
+        return getVariableById(variable.id)!!
     }
 
     private fun generateId(clazz: Class<out RealmObject>): Long {

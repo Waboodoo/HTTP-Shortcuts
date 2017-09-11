@@ -183,7 +183,7 @@ class VariableEditorActivity : BaseActivity() {
             return false
         }
         val otherVariable = controller.getVariableByKey(variable.key!!)
-        if (otherVariable?.id != variable.id) {
+        if (otherVariable != null && otherVariable.id != variable.id) {
             keyView.error = getString(R.string.validation_key_already_exists)
             UIUtil.focus(keyView)
             return false

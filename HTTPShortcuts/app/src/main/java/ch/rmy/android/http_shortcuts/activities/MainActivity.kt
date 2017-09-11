@@ -107,7 +107,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
                 if (currentCategory < adapter!!.count) {
                     val currentListFragment = adapter!!.getItem(currentCategory)
                     val categoryId = currentListFragment.categoryId
-                    category = controller.getCategoryById(categoryId)
+                    category = controller.getCategoryById(categoryId)!!
                 } else {
                     category = controller.categories.first()
                 }
