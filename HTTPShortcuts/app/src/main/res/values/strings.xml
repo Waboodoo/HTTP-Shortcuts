@@ -267,4 +267,6 @@
     </plurals>
     <!-- Option to delay the execution of a shortcut. Default option is "No delay" -->
     <string name="label_no_delay">No delay</string>
+    <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
+    <string name="error_not_supported">This feature is not supported on your device.</string>
 </resources>

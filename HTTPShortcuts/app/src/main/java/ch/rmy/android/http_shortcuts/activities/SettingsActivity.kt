@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager.NameNotFoundException
 import android.net.Uri
@@ -11,6 +12,7 @@ import android.preference.ListPreference
 import android.preference.Preference.OnPreferenceChangeListener
 import android.preference.Preference.OnPreferenceClickListener
 import android.preference.PreferenceFragment
+import android.widget.Toast
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog
 import ch.rmy.android.http_shortcuts.import_export.ExportTask
@@ -197,7 +199,11 @@ class SettingsActivity : BaseActivity() {
             pickerIntent.type = IMPORT_EXPORT_FILE_TYPE
             pickerIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             pickerIntent.addCategory(Intent.CATEGORY_OPENABLE)
-            startActivityForResult(pickerIntent, REQUEST_IMPORT_FROM_DOCUMENTS)
+            try {
+                startActivityForResult(pickerIntent, REQUEST_IMPORT_FROM_DOCUMENTS)
+            } catch (e: ActivityNotFoundException) {
+                Toast.makeText(activity, R.string.error_not_supported, Toast.LENGTH_SHORT).show()
+            }
         }
 
         private fun sendMail() {
@@ -207,7 +213,11 @@ class SettingsActivity : BaseActivity() {
             intent.putExtra(Intent.EXTRA_SUBJECT, CONTACT_SUBJECT)
             intent.putExtra(Intent.EXTRA_TEXT, CONTACT_TEXT)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(Intent.createChooser(intent, getString(R.string.settings_mail)))
+            try {
+                startActivity(Intent.createChooser(intent, getString(R.string.settings_mail)))
+            } catch (e: ActivityNotFoundException) {
+                Toast.makeText(activity, R.string.error_not_supported, Toast.LENGTH_SHORT).show()
+            }
         }
 
         private fun openPlayStore() {
