@@ -35,7 +35,9 @@ class ListFragment : BaseFragment() {
     var categoryId: Long = 0
         set(categoryId) {
             field = categoryId
-            onCategoryChanged()
+            if (isResumed) {
+                onCategoryChanged()
+            }
         }
     private var selectionMode: SelectionMode? = null
     private var category: Category? = null
