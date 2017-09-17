@@ -42,12 +42,10 @@ class Controller : Destroyable {
     val base: Base
         get() = realm.where(Base::class.java).findFirst()
 
-    fun exportBase(): Base {
-        return realm.copyFromRealm(base)
-    }
+    fun exportBase(): Base = realm.copyFromRealm(base)
 
     fun importBase(base: Base) {
-        val oldBase = base
+        val oldBase = this.base
         realm.executeTransaction { realm ->
             val persistedCategories = realm.copyToRealmOrUpdate(base.categories)
             oldBase.categories!!.removeAll(persistedCategories)
