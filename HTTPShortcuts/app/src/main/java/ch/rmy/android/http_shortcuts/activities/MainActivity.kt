@@ -155,23 +155,22 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_settings -> {
-                openSettings()
-                true
+    override fun onOptionsItemSelected(item: MenuItem) =
+            when (item.itemId) {
+                R.id.action_settings -> {
+                    openSettings()
+                    true
+                }
+                R.id.action_categories -> {
+                    openCategoriesEditor()
+                    true
+                }
+                R.id.action_variables -> {
+                    openVariablesEditor()
+                    true
+                }
+                else -> super.onOptionsItemSelected(item)
             }
-            R.id.action_categories -> {
-                openCategoriesEditor()
-                true
-            }
-            R.id.action_variables -> {
-                openVariablesEditor()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
 
     private fun openSettings() {
         val intent = Intent(this, SettingsActivity::class.java)

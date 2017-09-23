@@ -11,16 +11,15 @@ open class BaseFragment : Fragment() {
 
     protected open val layoutResource = R.layout.empty_layout
 
-    override fun onCreateView(inflater: LayoutInflater?, parent: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater!!.inflate(layoutResource, parent, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater?, parent: ViewGroup?, savedInstanceState: Bundle?): View? =
+            inflater!!.inflate(layoutResource, parent, false)
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupViews(view!!)
+        setupViews()
     }
 
-    protected open fun setupViews(parent: View) {
+    protected open fun setupViews() {
 
     }
 

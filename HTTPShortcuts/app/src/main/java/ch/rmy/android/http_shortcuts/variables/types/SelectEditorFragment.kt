@@ -16,10 +16,10 @@ class SelectEditorFragment : VariableEditorFragment() {
 
     override val layoutResource = R.layout.variable_editor_select
 
-    val selectOptionsAddButton: Button by bindView(R.id.select_options_add_button)
-    val selectOptionsList: LinearLayout by bindView(R.id.select_options_list)
+    private val selectOptionsAddButton: Button by bindView(R.id.select_options_add_button)
+    private val selectOptionsList: LinearLayout by bindView(R.id.select_options_list)
 
-    override fun setupViews(parent: View) {
+    override fun setupViews() {
         selectOptionsAddButton.setOnClickListener { showEditDialog(null, -1) }
     }
 

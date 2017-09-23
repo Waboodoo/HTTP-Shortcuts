@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts.activities
 import android.content.Intent
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.View
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.adapters.ShortcutAdapter
 import ch.rmy.android.http_shortcuts.adapters.ShortcutGridAdapter
@@ -69,6 +68,11 @@ class ListFragment : BaseFragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        onCategoryChanged()
+    }
+
     private fun onCategoryChanged() {
         if (context == null) {
             return
@@ -118,7 +122,7 @@ class ListFragment : BaseFragment() {
         controller.destroy()
     }
 
-    override fun setupViews(parent: View) {
+    override fun setupViews() {
         shortcutList.setHasFixedSize(true)
         onCategoryChanged()
     }
@@ -162,9 +166,8 @@ class ListFragment : BaseFragment() {
                 .show()
     }
 
-    private fun getPendingExecution(shortcut: Shortcut): PendingExecution? {
-        return controller.shortcutsPendingExecution.firstOrNull { it.shortcutId == shortcut.id }
-    }
+    private fun getPendingExecution(shortcut: Shortcut): PendingExecution? =
+            controller.shortcutsPendingExecution.firstOrNull { it.shortcutId == shortcut.id }
 
     private fun executeShortcut(shortcut: Shortcut) {
         val intent = IntentUtil.createIntent(context, shortcut.id)
@@ -177,9 +180,8 @@ class ListFragment : BaseFragment() {
         startActivityForResult(intent, REQUEST_EDIT_SHORTCUT)
     }
 
-    private fun canMoveShortcut(shortcut: Shortcut): Boolean {
-        return canMoveShortcut(shortcut, -1) || canMoveShortcut(shortcut, +1) || categories.size > 1
-    }
+    private fun canMoveShortcut(shortcut: Shortcut): Boolean =
+            canMoveShortcut(shortcut, -1) || canMoveShortcut(shortcut, +1) || categories.size > 1
 
     private fun canMoveShortcut(shortcut: Shortcut, offset: Int): Boolean {
         if (category == null) {
@@ -347,6 +349,7 @@ class ListFragment : BaseFragment() {
     companion object {
 
         private const val REQUEST_EDIT_SHORTCUT = 2
+
     }
 
 }

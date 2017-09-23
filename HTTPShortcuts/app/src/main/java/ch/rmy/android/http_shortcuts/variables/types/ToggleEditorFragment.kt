@@ -16,10 +16,10 @@ class ToggleEditorFragment : VariableEditorFragment() {
 
     override val layoutResource = R.layout.variable_editor_toggle
 
-    val toggleOptionsAddButton: Button by bindView(R.id.toggle_options_add_button)
-    val toggleOptionsList: LinearLayout by bindView(R.id.toggle_options_list)
+    private val toggleOptionsAddButton: Button by bindView(R.id.toggle_options_add_button)
+    private val toggleOptionsList: LinearLayout by bindView(R.id.toggle_options_list)
 
-    override fun setupViews(parent: View) {
+    override fun setupViews() {
         toggleOptionsAddButton.setOnClickListener { showAddDialog() }
     }
 

@@ -39,9 +39,7 @@ class CategoryPagerAdapter(private val fragmentManager: FragmentManager) : Fragm
         notifyDataSetChanged()
     }
 
-    override fun getItem(position: Int): ListFragment {
-        return fragments[position]
-    }
+    override fun getItem(position: Int) = fragments[position]
 
     override fun getCount() = fragments.size
 
