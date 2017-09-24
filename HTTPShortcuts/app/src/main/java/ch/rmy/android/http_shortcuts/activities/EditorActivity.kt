@@ -7,7 +7,6 @@ import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
@@ -36,8 +35,11 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.bugsnag.android.Bugsnag
 import com.satsuware.usefulviews.LabelledSpinner
 import kotterknife.bindView
+import siclo.com.ezphotopicker.api.EZPhotoPick
+import siclo.com.ezphotopicker.api.EZPhotoPickStorage
+import siclo.com.ezphotopicker.api.models.EZPhotoPickConfig
+import siclo.com.ezphotopicker.api.models.PhotoSource
 import java.io.IOException
-import java.io.InputStream
 import java.io.OutputStream
 
 @SuppressLint("InflateParams")
@@ -269,9 +271,8 @@ class EditorActivity : BaseActivity() {
         return true
     }
 
-    private fun nameOrIconChanged(): Boolean {
-        return !TextUtils.equals(oldShortcut.name, shortcut.name) || !TextUtils.equals(oldShortcut.iconName, shortcut.iconName)
-    }
+    private fun nameOrIconChanged() =
+            oldShortcut.name != shortcut.name || oldShortcut.iconName != shortcut.iconName
 
     private fun test() {
         compileShortcut()
@@ -306,10 +307,11 @@ class EditorActivity : BaseActivity() {
     }
 
     private fun openImagePicker() {
-        // Workaround for Kitkat (thanks to http://stackoverflow.com/a/20186938/1082111)
-        val imageIntent = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        imageIntent.type = "image/*"
-        startActivityForResult(imageIntent, SELECT_ICON)
+        val config = EZPhotoPickConfig()
+        config.photoSource = PhotoSource.GALLERY
+        config.permisionDeniedErrorStringResource = R.string.error_cannot_get_image_permission_denied
+        config.unexpectedErrorStringResource = R.string.error_set_image
+        EZPhotoPick.startPhotoPickActivity(this, config)
     }
 
     private fun openIpackPicker() {
@@ -371,15 +373,11 @@ class EditorActivity : BaseActivity() {
             return
         }
 
-        if (requestCode == SELECT_ICON && intent != null) {
-            //FIXME: Generate better file names
-            val iconName = Integer.toHexString(Math.floor(Math.random() * 1000000).toInt()) + ".png"
-
-            var inStream: InputStream? = null
+        if (requestCode == EZPhotoPick.PHOTO_PICK_GALLERY_REQUEST_CODE && intent != null) {
+            val iconName = UUIDUtils.create() + ".png"
             var outStream: OutputStream? = null
             try {
-                inStream = contentResolver.openInputStream(intent.data)
-                val bitmap = BitmapFactory.decodeStream(inStream)
+                val bitmap = EZPhotoPickStorage(this).loadLatestStoredPhotoBitmap()
                 val bitmapSize = iconSize
                 val resizedBitmap = Bitmap.createScaledBitmap(bitmap, bitmapSize, bitmapSize, true)
                 if (bitmap != resizedBitmap) {
@@ -388,7 +386,7 @@ class EditorActivity : BaseActivity() {
 
                 outStream = openFileOutput(iconName, 0)
                 resizedBitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream)
-                outStream!!.flush()
+                outStream?.flush()
 
                 shortcut.iconName = iconName
             } catch (e: Exception) {
@@ -397,11 +395,9 @@ class EditorActivity : BaseActivity() {
                 showSnackbar(getString(R.string.error_set_image))
             } finally {
                 try {
-                    inStream?.close()
                     outStream?.close()
                 } catch (e: IOException) {
                 }
-
             }
         } else if (requestCode == SELECT_IPACK_ICON && intent != null) {
             val uri = IpackUtil.getIpackUri(intent)

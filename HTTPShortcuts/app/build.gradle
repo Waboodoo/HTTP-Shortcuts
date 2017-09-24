@@ -42,6 +42,9 @@ repositories {
     maven {
         url "https://jitpack.io"
     }
+    maven {
+        url 'https://dl.bintray.com/siclo/SicloAndroidOSS'
+    }
 }
 
 dependencies {
@@ -67,6 +70,8 @@ dependencies {
     compile('com.mikepenz:aboutlibraries:5.9.5@aar') {
         transitive = true
     }
+    /* Image selection */
+    compile 'com.siclo.ezphotopick:library:1.0.6'
     /* HTTP & Network */
     compile 'com.android.volley:volley:1.0.0'
     compile 'com.squareup.okhttp3:okhttp:3.7.0'
