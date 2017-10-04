@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
     package="ch.rmy.android.http_shortcuts"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
@@ -9,6 +10,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <!-- exclude CAMERA permission which is added by com.siclo.ezphotopick but not needed -->
+    <uses-permission android:name="android.permission.CAMERA" tools:node="remove"/>
 
     <application
         android:name="ch.rmy.android.http_shortcuts.Application"
