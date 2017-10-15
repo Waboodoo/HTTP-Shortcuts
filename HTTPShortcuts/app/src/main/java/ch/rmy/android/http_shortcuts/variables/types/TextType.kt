@@ -16,10 +16,8 @@ open class TextType : BaseVariableType(), AsyncVariableType {
             deferredValue.resolve(input.toString())
             controller.setVariableValue(variable, input.toString())
         }
-        return object : Showable {
-            override fun show() {
-                builder.show()
-            }
+        return {
+            builder.show()
         }
     }
 

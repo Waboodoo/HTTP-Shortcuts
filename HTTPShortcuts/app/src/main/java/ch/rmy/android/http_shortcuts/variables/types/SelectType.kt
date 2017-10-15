@@ -20,10 +20,8 @@ internal class SelectType : BaseVariableType(), AsyncVariableType {
                     deferredValue.resolve(value)
                     controller.setVariableValue(variable, value!!)
                 }
-        return object : Showable {
-            override fun show() {
-                builder.show()
-            }
+        return {
+            builder.show()
         }
     }
 

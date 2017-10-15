@@ -41,13 +41,11 @@ internal class DateType : BaseVariableType(), AsyncVariableType {
                 })
         datePicker.setCancelable(true)
         datePicker.setCanceledOnTouchOutside(true)
-        return object : Showable {
-            override fun show() {
-                datePicker.show()
-                datePicker.setOnDismissListener {
-                    if (deferredValue.isPending) {
-                        deferredValue.reject(null)
-                    }
+        return {
+            datePicker.show()
+            datePicker.setOnDismissListener {
+                if (deferredValue.isPending) {
+                    deferredValue.reject(null)
                 }
             }
         }

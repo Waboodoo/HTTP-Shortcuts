@@ -15,10 +15,8 @@ internal class NumberType : TextType() {
             deferredValue.resolve(input.toString())
             controller.setVariableValue(variable, input.toString())
         }.inputType(InputType.TYPE_CLASS_NUMBER)
-        return object : Showable {
-            override fun show() {
-                builder.show()
-            }
+        return {
+            builder.show()
         }
     }
 

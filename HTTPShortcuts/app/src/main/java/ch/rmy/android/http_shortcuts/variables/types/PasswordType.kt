@@ -11,14 +11,11 @@ class PasswordType : TextType() {
 
     override fun createDialog(context: Context, controller: Controller, variable: Variable, deferredValue: Deferred<String, Void, Void>): Showable {
         val builder = BaseVariableType.createDialogBuilder(context, variable, deferredValue)
-        builder.input(null, if (variable.rememberValue) variable.value else "") {
-            _, input ->
+        builder.input(null, if (variable.rememberValue) variable.value else "") { _, input ->
             deferredValue.resolve(input.toString())
         }.inputType(InputType.TYPE_TEXT_VARIATION_PASSWORD)
-        return object : Showable {
-            override fun show() {
-                builder.show()
-            }
+        return {
+            builder.show()
         }
     }
 

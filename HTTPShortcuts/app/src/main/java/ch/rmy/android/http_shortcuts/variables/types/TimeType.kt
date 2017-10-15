@@ -36,13 +36,11 @@ internal class TimeType : BaseVariableType(), AsyncVariableType {
         timePicker.setCancelable(true)
         timePicker.setCanceledOnTouchOutside(true)
 
-        return object : Showable {
-            override fun show() {
-                timePicker.show()
-                timePicker.setOnDismissListener {
-                    if (deferredValue.isPending) {
-                        deferredValue.reject(null)
-                    }
+        return {
+            timePicker.show()
+            timePicker.setOnDismissListener {
+                if (deferredValue.isPending) {
+                    deferredValue.reject(null)
                 }
             }
         }

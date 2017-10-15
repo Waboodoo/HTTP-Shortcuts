@@ -28,16 +28,14 @@ internal class ColorType : BaseVariableType(), AsyncVariableType {
                 }
                 .create()
 
-        return object : Showable {
-            override fun show() {
-                dialog.show((context as BaseActivity).supportFragmentManager, "ColorDialog")
+        return {
+            dialog.show((context as BaseActivity).supportFragmentManager, "ColorDialog")
 
-                // The following hack is needed because the ChromaDialog library does not have a method to register a dismiss listener
-                Handler().post {
-                    dialog.dialog.setOnDismissListener {
-                        if (deferredValue.isPending) {
-                            deferredValue.reject(null)
-                        }
+            // The following hack is needed because the ChromaDialog library does not have a method to register a dismiss listener
+            Handler().post {
+                dialog.dialog.setOnDismissListener {
+                    if (deferredValue.isPending) {
+                        deferredValue.reject(null)
                     }
                 }
             }
