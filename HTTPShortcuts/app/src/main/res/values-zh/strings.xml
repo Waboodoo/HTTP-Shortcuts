@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: zh, Chinese
  Exported by: Roland Meyer
- Exported at: Mon, 04 Sep 2017 18:50:51 +0200
+ Exported at: Sun, 15 Oct 2017 13:54:54 +0200
 -->
 <resources>
     <!-- The name of the app -->
@@ -118,10 +118,6 @@
     <string name="import_in_progress">正在导出快捷方式……</string>
     <string name="label_timeout">超时时间</string>
     <string name="timeout_format">%1$s （%2$s）</string>
-    <plurals name="timeout_seconds">
-        <item quantity="one">%d second</item>
-        <item quantity="other">%d seconds</item>
-    </plurals>
     <!-- Timeout option: short, i.e. only a few seconds -->
     <string name="timeout_short">短</string>
     <!-- Timeout option: medium, i.e. around 10 seconds -->
@@ -279,4 +275,8 @@
     <string name="label_variable_time_format">Time Format</string>
     <string name="variable_type_time">Time Input</string>
     <string name="error_invalid_time_format">The time format is not valid.</string>
+    <!-- Error: Custom icon could not be used for a shortcut, because the user declined the permission request to read from storage -->
+    <string name="error_cannot_get_image_permission_denied">Failed to use image as icon. Permission denied.</string>
+    <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
+    <string name="error_not_supported">This feature is not supported on your device.</string>
 </resources>

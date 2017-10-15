@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+ Loco xml export: Android string resources
+ Project: HTTP Shortcuts
+ Release: Working copy
+ Locale: fr, French
+ Exported by: Roland Meyer
+ Exported at: Sun, 15 Oct 2017 13:54:54 +0200
+-->
 <resources>
     <!-- The name of the app -->
     <string name="app_name">HTTP Shortcuts</string>
@@ -25,7 +33,7 @@
     <!-- Label above input field in editor, for shortcut HTTP method (GET, POST, PUT, ...) -->
     <string name="label_method">Méthodes de requête</string>
     <!-- Label above input field in editor, for shortcut authentication username -->
-    <string name="label_username">Nom d'utilisateur</string>
+    <string name="label_username">Nom d\'utilisateur</string>
     <!-- Label above input field in editor, for shortcut authentication password -->
     <string name="label_password">Mot de passe</string>
     <!-- Label above input field in editor, for shortcut response type dropdown -->
@@ -42,7 +50,7 @@
     <string name="feedback_response_toast_error">Réponse dans le Toast (erreurs seulement)</string>
     <string name="feedback_dialog">Réponse dans boite de dialogue</string>
     <string name="feedback_activity">Réponse dans une fenêtre</string>
-    <string name="action_place">Placer sur l'écran d'accueil</string>
+    <string name="action_place">Placer sur l\'écran d\'accueil</string>
     <string name="action_run">Exécuter</string>
     <string name="action_edit">Éditer</string>
     <string name="action_duplicate">Dupliquer</string>
@@ -51,7 +59,7 @@
     <string name="action_move">Déplacer</string>
     <string name="action_move_up">Déplacer vers le haut</string>
     <string name="action_move_down">Déplacer vers le bas</string>
-    <string name="action_move_to_category">Déplacer vers la catégorie ...</string>
+    <string name="action_move_to_category">Déplacer vers la catégorie …</string>
     <string name="no_shortcuts">pas encore de raccourcis</string>
     <string name="no_variables">pas encore de variables</string>
     <string name="confirm_delete_shortcut_message">Supprimer ce raccourci?</string>
@@ -59,17 +67,15 @@
     <string name="dialog_discard">Supprimer</string>
     <string name="title_activity_execute">Exécuter un raccourci</string>
     <string name="executed">%s exécuté.</string>
-    <string name="shortcut_not_found">Raccourci introuvable. Vous devrez peut-être le rajouter à l'écran d'accueil.</string>
+    <string name="shortcut_not_found">Raccourci introuvable. Vous devrez peut-être le rajouter à l\'écran d\'accueil.</string>
     <string name="validation_name_not_empty">Veuillez entrer un nom.</string>
     <string name="validation_url_invalid">Veuillez entrer une url HTTP(S).</string>
-    <string name="error_http">%1$s échoué avec le code d'état  %2$d</string>
+    <string name="error_http">%1$s échoué avec le code d\'état %2$d</string>
     <string name="error_other">%1$s échoué: %2$s</string>
-    <string name="error_set_image">Impossible d'utiliser l'image comme icône.</string>
-    <!-- Error: Custom icon could not be used for a shortcut, because the user declined the permission request to read from storage -->
-    <string name="error_cannot_get_image_permission_denied">Impossible d'utiliser l'image comme icône. Permission refusée.</string>
+    <string name="error_set_image">Impossible d\'utiliser l\'image comme icône.</string>
     <string name="copy">%1$s (copie)</string>
     <string name="choose_ipack">Choisir un icône du systeme</string>
-    <string name="change_icon">Changer l'icône</string>
+    <string name="change_icon">Changer l\'icône</string>
     <string name="choose_image">Choisir une image personnalisée</string>
     <string name="choose_ipack_icon">Choisir un icône systeme</string>
     <string name="choose_icon">Choisir un icône intégrée</string>
@@ -82,14 +88,14 @@
     <string name="dialog_ok">OK</string>
     <string name="dialog_cancel">Annuler</string>
     <string name="dialog_remove">Supprimer</string>
-    <string name="section_request_headers">Rrequête: Headers</string>
-    <string name="section_request_body">Rrequête: Body</string>
+    <string name="section_request_headers">Requête: Headers</string>
+    <string name="section_request_body">Requête: Body</string>
     <string name="button_add_custom_header">Ajouter Header</string>
     <string name="title_custom_header_edit">Modifier Header</string>
     <string name="title_custom_header_add">Ajouter Header</string>
     <string name="label_custom_header_key">Header</string>
     <string name="label_custom_header_value">Valeur</string>
-    <string name="label_custom_body">Rrequête: Body</string>
+    <string name="label_custom_body">Requête: Body</string>
     <string name="settings">Réglages</string>
     <string name="settings_theme">Thème</string>
     <string name="settings_title_basic">Paramètres de base</string>
@@ -102,26 +108,16 @@
     <string name="settings_export">Exporter les raccourcis</string>
     <string name="export_instructions">Sélectionnez le répertoire dans lequel exporter vos raccourcis.\n\nVeuillez noter que les icônes personnalisées ne peuvent pas être exportées.</string>
     <string name="export_success">Raccourcis exportés avec succès.</string>
-    <string name="export_failed">L'exportation des raccourcis a échoué.</string>
-    <string name="export_in_progress">Exportation ...</string>
+    <string name="export_failed">L\'exportation des raccourcis a échoué.</string>
+    <string name="export_in_progress">Exportation …</string>
     <string name="button_ok">OK</string>
     <string name="button_cancel">Annuler</string>
     <string name="import_instructions">Sélectionnez le fichier pour importer les raccourcis.\n\nVeuillez noter que vos raccourcis actuels risque être écrasés.</string>
-    <string name="import_failed">L'importation des raccourcis a échoué.</string>
+    <string name="import_failed">L\'importation des raccourcis a échoué.</string>
     <string name="import_success">Raccourcis importés avec succès</string>
-    <string name="import_in_progress">Importation...</string>
+    <string name="import_in_progress">Importation …</string>
     <string name="label_timeout">Timeout</string>
     <string name="timeout_format">%1$s (%2$s)</string>
-    <!-- Used in various places to indicate a number of seconds, e.g. for a delay. %s is a placeholder for the actual number. -->
-    <plurals name="seconds">
-        <item quantity="one">%d seconde"</item>
-        <item quantity="other">%d secondes"</item>
-    </plurals>
-    <!-- Used in various places to indicate a number of minutes, e.g. for a delay. %s is a placeholder for the actual number. -->
-    <plurals name="minutes">
-        <item quantity="one">%d minute"</item>
-        <item quantity="other">%d minutes"</item>
-    </plurals>
     <!-- Timeout option: short, i.e. only a few seconds -->
     <string name="timeout_short">court</string>
     <!-- Timeout option: medium, i.e. around 10 seconds -->
@@ -133,16 +129,15 @@
     <string name="settings_about">A propos de cette application</string>
     <string name="settings_version">Version</string>
     <string name="settings_mail">Contacter le développeur</string>
-    <string name="settings_mail_summary">Questions, demandes de fonctionnalités, autres commentaires, ...</string>
+    <string name="settings_mail_summary">Questions, demandes de fonctionnalités, autres commentaires, …</string>
     <string name="settings_github">Voir sur Github</string>
-    <string name="settings_github_summary">C'est vrai, cette application est open-source</string>
+    <string name="settings_github_summary">C\'est vrai, cette application est open-source</string>
     <string name="changelog_title_whats_new">Quoi de nouveaux?</string>
     <string name="changelog_title">Changelog</string>
     <string name="changelog_checkbox_show_at_startup">Afficher au démarrage</string>
     <!-- Message displayed when the shortcut cannot be executed because there is no internet connection. %1$s is a placeholder for the shortcut name. -->
-    <string name="execution_delayed">%1$s sera exécuté une fois qu'une connexion à internet sera disponible.</string>
+    <string name="execution_delayed">%1$s sera exécuté une fois qu\'une connexion à internet sera disponible.</string>
     <string name="label_retry_policy">Si pas de connections à internet</string>
-    <string name="label_delay_execution">Délai d'exécution</string>
     <string name="retry_policy_none">Annuler a requête</string>
     <string name="retry_policy_delayed">Attendre une connexion</string>
     <string name="settings_play_store">Voir sur le Play Store</string>
@@ -150,22 +145,22 @@
     <string name="shortcut_duplicated">%1$s dupliqué.</string>
     <string name="shortcut_moved">%1$s déplacé.</string>
     <string name="shortcut_deleted">%1$s supprimé.</string>
-    <string name="shortcut_placed">%1$s placé sur l'écran d'accueil.</string>
+    <string name="shortcut_placed">%1$s placé sur l\'écran d\'accueil.</string>
     <string name="dialog_delete">Supprimer</string>
     <string name="section_appearance">Apparence</string>
     <string name="section_basic_request">Basic Request Settings</string>
     <string name="section_response">Paramètres de réponse</string>
     <string name="section_advanced_settings">Paramètres Avancés</string>
     <string name="section_authentication">Authentification</string>
-    <string name="label_authentication_method">Méthode d'authentification</string>
-    <string name="warning_icon_or_name_change">Veuillez noter que les modifications apportées au nom ou à l'icône ne s'appliquent pas automatiquement aux raccourcis qui sont déjà placer sur l'écran d'accueil. Vous devrez les ajouter à nouveau pour que les modifications prennent effet. Toutes les autres modifications sont automatiquement appliquées.</string>
+    <string name="label_authentication_method">Méthode d\'authentification</string>
+    <string name="warning_icon_or_name_change">Veuillez noter que les modifications apportées au nom ou à l\'icône ne s\'appliquent pas automatiquement aux raccourcis qui sont déjà placer sur l\'écran d\'accueil. Vous devrez les ajouter à nouveau pour que les modifications prennent effet. Toutes les autres modifications sont automatiquement appliquées.</string>
     <string name="dialog_checkbox_do_not_show_again">Ne plus afficher</string>
     <string name="label_certificates">Certificats</string>
     <!-- Label above checkbox in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
     <string name="label_accept_all_certificates">Acceptez tous les certificats (je sais ce que je fais)</string>
     <string name="title_licenses">Remerciements</string>
     <string name="settings_licenses">Remerciements</string>
-    <string name="settings_licenses_summary">&lt;![CDATA[Bibliothèques et ressources utilisées</string>
+    <string name="settings_licenses_summary">Bibliothèques et ressources utilisées</string>
     <string name="title_categories">Catégories</string>
     <string name="action_rename">Renommer</string>
     <string name="action_change_category_layout_type">Modifier la disposition</string>
@@ -173,7 +168,7 @@
     <string name="layout_type_linear_list">Liste</string>
     <string name="layout_type_grid">Grille</string>
     <string name="title_rename_category">Renommer la catégorie</string>
-    <string name="placeholder_category_name">Entrez le nom de la catégorie ...</string>
+    <string name="placeholder_category_name">Entrez le nom de la catégorie …</string>
     <string name="placeholder_value">Valeur</string>
     <string name="title_create_category">Créer une Catégorie</string>
     <string name="confirm_delete_category_message">Supprimer cette catégorie?\n\nTous les raccourcis contenus dans cette catégorie seront supprimés.</string>
@@ -181,8 +176,8 @@
     <string name="message_category_created">Catégorie créée.</string>
     <string name="message_category_deleted">Catégorie supprimée.</string>
     <plurals name="shortcut_count">
-        <item quantity="one">%d raccourci"</item>
-        <item quantity="other">%d raccourcis"</item>
+        <item quantity="one">%d raccourci</item>
+        <item quantity="other">%d raccourcis</item>
     </plurals>
     <string name="title_move_to_category">Déplacer dans la catégorie</string>
     <string name="plugin_name">Exécuter le raccourci HTTP</string>
@@ -193,15 +188,13 @@
     <string name="label_variable_key">Variable</string>
     <string name="label_variable_title">Titre de la boite de dialogue (facultatif)</string>
     <string name="label_variable_date_format">Format de la date</string>
-    <string name="label_variable_time_format">Format de l'heure</string>
     <string name="variable_type_constant">Constante</string>
     <string name="variable_type_text">Entrée de texte</string>
     <string name="variable_type_number">Entrée de nombre</string>
     <string name="variable_type_password">Saisie du mot de passe</string>
-    <string name="variable_type_select">Sélection </string>
+    <string name="variable_type_select">Sélection</string>
     <string name="variable_type_toggle">Bascule</string>
     <string name="variable_type_date">Entrée de date</string>
-    <string name="variable_type_time">Entée d'heure</string>
     <string name="variable_type_color">Entrée de couleur</string>
     <string name="warning_invalid_variable_key">Les variables ne peuvent contenir que des lettres et des chiffres.</string>
     <string name="confirm_delete_variable_message">Supprimer cette variable?</string>
@@ -210,32 +203,31 @@
     <string name="label_json_encode">encodage JSON</string>
     <string name="section_basic_variable_settings">Paramètres de base</string>
     <string name="validation_key_non_empty">La variable ne doit pas être vide.</string>
-    <string name="validation_key_already_exists">Une autre variable avec le même non existe déjà.</string>
-    <string name="title_add_toggle_option">Ajout d'une valeur</string>
+    <string name="validation_key_already_exists">Une autre variable avec le même nom existe déjà.</string>
+    <string name="title_add_toggle_option">Ajout d\'une valeur</string>
     <string name="button_add_toggle_option">Ajouter une valeur</string>
     <string name="section_toggle_options">Liste des valeurs</string>
-    <string name="title_add_select_option">Ajout d'une option</string>
+    <string name="title_add_select_option">Ajout d\'une option</string>
     <string name="button_add_select_option">Ajouter une option</string>
     <string name="section_select_options">Options sélectionnables</string>
     <string name="label_select_label">Titre</string>
     <string name="label_select_value">Valeur</string>
-    <string name="button_show_help">Afficher l'aide</string>
+    <string name="button_show_help">Afficher l\'aide</string>
     <string name="help_title_variables">Variables</string>
     <string name="error_not_enough_toggle_values">Veuillez ajouter au moins deux valeurs.</string>
     <string name="error_not_enough_select_values">Veuillez ajouter au moins une option sélectionnable.</string>
-    <string name="error_invalid_date_format">Le format de date n'est pas valide.</string>
-    <string name="error_invalid_time_format">Le format de l'heure n'est pas valide.</string>
+    <string name="error_invalid_date_format">Le format de date n\'est pas valide.</string>
     <string name="share_button">Partager</string>
     <string name="share_title">Partager</string>
     <string name="progress_dialog_message">%1$s…</string>
-    <string name="section_input_options">Options d'entrée</string>
+    <string name="section_input_options">Options d\'entrée</string>
     <string name="label_remember_value">Mémoriser la valeur</string>
-    <string name="action_cancel_pending">Annuler l'action en cours</string>
+    <string name="action_cancel_pending">Annuler l\'action en cours</string>
     <string name="pending_shortcut_execution_cancelled">%1$s annulé.</string>
-    <string name="action_send_to">Envoyer à...</string>
-    <string name="error_not_suitable_shortcuts">Aucun raccourci approprié trouvé.\n\nPour utiliser cette fonctionnalité, vous devez disposer d'au moins un raccourci qui utilise une variable permettant de 'partager ...'\n\nVoir la documentation dans la section variable pour plus d'informations.</string>
-    <string name="error_sharing_feature_not_available_yet">Désolé, mais le partage de fichiers texte dans des raccourcis n'est pas encore pris en charge. Il sera probablement ajouté dans le futur. \nVous pouvez cependant partager des extraits de texte. Pour plus d'informations, reportez-vous à la documentation de la section variable.\n\nMerci de votre compréhension.</string>
-    <string name="label_allow_share_into">Autoriser 'Partager ...'</string>
+    <string name="action_send_to">Envoyer à …</string>
+    <string name="error_not_suitable_shortcuts">Aucun raccourci approprié trouvé.\n\nPour utiliser cette fonctionnalité, vous devez disposer d\'au moins un raccourci qui utilise une variable permettant de \'partager …\'\n\nVoir la documentation dans la section variable pour plus d\'informations.</string>
+    <string name="error_sharing_feature_not_available_yet">Désolé, mais le partage de fichiers texte dans des raccourcis n\'est pas encore pris en charge. Il sera probablement ajouté dans le futur. \nVous pouvez cependant partager des extraits de texte. Pour plus d\'informations, reportez-vous à la documentation de la section variable.\n\nMerci de votre compréhension.</string>
+    <string name="label_allow_share_into">Autoriser \'Partager …\'</string>
     <string name="theme_blue">Bleu</string>
     <string name="theme_green">Vert</string>
     <string name="theme_red">Rouge</string>
@@ -243,32 +235,48 @@
     <string name="theme_orange">Orange</string>
     <string name="theme_purple">Violet</string>
     <string name="theme_indigo">Indigo</string>
-    <string name="title_export">Exporter vers ...</string>
+    <string name="title_export">Exporter vers …</string>
     <string name="button_export_to_filesystem">Stockage local</string>
     <string name="button_export_send_to">Autre application</string>
-    <string name="title_import">Importer de…</string>
+    <string name="title_import">Importer de …</string>
     <string name="button_import_from_filesystem">Stockage local</string>
     <string name="button_import_from_general">Documents</string>
     <string name="button_create_new">Créer un nouveau raccourci</string>
     <string name="button_curl_import">Depuis la commande cURL</string>
     <string name="title_curl_import">Importation cURL</string>
-    <string name="instructions_curl_import">Tapez ou collez une commande cURL ci-dessous pour créer un nouveau raccourci. Veuillez noter que cette fonctionnalité est expérimentale et que seul un sous-ensemble limité d'options cURL est reconnu.</string>
+    <string name="instructions_curl_import">Tapez ou collez une commande cURL ci-dessous pour créer un nouveau raccourci. Veuillez noter que cette fonctionnalité est expérimentale et que seul un sous-ensemble limité d\'options cURL est reconnu.</string>
     <string name="curl_import_button">Importer</string>
-    <string name="authentication_none">Pas d'authentification</string>
+    <string name="authentication_none">Pas d\'authentification</string>
     <string name="authentication_basic">Authentification de base</string>
     <string name="authentication_digest">Authentification Digest</string>
-    <string name="label_launcher_shortcut">Afficher en tant que raccourci d'application sur le lanceur</string>
+    <string name="label_launcher_shortcut">Afficher en tant que raccourci d\'application sur le lanceur</string>
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
-    <string name="error_share_failed">Une erreur s'est produite lors du partage.</string>
+    <string name="error_share_failed">Une erreur s\'est produite lors du partage.</string>
     <!-- Title displayed in notification when there are shortcuts waiting to be executed at a later time -->
     <string name="title_shortcuts_pending">Raccourcis HTTP</string>
-    <!-- Message displayed in notification when there are shortcuts waiting to be executed at a later time -->
     <plurals name="message_shortcuts_pending">
-        <item quantity="one">1 raccourci en attente d'exécution"</item>
-        <item quantity="other">%d raccourcis en attente d'exécution"</item>
+        <!-- Message displayed in notification when there are shortcuts waiting to be executed at a later time -->
+        <item quantity="one">1 raccourci en attente d\'exécution</item>
+        <item quantity="other">%d raccourcis en attente d\'exécution</item>
     </plurals>
+    <plurals name="seconds">
+        <!-- Used in various places to indicate a number of seconds, e.g. for a delay. %s is a placeholder for the actual number. -->
+        <item quantity="one">%d seconde</item>
+        <item quantity="other">%d secondes</item>
+    </plurals>
+    <plurals name="minutes">
+        <!-- Used in various places to indicate a number of minutes, e.g. for a delay. %s is a placeholder for the actual number. -->
+        <item quantity="one">%d minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+    <string name="label_delay_execution">Délai d\'exécution</string>
     <!-- Option to delay the execution of a shortcut. Default option is "No delay" -->
     <string name="label_no_delay">Pas de délai</string>
+    <string name="label_variable_time_format">Format de l\'heure</string>
+    <string name="variable_type_time">Entée d\'heure</string>
+    <string name="error_invalid_time_format">Le format de l\'heure n\'est pas valide.</string>
+    <!-- Error: Custom icon could not be used for a shortcut, because the user declined the permission request to read from storage -->
+    <string name="error_cannot_get_image_permission_denied">Impossible d\'utiliser l\'image comme icône. Permission refusée.</string>
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
-    <string name="error_not_supported">Cette fonctionnalité n'est pas prise en charge sur votre appareil.</string>
+    <string name="error_not_supported">Cette fonctionnalité n\'est pas prise en charge sur votre appareil.</string>
 </resources>
