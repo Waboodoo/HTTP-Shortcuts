@@ -39,7 +39,7 @@ class VariableEditorActivity : BaseActivity() {
         setContentView(R.layout.activity_variable_editor)
 
         val variableId = intent.getLongExtra(EXTRA_VARIABLE_ID, 0)
-        val variable = if (savedInstanceState != null && savedInstanceState.containsKey(STATE_JSON_VARIABLE)) {
+        val variable = if (savedInstanceState?.containsKey(STATE_JSON_VARIABLE) == true) {
             GsonUtil.fromJson(savedInstanceState.getString(STATE_JSON_VARIABLE)!!, Variable::class.java)
         } else {
             if (variableId == 0L) Variable.createNew() else controller.getDetachedVariableById(variableId)

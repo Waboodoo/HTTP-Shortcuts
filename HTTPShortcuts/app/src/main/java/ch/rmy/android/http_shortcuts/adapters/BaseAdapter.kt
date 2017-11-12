@@ -34,7 +34,9 @@ abstract class BaseAdapter<T> internal constructor(val context: Context) : Recyc
     }
 
     override fun destroy() {
-        this.items?.removeChangeListener(changeListener)
+        if (this.items?.isValid == true) {
+            this.items?.removeChangeListener(changeListener)
+        }
     }
 
     override fun getItemViewType(position: Int) = if (isEmpty) TYPE_EMPTY_MARKER else TYPE_ITEM

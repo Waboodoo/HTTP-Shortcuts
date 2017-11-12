@@ -6,7 +6,6 @@ import android.os.Handler
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Variable
-import ch.rmy.android.http_shortcuts.variables.Showable
 import com.pavelsikun.vintagechroma.ChromaDialog
 import com.pavelsikun.vintagechroma.IndicatorMode
 import com.pavelsikun.vintagechroma.colormode.ColorMode
@@ -16,7 +15,7 @@ internal class ColorType : BaseVariableType(), AsyncVariableType {
 
     override fun hasTitle() = false
 
-    override fun createDialog(context: Context, controller: Controller, variable: Variable, deferredValue: Deferred<String, Void, Void>): Showable {
+    override fun createDialog(context: Context, controller: Controller, variable: Variable, deferredValue: Deferred<String, Void, Void>): () -> Unit {
         val dialog = ChromaDialog.Builder()
                 .initialColor(getInitialColor(variable))
                 .colorMode(ColorMode.RGB)

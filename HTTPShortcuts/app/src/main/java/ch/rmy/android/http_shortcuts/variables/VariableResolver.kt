@@ -34,7 +34,7 @@ class VariableResolver(private val context: Context) {
         val deferred = DeferredObject<ResolvedVariables, Void, Void>()
         val builder = ResolvedVariables.Builder()
 
-        val waitingDialogs = ArrayList<Showable>()
+        val waitingDialogs = ArrayList<() -> Unit>()
         var i = 0
         for (variable in variablesToResolve) {
             if (preResolvedValues != null && preResolvedValues.containsKey(variable.key)) {
@@ -54,7 +54,7 @@ class VariableResolver(private val context: Context) {
                     if (index + 1 >= waitingDialogs.size) {
                         deferred.resolve(builder.build())
                     } else {
-                        waitingDialogs[index + 1].show()
+                        waitingDialogs[index + 1]()
                     }
                 }.fail {
                     deferred.reject(null)
@@ -72,7 +72,7 @@ class VariableResolver(private val context: Context) {
         if (waitingDialogs.isEmpty()) {
             deferred.resolve(builder.build())
         } else {
-            waitingDialogs[0].show()
+            waitingDialogs[0]()
         }
 
         return deferred.promise().always { _, _, _ ->

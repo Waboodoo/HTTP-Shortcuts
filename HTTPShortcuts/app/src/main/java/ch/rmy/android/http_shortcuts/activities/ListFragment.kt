@@ -46,7 +46,11 @@ class ListFragment : BaseFragment() {
 
     private val listDivider: RecyclerView.ItemDecoration by lazy { ShortcutListDecorator(context, R.drawable.list_divider) }
 
-    private val shortcutChangeListener = RealmChangeListener<RealmList<Shortcut>> { shortcuts -> onShortcutsChanged(shortcuts) }
+    private val shortcutChangeListener = RealmChangeListener<RealmList<Shortcut>> { shortcuts ->
+        if (isVisible) {
+            onShortcutsChanged(shortcuts)
+        }
+    }
 
     private val clickListener = object : OnItemClickedListener<Shortcut> {
         override fun onItemClicked(item: Shortcut) {

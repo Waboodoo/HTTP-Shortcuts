@@ -5,7 +5,6 @@ import android.content.Context
 import android.text.format.DateFormat
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Variable
-import ch.rmy.android.http_shortcuts.variables.Showable
 import org.jdeferred.Deferred
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -15,7 +14,7 @@ internal class TimeType : BaseVariableType(), AsyncVariableType {
 
     override fun hasTitle() = false
 
-    override fun createDialog(context: Context, controller: Controller, variable: Variable, deferredValue: Deferred<String, Void, Void>): Showable {
+    override fun createDialog(context: Context, controller: Controller, variable: Variable, deferredValue: Deferred<String, Void, Void>): () -> Unit {
         val calendar = getInitialTime(variable.value)
         val timePicker = TimePickerDialog(context, TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
             val newDate = Calendar.getInstance()

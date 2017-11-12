@@ -6,7 +6,6 @@ import android.content.DialogInterface
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Variable
-import ch.rmy.android.http_shortcuts.variables.Showable
 import org.jdeferred.Deferred
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -17,7 +16,7 @@ internal class DateType : BaseVariableType(), AsyncVariableType {
 
     override fun hasTitle() = false
 
-    override fun createDialog(context: Context, controller: Controller, variable: Variable, deferredValue: Deferred<String, Void, Void>): Showable {
+    override fun createDialog(context: Context, controller: Controller, variable: Variable, deferredValue: Deferred<String, Void, Void>): () -> Unit {
         val calendar = getInitialDate(variable.value)
         val datePicker = DatePickerDialog(context, null, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
         datePicker.setButton(DialogInterface.BUTTON_POSITIVE, context.getString(R.string.button_ok),
