@@ -4,7 +4,7 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    buildToolsVersion '26.0.2'
 
     lintOptions {
         disable 'MissingTranslation'
@@ -45,13 +45,14 @@ repositories {
     maven {
         url 'https://dl.bintray.com/siclo/SicloAndroidOSS'
     }
+    google()
 }
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     /* UI */
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:appcompat-v7:25.4.0'
+    compile 'com.android.support:design:25.4.0'
     compile 'com.satsuware.lib:usefulviews:2.3.1'
     compile 'com.github.castorflex.smoothprogressbar:library:1.1.0'
     compile 'com.github.castorflex.smoothprogressbar:library-circular:1.1.0'
@@ -74,21 +75,24 @@ dependencies {
     compile 'com.siclo.ezphotopick:library:1.0.6'
     /* HTTP & Network */
     compile 'com.android.volley:volley:1.0.0'
-    compile 'com.squareup.okhttp3:okhttp:3.7.0'
-    compile 'com.facebook.stetho:stetho:1.4.1'
+    compile 'com.squareup.okhttp3:okhttp:3.9.0'
+    compile 'com.facebook.stetho:stetho:1.5.0'
     compile 'com.facebook.stetho:stetho-okhttp3:1.5.0'
     compile 'com.uphyca:stetho_realm:2.0.0'
     compile 'com.burgstaller:okhttp-digest:1.12'
     compile 'org.apache.httpcomponents:httpcore:4.4.1'
-    /* Other */
-    compile 'io.reactivex:rxjava:1.1.0'
-    compile project(path: ':curl_command')
-    compile 'org.jdeferred:jdeferred-android-aar:1.2.4'
     /* Tasker integration */
-    compile 'com.twofortyfouram:android-plugin-client-sdk-for-locale:[4.0.2, 5.0['
-    compile 'com.google.code.gson:gson:2.7'
+    compile 'com.twofortyfouram:android-plugin-client-sdk-for-locale:4.0.3'
     /* Crash Reporting */
     compile 'com.bugsnag:bugsnag-android:4.0.0'
+    /* cURL import & export */
+    compile project(path: ':curl_command')
+    /* Promises */
+    compile 'org.jdeferred:jdeferred-android-aar:1.2.4'
+    /* JSON serialization & deserialization */
+    compile 'com.google.code.gson:gson:2.8.0'
+    /* Other */
+    compile 'io.reactivex:rxjava:1.1.0'
 }
 
 apply plugin: 'realm-android'

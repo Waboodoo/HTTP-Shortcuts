@@ -12,17 +12,17 @@ class DatabaseMigration : RealmMigration {
 
     override fun migrate(realm: DynamicRealm, oldVersion: Long, newVersion: Long) {
         for (version in oldVersion + 1..newVersion) {
-            migrate(realm, version.toInt())
+            migrate(realm, version)
         }
     }
 
-    private fun migrate(realm: DynamicRealm, newVersion: Int) {
+    private fun migrate(realm: DynamicRealm, newVersion: Long) {
         val schema = realm.schema
         when (newVersion) {
-            1 -> { // 1.10.0
+            1L -> { // 1.10.0
                 schema.get("Shortcut").addField("acceptAllCertificates", Boolean::class.javaPrimitiveType)
             }
-            2 -> { // 1.11.0
+            2L -> { // 1.11.0
                 val resolvedVariableSchema = schema.create("ResolvedVariable")
                         .addField("key", String::class.java)
                         .addField("value", String::class.java)
@@ -46,20 +46,20 @@ class DatabaseMigration : RealmMigration {
                 val base = realm.where("Base").findFirst()
                 base?.setList("variables", RealmList<DynamicRealmObject>())
             }
-            3 -> { // 1.12.0
+            3L -> { // 1.12.0
                 schema.get("Variable").addField("rememberValue", Boolean::class.javaPrimitiveType)
             }
-            4 -> { // 1.13.0
+            4L -> { // 1.13.0
                 schema.get("Variable").addField("flags", Int::class.javaPrimitiveType)
             }
-            5 -> { // 1.16.0
+            5L -> { // 1.16.0
                 schema.get("Category").addField("layoutType", String::class.java)
                 val categories = realm.where("Category").findAll()
                 for (category in categories) {
                     category.setString("layoutType", "linear_list")
                 }
             }
-            6 -> { // 1.16.0
+            6L -> { // 1.16.0
                 schema.get("Shortcut").addField("authentication", String::class.java)
                 val shortcuts = realm.where("Shortcut").findAll()
                 for (shortcut in shortcuts) {
@@ -68,13 +68,13 @@ class DatabaseMigration : RealmMigration {
                     }
                 }
             }
-            7 -> { // 1.16.0
+            7L -> { // 1.16.0
                 schema.get("Base").addField("version", Long::class.javaPrimitiveType)
             }
-            8 -> { // 1.16.1
+            8L -> { // 1.16.1
                 schema.get("Shortcut").addField("launcherShortcut", Boolean::class.javaPrimitiveType)
             }
-            9 -> { // 1.16.2
+            9L -> { // 1.16.2
                 schema.get("Parameter").addField("id", String::class.java)
                 schema.get("Header").addField("id", String::class.java)
                 schema.get("Option").addField("id", String::class.java)
@@ -94,7 +94,7 @@ class DatabaseMigration : RealmMigration {
                 schema.get("Header").addPrimaryKey("id")
                 schema.get("Option").addPrimaryKey("id")
             }
-            10 -> { // 1.17.0
+            10L -> { // 1.17.0
                 val shortcuts = realm.where("Shortcut").findAll()
                 for (shortcut in shortcuts) {
                     if (shortcut.getString("authentication") == null) {
@@ -102,15 +102,15 @@ class DatabaseMigration : RealmMigration {
                     }
                 }
             }
-            11 -> { // 1.17.0
+            11L -> { // 1.17.0
                 val pendingExecutionSchema = schema.get("PendingExecution")
                 pendingExecutionSchema.addField("tryNumber", Int::class.javaPrimitiveType)
                 pendingExecutionSchema.addField("waitUntil", Date::class.java)
             }
-            12 -> { // 1.17.0
+            12L -> { // 1.17.0
                 schema.get("Variable").addField("data", String::class.java)
             }
-            13 -> { // 1.17.0
+            13L -> { // 1.17.0
                 schema.get("Shortcut").addField("delay", Int::class.javaPrimitiveType)
             }
 
@@ -122,14 +122,14 @@ class DatabaseMigration : RealmMigration {
 
     private fun updateVersionNumber(realm: DynamicRealm, version: Long) {
         val base = realm.where("Base").findFirst()
-        if (base != null && version >= 7) {
+        if (base != null && version >= 7L) {
             base.setLong("version", version)
         }
     }
 
     companion object {
 
-        const val VERSION = 13
+        const val VERSION = 13L
 
     }
 
