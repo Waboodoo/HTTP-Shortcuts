@@ -7,7 +7,6 @@ import android.os.Build
 import android.support.annotation.RequiresApi
 import ch.rmy.android.http_shortcuts.realm.models.Category
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
-import com.bugsnag.android.Bugsnag
 import java.util.*
 
 object LauncherShortcutManager {
@@ -29,14 +28,14 @@ object LauncherShortcutManager {
             val max = try {
                 shortcutManager.maxShortcutCountPerActivity
             } catch (e: Exception) {
-                Bugsnag.notify(e)
+                CrashReporting.logException(e)
                 5
             }
 
             val launcherShortcuts = createLauncherShortcuts(context, categories, max)
             shortcutManager.dynamicShortcuts = launcherShortcuts
         } catch (e: Exception) {
-            Bugsnag.notify(e)
+            CrashReporting.logException(e)
         }
     }
 

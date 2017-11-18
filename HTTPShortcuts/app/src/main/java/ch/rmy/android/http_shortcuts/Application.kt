@@ -1,8 +1,8 @@
 package ch.rmy.android.http_shortcuts
 
-import android.text.TextUtils
 import ch.rmy.android.http_shortcuts.realm.Controller
-import com.bugsnag.android.Bugsnag
+import ch.rmy.android.http_shortcuts.utils.CrashReporting
+import ch.rmy.android.http_shortcuts.utils.Settings
 import com.facebook.stetho.Stetho
 import com.uphyca.stetho_realm.RealmInspectorModulesProvider
 
@@ -10,9 +10,10 @@ class Application : android.app.Application() {
 
     override fun onCreate() {
         super.onCreate()
-        if (!TextUtils.isEmpty(BuildConfig.BUGSNAG_API_KEY) && !BuildConfig.DEBUG) {
-            Bugsnag.init(this, BuildConfig.BUGSNAG_API_KEY)
-        }
+
+        CrashReporting.init(this)
+        CrashReporting.enabled = Settings(this).isCrashReportingAllowed
+
         Controller.init(this)
         Stetho.initialize(
                 Stetho.newInitializerBuilder(this)

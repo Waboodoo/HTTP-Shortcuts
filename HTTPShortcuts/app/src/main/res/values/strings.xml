@@ -98,6 +98,14 @@
     <string name="settings_click_behavior_edit">Edit the shortcut</string>
     <string name="settings_click_behavior_menu">Show the options menu</string>
     <string name="settings_title_import_export">Import / Export</string>
+    <!-- Section title on settings screen for privacy related settings -->
+    <string name="settings_title_privacy">Privacy</string>
+    <!-- Setting title for crash reporting settings, as part of privacy settings (opt-in/opt-out) -->
+    <string name="settings_crash_reporting">Crash Reporting</string>
+    <!-- Option for crash reporting opt in -->
+    <string name="settings_crash_reporting_allow">Send crash reports to help improve the app</string>
+    <!-- Option for crash reporting opt out -->
+    <string name="settings_crash_reporting_disallow">Don\'t send any crash reports</string>
     <string name="settings_import">Import shortcuts</string>
     <string name="settings_export">Export shortcuts</string>
     <string name="export_instructions">Select the directory into which to export your shortcuts.\n\nPlease note that custom icons can not be exported.</string>

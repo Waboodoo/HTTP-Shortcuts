@@ -18,6 +18,7 @@ import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog
 import ch.rmy.android.http_shortcuts.import_export.ExportTask
 import ch.rmy.android.http_shortcuts.import_export.ImportTask
 import ch.rmy.android.http_shortcuts.realm.Controller
+import ch.rmy.android.http_shortcuts.utils.CrashReporting
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.utils.Settings
@@ -41,71 +42,69 @@ class SettingsActivity : BaseActivity() {
 
             addPreferencesFromResource(R.xml.preferences)
 
-            val clickBehaviorPreference = findPreference("click_behavior") as ListPreference
-            clickBehaviorPreference.onPreferenceChangeListener = OnPreferenceChangeListener { _, newValue ->
-                updateSummary(clickBehaviorPreference, newValue)
-                true
-            }
-            updateSummary(clickBehaviorPreference, null)
+            initPreference("click_behavior")
 
-            val themePreference = findPreference("theme") as ListPreference
-            themePreference.onPreferenceChangeListener = OnPreferenceChangeListener { _, newValue ->
-                updateSummary(themePreference, newValue)
+            initPreference("theme") {
                 val returnIntent = Intent()
                 returnIntent.putExtra(EXTRA_THEME_CHANGED, true)
                 activity.setResult(Activity.RESULT_OK, returnIntent)
                 activity.finish()
                 activity.overridePendingTransition(0, 0)
-                true
             }
-            updateSummary(themePreference, null)
 
-            val exportPreference = findPreference("export")
-            exportPreference.onPreferenceClickListener = OnPreferenceClickListener {
+            initPreference("export") {
                 showExportOptions()
-                true
             }
 
-            val importPreference = findPreference("import")
-            importPreference.onPreferenceClickListener = OnPreferenceClickListener {
+            initPreference("import") {
                 showImportOptions()
-                true
             }
 
-            val versionPreference = findPreference("version")
-            try {
-                versionPreference.summary = activity.packageManager.getPackageInfo(activity.packageName, 0).versionName
-            } catch (e: NameNotFoundException) {
-                versionPreference.summary = "???"
+            initPreference("crash_reporting") { newValue ->
+                CrashReporting.enabled = newValue != "false"
             }
 
-            versionPreference.onPreferenceClickListener = OnPreferenceClickListener {
-                ChangeLogDialog(activity, false).show()
-                true
+            findPreference("version").let {
+                it.summary = try {
+                    activity.packageManager.getPackageInfo(activity.packageName, 0).versionName
+                } catch (e: NameNotFoundException) {
+                    "???"
+                }
+                it.onPreferenceClickListener = OnPreferenceClickListener {
+                    ChangeLogDialog(activity, false).show()
+                    true
+                }
             }
 
-            val mailPreference = findPreference("mail")
-            mailPreference.onPreferenceClickListener = OnPreferenceClickListener {
+            initPreference("mail") {
                 sendMail()
-                true
             }
 
-            val playStorePreference = findPreference("play_store")
-            playStorePreference.onPreferenceClickListener = OnPreferenceClickListener {
+            initPreference("play_store") {
                 openPlayStore()
-                true
             }
 
-            val githubPreference = findPreference("github")
-            githubPreference.onPreferenceClickListener = OnPreferenceClickListener {
+            initPreference("github") {
                 gotoGithub()
-                true
             }
 
-            val licensesPreference = findPreference("licenses")
-            licensesPreference.onPreferenceClickListener = OnPreferenceClickListener {
+            initPreference("licenses") {
                 showLicenses()
-                true
+            }
+        }
+
+        private fun initPreference(key: String, action: (newValue: Any) -> Unit = {}) {
+            findPreference(key).let {
+                it.onPreferenceChangeListener = OnPreferenceChangeListener { _, newValue ->
+                    if (it is ListPreference) {
+                        updateSummary(it, newValue)
+                    }
+                    action(newValue)
+                    true
+                }
+                if (it is ListPreference) {
+                    updateSummary(it, null)
+                }
             }
         }
 
@@ -125,7 +124,8 @@ class SettingsActivity : BaseActivity() {
                     })
                     .item(R.string.button_export_send_to, {
                         sendExport()
-                    }).show()
+                    })
+                    .show()
         }
 
         private fun showExportInstructions() {
@@ -160,7 +160,8 @@ class SettingsActivity : BaseActivity() {
                     })
                     .item(R.string.button_import_from_general, {
                         openGeneralPickerForImport()
-                    }).show()
+                    })
+                    .show()
         }
 
         private fun showImportInstructions() {

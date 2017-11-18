@@ -28,11 +28,20 @@ import ch.rmy.android.http_shortcuts.realm.models.Header
 import ch.rmy.android.http_shortcuts.realm.models.Parameter
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut.Companion.TEMPORARY_ID
-import ch.rmy.android.http_shortcuts.utils.*
+import ch.rmy.android.http_shortcuts.utils.ArrayUtil
+import ch.rmy.android.http_shortcuts.utils.CrashReporting
+import ch.rmy.android.http_shortcuts.utils.GsonUtil
+import ch.rmy.android.http_shortcuts.utils.IntentUtil
+import ch.rmy.android.http_shortcuts.utils.IpackUtil
+import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
+import ch.rmy.android.http_shortcuts.utils.OnItemChosenListener
+import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils
+import ch.rmy.android.http_shortcuts.utils.UIUtil
+import ch.rmy.android.http_shortcuts.utils.UUIDUtils
+import ch.rmy.android.http_shortcuts.utils.Validation
 import ch.rmy.android.http_shortcuts.variables.VariableFormatter
 import ch.rmy.curlcommand.CurlCommand
 import com.afollestad.materialdialogs.MaterialDialog
-import com.bugsnag.android.Bugsnag
 import com.satsuware.usefulviews.LabelledSpinner
 import kotterknife.bindView
 import siclo.com.ezphotopicker.api.EZPhotoPick
@@ -390,7 +399,7 @@ class EditorActivity : BaseActivity() {
 
                 shortcut.iconName = iconName
             } catch (e: Exception) {
-                Bugsnag.notify(e)
+                CrashReporting.logException(e)
                 shortcut.iconName = null
                 showSnackbar(getString(R.string.error_set_image))
             } finally {

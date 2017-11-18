@@ -10,8 +10,7 @@
             android:icon="@drawable/settings_click"
             android:key="click_behavior"
             android:persistent="true"
-            android:title="@string/settings_click_behavior"
-        />
+            android:title="@string/settings_click_behavior"/>
 
         <com.afollestad.materialdialogs.prefs.MaterialListPreference
             android:defaultValue="blue"
@@ -20,8 +19,7 @@
             android:icon="@drawable/ic_theme"
             android:key="theme"
             android:persistent="true"
-            android:title="@string/settings_theme"
-        />
+            android:title="@string/settings_theme"/>
 
     </PreferenceCategory>
 
@@ -36,6 +34,20 @@
             android:icon="@drawable/settings_export"
             android:key="export"
             android:title="@string/settings_export"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/settings_title_privacy">
+
+        <com.afollestad.materialdialogs.prefs.MaterialListPreference
+            android:defaultValue="true"
+            android:entries="@array/crash_reporting"
+            android:entryValues="@array/crash_reporting_values"
+            android:icon="@drawable/bug"
+            android:key="crash_reporting"
+            android:persistent="true"
+            android:title="@string/settings_crash_reporting"/>
 
     </PreferenceCategory>
 

@@ -12,6 +12,9 @@ class Settings(context: Context) {
     val clickBehavior: String
         get() = preferences.getString(KEY_CLICK_BEHAVIOR, CLICK_BEHAVIOR_RUN)
 
+    val isCrashReportingAllowed: Boolean
+        get() = preferences.getString(KEY_CRASH_REPORTING, "true") != "false"
+
     var importExportDirectory: String?
         get() = preferences.getString(KEY_IMPORT_EXPORT_DIR, Environment.getExternalStorageDirectory().path)
         set(path) {
@@ -52,6 +55,7 @@ class Settings(context: Context) {
         const val THEME_INDIGO = "indigo"
 
         private const val KEY_CLICK_BEHAVIOR = "click_behavior"
+        private const val KEY_CRASH_REPORTING = "crash_reporting"
         private const val KEY_IMPORT_EXPORT_DIR = "import_export_dir"
         private const val KEY_CHANGE_LOG_PERMANENTLY_HIDDEN = "change_log_permanently_hidden"
         private const val KEY_CHANGE_LOG_LAST_VERSION = "change_log_last_version"

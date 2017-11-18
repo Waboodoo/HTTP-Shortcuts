@@ -10,6 +10,15 @@
         <item>edit</item>
         <item>menu</item>
     </string-array>
+    <string-array name="crash_reporting" translatable="false">
+        <item>@string/settings_crash_reporting_allow</item>
+        <item>@string/settings_crash_reporting_disallow</item>
+    </string-array>
+    <string-array name="crash_reporting_values" translatable="false">
+        <item>true</item>
+        <item>false</item>
+    </string-array>
+
     <string-array name="context_menu_choose_icon">
         <item>@string/choose_icon</item>
         <item>@string/choose_image</item>

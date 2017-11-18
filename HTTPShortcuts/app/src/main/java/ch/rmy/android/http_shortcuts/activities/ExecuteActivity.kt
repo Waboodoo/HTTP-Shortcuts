@@ -14,6 +14,7 @@ import ch.rmy.android.http_shortcuts.http.HttpRequester
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
+import ch.rmy.android.http_shortcuts.utils.CrashReporting
 import ch.rmy.android.http_shortcuts.utils.DateUtil
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
@@ -21,7 +22,6 @@ import ch.rmy.android.http_shortcuts.variables.ResolvedVariables
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import com.afollestad.materialdialogs.MaterialDialog
 import com.android.volley.VolleyError
-import com.bugsnag.android.Bugsnag
 import fr.castorflex.android.circularprogressbar.CircularProgressBar
 import io.github.kbiakov.codeview.CodeView
 import kotterknife.bindView
@@ -261,9 +261,8 @@ class ExecuteActivity : BaseActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    private fun canShareResponse(): Boolean {
-        return lastResponse != null && lastResponse!!.bodyAsString.length < MAX_SHARE_LENGTH
-    }
+    private fun canShareResponse() =
+            lastResponse != null && lastResponse!!.bodyAsString.length < MAX_SHARE_LENGTH
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.action_share_response) {
@@ -284,7 +283,7 @@ class ExecuteActivity : BaseActivity() {
             startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_title)))
         } catch (e: Exception) {
             showToast(getString(R.string.error_share_failed), Toast.LENGTH_LONG)
-            Bugsnag.notify(e)
+            CrashReporting.logException(e)
         }
     }
 
@@ -304,9 +303,8 @@ class ExecuteActivity : BaseActivity() {
 
         private const val MAX_SHARE_LENGTH = 800000
 
-        private fun truncateIfNeeded(string: String, maxLength: Int): String {
-            return if (string.length > maxLength) string.substring(0, maxLength) + "…" else string
-        }
+        private fun truncateIfNeeded(string: String, maxLength: Int) =
+                if (string.length > maxLength) string.substring(0, maxLength) + "…" else string
     }
 
 }
