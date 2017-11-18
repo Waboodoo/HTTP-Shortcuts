@@ -9,12 +9,14 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.preference.ListPreference
+import android.preference.Preference
 import android.preference.Preference.OnPreferenceChangeListener
 import android.preference.Preference.OnPreferenceClickListener
 import android.preference.PreferenceFragment
 import android.widget.Toast
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog
+import ch.rmy.android.http_shortcuts.dialogs.HelpDialogBuilder
 import ch.rmy.android.http_shortcuts.import_export.ExportTask
 import ch.rmy.android.http_shortcuts.import_export.ImportTask
 import ch.rmy.android.http_shortcuts.realm.Controller
@@ -42,9 +44,9 @@ class SettingsActivity : BaseActivity() {
 
             addPreferencesFromResource(R.xml.preferences)
 
-            initPreference("click_behavior")
+            initListPreference("click_behavior")
 
-            initPreference("theme") {
+            initListPreference("theme") {
                 val returnIntent = Intent()
                 returnIntent.putExtra(EXTRA_THEME_CHANGED, true)
                 activity.setResult(Activity.RESULT_OK, returnIntent)
@@ -60,19 +62,27 @@ class SettingsActivity : BaseActivity() {
                 showImportOptions()
             }
 
-            initPreference("crash_reporting") { newValue ->
+            initPreference("privacy_policy") {
+                (activity as BaseActivity).destroyer.own(
+                        HelpDialogBuilder(activity)
+                                .title(R.string.title_privacy_policy)
+                                .message(R.string.privacy_policy)
+                                .build()
+                                .show()
+                )
+            }
+
+            initListPreference("crash_reporting") { newValue ->
                 CrashReporting.enabled = newValue != "false"
             }
 
-            findPreference("version").let {
+            initPreference("version") {
+                ChangeLogDialog(activity, false).show()
+            }.let {
                 it.summary = try {
                     activity.packageManager.getPackageInfo(activity.packageName, 0).versionName
                 } catch (e: NameNotFoundException) {
                     "???"
-                }
-                it.onPreferenceClickListener = OnPreferenceClickListener {
-                    ChangeLogDialog(activity, false).show()
-                    true
                 }
             }
 
@@ -93,19 +103,24 @@ class SettingsActivity : BaseActivity() {
             }
         }
 
-        private fun initPreference(key: String, action: (newValue: Any) -> Unit = {}) {
-            findPreference(key).let {
-                it.onPreferenceChangeListener = OnPreferenceChangeListener { _, newValue ->
-                    if (it is ListPreference) {
-                        updateSummary(it, newValue)
-                    }
-                    action(newValue)
-                    true
-                }
-                if (it is ListPreference) {
-                    updateSummary(it, null)
-                }
+        private fun initPreference(key: String, action: () -> Unit = {}): Preference {
+            val preference = findPreference(key)
+            preference.onPreferenceClickListener = OnPreferenceClickListener {
+                action()
+                true
             }
+            return preference
+        }
+
+        private fun initListPreference(key: String, action: (newValue: Any) -> Unit = {}): ListPreference {
+            val preference = findPreference(key) as ListPreference
+            preference.onPreferenceChangeListener = OnPreferenceChangeListener { _, newValue ->
+                updateSummary(preference, newValue)
+                action(newValue)
+                true
+            }
+            updateSummary(preference, null)
+            return preference
         }
 
         private fun updateSummary(preference: ListPreference, value: Any?) {

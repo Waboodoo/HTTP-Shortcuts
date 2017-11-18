@@ -19,7 +19,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     internal var toolbar: Toolbar? = null
 
-    protected val destroyer = Destroyer()
+    val destroyer = Destroyer()
     private var themeHelper: ThemeHelper? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

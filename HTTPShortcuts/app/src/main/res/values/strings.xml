@@ -279,4 +279,8 @@
     <string name="label_no_delay">No delay</string>
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
     <string name="error_not_supported">This feature is not supported on your device.</string>
+    <!-- Title of section in settings that allows user to click to open privacy policy dialog -->
+    <string name="settings_privacy_policy">Privacy Policy</string>
+    <!-- Title of dialog that shows the privacy policy -->
+    <string name="title_privacy_policy">Privacy Policy</string>
 </resources>

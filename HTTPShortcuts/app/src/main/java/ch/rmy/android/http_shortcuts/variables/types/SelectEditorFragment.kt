@@ -34,14 +34,14 @@ class SelectEditorFragment : VariableEditorFragment() {
     }
 
     private fun createOptionView(option: Option, index: Int): View {
-        val optionView = getLayoutInflater(null).inflate(R.layout.select_option, selectOptionsList, false)
+        val optionView = layoutInflater.inflate(R.layout.select_option, selectOptionsList, false)
         (optionView.findViewById(R.id.select_option_label) as TextView).text = option.label
         optionView.setOnClickListener { showEditDialog(option, index) }
         return optionView
     }
 
     private fun showEditDialog(option: Option?, index: Int) {
-        val editorView = getLayoutInflater(null).inflate(R.layout.select_option_editor_item, null)
+        val editorView = layoutInflater.inflate(R.layout.select_option_editor_item, null)
         val labelInput = editorView.findViewById(R.id.select_option_label) as TextView
         val valueInput = editorView.findViewById(R.id.select_option_value) as TextView
 
