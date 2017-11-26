@@ -141,7 +141,7 @@
     <string name="settings_about">About this App</string>
     <string name="settings_version">Version number</string>
     <string name="settings_mail">Contact developer</string>
-    <string name="settings_mail_summary">Questions, feature requests, other comments, …</string>
+    <string name="settings_mail_summary">Questions, feature requests, feedback, …</string>
     <string name="settings_github">View on Github</string>
     <string name="settings_github_summary">That\'s right, this app is open-source</string>
     <string name="changelog_title_whats_new">What\'s new?</string>
@@ -281,6 +281,8 @@
     <string name="error_not_supported">This feature is not supported on your device.</string>
     <!-- Title of section in settings that allows user to click to open privacy policy dialog -->
     <string name="settings_privacy_policy">Privacy Policy</string>
+    <!-- Summary/subtitle of section in settings that allows user to click to open privacy policy dialog -->
+    <string name="settings_privacy_policy_summary">Nope, not stealing your data.</string>
     <!-- Title of dialog that shows the privacy policy -->
     <string name="title_privacy_policy">Privacy Policy</string>
 </resources>
