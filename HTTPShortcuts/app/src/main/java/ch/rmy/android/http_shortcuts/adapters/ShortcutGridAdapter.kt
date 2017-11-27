@@ -6,6 +6,7 @@ import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.icons.IconView
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
+import kotterknife.bindView
 
 class ShortcutGridAdapter(context: Context) : ShortcutAdapter(context) {
 
@@ -13,8 +14,8 @@ class ShortcutGridAdapter(context: Context) : ShortcutAdapter(context) {
 
     inner class ShortcutViewHolder(parent: ViewGroup) : BaseViewHolder<Shortcut>(parent, R.layout.shortcut_grid_item, this@ShortcutGridAdapter) {
 
-        internal var name = itemView.findViewById(R.id.name) as TextView
-        internal var icon = itemView.findViewById(R.id.icon) as IconView
+        private val name: TextView by bindView(R.id.name)
+        private val icon: IconView by bindView(R.id.icon)
 
         override fun updateViews(item: Shortcut) {
             name.text = item.name

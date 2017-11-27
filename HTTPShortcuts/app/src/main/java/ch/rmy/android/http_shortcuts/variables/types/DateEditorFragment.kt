@@ -28,7 +28,7 @@ class DateEditorFragment : VariableEditorFragment() {
         try {
             SimpleDateFormat(variable?.dataForType?.get(DateType.KEY_FORMAT)?.toString())
         } catch (e: Exception) {
-            MaterialDialog.Builder(context)
+            MaterialDialog.Builder(context!!)
                     .content(R.string.error_invalid_date_format)
                     .positiveText(R.string.dialog_ok)
                     .show()

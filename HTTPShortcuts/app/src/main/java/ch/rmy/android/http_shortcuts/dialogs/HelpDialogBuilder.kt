@@ -31,7 +31,7 @@ class HelpDialogBuilder(context: Context) {
     }
 
     fun message(@StringRes message: Int): HelpDialogBuilder {
-        val textView = view.findViewById(R.id.help_text) as TextView
+        val textView = view.findViewById<TextView>(R.id.help_text)
         textView.text = HTMLUtil.getHTML(view.context, message)
         textView.movementMethod = LinkMovementMethod.getInstance()
         return this

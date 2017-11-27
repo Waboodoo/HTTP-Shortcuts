@@ -14,7 +14,13 @@ import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Category
 import ch.rmy.android.http_shortcuts.realm.models.PendingExecution
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
-import ch.rmy.android.http_shortcuts.utils.*
+import ch.rmy.android.http_shortcuts.utils.GridLayoutManager
+import ch.rmy.android.http_shortcuts.utils.IntentUtil
+import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
+import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder
+import ch.rmy.android.http_shortcuts.utils.SelectionMode
+import ch.rmy.android.http_shortcuts.utils.Settings
+import ch.rmy.android.http_shortcuts.utils.ShortcutListDecorator
 import ch.rmy.curlcommand.CurlCommand
 import ch.rmy.curlcommand.CurlConstructor
 import com.afollestad.materialdialogs.MaterialDialog
@@ -44,7 +50,7 @@ class ListFragment : BaseFragment() {
     private val controller by lazy { Controller() }
     private val categories by lazy { controller.categories }
 
-    private val listDivider: RecyclerView.ItemDecoration by lazy { ShortcutListDecorator(context, R.drawable.list_divider) }
+    private val listDivider: RecyclerView.ItemDecoration by lazy { ShortcutListDecorator(context!!, R.drawable.list_divider) }
 
     private val shortcutChangeListener = RealmChangeListener<RealmList<Shortcut>> { shortcuts ->
         if (isVisible) {
@@ -57,7 +63,7 @@ class ListFragment : BaseFragment() {
             when (selectionMode) {
                 SelectionMode.HOME_SCREEN, SelectionMode.PLUGIN -> tabHost.selectShortcut(item)
                 else -> {
-                    val action = Settings(context).clickBehavior
+                    val action = Settings(context!!).clickBehavior
                     when (action) {
                         Settings.CLICK_BEHAVIOR_RUN -> executeShortcut(item)
                         Settings.CLICK_BEHAVIOR_EDIT -> editShortcut(item)
@@ -92,12 +98,12 @@ class ListFragment : BaseFragment() {
         val adapter: ShortcutAdapter
         when (category!!.layoutType) {
             Category.LAYOUT_GRID -> {
-                adapter = ShortcutGridAdapter(context)
-                manager = GridLayoutManager(context)
+                adapter = ShortcutGridAdapter(context!!)
+                manager = GridLayoutManager(context!!)
                 shortcutList.removeItemDecoration(listDivider)
             }
             else -> {
-                adapter = ShortcutListAdapter(context)
+                adapter = ShortcutListAdapter(context!!)
                 manager = LinearLayoutManager(context)
                 shortcutList.addItemDecoration(listDivider)
             }
@@ -115,7 +121,7 @@ class ListFragment : BaseFragment() {
         if (shortcutList.layoutManager is GridLayoutManager) {
             (shortcutList.layoutManager as GridLayoutManager).setEmpty(shortcuts.isEmpty())
         }
-        LauncherShortcutManager.updateAppShortcuts(context, controller.categories)
+        LauncherShortcutManager.updateAppShortcuts(context!!, controller.categories)
     }
 
     override fun onDestroy() {
@@ -136,7 +142,7 @@ class ListFragment : BaseFragment() {
     }
 
     private fun showContextMenu(shortcut: Shortcut) {
-        val builder = MenuDialogBuilder(context)
+        val builder = MenuDialogBuilder(context!!)
                 .title(shortcut.name!!)
                 .item(R.string.action_place, {
                     tabHost.placeShortcutOnHomeScreen(shortcut)
@@ -174,7 +180,7 @@ class ListFragment : BaseFragment() {
             controller.shortcutsPendingExecution.firstOrNull { it.shortcutId == shortcut.id }
 
     private fun executeShortcut(shortcut: Shortcut) {
-        val intent = IntentUtil.createIntent(context, shortcut.id)
+        val intent = IntentUtil.createIntent(context!!, shortcut.id)
         startActivity(intent)
     }
 
@@ -196,7 +202,7 @@ class ListFragment : BaseFragment() {
     }
 
     private fun openMoveDialog(shortcut: Shortcut) {
-        val builder = MenuDialogBuilder(context)
+        val builder = MenuDialogBuilder(context!!)
         if (canMoveShortcut(shortcut, -1)) {
             builder.item(R.string.action_move_up, {
                 moveShortcut(shortcut, -1)
@@ -240,7 +246,7 @@ class ListFragment : BaseFragment() {
             }
         }
 
-        MaterialDialog.Builder(context)
+        MaterialDialog.Builder(context!!)
                 .title(R.string.title_move_to_category)
                 .items(categoryNames)
                 .itemsCallback { _, _, which, _ ->
@@ -282,7 +288,7 @@ class ListFragment : BaseFragment() {
         val pendingExecution = getPendingExecution(shortcut) ?: return
         controller.removePendingExecution(pendingExecution)
         tabHost.showSnackbar(String.format(getString(R.string.pending_shortcut_execution_cancelled), shortcut.name))
-        ExecutionService.start(context)
+        ExecutionService.start(context!!)
     }
 
     private fun showCurlExportDialog(shortcut: Shortcut) {
@@ -313,14 +319,14 @@ class ListFragment : BaseFragment() {
         builder.data(shortcut.bodyContent)
 
         CurlExportDialog(
-                context,
-                shortcut.getSafeName(context),
+                context!!,
+                shortcut.getSafeName(context!!),
                 CurlConstructor.toCurlCommandString(builder.build())
         ).show()
     }
 
     private fun showDeleteDialog(shortcut: Shortcut) {
-        MaterialDialog.Builder(context)
+        MaterialDialog.Builder(context!!)
                 .content(R.string.confirm_delete_shortcut_message)
                 .positiveText(R.string.dialog_delete)
                 .onPositive { _, _ -> deleteShortcut(shortcut) }
@@ -332,7 +338,7 @@ class ListFragment : BaseFragment() {
         tabHost.showSnackbar(String.format(getString(R.string.shortcut_deleted), shortcut.name))
         tabHost.removeShortcutFromHomeScreen(shortcut)
         controller.deleteShortcut(shortcut)
-        ExecutionService.start(context)
+        ExecutionService.start(context!!)
     }
 
     private val tabHost: TabHost

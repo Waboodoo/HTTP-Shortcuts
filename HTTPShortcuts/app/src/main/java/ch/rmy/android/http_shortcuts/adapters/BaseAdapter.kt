@@ -71,7 +71,7 @@ abstract class BaseAdapter<T> internal constructor(val context: Context) : Recyc
 
         init {
             if (textRes != 0) {
-                (itemView.findViewById(R.id.empty_marker) as TextView).setText(textRes)
+                itemView.findViewById<TextView>(R.id.empty_marker).setText(textRes)
             }
         }
     }

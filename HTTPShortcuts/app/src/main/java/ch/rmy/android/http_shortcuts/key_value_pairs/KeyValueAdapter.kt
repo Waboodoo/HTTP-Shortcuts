@@ -22,10 +22,10 @@ internal class KeyValueAdapter<T : KeyValuePair>(context: Context) : ArrayAdapte
         }
 
         if (parameter != null) {
-            val keyView = row.findViewById(R.id.text_key) as TextView
+            val keyView = row.findViewById<TextView>(R.id.text_key)
             keyView.text = parameter.key
 
-            val valueView = row.findViewById(R.id.text_value) as TextView
+            val valueView = row.findViewById<TextView>(R.id.text_value)
             valueView.text = parameter.value
         }
         return row

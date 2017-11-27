@@ -5,19 +5,26 @@ import android.support.design.widget.TextInputLayout
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.Button
+import android.widget.EditText
+import android.widget.FrameLayout
+import android.widget.ListView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.utils.Destroyable
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.variables.VariableFormatter
 import com.afollestad.materialdialogs.MaterialDialog
+import kotterknife.bindView
 import java.util.*
 
 class KeyValueList<T : KeyValuePair> : FrameLayout, Destroyable {
 
-    internal var button: Button? = null
-    internal var listView: ListView? = null
+    private val button: Button by bindView(R.id.key_value_list_button)
+    private val listView: ListView by bindView(R.id.key_value_list)
 
     private var adapter: KeyValueAdapter<T>? = null
     private var factory: ((key: String, value: String) -> T)? = null
@@ -44,18 +51,16 @@ class KeyValueList<T : KeyValuePair> : FrameLayout, Destroyable {
     }
 
     private fun init() {
-        View.inflate(context, R.layout.key_value_list, this)
-        button = findViewById(R.id.key_value_list_button) as Button
-        listView = findViewById(R.id.key_value_list) as ListView
+        inflate(context, R.layout.key_value_list, this)
 
         controller = destroyer.own(Controller())
 
         adapter = KeyValueAdapter<T>(context)
-        listView!!.adapter = adapter
+        listView.adapter = adapter
 
-        button!!.setOnClickListener { showAddDialog() }
+        button.setOnClickListener { showAddDialog() }
 
-        listView!!.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+        listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
             val item = adapter!!.getItem(position)
             showEditDialog(item)
         }
@@ -139,7 +144,7 @@ class KeyValueList<T : KeyValuePair> : FrameLayout, Destroyable {
         }
 
     fun setButtonText(resId: Int) {
-        button!!.setText(resId)
+        button.setText(resId)
     }
 
     fun setAddDialogTitle(resId: Int) {
@@ -167,21 +172,21 @@ class KeyValueList<T : KeyValuePair> : FrameLayout, Destroyable {
     }
 
     private fun updateListViewHeightBasedOnChildren() {
-        val desiredWidth = View.MeasureSpec.makeMeasureSpec(listView!!.width, View.MeasureSpec.UNSPECIFIED)
+        val desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.width, View.MeasureSpec.UNSPECIFIED)
         var totalHeight = 0
         var view: View? = null
         for (i in 0..adapter!!.count - 1) {
-            view = adapter!!.getView(i, view, listView!!)
+            view = adapter!!.getView(i, view, listView)
             if (i == 0)
                 view.layoutParams = ViewGroup.LayoutParams(desiredWidth, ViewGroup.LayoutParams.WRAP_CONTENT)
 
             view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED)
             totalHeight += view.measuredHeight
         }
-        val params = listView!!.layoutParams
-        params.height = totalHeight + listView!!.dividerHeight * (adapter!!.count - 1)
-        listView!!.layoutParams = params
-        listView!!.requestLayout()
+        val params = listView.layoutParams
+        params.height = totalHeight + listView.dividerHeight * (adapter!!.count - 1)
+        listView.layoutParams = params
+        listView.requestLayout()
     }
 
     override fun destroy() {

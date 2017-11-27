@@ -28,7 +28,7 @@ class TimeEditorFragment : VariableEditorFragment() {
         try {
             SimpleDateFormat(variable?.dataForType?.get(TimeType.KEY_FORMAT)?.toString())
         } catch (e: Exception) {
-            MaterialDialog.Builder(context)
+            MaterialDialog.Builder(context!!)
                     .content(R.string.error_invalid_date_format)
                     .positiveText(R.string.dialog_ok)
                     .show()

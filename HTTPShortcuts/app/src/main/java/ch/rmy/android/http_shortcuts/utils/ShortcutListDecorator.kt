@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView
 
 class ShortcutListDecorator(context: Context, resId: Int) : RecyclerView.ItemDecoration() {
 
-    private val divider = ContextCompat.getDrawable(context, resId)
+    private val divider = ContextCompat.getDrawable(context, resId)!!
 
     override fun onDraw(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State?) {
         val paddingLeft = parent.paddingLeft

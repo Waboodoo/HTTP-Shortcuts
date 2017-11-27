@@ -10,7 +10,7 @@ import android.content.IntentFilter
 import android.graphics.BitmapFactory
 import android.net.ConnectivityManager
 import android.os.IBinder
-import android.support.v7.app.NotificationCompat
+import android.support.v4.app.NotificationCompat
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.MainActivity
 import ch.rmy.android.http_shortcuts.realm.Controller

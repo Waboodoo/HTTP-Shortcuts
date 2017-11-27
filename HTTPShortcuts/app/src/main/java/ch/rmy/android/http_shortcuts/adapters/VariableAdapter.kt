@@ -6,6 +6,7 @@ import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.ArrayUtil
+import kotterknife.bindView
 
 class VariableAdapter(context: Context) : BaseAdapter<Variable>(context) {
 
@@ -15,8 +16,8 @@ class VariableAdapter(context: Context) : BaseAdapter<Variable>(context) {
 
     inner class VariableViewHolder(parent: ViewGroup) : BaseViewHolder<Variable>(parent, R.layout.list_item_variable, this@VariableAdapter) {
 
-        internal var name = itemView.findViewById(R.id.name) as TextView
-        internal var type = itemView.findViewById(R.id.type) as TextView
+        private val name: TextView by bindView(R.id.name)
+        private val type: TextView by bindView(R.id.type)
 
         override fun updateViews(item: Variable) {
             name.text = item.key

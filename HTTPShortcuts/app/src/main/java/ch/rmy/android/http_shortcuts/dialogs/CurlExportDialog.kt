@@ -22,7 +22,7 @@ class CurlExportDialog(private val context: Context, private val title: String, 
                 .onNeutral { _, _ -> shareCurlExport() }
                 .show()
 
-        (view.findViewById(R.id.curl_export_textview) as TextView).text = curlCommand
+        view.findViewById<TextView>(R.id.curl_export_textview).text = curlCommand
     }
 
     private fun shareCurlExport() {

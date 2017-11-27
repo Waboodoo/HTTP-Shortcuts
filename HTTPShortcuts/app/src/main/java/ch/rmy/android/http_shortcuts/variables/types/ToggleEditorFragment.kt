@@ -24,7 +24,7 @@ class ToggleEditorFragment : VariableEditorFragment() {
     }
 
     private fun showAddDialog() {
-        MaterialDialog.Builder(context)
+        MaterialDialog.Builder(context!!)
                 .title(R.string.title_add_toggle_option)
                 .input(null, null) { _, input -> addNewOption(input.toString()) }
                 .show()
@@ -47,14 +47,14 @@ class ToggleEditorFragment : VariableEditorFragment() {
     }
 
     private fun createOptionView(option: Option, index: Int): View {
-        val optionView = getLayoutInflater(null).inflate(R.layout.toggle_option, toggleOptionsList, false)
-        (optionView.findViewById(R.id.toggle_option_value) as TextView).text = option.value
+        val optionView = getLayoutInflater().inflate(R.layout.toggle_option, toggleOptionsList, false)
+        optionView.findViewById<TextView>(R.id.toggle_option_value).text = option.value
         optionView.setOnClickListener { showEditDialog(option, index) }
         return optionView
     }
 
     private fun showEditDialog(option: Option, index: Int) {
-        MaterialDialog.Builder(context)
+        MaterialDialog.Builder(context!!)
                 .title(R.string.title_add_toggle_option)
                 .input(null, option.value) { _, input -> updateOption(option, input.toString()) }
                 .neutralText(R.string.dialog_remove)
@@ -74,7 +74,7 @@ class ToggleEditorFragment : VariableEditorFragment() {
 
     override fun validate(): Boolean {
         if (variable!!.options!!.size < 2) {
-            MaterialDialog.Builder(context)
+            MaterialDialog.Builder(context!!)
                     .content(R.string.error_not_enough_toggle_values)
                     .positiveText(R.string.dialog_ok)
                     .show()

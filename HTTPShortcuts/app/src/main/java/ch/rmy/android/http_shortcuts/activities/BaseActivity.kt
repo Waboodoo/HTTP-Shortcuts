@@ -30,7 +30,7 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun setContentView(layoutResID: Int) {
         setTheme(themeHelper!!.theme)
         super.setContentView(layoutResID)
-        toolbar = findViewById(R.id.toolbar) as Toolbar? ?: return
+        toolbar = findViewById<Toolbar?>(R.id.toolbar) ?: return
         updateStatusBarColor()
         setSupportActionBar(toolbar)
         if (navigateUpIcon != 0) {
@@ -55,7 +55,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     fun showSnackbar(message: CharSequence) {
-        val baseView = (findViewById(android.R.id.content) as ViewGroup).getChildAt(0)
+        val baseView = findViewById<ViewGroup>(android.R.id.content).getChildAt(0)
         Snackbar.make(baseView, message, Snackbar.LENGTH_SHORT).show()
     }
 

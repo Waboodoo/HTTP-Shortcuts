@@ -35,21 +35,21 @@ class SelectEditorFragment : VariableEditorFragment() {
 
     private fun createOptionView(option: Option, index: Int): View {
         val optionView = layoutInflater.inflate(R.layout.select_option, selectOptionsList, false)
-        (optionView.findViewById(R.id.select_option_label) as TextView).text = option.label
+        optionView.findViewById<TextView>(R.id.select_option_label).text = option.label
         optionView.setOnClickListener { showEditDialog(option, index) }
         return optionView
     }
 
     private fun showEditDialog(option: Option?, index: Int) {
         val editorView = layoutInflater.inflate(R.layout.select_option_editor_item, null)
-        val labelInput = editorView.findViewById(R.id.select_option_label) as TextView
-        val valueInput = editorView.findViewById(R.id.select_option_value) as TextView
+        val labelInput = editorView.findViewById<TextView>(R.id.select_option_label)
+        val valueInput = editorView.findViewById<TextView>(R.id.select_option_value)
 
         if (option != null) {
             labelInput.text = option.label
             valueInput.text = option.value
         }
-        var builder: MaterialDialog.Builder = MaterialDialog.Builder(context)
+        var builder: MaterialDialog.Builder = MaterialDialog.Builder(context!!)
                 .title(R.string.title_add_select_option)
                 .customView(editorView, true)
                 .positiveText(R.string.dialog_ok)
@@ -92,7 +92,7 @@ class SelectEditorFragment : VariableEditorFragment() {
 
     override fun validate(): Boolean {
         return if (variable!!.options!!.isEmpty()) {
-            MaterialDialog.Builder(context)
+            MaterialDialog.Builder(context!!)
                     .content(R.string.error_not_enough_select_values)
                     .positiveText(R.string.dialog_ok)
                     .show()

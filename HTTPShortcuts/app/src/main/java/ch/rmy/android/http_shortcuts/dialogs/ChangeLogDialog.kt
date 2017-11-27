@@ -32,8 +32,8 @@ class ChangeLogDialog(private val context: Context, private val whatsNew: Boolea
 
         val layoutInflater = LayoutInflater.from(context)
         val view = layoutInflater.inflate(R.layout.changelog_dialog, null)
-        val changelogText = view.findViewById(R.id.changelog_text) as TextView
-        val showAtStartupCheckbox = view.findViewById(R.id.checkbox_show_at_startup) as CheckBox
+        val changelogText = view.findViewById<TextView>(R.id.changelog_text)
+        val showAtStartupCheckbox = view.findViewById<CheckBox>(R.id.checkbox_show_at_startup)
 
         MaterialDialog.Builder(context)
                 .customView(view, false)
