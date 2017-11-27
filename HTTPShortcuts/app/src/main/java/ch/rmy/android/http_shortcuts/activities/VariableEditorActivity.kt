@@ -4,13 +4,18 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.CheckBox
 import android.widget.EditText
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Variable
-import ch.rmy.android.http_shortcuts.utils.*
+import ch.rmy.android.http_shortcuts.utils.ArrayUtil
+import ch.rmy.android.http_shortcuts.utils.GsonUtil
+import ch.rmy.android.http_shortcuts.utils.OnItemChosenListener
+import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils
+import ch.rmy.android.http_shortcuts.utils.SimpleTextWatcher
+import ch.rmy.android.http_shortcuts.utils.UIUtil
+import ch.rmy.android.http_shortcuts.utils.visible
 import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.android.http_shortcuts.variables.types.AsyncVariableType
 import ch.rmy.android.http_shortcuts.variables.types.TypeFactory
@@ -98,7 +103,7 @@ class VariableEditorActivity : BaseActivity() {
         val fragmentManager = supportFragmentManager
         fragment = variableType.getEditorFragment(fragmentManager)
 
-        titleView.visibility = if (variableType is AsyncVariableType && (variableType as AsyncVariableType).hasTitle()) View.VISIBLE else View.GONE
+        titleView.visible = variableType is AsyncVariableType && (variableType as AsyncVariableType).hasTitle()
 
         fragmentManager
                 .beginTransaction()

@@ -12,8 +12,6 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.LinearLayout
@@ -39,6 +37,7 @@ import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils
 import ch.rmy.android.http_shortcuts.utils.UIUtil
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils
 import ch.rmy.android.http_shortcuts.utils.Validation
+import ch.rmy.android.http_shortcuts.utils.visible
 import ch.rmy.android.http_shortcuts.variables.VariableFormatter
 import ch.rmy.curlcommand.CurlCommand
 import com.afollestad.materialdialogs.MaterialDialog
@@ -217,11 +216,10 @@ class EditorActivity : BaseActivity() {
 
     private fun updateUI() {
         iconView.setImageURI(shortcut.getIconURI(this), shortcut.iconName)
-        retryPolicyView.visibility = if (shortcut.isRetryAllowed()) VISIBLE else GONE
-        requestBodyContainer.visibility = if (shortcut.allowsBody()) VISIBLE else GONE
-        authenticationContainer.visibility = if (shortcut.usesAuthentication()) VISIBLE else GONE
-
-        launcherShortcutCheckbox.visibility = if (LauncherShortcutManager.supportsLauncherShortcuts()) VISIBLE else GONE
+        retryPolicyView.visible = shortcut.isRetryAllowed()
+        requestBodyContainer.visible = shortcut.allowsBody()
+        authenticationContainer.visible = shortcut.usesAuthentication()
+        launcherShortcutCheckbox.visible = LauncherShortcutManager.supportsLauncherShortcuts()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

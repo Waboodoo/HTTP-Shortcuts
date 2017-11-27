@@ -18,6 +18,7 @@ import ch.rmy.android.http_shortcuts.utils.CrashReporting
 import ch.rmy.android.http_shortcuts.utils.DateUtil
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
+import ch.rmy.android.http_shortcuts.utils.visible
 import ch.rmy.android.http_shortcuts.variables.ResolvedVariables
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import com.afollestad.materialdialogs.MaterialDialog
@@ -181,9 +182,9 @@ class ExecuteActivity : BaseActivity() {
                 }
             }
             Shortcut.FEEDBACK_ACTIVITY -> {
-                progressSpinner.visibility = View.VISIBLE
-                responseTextContainer.visibility = View.GONE
-                formattedResponseText.visibility = View.GONE
+                progressSpinner.visible = true
+                responseTextContainer.visible = false
+                formattedResponseText.visible = false
             }
         }
     }
@@ -200,7 +201,7 @@ class ExecuteActivity : BaseActivity() {
                 }
             }
             Shortcut.FEEDBACK_ACTIVITY -> {
-                progressSpinner.visibility = View.GONE
+                progressSpinner.visible = false
             }
         }
     }

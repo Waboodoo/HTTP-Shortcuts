@@ -10,7 +10,6 @@ import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.adapters.CategoryPagerAdapter
 import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog
@@ -21,6 +20,7 @@ import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.utils.SelectionMode
+import ch.rmy.android.http_shortcuts.utils.visible
 import kotterknife.bindView
 
 class MainActivity : BaseActivity(), ListFragment.TabHost {
@@ -78,7 +78,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     override fun onStart() {
         super.onStart()
         val categories = controller.categories
-        tabLayout.visibility = if (categories.size > 1) View.VISIBLE else View.GONE
+        tabLayout.visible = categories.size > 1
         if (viewPager.currentItem >= categories.size) {
             viewPager.currentItem = 0
         }
