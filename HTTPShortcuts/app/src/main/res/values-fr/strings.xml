@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: fr, French
  Exported by: Roland Meyer
- Exported at: Sun, 15 Oct 2017 13:54:54 +0200
+ Exported at: Tue, 28 Nov 2017 10:29:50 +0000
 -->
 <resources>
     <!-- The name of the app -->
@@ -279,4 +279,18 @@
     <string name="error_cannot_get_image_permission_denied">Impossible d\'utiliser l\'image comme icône. Permission refusée.</string>
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
     <string name="error_not_supported">Cette fonctionnalité n\'est pas prise en charge sur votre appareil.</string>
+    <!-- Section title on settings screen for privacy related settings -->
+    <string name="settings_title_privacy">Confidentialité</string>
+    <!-- Setting title for crash reporting settings, as part of privacy settings (opt-in/opt-out) -->
+    <string name="settings_crash_reporting">Crash Reporting</string>
+    <!-- Option for crash reporting opt in -->
+    <string name="settings_crash_reporting_allow">Send crash reports to help improve the app</string>
+    <!-- Option for crash reporting opt out -->
+    <string name="settings_crash_reporting_disallow">Don\'t send any crash reports</string>
+    <!-- Title of section in settings that allows user to click to open privacy policy dialog -->
+    <string name="settings_privacy_policy">Politique de Confidentialité</string>
+    <!-- Summary/subtitle of section in settings that allows user to click to open privacy policy dialog -->
+    <string name="settings_privacy_policy_summary">Nope, not stealing your data.</string>
+    <!-- Title of dialog that shows the privacy policy -->
+    <string name="title_privacy_policy">Politique de Confidentialité</string>
 </resources>
