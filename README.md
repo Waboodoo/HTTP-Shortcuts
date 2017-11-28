@@ -1,13 +1,16 @@
 # HTTP Shortcuts for Android
 <img src="./HTTPShortcuts/app/src/main/res/drawable-xxxhdpi/ic_launcher.png" align="right" style="margin-left: 1em;"/>
 
-![Version](https://img.shields.io/badge/version-1.17.6-green.svg)
+![Version](https://img.shields.io/badge/version-1.18.0-green.svg)
 
 A simple Android app that allows you to create shortcuts that can be placed on your home screen. Each shortcut, when clicked, triggers an HTTP request.
 
 <a href="https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts">
 <img alt="Get it on Google Play" src="http://steverichey.github.io/google-play-badge-svg/img/en_get.svg" width="280" />
 </a>
+
+
+Help me translate this app! Feel free to open a pull request to add new languages or to fix translation mistakes. Or contact me and I can grant you access to the translation tool.
 
 ## Features
 - HTTP and HTTPS
@@ -63,5 +66,3 @@ As opposed to Android's home screen widgets, home screen shortcuts are very limi
 - Chinese: [Kevin Mao](https://github.com/yuanrunmao)
 - French: [Flavien](https://github.com/Flavien06)
 - German: [Roland Meyer](https://github.com/Waboodoo)
-
-Help me translate this app, feel free to open a pull request to add new languages or to fix translation mistakes.
