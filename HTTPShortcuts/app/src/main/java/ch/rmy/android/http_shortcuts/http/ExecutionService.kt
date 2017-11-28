@@ -17,6 +17,7 @@ import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.PendingExecution
 import ch.rmy.android.http_shortcuts.utils.Connectivity
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
+import ch.rmy.android.http_shortcuts.utils.NotificationUtil
 import io.realm.RealmResults
 import java.util.*
 
@@ -88,7 +89,7 @@ class ExecutionService : Service() {
 
     private fun updateNotification(size: Int) {
         val intent = Intent(context, MainActivity::class.java)
-        val builder = NotificationCompat.Builder(context)
+        val builder = NotificationCompat.Builder(context, NotificationUtil.PENDING_SHORTCUTS_NOTIFICATION_CHANNEL)
                 .setContentTitle(getString(R.string.title_shortcuts_pending))
                 .setContentText(context.resources.getQuantityString(R.plurals.message_shortcuts_pending, size, size))
                 .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.ic_launcher))

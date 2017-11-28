@@ -285,4 +285,6 @@
     <string name="settings_privacy_policy_summary">Nope, not stealing your data.</string>
     <!-- Title of dialog that shows the privacy policy -->
     <string name="title_privacy_policy">Privacy Policy</string>
+    <!-- Name of notification channel used for displaying that shortcut executions are pending (e.g. waiting for network connection) -->
+    <string name="name_pending_shortcuts_channel">Pending Executions</string>
 </resources>

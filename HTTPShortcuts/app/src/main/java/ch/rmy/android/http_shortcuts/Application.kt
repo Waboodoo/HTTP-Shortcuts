@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts
 
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.utils.CrashReporting
+import ch.rmy.android.http_shortcuts.utils.NotificationUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
 import com.facebook.stetho.Stetho
 import com.uphyca.stetho_realm.RealmInspectorModulesProvider
@@ -21,6 +22,8 @@ class Application : android.app.Application() {
                         .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
                         .build()
         )
+
+        NotificationUtil.createChannels(this)
     }
 
 }
