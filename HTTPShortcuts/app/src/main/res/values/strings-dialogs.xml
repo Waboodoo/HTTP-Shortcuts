@@ -2,6 +2,13 @@
 <resources>
     <string name="changelog_text" translatable="false"><![CDATA[
         <p>
+            <b>Version 1.18.0</b><br>
+            - French translations<br>
+            - Fixed shortcut creation on Oreo<br>
+            - Added Privacy Policy & Crash Reporting opt-out<br>
+            - Minor bugfixes
+        </p>
+        <p>
             <b>Version 1.17.0</b><br>
             - New variable types: date & time<br>
             - Fixed/improved retry on failure<br>
