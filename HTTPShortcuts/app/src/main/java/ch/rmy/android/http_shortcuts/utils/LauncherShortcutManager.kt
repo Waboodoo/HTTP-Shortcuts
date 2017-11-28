@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.utils
 
 import android.content.Context
+import android.content.Intent
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.os.Build
@@ -42,7 +43,7 @@ object LauncherShortcutManager {
     @RequiresApi(Build.VERSION_CODES.N_MR1)
     private fun createLauncherShortcuts(context: Context, categories: Collection<Category>, max: Int): List<ShortcutInfo> {
         var count = 0
-        val launcherShortcuts = ArrayList<ShortcutInfo>()
+        val launcherShortcuts = mutableListOf<ShortcutInfo>()
         for (category in categories) {
             for (shortcut in category.shortcuts!!) {
                 if (shortcut.launcherShortcut) {
@@ -58,7 +59,7 @@ object LauncherShortcutManager {
     }
 
     @RequiresApi(Build.VERSION_CODES.N_MR1)
-    private fun createShortcutInfo(context: Context, shortcut: Shortcut, rank: Int): ShortcutInfo {
+    private fun createShortcutInfo(context: Context, shortcut: Shortcut, rank: Int = 0): ShortcutInfo {
         var builder: ShortcutInfo.Builder = ShortcutInfo.Builder(context, ID_PREFIX + shortcut.id)
                 .setShortLabel(shortcut.name)
                 .setLongLabel(shortcut.name)
@@ -69,6 +70,42 @@ object LauncherShortcutManager {
             builder = builder.setIcon(icon)
         }
         return builder.build()
+    }
+
+    fun supportsPinning(context: Context): Boolean {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            val shortcutManager = context.getSystemService(ShortcutManager::class.java)
+            if (shortcutManager.isRequestPinShortcutSupported) {
+                return true
+            }
+        }
+        return false
+    }
+
+    fun pinShortcut(context: Context, shortcut: Shortcut) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            val shortcutManager = context.getSystemService(ShortcutManager::class.java)
+            val shortcutInfo = createShortcutInfo(context, shortcut)
+            shortcutManager.requestPinShortcut(shortcutInfo, null)
+        }
+    }
+
+    fun createShortcutPinIntent(context: Context, shortcut: Shortcut): Intent {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            val shortcutManager = context.getSystemService(ShortcutManager::class.java)
+            val shortcutInfo = createShortcutInfo(context, shortcut)
+            return shortcutManager.createShortcutResultIntent(shortcutInfo)
+        }
+        throw RuntimeException()
+    }
+
+    fun updatePinnedShortcut(context: Context, shortcut: Shortcut) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            val shortcutManager = context.getSystemService(ShortcutManager::class.java)
+            val shortcutInfo = createShortcutInfo(context, shortcut)
+            val list = Collections.singletonList(shortcutInfo)
+            shortcutManager.updateShortcuts(list)
+        }
     }
 
 }

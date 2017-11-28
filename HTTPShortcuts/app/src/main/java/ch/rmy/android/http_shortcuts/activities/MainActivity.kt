@@ -18,6 +18,7 @@ import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Category
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
+import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.utils.SelectionMode
 import ch.rmy.android.http_shortcuts.utils.visible
@@ -135,7 +136,11 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     }
 
     private fun returnForHomeScreen(shortcut: Shortcut) {
-        val shortcutIntent = IntentUtil.getShortcutPlacementIntent(context, shortcut, true)
+        val shortcutIntent = if (LauncherShortcutManager.supportsPinning(context)) {
+            LauncherShortcutManager.createShortcutPinIntent(context, shortcut)
+        } else {
+            IntentUtil.getShortcutPlacementIntent(context, shortcut, true)
+        }
         setResult(Activity.RESULT_OK, shortcutIntent)
         finish()
     }
@@ -193,8 +198,12 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     }
 
     override fun placeShortcutOnHomeScreen(shortcut: Shortcut) {
-        sendBroadcast(IntentUtil.getShortcutPlacementIntent(context, shortcut, true))
-        showSnackbar(String.format(getString(R.string.shortcut_placed), shortcut.name))
+        if (LauncherShortcutManager.supportsPinning(context)) {
+            LauncherShortcutManager.pinShortcut(context, shortcut)
+        } else {
+            sendBroadcast(IntentUtil.getShortcutPlacementIntent(context, shortcut, true))
+            showSnackbar(String.format(getString(R.string.shortcut_placed), shortcut.name))
+        }
     }
 
     override fun removeShortcutFromHomeScreen(shortcut: Shortcut) {

@@ -256,7 +256,10 @@ class EditorActivity : BaseActivity() {
             returnIntent.putExtra(EXTRA_SHORTCUT_ID, persistedShortcut.id)
             setResult(Activity.RESULT_OK, returnIntent)
             val dialog = IconNameChangeDialog(this)
-            if (!oldShortcut.isNew && nameOrIconChanged() && dialog.shouldShow()) {
+            if (LauncherShortcutManager.supportsPinning(context)) {
+                LauncherShortcutManager.updatePinnedShortcut(context, persistedShortcut)
+                finish()
+            } else if (!oldShortcut.isNew && nameOrIconChanged() && dialog.shouldShow()) {
                 dialog.show(MaterialDialog.SingleButtonCallback { _, _ -> finish() })
             } else {
                 finish()
