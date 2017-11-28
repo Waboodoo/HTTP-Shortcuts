@@ -13,7 +13,7 @@ android {
     defaultConfig {
         applicationId "ch.rmy.android.http_shortcuts"
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionName rootProject.ext.versionName
         versionCode rootProject.ext.versionCode
         buildConfigField "String", "BUGSNAG_API_KEY", "\"${rootProject.ext.bugsnagAPIKey}\""
@@ -49,50 +49,55 @@ repositories {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    /* Support libraries */
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support:design:26.1.0'
+    implementation 'com.android.support:recyclerview-v7:26.1.0'
+    implementation 'com.android.support:support-annotations:26.1.0'
+    implementation 'com.android.support:cardview-v7:26.1.0'
     /* UI */
-    compile 'com.android.support:appcompat-v7:26.1.0'
-    compile 'com.android.support:design:26.1.0'
-    compile 'com.satsuware.lib:usefulviews:2.3.1'
-    compile 'com.github.castorflex.smoothprogressbar:library:1.1.0'
-    compile 'com.github.castorflex.smoothprogressbar:library-circular:1.1.0'
-    compile 'com.github.softwee:codeview-android:1.2.0'
+    implementation 'com.satsuware.lib:usefulviews:2.3.1'
+    implementation 'com.github.castorflex.smoothprogressbar:library:1.1.0'
+    implementation 'com.github.castorflex.smoothprogressbar:library-circular:1.1.0'
+    implementation 'com.github.softwee:codeview-android:1.2.0'
     /* Dialogs / Activities */
-    compile('com.afollestad.material-dialogs:core:0.9.6.0@aar') {
+    implementation('com.afollestad.material-dialogs:core:0.9.6.0@aar') {
         transitive = true
     }
-    compile('com.afollestad.material-dialogs:commons:0.9.6.0@aar') {
+    implementation('com.afollestad.material-dialogs:commons:0.9.6.0@aar') {
         transitive = true
     }
-    compile('com.pavelsikun:vintage-chroma:1.5') {
+    implementation('com.pavelsikun:vintage-chroma:1.5') {
         exclude group: 'com.android.support', module: 'preference-v7'
     }
-    compile 'com.nononsenseapps:filepicker:2.5.2'
-    compile('com.mikepenz:aboutlibraries:6.0.0@aar') {
+    implementation 'com.nononsenseapps:filepicker:2.5.2'
+    /* Acknowledgments */
+    implementation('com.mikepenz:aboutlibraries:6.0.0@aar') {
         transitive = true
     }
     /* Image selection */
-    compile 'com.siclo.ezphotopick:library:1.0.6'
+    implementation 'com.siclo.ezphotopick:library:1.0.6'
     /* HTTP & Network */
-    compile 'com.android.volley:volley:1.0.0'
-    compile 'com.squareup.okhttp3:okhttp:3.9.0'
-    compile 'com.facebook.stetho:stetho:1.5.0'
-    compile 'com.facebook.stetho:stetho-okhttp3:1.5.0'
-    compile 'com.uphyca:stetho_realm:2.0.0'
-    compile 'com.burgstaller:okhttp-digest:1.12'
-    compile 'org.apache.httpcomponents:httpcore:4.4.1'
+    implementation 'com.android.volley:volley:1.0.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.9.0'
+    implementation 'com.facebook.stetho:stetho:1.5.0'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
+    implementation 'com.uphyca:stetho_realm:2.0.0'
+    implementation 'com.burgstaller:okhttp-digest:1.12'
+    implementation 'org.apache.httpcomponents:httpcore:4.4.1'
     /* Tasker integration */
-    compile 'com.twofortyfouram:android-plugin-client-sdk-for-locale:4.0.3'
+    implementation 'com.twofortyfouram:android-plugin-client-sdk-for-locale:4.0.3'
     /* Crash Reporting */
-    compile 'com.bugsnag:bugsnag-android:4.0.0'
+    implementation 'com.bugsnag:bugsnag-android:4.0.0'
     /* cURL import & export */
-    compile project(path: ':curl_command')
+    implementation project(path: ':curl_command')
     /* Promises */
-    compile 'org.jdeferred:jdeferred-android-aar:1.2.4'
+    implementation 'org.jdeferred:jdeferred-android-aar:1.2.4'
     /* JSON serialization & deserialization */
-    compile 'com.google.code.gson:gson:2.8.0'
+    implementation 'com.google.code.gson:gson:2.8.0'
     /* Other */
-    compile 'io.reactivex:rxjava:1.1.0'
+    implementation 'io.reactivex:rxjava:1.1.0'
 }
 
 apply plugin: 'realm-android'
