@@ -107,8 +107,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/label_url"
-                    android:inputType="textNoSuggestions|textUri"
-                    android:maxLines="1"/>
+                    android:inputType="textNoSuggestions|textUri|textMultiLine"
+                    android:maxLines="8"/>
             </android.support.design.widget.TextInputLayout>
 
             <TextView

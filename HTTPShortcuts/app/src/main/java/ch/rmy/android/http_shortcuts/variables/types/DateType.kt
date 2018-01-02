@@ -14,9 +14,9 @@ import java.util.*
 
 internal class DateType : BaseVariableType(), AsyncVariableType {
 
-    override fun hasTitle() = false
+    override val hasTitle = false
 
-    override fun createDialog(context: Context, controller: Controller, variable: Variable, deferredValue: Deferred<String, Void, Void>): () -> Unit {
+    override fun createDialog(context: Context, controller: Controller, variable: Variable, deferredValue: Deferred<String, Unit, Unit>): () -> Unit {
         val calendar = getInitialDate(variable.value)
         val datePicker = DatePickerDialog(context, null, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
         datePicker.setButton(DialogInterface.BUTTON_POSITIVE, context.getString(R.string.button_ok),
@@ -28,13 +28,13 @@ internal class DateType : BaseVariableType(), AsyncVariableType {
                     newDate.set(year, month, day)
                     if (deferredValue.isPending) {
                         try {
-                            val dateFormat = SimpleDateFormat(variable.dataForType?.get(KEY_FORMAT)?.toString() ?: DEFAULT_FORMAT)
+                            val dateFormat = SimpleDateFormat(variable.dataForType[KEY_FORMAT] ?: DEFAULT_FORMAT, Locale.US)
                             deferredValue.resolve(dateFormat.format(newDate.time))
                             if (variable.rememberValue) {
                                 controller.setVariableValue(variable, DATE_FORMAT.format(newDate.time))
                             }
                         } catch (e: Exception) {
-                            deferredValue.reject(null)
+                            deferredValue.reject(Unit)
                         }
                     }
                 })
@@ -69,7 +69,6 @@ internal class DateType : BaseVariableType(), AsyncVariableType {
         const val DEFAULT_FORMAT = "yyyy-MM-dd"
 
         private val DATE_FORMAT = SimpleDateFormat("yyyy-MM-dd")
-
 
     }
 

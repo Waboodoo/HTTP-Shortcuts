@@ -2,9 +2,18 @@ package ch.rmy.android.http_shortcuts.realm
 
 import android.content.Context
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.realm.models.*
+import ch.rmy.android.http_shortcuts.realm.models.Base
+import ch.rmy.android.http_shortcuts.realm.models.Category
+import ch.rmy.android.http_shortcuts.realm.models.PendingExecution
+import ch.rmy.android.http_shortcuts.realm.models.ResolvedVariable
+import ch.rmy.android.http_shortcuts.realm.models.Shortcut
+import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.Destroyable
-import io.realm.*
+import io.realm.Case
+import io.realm.Realm
+import io.realm.RealmList
+import io.realm.RealmObject
+import io.realm.RealmResults
 import java.util.*
 
 class Controller : Destroyable {
@@ -238,8 +247,8 @@ class Controller : Destroyable {
                 defaultCategory.id = 1
 
                 val newBase = Base()
-                newBase.categories = RealmList<Category>()
-                newBase.variables = RealmList<Variable>()
+                newBase.categories = RealmList()
+                newBase.variables = RealmList()
                 newBase.categories!!.add(defaultCategory)
                 realm.copyToRealm(newBase)
             }

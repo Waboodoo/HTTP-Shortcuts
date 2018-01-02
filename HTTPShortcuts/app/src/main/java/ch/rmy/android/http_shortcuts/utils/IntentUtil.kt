@@ -56,6 +56,7 @@ object IntentUtil {
         return HashMap()
     }
 
+    @Suppress("DEPRECATION")
     fun getShortcutPlacementIntent(context: Context, shortcut: Shortcut, install: Boolean): Intent {
         val shortcutIntent = IntentUtil.createIntent(context, shortcut.id)
         val addIntent = Intent()

@@ -12,9 +12,9 @@ import java.util.*
 
 internal class TimeType : BaseVariableType(), AsyncVariableType {
 
-    override fun hasTitle() = false
+    override val hasTitle = false
 
-    override fun createDialog(context: Context, controller: Controller, variable: Variable, deferredValue: Deferred<String, Void, Void>): () -> Unit {
+    override fun createDialog(context: Context, controller: Controller, variable: Variable, deferredValue: Deferred<String, Unit, Unit>): () -> Unit {
         val calendar = getInitialTime(variable.value)
         val timePicker = TimePickerDialog(context, TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
             val newDate = Calendar.getInstance()
@@ -22,13 +22,13 @@ internal class TimeType : BaseVariableType(), AsyncVariableType {
             newDate.set(Calendar.MINUTE, minute)
             if (deferredValue.isPending) {
                 try {
-                    val dateFormat = SimpleDateFormat(variable.dataForType?.get(KEY_FORMAT)?.toString() ?: DEFAULT_FORMAT)
+                    val dateFormat = SimpleDateFormat(variable.dataForType[KEY_FORMAT] ?: DEFAULT_FORMAT, Locale.US)
                     deferredValue.resolve(dateFormat.format(newDate.time))
                     if (variable.rememberValue) {
                         controller.setVariableValue(variable, DATE_FORMAT.format(newDate.time))
                     }
                 } catch (e: Exception) {
-                    deferredValue.reject(null)
+                    deferredValue.reject(Unit)
                 }
             }
         }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), DateFormat.is24HourFormat(context))
@@ -39,22 +39,22 @@ internal class TimeType : BaseVariableType(), AsyncVariableType {
             timePicker.show()
             timePicker.setOnDismissListener {
                 if (deferredValue.isPending) {
-                    deferredValue.reject(null)
+                    deferredValue.reject(Unit)
                 }
             }
         }
     }
 
-    private fun getInitialTime(previousValue: String?): Calendar {
-        val calendar = Calendar.getInstance()
-        if (previousValue != null) {
-            try {
-                calendar.time = DATE_FORMAT.parse(previousValue)
-            } catch (e: ParseException) {
-            }
-        }
-        return calendar
-    }
+    private fun getInitialTime(previousValue: String?) =
+            Calendar.getInstance()
+                    .also {
+                        if (previousValue != null) {
+                            try {
+                                it.time = DATE_FORMAT.parse(previousValue)
+                            } catch (e: ParseException) {
+                            }
+                        }
+                    }
 
     override fun createEditorFragment() = TimeEditorFragment()
 

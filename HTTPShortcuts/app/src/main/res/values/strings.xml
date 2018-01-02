@@ -205,6 +205,8 @@
     <string name="variable_type_constant">Constant</string>
     <string name="variable_type_text">Text Input</string>
     <string name="variable_type_number">Number Input</string>
+    <!-- Type of variable: Slider, i.e. a horizontal bar that allows to pick a number by sliding a knob left or right -->
+    <string name="variable_type_slider">Slider</string>
     <string name="variable_type_password">Password Input</string>
     <string name="variable_type_select">Selection</string>
     <string name="variable_type_toggle">Toggle</string>
@@ -287,4 +289,12 @@
     <string name="title_privacy_policy">Privacy Policy</string>
     <!-- Name of notification channel used for displaying that shortcut executions are pending (e.g. waiting for network connection) -->
     <string name="name_pending_shortcuts_channel">Pending Executions</string>
+    <!-- Label above input box, for minimum (numeric) value of a horizontal slider -->
+    <string name="label_variable_slider_min">Minimum</string>
+    <!-- Label above input box, for maximum (numeric) value of a horizontal slider -->
+    <string name="label_variable_slider_max">Maximum</string>
+    <!-- Label above input box, for step size (numeric) value of a horizontal slider -->
+    <string name="label_variable_slider_step">Step Size</string>
+    <!-- error message displayed when "Maximum" is lesser than or equal to "Minimum" for "slider" variable type -->
+    <string name="error_slider_max_not_greater_than_min">The maximum must be greater than the minimum.</string>
 </resources>

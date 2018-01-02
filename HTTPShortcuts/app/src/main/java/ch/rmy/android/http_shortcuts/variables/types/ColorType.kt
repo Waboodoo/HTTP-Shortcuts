@@ -13,9 +13,9 @@ import org.jdeferred.Deferred
 
 internal class ColorType : BaseVariableType(), AsyncVariableType {
 
-    override fun hasTitle() = false
+    override val hasTitle = false
 
-    override fun createDialog(context: Context, controller: Controller, variable: Variable, deferredValue: Deferred<String, Void, Void>): () -> Unit {
+    override fun createDialog(context: Context, controller: Controller, variable: Variable, deferredValue: Deferred<String, Unit, Unit>): () -> Unit {
         val dialog = ChromaDialog.Builder()
                 .initialColor(getInitialColor(variable))
                 .colorMode(ColorMode.RGB)
@@ -34,7 +34,7 @@ internal class ColorType : BaseVariableType(), AsyncVariableType {
             Handler().post {
                 dialog.dialog.setOnDismissListener {
                     if (deferredValue.isPending) {
-                        deferredValue.reject(null)
+                        deferredValue.reject(Unit)
                     }
                 }
             }

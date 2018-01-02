@@ -47,7 +47,7 @@ class VariableResolver(private val context: Context) {
             if (variableType is AsyncVariableType) {
                 val index = i++
 
-                val deferredValue = DeferredObject<String, Void, Void>()
+                val deferredValue = DeferredObject<String, Unit, Unit>()
                 deferredValue.done { result ->
                     builder.add(variable, result)
 

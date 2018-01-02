@@ -7,6 +7,7 @@ import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.realm.models.Option
 import ch.rmy.android.http_shortcuts.realm.models.Variable
+import ch.rmy.android.http_shortcuts.utils.showMessageDialog
 import com.afollestad.materialdialogs.MaterialDialog
 import kotterknife.bindView
 
@@ -26,10 +27,8 @@ class SelectEditorFragment : VariableEditorFragment() {
     override fun updateViews(variable: Variable) {
         this.variable = variable
         selectOptionsList.removeAllViews()
-        var i = 0
-        for (option in variable.options!!) {
+        variable.options!!.forEachIndexed { i, option ->
             selectOptionsList.addView(createOptionView(option, i))
-            i++
         }
     }
 
@@ -49,7 +48,7 @@ class SelectEditorFragment : VariableEditorFragment() {
             labelInput.text = option.label
             valueInput.text = option.value
         }
-        var builder: MaterialDialog.Builder = MaterialDialog.Builder(context!!)
+        MaterialDialog.Builder(context!!)
                 .title(R.string.title_add_select_option)
                 .customView(editorView, true)
                 .positiveText(R.string.dialog_ok)
@@ -63,14 +62,16 @@ class SelectEditorFragment : VariableEditorFragment() {
                     }
                 }
                 .negativeText(R.string.dialog_cancel)
-
-        if (option != null) {
-            builder = builder
-                    .neutralText(R.string.dialog_remove)
-                    .onNeutral { _, _ -> removeOption(index) }
-        }
-
-        builder.show()
+                .let {
+                    if (option != null) {
+                        it
+                                .neutralText(R.string.dialog_remove)
+                                .onNeutral { _, _ -> removeOption(index) }
+                    } else {
+                        it
+                    }
+                }
+                .show()
     }
 
     private fun addNewOption(label: String, value: String) {
@@ -92,10 +93,7 @@ class SelectEditorFragment : VariableEditorFragment() {
 
     override fun validate(): Boolean {
         return if (variable!!.options!!.isEmpty()) {
-            MaterialDialog.Builder(context!!)
-                    .content(R.string.error_not_enough_select_values)
-                    .positiveText(R.string.dialog_ok)
-                    .show()
+            showMessageDialog(R.string.error_not_enough_select_values)
             false
         } else {
             true

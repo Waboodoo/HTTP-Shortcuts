@@ -7,13 +7,13 @@ import org.jdeferred.Deferred
 
 internal class SelectType : BaseVariableType(), AsyncVariableType {
 
-    override fun hasTitle() = true
+    override val hasTitle = true
 
-    override fun createDialog(context: Context, controller: Controller, variable: Variable, deferredValue: Deferred<String, Void, Void>): () -> Unit {
+    override fun createDialog(context: Context, controller: Controller, variable: Variable, deferredValue: Deferred<String, Unit, Unit>): () -> Unit {
         val items = variable.options!!.map { it.label!! }
 
         val builder = BaseVariableType.createDialogBuilder(context, variable, deferredValue)
-        builder.items(items)
+                .items(items)
                 .itemsCallback { _, _, which, _ ->
                     val value = variable.options!![which].value
                     deferredValue.resolve(value)

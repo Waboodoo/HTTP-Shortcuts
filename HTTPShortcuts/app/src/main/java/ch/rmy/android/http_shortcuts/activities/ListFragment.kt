@@ -78,8 +78,8 @@ class ListFragment : BaseFragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
         onCategoryChanged()
     }
 

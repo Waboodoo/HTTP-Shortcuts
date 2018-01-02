@@ -9,7 +9,7 @@ class ConstantEditorFragment : VariableEditorFragment() {
 
     override val layoutResource = R.layout.variable_editor_constant
 
-    val inputVariableValue: EditText by bindView(R.id.input_variable_value)
+    private val inputVariableValue: EditText by bindView(R.id.input_variable_value)
 
     override fun updateViews(variable: Variable) {
         inputVariableValue.setText(variable.value)

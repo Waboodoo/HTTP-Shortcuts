@@ -24,8 +24,6 @@ internal class ToggleType : BaseVariableType(), SyncVariableType {
         return variable.options!![index].value!!
     }
 
-    override fun createEditorFragment(): VariableEditorFragment {
-        return ToggleEditorFragment()
-    }
+    override fun createEditorFragment() = ToggleEditorFragment()
 
 }

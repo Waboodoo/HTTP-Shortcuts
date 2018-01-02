@@ -103,7 +103,7 @@ class VariableEditorActivity : BaseActivity() {
         val fragmentManager = supportFragmentManager
         fragment = variableType.getEditorFragment(fragmentManager)
 
-        titleView.visible = variableType is AsyncVariableType && (variableType as AsyncVariableType).hasTitle()
+        titleView.visible = (variableType as? AsyncVariableType)?.hasTitle == true
 
         fragmentManager
                 .beginTransaction()

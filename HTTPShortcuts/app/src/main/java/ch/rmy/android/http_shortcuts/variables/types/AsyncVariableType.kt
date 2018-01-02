@@ -7,8 +7,8 @@ import org.jdeferred.Deferred
 
 interface AsyncVariableType {
 
-    fun createDialog(context: Context, controller: Controller, variable: Variable, deferredValue: Deferred<String, Void, Void>): () -> Unit
+    fun createDialog(context: Context, controller: Controller, variable: Variable, deferredValue: Deferred<String, Unit, Unit>): () -> Unit
 
-    fun hasTitle(): Boolean
+    val hasTitle: Boolean
 
 }

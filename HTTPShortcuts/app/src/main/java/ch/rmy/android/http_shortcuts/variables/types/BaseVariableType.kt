@@ -20,20 +20,18 @@ abstract class BaseVariableType {
         return createEditorFragment()
     }
 
-    protected open fun createEditorFragment(): VariableEditorFragment {
-        return VariableEditorFragment()
-    }
+    protected open fun createEditorFragment() = VariableEditorFragment()
 
     companion object {
 
-        internal fun createDialogBuilder(context: Context, variable: Variable, deferred: Deferred<String, Void, Void>): MaterialDialog.Builder {
+        internal fun createDialogBuilder(context: Context, variable: Variable, deferred: Deferred<String, Unit, Unit>): MaterialDialog.Builder {
             val dialogBuilder = MaterialDialog.Builder(context)
             if (!TextUtils.isEmpty(variable.title)) {
                 dialogBuilder.title(variable.title!!)
             }
             dialogBuilder.dismissListener {
                 if (deferred.isPending) {
-                    deferred.reject(null)
+                    deferred.reject(Unit)
                 }
             }
             return dialogBuilder

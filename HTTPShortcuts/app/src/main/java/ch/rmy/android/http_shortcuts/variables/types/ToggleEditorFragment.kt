@@ -7,6 +7,7 @@ import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.realm.models.Option
 import ch.rmy.android.http_shortcuts.realm.models.Variable
+import ch.rmy.android.http_shortcuts.utils.showMessageDialog
 import com.afollestad.materialdialogs.MaterialDialog
 import kotterknife.bindView
 
@@ -39,15 +40,13 @@ class ToggleEditorFragment : VariableEditorFragment() {
     override fun updateViews(variable: Variable) {
         this.variable = variable
         toggleOptionsList.removeAllViews()
-        var i = 0
-        for (option in variable.options!!) {
+        variable.options!!.forEachIndexed { i, option ->
             toggleOptionsList.addView(createOptionView(option, i))
-            i++
         }
     }
 
     private fun createOptionView(option: Option, index: Int): View {
-        val optionView = getLayoutInflater().inflate(R.layout.toggle_option, toggleOptionsList, false)
+        val optionView = layoutInflater.inflate(R.layout.toggle_option, toggleOptionsList, false)
         optionView.findViewById<TextView>(R.id.toggle_option_value).text = option.value
         optionView.setOnClickListener { showEditDialog(option, index) }
         return optionView
@@ -74,10 +73,7 @@ class ToggleEditorFragment : VariableEditorFragment() {
 
     override fun validate(): Boolean {
         if (variable!!.options!!.size < 2) {
-            MaterialDialog.Builder(context!!)
-                    .content(R.string.error_not_enough_toggle_values)
-                    .positiveText(R.string.dialog_ok)
-                    .show()
+            showMessageDialog(R.string.error_not_enough_toggle_values)
             return false
         }
         return true

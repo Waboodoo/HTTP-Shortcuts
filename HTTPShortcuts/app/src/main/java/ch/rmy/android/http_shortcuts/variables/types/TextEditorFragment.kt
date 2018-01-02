@@ -9,7 +9,7 @@ class TextEditorFragment : VariableEditorFragment() {
 
     override val layoutResource = R.layout.variable_editor_text
 
-    val inputRememberValue: CheckBox by bindView(R.id.input_remember_value)
+    private val inputRememberValue: CheckBox by bindView(R.id.input_remember_value)
 
     override fun updateViews(variable: Variable) {
         inputRememberValue.isChecked = variable.rememberValue

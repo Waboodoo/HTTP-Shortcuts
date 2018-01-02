@@ -6,7 +6,6 @@ import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.Required
-import java.util.*
 
 
 open class Variable : RealmObject(), HasId {
@@ -44,9 +43,8 @@ open class Variable : RealmObject(), HasId {
             flags = flags and FLAG_SHARE_TEXT.inv()
         }
 
-    fun isResetAfterUse(): Boolean {
-        return !rememberValue && (TYPE_TEXT == type || TYPE_NUMBER == type || TYPE_PASSWORD == type || TYPE_COLOR == type)
-    }
+    fun isResetAfterUse(): Boolean =
+            !rememberValue && type in listOf(TYPE_TEXT, TYPE_NUMBER, TYPE_PASSWORD, TYPE_COLOR, TYPE_SLIDER)
 
     fun isSameAs(other: Variable): Boolean {
         if (other.key != key ||
@@ -63,12 +61,10 @@ open class Variable : RealmObject(), HasId {
         return true
     }
 
-    var dataForType: Map<String, Any?>?
-        get() {
-            return GsonUtil.fromJsonString<Map<String, Any?>>(data).get(type!!)
-        }
+    var dataForType: Map<String, String?>
+        get() = GsonUtil.fromJsonString<Map<String, String?>>(data)[type!!]?.toMap() ?: emptyMap()
         set(value) {
-            val dataMap = HashMap(GsonUtil.fromJsonString<Map<String, Any?>>(data))
+            val dataMap = GsonUtil.fromJsonString<Map<String, String?>>(data).toMutableMap()
             dataMap.put(type!!, value)
             data = GsonUtil.toJson(dataMap)
         }
@@ -86,9 +82,10 @@ open class Variable : RealmObject(), HasId {
         const val TYPE_COLOR = "color"
         const val TYPE_DATE = "date"
         const val TYPE_TIME = "time"
+        const val TYPE_SLIDER = "slider"
 
-        val TYPE_OPTIONS = arrayOf(TYPE_CONSTANT, TYPE_TEXT, TYPE_NUMBER, TYPE_PASSWORD, TYPE_DATE, TYPE_TIME, TYPE_COLOR, TYPE_SELECT, TYPE_TOGGLE)
-        val TYPE_RESOURCES = intArrayOf(R.string.variable_type_constant, R.string.variable_type_text, R.string.variable_type_number, R.string.variable_type_password, R.string.variable_type_date, R.string.variable_type_time, R.string.variable_type_color, R.string.variable_type_select, R.string.variable_type_toggle)
+        val TYPE_OPTIONS = arrayOf(TYPE_CONSTANT, TYPE_TEXT, TYPE_NUMBER, TYPE_PASSWORD, TYPE_DATE, TYPE_TIME, TYPE_COLOR, TYPE_SELECT, TYPE_TOGGLE, TYPE_SLIDER)
+        val TYPE_RESOURCES = intArrayOf(R.string.variable_type_constant, R.string.variable_type_text, R.string.variable_type_number, R.string.variable_type_password, R.string.variable_type_date, R.string.variable_type_time, R.string.variable_type_color, R.string.variable_type_select, R.string.variable_type_toggle, R.string.variable_type_slider)
 
         private const val FLAG_SHARE_TEXT = 0x1
 
