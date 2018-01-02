@@ -2,6 +2,10 @@
 <resources>
     <string name="changelog_text" translatable="false"><![CDATA[
         <p>
+            <b>Version 1.19.0</b><br>
+            - New variable type: slider
+        </p>
+        <p>
             <b>Version 1.18.0</b><br>
             - French translations<br>
             - Fixed shortcut creation on Oreo<br>
@@ -159,6 +163,10 @@
         <p>
             <u>Text, Number and Password</u><br>
             The <i>text</i>, <i>number</i> and <i>password</i> types trigger a prompt dialog where a value can be entered into a text field.
+        </p>
+        <p>
+            <u>Slider</u><br>
+            The <i>slider</i> type is similar to the <i>number</i>. It allows you to pick a number. However, the number is entered using a horizontal slider, for which you can define the minimum and maximum value, as well as the step size.
         </p>
         <p>
             <u>Date and Time</u><br>
