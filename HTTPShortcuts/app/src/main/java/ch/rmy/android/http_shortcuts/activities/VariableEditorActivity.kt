@@ -14,7 +14,8 @@ import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.OnItemChosenListener
 import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils
 import ch.rmy.android.http_shortcuts.utils.SimpleTextWatcher
-import ch.rmy.android.http_shortcuts.utils.UIUtil
+import ch.rmy.android.http_shortcuts.utils.fix
+import ch.rmy.android.http_shortcuts.utils.focus
 import ch.rmy.android.http_shortcuts.utils.visible
 import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.android.http_shortcuts.variables.types.AsyncVariableType
@@ -26,12 +27,12 @@ import kotterknife.bindView
 
 class VariableEditorActivity : BaseActivity() {
 
-    internal val typeSpinner: LabelledSpinner by bindView(R.id.input_variable_type)
-    internal val keyView: EditText by bindView(R.id.input_variable_key)
-    internal val titleView: EditText by bindView(R.id.input_variable_title)
-    internal val urlEncode: CheckBox by bindView(R.id.input_url_encode)
-    internal val jsonEncode: CheckBox by bindView(R.id.input_json_encode)
-    internal val allowShare: CheckBox by bindView(R.id.input_allow_share)
+    private val typeSpinner: LabelledSpinner by bindView(R.id.input_variable_type)
+    private val keyView: EditText by bindView(R.id.input_variable_key)
+    private val titleView: EditText by bindView(R.id.input_variable_title)
+    private val urlEncode: CheckBox by bindView(R.id.input_url_encode)
+    private val jsonEncode: CheckBox by bindView(R.id.input_json_encode)
+    private val allowShare: CheckBox by bindView(R.id.input_allow_share)
 
     private val controller by lazy { destroyer.own(Controller()) }
     private lateinit var variable: Variable
@@ -77,7 +78,7 @@ class VariableEditorActivity : BaseActivity() {
         })
 
         typeSpinner.setItemsArray(ShortcutUIUtils.getVariableTypeOptions(context))
-        UIUtil.fixLabelledSpinner(typeSpinner)
+        typeSpinner.fix()
         typeSpinner.setSelection(ArrayUtil.findIndex(Variable.TYPE_OPTIONS, variable.type!!))
 
         urlEncode.isChecked = variable.urlEncode
@@ -148,7 +149,7 @@ class VariableEditorActivity : BaseActivity() {
     private fun confirmClose() {
         compileVariable()
         if (hasChanges()) {
-            MaterialDialog.Builder(this)
+            MaterialDialog.Builder(context)
                     .content(R.string.confirm_discard_changes_message)
                     .positiveText(R.string.dialog_discard)
                     .onPositive { _, _ -> finish() }
@@ -170,9 +171,7 @@ class VariableEditorActivity : BaseActivity() {
     }
 
     private fun compileVariable() {
-        if (fragment != null) {
-            fragment!!.compileIntoVariable(variable)
-        }
+        fragment?.compileIntoVariable(variable)
         variable.title = titleView.text.toString().trim { it <= ' ' }
         variable.key = keyView.text.toString().trim { it <= ' ' }
         variable.type = Variable.TYPE_OPTIONS[typeSpinner.spinner.selectedItemPosition]
@@ -184,13 +183,13 @@ class VariableEditorActivity : BaseActivity() {
     private fun validate(): Boolean {
         if (variable.key!!.isEmpty()) {
             keyView.error = getString(R.string.validation_key_non_empty)
-            UIUtil.focus(keyView)
+            keyView.focus()
             return false
         }
         val otherVariable = controller.getVariableByKey(variable.key!!)
         if (otherVariable != null && otherVariable.id != variable.id) {
             keyView.error = getString(R.string.validation_key_already_exists)
-            UIUtil.focus(keyView)
+            keyView.focus()
             return false
         }
         return fragment == null || fragment!!.validate()
@@ -206,6 +205,7 @@ class VariableEditorActivity : BaseActivity() {
 
         const val EXTRA_VARIABLE_ID = "ch.rmy.android.http_shortcuts.activities.VariableEditorActivity.variable_id"
         private const val STATE_JSON_VARIABLE = "variable_json"
+
     }
 
 }

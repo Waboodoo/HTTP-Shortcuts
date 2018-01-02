@@ -118,17 +118,13 @@ class ListFragment : BaseFragment() {
     }
 
     private fun onShortcutsChanged(shortcuts: List<Shortcut>) {
-        if (shortcutList.layoutManager is GridLayoutManager) {
-            (shortcutList.layoutManager as GridLayoutManager).setEmpty(shortcuts.isEmpty())
-        }
+        (shortcutList.layoutManager as? GridLayoutManager)?.setEmpty(shortcuts.isEmpty())
         LauncherShortcutManager.updateAppShortcuts(context!!, controller.categories)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        if (category != null) {
-            category!!.shortcuts!!.removeAllChangeListeners()
-        }
+        category?.shortcuts!!.removeAllChangeListeners()
         controller.destroy()
     }
 
@@ -313,7 +309,6 @@ class ListFragment : BaseFragment() {
             } catch (e: UnsupportedEncodingException) {
 
             }
-
         }
 
         builder.data(shortcut.bodyContent)

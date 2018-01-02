@@ -56,17 +56,18 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     }
 
     private fun showCreateOptions() {
-        MenuDialogBuilder(this)
+        MenuDialogBuilder(context)
                 .item(R.string.button_create_new, {
                     openEditorForCreation()
                 })
                 .item(R.string.button_curl_import, {
                     openCurlImport()
-                }).show()
+                })
+                .show()
     }
 
     private fun openEditorForCreation() {
-        val intent = Intent(this, EditorActivity::class.java)
+        val intent = Intent(context, EditorActivity::class.java)
         startActivityForResult(intent, REQUEST_CREATE_SHORTCUT)
     }
 
@@ -87,7 +88,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     }
 
     private fun checkChangeLog() {
-        val changeLog = ChangeLogDialog(this, true)
+        val changeLog = ChangeLogDialog(context, true)
         if (changeLog.shouldShow()) {
             changeLog.show()
         }
@@ -178,22 +179,22 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
             }
 
     private fun openSettings() {
-        val intent = Intent(this, SettingsActivity::class.java)
+        val intent = Intent(context, SettingsActivity::class.java)
         startActivityForResult(intent, SettingsActivity.REQUEST_SETTINGS)
     }
 
     private fun openCategoriesEditor() {
-        val intent = Intent(this, CategoriesActivity::class.java)
+        val intent = Intent(context, CategoriesActivity::class.java)
         startActivity(intent)
     }
 
     private fun openVariablesEditor() {
-        val intent = Intent(this, VariablesActivity::class.java)
+        val intent = Intent(context, VariablesActivity::class.java)
         startActivity(intent)
     }
 
     private fun openCurlImport() {
-        val intent = Intent(this, CurlImportActivity::class.java)
+        val intent = Intent(context, CurlImportActivity::class.java)
         startActivityForResult(intent, REQUEST_CREATE_SHORTCUT)
     }
 
@@ -216,5 +217,6 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
         const val EXTRA_SELECTION_NAME = "ch.rmy.android.http_shortcuts.shortcut_name"
 
         private const val REQUEST_CREATE_SHORTCUT = 1
+
     }
 }

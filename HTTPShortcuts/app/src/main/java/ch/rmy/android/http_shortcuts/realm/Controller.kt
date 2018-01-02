@@ -242,7 +242,7 @@ class Controller : Destroyable {
 
         private fun setupBase(context: Context, realm: Realm) {
             val defaultCategoryName = context.getString(R.string.shortcuts)
-            realm.executeTransaction { realm ->
+            realm.executeTransaction {
                 val defaultCategory = Category.createNew(defaultCategoryName)
                 defaultCategory.id = 1
 

@@ -53,9 +53,8 @@ abstract class BaseAdapter<T> internal constructor(val context: Context) : Recyc
     protected val isEmpty: Boolean
         get() = count == 0
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == TYPE_EMPTY_MARKER) EmptyMarkerViewHolder(parent, emptyMarkerStringResource) else createViewHolder(parent)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
+            if (viewType == TYPE_EMPTY_MARKER) EmptyMarkerViewHolder(parent, emptyMarkerStringResource) else createViewHolder(parent)
 
     protected abstract fun createViewHolder(parentView: ViewGroup): BaseViewHolder<*>
 

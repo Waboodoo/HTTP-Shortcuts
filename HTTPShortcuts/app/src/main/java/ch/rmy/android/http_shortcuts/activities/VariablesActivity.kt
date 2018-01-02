@@ -39,13 +39,13 @@ class VariablesActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_variables)
 
-        val adapter = destroyer.own(VariableAdapter(this))
+        val adapter = destroyer.own(VariableAdapter(context))
         adapter.setItems(controller.base.variables!!)
 
-        val manager = LinearLayoutManager(this)
+        val manager = LinearLayoutManager(context)
         variableList.layoutManager = manager
         variableList.setHasFixedSize(true)
-        variableList.addItemDecoration(ShortcutListDecorator(this, R.drawable.list_divider))
+        variableList.addItemDecoration(ShortcutListDecorator(context, R.drawable.list_divider))
         variableList.adapter = adapter
 
         adapter.clickListener = clickedListener
@@ -54,29 +54,30 @@ class VariablesActivity : BaseActivity() {
     }
 
     private fun openEditorForCreation() {
-        val intent = Intent(this, VariableEditorActivity::class.java)
+        val intent = Intent(context, VariableEditorActivity::class.java)
         startActivity(intent)
     }
 
     private fun editVariable(variable: Variable) {
-        val intent = Intent(this, VariableEditorActivity::class.java)
+        val intent = Intent(context, VariableEditorActivity::class.java)
         intent.putExtra(VariableEditorActivity.EXTRA_VARIABLE_ID, variable.id)
         startActivity(intent)
     }
 
     private fun showContextMenu(variable: Variable) {
-        MenuDialogBuilder(this)
+        MenuDialogBuilder(context)
                 .title(variable.key!!)
                 .item(R.string.action_edit, {
                     editVariable(variable)
                 })
                 .item(R.string.action_delete, {
                     showDeleteDialog(variable)
-                }).show()
+                })
+                .show()
     }
 
     private fun showDeleteDialog(variable: Variable) {
-        MaterialDialog.Builder(this)
+        MaterialDialog.Builder(context)
                 .content(R.string.confirm_delete_variable_message)
                 .positiveText(R.string.dialog_delete)
                 .onPositive { _, _ -> deleteVariable(variable) }
@@ -104,7 +105,7 @@ class VariablesActivity : BaseActivity() {
 
     private fun showHelp() {
         destroyer.own(
-                HelpDialogBuilder(this)
+                HelpDialogBuilder(context)
                         .title(R.string.help_title_variables)
                         .message(R.string.help_variables)
                         .build()

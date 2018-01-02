@@ -8,7 +8,7 @@ import java.util.*
 
 class MenuDialogBuilder(context: Context) {
 
-    private val builder: MaterialDialog.Builder = MaterialDialog.Builder(context)
+    private val builder = MaterialDialog.Builder(context)
     private val names = ArrayList<CharSequence>()
     private val actions = ArrayList<() -> Unit>()
 
@@ -38,9 +38,12 @@ class MenuDialogBuilder(context: Context) {
     }
 
     fun show() {
-        builder.items(names).itemsCallback { _, _, which, _ ->
-            actions[which]()
-        }.show()
+        builder
+                .items(names)
+                .itemsCallback { _, _, which, _ ->
+                    actions[which]()
+                }
+                .show()
     }
 
 }

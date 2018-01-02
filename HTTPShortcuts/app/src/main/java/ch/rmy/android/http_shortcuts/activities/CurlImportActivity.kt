@@ -11,10 +11,15 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.utils.SimpleTextWatcher
 import ch.rmy.curlcommand.CurlParser
 import kotterknife.bindView
+import kotlin.properties.Delegates
 
 class CurlImportActivity : BaseActivity() {
 
-    private var commandEmpty = true
+    private var commandEmpty by Delegates.observable(true) { _, old, new ->
+        if (old != new) {
+            invalidateOptionsMenu()
+        }
+    }
 
     val curlCommand: EditText by bindView(R.id.curl_import_command)
 
@@ -24,17 +29,9 @@ class CurlImportActivity : BaseActivity() {
 
         curlCommand.addTextChangedListener(object : SimpleTextWatcher() {
             override fun afterTextChanged(s: Editable) {
-                checkIfCommandEmpty()
+                commandEmpty = curlCommand.text.isEmpty()
             }
         })
-    }
-
-    private fun checkIfCommandEmpty() {
-        val commandEmpty = curlCommand.text.isEmpty()
-        if (this.commandEmpty != commandEmpty) {
-            this.commandEmpty = commandEmpty
-            invalidateOptionsMenu()
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -58,7 +55,7 @@ class CurlImportActivity : BaseActivity() {
         val commandString = curlCommand.text.toString()
         val command = CurlParser.parse(commandString)
 
-        val intent = Intent(this, EditorActivity::class.java)
+        val intent = Intent(context, EditorActivity::class.java)
         intent.putExtra(EditorActivity.EXTRA_CURL_COMMAND, command)
         startActivityForResult(intent, REQUEST_CREATE_SHORTCUT)
     }

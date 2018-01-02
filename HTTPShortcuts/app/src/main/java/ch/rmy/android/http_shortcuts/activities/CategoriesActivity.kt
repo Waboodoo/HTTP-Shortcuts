@@ -36,13 +36,13 @@ class CategoriesActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_categories)
 
-        val adapter = destroyer.own(CategoryAdapter(this))
+        val adapter = destroyer.own(CategoryAdapter(context))
         adapter.setItems(controller.base.categories!!)
 
-        val manager = LinearLayoutManager(this)
+        val manager = LinearLayoutManager(context)
         categoryList.layoutManager = manager
         categoryList.setHasFixedSize(true)
-        categoryList.addItemDecoration(ShortcutListDecorator(this, R.drawable.list_divider))
+        categoryList.addItemDecoration(ShortcutListDecorator(context, R.drawable.list_divider))
         categoryList.adapter = adapter
 
         adapter.clickListener = clickedListener
@@ -51,10 +51,13 @@ class CategoriesActivity : BaseActivity() {
     }
 
     private fun openCreateDialog() {
-        MaterialDialog.Builder(this)
+        MaterialDialog.Builder(context)
                 .title(R.string.title_create_category)
                 .inputRange(NAME_MIN_LENGTH, NAME_MAX_LENGTH)
-                .input(getString(R.string.placeholder_category_name), null) { _, input -> createCategory(input.toString()) }.show()
+                .input(getString(R.string.placeholder_category_name), null) { _, input ->
+                    createCategory(input.toString())
+                }
+                .show()
     }
 
     private fun createCategory(name: String) {
@@ -63,13 +66,14 @@ class CategoriesActivity : BaseActivity() {
     }
 
     private fun showContextMenu(category: Category) {
-        val builder = MenuDialogBuilder(this)
+        val builder = MenuDialogBuilder(context)
                 .title(category.name!!)
                 .item(R.string.action_rename, {
                     showRenameDialog(category)
-                }).item(R.string.action_change_category_layout_type, {
-            showLayoutTypeDialog(category)
-        })
+                })
+                .item(R.string.action_change_category_layout_type, {
+                    showLayoutTypeDialog(category)
+                })
         if (canMoveCategory(category, -1)) {
             builder.item(R.string.action_move_up, {
                 moveCategory(category, -1)
@@ -93,7 +97,10 @@ class CategoriesActivity : BaseActivity() {
         MaterialDialog.Builder(this)
                 .title(R.string.title_rename_category)
                 .inputRange(NAME_MIN_LENGTH, NAME_MAX_LENGTH)
-                .input(getString(R.string.placeholder_category_name), category.name) { _, input -> renameCategory(category, input.toString()) }.show()
+                .input(getString(R.string.placeholder_category_name), category.name) { _, input ->
+                    renameCategory(category, input.toString())
+                }
+                .show()
     }
 
     private fun showLayoutTypeDialog(category: Category) {
@@ -135,7 +142,7 @@ class CategoriesActivity : BaseActivity() {
             deleteCategory(category)
             return
         }
-        MaterialDialog.Builder(this)
+        MaterialDialog.Builder(context)
                 .content(R.string.confirm_delete_category_message)
                 .positiveText(R.string.dialog_delete)
                 .onPositive { _, _ -> deleteCategory(category) }
@@ -152,5 +159,6 @@ class CategoriesActivity : BaseActivity() {
 
         private const val NAME_MIN_LENGTH = 1
         private const val NAME_MAX_LENGTH = 20
+
     }
 }

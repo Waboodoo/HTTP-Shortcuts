@@ -87,7 +87,7 @@ class ExecuteActivity : BaseActivity() {
 
     fun resolveVariablesAndExecute(variableValues: Map<String, String>, tryNumber: Int): Promise<ResolvedVariables, Void, Void> {
         val variables = controller.variables
-        return VariableResolver(this)
+        return VariableResolver(context)
                 .resolve(shortcut!!, variables, variableValues)
                 .done {
                     resolvedVariables ->
@@ -302,7 +302,7 @@ class ExecuteActivity : BaseActivity() {
 
         private const val TOAST_MAX_LENGTH = 400
 
-        private const val MAX_SHARE_LENGTH = 800000
+        private const val MAX_SHARE_LENGTH = 500000
 
         private fun truncateIfNeeded(string: String, maxLength: Int) =
                 if (string.length > maxLength) string.substring(0, maxLength) + "…" else string

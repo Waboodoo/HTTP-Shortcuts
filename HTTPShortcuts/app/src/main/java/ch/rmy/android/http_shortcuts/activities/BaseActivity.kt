@@ -13,7 +13,8 @@ import android.view.WindowManager
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.ThemeHelper
-import ch.rmy.android.http_shortcuts.utils.UIUtil
+import ch.rmy.android.http_shortcuts.utils.color
+import ch.rmy.android.http_shortcuts.utils.drawable
 
 abstract class BaseActivity : AppCompatActivity() {
 
@@ -45,8 +46,8 @@ abstract class BaseActivity : AppCompatActivity() {
     private fun enableNavigateUpButton(iconResource: Int) {
         val actionBar = supportActionBar ?: return
         actionBar.setDisplayHomeAsUpEnabled(true)
-        val upArrow = UIUtil.getDrawable(context, iconResource) ?: return
-        upArrow.setColorFilter(UIUtil.getColor(context, android.R.color.white), PorterDuff.Mode.SRC_ATOP)
+        val upArrow = drawable(context, iconResource) ?: return
+        upArrow.setColorFilter(color(context, android.R.color.white), PorterDuff.Mode.SRC_ATOP)
         actionBar.setHomeAsUpIndicator(upArrow)
     }
 

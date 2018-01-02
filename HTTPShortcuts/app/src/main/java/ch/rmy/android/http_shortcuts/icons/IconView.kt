@@ -6,7 +6,7 @@ import android.support.v7.widget.AppCompatImageView
 import android.util.AttributeSet
 
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.utils.UIUtil
+import ch.rmy.android.http_shortcuts.utils.clearBackground
 
 class IconView : AppCompatImageView {
 
@@ -29,13 +29,11 @@ class IconView : AppCompatImageView {
         if (requiresBackground()) {
             setBackgroundResource(R.drawable.icon_background)
         } else {
-            UIUtil.clearBackground(this)
+            clearBackground()
         }
     }
 
-    private fun requiresBackground(): Boolean {
-        return iconName?.startsWith("white_") ?: false
-    }
+    private fun requiresBackground() = iconName?.startsWith("white_") ?: false
 
     fun setImageURI(uri: Uri, iconName: String?) {
         setImageURI(uri)

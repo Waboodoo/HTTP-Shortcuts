@@ -1,13 +1,11 @@
 package ch.rmy.android.http_shortcuts.activities
 
 import android.annotation.SuppressLint
-import android.annotation.TargetApi
 import android.app.Activity
 import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.Menu
@@ -34,9 +32,10 @@ import ch.rmy.android.http_shortcuts.utils.IpackUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.OnItemChosenListener
 import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils
-import ch.rmy.android.http_shortcuts.utils.UIUtil
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils
 import ch.rmy.android.http_shortcuts.utils.Validation
+import ch.rmy.android.http_shortcuts.utils.fix
+import ch.rmy.android.http_shortcuts.utils.focus
 import ch.rmy.android.http_shortcuts.utils.visible
 import ch.rmy.android.http_shortcuts.variables.VariableFormatter
 import ch.rmy.curlcommand.CurlCommand
@@ -49,6 +48,7 @@ import siclo.com.ezphotopicker.api.models.EZPhotoPickConfig
 import siclo.com.ezphotopicker.api.models.PhotoSource
 import java.io.IOException
 import java.io.OutputStream
+import kotlin.math.max
 
 @SuppressLint("InflateParams")
 class EditorActivity : BaseActivity() {
@@ -158,12 +158,12 @@ class EditorActivity : BaseActivity() {
         bindVariableFormatter(customBodyView)
 
         methodView.setItemsArray(Shortcut.METHODS)
-        UIUtil.fixLabelledSpinner(methodView)
+        methodView.fix()
         methodView.onItemChosenListener = itemChosenListener
         methodView.setSelection(ArrayUtil.findIndex(Shortcut.METHODS, shortcut.method))
 
         authenticationView.setItemsArray(ShortcutUIUtils.getAuthenticationOptions(context))
-        UIUtil.fixLabelledSpinner(authenticationView)
+        authenticationView.fix()
         authenticationView.onItemChosenListener = itemChosenListener
         authenticationView.setSelection(ArrayUtil.findIndex(Shortcut.AUTHENTICATION_OPTIONS, shortcut.authentication!!))
 
@@ -186,22 +186,22 @@ class EditorActivity : BaseActivity() {
 
         feedbackView.setItemsArray(ShortcutUIUtils.getFeedbackOptions(context))
         feedbackView.onItemChosenListener = itemChosenListener
-        UIUtil.fixLabelledSpinner(feedbackView)
+        feedbackView.fix()
         feedbackView.setSelection(ArrayUtil.findIndex(Shortcut.FEEDBACK_OPTIONS, shortcut.feedback!!))
 
         timeoutView.setItemsArray(ShortcutUIUtils.getTimeoutOptions(context))
-        UIUtil.fixLabelledSpinner(timeoutView)
+        timeoutView.fix()
         timeoutView.setSelection(ArrayUtil.findIndex(Shortcut.TIMEOUT_OPTIONS, shortcut.timeout))
 
         retryPolicyView.setItemsArray(ShortcutUIUtils.getRetryPolicyOptions(context))
-        UIUtil.fixLabelledSpinner(retryPolicyView)
+        retryPolicyView.fix()
         retryPolicyView.setSelection(ArrayUtil.findIndex(Shortcut.RETRY_POLICY_OPTIONS, shortcut.retryPolicy!!))
 
         acceptCertificatesCheckbox.isChecked = shortcut.acceptAllCertificates
         launcherShortcutCheckbox.isChecked = shortcut.launcherShortcut
 
         delayView.setItemsArray(ShortcutUIUtils.getDelayOptions(context))
-        UIUtil.fixLabelledSpinner(delayView)
+        delayView.fix()
         delayView.setSelection(ArrayUtil.findIndex(Shortcut.DELAY_OPTIONS, shortcut.delay))
 
         iconView.setOnClickListener { openIconSelectionDialog() }
@@ -215,7 +215,7 @@ class EditorActivity : BaseActivity() {
     }
 
     private fun updateUI() {
-        iconView.setImageURI(shortcut.getIconURI(this), shortcut.iconName)
+        iconView.setImageURI(shortcut.getIconURI(context), shortcut.iconName)
         retryPolicyView.visible = shortcut.isRetryAllowed()
         requestBodyContainer.visible = shortcut.allowsBody()
         authenticationContainer.visible = shortcut.usesAuthentication()
@@ -229,22 +229,20 @@ class EditorActivity : BaseActivity() {
 
     override val navigateUpIcon = R.drawable.ic_clear
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            android.R.id.home -> {
-                confirmClose()
-                true
-            }
-            R.id.action_save_shortcut -> {
-                trySave()
-                true
-            }
-            R.id.action_test_shortcut -> {
-                test()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        android.R.id.home -> {
+            confirmClose()
+            true
         }
+        R.id.action_save_shortcut -> {
+            trySave()
+            true
+        }
+        R.id.action_test_shortcut -> {
+            test()
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
     }
 
     private fun trySave() {
@@ -255,7 +253,7 @@ class EditorActivity : BaseActivity() {
             val returnIntent = Intent()
             returnIntent.putExtra(EXTRA_SHORTCUT_ID, persistedShortcut.id)
             setResult(Activity.RESULT_OK, returnIntent)
-            val dialog = IconNameChangeDialog(this)
+            val dialog = IconNameChangeDialog(context)
             if (LauncherShortcutManager.supportsPinning(context)) {
                 LauncherShortcutManager.updatePinnedShortcut(context, persistedShortcut)
                 finish()
@@ -270,12 +268,12 @@ class EditorActivity : BaseActivity() {
     private fun validate(testOnly: Boolean): Boolean {
         if (!testOnly && Validation.isEmpty(shortcut.name!!)) {
             nameView.error = getString(R.string.validation_name_not_empty)
-            UIUtil.focus(nameView)
+            nameView.focus()
             return false
         }
         if (!Validation.isAcceptableUrl(shortcut.url!!)) {
             urlView.error = getString(R.string.validation_url_invalid)
-            UIUtil.focus(urlView)
+            urlView.focus()
             return false
         }
         return true
@@ -289,13 +287,13 @@ class EditorActivity : BaseActivity() {
         if (validate(true)) {
             shortcut.id = TEMPORARY_ID
             controller.persist(shortcut)
-            val intent = IntentUtil.createIntent(this, TEMPORARY_ID)
+            val intent = IntentUtil.createIntent(context, TEMPORARY_ID)
             startActivity(intent)
         }
     }
 
     private fun openIconSelectionDialog() {
-        MaterialDialog.Builder(this)
+        MaterialDialog.Builder(context)
                 .title(R.string.change_icon)
                 .items(R.array.context_menu_choose_icon)
                 .itemsCallback { _, _, which, _ ->
@@ -309,7 +307,7 @@ class EditorActivity : BaseActivity() {
     }
 
     private fun openBuiltInIconSelectionDialog() {
-        val iconSelector = IconSelector(this) { iconName ->
+        val iconSelector = IconSelector(context) { iconName ->
             shortcut.iconName = iconName
             updateUI()
         }
@@ -321,7 +319,7 @@ class EditorActivity : BaseActivity() {
         config.photoSource = PhotoSource.GALLERY
         config.permisionDeniedErrorStringResource = R.string.error_cannot_get_image_permission_denied
         config.unexpectedErrorStringResource = R.string.error_set_image
-        EZPhotoPick.startPhotoPickActivity(this, config)
+        EZPhotoPick.startPhotoPickActivity(context, config)
     }
 
     private fun openIpackPicker() {
@@ -336,7 +334,7 @@ class EditorActivity : BaseActivity() {
     private fun confirmClose() {
         compileShortcut()
         if (hasChanges()) {
-            MaterialDialog.Builder(this)
+            MaterialDialog.Builder(context)
                     .content(R.string.confirm_discard_changes_message)
                     .positiveText(R.string.dialog_discard)
                     .onPositive { _, _ -> cancelAndClose() }
@@ -379,52 +377,52 @@ class EditorActivity : BaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
 
-        if (resultCode != Activity.RESULT_OK) {
+        if (resultCode != Activity.RESULT_OK || intent == null) {
             return
         }
 
-        if (requestCode == EZPhotoPick.PHOTO_PICK_GALLERY_REQUEST_CODE && intent != null) {
-            val iconName = UUIDUtils.create() + ".png"
-            var outStream: OutputStream? = null
-            try {
-                val bitmap = EZPhotoPickStorage(this).loadLatestStoredPhotoBitmap()
-                val bitmapSize = iconSize
-                val resizedBitmap = Bitmap.createScaledBitmap(bitmap, bitmapSize, bitmapSize, true)
-                if (bitmap != resizedBitmap) {
-                    bitmap.recycle()
-                }
-
-                outStream = openFileOutput(iconName, 0)
-                resizedBitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream)
-                outStream?.flush()
-
-                shortcut.iconName = iconName
-            } catch (e: Exception) {
-                CrashReporting.logException(e)
-                shortcut.iconName = null
-                showSnackbar(getString(R.string.error_set_image))
-            } finally {
+        when (requestCode) {
+            EZPhotoPick.PHOTO_PICK_GALLERY_REQUEST_CODE -> {
+                val iconName = UUIDUtils.create() + ".png"
+                var outStream: OutputStream? = null
                 try {
-                    outStream?.close()
-                } catch (e: IOException) {
+                    val bitmap = EZPhotoPickStorage(context).loadLatestStoredPhotoBitmap()
+                    val bitmapSize = iconSize
+                    val resizedBitmap = Bitmap.createScaledBitmap(bitmap, bitmapSize, bitmapSize, true)
+                    if (bitmap != resizedBitmap) {
+                        bitmap.recycle()
+                    }
+
+                    outStream = openFileOutput(iconName, 0)
+                    resizedBitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream)
+                    outStream?.flush()
+
+                    shortcut.iconName = iconName
+                } catch (e: Exception) {
+                    CrashReporting.logException(e)
+                    shortcut.iconName = null
+                    showSnackbar(getString(R.string.error_set_image))
+                } finally {
+                    try {
+                        outStream?.close()
+                    } catch (e: IOException) {
+                    }
                 }
             }
-        } else if (requestCode == SELECT_IPACK_ICON && intent != null) {
-            val uri = IpackUtil.getIpackUri(intent)
-            shortcut.iconName = uri.toString()
+            SELECT_IPACK_ICON -> {
+                shortcut.iconName = IpackUtil.getIpackUri(intent).toString()
+            }
         }
         updateUI()
     }
 
     private val iconSize: Int
         get() {
-            val appIconSize = resources.getDimension(android.R.dimen.app_icon_size).toInt()
-            val launcherIconSize = if (Build.VERSION.SDK_INT >= 11) launcherLargeIconSize else 0
-            return if (launcherIconSize > appIconSize) launcherIconSize else appIconSize
+            val appIconSize = resources.getDimensionPixelSize(android.R.dimen.app_icon_size)
+            return max(appIconSize, launcherLargeIconSize)
         }
 
     private val launcherLargeIconSize: Int
-        @TargetApi(Build.VERSION_CODES.HONEYCOMB)
         get() {
             val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
             return activityManager.launcherLargeIconSize
@@ -442,9 +440,9 @@ class EditorActivity : BaseActivity() {
         const val EXTRA_SHORTCUT_ID = "ch.rmy.android.http_shortcuts.activities.EditorActivity.shortcut_id"
         const val EXTRA_CURL_COMMAND = "ch.rmy.android.http_shortcuts.activities.EditorActivity.curl_command"
 
-        private const val SELECT_ICON = 1
         private const val SELECT_IPACK_ICON = 3
         private const val STATE_JSON_SHORTCUT = "shortcut_json"
         private const val STATE_INITIAL_ICON = "initial_icon"
+
     }
 }
