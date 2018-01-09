@@ -3,7 +3,8 @@
     <string name="changelog_text" translatable="false"><![CDATA[
         <p>
             <b>Version 1.19.0</b><br>
-            - New variable type: slider
+            - New variable type: number slider<br>
+            - "Number Input" variable allows decimals and minus sign
         </p>
         <p>
             <b>Version 1.18.0</b><br>

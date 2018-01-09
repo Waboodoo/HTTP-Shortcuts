@@ -14,7 +14,7 @@ internal class NumberType : TextType() {
                     deferredValue.resolve(input.toString())
                     controller.setVariableValue(variable, input.toString())
                 }
-                .inputType(InputType.TYPE_CLASS_NUMBER)
+                .inputType(InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED)
         return {
             builder.show()
         }

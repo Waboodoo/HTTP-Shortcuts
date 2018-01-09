@@ -14,10 +14,10 @@ object LauncherShortcutManager {
 
     private const val ID_PREFIX = "shortcut_"
 
-    fun supportsLauncherShortcuts() = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N_MR1
+    fun supportsLauncherShortcuts() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1
 
     fun updateAppShortcuts(context: Context, categories: Collection<Category>) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N_MR1) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
             update(context, categories)
         }
     }
@@ -73,7 +73,7 @@ object LauncherShortcutManager {
     }
 
     fun supportsPinning(context: Context): Boolean {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val shortcutManager = context.getSystemService(ShortcutManager::class.java)
             if (shortcutManager.isRequestPinShortcutSupported) {
                 return true
@@ -83,7 +83,7 @@ object LauncherShortcutManager {
     }
 
     fun pinShortcut(context: Context, shortcut: Shortcut) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val shortcutManager = context.getSystemService(ShortcutManager::class.java)
             val shortcutInfo = createShortcutInfo(context, shortcut)
             shortcutManager.requestPinShortcut(shortcutInfo, null)
@@ -91,7 +91,7 @@ object LauncherShortcutManager {
     }
 
     fun createShortcutPinIntent(context: Context, shortcut: Shortcut): Intent {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val shortcutManager = context.getSystemService(ShortcutManager::class.java)
             val shortcutInfo = createShortcutInfo(context, shortcut)
             return shortcutManager.createShortcutResultIntent(shortcutInfo)
@@ -100,7 +100,7 @@ object LauncherShortcutManager {
     }
 
     fun updatePinnedShortcut(context: Context, shortcut: Shortcut) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val shortcutManager = context.getSystemService(ShortcutManager::class.java)
             val shortcutInfo = createShortcutInfo(context, shortcut)
             val list = Collections.singletonList(shortcutInfo)
