@@ -21,6 +21,7 @@ import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.utils.SelectionMode
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.ShortcutListDecorator
+import ch.rmy.android.http_shortcuts.utils.mapIf
 import ch.rmy.curlcommand.CurlCommand
 import ch.rmy.curlcommand.CurlConstructor
 import com.afollestad.materialdialogs.MaterialDialog
@@ -44,7 +45,7 @@ class ListFragment : BaseFragment() {
                 onCategoryChanged()
             }
         }
-    private var selectionMode: SelectionMode? = null
+    var selectionMode: SelectionMode? = null
     private var category: Category? = null
 
     private val controller by lazy { Controller() }
@@ -133,12 +134,8 @@ class ListFragment : BaseFragment() {
         onCategoryChanged()
     }
 
-    fun setSelectionMode(selectionMode: SelectionMode) {
-        this.selectionMode = selectionMode
-    }
-
     private fun showContextMenu(shortcut: Shortcut) {
-        val builder = MenuDialogBuilder(context!!)
+        MenuDialogBuilder(context!!)
                 .title(shortcut.name!!)
                 .item(R.string.action_place, {
                     tabHost.placeShortcutOnHomeScreen(shortcut)
@@ -149,20 +146,19 @@ class ListFragment : BaseFragment() {
                 .item(R.string.action_edit, {
                     editShortcut(shortcut)
                 })
-        if (canMoveShortcut(shortcut)) {
-            builder.item(R.string.action_move, {
-                openMoveDialog(shortcut)
-            })
-        }
-        builder.item(R.string.action_duplicate, {
-            duplicateShortcut(shortcut)
-        })
-        if (getPendingExecution(shortcut) != null) {
-            builder.item(R.string.action_cancel_pending, {
-                cancelPendingExecution(shortcut)
-            })
-        }
-        builder
+                .mapIf(canMoveShortcut(shortcut)) {
+                    it.item(R.string.action_move, {
+                        openMoveDialog(shortcut)
+                    })
+                }
+                .item(R.string.action_duplicate, {
+                    duplicateShortcut(shortcut)
+                })
+                .mapIf(getPendingExecution(shortcut) != null) {
+                    it.item(R.string.action_cancel_pending, {
+                        cancelPendingExecution(shortcut)
+                    })
+                }
                 .item(R.string.action_curl_export, {
                     showCurlExportDialog(shortcut)
                 })
@@ -198,59 +194,60 @@ class ListFragment : BaseFragment() {
     }
 
     private fun openMoveDialog(shortcut: Shortcut) {
-        val builder = MenuDialogBuilder(context!!)
-        if (canMoveShortcut(shortcut, -1)) {
-            builder.item(R.string.action_move_up, {
-                moveShortcut(shortcut, -1)
-            })
-        }
-        if (canMoveShortcut(shortcut, 1)) {
-            builder.item(R.string.action_move_down, {
-                moveShortcut(shortcut, 1)
-            })
-        }
-        if (categories.size > 1) {
-            builder.item(R.string.action_move_to_category, {
-                showMoveToCategoryDialog(shortcut)
-            })
-        }
-        builder.show()
+        MenuDialogBuilder(context!!)
+                .mapIf(canMoveShortcut(shortcut, -1)) {
+                    it.item(R.string.action_move_up, {
+                        moveShortcut(shortcut, -1)
+                    })
+                }
+                .mapIf(canMoveShortcut(shortcut, 1)) {
+                    it.item(R.string.action_move_down, {
+                        moveShortcut(shortcut, 1)
+                    })
+                }
+                .mapIf(categories.size > 1) {
+                    it.item(R.string.action_move_to_category, {
+                        showMoveToCategoryDialog(shortcut)
+                    })
+                }
+                .show()
     }
 
     private fun moveShortcut(shortcut: Shortcut, offset: Int) {
-        if (!canMoveShortcut(shortcut, offset) || category == null) {
-            return
-        }
-        val position = category!!.shortcuts!!.indexOf(shortcut) + offset
-        if (position == category!!.shortcuts!!.size) {
-            controller.moveShortcut(shortcut, category!!)
-        } else {
-            controller.moveShortcut(shortcut, position)
+        category?.let { currentCategory ->
+            if (!canMoveShortcut(shortcut, offset)) {
+                return
+            }
+            val position = currentCategory.shortcuts!!.indexOf(shortcut) + offset
+            if (position == currentCategory.shortcuts!!.size) {
+                controller.moveShortcut(shortcut, currentCategory)
+            } else {
+                controller.moveShortcut(shortcut, position)
+            }
         }
     }
 
     private fun showMoveToCategoryDialog(shortcut: Shortcut) {
-        if (this.category == null) {
-            return
-        }
-        val categoryNames = ArrayList<CharSequence>()
-        val categories = ArrayList<Category>()
-        for (category in this.categories) {
-            if (category.id != this.category!!.id) {
-                categoryNames.add(category.name!!)
-                categories.add(category)
-            }
-        }
-
-        MaterialDialog.Builder(context!!)
-                .title(R.string.title_move_to_category)
-                .items(categoryNames)
-                .itemsCallback { _, _, which, _ ->
-                    if (which < categories.size && categories[which].isValid) {
-                        moveShortcut(shortcut, categories[which])
-                    }
+        category?.let { currentCategory ->
+            val categoryNames = ArrayList<CharSequence>()
+            val categories = ArrayList<Category>()
+            for (category in this.categories) {
+                if (category.id != currentCategory.id) {
+                    categoryNames.add(category.name!!)
+                    categories.add(category)
                 }
-                .show()
+            }
+
+            MaterialDialog.Builder(context!!)
+                    .title(R.string.title_move_to_category)
+                    .items(categoryNames)
+                    .itemsCallback { _, _, which, _ ->
+                        if (which < categories.size && categories[which].isValid) {
+                            moveShortcut(shortcut, categories[which])
+                        }
+                    }
+                    .show()
+        }
     }
 
     private fun moveShortcut(shortcut: Shortcut, category: Category) {
@@ -259,25 +256,24 @@ class ListFragment : BaseFragment() {
     }
 
     private fun duplicateShortcut(shortcut: Shortcut) {
-        if (category == null) {
-            return
-        }
-        val newName = String.format(getString(R.string.copy), shortcut.name)
-        val duplicate = controller.persist(shortcut.duplicate(newName))
-        controller.moveShortcut(duplicate, category!!)
+        category?.let { currentCategory ->
+            val newName = String.format(getString(R.string.copy), shortcut.name)
+            val duplicate = controller.persist(shortcut.duplicate(newName))
+            controller.moveShortcut(duplicate, currentCategory)
 
-        var position = category!!.shortcuts!!.size
-        var i = 0
-        for (s in category!!.shortcuts!!) {
-            if (s.id == shortcut.id) {
-                position = i + 1
-                break
+            var position = currentCategory.shortcuts!!.size
+            var i = 0
+            for (s in currentCategory.shortcuts!!) {
+                if (s.id == shortcut.id) {
+                    position = i + 1
+                    break
+                }
+                i++
             }
-            i++
-        }
-        controller.moveShortcut(duplicate, position)
+            controller.moveShortcut(duplicate, position)
 
-        tabHost.showSnackbar(String.format(getString(R.string.shortcut_duplicated), shortcut.name))
+            tabHost.showSnackbar(String.format(getString(R.string.shortcut_duplicated), shortcut.name))
+        }
     }
 
     private fun cancelPendingExecution(shortcut: Shortcut) {

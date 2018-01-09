@@ -12,12 +12,10 @@ enum class SelectionMode {
 
     companion object {
 
-        fun determineMode(intent: Intent): SelectionMode {
-            return when (intent.action) {
-                Intent.ACTION_CREATE_SHORTCUT -> HOME_SCREEN
-                PluginEditActivity.ACTION_SELECT_SHORTCUT_FOR_PLUGIN -> PLUGIN
-                else -> NORMAL
-            }
+        fun determineMode(intent: Intent) = when (intent.action) {
+            Intent.ACTION_CREATE_SHORTCUT -> HOME_SCREEN
+            PluginEditActivity.ACTION_SELECT_SHORTCUT_FOR_PLUGIN -> PLUGIN
+            else -> NORMAL
         }
 
     }

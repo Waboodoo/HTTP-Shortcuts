@@ -16,12 +16,12 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.utils.Destroyable
 import ch.rmy.android.http_shortcuts.utils.Destroyer
+import ch.rmy.android.http_shortcuts.utils.mapIf
 import ch.rmy.android.http_shortcuts.variables.VariableFormatter
 import com.afollestad.materialdialogs.MaterialDialog
 import kotterknife.bindView
-import java.util.*
 
-class KeyValueList<T : KeyValuePair> : FrameLayout, Destroyable {
+class KeyValueList<T : KeyValuePair> @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr), Destroyable {
 
     private val button: Button by bindView(R.id.key_value_list_button)
     private val listView: ListView by bindView(R.id.key_value_list)
@@ -38,24 +38,12 @@ class KeyValueList<T : KeyValuePair> : FrameLayout, Destroyable {
 
     private val destroyer = Destroyer()
 
-    constructor(context: Context) : super(context) {
-        init()
-    }
-
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        init()
-    }
-
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        init()
-    }
-
-    private fun init() {
+    init {
         inflate(context, R.layout.key_value_list, this)
 
         controller = destroyer.own(Controller())
 
-        adapter = KeyValueAdapter<T>(context)
+        adapter = KeyValueAdapter(context)
         listView.adapter = adapter
 
         button.setOnClickListener { showAddDialog() }
@@ -77,7 +65,7 @@ class KeyValueList<T : KeyValuePair> : FrameLayout, Destroyable {
     private fun showDialog(item: T?) {
         val isNew = item == null
 
-        val builder = MaterialDialog.Builder(context)
+        MaterialDialog.Builder(context)
                 .customView(R.layout.dialog_key_value_editor, false)
                 .title(if (isNew) addDialogTitle else editDialogTitle)
                 .positiveText(R.string.dialog_ok)
@@ -96,37 +84,35 @@ class KeyValueList<T : KeyValuePair> : FrameLayout, Destroyable {
                         }
                     }
                 }
-        if (!isNew) {
-            builder.neutralText(R.string.dialog_remove)
-                    .onNeutral { _, _ ->
-                        adapter!!.remove(item)
-                        updateListViewHeightBasedOnChildren()
+                .mapIf(!isNew) {
+                    it.neutralText(R.string.dialog_remove)
+                            .onNeutral { _, _ ->
+                                adapter!!.remove(item)
+                                updateListViewHeightBasedOnChildren()
+                            }
+                }
+                .negativeText(R.string.dialog_cancel)
+                .build()
+                .also { dialog ->
+                    val keyInput = dialog.findViewById(R.id.key_value_key) as AutoCompleteTextView
+                    val valueInput = dialog.findViewById(R.id.key_value_value) as EditText
+                    if (!isNew) {
+                        keyInput.setText(item!!.key)
+                        valueInput.setText(item.value)
                     }
-        }
 
-        builder.negativeText(R.string.dialog_cancel)
+                    val variables = controller!!.variables
+                    destroyer.own(VariableFormatter.bind(keyInput, variables))
+                    destroyer.own(VariableFormatter.bind(valueInput, variables))
 
-        val dialog = builder.build()
+                    (dialog.findViewById(R.id.key_value_key_layout) as TextInputLayout).hint = context.getString(keyLabel)
+                    (dialog.findViewById(R.id.key_value_value_layout) as TextInputLayout).hint = context.getString(valueLabel)
 
-        val keyInput = dialog.findViewById(R.id.key_value_key) as AutoCompleteTextView
-        val valueInput = dialog.findViewById(R.id.key_value_value) as EditText
-        if (!isNew) {
-            keyInput.setText(item!!.key)
-            valueInput.setText(item.value)
-        }
-
-        val variables = controller!!.variables
-        destroyer.own(VariableFormatter.bind(keyInput, variables))
-        destroyer.own(VariableFormatter.bind(valueInput, variables))
-
-        (dialog.findViewById(R.id.key_value_key_layout) as TextInputLayout).hint = context.getString(keyLabel)
-        (dialog.findViewById(R.id.key_value_value_layout) as TextInputLayout).hint = context.getString(valueLabel)
-
-        if (suggestionAdapter != null) {
-            keyInput.setAdapter<ArrayAdapter<String>>(suggestionAdapter)
-        }
-
-        dialog.show()
+                    if (suggestionAdapter != null) {
+                        keyInput.setAdapter<ArrayAdapter<String>>(suggestionAdapter)
+                    }
+                }
+                .show()
     }
 
     fun addItems(items: Collection<T>) {
@@ -135,13 +121,7 @@ class KeyValueList<T : KeyValuePair> : FrameLayout, Destroyable {
     }
 
     val items: List<T>
-        get() {
-            val list = ArrayList<T>()
-            for (i in 0..adapter!!.count - 1) {
-                list.add(adapter!!.getItem(i))
-            }
-            return list
-        }
+        get() = (0 until adapter!!.count).map { adapter!!.getItem(it) }
 
     fun setButtonText(resId: Int) {
         button.setText(resId)
@@ -175,10 +155,11 @@ class KeyValueList<T : KeyValuePair> : FrameLayout, Destroyable {
         val desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.width, View.MeasureSpec.UNSPECIFIED)
         var totalHeight = 0
         var view: View? = null
-        for (i in 0..adapter!!.count - 1) {
+        for (i in 0 until adapter!!.count) {
             view = adapter!!.getView(i, view, listView)
-            if (i == 0)
+            if (i == 0) {
                 view.layoutParams = ViewGroup.LayoutParams(desiredWidth, ViewGroup.LayoutParams.WRAP_CONTENT)
+            }
 
             view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED)
             totalHeight += view.measuredHeight

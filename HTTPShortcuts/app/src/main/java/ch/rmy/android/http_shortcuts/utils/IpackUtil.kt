@@ -11,9 +11,8 @@ object IpackUtil {
     private const val ACTION_SELECT_SUFFIX = ".actions.ICON_SELECT"
     private const val ICON_ID_SUFFIX = ".extras.ICON_ID"
 
-    fun getIpackIntent(context: Context): Intent {
-        return Intent.createChooser(Intent(PACKAGE_NAME + ACTION_SELECT_SUFFIX), context.getString(R.string.choose_ipack))
-    }
+    fun getIpackIntent(context: Context) =
+            Intent.createChooser(Intent(PACKAGE_NAME + ACTION_SELECT_SUFFIX), context.getString(R.string.choose_ipack))
 
     fun getIpackUri(intent: Intent): Uri {
         val packageName = intent.data.authority

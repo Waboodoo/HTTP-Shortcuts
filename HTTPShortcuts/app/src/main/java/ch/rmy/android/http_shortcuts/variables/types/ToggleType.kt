@@ -9,11 +9,10 @@ internal class ToggleType : BaseVariableType(), SyncVariableType {
         if (variable.options!!.isEmpty()) {
             return ""
         }
-        var previousIndex: Int
-        try {
-            previousIndex = Integer.valueOf(variable.value)!!
+        val previousIndex = try {
+            Integer.valueOf(variable.value)!!
         } catch (e: NumberFormatException) {
-            previousIndex = 0
+            0
         }
 
         var index = previousIndex + 1

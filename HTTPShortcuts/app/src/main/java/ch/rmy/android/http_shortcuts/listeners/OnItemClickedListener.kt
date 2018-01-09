@@ -1,6 +1,6 @@
 package ch.rmy.android.http_shortcuts.listeners
 
-interface OnItemClickedListener<T> {
+interface OnItemClickedListener<in T> {
 
     fun onItemClicked(item: T)
 

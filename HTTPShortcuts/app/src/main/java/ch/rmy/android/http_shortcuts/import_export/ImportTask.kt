@@ -9,7 +9,6 @@ import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import java.io.BufferedReader
 import java.io.InputStreamReader
-import java.io.Reader
 
 class ImportTask(context: Context, baseView: View) : SimpleTask<Uri>(context, baseView) {
 
@@ -17,18 +16,17 @@ class ImportTask(context: Context, baseView: View) : SimpleTask<Uri>(context, ba
         val uri = uris[0]
 
         var controller: Controller? = null
-        var reader: Reader? = null
         try {
+            val inputStream = context.contentResolver.openInputStream(uri) ?: return false
             try {
                 controller = Controller()
-                val inputStream = context.contentResolver.openInputStream(uri) ?: return false
-                reader = BufferedReader(InputStreamReader(inputStream))
-                val base = GsonUtil.importData(reader)
-                ImportMigrator.migrate(base)
-                controller.importBase(base)
-                LauncherShortcutManager.updateAppShortcuts(context, controller.categories)
+                BufferedReader(InputStreamReader(inputStream)).use { reader ->
+                    val base = GsonUtil.importData(reader)
+                    ImportMigrator.migrate(base)
+                    controller.importBase(base)
+                    LauncherShortcutManager.updateAppShortcuts(context, controller.categories)
+                }
             } finally {
-                reader?.close()
                 controller?.destroy()
             }
         } catch (e: Exception) {

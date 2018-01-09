@@ -48,7 +48,7 @@ abstract class BaseAdapter<T> internal constructor(val context: Context) : Recyc
     override fun getItemCount() = if (isEmpty) 1 else count
 
     protected val count: Int
-        get() = if (items == null || !items!!.isValid) 0 else items!!.size
+        get() = if (this.items?.isValid == true) items!!.size else 0
 
     protected val isEmpty: Boolean
         get() = count == 0

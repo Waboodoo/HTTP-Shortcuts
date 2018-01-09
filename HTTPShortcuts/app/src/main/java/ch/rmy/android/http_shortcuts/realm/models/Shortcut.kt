@@ -5,10 +5,8 @@ import android.graphics.drawable.Icon
 import android.net.Uri
 import android.os.Build
 import android.support.annotation.RequiresApi
-
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils
-import ch.rmy.android.http_shortcuts.utils.Validation
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
@@ -116,7 +114,7 @@ open class Shortcut : RealmObject(), HasId {
     }
 
     fun getSafeName(context: Context): String {
-        if (Validation.isEmpty(name!!)) {
+        if (name!!.isBlank()) {
             return context.getString(R.string.shortcut_safe_name)
         }
         return name!!

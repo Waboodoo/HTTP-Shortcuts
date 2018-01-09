@@ -11,13 +11,14 @@ import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Category
 import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.utils.ShortcutListDecorator
+import ch.rmy.android.http_shortcuts.utils.mapIf
 import com.afollestad.materialdialogs.MaterialDialog
 import kotterknife.bindView
 
 class CategoriesActivity : BaseActivity() {
 
-    internal val categoryList: RecyclerView by bindView(R.id.category_list)
-    internal val createButton: FloatingActionButton by bindView(R.id.button_create_category)
+    private val categoryList: RecyclerView by bindView(R.id.category_list)
+    private val createButton: FloatingActionButton by bindView(R.id.button_create_category)
 
     private val controller by lazy { destroyer.own(Controller()) }
     private val categories by lazy { controller.categories }
@@ -66,7 +67,7 @@ class CategoriesActivity : BaseActivity() {
     }
 
     private fun showContextMenu(category: Category) {
-        val builder = MenuDialogBuilder(context)
+        MenuDialogBuilder(context)
                 .title(category.name!!)
                 .item(R.string.action_rename, {
                     showRenameDialog(category)
@@ -74,27 +75,26 @@ class CategoriesActivity : BaseActivity() {
                 .item(R.string.action_change_category_layout_type, {
                     showLayoutTypeDialog(category)
                 })
-        if (canMoveCategory(category, -1)) {
-            builder.item(R.string.action_move_up, {
-                moveCategory(category, -1)
-            })
-        }
-        if (canMoveCategory(category, 1)) {
-            builder.item(R.string.action_move_down, {
-                moveCategory(category, 1)
-            })
-        }
-        if (categories.size > 1) {
-            builder.item(R.string.action_delete, {
-                showDeleteDialog(category)
-            })
-        }
-
-        builder.show()
+                .mapIf(canMoveCategory(category, -1)) {
+                    it.item(R.string.action_move_up, {
+                        moveCategory(category, -1)
+                    })
+                }
+                .mapIf(canMoveCategory(category, 1)) {
+                    it.item(R.string.action_move_down, {
+                        moveCategory(category, 1)
+                    })
+                }
+                .mapIf(categories.size > 1) {
+                    it.item(R.string.action_delete, {
+                        showDeleteDialog(category)
+                    })
+                }
+                .show()
     }
 
     private fun showRenameDialog(category: Category) {
-        MaterialDialog.Builder(this)
+        MaterialDialog.Builder(context)
                 .title(R.string.title_rename_category)
                 .inputRange(NAME_MIN_LENGTH, NAME_MAX_LENGTH)
                 .input(getString(R.string.placeholder_category_name), category.name) { _, input ->
@@ -104,7 +104,7 @@ class CategoriesActivity : BaseActivity() {
     }
 
     private fun showLayoutTypeDialog(category: Category) {
-        MenuDialogBuilder(this)
+        MenuDialogBuilder(context)
                 .item(R.string.layout_type_linear_list, {
                     changeLayoutType(category, Category.LAYOUT_LINEAR_LIST)
                 })

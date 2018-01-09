@@ -117,13 +117,13 @@ class DatabaseMigration : RealmMigration {
             else -> throw IllegalArgumentException("Missing migration for version " + newVersion)
         }
 
-        updateVersionNumber(realm, newVersion.toLong())
+        updateVersionNumber(realm, newVersion)
     }
 
     private fun updateVersionNumber(realm: DynamicRealm, version: Long) {
         val base = realm.where("Base").findFirst()
-        if (base != null && version >= 7L) {
-            base.setLong("version", version)
+        if (version >= 7L) {
+            base?.setLong("version", version)
         }
     }
 

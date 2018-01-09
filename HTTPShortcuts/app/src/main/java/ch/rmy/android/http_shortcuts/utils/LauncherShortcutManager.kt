@@ -60,16 +60,16 @@ object LauncherShortcutManager {
 
     @RequiresApi(Build.VERSION_CODES.N_MR1)
     private fun createShortcutInfo(context: Context, shortcut: Shortcut, rank: Int = 0): ShortcutInfo {
-        var builder: ShortcutInfo.Builder = ShortcutInfo.Builder(context, ID_PREFIX + shortcut.id)
+        val icon = shortcut.getIcon(context)
+        return ShortcutInfo.Builder(context, ID_PREFIX + shortcut.id)
                 .setShortLabel(shortcut.name)
                 .setLongLabel(shortcut.name)
                 .setRank(rank)
                 .setIntent(IntentUtil.createIntent(context, shortcut.id))
-        val icon = shortcut.getIcon(context)
-        if (icon != null) {
-            builder = builder.setIcon(icon)
-        }
-        return builder.build()
+                .mapIf(icon != null) {
+                    it.setIcon(icon)
+                }
+                .build()
     }
 
     fun supportsPinning(context: Context): Boolean {

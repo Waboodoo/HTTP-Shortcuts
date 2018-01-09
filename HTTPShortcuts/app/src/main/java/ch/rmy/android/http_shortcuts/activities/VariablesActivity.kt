@@ -20,8 +20,8 @@ import kotterknife.bindView
 
 class VariablesActivity : BaseActivity() {
 
-    internal val variableList: RecyclerView by bindView(R.id.variable_list)
-    internal val createButton: FloatingActionButton by bindView(R.id.button_create_variable)
+    private val variableList: RecyclerView by bindView(R.id.variable_list)
+    private val createButton: FloatingActionButton by bindView(R.id.button_create_variable)
 
     private val controller by lazy { destroyer.own(Controller()) }
 

@@ -7,7 +7,6 @@ class GridLayoutManager(context: Context) : android.support.v7.widget.GridLayout
     private var empty: Boolean = false
 
     init {
-
         spanSizeLookup = object : android.support.v7.widget.GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 if (position == 0 && empty) {

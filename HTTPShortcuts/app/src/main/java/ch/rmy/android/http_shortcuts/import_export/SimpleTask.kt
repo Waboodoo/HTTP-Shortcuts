@@ -24,7 +24,7 @@ abstract class SimpleTask<T>(protected val context: Context, private val baseVie
     }
 
     override fun onPostExecute(success: Boolean) {
-        progressDialog!!.dismiss()
+        progressDialog?.dismiss()
         Snackbar.make(baseView, if (success) successMessage else failureMessage, Snackbar.LENGTH_LONG).show()
     }
 

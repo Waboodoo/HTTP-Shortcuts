@@ -5,7 +5,10 @@ import android.view.View
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
-import java.io.*
+import java.io.BufferedWriter
+import java.io.File
+import java.io.FileWriter
+import java.io.IOException
 
 class ExportTask(context: Context, baseView: View) : SimpleTask<String>(context, baseView) {
 
@@ -14,14 +17,11 @@ class ExportTask(context: Context, baseView: View) : SimpleTask<String>(context,
         val base = controller.exportBase()
         controller.destroy()
 
-        val file = getFile(path[0])
-        var writer: Writer? = null
         try {
-            try {
-                writer = BufferedWriter(FileWriter(file))
-                GsonUtil.exportData(base, writer)
-            } finally {
-                writer?.close()
+            val file = getFile(path[0])
+
+            BufferedWriter(FileWriter(file)).use {
+                GsonUtil.exportData(base, it)
             }
         } catch (e: IOException) {
             return false

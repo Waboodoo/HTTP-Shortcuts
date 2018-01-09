@@ -18,10 +18,9 @@ class Settings(context: Context) {
     var importExportDirectory: String?
         get() = preferences.getString(KEY_IMPORT_EXPORT_DIR, Environment.getExternalStorageDirectory().path)
         set(path) {
-            if (path == null) {
-                return
+            if (path != null) {
+                preferences.edit().putString(KEY_IMPORT_EXPORT_DIR, path).apply()
             }
-            preferences.edit().putString(KEY_IMPORT_EXPORT_DIR, path).apply()
         }
 
     var isChangeLogPermanentlyHidden: Boolean

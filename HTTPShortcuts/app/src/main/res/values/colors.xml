@@ -23,4 +23,5 @@
 
     <item name="transparent" type="color">#00000000</item>
     <item name="divider" type="color">#FFE0E0E0</item>
+    <item name="variable" type="color">#FF3F51B5</item>
 </resources>

@@ -10,7 +10,7 @@ internal object RealmFactory {
 
     private val configuration: RealmConfiguration by lazy {
         RealmConfiguration.Builder()
-                .schemaVersion(DatabaseMigration.VERSION.toLong())
+                .schemaVersion(DatabaseMigration.VERSION)
                 .migration(DatabaseMigration())
                 .build()
     }
