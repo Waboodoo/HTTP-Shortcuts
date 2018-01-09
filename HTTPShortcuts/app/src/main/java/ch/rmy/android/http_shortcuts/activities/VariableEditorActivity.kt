@@ -14,6 +14,7 @@ import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.OnItemChosenListener
 import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils
 import ch.rmy.android.http_shortcuts.utils.SimpleTextWatcher
+import ch.rmy.android.http_shortcuts.utils.consume
 import ch.rmy.android.http_shortcuts.utils.fix
 import ch.rmy.android.http_shortcuts.utils.focus
 import ch.rmy.android.http_shortcuts.utils.visible
@@ -120,26 +121,17 @@ class VariableEditorActivity : BaseActivity() {
         get() = Variable.TYPE_OPTIONS[typeSpinner.spinner.selectedItemPosition]
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.variable_editor_activity_menu, menu)
+        menuInflater.inflate(R.menu.variable_editor_activity_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
     override val navigateUpIcon: Int
         get() = R.drawable.ic_clear
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                confirmClose()
-                return true
-            }
-            R.id.action_save_variable -> {
-                trySave()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        android.R.id.home -> consume { confirmClose() }
+        R.id.action_save_variable -> consume { trySave() }
+        else -> super.onOptionsItemSelected(item)
     }
 
     override fun onBackPressed() {

@@ -13,7 +13,7 @@ class ShortcutListDecorator(context: Context, resId: Int) : RecyclerView.ItemDec
         val paddingLeft = parent.paddingLeft
         val paddingRight = parent.width - parent.paddingRight
 
-        for (i in 0..parent.childCount - 1) {
+        for (i in 0 until parent.childCount) {
             val child = parent.getChildAt(i)
             val params = child.layoutParams as RecyclerView.LayoutParams
             val paddingTop = child.bottom + params.bottomMargin

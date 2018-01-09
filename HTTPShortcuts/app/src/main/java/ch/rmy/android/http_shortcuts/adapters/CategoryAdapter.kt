@@ -9,6 +9,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.icons.IconView
 import ch.rmy.android.http_shortcuts.realm.models.Category
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
+import ch.rmy.android.http_shortcuts.utils.dimen
 import kotterknife.bindView
 
 class CategoryAdapter(context: Context) : BaseAdapter<Category>(context) {
@@ -45,7 +46,7 @@ class CategoryAdapter(context: Context) : BaseAdapter<Category>(context) {
         }
 
         private fun updateIconNumber(number: Int) {
-            val size = context.resources.getDimensionPixelSize(R.dimen.small_icon_size)
+            val size = dimen(context, R.dimen.small_icon_size)
             while (smallIconContainer.childCount < number) {
                 val icon = IconView(context)
                 icon.layoutParams = LinearLayout.LayoutParams(size, size)

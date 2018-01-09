@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.http
 
 
+import ch.rmy.android.http_shortcuts.utils.mapIf
 import com.burgstaller.okhttp.digest.Credentials
 import com.burgstaller.okhttp.digest.DigestAuthenticator
 import com.facebook.stetho.okhttp3.StethoInterceptor
@@ -11,17 +12,14 @@ import javax.net.ssl.X509TrustManager
 
 internal object HttpClients {
 
-    fun getClient(acceptAllCertificates: Boolean, username: String?, password: String?): OkHttpClient {
-        var builder = if (acceptAllCertificates) createUnsafeOkHttpClientBuilder() else createDefaultOkHttpClientBuilder()
-
-        if (username != null && password != null) {
-            val authenticator = DigestAuthenticator(Credentials(username, password))
-            builder = builder.authenticator(authenticator)
-        }
-
-        builder = builder.addNetworkInterceptor(StethoInterceptor())
-        return builder.build()
-    }
+    fun getClient(acceptAllCertificates: Boolean, username: String?, password: String?): OkHttpClient =
+            (if (acceptAllCertificates) createUnsafeOkHttpClientBuilder() else createDefaultOkHttpClientBuilder())
+                    .mapIf(username != null && password != null) {
+                        val authenticator = DigestAuthenticator(Credentials(username, password))
+                        it.authenticator(authenticator)
+                    }
+                    .addNetworkInterceptor(StethoInterceptor())
+                    .build()
 
     private fun createDefaultOkHttpClientBuilder() = OkHttpClient.Builder()
 

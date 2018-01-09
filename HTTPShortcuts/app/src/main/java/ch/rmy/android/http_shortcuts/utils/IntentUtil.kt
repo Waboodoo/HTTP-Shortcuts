@@ -53,7 +53,7 @@ object IntentUtil {
         if (serializable is Map<*, *>) {
             return serializable as Map<String, String>
         }
-        return HashMap()
+        return emptyMap()
     }
 
     @Suppress("DEPRECATION")

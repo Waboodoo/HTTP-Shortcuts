@@ -34,19 +34,18 @@ object ShortcutUIUtils {
     fun getDelayOptions(context: Context): Array<String> {
         return Array<String>(Shortcut.DELAY_OPTIONS.size, { i ->
             val seconds = Shortcut.DELAY_OPTIONS[i] / 1000
-            if (seconds == 0) {
-                context.resources.getString(R.string.label_no_delay)
-            } else if (seconds < 60) {
-                context.resources.getQuantityString(R.plurals.seconds, seconds, seconds)
-            } else {
-                val minutes = seconds / 60
-                context.resources.getQuantityString(R.plurals.minutes, minutes, minutes)
+            when {
+                seconds == 0 -> context.resources.getString(R.string.label_no_delay)
+                seconds < 60 -> context.resources.getQuantityString(R.plurals.seconds, seconds, seconds)
+                else -> {
+                    val minutes = seconds / 60
+                    context.resources.getQuantityString(R.plurals.minutes, minutes, minutes)
+                }
             }
         })
     }
 
-    private fun getOptions(context: Context, keys: Array<String>, valueResources: IntArray): Array<String> {
-        return Array<String>(keys.size, { i -> context.getString(valueResources[i]) })
-    }
+    private fun getOptions(context: Context, keys: Array<String>, valueResources: IntArray): Array<String> =
+            Array<String>(keys.size, { i -> context.getString(valueResources[i]) })
 
 }

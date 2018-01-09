@@ -59,9 +59,8 @@ class ShareActivity : BaseActivity() {
         return targetableVariables
     }
 
-    private fun getTargetableShortcuts(controller: Controller, variableKeys: Set<String>): List<Shortcut> {
-        return controller.shortcuts.filter { hasShareVariable(it, variableKeys) }
-    }
+    private fun getTargetableShortcuts(controller: Controller, variableKeys: Set<String>): List<Shortcut> =
+            controller.shortcuts.filter { hasShareVariable(it, variableKeys) }
 
     private fun hasShareVariable(shortcut: Shortcut, variableKeys: Set<String>): Boolean {
         val variableKeysInShortcut = VariableResolver.extractVariableKeys(shortcut)

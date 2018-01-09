@@ -1,10 +1,12 @@
 package ch.rmy.android.http_shortcuts.utils
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.support.annotation.ColorInt
 import android.support.annotation.ColorRes
+import android.support.annotation.DimenRes
 import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
 import android.support.v4.app.Fragment
@@ -68,3 +70,13 @@ fun drawable(context: Context, @DrawableRes drawableRes: Int): Drawable? =
         } else {
             context.resources.getDrawable(drawableRes)
         }
+
+fun Activity.dimen(@DimenRes dimenRes: Int) = dimen(this, dimenRes)
+fun dimen(context: Context, @DimenRes dimenRes: Int) = context.resources.getDimensionPixelSize(dimenRes)
+
+inline fun consume(f: () -> Unit): Boolean {
+    f()
+    return true
+}
+
+inline fun <T> T.mapIf(predicate: Boolean, block: (T) -> T): T = if (predicate) block(this) else this

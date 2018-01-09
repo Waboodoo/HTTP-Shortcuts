@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import ch.rmy.android.http_shortcuts.R
 import com.mikepenz.aboutlibraries.LibsBuilder
 
@@ -12,7 +11,7 @@ class LicensesActivity : BaseActivity() {
         setContentView(R.layout.activity_licenses)
 
         val fragmentManager = supportFragmentManager
-        var fragment: Fragment? = fragmentManager.findFragmentById(R.id.fragment_host)
+        var fragment = fragmentManager.findFragmentById(R.id.fragment_host)
         if (fragment == null) {
             fragment = LibsBuilder().withAutoDetect(false).withLibraries(*LIBRARIES).withLicenseShown(true).supportFragment()
             fragmentManager.beginTransaction().add(R.id.fragment_host, fragment).commit()

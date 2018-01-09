@@ -91,13 +91,11 @@ class SelectEditorFragment : VariableEditorFragment() {
         updateViews(variable!!)
     }
 
-    override fun validate(): Boolean {
-        return if (variable!!.options!!.isEmpty()) {
-            showMessageDialog(R.string.error_not_enough_select_values)
-            false
-        } else {
-            true
-        }
+    override fun validate() = if (variable!!.options!!.isEmpty()) {
+        showMessageDialog(R.string.error_not_enough_select_values)
+        false
+    } else {
+        true
     }
 
 }

@@ -19,15 +19,8 @@ class VariableResolver(private val context: Context) {
         return resolveVariables(variablesToResolve, preResolvedValues)
     }
 
-    private fun filterVariablesByName(variables: List<Variable>, variableNames: Collection<String>): List<Variable> {
-        val filteredVariables = ArrayList<Variable>()
-        for (variable in variables) {
-            if (variableNames.contains(variable.key)) {
-                filteredVariables.add(variable)
-            }
-        }
-        return filteredVariables
-    }
+    private fun filterVariablesByName(variables: List<Variable>, variableNames: Collection<String>) =
+            variables.filter { variableNames.contains(it.key) }
 
     private fun resolveVariables(variablesToResolve: List<Variable>, preResolvedValues: Map<String, String>?): Promise<ResolvedVariables, Void, Void> {
         val controller = Controller()
@@ -48,17 +41,19 @@ class VariableResolver(private val context: Context) {
                 val index = i++
 
                 val deferredValue = DeferredObject<String, Unit, Unit>()
-                deferredValue.done { result ->
-                    builder.add(variable, result)
+                deferredValue
+                        .done { result ->
+                            builder.add(variable, result)
 
-                    if (index + 1 >= waitingDialogs.size) {
-                        deferred.resolve(builder.build())
-                    } else {
-                        waitingDialogs[index + 1]()
-                    }
-                }.fail {
-                    deferred.reject(null)
-                }
+                            if (index + 1 >= waitingDialogs.size) {
+                                deferred.resolve(builder.build())
+                            } else {
+                                waitingDialogs[index + 1]()
+                            }
+                        }
+                        .fail {
+                            deferred.reject(null)
+                        }
 
                 val dialog = variableType.createDialog(context, controller, variable, deferredValue)
 
@@ -75,31 +70,30 @@ class VariableResolver(private val context: Context) {
             waitingDialogs[0]()
         }
 
-        return deferred.promise().always { _, _, _ ->
-            resetVariableValues(controller, variablesToResolve)
-            controller.destroy()
-        }
+        return deferred.promise()
+                .always { _, _, _ ->
+                    resetVariableValues(controller, variablesToResolve)
+                    controller.destroy()
+                }
     }
 
     private fun resetVariableValues(controller: Controller, variables: List<Variable>) {
-        for (variable in variables) {
-            if (variable.isResetAfterUse()) {
-                controller.setVariableValue(variable, "")
-            }
-        }
+        variables
+                .filter { it.isResetAfterUse() }
+                .forEach { controller.setVariableValue(it, "") }
     }
 
     companion object {
 
         fun extractVariableKeys(shortcut: Shortcut): Set<String> {
-            val discoveredVariables = HashSet<String>()
+            val discoveredVariables = mutableSetOf<String>()
 
             discoveredVariables.addAll(Variables.extractVariableNames(shortcut.url!!))
             discoveredVariables.addAll(Variables.extractVariableNames(shortcut.username!!))
             discoveredVariables.addAll(Variables.extractVariableNames(shortcut.password!!))
             discoveredVariables.addAll(Variables.extractVariableNames(shortcut.bodyContent!!))
 
-            if (Shortcut.METHOD_GET != shortcut.method) {
+            if (shortcut.method != Shortcut.METHOD_GET) {
                 for (parameter in shortcut.parameters!!) {
                     discoveredVariables.addAll(Variables.extractVariableNames(parameter.key!!))
                     discoveredVariables.addAll(Variables.extractVariableNames(parameter.value!!))

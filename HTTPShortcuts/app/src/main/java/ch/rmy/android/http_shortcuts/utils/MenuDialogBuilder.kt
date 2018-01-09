@@ -4,32 +4,26 @@ import android.content.Context
 import android.content.DialogInterface
 import android.support.annotation.StringRes
 import com.afollestad.materialdialogs.MaterialDialog
-import java.util.*
 
 class MenuDialogBuilder(context: Context) {
 
     private val builder = MaterialDialog.Builder(context)
-    private val names = ArrayList<CharSequence>()
-    private val actions = ArrayList<() -> Unit>()
+    private val names = mutableListOf<CharSequence>()
+    private val actions = mutableListOf<() -> Unit>()
 
-    fun title(@StringRes title: Int): MenuDialogBuilder {
-        builder.title(builder.context.getString(title))
-        return this
+    fun title(@StringRes title: Int) = this.also {
+        it.title(builder.context.getString(title))
     }
 
-    fun title(title: CharSequence): MenuDialogBuilder {
-        builder.title(title)
-        return this
+    fun title(title: CharSequence) = this.also { builder.title(title) }
+
+    fun item(@StringRes name: Int, action: () -> Unit) = this.also {
+        item(builder.context.getString(name), action)
     }
 
-    fun item(@StringRes name: Int, action: () -> Unit): MenuDialogBuilder {
-        return item(builder.context.getString(name), action)
-    }
-
-    fun item(name: CharSequence, action: () -> Unit): MenuDialogBuilder {
+    fun item(name: CharSequence, action: () -> Unit) = this.also {
         names.add(name)
         actions.add(action)
-        return this
     }
 
     fun dismissListener(onDismissListener: DialogInterface.OnDismissListener): MenuDialogBuilder {

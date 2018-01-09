@@ -14,6 +14,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.ThemeHelper
 import ch.rmy.android.http_shortcuts.utils.color
+import ch.rmy.android.http_shortcuts.utils.consume
 import ch.rmy.android.http_shortcuts.utils.drawable
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -60,12 +61,9 @@ abstract class BaseActivity : AppCompatActivity() {
         Snackbar.make(baseView, message, Snackbar.LENGTH_SHORT).show()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            onBackPressed()
-            return true
-        }
-        return super.onOptionsItemSelected(item)
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        android.R.id.home -> consume { onBackPressed() }
+        else -> super.onOptionsItemSelected(item)
     }
 
     private fun updateStatusBarColor() {

@@ -134,12 +134,8 @@ class SettingsActivity : BaseActivity() {
         private fun showExportOptions() {
             MenuDialogBuilder(activity)
                     .title(R.string.title_export)
-                    .item(R.string.button_export_to_filesystem, {
-                        showExportInstructions()
-                    })
-                    .item(R.string.button_export_send_to, {
-                        sendExport()
-                    })
+                    .item(R.string.button_export_to_filesystem, this::showExportInstructions)
+                    .item(R.string.button_export_send_to, this::sendExport)
                     .show()
         }
 
@@ -170,12 +166,8 @@ class SettingsActivity : BaseActivity() {
         private fun showImportOptions() {
             MenuDialogBuilder(activity)
                     .title(R.string.title_import)
-                    .item(R.string.button_import_from_filesystem, {
-                        showImportInstructions()
-                    })
-                    .item(R.string.button_import_from_general, {
-                        openGeneralPickerForImport()
-                    })
+                    .item(R.string.button_import_from_filesystem, this::showImportInstructions)
+                    .item(R.string.button_import_from_general, this::openGeneralPickerForImport)
                     .show()
         }
 

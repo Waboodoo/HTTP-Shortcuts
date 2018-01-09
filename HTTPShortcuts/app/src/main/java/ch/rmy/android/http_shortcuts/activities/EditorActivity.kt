@@ -30,10 +30,13 @@ import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.IpackUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
+import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.utils.OnItemChosenListener
 import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils
 import ch.rmy.android.http_shortcuts.utils.Validation
+import ch.rmy.android.http_shortcuts.utils.consume
+import ch.rmy.android.http_shortcuts.utils.dimen
 import ch.rmy.android.http_shortcuts.utils.fix
 import ch.rmy.android.http_shortcuts.utils.focus
 import ch.rmy.android.http_shortcuts.utils.visible
@@ -110,7 +113,6 @@ class EditorActivity : BaseActivity() {
         oldShortcut = (if (shortcutId != 0L) controller.getDetachedShortcutById(shortcutId) else null) ?: Shortcut.createNew()
 
         if (shortcut.isNew) {
-
             val curlCommand = intent.getSerializableExtra(EXTRA_CURL_COMMAND)
             if (curlCommand != null) {
                 extractFromCurlCommand(shortcut, curlCommand as CurlCommand)
@@ -230,18 +232,9 @@ class EditorActivity : BaseActivity() {
     override val navigateUpIcon = R.drawable.ic_clear
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        android.R.id.home -> {
-            confirmClose()
-            true
-        }
-        R.id.action_save_shortcut -> {
-            trySave()
-            true
-        }
-        R.id.action_test_shortcut -> {
-            test()
-            true
-        }
+        android.R.id.home -> consume { confirmClose() }
+        R.id.action_save_shortcut -> consume { trySave() }
+        R.id.action_test_shortcut -> consume { test() }
         else -> super.onOptionsItemSelected(item)
     }
 
@@ -266,7 +259,7 @@ class EditorActivity : BaseActivity() {
     }
 
     private fun validate(testOnly: Boolean): Boolean {
-        if (!testOnly && Validation.isEmpty(shortcut.name!!)) {
+        if (!testOnly && shortcut.name!!.isBlank()) {
             nameView.error = getString(R.string.validation_name_not_empty)
             nameView.focus()
             return false
@@ -293,16 +286,11 @@ class EditorActivity : BaseActivity() {
     }
 
     private fun openIconSelectionDialog() {
-        MaterialDialog.Builder(context)
+        MenuDialogBuilder(context)
                 .title(R.string.change_icon)
-                .items(R.array.context_menu_choose_icon)
-                .itemsCallback { _, _, which, _ ->
-                    when (which) {
-                        0 -> openBuiltInIconSelectionDialog()
-                        1 -> openImagePicker()
-                        2 -> openIpackPicker()
-                    }
-                }
+                .item(R.string.choose_icon, this::openBuiltInIconSelectionDialog)
+                .item(R.string.choose_image, this::openImagePicker)
+                .item(R.string.choose_ipack_icon, this::openIpackPicker)
                 .show()
     }
 
@@ -418,7 +406,7 @@ class EditorActivity : BaseActivity() {
 
     private val iconSize: Int
         get() {
-            val appIconSize = resources.getDimensionPixelSize(android.R.dimen.app_icon_size)
+            val appIconSize = dimen(android.R.dimen.app_icon_size)
             return max(appIconSize, launcherLargeIconSize)
         }
 

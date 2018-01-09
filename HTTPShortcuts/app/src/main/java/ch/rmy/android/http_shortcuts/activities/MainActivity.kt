@@ -21,6 +21,7 @@ import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.utils.SelectionMode
+import ch.rmy.android.http_shortcuts.utils.consume
 import ch.rmy.android.http_shortcuts.utils.visible
 import kotterknife.bindView
 
@@ -57,12 +58,8 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
 
     private fun showCreateOptions() {
         MenuDialogBuilder(context)
-                .item(R.string.button_create_new, {
-                    openEditorForCreation()
-                })
-                .item(R.string.button_curl_import, {
-                    openCurlImport()
-                })
+                .item(R.string.button_create_new, this::openEditorForCreation)
+                .item(R.string.button_curl_import, this::openCurlImport)
                 .show()
     }
 
@@ -96,12 +93,12 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
-        if (resultCode != Activity.RESULT_OK) {
+        if (resultCode != Activity.RESULT_OK || intent == null) {
             return
         }
         when (requestCode) {
             REQUEST_CREATE_SHORTCUT -> {
-                val shortcutId = intent!!.getLongExtra(EditorActivity.EXTRA_SHORTCUT_ID, 0)
+                val shortcutId = intent.getLongExtra(EditorActivity.EXTRA_SHORTCUT_ID, 0)
                 val shortcut = controller.getShortcutById(shortcutId) ?: return
 
                 val category: Category
@@ -118,7 +115,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
                 selectShortcut(shortcut)
             }
             SettingsActivity.REQUEST_SETTINGS -> {
-                if (intent != null && intent.getBooleanExtra(SettingsActivity.EXTRA_THEME_CHANGED, false)) {
+                if (intent.getBooleanExtra(SettingsActivity.EXTRA_THEME_CHANGED, false)) {
                     recreate()
                     openSettings()
                     overridePendingTransition(0, 0)
@@ -161,22 +158,12 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem) =
-            when (item.itemId) {
-                R.id.action_settings -> {
-                    openSettings()
-                    true
-                }
-                R.id.action_categories -> {
-                    openCategoriesEditor()
-                    true
-                }
-                R.id.action_variables -> {
-                    openVariablesEditor()
-                    true
-                }
-                else -> super.onOptionsItemSelected(item)
-            }
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_settings -> consume { openSettings() }
+        R.id.action_categories -> consume { openCategoriesEditor() }
+        R.id.action_variables -> consume { openVariablesEditor() }
+        else -> super.onOptionsItemSelected(item)
+    }
 
     private fun openSettings() {
         val intent = Intent(context, SettingsActivity::class.java)

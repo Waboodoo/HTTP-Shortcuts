@@ -15,13 +15,10 @@ object Variables {
 
     private val PATTERN = Pattern.compile(PLACEHOLDER_REGEX)
 
-    fun match(s: CharSequence): Matcher {
-        return PATTERN.matcher(s)
-    }
+    fun match(s: CharSequence): Matcher = PATTERN.matcher(s)
 
-    fun isValidVariableName(variableName: String): Boolean {
-        return variableName.matches(FULL_VARIABLE_NAME_REGEX.toRegex())
-    }
+    fun isValidVariableName(variableName: String) =
+            variableName.matches(FULL_VARIABLE_NAME_REGEX.toRegex())
 
     fun insert(string: String, variables: ResolvedVariables): String {
         val builder = StringBuilder()

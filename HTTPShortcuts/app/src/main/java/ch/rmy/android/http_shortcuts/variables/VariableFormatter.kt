@@ -6,11 +6,17 @@ import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.widget.TextView
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.Destroyable
 import ch.rmy.android.http_shortcuts.utils.SimpleTextWatcher
+import ch.rmy.android.http_shortcuts.utils.color
 
 class VariableFormatter private constructor(private val textView: TextView, private val variables: List<Variable>) : SimpleTextWatcher(), Destroyable {
+
+    private val highlightColor by lazy {
+        color(textView.context, R.color.variable)
+    }
 
     override fun afterTextChanged(s: Editable) {
         textView.removeTextChangedListener(this)
@@ -30,9 +36,8 @@ class VariableFormatter private constructor(private val textView: TextView, priv
         textView.addTextChangedListener(this)
     }
 
-    private fun isValidVariable(variableName: String): Boolean {
-        return variables.any { it.isValid && variableName == it.key }
-    }
+    private fun isValidVariable(variableName: String) =
+            variables.any { it.isValid && variableName == it.key }
 
     private fun clearFormatting(s: Editable) {
         for (span in s.getSpans(0, s.length + 1, ForegroundColorSpan::class.java)) {
@@ -44,7 +49,7 @@ class VariableFormatter private constructor(private val textView: TextView, priv
     }
 
     private fun format(s: Editable, start: Int, end: Int) {
-        s.setSpan(ForegroundColorSpan(FORMAT_COLOR), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        s.setSpan(ForegroundColorSpan(highlightColor), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         s.setSpan(StyleSpan(Typeface.BOLD), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
     }
 
@@ -53,8 +58,6 @@ class VariableFormatter private constructor(private val textView: TextView, priv
     }
 
     companion object {
-
-        private val FORMAT_COLOR = 0xFF3F51B5.toInt()
 
         fun bind(textView: TextView, variables: List<Variable>): Destroyable {
             val formatter = VariableFormatter(textView, variables)

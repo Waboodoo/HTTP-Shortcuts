@@ -19,12 +19,6 @@
         <item>false</item>
     </string-array>
 
-    <string-array name="context_menu_choose_icon">
-        <item>@string/choose_icon</item>
-        <item>@string/choose_image</item>
-        <item>@string/choose_ipack_icon</item>
-    </string-array>
-
     <string-array name="themes" translatable="false">
         <item>@string/theme_blue</item>
         <item>@string/theme_indigo</item>

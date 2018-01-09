@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.widget.EditText
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.utils.SimpleTextWatcher
+import ch.rmy.android.http_shortcuts.utils.consume
 import ch.rmy.curlcommand.CurlParser
 import kotterknife.bindView
 import kotlin.properties.Delegates
@@ -21,7 +22,7 @@ class CurlImportActivity : BaseActivity() {
         }
     }
 
-    val curlCommand: EditText by bindView(R.id.curl_import_command)
+    private val curlCommand: EditText by bindView(R.id.curl_import_command)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,20 +36,14 @@ class CurlImportActivity : BaseActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.curl_import_activity_menu, menu)
+        menuInflater.inflate(R.menu.curl_import_activity_menu, menu)
         menu.findItem(R.id.action_create_from_curl).isVisible = curlCommand.text.isNotEmpty()
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_create_from_curl -> {
-                startImport()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_create_from_curl -> consume { startImport() }
+        else -> super.onOptionsItemSelected(item)
     }
 
     private fun startImport() {

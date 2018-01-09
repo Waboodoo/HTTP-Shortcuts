@@ -7,20 +7,7 @@ import android.support.v7.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
 import com.afollestad.materialdialogs.MaterialDialog
 
-/**
- * A dialog window that lists all built-in icons, from which the user can select one.
-
- * @author Roland Meyer
- */
-class IconSelector
-/**
- * Creates the icon selection dialog.
-
- * @param context  The context
- * *
- * @param listener Used as callback when the user selects an icon.
- */
-(context: Context, listener: (String) -> Unit) {
+class IconSelector(context: Context, listener: (String) -> Unit) {
 
     private val dialog: Dialog
 

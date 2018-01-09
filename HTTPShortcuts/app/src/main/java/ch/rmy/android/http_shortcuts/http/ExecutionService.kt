@@ -80,7 +80,7 @@ class ExecutionService : Service() {
         val now = Calendar.getInstance().time
         for (pendingExecution in pendingExecutions) {
             val waitUntil = pendingExecution.waitUntil
-            if (waitUntil == null || waitUntil.before(now)) {
+            if (waitUntil?.before(now) == true) {
                 return pendingExecution
             }
         }
