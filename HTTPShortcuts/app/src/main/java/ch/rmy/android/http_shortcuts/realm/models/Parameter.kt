@@ -12,9 +12,9 @@ open class Parameter : RealmObject(), KeyValuePair {
     var id: String? = null
 
     @Required
-    override var key: String? = null
+    override var key: String = ""
     @Required
-    override var value: String? = null
+    override var value: String = ""
 
     companion object {
 
@@ -27,8 +27,6 @@ open class Parameter : RealmObject(), KeyValuePair {
         }
     }
 
-    fun isSameAs(other: Parameter): Boolean {
-        return other.key == key && other.value == value
-    }
+    fun isSameAs(other: Parameter) = other.key == key && other.value == value
 
 }

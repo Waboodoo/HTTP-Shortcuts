@@ -2,14 +2,14 @@ package ch.rmy.android.http_shortcuts.variables
 
 import ch.rmy.android.http_shortcuts.realm.models.ResolvedVariable
 import ch.rmy.android.http_shortcuts.realm.models.Variable
+import ch.rmy.android.http_shortcuts.utils.mapIf
 import org.json.JSONObject
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
-import java.util.*
 
 class ResolvedVariables {
 
-    private val variableValues = HashMap<String, String>()
+    private val variableValues = mutableMapOf<String, String>()
 
     fun hasValue(variableName: String) = variableValues.containsKey(variableName)
 
@@ -24,19 +24,18 @@ class ResolvedVariables {
         private val resolvedVariables: ResolvedVariables = ResolvedVariables()
 
         fun add(variable: Variable, value: String) = this.also {
-            var encodedValue = value
-            if (variable.jsonEncode) {
-                encodedValue = JSONObject.quote(encodedValue)
-                encodedValue = encodedValue.substring(1, encodedValue.length - 1)
-            }
-            if (variable.urlEncode) {
-                try {
-                    encodedValue = URLEncoder.encode(encodedValue, "utf-8")
-                } catch (e: UnsupportedEncodingException) {
-                    // what kind of stupid system does not support utf-8?!
-                }
-            }
-            resolvedVariables.variableValues.put(variable.key!!, encodedValue)
+            val encodedValue = value
+                    .mapIf(variable.jsonEncode) {
+                        JSONObject.quote(it).drop(1).dropLast(1)
+                    }
+                    .mapIf(variable.urlEncode) {
+                        try {
+                            URLEncoder.encode(it, "utf-8")
+                        } catch (e: UnsupportedEncodingException) {
+                            it
+                        }
+                    }
+            resolvedVariables.variableValues.put(variable.key, encodedValue)
         }
 
         fun build() = resolvedVariables

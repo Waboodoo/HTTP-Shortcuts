@@ -11,7 +11,7 @@ open class Category : RealmObject(), HasId {
     override var id: Long = 0
     @Required
     var name: String? = null
-    var shortcuts: RealmList<Shortcut>? = null
+    var shortcuts: RealmList<Shortcut> = RealmList()
     var layoutType: String? = null
 
     override val isNew: Boolean

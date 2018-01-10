@@ -49,7 +49,7 @@ class ShareActivity : BaseActivity() {
     private fun getTargetableVariables(controller: Controller) =
             controller.variables
                     .filter { it.isShareText }
-                    .map { it.key!! }
+                    .map { it.key }
                     .toSet()
 
     private fun getTargetableShortcuts(controller: Controller, variableKeys: Set<String>): List<Shortcut> =
@@ -76,7 +76,7 @@ class ShareActivity : BaseActivity() {
     private fun showShortcutSelection(shortcuts: List<Shortcut>, variableValues: Map<String, String>) {
         MenuDialogBuilder(context)
                 .mapFor(shortcuts) { builder, shortcut ->
-                    builder.item(shortcut.name!!, {
+                    builder.item(shortcut.name, {
                         executeShortcut(shortcut, variableValues)
                     })
                 }

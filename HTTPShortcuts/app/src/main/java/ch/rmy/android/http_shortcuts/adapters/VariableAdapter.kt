@@ -21,7 +21,7 @@ class VariableAdapter(context: Context) : BaseAdapter<Variable>(context) {
 
         override fun updateViews(item: Variable) {
             name.text = item.key
-            type.setText(Variable.TYPE_RESOURCES[ArrayUtil.findIndex(Variable.TYPE_OPTIONS, item.type!!)])
+            type.setText(Variable.TYPE_RESOURCES[ArrayUtil.findIndex(Variable.TYPE_OPTIONS, item.type)])
         }
 
     }

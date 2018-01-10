@@ -93,7 +93,7 @@ class ListFragment : BaseFragment() {
         if (category == null) {
             return
         }
-        category!!.shortcuts!!.addChangeListener(shortcutChangeListener)
+        category!!.shortcuts.addChangeListener(shortcutChangeListener)
 
         val manager: RecyclerView.LayoutManager
         val adapter: ShortcutAdapter
@@ -111,11 +111,11 @@ class ListFragment : BaseFragment() {
         }
         adapter.setPendingShortcuts(controller.shortcutsPendingExecution)
         adapter.clickListener = clickListener
-        adapter.setItems(category!!.shortcuts!!)
+        adapter.setItems(category!!.shortcuts)
 
         shortcutList.layoutManager = manager
         shortcutList.adapter = adapter
-        onShortcutsChanged(category!!.shortcuts!!)
+        onShortcutsChanged(category!!.shortcuts)
     }
 
     private fun onShortcutsChanged(shortcuts: List<Shortcut>) {
@@ -136,7 +136,7 @@ class ListFragment : BaseFragment() {
 
     private fun showContextMenu(shortcut: Shortcut) {
         MenuDialogBuilder(context!!)
-                .title(shortcut.name!!)
+                .title(shortcut.name)
                 .item(R.string.action_place, {
                     tabHost.placeShortcutOnHomeScreen(shortcut)
                 })
@@ -189,8 +189,8 @@ class ListFragment : BaseFragment() {
         if (category == null) {
             return false
         }
-        val position = category!!.shortcuts!!.indexOf(shortcut) + offset
-        return position >= 0 && position < category!!.shortcuts!!.size
+        val position = category!!.shortcuts.indexOf(shortcut) + offset
+        return position >= 0 && position < category!!.shortcuts.size
     }
 
     private fun openMoveDialog(shortcut: Shortcut) {
@@ -218,8 +218,8 @@ class ListFragment : BaseFragment() {
             if (!canMoveShortcut(shortcut, offset)) {
                 return
             }
-            val position = currentCategory.shortcuts!!.indexOf(shortcut) + offset
-            if (position == currentCategory.shortcuts!!.size) {
+            val position = currentCategory.shortcuts.indexOf(shortcut) + offset
+            if (position == currentCategory.shortcuts.size) {
                 controller.moveShortcut(shortcut, currentCategory)
             } else {
                 controller.moveShortcut(shortcut, position)
@@ -253,9 +253,9 @@ class ListFragment : BaseFragment() {
             val duplicate = controller.persist(shortcut.duplicate(newName))
             controller.moveShortcut(duplicate, currentCategory)
 
-            var position = currentCategory.shortcuts!!.size
+            var position = currentCategory.shortcuts.size
             var i = 0
-            for (s in currentCategory.shortcuts!!) {
+            for (s in currentCategory.shortcuts) {
                 if (s.id == shortcut.id) {
                     position = i + 1
                     break
@@ -282,10 +282,10 @@ class ListFragment : BaseFragment() {
                 .password(shortcut.password)
                 .method(shortcut.method)
                 .timeout(shortcut.timeout)
-                .mapFor(shortcut.headers!!) { builder, header ->
+                .mapFor(shortcut.headers) { builder, header ->
                     builder.header(header.key, header.value)
                 }
-                .mapFor(shortcut.parameters!!) { builder, parameter ->
+                .mapFor(shortcut.parameters) { builder, parameter ->
                     try {
                         builder.data(URLEncoder.encode(parameter.key, "UTF-8")
                                 + "="

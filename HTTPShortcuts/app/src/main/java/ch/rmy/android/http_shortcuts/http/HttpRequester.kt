@@ -15,10 +15,10 @@ object HttpRequester {
 
     fun executeShortcut(context: Context, detachedShortcut: Shortcut, variables: ResolvedVariables): Promise<ShortcutResponse, VolleyError, Void> {
 
-        val url = Variables.insert(detachedShortcut.url!!, variables)
-        val username = Variables.insert(detachedShortcut.username!!, variables)
-        val password = Variables.insert(detachedShortcut.password!!, variables)
-        val body = Variables.insert(detachedShortcut.bodyContent!!, variables)
+        val url = Variables.insert(detachedShortcut.url, variables)
+        val username = Variables.insert(detachedShortcut.username, variables)
+        val password = Variables.insert(detachedShortcut.password, variables)
+        val body = Variables.insert(detachedShortcut.bodyContent, variables)
         val acceptAllCertificates = detachedShortcut.acceptAllCertificates
 
         val request = ShortcutRequest.Builder(detachedShortcut.method, url)
@@ -27,16 +27,16 @@ object HttpRequester {
                 .mapIf(detachedShortcut.usesBasicAuthentication()) {
                     it.basicAuth(username, password)
                 }
-                .mapFor(detachedShortcut.parameters!!) { builder, parameter ->
+                .mapFor(detachedShortcut.parameters) { builder, parameter ->
                     builder.parameter(
-                            Variables.insert(parameter.key!!, variables),
-                            Variables.insert(parameter.value!!, variables)
+                            Variables.insert(parameter.key, variables),
+                            Variables.insert(parameter.value, variables)
                     )
                 }
-                .mapFor(detachedShortcut.headers!!) { builder, header ->
+                .mapFor(detachedShortcut.headers) { builder, header ->
                     builder.header(
-                            Variables.insert(header.key!!, variables),
-                            Variables.insert(header.value!!, variables)
+                            Variables.insert(header.key, variables),
+                            Variables.insert(header.value, variables)
                     )
                 }
                 .build()

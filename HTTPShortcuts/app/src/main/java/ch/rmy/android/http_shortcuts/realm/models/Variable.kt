@@ -14,9 +14,9 @@ open class Variable : RealmObject(), HasId {
     override var id: Long = 0
 
     @Required
-    var key: String? = null
+    var key: String = ""
     @Required
-    var type: String? = null
+    var type: String = ""
 
     var value: String? = null
     var options: RealmList<Option>? = null
@@ -30,7 +30,7 @@ open class Variable : RealmObject(), HasId {
     var flags: Int = 0
 
     @Required
-    var title: String? = null
+    var title: String = ""
 
     override val isNew: Boolean
         get() = id == 0L
@@ -62,10 +62,10 @@ open class Variable : RealmObject(), HasId {
     }
 
     var dataForType: Map<String, String?>
-        get() = GsonUtil.fromJsonString<Map<String, String?>>(data)[type!!]?.toMap() ?: emptyMap()
+        get() = GsonUtil.fromJsonString<Map<String, String?>>(data)[type]?.toMap() ?: emptyMap()
         set(value) {
             val dataMap = GsonUtil.fromJsonString<Map<String, String?>>(data).toMutableMap()
-            dataMap.put(type!!, value)
+            dataMap.put(type, value)
             data = GsonUtil.toJson(dataMap)
         }
 

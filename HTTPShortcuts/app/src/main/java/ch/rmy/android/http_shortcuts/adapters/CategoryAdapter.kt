@@ -25,10 +25,10 @@ class CategoryAdapter(context: Context) : BaseAdapter<Category>(context) {
 
         override fun updateViews(item: Category) {
             name.text = item.name
-            val count = item.shortcuts!!.size
+            val count = item.shortcuts.size
             description.text = context.resources.getQuantityString(R.plurals.shortcut_count, count, count)
 
-            updateIcons(item.shortcuts!!)
+            updateIcons(item.shortcuts)
             updateLayoutTypeIcon(item.layoutType!!)
         }
 

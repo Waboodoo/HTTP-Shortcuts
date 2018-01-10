@@ -52,7 +52,7 @@ class ExecutionService : Service() {
                 val id = pendingExecution.shortcutId
                 val tryNumber = pendingExecution.tryNumber + 1
                 val variableValues = HashMap<String, String>()
-                for (resolvedVariable in pendingExecution.resolvedVariables!!) {
+                for (resolvedVariable in pendingExecution.resolvedVariables) {
                     variableValues.put(resolvedVariable.key!!, resolvedVariable.value!!)
                 }
 

@@ -17,27 +17,27 @@ open class Shortcut : RealmObject(), HasId {
     @PrimaryKey
     override var id: Long = 0
     @Required
-    var name: String? = null
+    var name: String = ""
     @Required
     var method = METHOD_GET
     @Required
-    var url: String? = null
+    var url: String = ""
     @Required
-    var username: String? = null
+    var username: String = ""
     @Required
-    var password: String? = null
+    var password: String = ""
     var iconName: String? = null
     @Required
-    var feedback: String? = null
+    var feedback: String = ""
     @Required
-    var description: String? = null
+    var description: String = ""
     @Required
-    var bodyContent: String? = null
+    var bodyContent: String = ""
     var timeout: Int = 0
     @Required
-    var retryPolicy: String? = null
-    var headers: RealmList<Header>? = null
-    var parameters: RealmList<Parameter>? = null
+    var retryPolicy: String = ""
+    var headers: RealmList<Header> = RealmList()
+    var parameters: RealmList<Parameter> = RealmList()
     var acceptAllCertificates: Boolean = false
     var authentication: String? = AUTHENTICATION_NONE
     var launcherShortcut: Boolean = false
@@ -66,13 +66,13 @@ open class Shortcut : RealmObject(), HasId {
         duplicate.delay = delay
 
         duplicate.parameters = RealmList<Parameter>()
-        for (parameter in parameters!!) {
-            duplicate.parameters!!.add(Parameter.createNew(parameter.key!!, parameter.value!!))
+        for (parameter in parameters) {
+            duplicate.parameters.add(Parameter.createNew(parameter.key, parameter.value))
         }
 
         duplicate.headers = RealmList<Header>()
-        for (header in headers!!) {
-            duplicate.headers!!.add(Header.createNew(header.key!!, header.value!!))
+        for (header in headers) {
+            duplicate.headers.add(Header.createNew(header.key, header.value))
         }
 
         return duplicate
@@ -110,10 +110,10 @@ open class Shortcut : RealmObject(), HasId {
         null
     }
 
-    fun getSafeName(context: Context): String = if (name!!.isBlank()) {
+    fun getSafeName(context: Context): String = if (name.isBlank()) {
         context.getString(R.string.shortcut_safe_name)
     } else {
-        name!!
+        name
     }
 
     fun allowsBody(): Boolean {
@@ -153,16 +153,16 @@ open class Shortcut : RealmObject(), HasId {
                 other.launcherShortcut != launcherShortcut ||
                 other.acceptAllCertificates != acceptAllCertificates ||
                 other.delay != delay ||
-                other.parameters!!.size != parameters!!.size ||
-                other.headers!!.size != headers!!.size
+                other.parameters.size != parameters.size ||
+                other.headers.size != headers.size
                 ) {
-            return false;
+            return false
         }
-        if (other.parameters!!.indices.any { !parameters!![it].isSameAs(other.parameters!![it]) }) {
-            return false;
+        if (other.parameters.indices.any { !parameters[it].isSameAs(other.parameters[it]) }) {
+            return false
         }
-        if (other.headers!!.indices.any { !headers!![it].isSameAs(other.headers!![it]) }) {
-            return false;
+        if (other.headers.indices.any { !headers[it].isSameAs(other.headers[it]) }) {
+            return false
         }
         return true;
     }
@@ -172,7 +172,6 @@ open class Shortcut : RealmObject(), HasId {
         const val TEMPORARY_ID: Long = -1
 
         const val FIELD_NAME = "name"
-        const val FIELD_LAUNCHER_SHORTCUT = "launcherShortcut"
 
         const val METHOD_GET = "GET"
         const val METHOD_POST = "POST"

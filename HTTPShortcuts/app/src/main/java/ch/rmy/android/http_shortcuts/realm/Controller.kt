@@ -79,8 +79,8 @@ class Controller : Destroyable {
                     .equalTo(PendingExecution.FIELD_SHORTCUT_ID, shortcut.id)
                     .findAll()
                     .deleteAllFromRealm()
-            shortcut.headers!!.deleteAllFromRealm()
-            shortcut.parameters!!.deleteAllFromRealm()
+            shortcut.headers.deleteAllFromRealm()
+            shortcut.parameters.deleteAllFromRealm()
             shortcut.deleteFromRealm()
         }
     }
@@ -90,7 +90,7 @@ class Controller : Destroyable {
             for (category in categories) {
                 var oldPosition = -1
                 var i = 0
-                for (s in category.shortcuts!!) {
+                for (s in category.shortcuts) {
                     if (s.id == shortcut.id) {
                         oldPosition = i
                         break
@@ -98,9 +98,9 @@ class Controller : Destroyable {
                     i++
                 }
                 if (oldPosition != -1) {
-                    category.shortcuts!!.move(oldPosition, position)
+                    category.shortcuts.move(oldPosition, position)
                 } else {
-                    category.shortcuts!!.remove(shortcut)
+                    category.shortcuts.remove(shortcut)
                 }
             }
         }
@@ -110,16 +110,16 @@ class Controller : Destroyable {
         realm.executeTransaction(Realm.Transaction {
             for (category in categories) {
                 if (category.id == targetCategory.id) {
-                    for (s in category.shortcuts!!) {
+                    for (s in category.shortcuts) {
                         if (s.id == shortcut.id) {
                             return@Transaction
                         }
                     }
                 } else {
-                    category.shortcuts!!.remove(shortcut)
+                    category.shortcuts.remove(shortcut)
                 }
             }
-            targetCategory.shortcuts!!.add(shortcut)
+            targetCategory.shortcuts.add(shortcut)
         })
     }
 
@@ -151,11 +151,11 @@ class Controller : Destroyable {
 
     fun deleteCategory(category: Category) {
         realm.executeTransaction {
-            for (shortcut in category.shortcuts!!) {
-                shortcut.headers!!.deleteAllFromRealm()
-                shortcut.parameters!!.deleteAllFromRealm()
+            for (shortcut in category.shortcuts) {
+                shortcut.headers.deleteAllFromRealm()
+                shortcut.parameters.deleteAllFromRealm()
             }
-            category.shortcuts!!.deleteAllFromRealm()
+            category.shortcuts.deleteAllFromRealm()
             category.deleteFromRealm()
         }
     }

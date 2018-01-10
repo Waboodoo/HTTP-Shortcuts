@@ -34,7 +34,7 @@ class VariableResolver(private val context: Context) {
                 continue
             }
 
-            val variableType = TypeFactory.getType(variable.type!!)
+            val variableType = TypeFactory.getType(variable.type)
 
             if (variableType is AsyncVariableType) {
                 val index = i++
@@ -87,20 +87,20 @@ class VariableResolver(private val context: Context) {
         fun extractVariableKeys(shortcut: Shortcut): Set<String> {
             val discoveredVariables = mutableSetOf<String>()
 
-            discoveredVariables.addAll(Variables.extractVariableNames(shortcut.url!!))
-            discoveredVariables.addAll(Variables.extractVariableNames(shortcut.username!!))
-            discoveredVariables.addAll(Variables.extractVariableNames(shortcut.password!!))
-            discoveredVariables.addAll(Variables.extractVariableNames(shortcut.bodyContent!!))
+            discoveredVariables.addAll(Variables.extractVariableNames(shortcut.url))
+            discoveredVariables.addAll(Variables.extractVariableNames(shortcut.username))
+            discoveredVariables.addAll(Variables.extractVariableNames(shortcut.password))
+            discoveredVariables.addAll(Variables.extractVariableNames(shortcut.bodyContent))
 
             if (shortcut.method != Shortcut.METHOD_GET) {
-                for (parameter in shortcut.parameters!!) {
-                    discoveredVariables.addAll(Variables.extractVariableNames(parameter.key!!))
-                    discoveredVariables.addAll(Variables.extractVariableNames(parameter.value!!))
+                for (parameter in shortcut.parameters) {
+                    discoveredVariables.addAll(Variables.extractVariableNames(parameter.key))
+                    discoveredVariables.addAll(Variables.extractVariableNames(parameter.value))
                 }
             }
-            for (header in shortcut.headers!!) {
-                discoveredVariables.addAll(Variables.extractVariableNames(header.key!!))
-                discoveredVariables.addAll(Variables.extractVariableNames(header.value!!))
+            for (header in shortcut.headers) {
+                discoveredVariables.addAll(Variables.extractVariableNames(header.key))
+                discoveredVariables.addAll(Variables.extractVariableNames(header.value))
             }
 
             return discoveredVariables

@@ -80,7 +80,7 @@ class VariableEditorActivity : BaseActivity() {
 
         typeSpinner.setItemsArray(ShortcutUIUtils.getVariableTypeOptions(context))
         typeSpinner.fix()
-        typeSpinner.setSelection(ArrayUtil.findIndex(Variable.TYPE_OPTIONS, variable.type!!))
+        typeSpinner.setSelection(ArrayUtil.findIndex(Variable.TYPE_OPTIONS, variable.type))
 
         urlEncode.isChecked = variable.urlEncode
         jsonEncode.isChecked = variable.jsonEncode
@@ -173,13 +173,13 @@ class VariableEditorActivity : BaseActivity() {
     }
 
     private fun validate(): Boolean {
-        if (variable.key!!.isEmpty()) {
+        if (variable.key.isEmpty()) {
             keyView.error = getString(R.string.validation_key_non_empty)
             keyView.focus()
             return false
         }
-        val otherVariable = controller.getVariableByKey(variable.key!!)
-        if (otherVariable != null && otherVariable.id != variable.id) {
+        val otherVariable = controller.getVariableByKey(variable.key)
+        if (otherVariable?.id != variable.id) {
             keyView.error = getString(R.string.validation_key_already_exists)
             keyView.focus()
             return false

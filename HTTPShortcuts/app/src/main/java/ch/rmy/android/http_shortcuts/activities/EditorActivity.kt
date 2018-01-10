@@ -142,7 +142,7 @@ class EditorActivity : BaseActivity() {
             shortcut.timeout = curlCommand.timeout
         }
         for ((key, value) in curlCommand.headers) {
-            shortcut.headers!!.add(Header.createNew(key, value))
+            shortcut.headers.add(Header.createNew(key, value))
         }
     }
 
@@ -169,7 +169,7 @@ class EditorActivity : BaseActivity() {
         authenticationView.onItemChosenListener = itemChosenListener
         authenticationView.setSelection(ArrayUtil.findIndex(Shortcut.AUTHENTICATION_OPTIONS, shortcut.authentication!!))
 
-        parameterList.addItems(shortcut.parameters!!)
+        parameterList.addItems(shortcut.parameters)
         parameterList.setButtonText(R.string.button_add_post_param)
         parameterList.setAddDialogTitle(R.string.title_post_param_add)
         parameterList.setEditDialogTitle(R.string.title_post_param_edit)
@@ -177,7 +177,7 @@ class EditorActivity : BaseActivity() {
         parameterList.setValueLabel(R.string.label_post_param_value)
         parameterList.setItemFactory({ key, value -> Parameter.createNew(key, value) })
 
-        customHeaderList.addItems(shortcut.headers!!)
+        customHeaderList.addItems(shortcut.headers)
         customHeaderList.setButtonText(R.string.button_add_custom_header)
         customHeaderList.setAddDialogTitle(R.string.title_custom_header_add)
         customHeaderList.setEditDialogTitle(R.string.title_custom_header_edit)
@@ -189,7 +189,7 @@ class EditorActivity : BaseActivity() {
         feedbackView.setItemsArray(ShortcutUIUtils.getFeedbackOptions(context))
         feedbackView.onItemChosenListener = itemChosenListener
         feedbackView.fix()
-        feedbackView.setSelection(ArrayUtil.findIndex(Shortcut.FEEDBACK_OPTIONS, shortcut.feedback!!))
+        feedbackView.setSelection(ArrayUtil.findIndex(Shortcut.FEEDBACK_OPTIONS, shortcut.feedback))
 
         timeoutView.setItemsArray(ShortcutUIUtils.getTimeoutOptions(context))
         timeoutView.fix()
@@ -197,7 +197,7 @@ class EditorActivity : BaseActivity() {
 
         retryPolicyView.setItemsArray(ShortcutUIUtils.getRetryPolicyOptions(context))
         retryPolicyView.fix()
-        retryPolicyView.setSelection(ArrayUtil.findIndex(Shortcut.RETRY_POLICY_OPTIONS, shortcut.retryPolicy!!))
+        retryPolicyView.setSelection(ArrayUtil.findIndex(Shortcut.RETRY_POLICY_OPTIONS, shortcut.retryPolicy))
 
         acceptCertificatesCheckbox.isChecked = shortcut.acceptAllCertificates
         launcherShortcutCheckbox.isChecked = shortcut.launcherShortcut
@@ -259,12 +259,12 @@ class EditorActivity : BaseActivity() {
     }
 
     private fun validate(testOnly: Boolean): Boolean {
-        if (!testOnly && shortcut.name!!.isBlank()) {
+        if (!testOnly && shortcut.name.isBlank()) {
             nameView.error = getString(R.string.validation_name_not_empty)
             nameView.focus()
             return false
         }
-        if (!Validation.isAcceptableUrl(shortcut.url!!)) {
+        if (!Validation.isAcceptableUrl(shortcut.url)) {
             urlView.error = getString(R.string.validation_url_invalid)
             urlView.focus()
             return false
@@ -351,10 +351,10 @@ class EditorActivity : BaseActivity() {
         shortcut.acceptAllCertificates = acceptCertificatesCheckbox.isChecked
         shortcut.launcherShortcut = launcherShortcutCheckbox.isChecked
 
-        shortcut.parameters!!.clear()
-        shortcut.parameters!!.addAll(parameterList.items)
-        shortcut.headers!!.clear()
-        shortcut.headers!!.addAll(customHeaderList.items)
+        shortcut.parameters.clear()
+        shortcut.parameters.addAll(parameterList.items)
+        shortcut.headers.clear()
+        shortcut.headers.addAll(customHeaderList.items)
     }
 
     private fun cancelAndClose() {

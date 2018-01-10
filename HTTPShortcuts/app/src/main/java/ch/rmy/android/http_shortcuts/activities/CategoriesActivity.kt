@@ -138,7 +138,7 @@ class CategoriesActivity : BaseActivity() {
     }
 
     private fun showDeleteDialog(category: Category) {
-        if (category.shortcuts!!.isEmpty()) {
+        if (category.shortcuts.isEmpty()) {
             deleteCategory(category)
             return
         }
