@@ -80,44 +80,40 @@ open class Shortcut : RealmObject(), HasId {
 
     fun getIconURI(context: Context): Uri {
         val packageName = context.packageName
-        return if (iconName == null) {
-            Uri.parse("android.resource://" + packageName + "/" + ShortcutUIUtils.DEFAULT_ICON)
-        } else if (iconName!!.startsWith("android.resource://")) {
-            Uri.parse(iconName)
-        } else if (iconName!!.endsWith(".png")) {
-            Uri.fromFile(context.getFileStreamPath(iconName))
-        } else {
-            val identifier = context.resources.getIdentifier(iconName, "drawable", context.packageName)
-            Uri.parse("android.resource://$packageName/$identifier")
+        return when {
+            iconName == null -> Uri.parse("android.resource://" + packageName + "/" + ShortcutUIUtils.DEFAULT_ICON)
+            iconName!!.startsWith("android.resource://") -> Uri.parse(iconName)
+            iconName!!.endsWith(".png") -> Uri.fromFile(context.getFileStreamPath(iconName))
+            else -> {
+                val identifier = context.resources.getIdentifier(iconName, "drawable", context.packageName)
+                Uri.parse("android.resource://$packageName/$identifier")
+            }
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    fun getIcon(context: Context): Icon? {
-        try {
-            val packageName = context.packageName
-            return if (iconName == null) {
-                Icon.createWithResource(packageName, ShortcutUIUtils.DEFAULT_ICON)
-            } else if (iconName!!.startsWith("android.resource://")) {
+    fun getIcon(context: Context): Icon? = try {
+        val packageName = context.packageName
+        when {
+            iconName == null -> Icon.createWithResource(packageName, ShortcutUIUtils.DEFAULT_ICON)
+            iconName!!.startsWith("android.resource://") -> {
                 val pathSegments = Uri.parse(iconName).pathSegments
                 Icon.createWithResource(pathSegments[0], Integer.parseInt(pathSegments[1]))
-            } else if (iconName!!.endsWith(".png")) {
-                null // TODO: Generate Icon from Bitmap
-            } else {
-                val identifier = context.resources.getIdentifier(iconName, "drawable", context.packageName)
-                return Icon.createWithResource(packageName, identifier)
             }
-        } catch (e: Exception) {
-            return null
+            iconName!!.endsWith(".png") -> null // TODO: Generate Icon from Bitmap
+            else -> {
+                val identifier = context.resources.getIdentifier(iconName, "drawable", context.packageName)
+                Icon.createWithResource(packageName, identifier)
+            }
         }
-
+    } catch (e: Exception) {
+        null
     }
 
-    fun getSafeName(context: Context): String {
-        if (name!!.isBlank()) {
-            return context.getString(R.string.shortcut_safe_name)
-        }
-        return name!!
+    fun getSafeName(context: Context): String = if (name!!.isBlank()) {
+        context.getString(R.string.shortcut_safe_name)
+    } else {
+        name!!
     }
 
     fun allowsBody(): Boolean {
@@ -128,29 +124,18 @@ open class Shortcut : RealmObject(), HasId {
                 || METHOD_OPTIONS == method
     }
 
-    fun feedbackUsesUI(): Boolean {
-        return FEEDBACK_DIALOG == feedback || FEEDBACK_ACTIVITY == feedback
-    }
+    fun feedbackUsesUI() = feedback == FEEDBACK_DIALOG || feedback == FEEDBACK_ACTIVITY
 
-    fun isFeedbackErrorsOnly(): Boolean {
-        return FEEDBACK_TOAST_ERRORS == feedback || FEEDBACK_TOAST_SIMPLE_ERRORS == feedback
-    }
+    fun isFeedbackErrorsOnly() =
+            feedback == FEEDBACK_TOAST_ERRORS || feedback == FEEDBACK_TOAST_SIMPLE_ERRORS
 
-    fun isRetryAllowed(): Boolean {
-        return FEEDBACK_ACTIVITY != feedback && FEEDBACK_DIALOG != feedback
-    }
+    fun isRetryAllowed() = feedback != FEEDBACK_ACTIVITY && feedback != FEEDBACK_DIALOG
 
-    fun usesAuthentication(): Boolean {
-        return usesBasicAuthentication() || usesDigestAuthentication()
-    }
+    fun usesAuthentication() = usesBasicAuthentication() || usesDigestAuthentication()
 
-    fun usesBasicAuthentication(): Boolean {
-        return AUTHENTICATION_BASIC == authentication
-    }
+    fun usesBasicAuthentication() = authentication == AUTHENTICATION_BASIC
 
-    fun usesDigestAuthentication(): Boolean {
-        return AUTHENTICATION_DIGEST == authentication
-    }
+    fun usesDigestAuthentication() = authentication == AUTHENTICATION_DIGEST
 
     fun isSameAs(other: Shortcut): Boolean {
         if (other.name != name ||

@@ -78,24 +78,21 @@ class ExecutionService : Service() {
 
     private fun getNextToProcess(pendingExecutions: RealmResults<PendingExecution>): PendingExecution? {
         val now = Calendar.getInstance().time
-        for (pendingExecution in pendingExecutions) {
-            val waitUntil = pendingExecution.waitUntil
-            if (waitUntil?.before(now) == true) {
-                return pendingExecution
-            }
+        return pendingExecutions.firstOrNull {
+            it.waitUntil?.before(now) == true
         }
-        return null
     }
 
     private fun updateNotification(size: Int) {
         val intent = Intent(context, MainActivity::class.java)
-        val builder = NotificationCompat.Builder(context, NotificationUtil.PENDING_SHORTCUTS_NOTIFICATION_CHANNEL)
+        val notification = NotificationCompat.Builder(context, NotificationUtil.PENDING_SHORTCUTS_NOTIFICATION_CHANNEL)
                 .setContentTitle(getString(R.string.title_shortcuts_pending))
                 .setContentText(context.resources.getQuantityString(R.plurals.message_shortcuts_pending, size, size))
                 .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.ic_launcher))
                 .setContentIntent(PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT))
                 .setSmallIcon(R.drawable.ic_waiting_white)
-        startForeground(NOTIFICATION_ID, builder.build())
+                .build()
+        startForeground(NOTIFICATION_ID, notification)
     }
 
     private fun executeShortcut(id: Long, variableValues: HashMap<String, String>, tryNumber: Int) {

@@ -9,7 +9,6 @@ import ch.rmy.android.http_shortcuts.variables.types.SyncVariableType
 import ch.rmy.android.http_shortcuts.variables.types.TypeFactory
 import org.jdeferred.Promise
 import org.jdeferred.impl.DeferredObject
-import java.util.*
 
 class VariableResolver(private val context: Context) {
 
@@ -27,7 +26,7 @@ class VariableResolver(private val context: Context) {
         val deferred = DeferredObject<ResolvedVariables, Void, Void>()
         val builder = ResolvedVariables.Builder()
 
-        val waitingDialogs = ArrayList<() -> Unit>()
+        val waitingDialogs = mutableListOf<() -> Unit>()
         var i = 0
         for (variable in variablesToResolve) {
             if (preResolvedValues != null && preResolvedValues.containsKey(variable.key)) {
@@ -67,7 +66,7 @@ class VariableResolver(private val context: Context) {
         if (waitingDialogs.isEmpty()) {
             deferred.resolve(builder.build())
         } else {
-            waitingDialogs[0]()
+            waitingDialogs.first().invoke()
         }
 
         return deferred.promise()

@@ -39,6 +39,7 @@ internal class SliderType : BaseVariableType(), AsyncVariableType {
         label.text = findValue(slider, variable)
 
         val builder = BaseVariableType.createDialogBuilder(context, variable, deferredValue)
+                .toDialogBuilder()
                 .customView(view, true)
                 .positiveText(R.string.button_ok)
                 .negativeText(R.string.button_cancel)

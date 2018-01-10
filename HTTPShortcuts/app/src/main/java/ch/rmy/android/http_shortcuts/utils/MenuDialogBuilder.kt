@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.utils
 
 import android.content.Context
-import android.content.DialogInterface
 import android.support.annotation.StringRes
 import com.afollestad.materialdialogs.MaterialDialog
 
@@ -26,17 +25,22 @@ class MenuDialogBuilder(context: Context) {
         actions.add(action)
     }
 
-    fun dismissListener(onDismissListener: DialogInterface.OnDismissListener): MenuDialogBuilder {
-        builder.dismissListener(onDismissListener)
-        return this
+    fun dismissListener(onDismissListener: () -> Unit) = this.also {
+        builder.dismissListener({ onDismissListener() })
     }
 
-    fun show() {
+    fun toDialogBuilder() = if (names.isEmpty()) {
+        builder
+    } else {
         builder
                 .items(names)
                 .itemsCallback { _, _, which, _ ->
                     actions[which]()
-                }
+                }!!
+    }
+
+    fun show() {
+        toDialogBuilder()
                 .show()
     }
 

@@ -21,6 +21,7 @@ import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.utils.SelectionMode
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.ShortcutListDecorator
+import ch.rmy.android.http_shortcuts.utils.mapFor
 import ch.rmy.android.http_shortcuts.utils.mapIf
 import ch.rmy.curlcommand.CurlCommand
 import ch.rmy.curlcommand.CurlConstructor
@@ -30,7 +31,6 @@ import io.realm.RealmList
 import kotterknife.bindView
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
-import java.util.*
 
 class ListFragment : BaseFragment() {
 
@@ -229,21 +229,13 @@ class ListFragment : BaseFragment() {
 
     private fun showMoveToCategoryDialog(shortcut: Shortcut) {
         category?.let { currentCategory ->
-            val categoryNames = ArrayList<CharSequence>()
-            val categories = ArrayList<Category>()
-            for (category in this.categories) {
-                if (category.id != currentCategory.id) {
-                    categoryNames.add(category.name!!)
-                    categories.add(category)
-                }
-            }
-
-            MaterialDialog.Builder(context!!)
+            MenuDialogBuilder(context!!)
                     .title(R.string.title_move_to_category)
-                    .items(categoryNames)
-                    .itemsCallback { _, _, which, _ ->
-                        if (which < categories.size && categories[which].isValid) {
-                            moveShortcut(shortcut, categories[which])
+                    .mapFor(this.categories.filter { it.id != currentCategory.id }) { builder, category ->
+                        builder.item(category.name!!) {
+                            if (category.isValid) {
+                                moveShortcut(shortcut, category)
+                            }
                         }
                     }
                     .show()
@@ -284,35 +276,33 @@ class ListFragment : BaseFragment() {
     }
 
     private fun showCurlExportDialog(shortcut: Shortcut) {
-        val builder = CurlCommand.Builder()
+        val command = CurlCommand.Builder()
                 .url(shortcut.url)
                 .username(shortcut.username)
                 .password(shortcut.password)
                 .method(shortcut.method)
                 .timeout(shortcut.timeout)
-
-        for (header in shortcut.headers!!) {
-            builder.header(header.key, header.value)
-        }
-
-        for (parameter in shortcut.parameters!!) {
-            try {
-                builder.data(URLEncoder.encode(parameter.key, "UTF-8")
-                        + "="
-                        + URLEncoder.encode(parameter.value, "UTF-8")
-                        + "&"
-                )
-            } catch (e: UnsupportedEncodingException) {
-
-            }
-        }
-
-        builder.data(shortcut.bodyContent)
+                .mapFor(shortcut.headers!!) { builder, header ->
+                    builder.header(header.key, header.value)
+                }
+                .mapFor(shortcut.parameters!!) { builder, parameter ->
+                    try {
+                        builder.data(URLEncoder.encode(parameter.key, "UTF-8")
+                                + "="
+                                + URLEncoder.encode(parameter.value, "UTF-8")
+                                + "&"
+                        )
+                    } catch (e: UnsupportedEncodingException) {
+                        builder
+                    }
+                }
+                .data(shortcut.bodyContent)
+                .build()
 
         CurlExportDialog(
                 context!!,
                 shortcut.getSafeName(context!!),
-                CurlConstructor.toCurlCommandString(builder.build())
+                CurlConstructor.toCurlCommandString(command)
         ).show()
     }
 

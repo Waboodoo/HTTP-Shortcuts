@@ -15,13 +15,14 @@ object IntentUtil {
     private const val ACTION_UNINSTALL_SHORTCUT = "com.android.launcher.action.UNINSTALL_SHORTCUT"
     private const val EXTRA_SHORTCUT_DUPLICATE = "duplicate"
 
-    @JvmOverloads fun createIntent(context: Context, shortcutId: Long, variableValues: HashMap<String, String>? = null, tryNumber: Int = 0): Intent {
+    @JvmOverloads
+    fun createIntent(context: Context, shortcutId: Long, variableValues: Map<String, String>? = null, tryNumber: Int = 0): Intent {
         val intent = Intent(context, ExecuteActivity::class.java)
         intent.action = ExecuteActivity.ACTION_EXECUTE_SHORTCUT
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NO_ANIMATION
 
         if (variableValues != null) {
-            intent.putExtra(ExecuteActivity.EXTRA_VARIABLE_VALUES, variableValues)
+            intent.putExtra(ExecuteActivity.EXTRA_VARIABLE_VALUES, HashMap(variableValues))
         }
         if (tryNumber > 0) {
             intent.putExtra(ExecuteActivity.EXTRA_TRY_NUMBER, tryNumber)
@@ -51,6 +52,7 @@ object IntentUtil {
     fun getVariableValues(intent: Intent): Map<String, String> {
         val serializable = intent.getSerializableExtra(ExecuteActivity.EXTRA_VARIABLE_VALUES)
         if (serializable is Map<*, *>) {
+            @Suppress("UNCHECKED_CAST")
             return serializable as Map<String, String>
         }
         return emptyMap()
