@@ -82,7 +82,7 @@ dependencies {
     }
 
     /* Image selection */
-    implementation 'com.siclo.ezphotopick:library:1.0.6'
+    implementation 'com.github.esafirm.android-image-picker:imagepicker:1.10.0'
 
     /* HTTP & Network */
     implementation 'com.android.volley:volley:1.0.0'
