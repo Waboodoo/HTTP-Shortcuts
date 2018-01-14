@@ -11,17 +11,17 @@ open class PendingExecution : RealmObject() {
     @PrimaryKey
     var shortcutId: Long = 0
     @Index
-    var enqueuedAt: Date? = null
+    var enqueuedAt: Date = Date()
 
     var tryNumber: Int = 0
     var waitUntil: Date? = null
 
-    var resolvedVariables: RealmList<ResolvedVariable>? = null
+    var resolvedVariables: RealmList<ResolvedVariable> = RealmList()
 
     companion object {
 
-        val FIELD_SHORTCUT_ID = "shortcutId"
-        val FIELD_ENQUEUED_AT = "enqueuedAt"
+        const val FIELD_SHORTCUT_ID = "shortcutId"
+        const val FIELD_ENQUEUED_AT = "enqueuedAt"
 
         fun createNew(shortcutId: Long, resolvedVariables: List<ResolvedVariable> = emptyList(), tryNumber: Int = 0, waitUntil: Date? = null): PendingExecution {
             val pendingExecution = PendingExecution()

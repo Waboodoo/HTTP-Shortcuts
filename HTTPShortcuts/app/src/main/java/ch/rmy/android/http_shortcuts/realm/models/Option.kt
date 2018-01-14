@@ -23,8 +23,6 @@ open class Option : RealmObject() {
         }
     }
 
-    fun isSameAs(other: Option): Boolean {
-        return other.label == label && other.value == value
-    }
+    fun isSameAs(other: Option) = other.label == label && other.value == value
 
 }

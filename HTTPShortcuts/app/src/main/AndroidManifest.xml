@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <!-- exclude CAMERA permission which is added by com.siclo.ezphotopick but not needed -->
+    <!-- exclude CAMERA permission as it is not needed -->
     <uses-permission android:name="android.permission.CAMERA" tools:node="remove"/>
 
     <application

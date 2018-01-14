@@ -66,7 +66,7 @@ class VariablesActivity : BaseActivity() {
 
     private fun showContextMenu(variable: Variable) {
         MenuDialogBuilder(context)
-                .title(variable.key!!)
+                .title(variable.key)
                 .item(R.string.action_edit, {
                     editVariable(variable)
                 })

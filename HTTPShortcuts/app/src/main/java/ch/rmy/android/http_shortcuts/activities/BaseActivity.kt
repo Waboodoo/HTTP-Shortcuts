@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.activities
 
 import android.graphics.PorterDuff
 import android.os.Build
-import android.os.Bundle
 import android.support.annotation.StringRes
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
@@ -22,15 +21,12 @@ abstract class BaseActivity : AppCompatActivity() {
     internal var toolbar: Toolbar? = null
 
     val destroyer = Destroyer()
-    private var themeHelper: ThemeHelper? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        this.themeHelper = ThemeHelper(context)
+    val themeHelper by lazy {
+        ThemeHelper(context)
     }
 
     override fun setContentView(layoutResID: Int) {
-        setTheme(themeHelper!!.theme)
+        setTheme(themeHelper.theme)
         super.setContentView(layoutResID)
         toolbar = findViewById<Toolbar?>(R.id.toolbar) ?: return
         updateStatusBarColor()
@@ -71,7 +67,7 @@ abstract class BaseActivity : AppCompatActivity() {
             val window = window
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            window.statusBarColor = themeHelper!!.statusBarColor
+            window.statusBarColor = themeHelper.statusBarColor
         }
     }
 

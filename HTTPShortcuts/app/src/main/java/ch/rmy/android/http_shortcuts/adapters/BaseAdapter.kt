@@ -62,6 +62,7 @@ abstract class BaseAdapter<T> internal constructor(val context: Context) : Recyc
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is BaseViewHolder<*>) {
+            @Suppress("UNCHECKED_CAST")
             (holder as BaseViewHolder<T>).setItem(getItem(position))
         }
     }

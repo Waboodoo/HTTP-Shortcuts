@@ -10,6 +10,7 @@ internal class NumberType : TextType() {
 
     override fun createDialog(context: Context, controller: Controller, variable: Variable, deferredValue: Deferred<String, Unit, Unit>): () -> Unit {
         val builder = createDialogBuilder(context, variable, deferredValue)
+                .toDialogBuilder()
                 .input(null, if (variable.rememberValue) variable.value else "") { _, input ->
                     deferredValue.resolve(input.toString())
                     controller.setVariableValue(variable, input.toString())

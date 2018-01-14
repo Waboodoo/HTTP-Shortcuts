@@ -9,12 +9,12 @@ import io.realm.annotations.Required
 open class Header : RealmObject(), KeyValuePair {
 
     @PrimaryKey
-    var id: String? = null
+    var id: String = ""
 
     @Required
-    override var key: String? = null
+    override var key: String = ""
     @Required
-    override var value: String? = null
+    override var value: String = ""
 
     companion object {
 
@@ -29,8 +29,6 @@ open class Header : RealmObject(), KeyValuePair {
         }
     }
 
-    fun isSameAs(other: Header): Boolean {
-        return other.key == key && other.value == value
-    }
+    fun isSameAs(other: Header) = other.key == key && other.value == value
 
 }

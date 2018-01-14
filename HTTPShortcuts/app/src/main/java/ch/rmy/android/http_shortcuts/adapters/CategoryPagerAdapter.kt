@@ -29,9 +29,8 @@ class CategoryPagerAdapter(private val fragmentManager: FragmentManager) : Fragm
         }
 
         names.clear()
-        for (i in fragments.indices) {
+        fragments.forEachIndexed { i, fragment ->
             val category = categories[i]
-            val fragment = fragments[i]
             fragment.categoryId = category.id
             fragment.selectionMode = selectionMode
             names.add(category.name!!)

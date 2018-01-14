@@ -23,7 +23,7 @@ internal object ImportMigrator {
             }
             6 -> { // 1.16.0
                 for (category in base.categories!!) {
-                    for (shortcut in category.shortcuts!!) {
+                    for (shortcut in category.shortcuts) {
                         if (!TextUtils.isEmpty(shortcut.username) || !TextUtils.isEmpty(shortcut.password)) {
                             shortcut.authentication = "basic"
                         }
@@ -32,11 +32,11 @@ internal object ImportMigrator {
             }
             9 -> { // 1.16.2
                 for (category in base.categories!!) {
-                    for (shortcut in category.shortcuts!!) {
-                        for (header in shortcut.headers!!) {
+                    for (shortcut in category.shortcuts) {
+                        for (header in shortcut.headers) {
                             header.id = UUIDUtils.create()
                         }
-                        for (parameter in shortcut.parameters!!) {
+                        for (parameter in shortcut.parameters) {
                             parameter.id = UUIDUtils.create()
                         }
                     }
@@ -51,7 +51,7 @@ internal object ImportMigrator {
             }
             10 -> { // 1.17.0
                 for (category in base.categories!!) {
-                    for (shortcut in category.shortcuts!!) {
+                    for (shortcut in category.shortcuts) {
                         if (shortcut.authentication == null) {
                             shortcut.authentication = "none"
                         }

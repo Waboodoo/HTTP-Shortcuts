@@ -21,6 +21,7 @@ import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.utils.SelectionMode
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.ShortcutListDecorator
+import ch.rmy.android.http_shortcuts.utils.mapFor
 import ch.rmy.android.http_shortcuts.utils.mapIf
 import ch.rmy.curlcommand.CurlCommand
 import ch.rmy.curlcommand.CurlConstructor
@@ -30,7 +31,6 @@ import io.realm.RealmList
 import kotterknife.bindView
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
-import java.util.*
 
 class ListFragment : BaseFragment() {
 
@@ -93,7 +93,7 @@ class ListFragment : BaseFragment() {
         if (category == null) {
             return
         }
-        category!!.shortcuts!!.addChangeListener(shortcutChangeListener)
+        category!!.shortcuts.addChangeListener(shortcutChangeListener)
 
         val manager: RecyclerView.LayoutManager
         val adapter: ShortcutAdapter
@@ -111,11 +111,11 @@ class ListFragment : BaseFragment() {
         }
         adapter.setPendingShortcuts(controller.shortcutsPendingExecution)
         adapter.clickListener = clickListener
-        adapter.setItems(category!!.shortcuts!!)
+        adapter.setItems(category!!.shortcuts)
 
         shortcutList.layoutManager = manager
         shortcutList.adapter = adapter
-        onShortcutsChanged(category!!.shortcuts!!)
+        onShortcutsChanged(category!!.shortcuts)
     }
 
     private fun onShortcutsChanged(shortcuts: List<Shortcut>) {
@@ -136,7 +136,7 @@ class ListFragment : BaseFragment() {
 
     private fun showContextMenu(shortcut: Shortcut) {
         MenuDialogBuilder(context!!)
-                .title(shortcut.name!!)
+                .title(shortcut.name)
                 .item(R.string.action_place, {
                     tabHost.placeShortcutOnHomeScreen(shortcut)
                 })
@@ -189,8 +189,8 @@ class ListFragment : BaseFragment() {
         if (category == null) {
             return false
         }
-        val position = category!!.shortcuts!!.indexOf(shortcut) + offset
-        return position >= 0 && position < category!!.shortcuts!!.size
+        val position = category!!.shortcuts.indexOf(shortcut) + offset
+        return position >= 0 && position < category!!.shortcuts.size
     }
 
     private fun openMoveDialog(shortcut: Shortcut) {
@@ -218,8 +218,8 @@ class ListFragment : BaseFragment() {
             if (!canMoveShortcut(shortcut, offset)) {
                 return
             }
-            val position = currentCategory.shortcuts!!.indexOf(shortcut) + offset
-            if (position == currentCategory.shortcuts!!.size) {
+            val position = currentCategory.shortcuts.indexOf(shortcut) + offset
+            if (position == currentCategory.shortcuts.size) {
                 controller.moveShortcut(shortcut, currentCategory)
             } else {
                 controller.moveShortcut(shortcut, position)
@@ -229,21 +229,13 @@ class ListFragment : BaseFragment() {
 
     private fun showMoveToCategoryDialog(shortcut: Shortcut) {
         category?.let { currentCategory ->
-            val categoryNames = ArrayList<CharSequence>()
-            val categories = ArrayList<Category>()
-            for (category in this.categories) {
-                if (category.id != currentCategory.id) {
-                    categoryNames.add(category.name!!)
-                    categories.add(category)
-                }
-            }
-
-            MaterialDialog.Builder(context!!)
+            MenuDialogBuilder(context!!)
                     .title(R.string.title_move_to_category)
-                    .items(categoryNames)
-                    .itemsCallback { _, _, which, _ ->
-                        if (which < categories.size && categories[which].isValid) {
-                            moveShortcut(shortcut, categories[which])
+                    .mapFor(this.categories.filter { it.id != currentCategory.id }) { builder, category ->
+                        builder.item(category.name!!) {
+                            if (category.isValid) {
+                                moveShortcut(shortcut, category)
+                            }
                         }
                     }
                     .show()
@@ -261,9 +253,9 @@ class ListFragment : BaseFragment() {
             val duplicate = controller.persist(shortcut.duplicate(newName))
             controller.moveShortcut(duplicate, currentCategory)
 
-            var position = currentCategory.shortcuts!!.size
+            var position = currentCategory.shortcuts.size
             var i = 0
-            for (s in currentCategory.shortcuts!!) {
+            for (s in currentCategory.shortcuts) {
                 if (s.id == shortcut.id) {
                     position = i + 1
                     break
@@ -284,35 +276,33 @@ class ListFragment : BaseFragment() {
     }
 
     private fun showCurlExportDialog(shortcut: Shortcut) {
-        val builder = CurlCommand.Builder()
+        val command = CurlCommand.Builder()
                 .url(shortcut.url)
                 .username(shortcut.username)
                 .password(shortcut.password)
                 .method(shortcut.method)
                 .timeout(shortcut.timeout)
-
-        for (header in shortcut.headers!!) {
-            builder.header(header.key, header.value)
-        }
-
-        for (parameter in shortcut.parameters!!) {
-            try {
-                builder.data(URLEncoder.encode(parameter.key, "UTF-8")
-                        + "="
-                        + URLEncoder.encode(parameter.value, "UTF-8")
-                        + "&"
-                )
-            } catch (e: UnsupportedEncodingException) {
-
-            }
-        }
-
-        builder.data(shortcut.bodyContent)
+                .mapFor(shortcut.headers) { builder, header ->
+                    builder.header(header.key, header.value)
+                }
+                .mapFor(shortcut.parameters) { builder, parameter ->
+                    try {
+                        builder.data(URLEncoder.encode(parameter.key, "UTF-8")
+                                + "="
+                                + URLEncoder.encode(parameter.value, "UTF-8")
+                                + "&"
+                        )
+                    } catch (e: UnsupportedEncodingException) {
+                        builder
+                    }
+                }
+                .data(shortcut.bodyContent)
+                .build()
 
         CurlExportDialog(
                 context!!,
                 shortcut.getSafeName(context!!),
-                CurlConstructor.toCurlCommandString(builder.build())
+                CurlConstructor.toCurlCommandString(command)
         ).show()
     }
 

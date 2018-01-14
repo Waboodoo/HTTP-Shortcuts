@@ -6,6 +6,7 @@ import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.Menu
@@ -43,14 +44,9 @@ import ch.rmy.android.http_shortcuts.utils.visible
 import ch.rmy.android.http_shortcuts.variables.VariableFormatter
 import ch.rmy.curlcommand.CurlCommand
 import com.afollestad.materialdialogs.MaterialDialog
+import com.esafirm.imagepicker.features.ImagePicker
 import com.satsuware.usefulviews.LabelledSpinner
 import kotterknife.bindView
-import siclo.com.ezphotopicker.api.EZPhotoPick
-import siclo.com.ezphotopicker.api.EZPhotoPickStorage
-import siclo.com.ezphotopicker.api.models.EZPhotoPickConfig
-import siclo.com.ezphotopicker.api.models.PhotoSource
-import java.io.IOException
-import java.io.OutputStream
 import kotlin.math.max
 
 @SuppressLint("InflateParams")
@@ -142,7 +138,7 @@ class EditorActivity : BaseActivity() {
             shortcut.timeout = curlCommand.timeout
         }
         for ((key, value) in curlCommand.headers) {
-            shortcut.headers!!.add(Header.createNew(key, value))
+            shortcut.headers.add(Header.createNew(key, value))
         }
     }
 
@@ -169,7 +165,7 @@ class EditorActivity : BaseActivity() {
         authenticationView.onItemChosenListener = itemChosenListener
         authenticationView.setSelection(ArrayUtil.findIndex(Shortcut.AUTHENTICATION_OPTIONS, shortcut.authentication!!))
 
-        parameterList.addItems(shortcut.parameters!!)
+        parameterList.addItems(shortcut.parameters)
         parameterList.setButtonText(R.string.button_add_post_param)
         parameterList.setAddDialogTitle(R.string.title_post_param_add)
         parameterList.setEditDialogTitle(R.string.title_post_param_edit)
@@ -177,7 +173,7 @@ class EditorActivity : BaseActivity() {
         parameterList.setValueLabel(R.string.label_post_param_value)
         parameterList.setItemFactory({ key, value -> Parameter.createNew(key, value) })
 
-        customHeaderList.addItems(shortcut.headers!!)
+        customHeaderList.addItems(shortcut.headers)
         customHeaderList.setButtonText(R.string.button_add_custom_header)
         customHeaderList.setAddDialogTitle(R.string.title_custom_header_add)
         customHeaderList.setEditDialogTitle(R.string.title_custom_header_edit)
@@ -189,7 +185,7 @@ class EditorActivity : BaseActivity() {
         feedbackView.setItemsArray(ShortcutUIUtils.getFeedbackOptions(context))
         feedbackView.onItemChosenListener = itemChosenListener
         feedbackView.fix()
-        feedbackView.setSelection(ArrayUtil.findIndex(Shortcut.FEEDBACK_OPTIONS, shortcut.feedback!!))
+        feedbackView.setSelection(ArrayUtil.findIndex(Shortcut.FEEDBACK_OPTIONS, shortcut.feedback))
 
         timeoutView.setItemsArray(ShortcutUIUtils.getTimeoutOptions(context))
         timeoutView.fix()
@@ -197,7 +193,7 @@ class EditorActivity : BaseActivity() {
 
         retryPolicyView.setItemsArray(ShortcutUIUtils.getRetryPolicyOptions(context))
         retryPolicyView.fix()
-        retryPolicyView.setSelection(ArrayUtil.findIndex(Shortcut.RETRY_POLICY_OPTIONS, shortcut.retryPolicy!!))
+        retryPolicyView.setSelection(ArrayUtil.findIndex(Shortcut.RETRY_POLICY_OPTIONS, shortcut.retryPolicy))
 
         acceptCertificatesCheckbox.isChecked = shortcut.acceptAllCertificates
         launcherShortcutCheckbox.isChecked = shortcut.launcherShortcut
@@ -259,12 +255,12 @@ class EditorActivity : BaseActivity() {
     }
 
     private fun validate(testOnly: Boolean): Boolean {
-        if (!testOnly && shortcut.name!!.isBlank()) {
+        if (!testOnly && shortcut.name.isBlank()) {
             nameView.error = getString(R.string.validation_name_not_empty)
             nameView.focus()
             return false
         }
-        if (!Validation.isAcceptableUrl(shortcut.url!!)) {
+        if (!Validation.isAcceptableUrl(shortcut.url)) {
             urlView.error = getString(R.string.validation_url_invalid)
             urlView.focus()
             return false
@@ -303,16 +299,19 @@ class EditorActivity : BaseActivity() {
     }
 
     private fun openImagePicker() {
-        val config = EZPhotoPickConfig()
-        config.photoSource = PhotoSource.GALLERY
-        config.permisionDeniedErrorStringResource = R.string.error_cannot_get_image_permission_denied
-        config.unexpectedErrorStringResource = R.string.error_set_image
-        EZPhotoPick.startPhotoPickActivity(context, config)
+        ImagePicker.create(this)
+                .folderMode(true)
+                .folderTitle(getString(R.string.choose_image))
+                .single()
+                .showCamera(false)
+                .theme(themeHelper.theme)
+                .returnAfterFirst(true)
+                .start(REQUEST_SELECT_IMAGE);
     }
 
     private fun openIpackPicker() {
-        val iconIntent = IpackUtil.getIpackIntent(context)
-        startActivityForResult(iconIntent, SELECT_IPACK_ICON)
+        val intent = IpackUtil.getIpackIntent(context)
+        startActivityForResult(intent, REQUEST_SELECT_IPACK_ICON)
     }
 
     override fun onBackPressed() {
@@ -351,10 +350,10 @@ class EditorActivity : BaseActivity() {
         shortcut.acceptAllCertificates = acceptCertificatesCheckbox.isChecked
         shortcut.launcherShortcut = launcherShortcutCheckbox.isChecked
 
-        shortcut.parameters!!.clear()
-        shortcut.parameters!!.addAll(parameterList.items)
-        shortcut.headers!!.clear()
-        shortcut.headers!!.addAll(customHeaderList.items)
+        shortcut.parameters.clear()
+        shortcut.parameters.addAll(parameterList.items)
+        shortcut.headers.clear()
+        shortcut.headers.addAll(customHeaderList.items)
     }
 
     private fun cancelAndClose() {
@@ -370,34 +369,29 @@ class EditorActivity : BaseActivity() {
         }
 
         when (requestCode) {
-            EZPhotoPick.PHOTO_PICK_GALLERY_REQUEST_CODE -> {
-                val iconName = UUIDUtils.create() + ".png"
-                var outStream: OutputStream? = null
+            REQUEST_SELECT_IMAGE -> {
                 try {
-                    val bitmap = EZPhotoPickStorage(context).loadLatestStoredPhotoBitmap()
+                    val images = ImagePicker.getImages(intent)
+                    val bitmap = BitmapFactory.decodeFile(images.first().path, BitmapFactory.Options().also {
+                        it.inPreferredConfig = Bitmap.Config.ARGB_8888
+                    })
                     val bitmapSize = iconSize
                     val resizedBitmap = Bitmap.createScaledBitmap(bitmap, bitmapSize, bitmapSize, true)
                     if (bitmap != resizedBitmap) {
                         bitmap.recycle()
                     }
-
-                    outStream = openFileOutput(iconName, 0)
-                    resizedBitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream)
-                    outStream?.flush()
-
+                    val iconName = UUIDUtils.create() + ".png"
+                    openFileOutput(iconName, 0).use {
+                        resizedBitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
+                        it.flush()
+                    }
                     shortcut.iconName = iconName
                 } catch (e: Exception) {
                     CrashReporting.logException(e)
-                    shortcut.iconName = null
                     showSnackbar(getString(R.string.error_set_image))
-                } finally {
-                    try {
-                        outStream?.close()
-                    } catch (e: IOException) {
-                    }
                 }
             }
-            SELECT_IPACK_ICON -> {
+            REQUEST_SELECT_IPACK_ICON -> {
                 shortcut.iconName = IpackUtil.getIpackUri(intent).toString()
             }
         }
@@ -405,10 +399,7 @@ class EditorActivity : BaseActivity() {
     }
 
     private val iconSize: Int
-        get() {
-            val appIconSize = dimen(android.R.dimen.app_icon_size)
-            return max(appIconSize, launcherLargeIconSize)
-        }
+        get() = max(dimen(android.R.dimen.app_icon_size), launcherLargeIconSize)
 
     private val launcherLargeIconSize: Int
         get() {
@@ -428,7 +419,8 @@ class EditorActivity : BaseActivity() {
         const val EXTRA_SHORTCUT_ID = "ch.rmy.android.http_shortcuts.activities.EditorActivity.shortcut_id"
         const val EXTRA_CURL_COMMAND = "ch.rmy.android.http_shortcuts.activities.EditorActivity.curl_command"
 
-        private const val SELECT_IPACK_ICON = 3
+        private const val REQUEST_SELECT_IMAGE = 2
+        private const val REQUEST_SELECT_IPACK_ICON = 3
         private const val STATE_JSON_SHORTCUT = "shortcut_json"
         private const val STATE_INITIAL_ICON = "initial_icon"
 

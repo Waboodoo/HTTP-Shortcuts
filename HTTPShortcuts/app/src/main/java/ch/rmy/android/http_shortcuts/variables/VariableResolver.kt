@@ -9,7 +9,6 @@ import ch.rmy.android.http_shortcuts.variables.types.SyncVariableType
 import ch.rmy.android.http_shortcuts.variables.types.TypeFactory
 import org.jdeferred.Promise
 import org.jdeferred.impl.DeferredObject
-import java.util.*
 
 class VariableResolver(private val context: Context) {
 
@@ -27,7 +26,7 @@ class VariableResolver(private val context: Context) {
         val deferred = DeferredObject<ResolvedVariables, Void, Void>()
         val builder = ResolvedVariables.Builder()
 
-        val waitingDialogs = ArrayList<() -> Unit>()
+        val waitingDialogs = mutableListOf<() -> Unit>()
         var i = 0
         for (variable in variablesToResolve) {
             if (preResolvedValues != null && preResolvedValues.containsKey(variable.key)) {
@@ -35,7 +34,7 @@ class VariableResolver(private val context: Context) {
                 continue
             }
 
-            val variableType = TypeFactory.getType(variable.type!!)
+            val variableType = TypeFactory.getType(variable.type)
 
             if (variableType is AsyncVariableType) {
                 val index = i++
@@ -67,7 +66,7 @@ class VariableResolver(private val context: Context) {
         if (waitingDialogs.isEmpty()) {
             deferred.resolve(builder.build())
         } else {
-            waitingDialogs[0]()
+            waitingDialogs.first().invoke()
         }
 
         return deferred.promise()
@@ -88,20 +87,20 @@ class VariableResolver(private val context: Context) {
         fun extractVariableKeys(shortcut: Shortcut): Set<String> {
             val discoveredVariables = mutableSetOf<String>()
 
-            discoveredVariables.addAll(Variables.extractVariableNames(shortcut.url!!))
-            discoveredVariables.addAll(Variables.extractVariableNames(shortcut.username!!))
-            discoveredVariables.addAll(Variables.extractVariableNames(shortcut.password!!))
-            discoveredVariables.addAll(Variables.extractVariableNames(shortcut.bodyContent!!))
+            discoveredVariables.addAll(Variables.extractVariableNames(shortcut.url))
+            discoveredVariables.addAll(Variables.extractVariableNames(shortcut.username))
+            discoveredVariables.addAll(Variables.extractVariableNames(shortcut.password))
+            discoveredVariables.addAll(Variables.extractVariableNames(shortcut.bodyContent))
 
             if (shortcut.method != Shortcut.METHOD_GET) {
-                for (parameter in shortcut.parameters!!) {
-                    discoveredVariables.addAll(Variables.extractVariableNames(parameter.key!!))
-                    discoveredVariables.addAll(Variables.extractVariableNames(parameter.value!!))
+                for (parameter in shortcut.parameters) {
+                    discoveredVariables.addAll(Variables.extractVariableNames(parameter.key))
+                    discoveredVariables.addAll(Variables.extractVariableNames(parameter.value))
                 }
             }
-            for (header in shortcut.headers!!) {
-                discoveredVariables.addAll(Variables.extractVariableNames(header.key!!))
-                discoveredVariables.addAll(Variables.extractVariableNames(header.value!!))
+            for (header in shortcut.headers) {
+                discoveredVariables.addAll(Variables.extractVariableNames(header.key))
+                discoveredVariables.addAll(Variables.extractVariableNames(header.value))
             }
 
             return discoveredVariables
