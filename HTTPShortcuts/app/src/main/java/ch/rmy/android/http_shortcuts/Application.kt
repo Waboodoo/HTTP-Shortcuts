@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts
 
+import android.content.Context
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.utils.CrashReporting
 import ch.rmy.android.http_shortcuts.utils.NotificationUtil
@@ -12,18 +13,21 @@ class Application : android.app.Application() {
     override fun onCreate() {
         super.onCreate()
 
-        CrashReporting.init(this)
-        CrashReporting.enabled = Settings(this).isCrashReportingAllowed
+        CrashReporting.init(context)
+        CrashReporting.enabled = Settings(context).isCrashReportingAllowed
 
-        Controller.init(this)
+        Controller.init(context)
         Stetho.initialize(
-                Stetho.newInitializerBuilder(this)
-                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
-                        .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
+                Stetho.newInitializerBuilder(context)
+                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(context))
+                        .enableWebKitInspector(RealmInspectorModulesProvider.builder(context).build())
                         .build()
         )
 
-        NotificationUtil.createChannels(this)
+        NotificationUtil.createChannels(context)
     }
+
+    val context: Context
+        get() = this
 
 }

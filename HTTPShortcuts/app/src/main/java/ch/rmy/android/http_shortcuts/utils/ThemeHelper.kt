@@ -11,35 +11,23 @@ class ThemeHelper(context: Context) {
 
     init {
         val themeId = Settings(context).theme
-        when (themeId) {
-            Settings.THEME_GREEN -> {
-                theme = R.style.LightThemeAlt1
-                statusBarColor = color(context, R.color.primary_dark_alt1)
-            }
-            Settings.THEME_RED -> {
-                theme = R.style.LightThemeAlt2
-                statusBarColor = color(context, R.color.primary_dark_alt2)
-            }
-            Settings.THEME_PURPLE -> {
-                theme = R.style.LightThemeAlt3
-                statusBarColor = color(context, R.color.primary_dark_alt3)
-            }
-            Settings.THEME_GREY -> {
-                theme = R.style.LightThemeAlt4
-                statusBarColor = color(context, R.color.primary_dark_alt4)
-            }
-            Settings.THEME_ORANGE -> {
-                theme = R.style.LightThemeAlt5
-                statusBarColor = color(context, R.color.primary_dark_alt5)
-            }
-            Settings.THEME_INDIGO -> {
-                theme = R.style.LightThemeAlt6
-                statusBarColor = color(context, R.color.primary_dark_alt6)
-            }
-            else -> {
-                theme = R.style.LightTheme
-                statusBarColor = color(context, R.color.primary_dark)
-            }
+        theme = when (themeId) {
+            Settings.THEME_GREEN -> R.style.LightThemeAlt1
+            Settings.THEME_RED -> R.style.LightThemeAlt2
+            Settings.THEME_PURPLE -> R.style.LightThemeAlt3
+            Settings.THEME_GREY -> R.style.LightThemeAlt4
+            Settings.THEME_ORANGE -> R.style.LightThemeAlt5
+            Settings.THEME_INDIGO -> R.style.LightThemeAlt6
+            else -> R.style.LightTheme
+        }
+        statusBarColor = when (themeId) {
+            Settings.THEME_GREEN -> color(context, R.color.primary_dark_alt1)
+            Settings.THEME_RED -> color(context, R.color.primary_dark_alt2)
+            Settings.THEME_PURPLE -> color(context, R.color.primary_dark_alt3)
+            Settings.THEME_GREY -> color(context, R.color.primary_dark_alt4)
+            Settings.THEME_ORANGE -> color(context, R.color.primary_dark_alt5)
+            Settings.THEME_INDIGO -> color(context, R.color.primary_dark_alt6)
+            else -> color(context, R.color.primary_dark)
         }
     }
 
