@@ -29,14 +29,14 @@ object LauncherShortcutManager {
             val max = try {
                 shortcutManager.maxShortcutCountPerActivity
             } catch (e: Exception) {
-                CrashReporting.logException(e)
+                logException(e)
                 5
             }
 
             val launcherShortcuts = createLauncherShortcuts(context, categories, max)
             shortcutManager.dynamicShortcuts = launcherShortcuts
         } catch (e: Exception) {
-            CrashReporting.logException(e)
+            logException(e)
         }
     }
 

@@ -6,8 +6,8 @@ import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
@@ -26,7 +26,6 @@ import ch.rmy.android.http_shortcuts.realm.models.Parameter
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut.Companion.TEMPORARY_ID
 import ch.rmy.android.http_shortcuts.utils.ArrayUtil
-import ch.rmy.android.http_shortcuts.utils.CrashReporting
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.IpackUtil
@@ -40,14 +39,16 @@ import ch.rmy.android.http_shortcuts.utils.consume
 import ch.rmy.android.http_shortcuts.utils.dimen
 import ch.rmy.android.http_shortcuts.utils.fix
 import ch.rmy.android.http_shortcuts.utils.focus
+import ch.rmy.android.http_shortcuts.utils.logException
 import ch.rmy.android.http_shortcuts.utils.visible
 import ch.rmy.android.http_shortcuts.variables.VariableFormatter
 import ch.rmy.curlcommand.CurlCommand
 import com.afollestad.materialdialogs.MaterialDialog
-import com.esafirm.imagepicker.features.ImagePicker
 import com.satsuware.usefulviews.LabelledSpinner
+import com.theartofdev.edmodo.cropper.CropImage
 import kotterknife.bindView
 import kotlin.math.max
+
 
 @SuppressLint("InflateParams")
 class EditorActivity : BaseActivity() {
@@ -96,7 +97,7 @@ class EditorActivity : BaseActivity() {
         destroyer.own(customHeaderList)
 
         shortcutId = intent.getLongExtra(EXTRA_SHORTCUT_ID, 0)
-        val shortcut = if (savedInstanceState != null && savedInstanceState.containsKey(STATE_JSON_SHORTCUT)) {
+        val shortcut = if (savedInstanceState?.containsKey(STATE_JSON_SHORTCUT) == true) {
             GsonUtil.fromJson(savedInstanceState.getString(STATE_JSON_SHORTCUT)!!, Shortcut::class.java)
         } else {
             if (shortcutId == 0L) Shortcut.createNew() else controller.getDetachedShortcutById(shortcutId)
@@ -299,14 +300,14 @@ class EditorActivity : BaseActivity() {
     }
 
     private fun openImagePicker() {
-        ImagePicker.create(this)
-                .folderMode(true)
-                .folderTitle(getString(R.string.choose_image))
-                .single()
-                .showCamera(false)
-                .theme(themeHelper.theme)
-                .returnAfterFirst(true)
-                .start(REQUEST_SELECT_IMAGE);
+        CropImage.activity()
+                .setCropMenuCropButtonIcon(R.drawable.ic_save)
+                .setCropMenuCropButtonTitle(getString(R.string.button_apply_icon))
+                .setAspectRatio(1, 1)
+                .setRequestedSize(iconSize, iconSize)
+                .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
+                .setMultiTouchEnabled(true)
+                .start(this)
     }
 
     private fun openIpackPicker() {
@@ -363,43 +364,42 @@ class EditorActivity : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
-
-        if (resultCode != Activity.RESULT_OK || intent == null) {
-            return
-        }
-
         when (requestCode) {
-            REQUEST_SELECT_IMAGE -> {
+            CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
                 try {
-                    val images = ImagePicker.getImages(intent)
-                    val bitmap = BitmapFactory.decodeFile(images.first().path, BitmapFactory.Options().also {
-                        it.inPreferredConfig = Bitmap.Config.ARGB_8888
-                    })
-                    val bitmapSize = iconSize
-                    val resizedBitmap = Bitmap.createScaledBitmap(bitmap, bitmapSize, bitmapSize, true)
-                    if (bitmap != resizedBitmap) {
+                    val result = CropImage.getActivityResult(intent)
+                    if (resultCode == RESULT_OK) {
+                        val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, result.uri)
+                        val iconName = UUIDUtils.create() + ".png"
+                        openFileOutput(iconName, 0).use {
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
+                            it.flush()
+                        }
                         bitmap.recycle()
+                        shortcut.iconName = iconName
+                    } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                        if (result.error != null) {
+                            logException(result.error)
+                        }
+                        showSnackbar(getString(R.string.error_set_image))
                     }
-                    val iconName = UUIDUtils.create() + ".png"
-                    openFileOutput(iconName, 0).use {
-                        resizedBitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
-                        it.flush()
-                    }
-                    shortcut.iconName = iconName
                 } catch (e: Exception) {
-                    CrashReporting.logException(e)
+                    logException(e)
                     showSnackbar(getString(R.string.error_set_image))
                 }
             }
             REQUEST_SELECT_IPACK_ICON -> {
-                shortcut.iconName = IpackUtil.getIpackUri(intent).toString()
+                if (resultCode == RESULT_OK && intent != null) {
+                    shortcut.iconName = IpackUtil.getIpackUri(intent).toString()
+                }
             }
         }
         updateUI()
     }
 
-    private val iconSize: Int
-        get() = max(dimen(android.R.dimen.app_icon_size), launcherLargeIconSize)
+    private val iconSize by lazy {
+        max(dimen(android.R.dimen.app_icon_size), launcherLargeIconSize)
+    }
 
     private val launcherLargeIconSize: Int
         get() {
@@ -419,7 +419,6 @@ class EditorActivity : BaseActivity() {
         const val EXTRA_SHORTCUT_ID = "ch.rmy.android.http_shortcuts.activities.EditorActivity.shortcut_id"
         const val EXTRA_CURL_COMMAND = "ch.rmy.android.http_shortcuts.activities.EditorActivity.curl_command"
 
-        private const val REQUEST_SELECT_IMAGE = 2
         private const val REQUEST_SELECT_IPACK_ICON = 3
         private const val STATE_JSON_SHORTCUT = "shortcut_json"
         private const val STATE_INITIAL_ICON = "initial_icon"

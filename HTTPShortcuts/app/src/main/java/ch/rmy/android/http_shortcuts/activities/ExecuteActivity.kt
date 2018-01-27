@@ -14,11 +14,11 @@ import ch.rmy.android.http_shortcuts.http.HttpRequester
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
-import ch.rmy.android.http_shortcuts.utils.CrashReporting
 import ch.rmy.android.http_shortcuts.utils.DateUtil
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.consume
+import ch.rmy.android.http_shortcuts.utils.logException
 import ch.rmy.android.http_shortcuts.utils.visible
 import ch.rmy.android.http_shortcuts.variables.ResolvedVariables
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
@@ -274,7 +274,7 @@ class ExecuteActivity : BaseActivity() {
             startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_title)))
         } catch (e: Exception) {
             showToast(getString(R.string.error_share_failed), Toast.LENGTH_LONG)
-            CrashReporting.logException(e)
+            logException(e)
         }
     }
 

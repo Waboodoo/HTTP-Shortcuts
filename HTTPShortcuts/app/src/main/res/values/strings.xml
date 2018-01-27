@@ -297,4 +297,6 @@
     <string name="label_variable_slider_step">Step Size</string>
     <!-- error message displayed when "Maximum" is lesser than or equal to "Minimum" for "slider" variable type -->
     <string name="error_slider_max_not_greater_than_min">The maximum must be greater than the minimum.</string>
+    <!-- Button text: Set image as icon (after selecting and editing) -->
+    <string name="button_apply_icon">Apply icon</string>
 </resources>

@@ -82,7 +82,7 @@ dependencies {
     }
 
     /* Image selection */
-    implementation 'com.github.esafirm.android-image-picker:imagepicker:1.10.0'
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.6.0'
 
     /* HTTP & Network */
     implementation 'com.android.volley:volley:1.0.0'

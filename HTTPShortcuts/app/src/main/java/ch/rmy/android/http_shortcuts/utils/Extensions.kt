@@ -11,6 +11,7 @@ import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
@@ -80,4 +81,12 @@ inline fun <T, U> T.mapFor(iterable: Iterable<U>, block: (T, U) -> T): T {
         item = block.invoke(item, iterator.next())
     }
     return item
+}
+
+fun Any.logException(e: Exception) {
+    if (CrashReporting.enabled) {
+        CrashReporting.logException(e)
+    } else {
+        Log.e(this.javaClass.simpleName, "An error occurred", e)
+    }
 }
