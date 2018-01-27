@@ -10,6 +10,7 @@ import android.support.annotation.DimenRes
 import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
@@ -28,6 +29,9 @@ var View.visible: Boolean
     }
 
 fun Fragment.showMessageDialog(@StringRes stringRes: Int) {
+    if ((context as? Activity)?.isFinishing == true) {
+        return
+    }
     MaterialDialog.Builder(context!!)
             .content(stringRes)
             .positiveText(R.string.dialog_ok)
@@ -55,21 +59,9 @@ fun LabelledSpinner.fix() {
 }
 
 @ColorInt
-@Suppress("DEPRECATION")
-fun color(context: Context, @ColorRes colorRes: Int): Int =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            context.resources.getColor(colorRes, context.theme)
-        } else {
-            context.resources.getColor(colorRes)
-        }
+fun color(context: Context, @ColorRes colorRes: Int): Int = ContextCompat.getColor(context, colorRes)
 
-@Suppress("DEPRECATION")
-fun drawable(context: Context, @DrawableRes drawableRes: Int): Drawable? =
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            context.resources.getDrawable(drawableRes, context.theme)
-        } else {
-            context.resources.getDrawable(drawableRes)
-        }
+fun drawable(context: Context, @DrawableRes drawableRes: Int): Drawable? = ContextCompat.getDrawable(context, drawableRes)
 
 fun Activity.dimen(@DimenRes dimenRes: Int) = dimen(this, dimenRes)
 fun dimen(context: Context, @DimenRes dimenRes: Int) = context.resources.getDimensionPixelSize(dimenRes)

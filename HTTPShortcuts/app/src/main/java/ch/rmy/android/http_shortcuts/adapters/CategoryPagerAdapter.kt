@@ -14,7 +14,7 @@ class CategoryPagerAdapter(private val fragmentManager: FragmentManager) : Fragm
     private val names = ArrayList<String>()
 
     fun setCategories(categories: List<Category>, selectionMode: SelectionMode) {
-        (fragments.size..categories.size - 1)
+        (fragments.size until categories.size)
                 .map { fragmentManager.findFragmentByTag(makeFragmentName(it)) }
                 .forEach {
                     if (it is ListFragment) {

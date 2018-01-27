@@ -1,10 +1,11 @@
 package ch.rmy.android.http_shortcuts.utils
 
+import android.app.Activity
 import android.content.Context
 import android.support.annotation.StringRes
 import com.afollestad.materialdialogs.MaterialDialog
 
-class MenuDialogBuilder(context: Context) {
+class MenuDialogBuilder(val context: Context) {
 
     private val builder = MaterialDialog.Builder(context)
     private val names = mutableListOf<CharSequence>()
@@ -40,6 +41,9 @@ class MenuDialogBuilder(context: Context) {
     }
 
     fun show() {
+        if ((context as? Activity)?.isFinishing == true) {
+            return
+        }
         toDialogBuilder()
                 .show()
     }
