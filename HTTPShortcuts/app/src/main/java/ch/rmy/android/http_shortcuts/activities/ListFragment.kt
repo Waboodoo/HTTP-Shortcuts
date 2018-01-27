@@ -41,7 +41,7 @@ class ListFragment : BaseFragment() {
     var categoryId: Long = 0
         set(categoryId) {
             field = categoryId
-            if (isResumed) {
+            if (isAdded) {
                 onCategoryChanged()
             }
         }
@@ -125,7 +125,7 @@ class ListFragment : BaseFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        category?.shortcuts!!.removeAllChangeListeners()
+        category?.shortcuts?.removeAllChangeListeners()
         controller.destroy()
     }
 
