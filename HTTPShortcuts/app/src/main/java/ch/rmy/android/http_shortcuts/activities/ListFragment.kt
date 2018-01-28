@@ -232,7 +232,7 @@ class ListFragment : BaseFragment() {
             MenuDialogBuilder(context!!)
                     .title(R.string.title_move_to_category)
                     .mapFor(this.categories.filter { it.id != currentCategory.id }) { builder, category ->
-                        builder.item(category.name!!) {
+                        builder.item(category.name) {
                             if (category.isValid) {
                                 moveShortcut(shortcut, category)
                             }

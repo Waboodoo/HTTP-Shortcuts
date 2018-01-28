@@ -41,7 +41,7 @@ abstract class BaseAdapter<T> internal constructor(val context: Context) : Recyc
 
     override fun getItemViewType(position: Int) = if (isEmpty) TYPE_EMPTY_MARKER else TYPE_ITEM
 
-    private fun getItem(position: Int) = items!![position]
+    private fun getItem(position: Int) = items!![position]!!
 
     override fun getItemId(position: Int) = if (isEmpty) ID_EMPTY_MARKER else getItem(position).id
 

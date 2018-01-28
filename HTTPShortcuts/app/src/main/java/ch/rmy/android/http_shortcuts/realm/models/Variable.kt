@@ -55,8 +55,8 @@ open class Variable : RealmObject(), HasId {
                 ) {
             return false
         }
-        if (other.options!!.indices.any { !options!![it].isSameAs(other.options!![it]) }) {
-            return false;
+        if (other.options!!.indices.any { !options!![it]!!.isSameAs(other.options!![it]!!) }) {
+            return false
         }
         return true
     }

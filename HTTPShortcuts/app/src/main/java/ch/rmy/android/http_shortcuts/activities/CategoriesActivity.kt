@@ -38,7 +38,7 @@ class CategoriesActivity : BaseActivity() {
         setContentView(R.layout.activity_categories)
 
         val adapter = destroyer.own(CategoryAdapter(context))
-        adapter.setItems(controller.base.categories!!)
+        adapter.setItems(controller.base.categories)
 
         val manager = LinearLayoutManager(context)
         categoryList.layoutManager = manager
@@ -68,7 +68,7 @@ class CategoriesActivity : BaseActivity() {
 
     private fun showContextMenu(category: Category) {
         MenuDialogBuilder(context)
-                .title(category.name!!)
+                .title(category.name)
                 .item(R.string.action_rename, {
                     showRenameDialog(category)
                 })

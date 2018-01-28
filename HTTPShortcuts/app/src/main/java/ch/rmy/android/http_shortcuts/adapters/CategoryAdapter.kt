@@ -29,7 +29,7 @@ class CategoryAdapter(context: Context) : BaseAdapter<Category>(context) {
             description.text = context.resources.getQuantityString(R.plurals.shortcut_count, count, count)
 
             updateIcons(item.shortcuts)
-            updateLayoutTypeIcon(item.layoutType!!)
+            updateLayoutTypeIcon(item.layoutType)
         }
 
         private fun updateIcons(shortcuts: List<Shortcut>) {

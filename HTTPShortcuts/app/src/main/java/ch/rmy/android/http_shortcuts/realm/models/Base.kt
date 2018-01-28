@@ -6,7 +6,7 @@ import io.realm.RealmObject
 open class Base : RealmObject() {
 
     var version: Long = 4
-    var categories: RealmList<Category>? = null
-    var variables: RealmList<Variable>? = null
+    var categories: RealmList<Category> = RealmList()
+    var variables: RealmList<Variable> = RealmList()
 
 }

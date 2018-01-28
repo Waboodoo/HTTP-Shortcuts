@@ -9,6 +9,7 @@ import io.realm.annotations.Required
 open class Header : RealmObject(), KeyValuePair {
 
     @PrimaryKey
+    @Required
     var id: String = ""
 
     @Required
