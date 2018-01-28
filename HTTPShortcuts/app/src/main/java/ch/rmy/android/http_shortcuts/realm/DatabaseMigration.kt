@@ -113,11 +113,28 @@ class DatabaseMigration : RealmMigration {
             13L -> { // 1.17.0
                 schema.get("Shortcut").addField("delay", Int::class.javaPrimitiveType)
             }
-
+            14L -> { // 1.19.0
+                makeNonNullable(realm, "Category", "layoutType", { "linear_list" })
+                makeNonNullable(realm, "Option", "id", { UUIDUtils.create() })
+                makeNonNullable(realm, "Option", "label")
+                makeNonNullable(realm, "Option", "value")
+                makeNonNullable(realm, "ResolvedVariable", "key")
+                makeNonNullable(realm, "ResolvedVariable", "value")
+            }
             else -> throw IllegalArgumentException("Missing migration for version " + newVersion)
         }
-
         updateVersionNumber(realm, newVersion)
+    }
+
+    private fun makeNonNullable(realm: DynamicRealm, tableName: String, field: String, valueGenerator: (() -> String) = { "" }) {
+        val table = realm.schema.get(tableName)
+        if (!table.isNullable(field)) {
+            table.setNullable(field, true)
+        }
+        realm.where(tableName).isNull(field).findAll().forEach {
+            it.setString(field, valueGenerator())
+        }
+        table.setNullable(field, false)
     }
 
     private fun updateVersionNumber(realm: DynamicRealm, version: Long) {
@@ -129,7 +146,7 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 13L
+        const val VERSION = 14L
 
     }
 

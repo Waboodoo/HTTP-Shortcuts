@@ -204,7 +204,7 @@ class SettingsActivity : BaseActivity() {
             } else {
                 Intent(Intent.ACTION_GET_CONTENT)
             }
-            pickerIntent.type = IMPORT_EXPORT_FILE_TYPE
+            pickerIntent.type = "*/*"
             pickerIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             pickerIntent.addCategory(Intent.CATEGORY_OPENABLE)
             try {

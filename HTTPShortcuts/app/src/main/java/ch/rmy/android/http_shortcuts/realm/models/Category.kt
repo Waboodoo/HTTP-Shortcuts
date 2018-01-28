@@ -10,9 +10,10 @@ open class Category : RealmObject(), HasId {
     @PrimaryKey
     override var id: Long = 0
     @Required
-    var name: String? = null
+    var name: String = ""
     var shortcuts: RealmList<Shortcut> = RealmList()
-    var layoutType: String? = null
+    @Required
+    var layoutType: String = LAYOUT_LINEAR_LIST
 
     override val isNew: Boolean
         get() = id == 0L
