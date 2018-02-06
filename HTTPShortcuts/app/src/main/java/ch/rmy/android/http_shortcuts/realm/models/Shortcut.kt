@@ -155,13 +155,13 @@ open class Shortcut : RealmObject(), HasId {
                 other.delay != delay ||
                 other.parameters.size != parameters.size ||
                 other.headers.size != headers.size
-                ) {
+        ) {
             return false
         }
-        if (other.parameters.indices.any { !parameters[it].isSameAs(other.parameters[it]) }) {
+        if (other.parameters.indices.any { !parameters[it]!!.isSameAs(other.parameters[it]!!) }) {
             return false
         }
-        if (other.headers.indices.any { !headers[it].isSameAs(other.headers[it]) }) {
+        if (other.headers.indices.any { !headers[it]!!.isSameAs(other.headers[it]!!) }) {
             return false
         }
         return true;

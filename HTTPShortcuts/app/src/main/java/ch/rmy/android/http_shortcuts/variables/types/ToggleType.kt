@@ -20,7 +20,7 @@ internal class ToggleType : BaseVariableType(), SyncVariableType {
             index = 0
         }
         controller.setVariableValue(variable, index.toString())
-        return variable.options!![index].value!!
+        return variable.options!![index]!!.value
     }
 
     override fun createEditorFragment() = ToggleEditorFragment()

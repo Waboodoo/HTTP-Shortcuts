@@ -33,7 +33,7 @@ class CategoryPagerAdapter(private val fragmentManager: FragmentManager) : Fragm
             val category = categories[i]
             fragment.categoryId = category.id
             fragment.selectionMode = selectionMode
-            names.add(category.name!!)
+            names.add(category.name)
         }
         notifyDataSetChanged()
     }

@@ -108,7 +108,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
                     val categoryId = currentListFragment.categoryId
                     category = controller.getCategoryById(categoryId)!!
                 } else {
-                    category = controller.categories.first()
+                    category = controller.categories.first()!!
                 }
                 controller.moveShortcut(shortcut, category)
 

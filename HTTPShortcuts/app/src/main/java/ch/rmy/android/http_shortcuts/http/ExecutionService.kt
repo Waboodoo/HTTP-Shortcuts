@@ -53,7 +53,7 @@ class ExecutionService : Service() {
                 val tryNumber = pendingExecution.tryNumber + 1
                 val variableValues = HashMap<String, String>()
                 for (resolvedVariable in pendingExecution.resolvedVariables) {
-                    variableValues.put(resolvedVariable.key!!, resolvedVariable.value!!)
+                    variableValues.put(resolvedVariable.key, resolvedVariable.value)
                 }
 
                 controller.removePendingExecution(pendingExecution)

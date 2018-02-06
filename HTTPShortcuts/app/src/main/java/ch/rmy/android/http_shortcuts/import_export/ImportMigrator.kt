@@ -17,12 +17,12 @@ internal object ImportMigrator {
     private fun migrate(base: Base, newVersion: Int) {
         when (newVersion) {
             5 -> { // 1.16.0
-                for (category in base.categories!!) {
+                for (category in base.categories) {
                     category.layoutType = "linear_list"
                 }
             }
             6 -> { // 1.16.0
-                for (category in base.categories!!) {
+                for (category in base.categories) {
                     for (shortcut in category.shortcuts) {
                         if (!TextUtils.isEmpty(shortcut.username) || !TextUtils.isEmpty(shortcut.password)) {
                             shortcut.authentication = "basic"
@@ -31,7 +31,7 @@ internal object ImportMigrator {
                 }
             }
             9 -> { // 1.16.2
-                for (category in base.categories!!) {
+                for (category in base.categories) {
                     for (shortcut in category.shortcuts) {
                         for (header in shortcut.headers) {
                             header.id = UUIDUtils.create()
@@ -41,7 +41,7 @@ internal object ImportMigrator {
                         }
                     }
                 }
-                for (variable in base.variables!!) {
+                for (variable in base.variables) {
                     if (variable.options != null) {
                         for (option in variable.options!!) {
                             option.id = UUIDUtils.create()
@@ -50,7 +50,7 @@ internal object ImportMigrator {
                 }
             }
             10 -> { // 1.17.0
-                for (category in base.categories!!) {
+                for (category in base.categories) {
                     for (shortcut in category.shortcuts) {
                         if (shortcut.authentication == null) {
                             shortcut.authentication = "none"

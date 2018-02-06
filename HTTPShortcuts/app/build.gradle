@@ -89,7 +89,6 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.9.0'
     implementation 'com.facebook.stetho:stetho:1.5.0'
     implementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
-    implementation 'com.uphyca:stetho_realm:2.0.0'
     implementation 'com.burgstaller:okhttp-digest:1.12'
     implementation 'org.apache.httpcomponents:httpcore:4.4.1'
 
@@ -109,7 +108,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.0'
 
     /* Other */
-    implementation 'io.reactivex:rxjava:1.1.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.0.5'
 }
 
 apply plugin: 'realm-android'

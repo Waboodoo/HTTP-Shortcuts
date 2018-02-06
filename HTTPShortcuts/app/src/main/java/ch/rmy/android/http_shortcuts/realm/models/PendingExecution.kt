@@ -4,6 +4,7 @@ import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.Index
 import io.realm.annotations.PrimaryKey
+import io.realm.annotations.Required
 import java.util.*
 
 open class PendingExecution : RealmObject() {
@@ -11,6 +12,7 @@ open class PendingExecution : RealmObject() {
     @PrimaryKey
     var shortcutId: Long = 0
     @Index
+    @Required
     var enqueuedAt: Date = Date()
 
     var tryNumber: Int = 0

@@ -1,11 +1,14 @@
 package ch.rmy.android.http_shortcuts.realm.models
 
 import io.realm.RealmObject
+import io.realm.annotations.Required
 
 open class ResolvedVariable : RealmObject() {
 
-    var key: String? = null
-    var value: String? = null
+    @Required
+    var key: String = ""
+    @Required
+    var value: String = ""
 
     companion object {
 

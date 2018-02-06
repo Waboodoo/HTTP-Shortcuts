@@ -3,14 +3,18 @@ package ch.rmy.android.http_shortcuts.realm.models
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
+import io.realm.annotations.Required
 
 open class Option : RealmObject() {
 
     @PrimaryKey
-    var id: String? = null
+    @Required
+    var id: String = ""
 
-    var label: String? = null
-    var value: String? = null
+    @Required
+    var label: String = ""
+    @Required
+    var value: String = ""
 
     companion object {
 

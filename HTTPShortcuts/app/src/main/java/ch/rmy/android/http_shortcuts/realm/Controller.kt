@@ -14,6 +14,7 @@ import io.realm.Realm
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.RealmResults
+import io.realm.kotlin.where
 import java.util.*
 
 class Controller : Destroyable {
@@ -24,15 +25,15 @@ class Controller : Destroyable {
         realm.close()
     }
 
-    fun getCategoryById(id: Long): Category? = realm.where(Category::class.java).equalTo(FIELD_ID, id).findFirst()
+    fun getCategoryById(id: Long): Category? = realm.where<Category>().equalTo(FIELD_ID, id).findFirst()
 
-    fun getShortcutById(id: Long): Shortcut? = realm.where(Shortcut::class.java).equalTo(FIELD_ID, id).findFirst()
+    fun getShortcutById(id: Long): Shortcut? = realm.where<Shortcut>().equalTo(FIELD_ID, id).findFirst()
 
-    fun getShortcutByName(shortcutName: String): Shortcut? = realm.where(Shortcut::class.java).equalTo(Shortcut.FIELD_NAME, shortcutName, Case.INSENSITIVE).findFirst()
+    fun getShortcutByName(shortcutName: String): Shortcut? = realm.where<Shortcut>().equalTo(Shortcut.FIELD_NAME, shortcutName, Case.INSENSITIVE).findFirst()
 
-    fun getVariableById(id: Long): Variable? = realm.where(Variable::class.java).equalTo(FIELD_ID, id).findFirst()
+    private fun getVariableById(id: Long): Variable? = realm.where<Variable>().equalTo(FIELD_ID, id).findFirst()
 
-    fun getVariableByKey(key: String): Variable? = realm.where(Variable::class.java).equalTo(Variable.FIELD_KEY, key).findFirst()
+    fun getVariableByKey(key: String): Variable? = realm.where<Variable>().equalTo(Variable.FIELD_KEY, key).findFirst()
 
     fun setVariableValue(variable: Variable, value: String) {
         realm.executeTransaction { variable.value = value }
@@ -49,7 +50,7 @@ class Controller : Destroyable {
     }
 
     val base: Base
-        get() = realm.where(Base::class.java).findFirst()
+        get() = realm.where<Base>().findFirst()!!
 
     fun exportBase(): Base = realm.copyFromRealm(base)
 
@@ -57,25 +58,25 @@ class Controller : Destroyable {
         val oldBase = this.base
         realm.executeTransaction { realm ->
             val persistedCategories = realm.copyToRealmOrUpdate(base.categories)
-            oldBase.categories!!.removeAll(persistedCategories)
-            oldBase.categories!!.addAll(persistedCategories)
+            oldBase.categories.removeAll(persistedCategories)
+            oldBase.categories.addAll(persistedCategories)
 
             val persistedVariables = realm.copyToRealmOrUpdate(base.variables)
-            oldBase.variables!!.removeAll(persistedVariables)
-            oldBase.variables!!.addAll(persistedVariables)
+            oldBase.variables.removeAll(persistedVariables)
+            oldBase.variables.addAll(persistedVariables)
         }
     }
 
     val categories: RealmList<Category>
-        get() = base.categories!!
+        get() = base.categories
 
     val variables: RealmList<Variable>
-        get() = base.variables!!
+        get() = base.variables
 
     fun deleteShortcut(shortcut: Shortcut) {
         realm.executeTransaction { realm ->
             realm
-                    .where(PendingExecution::class.java)
+                    .where<PendingExecution>()
                     .equalTo(PendingExecution.FIELD_SHORTCUT_ID, shortcut.id)
                     .findAll()
                     .deleteAllFromRealm()
@@ -129,7 +130,7 @@ class Controller : Destroyable {
             var category = Category.createNew(name)
             category.id = generateId(Category::class.java)
             category = realm.copyToRealm(category)
-            categories!!.add(category)
+            categories.add(category)
         }
     }
 
@@ -144,7 +145,7 @@ class Controller : Destroyable {
     fun moveCategory(category: Category, position: Int) {
         realm.executeTransaction {
             val categories = base.categories
-            val oldPosition = categories!!.indexOf(category)
+            val oldPosition = categories.indexOf(category)
             categories.move(oldPosition, position)
         }
     }
@@ -169,18 +170,18 @@ class Controller : Destroyable {
 
     val shortcutsPendingExecution: RealmResults<PendingExecution>
         get() = realm
-                .where(PendingExecution::class.java)
-                .findAllSorted(PendingExecution.FIELD_ENQUEUED_AT)
+                .where<PendingExecution>()
+                .sort(PendingExecution.FIELD_ENQUEUED_AT)
+                .findAll()
 
     fun createPendingExecution(shortcutId: Long, resolvedVariables: List<ResolvedVariable>, tryNumber: Int = 0, waitUntil: Date? = null) {
         val existingPendingExecutions = realm
-                .where(PendingExecution::class.java)
+                .where<PendingExecution>()
                 .equalTo(PendingExecution.FIELD_SHORTCUT_ID, shortcutId)
                 .count()
 
         if (existingPendingExecutions == 0L) {
-            realm.executeTransaction {
-                realm ->
+            realm.executeTransaction { realm ->
                 realm.copyToRealm(PendingExecution.createNew(shortcutId, resolvedVariables, tryNumber, waitUntil))
             }
         }
@@ -222,7 +223,7 @@ class Controller : Destroyable {
 
     val shortcuts: Collection<Shortcut>
         get() = realm
-                .where(Shortcut::class.java)
+                .where<Shortcut>()
                 .notEqualTo(FIELD_ID, Shortcut.TEMPORARY_ID)
                 .findAll()
 
@@ -234,7 +235,7 @@ class Controller : Destroyable {
             Realm.init(context)
 
             val realm = RealmFactory.realm
-            if (realm.where(Base::class.java).count() == 0L) {
+            if (realm.where<Base>().count() == 0L) {
                 setupBase(context, realm)
             }
             realm.close()
@@ -249,7 +250,7 @@ class Controller : Destroyable {
                 val newBase = Base()
                 newBase.categories = RealmList()
                 newBase.variables = RealmList()
-                newBase.categories!!.add(defaultCategory)
+                newBase.categories.add(defaultCategory)
                 realm.copyToRealm(newBase)
             }
         }
