@@ -4,6 +4,7 @@ import android.content.Context
 import android.text.InputType
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Variable
+import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import org.jdeferred.Deferred
 
 internal class NumberType : TextType() {
@@ -17,7 +18,7 @@ internal class NumberType : TextType() {
                 }
                 .inputType(InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED)
         return {
-            builder.show()
+            builder.showIfPossible()
         }
     }
 

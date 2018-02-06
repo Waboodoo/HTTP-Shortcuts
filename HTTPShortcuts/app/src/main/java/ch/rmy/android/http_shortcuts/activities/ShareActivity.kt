@@ -9,6 +9,7 @@ import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.utils.mapFor
+import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import com.afollestad.materialdialogs.MaterialDialog
 
@@ -70,7 +71,7 @@ class ShareActivity : BaseActivity() {
                 .content(text)
                 .dismissListener { finishWithoutAnimation() }
                 .positiveText(R.string.button_ok)
-                .show()
+                .showIfPossible()
     }
 
     private fun showShortcutSelection(shortcuts: List<Shortcut>, variableValues: Map<String, String>) {
@@ -81,7 +82,7 @@ class ShareActivity : BaseActivity() {
                     })
                 }
                 .dismissListener { finishWithoutAnimation() }
-                .show()
+                .showIfPossible()
     }
 
     companion object {

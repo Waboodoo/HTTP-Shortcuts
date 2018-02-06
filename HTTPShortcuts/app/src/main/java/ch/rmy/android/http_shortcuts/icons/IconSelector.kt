@@ -5,6 +5,7 @@ import android.content.Context
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
 
 class IconSelector(context: Context, listener: (String) -> Unit) {
@@ -29,7 +30,7 @@ class IconSelector(context: Context, listener: (String) -> Unit) {
     }
 
     fun show() {
-        dialog.show()
+        dialog.showIfPossible()
     }
 
 }

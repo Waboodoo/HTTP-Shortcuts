@@ -7,6 +7,7 @@ import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.realm.models.Option
 import ch.rmy.android.http_shortcuts.realm.models.Variable
+import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.utils.showMessageDialog
 import com.afollestad.materialdialogs.MaterialDialog
 import kotterknife.bindView
@@ -28,7 +29,7 @@ class ToggleEditorFragment : VariableEditorFragment() {
         MaterialDialog.Builder(context!!)
                 .title(R.string.title_add_toggle_option)
                 .input(null, null) { _, input -> addNewOption(input.toString()) }
-                .show()
+                .showIfPossible()
     }
 
     private fun addNewOption(value: String) {
@@ -58,7 +59,7 @@ class ToggleEditorFragment : VariableEditorFragment() {
                 .input(null, option.value) { _, input -> updateOption(option, input.toString()) }
                 .neutralText(R.string.dialog_remove)
                 .onNeutral { _, _ -> removeOption(index) }
-                .show()
+                .showIfPossible()
     }
 
     private fun updateOption(option: Option, value: String) {

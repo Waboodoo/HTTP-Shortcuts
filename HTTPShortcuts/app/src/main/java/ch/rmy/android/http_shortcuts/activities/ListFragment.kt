@@ -23,6 +23,7 @@ import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.ShortcutListDecorator
 import ch.rmy.android.http_shortcuts.utils.mapFor
 import ch.rmy.android.http_shortcuts.utils.mapIf
+import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.curlcommand.CurlCommand
 import ch.rmy.curlcommand.CurlConstructor
 import com.afollestad.materialdialogs.MaterialDialog
@@ -119,8 +120,10 @@ class ListFragment : BaseFragment() {
     }
 
     private fun onShortcutsChanged(shortcuts: List<Shortcut>) {
-        (shortcutList.layoutManager as? GridLayoutManager)?.setEmpty(shortcuts.isEmpty())
-        LauncherShortcutManager.updateAppShortcuts(context!!, controller.categories)
+        if (controller.categories.isValid) {
+            (shortcutList.layoutManager as? GridLayoutManager)?.setEmpty(shortcuts.isEmpty())
+            LauncherShortcutManager.updateAppShortcuts(context!!, controller.categories)
+        }
     }
 
     override fun onDestroy() {
@@ -165,7 +168,7 @@ class ListFragment : BaseFragment() {
                 .item(R.string.action_delete, {
                     showDeleteDialog(shortcut)
                 })
-                .show()
+                .showIfPossible()
     }
 
     private fun getPendingExecution(shortcut: Shortcut): PendingExecution? =
@@ -210,7 +213,7 @@ class ListFragment : BaseFragment() {
                         showMoveToCategoryDialog(shortcut)
                     })
                 }
-                .show()
+                .showIfPossible()
     }
 
     private fun moveShortcut(shortcut: Shortcut, offset: Int) {
@@ -238,7 +241,7 @@ class ListFragment : BaseFragment() {
                             }
                         }
                     }
-                    .show()
+                    .showIfPossible()
         }
     }
 
@@ -312,7 +315,7 @@ class ListFragment : BaseFragment() {
                 .positiveText(R.string.dialog_delete)
                 .onPositive { _, _ -> deleteShortcut(shortcut) }
                 .negativeText(R.string.dialog_cancel)
-                .show()
+                .showIfPossible()
     }
 
     private fun deleteShortcut(shortcut: Shortcut) {

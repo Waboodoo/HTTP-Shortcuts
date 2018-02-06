@@ -12,6 +12,7 @@ import ch.rmy.android.http_shortcuts.realm.models.Category
 import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.utils.ShortcutListDecorator
 import ch.rmy.android.http_shortcuts.utils.mapIf
+import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
 import kotterknife.bindView
 
@@ -58,7 +59,7 @@ class CategoriesActivity : BaseActivity() {
                 .input(getString(R.string.placeholder_category_name), null) { _, input ->
                     createCategory(input.toString())
                 }
-                .show()
+                .showIfPossible()
     }
 
     private fun createCategory(name: String) {
@@ -90,7 +91,7 @@ class CategoriesActivity : BaseActivity() {
                         showDeleteDialog(category)
                     })
                 }
-                .show()
+                .showIfPossible()
     }
 
     private fun showRenameDialog(category: Category) {
@@ -100,7 +101,7 @@ class CategoriesActivity : BaseActivity() {
                 .input(getString(R.string.placeholder_category_name), category.name) { _, input ->
                     renameCategory(category, input.toString())
                 }
-                .show()
+                .showIfPossible()
     }
 
     private fun showLayoutTypeDialog(category: Category) {
@@ -111,7 +112,7 @@ class CategoriesActivity : BaseActivity() {
                 .item(R.string.layout_type_grid, {
                     changeLayoutType(category, Category.LAYOUT_GRID)
                 })
-                .show()
+                .showIfPossible()
     }
 
     private fun renameCategory(category: Category, newName: String) {
@@ -147,7 +148,7 @@ class CategoriesActivity : BaseActivity() {
                 .positiveText(R.string.dialog_delete)
                 .onPositive { _, _ -> deleteCategory(category) }
                 .negativeText(R.string.dialog_cancel)
-                .show()
+                .showIfPossible()
     }
 
     private fun deleteCategory(category: Category) {

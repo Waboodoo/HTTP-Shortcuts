@@ -9,6 +9,7 @@ import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
+import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
 
 class ChangeLogDialog(private val context: Context, private val whatsNew: Boolean) {
@@ -39,7 +40,7 @@ class ChangeLogDialog(private val context: Context, private val whatsNew: Boolea
                 .customView(view, false)
                 .title(if (whatsNew) R.string.changelog_title_whats_new else R.string.changelog_title)
                 .positiveText(android.R.string.ok)
-                .show()
+                .showIfPossible()
 
         changelogText.text = HTMLUtil.getHTML(context, R.string.changelog_text)
         showAtStartupCheckbox.isChecked = !isPermanentlyHidden

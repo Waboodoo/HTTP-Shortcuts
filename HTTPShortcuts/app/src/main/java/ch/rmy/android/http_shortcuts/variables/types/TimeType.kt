@@ -5,6 +5,7 @@ import android.content.Context
 import android.text.format.DateFormat
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Variable
+import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import org.jdeferred.Deferred
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -36,7 +37,7 @@ internal class TimeType : BaseVariableType(), AsyncVariableType {
         timePicker.setCanceledOnTouchOutside(true)
 
         return {
-            timePicker.show()
+            timePicker.showIfPossible()
             timePicker.setOnDismissListener {
                 if (deferredValue.isPending) {
                     deferredValue.reject(Unit)

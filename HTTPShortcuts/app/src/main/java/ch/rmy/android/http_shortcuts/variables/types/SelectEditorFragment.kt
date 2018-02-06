@@ -7,6 +7,7 @@ import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.realm.models.Option
 import ch.rmy.android.http_shortcuts.realm.models.Variable
+import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.utils.showMessageDialog
 import com.afollestad.materialdialogs.MaterialDialog
 import kotterknife.bindView
@@ -71,7 +72,7 @@ class SelectEditorFragment : VariableEditorFragment() {
                         it
                     }
                 }
-                .show()
+                .showIfPossible()
     }
 
     private fun addNewOption(label: String, value: String) {

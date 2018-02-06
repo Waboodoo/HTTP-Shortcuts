@@ -17,6 +17,7 @@ import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.utils.Destroyable
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.mapIf
+import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.variables.VariableFormatter
 import com.afollestad.materialdialogs.MaterialDialog
 import kotterknife.bindView
@@ -112,7 +113,7 @@ class KeyValueList<T : KeyValuePair> @JvmOverloads constructor(context: Context,
                         keyInput.setAdapter<ArrayAdapter<String>>(suggestionAdapter)
                     }
                 }
-                .show()
+                .showIfPossible()
     }
 
     fun addItems(items: Collection<T>) {

@@ -4,6 +4,7 @@ import android.content.Context
 import android.text.InputType
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Variable
+import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import org.jdeferred.Deferred
 
 class PasswordType : TextType() {
@@ -16,7 +17,7 @@ class PasswordType : TextType() {
                 }
                 .inputType(InputType.TYPE_TEXT_VARIATION_PASSWORD)
         return {
-            builder.show()
+            builder.showIfPossible()
         }
     }
 

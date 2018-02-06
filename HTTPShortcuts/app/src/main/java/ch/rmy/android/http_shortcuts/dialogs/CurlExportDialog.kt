@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
+import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
 
 class CurlExportDialog(private val context: Context, private val title: String, private val curlCommand: String) {
@@ -20,7 +21,7 @@ class CurlExportDialog(private val context: Context, private val title: String, 
                 .positiveText(android.R.string.ok)
                 .neutralText(R.string.share_button)
                 .onNeutral { _, _ -> shareCurlExport() }
-                .show()
+                .showIfPossible()
 
         view.findViewById<TextView>(R.id.curl_export_textview).text = curlCommand
     }

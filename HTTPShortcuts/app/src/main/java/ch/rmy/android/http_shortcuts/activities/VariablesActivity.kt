@@ -15,6 +15,7 @@ import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.utils.ShortcutListDecorator
+import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
 import kotterknife.bindView
 
@@ -73,7 +74,7 @@ class VariablesActivity : BaseActivity() {
                 .item(R.string.action_delete, {
                     showDeleteDialog(variable)
                 })
-                .show()
+                .showIfPossible()
     }
 
     private fun showDeleteDialog(variable: Variable) {
@@ -82,7 +83,7 @@ class VariablesActivity : BaseActivity() {
                 .positiveText(R.string.dialog_delete)
                 .onPositive { _, _ -> deleteVariable(variable) }
                 .negativeText(R.string.dialog_cancel)
-                .show()
+                .showIfPossible()
     }
 
     private fun deleteVariable(variable: Variable) {

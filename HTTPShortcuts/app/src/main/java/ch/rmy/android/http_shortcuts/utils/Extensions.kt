@@ -30,13 +30,10 @@ var View.visible: Boolean
     }
 
 fun Fragment.showMessageDialog(@StringRes stringRes: Int) {
-    if ((context as? Activity)?.isFinishing == true) {
-        return
-    }
     MaterialDialog.Builder(context!!)
             .content(stringRes)
             .positiveText(R.string.dialog_ok)
-            .show()
+            .showIfPossible()
 }
 
 fun EditText.focus() {

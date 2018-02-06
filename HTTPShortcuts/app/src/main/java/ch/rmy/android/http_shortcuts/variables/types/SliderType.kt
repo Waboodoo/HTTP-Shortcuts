@@ -8,6 +8,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.SimpleOnSeekBarChangeListener
+import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import org.jdeferred.Deferred
 
 
@@ -51,7 +52,7 @@ internal class SliderType : BaseVariableType(), AsyncVariableType {
                     }
                 }
         return {
-            builder.show()
+            builder.showIfPossible()
         }
     }
 

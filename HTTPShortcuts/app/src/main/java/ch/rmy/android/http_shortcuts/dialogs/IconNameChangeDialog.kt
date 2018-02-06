@@ -4,6 +4,7 @@ import android.content.Context
 import android.widget.CheckBox
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.utils.Settings
+import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
 
 class IconNameChangeDialog(private val context: Context) {
@@ -24,7 +25,7 @@ class IconNameChangeDialog(private val context: Context) {
                         settings.isIconNameWarningPermanentlyHidden = isChecked
                     }
                 }
-                .show()
+                .showIfPossible()
     }
 
     fun shouldShow() = !settings.isIconNameWarningPermanentlyHidden

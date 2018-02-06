@@ -40,6 +40,7 @@ import ch.rmy.android.http_shortcuts.utils.dimen
 import ch.rmy.android.http_shortcuts.utils.fix
 import ch.rmy.android.http_shortcuts.utils.focus
 import ch.rmy.android.http_shortcuts.utils.logException
+import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.utils.visible
 import ch.rmy.android.http_shortcuts.variables.VariableFormatter
 import ch.rmy.curlcommand.CurlCommand
@@ -288,15 +289,15 @@ class EditorActivity : BaseActivity() {
                 .item(R.string.choose_icon, this::openBuiltInIconSelectionDialog)
                 .item(R.string.choose_image, this::openImagePicker)
                 .item(R.string.choose_ipack_icon, this::openIpackPicker)
-                .show()
+                .showIfPossible()
     }
 
     private fun openBuiltInIconSelectionDialog() {
-        val iconSelector = IconSelector(context) { iconName ->
+        IconSelector(context) { iconName ->
             shortcut.iconName = iconName
             updateUI()
         }
-        iconSelector.show()
+        .show()
     }
 
     private fun openImagePicker() {
@@ -327,7 +328,7 @@ class EditorActivity : BaseActivity() {
                     .positiveText(R.string.dialog_discard)
                     .onPositive { _, _ -> cancelAndClose() }
                     .negativeText(R.string.dialog_cancel)
-                    .show()
+                    .showIfPossible()
         } else {
             cancelAndClose()
         }

@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.variables.types
 import android.content.Context
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Variable
+import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import org.jdeferred.Deferred
 
 open class TextType : BaseVariableType(), AsyncVariableType {
@@ -17,7 +18,7 @@ open class TextType : BaseVariableType(), AsyncVariableType {
                     controller.setVariableValue(variable, input.toString())
                 }
         return {
-            builder.show()
+            builder.showIfPossible()
         }
     }
 

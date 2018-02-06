@@ -17,6 +17,7 @@ import ch.rmy.android.http_shortcuts.utils.SimpleTextWatcher
 import ch.rmy.android.http_shortcuts.utils.consume
 import ch.rmy.android.http_shortcuts.utils.fix
 import ch.rmy.android.http_shortcuts.utils.focus
+import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.utils.visible
 import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.android.http_shortcuts.variables.types.AsyncVariableType
@@ -146,7 +147,7 @@ class VariableEditorActivity : BaseActivity() {
                     .positiveText(R.string.dialog_discard)
                     .onPositive { _, _ -> finish() }
                     .negativeText(R.string.dialog_cancel)
-                    .show()
+                    .showIfPossible()
         } else {
             finish()
         }

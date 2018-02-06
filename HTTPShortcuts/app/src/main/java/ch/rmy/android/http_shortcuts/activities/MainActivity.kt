@@ -22,6 +22,7 @@ import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.utils.SelectionMode
 import ch.rmy.android.http_shortcuts.utils.consume
+import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.utils.visible
 import kotterknife.bindView
 
@@ -60,7 +61,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
         MenuDialogBuilder(context)
                 .item(R.string.button_create_new, this::openEditorForCreation)
                 .item(R.string.button_curl_import, this::openCurlImport)
-                .show()
+                .showIfPossible()
     }
 
     private fun openEditorForCreation() {

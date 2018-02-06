@@ -4,6 +4,7 @@ import android.content.Context
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.mapFor
+import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import org.jdeferred.Deferred
 
 internal class SelectType : BaseVariableType(), AsyncVariableType {
@@ -19,7 +20,7 @@ internal class SelectType : BaseVariableType(), AsyncVariableType {
                     }
                 }
         return {
-            builder.show()
+            builder.showIfPossible()
         }
     }
 

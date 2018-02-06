@@ -24,6 +24,7 @@ import ch.rmy.android.http_shortcuts.utils.CrashReporting
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.utils.Settings
+import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
 import com.nononsenseapps.filepicker.FilePickerActivity
 import java.io.File
@@ -136,7 +137,7 @@ class SettingsActivity : BaseActivity() {
                     .title(R.string.title_export)
                     .item(R.string.button_export_to_filesystem, this::showExportInstructions)
                     .item(R.string.button_export_send_to, this::sendExport)
-                    .show()
+                    .showIfPossible()
         }
 
         private fun showExportInstructions() {
@@ -145,7 +146,7 @@ class SettingsActivity : BaseActivity() {
                     .negativeText(R.string.button_cancel)
                     .content(R.string.export_instructions)
                     .onPositive { _, _ -> openFilePickerForExport() }
-                    .show()
+                    .showIfPossible()
         }
 
         private fun sendExport() {
@@ -168,7 +169,7 @@ class SettingsActivity : BaseActivity() {
                     .title(R.string.title_import)
                     .item(R.string.button_import_from_filesystem, this::showImportInstructions)
                     .item(R.string.button_import_from_general, this::openGeneralPickerForImport)
-                    .show()
+                    .showIfPossible()
         }
 
         private fun showImportInstructions() {
@@ -177,7 +178,7 @@ class SettingsActivity : BaseActivity() {
                     .negativeText(R.string.button_cancel)
                     .content(R.string.import_instructions)
                     .onPositive { _, _ -> openLocalFilePickerForImport() }
-                    .show()
+                    .showIfPossible()
         }
 
         private fun openFilePickerForExport() {
