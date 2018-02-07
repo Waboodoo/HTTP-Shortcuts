@@ -19,10 +19,12 @@ import java.util.*
 
 class Controller : Destroyable {
 
-    private val realm: Realm = RealmFactory.realm
+    private val realm: Realm = realmFactory.createRealm()
 
     override fun destroy() {
-        realm.close()
+        if (!realm.isClosed) {
+            realm.close()
+        }
     }
 
     fun getCategoryById(id: Long): Category? = realm.where<Category>().equalTo(FIELD_ID, id).findFirst()
@@ -231,14 +233,17 @@ class Controller : Destroyable {
 
         private const val FIELD_ID = "id"
 
+        private lateinit var realmFactory: RealmFactory
+
         fun init(context: Context) {
             Realm.init(context)
+            realmFactory = RealmFactory(EncryptionHelper(context).encryptionKey)
 
-            val realm = RealmFactory.realm
-            if (realm.where<Base>().count() == 0L) {
-                setupBase(context, realm)
+            realmFactory.createRealm().use { realm ->
+                if (realm.where<Base>().count() == 0L) {
+                    setupBase(context, realm)
+                }
             }
-            realm.close()
         }
 
         private fun setupBase(context: Context, realm: Realm) {
