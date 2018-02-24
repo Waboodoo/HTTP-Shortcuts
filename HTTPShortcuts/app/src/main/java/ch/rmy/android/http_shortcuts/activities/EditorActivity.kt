@@ -48,7 +48,6 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.satsuware.usefulviews.LabelledSpinner
 import com.theartofdev.edmodo.cropper.CropImage
 import kotterknife.bindView
-import kotlin.math.max
 
 
 @SuppressLint("InflateParams")
@@ -399,7 +398,7 @@ class EditorActivity : BaseActivity() {
     }
 
     private val iconSize by lazy {
-        max(dimen(android.R.dimen.app_icon_size), launcherLargeIconSize)
+        Math.max(dimen(android.R.dimen.app_icon_size), launcherLargeIconSize)
     }
 
     private val launcherLargeIconSize: Int

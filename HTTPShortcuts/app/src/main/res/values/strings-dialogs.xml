@@ -4,7 +4,10 @@
         <p>
             <b>Version 1.19.0</b><br>
             - New variable type: number slider<br>
-            - "Number Input" variable allows decimals and minus sign
+            - "Number Input" variable allows decimals and minus sign<br>
+            - Better support for user-defined certificates<br>
+            - Password input is hidden<br>
+            - Internal storage is encrypted
         </p>
         <p>
             <b>Version 1.18.0</b><br>

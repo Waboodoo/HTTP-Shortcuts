@@ -75,8 +75,8 @@
     <string name="choose_icon">Choose built-in icon</string>
     <string name="label_post_params">Parameters</string>
     <string name="button_add_post_param">Add parameter</string>
-    <string name="title_post_param_edit">Edit parameter</string>
-    <string name="title_post_param_add">Add parameter</string>
+    <string name="title_post_param_edit">Edit Parameter</string>
+    <string name="title_post_param_add">Add Parameter</string>
     <string name="label_post_param_key">Parameter</string>
     <string name="label_post_param_value">Value</string>
     <string name="dialog_ok">OK</string>
@@ -85,8 +85,8 @@
     <string name="section_request_headers">Request Headers</string>
     <string name="section_request_body">Request Body</string>
     <string name="button_add_custom_header">Add header</string>
-    <string name="title_custom_header_edit">Edit header</string>
-    <string name="title_custom_header_add">Add header</string>
+    <string name="title_custom_header_edit">Edit Header</string>
+    <string name="title_custom_header_add">Add Header</string>
     <string name="label_custom_header_key">Header</string>
     <string name="label_custom_header_value">Value</string>
     <string name="label_custom_body">Request Body</string>
@@ -192,11 +192,11 @@
         <item quantity="one">%d shortcut</item>
         <item quantity="other">%d shortcuts</item>
     </plurals>
-    <string name="title_move_to_category">Move to category</string>
+    <string name="title_move_to_category">Move to Category</string>
     <string name="plugin_name">Execute HTTP Shortcut</string>
     <string name="title_variables">Variables</string>
-    <string name="edit_variable">Edit variable</string>
-    <string name="create_variable">Create variable</string>
+    <string name="edit_variable">Edit Variable</string>
+    <string name="create_variable">Create Variable</string>
     <string name="label_variable_type">Type</string>
     <string name="label_variable_key">Key</string>
     <string name="label_variable_title">Dialog Title (optional)</string>
@@ -221,10 +221,10 @@
     <string name="section_basic_variable_settings">Basic Settings</string>
     <string name="validation_key_non_empty">Variable key must not be empty.</string>
     <string name="validation_key_already_exists">Another variable with this key already exists.</string>
-    <string name="title_add_toggle_option">Add value</string>
+    <string name="title_add_toggle_option">Add Value</string>
     <string name="button_add_toggle_option">Add value</string>
     <string name="section_toggle_options">Toggle Values</string>
-    <string name="title_add_select_option">Add option</string>
+    <string name="title_add_select_option">Add Option</string>
     <string name="button_add_select_option">Add option</string>
     <string name="section_select_options">Selectable Options</string>
     <string name="label_select_label">Label</string>

@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: pt, Portuguese
  Exported by: Roland Meyer
- Exported at: Tue, 28 Nov 2017 10:29:50 +0000
+ Exported at: Sat, 24 Feb 2018 15:39:36 +0000
 -->
 <resources>
     <!-- The name of the app -->
@@ -293,4 +293,18 @@
     <string name="settings_privacy_policy_summary">Nope, not stealing your data.</string>
     <!-- Title of dialog that shows the privacy policy -->
     <string name="title_privacy_policy">Privacy Policy</string>
+    <!-- Type of variable: Slider, i.e. a horizontal bar that allows to pick a number by sliding a knob left or right -->
+    <string name="variable_type_slider">Slider</string>
+    <!-- Name of notification channel used for displaying that shortcut executions are pending (e.g. waiting for network connection) -->
+    <string name="name_pending_shortcuts_channel">Pending Executions</string>
+    <!-- Label above input box, for minimum (numeric) value of a horizontal slider -->
+    <string name="label_variable_slider_min">Minimum</string>
+    <!-- Label above input box, for maximum (numeric) value of a horizontal slider -->
+    <string name="label_variable_slider_max">Maximum</string>
+    <!-- Label above input box, for step size (numeric) value of a horizontal slider -->
+    <string name="label_variable_slider_step">Step Size</string>
+    <!-- error message displayed when "Maximum" is lesser than or equal to "Minimum" for "slider" variable type -->
+    <string name="error_slider_max_not_greater_than_min">The maximum must be greater than the minimum.</string>
+    <!-- Button text: Set image as icon (after selecting and editing) -->
+    <string name="button_apply_icon">Apply icon</string>
 </resources>

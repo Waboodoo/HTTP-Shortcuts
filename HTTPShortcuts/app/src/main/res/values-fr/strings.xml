@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: fr, French
  Exported by: Roland Meyer
- Exported at: Tue, 28 Nov 2017 10:29:50 +0000
+ Exported at: Sat, 24 Feb 2018 15:39:36 +0000
 -->
 <resources>
     <!-- The name of the app -->
@@ -131,7 +131,7 @@
     <string name="settings_mail">Contacter le développeur</string>
     <string name="settings_mail_summary">Questions, demandes de fonctionnalités, autres commentaires, …</string>
     <string name="settings_github">Voir sur Github</string>
-    <string name="settings_github_summary">C\'est vrai, cette application est open-source</string>
+    <string name="settings_github_summary">Et oui! Cette application est open-source</string>
     <string name="changelog_title_whats_new">Quoi de nouveaux?</string>
     <string name="changelog_title">Changelog</string>
     <string name="changelog_checkbox_show_at_startup">Afficher au démarrage</string>
@@ -282,15 +282,29 @@
     <!-- Section title on settings screen for privacy related settings -->
     <string name="settings_title_privacy">Confidentialité</string>
     <!-- Setting title for crash reporting settings, as part of privacy settings (opt-in/opt-out) -->
-    <string name="settings_crash_reporting">Crash Reporting</string>
+    <string name="settings_crash_reporting">Rapports d\'erreur</string>
     <!-- Option for crash reporting opt in -->
-    <string name="settings_crash_reporting_allow">Send crash reports to help improve the app</string>
+    <string name="settings_crash_reporting_allow">Envoyer les rapports d\'erreur pour améliorer l\'application</string>
     <!-- Option for crash reporting opt out -->
-    <string name="settings_crash_reporting_disallow">Don\'t send any crash reports</string>
+    <string name="settings_crash_reporting_disallow">Ne pas envoyer les rapports d\'erreur</string>
     <!-- Title of section in settings that allows user to click to open privacy policy dialog -->
     <string name="settings_privacy_policy">Politique de Confidentialité</string>
     <!-- Summary/subtitle of section in settings that allows user to click to open privacy policy dialog -->
-    <string name="settings_privacy_policy_summary">Nope, not stealing your data.</string>
+    <string name="settings_privacy_policy_summary">Non, nous ne volons pas vos données !</string>
     <!-- Title of dialog that shows the privacy policy -->
     <string name="title_privacy_policy">Politique de Confidentialité</string>
+    <!-- Type of variable: Slider, i.e. a horizontal bar that allows to pick a number by sliding a knob left or right -->
+    <string name="variable_type_slider">Barre de curseur</string>
+    <!-- Name of notification channel used for displaying that shortcut executions are pending (e.g. waiting for network connection) -->
+    <string name="name_pending_shortcuts_channel">Pending Executions</string>
+    <!-- Label above input box, for minimum (numeric) value of a horizontal slider -->
+    <string name="label_variable_slider_min">Minimum</string>
+    <!-- Label above input box, for maximum (numeric) value of a horizontal slider -->
+    <string name="label_variable_slider_max">Maximum</string>
+    <!-- Label above input box, for step size (numeric) value of a horizontal slider -->
+    <string name="label_variable_slider_step">Taille de pas</string>
+    <!-- error message displayed when "Maximum" is lesser than or equal to "Minimum" for "slider" variable type -->
+    <string name="error_slider_max_not_greater_than_min">Le maximum doit être supérieur au minimum.</string>
+    <!-- Button text: Set image as icon (after selecting and editing) -->
+    <string name="button_apply_icon">Appliquer</string>
 </resources>
