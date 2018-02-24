@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts
 
 import android.content.Context
+import android.support.multidex.MultiDex
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.utils.CrashReporting
 import ch.rmy.android.http_shortcuts.utils.NotificationUtil
@@ -19,6 +20,11 @@ class Application : android.app.Application() {
         Stetho.initializeWithDefaults(context)
 
         NotificationUtil.createChannels(context)
+    }
+
+    public override fun attachBaseContext(base: Context) {
+        MultiDex.install(base)
+        super.attachBaseContext(base)
     }
 
     val context: Context

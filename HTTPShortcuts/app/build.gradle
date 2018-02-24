@@ -17,6 +17,7 @@ android {
         versionName rootProject.ext.versionName
         versionCode rootProject.ext.versionCode
         buildConfigField 'String', 'BUGSNAG_API_KEY', "\"${rootProject.ext.bugsnagAPIKey}\""
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -24,6 +25,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
+    }
+
+    dexOptions {
+        jumboMode true
     }
 }
 
@@ -49,6 +54,7 @@ repositories {
 }
 
 dependencies {
+    implementation 'com.android.support:multidex:1.0.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
     /* Support libraries */
