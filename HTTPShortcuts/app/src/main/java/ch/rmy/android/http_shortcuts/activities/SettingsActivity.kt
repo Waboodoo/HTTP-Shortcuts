@@ -216,7 +216,7 @@ class SettingsActivity : BaseActivity() {
         }
 
         private fun sendMail() {
-            val intent = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + DEVELOPER_EMAIL))
+            val intent = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:$DEVELOPER_EMAIL"))
             val recipients = arrayOf(DEVELOPER_EMAIL)
             intent.putExtra(Intent.EXTRA_EMAIL, recipients)
             intent.putExtra(Intent.EXTRA_SUBJECT, CONTACT_SUBJECT)
@@ -230,13 +230,21 @@ class SettingsActivity : BaseActivity() {
         }
 
         private fun openPlayStore() {
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(PLAY_STORE_URL))
-            startActivity(browserIntent)
+            try {
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(PLAY_STORE_URL))
+                startActivity(browserIntent)
+            } catch (e: ActivityNotFoundException) {
+                Toast.makeText(activity, R.string.error_not_supported, Toast.LENGTH_SHORT).show()
+            }
         }
 
         private fun gotoGithub() {
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(GITHUB_URL))
-            startActivity(browserIntent)
+            try {
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(GITHUB_URL))
+                startActivity(browserIntent)
+            } catch (e: ActivityNotFoundException) {
+                Toast.makeText(activity, R.string.error_not_supported, Toast.LENGTH_SHORT).show()
+            }
         }
 
         private fun showLicenses() {
