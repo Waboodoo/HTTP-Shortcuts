@@ -3,21 +3,28 @@ package ch.rmy.android.http_shortcuts.http
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.app.Service
+import android.app.job.JobInfo
+import android.app.job.JobScheduler
 import android.content.BroadcastReceiver
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.BitmapFactory
 import android.net.ConnectivityManager
+import android.os.Build
 import android.os.IBinder
+import android.support.annotation.RequiresApi
 import android.support.v4.app.NotificationCompat
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.MainActivity
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.PendingExecution
 import ch.rmy.android.http_shortcuts.utils.Connectivity
+import ch.rmy.android.http_shortcuts.utils.CrashReporting
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.NotificationUtil
+import ch.rmy.android.http_shortcuts.utils.mapIf
 import io.realm.RealmResults
 import java.util.*
 
@@ -116,16 +123,39 @@ class ExecutionService : Service() {
 
         private const val NOTIFICATION_ID = 1
 
+        private const val JOB_ID = 1
+
         fun start(context: Context, executionTime: Date? = null) {
-            if (executionTime != null) {
-                val now = Calendar.getInstance().time
-                val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                val serviceIntent = Intent(context, RestarterService::class.java)
-                val pendingIntent = PendingIntent.getBroadcast(context, 1, serviceIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-                alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + executionTime.time - now.time, pendingIntent)
-            } else {
-                context.startService(Intent(context, ExecutionService::class.java))
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    scheduleService(context, executionTime)
+                } else {
+                    if (executionTime != null) {
+                        val now = Calendar.getInstance().time
+                        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                        val serviceIntent = Intent(context, RestarterService::class.java)
+                        val pendingIntent = PendingIntent.getBroadcast(context, 1, serviceIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+                        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + executionTime.time - now.time, pendingIntent)
+                    } else {
+                        context.startService(Intent(context, ExecutionService::class.java))
+                    }
+                }
+            } catch (e: Exception) {
+                CrashReporting.logException(e)
             }
+        }
+
+        @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+        private fun scheduleService(context: Context, executionTime: Date? = null) {
+            val jobInfo = JobInfo.Builder(JOB_ID, ComponentName(context, ExecutionService::class.java))
+                    .mapIf(executionTime != null) {
+                        val now = Calendar.getInstance().time
+                        val latency = now.time - executionTime!!.time
+                        it.setMinimumLatency(latency)
+                    }
+                    .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                    .build()
+            (context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler).schedule(jobInfo)
         }
 
     }

@@ -7,7 +7,8 @@
             - "Number Input" variable allows decimals and minus sign<br>
             - Better support for user-defined certificates<br>
             - Password input is hidden<br>
-            - Internal storage is encrypted
+            - Internal storage is encrypted<br>
+            - <i>Known issue:</i> delayed execution does not work on Oreo
         </p>
         <p>
             <b>Version 1.18.0</b><br>
