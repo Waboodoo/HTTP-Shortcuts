@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
     buildToolsVersion '26.0.2'
 
     lintOptions {
@@ -17,6 +17,7 @@ android {
         versionName rootProject.ext.versionName
         versionCode rootProject.ext.versionCode
         buildConfigField 'String', 'BUGSNAG_API_KEY', "\"${rootProject.ext.bugsnagAPIKey}\""
+        buildConfigField 'String', 'REALM_ENCRYPTION_KEY', "\"${rootProject.ext.realmEncryptionKey}\""
         multiDexEnabled true
     }
 
@@ -42,9 +43,6 @@ buildscript {
 
 repositories {
     maven {
-        url 'https://github.com/uPhyca/stetho-realm/raw/master/maven-repo'
-    }
-    maven {
         url "https://jitpack.io"
     }
     maven {
@@ -58,11 +56,11 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
     /* Support libraries */
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support:design:26.1.0'
-    implementation 'com.android.support:recyclerview-v7:26.1.0'
-    implementation 'com.android.support:support-annotations:26.1.0'
-    implementation 'com.android.support:cardview-v7:26.1.0'
+    implementation 'com.android.support:appcompat-v7:27.1.0'
+    implementation 'com.android.support:design:27.1.0'
+    implementation 'com.android.support:recyclerview-v7:27.1.0'
+    implementation 'com.android.support:support-annotations:27.1.0'
+    implementation 'com.android.support:cardview-v7:27.1.0'
 
     /* UI */
     implementation 'com.satsuware.lib:usefulviews:2.3.1'

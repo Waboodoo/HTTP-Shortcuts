@@ -36,7 +36,7 @@ internal class RealmFactory(private val encryptionKey: ByteArray) {
 
     companion object {
 
-        private const val DB_NAME = "shortcuts"
+        private const val DB_NAME = "shortcuts_db"
 
     }
 

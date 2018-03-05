@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.realm
 
 import android.content.Context
+import ch.rmy.android.http_shortcuts.BuildConfig
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.realm.models.Base
 import ch.rmy.android.http_shortcuts.realm.models.Category
@@ -237,7 +238,7 @@ class Controller : Destroyable {
 
         fun init(context: Context) {
             Realm.init(context)
-            realmFactory = RealmFactory(EncryptionHelper(context).encryptionKey)
+            realmFactory = RealmFactory(BuildConfig.REALM_ENCRYPTION_KEY.toByteArray())
 
             realmFactory.createRealm().use { realm ->
                 if (realm.where<Base>().count() == 0L) {
@@ -256,7 +257,7 @@ class Controller : Destroyable {
                 newBase.categories = RealmList()
                 newBase.variables = RealmList()
                 newBase.categories.add(defaultCategory)
-                realm.copyToRealm(newBase)
+                it.copyToRealm(newBase)
             }
         }
     }

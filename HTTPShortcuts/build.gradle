@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '1.2.21'
+    ext.kotlin_version = '1.2.30'
     repositories {
         jcenter()
         google()
@@ -23,6 +23,7 @@ ext {
             project['version.build'].toInteger()
 
     bugsnagAPIKey = System.getenv('BUGSNAG_API_KEY') ?: ''
+    realmEncryptionKey = System.getenv('REALM_ENCRYPTION_KEY') ?: 'ZX06poC7a96dL9,FR_9|Ww<2%]?4Ij(3wR3DmyNj0[{(,8g%jX2{03P45_p`N6|2'
 }
 
 allprojects {
