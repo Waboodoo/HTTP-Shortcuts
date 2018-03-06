@@ -12,6 +12,8 @@ A simple Android app that allows you to create shortcuts that can be placed on y
 
 Help me translate this app! Feel free to open a pull request to add new languages or to fix translation mistakes. Or contact me and I can grant you access to the translation tool.
 
+Become a [Beta Tester](https://play.google.com/apps/testing/ch.rmy.android.http_shortcuts)!
+
 ## Features
 - HTTP and HTTPS
 - GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS and TRACE
