@@ -54,7 +54,7 @@ class ExecuteActivity : BaseActivity() {
         if (shortcut == null) {
             showToast(getString(R.string.shortcut_not_found), Toast.LENGTH_LONG)
             controller.destroy()
-            finishWithoutAnimation()
+            super.finishWithoutAnimation()
             return
         }
         this.shortcut = shortcut
