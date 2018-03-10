@@ -88,7 +88,7 @@ class SettingsActivity : BaseActivity() {
             }
 
             initPreference("mail") {
-                sendMail()
+                contactDeveloper()
             }
 
             initPreference("play_store") {
@@ -97,6 +97,10 @@ class SettingsActivity : BaseActivity() {
 
             initPreference("github") {
                 gotoGithub()
+            }
+
+            initPreference("translate") {
+                helpTranslate()
             }
 
             initPreference("licenses") {
@@ -215,15 +219,19 @@ class SettingsActivity : BaseActivity() {
             }
         }
 
-        private fun sendMail() {
+        private fun contactDeveloper() {
+            sendMail(CONTACT_SUBJECT, CONTACT_TEXT, getString(R.string.settings_mail))
+        }
+
+        private fun sendMail(subject: String, text: String, title: String) {
             val intent = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:$DEVELOPER_EMAIL"))
             val recipients = arrayOf(DEVELOPER_EMAIL)
             intent.putExtra(Intent.EXTRA_EMAIL, recipients)
-            intent.putExtra(Intent.EXTRA_SUBJECT, CONTACT_SUBJECT)
-            intent.putExtra(Intent.EXTRA_TEXT, CONTACT_TEXT)
+            intent.putExtra(Intent.EXTRA_SUBJECT, subject)
+            intent.putExtra(Intent.EXTRA_TEXT, text)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             try {
-                startActivity(Intent.createChooser(intent, getString(R.string.settings_mail)))
+                startActivity(Intent.createChooser(intent, title))
             } catch (e: ActivityNotFoundException) {
                 Toast.makeText(activity, R.string.error_not_supported, Toast.LENGTH_SHORT).show()
             }
@@ -245,6 +253,10 @@ class SettingsActivity : BaseActivity() {
             } catch (e: ActivityNotFoundException) {
                 Toast.makeText(activity, R.string.error_not_supported, Toast.LENGTH_SHORT).show()
             }
+        }
+
+        private fun helpTranslate() {
+            sendMail(TRANSLATE_SUBJECT, TRANSLATE_TEXT, getString(R.string.settings_help_translate))
         }
 
         private fun showLicenses() {
@@ -300,6 +312,8 @@ class SettingsActivity : BaseActivity() {
 
         private const val CONTACT_SUBJECT = "HTTP Shortcuts"
         private const val CONTACT_TEXT = "Hey Roland,\n\n"
+        private const val TRANSLATE_SUBJECT = "Translate HTTP Shortcuts"
+        private const val TRANSLATE_TEXT = "Hey Roland,\n\nI would like to help translate your app into [LANGUAGE]. Please give me access to the translation tool."
         private const val DEVELOPER_EMAIL = "android@rmy.ch"
         private const val PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts"
         private const val GITHUB_URL = "https://github.com/Waboodoo/HTTP-Shortcuts"

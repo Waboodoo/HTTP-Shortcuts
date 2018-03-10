@@ -80,6 +80,11 @@
             android:summary="@string/settings_github_summary"
             android:title="@string/settings_github"/>
         <com.afollestad.materialdialogs.prefs.MaterialPreference
+            android:icon="@drawable/ic_translate"
+            android:key="translate"
+            android:summary="@string/settings_help_translate_summary"
+            android:title="@string/settings_help_translate"/>
+        <com.afollestad.materialdialogs.prefs.MaterialPreference
             android:icon="@drawable/ic_licenses"
             android:key="licenses"
             android:summary="@string/settings_licenses_summary"
