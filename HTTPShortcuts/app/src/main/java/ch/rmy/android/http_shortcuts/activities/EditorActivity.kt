@@ -168,18 +168,19 @@ class EditorActivity : BaseActivity() {
 
         parameterList.addItems(shortcut.parameters)
         parameterList.setButtonText(R.string.button_add_post_param)
-        parameterList.setAddDialogTitle(R.string.title_post_param_add)
-        parameterList.setEditDialogTitle(R.string.title_post_param_edit)
-        parameterList.setKeyLabel(R.string.label_post_param_key)
-        parameterList.setValueLabel(R.string.label_post_param_value)
+        parameterList.addDialogTitle = R.string.title_post_param_add
+        parameterList.editDialogTitle = R.string.title_post_param_edit
+        parameterList.keyLabel = R.string.label_post_param_key
+        parameterList.valueLabel = R.string.label_post_param_value
+        parameterList.isMultiLine = true
         parameterList.setItemFactory({ key, value -> Parameter.createNew(key, value) })
 
         customHeaderList.addItems(shortcut.headers)
         customHeaderList.setButtonText(R.string.button_add_custom_header)
-        customHeaderList.setAddDialogTitle(R.string.title_custom_header_add)
-        customHeaderList.setEditDialogTitle(R.string.title_custom_header_edit)
-        customHeaderList.setKeyLabel(R.string.label_custom_header_key)
-        customHeaderList.setValueLabel(R.string.label_custom_header_value)
+        customHeaderList.addDialogTitle = R.string.title_custom_header_add
+        customHeaderList.editDialogTitle = R.string.title_custom_header_edit
+        customHeaderList.keyLabel = R.string.label_custom_header_key
+        customHeaderList.valueLabel = R.string.label_custom_header_value
         customHeaderList.setItemFactory({ key, value -> Header.createNew(key, value) })
         customHeaderList.setSuggestions(Header.SUGGESTED_KEYS)
 
