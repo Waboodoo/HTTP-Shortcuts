@@ -16,21 +16,20 @@ class ImportTask(context: Context, baseView: View) : SimpleTask<Uri>(context, ba
     override fun doInBackground(vararg uris: Uri): Exception? {
         val uri = uris[0]
 
-        var controller: Controller? = null
-        return try {
-            val inputStream = context.contentResolver.openInputStream(uri) ?: return IOException("Failed to open input stream")
-            controller = Controller()
-            BufferedReader(InputStreamReader(inputStream)).use { reader ->
-                val base = GsonUtil.importData(reader)
-                ImportMigrator.migrate(base)
-                controller.importBaseSynchronously(base)
-                LauncherShortcutManager.updateAppShortcuts(context, controller.categories)
+        Controller().use { controller ->
+            return try {
+                val inputStream = context.contentResolver.openInputStream(uri)
+                        ?: return IOException("Failed to open input stream")
+                BufferedReader(InputStreamReader(inputStream)).use { reader ->
+                    val base = GsonUtil.importData(reader)
+                    ImportMigrator.migrate(base)
+                    controller.importBaseSynchronously(base)
+                    LauncherShortcutManager.updateAppShortcuts(context, controller.categories)
+                }
+                null
+            } catch (e: Exception) {
+                e
             }
-            null
-        } catch (e: Exception) {
-            e
-        } finally {
-            controller?.destroy()
         }
     }
 

@@ -8,12 +8,21 @@ import org.jdeferred.impl.DeferredObject
 fun Realm.commitAsync(transaction: (realm: Realm) -> Unit): Promise<Unit, Throwable, Unit> {
     val deferred = DeferredObject<Unit, Throwable, Unit>()
     this.executeTransactionAsync(
-            Realm.Transaction(transaction),
+            object : Realm.Transaction {
+                override fun execute(realm: Realm) {
+                    try {
+                        transaction(realm)
+                    } catch (e: Throwable) {
+                        deferred.reject(e)
+                    }
+                }
+            },
             Realm.Transaction.OnSuccess {
-                deferred.resolve(Unit)
+                if (deferred.isPending) {
+                    deferred.resolve(Unit)
+                }
             },
             Realm.Transaction.OnError { error ->
-                error.apply {  }
                 logException(error)
                 deferred.reject(error)
             })

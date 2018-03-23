@@ -3,13 +3,14 @@ package ch.rmy.android.http_shortcuts.plugin
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.MainActivity
 import com.twofortyfouram.locale.sdk.client.ui.activity.AbstractFragmentPluginActivity
 
 class PluginEditActivity : AbstractFragmentPluginActivity() {
 
-    private var bundle: Bundle? = null
-    private var name: String? = null
+    private lateinit var bundle: Bundle
+    private lateinit var name: String
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,8 +25,9 @@ class PluginEditActivity : AbstractFragmentPluginActivity() {
         super.onActivityResult(requestCode, resultCode, intent)
         if (requestCode == REQUEST_SELECT) {
             if (resultCode == Activity.RESULT_OK && intent != null) {
-                val id = intent.extras.getLong(MainActivity.EXTRA_SELECTION_ID)
-                bundle = PluginBundleManager.generateBundle(id)
+                val shortcutId = intent.extras.getLong(MainActivity.EXTRA_SELECTION_ID)
+                val supportsVariables = TaskerPlugin.Setting.hostSupportsOnFireVariableReplacement(this)
+                bundle = PluginBundleManager.generateBundle(shortcutId, supportsVariables)
                 name = intent.extras.getString(MainActivity.EXTRA_SELECTION_NAME)
             }
             finish()
@@ -40,7 +42,7 @@ class PluginEditActivity : AbstractFragmentPluginActivity() {
 
     override fun getResultBundle() = bundle
 
-    override fun getResultBlurb(bundle: Bundle) = name!!
+    override fun getResultBlurb(bundle: Bundle) = getString(R.string.plugin_blurb_execute_task, name)!!
 
     companion object {
 

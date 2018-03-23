@@ -13,7 +13,9 @@ class PluginBroadcastReceiver : AbstractPluginSettingReceiver() {
 
     override fun firePluginSetting(context: Context, bundle: Bundle) {
         val shortcutId = PluginBundleManager.getShortcutId(bundle)
+        val variableValues = PluginBundleManager.getVariableValues(bundle)
         val intent = ExecuteActivity.IntentBuilder(context, shortcutId)
+                .variableValues(variableValues)
                 .build()
         context.startActivity(intent)
     }

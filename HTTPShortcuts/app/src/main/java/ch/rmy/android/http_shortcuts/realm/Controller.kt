@@ -18,9 +18,10 @@ import io.realm.RealmObject
 import io.realm.RealmResults
 import io.realm.kotlin.where
 import org.jdeferred.Promise
+import java.io.Closeable
 import java.util.*
 
-class Controller : Destroyable {
+class Controller : Destroyable, Closeable {
 
     private val realm: Realm = realmFactory.createRealm()
 
@@ -29,6 +30,8 @@ class Controller : Destroyable {
             realm.close()
         }
     }
+
+    override fun close() = destroy()
 
     fun getCategoryById(id: Long) = getCategoryById(realm, id)
 
@@ -208,15 +211,11 @@ class Controller : Destroyable {
     }
 
     fun persist(shortcut: Shortcut): Promise<Shortcut, Throwable, Unit> {
-        val isNew = shortcut.isNew
-        if (isNew) {
+        if (shortcut.isNew) {
             shortcut.id = generateId(realm, Shortcut::class.java)
         }
         return realm.commitAsync { realm ->
-            val newShortcut = realm.copyToRealmOrUpdate(shortcut)
-            if (isNew) {
-                // TODO: Attach to correct category
-            }
+            realm.copyToRealmOrUpdate(shortcut)
         }
                 .filter { getShortcutById(shortcut.id)!! }
     }
@@ -227,9 +226,10 @@ class Controller : Destroyable {
             variable.id = generateId(realm, Variable::class.java)
         }
         return realm.commitAsync { realm ->
+            val base = getBase(realm) ?: return@commitAsync
             val newVariable = realm.copyToRealmOrUpdate(variable)
             if (isNew) {
-                variables.add(newVariable)
+                base.variables.add(newVariable)
             }
         }
                 .filter { getVariableById(variable.id)!! }

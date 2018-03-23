@@ -311,4 +311,6 @@
     <string name="settings_help_translate">Translate App</string>
     <!-- Summary/subtitle of section in settings that prompts user to help translate the app -->
     <string name="settings_help_translate_summary">Help me make this app better!</string>
+    <!-- Blurb/short description of plugin action (for Tasker integration), where %1$s is a placeholder for the shortcut name. -->
+    <string name="plugin_blurb_execute_task">Execute shortcut \"%1$s\"</string>
 </resources>

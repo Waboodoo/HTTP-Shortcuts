@@ -156,17 +156,13 @@ class SettingsActivity : BaseActivity() {
         }
 
         private fun sendExport() {
-            var controller: Controller? = null
-            try {
-                controller = Controller()
+            Controller().use { controller ->
                 val base = controller.exportBase()
                 val data = GsonUtil.exportData(base)
                 val sharingIntent = Intent(android.content.Intent.ACTION_SEND)
                 sharingIntent.type = IMPORT_EXPORT_FILE_TYPE
                 sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, data)
                 startActivity(Intent.createChooser(sharingIntent, getString(R.string.title_export)))
-            } finally {
-                controller?.destroy()
             }
         }
 

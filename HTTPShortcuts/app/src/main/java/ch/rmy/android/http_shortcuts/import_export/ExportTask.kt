@@ -13,9 +13,9 @@ import java.io.IOException
 class ExportTask(context: Context, baseView: View) : SimpleTask<String>(context, baseView) {
 
     override fun doInBackground(vararg path: String): Exception? {
-        val controller = Controller()
-        val base = controller.exportBase()
-        controller.destroy()
+        val base = Controller().use { controller ->
+            controller.exportBase()
+        }
 
         return try {
             val file = getFile(path[0])
