@@ -8,15 +8,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import android.widget.Button
-import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ListView
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.realm.models.Variable
+import ch.rmy.android.http_shortcuts.utils.Destroyable
+import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.mapIf
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.utils.showSoftKeyboard
+import ch.rmy.android.http_shortcuts.variables.VariableButton
+import ch.rmy.android.http_shortcuts.variables.VariableEditText
 import com.afollestad.materialdialogs.MaterialDialog
 import kotterknife.bindView
 
@@ -26,8 +29,8 @@ class KeyValueList<T : KeyValuePair> @JvmOverloads constructor(context: Context,
     private val button: Button by bindView(R.id.key_value_list_button)
     private val listView: ListView by bindView(R.id.key_value_list)
 
-    private var adapter: KeyValueAdapter<T>
-    private lateinit var factory: ((key: String, value: String) -> T)
+    private val adapter: KeyValueAdapter<T> = KeyValueAdapter(context)
+    lateinit var factory: ((key: String, value: String) -> T)
     private var suggestionAdapter: ArrayAdapter<String>? = null
 
     var addDialogTitle: Int = 0
@@ -35,11 +38,15 @@ class KeyValueList<T : KeyValuePair> @JvmOverloads constructor(context: Context,
     var keyLabel: Int = 0
     var valueLabel: Int = 0
     var isMultiLine: Boolean = false
+    var variables: List<Variable> = emptyList()
+        set(value) {
+            field = value
+            adapter.variables = value
+            adapter.notifyDataSetChanged()
+        }
 
     init {
         inflate(context, R.layout.key_value_list, this)
-
-        adapter = KeyValueAdapter(context)
         listView.adapter = adapter
 
         button.setOnClickListener { showAddDialog() }
@@ -65,16 +72,20 @@ class KeyValueList<T : KeyValuePair> @JvmOverloads constructor(context: Context,
                 .positiveText(R.string.dialog_ok)
                 .canceledOnTouchOutside(false)
                 .onPositive { dialog, _ ->
-                    val keyField = dialog.findViewById(R.id.key_value_key) as EditText
-                    val valueField = dialog.findViewById(R.id.key_value_value) as EditText
-                    if (!keyField.text.toString().isEmpty()) {
+                    val keyField = dialog.findViewById(R.id.key_value_key) as VariableEditText
+                    val valueField = dialog.findViewById(R.id.key_value_value) as VariableEditText
+
+                    val keyText = keyField.rawString
+                    val valueText = valueField.rawString
+
+                    if (!keyText.isEmpty()) {
                         if (item == null) {
-                            val newItem = factory.invoke(keyField.text.toString(), valueField.text.toString())
+                            val newItem = factory.invoke(keyText, valueText)
                             adapter.add(newItem)
                             updateListViewHeightBasedOnChildren()
                         } else {
-                            item.key = keyField.text.toString()
-                            item.value = valueField.text.toString()
+                            item.key = keyText
+                            item.value = valueText
                             adapter.notifyDataSetChanged()
                         }
                     }
@@ -89,12 +100,18 @@ class KeyValueList<T : KeyValuePair> @JvmOverloads constructor(context: Context,
                 .negativeText(R.string.dialog_cancel)
                 .build()
                 .also { dialog ->
-                    val keyInput = dialog.findViewById(R.id.key_value_key) as AutoCompleteTextView
-                    val valueInput = dialog.findViewById(R.id.key_value_value) as EditText
-                    if (item != null) {
-                        keyInput.setText(item.key)
-                        valueInput.setText(item.value)
-                    }
+                    val destroyer = Destroyer()
+
+                    val keyInput = dialog.findViewById(R.id.key_value_key) as VariableEditText
+                    val valueInput = dialog.findViewById(R.id.key_value_value) as VariableEditText
+                    val keyVariableButton = dialog.findViewById(R.id.variable_button_key) as VariableButton
+                    val valueVariableButton = dialog.findViewById(R.id.variable_button_value) as VariableButton
+
+                    initVariableEditText(keyInput, keyVariableButton, item?.key ?: "")
+                            .attachTo(destroyer)
+                    initVariableEditText(valueInput, valueVariableButton, item?.value ?: "")
+                            .attachTo(destroyer)
+
                     valueInput.inputType = (if (isMultiLine) InputType.TYPE_TEXT_FLAG_MULTI_LINE else 0) or InputType.TYPE_CLASS_TEXT
                     if (isMultiLine) {
                         valueInput.maxLines = MAX_LINES
@@ -110,8 +127,20 @@ class KeyValueList<T : KeyValuePair> @JvmOverloads constructor(context: Context,
                     dialog.setOnShowListener {
                         keyInput.showSoftKeyboard()
                     }
+                    dialog.setOnDismissListener {
+                        destroyer.destroy()
+                    }
                 }
                 .showIfPossible()
+    }
+
+    private fun initVariableEditText(editText: VariableEditText, variableButton: VariableButton, value: String): Destroyable {
+        editText.variables = variables
+        editText.rawString = value
+        return variableButton.variableSource.add { variable ->
+            editText.insertVariablePlaceholder(variable.key)
+            editText.showSoftKeyboard()
+        }
     }
 
     fun addItems(items: Collection<T>) {
@@ -124,10 +153,6 @@ class KeyValueList<T : KeyValuePair> @JvmOverloads constructor(context: Context,
 
     fun setButtonText(resId: Int) {
         button.setText(resId)
-    }
-
-    fun setItemFactory(factory: (key: String, value: String) -> T) {
-        this.factory = factory
     }
 
     fun setSuggestions(suggestions: Array<String>) {

@@ -10,34 +10,62 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/key_value_key_layout"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <AutoCompleteTextView
-                android:id="@+id/key_value_key"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/key_value_key_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                android:maxLines="1">
+                android:layout_toLeftOf="@+id/variable_button_key"
+                android:layout_toStartOf="@+id/variable_button_key">
 
-                <requestFocus/>
-            </AutoCompleteTextView>
-        </android.support.design.widget.TextInputLayout>
+                <ch.rmy.android.http_shortcuts.variables.VariableEditText
+                    android:id="@+id/key_value_key"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:maxLines="1">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/key_value_value_layout"
+                    <requestFocus/>
+                </ch.rmy.android.http_shortcuts.variables.VariableEditText>
+            </android.support.design.widget.TextInputLayout>
+
+            <ch.rmy.android.http_shortcuts.variables.VariableButton
+                android:id="@+id/variable_button_key"
+                style="@style/VariableButton"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <EditText
-                android:id="@+id/key_value_value"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/key_value_value_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                android:maxLines="1"/>
-        </android.support.design.widget.TextInputLayout>
+                android:layout_toLeftOf="@+id/variable_button_value"
+                android:layout_toStartOf="@+id/variable_button_value">
+
+                <ch.rmy.android.http_shortcuts.variables.VariableEditText
+                    android:id="@+id/key_value_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:maxLines="1"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <ch.rmy.android.http_shortcuts.variables.VariableButton
+                android:id="@+id/variable_button_value"
+                style="@style/VariableButton"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
     </LinearLayout>
 
 </ScrollView>

@@ -149,17 +149,13 @@ class EditorActivity : BaseActivity() {
     }
 
     private fun initViews() {
-        initVariableEditText(urlView, variableButtonUrl)
-        initVariableEditText(usernameView, variableButtonUsername)
-        initVariableEditText(passwordView, variableButtonPassword)
-        initVariableEditText(requestBodyView, variableButtonRequestBody)
+        initVariableEditText(urlView, variableButtonUrl, shortcut.url)
+        initVariableEditText(usernameView, variableButtonUsername, shortcut.username)
+        initVariableEditText(passwordView, variableButtonPassword, shortcut.password)
+        initVariableEditText(requestBodyView, variableButtonRequestBody, shortcut.bodyContent)
 
         nameView.setText(shortcut.name)
         descriptionView.setText(shortcut.description)
-        urlView.setText(shortcut.url)
-        usernameView.setText(shortcut.username)
-        passwordView.setText(shortcut.password)
-        requestBodyView.setText(shortcut.bodyContent)
 
         methodView.setItemsArray(Shortcut.METHODS)
         methodView.fix()
@@ -171,6 +167,7 @@ class EditorActivity : BaseActivity() {
         authenticationView.onItemChosenListener = itemChosenListener
         authenticationView.setSelection(ArrayUtil.findIndex(Shortcut.AUTHENTICATION_OPTIONS, shortcut.authentication!!))
 
+        parameterList.variables = variables
         parameterList.addItems(shortcut.parameters)
         parameterList.setButtonText(R.string.button_add_post_param)
         parameterList.addDialogTitle = R.string.title_post_param_add
@@ -178,15 +175,16 @@ class EditorActivity : BaseActivity() {
         parameterList.keyLabel = R.string.label_post_param_key
         parameterList.valueLabel = R.string.label_post_param_value
         parameterList.isMultiLine = true
-        parameterList.setItemFactory({ key, value -> Parameter.createNew(key, value) })
+        parameterList.factory = { key, value -> Parameter.createNew(key, value) }
 
+        customHeaderList.variables = variables
         customHeaderList.addItems(shortcut.headers)
         customHeaderList.setButtonText(R.string.button_add_custom_header)
         customHeaderList.addDialogTitle = R.string.title_custom_header_add
         customHeaderList.editDialogTitle = R.string.title_custom_header_edit
         customHeaderList.keyLabel = R.string.label_custom_header_key
         customHeaderList.valueLabel = R.string.label_custom_header_value
-        customHeaderList.setItemFactory({ key, value -> Header.createNew(key, value) })
+        customHeaderList.factory = { key, value -> Header.createNew(key, value) }
         customHeaderList.setSuggestions(Header.SUGGESTED_KEYS)
 
         feedbackView.setItemsArray(ShortcutUIUtils.getFeedbackOptions(context))
@@ -215,8 +213,9 @@ class EditorActivity : BaseActivity() {
         updateUI()
     }
 
-    private fun initVariableEditText(editText: VariableEditText, variableButton: VariableButton) {
+    private fun initVariableEditText(editText: VariableEditText, variableButton: VariableButton, value: String) {
         editText.variables = variables
+        editText.rawString = value
         variableButton.variableSource.add { variable ->
             editText.insertVariablePlaceholder(variable.key)
             editText.showSoftKeyboard()

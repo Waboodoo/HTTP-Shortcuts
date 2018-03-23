@@ -15,10 +15,10 @@ object HttpRequester {
 
     fun executeShortcut(context: Context, detachedShortcut: Shortcut, variables: ResolvedVariables): Promise<ShortcutResponse, VolleyError, Unit> {
 
-        val url = Variables.insert(detachedShortcut.url, variables)
-        val username = Variables.insert(detachedShortcut.username, variables)
-        val password = Variables.insert(detachedShortcut.password, variables)
-        val body = Variables.insert(detachedShortcut.bodyContent, variables)
+        val url = Variables.rawPlaceholdersToResolvedValues(detachedShortcut.url, variables)
+        val username = Variables.rawPlaceholdersToResolvedValues(detachedShortcut.username, variables)
+        val password = Variables.rawPlaceholdersToResolvedValues(detachedShortcut.password, variables)
+        val body = Variables.rawPlaceholdersToResolvedValues(detachedShortcut.bodyContent, variables)
         val acceptAllCertificates = detachedShortcut.acceptAllCertificates
 
         val request = ShortcutRequest.Builder(detachedShortcut.method, url)
@@ -29,14 +29,14 @@ object HttpRequester {
                 }
                 .mapFor(detachedShortcut.parameters) { builder, parameter ->
                     builder.parameter(
-                            Variables.insert(parameter.key, variables),
-                            Variables.insert(parameter.value, variables)
+                            Variables.rawPlaceholdersToResolvedValues(parameter.key, variables),
+                            Variables.rawPlaceholdersToResolvedValues(parameter.value, variables)
                     )
                 }
                 .mapFor(detachedShortcut.headers) { builder, header ->
                     builder.header(
-                            Variables.insert(header.key, variables),
-                            Variables.insert(header.value, variables)
+                            Variables.rawPlaceholdersToResolvedValues(header.key, variables),
+                            Variables.rawPlaceholdersToResolvedValues(header.value, variables)
                     )
                 }
                 .build()
