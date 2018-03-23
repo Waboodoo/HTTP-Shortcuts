@@ -2,6 +2,14 @@
 <resources>
     <string name="changelog_text" translatable="false"><![CDATA[
         <p>
+            <b>Version 1.20.0</b><br>
+            - Improved insertion of variable placeholders<br>
+            - Variables inherit values from Tasker when using Tasker integration<br>
+            - Request parameter values can be multi-line<br>
+            - Added Call-to-Action for translators<br>
+            - Experimental: RTL support
+        </p>
+        <p>
             <b>Version 1.19.0</b><br>
             - New variable type: number slider<br>
             - "Number Input" variable allows decimals and minus sign<br>
