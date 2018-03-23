@@ -12,18 +12,18 @@ import org.jdeferred.impl.DeferredObject
 
 class VariableResolver(private val context: Context) {
 
-    fun resolve(shortcut: Shortcut, variables: List<Variable>, preResolvedValues: Map<String, String>?): Promise<ResolvedVariables, Void, Void> {
-        val requiredVariableNames = extractVariableKeys(shortcut)
-        val variablesToResolve = filterVariablesByName(variables, requiredVariableNames)
+    fun resolve(shortcut: Shortcut, variables: List<Variable>, preResolvedValues: Map<String, String>?): Promise<ResolvedVariables, Unit, Unit> {
+        val requiredVariableKeys = extractVariableKeys(shortcut)
+        val variablesToResolve = filterVariablesByName(variables, requiredVariableKeys)
         return resolveVariables(variablesToResolve, preResolvedValues)
     }
 
-    private fun filterVariablesByName(variables: List<Variable>, variableNames: Collection<String>) =
-            variables.filter { variableNames.contains(it.key) }
+    private fun filterVariablesByName(variables: List<Variable>, variableKeys: Collection<String>) =
+            variables.filter { variableKeys.contains(it.key) }
 
-    private fun resolveVariables(variablesToResolve: List<Variable>, preResolvedValues: Map<String, String>?): Promise<ResolvedVariables, Void, Void> {
+    private fun resolveVariables(variablesToResolve: List<Variable>, preResolvedValues: Map<String, String>?): Promise<ResolvedVariables, Unit, Unit> {
         val controller = Controller()
-        val deferred = DeferredObject<ResolvedVariables, Void, Void>()
+        val deferred = DeferredObject<ResolvedVariables, Unit, Unit>()
         val builder = ResolvedVariables.Builder()
 
         val waitingDialogs = mutableListOf<() -> Unit>()
@@ -51,7 +51,7 @@ class VariableResolver(private val context: Context) {
                             }
                         }
                         .fail {
-                            deferred.reject(null)
+                            deferred.reject(Unit)
                         }
 
                 val dialog = variableType.createDialog(context, controller, variable, deferredValue)
@@ -69,38 +69,41 @@ class VariableResolver(private val context: Context) {
             waitingDialogs.first().invoke()
         }
 
-        return deferred.promise()
+        return deferred
+                .promise()
                 .always { _, _, _ ->
                     resetVariableValues(controller, variablesToResolve)
-                    controller.destroy()
+                            .always { _, _, _ ->
+                                controller.destroy()
+                            }
                 }
     }
 
-    private fun resetVariableValues(controller: Controller, variables: List<Variable>) {
-        variables
-                .filter { it.isResetAfterUse() }
-                .forEach { controller.setVariableValue(it, "") }
-    }
+    private fun resetVariableValues(controller: Controller, variables: List<Variable>) =
+            controller.resetVariableValues(variables
+                    .filter { it.isResetAfterUse() }
+                    .map { it.id }
+            )
 
     companion object {
 
         fun extractVariableKeys(shortcut: Shortcut): Set<String> {
             val discoveredVariables = mutableSetOf<String>()
 
-            discoveredVariables.addAll(Variables.extractVariableNames(shortcut.url))
-            discoveredVariables.addAll(Variables.extractVariableNames(shortcut.username))
-            discoveredVariables.addAll(Variables.extractVariableNames(shortcut.password))
-            discoveredVariables.addAll(Variables.extractVariableNames(shortcut.bodyContent))
+            discoveredVariables.addAll(Variables.extractVariableKeys(shortcut.url))
+            discoveredVariables.addAll(Variables.extractVariableKeys(shortcut.username))
+            discoveredVariables.addAll(Variables.extractVariableKeys(shortcut.password))
+            discoveredVariables.addAll(Variables.extractVariableKeys(shortcut.bodyContent))
 
             if (shortcut.method != Shortcut.METHOD_GET) {
                 for (parameter in shortcut.parameters) {
-                    discoveredVariables.addAll(Variables.extractVariableNames(parameter.key))
-                    discoveredVariables.addAll(Variables.extractVariableNames(parameter.value))
+                    discoveredVariables.addAll(Variables.extractVariableKeys(parameter.key))
+                    discoveredVariables.addAll(Variables.extractVariableKeys(parameter.value))
                 }
             }
             for (header in shortcut.headers) {
-                discoveredVariables.addAll(Variables.extractVariableNames(header.key))
-                discoveredVariables.addAll(Variables.extractVariableNames(header.value))
+                discoveredVariables.addAll(Variables.extractVariableKeys(header.key))
+                discoveredVariables.addAll(Variables.extractVariableKeys(header.value))
             }
 
             return discoveredVariables

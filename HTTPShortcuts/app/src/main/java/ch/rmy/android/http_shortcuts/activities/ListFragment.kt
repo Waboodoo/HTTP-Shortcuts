@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.activities
 
-import android.content.Intent
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
@@ -8,6 +7,7 @@ import ch.rmy.android.http_shortcuts.adapters.ShortcutAdapter
 import ch.rmy.android.http_shortcuts.adapters.ShortcutGridAdapter
 import ch.rmy.android.http_shortcuts.adapters.ShortcutListAdapter
 import ch.rmy.android.http_shortcuts.dialogs.CurlExportDialog
+import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.http.ExecutionService
 import ch.rmy.android.http_shortcuts.listeners.OnItemClickedListener
 import ch.rmy.android.http_shortcuts.realm.Controller
@@ -15,9 +15,7 @@ import ch.rmy.android.http_shortcuts.realm.models.Category
 import ch.rmy.android.http_shortcuts.realm.models.PendingExecution
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.GridLayoutManager
-import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
-import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.utils.SelectionMode
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.ShortcutListDecorator
@@ -37,7 +35,7 @@ class ListFragment : BaseFragment() {
 
     override val layoutResource = R.layout.fragment_list
 
-    internal val shortcutList: RecyclerView by bindView(R.id.shortcut_list)
+    private val shortcutList: RecyclerView by bindView(R.id.shortcut_list)
 
     var categoryId: Long = 0
         set(categoryId) {
@@ -90,10 +88,7 @@ class ListFragment : BaseFragment() {
             return
         }
         category?.shortcuts?.removeChangeListener(shortcutChangeListener)
-        category = controller.getCategoryById(this.categoryId)
-        if (category == null) {
-            return
-        }
+        category = controller.getCategoryById(this.categoryId) ?: return
         category!!.shortcuts.addChangeListener(shortcutChangeListener)
 
         val manager: RecyclerView.LayoutManager
@@ -175,13 +170,15 @@ class ListFragment : BaseFragment() {
             controller.shortcutsPendingExecution.firstOrNull { it.shortcutId == shortcut.id }
 
     private fun executeShortcut(shortcut: Shortcut) {
-        val intent = IntentUtil.createIntent(context!!, shortcut.id)
+        val intent = ExecuteActivity.IntentBuilder(context!!, shortcut.id)
+                .build()
         startActivity(intent)
     }
 
     private fun editShortcut(shortcut: Shortcut) {
-        val intent = Intent(context, EditorActivity::class.java)
-        intent.putExtra(EditorActivity.EXTRA_SHORTCUT_ID, shortcut.id)
+        val intent = EditorActivity.IntentBuilder(context!!)
+                .shortcutId(shortcut.id)
+                .build()
         startActivityForResult(intent, REQUEST_EDIT_SHORTCUT)
     }
 
@@ -223,9 +220,9 @@ class ListFragment : BaseFragment() {
             }
             val position = currentCategory.shortcuts.indexOf(shortcut) + offset
             if (position == currentCategory.shortcuts.size) {
-                controller.moveShortcut(shortcut, currentCategory)
+                controller.moveShortcut(shortcut.id, targetCategoryId = currentCategory.id)
             } else {
-                controller.moveShortcut(shortcut, position)
+                controller.moveShortcut(shortcut.id, targetPosition = position)
             }
         }
     }
@@ -246,27 +243,24 @@ class ListFragment : BaseFragment() {
     }
 
     private fun moveShortcut(shortcut: Shortcut, category: Category) {
-        controller.moveShortcut(shortcut, category)
+        controller.moveShortcut(shortcut.id, targetCategoryId = category.id)
         tabHost.showSnackbar(String.format(getString(R.string.shortcut_moved), shortcut.name))
     }
 
     private fun duplicateShortcut(shortcut: Shortcut) {
         category?.let { currentCategory ->
             val newName = String.format(getString(R.string.copy), shortcut.name)
-            val duplicate = controller.persist(shortcut.duplicate(newName))
-            controller.moveShortcut(duplicate, currentCategory)
-
-            var position = currentCategory.shortcuts.size
-            var i = 0
-            for (s in currentCategory.shortcuts) {
-                if (s.id == shortcut.id) {
-                    position = i + 1
-                    break
-                }
-                i++
-            }
-            controller.moveShortcut(duplicate, position)
-
+            controller.persist(shortcut.duplicate(newName))
+                    .done { duplicate ->
+                        controller.moveShortcut(
+                                duplicate.id,
+                                targetCategoryId = currentCategory.id,
+                                targetPosition = currentCategory
+                                        .shortcuts.indexOfFirst { it.id == shortcut.id }
+                                        .takeIf { it != -1 }
+                                        ?.let { it + 1 }
+                        )
+                    }
             tabHost.showSnackbar(String.format(getString(R.string.shortcut_duplicated), shortcut.name))
         }
     }
@@ -321,8 +315,10 @@ class ListFragment : BaseFragment() {
     private fun deleteShortcut(shortcut: Shortcut) {
         tabHost.showSnackbar(String.format(getString(R.string.shortcut_deleted), shortcut.name))
         tabHost.removeShortcutFromHomeScreen(shortcut)
-        controller.deleteShortcut(shortcut)
-        ExecutionService.start(context!!)
+        controller.deleteShortcut(shortcut.id)
+                .done {
+                    ExecutionService.start(context!!)
+                }
     }
 
     private val tabHost: TabHost

@@ -21,7 +21,8 @@ abstract class BaseActivity : AppCompatActivity() {
     internal var toolbar: Toolbar? = null
 
     val destroyer = Destroyer()
-    val themeHelper by lazy {
+
+    private val themeHelper by lazy {
         ThemeHelper(context)
     }
 
@@ -64,10 +65,11 @@ abstract class BaseActivity : AppCompatActivity() {
 
     private fun updateStatusBarColor() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val window = window
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            window.statusBarColor = themeHelper.statusBarColor
+            window.apply {
+                addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+                clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+                statusBarColor = themeHelper.statusBarColor
+            }
         }
     }
 

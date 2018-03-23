@@ -1,37 +1,16 @@
 package ch.rmy.android.http_shortcuts.utils
 
-import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.provider.MediaStore
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
-import java.util.*
 
 object IntentUtil {
 
     private const val ACTION_INSTALL_SHORTCUT = "com.android.launcher.action.INSTALL_SHORTCUT"
     private const val ACTION_UNINSTALL_SHORTCUT = "com.android.launcher.action.UNINSTALL_SHORTCUT"
     private const val EXTRA_SHORTCUT_DUPLICATE = "duplicate"
-
-    @JvmOverloads
-    fun createIntent(context: Context, shortcutId: Long, variableValues: Map<String, String>? = null, tryNumber: Int = 0): Intent {
-        val intent = Intent(context, ExecuteActivity::class.java)
-        intent.action = ExecuteActivity.ACTION_EXECUTE_SHORTCUT
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NO_ANIMATION
-
-        if (variableValues != null) {
-            intent.putExtra(ExecuteActivity.EXTRA_VARIABLE_VALUES, HashMap(variableValues))
-        }
-        if (tryNumber > 0) {
-            intent.putExtra(ExecuteActivity.EXTRA_TRY_NUMBER, tryNumber)
-        }
-
-        val uri = ContentUris.withAppendedId(Uri.fromParts("content", context.packageName, null), shortcutId)
-        intent.data = uri
-        return intent
-    }
 
     fun getShortcutId(intent: Intent): Long {
         var shortcutId = -1L
@@ -60,7 +39,8 @@ object IntentUtil {
 
     @Suppress("DEPRECATION")
     fun getShortcutPlacementIntent(context: Context, shortcut: Shortcut, install: Boolean): Intent {
-        val shortcutIntent = IntentUtil.createIntent(context, shortcut.id)
+        val shortcutIntent = ExecuteActivity.IntentBuilder(context, shortcut.id)
+                .build()
         val addIntent = Intent()
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent)
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcut.name)
@@ -73,7 +53,6 @@ object IntentUtil {
             } catch (e: Exception) {
                 addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(context.applicationContext, ShortcutUIUtils.DEFAULT_ICON))
             }
-
         } else {
             addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(context.applicationContext, ShortcutUIUtils.DEFAULT_ICON))
         }

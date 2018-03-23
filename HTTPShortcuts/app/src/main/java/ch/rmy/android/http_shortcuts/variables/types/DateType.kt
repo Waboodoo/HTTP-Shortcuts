@@ -32,7 +32,7 @@ internal class DateType : BaseVariableType(), AsyncVariableType {
                             val dateFormat = SimpleDateFormat(variable.dataForType[KEY_FORMAT] ?: DEFAULT_FORMAT, Locale.US)
                             deferredValue.resolve(dateFormat.format(newDate.time))
                             if (variable.rememberValue) {
-                                controller.setVariableValue(variable, DATE_FORMAT.format(newDate.time))
+                                controller.setVariableValue(variable.id, DATE_FORMAT.format(newDate.time))
                             }
                         } catch (e: Exception) {
                             deferredValue.reject(Unit)
@@ -45,7 +45,7 @@ internal class DateType : BaseVariableType(), AsyncVariableType {
             datePicker.showIfPossible()
             datePicker.setOnDismissListener {
                 if (deferredValue.isPending) {
-                    deferredValue.reject(null)
+                    deferredValue.reject(Unit)
                 }
             }
         }
@@ -69,7 +69,7 @@ internal class DateType : BaseVariableType(), AsyncVariableType {
         const val KEY_FORMAT = "format"
         const val DEFAULT_FORMAT = "yyyy-MM-dd"
 
-        private val DATE_FORMAT = SimpleDateFormat("yyyy-MM-dd")
+        private val DATE_FORMAT = SimpleDateFormat("yyyy-MM-dd", Locale.US)
 
     }
 

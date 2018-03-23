@@ -3,8 +3,8 @@ package ch.rmy.android.http_shortcuts.variables.types
 import android.content.Context
 import android.support.v4.app.FragmentManager
 import android.text.TextUtils
+import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.realm.models.Variable
-import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.utils.mapIf
 import org.jdeferred.Deferred
 

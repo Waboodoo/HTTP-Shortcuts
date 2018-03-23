@@ -15,7 +15,7 @@ open class TextType : BaseVariableType(), AsyncVariableType {
                 .toDialogBuilder()
                 .input(null, if (variable.rememberValue) variable.value else "") { _, input ->
                     deferredValue.resolve(input.toString())
-                    controller.setVariableValue(variable, input.toString())
+                    controller.setVariableValue(variable.id, input.toString())
                 }
         return {
             builder.showIfPossible()

@@ -25,18 +25,18 @@ class HelpDialogBuilder(context: Context) {
                 .positiveText(android.R.string.ok)
     }
 
-    fun title(@StringRes title: Int): HelpDialogBuilder {
+    fun title(@StringRes title: Int) = this.also {
         builder.title(title)
-        return this
     }
 
-    fun message(@StringRes message: Int): HelpDialogBuilder {
+    fun message(@StringRes message: Int) = this.also {
         val textView = view.findViewById<TextView>(R.id.help_text)
         textView.text = HTMLUtil.getHTML(view.context, message)
         textView.movementMethod = LinkMovementMethod.getInstance()
-        return this
     }
 
     fun build() = HelpDialog(builder.build())
+
+    fun show() = build().show()
 
 }

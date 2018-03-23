@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
@@ -10,6 +11,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.ArrayUtil
+import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.OnItemChosenListener
 import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils
@@ -69,7 +71,7 @@ class VariableEditorActivity : BaseActivity() {
         val defaultColor = keyView.textColors
         keyView.addTextChangedListener(object : SimpleTextWatcher() {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                if (Variables.isValidVariableName(s.toString())) {
+                if (Variables.isValidVariableKey(s.toString())) {
                     keyView.setTextColor(defaultColor)
                     keyView.error = null
                 } else {
@@ -126,8 +128,7 @@ class VariableEditorActivity : BaseActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override val navigateUpIcon: Int
-        get() = R.drawable.ic_clear
+    override val navigateUpIcon = R.drawable.ic_clear
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         android.R.id.home -> consume { confirmClose() }
@@ -159,14 +160,16 @@ class VariableEditorActivity : BaseActivity() {
         compileVariable()
         if (validate()) {
             controller.persist(variable)
-            finish()
+                    .done {
+                        finish()
+                    }
         }
     }
 
     private fun compileVariable() {
         fragment?.compileIntoVariable(variable)
         variable.title = titleView.text.toString().trim { it <= ' ' }
-        variable.key = keyView.text.toString().trim { it <= ' ' }
+        variable.key = keyView.text.toString()
         variable.type = Variable.TYPE_OPTIONS[typeSpinner.spinner.selectedItemPosition]
         variable.urlEncode = urlEncode.isChecked
         variable.jsonEncode = jsonEncode.isChecked
@@ -194,9 +197,17 @@ class VariableEditorActivity : BaseActivity() {
         outState.putString(STATE_JSON_VARIABLE, GsonUtil.toJson(variable))
     }
 
+    class IntentBuilder(context: Context, variableId: Long) : BaseIntentBuilder(context, VariableEditorActivity::class.java) {
+
+        init {
+            intent.putExtra(EXTRA_VARIABLE_ID, variableId)
+        }
+
+    }
+
     companion object {
 
-        const val EXTRA_VARIABLE_ID = "ch.rmy.android.http_shortcuts.activities.VariableEditorActivity.variable_id"
+        private const val EXTRA_VARIABLE_ID = "ch.rmy.android.http_shortcuts.activities.VariableEditorActivity.variable_id"
         private const val STATE_JSON_VARIABLE = "variable_json"
 
     }

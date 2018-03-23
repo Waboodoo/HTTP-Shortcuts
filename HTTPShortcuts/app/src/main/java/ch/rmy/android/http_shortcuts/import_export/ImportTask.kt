@@ -8,33 +8,30 @@ import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import java.io.BufferedReader
+import java.io.IOException
 import java.io.InputStreamReader
 
 class ImportTask(context: Context, baseView: View) : SimpleTask<Uri>(context, baseView) {
 
-    override fun doInBackground(vararg uris: Uri): Boolean? {
+    override fun doInBackground(vararg uris: Uri): Exception? {
         val uri = uris[0]
 
         var controller: Controller? = null
-        try {
-            val inputStream = context.contentResolver.openInputStream(uri) ?: return false
-            try {
-                controller = Controller()
-                BufferedReader(InputStreamReader(inputStream)).use { reader ->
-                    val base = GsonUtil.importData(reader)
-                    ImportMigrator.migrate(base)
-                    controller.importBase(base)
-                    LauncherShortcutManager.updateAppShortcuts(context, controller.categories)
-                }
-            } finally {
-                controller?.destroy()
+        return try {
+            val inputStream = context.contentResolver.openInputStream(uri) ?: return IOException("Failed to open input stream")
+            controller = Controller()
+            BufferedReader(InputStreamReader(inputStream)).use { reader ->
+                val base = GsonUtil.importData(reader)
+                ImportMigrator.migrate(base)
+                controller.importBaseSynchronously(base)
+                LauncherShortcutManager.updateAppShortcuts(context, controller.categories)
             }
+            null
         } catch (e: Exception) {
-            e.printStackTrace()
-            return false
+            e
+        } finally {
+            controller?.destroy()
         }
-
-        return true
     }
 
     override val progressMessage = getString(R.string.import_in_progress)

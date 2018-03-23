@@ -2,7 +2,7 @@ package ch.rmy.android.http_shortcuts.plugin
 
 import android.content.Context
 import android.os.Bundle
-import ch.rmy.android.http_shortcuts.utils.IntentUtil
+import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import com.twofortyfouram.locale.sdk.client.receiver.AbstractPluginSettingReceiver
 
 class PluginBroadcastReceiver : AbstractPluginSettingReceiver() {
@@ -13,7 +13,8 @@ class PluginBroadcastReceiver : AbstractPluginSettingReceiver() {
 
     override fun firePluginSetting(context: Context, bundle: Bundle) {
         val shortcutId = PluginBundleManager.getShortcutId(bundle)
-        val intent = IntentUtil.createIntent(context, shortcutId)
+        val intent = ExecuteActivity.IntentBuilder(context, shortcutId)
+                .build()
         context.startActivity(intent)
     }
 

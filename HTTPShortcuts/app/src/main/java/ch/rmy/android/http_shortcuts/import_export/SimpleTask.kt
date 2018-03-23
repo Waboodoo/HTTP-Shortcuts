@@ -7,7 +7,7 @@ import android.os.AsyncTask
 import android.support.design.widget.Snackbar
 import android.view.View
 
-abstract class SimpleTask<T>(protected val context: Context, private val baseView: View) : AsyncTask<T, Void, Boolean>() {
+abstract class SimpleTask<T>(protected val context: Context, private val baseView: View) : AsyncTask<T, Unit, Exception?>() {
 
     private var progressDialog: Dialog? = null
 
@@ -23,9 +23,9 @@ abstract class SimpleTask<T>(protected val context: Context, private val baseVie
         progressDialog = ProgressDialog.show(context, null, progressMessage)
     }
 
-    override fun onPostExecute(success: Boolean) {
+    override fun onPostExecute(exception: Exception?) {
         progressDialog?.dismiss()
-        Snackbar.make(baseView, if (success) successMessage else failureMessage, Snackbar.LENGTH_LONG).show()
+        Snackbar.make(baseView, if (exception == null) successMessage else failureMessage, Snackbar.LENGTH_LONG).show()
     }
 
 }

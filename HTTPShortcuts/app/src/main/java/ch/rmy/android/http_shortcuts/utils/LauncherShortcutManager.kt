@@ -6,6 +6,7 @@ import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.os.Build
 import android.support.annotation.RequiresApi
+import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.realm.models.Category
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import java.util.*
@@ -65,7 +66,10 @@ object LauncherShortcutManager {
                 .setShortLabel(shortcut.name)
                 .setLongLabel(shortcut.name)
                 .setRank(rank)
-                .setIntent(IntentUtil.createIntent(context, shortcut.id))
+                .setIntent(
+                        ExecuteActivity.IntentBuilder(context, shortcut.id)
+                                .build()
+                )
                 .mapIf(icon != null) {
                     it.setIcon(icon)
                 }

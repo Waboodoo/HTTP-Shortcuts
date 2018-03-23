@@ -3,12 +3,11 @@
     <style name="ListName" parent="@android:style/TextAppearance.Medium">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:typeface">monospace</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="GridName" parent="@android:style/TextAppearance.Medium">
-        <item name="android:typeface">monospace</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">13sp</item>
     </style>
@@ -16,8 +15,7 @@
     <style name="ListName_secondary" parent="@android:style/TextAppearance.Medium">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:typeface">monospace</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="SubHeader">
@@ -38,6 +36,15 @@
 
     <style name="tabtextcolor" parent="@android:style/Widget.Holo.Light.ActionBar.TabText">
         <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="VariableButton">
+        <item name="android:layout_width">36dp</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:src">@drawable/ic_variables</item>
+        <item name="android:tint">#000</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:background">?selectableItemBackgroundBorderless</item>
     </style>
 
 </resources>

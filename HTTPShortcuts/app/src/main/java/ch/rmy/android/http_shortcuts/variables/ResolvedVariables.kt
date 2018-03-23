@@ -11,9 +11,7 @@ class ResolvedVariables {
 
     private val variableValues = mutableMapOf<String, String>()
 
-    fun hasValue(variableName: String) = variableValues.containsKey(variableName)
-
-    fun getValue(variableName: String): String? = variableValues[variableName]
+    operator fun get(variableKey: String) = variableValues[variableKey]
 
     fun toList() = variableValues.map { (key, value) ->
         ResolvedVariable.createNew(key, value)

@@ -17,12 +17,12 @@ import android.os.IBinder
 import android.support.annotation.RequiresApi
 import android.support.v4.app.NotificationCompat
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.activities.MainActivity
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.PendingExecution
 import ch.rmy.android.http_shortcuts.utils.Connectivity
 import ch.rmy.android.http_shortcuts.utils.CrashReporting
-import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.NotificationUtil
 import ch.rmy.android.http_shortcuts.utils.mapIf
 import io.realm.RealmResults
@@ -58,12 +58,12 @@ class ExecutionService : Service() {
 
                 val id = pendingExecution.shortcutId
                 val tryNumber = pendingExecution.tryNumber + 1
-                val variableValues = HashMap<String, String>()
-                for (resolvedVariable in pendingExecution.resolvedVariables) {
-                    variableValues.put(resolvedVariable.key, resolvedVariable.value)
-                }
+                val variableValues = pendingExecution.resolvedVariables
+                        .associate { variable ->
+                            variable.key to variable.value
+                        }
 
-                controller.removePendingExecution(pendingExecution)
+                controller.removePendingExecutionSynchronously(pendingExecution)
 
                 try {
                     Thread.sleep(INITIAL_DELAY.toLong())
@@ -102,8 +102,11 @@ class ExecutionService : Service() {
         startForeground(NOTIFICATION_ID, notification)
     }
 
-    private fun executeShortcut(id: Long, variableValues: HashMap<String, String>, tryNumber: Int) {
-        val shortcutIntent = IntentUtil.createIntent(context, id, variableValues, tryNumber)
+    private fun executeShortcut(id: Long, variableValues: Map<String, String>, tryNumber: Int) {
+        val shortcutIntent = ExecuteActivity.IntentBuilder(context, id)
+                .variableValues(variableValues)
+                .tryNumber(tryNumber)
+                .build()
         startActivity(shortcutIntent)
     }
 

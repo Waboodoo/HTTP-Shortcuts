@@ -1,24 +1,25 @@
 package ch.rmy.android.http_shortcuts.variables
 
-import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 object Variables {
 
-    internal const val PREFIX_LENGTH = 2
-    internal const val SUFFIX_LENGTH = 2
+    private const val VARIABLE_KEY_REGEX = "[A-Za-z0-9]{1,20}"
 
-    private const val VARIABLE_NAME_REGEX = "[A-Za-z0-9]+"
-    private const val FULL_VARIABLE_NAME_REGEX = "^$VARIABLE_NAME_REGEX$"
-    private const val PLACEHOLDER_REGEX = "\\{\\{$VARIABLE_NAME_REGEX\\}\\}"
+    private const val RAW_PLACEHOLDER_PREFIX = "{{"
+    private const val RAW_PLACEHOLDER_SUFFIX = "}}"
+    private const val RAW_PLACEHOLDER_REGEX = "\\{\\{($VARIABLE_KEY_REGEX)\\}\\}"
 
-    private val PATTERN = Pattern.compile(PLACEHOLDER_REGEX)
+    private const val PRETTY_PLACEHOLDER_PREFIX = "{"
+    private const val PRETTY_PLACEHOLDER_SUFFIX = "}"
+
+    private val PATTERN = Pattern.compile(RAW_PLACEHOLDER_REGEX)
 
     fun match(s: CharSequence): Matcher = PATTERN.matcher(s)
 
-    fun isValidVariableName(variableName: String) =
-            variableName.matches(FULL_VARIABLE_NAME_REGEX.toRegex())
+    fun isValidVariableKey(variableKey: String) =
+            VARIABLE_KEY_REGEX.toRegex().matchEntire(variableKey) != null
 
     fun insert(string: String, variables: ResolvedVariables): String {
         val builder = StringBuilder()
@@ -26,23 +27,25 @@ object Variables {
         var previousEnd = 0
         while (matcher.find()) {
             builder.append(string.substring(previousEnd, matcher.start()))
-            val placeholder = string.substring(matcher.start(), matcher.end())
-            val variableName = string.substring(matcher.start() + PREFIX_LENGTH, matcher.end() - SUFFIX_LENGTH)
-            builder.append(if (variables.hasValue(variableName)) variables.getValue(variableName) else placeholder)
+            val variableKey = matcher.group(1)
+            builder.append(variables[variableKey] ?: matcher.group(0))
             previousEnd = matcher.end()
         }
         builder.append(string.substring(previousEnd, string.length))
         return builder.toString()
     }
 
-    internal fun extractVariableNames(string: String): Set<String> {
-        val discoveredVariables = HashSet<String>()
+    internal fun extractVariableKeys(string: String): Set<String> {
+        val discoveredVariables = mutableSetOf<String>()
         val matcher = match(string)
         while (matcher.find()) {
-            val variableName = string.substring(matcher.start() + PREFIX_LENGTH, matcher.end() - SUFFIX_LENGTH)
-            discoveredVariables.add(variableName)
+            discoveredVariables.add(matcher.group(1))
         }
         return discoveredVariables
     }
+
+    fun toRawPlaceholder(variableKey: String) = "$RAW_PLACEHOLDER_PREFIX$variableKey$RAW_PLACEHOLDER_SUFFIX"
+
+    fun toPrettyPlaceholder(variableKey: String) = "$PRETTY_PLACEHOLDER_PREFIX$variableKey$PRETTY_PLACEHOLDER_SUFFIX"
 
 }

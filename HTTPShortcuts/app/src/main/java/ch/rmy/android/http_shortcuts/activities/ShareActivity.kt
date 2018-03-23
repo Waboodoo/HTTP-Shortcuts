@@ -4,10 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.StringRes
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
-import ch.rmy.android.http_shortcuts.utils.IntentUtil
-import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.utils.mapFor
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
@@ -62,7 +61,9 @@ class ShareActivity : BaseActivity() {
     }
 
     private fun executeShortcut(shortcut: Shortcut, variableValues: Map<String, String>) {
-        val intent = IntentUtil.createIntent(context, shortcut.id, variableValues)
+        val intent = ExecuteActivity.IntentBuilder(context, shortcut.id)
+                .variableValues(variableValues)
+                .build()
         startActivity(intent)
     }
 

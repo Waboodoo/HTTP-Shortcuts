@@ -14,7 +14,7 @@ import org.jdeferred.Deferred
 import org.jdeferred.Promise
 import org.jdeferred.impl.DeferredObject
 
-internal class ShortcutRequest private constructor(method: Int, url: String, private val deferred: Deferred<ShortcutResponse, VolleyError, Void>) : Request<ShortcutResponse>(method, url, Response.ErrorListener { error -> deferred.reject(error) }) {
+internal class ShortcutRequest private constructor(method: Int, url: String, private val deferred: Deferred<ShortcutResponse, VolleyError, Unit>) : Request<ShortcutResponse>(method, url, Response.ErrorListener { error -> deferred.reject(error) }) {
 
     private val parameters = mutableMapOf<String, String>()
     private val headers = mutableMapOf<String, String>()
@@ -22,8 +22,8 @@ internal class ShortcutRequest private constructor(method: Int, url: String, pri
     private var contentType: String? = null
 
     init {
-        headers.put(HttpHeaders.CONNECTION, "close")
-        headers.put(HttpHeaders.USER_AGENT, UserAgentUtil.userAgent)
+        headers[HttpHeaders.CONNECTION] = "close"
+        headers[HttpHeaders.USER_AGENT] = UserAgentUtil.userAgent
     }
 
     @Throws(AuthFailureError::class)
@@ -39,7 +39,6 @@ internal class ShortcutRequest private constructor(method: Int, url: String, pri
         System.arraycopy(customBody, 0, mergedBody, regularBody.size, customBody.size)
 
         return mergedBody
-
     }
 
     @Throws(AuthFailureError::class)
@@ -56,7 +55,7 @@ internal class ShortcutRequest private constructor(method: Int, url: String, pri
         deferred.resolve(response)
     }
 
-    val promise: Promise<ShortcutResponse, VolleyError, Void>
+    val promise: Promise<ShortcutResponse, VolleyError, Unit>
         get() = deferred.promise()
 
     internal class Builder(method: String, url: String) {
@@ -64,7 +63,7 @@ internal class ShortcutRequest private constructor(method: Int, url: String, pri
         private val request: ShortcutRequest
 
         init {
-            request = ShortcutRequest(getMethod(method), url, DeferredObject<ShortcutResponse, VolleyError, Void>())
+            request = ShortcutRequest(getMethod(method), url, DeferredObject<ShortcutResponse, VolleyError, Unit>())
         }
 
         private fun getMethod(method: String) = when (method) {
@@ -79,7 +78,7 @@ internal class ShortcutRequest private constructor(method: Int, url: String, pri
         }
 
         fun basicAuth(username: String, password: String) = this.also {
-            request.headers.put(HttpHeaders.AUTHORIZATION, Credentials.basic(username, password))
+            request.headers[HttpHeaders.AUTHORIZATION] = Credentials.basic(username, password)
         }
 
         fun body(body: String) = this.also {
@@ -87,14 +86,14 @@ internal class ShortcutRequest private constructor(method: Int, url: String, pri
         }
 
         fun parameter(key: String, value: String) = this.also {
-            request.parameters.put(key, value)
+            request.parameters[key] = value
         }
 
         fun header(key: String, value: String) = this.also {
             if (key.equals(HttpHeaders.CONTENT_TYPE, ignoreCase = true)) {
                 request.contentType = value
             } else {
-                request.headers.put(key, value)
+                request.headers[key] = value
             }
         }
 

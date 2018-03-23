@@ -9,17 +9,9 @@ internal class ToggleType : BaseVariableType(), SyncVariableType {
         if (variable.options!!.isEmpty()) {
             return ""
         }
-        val previousIndex = try {
-            Integer.valueOf(variable.value)!!
-        } catch (e: NumberFormatException) {
-            0
-        }
-
-        var index = previousIndex + 1
-        if (index >= variable.options!!.size) {
-            index = 0
-        }
-        controller.setVariableValue(variable, index.toString())
+        val previousIndex = variable.value?.toIntOrNull() ?: 0
+        val index = (previousIndex + 1) % variable.options!!.size
+        controller.setVariableValue(variable.id, index.toString())
         return variable.options!![index]!!.value
     }
 

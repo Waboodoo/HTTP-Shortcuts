@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
@@ -10,10 +11,11 @@ import android.view.MenuItem
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.adapters.VariableAdapter
 import ch.rmy.android.http_shortcuts.dialogs.HelpDialogBuilder
+import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.listeners.OnItemClickedListener
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Variable
-import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder
+import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.ShortcutListDecorator
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
@@ -60,8 +62,8 @@ class VariablesActivity : BaseActivity() {
     }
 
     private fun editVariable(variable: Variable) {
-        val intent = Intent(context, VariableEditorActivity::class.java)
-        intent.putExtra(VariableEditorActivity.EXTRA_VARIABLE_ID, variable.id)
+        val intent = VariableEditorActivity.IntentBuilder(context, variable.id)
+                .build()
         startActivity(intent)
     }
 
@@ -88,7 +90,7 @@ class VariablesActivity : BaseActivity() {
 
     private fun deleteVariable(variable: Variable) {
         showSnackbar(String.format(getString(R.string.variable_deleted), variable.key))
-        controller.deleteVariable(variable)
+        controller.deleteVariable(variable.id)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -105,13 +107,14 @@ class VariablesActivity : BaseActivity() {
     }
 
     private fun showHelp() {
-        destroyer.own(
-                HelpDialogBuilder(context)
-                        .title(R.string.help_title_variables)
-                        .message(R.string.help_variables)
-                        .build()
-                        .show()
-        )
+        HelpDialogBuilder(context)
+                .title(R.string.help_title_variables)
+                .message(R.string.help_variables)
+                .build()
+                .show()
+                .attachTo(destroyer)
     }
+
+    class IntentBuilder(context: Context) : BaseIntentBuilder(context, VariablesActivity::class.java)
 
 }

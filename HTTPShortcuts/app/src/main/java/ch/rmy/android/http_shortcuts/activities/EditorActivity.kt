@@ -11,11 +11,13 @@ import android.provider.MediaStore
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.LinearLayout
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dialogs.IconNameChangeDialog
+import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.icons.IconSelector
 import ch.rmy.android.http_shortcuts.icons.IconView
 import ch.rmy.android.http_shortcuts.icons.Icons
@@ -26,11 +28,10 @@ import ch.rmy.android.http_shortcuts.realm.models.Parameter
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut.Companion.TEMPORARY_ID
 import ch.rmy.android.http_shortcuts.utils.ArrayUtil
+import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
-import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.IpackUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
-import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.utils.OnItemChosenListener
 import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils
@@ -41,8 +42,10 @@ import ch.rmy.android.http_shortcuts.utils.fix
 import ch.rmy.android.http_shortcuts.utils.focus
 import ch.rmy.android.http_shortcuts.utils.logException
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
+import ch.rmy.android.http_shortcuts.utils.showSoftKeyboard
 import ch.rmy.android.http_shortcuts.utils.visible
-import ch.rmy.android.http_shortcuts.variables.VariableFormatter
+import ch.rmy.android.http_shortcuts.variables.VariableButton
+import ch.rmy.android.http_shortcuts.variables.VariableEditText
 import ch.rmy.curlcommand.CurlCommand
 import com.afollestad.materialdialogs.MaterialDialog
 import com.satsuware.usefulviews.LabelledSpinner
@@ -67,19 +70,24 @@ class EditorActivity : BaseActivity() {
     private val retryPolicyView: LabelledSpinner by bindView(R.id.input_retry_policy)
     private val nameView: EditText by bindView(R.id.input_shortcut_name)
     private val descriptionView: EditText by bindView(R.id.input_description)
-    private val urlView: EditText by bindView(R.id.input_url)
+    private val urlView: VariableEditText by bindView(R.id.input_url)
     private val authenticationView: LabelledSpinner by bindView(R.id.input_authentication)
-    private val usernameView: EditText by bindView(R.id.input_username)
-    private val passwordView: EditText by bindView(R.id.input_password)
+    private val usernameView: VariableEditText by bindView(R.id.input_username)
+    private val passwordView: VariableEditText by bindView(R.id.input_password)
     private val iconView: IconView by bindView(R.id.input_icon)
+    private val iconViewContainer: View by bindView(R.id.icon_container)
     private val parameterList: KeyValueList<Parameter> by bindView(R.id.post_parameter_list)
     private val customHeaderList: KeyValueList<Header> by bindView(R.id.custom_headers_list)
-    private val customBodyView: EditText by bindView(R.id.input_custom_body)
+    private val requestBodyView: VariableEditText by bindView(R.id.input_custom_body)
     private val acceptCertificatesCheckbox: CheckBox by bindView(R.id.input_accept_all_certificates)
     private val authenticationContainer: LinearLayout by bindView(R.id.authentication_container)
     private val requestBodyContainer: LinearLayout by bindView(R.id.section_request_body)
     private val launcherShortcutCheckbox: CheckBox by bindView(R.id.input_launcher_shortcut)
     private val delayView: LabelledSpinner by bindView(R.id.input_delay_execution)
+    private val variableButtonUrl: VariableButton by bindView(R.id.variable_button_url)
+    private val variableButtonUsername: VariableButton by bindView(R.id.variable_button_username)
+    private val variableButtonPassword: VariableButton by bindView(R.id.variable_button_password)
+    private val variableButtonRequestBody: VariableButton by bindView(R.id.variable_button_custom_body)
 
     private val itemChosenListener = object : OnItemChosenListener() {
         override fun onSelectionChanged() {
@@ -92,9 +100,6 @@ class EditorActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_editor)
-
-        destroyer.own(parameterList)
-        destroyer.own(customHeaderList)
 
         shortcutId = intent.getLongExtra(EXTRA_SHORTCUT_ID, 0)
         val shortcut = if (savedInstanceState?.containsKey(STATE_JSON_SHORTCUT) == true) {
@@ -144,17 +149,17 @@ class EditorActivity : BaseActivity() {
     }
 
     private fun initViews() {
+        initVariableEditText(urlView, variableButtonUrl)
+        initVariableEditText(usernameView, variableButtonUsername)
+        initVariableEditText(passwordView, variableButtonPassword)
+        initVariableEditText(requestBodyView, variableButtonRequestBody)
+
         nameView.setText(shortcut.name)
         descriptionView.setText(shortcut.description)
         urlView.setText(shortcut.url)
         usernameView.setText(shortcut.username)
         passwordView.setText(shortcut.password)
-        customBodyView.setText(shortcut.bodyContent)
-
-        bindVariableFormatter(urlView)
-        bindVariableFormatter(usernameView)
-        bindVariableFormatter(passwordView)
-        bindVariableFormatter(customBodyView)
+        requestBodyView.setText(shortcut.bodyContent)
 
         methodView.setItemsArray(Shortcut.METHODS)
         methodView.fix()
@@ -204,14 +209,18 @@ class EditorActivity : BaseActivity() {
         delayView.fix()
         delayView.setSelection(ArrayUtil.findIndex(Shortcut.DELAY_OPTIONS, shortcut.delay))
 
-        iconView.setOnClickListener { openIconSelectionDialog() }
+        iconViewContainer.setOnClickListener { openIconSelectionDialog() }
 
         setTitle(if (shortcut.isNew) R.string.create_shortcut else R.string.edit_shortcut)
         updateUI()
     }
 
-    private fun bindVariableFormatter(editText: EditText) {
-        destroyer.own(VariableFormatter.bind(editText, variables))
+    private fun initVariableEditText(editText: VariableEditText, variableButton: VariableButton) {
+        editText.variables = variables
+        variableButton.variableSource.add { variable ->
+            editText.insertVariablePlaceholder(variable.key)
+            editText.showSoftKeyboard()
+        }.attachTo(destroyer)
     }
 
     private fun updateUI() {
@@ -240,46 +249,54 @@ class EditorActivity : BaseActivity() {
         compileShortcut()
         if (validate(false)) {
             shortcut.id = shortcutId
-            val persistedShortcut = controller.persist(shortcut)
-            val returnIntent = Intent()
-            returnIntent.putExtra(EXTRA_SHORTCUT_ID, persistedShortcut.id)
-            setResult(Activity.RESULT_OK, returnIntent)
-            val dialog = IconNameChangeDialog(context)
-            if (LauncherShortcutManager.supportsPinning(context)) {
-                LauncherShortcutManager.updatePinnedShortcut(context, persistedShortcut)
-                finish()
-            } else if (!oldShortcut.isNew && nameOrIconChanged() && dialog.shouldShow()) {
-                dialog.show(MaterialDialog.SingleButtonCallback { _, _ -> finish() })
-            } else {
-                finish()
-            }
+            controller.persist(shortcut)
+                    .done { persistedShortcut ->
+                        onShortcutSaved(persistedShortcut)
+                    }
         }
     }
 
-    private fun validate(testOnly: Boolean): Boolean {
-        if (!testOnly && shortcut.name.isBlank()) {
-            nameView.error = getString(R.string.validation_name_not_empty)
-            nameView.focus()
-            return false
-        }
-        if (!Validation.isAcceptableUrl(shortcut.url)) {
-            urlView.error = getString(R.string.validation_url_invalid)
-            urlView.focus()
-            return false
-        }
-        return true
-    }
+    private fun validate(testOnly: Boolean) =
+            if (!testOnly && shortcut.name.isBlank()) {
+                nameView.error = getString(R.string.validation_name_not_empty)
+                nameView.focus()
+                false
+            } else if (!Validation.isAcceptableUrl(shortcut.url)) {
+                urlView.error = getString(R.string.validation_url_invalid)
+                urlView.focus()
+                false
+            } else {
+                true
+            }
 
     private fun nameOrIconChanged() =
             oldShortcut.name != shortcut.name || oldShortcut.iconName != shortcut.iconName
+
+    private fun onShortcutSaved(persistedShortcut: Shortcut) {
+        val returnIntent = Intent()
+        returnIntent.putExtra(EXTRA_SHORTCUT_ID, persistedShortcut.id)
+        setResult(Activity.RESULT_OK, returnIntent)
+        val dialog = IconNameChangeDialog(context)
+        if (LauncherShortcutManager.supportsPinning(context)) {
+            LauncherShortcutManager.updatePinnedShortcut(context, persistedShortcut)
+            finish()
+        } else if (!oldShortcut.isNew && nameOrIconChanged() && dialog.shouldShow()) {
+            dialog.show(MaterialDialog.SingleButtonCallback { _, _ -> finish() })
+        } else {
+            finish()
+        }
+    }
 
     private fun test() {
         compileShortcut()
         if (validate(true)) {
             shortcut.id = TEMPORARY_ID
             controller.persist(shortcut)
-            val intent = IntentUtil.createIntent(context, TEMPORARY_ID)
-            startActivity(intent)
+                    .done {
+                        val intent = ExecuteActivity.IntentBuilder(context, TEMPORARY_ID)
+                                .build()
+                        startActivity(intent)
+                    }
         }
     }
 
@@ -297,7 +314,7 @@ class EditorActivity : BaseActivity() {
             shortcut.iconName = iconName
             updateUI()
         }
-        .show()
+                .show()
     }
 
     private fun openImagePicker() {
@@ -338,12 +355,12 @@ class EditorActivity : BaseActivity() {
 
     private fun compileShortcut() {
         shortcut.name = nameView.text.toString().trim { it <= ' ' }
-        shortcut.url = urlView.text.toString()
+        shortcut.url = urlView.rawString
         shortcut.method = Shortcut.METHODS[methodView.spinner.selectedItemPosition]
         shortcut.description = descriptionView.text.toString().trim { it <= ' ' }
-        shortcut.password = passwordView.text.toString()
-        shortcut.username = usernameView.text.toString()
-        shortcut.bodyContent = customBodyView.text.toString()
+        shortcut.password = passwordView.rawString
+        shortcut.username = usernameView.rawString
+        shortcut.bodyContent = requestBodyView.rawString
         shortcut.feedback = Shortcut.FEEDBACK_OPTIONS[feedbackView.spinner.selectedItemPosition]
         shortcut.timeout = Shortcut.TIMEOUT_OPTIONS[timeoutView.spinner.selectedItemPosition]
         shortcut.delay = Shortcut.DELAY_OPTIONS[delayView.spinner.selectedItemPosition]
@@ -415,10 +432,22 @@ class EditorActivity : BaseActivity() {
         outState.putString(STATE_INITIAL_ICON, oldShortcut.iconName)
     }
 
+    class IntentBuilder(context: Context) : BaseIntentBuilder(context, EditorActivity::class.java) {
+
+        fun shortcutId(shortcutId: Long) = this.also {
+            intent.putExtra(EXTRA_SHORTCUT_ID, shortcutId)
+        }
+
+        fun curlCommand(command: CurlCommand) = this.also {
+            intent.putExtra(EXTRA_CURL_COMMAND, command)
+        }
+
+    }
+
     companion object {
 
         const val EXTRA_SHORTCUT_ID = "ch.rmy.android.http_shortcuts.activities.EditorActivity.shortcut_id"
-        const val EXTRA_CURL_COMMAND = "ch.rmy.android.http_shortcuts.activities.EditorActivity.curl_command"
+        private const val EXTRA_CURL_COMMAND = "ch.rmy.android.http_shortcuts.activities.EditorActivity.curl_command"
 
         private const val REQUEST_SELECT_IPACK_ICON = 3
         private const val STATE_JSON_SHORTCUT = "shortcut_json"

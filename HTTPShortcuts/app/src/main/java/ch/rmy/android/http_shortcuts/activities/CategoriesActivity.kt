@@ -1,15 +1,17 @@
 package ch.rmy.android.http_shortcuts.activities
 
+import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.adapters.CategoryAdapter
+import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.listeners.OnItemClickedListener
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Category
-import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder
+import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.ShortcutListDecorator
 import ch.rmy.android.http_shortcuts.utils.mapIf
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
@@ -116,12 +118,12 @@ class CategoriesActivity : BaseActivity() {
     }
 
     private fun renameCategory(category: Category, newName: String) {
-        controller.renameCategory(category, newName)
+        controller.renameCategory(category.id, newName)
         showSnackbar(R.string.message_category_renamed)
     }
 
     private fun changeLayoutType(category: Category, layoutType: String) {
-        controller.setLayoutType(category, layoutType)
+        controller.setLayoutType(category.id, layoutType)
         showSnackbar(R.string.message_layout_type_changed)
     }
 
@@ -135,7 +137,7 @@ class CategoriesActivity : BaseActivity() {
             return
         }
         val position = categories.indexOf(category) + offset
-        controller.moveCategory(category, position)
+        controller.moveCategory(category.id, position)
     }
 
     private fun showDeleteDialog(category: Category) {
@@ -152,9 +154,11 @@ class CategoriesActivity : BaseActivity() {
     }
 
     private fun deleteCategory(category: Category) {
-        controller.deleteCategory(category)
+        controller.deleteCategory(category.id)
         showSnackbar(R.string.message_category_deleted)
     }
+
+    class IntentBuilder(context: Context) : BaseIntentBuilder(context, CategoriesActivity::class.java)
 
     companion object {
 

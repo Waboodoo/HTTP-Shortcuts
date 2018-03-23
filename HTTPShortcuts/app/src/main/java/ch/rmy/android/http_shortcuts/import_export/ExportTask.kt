@@ -12,22 +12,20 @@ import java.io.IOException
 
 class ExportTask(context: Context, baseView: View) : SimpleTask<String>(context, baseView) {
 
-    override fun doInBackground(vararg path: String): Boolean? {
+    override fun doInBackground(vararg path: String): Exception? {
         val controller = Controller()
         val base = controller.exportBase()
         controller.destroy()
 
-        try {
+        return try {
             val file = getFile(path[0])
-
             BufferedWriter(FileWriter(file)).use {
                 GsonUtil.exportData(base, it)
             }
+            null
         } catch (e: IOException) {
-            return false
+            e
         }
-
-        return true
     }
 
     private fun getFile(directoryPath: String): File {

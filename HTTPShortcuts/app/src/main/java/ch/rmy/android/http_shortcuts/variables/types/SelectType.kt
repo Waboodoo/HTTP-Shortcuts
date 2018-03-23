@@ -16,7 +16,7 @@ internal class SelectType : BaseVariableType(), AsyncVariableType {
                 .mapFor(variable.options!!) { builder, option ->
                     builder.item(option.label) {
                         deferredValue.resolve(option.value)
-                        controller.setVariableValue(variable, option.value)
+                        controller.setVariableValue(variable.id, option.value)
                     }
                 }
         return {

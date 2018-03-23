@@ -13,7 +13,7 @@ import org.jdeferred.Promise
 
 object HttpRequester {
 
-    fun executeShortcut(context: Context, detachedShortcut: Shortcut, variables: ResolvedVariables): Promise<ShortcutResponse, VolleyError, Void> {
+    fun executeShortcut(context: Context, detachedShortcut: Shortcut, variables: ResolvedVariables): Promise<ShortcutResponse, VolleyError, Unit> {
 
         val url = Variables.insert(detachedShortcut.url, variables)
         val username = Variables.insert(detachedShortcut.username, variables)
@@ -46,7 +46,8 @@ object HttpRequester {
                 acceptAllCertificates,
                 if (detachedShortcut.usesDigestAuthentication()) username else null,
                 if (detachedShortcut.usesDigestAuthentication()) password else null
-        ).add(request)
+        )
+                .add(request)
 
         return request.promise
     }

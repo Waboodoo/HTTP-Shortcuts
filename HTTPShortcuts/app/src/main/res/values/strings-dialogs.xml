@@ -146,7 +146,7 @@
         </p>
         <p>
             <b>How do I use variables?</b><br>
-            Each variable has a key, e.g. <i>example</i>. You can then use this key as a placeholder in all your shortcuts\' url, parameters, body, authentication and header fields by surrounding it with <i>{{</i> and <i>}}</i>, e.g. <i>{{example}}</i>. It should then change color to indicate that it is recognized as a valid placeholder.</p>
+            You can insert a placeholder for a variable into your shortcuts\' url, parameters, body, authentication and header fields by clicking the "{}" button next to the input field and selecting a variable.</p>
         <p>
             When executing a shortcut that contains variable placeholders all of them are resolved according to their type.
         </p>

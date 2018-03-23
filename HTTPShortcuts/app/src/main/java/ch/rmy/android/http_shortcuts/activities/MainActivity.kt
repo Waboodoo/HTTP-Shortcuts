@@ -13,13 +13,13 @@ import android.view.MenuItem
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.adapters.CategoryPagerAdapter
 import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog
+import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.http.ExecutionService
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Category
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
-import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.utils.SelectionMode
 import ch.rmy.android.http_shortcuts.utils.consume
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
@@ -65,7 +65,8 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     }
 
     private fun openEditorForCreation() {
-        val intent = Intent(context, EditorActivity::class.java)
+        val intent = EditorActivity.IntentBuilder(context)
+                .build()
         startActivityForResult(intent, REQUEST_CREATE_SHORTCUT)
     }
 
@@ -100,22 +101,13 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
         when (requestCode) {
             REQUEST_CREATE_SHORTCUT -> {
                 val shortcutId = intent.getLongExtra(EditorActivity.EXTRA_SHORTCUT_ID, 0)
-                val shortcut = controller.getShortcutById(shortcutId) ?: return
-
-                val category: Category
-                val currentCategory = viewPager.currentItem
-                if (currentCategory < adapter!!.count) {
-                    val currentListFragment = adapter!!.getItem(currentCategory)
-                    val categoryId = currentListFragment.categoryId
-                    category = controller.getCategoryById(categoryId)!!
-                } else {
-                    category = controller.categories.first()!!
-                }
-                controller.moveShortcut(shortcut, category)
-
-                selectShortcut(shortcut)
+                onShortcutCreated(shortcutId)
             }
-            SettingsActivity.REQUEST_SETTINGS -> {
+            REQUEST_CREATE_SHORTCUT_FROM_CURL -> {
+                val shortcutId = intent.getLongExtra(CurlImportActivity.EXTRA_SHORTCUT_ID, 0)
+                onShortcutCreated(shortcutId)
+            }
+            REQUEST_SETTINGS -> {
                 if (intent.getBooleanExtra(SettingsActivity.EXTRA_THEME_CHANGED, false)) {
                     recreate()
                     openSettings()
@@ -125,12 +117,28 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
         }
     }
 
+    private fun onShortcutCreated(shortcutId: Long) {
+        val shortcut = controller.getShortcutById(shortcutId) ?: return
+
+        val category: Category
+        val currentCategory = viewPager.currentItem
+        if (currentCategory < adapter!!.count) {
+            val currentListFragment = adapter!!.getItem(currentCategory)
+            val categoryId = currentListFragment.categoryId
+            category = controller.getCategoryById(categoryId)!!
+        } else {
+            category = controller.categories.first()!!
+        }
+        controller.moveShortcut(shortcut.id, targetCategoryId = category.id)
+
+        selectShortcut(shortcut)
+    }
+
     override fun selectShortcut(shortcut: Shortcut) {
         when (selectionMode) {
             SelectionMode.HOME_SCREEN -> returnForHomeScreen(shortcut)
             SelectionMode.PLUGIN -> returnForPlugin(shortcut)
-            SelectionMode.NORMAL -> {
-            }
+            SelectionMode.NORMAL -> Unit
         }
     }
 
@@ -167,23 +175,27 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     }
 
     private fun openSettings() {
-        val intent = Intent(context, SettingsActivity::class.java)
-        startActivityForResult(intent, SettingsActivity.REQUEST_SETTINGS)
+        val intent = SettingsActivity.IntentBuilder(context)
+                .build()
+        startActivityForResult(intent, REQUEST_SETTINGS)
     }
 
     private fun openCategoriesEditor() {
-        val intent = Intent(context, CategoriesActivity::class.java)
+        val intent = CategoriesActivity.IntentBuilder(context)
+                .build()
         startActivity(intent)
     }
 
     private fun openVariablesEditor() {
-        val intent = Intent(context, VariablesActivity::class.java)
+        val intent = VariablesActivity.IntentBuilder(context)
+                .build()
         startActivity(intent)
     }
 
     private fun openCurlImport() {
-        val intent = Intent(context, CurlImportActivity::class.java)
-        startActivityForResult(intent, REQUEST_CREATE_SHORTCUT)
+        val intent = CurlImportActivity.IntentBuilder(context)
+                .build()
+        startActivityForResult(intent, REQUEST_CREATE_SHORTCUT_FROM_CURL)
     }
 
     override fun placeShortcutOnHomeScreen(shortcut: Shortcut) {
@@ -205,6 +217,8 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
         const val EXTRA_SELECTION_NAME = "ch.rmy.android.http_shortcuts.shortcut_name"
 
         private const val REQUEST_CREATE_SHORTCUT = 1
+        private const val REQUEST_CREATE_SHORTCUT_FROM_CURL = 2
+        private const val REQUEST_SETTINGS = 3
 
     }
 }

@@ -1,22 +1,34 @@
 package ch.rmy.android.http_shortcuts.activities
 
+import android.content.Context
 import android.os.Bundle
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import com.mikepenz.aboutlibraries.LibsBuilder
 
 class LicensesActivity : BaseActivity() {
 
-    public override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_licenses)
 
         val fragmentManager = supportFragmentManager
-        var fragment = fragmentManager.findFragmentById(R.id.fragment_host)
-        if (fragment == null) {
-            fragment = LibsBuilder().withAutoDetect(false).withLibraries(*LIBRARIES).withLicenseShown(true).supportFragment()
-            fragmentManager.beginTransaction().add(R.id.fragment_host, fragment).commit()
+        fragmentManager.findFragmentById(R.id.fragment_host) ?: run {
+            LibsBuilder()
+                    .withAutoDetect(false)
+                    .withLibraries(*LIBRARIES)
+                    .withLicenseShown(true)
+                    .supportFragment()
+                    .also {
+                        fragmentManager
+                                .beginTransaction()
+                                .add(R.id.fragment_host, it)
+                                .commit()
+                    }
         }
     }
+
+    class IntentBuilder(context: Context) : BaseIntentBuilder(context, LicensesActivity::class.java)
 
     companion object {
 

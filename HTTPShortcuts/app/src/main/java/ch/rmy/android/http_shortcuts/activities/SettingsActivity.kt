@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.activities
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager.NameNotFoundException
 import android.net.Uri
@@ -13,18 +14,20 @@ import android.preference.Preference
 import android.preference.Preference.OnPreferenceChangeListener
 import android.preference.Preference.OnPreferenceClickListener
 import android.preference.PreferenceFragment
-import android.widget.Toast
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog
 import ch.rmy.android.http_shortcuts.dialogs.HelpDialogBuilder
+import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.import_export.ExportTask
 import ch.rmy.android.http_shortcuts.import_export.ImportTask
 import ch.rmy.android.http_shortcuts.realm.Controller
+import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.CrashReporting
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
-import ch.rmy.android.http_shortcuts.utils.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.utils.Settings
+import ch.rmy.android.http_shortcuts.utils.destroyer
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
+import ch.rmy.android.http_shortcuts.utils.showToast
 import com.afollestad.materialdialogs.MaterialDialog
 import com.nononsenseapps.filepicker.FilePickerActivity
 import java.io.File
@@ -64,13 +67,12 @@ class SettingsActivity : BaseActivity() {
             }
 
             initPreference("privacy_policy") {
-                (activity as BaseActivity).destroyer.own(
-                        HelpDialogBuilder(activity)
-                                .title(R.string.title_privacy_policy)
-                                .message(R.string.privacy_policy)
-                                .build()
-                                .show()
-                )
+                HelpDialogBuilder(activity)
+                        .title(R.string.title_privacy_policy)
+                        .message(R.string.privacy_policy)
+                        .build()
+                        .show()
+                        .attachTo(activity.destroyer)
             }
 
             initListPreference("crash_reporting") { newValue ->
@@ -215,7 +217,7 @@ class SettingsActivity : BaseActivity() {
             try {
                 startActivityForResult(pickerIntent, REQUEST_IMPORT_FROM_DOCUMENTS)
             } catch (e: ActivityNotFoundException) {
-                Toast.makeText(activity, R.string.error_not_supported, Toast.LENGTH_SHORT).show()
+                activity.showToast(R.string.error_not_supported)
             }
         }
 
@@ -233,7 +235,7 @@ class SettingsActivity : BaseActivity() {
             try {
                 startActivity(Intent.createChooser(intent, title))
             } catch (e: ActivityNotFoundException) {
-                Toast.makeText(activity, R.string.error_not_supported, Toast.LENGTH_SHORT).show()
+                activity.showToast(R.string.error_not_supported)
             }
         }
 
@@ -242,7 +244,7 @@ class SettingsActivity : BaseActivity() {
                 val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(PLAY_STORE_URL))
                 startActivity(browserIntent)
             } catch (e: ActivityNotFoundException) {
-                Toast.makeText(activity, R.string.error_not_supported, Toast.LENGTH_SHORT).show()
+                activity.showToast(R.string.error_not_supported)
             }
         }
 
@@ -251,7 +253,7 @@ class SettingsActivity : BaseActivity() {
                 val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(GITHUB_URL))
                 startActivity(browserIntent)
             } catch (e: ActivityNotFoundException) {
-                Toast.makeText(activity, R.string.error_not_supported, Toast.LENGTH_SHORT).show()
+                activity.showToast(R.string.error_not_supported)
             }
         }
 
@@ -260,12 +262,13 @@ class SettingsActivity : BaseActivity() {
         }
 
         private fun showLicenses() {
-            val licensesIntent = Intent(activity, LicensesActivity::class.java)
-            startActivity(licensesIntent)
+            val intent = LicensesActivity.IntentBuilder(activity)
+                    .build()
+            startActivity(intent)
         }
 
         override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
-            if (resultCode != Activity.RESULT_OK || intent == null) {
+            if (resultCode != RESULT_OK || intent == null) {
                 return
             }
             when (requestCode) {
@@ -305,9 +308,10 @@ class SettingsActivity : BaseActivity() {
 
     }
 
+    class IntentBuilder(context: Context) : BaseIntentBuilder(context, SettingsActivity::class.java)
+
     companion object {
 
-        const val REQUEST_SETTINGS = 52
         const val EXTRA_THEME_CHANGED = "theme_changed"
 
         private const val CONTACT_SUBJECT = "HTTP Shortcuts"

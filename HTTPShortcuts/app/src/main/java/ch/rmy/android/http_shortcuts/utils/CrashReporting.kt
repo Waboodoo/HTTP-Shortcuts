@@ -28,7 +28,7 @@ object CrashReporting {
         }
     })
 
-    fun logException(e: Exception) {
+    fun logException(e: Throwable) {
         if (initialized) {
             Bugsnag.notify(e)
         }

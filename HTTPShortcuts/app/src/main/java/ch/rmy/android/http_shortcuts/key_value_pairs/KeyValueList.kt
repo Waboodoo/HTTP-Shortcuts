@@ -6,7 +6,6 @@ import android.text.InputType
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -15,17 +14,14 @@ import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ListView
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.realm.Controller
-import ch.rmy.android.http_shortcuts.utils.Destroyable
-import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.mapIf
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
-import ch.rmy.android.http_shortcuts.variables.VariableFormatter
+import ch.rmy.android.http_shortcuts.utils.showSoftKeyboard
 import com.afollestad.materialdialogs.MaterialDialog
 import kotterknife.bindView
 
 
-class KeyValueList<T : KeyValuePair> @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr), Destroyable {
+class KeyValueList<T : KeyValuePair> @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
 
     private val button: Button by bindView(R.id.key_value_list_button)
     private val listView: ListView by bindView(R.id.key_value_list)
@@ -40,14 +36,8 @@ class KeyValueList<T : KeyValuePair> @JvmOverloads constructor(context: Context,
     var valueLabel: Int = 0
     var isMultiLine: Boolean = false
 
-    private var controller: Controller
-
-    private val destroyer = Destroyer()
-
     init {
         inflate(context, R.layout.key_value_list, this)
-
-        controller = destroyer.own(Controller())
 
         adapter = KeyValueAdapter(context)
         listView.adapter = adapter
@@ -110,10 +100,6 @@ class KeyValueList<T : KeyValuePair> @JvmOverloads constructor(context: Context,
                         valueInput.maxLines = MAX_LINES
                     }
 
-                    val variables = controller.variables
-                    destroyer.own(VariableFormatter.bind(keyInput, variables))
-                    destroyer.own(VariableFormatter.bind(valueInput, variables))
-
                     (dialog.findViewById(R.id.key_value_key_layout) as TextInputLayout).hint = context.getString(keyLabel)
                     (dialog.findViewById(R.id.key_value_value_layout) as TextInputLayout).hint = context.getString(valueLabel)
 
@@ -122,8 +108,7 @@ class KeyValueList<T : KeyValuePair> @JvmOverloads constructor(context: Context,
                     }
 
                     dialog.setOnShowListener {
-                        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                        imm.showSoftInput(keyInput, InputMethodManager.SHOW_IMPLICIT)
+                        keyInput.showSoftKeyboard()
                     }
                 }
                 .showIfPossible()
@@ -166,10 +151,6 @@ class KeyValueList<T : KeyValuePair> @JvmOverloads constructor(context: Context,
         params.height = totalHeight + listView.dividerHeight * (adapter.count - 1)
         listView.layoutParams = params
         listView.requestLayout()
-    }
-
-    override fun destroy() {
-        destroyer.destroy()
     }
 
     companion object {

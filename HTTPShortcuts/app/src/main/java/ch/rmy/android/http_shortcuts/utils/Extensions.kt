@@ -13,11 +13,18 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import com.afollestad.materialdialogs.MaterialDialog
 import com.satsuware.usefulviews.LabelledSpinner
+import org.jdeferred.DoneFilter
+import org.jdeferred.FailFilter
+import org.jdeferred.ProgressFilter
+import org.jdeferred.Promise
 
 var View.visible: Boolean
     get() = this.visibility == View.VISIBLE
@@ -80,10 +87,35 @@ inline fun <T, U> T.mapFor(iterable: Iterable<U>, block: (T, U) -> T): T {
     return item
 }
 
-fun Any.logException(e: Exception) {
+fun Any.logException(e: Throwable) {
     if (CrashReporting.enabled) {
         CrashReporting.logException(e)
     } else {
         Log.e(this.javaClass.simpleName, "An error occurred", e)
     }
 }
+
+val View.destroyer
+    get() = this.context.destroyer
+
+val Context.destroyer
+    get() = (this as? BaseActivity)?.destroyer
+            ?: throw NotImplementedError("Context does not have a destroyer attached")
+
+fun View.showSoftKeyboard() {
+    requestFocus()
+    post {
+        (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+                .showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+    }
+}
+
+fun Context.showToast(message: String, long: Boolean = false) {
+    Toast.makeText(this, message, if (long) Toast.LENGTH_LONG else Toast.LENGTH_SHORT).show()
+}
+
+fun Context.showToast(@StringRes message: Int, long: Boolean = false) {
+    Toast.makeText(this, message, if (long) Toast.LENGTH_LONG else Toast.LENGTH_SHORT).show()
+}
+
+fun <T, U, F, P> Promise<T, F, P>.filter(filter: (T) -> U) = this.then(DoneFilter<T, U> { result -> filter(result) }, null as FailFilter<F, F>?, null as ProgressFilter<P, P>?)

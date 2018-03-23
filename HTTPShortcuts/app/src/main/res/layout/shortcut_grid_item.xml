@@ -28,7 +28,7 @@
         android:layout_marginTop="4dp"
         android:ellipsize="end"
         android:gravity="center_horizontal"
-        android:lines="2"
+        android:maxLines="2"
         android:textAppearance="@style/GridName"
         tools:text="Name"/>
 
