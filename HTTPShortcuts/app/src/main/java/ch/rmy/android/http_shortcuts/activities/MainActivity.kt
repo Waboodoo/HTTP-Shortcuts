@@ -16,7 +16,6 @@ import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.http.ExecutionService
 import ch.rmy.android.http_shortcuts.realm.Controller
-import ch.rmy.android.http_shortcuts.realm.models.Category
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
@@ -28,21 +27,21 @@ import kotterknife.bindView
 
 class MainActivity : BaseActivity(), ListFragment.TabHost {
 
-    internal val createButton: FloatingActionButton by bindView(R.id.button_create_shortcut)
-    internal val viewPager: ViewPager by bindView(R.id.view_pager)
-    internal val tabLayout: TabLayout by bindView(R.id.tabs)
+    private val createButton: FloatingActionButton by bindView(R.id.button_create_shortcut)
+    private val viewPager: ViewPager by bindView(R.id.view_pager)
+    private val tabLayout: TabLayout by bindView(R.id.tabs)
 
     private val controller by lazy { destroyer.own(Controller()) }
     private var adapter: CategoryPagerAdapter? = null
 
-    private var selectionMode = SelectionMode.NORMAL
+    private val selectionMode by lazy {
+        SelectionMode.determineMode(intent.action)
+    }
 
     @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        selectionMode = SelectionMode.determineMode(intent)
 
         createButton.setOnClickListener { showCreateOptions() }
         setupViewPager()
@@ -59,6 +58,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
 
     private fun showCreateOptions() {
         MenuDialogBuilder(context)
+                .title(R.string.title_create_new_shortcut_options_dialog)
                 .item(R.string.button_create_new, this::openEditorForCreation)
                 .item(R.string.button_curl_import, this::openCurlImport)
                 .showIfPossible()
@@ -78,7 +78,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
 
     override fun onStart() {
         super.onStart()
-        val categories = controller.categories
+        val categories = controller.getCategories()
         tabLayout.visible = categories.size > 1
         if (viewPager.currentItem >= categories.size) {
             viewPager.currentItem = 0
@@ -120,14 +120,13 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     private fun onShortcutCreated(shortcutId: Long) {
         val shortcut = controller.getShortcutById(shortcutId) ?: return
 
-        val category: Category
         val currentCategory = viewPager.currentItem
-        if (currentCategory < adapter!!.count) {
+        val category = if (currentCategory < adapter!!.count) {
             val currentListFragment = adapter!!.getItem(currentCategory)
             val categoryId = currentListFragment.categoryId
-            category = controller.getCategoryById(categoryId)!!
+            controller.getCategoryById(categoryId)!!
         } else {
-            category = controller.categories.first()!!
+            controller.getCategories().first()!!
         }
         controller.moveShortcut(shortcut.id, targetCategoryId = category.id)
 

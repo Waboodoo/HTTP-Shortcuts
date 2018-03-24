@@ -1,5 +1,7 @@
 package ch.rmy.android.http_shortcuts.dialogs
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -18,9 +20,11 @@ class CurlExportDialog(private val context: Context, private val title: String, 
         MaterialDialog.Builder(context)
                 .title(title)
                 .customView(view, false)
-                .positiveText(android.R.string.ok)
-                .neutralText(R.string.share_button)
-                .onNeutral { _, _ -> shareCurlExport() }
+                .neutralText(android.R.string.cancel)
+                .negativeText(R.string.share_button)
+                .onNegative { _, _ -> shareCurlExport() }
+                .positiveText(R.string.button_copy_curl_export)
+                .onPositive { _, _ -> copyCurlExport() }
                 .showIfPossible()
 
         view.findViewById<TextView>(R.id.curl_export_textview).text = curlCommand
@@ -31,6 +35,12 @@ class CurlExportDialog(private val context: Context, private val title: String, 
         sharingIntent.type = ShortcutResponse.TYPE_TEXT
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, curlCommand)
         context.startActivity(Intent.createChooser(sharingIntent, context.getString(R.string.share_title)))
+    }
+
+    private fun copyCurlExport() {
+        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText(null, curlCommand)
+        clipboard.setPrimaryClip(clip)
     }
 
 }

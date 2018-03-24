@@ -9,6 +9,7 @@ import android.widget.CheckBox
 import android.widget.EditText
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.realm.Controller
+import ch.rmy.android.http_shortcuts.realm.detachFromRealm
 import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.ArrayUtil
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
@@ -52,14 +53,14 @@ class VariableEditorActivity : BaseActivity() {
         val variable = if (savedInstanceState?.containsKey(STATE_JSON_VARIABLE) == true) {
             GsonUtil.fromJson(savedInstanceState.getString(STATE_JSON_VARIABLE)!!, Variable::class.java)
         } else {
-            if (variableId == 0L) Variable.createNew() else controller.getDetachedVariableById(variableId)
+            if (variableId == 0L) Variable.createNew() else controller.getVariableById(variableId)?.detachFromRealm()
         }
         if (variable == null) {
             finish()
             return
         }
         this.variable = variable
-        oldVariable = (if (variableId != 0L) controller.getDetachedVariableById(variableId) else null) ?: Variable.createNew()
+        oldVariable = (if (variableId != 0L) controller.getVariableById(variableId)?.detachFromRealm() else null) ?: Variable.createNew()
 
         initViews()
         initTypeSelector()

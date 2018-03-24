@@ -42,6 +42,10 @@ open class Shortcut : RealmObject(), HasId {
     var authentication: String? = AUTHENTICATION_NONE
     var launcherShortcut: Boolean = false
     var delay: Int = 0
+    @Required
+    var requestBodyType: String = REQUEST_BODY_TYPE_CUSTOM_TEXT
+    @Required
+    var contentType: String = ""
 
     override val isNew: Boolean
         get() = id == 0L
@@ -64,6 +68,8 @@ open class Shortcut : RealmObject(), HasId {
         duplicate.launcherShortcut = launcherShortcut
         duplicate.acceptAllCertificates = acceptAllCertificates
         duplicate.delay = delay
+        duplicate.requestBodyType = requestBodyType
+        duplicate.contentType = contentType
 
         duplicate.parameters = RealmList<Parameter>()
         for (parameter in parameters) {
@@ -137,6 +143,10 @@ open class Shortcut : RealmObject(), HasId {
 
     fun usesDigestAuthentication() = authentication == AUTHENTICATION_DIGEST
 
+    fun usesRequestParameters() = allowsBody() && (requestBodyType == REQUEST_BODY_TYPE_FORM_DATA || requestBodyType == REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE)
+
+    fun usesCustomBody() = allowsBody() && requestBodyType == REQUEST_BODY_TYPE_CUSTOM_TEXT
+
     fun isSameAs(other: Shortcut): Boolean {
         if (other.name != name ||
                 other.bodyContent != bodyContent ||
@@ -154,7 +164,9 @@ open class Shortcut : RealmObject(), HasId {
                 other.acceptAllCertificates != acceptAllCertificates ||
                 other.delay != delay ||
                 other.parameters.size != parameters.size ||
-                other.headers.size != headers.size
+                other.headers.size != headers.size ||
+                other.requestBodyType != requestBodyType ||
+                other.contentType != contentType
         ) {
             return false
         }
@@ -164,7 +176,7 @@ open class Shortcut : RealmObject(), HasId {
         if (other.headers.indices.any { !headers[it]!!.isSameAs(other.headers[it]!!) }) {
             return false
         }
-        return true;
+        return true
     }
 
     companion object {
@@ -193,6 +205,10 @@ open class Shortcut : RealmObject(), HasId {
         const val RETRY_POLICY_NONE = "none"
         const val RETRY_POLICY_WAIT_FOR_INTERNET = "wait_for_internet"
 
+        const val REQUEST_BODY_TYPE_FORM_DATA = "form_data"
+        const val REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE = "x_www_form_urlencode"
+        const val REQUEST_BODY_TYPE_CUSTOM_TEXT = "custom_text"
+
         val METHODS = arrayOf(METHOD_GET, METHOD_POST, METHOD_PUT, METHOD_DELETE, METHOD_PATCH, METHOD_HEAD, METHOD_OPTIONS, METHOD_TRACE)
         val FEEDBACK_OPTIONS = arrayOf(FEEDBACK_NONE, FEEDBACK_TOAST_SIMPLE, FEEDBACK_TOAST_SIMPLE_ERRORS, FEEDBACK_TOAST, FEEDBACK_TOAST_ERRORS, FEEDBACK_DIALOG, FEEDBACK_ACTIVITY)
         val TIMEOUT_OPTIONS = intArrayOf(3000, 10000, 30000, 60000)
@@ -204,26 +220,42 @@ open class Shortcut : RealmObject(), HasId {
         const val AUTHENTICATION_BASIC = "basic"
         const val AUTHENTICATION_DIGEST = "digest"
 
-        val AUTHENTICATION_OPTIONS = arrayOf<String>(AUTHENTICATION_NONE, AUTHENTICATION_BASIC, AUTHENTICATION_DIGEST)
+        val AUTHENTICATION_OPTIONS = arrayOf(AUTHENTICATION_NONE, AUTHENTICATION_BASIC, AUTHENTICATION_DIGEST)
 
-        fun createNew(): Shortcut {
-            val shortcut = Shortcut()
-            shortcut.id = 0
-            shortcut.name = ""
-            shortcut.description = ""
-            shortcut.username = ""
-            shortcut.password = ""
-            shortcut.bodyContent = ""
-            shortcut.method = METHOD_GET
-            shortcut.url = "http://"
-            shortcut.timeout = TIMEOUT_OPTIONS[1]
-            shortcut.feedback = FEEDBACK_TOAST_SIMPLE
-            shortcut.retryPolicy = RETRY_POLICY_NONE
-            shortcut.authentication = AUTHENTICATION_NONE
-            shortcut.delay = 0
-            shortcut.parameters = RealmList<Parameter>()
-            shortcut.headers = RealmList<Header>()
-            return shortcut
+        val REQUEST_BODY_TYPE_OPTIONS = arrayOf(REQUEST_BODY_TYPE_FORM_DATA, REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE, REQUEST_BODY_TYPE_CUSTOM_TEXT)
+
+        val CONTENT_TYPE_SUGGESTIONS = arrayOf(
+                "application/javascript",
+                "application/json",
+                "application/octet-stream",
+                "application/xml",
+                "text/css",
+                "text/csv",
+                "text/plain",
+                "text/html",
+                "text/xml"
+        )
+
+        val DEFAULT_CONTENT_TYPE = "text/plain"
+
+        fun createNew() = Shortcut().apply {
+            id = 0
+            name = ""
+            description = ""
+            username = ""
+            password = ""
+            bodyContent = ""
+            method = METHOD_GET
+            url = "http://"
+            timeout = TIMEOUT_OPTIONS[1]
+            feedback = FEEDBACK_TOAST_SIMPLE
+            retryPolicy = RETRY_POLICY_NONE
+            authentication = AUTHENTICATION_NONE
+            delay = 0
+            parameters = RealmList()
+            headers = RealmList()
+            requestBodyType = REQUEST_BODY_TYPE_FORM_DATA
+            contentType = DEFAULT_CONTENT_TYPE
         }
     }
 

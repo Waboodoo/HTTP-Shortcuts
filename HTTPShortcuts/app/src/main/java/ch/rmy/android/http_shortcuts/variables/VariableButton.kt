@@ -18,7 +18,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 class VariableButton : ImageButton {
 
     private val controller = destroyer.own(Controller())
-    private val variables = controller.variables
+    private val variables by lazy { controller.getVariables() }
 
     val variableSource = EventSource<Variable>()
 

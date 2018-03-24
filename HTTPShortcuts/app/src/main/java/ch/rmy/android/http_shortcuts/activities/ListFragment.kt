@@ -12,7 +12,6 @@ import ch.rmy.android.http_shortcuts.http.ExecutionService
 import ch.rmy.android.http_shortcuts.listeners.OnItemClickedListener
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Category
-import ch.rmy.android.http_shortcuts.realm.models.PendingExecution
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.GridLayoutManager
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
@@ -48,7 +47,7 @@ class ListFragment : BaseFragment() {
     private var category: Category? = null
 
     private val controller by lazy { Controller() }
-    private val categories by lazy { controller.categories }
+    private val categories by lazy { controller.getCategories() }
 
     private val listDivider: RecyclerView.ItemDecoration by lazy { ShortcutListDecorator(context!!, R.drawable.list_divider) }
 
@@ -105,7 +104,7 @@ class ListFragment : BaseFragment() {
                 shortcutList.addItemDecoration(listDivider)
             }
         }
-        adapter.setPendingShortcuts(controller.shortcutsPendingExecution)
+        adapter.setPendingShortcuts(controller.getShortcutsPendingExecution())
         adapter.clickListener = clickListener
         adapter.setItems(category!!.shortcuts)
 
@@ -115,9 +114,10 @@ class ListFragment : BaseFragment() {
     }
 
     private fun onShortcutsChanged(shortcuts: List<Shortcut>) {
-        if (controller.categories.isValid) {
+        val categories = controller.getCategories()
+        if (categories.isValid) {
             (shortcutList.layoutManager as? GridLayoutManager)?.setEmpty(shortcuts.isEmpty())
-            LauncherShortcutManager.updateAppShortcuts(context!!, controller.categories)
+            LauncherShortcutManager.updateAppShortcuts(context!!, categories)
         }
     }
 
@@ -152,7 +152,7 @@ class ListFragment : BaseFragment() {
                 .item(R.string.action_duplicate, {
                     duplicateShortcut(shortcut)
                 })
-                .mapIf(getPendingExecution(shortcut) != null) {
+                .mapIf(isPending(shortcut)) {
                     it.item(R.string.action_cancel_pending, {
                         cancelPendingExecution(shortcut)
                     })
@@ -166,8 +166,8 @@ class ListFragment : BaseFragment() {
                 .showIfPossible()
     }
 
-    private fun getPendingExecution(shortcut: Shortcut): PendingExecution? =
-            controller.shortcutsPendingExecution.firstOrNull { it.shortcutId == shortcut.id }
+    private fun isPending(shortcut: Shortcut) =
+            controller.getShortcutPendingExecution(shortcut.id) != null
 
     private fun executeShortcut(shortcut: Shortcut) {
         val intent = ExecuteActivity.IntentBuilder(context!!, shortcut.id)
@@ -266,8 +266,7 @@ class ListFragment : BaseFragment() {
     }
 
     private fun cancelPendingExecution(shortcut: Shortcut) {
-        val pendingExecution = getPendingExecution(shortcut) ?: return
-        controller.removePendingExecution(pendingExecution)
+        controller.removePendingExecution(shortcut.id)
         tabHost.showSnackbar(String.format(getString(R.string.pending_shortcut_execution_cancelled), shortcut.name))
         ExecutionService.start(context!!)
     }

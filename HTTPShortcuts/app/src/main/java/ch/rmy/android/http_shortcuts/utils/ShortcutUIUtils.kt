@@ -12,6 +12,7 @@ object ShortcutUIUtils {
     private val TIMEOUT_RESOURCES = intArrayOf(R.string.timeout_short, R.string.timeout_medium, R.string.timeout_long, R.string.timeout_very_long)
     private val RETRY_POLICY_RESOURCES = intArrayOf(R.string.retry_policy_none, R.string.retry_policy_delayed)
     private val AUTHENTICATION_RESOURCES = intArrayOf(R.string.authentication_none, R.string.authentication_basic, R.string.authentication_digest)
+    private val REQUEST_BODY_RESOURCES = intArrayOf(R.string.request_body_option_form_data, R.string.request_body_option_x_www_form_urlencoded, R.string.request_body_option_custom_text)
     val DEFAULT_ICON = R.drawable.ic_launcher
 
     fun getFeedbackOptions(context: Context) = getOptions(context, Shortcut.FEEDBACK_OPTIONS, FEEDBACK_RESOURCES)
@@ -21,6 +22,8 @@ object ShortcutUIUtils {
     fun getAuthenticationOptions(context: Context) = getOptions(context, Shortcut.AUTHENTICATION_OPTIONS, AUTHENTICATION_RESOURCES)
 
     fun getVariableTypeOptions(context: Context) = getOptions(context, Variable.TYPE_OPTIONS, Variable.TYPE_RESOURCES)
+
+    fun getRequestBodyTypeOptions(context: Context) = getOptions(context, Shortcut.REQUEST_BODY_TYPE_OPTIONS, REQUEST_BODY_RESOURCES)
 
     fun getTimeoutOptions(context: Context): Array<String> {
         return Array<String>(Shortcut.TIMEOUT_OPTIONS.size, { i ->

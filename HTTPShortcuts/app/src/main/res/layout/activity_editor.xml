@@ -226,7 +226,14 @@
                     style="@style/SubHeader"
                     android:text="@string/section_request_body"/>
 
+                <com.satsuware.usefulviews.LabelledSpinner
+                    android:id="@+id/input_request_body_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    ls:labelText="@string/label_request_body_type"/>
+
                 <LinearLayout
+                    android:id="@+id/request_parameters_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -242,32 +249,57 @@
                         android:layout_height="wrap_content"/>
 
                 </LinearLayout>
-                <RelativeLayout
+
+                <LinearLayout
+                    android:id="@+id/request_body_custom_content_type_container"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@+id/variable_button_custom_body"
-                        android:layout_toStartOf="@+id/variable_button_custom_body">
+                        android:layout_height="wrap_content">
 
-                        <ch.rmy.android.http_shortcuts.variables.VariableEditText
-                            android:id="@+id/input_custom_body"
+                        <AutoCompleteTextView
+                            android:id="@+id/input_content_type"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:ems="10"
-                            android:hint="@string/label_custom_body"
-                            android:inputType="textMultiLine|textNoSuggestions"/>
+                            android:hint="@string/label_content_type"
+                            android:inputType="text"
+                            android:maxLines="1">
+
+                        </AutoCompleteTextView>
                     </android.support.design.widget.TextInputLayout>
 
-                    <ch.rmy.android.http_shortcuts.variables.VariableButton
-                        android:id="@+id/variable_button_custom_body"
-                        style="@style/VariableButton"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"/>
+                    <RelativeLayout
 
-                </RelativeLayout>
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toLeftOf="@+id/variable_button_custom_body"
+                            android:layout_toStartOf="@+id/variable_button_custom_body">
+
+                            <ch.rmy.android.http_shortcuts.variables.VariableEditText
+                                android:id="@+id/input_custom_body"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ems="10"
+                                android:hint="@string/label_custom_body"
+                                android:inputType="textMultiLine|textNoSuggestions"/>
+                        </android.support.design.widget.TextInputLayout>
+
+                        <ch.rmy.android.http_shortcuts.variables.VariableButton
+                            android:id="@+id/variable_button_custom_body"
+                            style="@style/VariableButton"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"/>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
 
             </LinearLayout>
 

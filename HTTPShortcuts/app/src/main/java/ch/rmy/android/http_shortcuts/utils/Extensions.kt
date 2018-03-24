@@ -19,8 +19,12 @@ import android.widget.ImageView
 import android.widget.Toast
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.realm.models.Header
+import ch.rmy.android.http_shortcuts.realm.models.Shortcut
+import ch.rmy.curlcommand.CurlCommand
 import com.afollestad.materialdialogs.MaterialDialog
 import com.satsuware.usefulviews.LabelledSpinner
+import org.apache.http.HttpHeaders
 import org.jdeferred.DoneFilter
 import org.jdeferred.FailFilter
 import org.jdeferred.ProgressFilter
@@ -119,3 +123,25 @@ fun Context.showToast(@StringRes message: Int, long: Boolean = false) {
 }
 
 fun <T, U, F, P> Promise<T, F, P>.filter(filter: (T) -> U) = this.then(DoneFilter<T, U> { result -> filter(result) }, null as FailFilter<F, F>?, null as ProgressFilter<P, P>?)
+
+fun CurlCommand.applyToShortcut(shortcut: Shortcut) {
+    shortcut.url = url
+    shortcut.method = method
+    shortcut.bodyContent = data
+    shortcut.requestBodyType = Shortcut.REQUEST_BODY_TYPE_CUSTOM_TEXT
+    shortcut.username = username
+    shortcut.password = password
+    if (!username.isNullOrEmpty() || !password.isNullOrEmpty()) {
+        shortcut.authentication = Shortcut.AUTHENTICATION_BASIC
+    }
+    if (timeout != 0) {
+        shortcut.timeout = timeout
+    }
+    for ((key, value) in headers) {
+        if (key.equals(HttpHeaders.CONTENT_TYPE, ignoreCase = true)) {
+            shortcut.contentType = value
+        } else {
+            shortcut.headers.add(Header.createNew(key, value))
+        }
+    }
+}

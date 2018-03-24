@@ -6,4 +6,10 @@ interface HasId {
 
     val isNew: Boolean
 
+    companion object {
+
+        const val FIELD_ID = "id"
+
+    }
+
 }

@@ -43,7 +43,7 @@ class VariablesActivity : BaseActivity() {
         setContentView(R.layout.activity_variables)
 
         val adapter = destroyer.own(VariableAdapter(context))
-        adapter.setItems(controller.base.variables)
+        adapter.setItems(controller.getVariables())
 
         val manager = LinearLayoutManager(context)
         variableList.layoutManager = manager

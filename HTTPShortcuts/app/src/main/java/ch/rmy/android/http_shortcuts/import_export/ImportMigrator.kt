@@ -54,6 +54,18 @@ internal object ImportMigrator {
                     for (shortcut in category.shortcuts) {
                         if (shortcut.authentication == null) {
                             shortcut.authentication = "none"
+                            shortcut.contentType = "text/plain"
+                        }
+                    }
+                }
+            }
+            16 -> { // 1.20.0
+                for (category in base.categories) {
+                    for (shortcut in category.shortcuts) {
+                        shortcut.requestBodyType = if (shortcut.parameters.isEmpty()) {
+                            "custom_text"
+                        } else {
+                            "x_www_form_urlencode"
                         }
                     }
                 }

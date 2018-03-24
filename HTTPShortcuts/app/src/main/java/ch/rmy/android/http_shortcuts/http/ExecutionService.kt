@@ -47,7 +47,7 @@ class ExecutionService : Service() {
     override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val pendingExecutions = controller.shortcutsPendingExecution
+        val pendingExecutions = controller.getShortcutsPendingExecution()
         if (pendingExecutions.isEmpty()) {
             stopSelf()
         } else {
@@ -56,18 +56,18 @@ class ExecutionService : Service() {
             while (Connectivity.isNetworkConnected(context)) {
                 val pendingExecution = getNextToProcess(pendingExecutions) ?: break
 
-                val id = pendingExecution.shortcutId
+                val shortcutId = pendingExecution.shortcutId
                 val tryNumber = pendingExecution.tryNumber + 1
                 val variableValues = pendingExecution.resolvedVariables
                         .associate { variable ->
                             variable.key to variable.value
                         }
 
-                controller.removePendingExecutionSynchronously(pendingExecution)
+                controller.removePendingExecutionSynchronously(shortcutId)
 
                 try {
                     Thread.sleep(INITIAL_DELAY.toLong())
-                    executeShortcut(id, variableValues, tryNumber)
+                    executeShortcut(shortcutId, variableValues, tryNumber)
                 } catch (e: InterruptedException) {
                     break
                 }

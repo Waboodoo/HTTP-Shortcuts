@@ -15,6 +15,7 @@ import ch.rmy.android.http_shortcuts.http.ExecutionService
 import ch.rmy.android.http_shortcuts.http.HttpRequester
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.realm.Controller
+import ch.rmy.android.http_shortcuts.realm.detachFromRealm
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.DateUtil
@@ -54,7 +55,7 @@ class ExecuteActivity : BaseActivity() {
         val variableValues = IntentUtil.getVariableValues(intent)
         val tryNumber = intent.extras?.getInt(EXTRA_TRY_NUMBER) ?: 0
 
-        val shortcut = controller.getDetachedShortcutById(shortcutId)
+        val shortcut = controller.getShortcutById(shortcutId)?.detachFromRealm()
 
         if (shortcut == null) {
             showToast(getString(R.string.shortcut_not_found), long = true)
@@ -88,7 +89,7 @@ class ExecuteActivity : BaseActivity() {
     }
 
     private fun resolveVariablesAndExecute(variableValues: Map<String, String>, tryNumber: Int): Promise<ResolvedVariables, Unit, Unit> {
-        val variables = controller.variables
+        val variables = controller.getVariables()
         return VariableResolver(context)
                 .resolve(shortcut, variables, variableValues)
                 .done { resolvedVariables ->

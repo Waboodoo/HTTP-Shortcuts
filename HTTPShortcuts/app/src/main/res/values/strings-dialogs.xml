@@ -5,8 +5,10 @@
             <b>Version 1.20.0</b><br>
             - Improved insertion of variable placeholders<br>
             - Variables inherit values from Tasker when using Tasker integration<br>
+            - Simplified specifying a content type for custom request bodies<br>
             - Request parameter values can be multi-line<br>
             - Added Call-to-Action for translators<br>
+            - Added Copy button to cURL export dialog<br>
             - Experimental: RTL support
         </p>
         <p>
@@ -154,7 +156,7 @@
         </p>
         <p>
             <b>How do I use variables?</b><br>
-            You can insert a placeholder for a variable into your shortcuts\' url, parameters, body, authentication and header fields by clicking the "{}" button next to the input field and selecting a variable.</p>
+            You can insert a placeholder for a variable into your shortcuts\' url, parameters, body, authentication and header fields by clicking the "{ }" button next to the input field and selecting a variable.</p>
         <p>
             When executing a shortcut that contains variable placeholders all of them are resolved according to their type.
         </p>

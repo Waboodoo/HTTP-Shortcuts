@@ -24,7 +24,7 @@ class CategoriesActivity : BaseActivity() {
     private val createButton: FloatingActionButton by bindView(R.id.button_create_category)
 
     private val controller by lazy { destroyer.own(Controller()) }
-    private val categories by lazy { controller.categories }
+    private val categories by lazy { controller.getCategories() }
 
     private val clickedListener = object : OnItemClickedListener<Category> {
         override fun onItemClicked(item: Category) {
@@ -41,7 +41,7 @@ class CategoriesActivity : BaseActivity() {
         setContentView(R.layout.activity_categories)
 
         val adapter = destroyer.own(CategoryAdapter(context))
-        adapter.setItems(controller.base.categories)
+        adapter.setItems(categories)
 
         val manager = LinearLayoutManager(context)
         categoryList.layoutManager = manager

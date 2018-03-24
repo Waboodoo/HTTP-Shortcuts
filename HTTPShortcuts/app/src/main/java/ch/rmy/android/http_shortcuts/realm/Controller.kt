@@ -5,18 +5,17 @@ import ch.rmy.android.http_shortcuts.BuildConfig
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.realm.models.Base
 import ch.rmy.android.http_shortcuts.realm.models.Category
+import ch.rmy.android.http_shortcuts.realm.models.HasId
 import ch.rmy.android.http_shortcuts.realm.models.PendingExecution
 import ch.rmy.android.http_shortcuts.realm.models.ResolvedVariable
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.Destroyable
 import ch.rmy.android.http_shortcuts.utils.filter
-import io.realm.Case
 import io.realm.Realm
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.RealmResults
-import io.realm.kotlin.where
 import org.jdeferred.Promise
 import java.io.Closeable
 import java.util.*
@@ -33,62 +32,44 @@ class Controller : Destroyable, Closeable {
 
     override fun close() = destroy()
 
-    fun getCategoryById(id: Long) = getCategoryById(realm, id)
+    fun getShortcuts() = Repository.getShortcuts(realm)
 
-    private fun getCategoryById(realm: Realm, categoryId: Long) = realm
-            .where<Category>()
-            .equalTo(FIELD_ID, categoryId)
-            .findFirst()
+    fun getCategories(): RealmList<Category> = getBase().categories
 
-    fun getShortcutById(id: Long) = getShortcutById(realm, id)
+    fun getVariables(): RealmList<Variable> = getBase().variables
 
-    private fun getShortcutById(realm: Realm, shortcutId: Long) = realm
-            .where<Shortcut>()
-            .equalTo(FIELD_ID, shortcutId)
-            .findFirst()
+    fun getCategoryById(id: Long) = Repository.getCategoryById(realm, id)
 
-    fun getShortcutByName(shortcutName: String): Shortcut? = realm.where<Shortcut>().equalTo(Shortcut.FIELD_NAME, shortcutName, Case.INSENSITIVE).findFirst()
+    fun getShortcutById(id: Long) = Repository.getShortcutById(realm, id)
 
-    private fun getVariableById(id: Long) = getVariableById(realm, id)
+    fun getShortcutByName(shortcutName: String): Shortcut? = Repository.getShortcutByName(realm, shortcutName)
 
-    private fun getVariableById(realm: Realm, variableId: Long) = realm
-            .where<Variable>()
-            .equalTo(FIELD_ID, variableId)
-            .findFirst()
+    fun getShortcutsPendingExecution(): RealmResults<PendingExecution> = Repository.getShortcutsPendingExecution(realm)
 
-    fun getVariableByKey(key: String): Variable? = realm.where<Variable>().equalTo(Variable.FIELD_KEY, key).findFirst()
+    fun getShortcutPendingExecution(shortcutId: Long) = Repository.getShortcutPendingExecution(realm, shortcutId)
+
+    fun getVariableById(id: Long) = Repository.getVariableById(realm, id)
+
+    fun getVariableByKey(variableKey: String): Variable? = Repository.getVariableByKey(realm, variableKey)
+
+    fun exportBase() = getBase().detachFromRealm()
+
+    private fun getBase() = Repository.getBase(realm)!!
 
     fun setVariableValue(variableId: Long, value: String) =
             realm.commitAsync { realm ->
-                getVariableById(realm, variableId)?.value = value
+                Repository.getVariableById(realm, variableId)?.value = value
             }
 
     fun resetVariableValues(variableIds: List<Long>) =
             realm.commitAsync { realm ->
                 variableIds.forEach { variableId ->
-                    getVariableById(realm, variableId)?.value = ""
+                    Repository.getVariableById(realm, variableId)?.value = ""
                 }
             }
 
-    fun getDetachedShortcutById(id: Long): Shortcut? {
-        val shortcut = getShortcutById(id) ?: return null
-        return realm.copyFromRealm(shortcut)
-    }
-
-    fun getDetachedVariableById(id: Long): Variable? {
-        val variable = getVariableById(id) ?: return null
-        return realm.copyFromRealm(variable)
-    }
-
-    val base: Base
-        get() = getBase(realm)!!
-
-    private fun getBase(realm: Realm) = realm.where<Base>().findFirst()
-
-    fun exportBase(): Base = realm.copyFromRealm(base)
-
     fun importBaseSynchronously(base: Base) {
-        val oldBase = this.base
+        val oldBase = getBase()
         realm.executeTransaction { realm ->
             val persistedCategories = realm.copyToRealmOrUpdate(base.categories)
             oldBase.categories.removeAll(persistedCategories)
@@ -100,20 +81,10 @@ class Controller : Destroyable, Closeable {
         }
     }
 
-    val categories: RealmList<Category>
-        get() = base.categories
-
-    val variables: RealmList<Variable>
-        get() = base.variables
-
     fun deleteShortcut(shortcutId: Long) =
             realm.commitAsync { realm ->
-                val shortcut = getShortcutById(realm, shortcutId) ?: return@commitAsync
-                realm
-                        .where<PendingExecution>()
-                        .equalTo(PendingExecution.FIELD_SHORTCUT_ID, shortcutId)
-                        .findAll()
-                        .deleteAllFromRealm()
+                val shortcut = Repository.getShortcutById(realm, shortcutId) ?: return@commitAsync
+                Repository.getShortcutPendingExecution(realm, shortcutId)?.deleteFromRealm()
                 shortcut.headers.deleteAllFromRealm()
                 shortcut.parameters.deleteAllFromRealm()
                 shortcut.deleteFromRealm()
@@ -121,10 +92,10 @@ class Controller : Destroyable, Closeable {
 
     fun moveShortcut(shortcutId: Long, targetPosition: Int? = null, targetCategoryId: Long? = null) =
             realm.commitAsync { realm ->
-                val shortcut = getShortcutById(realm, shortcutId) ?: return@commitAsync
-                val categories = getBase(realm)?.categories ?: return@commitAsync
+                val shortcut = Repository.getShortcutById(realm, shortcutId) ?: return@commitAsync
+                val categories = Repository.getBase(realm)?.categories ?: return@commitAsync
                 val targetCategory = if (targetCategoryId != null) {
-                    getCategoryById(realm, targetCategoryId)
+                    Repository.getCategoryById(realm, targetCategoryId)
                 } else {
                     categories.first { it.shortcuts.any { it.id == shortcutId } }
                 } ?: return@commitAsync
@@ -141,7 +112,7 @@ class Controller : Destroyable, Closeable {
 
     fun createCategory(name: String) =
             realm.commitAsync { realm ->
-                val base = getBase(realm) ?: return@commitAsync
+                val base = Repository.getBase(realm) ?: return@commitAsync
                 val categories = base.categories
                 val category = Category.createNew(name)
                 category.id = generateId(realm, Category::class.java)
@@ -150,18 +121,18 @@ class Controller : Destroyable, Closeable {
 
     fun renameCategory(categoryId: Long, newName: String) =
             realm.commitAsync { realm ->
-                getCategoryById(realm, categoryId)?.name = newName
+                Repository.getCategoryById(realm, categoryId)?.name = newName
             }
 
     fun setLayoutType(categoryId: Long, layoutType: String) =
             realm.commitAsync { realm ->
-                getCategoryById(realm, categoryId)?.layoutType = layoutType
+                Repository.getCategoryById(realm, categoryId)?.layoutType = layoutType
             }
 
     fun moveCategory(categoryId: Long, position: Int) =
             realm.commitAsync { realm ->
-                val base = getBase(realm) ?: return@commitAsync
-                val category = getCategoryById(realm, categoryId) ?: return@commitAsync
+                val base = Repository.getBase(realm) ?: return@commitAsync
+                val category = Repository.getCategoryById(realm, categoryId) ?: return@commitAsync
                 val categories = base.categories
                 val oldPosition = categories.indexOf(category)
                 categories.move(oldPosition, position)
@@ -169,7 +140,7 @@ class Controller : Destroyable, Closeable {
 
     fun deleteCategory(categoryId: Long) =
             realm.commitAsync { realm ->
-                val category = getCategoryById(realm, categoryId) ?: return@commitAsync
+                val category = Repository.getCategoryById(realm, categoryId) ?: return@commitAsync
                 for (shortcut in category.shortcuts) {
                     shortcut.headers.deleteAllFromRealm()
                     shortcut.parameters.deleteAllFromRealm()
@@ -180,34 +151,28 @@ class Controller : Destroyable, Closeable {
 
     fun deleteVariable(variableId: Long) =
             realm.commitAsync { realm ->
-                val variable = getVariableById(realm, variableId) ?: return@commitAsync
+                val variable = Repository.getVariableById(realm, variableId) ?: return@commitAsync
                 variable.options?.deleteAllFromRealm()
                 variable.deleteFromRealm()
             }
 
-    val shortcutsPendingExecution: RealmResults<PendingExecution>
-        get() = realm
-                .where<PendingExecution>()
-                .sort(PendingExecution.FIELD_ENQUEUED_AT)
-                .findAll()
-
     fun createPendingExecution(shortcutId: Long, resolvedVariables: List<ResolvedVariable>, tryNumber: Int = 0, waitUntil: Date? = null) =
             realm.commitAsync { realm ->
-                val existingPendingExecutions = realm
-                        .where<PendingExecution>()
-                        .equalTo(PendingExecution.FIELD_SHORTCUT_ID, shortcutId)
-                        .count()
-
-                if (existingPendingExecutions == 0L) {
+                val alreadyPending = Repository.getShortcutPendingExecution(realm, shortcutId) != null
+                if (!alreadyPending) {
                     realm.copyToRealm(PendingExecution.createNew(shortcutId, resolvedVariables, tryNumber, waitUntil))
                 }
             }
 
-    fun removePendingExecution(pendingExecution: PendingExecution) =
-            realm.commitAsync { pendingExecution.deleteFromRealm() }
+    fun removePendingExecution(shortcutId: Long) =
+            realm.commitAsync { realm ->
+                Repository.getShortcutPendingExecution(realm, shortcutId)?.deleteFromRealm()
+            }
 
-    fun removePendingExecutionSynchronously(pendingExecution: PendingExecution) {
-        realm.executeTransaction { pendingExecution.deleteFromRealm() }
+    fun removePendingExecutionSynchronously(shortcutId: Long) {
+        realm.executeTransaction { realm ->
+            Repository.getShortcutPendingExecution(realm, shortcutId)?.deleteFromRealm()
+        }
     }
 
     fun persist(shortcut: Shortcut): Promise<Shortcut, Throwable, Unit> {
@@ -226,7 +191,7 @@ class Controller : Destroyable, Closeable {
             variable.id = generateId(realm, Variable::class.java)
         }
         return realm.commitAsync { realm ->
-            val base = getBase(realm) ?: return@commitAsync
+            val base = Repository.getBase(realm) ?: return@commitAsync
             val newVariable = realm.copyToRealmOrUpdate(variable)
             if (isNew) {
                 base.variables.add(newVariable)
@@ -236,20 +201,12 @@ class Controller : Destroyable, Closeable {
     }
 
     private fun generateId(realm: Realm, clazz: Class<out RealmObject>): Long {
-        val maxId = realm.where(clazz).max(FIELD_ID)
+        val maxId = realm.where(clazz).max(HasId.FIELD_ID)
         val maxIdLong = Math.max(maxId?.toLong() ?: 0, 0)
         return maxIdLong + 1
     }
 
-    val shortcuts: Collection<Shortcut>
-        get() = realm
-                .where<Shortcut>()
-                .notEqualTo(FIELD_ID, Shortcut.TEMPORARY_ID)
-                .findAll()
-
     companion object {
-
-        private const val FIELD_ID = "id"
 
         private lateinit var realmFactory: RealmFactory
 
@@ -258,7 +215,7 @@ class Controller : Destroyable, Closeable {
             realmFactory = RealmFactory(BuildConfig.REALM_ENCRYPTION_KEY.toByteArray())
 
             realmFactory.createRealm().use { realm ->
-                if (realm.where<Base>().count() == 0L) {
+                if (Repository.getBase(realm) == null) {
                     setupBase(context, realm)
                 }
             }
@@ -277,6 +234,7 @@ class Controller : Destroyable, Closeable {
                 it.copyToRealm(newBase)
             }
         }
+
     }
 
 }

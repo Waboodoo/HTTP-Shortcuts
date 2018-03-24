@@ -22,11 +22,9 @@ internal class KeyValueAdapter<T : KeyValuePair>(context: Context) : ArrayAdapte
     override fun getView(position: Int, rowView: View?, parent: ViewGroup): View {
         val parameter = getItem(position)
 
-        val row = if (rowView == null) {
+        val row = rowView ?: run {
             val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             inflater.inflate(R.layout.key_value_item, parent, false)
-        } else {
-            rowView
         }
 
         if (parameter != null) {

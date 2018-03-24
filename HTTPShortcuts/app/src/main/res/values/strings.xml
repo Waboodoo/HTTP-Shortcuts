@@ -267,7 +267,10 @@
     <string name="title_import">Import from…</string>
     <string name="button_import_from_filesystem">Local storage</string>
     <string name="button_import_from_general">Documents</string>
-    <string name="button_create_new">Create new shortcut</string>
+    <string name="title_create_new_shortcut_options_dialog">Create New Shortcut</string>
+    <!-- Option 1 in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
+    <string name="button_create_new">From scratch</string>
+    <!-- Option 2 in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
     <string name="button_curl_import">From cURL command</string>
     <string name="title_curl_import">cURL import</string>
     <string name="instructions_curl_import">Type or paste a cURL command below to create a new shortcut from it. Please note that this feature is experimental and that only a limited subset of cURL options is recognized.</string>
@@ -313,4 +316,16 @@
     <string name="settings_help_translate_summary">Help me make this app better!</string>
     <!-- Blurb/short description of plugin action (for Tasker integration), where %1$s is a placeholder for the shortcut name. -->
     <string name="plugin_blurb_execute_task">Execute shortcut \"%1$s\"</string>
+    <!-- Label of dropdown to select the request body type in shortcut editor -->
+    <string name="label_request_body_type">Request Body Type</string>
+    <!-- Dropdown option for request body: form-data (i.e. list of parameters) -->
+    <string name="request_body_option_form_data">form-data</string>
+    <!-- Dropdown option for request body: x-www-form-urlencoded (i.e. list of parameters) -->
+    <string name="request_body_option_x_www_form_urlencoded">x-www-form-urlencoded</string>
+    <!-- Dropdown option for request body: custom text (i.e. enter a custom Content-Type and a request body as text) -->
+    <string name="request_body_option_custom_text">Custom Text</string>
+    <!-- Label above input box for Request Content-Type -->
+    <string name="label_content_type">Content-Type</string>
+    <!-- Button to copy the cURL export of a shortcut to the clipboard -->
+    <string name="button_copy_curl_export">Copy</string>
 </resources>

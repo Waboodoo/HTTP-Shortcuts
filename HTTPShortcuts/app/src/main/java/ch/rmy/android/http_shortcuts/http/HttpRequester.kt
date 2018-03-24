@@ -14,7 +14,6 @@ import org.jdeferred.Promise
 object HttpRequester {
 
     fun executeShortcut(context: Context, detachedShortcut: Shortcut, variables: ResolvedVariables): Promise<ShortcutResponse, VolleyError, Unit> {
-
         val url = Variables.rawPlaceholdersToResolvedValues(detachedShortcut.url, variables)
         val username = Variables.rawPlaceholdersToResolvedValues(detachedShortcut.username, variables)
         val password = Variables.rawPlaceholdersToResolvedValues(detachedShortcut.password, variables)
@@ -22,16 +21,21 @@ object HttpRequester {
         val acceptAllCertificates = detachedShortcut.acceptAllCertificates
 
         val request = ShortcutRequest.Builder(detachedShortcut.method, url)
-                .body(body)
+                .mapIf(detachedShortcut.usesCustomBody()) {
+                    it.body(body)
+                }
+                .contentType(determineContentType(detachedShortcut))
                 .timeout(detachedShortcut.timeout)
                 .mapIf(detachedShortcut.usesBasicAuthentication()) {
                     it.basicAuth(username, password)
                 }
-                .mapFor(detachedShortcut.parameters) { builder, parameter ->
-                    builder.parameter(
-                            Variables.rawPlaceholdersToResolvedValues(parameter.key, variables),
-                            Variables.rawPlaceholdersToResolvedValues(parameter.value, variables)
-                    )
+                .mapIf(detachedShortcut.usesRequestParameters()) {
+                    it.mapFor(detachedShortcut.parameters) { builder, parameter ->
+                        builder.parameter(
+                                Variables.rawPlaceholdersToResolvedValues(parameter.key, variables),
+                                Variables.rawPlaceholdersToResolvedValues(parameter.value, variables)
+                        )
+                    }
                 }
                 .mapFor(detachedShortcut.headers) { builder, header ->
                     builder.header(
@@ -50,6 +54,15 @@ object HttpRequester {
                 .add(request)
 
         return request.promise
+    }
+
+    private fun determineContentType(shortcut: Shortcut): String {
+        return when {
+            shortcut.requestBodyType == Shortcut.REQUEST_BODY_TYPE_FORM_DATA -> "multipart/form-data"
+            shortcut.requestBodyType == Shortcut.REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE -> "application/x-www-form-urlencoded; charset=UTF-8"
+            shortcut.contentType.isNotEmpty() -> shortcut.contentType
+            else -> "text/plain"
+        }
     }
 
     private fun getQueue(context: Context, acceptAllCertificates: Boolean, username: String? = null, password: String? = null): RequestQueue {

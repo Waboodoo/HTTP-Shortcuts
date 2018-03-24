@@ -126,7 +126,23 @@ class DatabaseMigration : RealmMigration {
                 schema.get("Header")!!.setRequired("id", true)
                 schema.get("PendingExecution")!!.setRequired("enqueuedAt", true)
             }
-            else -> throw IllegalArgumentException("Missing migration for version " + newVersion)
+            16L -> { // 1.20.0
+                schema.get("Shortcut")!!.addField("requestBodyType", String::class.java)
+                schema.get("Shortcut")!!.setRequired("requestBodyType", true)
+                schema.get("Shortcut")!!.addField("contentType", String::class.java)
+                schema.get("Shortcut")!!.setRequired("contentType", true)
+
+                val shortcuts = realm.where("Shortcut").findAll()
+                for (shortcut in shortcuts) {
+                    shortcut.setString("requestBodyType", if (shortcut.getList("parameters").isEmpty()) {
+                        "custom_text"
+                    } else {
+                        "x_www_form_urlencode"
+                    })
+                    shortcut.setString("contentType", "text/plain")
+                }
+            }
+            else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
     }
@@ -151,7 +167,7 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 15L
+        const val VERSION = 16L
 
     }
 

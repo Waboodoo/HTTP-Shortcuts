@@ -19,7 +19,7 @@ internal class ShortcutRequest private constructor(method: Int, url: String, pri
     private val parameters = mutableMapOf<String, String>()
     private val headers = mutableMapOf<String, String>()
     private var bodyContent: String? = null
-    private var contentType: String? = null
+    private var contentType: String = "text/plain"
 
     init {
         headers[HttpHeaders.CONNECTION] = "close"
@@ -27,24 +27,16 @@ internal class ShortcutRequest private constructor(method: Int, url: String, pri
     }
 
     @Throws(AuthFailureError::class)
-    override fun getBody(): ByteArray {
-        val regularBody = super.getBody()
-        val customBody = bodyContent!!.toByteArray()
-        if (regularBody == null) {
-            return customBody
-        }
-        val mergedBody = ByteArray(regularBody.size + customBody.size)
-
-        System.arraycopy(regularBody, 0, mergedBody, 0, regularBody.size)
-        System.arraycopy(customBody, 0, mergedBody, regularBody.size, customBody.size)
-
-        return mergedBody
+    override fun getBody(): ByteArray = when {
+        contentType == "multipart/form-data" -> super.getBody() // TODO
+        contentType.startsWith("application/x-www-form-urlencoded") -> super.getBody()
+        else -> (bodyContent ?: "").toByteArray()
     }
 
     @Throws(AuthFailureError::class)
     override fun getHeaders(): Map<String, String> = headers
 
-    override fun getBodyContentType(): String = contentType ?: super.getBodyContentType()
+    override fun getBodyContentType(): String = contentType
 
     public override fun getParams() = parameters
 
@@ -77,6 +69,10 @@ internal class ShortcutRequest private constructor(method: Int, url: String, pri
             else -> Request.Method.GET
         }
 
+        fun contentType(contentType: String) = this.also {
+            request.contentType = contentType
+        }
+
         fun basicAuth(username: String, password: String) = this.also {
             request.headers[HttpHeaders.AUTHORIZATION] = Credentials.basic(username, password)
         }
@@ -97,9 +93,8 @@ internal class ShortcutRequest private constructor(method: Int, url: String, pri
             }
         }
 
-        fun timeout(timeout: Int): Builder {
+        fun timeout(timeout: Int) = this.also {
             request.retryPolicy = DefaultRetryPolicy(timeout, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
-            return this
         }
 
         fun build() = request

@@ -87,27 +87,25 @@ class VariableResolver(private val context: Context) {
 
     companion object {
 
-        fun extractVariableKeys(shortcut: Shortcut): Set<String> {
-            val discoveredVariables = mutableSetOf<String>()
-
-            discoveredVariables.addAll(Variables.extractVariableKeys(shortcut.url))
-            discoveredVariables.addAll(Variables.extractVariableKeys(shortcut.username))
-            discoveredVariables.addAll(Variables.extractVariableKeys(shortcut.password))
-            discoveredVariables.addAll(Variables.extractVariableKeys(shortcut.bodyContent))
-
-            if (shortcut.method != Shortcut.METHOD_GET) {
-                for (parameter in shortcut.parameters) {
-                    discoveredVariables.addAll(Variables.extractVariableKeys(parameter.key))
-                    discoveredVariables.addAll(Variables.extractVariableKeys(parameter.value))
+        fun extractVariableKeys(shortcut: Shortcut): Set<String> =
+                mutableSetOf<String>().apply {
+                    addAll(Variables.extractVariableKeys(shortcut.url))
+                    addAll(Variables.extractVariableKeys(shortcut.username))
+                    addAll(Variables.extractVariableKeys(shortcut.password))
+                    if (shortcut.usesCustomBody()) {
+                        addAll(Variables.extractVariableKeys(shortcut.bodyContent))
+                    }
+                    if (shortcut.usesRequestParameters()) {
+                        for (parameter in shortcut.parameters) {
+                            addAll(Variables.extractVariableKeys(parameter.key))
+                            addAll(Variables.extractVariableKeys(parameter.value))
+                        }
+                    }
+                    for (header in shortcut.headers) {
+                        addAll(Variables.extractVariableKeys(header.key))
+                        addAll(Variables.extractVariableKeys(header.value))
+                    }
                 }
-            }
-            for (header in shortcut.headers) {
-                discoveredVariables.addAll(Variables.extractVariableKeys(header.key))
-                discoveredVariables.addAll(Variables.extractVariableKeys(header.value))
-            }
-
-            return discoveredVariables
-        }
     }
 
 }

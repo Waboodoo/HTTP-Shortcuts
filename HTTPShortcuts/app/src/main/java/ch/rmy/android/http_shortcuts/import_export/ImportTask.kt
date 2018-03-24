@@ -24,7 +24,7 @@ class ImportTask(context: Context, baseView: View) : SimpleTask<Uri>(context, ba
                     val base = GsonUtil.importData(reader)
                     ImportMigrator.migrate(base)
                     controller.importBaseSynchronously(base)
-                    LauncherShortcutManager.updateAppShortcuts(context, controller.categories)
+                    LauncherShortcutManager.updateAppShortcuts(context, controller.getCategories())
                 }
                 null
             } catch (e: Exception) {
