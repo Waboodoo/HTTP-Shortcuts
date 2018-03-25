@@ -26,7 +26,7 @@ object Variables {
     fun isValidVariableKey(variableKey: String) =
             VARIABLE_KEY_REGEX.toRegex().matchEntire(variableKey) != null
 
-    fun rawPlaceholdersToResolvedValues(string: String, variables: ResolvedVariables): String {
+    fun rawPlaceholdersToResolvedValues(string: String, variables: Map<String, String>): String {
         val builder = StringBuilder()
         val matcher = match(string)
         var previousEnd = 0

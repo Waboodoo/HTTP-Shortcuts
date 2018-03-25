@@ -25,11 +25,13 @@ open class PendingExecution : RealmObject() {
         const val FIELD_SHORTCUT_ID = "shortcutId"
         const val FIELD_ENQUEUED_AT = "enqueuedAt"
 
-        fun createNew(shortcutId: Long, resolvedVariables: List<ResolvedVariable> = emptyList(), tryNumber: Int = 0, waitUntil: Date? = null): PendingExecution {
+        fun createNew(shortcutId: Long, resolvedVariables: Map<String, String> = emptyMap(), tryNumber: Int = 0, waitUntil: Date? = null): PendingExecution {
             val pendingExecution = PendingExecution()
 
             val resolvedVariableList = RealmList<ResolvedVariable>()
-            resolvedVariableList.addAll(resolvedVariables)
+            resolvedVariables.mapTo(resolvedVariableList) {
+                ResolvedVariable.createNew(it.key, it.value)
+            }
 
             pendingExecution.resolvedVariables = resolvedVariableList
             pendingExecution.shortcutId = shortcutId

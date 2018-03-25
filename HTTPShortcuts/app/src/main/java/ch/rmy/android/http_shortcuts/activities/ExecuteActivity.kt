@@ -25,7 +25,6 @@ import ch.rmy.android.http_shortcuts.utils.consume
 import ch.rmy.android.http_shortcuts.utils.logException
 import ch.rmy.android.http_shortcuts.utils.showToast
 import ch.rmy.android.http_shortcuts.utils.visible
-import ch.rmy.android.http_shortcuts.variables.ResolvedVariables
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import com.afollestad.materialdialogs.MaterialDialog
 import com.android.volley.VolleyError
@@ -88,14 +87,13 @@ class ExecuteActivity : BaseActivity() {
         }
     }
 
-    private fun resolveVariablesAndExecute(variableValues: Map<String, String>, tryNumber: Int): Promise<ResolvedVariables, Unit, Unit> {
-        val variables = controller.getVariables()
+    private fun resolveVariablesAndExecute(variableValues: Map<String, String>, tryNumber: Int): Promise<Map<String, String>, Unit, Unit> {
         return VariableResolver(context)
-                .resolve(shortcut, variables, variableValues)
+                .resolve(controller, shortcut, variableValues)
                 .done { resolvedVariables ->
                     if (tryNumber == 0 && shortcut.delay > 0) {
                         val waitUntil = DateUtil.calculateDate(shortcut.delay)
-                        controller.createPendingExecution(shortcut.id, resolvedVariables.toList(), tryNumber, waitUntil)
+                        controller.createPendingExecution(shortcut.id, resolvedVariables, tryNumber, waitUntil)
                                 .done {
                                     ExecutionService.start(context, waitUntil)
                                 }
@@ -111,7 +109,7 @@ class ExecuteActivity : BaseActivity() {
                 }
     }
 
-    private fun execute(resolvedVariables: ResolvedVariables, tryNumber: Int) {
+    private fun execute(resolvedVariables: Map<String, String>, tryNumber: Int) {
         showProgress()
         HttpRequester.executeShortcut(context, shortcut, resolvedVariables)
                 .done { response ->
@@ -143,10 +141,10 @@ class ExecuteActivity : BaseActivity() {
                 }
     }
 
-    private fun rescheduleExecution(resolvedVariables: ResolvedVariables, tryNumber: Int) {
+    private fun rescheduleExecution(resolvedVariables: Map<String, String>, tryNumber: Int) {
         if (tryNumber < MAX_RETRY) {
             val waitUntil = DateUtil.calculateDate(calculateDelay(tryNumber))
-            controller.createPendingExecution(shortcut.id, resolvedVariables.toList(), tryNumber, waitUntil)
+            controller.createPendingExecution(shortcut.id, resolvedVariables, tryNumber, waitUntil)
                     .done {
                         ExecutionService.start(context, waitUntil)
                     }

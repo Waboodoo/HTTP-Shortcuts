@@ -4,7 +4,6 @@ import android.content.Context
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.mapFor
 import ch.rmy.android.http_shortcuts.utils.mapIf
-import ch.rmy.android.http_shortcuts.variables.ResolvedVariables
 import ch.rmy.android.http_shortcuts.variables.Variables
 import com.android.volley.RequestQueue
 import com.android.volley.VolleyError
@@ -13,7 +12,7 @@ import org.jdeferred.Promise
 
 object HttpRequester {
 
-    fun executeShortcut(context: Context, detachedShortcut: Shortcut, variables: ResolvedVariables): Promise<ShortcutResponse, VolleyError, Unit> {
+    fun executeShortcut(context: Context, detachedShortcut: Shortcut, variables: Map<String, String>): Promise<ShortcutResponse, VolleyError, Unit> {
         val url = Variables.rawPlaceholdersToResolvedValues(detachedShortcut.url, variables)
         val username = Variables.rawPlaceholdersToResolvedValues(detachedShortcut.username, variables)
         val password = Variables.rawPlaceholdersToResolvedValues(detachedShortcut.password, variables)

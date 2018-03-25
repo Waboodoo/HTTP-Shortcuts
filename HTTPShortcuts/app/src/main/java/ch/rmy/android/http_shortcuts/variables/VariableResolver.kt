@@ -4,48 +4,77 @@ import android.content.Context
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.realm.models.Variable
+import ch.rmy.android.http_shortcuts.utils.PromiseUtils
+import ch.rmy.android.http_shortcuts.utils.filter
+import ch.rmy.android.http_shortcuts.utils.mapIf
 import ch.rmy.android.http_shortcuts.variables.types.AsyncVariableType
 import ch.rmy.android.http_shortcuts.variables.types.SyncVariableType
 import ch.rmy.android.http_shortcuts.variables.types.TypeFactory
+import org.jdeferred.DonePipe
 import org.jdeferred.Promise
 import org.jdeferred.impl.DeferredObject
+import org.json.JSONObject
+import java.io.UnsupportedEncodingException
+import java.net.URLEncoder
 
 class VariableResolver(private val context: Context) {
 
-    fun resolve(shortcut: Shortcut, variables: List<Variable>, preResolvedValues: Map<String, String>?): Promise<ResolvedVariables, Unit, Unit> {
+    fun resolve(controller: Controller, shortcut: Shortcut, preResolvedValues: Map<String, String> = emptyMap()): Promise<Map<String, String>, Unit, Unit> {
+        val variables = controller.getVariables()
         val requiredVariableKeys = extractVariableKeys(shortcut)
-        val variablesToResolve = filterVariablesByName(variables, requiredVariableKeys)
-        return resolveVariables(variablesToResolve, preResolvedValues)
+        val variablesToResolve = variables.filter { requiredVariableKeys.contains(it.key) }
+        return resolveVariables(controller, variablesToResolve, preResolvedValues)
+                .then(DonePipe<Map<String, String>, Map<String, String>, Unit, Unit> { resolvedVariables ->
+                    return@DonePipe resolveRecursiveVariables(controller, variables, resolvedVariables)
+                })
     }
 
-    private fun filterVariablesByName(variables: List<Variable>, variableKeys: Collection<String>) =
-            variables.filter { variableKeys.contains(it.key) }
+    private fun resolveRecursiveVariables(controller: Controller, variables: List<Variable>, preResolvedValues: Map<String, String>, recursionDepth: Int = 0): Promise<Map<String, String>, Unit, Unit> {
+        val requiredVariableKeys = mutableSetOf<String>()
+        preResolvedValues.values.forEach { value ->
+            requiredVariableKeys.addAll(Variables.extractVariableKeys(value))
+        }
+        if (recursionDepth >= MAX_RECURSION_DEPTH || requiredVariableKeys.isEmpty()) {
+            return PromiseUtils.resolve(preResolvedValues)
+        }
 
-    private fun resolveVariables(variablesToResolve: List<Variable>, preResolvedValues: Map<String, String>?): Promise<ResolvedVariables, Unit, Unit> {
-        val controller = Controller()
-        val deferred = DeferredObject<ResolvedVariables, Unit, Unit>()
-        val builder = ResolvedVariables.Builder()
+        val variablesToResolve = variables.filter { requiredVariableKeys.contains(it.key) }
+        return resolveVariables(controller, variablesToResolve, preResolvedValues)
+                .filter {
+                    it.toMutableMap().also { resolvedVariables ->
+                        resolvedVariables.forEach { resolvedVariable ->
+                            resolvedVariables[resolvedVariable.key] = Variables.rawPlaceholdersToResolvedValues(resolvedVariable.value, resolvedVariables)
+                        }
+                    }
+                }
+                .then(DonePipe { resolvedVariables ->
+                    resolveRecursiveVariables(controller, variables, resolvedVariables, recursionDepth + 1)
+                })
+
+    }
+
+    private fun resolveVariables(controller: Controller, variablesToResolve: List<Variable>, preResolvedValues: Map<String, String> = emptyMap()): Promise<Map<String, String>, Unit, Unit> {
+        val deferred = DeferredObject<Map<String, String>, Unit, Unit>()
+        val resolvedVariables = preResolvedValues.toMutableMap()
 
         val waitingDialogs = mutableListOf<() -> Unit>()
         var i = 0
         for (variable in variablesToResolve) {
-            if (preResolvedValues != null && preResolvedValues.containsKey(variable.key)) {
-                builder.add(variable, preResolvedValues[variable.key]!!)
+            if (resolvedVariables.containsKey(variable.key)) {
                 continue
             }
 
             val variableType = TypeFactory.getType(variable.type)
-
             if (variableType is AsyncVariableType) {
                 val index = i++
 
                 val deferredValue = DeferredObject<String, Unit, Unit>()
                 deferredValue
                         .done { result ->
-                            builder.add(variable, result)
+                            resolvedVariables[variable.key] = encodeValue(variable, result)
 
                             if (index + 1 >= waitingDialogs.size) {
-                                deferred.resolve(builder.build())
+                                deferred.resolve(resolvedVariables)
                             } else {
                                 waitingDialogs[index + 1]()
                             }
@@ -55,16 +84,15 @@ class VariableResolver(private val context: Context) {
                         }
 
                 val dialog = variableType.createDialog(context, controller, variable, deferredValue)
-
                 waitingDialogs.add(dialog)
             } else if (variableType is SyncVariableType) {
                 val value = variableType.resolveValue(controller, variable)
-                builder.add(variable, value)
+                resolvedVariables[variable.key] = encodeValue(variable, value)
             }
         }
 
         if (waitingDialogs.isEmpty()) {
-            deferred.resolve(builder.build())
+            deferred.resolve(resolvedVariables)
         } else {
             waitingDialogs.first().invoke()
         }
@@ -73,9 +101,6 @@ class VariableResolver(private val context: Context) {
                 .promise()
                 .always { _, _, _ ->
                     resetVariableValues(controller, variablesToResolve)
-                            .always { _, _, _ ->
-                                controller.destroy()
-                            }
                 }
     }
 
@@ -86,6 +111,8 @@ class VariableResolver(private val context: Context) {
             )
 
     companion object {
+
+        private const val MAX_RECURSION_DEPTH = 3
 
         fun extractVariableKeys(shortcut: Shortcut): Set<String> =
                 mutableSetOf<String>().apply {
@@ -106,6 +133,20 @@ class VariableResolver(private val context: Context) {
                         addAll(Variables.extractVariableKeys(header.value))
                     }
                 }
+
+        private fun encodeValue(variable: Variable, value: String) =
+                value
+                        .mapIf(variable.jsonEncode) {
+                            JSONObject.quote(it).drop(1).dropLast(1)
+                        }
+                        .mapIf(variable.urlEncode) {
+                            try {
+                                URLEncoder.encode(it, "utf-8")
+                            } catch (e: UnsupportedEncodingException) {
+                                it
+                            }
+                        }
+
     }
 
 }

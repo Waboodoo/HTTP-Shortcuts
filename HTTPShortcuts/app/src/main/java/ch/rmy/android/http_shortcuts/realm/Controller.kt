@@ -7,15 +7,14 @@ import ch.rmy.android.http_shortcuts.realm.models.Base
 import ch.rmy.android.http_shortcuts.realm.models.Category
 import ch.rmy.android.http_shortcuts.realm.models.HasId
 import ch.rmy.android.http_shortcuts.realm.models.PendingExecution
-import ch.rmy.android.http_shortcuts.realm.models.ResolvedVariable
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.Destroyable
-import ch.rmy.android.http_shortcuts.utils.filter
 import io.realm.Realm
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.RealmResults
+import org.jdeferred.DoneFilter
 import org.jdeferred.Promise
 import java.io.Closeable
 import java.util.*
@@ -165,7 +164,7 @@ class Controller : Destroyable, Closeable {
                 variable.deleteFromRealm()
             }
 
-    fun createPendingExecution(shortcutId: Long, resolvedVariables: List<ResolvedVariable>, tryNumber: Int = 0, waitUntil: Date? = null) =
+    fun createPendingExecution(shortcutId: Long, resolvedVariables: Map<String, String>, tryNumber: Int = 0, waitUntil: Date? = null) =
             realm.commitAsync { realm ->
                 val alreadyPending = Repository.getShortcutPendingExecution(realm, shortcutId) != null
                 if (!alreadyPending) {
@@ -191,7 +190,7 @@ class Controller : Destroyable, Closeable {
         return realm.commitAsync { realm ->
             realm.copyToRealmOrUpdate(shortcut)
         }
-                .filter { getShortcutById(shortcut.id)!! }
+                .then(DoneFilter { getShortcutById(shortcut.id)!! })
     }
 
     fun persist(variable: Variable): Promise<Variable, Throwable, Unit> {
@@ -206,7 +205,7 @@ class Controller : Destroyable, Closeable {
                 base.variables.add(newVariable)
             }
         }
-                .filter { getVariableById(variable.id)!! }
+                .then(DoneFilter { getVariableById(variable.id)!! })
     }
 
     private fun generateId(realm: Realm, clazz: Class<out RealmObject>): Long {
