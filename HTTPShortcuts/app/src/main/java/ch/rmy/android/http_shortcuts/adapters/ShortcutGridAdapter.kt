@@ -12,7 +12,7 @@ class ShortcutGridAdapter(context: Context) : ShortcutAdapter(context) {
 
     override fun createViewHolder(parentView: ViewGroup) = ShortcutViewHolder(parentView)
 
-    inner class ShortcutViewHolder(parent: ViewGroup) : BaseViewHolder<Shortcut>(parent, R.layout.shortcut_grid_item, this@ShortcutGridAdapter) {
+    inner class ShortcutViewHolder(parent: ViewGroup) : BaseViewHolder<Shortcut>(parent, R.layout.grid_item_shortcut, this@ShortcutGridAdapter) {
 
         private val name: TextView by bindView(R.id.name)
         private val icon: IconView by bindView(R.id.icon)

@@ -9,7 +9,6 @@ import ch.rmy.android.http_shortcuts.adapters.ShortcutListAdapter
 import ch.rmy.android.http_shortcuts.dialogs.CurlExportDialog
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.http.ExecutionService
-import ch.rmy.android.http_shortcuts.listeners.OnItemClickedListener
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Category
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
@@ -17,7 +16,6 @@ import ch.rmy.android.http_shortcuts.utils.GridLayoutManager
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.SelectionMode
 import ch.rmy.android.http_shortcuts.utils.Settings
-import ch.rmy.android.http_shortcuts.utils.ShortcutListDecorator
 import ch.rmy.android.http_shortcuts.utils.mapFor
 import ch.rmy.android.http_shortcuts.utils.mapIf
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
@@ -49,31 +47,9 @@ class ListFragment : BaseFragment() {
     private val controller by lazy { Controller() }
     private val categories by lazy { controller.getCategories() }
 
-    private val listDivider: RecyclerView.ItemDecoration by lazy { ShortcutListDecorator(context!!, R.drawable.list_divider) }
-
     private val shortcutChangeListener = RealmChangeListener<RealmList<Shortcut>> { shortcuts ->
         if (isVisible) {
             onShortcutsChanged(shortcuts)
-        }
-    }
-
-    private val clickListener = object : OnItemClickedListener<Shortcut> {
-        override fun onItemClicked(item: Shortcut) {
-            when (selectionMode) {
-                SelectionMode.HOME_SCREEN, SelectionMode.PLUGIN -> tabHost.selectShortcut(item)
-                else -> {
-                    val action = Settings(context!!).clickBehavior
-                    when (action) {
-                        Settings.CLICK_BEHAVIOR_RUN -> executeShortcut(item)
-                        Settings.CLICK_BEHAVIOR_EDIT -> editShortcut(item)
-                        Settings.CLICK_BEHAVIOR_MENU -> showContextMenu(item)
-                    }
-                }
-            }
-        }
-
-        override fun onItemLongClicked(item: Shortcut) {
-            showContextMenu(item)
         }
     }
 
@@ -96,21 +72,34 @@ class ListFragment : BaseFragment() {
             Category.LAYOUT_GRID -> {
                 adapter = ShortcutGridAdapter(context!!)
                 manager = GridLayoutManager(context!!)
-                shortcutList.removeItemDecoration(listDivider)
             }
             else -> {
                 adapter = ShortcutListAdapter(context!!)
                 manager = LinearLayoutManager(context)
-                shortcutList.addItemDecoration(listDivider)
             }
         }
         adapter.setPendingShortcuts(controller.getShortcutsPendingExecution())
-        adapter.clickListener = clickListener
+        adapter.clickListener = this::onItemClicked
+        adapter.longClickListener = this::showContextMenu
         adapter.setItems(category!!.shortcuts)
 
         shortcutList.layoutManager = manager
         shortcutList.adapter = adapter
         onShortcutsChanged(category!!.shortcuts)
+    }
+
+    private fun onItemClicked(item: Shortcut) {
+        when (selectionMode) {
+            SelectionMode.HOME_SCREEN, SelectionMode.PLUGIN -> tabHost.selectShortcut(item)
+            else -> {
+                val action = Settings(context!!).clickBehavior
+                when (action) {
+                    Settings.CLICK_BEHAVIOR_RUN -> executeShortcut(item)
+                    Settings.CLICK_BEHAVIOR_EDIT -> editShortcut(item)
+                    Settings.CLICK_BEHAVIOR_MENU -> showContextMenu(item)
+                }
+            }
+        }
     }
 
     private fun onShortcutsChanged(shortcuts: List<Shortcut>) {

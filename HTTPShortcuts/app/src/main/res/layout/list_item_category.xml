@@ -1,68 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground"
-    android:gravity="center_vertical"
-    android:orientation="vertical"
-    android:paddingBottom="10dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="10dp">
+    android:background="@drawable/list_item_background">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="10dp">
 
-        <TextView
-            android:id="@+id/name"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_toLeftOf="@+id/layout_type_icon"
-            android:layout_toStartOf="@+id/layout_type_icon"
-            android:ellipsize="end"
-            android:lines="1"
-            android:textAppearance="@style/ListName"
-            tools:text="Name"/>
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/layout_type_icon"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"/>
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_toLeftOf="@+id/layout_type_icon"
+                android:layout_toStartOf="@+id/layout_type_icon"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textAppearance="@style/ListName"
+                tools:text="Name"/>
 
-    </RelativeLayout>
+            <ImageView
+                android:id="@+id/layout_type_icon"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"/>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/description"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_toLeftOf="@+id/small_icons"
-            android:layout_toStartOf="@+id/small_icons"
-            android:ellipsize="end"
-            android:lines="1"
-            tools:text="Description"/>
+            android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:id="@+id/small_icons"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/small_icon_size"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:gravity="end"
-            android:orientation="horizontal"/>
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_toLeftOf="@+id/small_icons"
+                android:layout_toStartOf="@+id/small_icons"
+                android:ellipsize="end"
+                android:lines="1"
+                tools:text="Description"/>
 
-    </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/small_icons"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/small_icon_size"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:gravity="end"
+                android:orientation="horizontal"/>
 
-</LinearLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
+</FrameLayout>

@@ -149,6 +149,15 @@ class Controller : Destroyable, Closeable {
                 category.deleteFromRealm()
             }
 
+    fun moveVariable(variableId: Long, position: Int) =
+            realm.commitAsync { realm ->
+                val base = Repository.getBase(realm) ?: return@commitAsync
+                val variable = Repository.getVariableById(realm, variableId) ?: return@commitAsync
+                val variables = base.variables
+                val oldPosition = variables.indexOf(variable)
+                variables.move(oldPosition, position)
+            }
+
     fun deleteVariable(variableId: Long) =
             realm.commitAsync { realm ->
                 val variable = Repository.getVariableById(realm, variableId) ?: return@commitAsync

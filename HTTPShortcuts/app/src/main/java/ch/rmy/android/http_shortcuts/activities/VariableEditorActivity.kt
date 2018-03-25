@@ -198,9 +198,9 @@ class VariableEditorActivity : BaseActivity() {
         outState.putString(STATE_JSON_VARIABLE, GsonUtil.toJson(variable))
     }
 
-    class IntentBuilder(context: Context, variableId: Long) : BaseIntentBuilder(context, VariableEditorActivity::class.java) {
+    class IntentBuilder(context: Context) : BaseIntentBuilder(context, VariableEditorActivity::class.java) {
 
-        init {
+        fun variableId(variableId: Long) = this.also {
             intent.putExtra(EXTRA_VARIABLE_ID, variableId)
         }
 

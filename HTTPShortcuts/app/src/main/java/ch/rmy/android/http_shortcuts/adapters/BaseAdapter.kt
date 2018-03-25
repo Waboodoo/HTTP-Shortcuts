@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.listeners.OnItemClickedListener
 import ch.rmy.android.http_shortcuts.realm.models.HasId
 import ch.rmy.android.http_shortcuts.utils.Destroyable
 import io.realm.RealmChangeListener
@@ -17,7 +16,9 @@ import io.realm.RealmObject
 
 abstract class BaseAdapter<T> internal constructor(val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Destroyable where T : RealmObject, T : HasId {
 
-    var clickListener: OnItemClickedListener<T>? = null
+    var clickListener: ((T) -> Unit)? = null
+    var longClickListener: ((T) -> Unit)? = null
+
     private var items: RealmList<T>? = null
 
     private val changeListener = RealmChangeListener<RealmList<T>> { notifyDataSetChanged() }

@@ -155,10 +155,10 @@
     <string name="retry_policy_delayed">wait for connection</string>
     <string name="settings_play_store">View in Play Store</string>
     <string name="settings_play_store_summary">Thank you for your ratings and reviews</string>
-    <string name="shortcut_duplicated">%1$s duplicated.</string>
-    <string name="shortcut_moved">%1$s moved.</string>
-    <string name="shortcut_deleted">%1$s deleted.</string>
-    <string name="shortcut_placed">%1$s placed on home screen.</string>
+    <string name="shortcut_duplicated">\"%1$s\" duplicated.</string>
+    <string name="shortcut_moved">\"%1$s\" moved.</string>
+    <string name="shortcut_deleted">\"%1$s\" deleted.</string>
+    <string name="shortcut_placed">\"%1$s\" placed on home screen.</string>
     <string name="dialog_delete">Delete</string>
     <string name="section_appearance">Appearance</string>
     <string name="section_basic_request">Basic Request Settings</string>
@@ -215,7 +215,7 @@
     <string name="variable_type_color">Color Input</string>
     <string name="warning_invalid_variable_key">Variable keys may only contain letters and digits.</string>
     <string name="confirm_delete_variable_message">Delete this variable?</string>
-    <string name="variable_deleted">%1$s deleted.</string>
+    <string name="variable_deleted">\"%1$s\" deleted.</string>
     <string name="label_url_encode">URL encode</string>
     <string name="label_json_encode">JSON encode</string>
     <string name="section_basic_variable_settings">Basic Settings</string>

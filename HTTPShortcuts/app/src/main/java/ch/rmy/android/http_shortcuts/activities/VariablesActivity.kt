@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
@@ -12,11 +11,10 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.adapters.VariableAdapter
 import ch.rmy.android.http_shortcuts.dialogs.HelpDialogBuilder
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
-import ch.rmy.android.http_shortcuts.listeners.OnItemClickedListener
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
-import ch.rmy.android.http_shortcuts.utils.ShortcutListDecorator
+import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
 import kotterknife.bindView
@@ -27,16 +25,7 @@ class VariablesActivity : BaseActivity() {
     private val createButton: FloatingActionButton by bindView(R.id.button_create_variable)
 
     private val controller by lazy { destroyer.own(Controller()) }
-
-    private val clickedListener = object : OnItemClickedListener<Variable> {
-        override fun onItemClicked(item: Variable) {
-            editVariable(item)
-        }
-
-        override fun onItemLongClicked(item: Variable) {
-            showContextMenu(item)
-        }
-    }
+    private val variables by lazy { controller.getVariables() }
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,25 +33,36 @@ class VariablesActivity : BaseActivity() {
 
         val adapter = destroyer.own(VariableAdapter(context))
         adapter.setItems(controller.getVariables())
+        adapter.clickListener = this::showContextMenu
 
         val manager = LinearLayoutManager(context)
         variableList.layoutManager = manager
         variableList.setHasFixedSize(true)
-        variableList.addItemDecoration(ShortcutListDecorator(context, R.drawable.list_divider))
         variableList.adapter = adapter
 
-        adapter.clickListener = clickedListener
+        initDragOrdering()
 
         createButton.setOnClickListener { openEditorForCreation() }
     }
 
+    private fun initDragOrdering() {
+        val dragOrderingHelper = DragOrderingHelper({ variables.isNotEmpty() })
+        dragOrderingHelper.positionChangeSource.add { (oldPosition, newPosition) ->
+            val variable = variables[oldPosition]!!
+            controller.moveVariable(variable.id, newPosition)
+        }.attachTo(destroyer)
+        dragOrderingHelper.attachTo(variableList)
+    }
+
     private fun openEditorForCreation() {
-        val intent = Intent(context, VariableEditorActivity::class.java)
+        val intent = VariableEditorActivity.IntentBuilder(context)
+                .build()
         startActivity(intent)
     }
 
     private fun editVariable(variable: Variable) {
-        val intent = VariableEditorActivity.IntentBuilder(context, variable.id)
+        val intent = VariableEditorActivity.IntentBuilder(context)
+                .variableId(variable.id)
                 .build()
         startActivity(intent)
     }

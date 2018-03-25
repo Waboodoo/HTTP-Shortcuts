@@ -8,11 +8,10 @@ import android.support.v7.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.adapters.CategoryAdapter
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
-import ch.rmy.android.http_shortcuts.listeners.OnItemClickedListener
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Category
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
-import ch.rmy.android.http_shortcuts.utils.ShortcutListDecorator
+import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
 import ch.rmy.android.http_shortcuts.utils.mapIf
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
@@ -26,16 +25,6 @@ class CategoriesActivity : BaseActivity() {
     private val controller by lazy { destroyer.own(Controller()) }
     private val categories by lazy { controller.getCategories() }
 
-    private val clickedListener = object : OnItemClickedListener<Category> {
-        override fun onItemClicked(item: Category) {
-            showContextMenu(item)
-        }
-
-        override fun onItemLongClicked(item: Category) {
-            showContextMenu(item)
-        }
-    }
-
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_categories)
@@ -46,12 +35,22 @@ class CategoriesActivity : BaseActivity() {
         val manager = LinearLayoutManager(context)
         categoryList.layoutManager = manager
         categoryList.setHasFixedSize(true)
-        categoryList.addItemDecoration(ShortcutListDecorator(context, R.drawable.list_divider))
         categoryList.adapter = adapter
 
-        adapter.clickListener = clickedListener
+        adapter.clickListener = this::showContextMenu
+
+        initDragOrdering()
 
         createButton.setOnClickListener { openCreateDialog() }
+    }
+
+    private fun initDragOrdering() {
+        val dragOrderingHelper = DragOrderingHelper()
+        dragOrderingHelper.attachTo(categoryList)
+        dragOrderingHelper.positionChangeSource.add { (oldPosition, newPosition) ->
+            val category = categories[oldPosition]!!
+            controller.moveCategory(category.id, newPosition)
+        }.attachTo(destroyer)
     }
 
     private fun openCreateDialog() {
@@ -78,16 +77,6 @@ class CategoriesActivity : BaseActivity() {
                 .item(R.string.action_change_category_layout_type, {
                     showLayoutTypeDialog(category)
                 })
-                .mapIf(canMoveCategory(category, -1)) {
-                    it.item(R.string.action_move_up, {
-                        moveCategory(category, -1)
-                    })
-                }
-                .mapIf(canMoveCategory(category, 1)) {
-                    it.item(R.string.action_move_down, {
-                        moveCategory(category, 1)
-                    })
-                }
                 .mapIf(categories.size > 1) {
                     it.item(R.string.action_delete, {
                         showDeleteDialog(category)
@@ -125,19 +114,6 @@ class CategoriesActivity : BaseActivity() {
     private fun changeLayoutType(category: Category, layoutType: String) {
         controller.setLayoutType(category.id, layoutType)
         showSnackbar(R.string.message_layout_type_changed)
-    }
-
-    private fun canMoveCategory(category: Category, offset: Int): Boolean {
-        val position = categories.indexOf(category) + offset
-        return position >= 0 && position < categories.size
-    }
-
-    private fun moveCategory(category: Category, offset: Int) {
-        if (!canMoveCategory(category, offset)) {
-            return
-        }
-        val position = categories.indexOf(category) + offset
-        controller.moveCategory(category.id, position)
     }
 
     private fun showDeleteDialog(category: Category) {

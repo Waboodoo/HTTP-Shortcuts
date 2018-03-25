@@ -15,7 +15,7 @@ class ShortcutListAdapter(context: Context) : ShortcutAdapter(context) {
 
     override fun createViewHolder(parentView: ViewGroup) = ShortcutViewHolder(parentView)
 
-    inner class ShortcutViewHolder(parent: ViewGroup) : BaseViewHolder<Shortcut>(parent, R.layout.shortcut_list_item, this@ShortcutListAdapter) {
+    inner class ShortcutViewHolder(parent: ViewGroup) : BaseViewHolder<Shortcut>(parent, R.layout.list_item_shortcut, this@ShortcutListAdapter) {
 
         private val name: TextView by bindView(R.id.name)
         private val description: TextView by bindView(R.id.description)

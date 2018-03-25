@@ -1,42 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground"
-    android:paddingBottom="10dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="10dp">
-
-    <TextView
-        android:id="@+id/name"
+    android:background="@drawable/list_item_background">
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/type"
-        android:layout_toStartOf="@+id/type"
-        android:ellipsize="end"
-        android:gravity="start"
-        android:maxLines="2"
-        android:textAppearance="@style/ListName"
-        tools:text="Name"/>
+        android:background="?android:attr/selectableItemBackground"
+        android:paddingBottom="10dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="10dp">
 
-    <TextView
-        android:id="@+id/type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="4dp"
-        android:layout_marginStart="4dp"
-        android:gravity="end"
-        android:lines="1"
-        android:textAppearance="@style/ListName_secondary"
-        tools:text="Type"/>
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/type"
+            android:layout_toStartOf="@+id/type"
+            android:ellipsize="end"
+            android:gravity="start"
+            android:maxLines="2"
+            android:textAppearance="@style/ListName"
+            tools:text="Name"/>
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
+            android:gravity="end"
+            android:lines="1"
+            android:textAppearance="@style/ListName_secondary"
+            tools:text="Type"/>
+
+    </RelativeLayout>
+</FrameLayout>
