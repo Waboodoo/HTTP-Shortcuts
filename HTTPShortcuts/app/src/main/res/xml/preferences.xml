@@ -62,8 +62,8 @@
 
         <com.afollestad.materialdialogs.prefs.MaterialPreference
             android:icon="@drawable/ic_version"
-            android:key="version"
-            android:title="@string/settings_version"/>
+            android:key="changelog"
+            android:title="@string/settings_changelog"/>
         <com.afollestad.materialdialogs.prefs.MaterialPreference
             android:icon="@drawable/ic_email_outline"
             android:key="mail"

@@ -202,7 +202,7 @@ class EditorActivity : BaseActivity() {
 
         iconViewContainer.setOnClickListener { openIconSelectionDialog() }
 
-        customContentType.setText(if (shortcut.contentType.isEmpty()) Shortcut.DEFAULT_CONTENT_TYPE else shortcut.contentType)
+        customContentType.setText(shortcut.contentType)
         customContentType.setAdapter(ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, Shortcut.CONTENT_TYPE_SUGGESTIONS))
 
         setTitle(if (shortcut.isNew) R.string.create_shortcut else R.string.edit_shortcut)

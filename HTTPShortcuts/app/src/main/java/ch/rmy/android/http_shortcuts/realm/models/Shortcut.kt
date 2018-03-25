@@ -222,7 +222,7 @@ open class Shortcut : RealmObject(), HasId {
 
         val AUTHENTICATION_OPTIONS = arrayOf(AUTHENTICATION_NONE, AUTHENTICATION_BASIC, AUTHENTICATION_DIGEST)
 
-        val REQUEST_BODY_TYPE_OPTIONS = arrayOf(REQUEST_BODY_TYPE_FORM_DATA, REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE, REQUEST_BODY_TYPE_CUSTOM_TEXT)
+        val REQUEST_BODY_TYPE_OPTIONS = arrayOf(/*REQUEST_BODY_TYPE_FORM_DATA, */REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE, REQUEST_BODY_TYPE_CUSTOM_TEXT)
 
         val CONTENT_TYPE_SUGGESTIONS = arrayOf(
                 "application/javascript",
@@ -254,7 +254,7 @@ open class Shortcut : RealmObject(), HasId {
             delay = 0
             parameters = RealmList()
             headers = RealmList()
-            requestBodyType = REQUEST_BODY_TYPE_FORM_DATA
+            requestBodyType = REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE
             contentType = DEFAULT_CONTENT_TYPE
         }
     }

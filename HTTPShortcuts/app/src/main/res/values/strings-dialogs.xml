@@ -6,10 +6,10 @@
             - Improved insertion of variable placeholders<br>
             - Variables inherit values from Tasker when using Tasker integration<br>
             - Simplified specifying a content type for custom request bodies<br>
+            - Categories & variables can be reordered via drag & drop<br>
             - Request parameter values can be multi-line<br>
             - Added Call-to-Action for translators<br>
-            - Added Copy button to cURL export dialog<br>
-            - Experimental: RTL support
+            - Added Copy button to cURL export dialog
         </p>
         <p>
             <b>Version 1.19.0</b><br>
@@ -17,8 +17,7 @@
             - "Number Input" variable allows decimals and minus sign<br>
             - Better support for user-defined certificates<br>
             - Password input is hidden<br>
-            - Internal storage is encrypted<br>
-            - <i>Known issue:</i> delayed execution does not work on Oreo
+            - Internal storage is encrypted
         </p>
         <p>
             <b>Version 1.18.0</b><br>

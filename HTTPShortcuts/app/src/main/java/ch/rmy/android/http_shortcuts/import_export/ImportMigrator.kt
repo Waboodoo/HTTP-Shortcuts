@@ -62,6 +62,7 @@ internal object ImportMigrator {
             16 -> { // 1.20.0
                 for (category in base.categories) {
                     for (shortcut in category.shortcuts) {
+                        shortcut.contentType = "text/plain"
                         shortcut.requestBodyType = if (shortcut.parameters.isEmpty()) {
                             "custom_text"
                         } else {

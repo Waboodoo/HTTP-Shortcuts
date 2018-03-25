@@ -11,6 +11,7 @@ import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.text.Editable
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -142,6 +143,21 @@ fun CurlCommand.applyToShortcut(shortcut: Shortcut) {
             shortcut.contentType = value
         } else {
             shortcut.headers.add(Header.createNew(key, value))
+        }
+    }
+}
+
+fun EditText.onTextChanged(listener: (text: CharSequence) -> Unit): Destroyable {
+    val watcher = object : SimpleTextWatcher() {
+        override fun afterTextChanged(s: Editable) {
+            listener.invoke(s)
+        }
+    }
+    addTextChangedListener(watcher)
+    listener.invoke(text)
+    return object : Destroyable {
+        override fun destroy() {
+            removeTextChangedListener(watcher)
         }
     }
 }

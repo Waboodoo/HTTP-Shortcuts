@@ -4,14 +4,13 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
-import ch.rmy.android.http_shortcuts.utils.SimpleTextWatcher
 import ch.rmy.android.http_shortcuts.utils.consume
+import ch.rmy.android.http_shortcuts.utils.onTextChanged
 import ch.rmy.curlcommand.CurlParser
 import kotterknife.bindView
 import kotlin.properties.Delegates
@@ -30,11 +29,9 @@ class CurlImportActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_curl_import)
 
-        curlCommand.addTextChangedListener(object : SimpleTextWatcher() {
-            override fun afterTextChanged(s: Editable) {
-                commandEmpty = curlCommand.text.isEmpty()
-            }
-        })
+        curlCommand.onTextChanged { text ->
+            commandEmpty = text.isEmpty()
+        }.attachTo(destroyer)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

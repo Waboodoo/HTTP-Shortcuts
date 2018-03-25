@@ -79,14 +79,14 @@ class SettingsActivity : BaseActivity() {
                 CrashReporting.enabled = newValue != "false"
             }
 
-            initPreference("version") {
+            initPreference("changelog") {
                 ChangeLogDialog(activity, false).show()
             }.let {
-                it.summary = try {
+                it.summary = getString(R.string.settings_changelog_summary, try {
                     activity.packageManager.getPackageInfo(activity.packageName, 0).versionName
                 } catch (e: NameNotFoundException) {
                     "???"
-                }
+                })
             }
 
             initPreference("mail") {

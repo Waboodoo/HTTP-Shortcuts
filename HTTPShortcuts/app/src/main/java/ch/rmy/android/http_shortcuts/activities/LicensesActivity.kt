@@ -33,12 +33,12 @@ class LicensesActivity : BaseActivity() {
     companion object {
 
         private val LIBRARIES = arrayOf(
-                "butterknife",
                 "gson",
                 "materialdialogs",
                 "okhttp",
                 "recyclerview_v7",
-                "realm", "volley",
+                "realm",
+                "volley",
                 "flaticons",
                 "bitsies",
                 "filepicker",

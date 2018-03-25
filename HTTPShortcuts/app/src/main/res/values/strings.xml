@@ -22,7 +22,7 @@
     <string name="save_button">Save</string>
     <!-- Button to test changes made to shortcut -->
     <string name="test_button">Test</string>
-    <!-- Label above input field in editor, for shortcut HTTP method (GET, POST, PUT, ...) -->
+    <!-- Label above input field in editor, for shortcut HTTP method (GET, POST, PUT, …) -->
     <string name="label_method">Method</string>
     <!-- Label above input field in editor, for shortcut authentication username -->
     <string name="label_username">Username</string>
@@ -93,7 +93,7 @@
     <string name="settings">Settings</string>
     <string name="settings_theme">Theme</string>
     <string name="settings_title_basic">Basic Settings</string>
-    <string name="settings_click_behavior">Shortcut click action</string>
+    <string name="settings_click_behavior">Shortcut Click Action</string>
     <string name="settings_click_behavior_run">Execute the shortcut</string>
     <string name="settings_click_behavior_edit">Edit the shortcut</string>
     <string name="settings_click_behavior_menu">Show the options menu</string>
@@ -106,8 +106,8 @@
     <string name="settings_crash_reporting_allow">Send crash reports to help improve the app</string>
     <!-- Option for crash reporting opt out -->
     <string name="settings_crash_reporting_disallow">Don\'t send any crash reports</string>
-    <string name="settings_import">Import shortcuts</string>
-    <string name="settings_export">Export shortcuts</string>
+    <string name="settings_import">Import Shortcuts</string>
+    <string name="settings_export">Export Shortcuts</string>
     <string name="export_instructions">Select the directory into which to export your shortcuts.\n\nPlease note that custom icons can not be exported.</string>
     <string name="export_success">Shortcuts successfully exported.</string>
     <string name="export_failed">Exporting shortcuts failed.</string>
@@ -139,8 +139,11 @@
     <!-- Timeout option: very long, i.e. around 60 seconds -->
     <string name="timeout_very_long">very long</string>
     <string name="settings_about">About this App</string>
-    <string name="settings_version">Version number</string>
-    <string name="settings_mail">Contact developer</string>
+    <!-- Title of option in settings to show change changelog of current and past versions -->
+    <string name="settings_changelog">Changelog</string>
+    <!-- Subtitle/summary of "Changelog" option in settings, showing the current app version number -->
+    <string name="settings_changelog_summary">Version %1$s</string>
+    <string name="settings_mail">Contact Developer</string>
     <string name="settings_mail_summary">Questions, feature requests, feedback, …</string>
     <string name="settings_github">View on Github</string>
     <string name="settings_github_summary">That\'s right, this app is open-source</string>
@@ -213,7 +216,7 @@
     <string name="variable_type_date">Date Input</string>
     <string name="variable_type_time">Time Input</string>
     <string name="variable_type_color">Color Input</string>
-    <string name="warning_invalid_variable_key">Variable keys may only contain letters and digits.</string>
+    <string name="warning_invalid_variable_key">Variable keys may only contain digits and letters from the English alphabet.</string>
     <string name="confirm_delete_variable_message">Delete this variable?</string>
     <string name="variable_deleted">\"%1$s\" deleted.</string>
     <string name="label_url_encode">URL encode</string>
@@ -272,7 +275,7 @@
     <string name="button_create_new">From scratch</string>
     <!-- Option 2 in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
     <string name="button_curl_import">From cURL command</string>
-    <string name="title_curl_import">cURL import</string>
+    <string name="title_curl_import">cURL Import</string>
     <string name="instructions_curl_import">Type or paste a cURL command below to create a new shortcut from it. Please note that this feature is experimental and that only a limited subset of cURL options is recognized.</string>
     <string name="curl_import_button">Import</string>
     <string name="authentication_none">No Authentication</string>
@@ -319,9 +322,9 @@
     <!-- Label of dropdown to select the request body type in shortcut editor -->
     <string name="label_request_body_type">Request Body Type</string>
     <!-- Dropdown option for request body: form-data (i.e. list of parameters) -->
-    <string name="request_body_option_form_data">form-data</string>
+    <string name="request_body_option_form_data">Parameters (form-data)</string>
     <!-- Dropdown option for request body: x-www-form-urlencoded (i.e. list of parameters) -->
-    <string name="request_body_option_x_www_form_urlencoded">x-www-form-urlencoded</string>
+    <string name="request_body_option_x_www_form_urlencoded">Parameters (x-www-form-urlencoded)</string>
     <!-- Dropdown option for request body: custom text (i.e. enter a custom Content-Type and a request body as text) -->
     <string name="request_body_option_custom_text">Custom Text</string>
     <!-- Label above input box for Request Content-Type -->

@@ -16,10 +16,12 @@ import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.Destroyable
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.mapIf
+import ch.rmy.android.http_shortcuts.utils.onTextChanged
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.utils.showSoftKeyboard
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
+import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
 import kotterknife.bindView
 
@@ -130,6 +132,11 @@ class KeyValueList<T : KeyValuePair> @JvmOverloads constructor(context: Context,
                     dialog.setOnDismissListener {
                         destroyer.destroy()
                     }
+
+                    val okButton = dialog.getActionButton(DialogAction.POSITIVE)
+                    keyInput.onTextChanged { text ->
+                        okButton.isEnabled = text.isNotEmpty()
+                    }.attachTo(destroyer)
                 }
                 .showIfPossible()
     }

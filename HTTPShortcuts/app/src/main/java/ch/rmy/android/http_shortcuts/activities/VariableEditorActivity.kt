@@ -16,10 +16,10 @@ import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.OnItemChosenListener
 import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils
-import ch.rmy.android.http_shortcuts.utils.SimpleTextWatcher
 import ch.rmy.android.http_shortcuts.utils.consume
 import ch.rmy.android.http_shortcuts.utils.fix
 import ch.rmy.android.http_shortcuts.utils.focus
+import ch.rmy.android.http_shortcuts.utils.onTextChanged
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.utils.visible
 import ch.rmy.android.http_shortcuts.variables.Variables
@@ -70,17 +70,15 @@ class VariableEditorActivity : BaseActivity() {
         keyView.setText(variable.key)
         titleView.setText(variable.title)
         val defaultColor = keyView.textColors
-        keyView.addTextChangedListener(object : SimpleTextWatcher() {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                if (Variables.isValidVariableKey(s.toString())) {
-                    keyView.setTextColor(defaultColor)
-                    keyView.error = null
-                } else {
-                    keyView.setTextColor(Color.RED)
-                    keyView.error = if (s.isEmpty()) null else getString(R.string.warning_invalid_variable_key)
-                }
+        keyView.onTextChanged { text ->
+            if (text.isEmpty() || Variables.isValidVariableKey(text.toString())) {
+                keyView.setTextColor(defaultColor)
+                keyView.error = null
+            } else {
+                keyView.setTextColor(Color.RED)
+                keyView.error = getString(R.string.warning_invalid_variable_key)
             }
-        })
+        }.attachTo(destroyer)
 
         typeSpinner.setItemsArray(ShortcutUIUtils.getVariableTypeOptions(context))
         typeSpinner.fix()
