@@ -11,6 +11,9 @@ class DragOrderingHelper(isEnabledCallback: () -> Boolean = { true }) {
         override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
             val oldPosition = viewHolder.adapterPosition
             val newPosition = target.adapterPosition
+            if (oldPosition == RecyclerView.NO_POSITION || newPosition == RecyclerView.NO_POSITION) {
+                return false
+            }
             positionChangeSource.notifyObservers(oldPosition to newPosition)
             return true
         }

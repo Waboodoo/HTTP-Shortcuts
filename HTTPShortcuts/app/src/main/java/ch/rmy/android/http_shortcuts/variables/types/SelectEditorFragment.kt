@@ -1,14 +1,15 @@
 package ch.rmy.android.http_shortcuts.variables.types
 
-import android.view.View
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.widget.Button
 import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.adapters.SelectVariableOptionsAdapter
 import ch.rmy.android.http_shortcuts.realm.models.Option
 import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.Destroyer
+import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
 import ch.rmy.android.http_shortcuts.utils.mapIf
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.utils.showMessageDialog
@@ -24,32 +25,40 @@ class SelectEditorFragment : VariableEditorFragment() {
     override val layoutResource = R.layout.variable_editor_select
 
     private val selectOptionsAddButton: Button by bindView(R.id.select_options_add_button)
-    private val selectOptionsList: LinearLayout by bindView(R.id.select_options_list)
+    private val selectOptionsList: RecyclerView by bindView(R.id.select_options_list)
+    private val optionsAdapter = SelectVariableOptionsAdapter()
 
     override fun setupViews() {
         selectOptionsAddButton.setOnClickListener { showAddDialog() }
+        selectOptionsList.layoutManager = LinearLayoutManager(context)
+        selectOptionsList.adapter = optionsAdapter
+        optionsAdapter.clickListener = this::showEditDialog
+        initDragOrdering()
+    }
+
+    private fun initDragOrdering() {
+        val dragOrderingHelper = DragOrderingHelper()
+        dragOrderingHelper.positionChangeSource.add { (oldPosition, newPosition) ->
+            // TODO: The items are reordered manually here to avoid a bug in RealmList.move
+            val option = variable!!.options!!.removeAt(oldPosition)
+            variable!!.options!!.add(newPosition, option)
+
+            optionsAdapter.notifyItemMoved(oldPosition, newPosition)
+        }.attachTo(destroyer)
+        dragOrderingHelper.attachTo(selectOptionsList)
     }
 
     override fun updateViews(variable: Variable) {
         this.variable = variable
-        selectOptionsList.removeAllViews()
-        variable.options!!.forEachIndexed { i, option ->
-            selectOptionsList.addView(createOptionView(option, i))
-        }
-    }
-
-    private fun createOptionView(option: Option, index: Int): View {
-        val optionView = layoutInflater.inflate(R.layout.select_option, selectOptionsList, false)
-        optionView.findViewById<TextView>(R.id.select_option_label).text = option.label
-        optionView.setOnClickListener { showEditDialog(option, index) }
-        return optionView
+        optionsAdapter.options = variable.options!!
+        optionsAdapter.notifyDataSetChanged()
     }
 
     private fun showAddDialog() {
-        showEditDialog(null, -1)
+        showEditDialog(null)
     }
 
-    private fun showEditDialog(option: Option?, index: Int) {
+    private fun showEditDialog(option: Option?) {
         val destroyer = Destroyer()
 
         val editorView = layoutInflater.inflate(R.layout.select_option_editor_item, null)
@@ -81,7 +90,7 @@ class SelectEditorFragment : VariableEditorFragment() {
                 .mapIf(option != null) {
                     it
                             .neutralText(R.string.dialog_remove)
-                            .onNeutral { _, _ -> removeOption(index) }
+                            .onNeutral { _, _ -> removeOption(option!!) }
                 }
                 .dismissListener {
                     destroyer.destroy()
@@ -101,8 +110,8 @@ class SelectEditorFragment : VariableEditorFragment() {
         updateViews(variable!!)
     }
 
-    private fun removeOption(index: Int) {
-        variable!!.options!!.removeAt(index)
+    private fun removeOption(option: Option) {
+        variable!!.options!!.removeAll { it.id == option.id }
         updateViews(variable!!)
     }
 
