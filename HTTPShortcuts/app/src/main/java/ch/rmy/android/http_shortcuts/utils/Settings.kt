@@ -27,6 +27,10 @@ class Settings(context: Context) {
         get() = preferences.getBoolean(KEY_CHANGE_LOG_PERMANENTLY_HIDDEN, false)
         set(hidden) = preferences.edit().putBoolean(KEY_CHANGE_LOG_PERMANENTLY_HIDDEN, hidden).apply()
 
+    var wasVariableIntroShown: Boolean
+        get() = preferences.getBoolean(KEY_VARIABLE_INTRO_SHOWN, false)
+        set(shown) = preferences.edit().putBoolean(KEY_VARIABLE_INTRO_SHOWN, shown).apply()
+
     var changeLogLastVersion: Int
         get() = preferences.getInt(KEY_CHANGE_LOG_LAST_VERSION, 0)
         set(version) = preferences.edit().putInt(KEY_CHANGE_LOG_LAST_VERSION, version).apply()
@@ -60,6 +64,7 @@ class Settings(context: Context) {
         private const val KEY_CHANGE_LOG_LAST_VERSION = "change_log_last_version"
         private const val KEY_ICON_NAME_CHANGE_PERMANENTLY_HIDDEN = "icon_name_change_permanently_hidden"
         private const val KEY_THEME = "theme"
+        private const val KEY_VARIABLE_INTRO_SHOWN = "variable_intro_shown"
 
     }
 

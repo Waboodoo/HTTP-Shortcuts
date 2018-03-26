@@ -69,9 +69,13 @@
     <string name="error_cannot_get_image_permission_denied">Failed to use image as icon. Permission denied.</string>
     <string name="copy">%1$s (copy)</string>
     <string name="choose_ipack">Choose an Ipack</string>
-    <string name="change_icon">Change icon</string>
+    <!-- Title of "Change Icon" dialog, where user can pick source/type of new icon for shortcut -->
+    <string name="change_icon">Change Icon</string>
+    <!-- Option in "Change Icon" dialog, allows user to select a custom image to use as a shortcut icon -->
     <string name="choose_image">Choose custom image</string>
+    <!-- Option in "Change Icon" dialog, allows user to select an icon from an Ipack icon set (from a third-party icon app) -->
     <string name="choose_ipack_icon">Choose Ipack icon</string>
+    <!-- Option in "Change Icon" dialog, allows user to select one of the built-in icons to use as a shortcut icon -->
     <string name="choose_icon">Choose built-in icon</string>
     <string name="label_post_params">Parameters</string>
     <string name="button_add_post_param">Add parameter</string>
@@ -82,7 +86,9 @@
     <string name="dialog_ok">OK</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_remove">Remove</string>
+    <!-- Section title in shortcut editor, for section that contains options to specify the headers of the HTTP request -->
     <string name="section_request_headers">Request Headers</string>
+    <!-- Section title in shortcut editor, for section that contains options to specify the body of the HTTP request -->
     <string name="section_request_body">Request Body</string>
     <string name="button_add_custom_header">Add header</string>
     <string name="title_custom_header_edit">Edit Header</string>
@@ -209,7 +215,7 @@
     <string name="variable_type_text">Text Input</string>
     <string name="variable_type_number">Number Input</string>
     <!-- Type of variable: Slider, i.e. a horizontal bar that allows to pick a number by sliding a knob left or right -->
-    <string name="variable_type_slider">Slider</string>
+    <string name="variable_type_slider">Number Slider</string>
     <string name="variable_type_password">Password Input</string>
     <string name="variable_type_select">Selection</string>
     <string name="variable_type_toggle">Toggle</string>

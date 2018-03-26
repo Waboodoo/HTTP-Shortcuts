@@ -2,18 +2,32 @@
 <resources>
     <string name="changelog_text" translatable="false"><![CDATA[
         <p>
-            <b>Version 1.20.0</b><br>
-            - Improved insertion of variable placeholders<br>
-            - Variables inherit values from Tasker when using Tasker integration<br>
-            - Simplified specifying a content type for custom request bodies<br>
-            - Categories & variables can be reordered via drag & drop<br>
-            - Variables can be used recursively (variables referring to other variables)<br>
-            - Request parameter values can be multi-line<br>
-            - Added Call-to-Action for translators<br>
-            - Added Copy button to cURL export dialog
+            <h3>Version 1.20.0</h3>
+            <b>Simplified Variable Insertion</b><br>
+            Inserting variables into shortcuts has now become much easier. Each input field that supports variables now has a button next to it. Clicking it opens a popup dialog with a list of all available variables, allowing you to easily pick and insert one.
+            <br><br>
+            <b>Improved Tasker Integration</b><br>
+            When triggering shortcuts from Tasker, it is now possible to send along variables. Simply define variables with the same name in Tasker as in your shortcut and their value will automatically be sent from Tasker to your shortcut when triggered.
+            <br><br>
+            <b>Reordering of Variables & Categories</b><br>
+            Categories and Variables can now be reordered via drag & drop.
+            <br><br>
+            <b>Improved Specification of Request Body</b><br>
+            When specifying the request body of a shortcut, you now have the option to chose between <i>x-www-form-urlencoded</i>, i.e., the body is a list of parameters, or <i>custom text</i>, i.e., you specify the request body as raw text and give it a content-type.
+            <br><br>
+            <b>Variables within Variables!</b><br>
+            The <i>constant</i> and <i>select</i> variable types now support recursive resolution of values. This means you can reference other variables from these variables. For example, you could set up a <i>select</i> variable where one of the options is a <i>color</i> variable.
+            <br><br>
+            <b>Miscellaneous</b>
+            <ul>
+                <li>The input field for request parameter values now allows multiline input.</li>
+                <li>The cURL export dialog now includes a <i>copy</i> button to allow you to quickly copy the cURL command to the clipboard.</li>
+                <li>The <i>About</i> section in the settings now features a <i>Translate this App</i> button as a call-to-action for translators. Help me translate everything!</li>
+            </ul>
         </p>
+        <br>
         <p>
-            <b>Version 1.19.0</b><br>
+            <h3>Version 1.19.0</h3>
             - New variable type: number slider<br>
             - "Number Input" variable allows decimals and minus sign<br>
             - Better support for user-defined certificates<br>
@@ -21,14 +35,14 @@
             - Internal storage is encrypted
         </p>
         <p>
-            <b>Version 1.18.0</b><br>
+            <h3>Version 1.18.0</h3>
             - French translations<br>
             - Fixed shortcut creation on Oreo<br>
             - Added Privacy Policy & Crash Reporting opt-out<br>
             - Minor bugfixes
         </p>
         <p>
-            <b>Version 1.17.0</b><br>
+            <h3>Version1.17.0</h3>
             - New variable types: date & time<br>
             - Fixed/improved retry on failure<br>
             - Option to delay shortcut execution<br>
@@ -37,7 +51,7 @@
             - Minor bugfixes
         </p>
         <p>
-            <b>Version 1.16.0</b><br>
+            <h3>Version1.16.0</h3>
             - Support for Digest Auth<br>
             - Support for OPTIONS, HEAD and TRACE methods<br>
             - Launcher Shortcuts (Android 7.1 and up only)<br>
@@ -45,13 +59,13 @@
             - Minor bugfixes & other improvements
         </p>
         <p>
-            <b>Version 1.15.0</b><br>
+            <h3>Version1.15.0</h3>
             - Shortcuts can be exported as cURL commands<br>
             - Chinese translations<br>
             - Minor bugfixes
         </p>
         <p>
-            <b>Version 1.14.0</b><br>
+            <h3>Version1.14.0</h3>
             - Syntax highlighting for JSON and XML responses<br>
             - Import shortcuts from cURL commands<br>
             - Improved import &amp; export<br>
@@ -59,29 +73,29 @@
             - Minor bugfixes
         </p>
         <p>
-            <b>Version 1.13.0</b><br>
+            <h3>Version1.13.0</h3>
             - New variable type: color<br>
             - Allow sharing text snippets into variables<br>
             - New app icon
         </p>
         <p>
-            <b>Version 1.12.0</b><br>
+            <h3>Version1.12.0</h3>
             - New response options: show in dialog or window<br>
             - Option to remember/forget variable values<br>
             - Pending executions can be cancelled
         </p>
     	<p>
-			<b>Version 1.11.0</b><br>
+			<h3>Version1.11.0</h3>
 			- Variables: inject custom values through prompt dialogs<br>
 			- Plugin support for integration with automation apps (e.g. Tasker)
 	    </p>
         <p>
-			<b>Version 1.10.1</b><br>
+			<h3>Version1.10.1</h3>
 			- Shortcuts are removed from homescreen when deleted in app<br>
 			- Fixed a crash when saving shortcuts
 	    </p>
         <p>
-			<b>Version 1.10.0</b><br>
+			<h3>Version1.10.0</h3>
 			- Shortcuts can be organized into categories<br>
 			- Possibility to accept any certificate<br>
 			- More icons<br>
@@ -89,11 +103,11 @@
 			- Bugfixes
 	    </p>
         <p>
-            <b>Version 1.9.2</b><br>
+            <h3>Version1.9.2</h3>
             - Bugfixes
         </p>
         <p>
-			<b>Version 1.9.1</b><br>
+			<h3>Version1.9.1</h3>
 			- Layout improvements<br>
 			- Auto-complete suggestions for custom headers<br>
 			- Import/Export uses JSON format now<br>
@@ -101,23 +115,23 @@
 			- Bugfixes
 		</p>
         <p>
-			<b>Version 1.8.0</b><br>
+			<h3>Version1.8.0</h3>
 			- Shortcut execution can be delayed when not connected to the internet<br>
 			- Added <i>View in Play Store</i> button to settings screen
 		</p>
 		<p>
-			<b>Version 1.7.0</b><br>
+			<h3>Version1.7.0</h3>
 			- Shortcuts can have different timeouts (3, 10, 30 or 60 seconds)<br>
 			- Added <i>About</i> section to settings screen<br>
 			- Added <i>What\'s new</i> dialog<br>
 			- Minor language improvements
 		</p>
 		<p>
-			<b>Version 1.6.1</b><br>
+			<h3>Version1.6.1</h3>
 			- Bugfixes
 		</p>
 		<p>
-			<b>Version 1.6.0</b><br>
+			<h3>Version1.6.0</h3>
 			- Custom headers<br>
 			- Custom request body<br>
 			- Settings Screen<br>
@@ -127,22 +141,22 @@
 			- Bugfixes
 		</p>
 		<p>
-			<b>Version 1.5.0</b><br>
+			<h3>Version1.5.0</h3>
 			- Possibility to add <i>POST</i> parameters<br>
 			- More built-in icons, with improved selector dialog
 		</p>
 		<p>
-			<b>Version 1.4.0</b><br>
+			<h3>Version1.4.0</h3>
 			- Built-in icons<br>
 			- Shortcuts can have descriptions for the overview screen<br>
 			- Bugfix: Connections are no longer left idle after use
 		</p>
 		<p>
-			<b>Version 1.2.0</b><br>
+			<h3>Version1.2.0</h3>
 			- Added support for Ipack icons
 		</p>
 		<p>
-			<b>Version 1.1.0</b><br>
+			<h3>Version1.1.0</h3>
 			- Shortcuts can be moved up and down in the shortcut list<br>
 			- Default click action executes the shortcuts instead of opening context menu<br>
 			- Buttons moved into action bar<br>
@@ -156,13 +170,17 @@
         </p>
         <p>
             <b>How do I use variables?</b><br>
-            You can insert a placeholder for a variable into your shortcuts\' url, parameters, body, authentication and header fields by clicking the "{ }" button next to the input field and selecting a variable.</p>
+            You can insert a placeholder for a variable into your shortcuts\' url, requests parameters, request body, authentication and header fields by clicking the \"{ }\" button next to the input field and selecting a variable.
+        </p>
         <p>
             When executing a shortcut that contains variable placeholders all of them are resolved according to their type.
         </p>
         <p>
+            You can also insert these placeholders into some of your variables, i.e., you can have variables reference other variables.
+        </p>
+        <p>
             <b>What are the different types of variables?</b><br>
-            There are 7 different types of variables:</p>
+            There are 10 different types of variables:</p>
         <p>
             <u>Constant</u><br>
             A <i>constant</i> always has the same value. There is no prompt dialog. It can be used to store a piece of information that is shared across multiple shortcut, such as an authentication token or a domain name. This way it can easily be changed.
@@ -180,8 +198,8 @@
             The <i>text</i>, <i>number</i> and <i>password</i> types trigger a prompt dialog where a value can be entered into a text field.
         </p>
         <p>
-            <u>Slider</u><br>
-            The <i>slider</i> type is similar to the <i>number</i>. It allows you to pick a number. However, the number is entered using a horizontal slider, for which you can define the minimum and maximum value, as well as the step size.
+            <u>Number Slider</u><br>
+            The <i>number slider</i> type is similar to the <i>number</i>. It allows you to pick a number. However, the number is entered using a horizontal slider, for which you can define the minimum and maximum value, as well as the step size.
         </p>
         <p>
             <u>Date and Time</u><br>

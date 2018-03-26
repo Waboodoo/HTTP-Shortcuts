@@ -15,11 +15,15 @@ import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
+import ch.rmy.android.http_shortcuts.utils.Settings
+import ch.rmy.android.http_shortcuts.utils.consume
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
 import kotterknife.bindView
 
 class VariablesActivity : BaseActivity() {
+
+    private val settings by lazy { Settings(context) }
 
     private val variableList: RecyclerView by bindView(R.id.variable_list)
     private val createButton: FloatingActionButton by bindView(R.id.button_create_variable)
@@ -43,6 +47,14 @@ class VariablesActivity : BaseActivity() {
         initDragOrdering()
 
         createButton.setOnClickListener { openEditorForCreation() }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (!settings.wasVariableIntroShown) {
+            showHelp()
+            settings.wasVariableIntroShown = true
+        }
     }
 
     private fun initDragOrdering() {
@@ -98,12 +110,9 @@ class VariablesActivity : BaseActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.action_show_help) {
-            showHelp()
-            return true
-        }
-        return super.onOptionsItemSelected(item)
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_show_help -> consume { showHelp() }
+        else -> super.onOptionsItemSelected(item)
     }
 
     private fun showHelp() {
