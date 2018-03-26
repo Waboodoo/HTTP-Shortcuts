@@ -2,13 +2,18 @@ package ch.rmy.android.http_shortcuts.variables.types
 
 import android.view.View
 import android.widget.Button
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.realm.models.Option
 import ch.rmy.android.http_shortcuts.realm.models.Variable
+import ch.rmy.android.http_shortcuts.utils.Destroyer
+import ch.rmy.android.http_shortcuts.utils.mapIf
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.utils.showMessageDialog
+import ch.rmy.android.http_shortcuts.variables.VariableButton
+import ch.rmy.android.http_shortcuts.variables.VariableEditText
 import com.afollestad.materialdialogs.MaterialDialog
 import kotterknife.bindView
 
@@ -41,21 +46,27 @@ class SelectEditorFragment : VariableEditorFragment() {
     }
 
     private fun showEditDialog(option: Option?, index: Int) {
+        val destroyer = Destroyer()
+
         val editorView = layoutInflater.inflate(R.layout.select_option_editor_item, null)
-        val labelInput = editorView.findViewById<TextView>(R.id.select_option_label)
-        val valueInput = editorView.findViewById<TextView>(R.id.select_option_value)
+        val labelInput = editorView.findViewById<EditText>(R.id.select_option_label)
+        val valueInput = editorView.findViewById<VariableEditText>(R.id.select_option_value)
+        val valueVariableButton = editorView.findViewById<VariableButton>(R.id.variable_button_value)
+
+        valueInput.bind(valueVariableButton, variables).attachTo(destroyer)
 
         if (option != null) {
-            labelInput.text = option.label
-            valueInput.text = option.value
+            labelInput.setText(option.label)
+            valueInput.rawString = option.value
         }
+
         MaterialDialog.Builder(context!!)
-                .title(R.string.title_add_select_option)
+                .title(if (option != null) R.string.title_edit_select_option else R.string.title_add_select_option)
                 .customView(editorView, true)
                 .positiveText(R.string.dialog_ok)
                 .onPositive { _, _ ->
                     val label = labelInput.text.toString()
-                    val value = valueInput.text.toString()
+                    val value = valueInput.rawString
                     if (option != null) {
                         updateOption(option, label, value)
                     } else {
@@ -63,14 +74,13 @@ class SelectEditorFragment : VariableEditorFragment() {
                     }
                 }
                 .negativeText(R.string.dialog_cancel)
-                .let {
-                    if (option != null) {
-                        it
-                                .neutralText(R.string.dialog_remove)
-                                .onNeutral { _, _ -> removeOption(index) }
-                    } else {
-                        it
-                    }
+                .mapIf(option != null) {
+                    it
+                            .neutralText(R.string.dialog_remove)
+                            .onNeutral { _, _ -> removeOption(index) }
+                }
+                .dismissListener {
+                    destroyer.destroy()
                 }
                 .showIfPossible()
     }

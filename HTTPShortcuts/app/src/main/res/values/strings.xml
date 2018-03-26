@@ -225,17 +225,21 @@
     <string name="validation_key_non_empty">Variable key must not be empty.</string>
     <string name="validation_key_already_exists">Another variable with this key already exists.</string>
     <string name="title_add_toggle_option">Add Value</string>
+    <string name="title_edit_toggle_option">Edit Value</string>
     <string name="button_add_toggle_option">Add value</string>
     <string name="section_toggle_options">Toggle Values</string>
     <string name="title_add_select_option">Add Option</string>
+    <string name="title_edit_select_option">Edit Option</string>
     <string name="button_add_select_option">Add option</string>
     <string name="section_select_options">Selectable Options</string>
     <string name="label_select_label">Label</string>
     <string name="label_select_value">Value</string>
     <string name="button_show_help">Show Help</string>
     <string name="help_title_variables">Variables</string>
-    <!-- Instructions shown in dialog when user clicks the variables button in the editor but doesn't have any variables configured yet -->
-    <string name="help_text_variable_button">This button allows you to include variables, i.e., dynamic values, in your shortcut.\n\nYou don\'t have any variables configured yet. You can do so by clicking the CREATE button below.</string>
+    <!-- Instructions shown in dialog when user clicks the variables button in the shortcut editor but doesn't have any variables configured yet -->
+    <string name="help_text_variable_button">This button allows you to include placeholders for variables, i.e., dynamic values, into your shortcut.\n\nYou don\'t have any variables configured yet. You can do so by clicking the CREATE button below.</string>
+    <!-- Instructions shown in dialog when user clicks the variables button in the variable editor but doesn't have any variables configured yet -->
+    <string name="help_text_variable_button_for_variables">This button allows you to include placeholders for the values of other variables into this one.\n\nYou don\'t have any variables configured yet, however.</string>
     <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
     <string name="button_create_first_variable">Create</string>
     <!-- Title of dialog that allows users to pick a variable from a list to insert its placeholder somewhere -->

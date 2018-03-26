@@ -45,7 +45,6 @@ import ch.rmy.android.http_shortcuts.utils.fix
 import ch.rmy.android.http_shortcuts.utils.focus
 import ch.rmy.android.http_shortcuts.utils.logException
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
-import ch.rmy.android.http_shortcuts.utils.showSoftKeyboard
 import ch.rmy.android.http_shortcuts.utils.visible
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
@@ -210,12 +209,8 @@ class EditorActivity : BaseActivity() {
     }
 
     private fun initVariableEditText(editText: VariableEditText, variableButton: VariableButton, value: String) {
-        editText.variables = variables
+        editText.bind(variableButton, variables).attachTo(destroyer)
         editText.rawString = value
-        variableButton.variableSource.add { variable ->
-            editText.insertVariablePlaceholder(variable.key)
-            editText.showSoftKeyboard()
-        }.attachTo(destroyer)
     }
 
     private fun updateUI() {

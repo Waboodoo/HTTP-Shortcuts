@@ -13,7 +13,6 @@ import android.widget.FrameLayout
 import android.widget.ListView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.realm.models.Variable
-import ch.rmy.android.http_shortcuts.utils.Destroyable
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.mapIf
 import ch.rmy.android.http_shortcuts.utils.onTextChanged
@@ -109,10 +108,10 @@ class KeyValueList<T : KeyValuePair> @JvmOverloads constructor(context: Context,
                     val keyVariableButton = dialog.findViewById(R.id.variable_button_key) as VariableButton
                     val valueVariableButton = dialog.findViewById(R.id.variable_button_value) as VariableButton
 
-                    initVariableEditText(keyInput, keyVariableButton, item?.key ?: "")
-                            .attachTo(destroyer)
-                    initVariableEditText(valueInput, valueVariableButton, item?.value ?: "")
-                            .attachTo(destroyer)
+                    keyInput.bind(keyVariableButton, variables).attachTo(destroyer)
+                    keyInput.rawString = item?.key ?: ""
+                    valueInput.bind(valueVariableButton, variables).attachTo(destroyer)
+                    valueInput.rawString = item?.value ?: ""
 
                     valueInput.inputType = (if (isMultiLine) InputType.TYPE_TEXT_FLAG_MULTI_LINE else 0) or InputType.TYPE_CLASS_TEXT
                     if (isMultiLine) {
@@ -139,15 +138,6 @@ class KeyValueList<T : KeyValuePair> @JvmOverloads constructor(context: Context,
                     }.attachTo(destroyer)
                 }
                 .showIfPossible()
-    }
-
-    private fun initVariableEditText(editText: VariableEditText, variableButton: VariableButton, value: String): Destroyable {
-        editText.variables = variables
-        editText.rawString = value
-        return variableButton.variableSource.add { variable ->
-            editText.insertVariablePlaceholder(variable.key)
-            editText.showSoftKeyboard()
-        }
     }
 
     fun addItems(items: Collection<T>) {

@@ -7,6 +7,7 @@
             - Variables inherit values from Tasker when using Tasker integration<br>
             - Simplified specifying a content type for custom request bodies<br>
             - Categories & variables can be reordered via drag & drop<br>
+            - Variables can be used recursively (variables referring to other variables)<br>
             - Request parameter values can be multi-line<br>
             - Added Call-to-Action for translators<br>
             - Added Copy button to cURL export dialog

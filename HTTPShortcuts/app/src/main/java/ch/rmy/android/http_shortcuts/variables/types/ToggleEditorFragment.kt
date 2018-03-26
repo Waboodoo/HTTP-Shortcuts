@@ -55,7 +55,7 @@ class ToggleEditorFragment : VariableEditorFragment() {
 
     private fun showEditDialog(option: Option, index: Int) {
         MaterialDialog.Builder(context!!)
-                .title(R.string.title_add_toggle_option)
+                .title(R.string.title_edit_toggle_option)
                 .input(null, option.value) { _, input -> updateOption(option, input.toString()) }
                 .neutralText(R.string.dialog_remove)
                 .onNeutral { _, _ -> removeOption(index) }

@@ -1,15 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.TextInputLayout
+
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/input_variable_value"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/placeholder_value"
-        android:maxLength="300">
+        android:layout_toLeftOf="@+id/variable_button"
+        android:layout_toStartOf="@+id/variable_button">
 
-    </EditText>
-</android.support.design.widget.TextInputLayout>
+        <ch.rmy.android.http_shortcuts.variables.VariableEditText
+            android:id="@+id/input_variable_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/placeholder_value"
+            android:maxLength="300">
+
+        </ch.rmy.android.http_shortcuts.variables.VariableEditText>
+    </android.support.design.widget.TextInputLayout>
+
+    <ch.rmy.android.http_shortcuts.variables.VariableButton
+        android:id="@+id/variable_button"
+        style="@style/VariableButton"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"/>
+</RelativeLayout>

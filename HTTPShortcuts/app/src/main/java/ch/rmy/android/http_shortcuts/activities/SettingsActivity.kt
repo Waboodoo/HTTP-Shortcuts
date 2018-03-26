@@ -25,7 +25,6 @@ import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.CrashReporting
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
-import ch.rmy.android.http_shortcuts.utils.destroyer
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.utils.showToast
 import com.afollestad.materialdialogs.MaterialDialog
@@ -72,7 +71,7 @@ class SettingsActivity : BaseActivity() {
                         .message(R.string.privacy_policy)
                         .build()
                         .show()
-                        .attachTo(activity.destroyer)
+                        .attachTo((activity as BaseActivity).destroyer)
             }
 
             initListPreference("crash_reporting") { newValue ->

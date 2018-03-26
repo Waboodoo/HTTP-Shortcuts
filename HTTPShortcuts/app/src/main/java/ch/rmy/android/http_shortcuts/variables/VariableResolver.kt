@@ -20,16 +20,22 @@ import java.net.URLEncoder
 class VariableResolver(private val context: Context) {
 
     fun resolve(controller: Controller, shortcut: Shortcut, preResolvedValues: Map<String, String> = emptyMap()): Promise<Map<String, String>, Unit, Unit> {
-        val variables = controller.getVariables()
+        val variableMap = controller.getVariables().associate { it.key to it }
         val requiredVariableKeys = extractVariableKeys(shortcut)
-        val variablesToResolve = variables.filter { requiredVariableKeys.contains(it.key) }
+        val variablesToResolve = requiredVariableKeys.mapNotNull { variableMap[it] }
         return resolveVariables(controller, variablesToResolve, preResolvedValues)
                 .then(DonePipe<Map<String, String>, Map<String, String>, Unit, Unit> { resolvedVariables ->
-                    return@DonePipe resolveRecursiveVariables(controller, variables, resolvedVariables)
+                    return@DonePipe resolveRecursiveVariables(controller, variableMap, resolvedVariables)
                 })
+                .filter { resolvedValues ->
+                    resolvedValues.mapValues { entry ->
+                        val variable = variableMap[entry.key] ?: return@mapValues entry.value
+                        encodeValue(variable, entry.value)
+                    }
+                }
     }
 
-    private fun resolveRecursiveVariables(controller: Controller, variables: List<Variable>, preResolvedValues: Map<String, String>, recursionDepth: Int = 0): Promise<Map<String, String>, Unit, Unit> {
+    private fun resolveRecursiveVariables(controller: Controller, variableMap: Map<String, Variable>, preResolvedValues: Map<String, String>, recursionDepth: Int = 0): Promise<Map<String, String>, Unit, Unit> {
         val requiredVariableKeys = mutableSetOf<String>()
         preResolvedValues.values.forEach { value ->
             requiredVariableKeys.addAll(Variables.extractVariableKeys(value))
@@ -38,7 +44,7 @@ class VariableResolver(private val context: Context) {
             return PromiseUtils.resolve(preResolvedValues)
         }
 
-        val variablesToResolve = variables.filter { requiredVariableKeys.contains(it.key) }
+        val variablesToResolve = requiredVariableKeys.mapNotNull { variableMap[it] }
         return resolveVariables(controller, variablesToResolve, preResolvedValues)
                 .filter {
                     it.toMutableMap().also { resolvedVariables ->
@@ -48,9 +54,8 @@ class VariableResolver(private val context: Context) {
                     }
                 }
                 .then(DonePipe { resolvedVariables ->
-                    resolveRecursiveVariables(controller, variables, resolvedVariables, recursionDepth + 1)
+                    resolveRecursiveVariables(controller, variableMap, resolvedVariables, recursionDepth + 1)
                 })
-
     }
 
     private fun resolveVariables(controller: Controller, variablesToResolve: List<Variable>, preResolvedValues: Map<String, String> = emptyMap()): Promise<Map<String, String>, Unit, Unit> {
@@ -70,8 +75,8 @@ class VariableResolver(private val context: Context) {
 
                 val deferredValue = DeferredObject<String, Unit, Unit>()
                 deferredValue
-                        .done { result ->
-                            resolvedVariables[variable.key] = encodeValue(variable, result)
+                        .done { value ->
+                            resolvedVariables[variable.key] = value
 
                             if (index + 1 >= waitingDialogs.size) {
                                 deferred.resolve(resolvedVariables)
@@ -86,8 +91,7 @@ class VariableResolver(private val context: Context) {
                 val dialog = variableType.createDialog(context, controller, variable, deferredValue)
                 waitingDialogs.add(dialog)
             } else if (variableType is SyncVariableType) {
-                val value = variableType.resolveValue(controller, variable)
-                resolvedVariables[variable.key] = encodeValue(variable, value)
+                resolvedVariables[variable.key] = variableType.resolveValue(controller, variable)
             }
         }
 

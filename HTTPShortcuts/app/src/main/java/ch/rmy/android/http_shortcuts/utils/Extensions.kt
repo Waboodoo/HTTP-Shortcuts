@@ -19,7 +19,6 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.realm.models.Header
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.curlcommand.CurlCommand
@@ -99,13 +98,6 @@ fun Any.logException(e: Throwable) {
         Log.e(this.javaClass.simpleName, "An error occurred", e)
     }
 }
-
-val View.destroyer
-    get() = this.context.destroyer
-
-val Context.destroyer
-    get() = (this as? BaseActivity)?.destroyer
-            ?: throw NotImplementedError("Context does not have a destroyer attached")
 
 fun View.showSoftKeyboard() {
     requestFocus()
