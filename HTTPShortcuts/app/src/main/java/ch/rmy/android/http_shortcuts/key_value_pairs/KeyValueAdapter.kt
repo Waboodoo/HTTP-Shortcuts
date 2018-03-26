@@ -28,13 +28,11 @@ internal class KeyValueAdapter<T : KeyValuePair>(context: Context) : ArrayAdapte
         }
 
         if (parameter != null) {
-            // TODO: Fix the hack of appending a space character to make sure the string contains
-            // at least 1 character that is not part of a variable placeholder
             val keyView = row.findViewById<TextView>(R.id.text_key)
-            keyView.text = Variables.rawPlaceholdersToVariableSpans(parameter.key + " ", variables, variableColor)
+            keyView.text = Variables.rawPlaceholdersToVariableSpans(parameter.key, variables, variableColor)
 
             val valueView = row.findViewById<TextView>(R.id.text_value)
-            valueView.text = Variables.rawPlaceholdersToVariableSpans(parameter.value + " ", variables, variableColor)
+            valueView.text = Variables.rawPlaceholdersToVariableSpans(parameter.value, variables, variableColor)
         }
         return row
     }

@@ -27,7 +27,7 @@ class SelectEditorFragment : VariableEditorFragment() {
     private val selectOptionsList: LinearLayout by bindView(R.id.select_options_list)
 
     override fun setupViews() {
-        selectOptionsAddButton.setOnClickListener { showEditDialog(null, -1) }
+        selectOptionsAddButton.setOnClickListener { showAddDialog() }
     }
 
     override fun updateViews(variable: Variable) {
@@ -43,6 +43,10 @@ class SelectEditorFragment : VariableEditorFragment() {
         optionView.findViewById<TextView>(R.id.select_option_label).text = option.label
         optionView.setOnClickListener { showEditDialog(option, index) }
         return optionView
+    }
+
+    private fun showAddDialog() {
+        showEditDialog(null, -1)
     }
 
     private fun showEditDialog(option: Option?, index: Int) {

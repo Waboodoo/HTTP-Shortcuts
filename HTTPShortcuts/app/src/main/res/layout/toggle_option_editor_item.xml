@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/variable_button_value"
+        android:layout_toStartOf="@+id/variable_button_value">
+
+        <ch.rmy.android.http_shortcuts.variables.VariableEditText
+            android:id="@+id/toggle_option_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/label_select_value"
+            android:inputType="text"
+            android:maxLines="1"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <ch.rmy.android.http_shortcuts.variables.VariableButton
+        android:id="@+id/variable_button_value"
+        style="@style/VariableButton"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"/>
+</RelativeLayout>

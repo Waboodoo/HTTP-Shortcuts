@@ -17,8 +17,14 @@ class VariableSpan(private val color: Int, val variableKey: String) : Replacemen
         canvas.drawText(text, start, end, x, y.toFloat(), paint)
     }
 
-    override fun getSize(paint: Paint, text: CharSequence, start: Int, end: Int, fm: Paint.FontMetricsInt?): Int =
-            calculateTextWidth(paint, text.subSequence(start, end))
+    override fun getSize(paint: Paint, text: CharSequence, start: Int, end: Int, fm: Paint.FontMetricsInt?): Int {
+        fm?.ascent = paint.fontMetricsInt.ascent
+        fm?.bottom = paint.fontMetricsInt.bottom
+        fm?.descent = paint.fontMetricsInt.descent
+        fm?.leading = paint.fontMetricsInt.leading
+        fm?.top = paint.fontMetricsInt.top
+        return calculateTextWidth(paint, text.subSequence(start, end))
+    }
 
     private fun calculateTextWidth(paint: Paint, text: CharSequence): Int {
         paint.color = color

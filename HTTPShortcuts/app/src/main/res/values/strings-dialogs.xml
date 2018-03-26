@@ -16,7 +16,7 @@
             When specifying the request body of a shortcut, you now have the option to chose between <i>x-www-form-urlencoded</i>, i.e., the body is a list of parameters, or <i>custom text</i>, i.e., you specify the request body as raw text and give it a content-type.
             <br><br>
             <b>Variables within Variables!</b><br>
-            The <i>constant</i> and <i>select</i> variable types now support recursive resolution of values. This means you can reference other variables from these variables. For example, you could set up a <i>select</i> variable where one of the options is a <i>color</i> variable.
+            The <i>constant</i>, <i>toggle</i> and <i>select</i> variable types now support recursive resolution of values. This means you can reference other variables from these variables. For example, you could set up a <i>select</i> variable where one of the options is a <i>color</i> variable.
             <br><br>
             <b>Miscellaneous</b>
             <ul>
