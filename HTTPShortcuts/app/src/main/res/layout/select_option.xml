@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/list_item_background"
-    android:orientation="vertical">
+    android:background="@drawable/list_item_background">
     <TextView
         android:id="@+id/select_option_label"
         android:layout_width="match_parent"
@@ -17,4 +16,4 @@
         android:padding="6dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         tools:text="My Option"/>
-</LinearLayout>
+</FrameLayout>

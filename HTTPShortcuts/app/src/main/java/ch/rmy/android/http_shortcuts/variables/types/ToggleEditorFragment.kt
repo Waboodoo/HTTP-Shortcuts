@@ -1,20 +1,20 @@
 package ch.rmy.android.http_shortcuts.variables.types
 
-import android.view.View
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.adapters.ToggleVariableOptionsAdapter
 import ch.rmy.android.http_shortcuts.realm.models.Option
 import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.Destroyer
+import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
 import ch.rmy.android.http_shortcuts.utils.color
 import ch.rmy.android.http_shortcuts.utils.mapIf
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.utils.showMessageDialog
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
-import ch.rmy.android.http_shortcuts.variables.Variables
 import com.afollestad.materialdialogs.MaterialDialog
 import kotterknife.bindView
 
@@ -28,17 +28,37 @@ class ToggleEditorFragment : VariableEditorFragment() {
     override val layoutResource = R.layout.variable_editor_toggle
 
     private val toggleOptionsAddButton: Button by bindView(R.id.toggle_options_add_button)
-    private val toggleOptionsList: LinearLayout by bindView(R.id.toggle_options_list)
+    private val toggleOptionsList: RecyclerView by bindView(R.id.toggle_options_list)
+    private val optionsAdapter = ToggleVariableOptionsAdapter()
 
     override fun setupViews() {
+        optionsAdapter.variables = variables
+        optionsAdapter.variableColor = variableColor
+
         toggleOptionsAddButton.setOnClickListener { showAddDialog() }
+        toggleOptionsList.layoutManager = LinearLayoutManager(context)
+        toggleOptionsList.adapter = optionsAdapter
+        optionsAdapter.clickListener = this::showEditDialog
+        initDragOrdering()
+    }
+
+    private fun initDragOrdering() {
+        val dragOrderingHelper = DragOrderingHelper()
+        dragOrderingHelper.positionChangeSource.add { (oldPosition, newPosition) ->
+            // TODO: The items are reordered manually here to avoid a bug in RealmList.move
+            val option = variable!!.options!!.removeAt(oldPosition)
+            variable!!.options!!.add(newPosition, option)
+
+            optionsAdapter.notifyItemMoved(oldPosition, newPosition)
+        }.attachTo(destroyer)
+        dragOrderingHelper.attachTo(toggleOptionsList)
     }
 
     private fun showAddDialog() {
-        showEditDialog(null, -1)
+        showEditDialog(null)
     }
 
-    private fun showEditDialog(option: Option?, index: Int) {
+    private fun showEditDialog(option: Option?) {
         val destroyer = Destroyer()
 
         val editorView = layoutInflater.inflate(R.layout.toggle_option_editor_item, null)
@@ -67,7 +87,7 @@ class ToggleEditorFragment : VariableEditorFragment() {
                 .mapIf(option != null) {
                     it
                             .neutralText(R.string.dialog_remove)
-                            .onNeutral { _, _ -> removeOption(index) }
+                            .onNeutral { _, _ -> removeOption(option!!) }
                 }
                 .dismissListener {
                     destroyer.destroy()
@@ -83,17 +103,8 @@ class ToggleEditorFragment : VariableEditorFragment() {
 
     override fun updateViews(variable: Variable) {
         this.variable = variable
-        toggleOptionsList.removeAllViews()
-        variable.options!!.forEachIndexed { i, option ->
-            toggleOptionsList.addView(createOptionView(option, i))
-        }
-    }
-
-    private fun createOptionView(option: Option, index: Int): View {
-        val optionView = layoutInflater.inflate(R.layout.toggle_option, toggleOptionsList, false)
-        optionView.findViewById<TextView>(R.id.toggle_option_value).text = Variables.rawPlaceholdersToVariableSpans(option.value, variables, variableColor)
-        optionView.setOnClickListener { showEditDialog(option, index) }
-        return optionView
+        optionsAdapter.options = variable.options!!
+        optionsAdapter.notifyDataSetChanged()
     }
 
     private fun updateOption(option: Option, value: String) {
@@ -101,8 +112,8 @@ class ToggleEditorFragment : VariableEditorFragment() {
         updateViews(variable!!)
     }
 
-    private fun removeOption(index: Int) {
-        variable!!.options!!.removeAt(index)
+    private fun removeOption(option: Option) {
+        variable!!.options!!.removeAll { it.id == option.id }
         updateViews(variable!!)
     }
 

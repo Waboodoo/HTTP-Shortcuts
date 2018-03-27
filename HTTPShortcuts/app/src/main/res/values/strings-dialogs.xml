@@ -10,7 +10,7 @@
             When triggering shortcuts from Tasker, it is now possible to send along variables. Simply define variables with the same name in Tasker as in your shortcut and their value will automatically be sent from Tasker to your shortcut when triggered.
             <br><br>
             <b>Drag & Drop Reordering</b><br>
-            Categories & Variables, as well as options of a <i>select</i> variable, can now easily be reordered via drag & drop.
+            Categories & Variables, as well as options of <i>select</i> & <i>toggle</i> variables, can now easily be reordered via drag & drop.
             <br><br>
             <b>Improved Specification of Request Body</b><br>
             When specifying the request body of a shortcut, you now have the option to chose between <i>x-www-form-urlencoded</i>, i.e., the body is a list of parameters, or <i>custom text</i>, i.e., you specify the request body as raw text and give it a content-type.
