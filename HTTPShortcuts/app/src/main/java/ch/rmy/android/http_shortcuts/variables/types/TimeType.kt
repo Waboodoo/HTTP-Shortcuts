@@ -64,7 +64,7 @@ internal class TimeType : BaseVariableType(), AsyncVariableType {
         const val KEY_FORMAT = "format"
         const val DEFAULT_FORMAT = "HH:mm"
 
-        private val DATE_FORMAT = SimpleDateFormat("HH-mm")
+        private val DATE_FORMAT = SimpleDateFormat("HH-mm", Locale.US)
 
     }
 
