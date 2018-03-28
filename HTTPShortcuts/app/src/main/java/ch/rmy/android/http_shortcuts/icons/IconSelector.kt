@@ -14,7 +14,7 @@ class IconSelector(context: Context, listener: (String) -> Unit) {
 
     init {
         dialog = MaterialDialog.Builder(context)
-                .title(R.string.choose_icon)
+                .title(R.string.title_choose_icon)
                 .customView(R.layout.dialog_icon_selector, false)
                 .build()
 

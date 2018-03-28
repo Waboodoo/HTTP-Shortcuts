@@ -40,8 +40,10 @@ class VariableButton : ImageButton {
                 .title(R.string.help_title_variables)
                 .content(if (isUsedFromVariableEditor()) R.string.help_text_variable_button_for_variables else R.string.help_text_variable_button)
                 .positiveText(android.R.string.ok)
-                .neutralText(R.string.button_create_first_variable)
-                .onNeutral { _, _ -> openVariableEditor() }
+                .mapIf(!isUsedFromVariableEditor()) {
+                    it.neutralText(R.string.button_create_first_variable)
+                        .onNeutral { _, _ -> openVariableEditor() }
+                }
                 .show()
     }
 
