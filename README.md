@@ -32,14 +32,14 @@ Become a [Beta Tester](https://play.google.com/apps/testing/ch.rmy.android.http_
 
 ## Screenshots
 
-![Image](/Screenshots/main_screen_small.png)
-![Image](/Screenshots/shortcut_options_small.png)
-![Image](/Screenshots/editor_small.png)
-![Image](/Screenshots/icons_small.png)
-![Image](/Screenshots/headers_small.png)
-![Image](/Screenshots/variable_small.png)
-![Image](/Screenshots/variable_placeholder_small.png)
-
+![Image](/Screenshots/1.png)
+![Image](/Screenshots/2.png)
+![Image](/Screenshots/3.png)
+![Image](/Screenshots/4.png)
+![Image](/Screenshots/5.png)
+![Image](/Screenshots/6.png)
+![Image](/Screenshots/7.png)
+![Image](/Screenshots/8.png)
 
 ## Hints for Experts
 
