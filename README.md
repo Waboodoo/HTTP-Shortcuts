@@ -9,6 +9,8 @@ A simple Android app that allows you to create shortcuts that can be placed on y
 <img alt="Get it on Google Play" src="http://steverichey.github.io/google-play-badge-svg/img/en_get.svg" width="280" />
 </a>
 
+Get it on the [Play Store](https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts) or [download the latest APK](https://github.com/Waboodoo/HTTP-Shortcuts/releases/download/v1.20.0/app-release.apk) directly.
+
 
 Help me translate this app! Feel free to open a pull request to add new languages or to fix translation mistakes. Or contact me and I can grant you access to the translation tool.
 
