@@ -112,7 +112,7 @@ class VariableEditorActivity : BaseActivity() {
         fragmentManager
                 .beginTransaction()
                 .replace(R.id.variable_type_fragment_container, fragment, variableType.tag)
-                .commit()
+                .commitAllowingStateLoss()
     }
 
     fun onFragmentStarted() {
