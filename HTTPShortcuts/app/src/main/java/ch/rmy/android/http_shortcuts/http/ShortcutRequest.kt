@@ -28,7 +28,7 @@ internal class ShortcutRequest private constructor(method: Int, url: String, pri
 
     @Throws(AuthFailureError::class)
     override fun getBody(): ByteArray = when {
-        contentType == "multipart/form-data" -> super.getBody() // TODO
+        contentType.startsWith("multipart/form-data") -> constructFormDataBody().toByteArray()
         contentType.startsWith("application/x-www-form-urlencoded") -> super.getBody()
         else -> (bodyContent ?: "").toByteArray()
     }
@@ -45,6 +45,18 @@ internal class ShortcutRequest private constructor(method: Int, url: String, pri
 
     override fun deliverResponse(response: ShortcutResponse) {
         deferred.resolve(response)
+    }
+
+    private fun constructFormDataBody(): String {
+        val builder = StringBuilder("\n")
+        parameters.forEach { key, value ->
+            builder.append("\n--$FORM_MULTIPART_BOUNDARY\n")
+            builder.append("Content-Disposition: form-data; name=\"$key\"")
+            builder.append("\n\n")
+            builder.append(value)
+        }
+        builder.append("\n--$FORM_MULTIPART_BOUNDARY--\n")
+        return builder.toString()
     }
 
     val promise: Promise<ShortcutResponse, VolleyError, Unit>
@@ -98,6 +110,12 @@ internal class ShortcutRequest private constructor(method: Int, url: String, pri
         }
 
         fun build() = request
+
+    }
+
+    companion object {
+
+        const val FORM_MULTIPART_BOUNDARY = "----53014704754052338"
 
     }
 

@@ -57,7 +57,7 @@ object HttpRequester {
 
     private fun determineContentType(shortcut: Shortcut): String {
         return when {
-            shortcut.requestBodyType == Shortcut.REQUEST_BODY_TYPE_FORM_DATA -> "multipart/form-data"
+            shortcut.requestBodyType == Shortcut.REQUEST_BODY_TYPE_FORM_DATA -> "multipart/form-data; boundary=${ShortcutRequest.FORM_MULTIPART_BOUNDARY}"
             shortcut.requestBodyType == Shortcut.REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE -> "application/x-www-form-urlencoded; charset=UTF-8"
             shortcut.contentType.isNotEmpty() -> shortcut.contentType
             else -> Shortcut.DEFAULT_CONTENT_TYPE

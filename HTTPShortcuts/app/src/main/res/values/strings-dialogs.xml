@@ -2,6 +2,12 @@
 <resources>
     <string name="changelog_text" translatable="false"><![CDATA[
         <p>
+            <h3>Version 1.21.0</h3>
+            <b>Support for multipart/form-data</b><br>
+            TODO
+        </p>
+        <br>
+        <p>
             <h3>Version 1.20.0</h3>
             <b>Simplified Variable Insertion</b><br>
             Inserting variables into shortcuts has now become much easier. Each input field that supports variables now has a button next to it. Clicking it opens a popup dialog with a list of all available variables, allowing you to easily pick and insert one.
