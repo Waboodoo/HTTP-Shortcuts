@@ -28,8 +28,8 @@ import ch.rmy.android.http_shortcuts.utils.visible
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import com.afollestad.materialdialogs.MaterialDialog
 import com.android.volley.VolleyError
+import com.github.chen0040.androidcodeview.SourceCodeView
 import fr.castorflex.android.circularprogressbar.CircularProgressBar
-import io.github.kbiakov.codeview.CodeView
 import kotterknife.bindView
 import org.jdeferred.Promise
 import java.util.*
@@ -44,7 +44,7 @@ class ExecuteActivity : BaseActivity() {
 
     private val responseText: TextView by bindView(R.id.response_text)
     private val responseTextContainer: View by bindView(R.id.response_text_container)
-    private val formattedResponseText: CodeView by bindView(R.id.formatted_response_text)
+    private val formattedResponseText: SourceCodeView by bindView(R.id.formatted_response_text)
     private val progressSpinner: CircularProgressBar by bindView(R.id.progress_spinner)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -230,15 +230,15 @@ class ExecuteActivity : BaseActivity() {
                 when (type) {
                     ShortcutResponse.TYPE_JSON -> {
                         formattedResponseText.setCode(GsonUtil.prettyPrint(output), "json")
-                        formattedResponseText.visibility = View.VISIBLE
+                        formattedResponseText.visible = true
                     }
                     ShortcutResponse.TYPE_XML -> {
                         formattedResponseText.setCode(output, "xml")
-                        formattedResponseText.visibility = View.VISIBLE
+                        formattedResponseText.visible = true
                     }
                     else -> {
                         responseText.text = output
-                        responseTextContainer.visibility = View.VISIBLE
+                        responseTextContainer.visible = true
                     }
                 }
             }
