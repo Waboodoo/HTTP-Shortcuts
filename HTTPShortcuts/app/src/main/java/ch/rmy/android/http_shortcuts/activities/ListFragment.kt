@@ -48,7 +48,7 @@ class ListFragment : BaseFragment() {
     private val categories by lazy { controller.getCategories() }
 
     private val shortcutChangeListener = RealmChangeListener<RealmList<Shortcut>> { shortcuts ->
-        if (isVisible) {
+        if (isVisible && shortcuts.isValid) {
             onShortcutsChanged(shortcuts)
         }
     }
