@@ -9,8 +9,8 @@ import com.twofortyfouram.locale.sdk.client.ui.activity.AbstractFragmentPluginAc
 
 class PluginEditActivity : AbstractFragmentPluginActivity() {
 
-    private lateinit var bundle: Bundle
-    private lateinit var name: String
+    private var bundle: Bundle? = null
+    private var name: String? = null
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
