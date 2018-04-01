@@ -1,6 +1,8 @@
 package ch.rmy.android.http_shortcuts.realm.models
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.drawable.Icon
 import android.net.Uri
 import android.os.Build
@@ -106,7 +108,12 @@ open class Shortcut : RealmObject(), HasId {
                 val pathSegments = Uri.parse(iconName).pathSegments
                 Icon.createWithResource(pathSegments[0], Integer.parseInt(pathSegments[1]))
             }
-            iconName!!.endsWith(".png") -> null // TODO: Generate Icon from Bitmap
+            iconName!!.endsWith(".png") -> {
+                val options = BitmapFactory.Options()
+                options.inPreferredConfig = Bitmap.Config.ARGB_8888
+                val bitmap = BitmapFactory.decodeFile(context.getFileStreamPath(iconName).absolutePath, options)
+                Icon.createWithBitmap(bitmap)
+            }
             else -> {
                 val identifier = context.resources.getIdentifier(iconName, "drawable", context.packageName)
                 Icon.createWithResource(packageName, identifier)
