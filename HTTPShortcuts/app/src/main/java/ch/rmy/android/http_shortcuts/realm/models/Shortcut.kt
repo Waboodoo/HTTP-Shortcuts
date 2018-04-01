@@ -49,6 +49,10 @@ open class Shortcut : RealmObject(), HasId {
     @Required
     var contentType: String = ""
 
+    var beforeActions: String? = null
+    var successActions: String? = null
+    var failureActions: String? = null
+
     override val isNew: Boolean
         get() = id == 0L
 
@@ -72,13 +76,16 @@ open class Shortcut : RealmObject(), HasId {
         duplicate.delay = delay
         duplicate.requestBodyType = requestBodyType
         duplicate.contentType = contentType
+        duplicate.beforeActions = beforeActions
+        duplicate.successActions = successActions
+        duplicate.failureActions = failureActions
 
-        duplicate.parameters = RealmList<Parameter>()
+        duplicate.parameters = RealmList()
         for (parameter in parameters) {
             duplicate.parameters.add(Parameter.createNew(parameter.key, parameter.value))
         }
 
-        duplicate.headers = RealmList<Header>()
+        duplicate.headers = RealmList()
         for (header in headers) {
             duplicate.headers.add(Header.createNew(header.key, header.value))
         }
@@ -173,7 +180,10 @@ open class Shortcut : RealmObject(), HasId {
                 other.parameters.size != parameters.size ||
                 other.headers.size != headers.size ||
                 other.requestBodyType != requestBodyType ||
-                other.contentType != contentType
+                other.contentType != contentType ||
+                other.beforeActions != beforeActions ||
+                other.successActions != successActions ||
+                other.failureActions != failureActions
         ) {
             return false
         }
@@ -243,7 +253,7 @@ open class Shortcut : RealmObject(), HasId {
                 "text/xml"
         )
 
-        val DEFAULT_CONTENT_TYPE = "text/plain"
+        const val DEFAULT_CONTENT_TYPE = "text/plain"
 
         fun createNew() = Shortcut().apply {
             id = 0
@@ -263,6 +273,9 @@ open class Shortcut : RealmObject(), HasId {
             headers = RealmList()
             requestBodyType = REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE
             contentType = DEFAULT_CONTENT_TYPE
+            beforeActions = "[]"
+            successActions = "[]"
+            failureActions = "[]"
         }
     }
 

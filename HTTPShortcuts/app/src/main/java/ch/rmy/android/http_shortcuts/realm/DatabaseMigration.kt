@@ -142,6 +142,11 @@ class DatabaseMigration : RealmMigration {
                     shortcut.setString("contentType", "text/plain")
                 }
             }
+            17L -> { // 1.21.0
+                schema.get("Shortcut")!!.addField("beforeActions", String::class.java)
+                schema.get("Shortcut")!!.addField("successActions", String::class.java)
+                schema.get("Shortcut")!!.addField("failureActions", String::class.java)
+            }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -167,7 +172,7 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 16L
+        const val VERSION = 17L
 
     }
 
