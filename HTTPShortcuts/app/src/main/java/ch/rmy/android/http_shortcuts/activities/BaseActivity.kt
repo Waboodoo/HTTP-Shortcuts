@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities
 
 import android.graphics.PorterDuff
 import android.os.Build
+import android.os.Bundle
 import android.support.annotation.StringRes
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
@@ -10,6 +11,7 @@ import android.view.MenuItem
 import android.view.ViewGroup
 import android.view.WindowManager
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.ThemeHelper
 import ch.rmy.android.http_shortcuts.utils.color
@@ -24,6 +26,11 @@ abstract class BaseActivity : AppCompatActivity() {
 
     private val themeHelper by lazy {
         ThemeHelper(context)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Controller.init(applicationContext)
     }
 
     override fun setContentView(layoutResID: Int) {

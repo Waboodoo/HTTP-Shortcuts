@@ -112,6 +112,7 @@ class ExecutionService : Service() {
 
     override fun onCreate() {
         super.onCreate()
+        Controller.init(applicationContext)
         registerReceiver(receiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
     }
 

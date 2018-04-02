@@ -21,7 +21,7 @@ import java.util.*
 
 class Controller : Destroyable, Closeable {
 
-    private val realm: Realm = realmFactory.createRealm()
+    private val realm: Realm = realmFactory!!.createRealm()
 
     override fun destroy() {
         if (!realm.isClosed) {
@@ -216,13 +216,16 @@ class Controller : Destroyable, Closeable {
 
     companion object {
 
-        private lateinit var realmFactory: RealmFactory
+        private var realmFactory: RealmFactory? = null
 
         fun init(context: Context) {
+            if (realmFactory != null) {
+                return
+            }
+
             Realm.init(context)
             realmFactory = RealmFactory(BuildConfig.REALM_ENCRYPTION_KEY.toByteArray())
-
-            realmFactory.createRealm().use { realm ->
+            realmFactory!!.createRealm().use { realm ->
                 if (Repository.getBase(realm) == null) {
                     setupBase(context, realm)
                 }

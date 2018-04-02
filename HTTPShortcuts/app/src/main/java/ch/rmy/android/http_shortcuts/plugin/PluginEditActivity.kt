@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.MainActivity
+import ch.rmy.android.http_shortcuts.realm.Controller
 import com.twofortyfouram.locale.sdk.client.ui.activity.AbstractFragmentPluginActivity
 
 class PluginEditActivity : AbstractFragmentPluginActivity() {
@@ -14,6 +15,7 @@ class PluginEditActivity : AbstractFragmentPluginActivity() {
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Controller.init(applicationContext)
 
         val intent = Intent(this, MainActivity::class.java)
         intent.action = ACTION_SELECT_SHORTCUT_FOR_PLUGIN
