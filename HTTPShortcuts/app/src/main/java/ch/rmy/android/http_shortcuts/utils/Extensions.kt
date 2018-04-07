@@ -108,10 +108,16 @@ fun View.showSoftKeyboard() {
 }
 
 fun Context.showToast(message: String, long: Boolean = false) {
+    if ((this as? Activity)?.isFinishing == true) {
+        return
+    }
     Toast.makeText(this, message, if (long) Toast.LENGTH_LONG else Toast.LENGTH_SHORT).show()
 }
 
 fun Context.showToast(@StringRes message: Int, long: Boolean = false) {
+    if ((this as? Activity)?.isFinishing == true) {
+        return
+    }
     Toast.makeText(this, message, if (long) Toast.LENGTH_LONG else Toast.LENGTH_SHORT).show()
 }
 
