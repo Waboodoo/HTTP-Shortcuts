@@ -182,8 +182,8 @@
     <string name="message_category_created">Categoria criada.</string>
     <string name="message_category_deleted">Categoria excluída.</string>
     <plurals name="shortcut_count">
-        <item quantity="one">%d shortcut</item>
-        <item quantity="other">%d shortcuts</item>
+        <item quantity="one">%d atalho</item>
+        <item quantity="other">%d atalhos</item>
     </plurals>
     <string name="title_move_to_category">Mover para categoria</string>
     <string name="plugin_name">Executar HTTP Shortcut</string>
@@ -193,15 +193,15 @@
     <string name="label_variable_type">Tipo</string>
     <string name="label_variable_key">Chave</string>
     <string name="label_variable_title">Título do Diálogo (opcional)</string>
-    <string name="label_variable_date_format">Date Format</string>
+    <string name="label_variable_date_format">Formato de Data</string>
     <string name="variable_type_constant">Constante</string>
-    <string name="variable_type_text">Campo de texto</string>
-    <string name="variable_type_number">Campo numérico</string>
-    <string name="variable_type_password">Campo de senha</string>
+    <string name="variable_type_text">Campo de Texto</string>
+    <string name="variable_type_number">Campo Numérico</string>
+    <string name="variable_type_password">Campo de Senha</string>
     <string name="variable_type_select">Seleção</string>
     <string name="variable_type_toggle">Alternar</string>
-    <string name="variable_type_date">Date Input</string>
-    <string name="variable_type_color">Campo de cor</string>
+    <string name="variable_type_date">Campo de Data</string>
+    <string name="variable_type_color">Campo de Cor</string>
     <string name="warning_invalid_variable_key">As chaves de variável devem conter somente letras e números.</string>
     <string name="confirm_delete_variable_message">Excluir esta variável?</string>
     <string name="variable_deleted">%1$s excluída.</string>
@@ -222,7 +222,7 @@
     <string name="help_title_variables">Variáveis</string>
     <string name="error_not_enough_toggle_values">Por favor, adicione ao menos dois valores.</string>
     <string name="error_not_enough_select_values">Por favor, adicione ao menos uma opção selecionável.</string>
-    <string name="error_invalid_date_format">The date format is not valid.</string>
+    <string name="error_invalid_date_format">O formato de data não é válido.</string>
     <string name="share_button">Compartilhar</string>
     <string name="share_title">Compartilhar…</string>
     <string name="progress_dialog_message">%1$s…</string>
@@ -248,7 +248,7 @@
     <string name="button_import_from_filesystem">Armazenamento local</string>
     <string name="button_import_from_general">Documentos</string>
     <!-- Option 1 in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
-    <string name="button_create_new">Criar novo atalho</string>
+    <string name="button_create_new">Do começo</string>
     <!-- Option 2 in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
     <string name="button_curl_import">De comando cURL</string>
     <string name="title_curl_import">Importar cURL</string>
@@ -259,95 +259,96 @@
     <string name="authentication_digest">Autenticação Digest</string>
     <string name="label_launcher_shortcut">Mostrar como atalho de aplicativo no iniciador</string>
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
-    <string name="error_share_failed">An error occurred while sharing.</string>
+    <string name="error_share_failed">Ocorreu um erro durante o compartilhamento.</string>
     <!-- Title displayed in notification when there are shortcuts waiting to be executed at a later time -->
     <string name="title_shortcuts_pending">HTTP Shortcuts</string>
     <plurals name="message_shortcuts_pending">
         <!-- Message displayed in notification when there are shortcuts waiting to be executed at a later time -->
-        <item quantity="one">1 shortcut waiting to execute</item>
-        <item quantity="other">%d shortcuts waiting to execute</item>
+        <item quantity="one">%d atalho esperando para ser executado</item>
+        <item quantity="other">%d atalhos esperando para serem executados</item>
     </plurals>
     <plurals name="seconds">
         <!-- Used in various places to indicate a number of seconds, e.g. for a delay. %s is a placeholder for the actual number. -->
-        <item quantity="one">%d second</item>
-        <item quantity="other">%d seconds</item>
+        <item quantity="one">%d segundo</item>
+        <item quantity="other">%d segundos</item>
     </plurals>
     <plurals name="minutes">
         <!-- Used in various places to indicate a number of minutes, e.g. for a delay. %s is a placeholder for the actual number. -->
-        <item quantity="one">%d minute</item>
-        <item quantity="other">%d minutes</item>
+        <item quantity="one">%d minuto</item>
+        <item quantity="other">%d minutos</item>
     </plurals>
-    <string name="label_delay_execution">Delay execution</string>
+    <string name="label_delay_execution">Atrasar execução</string>
     <!-- Option to delay the execution of a shortcut. Default option is "No delay" -->
-    <string name="label_no_delay">No delay</string>
-    <string name="label_variable_time_format">Time Format</string>
-    <string name="variable_type_time">Time Input</string>
-    <string name="error_invalid_time_format">The time format is not valid.</string>
+    <string name="label_no_delay">Sem atraso</string>
+    <string name="label_variable_time_format">Formato de Hora</string>
+    <string name="variable_type_time">Campo de Hora</string>
+    <string name="error_invalid_time_format">O formato de hora não é válido.</string>
     <!-- Error: Custom icon could not be used for a shortcut, because the user declined the permission request to read from storage -->
-    <string name="error_cannot_get_image_permission_denied">Failed to use image as icon. Permission denied.</string>
+    <string name="error_cannot_get_image_permission_denied">Falha ao usar a imagem como ícone. Permissão negada.</string>
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
-    <string name="error_not_supported">This feature is not supported on your device.</string>
+    <string name="error_not_supported">Este recurso não é suportado no seu dispositivo.</string>
     <!-- Section title on settings screen for privacy related settings -->
-    <string name="settings_title_privacy">Privacy</string>
+    <string name="settings_title_privacy">Privacidade</string>
     <!-- Setting title for crash reporting settings, as part of privacy settings (opt-in/opt-out) -->
-    <string name="settings_crash_reporting">Crash Reporting</string>
+    <string name="settings_crash_reporting">Relatório de Falhas</string>
     <!-- Option for crash reporting opt in -->
-    <string name="settings_crash_reporting_allow">Send crash reports to help improve the app</string>
+    <string name="settings_crash_reporting_allow">Enviar relatórios de falhas para ajudar a melhorar o aplicativo</string>
     <!-- Option for crash reporting opt out -->
-    <string name="settings_crash_reporting_disallow">Don\'t send any crash reports</string>
+    <string name="settings_crash_reporting_disallow">Não enviar relatórios de falhas</string>
     <!-- Title of section in settings that allows user to click to open privacy policy dialog -->
-    <string name="settings_privacy_policy">Privacy Policy</string>
+    <string name="settings_privacy_policy">Política de Privacidade</string>
     <!-- Summary/subtitle of section in settings that allows user to click to open privacy policy dialog -->
-    <string name="settings_privacy_policy_summary">Nope, not stealing your data.</string>
+    <string name="settings_privacy_policy_summary">Nunca, jamais roubar seus dados.</string>
     <!-- Title of dialog that shows the privacy policy -->
-    <string name="title_privacy_policy">Privacy Policy</string>
+    <string name="title_privacy_policy">Política de Privacidade</string>
     <!-- Type of variable: Slider, i.e. a horizontal bar that allows to pick a number by sliding a knob left or right -->
-    <string name="variable_type_slider">Number Slider</string>
+    <string name="variable_type_slider">Controle Deslizante Numérico</string>
     <!-- Name of notification channel used for displaying that shortcut executions are pending (e.g. waiting for network connection) -->
-    <string name="name_pending_shortcuts_channel">Pending Executions</string>
+    <string name="name_pending_shortcuts_channel">Execuções Pendentes</string>
     <!-- Label above input box, for minimum (numeric) value of a horizontal slider -->
-    <string name="label_variable_slider_min">Minimum</string>
+    <string name="label_variable_slider_min">Mínimo</string>
     <!-- Label above input box, for maximum (numeric) value of a horizontal slider -->
-    <string name="label_variable_slider_max">Maximum</string>
+    <string name="label_variable_slider_max">Máximo</string>
     <!-- Label above input box, for step size (numeric) value of a horizontal slider -->
-    <string name="label_variable_slider_step">Step Size</string>
+    <string name="label_variable_slider_step">Tamanho do Passo</string>
     <!-- error message displayed when "Maximum" is lesser than or equal to "Minimum" for "slider" variable type -->
-    <string name="error_slider_max_not_greater_than_min">The maximum must be greater than the minimum.</string>
+    <string name="error_slider_max_not_greater_than_min">O máximo deve ser maior que o mínimo.</string>
     <!-- Button text: Set image as icon (after selecting and editing) -->
-    <string name="button_apply_icon">Apply icon</string>
+    <string name="button_apply_icon">Aplicar Ícone</string>
     <!-- Title of option in settings to show change changelog of current and past versions -->
     <string name="settings_changelog">Changelog</string>
     <!-- Subtitle/summary of "Changelog" option in settings, showing the current app version number -->
-    <string name="settings_changelog_summary">Version %1$s</string>
-    <string name="title_edit_toggle_option">Edit Value</string>
-    <string name="title_edit_select_option">Edit Option</string>
+    <string name="settings_changelog_summary">Versão %1$s</string>
+    <string name="title_edit_toggle_option">Editar Valor</string>
+    <string name="title_edit_select_option">Editar Opção</string>
     <!-- Instructions shown in dialog when user clicks the variables button in the shortcut editor but doesn't have any variables configured yet -->
-    <string name="help_text_variable_button">This button allows you to include placeholders for variables, i.e., dynamic values, into your shortcut.\n\nYou don\'t have any variables configured yet. You can do so by clicking the CREATE button below.</string>
+    <string name="help_text_variable_button">Esse botão permite incluir espaços reservados para variáveis, isto é, valores dinâmicos, em seu atalho.\n\nVocê não tem nenhuma variável configurada ainda. Você pode fazer isso clicando no botão CRIAR abaixo.</string>
     <!-- Instructions shown in dialog when user clicks the variables button in the variable editor but doesn't have any variables configured yet -->
-    <string name="help_text_variable_button_for_variables">This button allows you to include placeholders for the values of other variables into this one.\n\nYou don\'t have any variables configured yet, however.</string>
+    <string name="help_text_variable_button_for_variables">Este botão permite incluir espaços reservados para os valores de outras variáveis neste.\n\nNo entanto, você não tem nenhuma variável configurada ainda.</string>
     <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
-    <string name="button_create_first_variable">Create</string>
+    <string name="button_create_first_variable">Criar</string>
     <!-- Title of dialog that allows users to pick a variable from a list to insert its placeholder somewhere -->
-    <string name="dialog_title_variable_selection">Variables</string>
+    <string name="dialog_title_variable_selection">Variáveis</string>
     <!-- Option shown on variable selection dialog, clicking it opens variable editor -->
-    <string name="label_edit_variables">Edit variables</string>
-    <string name="title_create_new_shortcut_options_dialog">Create New Shortcut</string>
+    <string name="label_edit_variables">Editar variáveis</string>
+    <string name="title_create_new_shortcut_options_dialog">Criar Novo Atalho</string>
     <!-- Button text: translate app (prompt to help & become a translator) -->
-    <string name="settings_help_translate">Translate App</string>
+    <string name="settings_help_translate">Traduzir Aplicativo</string>
     <!-- Summary/subtitle of section in settings that prompts user to help translate the app -->
-    <string name="settings_help_translate_summary">Help me make this app better!</string>
+    <string name="settings_help_translate_summary">Ajude-me a fazer esse aplicativo melhor!</string>
     <!-- Blurb/short description of plugin action (for Tasker integration), where %1$s is a placeholder for the shortcut name. -->
-    <string name="plugin_blurb_execute_task">Execute shortcut \"%1$s\"</string>
+    <string name="plugin_blurb_execute_task">Executar atalho %1$s</string>
     <!-- Label of dropdown to select the request body type in shortcut editor -->
     <string name="label_request_body_type">Request Body Type</string>
     <!-- Dropdown option for request body: form-data (i.e. list of parameters) -->
-    <string name="request_body_option_form_data">Parameters (form-data)</string>
+    <string name="request_body_option_form_data">Parâmetros (form-data)</string>
     <!-- Dropdown option for request body: x-www-form-urlencoded (i.e. list of parameters) -->
-    <string name="request_body_option_x_www_form_urlencoded">Parameters (x-www-form-urlencoded)</string>
+    <string name="request_body_option_x_www_form_urlencoded">Parâmetros (x-www-form-urlencoded)</string>
     <!-- Dropdown option for request body: custom text (i.e. enter a custom Content-Type and a request body as text) -->
-    <string name="request_body_option_custom_text">Custom Text</string>
+    <string name="request_body_option_custom_text">Texto Personalizado</string>
     <!-- Label above input box for Request Content-Type -->
     <string name="label_content_type">Content-Type</string>
     <!-- Button to copy the cURL export of a shortcut to the clipboard -->
-    <string name="button_copy_curl_export">Copy</string>
+    <string name="button_copy_curl_export">Copiar</string>
+    <string name="title_choose_icon">Escolha um ícone interno</string>
 </resources>
