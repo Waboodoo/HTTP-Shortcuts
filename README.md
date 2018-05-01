@@ -70,3 +70,4 @@ As opposed to Android's home screen widgets, home screen shortcuts are very limi
 - Chinese: [Kevin Mao](https://github.com/yuanrunmao)
 - French: [Flavien](https://github.com/Flavien06)
 - German: [Roland Meyer](https://github.com/Waboodoo)
+- Italian: [Flavio Barisi](https://github.com/flavio20002)
