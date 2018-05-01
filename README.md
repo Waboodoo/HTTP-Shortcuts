@@ -66,7 +66,8 @@ As opposed to Android's home screen widgets, home screen shortcuts are very limi
 - Improving quality of generated icons: [idmadj](https://github.com/idmadj)
 
 ### Translations
-- Brazilian Portuguese: [Eduardo Folly](https://github.com/idmadj)
+- Brazilian Portuguese: [Eduardo Folly](https://github.com/edufolly)
 - Chinese: [Kevin Mao](https://github.com/yuanrunmao)
 - French: [Flavien](https://github.com/Flavien06)
 - German: [Roland Meyer](https://github.com/Waboodoo)
+- Italian: [Flavio Barisi](https://github.com/flavio20002)
