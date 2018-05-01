@@ -75,9 +75,9 @@ class ToggleEditorFragment : VariableEditorFragment() {
                 .onPositive { _, _ ->
                     val value = valueInput.rawString
                     if (option != null) {
-                        updateOption(option, valueInput.rawString)
+                        updateOption(option, value)
                     } else {
-                        addNewOption(valueInput.rawString)
+                        addNewOption(value)
                     }
                 }
                 .negativeText(R.string.dialog_cancel)

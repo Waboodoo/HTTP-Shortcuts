@@ -27,7 +27,7 @@ class ActionListAdapter(private val context: Context) : SimpleListAdapter<BaseAc
         private val description: TextView by bindView(R.id.action_description)
 
         override fun updateViews(item: BaseAction) {
-            title.text = item.getTitle(context)
+            title.text = item.actionType.title
             description.text = item.getDescription(context)
             itemView.setOnClickListener {
                 clickListener?.invoke(item)

@@ -369,4 +369,6 @@
     <string name="action_type_vibrate_description_pattern_1">1 long vibration</string>
     <!-- Shortcut Action Description: Vibrate, describes the vibration pattern -->
     <string name="action_type_vibrate_description_pattern_2">3 short vibrations</string>
+    <!-- Dialog title: Add action (shown above list of action types to select) -->
+    <string name="title_add_action">Add Action</string>
 </resources>

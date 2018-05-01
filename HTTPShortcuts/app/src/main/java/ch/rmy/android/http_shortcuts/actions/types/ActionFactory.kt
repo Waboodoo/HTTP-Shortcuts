@@ -1,15 +1,22 @@
 package ch.rmy.android.http_shortcuts.actions.types
 
+import android.content.Context
 import ch.rmy.android.http_shortcuts.actions.ActionDTO
 
-object ActionFactory {
+class ActionFactory(private val context: Context) {
 
-    // TODO: Allow to disable/hide actions that are not available (e.g. because of missing hardware or OS features
+    private val types = listOf(
+            ToastActionType(context),
+            VibrateActionType(context)
+    )
 
-    fun fromDTO(actionDTO: ActionDTO) = when (actionDTO.type) {
-        ToastAction.TYPE -> ToastAction(actionDTO)
-        VibrateAction.TYPE -> VibrateAction(actionDTO)
-        else -> UnknownAction(actionDTO)
-    }
+    fun fromDTO(actionDTO: ActionDTO): BaseAction =
+            getType(actionDTO.type).fromDTO(actionDTO)
+
+    private fun getType(actionType: String): BaseActionType =
+            types.firstOrNull { it.type == actionType } ?: UnknownActionType(context)
+
+    val availableActionTypes: List<BaseActionType>
+        get() = types.filter { it.isAvailable }
 
 }

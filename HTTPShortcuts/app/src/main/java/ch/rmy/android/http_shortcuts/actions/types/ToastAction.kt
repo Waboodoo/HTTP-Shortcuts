@@ -3,14 +3,10 @@ package ch.rmy.android.http_shortcuts.actions.types
 import android.content.Context
 import android.widget.Toast
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.actions.ActionDTO
 
-class ToastAction(action: ActionDTO) : BaseAction(action) {
+class ToastAction(id: String, actionType: ToastActionType, data: Map<String, String>) : BaseAction(id, actionType, data) {
 
-    val message = action.data[KEY_TEXT] ?: ""
-
-    override fun getTitle(context: Context) =
-            context.getString(R.string.action_type_toast_title)
+    val message = data[KEY_TEXT] ?: ""
 
     override fun getDescription(context: Context) =
             context.getString(R.string.action_type_toast_description, message) // TODO: Include VariableSpans
@@ -20,8 +16,6 @@ class ToastAction(action: ActionDTO) : BaseAction(action) {
     }
 
     companion object {
-
-        const val TYPE = "show_toast"
 
         private val KEY_TEXT = "text"
 

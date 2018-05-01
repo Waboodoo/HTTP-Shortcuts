@@ -54,6 +54,10 @@ class ExecuteActivity : BaseActivity() {
     private val formattedResponseText: SourceCodeView by bindView(R.id.formatted_response_text)
     private val progressSpinner: CircularProgressBar by bindView(R.id.progress_spinner)
 
+    private val actionFactory by lazy {
+        ActionFactory(context)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -172,7 +176,7 @@ class ExecuteActivity : BaseActivity() {
 
     private fun iterateActions(iterator: Iterator<ActionDTO>, resolvedVariables: Map<String, String>): Promise<Unit, Exception, Unit> {
         if (iterator.hasNext()) {
-            val action = ActionFactory.fromDTO(iterator.next())
+            val action = actionFactory.fromDTO(iterator.next())
             val promise = action.perform(context, shortcut.id, resolvedVariables)
             return promise.then(DonePipe<Unit, Unit, Exception, Unit> {
                 iterateActions(iterator, resolvedVariables)

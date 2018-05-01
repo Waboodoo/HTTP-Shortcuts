@@ -9,20 +9,25 @@ import android.widget.FrameLayout
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.actions.types.ActionFactory
 import ch.rmy.android.http_shortcuts.actions.types.BaseAction
-import ch.rmy.android.http_shortcuts.actions.types.VibrateAction
+import ch.rmy.android.http_shortcuts.actions.types.BaseActionType
 import ch.rmy.android.http_shortcuts.adapters.ActionListAdapter
+import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.utils.Destroyable
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
+import ch.rmy.android.http_shortcuts.utils.mapFor
+import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import kotterknife.bindView
 
 class ActionsView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr), Destroyable {
 
+    private val actionFactory = ActionFactory(context)
+
     var actions: List<ActionDTO>
-        get() = internalActions.map { it.action }
+        get() = internalActions.map { it.toDTO() }
         set(value) {
             internalActions.clear()
-            value.mapTo(internalActions) { ActionFactory.fromDTO(it) }
+            value.mapTo(internalActions) { actionFactory.fromDTO(it) }
             adapter.actions = internalActions
         }
 
@@ -46,12 +51,19 @@ class ActionsView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     }
 
     private fun openAddDialog() {
-        // TODO
-        //internalActions.add(ActionFactory.fromDTO(ActionDTO(type = VibrateAction.TYPE)))
-        internalActions.add(ActionFactory.fromDTO(ActionDTO(type = VibrateAction.TYPE, data = mapOf(
-                "pattern" to "2",
-                "wait" to "true"
-        ))))
+        MenuDialogBuilder(context)
+                .title(R.string.title_add_action)
+                .mapFor(actionFactory.availableActionTypes) { builder, actionType ->
+                    builder.item(actionType.title) {
+                        // TODO: Show edit dialog
+                        addAction(actionType)
+                    }
+                }
+                .showIfPossible()
+    }
+
+    private fun addAction(actionType: BaseActionType) {
+        internalActions.add(actionType.createAction())
         adapter.notifyDataSetChanged()
     }
 

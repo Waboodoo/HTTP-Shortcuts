@@ -5,13 +5,10 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.actions.ActionDTO
 import ch.rmy.android.http_shortcuts.utils.PromiseUtils
 import org.jdeferred2.Promise
 
-class VibrateAction(actionDTO: ActionDTO) : BaseAction(actionDTO) {
-
-    override fun getTitle(context: Context) = context.getString(R.string.action_type_vibrate_title)
+class VibrateAction(id: String, actionType: VibrateActionType, data: Map<String, String>) : BaseAction(id, actionType, data) {
 
     override fun getDescription(context: Context) = pattern.getDescription(context)
 
@@ -30,10 +27,10 @@ class VibrateAction(actionDTO: ActionDTO) : BaseAction(actionDTO) {
     }
 
     private val patternId
-        get() = (action.data[KEY_PATTERN]?.toIntOrNull()) ?: 0
+        get() = (data[KEY_PATTERN]?.toIntOrNull()) ?: 0
 
     private val waitForCompletion
-        get() = (action.data[KEY_WAIT_FOR_COMPLETION]?.toBoolean()) ?: false
+        get() = (data[KEY_WAIT_FOR_COMPLETION]?.toBoolean()) ?: false
 
     private val pattern: VibrationPattern
         get() = findPattern(patternId)
@@ -103,8 +100,6 @@ class VibrateAction(actionDTO: ActionDTO) : BaseAction(actionDTO) {
     }
 
     companion object {
-
-        const val TYPE = "vibrate"
 
         const val KEY_PATTERN = "pattern"
         const val KEY_WAIT_FOR_COMPLETION = "wait"

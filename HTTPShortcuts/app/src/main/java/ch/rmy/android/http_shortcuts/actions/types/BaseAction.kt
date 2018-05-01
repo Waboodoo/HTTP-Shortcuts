@@ -5,11 +5,13 @@ import ch.rmy.android.http_shortcuts.actions.ActionDTO
 import ch.rmy.android.http_shortcuts.utils.PromiseUtils
 import org.jdeferred2.Promise
 
-abstract class BaseAction(val action: ActionDTO) {
+abstract class BaseAction(val id: String, val actionType: BaseActionType, val data: Map<String, String>) {
 
-    val id = action.id
-
-    abstract fun getTitle(context: Context): CharSequence
+    fun toDTO() = ActionDTO(
+            id = id,
+            type = actionType.type,
+            data = data
+    )
 
     abstract fun getDescription(context: Context): CharSequence
 
