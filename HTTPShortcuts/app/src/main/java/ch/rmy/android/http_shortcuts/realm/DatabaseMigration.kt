@@ -143,9 +143,15 @@ class DatabaseMigration : RealmMigration {
                 }
             }
             17L -> { // 1.21.0
-                schema.get("Shortcut")!!.addField("beforeActions", String::class.java)
-                schema.get("Shortcut")!!.addField("successActions", String::class.java)
-                schema.get("Shortcut")!!.addField("failureActions", String::class.java)
+                schema.get("Shortcut")!!.addField("serializedBeforeActions", String::class.java)
+                schema.get("Shortcut")!!.addField("serializedSuccessActions", String::class.java)
+                schema.get("Shortcut")!!.addField("serializedFailureActions", String::class.java)
+                val shortcuts = realm.where("Shortcut").findAll()
+                for (shortcut in shortcuts) {
+                    shortcut.setString("serializedBeforeActions", "[]")
+                    shortcut.setString("serializedSuccessActions", "[]")
+                    shortcut.setString("serializedFailureActions", "[]")
+                }
             }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }

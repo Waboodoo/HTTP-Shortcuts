@@ -14,8 +14,8 @@ import io.realm.Realm
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.RealmResults
-import org.jdeferred.DoneFilter
-import org.jdeferred.Promise
+import org.jdeferred2.DoneFilter
+import org.jdeferred2.Promise
 import java.io.Closeable
 import java.util.*
 

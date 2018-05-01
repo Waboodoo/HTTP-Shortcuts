@@ -17,6 +17,7 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.LinearLayout
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.actions.ActionsView
 import ch.rmy.android.http_shortcuts.dialogs.IconNameChangeDialog
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.icons.IconSelector
@@ -94,6 +95,9 @@ class EditorActivity : BaseActivity() {
     private val requestParametersContainer: View by bindView(R.id.request_parameters_container)
     private val requestCustomBodyContainer: View by bindView(R.id.request_body_custom_content_type_container)
     private val customContentType: AutoCompleteTextView by bindView(R.id.input_content_type)
+    private val beforeActionsView: ActionsView by bindView(R.id.before_actions)
+    private val successActionsView: ActionsView by bindView(R.id.success_actions)
+    private val failureActionsView: ActionsView by bindView(R.id.failure_actions)
 
     private val itemChosenListener = object : OnItemChosenListener() {
         override fun onSelectionChanged() {
@@ -178,6 +182,12 @@ class EditorActivity : BaseActivity() {
         feedbackView.onItemChosenListener = itemChosenListener
         feedbackView.fix()
         feedbackView.setSelection(ArrayUtil.findIndex(Shortcut.FEEDBACK_OPTIONS, shortcut.feedback))
+        beforeActionsView.attachTo(destroyer)
+        beforeActionsView.actions = shortcut.beforeActions
+        successActionsView.attachTo(destroyer)
+        successActionsView.actions = shortcut.successActions
+        failureActionsView.attachTo(destroyer)
+        failureActionsView.actions = shortcut.failureActions
 
         timeoutView.setItemsArray(ShortcutUIUtils.getTimeoutOptions(context))
         timeoutView.fix()
@@ -367,6 +377,9 @@ class EditorActivity : BaseActivity() {
             parameters.addAll(parameterList.items)
             headers.clear()
             headers.addAll(customHeaderList.items)
+            beforeActions = beforeActionsView.actions
+            successActions = successActionsView.actions
+            failureActions = failureActionsView.actions
         }
     }
 

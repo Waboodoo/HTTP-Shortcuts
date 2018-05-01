@@ -8,6 +8,8 @@ import android.net.Uri
 import android.os.Build
 import android.support.annotation.RequiresApi
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.actions.ActionDTO
+import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils
 import io.realm.RealmList
 import io.realm.RealmObject
@@ -49,9 +51,9 @@ open class Shortcut : RealmObject(), HasId {
     @Required
     var contentType: String = ""
 
-    var beforeActions: String? = null
-    var successActions: String? = null
-    var failureActions: String? = null
+    var serializedBeforeActions: String? = "[]"
+    var serializedSuccessActions: String? = "[]"
+    var serializedFailureActions: String? = "[]"
 
     override val isNew: Boolean
         get() = id == 0L
@@ -76,9 +78,9 @@ open class Shortcut : RealmObject(), HasId {
         duplicate.delay = delay
         duplicate.requestBodyType = requestBodyType
         duplicate.contentType = contentType
-        duplicate.beforeActions = beforeActions
-        duplicate.successActions = successActions
-        duplicate.failureActions = failureActions
+        duplicate.serializedBeforeActions = serializedBeforeActions
+        duplicate.serializedSuccessActions = serializedSuccessActions
+        duplicate.serializedFailureActions = serializedFailureActions
 
         duplicate.parameters = RealmList()
         for (parameter in parameters) {
@@ -181,9 +183,9 @@ open class Shortcut : RealmObject(), HasId {
                 other.headers.size != headers.size ||
                 other.requestBodyType != requestBodyType ||
                 other.contentType != contentType ||
-                other.beforeActions != beforeActions ||
-                other.successActions != successActions ||
-                other.failureActions != failureActions
+                other.serializedBeforeActions != serializedBeforeActions ||
+                other.serializedSuccessActions != serializedSuccessActions ||
+                other.serializedFailureActions != serializedFailureActions
         ) {
             return false
         }
@@ -195,6 +197,24 @@ open class Shortcut : RealmObject(), HasId {
         }
         return true
     }
+
+    var beforeActions: List<ActionDTO>
+        get() = GsonUtil.parseActionList(serializedBeforeActions)
+        set(value) {
+            serializedBeforeActions = GsonUtil.toJson(value)
+        }
+
+    var successActions: List<ActionDTO>
+        get() = GsonUtil.parseActionList(serializedSuccessActions)
+        set(value) {
+            serializedSuccessActions = GsonUtil.toJson(value)
+        }
+
+    var failureActions: List<ActionDTO>
+        get() = GsonUtil.parseActionList(serializedFailureActions)
+        set(value) {
+            serializedFailureActions = GsonUtil.toJson(value)
+        }
 
     companion object {
 
@@ -273,9 +293,9 @@ open class Shortcut : RealmObject(), HasId {
             headers = RealmList()
             requestBodyType = REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE
             contentType = DEFAULT_CONTENT_TYPE
-            beforeActions = "[]"
-            successActions = "[]"
-            failureActions = "[]"
+            serializedBeforeActions = "[]"
+            serializedSuccessActions = "[]"
+            serializedFailureActions = "[]"
         }
     }
 

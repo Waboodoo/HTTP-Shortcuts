@@ -10,9 +10,9 @@ import com.android.volley.Response
 import com.android.volley.VolleyError
 import okhttp3.Credentials
 import org.apache.http.HttpHeaders
-import org.jdeferred.Deferred
-import org.jdeferred.Promise
-import org.jdeferred.impl.DeferredObject
+import org.jdeferred2.Deferred
+import org.jdeferred2.Promise
+import org.jdeferred2.impl.DeferredObject
 
 internal class ShortcutRequest private constructor(method: Int, url: String, private val deferred: Deferred<ShortcutResponse, VolleyError, Unit>) : Request<ShortcutResponse>(method, url, Response.ErrorListener { error -> deferred.reject(error) }) {
 

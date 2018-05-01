@@ -1,7 +1,8 @@
 package ch.rmy.android.http_shortcuts.utils
 
-import org.jdeferred.Promise
-import org.jdeferred.impl.DeferredObject
+import android.os.Handler
+import org.jdeferred2.Promise
+import org.jdeferred2.impl.DeferredObject
 
 object PromiseUtils {
 
@@ -20,6 +21,14 @@ object PromiseUtils {
     fun <T, U, V> reject(item: U?): Promise<T, U, V> {
         val deferred = DeferredObject<T, U, V>()
         deferred.reject(item)
+        return deferred.promise()
+    }
+
+    fun <T, U, V> resolveDelayed(item: T?, delay: Long): Promise<T, U, V> {
+        val deferred = DeferredObject<T, U, V>()
+        Handler().postDelayed({
+            deferred.resolve(item)
+        }, delay)
         return deferred.promise()
     }
 

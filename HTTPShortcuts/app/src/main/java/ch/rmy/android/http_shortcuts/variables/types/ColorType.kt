@@ -9,7 +9,7 @@ import ch.rmy.android.http_shortcuts.realm.models.Variable
 import com.pavelsikun.vintagechroma.ChromaDialog
 import com.pavelsikun.vintagechroma.IndicatorMode
 import com.pavelsikun.vintagechroma.colormode.ColorMode
-import org.jdeferred.Deferred
+import org.jdeferred2.Deferred
 
 internal class ColorType : BaseVariableType(), AsyncVariableType {
 

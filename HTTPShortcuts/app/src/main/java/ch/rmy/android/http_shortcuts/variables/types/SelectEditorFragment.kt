@@ -39,9 +39,7 @@ class SelectEditorFragment : VariableEditorFragment() {
     private fun initDragOrdering() {
         val dragOrderingHelper = DragOrderingHelper()
         dragOrderingHelper.positionChangeSource.add { (oldPosition, newPosition) ->
-            // TODO: The items are reordered manually here to avoid a bug in RealmList.move
-            val option = variable!!.options!!.removeAt(oldPosition)
-            variable!!.options!!.add(newPosition, option)
+            variable!!.options!!.move(oldPosition, newPosition)
 
             optionsAdapter.notifyItemMoved(oldPosition, newPosition)
         }.attachTo(destroyer)

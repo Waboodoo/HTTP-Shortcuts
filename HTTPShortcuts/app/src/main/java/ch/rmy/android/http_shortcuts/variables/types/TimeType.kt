@@ -6,7 +6,7 @@ import android.text.format.DateFormat
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
-import org.jdeferred.Deferred
+import org.jdeferred2.Deferred
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*

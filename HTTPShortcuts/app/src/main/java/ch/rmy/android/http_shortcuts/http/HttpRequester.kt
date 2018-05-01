@@ -8,7 +8,7 @@ import ch.rmy.android.http_shortcuts.variables.Variables
 import com.android.volley.RequestQueue
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.Volley
-import org.jdeferred.Promise
+import org.jdeferred2.Promise
 
 object HttpRequester {
 

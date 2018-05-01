@@ -6,7 +6,7 @@ import android.text.TextUtils
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.mapIf
-import org.jdeferred.Deferred
+import org.jdeferred2.Deferred
 
 abstract class BaseVariableType {
 

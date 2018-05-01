@@ -25,10 +25,10 @@ import ch.rmy.curlcommand.CurlCommand
 import com.afollestad.materialdialogs.MaterialDialog
 import com.satsuware.usefulviews.LabelledSpinner
 import org.apache.http.HttpHeaders
-import org.jdeferred.DoneFilter
-import org.jdeferred.FailFilter
-import org.jdeferred.ProgressFilter
-import org.jdeferred.Promise
+import org.jdeferred2.DoneFilter
+import org.jdeferred2.FailFilter
+import org.jdeferred2.ProgressFilter
+import org.jdeferred2.Promise
 
 var View.visible: Boolean
     get() = this.visibility == View.VISIBLE
@@ -108,16 +108,10 @@ fun View.showSoftKeyboard() {
 }
 
 fun Context.showToast(message: String, long: Boolean = false) {
-    if ((this as? Activity)?.isFinishing == true) {
-        return
-    }
     Toast.makeText(this, message, if (long) Toast.LENGTH_LONG else Toast.LENGTH_SHORT).show()
 }
 
 fun Context.showToast(@StringRes message: Int, long: Boolean = false) {
-    if ((this as? Activity)?.isFinishing == true) {
-        return
-    }
     Toast.makeText(this, message, if (long) Toast.LENGTH_LONG else Toast.LENGTH_SHORT).show()
 }
 

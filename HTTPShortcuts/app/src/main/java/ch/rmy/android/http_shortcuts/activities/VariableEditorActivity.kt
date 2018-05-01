@@ -24,8 +24,8 @@ import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.utils.visible
 import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.android.http_shortcuts.variables.types.AsyncVariableType
-import ch.rmy.android.http_shortcuts.variables.types.TypeFactory
 import ch.rmy.android.http_shortcuts.variables.types.VariableEditorFragment
+import ch.rmy.android.http_shortcuts.variables.types.VariableTypeFactory
 import com.afollestad.materialdialogs.MaterialDialog
 import com.satsuware.usefulviews.LabelledSpinner
 import kotterknife.bindView
@@ -103,7 +103,7 @@ class VariableEditorActivity : BaseActivity() {
 
     private fun updateTypeEditor() {
         compileVariable()
-        val variableType = TypeFactory.getType(selectedType)
+        val variableType = VariableTypeFactory.getType(selectedType)
         val fragmentManager = supportFragmentManager
         fragment = variableType.getEditorFragment(fragmentManager)
 

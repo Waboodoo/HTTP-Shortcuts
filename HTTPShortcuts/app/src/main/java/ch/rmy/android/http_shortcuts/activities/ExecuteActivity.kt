@@ -11,6 +11,8 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.actions.ActionDTO
+import ch.rmy.android.http_shortcuts.actions.types.ActionFactory
 import ch.rmy.android.http_shortcuts.http.ExecutionService
 import ch.rmy.android.http_shortcuts.http.HttpRequester
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
@@ -21,6 +23,7 @@ import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.DateUtil
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
+import ch.rmy.android.http_shortcuts.utils.PromiseUtils
 import ch.rmy.android.http_shortcuts.utils.consume
 import ch.rmy.android.http_shortcuts.utils.logException
 import ch.rmy.android.http_shortcuts.utils.showToast
@@ -31,7 +34,11 @@ import com.android.volley.VolleyError
 import com.github.chen0040.androidcodeview.SourceCodeView
 import fr.castorflex.android.circularprogressbar.CircularProgressBar
 import kotterknife.bindView
-import org.jdeferred.Promise
+import org.jdeferred2.DoneFilter
+import org.jdeferred2.DonePipe
+import org.jdeferred2.FailFilter
+import org.jdeferred2.FailPipe
+import org.jdeferred2.Promise
 import java.util.*
 
 class ExecuteActivity : BaseActivity() {
@@ -101,7 +108,7 @@ class ExecuteActivity : BaseActivity() {
                                     controller.destroy()
                                 }
                     } else {
-                        execute(resolvedVariables, tryNumber)
+                        executeWithActions(resolvedVariables, tryNumber)
                     }
                 }
                 .fail {
@@ -109,9 +116,35 @@ class ExecuteActivity : BaseActivity() {
                 }
     }
 
-    private fun execute(resolvedVariables: Map<String, String>, tryNumber: Int) {
+    private fun executeWithActions(resolvedVariables: Map<String, String>, tryNumber: Int) {
         showProgress()
-        HttpRequester.executeShortcut(context, shortcut, resolvedVariables)
+
+        val beforePromise = if (tryNumber == 0) {
+            iterateActions(shortcut.beforeActions.iterator(), resolvedVariables)
+        } else {
+            PromiseUtils.resolve(Unit)
+        }
+
+        beforePromise.then(DonePipe<Unit, Unit, Exception, Unit> {
+            executeShortcut(resolvedVariables, tryNumber)
+                    .then(
+                            DoneFilter<ShortcutResponse, ShortcutResponse> { it },
+                            FailFilter<VolleyError, Exception> { it }
+                    )
+                    .then(DonePipe<ShortcutResponse, Unit, Exception, Unit> {
+                        iterateActions(shortcut.successActions.iterator(), resolvedVariables)
+                    }, FailPipe {
+                        iterateActions(shortcut.failureActions.iterator(), resolvedVariables)
+                    })
+        })
+                .always { _, _, _ ->
+                    hideProgress()
+                    controller.destroy()
+                }
+    }
+
+    private fun executeShortcut(resolvedVariables: Map<String, String>, tryNumber: Int): Promise<ShortcutResponse, VolleyError, Unit> {
+        return HttpRequester.executeShortcut(context, shortcut, resolvedVariables)
                 .done { response ->
                     setLastResponse(response)
                     if (shortcut.isFeedbackErrorsOnly()) {
@@ -135,10 +168,20 @@ class ExecuteActivity : BaseActivity() {
                         displayOutput(generateOutputFromError(error, simple), ShortcutResponse.TYPE_TEXT)
                     }
                 }
-                .always { _, _, _ ->
-                    hideProgress()
-                    controller.destroy()
-                }
+    }
+
+    private fun iterateActions(iterator: Iterator<ActionDTO>, resolvedVariables: Map<String, String>): Promise<Unit, Exception, Unit> {
+        if (iterator.hasNext()) {
+            val action = ActionFactory.fromDTO(iterator.next())
+            val promise = action.perform(context, shortcut.id, resolvedVariables)
+            return promise.then(DonePipe<Unit, Unit, Exception, Unit> {
+                iterateActions(iterator, resolvedVariables)
+            })
+                    .fail { e ->
+                        logException(e)
+                    }
+        }
+        return PromiseUtils.resolve(Unit)
     }
 
     private fun rescheduleExecution(resolvedVariables: Map<String, String>, tryNumber: Int) {

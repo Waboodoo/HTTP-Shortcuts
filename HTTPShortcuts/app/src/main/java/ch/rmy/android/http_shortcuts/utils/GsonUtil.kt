@@ -1,11 +1,15 @@
 package ch.rmy.android.http_shortcuts.utils
 
+import ch.rmy.android.http_shortcuts.actions.ActionDTO
 import ch.rmy.android.http_shortcuts.realm.models.Base
-import com.google.gson.*
+import com.google.gson.ExclusionStrategy
+import com.google.gson.FieldAttributes
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonParseException
+import com.google.gson.JsonParser
 import com.google.gson.reflect.TypeToken
 import io.realm.RealmObject
 import java.io.Reader
-import java.util.*
 
 object GsonUtil {
 
@@ -45,19 +49,34 @@ object GsonUtil {
         return gson.fromJson(reader, Base::class.java)
     }
 
-    fun <T> fromJsonString(jsonString: String?): Map<String, T> {
-        if (jsonString == null) {
-            return Collections.emptyMap()
+    fun <T> fromJsonObject(jsonObject: String?): Map<String, T> {
+        if (jsonObject == null) {
+            return emptyMap()
         }
         val gson = jsonBuilder.create()
         val type = object : TypeToken<Map<String, T>>() {
         }.type
-        return gson.fromJson(jsonString, type)
+        return gson.fromJson(jsonObject, type)
+    }
+
+    fun parseActionList(jsonList: String?): List<ActionDTO> {
+        if (jsonList == null) {
+            return emptyList()
+        }
+        val gson = jsonBuilder.create()
+        val type = object : TypeToken<List<ActionDTO>>() {
+        }.type
+        return gson.fromJson<List<ActionDTO>>(jsonList, type)
     }
 
     fun toJson(item: Map<String, Any>): String {
         val gson = jsonBuilder.create()
         return gson.toJson(item)
+    }
+
+    fun toJson(list: List<Any>): String {
+        val gson = jsonBuilder.create()
+        return gson.toJson(list)
     }
 
     private val jsonBuilder: GsonBuilder

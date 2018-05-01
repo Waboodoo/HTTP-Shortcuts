@@ -62,10 +62,10 @@ open class Variable : RealmObject(), HasId {
     }
 
     var dataForType: Map<String, String?>
-        get() = GsonUtil.fromJsonString<Map<String, String?>>(data)[type]?.toMap() ?: emptyMap()
+        get() = GsonUtil.fromJsonObject<Map<String, String?>>(data)[type]?.toMap() ?: emptyMap()
         set(value) {
-            val dataMap = GsonUtil.fromJsonString<Map<String, String?>>(data).toMutableMap()
-            dataMap.put(type, value)
+            val dataMap = GsonUtil.fromJsonObject<Map<String, String?>>(data).toMutableMap()
+            dataMap[type] = value
             data = GsonUtil.toJson(dataMap)
         }
 

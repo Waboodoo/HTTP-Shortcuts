@@ -315,6 +315,41 @@
 
             <TextView
                 style="@style/SubHeader"
+                android:text="@string/section_actions"/>
+            <TextView
+                android:id="@+id/label_before_actions"
+                style="@style/Label"
+                android:text="@string/label_actions_before"/>
+
+            <ch.rmy.android.http_shortcuts.actions.ActionsView
+                android:id="@+id/before_actions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/label_success_actions"
+                style="@style/Label"
+                android:layout_marginTop="20dp"
+                android:text="@string/label_actions_success"/>
+
+            <ch.rmy.android.http_shortcuts.actions.ActionsView
+                android:id="@+id/success_actions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/label_failure_actions"
+                style="@style/Label"
+                android:layout_marginTop="20dp"
+                android:text="@string/label_actions_failure"/>
+
+            <ch.rmy.android.http_shortcuts.actions.ActionsView
+                android:id="@+id/failure_actions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                style="@style/SubHeader"
                 android:text="@string/section_advanced_settings"/>
 
             <TextView

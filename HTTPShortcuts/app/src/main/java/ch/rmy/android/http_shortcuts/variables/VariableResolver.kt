@@ -9,10 +9,10 @@ import ch.rmy.android.http_shortcuts.utils.filter
 import ch.rmy.android.http_shortcuts.utils.mapIf
 import ch.rmy.android.http_shortcuts.variables.types.AsyncVariableType
 import ch.rmy.android.http_shortcuts.variables.types.SyncVariableType
-import ch.rmy.android.http_shortcuts.variables.types.TypeFactory
-import org.jdeferred.DonePipe
-import org.jdeferred.Promise
-import org.jdeferred.impl.DeferredObject
+import ch.rmy.android.http_shortcuts.variables.types.VariableTypeFactory
+import org.jdeferred2.DonePipe
+import org.jdeferred2.Promise
+import org.jdeferred2.impl.DeferredObject
 import org.json.JSONObject
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
@@ -69,7 +69,7 @@ class VariableResolver(private val context: Context) {
                 continue
             }
 
-            val variableType = TypeFactory.getType(variable.type)
+            val variableType = VariableTypeFactory.getType(variable.type)
             if (variableType is AsyncVariableType) {
                 val index = i++
 

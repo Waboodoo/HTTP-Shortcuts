@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.utils
 
 import android.content.Context
 import android.text.TextUtils
+import android.util.Log
 import ch.rmy.android.http_shortcuts.BuildConfig
 import com.bugsnag.android.Bugsnag
 import kotlin.properties.Delegates
@@ -31,6 +32,8 @@ object CrashReporting {
     fun logException(e: Throwable) {
         if (initialized) {
             Bugsnag.notify(e)
+        } else {
+            Log.e("CrashReporting", "An error occurred", e)
         }
     }
 
