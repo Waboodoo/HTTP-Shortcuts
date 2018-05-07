@@ -109,6 +109,11 @@ class Controller : Destroyable, Closeable {
                 }
             }
 
+    fun renameShortcut(shortcutId: Long, newName: String) =
+            realm.commitAsync { realm ->
+                Repository.getShortcutById(realm, shortcutId)?.name = newName
+            }
+
     fun createCategory(name: String) =
             realm.commitAsync { realm ->
                 val base = Repository.getBase(realm) ?: return@commitAsync

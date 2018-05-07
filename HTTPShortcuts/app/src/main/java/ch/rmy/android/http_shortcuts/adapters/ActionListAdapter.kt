@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.actions.types.BaseAction
+import ch.rmy.android.http_shortcuts.utils.UUIDUtils
 import kotterknife.bindView
 
 class ActionListAdapter(private val context: Context) : SimpleListAdapter<BaseAction, ActionListAdapter.ActionViewHolder>() {
@@ -19,7 +20,7 @@ class ActionListAdapter(private val context: Context) : SimpleListAdapter<BaseAc
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ActionViewHolder(parent)
 
-    override fun getItemId(item: BaseAction) = item.id.hashCode().toLong()
+    override fun getItemId(item: BaseAction) = UUIDUtils.toLong(item.id)
 
     inner class ActionViewHolder(parent: ViewGroup) : SimpleViewHolder<BaseAction>(parent, R.layout.list_item_action) {
 

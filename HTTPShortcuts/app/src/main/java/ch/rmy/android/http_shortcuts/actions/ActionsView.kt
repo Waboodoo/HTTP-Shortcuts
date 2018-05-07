@@ -9,7 +9,6 @@ import android.widget.FrameLayout
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.actions.types.ActionFactory
 import ch.rmy.android.http_shortcuts.actions.types.BaseAction
-import ch.rmy.android.http_shortcuts.actions.types.BaseActionType
 import ch.rmy.android.http_shortcuts.adapters.ActionListAdapter
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.utils.Destroyable
@@ -43,10 +42,20 @@ class ActionsView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         actionList.layoutManager = LinearLayoutManager(context)
         actionList.adapter = adapter
 
-        adapter.clickListener = this::deleteAction
+        adapter.clickListener = { action ->
+            action.edit(context, showDelete = true)
+                    .done {
+                        adapter.notifyDataSetChanged()
+                    }
+                    .fail { shouldDelete ->
+                        if (shouldDelete) {
+                            internalActions.removeAll { it.id == action.id }
+                            adapter.notifyDataSetChanged()
+                        }
+                    }
+        }
 
         addButton.setOnClickListener { openAddDialog() }
-
         initDragOrdering()
     }
 
@@ -55,21 +64,15 @@ class ActionsView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                 .title(R.string.title_add_action)
                 .mapFor(actionFactory.availableActionTypes) { builder, actionType ->
                     builder.item(actionType.title) {
-                        // TODO: Show edit dialog
-                        addAction(actionType)
+                        val action = actionType.createAction()
+                        action.edit(context)
+                                .done {
+                                    internalActions.add(action)
+                                    adapter.notifyDataSetChanged()
+                                }
                     }
                 }
                 .showIfPossible()
-    }
-
-    private fun addAction(actionType: BaseActionType) {
-        internalActions.add(actionType.createAction())
-        adapter.notifyDataSetChanged()
-    }
-
-    private fun deleteAction(action: BaseAction) {
-        internalActions.removeAll { it.id == action.id }
-        adapter.notifyDataSetChanged()
     }
 
     private fun initDragOrdering() {

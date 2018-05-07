@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.variables
 
 import android.content.Context
+import ch.rmy.android.http_shortcuts.actions.ActionDTO
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.realm.models.Variable
@@ -136,6 +137,16 @@ class VariableResolver(private val context: Context) {
                         addAll(Variables.extractVariableKeys(header.key))
                         addAll(Variables.extractVariableKeys(header.value))
                     }
+                    addAll(extractVariableKeys(shortcut.beforeActions))
+                    addAll(extractVariableKeys(shortcut.successActions))
+                    addAll(extractVariableKeys(shortcut.failureActions))
+                }
+
+        private fun extractVariableKeys(actions: List<ActionDTO>) =
+                actions.flatMap {
+                    it.data.values
+                            .map { Variables.extractVariableKeys(it) }
+                            .flatten()
                 }
 
         private fun encodeValue(variable: Variable, value: String) =

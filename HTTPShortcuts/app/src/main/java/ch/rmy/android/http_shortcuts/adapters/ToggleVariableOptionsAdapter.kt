@@ -5,6 +5,7 @@ import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.realm.models.Option
 import ch.rmy.android.http_shortcuts.realm.models.Variable
+import ch.rmy.android.http_shortcuts.utils.UUIDUtils
 import ch.rmy.android.http_shortcuts.variables.Variables
 import kotterknife.bindView
 
@@ -22,7 +23,7 @@ class ToggleVariableOptionsAdapter : SimpleListAdapter<Option, ToggleVariableOpt
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = SelectOptionViewHolder(parent)
 
-    override fun getItemId(item: Option) = item.id.hashCode().toLong()
+    override fun getItemId(item: Option) = UUIDUtils.toLong(item.id)
 
     inner class SelectOptionViewHolder(parent: ViewGroup) : SimpleViewHolder<Option>(parent, R.layout.toggle_option) {
 

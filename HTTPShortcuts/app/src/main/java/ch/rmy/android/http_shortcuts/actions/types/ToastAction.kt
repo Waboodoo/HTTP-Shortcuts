@@ -1,23 +1,33 @@
 package ch.rmy.android.http_shortcuts.actions.types
 
 import android.content.Context
-import android.widget.Toast
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.utils.showToast
+import ch.rmy.android.http_shortcuts.variables.Variables
 
 class ToastAction(id: String, actionType: ToastActionType, data: Map<String, String>) : BaseAction(id, actionType, data) {
 
-    val message = data[KEY_TEXT] ?: ""
+    var message: String
+        get() = internalData[KEY_TEXT] ?: ""
+        set(value) {
+            internalData[KEY_TEXT] = value
+        }
 
-    override fun getDescription(context: Context) =
-            context.getString(R.string.action_type_toast_description, message) // TODO: Include VariableSpans
+    override fun getDescription(context: Context): CharSequence =
+            Variables.rawPlaceholdersToVariableSpans(context, context.getString(R.string.action_type_toast_description, message))
 
     override fun performBlocking(context: Context, shortcutId: Long, variableValues: Map<String, String>) {
-        Toast.makeText(context, message, Toast.LENGTH_LONG).show() // TODO: Include variables
+        val finalMessage = Variables.rawPlaceholdersToResolvedValues(message, variableValues)
+        if (finalMessage.isNotEmpty()) {
+            context.showToast(finalMessage, long = true)
+        }
     }
+
+    override fun createEditorView(context: Context) = ToastActionEditorView(context, this)
 
     companion object {
 
-        private val KEY_TEXT = "text"
+        private const val KEY_TEXT = "text"
 
     }
 

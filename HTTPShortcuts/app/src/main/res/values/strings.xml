@@ -361,6 +361,8 @@
     <string name="action_type_toast_title">Show Toast</string>
     <!-- Shortcut Action Description: Show Toast (small popup message) -->
     <string name="action_type_toast_description">Show message \"%1$s\"</string>
+    <!-- Shortcut Action Editor Label: Message (to show in a toast) -->
+    <string name="action_type_toast_edit_label_message">Message</string>
     <!-- Shortcut Action Title: Vibrate -->
     <string name="action_type_vibrate_title">Vibrate</string>
     <!-- Shortcut Action Description: Vibrate, describes the vibration pattern -->
@@ -369,6 +371,16 @@
     <string name="action_type_vibrate_description_pattern_1">1 long vibration</string>
     <!-- Shortcut Action Description: Vibrate, describes the vibration pattern -->
     <string name="action_type_vibrate_description_pattern_2">3 short vibrations</string>
+    <!-- Shortcut Action Editor Label: Vibration pattern -->
+    <string name="action_type_vibrate_edit_label_pattern">Pattern</string>
+    <!-- Shortcut Action Editor Label: Checkbox, whether to wait for the vibration to complete -->
+    <string name="action_type_vibrate_edit_label_wait_until_complete">Wait for pattern to complete</string>
     <!-- Dialog title: Add action (shown above list of action types to select) -->
     <string name="title_add_action">Add Action</string>
+    <!-- Shortcut Action Title: Change Shortcut Name -->
+    <string name="action_type_rename_shortcut_title">Rename Shortcut</string>
+    <!-- Shortcut Action Description: Change Shortcut Name -->
+    <string name="action_type_rename_shortcut_description">Rename Shortcut to \"%1$s\"</string>
+    <!-- Shortcut Action Editor Label: New name for shortcut -->
+    <string name="action_type_rename_shortcut_edit_label_new_name">New name</string>
 </resources>

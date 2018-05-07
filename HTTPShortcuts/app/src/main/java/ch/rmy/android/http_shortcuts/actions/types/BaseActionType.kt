@@ -13,6 +13,6 @@ abstract class BaseActionType(protected val context: Context) {
 
     abstract fun fromDTO(actionDTO: ActionDTO): BaseAction
 
-    fun createAction(): BaseAction = fromDTO(ActionDTO(type = type))
+    open fun createAction(): BaseAction = fromDTO(ActionDTO(type = type))
 
 }

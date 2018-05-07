@@ -1,11 +1,15 @@
 package ch.rmy.android.http_shortcuts.variables
 
+import android.content.Context
 import android.support.annotation.ColorInt
 import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.Spanned
+import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Variable
+import ch.rmy.android.http_shortcuts.utils.color
 import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -72,6 +76,14 @@ object Variables {
             builder.setSpan(span, replacement.startIndex, replacement.startIndex + placeholderText.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
         return builder
+    }
+
+    fun rawPlaceholdersToVariableSpans(context: Context, text: CharSequence): Spannable {
+        val variableColor = color(context, R.color.variable)
+        Controller().use { controller ->
+            val variables = controller.getVariables()
+            return Variables.rawPlaceholdersToVariableSpans(text, variables, variableColor)
+        }
     }
 
     private fun isValidVariable(variableKey: String, variables: List<Variable>) =

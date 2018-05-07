@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/variable_button_new_shortcut_name"
+        android:layout_toStartOf="@+id/variable_button_new_shortcut_name">
+
+        <ch.rmy.android.http_shortcuts.variables.VariableEditText
+            android:id="@+id/new_shortcut_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/action_type_rename_shortcut_edit_label_new_name"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <ch.rmy.android.http_shortcuts.variables.VariableButton
+        android:id="@+id/variable_button_new_shortcut_name"
+        style="@style/VariableButton"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"/>
+</RelativeLayout>

@@ -12,7 +12,7 @@ class VibrateAction(id: String, actionType: VibrateActionType, data: Map<String,
 
     override fun getDescription(context: Context) = pattern.getDescription(context)
 
-    override fun perform(context: Context, shortcutId: Long, variableValues: Map<String, String>): Promise<Unit, Exception, Unit> {
+    override fun perform(context: Context, shortcutId: Long, variableValues: Map<String, String>): Promise<Unit, Throwable, Unit> {
         val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         if (!vibrator.hasVibrator()) {
             return PromiseUtils.resolve(Unit)
@@ -26,68 +26,22 @@ class VibrateAction(id: String, actionType: VibrateActionType, data: Map<String,
         }
     }
 
-    private val patternId
-        get() = (data[KEY_PATTERN]?.toIntOrNull()) ?: 0
+    var patternId
+        get() = (internalData[KEY_PATTERN]?.toIntOrNull()) ?: 0
+        set(value) {
+            internalData[KEY_PATTERN] = value.toString()
+        }
 
-    private val waitForCompletion
-        get() = (data[KEY_WAIT_FOR_COMPLETION]?.toBoolean()) ?: false
+    var waitForCompletion
+        get() = (internalData[KEY_WAIT_FOR_COMPLETION]?.toBoolean()) ?: false
+        set(value) {
+            internalData[KEY_WAIT_FOR_COMPLETION] = value.toString()
+        }
 
     private val pattern: VibrationPattern
         get() = findPattern(patternId)
 
-    private fun findPattern(patternId: Int): VibrationPattern {
-        return when (patternId) {
-            1 -> object : VibrationPattern {
-                override val duration: Long
-                    get() = 1000L
-
-                override fun execute(vibrator: Vibrator) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        vibrator.vibrate(VibrationEffect.createOneShot(duration, VibrationEffect.DEFAULT_AMPLITUDE))
-                    } else {
-                        //deprecated in API 26
-                        vibrator.vibrate(duration)
-                    }
-                }
-
-                override fun getDescription(context: Context): CharSequence =
-                        context.getString(R.string.action_type_vibrate_description_pattern_1)
-            }
-            2 -> object : VibrationPattern {
-                override val duration: Long
-                    get() = 1200L
-
-                override fun execute(vibrator: Vibrator) {
-                    val pattern = longArrayOf(200L, 200L, 200L, 200L, 200L, 200L)
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        vibrator.vibrate(VibrationEffect.createWaveform(pattern, -1))
-                    } else {
-                        //deprecated in API 26
-                        vibrator.vibrate(pattern, -1)
-                    }
-                }
-
-                override fun getDescription(context: Context): CharSequence =
-                        context.getString(R.string.action_type_vibrate_description_pattern_2)
-            }
-            else -> object : VibrationPattern {
-                override val duration: Long
-                    get() = 300L
-
-                override fun execute(vibrator: Vibrator) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        vibrator.vibrate(VibrationEffect.createOneShot(duration, VibrationEffect.DEFAULT_AMPLITUDE))
-                    } else {
-                        //deprecated in API 26
-                        vibrator.vibrate(duration)
-                    }
-                }
-
-                override fun getDescription(context: Context): CharSequence =
-                        context.getString(R.string.action_type_vibrate_description_pattern_0)
-            }
-        }
-    }
+    override fun createEditorView(context: Context) = VibrateActionEditorView(context, this)
 
     interface VibrationPattern {
 
@@ -101,8 +55,64 @@ class VibrateAction(id: String, actionType: VibrateActionType, data: Map<String,
 
     companion object {
 
-        const val KEY_PATTERN = "pattern"
-        const val KEY_WAIT_FOR_COMPLETION = "wait"
+        private const val KEY_PATTERN = "pattern"
+        private const val KEY_WAIT_FOR_COMPLETION = "wait"
+
+        private const val PATTERN_COUNT = 3
+
+        fun getPatterns() = (0 until PATTERN_COUNT).map { findPattern(it) }
+
+        private fun findPattern(patternId: Int): VibrationPattern {
+            return when (patternId) {
+                1 -> object : VibrationPattern {
+                    override val duration: Long
+                        get() = 1000L
+
+                    override fun execute(vibrator: Vibrator) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            vibrator.vibrate(VibrationEffect.createOneShot(duration, VibrationEffect.DEFAULT_AMPLITUDE))
+                        } else {
+                            //deprecated in API 26
+                            vibrator.vibrate(duration)
+                        }
+                    }
+
+                    override fun getDescription(context: Context): CharSequence =
+                            context.getString(R.string.action_type_vibrate_description_pattern_1)
+                }
+                2 -> object : VibrationPattern {
+                    override val duration: Long
+                        get() = 1200L
+
+                    override fun execute(vibrator: Vibrator) {
+                        val pattern = longArrayOf(200L, 200L, 200L, 200L, 200L, 200L)
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            vibrator.vibrate(VibrationEffect.createWaveform(pattern, -1))
+                        } else {
+                            vibrator.vibrate(pattern, -1)
+                        }
+                    }
+
+                    override fun getDescription(context: Context): CharSequence =
+                            context.getString(R.string.action_type_vibrate_description_pattern_2)
+                }
+                else -> object : VibrationPattern {
+                    override val duration: Long
+                        get() = 300L
+
+                    override fun execute(vibrator: Vibrator) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            vibrator.vibrate(VibrationEffect.createOneShot(duration, VibrationEffect.DEFAULT_AMPLITUDE))
+                        } else {
+                            vibrator.vibrate(duration)
+                        }
+                    }
+
+                    override fun getDescription(context: Context): CharSequence =
+                            context.getString(R.string.action_type_vibrate_description_pattern_0)
+                }
+            }
+        }
 
     }
 

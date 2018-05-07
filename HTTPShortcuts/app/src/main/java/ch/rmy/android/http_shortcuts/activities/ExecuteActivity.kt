@@ -129,13 +129,13 @@ class ExecuteActivity : BaseActivity() {
             PromiseUtils.resolve(Unit)
         }
 
-        beforePromise.then(DonePipe<Unit, Unit, Exception, Unit> {
+        beforePromise.then(DonePipe<Unit, Unit, Throwable, Unit> {
             executeShortcut(resolvedVariables, tryNumber)
                     .then(
                             DoneFilter<ShortcutResponse, ShortcutResponse> { it },
                             FailFilter<VolleyError, Exception> { it }
                     )
-                    .then(DonePipe<ShortcutResponse, Unit, Exception, Unit> {
+                    .then(DonePipe<ShortcutResponse, Unit, Throwable, Unit> {
                         iterateActions(shortcut.successActions.iterator(), resolvedVariables)
                     }, FailPipe {
                         iterateActions(shortcut.failureActions.iterator(), resolvedVariables)
@@ -174,13 +174,13 @@ class ExecuteActivity : BaseActivity() {
                 }
     }
 
-    private fun iterateActions(iterator: Iterator<ActionDTO>, resolvedVariables: Map<String, String>): Promise<Unit, Exception, Unit> {
+    private fun iterateActions(iterator: Iterator<ActionDTO>, resolvedVariables: Map<String, String>): Promise<Unit, Throwable, Unit> {
         if (iterator.hasNext()) {
             val action = actionFactory.fromDTO(iterator.next())
-            val promise = action.perform(context, shortcut.id, resolvedVariables)
-            return promise.then(DonePipe<Unit, Unit, Exception, Unit> {
-                iterateActions(iterator, resolvedVariables)
-            })
+            return action.perform(context, shortcut.id, resolvedVariables)
+                    .then(DonePipe<Unit, Unit, Throwable, Unit> {
+                        iterateActions(iterator, resolvedVariables)
+                    })
                     .fail { e ->
                         logException(e)
                     }

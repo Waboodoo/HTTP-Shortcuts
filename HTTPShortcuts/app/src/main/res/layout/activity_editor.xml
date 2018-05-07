@@ -2,7 +2,6 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:ls="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -104,7 +103,7 @@
                 android:id="@+id/input_method"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                ls:labelText="@string/label_method"/>
+                app:labelText="@string/label_method"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -141,7 +140,7 @@
                 android:id="@+id/input_authentication"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                ls:labelText="@string/label_authentication_method"/>
+                app:labelText="@string/label_authentication_method"/>
 
             <LinearLayout
                 android:id="@+id/authentication_container"
@@ -230,7 +229,7 @@
                     android:id="@+id/input_request_body_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    ls:labelText="@string/label_request_body_type"/>
+                    app:labelText="@string/label_request_body_type"/>
 
                 <LinearLayout
                     android:id="@+id/request_parameters_container"
@@ -311,7 +310,7 @@
                 android:id="@+id/input_feedback"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                ls:labelText="@string/label_feedback"/>
+                app:labelText="@string/label_feedback"/>
 
             <TextView
                 style="@style/SubHeader"
@@ -367,19 +366,19 @@
                 android:id="@+id/input_timeout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                ls:labelText="@string/label_timeout"/>
+                app:labelText="@string/label_timeout"/>
 
             <com.satsuware.usefulviews.LabelledSpinner
                 android:id="@+id/input_delay_execution"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                ls:labelText="@string/label_delay_execution"/>
+                app:labelText="@string/label_delay_execution"/>
 
             <com.satsuware.usefulviews.LabelledSpinner
                 android:id="@+id/input_retry_policy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                ls:labelText="@string/label_retry_policy"/>
+                app:labelText="@string/label_retry_policy"/>
 
         </LinearLayout>
 

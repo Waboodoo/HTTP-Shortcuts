@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.satsuware.usefulviews.LabelledSpinner
+        android:id="@+id/input_vibration_pattern"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:labelText="@string/action_type_vibrate_edit_label_pattern"/>
+
+    <CheckBox
+        android:id="@+id/input_wait_for_vibration_complete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/action_type_vibrate_edit_label_wait_until_complete"/>
+
+</LinearLayout>
