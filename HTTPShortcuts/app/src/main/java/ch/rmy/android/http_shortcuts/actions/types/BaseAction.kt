@@ -4,7 +4,6 @@ import android.content.Context
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.actions.ActionDTO
 import ch.rmy.android.http_shortcuts.utils.PromiseUtils
-import ch.rmy.android.http_shortcuts.utils.mapIf
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
 import org.jdeferred2.Promise
@@ -34,15 +33,15 @@ abstract class BaseAction(val id: String, val actionType: BaseActionType, data: 
 
     }
 
-    open fun edit(context: Context, showDelete: Boolean = false): Promise<Unit, Boolean, Unit> {
+    open fun edit(context: Context, showDelete: Boolean = false): Promise<Unit, Unit, Unit> {
         val editorView = createEditorView(context) ?: return PromiseUtils.resolve(Unit)
-        val deferred = DeferredObject<Unit, Boolean, Unit>()
+        val deferred = DeferredObject<Unit, Unit, Unit>()
         MaterialDialog.Builder(context)
                 .title(actionType.title)
                 .customView(editorView, true)
                 .dismissListener {
                     if (deferred.isPending) {
-                        deferred.reject(false)
+                        deferred.reject(Unit)
                     }
                 }
                 .positiveText(R.string.dialog_ok)
@@ -56,17 +55,10 @@ abstract class BaseAction(val id: String, val actionType: BaseActionType, data: 
                 .autoDismiss(false)
                 .negativeText(R.string.dialog_cancel)
                 .onNegative { dialog, _ -> dialog.dismiss() }
-                .mapIf(showDelete) {
-                    it.neutralText(R.string.dialog_remove)
-                            .onNeutral { dialog, _ ->
-                                deferred.reject(true)
-                                dialog.dismiss()
-                            }
-                }
                 .showIfPossible()
                 .let { dialogShown ->
                     if (!dialogShown) {
-                        deferred.reject(false)
+                        deferred.reject(Unit)
                     }
                 }
 

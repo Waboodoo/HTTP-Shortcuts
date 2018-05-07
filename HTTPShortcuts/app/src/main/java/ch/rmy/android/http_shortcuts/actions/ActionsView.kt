@@ -43,16 +43,19 @@ class ActionsView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         actionList.adapter = adapter
 
         adapter.clickListener = { action ->
-            action.edit(context, showDelete = true)
-                    .done {
+            MenuDialogBuilder(context)
+                    .title(action.actionType.title)
+                    .item(R.string.action_edit_action) {
+                        action.edit(context, showDelete = true)
+                                .done {
+                                    adapter.notifyDataSetChanged()
+                                }
+                    }
+                    .item(R.string.action_remove_action) {
+                        internalActions.removeAll { it.id == action.id }
                         adapter.notifyDataSetChanged()
                     }
-                    .fail { shouldDelete ->
-                        if (shouldDelete) {
-                            internalActions.removeAll { it.id == action.id }
-                            adapter.notifyDataSetChanged()
-                        }
-                    }
+                    .showIfPossible()
         }
 
         addButton.setOnClickListener { openAddDialog() }
