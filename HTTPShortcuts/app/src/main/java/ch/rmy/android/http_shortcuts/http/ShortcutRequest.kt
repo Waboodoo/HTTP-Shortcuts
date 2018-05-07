@@ -27,7 +27,7 @@ internal class ShortcutRequest private constructor(method: Int, url: String, pri
     }
 
     @Throws(AuthFailureError::class)
-    override fun getBody(): ByteArray = when {
+    override fun getBody(): ByteArray? = when {
         contentType.startsWith("multipart/form-data") -> constructFormDataBody().toByteArray()
         contentType.startsWith("application/x-www-form-urlencoded") -> super.getBody()
         else -> (bodyContent ?: "").toByteArray()
