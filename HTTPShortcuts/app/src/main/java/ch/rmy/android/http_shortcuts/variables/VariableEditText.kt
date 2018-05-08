@@ -3,19 +3,12 @@ package ch.rmy.android.http_shortcuts.variables
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.AutoCompleteTextView
-import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.Destroyable
-import ch.rmy.android.http_shortcuts.utils.color
 import ch.rmy.android.http_shortcuts.utils.showSoftKeyboard
 
 class VariableEditText : AutoCompleteTextView {
 
-    private val variableColor by lazy {
-        color(context, R.color.variable)
-    }
-
-    private lateinit var variables: List<Variable>
+    private lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
 
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
@@ -24,21 +17,21 @@ class VariableEditText : AutoCompleteTextView {
     var rawString: String
         get() = Variables.variableSpansToRawPlaceholders(text)
         set(value) {
-            val processedText = Variables.rawPlaceholdersToVariableSpans(value, variables, variableColor)
+            val processedText = Variables.rawPlaceholdersToVariableSpans(value, variablePlaceholderProvider)
             setText(processedText)
             setSelection(processedText.length)
         }
 
-    fun insertVariablePlaceholder(variableKey: String) {
+    private fun insertVariablePlaceholder(placeholder: VariablePlaceholder) {
         val position = selectionEnd.takeIf { it != -1 } ?: text.length
-        Variables.insertVariableSpan(text, variableKey, position, variableColor)
+        Variables.insertVariableSpan(text, placeholder, position)
     }
 
-    fun bind(variableButton: VariableButton, variables: List<Variable>): Destroyable {
-        this.variables = variables
-        variableButton.variables = variables
-        return variableButton.variableSource.add {variable ->
-            insertVariablePlaceholder(variable.key)
+    fun bind(variableButton: VariableButton, variablePlaceholderProvider: VariablePlaceholderProvider): Destroyable {
+        this.variablePlaceholderProvider = variablePlaceholderProvider
+        variableButton.variablePlaceholderProvider = variablePlaceholderProvider
+        return variableButton.variableSource.add { placeholder ->
+            insertVariablePlaceholder(placeholder)
             showSoftKeyboard()
         }
     }

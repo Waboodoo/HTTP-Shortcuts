@@ -49,6 +49,7 @@ import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.utils.visible
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
+import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.curlcommand.CurlCommand
 import com.afollestad.materialdialogs.MaterialDialog
 import com.satsuware.usefulviews.LabelledSpinner
@@ -62,7 +63,9 @@ class EditorActivity : BaseActivity() {
     private var shortcutId: Long = 0
 
     private val controller by lazy { destroyer.own(Controller()) }
-    private val variables by lazy { controller.getVariables() }
+    private val variableKeyProvider by lazy {
+        destroyer.own(VariablePlaceholderProvider(context, controller.getVariables()))
+    }
 
     private lateinit var oldShortcut: Shortcut
     private lateinit var shortcut: Shortcut
@@ -158,7 +161,7 @@ class EditorActivity : BaseActivity() {
         authenticationView.onItemChosenListener = itemChosenListener
         authenticationView.setSelection(ArrayUtil.findIndex(Shortcut.AUTHENTICATION_OPTIONS, shortcut.authentication!!))
 
-        parameterList.variables = variables
+        parameterList.variablePlaceholderProvider = variableKeyProvider
         parameterList.addItems(shortcut.parameters)
         parameterList.setButtonText(R.string.button_add_post_param)
         parameterList.addDialogTitle = R.string.title_post_param_add
@@ -168,7 +171,7 @@ class EditorActivity : BaseActivity() {
         parameterList.isMultiLine = true
         parameterList.factory = { key, value -> Parameter.createNew(key, value) }
 
-        customHeaderList.variables = variables
+        customHeaderList.variablePlaceholderProvider = variableKeyProvider
         customHeaderList.addItems(shortcut.headers)
         customHeaderList.setButtonText(R.string.button_add_custom_header)
         customHeaderList.addDialogTitle = R.string.title_custom_header_add
@@ -182,10 +185,13 @@ class EditorActivity : BaseActivity() {
         feedbackView.onItemChosenListener = itemChosenListener
         feedbackView.fix()
         feedbackView.setSelection(ArrayUtil.findIndex(Shortcut.FEEDBACK_OPTIONS, shortcut.feedback))
+        beforeActionsView.variablePlaceholderProvider = variableKeyProvider
         beforeActionsView.attachTo(destroyer)
         beforeActionsView.actions = shortcut.beforeActions
+        successActionsView.variablePlaceholderProvider = variableKeyProvider
         successActionsView.attachTo(destroyer)
         successActionsView.actions = shortcut.successActions
+        failureActionsView.variablePlaceholderProvider = variableKeyProvider
         failureActionsView.attachTo(destroyer)
         failureActionsView.actions = shortcut.failureActions
 
@@ -219,7 +225,7 @@ class EditorActivity : BaseActivity() {
     }
 
     private fun initVariableEditText(editText: VariableEditText, variableButton: VariableButton, value: String) {
-        editText.bind(variableButton, variables).attachTo(destroyer)
+        editText.bind(variableButton, variableKeyProvider).attachTo(destroyer)
         editText.rawString = value
     }
 

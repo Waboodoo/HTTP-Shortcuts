@@ -8,7 +8,7 @@ class UnknownActionType(context: Context) : BaseActionType(context) {
 
     override val type = ""
 
-    override val title = context.getString(R.string.action_type_unknown_title)
+    override val title: String = context.getString(R.string.action_type_unknown_title)
 
     override fun fromDTO(actionDTO: ActionDTO) = UnknownAction(actionDTO.id, this, actionDTO.data)
 }

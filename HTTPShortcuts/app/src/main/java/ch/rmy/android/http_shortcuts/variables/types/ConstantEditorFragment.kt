@@ -14,7 +14,7 @@ class ConstantEditorFragment : VariableEditorFragment() {
     private val inputVariableValue: VariableEditText by bindView(R.id.input_variable_value)
 
     override fun setupViews() {
-        inputVariableValue.bind(variableButton, variables).attachTo(destroyer)
+        inputVariableValue.bind(variableButton, variableKeyProvider).attachTo(destroyer)
     }
 
     override fun updateViews(variable: Variable) {

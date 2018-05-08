@@ -9,7 +9,6 @@ import ch.rmy.android.http_shortcuts.realm.models.Option
 import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
-import ch.rmy.android.http_shortcuts.utils.color
 import ch.rmy.android.http_shortcuts.utils.mapIf
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.utils.showMessageDialog
@@ -21,9 +20,6 @@ import kotterknife.bindView
 class ToggleEditorFragment : VariableEditorFragment() {
 
     private var variable: Variable? = null
-    private val variableColor by lazy {
-        color(context!!, R.color.variable)
-    }
 
     override val layoutResource = R.layout.variable_editor_toggle
 
@@ -32,8 +28,7 @@ class ToggleEditorFragment : VariableEditorFragment() {
     private val optionsAdapter = ToggleVariableOptionsAdapter()
 
     override fun setupViews() {
-        optionsAdapter.variables = variables
-        optionsAdapter.variableColor = variableColor
+        optionsAdapter.variablePlaceholderProvider = variableKeyProvider
 
         toggleOptionsAddButton.setOnClickListener { showAddDialog() }
         toggleOptionsList.layoutManager = LinearLayoutManager(context)
@@ -62,7 +57,7 @@ class ToggleEditorFragment : VariableEditorFragment() {
         val valueInput = editorView.findViewById<VariableEditText>(R.id.toggle_option_value)
         val valueVariableButton = editorView.findViewById<VariableButton>(R.id.variable_button_value)
 
-        valueInput.bind(valueVariableButton, variables).attachTo(destroyer)
+        valueInput.bind(valueVariableButton, variableKeyProvider).attachTo(destroyer)
 
         if (option != null) {
             valueInput.rawString = option.value

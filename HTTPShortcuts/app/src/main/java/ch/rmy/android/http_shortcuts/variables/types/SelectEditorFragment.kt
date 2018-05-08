@@ -64,7 +64,7 @@ class SelectEditorFragment : VariableEditorFragment() {
         val valueInput = editorView.findViewById<VariableEditText>(R.id.select_option_value)
         val valueVariableButton = editorView.findViewById<VariableButton>(R.id.variable_button_value)
 
-        valueInput.bind(valueVariableButton, variables).attachTo(destroyer)
+        valueInput.bind(valueVariableButton, variableKeyProvider).attachTo(destroyer)
 
         if (option != null) {
             labelInput.setText(option.label)

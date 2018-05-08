@@ -3,9 +3,14 @@ package ch.rmy.android.http_shortcuts.actions.types
 import android.content.Context
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.utils.showToast
+import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
 
-class ToastAction(id: String, actionType: ToastActionType, data: Map<String, String>) : BaseAction(id, actionType, data) {
+class ToastAction(
+        id: String,
+        actionType: ToastActionType,
+        data: Map<String, String>
+) : BaseAction(id, actionType, data) {
 
     var message: String
         get() = internalData[KEY_TEXT] ?: ""
@@ -23,7 +28,8 @@ class ToastAction(id: String, actionType: ToastActionType, data: Map<String, Str
         }
     }
 
-    override fun createEditorView(context: Context) = ToastActionEditorView(context, this)
+    override fun createEditorView(context: Context, variablePlaceholderProvider: VariablePlaceholderProvider) =
+            ToastActionEditorView(context, this, variablePlaceholderProvider)
 
     companion object {
 

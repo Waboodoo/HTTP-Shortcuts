@@ -12,7 +12,6 @@ import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ListView
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.mapIf
 import ch.rmy.android.http_shortcuts.utils.onTextChanged
@@ -20,6 +19,7 @@ import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.utils.showSoftKeyboard
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
+import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
 import kotterknife.bindView
@@ -39,12 +39,14 @@ class KeyValueList<T : KeyValuePair> @JvmOverloads constructor(context: Context,
     var keyLabel: Int = 0
     var valueLabel: Int = 0
     var isMultiLine: Boolean = false
-    var variables: List<Variable> = emptyList()
+    var variablePlaceholderProvider: VariablePlaceholderProvider
+        get() = internalVariablePlaceholderProvider
         set(value) {
-            field = value
-            adapter.variables = value
+            internalVariablePlaceholderProvider = value
+            adapter.variablePlaceholderProvider = value
             adapter.notifyDataSetChanged()
         }
+    private lateinit var internalVariablePlaceholderProvider: VariablePlaceholderProvider
 
     init {
         inflate(context, R.layout.key_value_list, this)
@@ -108,9 +110,9 @@ class KeyValueList<T : KeyValuePair> @JvmOverloads constructor(context: Context,
                     val keyVariableButton = dialog.findViewById(R.id.variable_button_key) as VariableButton
                     val valueVariableButton = dialog.findViewById(R.id.variable_button_value) as VariableButton
 
-                    keyInput.bind(keyVariableButton, variables).attachTo(destroyer)
+                    keyInput.bind(keyVariableButton, variablePlaceholderProvider).attachTo(destroyer)
                     keyInput.rawString = item?.key ?: ""
-                    valueInput.bind(valueVariableButton, variables).attachTo(destroyer)
+                    valueInput.bind(valueVariableButton, variablePlaceholderProvider).attachTo(destroyer)
                     valueInput.rawString = item?.value ?: ""
 
                     valueInput.inputType = (if (isMultiLine) InputType.TYPE_TEXT_FLAG_MULTI_LINE else 0) or InputType.TYPE_CLASS_TEXT

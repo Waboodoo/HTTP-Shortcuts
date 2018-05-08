@@ -9,7 +9,7 @@ class VibrateActionType(context: Context) : BaseActionType(context) {
 
     override val type = TYPE
 
-    override val title = context.getString(R.string.action_type_vibrate_title)
+    override val title: String = context.getString(R.string.action_type_vibrate_title)
 
     override val isAvailable = (context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator).hasVibrator()
 

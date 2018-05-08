@@ -7,7 +7,6 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.VariableEditorActivity
 import ch.rmy.android.http_shortcuts.activities.VariablesActivity
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
-import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.EventSource
 import ch.rmy.android.http_shortcuts.utils.mapFor
 import ch.rmy.android.http_shortcuts.utils.mapIf
@@ -17,9 +16,9 @@ import com.afollestad.materialdialogs.MaterialDialog
 
 class VariableButton : ImageButton {
 
-    lateinit var variables: List<Variable>
+    lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
 
-    val variableSource = EventSource<Variable>()
+    val variableSource = EventSource<VariablePlaceholder>()
 
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
@@ -27,10 +26,10 @@ class VariableButton : ImageButton {
 
     init {
         setOnClickListener {
-            if (variables.isEmpty()) {
-                openInstructionDialog()
-            } else {
+            if (variablePlaceholderProvider.hasVariables) {
                 openVariableSelectionDialog()
+            } else {
+                openInstructionDialog()
             }
         }
     }
@@ -56,9 +55,9 @@ class VariableButton : ImageButton {
     private fun openVariableSelectionDialog() {
         MenuDialogBuilder(context)
                 .title(R.string.dialog_title_variable_selection)
-                .mapFor(variables) { builder, variable ->
-                    builder.item(variable.key) {
-                        variableSource.notifyObservers(variable)
+                .mapFor(variablePlaceholderProvider.placeholders) { builder, placeholder ->
+                    builder.item(placeholder.variableKey) {
+                        variableSource.notifyObservers(placeholder)
                     }
                 }
                 .toDialogBuilder()

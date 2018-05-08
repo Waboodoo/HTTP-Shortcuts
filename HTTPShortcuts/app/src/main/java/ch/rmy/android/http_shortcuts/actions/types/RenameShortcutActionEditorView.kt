@@ -2,23 +2,23 @@ package ch.rmy.android.http_shortcuts.actions.types
 
 import android.content.Context
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.utils.focus
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
+import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import kotterknife.bindView
 
-class RenameShortcutActionEditorView(context: Context, private val action: RenameShortcutAction) : BaseActionEditorView(context, R.layout.action_editor_rename_shortcut) {
+class RenameShortcutActionEditorView(
+        context: Context,
+        private val action: RenameShortcutAction,
+        variablePlaceholderProvider: VariablePlaceholderProvider
+) : BaseActionEditorView(context, R.layout.action_editor_rename_shortcut) {
 
     private val newNameView: VariableEditText by bindView(R.id.new_shortcut_name)
     private val variableButton: VariableButton by bindView(R.id.variable_button_new_shortcut_name)
 
-    private val variables by lazy {
-        destroyer.own(Controller()).getVariables()
-    }
-
     init {
-        newNameView.bind(variableButton, variables)
+        newNameView.bind(variableButton, variablePlaceholderProvider)
         newNameView.rawString = action.name
         newNameView.focus()
     }

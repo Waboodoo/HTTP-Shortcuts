@@ -6,6 +6,7 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.utils.PromiseUtils
+import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import org.jdeferred2.Promise
 
 class VibrateAction(id: String, actionType: VibrateActionType, data: Map<String, String>) : BaseAction(id, actionType, data) {
@@ -41,7 +42,7 @@ class VibrateAction(id: String, actionType: VibrateActionType, data: Map<String,
     private val pattern: VibrationPattern
         get() = findPattern(patternId)
 
-    override fun createEditorView(context: Context) = VibrateActionEditorView(context, this)
+    override fun createEditorView(context: Context, variablePlaceholderProvider: VariablePlaceholderProvider) = VibrateActionEditorView(context, this)
 
     interface VibrationPattern {
 

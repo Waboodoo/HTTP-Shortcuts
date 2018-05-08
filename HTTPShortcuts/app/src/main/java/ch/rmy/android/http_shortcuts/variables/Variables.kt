@@ -1,15 +1,11 @@
 package ch.rmy.android.http_shortcuts.variables
 
 import android.content.Context
-import android.support.annotation.ColorInt
 import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.Spanned
-import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.realm.Controller
-import ch.rmy.android.http_shortcuts.realm.models.Variable
-import ch.rmy.android.http_shortcuts.utils.color
 import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -55,23 +51,24 @@ object Variables {
 
     private fun match(s: CharSequence): Matcher = PATTERN.matcher(s)
 
-    fun rawPlaceholdersToVariableSpans(text: CharSequence, variables: List<Variable>, variableColor: Int): Spannable {
+    fun rawPlaceholdersToVariableSpans(text: CharSequence, variablePlaceholderProvider: VariablePlaceholderProvider): Spannable {
         val builder = SpannableStringBuilder(text)
         val matcher = match(text)
 
         val replacements = LinkedList<Replacement>()
         while (matcher.find()) {
             val variableKey = matcher.group(1)
-            if (isValidVariable(variableKey, variables)) {
-                replacements.add(Replacement(matcher.start(), matcher.end(), variableKey))
+            val placeholder = variablePlaceholderProvider.findPlaceholder(variableKey)
+            if (placeholder != null) {
+                replacements.add(Replacement(matcher.start(), matcher.end(), placeholder))
             }
         }
 
         val it = replacements.descendingIterator()
         while (it.hasNext()) {
             val replacement = it.next()
-            val placeholderText = toPrettyPlaceholder(replacement.variableKey)
-            val span = VariableSpan(variableColor, replacement.variableKey)
+            val placeholderText = toPrettyPlaceholder(replacement.placeholder.variableKey)
+            val span = VariableSpan(replacement.placeholder.color, replacement.placeholder.variableKey)
             builder.replace(replacement.startIndex, replacement.endIndex, placeholderText)
             builder.setSpan(span, replacement.startIndex, replacement.startIndex + placeholderText.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
@@ -79,15 +76,11 @@ object Variables {
     }
 
     fun rawPlaceholdersToVariableSpans(context: Context, text: CharSequence): Spannable {
-        val variableColor = color(context, R.color.variable)
         Controller().use { controller ->
-            val variables = controller.getVariables()
-            return Variables.rawPlaceholdersToVariableSpans(text, variables, variableColor)
+            val variableKeyProvider = VariablePlaceholderProvider(context, controller.getVariables())
+            return Variables.rawPlaceholdersToVariableSpans(text, variableKeyProvider)
         }
     }
-
-    private fun isValidVariable(variableKey: String, variables: List<Variable>) =
-            variables.any { it.isValid && variableKey == it.key }
 
     fun variableSpansToRawPlaceholders(text: Spannable): String {
         val builder = StringBuilder(text)
@@ -106,9 +99,9 @@ object Variables {
         return builder.toString()
     }
 
-    fun insertVariableSpan(text: Editable, variableKey: String, position: Int, @ColorInt variableColor: Int) {
-        val placeholderText = toPrettyPlaceholder(variableKey)
-        val span = VariableSpan(variableColor, variableKey)
+    fun insertVariableSpan(text: Editable, placeholder: VariablePlaceholder, position: Int) {
+        val placeholderText = toPrettyPlaceholder(placeholder.variableKey)
+        val span = VariableSpan(placeholder.color, placeholder.variableKey)
         text.insert(position, placeholderText)
         text.setSpan(span, position, position + placeholderText.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
     }
@@ -117,6 +110,6 @@ object Variables {
 
     private fun toPrettyPlaceholder(variableKey: String) = "$PRETTY_PLACEHOLDER_PREFIX$variableKey$PRETTY_PLACEHOLDER_SUFFIX"
 
-    private class Replacement(internal val startIndex: Int, internal val endIndex: Int, internal val variableKey: String)
+    private class Replacement(internal val startIndex: Int, internal val endIndex: Int, internal val placeholder: VariablePlaceholder)
 
 }

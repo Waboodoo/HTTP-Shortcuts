@@ -7,6 +7,4 @@ class UnknownAction(id: String, actionType: UnknownActionType, data: Map<String,
 
     override fun getDescription(context: Context): String = context.getString(R.string.action_type_unknown_description)
 
-    override fun createEditorView(context: Context): Nothing? = null
-
 }

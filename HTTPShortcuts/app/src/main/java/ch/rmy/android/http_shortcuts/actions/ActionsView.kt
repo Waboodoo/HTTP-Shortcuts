@@ -16,11 +16,14 @@ import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
 import ch.rmy.android.http_shortcuts.utils.mapFor
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
+import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import kotterknife.bindView
 
 class ActionsView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr), Destroyable {
 
     private val actionFactory = ActionFactory(context)
+
+    lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
 
     var actions: List<ActionDTO>
         get() = internalActions.map { it.toDTO() }
@@ -46,7 +49,7 @@ class ActionsView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             MenuDialogBuilder(context)
                     .title(action.actionType.title)
                     .item(R.string.action_edit_action) {
-                        action.edit(context, showDelete = true)
+                        action.edit(context, variablePlaceholderProvider)
                                 .done {
                                     adapter.notifyDataSetChanged()
                                 }
@@ -68,7 +71,7 @@ class ActionsView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                 .mapFor(actionFactory.availableActionTypes) { builder, actionType ->
                     builder.item(actionType.title) {
                         val action = actionType.createAction()
-                        action.edit(context)
+                        action.edit(context, variablePlaceholderProvider)
                                 .done {
                                     internalActions.add(action)
                                     adapter.notifyDataSetChanged()

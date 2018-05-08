@@ -3,7 +3,7 @@ package ch.rmy.android.http_shortcuts.http
 import com.android.volley.toolbox.HttpHeaderParser
 import java.nio.charset.Charset
 
-class ShortcutResponse internal constructor(private val headers: Map<String, String>, private val data: ByteArray) {
+class ShortcutResponse internal constructor(private val headers: Map<String, String>, val statusCode: Int, private val data: ByteArray) {
 
     val bodyAsString: String
         get() = try {

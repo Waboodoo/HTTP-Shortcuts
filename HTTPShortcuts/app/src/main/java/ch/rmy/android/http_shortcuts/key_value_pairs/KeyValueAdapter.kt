@@ -6,18 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
-
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.realm.models.Variable
-import ch.rmy.android.http_shortcuts.utils.color
+import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
 
 internal class KeyValueAdapter<T : KeyValuePair>(context: Context) : ArrayAdapter<T>(context, R.layout.key_value_item) {
 
-    var variables: List<Variable> = emptyList()
-    private val variableColor by lazy {
-        color(context, R.color.variable)
-    }
+    lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
 
     override fun getView(position: Int, rowView: View?, parent: ViewGroup): View {
         val parameter = getItem(position)
@@ -29,10 +24,10 @@ internal class KeyValueAdapter<T : KeyValuePair>(context: Context) : ArrayAdapte
 
         if (parameter != null) {
             val keyView = row.findViewById<TextView>(R.id.text_key)
-            keyView.text = Variables.rawPlaceholdersToVariableSpans(parameter.key, variables, variableColor)
+            keyView.text = Variables.rawPlaceholdersToVariableSpans(parameter.key, variablePlaceholderProvider)
 
             val valueView = row.findViewById<TextView>(R.id.text_value)
-            valueView.text = Variables.rawPlaceholdersToVariableSpans(parameter.value, variables, variableColor)
+            valueView.text = Variables.rawPlaceholdersToVariableSpans(parameter.value, variablePlaceholderProvider)
         }
         return row
     }

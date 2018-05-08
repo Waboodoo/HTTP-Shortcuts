@@ -384,7 +384,7 @@
     <!-- Shortcut Action Editor Label: New name for shortcut -->
     <string name="action_type_rename_shortcut_edit_label_new_name">New name</string>
     <!-- Action: Edit the current action. Shown in dropdown menu when selecting an action in the shortcut editor -->
-    <string name="action_edit_action">Edit</string>
+    <string name="action_edit_action">Edit action</string>
     <!-- Action: Remove the current action. Shown in dropdown menu when selecting an action in the shortcut editor -->
-    <string name="action_remove_action">Remove</string>
+    <string name="action_remove_action">Remove action</string>
 </resources>

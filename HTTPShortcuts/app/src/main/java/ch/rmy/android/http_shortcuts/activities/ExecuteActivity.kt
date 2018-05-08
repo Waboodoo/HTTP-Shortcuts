@@ -112,7 +112,7 @@ class ExecuteActivity : BaseActivity() {
                                     controller.destroy()
                                 }
                     } else {
-                        executeWithActions(resolvedVariables, tryNumber)
+                        executeWithActions(resolvedVariables.toMutableMap(), tryNumber)
                     }
                 }
                 .fail {
@@ -120,7 +120,7 @@ class ExecuteActivity : BaseActivity() {
                 }
     }
 
-    private fun executeWithActions(resolvedVariables: Map<String, String>, tryNumber: Int) {
+    private fun executeWithActions(resolvedVariables: MutableMap<String, String>, tryNumber: Int) {
         showProgress()
 
         val beforePromise = if (tryNumber == 0) {
@@ -174,7 +174,7 @@ class ExecuteActivity : BaseActivity() {
                 }
     }
 
-    private fun iterateActions(iterator: Iterator<ActionDTO>, resolvedVariables: Map<String, String>): Promise<Unit, Throwable, Unit> {
+    private fun iterateActions(iterator: Iterator<ActionDTO>, resolvedVariables: MutableMap<String, String>): Promise<Unit, Throwable, Unit> {
         if (iterator.hasNext()) {
             val action = actionFactory.fromDTO(iterator.next())
             return action.perform(context, shortcut.id, resolvedVariables)

@@ -4,15 +4,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.realm.models.Option
-import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils
+import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
 import kotterknife.bindView
 
 class ToggleVariableOptionsAdapter : SimpleListAdapter<Option, ToggleVariableOptionsAdapter.SelectOptionViewHolder>() {
 
-    lateinit var variables: List<Variable>
-    var variableColor: Int = 0
+    lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
 
     var options: List<Option>
         get() = items
@@ -30,7 +29,7 @@ class ToggleVariableOptionsAdapter : SimpleListAdapter<Option, ToggleVariableOpt
         private val value: TextView by bindView(R.id.toggle_option_value)
 
         override fun updateViews(item: Option) {
-            value.text = Variables.rawPlaceholdersToVariableSpans(item.value, variables, variableColor)
+            value.text = Variables.rawPlaceholdersToVariableSpans(item.value, variablePlaceholderProvider)
             itemView.setOnClickListener { clickListener?.invoke(item) }
         }
 

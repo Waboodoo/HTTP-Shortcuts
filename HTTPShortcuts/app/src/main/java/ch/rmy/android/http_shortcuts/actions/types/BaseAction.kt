@@ -5,11 +5,16 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.actions.ActionDTO
 import ch.rmy.android.http_shortcuts.utils.PromiseUtils
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
+import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import com.afollestad.materialdialogs.MaterialDialog
 import org.jdeferred2.Promise
 import org.jdeferred2.impl.DeferredObject
 
-abstract class BaseAction(val id: String, val actionType: BaseActionType, data: Map<String, String>) {
+abstract class BaseAction(
+        val id: String,
+        val actionType: BaseActionType,
+        data: Map<String, String>
+) {
 
     protected val internalData = data.toMutableMap()
 
@@ -33,8 +38,9 @@ abstract class BaseAction(val id: String, val actionType: BaseActionType, data: 
 
     }
 
-    open fun edit(context: Context, showDelete: Boolean = false): Promise<Unit, Unit, Unit> {
-        val editorView = createEditorView(context) ?: return PromiseUtils.resolve(Unit)
+    open fun edit(context: Context, variablePlaceholderProvider: VariablePlaceholderProvider): Promise<Unit, Unit, Unit> {
+        val editorView = createEditorView(context, variablePlaceholderProvider)
+                ?: return PromiseUtils.resolve(Unit)
         val deferred = DeferredObject<Unit, Unit, Unit>()
         MaterialDialog.Builder(context)
                 .title(actionType.title)
@@ -66,7 +72,6 @@ abstract class BaseAction(val id: String, val actionType: BaseActionType, data: 
                 .always { _, _, _ -> editorView.destroy() }
     }
 
-    abstract fun createEditorView(context: Context): BaseActionEditorView?
-
+    open fun createEditorView(context: Context, variablePlaceholderProvider: VariablePlaceholderProvider): BaseActionEditorView? = null
 
 }

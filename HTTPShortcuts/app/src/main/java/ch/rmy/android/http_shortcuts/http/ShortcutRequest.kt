@@ -41,7 +41,7 @@ internal class ShortcutRequest private constructor(method: Int, url: String, pri
     public override fun getParams() = parameters
 
     override fun parseNetworkResponse(response: NetworkResponse): Response<ShortcutResponse> =
-            Response.success(ShortcutResponse(response.headers, response.data), null)
+            Response.success(ShortcutResponse(response.headers, response.statusCode, response.data), null)
 
     override fun deliverResponse(response: ShortcutResponse) {
         deferred.resolve(response)

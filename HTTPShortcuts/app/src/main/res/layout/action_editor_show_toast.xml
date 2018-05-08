@@ -15,8 +15,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/action_type_toast_edit_label_message"
-            android:inputType="textNoSuggestions"
-            android:maxLength="200"/>
+            android:inputType="textMultiLine"
+            android:maxLength="300"
+            android:maxLines="6"/>
     </android.support.design.widget.TextInputLayout>
 
     <ch.rmy.android.http_shortcuts.variables.VariableButton
