@@ -2,9 +2,11 @@ package ch.rmy.android.http_shortcuts.actions.types
 
 import android.content.Context
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.utils.showToast
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
+import com.android.volley.VolleyError
 
 class ToastAction(
         id: String,
@@ -21,7 +23,7 @@ class ToastAction(
     override fun getDescription(context: Context): CharSequence =
             Variables.rawPlaceholdersToVariableSpans(context, context.getString(R.string.action_type_toast_description, message))
 
-    override fun performBlocking(context: Context, shortcutId: Long, variableValues: Map<String, String>) {
+    override fun performBlocking(context: Context, shortcutId: Long, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?) {
         val finalMessage = Variables.rawPlaceholdersToResolvedValues(message, variableValues)
         if (finalMessage.isNotEmpty()) {
             context.showToast(finalMessage, long = true)

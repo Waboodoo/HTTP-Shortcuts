@@ -185,12 +185,16 @@ class EditorActivity : BaseActivity() {
         feedbackView.onItemChosenListener = itemChosenListener
         feedbackView.fix()
         feedbackView.setSelection(ArrayUtil.findIndex(Shortcut.FEEDBACK_OPTIONS, shortcut.feedback))
+
+        beforeActionsView.isBeforeActions = true
         beforeActionsView.variablePlaceholderProvider = variableKeyProvider
         beforeActionsView.attachTo(destroyer)
         beforeActionsView.actions = shortcut.beforeActions
+
         successActionsView.variablePlaceholderProvider = variableKeyProvider
         successActionsView.attachTo(destroyer)
         successActionsView.actions = shortcut.successActions
+
         failureActionsView.variablePlaceholderProvider = variableKeyProvider
         failureActionsView.attachTo(destroyer)
         failureActionsView.actions = shortcut.failureActions

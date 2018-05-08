@@ -3,10 +3,12 @@ package ch.rmy.android.http_shortcuts.actions.types
 import android.content.Context
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.actions.ActionDTO
+import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.utils.PromiseUtils
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import com.afollestad.materialdialogs.MaterialDialog
+import com.android.volley.VolleyError
 import org.jdeferred2.Promise
 import org.jdeferred2.impl.DeferredObject
 
@@ -26,15 +28,15 @@ abstract class BaseAction(
 
     abstract fun getDescription(context: Context): CharSequence
 
-    open fun perform(context: Context, shortcutId: Long, variableValues: Map<String, String>): Promise<Unit, Throwable, Unit> =
+    open fun perform(context: Context, shortcutId: Long, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?): Promise<Unit, Throwable, Unit> =
             try {
-                performBlocking(context, shortcutId, variableValues)
+                performBlocking(context, shortcutId, variableValues, response, volleyError)
                 PromiseUtils.resolve(Unit)
             } catch (e: Throwable) {
                 PromiseUtils.reject(e)
             }
 
-    protected open fun performBlocking(context: Context, shortcutId: Long, variableValues: Map<String, String>) {
+    protected open fun performBlocking(context: Context, shortcutId: Long, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?) {
 
     }
 

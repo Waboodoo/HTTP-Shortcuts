@@ -254,6 +254,8 @@
     <string name="button_create_first_variable">Create</string>
     <!-- Title of dialog that allows users to pick a variable from a list to insert its placeholder somewhere -->
     <string name="dialog_title_variable_selection">Variables</string>
+    <!-- Title of dialog that allows users to pick a constant variable from a list to insert its placeholder somewhere -->
+    <string name="dialog_title_variable_selection_constants_only">Variables (Constants Only)</string>
     <!-- Option shown on variable selection dialog, clicking it opens variable editor -->
     <string name="label_edit_variables">Edit variables</string>
     <string name="error_not_enough_toggle_values">Please add at least two values.</string>
@@ -387,4 +389,14 @@
     <string name="action_edit_action">Edit action</string>
     <!-- Action: Remove the current action. Shown in dropdown menu when selecting an action in the shortcut editor -->
     <string name="action_remove_action">Remove action</string>
+    <!-- Shortcut Action Title: Show Toast (small popup message) -->
+    <string name="action_type_extract_status_code_title">Extract Status Code</string>
+    <!-- Shortcut Action Description: Extract status code (from HTTP response) and store in variable -->
+    <string name="action_type_extract_status_code_description">Store response status code in \"%1$s\"</string>
+    <!-- Shortcut Action Editor Help Text: Extract status code, shown in action editor -->
+    <string name="action_type_extract_status_code_help_text">Extracts the status code of the HTTP response and stores it in a variable.</string>
+    <!-- Shortcut Action Editor Label: Target variable (to store a value) -->
+    <string name="action_type_target_variable">Target variable</string>
+    <!-- Shortcut Action Editor Placeholder: Shows when no variable was selected yet -->
+    <string name="action_type_target_variable_no_variable_selected">No variable selected</string>
 </resources>

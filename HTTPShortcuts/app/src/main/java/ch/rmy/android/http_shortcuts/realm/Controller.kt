@@ -60,6 +60,11 @@ class Controller : Destroyable, Closeable {
                 Repository.getVariableById(realm, variableId)?.value = value
             }
 
+    fun setVariableValue(variableKey: String, value: String) =
+            realm.commitAsync { realm ->
+                Repository.getVariableByKey(realm, variableKey)?.value = value
+            }
+
     fun resetVariableValues(variableIds: List<Long>) =
             realm.commitAsync { realm ->
                 variableIds.forEach { variableId ->

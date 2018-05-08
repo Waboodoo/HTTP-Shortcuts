@@ -15,6 +15,7 @@ import ch.rmy.android.http_shortcuts.utils.Destroyable
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
 import ch.rmy.android.http_shortcuts.utils.mapFor
+import ch.rmy.android.http_shortcuts.utils.mapIf
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import kotterknife.bindView
@@ -24,6 +25,7 @@ class ActionsView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     private val actionFactory = ActionFactory(context)
 
     lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
+    var isBeforeActions = false
 
     var actions: List<ActionDTO>
         get() = internalActions.map { it.toDTO() }
@@ -66,9 +68,13 @@ class ActionsView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     }
 
     private fun openAddDialog() {
+        val actionTypes = actionFactory.availableActionTypes
+                .mapIf(isBeforeActions) {
+                    it.filter { it.isValidBeforeAction }
+                }
         MenuDialogBuilder(context)
                 .title(R.string.title_add_action)
-                .mapFor(actionFactory.availableActionTypes) { builder, actionType ->
+                .mapFor(actionTypes) { builder, actionType ->
                     builder.item(actionType.title) {
                         val action = actionType.createAction()
                         action.edit(context, variablePlaceholderProvider)

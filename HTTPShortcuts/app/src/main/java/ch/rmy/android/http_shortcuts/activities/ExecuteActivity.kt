@@ -34,9 +34,7 @@ import com.android.volley.VolleyError
 import com.github.chen0040.androidcodeview.SourceCodeView
 import fr.castorflex.android.circularprogressbar.CircularProgressBar
 import kotterknife.bindView
-import org.jdeferred2.DoneFilter
 import org.jdeferred2.DonePipe
-import org.jdeferred2.FailFilter
 import org.jdeferred2.FailPipe
 import org.jdeferred2.Promise
 import java.util.*
@@ -131,14 +129,10 @@ class ExecuteActivity : BaseActivity() {
 
         beforePromise.then(DonePipe<Unit, Unit, Throwable, Unit> {
             executeShortcut(resolvedVariables, tryNumber)
-                    .then(
-                            DoneFilter<ShortcutResponse, ShortcutResponse> { it },
-                            FailFilter<VolleyError, Exception> { it }
-                    )
                     .then(DonePipe<ShortcutResponse, Unit, Throwable, Unit> {
-                        iterateActions(shortcut.successActions.iterator(), resolvedVariables)
+                        iterateActions(shortcut.successActions.iterator(), resolvedVariables, response = it)
                     }, FailPipe {
-                        iterateActions(shortcut.failureActions.iterator(), resolvedVariables)
+                        iterateActions(shortcut.failureActions.iterator(), resolvedVariables, volleyError = it)
                     })
         })
                 .always { _, _, _ ->
@@ -174,12 +168,17 @@ class ExecuteActivity : BaseActivity() {
                 }
     }
 
-    private fun iterateActions(iterator: Iterator<ActionDTO>, resolvedVariables: MutableMap<String, String>): Promise<Unit, Throwable, Unit> {
+    private fun iterateActions(
+            iterator: Iterator<ActionDTO>,
+            resolvedVariables: MutableMap<String, String>,
+            response: ShortcutResponse? = null,
+            volleyError: VolleyError? = null
+    ): Promise<Unit, Throwable, Unit> {
         if (iterator.hasNext()) {
             val action = actionFactory.fromDTO(iterator.next())
-            return action.perform(context, shortcut.id, resolvedVariables)
+            return action.perform(context, shortcut.id, resolvedVariables, response, volleyError)
                     .then(DonePipe<Unit, Unit, Throwable, Unit> {
-                        iterateActions(iterator, resolvedVariables)
+                        iterateActions(iterator, resolvedVariables, response, volleyError)
                     })
                     .fail { e ->
                         logException(e)

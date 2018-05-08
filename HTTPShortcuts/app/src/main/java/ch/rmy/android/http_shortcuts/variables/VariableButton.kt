@@ -18,6 +18,8 @@ class VariableButton : ImageButton {
 
     lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
 
+    var constantsOnly = false
+
     val variableSource = EventSource<VariablePlaceholder>()
 
     constructor(context: Context?) : super(context)
@@ -54,10 +56,14 @@ class VariableButton : ImageButton {
 
     private fun openVariableSelectionDialog() {
         MenuDialogBuilder(context)
-                .title(R.string.dialog_title_variable_selection)
+                .title(if (constantsOnly) R.string.dialog_title_variable_selection_constants_only else R.string.dialog_title_variable_selection)
                 .mapFor(variablePlaceholderProvider.placeholders) { builder, placeholder ->
-                    builder.item(placeholder.variableKey) {
-                        variableSource.notifyObservers(placeholder)
+                    if (!constantsOnly || placeholder.isConstant) {
+                        builder.item(placeholder.variableKey) {
+                            variableSource.notifyObservers(placeholder)
+                        }
+                    } else {
+                        builder
                     }
                 }
                 .toDialogBuilder()

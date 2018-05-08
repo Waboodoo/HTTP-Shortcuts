@@ -34,7 +34,7 @@ class VariablePlaceholderProvider(context: Context, private val variables: Realm
     private fun regenerateKeys() {
         if (variables.isValid) {
             internalPlaceholders = variables
-                    .map { VariablePlaceholder(it.key, placeholderColor) }
+                    .map { VariablePlaceholder(it.key, placeholderColor, it.type == Variable.TYPE_CONSTANT) }
         }
     }
 
