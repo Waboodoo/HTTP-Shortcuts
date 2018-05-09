@@ -11,6 +11,7 @@ class ActionFactory(private val context: Context) {
                 ExtractStatusCodeActionType(context),
                 ExtractHeaderActionType(context),
                 ExtractCookieActionType(context),
+                SetVariableActionType(context),
                 RenameShortcutActionType(context),
                 ToastActionType(context),
                 VibrateActionType(context)

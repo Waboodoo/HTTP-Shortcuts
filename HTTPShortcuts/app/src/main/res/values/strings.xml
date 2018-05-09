@@ -439,4 +439,12 @@
     <string name="action_type_extract_body_help_text_substring_option">Use 0 to denote the start/end of the string. Use negative numbers to denote an offset from the end of the string.</string>
     <!-- Shortcut Action Editor Help Text: Explains how the JSON option can be used when extracting text from the HTTP response body -->
     <string name="action_type_extract_body_help_text_json_option">Describe the path within the JSON response, separated by dots. E.g. "2.title" would mean that the response is to be interpreted as a JSON array, of which the 2nd element should be used, which is then interpreted as a JSON object that contains a "title" field, from which the value should be extracted.</string>
+    <!-- Shortcut Action Title: Set the value of a variable -->
+    <string name="action_type_set_variable_title">Set Variable</string>
+    <!-- Shortcut Action Description: Set the value (%2$s placeholder) of a variable (%1$s placeholder) -->
+    <string name="action_type_set_variable_description">Set \"%1$s\" to \"%2$s\"</string>
+    <!-- Shortcut Action Editor Help Text: Set the value of a variable -->
+    <string name="action_type_set_variable_help_text">Changes the value of a variable.</string>
+    <!-- Shortcut Action Editor Label: allows to specify the new value of a variable -->
+    <string name="action_type_set_variable_label_new_value">New value</string>
 </resources>
