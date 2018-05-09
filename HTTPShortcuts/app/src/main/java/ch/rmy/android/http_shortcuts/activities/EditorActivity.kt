@@ -260,7 +260,7 @@ class EditorActivity : BaseActivity() {
     private fun trySave() {
         compileShortcut()
         if (validate(false)) {
-            shortcut.id = shortcutId
+            prepareForSave(shortcut, shortcutId)
             controller.persist(shortcut)
                     .done { persistedShortcut ->
                         onShortcutSaved(persistedShortcut)
@@ -302,7 +302,7 @@ class EditorActivity : BaseActivity() {
     private fun test() {
         compileShortcut()
         if (validate(true)) {
-            shortcut.id = TEMPORARY_ID
+            prepareForTest(shortcut)
             controller.persist(shortcut)
                     .done {
                         val intent = ExecuteActivity.IntentBuilder(context, TEMPORARY_ID)
@@ -467,6 +467,36 @@ class EditorActivity : BaseActivity() {
         private const val REQUEST_SELECT_IPACK_ICON = 3
         private const val STATE_JSON_SHORTCUT = "shortcut_json"
         private const val STATE_INITIAL_ICON = "initial_icon"
+
+        private const val TEST_PREFIX = "test_"
+
+        private fun prepareForSave(shortcut: Shortcut, id: Long) {
+            shortcut.id = id
+            shortcut.headers.forEach { header ->
+                if (header.id.startsWith(TEST_PREFIX)) {
+                    header.id = header.id.substring(TEST_PREFIX.length)
+                }
+            }
+            shortcut.parameters.forEach { parameter ->
+                if (parameter.id!!.startsWith(TEST_PREFIX)) {
+                    parameter.id = parameter.id!!.substring(TEST_PREFIX.length)
+                }
+            }
+        }
+
+        private fun prepareForTest(shortcut: Shortcut) {
+            shortcut.id = TEMPORARY_ID
+            shortcut.headers.forEach { header ->
+                if (!header.id.startsWith(TEST_PREFIX)) {
+                    header.id = TEST_PREFIX + header.id
+                }
+            }
+            shortcut.parameters.forEach { parameter ->
+                if (!parameter.id!!.startsWith(TEST_PREFIX)) {
+                    parameter.id = TEST_PREFIX + parameter.id
+                }
+            }
+        }
 
     }
 

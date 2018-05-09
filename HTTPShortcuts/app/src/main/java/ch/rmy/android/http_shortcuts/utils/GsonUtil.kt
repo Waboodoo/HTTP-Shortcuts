@@ -31,10 +31,10 @@ object GsonUtil {
     fun <T : RealmObject> fromJson(json: String, clazz: Class<T>): T = gson.fromJson(json, clazz)
 
     fun exportData(base: Base, writer: Appendable) {
-        gson.toJson(base, writer)
+        getPrettyGson().toJson(base, writer)
     }
 
-    fun exportData(base: Base): String = gson.toJson(base)
+    fun exportData(base: Base): String = getPrettyGson().toJson(base)
 
     fun importData(reader: Reader): Base = gson.fromJson(reader, Base::class.java)
 
@@ -63,8 +63,16 @@ object GsonUtil {
     fun parseString(jsonString: String): JsonElement = JsonParser().parse(jsonString)
 
     private val gson: Gson by lazy {
-        GsonBuilder().addSerializationExclusionStrategy(RealmExclusionStrategy()).create()
+        GsonBuilder()
+                .addSerializationExclusionStrategy(RealmExclusionStrategy())
+                .create()
     }
+
+    private fun getPrettyGson() =
+            GsonBuilder()
+                    .addSerializationExclusionStrategy(RealmExclusionStrategy())
+                    .setPrettyPrinting()
+                    .create()
 
     private class RealmExclusionStrategy : ExclusionStrategy {
 
