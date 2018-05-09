@@ -9,7 +9,8 @@ class ActionFactory(private val context: Context) {
             ToastActionType(context),
             VibrateActionType(context),
             RenameShortcutActionType(context),
-            ExtractStatusCodeActionType(context)
+            ExtractStatusCodeActionType(context),
+            ExtractHeaderActionType(context)
     )
 
     fun fromDTO(actionDTO: ActionDTO): BaseAction =

@@ -389,7 +389,7 @@
     <string name="action_edit_action">Edit action</string>
     <!-- Action: Remove the current action. Shown in dropdown menu when selecting an action in the shortcut editor -->
     <string name="action_remove_action">Remove action</string>
-    <!-- Shortcut Action Title: Show Toast (small popup message) -->
+    <!-- Shortcut Action Title: Extract (HTTP) Status Code (and store in variable) -->
     <string name="action_type_extract_status_code_title">Extract Status Code</string>
     <!-- Shortcut Action Description: Extract status code (from HTTP response) and store in variable -->
     <string name="action_type_extract_status_code_description">Store response status code in \"%1$s\"</string>
@@ -399,4 +399,12 @@
     <string name="action_type_target_variable">Target variable</string>
     <!-- Shortcut Action Editor Placeholder: Shows when no variable was selected yet -->
     <string name="action_type_target_variable_no_variable_selected">No variable selected</string>
+    <!-- Shortcut Action Title: Extract (HTTP) header (and store in variable) -->
+    <string name="action_type_extract_header_title">Extract Header</string>
+    <!-- Shortcut Action Description: Extract header (from HTTP response) and store in variable -->
+    <string name="action_type_extract_header_description">Store response header \"%1$s\" in \"%2$s\"</string>
+    <!-- Shortcut Action Editor Help Text: Extract HTTP header, shown in action editor -->
+    <string name="action_type_extract_header_help_text">Extracts the value of a specific header from the HTTP response and stores it in a variable. If no such header is present this action does nothing.</string>
+    <!-- Shortcut Action Editor Label: (HTTP) header (to be extracted from response) -->
+    <string name="action_type_extract_header_label_header_key">Header</string>
 </resources>
