@@ -5,14 +5,17 @@ import ch.rmy.android.http_shortcuts.actions.ActionDTO
 
 class ActionFactory(private val context: Context) {
 
-    private val types = listOf(
-            ExtractStatusCodeActionType(context),
-            ExtractHeaderActionType(context),
-            ExtractCookieActionType(context),
-            RenameShortcutActionType(context),
-            ToastActionType(context),
-            VibrateActionType(context)
-    )
+    private val types by lazy {
+        listOf(
+                ExtractBodyActionType(context),
+                ExtractStatusCodeActionType(context),
+                ExtractHeaderActionType(context),
+                ExtractCookieActionType(context),
+                RenameShortcutActionType(context),
+                ToastActionType(context),
+                VibrateActionType(context)
+        )
+    }
 
     fun fromDTO(actionDTO: ActionDTO): BaseAction =
             getType(actionDTO.type).fromDTO(actionDTO)

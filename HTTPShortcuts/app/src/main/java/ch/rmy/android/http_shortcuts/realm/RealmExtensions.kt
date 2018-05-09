@@ -4,10 +4,10 @@ import ch.rmy.android.http_shortcuts.utils.logException
 import io.realm.Realm
 import io.realm.RealmObject
 import org.jdeferred2.Promise
-import org.jdeferred2.impl.DeferredObject
+import org.jdeferred2.android.AndroidDeferredObject
 
 fun Realm.commitAsync(transaction: (realm: Realm) -> Unit): Promise<Unit, Throwable, Unit> {
-    val deferred = DeferredObject<Unit, Throwable, Unit>()
+    val deferred = AndroidDeferredObject<Unit, Throwable, Unit>()
     this.executeTransactionAsync(
             { realm ->
                 try {

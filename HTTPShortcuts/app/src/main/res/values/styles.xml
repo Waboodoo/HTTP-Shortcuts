@@ -34,6 +34,18 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="ReadOnly">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">3dp</item>
+        <item name="android:layout_marginBottom">3dp</item>
+        <item name="android:layout_marginRight">4dp</item>
+        <item name="android:layout_marginLeft">4dp</item>
+        <item name="android:background">?selectableItemBackground</item>
+    </style>
+
     <style name="HelpDescription">
         <item name="android:layout_marginBottom">12dp</item>
         <item name="android:textSize">12sp</item>
