@@ -407,4 +407,12 @@
     <string name="action_type_extract_header_help_text">Extracts the value of a specific header from the HTTP response and stores it in a variable. If no such header is present this action does nothing.</string>
     <!-- Shortcut Action Editor Label: (HTTP) header (to be extracted from response) -->
     <string name="action_type_extract_header_label_header_key">Header</string>
+    <!-- Shortcut Action Title: Extract cookie from HTTP response (and store in variable) -->
+    <string name="action_type_extract_cookie_title">Extract Cookie</string>
+    <!-- Shortcut Action Description: Extract cookie (from HTTP response) and store in variable -->
+    <string name="action_type_extract_cookie_description">Store cookie \"%1$s\" in \"%2$s\"</string>
+    <!-- Shortcut Action Editor Help Text: Extract cookie, shown in action editor -->
+    <string name="action_type_extract_cookie_help_text">Extracts the value of a specific cookie from the HTTP response and stores it in a variable. If no such cookie is present this action does nothing.</string>
+    <!-- Shortcut Action Editor Label: cookie name (to be extracted from HTTP response) -->
+    <string name="action_type_extract_cookie_label_cookie_name">Cookie name</string>
 </resources>
