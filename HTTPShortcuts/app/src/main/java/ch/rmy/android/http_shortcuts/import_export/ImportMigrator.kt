@@ -10,18 +10,18 @@ internal object ImportMigrator {
 
     fun migrate(base: Base) {
         for (version in base.version + 1..DatabaseMigration.VERSION) {
-            migrate(base, version.toInt())
+            migrate(base, version)
         }
     }
 
-    private fun migrate(base: Base, newVersion: Int) {
+    private fun migrate(base: Base, newVersion: Long) {
         when (newVersion) {
-            5 -> { // 1.16.0
+            5L -> { // 1.16.0
                 for (category in base.categories) {
                     category.layoutType = "linear_list"
                 }
             }
-            6 -> { // 1.16.0
+            6L -> { // 1.16.0
                 for (category in base.categories) {
                     for (shortcut in category.shortcuts) {
                         if (!TextUtils.isEmpty(shortcut.username) || !TextUtils.isEmpty(shortcut.password)) {
@@ -30,7 +30,7 @@ internal object ImportMigrator {
                     }
                 }
             }
-            9 -> { // 1.16.2
+            9L -> { // 1.16.2
                 for (category in base.categories) {
                     for (shortcut in category.shortcuts) {
                         for (header in shortcut.headers) {
@@ -49,7 +49,7 @@ internal object ImportMigrator {
                     }
                 }
             }
-            10 -> { // 1.17.0
+            10L -> { // 1.17.0
                 for (category in base.categories) {
                     for (shortcut in category.shortcuts) {
                         if (shortcut.authentication == null) {
@@ -59,7 +59,7 @@ internal object ImportMigrator {
                     }
                 }
             }
-            16 -> { // 1.20.0
+            16L -> { // 1.20.0
                 for (category in base.categories) {
                     for (shortcut in category.shortcuts) {
                         shortcut.contentType = "text/plain"
@@ -68,6 +68,13 @@ internal object ImportMigrator {
                         } else {
                             "x_www_form_urlencode"
                         }
+                    }
+                }
+            }
+            18L -> {
+                for (category in base.categories) {
+                    for (shortcut in category.shortcuts) {
+                        shortcut.executionType = "app"
                     }
                 }
             }

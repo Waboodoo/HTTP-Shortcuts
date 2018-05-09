@@ -311,6 +311,8 @@
     <string name="label_no_delay">No delay</string>
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
     <string name="error_not_supported">This feature is not supported on your device.</string>
+    <!-- Generic error shown when something went wrong and there is no better error message available -->
+    <string name="error_generic">Something went wrong…</string>
     <!-- Title of section in settings that allows user to click to open privacy policy dialog -->
     <string name="settings_privacy_policy">Privacy Policy</string>
     <!-- Summary/subtitle of section in settings that allows user to click to open privacy policy dialog -->
@@ -447,4 +449,7 @@
     <string name="action_type_set_variable_help_text">Changes the value of a variable.</string>
     <!-- Shortcut Action Editor Label: allows to specify the new value of a variable -->
     <string name="action_type_set_variable_label_new_value">New value</string>
+    <string name="label_execution_type">Execute using…</string>
+    <string name="execution_type_option_in_app">App</string>
+    <string name="execution_type_option_in_browser">Browser</string>
 </resources>

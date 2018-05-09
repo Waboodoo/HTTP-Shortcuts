@@ -70,6 +70,7 @@ class EditorActivity : BaseActivity() {
     private lateinit var oldShortcut: Shortcut
     private lateinit var shortcut: Shortcut
 
+    private val executionTypeView: LabelledSpinner by bindView(R.id.input_execution_type)
     private val methodView: LabelledSpinner by bindView(R.id.input_method)
     private val feedbackView: LabelledSpinner by bindView(R.id.input_feedback)
     private val timeoutView: LabelledSpinner by bindView(R.id.input_timeout)
@@ -101,6 +102,8 @@ class EditorActivity : BaseActivity() {
     private val beforeActionsView: ActionsView by bindView(R.id.before_actions)
     private val successActionsView: ActionsView by bindView(R.id.success_actions)
     private val failureActionsView: ActionsView by bindView(R.id.failure_actions)
+    private val appExecutionOnlyContainer: View by bindView(R.id.app_execution_only_options_container)
+    private val appExecutionOnlyContainer2: View by bindView(R.id.app_execution_only_options_container2)
 
     private val itemChosenListener = object : OnItemChosenListener() {
         override fun onSelectionChanged() {
@@ -150,6 +153,13 @@ class EditorActivity : BaseActivity() {
 
         nameView.setText(shortcut.name)
         descriptionView.setText(shortcut.description)
+
+        executionTypeView.setItemsArray(ShortcutUIUtils.getExecutionTypeOptions(context))
+        executionTypeView.onItemChosenListener = itemChosenListener
+        executionTypeView.fix()
+        executionTypeView.setSelection(
+                ArrayUtil.findIndex(Shortcut.EXECUTION_TYPES, shortcut.executionType ?: "")
+        )
 
         methodView.setItemsArray(Shortcut.METHODS)
         methodView.fix()
@@ -241,6 +251,9 @@ class EditorActivity : BaseActivity() {
         launcherShortcutCheckbox.visible = LauncherShortcutManager.supportsLauncherShortcuts()
         requestParametersContainer.visible = shortcut.usesRequestParameters()
         requestCustomBodyContainer.visible = shortcut.usesCustomBody()
+        methodView.visible = !shortcut.isBrowserShortcut
+        appExecutionOnlyContainer.visible = !shortcut.isBrowserShortcut
+        appExecutionOnlyContainer2.visible = !shortcut.isBrowserShortcut
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -369,6 +382,7 @@ class EditorActivity : BaseActivity() {
         shortcut.apply {
             name = nameView.text.toString().trim { it <= ' ' }
             url = urlView.rawString
+            executionType = Shortcut.EXECUTION_TYPES[executionTypeView.spinner.selectedItemPosition]
             method = Shortcut.METHODS[methodView.spinner.selectedItemPosition]
             description = descriptionView.text.toString().trim { it <= ' ' }
             password = passwordView.rawString

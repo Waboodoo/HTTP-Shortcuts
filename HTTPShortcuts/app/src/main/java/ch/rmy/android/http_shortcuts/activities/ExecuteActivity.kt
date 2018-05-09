@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities
 
 import android.app.ProgressDialog
+import android.content.ActivityNotFoundException
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
@@ -29,6 +30,7 @@ import ch.rmy.android.http_shortcuts.utils.logException
 import ch.rmy.android.http_shortcuts.utils.showToast
 import ch.rmy.android.http_shortcuts.utils.visible
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
+import ch.rmy.android.http_shortcuts.variables.Variables
 import com.afollestad.materialdialogs.MaterialDialog
 import com.android.volley.VolleyError
 import com.github.chen0040.androidcodeview.SourceCodeView
@@ -74,7 +76,7 @@ class ExecuteActivity : BaseActivity() {
         this.shortcut = shortcut
         title = shortcut.getSafeName(context)
 
-        if (shortcut.feedback == Shortcut.FEEDBACK_ACTIVITY) {
+        if (shortcut.feedback == Shortcut.FEEDBACK_ACTIVITY && !shortcut.isBrowserShortcut) {
             setTheme(R.style.LightTheme)
             setContentView(R.layout.activity_execute)
         }
@@ -128,17 +130,35 @@ class ExecuteActivity : BaseActivity() {
         }
 
         beforePromise.then(DonePipe<Unit, Unit, Throwable, Unit> {
-            executeShortcut(resolvedVariables, tryNumber)
-                    .then(DonePipe<ShortcutResponse, Unit, Throwable, Unit> {
-                        iterateActions(shortcut.successActions.iterator(), resolvedVariables, response = it)
-                    }, FailPipe {
-                        iterateActions(shortcut.failureActions.iterator(), resolvedVariables, volleyError = it)
-                    })
+            if (shortcut.isBrowserShortcut) {
+                openShortcutInBrowser(resolvedVariables)
+                PromiseUtils.resolve(Unit)
+            } else {
+                executeShortcut(resolvedVariables, tryNumber)
+                        .then(DonePipe<ShortcutResponse, Unit, Throwable, Unit> {
+                            iterateActions(shortcut.successActions.iterator(), resolvedVariables, response = it)
+                        }, FailPipe {
+                            iterateActions(shortcut.failureActions.iterator(), resolvedVariables, volleyError = it)
+                        })
+            }
         })
                 .always { _, _, _ ->
                     hideProgress()
                     controller.destroy()
                 }
+    }
+
+    private fun openShortcutInBrowser(resolvedVariables: MutableMap<String, String>) {
+        val url = Variables.rawPlaceholdersToResolvedValues(shortcut.url, resolvedVariables)
+        try {
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(browserIntent)
+        } catch (e: ActivityNotFoundException) {
+            showToast(R.string.error_not_supported)
+        } catch (e: Exception) {
+            logException(e)
+            showToast(R.string.error_generic)
+        }
     }
 
     private fun executeShortcut(resolvedVariables: Map<String, String>, tryNumber: Int): Promise<ShortcutResponse, VolleyError, Unit> {

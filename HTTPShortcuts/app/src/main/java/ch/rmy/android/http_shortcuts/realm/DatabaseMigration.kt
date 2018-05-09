@@ -153,6 +153,13 @@ class DatabaseMigration : RealmMigration {
                     shortcut.setString("serializedFailureActions", "[]")
                 }
             }
+            18L -> { // 1.21.0
+                schema.get("Shortcut")!!.addField("executionType", String::class.java)
+                val shortcuts = realm.where("Shortcut").findAll()
+                for (shortcut in shortcuts) {
+                    shortcut.setString("executionType", "app")
+                }
+            }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -178,7 +185,7 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 17L
+        const val VERSION = 18L
 
     }
 

@@ -100,6 +100,12 @@
                 android:text="@string/section_basic_request"/>
 
             <com.satsuware.usefulviews.LabelledSpinner
+                android:id="@+id/input_execution_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:labelText="@string/label_execution_type"/>
+
+            <com.satsuware.usefulviews.LabelledSpinner
                 android:id="@+id/input_method"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -132,165 +138,49 @@
                     android:layout_centerVertical="true"/>
             </RelativeLayout>
 
-            <TextView
-                style="@style/SubHeader"
-                android:text="@string/section_authentication"/>
-
-            <com.satsuware.usefulviews.LabelledSpinner
-                android:id="@+id/input_authentication"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:labelText="@string/label_authentication_method"/>
-
             <LinearLayout
-                android:id="@+id/authentication_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@+id/variable_button_username"
-                        android:layout_toStartOf="@+id/variable_button_username">
-
-                        <ch.rmy.android.http_shortcuts.variables.VariableEditText
-                            android:id="@+id/input_username"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:ems="10"
-                            android:hint="@string/label_username"
-                            android:inputType="textNoSuggestions"/>
-                    </android.support.design.widget.TextInputLayout>
-
-                    <ch.rmy.android.http_shortcuts.variables.VariableButton
-                        android:id="@+id/variable_button_username"
-                        style="@style/VariableButton"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"/>
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@+id/variable_button_password"
-                        android:layout_toStartOf="@+id/variable_button_password">
-
-                        <ch.rmy.android.http_shortcuts.variables.VariableEditText
-                            android:id="@+id/input_password"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_toLeftOf="@+id/variable_button_password"
-                            android:layout_toStartOf="@+id/variable_button_password"
-                            android:ems="10"
-                            android:hint="@string/label_password"
-                            android:inputType="textPassword"/>
-                    </android.support.design.widget.TextInputLayout>
-
-                    <ch.rmy.android.http_shortcuts.variables.VariableButton
-                        android:id="@+id/variable_button_password"
-                        style="@style/VariableButton"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"/>
-                </RelativeLayout>
-
-            </LinearLayout>
-
-            <TextView
-                style="@style/SubHeader"
-                android:text="@string/section_request_headers"/>
-
-            <ch.rmy.android.http_shortcuts.key_value_pairs.KeyValueList
-                android:id="@+id/custom_headers_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <LinearLayout
-                android:id="@+id/section_request_body"
+                android:id="@+id/app_execution_only_options_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
                     style="@style/SubHeader"
-                    android:text="@string/section_request_body"/>
+                    android:text="@string/section_authentication"/>
 
                 <com.satsuware.usefulviews.LabelledSpinner
-                    android:id="@+id/input_request_body_type"
+                    android:id="@+id/input_authentication"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:labelText="@string/label_request_body_type"/>
+                    app:labelText="@string/label_authentication_method"/>
 
                 <LinearLayout
-                    android:id="@+id/request_parameters_container"
+                    android:id="@+id/authentication_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/label_post_params"
-                        style="@style/Label"
-                        android:text="@string/label_post_params"/>
-
-                    <ch.rmy.android.http_shortcuts.key_value_pairs.KeyValueList
-                        android:id="@+id/post_parameter_list"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/request_body_custom_content_type_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <AutoCompleteTextView
-                            android:id="@+id/input_content_type"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/label_content_type"
-                            android:inputType="text"
-                            android:maxLines="1">
-
-                        </AutoCompleteTextView>
-                    </android.support.design.widget.TextInputLayout>
 
                     <RelativeLayout
-
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_toLeftOf="@+id/variable_button_custom_body"
-                            android:layout_toStartOf="@+id/variable_button_custom_body">
+                            android:layout_toLeftOf="@+id/variable_button_username"
+                            android:layout_toStartOf="@+id/variable_button_username">
 
                             <ch.rmy.android.http_shortcuts.variables.VariableEditText
-                                android:id="@+id/input_custom_body"
+                                android:id="@+id/input_username"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:ems="10"
-                                android:hint="@string/label_custom_body"
-                                android:inputType="textMultiLine|textNoSuggestions"/>
+                                android:hint="@string/label_username"
+                                android:inputType="textNoSuggestions"/>
                         </android.support.design.widget.TextInputLayout>
 
                         <ch.rmy.android.http_shortcuts.variables.VariableButton
-                            android:id="@+id/variable_button_custom_body"
+                            android:id="@+id/variable_button_username"
                             style="@style/VariableButton"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
@@ -298,19 +188,144 @@
 
                     </RelativeLayout>
 
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toLeftOf="@+id/variable_button_password"
+                            android:layout_toStartOf="@+id/variable_button_password">
+
+                            <ch.rmy.android.http_shortcuts.variables.VariableEditText
+                                android:id="@+id/input_password"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_toLeftOf="@+id/variable_button_password"
+                                android:layout_toStartOf="@+id/variable_button_password"
+                                android:ems="10"
+                                android:hint="@string/label_password"
+                                android:inputType="textPassword"/>
+                        </android.support.design.widget.TextInputLayout>
+
+                        <ch.rmy.android.http_shortcuts.variables.VariableButton
+                            android:id="@+id/variable_button_password"
+                            style="@style/VariableButton"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"/>
+                    </RelativeLayout>
+
                 </LinearLayout>
 
+                <TextView
+                    style="@style/SubHeader"
+                    android:text="@string/section_request_headers"/>
+
+                <ch.rmy.android.http_shortcuts.key_value_pairs.KeyValueList
+                    android:id="@+id/custom_headers_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <LinearLayout
+                    android:id="@+id/section_request_body"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/SubHeader"
+                        android:text="@string/section_request_body"/>
+
+                    <com.satsuware.usefulviews.LabelledSpinner
+                        android:id="@+id/input_request_body_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:labelText="@string/label_request_body_type"/>
+
+                    <LinearLayout
+                        android:id="@+id/request_parameters_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/label_post_params"
+                            style="@style/Label"
+                            android:text="@string/label_post_params"/>
+
+                        <ch.rmy.android.http_shortcuts.key_value_pairs.KeyValueList
+                            android:id="@+id/post_parameter_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/request_body_custom_content_type_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <AutoCompleteTextView
+                                android:id="@+id/input_content_type"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/label_content_type"
+                                android:inputType="text"
+                                android:maxLines="1">
+
+                            </AutoCompleteTextView>
+                        </android.support.design.widget.TextInputLayout>
+
+                        <RelativeLayout
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_toLeftOf="@+id/variable_button_custom_body"
+                                android:layout_toStartOf="@+id/variable_button_custom_body">
+
+                                <ch.rmy.android.http_shortcuts.variables.VariableEditText
+                                    android:id="@+id/input_custom_body"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:ems="10"
+                                    android:hint="@string/label_custom_body"
+                                    android:inputType="textMultiLine|textNoSuggestions"/>
+                            </android.support.design.widget.TextInputLayout>
+
+                            <ch.rmy.android.http_shortcuts.variables.VariableButton
+                                android:id="@+id/variable_button_custom_body"
+                                style="@style/VariableButton"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"/>
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+                <TextView
+                    style="@style/SubHeader"
+                    android:text="@string/section_response"/>
+
+                <com.satsuware.usefulviews.LabelledSpinner
+                    android:id="@+id/input_feedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:labelText="@string/label_feedback"/>
+
             </LinearLayout>
-
-            <TextView
-                style="@style/SubHeader"
-                android:text="@string/section_response"/>
-
-            <com.satsuware.usefulviews.LabelledSpinner
-                android:id="@+id/input_feedback"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:labelText="@string/label_feedback"/>
 
             <TextView
                 style="@style/SubHeader"
@@ -325,60 +340,68 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-            <TextView
-                android:id="@+id/label_success_actions"
-                style="@style/Label"
-                android:layout_marginTop="20dp"
-                android:text="@string/label_actions_success"/>
-
-            <ch.rmy.android.http_shortcuts.actions.ActionsView
-                android:id="@+id/success_actions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:id="@+id/label_failure_actions"
-                style="@style/Label"
-                android:layout_marginTop="20dp"
-                android:text="@string/label_actions_failure"/>
-
-            <ch.rmy.android.http_shortcuts.actions.ActionsView
-                android:id="@+id/failure_actions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                style="@style/SubHeader"
-                android:text="@string/section_advanced_settings"/>
-
-            <TextView
-                android:id="@+id/label_certificates"
-                style="@style/Label"
-                android:text="@string/label_certificates"/>
-
-            <CheckBox
-                android:id="@+id/input_accept_all_certificates"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/label_accept_all_certificates"/>
-
-            <com.satsuware.usefulviews.LabelledSpinner
-                android:id="@+id/input_timeout"
+            <LinearLayout
+                android:id="@+id/app_execution_only_options_container2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:labelText="@string/label_timeout"/>
+                android:orientation="vertical">
 
-            <com.satsuware.usefulviews.LabelledSpinner
-                android:id="@+id/input_delay_execution"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:labelText="@string/label_delay_execution"/>
+                <TextView
+                    android:id="@+id/label_success_actions"
+                    style="@style/Label"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/label_actions_success"/>
 
-            <com.satsuware.usefulviews.LabelledSpinner
-                android:id="@+id/input_retry_policy"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:labelText="@string/label_retry_policy"/>
+                <ch.rmy.android.http_shortcuts.actions.ActionsView
+                    android:id="@+id/success_actions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/label_failure_actions"
+                    style="@style/Label"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/label_actions_failure"/>
+
+                <ch.rmy.android.http_shortcuts.actions.ActionsView
+                    android:id="@+id/failure_actions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    style="@style/SubHeader"
+                    android:text="@string/section_advanced_settings"/>
+
+                <TextView
+                    android:id="@+id/label_certificates"
+                    style="@style/Label"
+                    android:text="@string/label_certificates"/>
+
+                <CheckBox
+                    android:id="@+id/input_accept_all_certificates"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_accept_all_certificates"/>
+
+                <com.satsuware.usefulviews.LabelledSpinner
+                    android:id="@+id/input_timeout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:labelText="@string/label_timeout"/>
+
+                <com.satsuware.usefulviews.LabelledSpinner
+                    android:id="@+id/input_delay_execution"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:labelText="@string/label_delay_execution"/>
+
+                <com.satsuware.usefulviews.LabelledSpinner
+                    android:id="@+id/input_retry_policy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:labelText="@string/label_retry_policy"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 

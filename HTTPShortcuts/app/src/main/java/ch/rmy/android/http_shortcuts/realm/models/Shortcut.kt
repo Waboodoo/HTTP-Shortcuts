@@ -50,6 +50,7 @@ open class Shortcut : RealmObject(), HasId {
     var requestBodyType: String = REQUEST_BODY_TYPE_CUSTOM_TEXT
     @Required
     var contentType: String = ""
+    var executionType: String? = ""
 
     var serializedBeforeActions: String? = "[]"
     var serializedSuccessActions: String? = "[]"
@@ -216,6 +217,9 @@ open class Shortcut : RealmObject(), HasId {
             serializedFailureActions = GsonUtil.toJson(value)
         }
 
+    val isBrowserShortcut
+        get() = executionType == EXECUTION_TYPE_BROWSER
+
     companion object {
 
         const val TEMPORARY_ID: Long = -1
@@ -246,6 +250,10 @@ open class Shortcut : RealmObject(), HasId {
         const val REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE = "x_www_form_urlencode"
         const val REQUEST_BODY_TYPE_CUSTOM_TEXT = "custom_text"
 
+        const val EXECUTION_TYPE_APP = "app"
+        const val EXECUTION_TYPE_BROWSER = "browser"
+
+        val EXECUTION_TYPES = arrayOf(EXECUTION_TYPE_APP, EXECUTION_TYPE_BROWSER)
         val METHODS = arrayOf(METHOD_GET, METHOD_POST, METHOD_PUT, METHOD_DELETE, METHOD_PATCH, METHOD_HEAD, METHOD_OPTIONS, METHOD_TRACE)
         val FEEDBACK_OPTIONS = arrayOf(FEEDBACK_NONE, FEEDBACK_TOAST_SIMPLE, FEEDBACK_TOAST_SIMPLE_ERRORS, FEEDBACK_TOAST, FEEDBACK_TOAST_ERRORS, FEEDBACK_DIALOG, FEEDBACK_ACTIVITY)
         val TIMEOUT_OPTIONS = intArrayOf(3000, 10000, 30000, 60000)
