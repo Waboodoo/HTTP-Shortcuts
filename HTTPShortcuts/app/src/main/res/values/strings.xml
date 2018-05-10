@@ -292,7 +292,7 @@
     <!-- Option 2 in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
     <string name="button_curl_import">From cURL command</string>
     <string name="title_curl_import">cURL Import</string>
-    <string name="instructions_curl_import">Type or paste a cURL command below to create a new shortcut from it. Please note that this feature is experimental and that only a limited subset of cURL options is recognized.</string>
+    <string name="instructions_curl_import">Type or paste a cURL command below to create a new shortcut from it.</string>
     <string name="curl_import_button">Import</string>
     <string name="authentication_none">No Authentication</string>
     <string name="authentication_basic">Basic Authentication</string>
