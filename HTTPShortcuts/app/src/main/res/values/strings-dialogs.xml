@@ -3,8 +3,24 @@
     <string name="changelog_text" translatable="false"><![CDATA[
         <p>
             <h3>Version 1.21.0</h3>
+            <b>Shortcut Actions</b><br>
+            You can now define what happens before and after a shortcut is executed. This includes things like displaying a Toast message, extracting part of the response or triggering another shortcut. More to come in future updates!
+            <br><br>
             <b>Support for multipart/form-data</b><br>
-            TODO
+            In addition to sending a custom request body and simple parameters, it is now also possible to send form data, i.e, using the "multipart/form-data" content type.
+            <br><br>
+            <b>Miscellaneous</b>
+            <ul>
+                <li> New languages: Norwegian (Bokmål), Italian</li>
+                <li> Improved syntax highlighting & pretty printing of JSON & XML responses</li>
+            </ul>
+            <b>Bugfixes</b>
+            <ul>
+                <li> Delayed execution & waiting for network connectivity now work again</li>
+                <li> Custom icons now show on the home screen on Oreo</li>
+                <li> gzipped responses are now correctly parsed</li>
+                <li> Various occasional crashes</li>
+            </ul>
         </p>
         <br>
         <p>
@@ -189,7 +205,8 @@
             There are 10 different types of variables:</p>
         <p>
             <u>Constant</u><br>
-            A <i>constant</i> always has the same value. There is no prompt dialog. It can be used to store a piece of information that is shared across multiple shortcut, such as an authentication token or a domain name. This way it can easily be changed.
+            A <i>constant</i> stores a value, until explicitly changed. There is no prompt dialog. It can be used to store a piece of information that is shared across multiple shortcut, such as an authentication token or a domain name. This way it can easily be changed.<br>
+            There are also certain actions that can be attached to a shortcut that allow you to change the value of a constant, e.g., by storing part of the HTTP response into it.
         </p>
         <p>
             <u>Toggle</u><br>
