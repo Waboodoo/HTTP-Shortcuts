@@ -8,7 +8,7 @@ class ToastActionType(context: Context) : BaseActionType(context) {
 
     override val type = TYPE
 
-    override val title = context.getString(R.string.action_type_toast_title)
+    override val title: String = context.getString(R.string.action_type_toast_title)
 
     override fun fromDTO(actionDTO: ActionDTO) = ToastAction(actionDTO.id, this, actionDTO.data)
 

@@ -13,6 +13,7 @@ class ActionFactory(private val context: Context) {
                 ExtractCookieActionType(context),
                 SetVariableActionType(context),
                 RenameShortcutActionType(context),
+                TriggerShortcutActionType(context),
                 ToastActionType(context),
                 VibrateActionType(context)
         )

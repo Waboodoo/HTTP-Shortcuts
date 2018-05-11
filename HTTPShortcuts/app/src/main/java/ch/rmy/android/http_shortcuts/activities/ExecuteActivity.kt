@@ -67,6 +67,9 @@ class ExecuteActivity : BaseActivity() {
     private val tryNumber by lazy {
         intent.extras?.getInt(EXTRA_TRY_NUMBER) ?: 0
     }
+    private val recursionDepth by lazy {
+        intent?.extras?.getInt(EXTRA_RECURSION_DEPTH) ?: 0
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -202,7 +205,7 @@ class ExecuteActivity : BaseActivity() {
     ): Promise<Unit, Throwable, Unit> {
         if (iterator.hasNext()) {
             val action = actionFactory.fromDTO(iterator.next())
-            return action.perform(context, shortcut.id, resolvedVariables, response, volleyError)
+            return action.perform(context, shortcut.id, resolvedVariables, response, volleyError, recursionDepth)
                     .then(DonePipe<Unit, Unit, Throwable, Unit> {
                         iterateActions(iterator, resolvedVariables, response, volleyError)
                     })
@@ -375,6 +378,10 @@ class ExecuteActivity : BaseActivity() {
             intent.putExtra(EXTRA_VARIABLE_VALUES, HashMap(variableValues))
         }
 
+        fun recursionDepth(recursionDepth: Int) = this.also {
+            intent.putExtra(EXTRA_RECURSION_DEPTH, recursionDepth)
+        }
+
     }
 
     companion object {
@@ -383,6 +390,7 @@ class ExecuteActivity : BaseActivity() {
         const val EXTRA_SHORTCUT_ID = "id"
         const val EXTRA_VARIABLE_VALUES = "variable_values"
         const val EXTRA_TRY_NUMBER = "try_number"
+        const val EXTRA_RECURSION_DEPTH = "recursion_depth"
 
         private const val MAX_RETRY = 5
         private const val RETRY_BACKOFF = 2.4

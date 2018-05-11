@@ -443,4 +443,10 @@
     <string name="label_execution_type">Execute using…</string>
     <string name="execution_type_option_in_app">App</string>
     <string name="execution_type_option_in_browser">Browser</string>
+    <string name="action_type_trigger_shortcut_title">Trigger Shortcut</string>
+    <string name="action_type_trigger_shortcut_description">Trigger \"%1$s\"</string>
+    <string name="action_type_trigger_shortcut_error_recursion_depth_reached">Maximum recursion depth reached. Shortcut will not be triggered.</string>
+    <string name="action_type_trigger_shortcut_label_shortcut_name">Shortcut</string>
+    <string name="action_target_shortcut_no_shortcut_selected">No shortcut selected</string>
+    <string name="action_target_shortcut_error_no_shortcuts">You don\'t have any shortcuts yet.</string>
 </resources>

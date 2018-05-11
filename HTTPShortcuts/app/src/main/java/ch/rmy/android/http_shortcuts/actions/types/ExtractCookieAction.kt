@@ -34,7 +34,7 @@ class ExtractCookieAction(
                     context.getString(R.string.action_type_extract_cookie_description, cookieName, Variables.toRawPlaceholder(variableKey))
             )
 
-    override fun perform(context: Context, shortcutId: Long, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?): Promise<Unit, Throwable, Unit> {
+    override fun perform(context: Context, shortcutId: Long, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Promise<Unit, Throwable, Unit> {
         val cookiesString = response?.headers?.get(COOKIE_HEADER)
                 ?: volleyError?.networkResponse?.headers?.get(COOKIE_HEADER)
                 ?: return PromiseUtils.resolve(Unit)

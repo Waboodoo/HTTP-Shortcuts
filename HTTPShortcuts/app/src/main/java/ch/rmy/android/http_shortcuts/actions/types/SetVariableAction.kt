@@ -33,7 +33,7 @@ class SetVariableAction(
                     context.getString(R.string.action_type_set_variable_description, Variables.toRawPlaceholder(variableKey), newValue)
             )
 
-    override fun perform(context: Context, shortcutId: Long, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?): Promise<Unit, Throwable, Unit> {
+    override fun perform(context: Context, shortcutId: Long, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Promise<Unit, Throwable, Unit> {
         val value = Variables.rawPlaceholdersToResolvedValues(newValue, variableValues)
         variableValues[variableKey] = value
         Controller().use { controller ->

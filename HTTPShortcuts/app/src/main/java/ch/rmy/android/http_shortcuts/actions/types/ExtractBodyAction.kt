@@ -55,7 +55,7 @@ class ExtractBodyAction(
                     context.getString(R.string.action_type_extract_body_description, Variables.toRawPlaceholder(variableKey))
             )
 
-    override fun perform(context: Context, shortcutId: Long, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?): Promise<Unit, Throwable, Unit> {
+    override fun perform(context: Context, shortcutId: Long, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Promise<Unit, Throwable, Unit> {
         val body = when {
             response != null -> response.bodyAsString
             volleyError?.networkResponse?.data != null -> volleyError.networkResponse.data.toString(Charset.forName(HttpHeaderParser.parseCharset(volleyError.networkResponse.headers, "UTF-8")))

@@ -34,7 +34,7 @@ class ExtractHeaderAction(
                     context.getString(R.string.action_type_extract_header_description, headerKey, Variables.toRawPlaceholder(variableKey))
             )
 
-    override fun perform(context: Context, shortcutId: Long, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?): Promise<Unit, Throwable, Unit> {
+    override fun perform(context: Context, shortcutId: Long, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Promise<Unit, Throwable, Unit> {
         val headerValue = response?.headers?.get(headerKey)
                 ?: volleyError?.networkResponse?.headers?.get(headerKey)
                 ?: return PromiseUtils.resolve(Unit)

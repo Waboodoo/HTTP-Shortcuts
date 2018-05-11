@@ -28,7 +28,7 @@ class RenameShortcutAction(
     override fun getDescription(context: Context): CharSequence =
             Variables.rawPlaceholdersToVariableSpans(context, context.getString(R.string.action_type_rename_shortcut_description, name))
 
-    override fun perform(context: Context, shortcutId: Long, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?): Promise<Unit, Throwable, Unit> =
+    override fun perform(context: Context, shortcutId: Long, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Promise<Unit, Throwable, Unit> =
             renameShortcut(context, this.shortcutId ?: shortcutId, variableValues)
 
     private fun renameShortcut(context: Context, shortcutId: Long, variableValues: Map<String, String>): Promise<Unit, Throwable, Unit> {
