@@ -147,12 +147,11 @@ open class Shortcut : RealmObject(), HasId {
                 || METHOD_OPTIONS == method
     }
 
-    fun feedbackUsesUI() = feedback == FEEDBACK_DIALOG || feedback == FEEDBACK_ACTIVITY
-
     fun isFeedbackErrorsOnly() =
             feedback == FEEDBACK_TOAST_ERRORS || feedback == FEEDBACK_TOAST_SIMPLE_ERRORS
 
-    fun isRetryAllowed() = feedback != FEEDBACK_ACTIVITY && feedback != FEEDBACK_DIALOG
+    val isRetryAllowed
+        get() = feedback != FEEDBACK_ACTIVITY && feedback != FEEDBACK_DIALOG && !isBrowserShortcut
 
     fun usesAuthentication() = usesBasicAuthentication() || usesDigestAuthentication()
 
@@ -217,8 +216,20 @@ open class Shortcut : RealmObject(), HasId {
             serializedFailureActions = GsonUtil.toJson(value)
         }
 
+    val isFeedbackUsesUI
+        get() = isFeedbackInWindow || isFeedbackInDialog
+
+    val isFeedbackInWindow
+        get() = feedback == FEEDBACK_ACTIVITY && !isBrowserShortcut
+
+    val isFeedbackInDialog
+        get() = feedback == FEEDBACK_DIALOG && !isBrowserShortcut
+
     val isBrowserShortcut
         get() = executionType == EXECUTION_TYPE_BROWSER
+
+    val isWaitForNetwork
+        get() = retryPolicy == RETRY_POLICY_WAIT_FOR_INTERNET
 
     companion object {
 

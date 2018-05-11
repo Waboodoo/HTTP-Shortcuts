@@ -7,7 +7,7 @@ import android.content.Intent
 class RestarterService : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        ExecutionService.start(context)
+        ExecutionService.schedule(context)
     }
 
 }

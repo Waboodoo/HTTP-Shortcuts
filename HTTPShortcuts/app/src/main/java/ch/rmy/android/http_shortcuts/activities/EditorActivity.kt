@@ -6,6 +6,7 @@ import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.Menu
@@ -245,7 +246,8 @@ class EditorActivity : BaseActivity() {
 
     private fun updateUI() {
         iconView.setImageURI(shortcut.getIconURI(context), shortcut.iconName)
-        retryPolicyView.visible = shortcut.isRetryAllowed()
+        retryPolicyView.visible = shortcut.isRetryAllowed && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+        delayView.visible = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
         requestBodyContainer.visible = shortcut.allowsBody()
         authenticationContainer.visible = shortcut.usesAuthentication()
         launcherShortcutCheckbox.visible = LauncherShortcutManager.supportsLauncherShortcuts()

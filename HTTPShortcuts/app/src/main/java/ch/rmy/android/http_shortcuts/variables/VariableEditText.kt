@@ -1,12 +1,12 @@
 package ch.rmy.android.http_shortcuts.variables
 
 import android.content.Context
+import android.support.v7.widget.AppCompatAutoCompleteTextView
 import android.util.AttributeSet
-import android.widget.AutoCompleteTextView
 import ch.rmy.android.http_shortcuts.utils.Destroyable
 import ch.rmy.android.http_shortcuts.utils.showSoftKeyboard
 
-class VariableEditText : AutoCompleteTextView {
+class VariableEditText : AppCompatAutoCompleteTextView {
 
     private lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
 

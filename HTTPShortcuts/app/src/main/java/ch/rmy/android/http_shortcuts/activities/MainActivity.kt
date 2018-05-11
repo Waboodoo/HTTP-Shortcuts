@@ -53,7 +53,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
         tabLayout.setTabTextColors(Color.WHITE, Color.WHITE)
         tabLayout.setSelectedTabIndicatorColor(Color.WHITE)
 
-        ExecutionService.start(context)
+        ExecutionService.schedule(context)
     }
 
     private fun showCreateOptions() {

@@ -9,6 +9,16 @@ class Destroyer : Destroyable {
         return destroyable
     }
 
+    fun own(destroyable: () -> Unit): Destroyable {
+        val destroyableObject = object : Destroyable {
+            override fun destroy() {
+                destroyable.invoke()
+            }
+        }
+        destroyables.add(destroyableObject)
+        return destroyableObject
+    }
+
     override fun destroy() {
         for (destroyable in destroyables) {
             destroyable.destroy()

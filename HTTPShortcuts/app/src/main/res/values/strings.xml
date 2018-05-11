@@ -65,8 +65,6 @@
     <string name="error_http">%1$s failed with status code %2$d.</string>
     <string name="error_other">%1$s failed: %2$s</string>
     <string name="error_set_image">Failed to use image as icon.</string>
-    <!-- Error: Custom icon could not be used for a shortcut, because the user declined the permission request to read from storage -->
-    <string name="error_cannot_get_image_permission_denied">Failed to use image as icon. Permission denied.</string>
     <string name="copy">%1$s (copy)</string>
     <string name="choose_ipack">Choose an Ipack</string>
     <!-- Title of "Change Icon" dialog, where user can pick source/type of new icon for shortcut -->
@@ -300,13 +298,6 @@
     <string name="label_launcher_shortcut">Show as app shortcut on launcher</string>
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
     <string name="error_share_failed">An error occurred while sharing.</string>
-    <!-- Title displayed in notification when there are shortcuts waiting to be executed at a later time -->
-    <string name="title_shortcuts_pending">HTTP Shortcuts</string>
-    <!-- Message displayed in notification when there are shortcuts waiting to be executed at a later time -->
-    <plurals name="message_shortcuts_pending">
-        <item quantity="one">1 shortcut waiting to execute</item>
-        <item quantity="other">%d shortcuts waiting to execute</item>
-    </plurals>
     <!-- Option to delay the execution of a shortcut. Default option is "No delay" -->
     <string name="label_no_delay">No delay</string>
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->

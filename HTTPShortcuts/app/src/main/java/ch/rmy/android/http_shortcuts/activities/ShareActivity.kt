@@ -92,6 +92,7 @@ class ShareActivity : BaseActivity() {
     companion object {
 
         private const val TYPE_TEXT = "text/plain"
+
     }
 
 }

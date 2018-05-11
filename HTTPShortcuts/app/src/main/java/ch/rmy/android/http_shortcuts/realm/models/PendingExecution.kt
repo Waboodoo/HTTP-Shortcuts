@@ -17,6 +17,7 @@ open class PendingExecution : RealmObject() {
 
     var tryNumber: Int = 0
     var waitUntil: Date? = null
+    var waitForNetwork: Boolean = false
 
     var resolvedVariables: RealmList<ResolvedVariable> = RealmList()
 
@@ -25,7 +26,13 @@ open class PendingExecution : RealmObject() {
         const val FIELD_SHORTCUT_ID = "shortcutId"
         const val FIELD_ENQUEUED_AT = "enqueuedAt"
 
-        fun createNew(shortcutId: Long, resolvedVariables: Map<String, String> = emptyMap(), tryNumber: Int = 0, waitUntil: Date? = null): PendingExecution {
+        fun createNew(
+                shortcutId: Long,
+                resolvedVariables: Map<String, String> = emptyMap(),
+                tryNumber: Int = 0,
+                waitUntil: Date? = null,
+                waitForNetwork: Boolean = false
+        ): PendingExecution {
             val pendingExecution = PendingExecution()
 
             val resolvedVariableList = RealmList<ResolvedVariable>()
@@ -38,6 +45,7 @@ open class PendingExecution : RealmObject() {
             pendingExecution.tryNumber = tryNumber
             pendingExecution.waitUntil = waitUntil
             pendingExecution.enqueuedAt = Date()
+            pendingExecution.waitForNetwork = waitForNetwork
             return pendingExecution
         }
     }

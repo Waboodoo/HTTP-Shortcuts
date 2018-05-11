@@ -256,8 +256,10 @@ class ListFragment : BaseFragment() {
 
     private fun cancelPendingExecution(shortcut: Shortcut) {
         controller.removePendingExecution(shortcut.id)
+                .done {
+                    ExecutionService.schedule(context!!)
+                }
         tabHost.showSnackbar(String.format(getString(R.string.pending_shortcut_execution_cancelled), shortcut.name))
-        ExecutionService.start(context!!)
     }
 
     private fun showCurlExportDialog(shortcut: Shortcut) {
@@ -305,7 +307,7 @@ class ListFragment : BaseFragment() {
         tabHost.removeShortcutFromHomeScreen(shortcut)
         controller.deleteShortcut(shortcut.id)
                 .done {
-                    ExecutionService.start(context!!)
+                    ExecutionService.schedule(context!!)
                 }
     }
 

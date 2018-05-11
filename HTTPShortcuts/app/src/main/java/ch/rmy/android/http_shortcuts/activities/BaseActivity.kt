@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities
 
+import android.content.Context
 import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
@@ -44,7 +45,8 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    protected val context = this
+    protected val context: Context
+        get() = this
 
     protected open val navigateUpIcon = R.drawable.up_arrow
 

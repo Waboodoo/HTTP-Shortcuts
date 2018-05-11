@@ -58,61 +58,68 @@ class ExecuteActivity : BaseActivity() {
         ActionFactory(context)
     }
 
+    private val shortcutId by lazy {
+        IntentUtil.getShortcutId(intent)
+    }
+    private val variableValues by lazy {
+        IntentUtil.getVariableValues(intent)
+    }
+    private val tryNumber by lazy {
+        intent.extras?.getInt(EXTRA_TRY_NUMBER) ?: 0
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val shortcutId = IntentUtil.getShortcutId(intent)
-        val variableValues = IntentUtil.getVariableValues(intent)
-        val tryNumber = intent.extras?.getInt(EXTRA_TRY_NUMBER) ?: 0
-
-        val shortcut = controller.getShortcutById(shortcutId)?.detachFromRealm()
-
-        if (shortcut == null) {
+        shortcut = controller.getShortcutById(shortcutId)?.detachFromRealm() ?: run {
             showToast(getString(R.string.shortcut_not_found), long = true)
             controller.destroy()
-            super.finishWithoutAnimation()
+            finishWithoutAnimation()
             return
         }
-        this.shortcut = shortcut
-        title = shortcut.getSafeName(context)
-
-        if (shortcut.feedback == Shortcut.FEEDBACK_ACTIVITY && !shortcut.isBrowserShortcut) {
-            setTheme(R.style.LightTheme)
-            setContentView(R.layout.activity_execute)
+        if (shortcut.isFeedbackUsesUI) {
+            title = shortcut.getSafeName(context)
+            destroyer.own(this::hideProgress)
+            if (shortcut.isFeedbackInWindow) {
+                setContentView(R.layout.activity_execute)
+            }
         }
 
-        val promise = resolveVariablesAndExecute(variableValues, tryNumber)
-
-        if (promise.isPending) {
-            promise.done {
-                if (!shortcut.feedbackUsesUI()) {
-                    finishWithoutAnimation()
-                }
-            }.fail {
-                finishWithoutAnimation()
-            }
-        } else {
-            if (!shortcut.feedbackUsesUI()) {
-                finishWithoutAnimation()
-            }
+        val shouldFinishAfterExecution = !shortcut.isFeedbackUsesUI || shouldDelayExecution()
+        val promise = resolveVariablesAndExecute(variableValues)
+        if (shouldFinishAfterExecution) {
+            finishAfter(promise)
         }
     }
 
-    private fun resolveVariablesAndExecute(variableValues: Map<String, String>, tryNumber: Int): Promise<Map<String, String>, Unit, Unit> {
+    private fun shouldDelayExecution() = shortcut.delay > 0 && tryNumber == 0
+
+    private fun finishAfter(promise: Promise<*, *, *>) {
+        if (promise.isPending) {
+            promise
+                    .always { _, _, _ ->
+                        finishWithoutAnimation()
+                    }
+        } else {
+            finishWithoutAnimation()
+        }
+    }
+
+    private fun resolveVariablesAndExecute(variableValues: Map<String, String>): Promise<Map<String, String>, Unit, Unit> {
         return VariableResolver(context)
                 .resolve(controller, shortcut, variableValues)
                 .done { resolvedVariables ->
-                    if (tryNumber == 0 && shortcut.delay > 0) {
+                    if (shouldDelayExecution()) {
                         val waitUntil = DateUtil.calculateDate(shortcut.delay)
-                        controller.createPendingExecution(shortcut.id, resolvedVariables, tryNumber, waitUntil)
+                        controller.createPendingExecution(shortcut.id, resolvedVariables, tryNumber, waitUntil, shortcut.isWaitForNetwork)
                                 .done {
-                                    ExecutionService.start(context, waitUntil)
+                                    ExecutionService.schedule(context)
                                 }
                                 .always { _, _, _ ->
                                     controller.destroy()
                                 }
                     } else {
-                        executeWithActions(resolvedVariables.toMutableMap(), tryNumber)
+                        executeWithActions(resolvedVariables.toMutableMap())
                     }
                 }
                 .fail {
@@ -120,28 +127,27 @@ class ExecuteActivity : BaseActivity() {
                 }
     }
 
-    private fun executeWithActions(resolvedVariables: MutableMap<String, String>, tryNumber: Int) {
+    private fun executeWithActions(resolvedVariables: MutableMap<String, String>) {
         showProgress()
 
-        val beforePromise = if (tryNumber == 0) {
+        if (tryNumber == 0 || (tryNumber == 1 && shortcut.delay > 0)) {
             iterateActions(shortcut.beforeActions.iterator(), resolvedVariables)
         } else {
             PromiseUtils.resolve(Unit)
         }
-
-        beforePromise.then(DonePipe<Unit, Unit, Throwable, Unit> {
-            if (shortcut.isBrowserShortcut) {
-                openShortcutInBrowser(resolvedVariables)
-                PromiseUtils.resolve(Unit)
-            } else {
-                executeShortcut(resolvedVariables, tryNumber)
-                        .then(DonePipe<ShortcutResponse, Unit, Throwable, Unit> {
-                            iterateActions(shortcut.successActions.iterator(), resolvedVariables, response = it)
-                        }, FailPipe {
-                            iterateActions(shortcut.failureActions.iterator(), resolvedVariables, volleyError = it)
-                        })
-            }
-        })
+                .then(DonePipe<Unit, Unit, Throwable, Unit> {
+                    if (shortcut.isBrowserShortcut) {
+                        openShortcutInBrowser(resolvedVariables)
+                        PromiseUtils.resolve(Unit)
+                    } else {
+                        executeShortcut(resolvedVariables)
+                                .then(DonePipe<ShortcutResponse, Unit, Throwable, Unit> {
+                                    iterateActions(shortcut.successActions.iterator(), resolvedVariables, response = it)
+                                }, FailPipe {
+                                    iterateActions(shortcut.failureActions.iterator(), resolvedVariables, volleyError = it)
+                                })
+                    }
+                })
                 .always { _, _, _ ->
                     hideProgress()
                     controller.destroy()
@@ -161,7 +167,7 @@ class ExecuteActivity : BaseActivity() {
         }
     }
 
-    private fun executeShortcut(resolvedVariables: Map<String, String>, tryNumber: Int): Promise<ShortcutResponse, VolleyError, Unit> {
+    private fun executeShortcut(resolvedVariables: Map<String, String>): Promise<ShortcutResponse, VolleyError, Unit> {
         return HttpRequester.executeShortcut(context, shortcut, resolvedVariables)
                 .done { response ->
                     setLastResponse(response)
@@ -174,8 +180,8 @@ class ExecuteActivity : BaseActivity() {
                     }
                 }
                 .fail { error ->
-                    if (!shortcut.feedbackUsesUI() && shortcut.retryPolicy == Shortcut.RETRY_POLICY_WAIT_FOR_INTERNET && error.networkResponse == null) {
-                        rescheduleExecution(resolvedVariables, tryNumber)
+                    if (!shortcut.isFeedbackUsesUI && shortcut.retryPolicy == Shortcut.RETRY_POLICY_WAIT_FOR_INTERNET && error.networkResponse == null) {
+                        rescheduleExecution(resolvedVariables)
                         if (shortcut.feedback != Shortcut.FEEDBACK_NONE && tryNumber == 0) {
                             showToast(String.format(context.getString(R.string.execution_delayed), shortcut.getSafeName(context)), long = true)
                         }
@@ -207,17 +213,17 @@ class ExecuteActivity : BaseActivity() {
         return PromiseUtils.resolve(Unit)
     }
 
-    private fun rescheduleExecution(resolvedVariables: Map<String, String>, tryNumber: Int) {
+    private fun rescheduleExecution(resolvedVariables: Map<String, String>) {
         if (tryNumber < MAX_RETRY) {
-            val waitUntil = DateUtil.calculateDate(calculateDelay(tryNumber))
-            controller.createPendingExecution(shortcut.id, resolvedVariables, tryNumber, waitUntil)
+            val waitUntil = DateUtil.calculateDate(calculateDelay())
+            controller.createPendingExecution(shortcut.id, resolvedVariables, tryNumber, waitUntil, shortcut.isWaitForNetwork)
                     .done {
-                        ExecutionService.start(context, waitUntil)
+                        ExecutionService.schedule(context)
                     }
         }
     }
 
-    private fun calculateDelay(tryNumber: Int) = Math.pow(RETRY_BACKOFF, tryNumber.toDouble()).toInt() * 1000
+    private fun calculateDelay() = Math.pow(RETRY_BACKOFF, tryNumber.toDouble()).toInt() * 1000
 
     private fun generateOutputFromResponse(response: ShortcutResponse) = response.bodyAsString
 
@@ -233,30 +239,28 @@ class ExecuteActivity : BaseActivity() {
                     builder.append("\n\n")
                     builder.append(String(error.networkResponse.data))
                 } catch (e: Exception) {
-
+                    logException(e)
                 }
             }
 
             return builder.toString()
         } else {
-            return if (error.cause?.message != null) {
-                String.format(getString(R.string.error_other), name, error.cause!!.message)
-            } else if (error.message != null) {
-                String.format(getString(R.string.error_other), name, error.message)
-            } else {
-                String.format(getString(R.string.error_other), name, error.javaClass.simpleName)
+            return when {
+                error.cause?.message != null -> String.format(getString(R.string.error_other), name, error.cause!!.message)
+                error.message != null -> String.format(getString(R.string.error_other), name, error.message)
+                else -> String.format(getString(R.string.error_other), name, error.javaClass.simpleName)
             }
         }
     }
 
     private fun showProgress() {
-        when (shortcut.feedback) {
-            Shortcut.FEEDBACK_DIALOG -> {
+        when {
+            shortcut.isFeedbackInDialog -> {
                 if (progressDialog == null) {
                     progressDialog = ProgressDialog.show(context, null, String.format(getString(R.string.progress_dialog_message), shortcut.getSafeName(context)))
                 }
             }
-            Shortcut.FEEDBACK_ACTIVITY -> {
+            shortcut.isFeedbackInWindow -> {
                 progressSpinner.visible = true
                 responseTextContainer.visible = false
                 formattedResponseText.visible = false
@@ -265,12 +269,12 @@ class ExecuteActivity : BaseActivity() {
     }
 
     private fun hideProgress() {
-        when (shortcut.feedback) {
-            Shortcut.FEEDBACK_DIALOG -> {
+        when {
+            shortcut.isFeedbackInDialog -> {
                 progressDialog?.dismiss()
                 progressDialog = null
             }
-            Shortcut.FEEDBACK_ACTIVITY -> {
+            shortcut.isFeedbackInWindow -> {
                 progressSpinner.visible = false
             }
         }
@@ -316,11 +320,6 @@ class ExecuteActivity : BaseActivity() {
         invalidateOptionsMenu()
     }
 
-    override fun finishWithoutAnimation() {
-        hideProgress()
-        super.finishWithoutAnimation()
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.execute_activity_menu, menu)
         menu.findItem(R.id.action_share_response).isVisible = canShareResponse()
@@ -340,9 +339,9 @@ class ExecuteActivity : BaseActivity() {
             return
         }
         try {
-            val sharingIntent = Intent(android.content.Intent.ACTION_SEND)
+            val sharingIntent = Intent(Intent.ACTION_SEND)
             sharingIntent.type = ShortcutResponse.TYPE_TEXT
-            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, lastResponse!!.bodyAsString)
+            sharingIntent.putExtra(Intent.EXTRA_TEXT, lastResponse!!.bodyAsString)
             startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_title)))
         } catch (e: Exception) {
             showToast(getString(R.string.error_share_failed), long = true)
@@ -352,7 +351,7 @@ class ExecuteActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        ExecutionService.start(context)
+        ExecutionService.schedule(context)
     }
 
     override val navigateUpIcon = R.drawable.ic_clear

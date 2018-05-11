@@ -174,11 +174,17 @@ class Controller : Destroyable, Closeable {
                 variable.deleteFromRealm()
             }
 
-    fun createPendingExecution(shortcutId: Long, resolvedVariables: Map<String, String>, tryNumber: Int = 0, waitUntil: Date? = null) =
+    fun createPendingExecution(
+            shortcutId: Long,
+            resolvedVariables: Map<String, String>,
+            tryNumber: Int = 0,
+            waitUntil: Date? = null,
+            requiresNetwork: Boolean
+    ) =
             realm.commitAsync { realm ->
                 val alreadyPending = Repository.getShortcutPendingExecution(realm, shortcutId) != null
                 if (!alreadyPending) {
-                    realm.copyToRealm(PendingExecution.createNew(shortcutId, resolvedVariables, tryNumber, waitUntil))
+                    realm.copyToRealm(PendingExecution.createNew(shortcutId, resolvedVariables, tryNumber, waitUntil, requiresNetwork))
                 }
             }
 
@@ -186,12 +192,6 @@ class Controller : Destroyable, Closeable {
             realm.commitAsync { realm ->
                 Repository.getShortcutPendingExecution(realm, shortcutId)?.deleteFromRealm()
             }
-
-    fun removePendingExecutionSynchronously(shortcutId: Long) {
-        realm.executeTransaction { realm ->
-            Repository.getShortcutPendingExecution(realm, shortcutId)?.deleteFromRealm()
-        }
-    }
 
     fun persist(shortcut: Shortcut): Promise<Shortcut, Throwable, Unit> {
         if (shortcut.isNew) {

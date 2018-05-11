@@ -29,7 +29,7 @@ class TimeEditorFragment : VariableEditorFragment() {
                 SimpleDateFormat(variable.dataForType[TimeType.KEY_FORMAT], Locale.US)
                 true
             } catch (e: Exception) {
-                showMessageDialog(R.string.error_invalid_date_format)
+                showMessageDialog(R.string.error_invalid_time_format)
                 false
             }
 

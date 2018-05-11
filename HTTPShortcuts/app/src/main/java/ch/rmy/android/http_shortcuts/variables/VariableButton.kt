@@ -1,8 +1,8 @@
 package ch.rmy.android.http_shortcuts.variables
 
 import android.content.Context
+import android.support.v7.widget.AppCompatImageButton
 import android.util.AttributeSet
-import android.widget.ImageButton
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.VariableEditorActivity
 import ch.rmy.android.http_shortcuts.activities.VariablesActivity
@@ -14,7 +14,7 @@ import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
 
 
-class VariableButton : ImageButton {
+class VariableButton : AppCompatImageButton {
 
     lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
 
