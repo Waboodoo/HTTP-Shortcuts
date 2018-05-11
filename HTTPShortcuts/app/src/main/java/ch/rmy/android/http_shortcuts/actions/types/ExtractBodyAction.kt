@@ -92,7 +92,18 @@ class ExtractBodyAction(
                                 else -> return PromiseUtils.resolve(Unit)
                             }
                         }
-                        json.toString()
+
+                        when {
+                            json.isJsonPrimitive -> {
+                                val jsonPrimitive = json.asJsonPrimitive
+                                when {
+                                    jsonPrimitive.isString -> jsonPrimitive.asString
+                                    else -> jsonPrimitive.toString()
+                                }
+                            }
+                            json.isJsonNull -> "null"
+                            else -> json.toString()
+                        }
                     }
                 } catch (e: Exception) {
                     return PromiseUtils.resolve(Unit)
