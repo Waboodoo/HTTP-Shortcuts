@@ -96,6 +96,7 @@
     <string name="label_custom_header_key">Header</string>
     <string name="label_custom_header_value">Value</string>
     <string name="label_custom_body">Request Body</string>
+    <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
     <string name="settings">Settings</string>
     <string name="settings_theme">Theme</string>
     <string name="settings_title_basic">Basic Settings</string>
@@ -204,6 +205,7 @@
         <item quantity="other">%d shortcuts</item>
     </plurals>
     <string name="title_move_to_category">Move to Category</string>
+    <!-- Name/title to describe what the plugin action does, used by external plugins, e.g. Tasker -->
     <string name="plugin_name">Execute HTTP Shortcut</string>
     <string name="title_variables">Variables</string>
     <string name="edit_variable">Edit Variable</string>
@@ -295,6 +297,7 @@
     <string name="authentication_none">No Authentication</string>
     <string name="authentication_basic">Basic Authentication</string>
     <string name="authentication_digest">Digest Authentication</string>
+    <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu, i.e., when long-pressing the app icon on the home screen -->
     <string name="label_launcher_shortcut">Show as app shortcut on launcher</string>
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
     <string name="error_share_failed">An error occurred while sharing.</string>
@@ -440,13 +443,22 @@
     <string name="action_type_set_variable_help_text">Changes the value of a variable.</string>
     <!-- Shortcut Action Editor Label: allows to specify the new value of a variable -->
     <string name="action_type_set_variable_label_new_value">New value</string>
+    <!-- Label above dropdown in shortcut editor, allows user to decide how shortcut is executed: in app or in external browser -->
     <string name="label_execution_type">Execute using…</string>
+    <!-- Option in dropdown when selecting how shortcut should be executed: Inside the app itself (vs. in external browser) -->
     <string name="execution_type_option_in_app">App</string>
+    <!-- Option in dropdown when selecting how shortcut should be executed: In external browser (vs. inside the app itself) -->
     <string name="execution_type_option_in_browser">Browser</string>
+    <!-- Shortcut Action Title: Trigger a shortcut, i.e., execute it -->
     <string name="action_type_trigger_shortcut_title">Trigger Shortcut</string>
+    <!-- Shortcut Action Description: Trigger a specific shortcut, %1$s is a placeholder for the name of that shortcut -->
     <string name="action_type_trigger_shortcut_description">Trigger \"%1$s\"</string>
+    <!-- Shortcut error message: Maximum recursion depth reached, i.e., a potential infinite loop was detected and stopped -->
     <string name="action_type_trigger_shortcut_error_recursion_depth_reached">Maximum recursion depth reached. Shortcut will not be triggered.</string>
+    <!-- Shortcut Action Editor Label: Allows to pick a shortcut (used in different places) -->
     <string name="action_type_trigger_shortcut_label_shortcut_name">Shortcut</string>
+    <!-- Shortcut Action Editor placeholder: No shortcut selected, used in different places where selecting a shortcut is necessary -->
     <string name="action_target_shortcut_no_shortcut_selected">No shortcut selected</string>
+    <!-- Error message in Action Editor when selecting a shortcut is not possible because there are none yet, used in different places -->
     <string name="action_target_shortcut_error_no_shortcuts">You don\'t have any shortcuts yet.</string>
 </resources>
