@@ -35,6 +35,9 @@ object LauncherShortcutManager {
             }
 
             val launcherShortcuts = createLauncherShortcuts(context, categories, max)
+            if (launcherShortcuts.isEmpty() && shortcutManager.dynamicShortcuts.isEmpty()) {
+                return
+            }
             shortcutManager.dynamicShortcuts = launcherShortcuts
         } catch (e: Exception) {
             logException(e)
