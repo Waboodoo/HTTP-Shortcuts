@@ -3,258 +3,258 @@
  Loco xml export: Android string resources
  Project: HTTP Shortcuts
  Release: Working copy
- Locale: zh, Chinese
+ Locale: it, Italian
  Exported by: Roland Meyer
  Exported at: Fri, 11 May 2018 14:13:25 +0200
 -->
 <resources>
     <!-- The name of the app -->
-    <string name="app_name">HTTP 快捷方式</string>
+    <string name="app_name">HTTP Shortcuts</string>
     <!-- The name of the default category -->
-    <string name="shortcuts">快捷方式</string>
+    <string name="shortcuts">Scorciatoie</string>
     <!-- The name used as a fallback for shortcuts without a name -->
-    <string name="shortcut_safe_name">快捷方式</string>
+    <string name="shortcut_safe_name">Scorciatoia</string>
     <!-- Title in editor when editing a shortcut -->
-    <string name="edit_shortcut">编辑快捷方式</string>
+    <string name="edit_shortcut">Modifica Scorciatoia</string>
     <!-- Title in editor when creating a new shortcut -->
-    <string name="create_shortcut">新建快捷方式</string>
+    <string name="create_shortcut">Crea Scorciatoia</string>
     <!-- Content description of icon image, accessibility information -->
-    <string name="icon_description">图标</string>
+    <string name="icon_description">Icona</string>
     <!-- Label above input field in editor, for shortcut name -->
-    <string name="label_name">名称</string>
+    <string name="label_name">Nome della Scorciatoia</string>
     <!-- Label above input field in editor, for shortcut description -->
-    <string name="label_description">描述</string>
+    <string name="label_description">Descrizione</string>
     <!-- Label above input field in editor, for shortcut URL -->
-    <string name="label_url">地址</string>
+    <string name="label_url">URL</string>
     <!-- Button to save changes made to shortcut/variable -->
-    <string name="save_button">保存</string>
+    <string name="save_button">Salva</string>
     <!-- Button to test changes made to shortcut -->
-    <string name="test_button">测试</string>
+    <string name="test_button">Test</string>
     <!-- Label above input field in editor, for shortcut HTTP method (GET, POST, PUT, …) -->
-    <string name="label_method">方法</string>
+    <string name="label_method">Metodo</string>
     <!-- Label above input field in editor, for shortcut authentication username -->
-    <string name="label_username">用户名</string>
+    <string name="label_username">Nome utente</string>
     <!-- Label above input field in editor, for shortcut authentication password -->
-    <string name="label_password">密码</string>
+    <string name="label_password">Password</string>
     <!-- Label above input field in editor, for shortcut response type dropdown -->
-    <string name="label_feedback">响应的类型</string>
+    <string name="label_feedback">Tipo di risposta</string>
     <!-- Option in dropdown, for shortcut response type: ignore response -->
-    <string name="feedback_none">忽略响应（静默执行）</string>
+    <string name="feedback_none">Ignora la risposta (esegui silenziosamente)</string>
     <!-- Option in dropdown, for shortcut response type: show simple Toast (Android notification) -->
-    <string name="feedback_simple_toast">简易吐司</string>
+    <string name="feedback_simple_toast">Popup (Toast)</string>
     <!-- Option in dropdown, for shortcut response type: show simple Toast but only for errors (Android notification) -->
-    <string name="feedback_simple_toast_error">简易吐司（仅出错时）</string>
+    <string name="feedback_simple_toast_error">Popup (solo errori)</string>
     <!-- Option in dropdown, for shortcut response type: show complete response in Toast (Android notification) -->
-    <string name="feedback_response_toast">在吐司中显示响应</string>
+    <string name="feedback_response_toast">Risposta in Popup</string>
     <!-- Option in dropdown, for shortcut response type: show complete response in Toast for errors (Android notification) -->
-    <string name="feedback_response_toast_error">在吐司中显示响应（仅出错时）</string>
-    <string name="feedback_dialog">在对话框中显示响应</string>
-    <string name="feedback_activity">在窗口中显示响应</string>
-    <string name="action_place">发送到主屏幕</string>
-    <string name="action_run">执行</string>
-    <string name="action_edit">编辑</string>
-    <string name="action_duplicate">生成副本</string>
-    <string name="action_delete">删除</string>
-    <string name="action_curl_export">cURL 导出</string>
-    <string name="action_move">搬到</string>
-    <string name="action_move_up">上移</string>
-    <string name="action_move_down">下移</string>
-    <string name="action_move_to_category">移至分类…</string>
-    <string name="no_shortcuts">还没有快捷方式</string>
-    <string name="no_variables">还没有变量</string>
-    <string name="confirm_delete_shortcut_message">确定删除这个快捷方式？</string>
-    <string name="confirm_discard_changes_message">您有尚未保存的更改，确定要丢弃吗？</string>
-    <string name="dialog_discard">丢弃</string>
-    <string name="title_activity_execute">执行快捷方式</string>
-    <string name="executed">%s 已执行</string>
-    <string name="shortcut_not_found">快捷方式不存在，您可能需要将其重新发送到主屏幕</string>
-    <string name="validation_name_not_empty">请输入一个名称</string>
-    <string name="validation_url_invalid">请输入一个有效的 HTTP(s) 地址</string>
-    <string name="error_http">%1$s 执行失败，状态码 %2$d</string>
-    <string name="error_other">%1$s 执行失败： %2$s</string>
-    <string name="error_set_image">无法使用该图片作为快捷方式的图标</string>
-    <string name="copy">%1$s (副本)</string>
-    <string name="choose_ipack">选择一个 Ipack</string>
+    <string name="feedback_response_toast_error">Risposta in Popup (solo errori)</string>
+    <string name="feedback_dialog">Risposta in Dialogo</string>
+    <string name="feedback_activity">Risposta in Finestra</string>
+    <string name="action_place">Aggiungi alla schermata Home</string>
+    <string name="action_run">Esegui</string>
+    <string name="action_edit">Modifica</string>
+    <string name="action_duplicate">Duplica</string>
+    <string name="action_delete">Cancella</string>
+    <string name="action_curl_export">Esporta cURL</string>
+    <string name="action_move">Muovi</string>
+    <string name="action_move_up">Muovi su</string>
+    <string name="action_move_down">Muovi giù</string>
+    <string name="action_move_to_category">Muovi alla categoria...</string>
+    <string name="no_shortcuts">nessuna scorciatoia</string>
+    <string name="no_variables">nessuna variable</string>
+    <string name="confirm_delete_shortcut_message">Vuoi cancellare questa scorciatoia?</string>
+    <string name="confirm_discard_changes_message">Hai delle modifiche non salvate. Vuoi abbandonarle?</string>
+    <string name="dialog_discard">Abbandona</string>
+    <string name="title_activity_execute">Esegui Scorciatoia</string>
+    <string name="executed">%s eseguita.</string>
+    <string name="shortcut_not_found">Scorciatoia non trovata. Dovresti ri-aggiungerla alla schermata Home</string>
+    <string name="validation_name_not_empty">Inserisci un nome.</string>
+    <string name="validation_url_invalid">Inserisci un url HTTP(S).</string>
+    <string name="error_http">%1$s è fallita con status code %2$d.</string>
+    <string name="error_other">%1$s fallita: %2$s</string>
+    <string name="error_set_image">Impossibile usare l\'immagine come icona.</string>
+    <string name="copy">%1$s (copia)</string>
+    <string name="choose_ipack">Seleziona un Ipack</string>
     <!-- Title of "Change Icon" dialog, where user can pick source/type of new icon for shortcut -->
-    <string name="change_icon">更改图标</string>
+    <string name="change_icon">Cambia Icona</string>
     <!-- Option in "Change Icon" dialog, allows user to select a custom image to use as a shortcut icon -->
-    <string name="choose_image">使用自定义图片</string>
+    <string name="choose_image">Seleziona immagine personalizzata</string>
     <!-- Option in "Change Icon" dialog, allows user to select an icon from an Ipack icon set (from a third-party icon app) -->
-    <string name="choose_ipack_icon">选择 Ipcak 图标</string>
+    <string name="choose_ipack_icon">Seleziona un icona dell\'Ipack</string>
     <!-- Option in "Change Icon" dialog, allows user to select one of the built-in icons to use as a shortcut icon -->
-    <string name="choose_icon">选择内置的图标</string>
-    <string name="label_post_params">参数</string>
-    <string name="button_add_post_param">添加参数</string>
-    <string name="title_post_param_edit">编辑参数</string>
-    <string name="title_post_param_add">添加参数</string>
-    <string name="label_post_param_key">参数</string>
-    <string name="label_post_param_value">值</string>
-    <string name="dialog_ok">确定</string>
-    <string name="dialog_cancel">取消</string>
-    <string name="dialog_remove">移除</string>
+    <string name="choose_icon">Seleziona un\'icona standard</string>
+    <string name="label_post_params">Parametri</string>
+    <string name="button_add_post_param">Aggiungi Parametro</string>
+    <string name="title_post_param_edit">Modifica Parametro</string>
+    <string name="title_post_param_add">Aggiungi Parametro</string>
+    <string name="label_post_param_key">Parametro</string>
+    <string name="label_post_param_value">Valore</string>
+    <string name="dialog_ok">Ok</string>
+    <string name="dialog_cancel">Annulla</string>
+    <string name="dialog_remove">Rimuovi</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the headers of the HTTP request -->
-    <string name="section_request_headers">头部</string>
+    <string name="section_request_headers">Header della Richiesta</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the body of the HTTP request -->
-    <string name="section_request_body">Request Body</string>
-    <string name="button_add_custom_header">添加头部</string>
-    <string name="title_custom_header_edit">编辑头部</string>
-    <string name="title_custom_header_add">添加头部</string>
-    <string name="label_custom_header_key">头部</string>
-    <string name="label_custom_header_value">值</string>
-    <string name="label_custom_body">请求体</string>
+    <string name="section_request_body">Body della Richiesta</string>
+    <string name="button_add_custom_header">Aggiungi Header</string>
+    <string name="title_custom_header_edit">Modifica Header</string>
+    <string name="title_custom_header_add">Aggiungi Header</string>
+    <string name="label_custom_header_key">Header</string>
+    <string name="label_custom_header_value">Valore</string>
+    <string name="label_custom_body">Body della Richiesta</string>
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
-    <string name="settings">设置</string>
-    <string name="settings_theme">主题</string>
-    <string name="settings_title_basic">基本设置</string>
-    <string name="settings_click_behavior">点击快捷方式的操作</string>
-    <string name="settings_click_behavior_run">执行快捷方式</string>
-    <string name="settings_click_behavior_edit">编辑快捷方式</string>
-    <string name="settings_click_behavior_menu">弹出菜单选项</string>
-    <string name="settings_title_import_export">导入/导出</string>
-    <string name="settings_import">导入快捷方式</string>
-    <string name="settings_export">导出快捷方式</string>
-    <string name="export_instructions">请选择快捷方式的导出目录。请注意！自定义图标将无法导出。</string>
-    <string name="export_success">成功导出快捷方式</string>
-    <string name="export_failed">导出快捷方式失败</string>
-    <string name="export_in_progress">正在导出快捷方式……</string>
-    <string name="button_ok">确定</string>
-    <string name="button_cancel">取消</string>
-    <string name="import_instructions">请选择快捷方式的导入文件。请注意！您当前的快捷方式将可能会被覆盖。</string>
-    <string name="import_failed">导入快捷方式失败</string>
-    <string name="import_success">成功导入快捷方式</string>
-    <string name="import_in_progress">正在导出快捷方式……</string>
-    <string name="label_timeout">超时时间</string>
-    <string name="timeout_format">%1$s （%2$s）</string>
+    <string name="settings">Impostazioni</string>
+    <string name="settings_theme">Tema</string>
+    <string name="settings_title_basic">Impostazioni di base</string>
+    <string name="settings_click_behavior">Azione del Click</string>
+    <string name="settings_click_behavior_run">Esegui la scorciatoia</string>
+    <string name="settings_click_behavior_edit">Modifica la scorciatoia</string>
+    <string name="settings_click_behavior_menu">Mostra il menù delle opzioni</string>
+    <string name="settings_title_import_export">Importa / Esporta</string>
+    <string name="settings_import">Importa scorciatoie</string>
+    <string name="settings_export">Esporta scorciatoie</string>
+    <string name="export_instructions">Seleziona la scorciatoia in cui vuoi esportare le scorciatoie. Le icone personalizzate non verranno esportate.</string>
+    <string name="export_success">Scorciatoie esportate correttamente.</string>
+    <string name="export_failed">Esportazione delle scorciatoie fallita.</string>
+    <string name="export_in_progress">Esportazione in corso...</string>
+    <string name="button_ok">Ok</string>
+    <string name="button_cancel">Annulla</string>
+    <string name="import_instructions">Seleziona il file da cui importare le scorciatoie. Attenzione, le scorciatoie esistenti potrebbero essere sovrascritte.</string>
+    <string name="import_failed">Importazione delle scorciatoie fallita.</string>
+    <string name="import_success">Scorciatoie importate con successo.</string>
+    <string name="import_in_progress">Importazione in corso...</string>
+    <string name="label_timeout">Timeout</string>
+    <string name="timeout_format">%1$s (%2$s)</string>
     <!-- Timeout option: short, i.e. only a few seconds -->
-    <string name="timeout_short">短</string>
+    <string name="timeout_short">breve</string>
     <!-- Timeout option: medium, i.e. around 10 seconds -->
-    <string name="timeout_medium">中</string>
+    <string name="timeout_medium">medio</string>
     <!-- Timeout option: long, i.e. around 30 seconds -->
-    <string name="timeout_long">长</string>
+    <string name="timeout_long">lungo</string>
     <!-- Timeout option: very long, i.e. around 60 seconds -->
-    <string name="timeout_very_long">很长</string>
-    <string name="settings_about">关于应用</string>
-    <string name="settings_mail">联系开发者</string>
-    <string name="settings_mail_summary">提问题，请求新特性，其它……</string>
-    <string name="settings_github">在 Github 查看</string>
-    <string name="settings_github_summary">是的，这款应用程序是开源的</string>
-    <string name="changelog_title_whats_new">有哪些更新？</string>
-    <string name="changelog_title">更新日志</string>
-    <string name="changelog_checkbox_show_at_startup">在启动时显示</string>
+    <string name="timeout_very_long">molto lungo</string>
+    <string name="settings_about">Informazioni sull\'App</string>
+    <string name="settings_mail">Contatta lo Sviluppatorre</string>
+    <string name="settings_mail_summary">Domande, richiesta di nuove funzionalità, feedback, ...</string>
+    <string name="settings_github">Guarda su Github</string>
+    <string name="settings_github_summary">Esatto, quesa app è open-source</string>
+    <string name="changelog_title_whats_new">Novità</string>
+    <string name="changelog_title">Registro delle modifiche</string>
+    <string name="changelog_checkbox_show_at_startup">Mostra all\'avvio</string>
     <!-- Message displayed when the shortcut cannot be executed because there is no internet connection. %1$s is a placeholder for the shortcut name. -->
-    <string name="execution_delayed">当网络连接可用时 %1$s 将会被执行</string>
-    <string name="label_retry_policy">当未连接到互联网时</string>
-    <string name="retry_policy_none">取消请求</string>
-    <string name="retry_policy_delayed">等待连接</string>
-    <string name="settings_play_store">在 Play 商店查看</string>
-    <string name="settings_play_store_summary">非常感谢您的评分和评价</string>
-    <string name="shortcut_duplicated">%1$s 已生成副本</string>
-    <string name="shortcut_moved">%1$s 已移动</string>
-    <string name="shortcut_deleted">%1$s 已删除</string>
-    <string name="shortcut_placed">%1$s 已发送到主屏幕</string>
-    <string name="dialog_delete">删除</string>
-    <string name="section_appearance">外观</string>
-    <string name="section_basic_request">基本设置</string>
-    <string name="section_response">响应设置</string>
-    <string name="section_advanced_settings">高级设置</string>
-    <string name="section_authentication">身份认证</string>
+    <string name="execution_delayed">%1$s will execute once a connection to the internet is available.</string>
+    <string name="label_retry_policy">Quando non sei connesso a internet</string>
+    <string name="retry_policy_none">annulla la richiesta</string>
+    <string name="retry_policy_delayed">aspetta la connessione</string>
+    <string name="settings_play_store">Guarda nel Play Store</string>
+    <string name="settings_play_store_summary">Grazie per la tua valutazione e recensione</string>
+    <string name="shortcut_duplicated">\"%1$s\" duplicata.</string>
+    <string name="shortcut_moved">\"%1$s\"\u0020\u0020spostata.</string>
+    <string name="shortcut_deleted">\"%1$s\" deleted.</string>
+    <string name="shortcut_placed">\"%1$s\" placed on home screen.</string>
+    <string name="dialog_delete">Delete</string>
+    <string name="section_appearance">Appearance</string>
+    <string name="section_basic_request">Basic Request Settings</string>
+    <string name="section_response">Response Settings</string>
+    <string name="section_advanced_settings">Advanced Settings</string>
+    <string name="section_authentication">Authentication</string>
     <string name="label_authentication_method">Authentication Method</string>
-    <string name="warning_icon_or_name_change">请注意，在修改快捷方式的名称和图标后，主屏幕上对应的名称和图标并不会同步改变。你必须再次将其添加到主屏幕，随后这些修改才会生效。</string>
-    <string name="dialog_checkbox_do_not_show_again">不要再提示</string>
-    <string name="label_certificates">证书</string>
+    <string name="warning_icon_or_name_change">Please note that changes to the name or icon are not automatically applied to shortcuts that are already added to the home screen. You will have to add them again for the changes to take effect. All other changes are automatically applied.</string>
+    <string name="dialog_checkbox_do_not_show_again">Don\'t show again</string>
+    <string name="label_certificates">Certificates</string>
     <!-- Label above checkbox in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
-    <string name="label_accept_all_certificates">接受所有证书</string>
-    <string name="title_licenses">鸣谢</string>
-    <string name="settings_licenses">鸣谢</string>
-    <string name="settings_licenses_summary">使用到的库和资源</string>
-    <string name="title_categories">分类</string>
-    <string name="action_rename">重命名</string>
+    <string name="label_accept_all_certificates">Accept any certificate (I know what I\'m doing)</string>
+    <string name="title_licenses">Acknowledgements</string>
+    <string name="settings_licenses">Acknowledgements</string>
+    <string name="settings_licenses_summary">Libraries &amp; resources used</string>
+    <string name="title_categories">Categories</string>
+    <string name="action_rename">Rename</string>
     <string name="action_change_category_layout_type">Change layout type</string>
     <string name="message_layout_type_changed">Layout type changed</string>
     <string name="layout_type_linear_list">List</string>
     <string name="layout_type_grid">Grid</string>
-    <string name="title_rename_category">重命名分类</string>
-    <string name="placeholder_category_name">输入分类名称…</string>
-    <string name="placeholder_value">值</string>
-    <string name="title_create_category">新建分类</string>
-    <string name="confirm_delete_category_message">确定删除这个分类？该分类下的所有快捷方式也将被删除。</string>
-    <string name="message_category_renamed">分类已重命名</string>
-    <string name="message_category_created">分类已创建</string>
-    <string name="message_category_deleted">分类已删除</string>
+    <string name="title_rename_category">Rename Category</string>
+    <string name="placeholder_category_name">Enter Category Name…</string>
+    <string name="placeholder_value">Value</string>
+    <string name="title_create_category">Create Category</string>
+    <string name="confirm_delete_category_message">Delete this category?\n\nAll shortcuts contained within will be deleted.</string>
+    <string name="message_category_renamed">Category renamed.</string>
+    <string name="message_category_created">Category created.</string>
+    <string name="message_category_deleted">Category deleted.</string>
     <plurals name="shortcut_count">
         <item quantity="one">%d shortcut</item>
         <item quantity="other">%d shortcuts</item>
     </plurals>
-    <string name="title_move_to_category">移动到分类</string>
+    <string name="title_move_to_category">Move to Category</string>
     <!-- Name/title to describe what the plugin action does, used by external plugins, e.g. Tasker -->
-    <string name="plugin_name">执行 HTTP 快捷方式</string>
-    <string name="title_variables">变量</string>
-    <string name="edit_variable">编辑变量</string>
-    <string name="create_variable">新建变量</string>
-    <string name="label_variable_type">类型</string>
-    <string name="label_variable_key">键</string>
-    <string name="label_variable_title">对话框标题（可选）</string>
+    <string name="plugin_name">Execute HTTP Shortcut</string>
+    <string name="title_variables">Variables</string>
+    <string name="edit_variable">Edit Variable</string>
+    <string name="create_variable">Create Variable</string>
+    <string name="label_variable_type">Type</string>
+    <string name="label_variable_key">Key</string>
+    <string name="label_variable_title">Dialog Title (optional)</string>
     <string name="label_variable_date_format">Date Format</string>
-    <string name="variable_type_constant">常量</string>
-    <string name="variable_type_text">输入文本</string>
-    <string name="variable_type_number">输入数字</string>
-    <string name="variable_type_password">输入密码</string>
-    <string name="variable_type_select">选项</string>
-    <string name="variable_type_toggle">切换</string>
+    <string name="variable_type_constant">Constant</string>
+    <string name="variable_type_text">Text Input</string>
+    <string name="variable_type_number">Number Input</string>
+    <string name="variable_type_password">Password Input</string>
+    <string name="variable_type_select">Selection</string>
+    <string name="variable_type_toggle">Toggle</string>
     <string name="variable_type_date">Date Input</string>
-    <string name="variable_type_color">输入色值</string>
-    <string name="warning_invalid_variable_key">变量的键名只能包含字母和数字</string>
-    <string name="confirm_delete_variable_message">确定删除这个变量？</string>
-    <string name="variable_deleted">%1$s 已删除</string>
-    <string name="label_url_encode">URL 编码</string>
-    <string name="label_json_encode">JSON 编码</string>
-    <string name="section_basic_variable_settings">基本设置</string>
-    <string name="validation_key_non_empty">变量的键名不能为空</string>
-    <string name="validation_key_already_exists">已经有一个键名相同的变量了</string>
-    <string name="title_add_toggle_option">添加值</string>
-    <string name="button_add_toggle_option">添加值</string>
-    <string name="section_toggle_options">切换值</string>
-    <string name="title_add_select_option">添加选项</string>
-    <string name="button_add_select_option">添加选项</string>
-    <string name="section_select_options">可选项</string>
-    <string name="label_select_label">标签</string>
-    <string name="label_select_value">值</string>
-    <string name="button_show_help">帮助信息</string>
-    <string name="help_title_variables">变量</string>
-    <string name="error_not_enough_toggle_values">请至少添加两个值</string>
+    <string name="variable_type_color">Color Input</string>
+    <string name="warning_invalid_variable_key">Variable keys may only contain digits and letters from the English alphabet.</string>
+    <string name="confirm_delete_variable_message">Delete this variable?</string>
+    <string name="variable_deleted">\"%1$s\" deleted.</string>
+    <string name="label_url_encode">URL encode</string>
+    <string name="label_json_encode">JSON encode</string>
+    <string name="section_basic_variable_settings">Basic Settings</string>
+    <string name="validation_key_non_empty">Variable key must not be empty.</string>
+    <string name="validation_key_already_exists">Another variable with this key already exists.</string>
+    <string name="title_add_toggle_option">Add Value</string>
+    <string name="button_add_toggle_option">Add value</string>
+    <string name="section_toggle_options">Toggle Values</string>
+    <string name="title_add_select_option">Add Option</string>
+    <string name="button_add_select_option">Add option</string>
+    <string name="section_select_options">Selectable Options</string>
+    <string name="label_select_label">Label</string>
+    <string name="label_select_value">Value</string>
+    <string name="button_show_help">Show Help</string>
+    <string name="help_title_variables">Variables</string>
+    <string name="error_not_enough_toggle_values">Please add at least two values.</string>
     <string name="error_not_enough_select_values">Please add at least one selectable option.</string>
     <string name="error_invalid_date_format">The date format is not valid.</string>
-    <string name="share_button">分享</string>
-    <string name="share_title">分享…</string>
+    <string name="share_button">Share</string>
+    <string name="share_title">Share…</string>
     <string name="progress_dialog_message">%1$s…</string>
-    <string name="section_input_options">输入选项</string>
-    <string name="label_remember_value">保存值</string>
-    <string name="action_cancel_pending">取消正在处理的请求</string>
-    <string name="pending_shortcut_execution_cancelled">%1$s 已取消</string>
-    <string name="action_send_to">发送到…</string>
-    <string name="error_not_suitable_shortcuts">没有找到合适的快捷方式，要使用这个特性。你必须至少要有一个使用了共享变量的快捷方式。查阅文档中关于变量部分以获取更多信息。</string>
-    <string name="error_sharing_feature_not_available_yet">很抱歉，目前还不支持在快捷方式中共享文本文件，后续可能会添加上，现阶段您可以共享文本。查阅文档中关于变量部分以获取更多信息。感谢您的理解。</string>
-    <string name="label_allow_share_into">允许“共享”</string>
-    <string name="theme_blue">蓝色</string>
-    <string name="theme_green">绿色</string>
-    <string name="theme_red">红色</string>
-    <string name="theme_grey">灰色</string>
-    <string name="theme_orange">橙色</string>
-    <string name="theme_purple">紫色</string>
-    <string name="theme_indigo">靛蓝色</string>
-    <string name="title_export">导出……</string>
-    <string name="button_export_to_filesystem">本地存储</string>
-    <string name="button_export_send_to">其他应用</string>
-    <string name="title_import">导入……</string>
-    <string name="button_import_from_filesystem">本地存储</string>
-    <string name="button_import_from_general">文档</string>
+    <string name="section_input_options">Input Options</string>
+    <string name="label_remember_value">Remember value</string>
+    <string name="action_cancel_pending">Cancel pending execution</string>
+    <string name="pending_shortcut_execution_cancelled">%1$s cancelled.</string>
+    <string name="action_send_to">Send to…</string>
+    <string name="error_not_suitable_shortcuts">No suitable shortcuts found.\n\nTo use this feature you need to have at least one shortcut that uses a variable that allows \'Share …\'.\n\nSee the documentation in the variable section for more information.</string>
+    <string name="error_sharing_feature_not_available_yet">Sorry, but sharing text files into shortcuts is not yet supported. It will probably be added sometime in the future.\nYou can, however, share text snippets already. See the documentation in the variable section for more information.\n\nThank you for your understanding.</string>
+    <string name="label_allow_share_into">Allow \'Share …\'</string>
+    <string name="theme_blue">Blue</string>
+    <string name="theme_green">Green</string>
+    <string name="theme_red">Red</string>
+    <string name="theme_grey">Grey</string>
+    <string name="theme_orange">Orange</string>
+    <string name="theme_purple">Purple</string>
+    <string name="theme_indigo">Indigo</string>
+    <string name="title_export">Export to…</string>
+    <string name="button_export_to_filesystem">Local storage</string>
+    <string name="button_export_send_to">Other app</string>
+    <string name="title_import">Import from…</string>
+    <string name="button_import_from_filesystem">Local storage</string>
+    <string name="button_import_from_general">Documents</string>
     <!-- Option 1 in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
-    <string name="button_create_new">新建快捷方式</string>
+    <string name="button_create_new">From scratch</string>
     <!-- Option 2 in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
-    <string name="button_curl_import">从 cURL 命令行创建</string>
-    <string name="title_curl_import">从 cURL 命令行创建</string>
-    <string name="instructions_curl_import">在下面输入或粘贴一条 cURL 命令以新建一个快捷方式。请注意，这是一个实验性功能，目前只能识别部分 cURL 参数。</string>
-    <string name="curl_import_button">导入</string>
+    <string name="button_curl_import">From cURL command</string>
+    <string name="title_curl_import">cURL Import</string>
+    <string name="instructions_curl_import">Type or paste a cURL command below to create a new shortcut from it.</string>
+    <string name="curl_import_button">Import</string>
     <string name="authentication_none">No Authentication</string>
     <string name="authentication_basic">Basic Authentication</string>
     <string name="authentication_digest">Digest Authentication</string>
@@ -264,85 +264,85 @@
     <string name="error_share_failed">An error occurred while sharing.</string>
     <plurals name="seconds">
         <!-- Used in various places to indicate a number of seconds, e.g. for a delay. %s is a placeholder for the actual number. -->
-        <item quantity="one">%d second</item>
-        <item quantity="other">%d seconds</item>
+        <item quantity="one">%d secondo</item>
+        <item quantity="other">%d secondi</item>
     </plurals>
     <plurals name="minutes">
         <!-- Used in various places to indicate a number of minutes, e.g. for a delay. %s is a placeholder for the actual number. -->
-        <item quantity="one">%d minute</item>
-        <item quantity="other">%d minutes</item>
+        <item quantity="one">%d minuto</item>
+        <item quantity="other">%d minuti</item>
     </plurals>
-    <string name="label_delay_execution">Delay execution</string>
+    <string name="label_delay_execution">Ritardo nell\'esecuzione</string>
     <!-- Option to delay the execution of a shortcut. Default option is "No delay" -->
-    <string name="label_no_delay">No delay</string>
-    <string name="label_variable_time_format">Time Format</string>
-    <string name="variable_type_time">Time Input</string>
-    <string name="error_invalid_time_format">The time format is not valid.</string>
+    <string name="label_no_delay">Nessun ritardo</string>
+    <string name="label_variable_time_format">Formato ora</string>
+    <string name="variable_type_time">Input ora</string>
+    <string name="error_invalid_time_format">Il formato orario non è valido.</string>
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
-    <string name="error_not_supported">This feature is not supported on your device.</string>
+    <string name="error_not_supported">Questa funzionalità non è supportata dal tuo dispositivo.</string>
     <!-- Section title on settings screen for privacy related settings -->
     <string name="settings_title_privacy">Privacy</string>
     <!-- Setting title for crash reporting settings, as part of privacy settings (opt-in/opt-out) -->
-    <string name="settings_crash_reporting">Crash Reporting</string>
+    <string name="settings_crash_reporting">Arresti anomali</string>
     <!-- Option for crash reporting opt in -->
-    <string name="settings_crash_reporting_allow">Send crash reports to help improve the app</string>
+    <string name="settings_crash_reporting_allow">Invia gli arresti anomali per aiutare a migliorare l\'App</string>
     <!-- Option for crash reporting opt out -->
-    <string name="settings_crash_reporting_disallow">Don\'t send any crash reports</string>
+    <string name="settings_crash_reporting_disallow">Non inviare gli arresti anomali</string>
     <!-- Title of section in settings that allows user to click to open privacy policy dialog -->
-    <string name="settings_privacy_policy">Privacy Policy</string>
+    <string name="settings_privacy_policy">Politica sulla riservatezza</string>
     <!-- Summary/subtitle of section in settings that allows user to click to open privacy policy dialog -->
-    <string name="settings_privacy_policy_summary">Nope, not stealing your data.</string>
+    <string name="settings_privacy_policy_summary">No, non rubiamo i tuoi dati.</string>
     <!-- Title of dialog that shows the privacy policy -->
-    <string name="title_privacy_policy">Privacy Policy</string>
+    <string name="title_privacy_policy">Politica sulla riservatezza</string>
     <!-- Type of variable: Slider, i.e. a horizontal bar that allows to pick a number by sliding a knob left or right -->
-    <string name="variable_type_slider">Number Slider</string>
+    <string name="variable_type_slider">Cursore numerico</string>
     <!-- Name of notification channel used for displaying that shortcut executions are pending (e.g. waiting for network connection) -->
-    <string name="name_pending_shortcuts_channel">Pending Executions</string>
+    <string name="name_pending_shortcuts_channel">Esecuzioni pendenti</string>
     <!-- Label above input box, for minimum (numeric) value of a horizontal slider -->
-    <string name="label_variable_slider_min">Minimum</string>
+    <string name="label_variable_slider_min">Minimo</string>
     <!-- Label above input box, for maximum (numeric) value of a horizontal slider -->
-    <string name="label_variable_slider_max">Maximum</string>
+    <string name="label_variable_slider_max">Massimo</string>
     <!-- Label above input box, for step size (numeric) value of a horizontal slider -->
-    <string name="label_variable_slider_step">Step Size</string>
+    <string name="label_variable_slider_step">Dimensione del passo</string>
     <!-- error message displayed when "Maximum" is lesser than or equal to "Minimum" for "slider" variable type -->
-    <string name="error_slider_max_not_greater_than_min">The maximum must be greater than the minimum.</string>
+    <string name="error_slider_max_not_greater_than_min">Il massimo dev\'essere maggiore del minimo.</string>
     <!-- Button text: Set image as icon (after selecting and editing) -->
-    <string name="button_apply_icon">Apply icon</string>
+    <string name="button_apply_icon">Imposta icona</string>
     <!-- Title of option in settings to show change changelog of current and past versions -->
     <string name="settings_changelog">Changelog</string>
     <!-- Subtitle/summary of "Changelog" option in settings, showing the current app version number -->
-    <string name="settings_changelog_summary">Version %1$s</string>
-    <string name="title_edit_toggle_option">Edit Value</string>
-    <string name="title_edit_select_option">Edit Option</string>
+    <string name="settings_changelog_summary">Versione %1$s</string>
+    <string name="title_edit_toggle_option">Modifica il valore</string>
+    <string name="title_edit_select_option">Modifica le opzioni</string>
     <!-- Instructions shown in dialog when user clicks the variables button in the shortcut editor but doesn't have any variables configured yet -->
-    <string name="help_text_variable_button">This button allows you to include placeholders for variables, i.e., dynamic values, into your shortcut.\n\nYou don\'t have any variables configured yet. You can do so by clicking the CREATE button below.</string>
+    <string name="help_text_variable_button">Questo bottone ti permette di includere placeholder per le variabili, ad esempio, valori dinamici, dentro lo tua scorciatoia.\n\nNon hai variabili configurate . Le puoi aggiungere premendo sul bottone CREA.</string>
     <!-- Instructions shown in dialog when user clicks the variables button in the variable editor but doesn't have any variables configured yet -->
-    <string name="help_text_variable_button_for_variables">This button allows you to include placeholders for the values of other variables into this one.\n\nYou don\'t have any variables configured yet, however.</string>
+    <string name="help_text_variable_button_for_variables">Questo bottone ti permette di includere placeholder per i valori di altre variabili.\n\nNon hai nessuna variabile configurata.</string>
     <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
-    <string name="button_create_first_variable">Create</string>
+    <string name="button_create_first_variable">Crea</string>
     <!-- Title of dialog that allows users to pick a variable from a list to insert its placeholder somewhere -->
-    <string name="dialog_title_variable_selection">Variables</string>
+    <string name="dialog_title_variable_selection">Variabili</string>
     <!-- Option shown on variable selection dialog, clicking it opens variable editor -->
-    <string name="label_edit_variables">Edit variables</string>
-    <string name="title_create_new_shortcut_options_dialog">Create New Shortcut</string>
+    <string name="label_edit_variables">Modifica le variabili</string>
+    <string name="title_create_new_shortcut_options_dialog">Crea una scorciatoia</string>
     <!-- Button text: translate app (prompt to help & become a translator) -->
-    <string name="settings_help_translate">Translate App</string>
+    <string name="settings_help_translate">Traduci l\'App</string>
     <!-- Summary/subtitle of section in settings that prompts user to help translate the app -->
-    <string name="settings_help_translate_summary">Help me make this app better!</string>
+    <string name="settings_help_translate_summary">Aiutami a rendere questa App migliore!</string>
     <!-- Blurb/short description of plugin action (for Tasker integration), where %1$s is a placeholder for the shortcut name. -->
-    <string name="plugin_blurb_execute_task">Execute shortcut \"%1$s\"</string>
+    <string name="plugin_blurb_execute_task">Esegui scorciatoia \"%1$s\"</string>
     <!-- Label of dropdown to select the request body type in shortcut editor -->
-    <string name="label_request_body_type">Request Body Type</string>
+    <string name="label_request_body_type">Tipo di Request Body</string>
     <!-- Dropdown option for request body: form-data (i.e. list of parameters) -->
-    <string name="request_body_option_form_data">Parameters (form-data)</string>
+    <string name="request_body_option_form_data">Parametri (form-data)</string>
     <!-- Dropdown option for request body: x-www-form-urlencoded (i.e. list of parameters) -->
-    <string name="request_body_option_x_www_form_urlencoded">Parameters (x-www-form-urlencoded)</string>
+    <string name="request_body_option_x_www_form_urlencoded">Parametri (x-www-form-urlencoded)</string>
     <!-- Dropdown option for request body: custom text (i.e. enter a custom Content-Type and a request body as text) -->
-    <string name="request_body_option_custom_text">Custom Text</string>
+    <string name="request_body_option_custom_text">Testo personalizzato</string>
     <!-- Label above input box for Request Content-Type -->
     <string name="label_content_type">Content-Type</string>
     <!-- Button to copy the cURL export of a shortcut to the clipboard -->
-    <string name="button_copy_curl_export">Copy</string>
+    <string name="button_copy_curl_export">Copia</string>
     <!-- Title of dialog that allows user to pick an icon from the built-in icons -->
     <string name="title_choose_icon">Choose Built-in Icon</string>
     <!-- Section title in shortcut editor: Actions (i.e. what should happen before and after shortcut executes) -->

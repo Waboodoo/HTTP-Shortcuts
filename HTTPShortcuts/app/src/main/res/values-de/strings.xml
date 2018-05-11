@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: de, German
  Exported by: Roland Meyer
- Exported at: Mon, 26 Mar 2018 11:57:08 +0200
+ Exported at: Fri, 11 May 2018 14:13:25 +0200
 -->
 <resources>
     <!-- The name of the app -->
@@ -19,7 +19,7 @@
     <!-- Title in editor when creating a new shortcut -->
     <string name="create_shortcut">Shortcut erstellen</string>
     <!-- Content description of icon image, accessibility information -->
-    <string name="icon_description">Icon</string>
+    <string name="icon_description">Symbol</string>
     <!-- Label above input field in editor, for shortcut name -->
     <string name="label_name">Shortcut-Name</string>
     <!-- Label above input field in editor, for shortcut description -->
@@ -63,26 +63,26 @@
     <string name="no_shortcuts">Noch keine Shortcuts vorhanden</string>
     <string name="no_variables">Noch keine Variablen vorhanden</string>
     <string name="confirm_delete_shortcut_message">Diesen Shortcut wirklich löschen?</string>
-    <string name="confirm_discard_changes_message">Sie haben ungespeicherte Änderungen. Änderungen verwerfen?</string>
+    <string name="confirm_discard_changes_message">Du hast ungespeicherte Änderungen. Änderungen verwerfen?</string>
     <string name="dialog_discard">Verwerfen</string>
     <string name="title_activity_execute">Shortcut ausführen</string>
     <string name="executed">%s ausgeführt.</string>
     <string name="shortcut_not_found">Shortcut nicht gefunden. Der Shortcut muss ev. neu platziert werden.</string>
-    <string name="validation_name_not_empty">Bitte geben Sie einen Namen ein.</string>
-    <string name="validation_url_invalid">Bitte geben Sie eine HTTP(S)-URL ein.</string>
+    <string name="validation_name_not_empty">Bitte gib einen Namen ein.</string>
+    <string name="validation_url_invalid">Bitte gib eine HTTP(S)-URL ein.</string>
     <string name="error_http">%1$s ist mit status code %2$d fehlgeschlagen.</string>
     <string name="error_other">%1$s fehlgeschlagen: %2$s</string>
     <string name="error_set_image">Bild konnte nicht geladen werden.</string>
     <string name="copy">%1$s (Kopie)</string>
     <string name="choose_ipack">Ipack wählen</string>
     <!-- Title of "Change Icon" dialog, where user can pick source/type of new icon for shortcut -->
-    <string name="change_icon">Icon ändern</string>
+    <string name="change_icon">Symbol ändern</string>
     <!-- Option in "Change Icon" dialog, allows user to select a custom image to use as a shortcut icon -->
     <string name="choose_image">Eigenes Bild wählen</string>
     <!-- Option in "Change Icon" dialog, allows user to select an icon from an Ipack icon set (from a third-party icon app) -->
-    <string name="choose_ipack_icon">Ipack-Icon wählen</string>
+    <string name="choose_ipack_icon">Ipack-Symbol wählen</string>
     <!-- Option in "Change Icon" dialog, allows user to select one of the built-in icons to use as a shortcut icon -->
-    <string name="choose_icon">Icon wählen</string>
+    <string name="choose_icon">Symbol wählen</string>
     <string name="label_post_params">Parameter</string>
     <string name="button_add_post_param">Parameter hinzufügen</string>
     <string name="title_post_param_edit">Parameter bearbeiten</string>
@@ -102,6 +102,7 @@
     <string name="label_custom_header_key">Header</string>
     <string name="label_custom_header_value">Wert</string>
     <string name="label_custom_body">Request-Body (optional):</string>
+    <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
     <string name="settings">Einstellungen</string>
     <string name="settings_theme">Farbschema</string>
     <string name="settings_title_basic">Allgemeine Einstellungen</string>
@@ -112,13 +113,13 @@
     <string name="settings_title_import_export">Importieren / Exportieren</string>
     <string name="settings_import">Shortcuts importieren</string>
     <string name="settings_export">Shortcuts exportieren</string>
-    <string name="export_instructions">Wählen Sie das Verzeichnis in welches Ihre Shortcuts exportiert werden sollen.\n\nAchtung: eigene Shortcut-Icons können nicht exportiert werden.</string>
+    <string name="export_instructions">Wähle das Verzeichnis in welches deine Shortcuts exportiert werden sollen.\n\nAchtung: eigene Shortcut-Symbole können nicht exportiert werden.</string>
     <string name="export_success">Export erfolgreich</string>
     <string name="export_failed">Export fehlgeschlagen</string>
     <string name="export_in_progress">Exportiere…</string>
     <string name="button_ok">OK</string>
     <string name="button_cancel">Abbrechen</string>
-    <string name="import_instructions">Wählen Sie die Datei aus welcher Sie Shortcuts importieren möchten.\n\nAchtung: bestehende Shortcuts können überschrieben werden.</string>
+    <string name="import_instructions">Wähle die Datei aus welcher du Shortcuts importieren möchtest.\n\nAchtung: bestehende Shortcuts können überschrieben werden.</string>
     <string name="import_failed">Import fehlgeschlagen.</string>
     <string name="import_success">Import erfolgreich.</string>
     <string name="import_in_progress">Importiere…</string>
@@ -133,7 +134,6 @@
     <!-- Timeout option: very long, i.e. around 60 seconds -->
     <string name="timeout_very_long">sehr lange</string>
     <string name="settings_about">Über diese App</string>
-    <string name="settings_version">Versionsnummer</string>
     <string name="settings_mail">Entwickler kontaktieren</string>
     <string name="settings_mail_summary">Fragen, Wünsche, sonstige Kommentare, …</string>
     <string name="settings_github">Auf Github ansehen</string>
@@ -159,7 +159,7 @@
     <string name="section_advanced_settings">Erweiterte Einstellungen</string>
     <string name="section_authentication">Authentifizierung</string>
     <string name="label_authentication_method">Authentifizierungsart</string>
-    <string name="warning_icon_or_name_change">Bitte beachten Sie, dass Änderungen des Namens oder Icons nicht automatisch angewendet werden auf Shortcuts, die bereits dem Homescreen hinzugefügt wurden. Um die Änderungen zu übernehmen müssen Sie sie erneut platzieren.</string>
+    <string name="warning_icon_or_name_change">Bitte beachte, dass Änderungen des Namens oder Symbols nicht automatisch angewendet werden auf Shortcuts, die bereits dem Homescreen hinzugefügt wurden. Um die Änderungen zu übernehmen musst du sie erneut platzieren.</string>
     <string name="dialog_checkbox_do_not_show_again">Nicht erneut anzeigen</string>
     <string name="label_certificates">Zertifikate</string>
     <!-- Label above checkbox in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
@@ -186,6 +186,7 @@
         <item quantity="other">%d Shortcuts</item>
     </plurals>
     <string name="title_move_to_category">In Kategorie verschieben</string>
+    <!-- Name/title to describe what the plugin action does, used by external plugins, e.g. Tasker -->
     <string name="plugin_name">HTTP-Shortcut ausführen</string>
     <string name="title_variables">Variablen</string>
     <string name="edit_variable">Variable bearbeiten</string>
@@ -252,21 +253,15 @@
     <!-- Option 2 in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
     <string name="button_curl_import">Aus cURL-Befehl erstellen</string>
     <string name="title_curl_import">cURL-Import</string>
-    <string name="instructions_curl_import">Geben Sie einen cURL-Befehl ein oder fügen ihn ein um daraus einen neuen Shortcut zu erstellen. Bitte beachten Sie, dass dieses Feature experimentell ist und nur eine limitiere Teilmenge von cURL-Optionen unterstützt wird.</string>
+    <string name="instructions_curl_import">Gib einen cURL-Befehl ein oder füge ihn ein um daraus einen neuen Shortcut zu erstellen.</string>
     <string name="curl_import_button">Importieren</string>
     <string name="authentication_none">Keine Authentifizierung</string>
     <string name="authentication_basic">Basic Authentication</string>
     <string name="authentication_digest">Digest Authentication</string>
+    <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu, i.e., when long-pressing the app icon on the home screen -->
     <string name="label_launcher_shortcut">Als App-Shortcut auf Launcher anzeigen</string>
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
     <string name="error_share_failed">Beim Teilen ist ein Fehler aufgetreten.</string>
-    <!-- Title displayed in notification when there are shortcuts waiting to be executed at a later time -->
-    <string name="title_shortcuts_pending">HTTP Shortcuts</string>
-    <plurals name="message_shortcuts_pending">
-        <!-- Message displayed in notification when there are shortcuts waiting to be executed at a later time -->
-        <item quantity="one">1 shortcut waiting to execute</item>
-        <item quantity="other">%d shortcuts waiting to execute</item>
-    </plurals>
     <plurals name="seconds">
         <!-- Used in various places to indicate a number of seconds, e.g. for a delay. %s is a placeholder for the actual number. -->
         <item quantity="one">% Sekunde</item>
@@ -283,8 +278,6 @@
     <string name="label_variable_time_format">Zeitformat</string>
     <string name="variable_type_time">Zeiteingabe</string>
     <string name="error_invalid_time_format">Das Zeitformat ist ungültig.</string>
-    <!-- Error: Custom icon could not be used for a shortcut, because the user declined the permission request to read from storage -->
-    <string name="error_cannot_get_image_permission_denied">Bild kann nicht verwendet werden. Zugriff verweigert.</string>
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
     <string name="error_not_supported">Diese Funktion wird von deinem Gerät nicht unterstützt.</string>
     <!-- Section title on settings screen for privacy related settings -->
@@ -350,4 +343,130 @@
     <string name="label_content_type">Content-Type</string>
     <!-- Button to copy the cURL export of a shortcut to the clipboard -->
     <string name="button_copy_curl_export">Kopieren</string>
+    <!-- Title of dialog that allows user to pick an icon from the built-in icons -->
+    <string name="title_choose_icon">Vordefiniertes Symbol wählen</string>
+    <!-- Section title in shortcut editor: Actions (i.e. what should happen before and after shortcut executes) -->
+    <string name="section_actions">Aktionen</string>
+    <!-- Title of dialog that allows users to pick a constant variable from a list to insert its placeholder somewhere -->
+    <string name="dialog_title_variable_selection_constants_only">Variablen (nur Konstanten)</string>
+    <!-- Button to add actions to a shortcut (to define what should happen on success, on failure, etc.) -->
+    <string name="button_add_action">Aktion hinzufügen</string>
+    <!-- Section title in shortcut editor: "Before actions", i.e., shown above list of actions that execute before the shortcut -->
+    <string name="label_actions_before">Voraktionen</string>
+    <!-- Section title in shortcut editor: "Success actions", i.e., shown above list of actions that execute after the shortcut executed successfully -->
+    <string name="label_actions_success">Erfolgsaktionen</string>
+    <!-- Section title in shortcut editor: "Failure actions", i.e., shown above list of actions that execute after the shortcut executed with a failure -->
+    <string name="label_actions_failure">Fehleraktionen</string>
+    <!-- Shown as a placeholder for the title field of an action of unknown type. This should never happen. -->
+    <string name="action_type_unknown_title">Unbekannte Aktion</string>
+    <!-- Shown as a placeholder for the description field of an action of unknown type. This should never happen. -->
+    <string name="action_type_unknown_description">Unbekannte Aktion</string>
+    <!-- Shortcut Action Title: Show Toast (small popup message) -->
+    <string name="action_type_toast_title">Toast anzeigen</string>
+    <!-- Shortcut Action Description: Show Toast (small popup message) -->
+    <string name="action_type_toast_description">Nachricht \"%1$s\" anzeigen</string>
+    <!-- Shortcut Action Editor Label: Message (to show in a toast) -->
+    <string name="action_type_toast_edit_label_message">Nachricht</string>
+    <!-- Shortcut Action Title: Vibrate -->
+    <string name="action_type_vibrate_title">Vibrieren</string>
+    <!-- Shortcut Action Description: Vibrate, describes the vibration pattern -->
+    <string name="action_type_vibrate_description_pattern_0">1 kurze Vibration</string>
+    <!-- Shortcut Action Description: Vibrate, describes the vibration pattern -->
+    <string name="action_type_vibrate_description_pattern_1">1 lange Vibration</string>
+    <!-- Shortcut Action Description: Vibrate, describes the vibration pattern -->
+    <string name="action_type_vibrate_description_pattern_2">3 kurze Vibrationen</string>
+    <!-- Shortcut Action Editor Label: Vibration pattern -->
+    <string name="action_type_vibrate_edit_label_pattern">Vibrationsmuster</string>
+    <!-- Shortcut Action Editor Label: Checkbox, whether to wait for the vibration to complete -->
+    <string name="action_type_vibrate_edit_label_wait_until_complete">Warten bis vollendet</string>
+    <!-- Dialog title: Add action (shown above list of action types to select) -->
+    <string name="title_add_action">Aktion hinzufügen</string>
+    <!-- Shortcut Action Title: Change Shortcut Name -->
+    <string name="action_type_rename_shortcut_title">Shortcut umbenennen</string>
+    <!-- Shortcut Action Description: Change Shortcut Name -->
+    <string name="action_type_rename_shortcut_description">Shortcut umbenennen in \"%1$s\"</string>
+    <!-- Shortcut Action Editor Label: New name for shortcut -->
+    <string name="action_type_rename_shortcut_edit_label_new_name">Neuer Name</string>
+    <!-- Action: Edit the current action. Shown in dropdown menu when selecting an action in the shortcut editor -->
+    <string name="action_edit_action">Aktion bearbeiten</string>
+    <!-- Action: Remove the current action. Shown in dropdown menu when selecting an action in the shortcut editor -->
+    <string name="action_remove_action">Aktion entfernen</string>
+    <!-- Shortcut Action Title: Extract (HTTP) Status Code (and store in variable) -->
+    <string name="action_type_extract_status_code_title">Statuscode extrahieren</string>
+    <!-- Shortcut Action Description: Extract status code (from HTTP response) and store in variable -->
+    <string name="action_type_extract_status_code_description">Statuscode in \"%s$s\" speichern</string>
+    <!-- Shortcut Action Editor Help Text: Extract status code, shown in action editor -->
+    <string name="action_type_extract_status_code_help_text">Speichert den Statuscode der HTTP-Response in eine Variable.</string>
+    <!-- Shortcut Action Editor Label: Target variable (to store a value) -->
+    <string name="action_type_target_variable">Zielvariable</string>
+    <!-- Shortcut Action Editor Placeholder: Shows when no variable was selected yet -->
+    <string name="action_type_target_variable_no_variable_selected">Keine Variable ausgewählt</string>
+    <!-- Shortcut Action Title: Extract (HTTP) header (and store in variable) -->
+    <string name="action_type_extract_header_title">Header extrahieren</string>
+    <!-- Shortcut Action Description: Extract header (from HTTP response) and store in variable -->
+    <string name="action_type_extract_header_description">Header \"%1$s\" speichern in \"%2$s\"</string>
+    <!-- Shortcut Action Editor Help Text: Extract HTTP header, shown in action editor -->
+    <string name="action_type_extract_header_help_text">Extrahiert den Wert eines bestimmten HTTP-Headers und speichert ihn in eine Variable. Falls kein solcher Header vorhanden ist geschieht nichts.</string>
+    <!-- Shortcut Action Editor Label: (HTTP) header (to be extracted from response) -->
+    <string name="action_type_extract_header_label_header_key">Header</string>
+    <!-- Shortcut Action Title: Extract cookie from HTTP response (and store in variable) -->
+    <string name="action_type_extract_cookie_title">Cookie extrahieren</string>
+    <!-- Shortcut Action Description: Extract cookie (from HTTP response) and store in variable -->
+    <string name="action_type_extract_cookie_description">Speichert Cookie \"%1$s\" in \"%2$s\"</string>
+    <!-- Shortcut Action Editor Help Text: Extract cookie, shown in action editor -->
+    <string name="action_type_extract_cookie_help_text">Extrahiert den Wert eines bestimmten HTTP-Cookies und speichert ihn in eine Variable. Falls kein solches Cookie vorhanden ist geschieht nichts.</string>
+    <!-- Shortcut Action Editor Label: cookie name (to be extracted from HTTP response) -->
+    <string name="action_type_extract_cookie_label_cookie_name">Cookie-Name</string>
+    <!-- Shortcut Action Title: Extract from (HTTP response) body (and store in variable) -->
+    <string name="action_type_extract_body_title">Extrahieren aus Response-Body</string>
+    <!-- Shortcut Action Description: Extract from HTTP response body (from HTTP response) and store in variable -->
+    <string name="action_type_extract_body_description">Speichert Wert aus Response in \"%1$s\"</string>
+    <!-- Shortcut Action Editor Help Text: Extract HTTP response body, or part of it, shown in action editor -->
+    <string name="action_type_extract_body_help_text">Extrahiert den Response-Body oder einen Teil davon und speichert ihn in einer Variable. Falls der angegebene Teil nicht vorhanden ist geschieht nichts.</string>
+    <!-- Shortcut Action Editor Label: Allows to select the type of how text is extracted from the HTTP response body -->
+    <string name="action_type_extract_body_label_options">Extraktionsart</string>
+    <!-- Shortcut Action Editor Option Label: One of the options in the dropdown to select how text is extracted from the HTTP response body: use the full body, i.e., all of it as is -->
+    <string name="action_type_extract_body_description_option_full_body">Vollständiger Body</string>
+    <!-- Shortcut Action Editor Option Label: One of the options in the dropdown to select how text is extracted from the HTTP response body: use a substring, i.e., only a part of it -->
+    <string name="action_type_extract_body_description_option_substring">Teilsequenz</string>
+    <!-- Shortcut Action Editor Option Label: One of the options in the dropdown to select how text is extracted from the HTTP response body: try to parse it as JSON and use a specific part -->
+    <string name="action_type_extract_body_description_option_json">JSON parsen</string>
+    <!-- Shortcut Action Editor Option Label: Allows to select the start index of the substring option when extracting text from the HTTP response body -->
+    <string name="action_type_extract_body_label_substring_start_index">Startindex der Teilsequenz</string>
+    <!-- Shortcut Action Editor Option Label: Allows to select the end index of the substring option when extracting text from the HTTP response body -->
+    <string name="action_type_extract_body_label_substring_end_index">Endindex der Teilsequenz</string>
+    <!-- Shortcut Action Editor Option Label: Allows to specify the JSON path when using the JSON parse option when extracting text from the HTTP response body -->
+    <string name="action_type_extract_body_label_json_path">JSON-Pfad</string>
+    <!-- Shortcut Action Editor Help Text: Explains how the substring option can be used when extracting text from the HTTP response body -->
+    <string name="action_type_extract_body_help_text_substring_option">Verwende 0 um den Start oder das Ende des Bodys zu bezeichnen. Negative Zahlen können verwendet werden um einen Index relativ zum Ende zu bezeichnen.</string>
+    <!-- Shortcut Action Editor Help Text: Explains how the JSON option can be used when extracting text from the HTTP response body -->
+    <string name="action_type_extract_body_help_text_json_option">Beschreibe den Pfad innerhalb der JSON-Response, abgetrennt mit Punkten. Z.B. \"2.title\" bedeutet, dass die Response als JSON-Array interpretiert wird, deren 2. Element ein JSON-Objekt mit einem Feld \"title\" ist.</string>
+    <!-- Generic error shown when something went wrong and there is no better error message available -->
+    <string name="error_generic">Ein unbekannter Fehler ist aufgetreten…</string>
+    <!-- Shortcut Action Title: Set the value of a variable -->
+    <string name="action_type_set_variable_title">Variablenwert ändern</string>
+    <!-- Shortcut Action Description: Set the value (%2$s placeholder) of a variable (%1$s placeholder) -->
+    <string name="action_type_set_variable_description">Weist der Variable \"%1$s\" den Wert \"%2$s\" zu</string>
+    <!-- Shortcut Action Editor Help Text: Set the value of a variable -->
+    <string name="action_type_set_variable_help_text">Ändert den Wert einer Variablen.</string>
+    <!-- Shortcut Action Editor Label: allows to specify the new value of a variable -->
+    <string name="action_type_set_variable_label_new_value">Neuer Wert</string>
+    <!-- Label above dropdown in shortcut editor, allows user to decide how shortcut is executed: in app or in external browser -->
+    <string name="label_execution_type">Ausführen in…</string>
+    <!-- Option in dropdown when selecting how shortcut should be executed: Inside the app itself (vs. in external browser) -->
+    <string name="execution_type_option_in_app">App</string>
+    <!-- Option in dropdown when selecting how shortcut should be executed: In external browser (vs. inside the app itself) -->
+    <string name="execution_type_option_in_browser">Browser</string>
+    <!-- Shortcut Action Title: Trigger a shortcut, i.e., execute it -->
+    <string name="action_type_trigger_shortcut_title">Shortcut auslösen</string>
+    <!-- Shortcut Action Description: Trigger a specific shortcut, %1$s is a placeholder for the name of that shortcut -->
+    <string name="action_type_trigger_shortcut_description">\"%1$s\" auslösen</string>
+    <!-- Shortcut error message: Maximum recursion depth reached, i.e., a potential infinite loop was detected and stopped -->
+    <string name="action_type_trigger_shortcut_error_recursion_depth_reached">Maximale Rekursionstiefe erreicht. Shortcut wird nicht ausgelöst.</string>
+    <!-- Shortcut Action Editor Label: Allows to pick a shortcut (used in different places) -->
+    <string name="action_type_trigger_shortcut_label_shortcut_name">Shortcut</string>
+    <!-- Shortcut Action Editor placeholder: No shortcut selected, used in different places where selecting a shortcut is necessary -->
+    <string name="action_target_shortcut_no_shortcut_selected">Kein Shortcut ausgewählt</string>
+    <!-- Error message in Action Editor when selecting a shortcut is not possible because there are none yet, used in different places -->
+    <string name="action_target_shortcut_error_no_shortcuts">Du hast noch keine Shortcuts.</string>
 </resources>
