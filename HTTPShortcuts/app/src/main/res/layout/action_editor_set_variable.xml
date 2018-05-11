@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"/>
         </LinearLayout>
 
-        <ch.rmy.android.http_shortcuts.variables.VariableButton
+        <ch.rmy.android.http_shortcuts.variables.ConstantVariableButton
             android:id="@+id/variable_button_target_variable"
             style="@style/VariableButton"
             android:layout_alignParentEnd="true"

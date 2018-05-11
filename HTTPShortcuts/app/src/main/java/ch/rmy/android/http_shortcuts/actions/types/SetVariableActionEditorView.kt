@@ -31,7 +31,6 @@ class SetVariableActionEditorView(
         targetVariableView.setOnClickListener {
             variableButton2.performClick()
         }
-        variableButton2.constantsOnly = true
         variableButton2.variablePlaceholderProvider = variablePlaceholderProvider
         variableButton2.variableSource.add {
             selectedVariableKey = it.variableKey

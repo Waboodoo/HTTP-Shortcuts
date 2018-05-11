@@ -51,7 +51,6 @@ class ExtractBodyActionEditorView(
         targetVariableView.setOnClickListener {
             variableButton.performClick()
         }
-        variableButton.constantsOnly = true
         variableButton.variablePlaceholderProvider = variablePlaceholderProvider
         variableButton.variableSource.add {
             selectedVariableKey = it.variableKey

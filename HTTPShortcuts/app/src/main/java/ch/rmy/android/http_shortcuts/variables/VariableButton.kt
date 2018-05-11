@@ -14,11 +14,9 @@ import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
 
 
-class VariableButton : AppCompatImageButton {
+open class VariableButton : AppCompatImageButton {
 
     lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
-
-    var constantsOnly = false
 
     val variableSource = EventSource<VariablePlaceholder>()
 
@@ -28,13 +26,15 @@ class VariableButton : AppCompatImageButton {
 
     init {
         setOnClickListener {
-            if (variablePlaceholderProvider.hasVariables) {
+            if (hasVariables()) {
                 openVariableSelectionDialog()
             } else {
                 openInstructionDialog()
             }
         }
     }
+
+    open protected fun hasVariables()  = variablePlaceholderProvider.hasVariables
 
     private fun openInstructionDialog() {
         MaterialDialog.Builder(context)
@@ -43,7 +43,7 @@ class VariableButton : AppCompatImageButton {
                 .positiveText(android.R.string.ok)
                 .mapIf(!isUsedFromVariableEditor()) {
                     it.neutralText(R.string.button_create_first_variable)
-                        .onNeutral { _, _ -> openVariableEditor() }
+                            .onNeutral { _, _ -> openVariableEditor() }
                 }
                 .show()
     }
@@ -56,14 +56,10 @@ class VariableButton : AppCompatImageButton {
 
     private fun openVariableSelectionDialog() {
         MenuDialogBuilder(context)
-                .title(if (constantsOnly) R.string.dialog_title_variable_selection_constants_only else R.string.dialog_title_variable_selection)
-                .mapFor(variablePlaceholderProvider.placeholders) { builder, placeholder ->
-                    if (!constantsOnly || placeholder.isConstant) {
-                        builder.item(placeholder.variableKey) {
-                            variableSource.notifyObservers(placeholder)
-                        }
-                    } else {
-                        builder
+                .title(getTitle())
+                .mapFor(getVariables()) { builder, placeholder ->
+                    builder.item(placeholder.variableKey) {
+                        variableSource.notifyObservers(placeholder)
                     }
                 }
                 .toDialogBuilder()
@@ -73,6 +69,10 @@ class VariableButton : AppCompatImageButton {
                 }
                 .showIfPossible()
     }
+
+    protected open fun getTitle() = R.string.dialog_title_variable_selection
+
+    protected open fun getVariables() = variablePlaceholderProvider.placeholders
 
     private fun isUsedFromVariableEditor() = context is VariableEditorActivity
 

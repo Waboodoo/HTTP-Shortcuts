@@ -16,8 +16,14 @@ class VariablePlaceholderProvider(context: Context, private val variables: Realm
     val placeholders
         get() = internalPlaceholders
 
+    val constantsPlaceholders
+        get() = internalPlaceholders.filter { it.isConstant }
+
     val hasVariables
         get() = internalPlaceholders.isNotEmpty()
+
+    val hasConstants
+        get() = constantsPlaceholders.isNotEmpty()
 
     private var internalPlaceholders: List<VariablePlaceholder> = emptyList()
 
