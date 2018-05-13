@@ -11,15 +11,16 @@
             <br><br>
             <b>Miscellaneous</b>
             <ul>
-                <li> New translations: Norwegian (Bokmål), Italian</li>
-                <li> Improved syntax highlighting & pretty printing of JSON & XML responses</li>
+                <li>New translations: Norwegian (Bokmål), Italian</li>
+                <li>Shortcut can be opened in browser</li>
+                <li>Improved syntax highlighting & pretty printing of JSON & XML responses</li>
             </ul>
             <b>Bugfixes</b>
             <ul>
-                <li> Delayed execution & waiting for network connectivity now work again</li>
-                <li> Custom icons now show on the home screen on Oreo</li>
-                <li> gzipped responses are now correctly parsed</li>
-                <li> Various occasional crashes</li>
+                <li>Delayed execution & waiting for network connectivity now work again</li>
+                <li>Custom icons now show on the home screen on Oreo</li>
+                <li>gzipped responses are now correctly parsed</li>
+                <li>Various occasional crashes</li>
             </ul>
         </p>
         <br>
