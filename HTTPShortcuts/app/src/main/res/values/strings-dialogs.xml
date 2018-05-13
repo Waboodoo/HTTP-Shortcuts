@@ -11,7 +11,7 @@
             <br><br>
             <b>Miscellaneous</b>
             <ul>
-                <li> New languages: Norwegian (Bokmål), Italian</li>
+                <li> New translations: Norwegian (Bokmål), Italian</li>
                 <li> Improved syntax highlighting & pretty printing of JSON & XML responses</li>
             </ul>
             <b>Bugfixes</b>
