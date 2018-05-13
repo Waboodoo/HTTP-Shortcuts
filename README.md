@@ -26,7 +26,8 @@ Become a [Beta Tester](https://play.google.com/apps/testing/ch.rmy.android.http_
 - Built-in icons, support for Ipack icons and custom icons
 - Display response as a toast, window or dialog, or run silently
 - Grouping into categories through tabs
-- Value injection through variables (text, numbers, passwords, selections, colors, dates, ...)
+- Value injection through variables (e.g., text, numbers, passwords, selections, colors, dates, …)
+- Trigger actions before & after execution (e.g., vibrate, show toast, extract value from response…), 
 - Import & Export in JSON or cURL format
 - 3rd party integration (e.g. Tasker)
 - Themes
