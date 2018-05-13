@@ -43,7 +43,7 @@ import java.util.*
 
 class ExecuteActivity : BaseActivity() {
 
-    private val controller = Controller()
+    private val controller by lazy { Controller() }
     private lateinit var shortcut: Shortcut
     private var lastResponse: ShortcutResponse? = null
 
