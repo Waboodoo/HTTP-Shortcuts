@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: pt-BR, Brazilian Portuguese
  Exported by: Roland Meyer
- Exported at: Fri, 11 May 2018 14:13:25 +0200
+ Exported at: Wed, 16 May 2018 21:13:52 +0200
 -->
 <resources>
     <!-- The name of the app -->
@@ -346,51 +346,51 @@
     <!-- Title of dialog that allows user to pick an icon from the built-in icons -->
     <string name="title_choose_icon">Choose Built-in Icon</string>
     <!-- Section title in shortcut editor: Actions (i.e. what should happen before and after shortcut executes) -->
-    <string name="section_actions">Actions</string>
+    <string name="section_actions">Ações</string>
     <!-- Title of dialog that allows users to pick a constant variable from a list to insert its placeholder somewhere -->
-    <string name="dialog_title_variable_selection_constants_only">Variables (Constants Only)</string>
+    <string name="dialog_title_variable_selection_constants_only">Variáveis (Somente Constantes)</string>
     <!-- Button to add actions to a shortcut (to define what should happen on success, on failure, etc.) -->
-    <string name="button_add_action">Add Action</string>
+    <string name="button_add_action">Adicionar Ação</string>
     <!-- Section title in shortcut editor: "Before actions", i.e., shown above list of actions that execute before the shortcut -->
     <string name="label_actions_before">Before Actions</string>
     <!-- Section title in shortcut editor: "Success actions", i.e., shown above list of actions that execute after the shortcut executed successfully -->
-    <string name="label_actions_success">Success Actions</string>
+    <string name="label_actions_success">Ações de Sucesso</string>
     <!-- Section title in shortcut editor: "Failure actions", i.e., shown above list of actions that execute after the shortcut executed with a failure -->
-    <string name="label_actions_failure">Failure Actions</string>
+    <string name="label_actions_failure">Ações de Falha</string>
     <!-- Shown as a placeholder for the title field of an action of unknown type. This should never happen. -->
-    <string name="action_type_unknown_title">Unknown action</string>
+    <string name="action_type_unknown_title">Ação desconhecida</string>
     <!-- Shown as a placeholder for the description field of an action of unknown type. This should never happen. -->
-    <string name="action_type_unknown_description">Unknown Action</string>
+    <string name="action_type_unknown_description">Ação Desconhecida</string>
     <!-- Shortcut Action Title: Show Toast (small popup message) -->
-    <string name="action_type_toast_title">Show Toast</string>
+    <string name="action_type_toast_title">Mostrar Toast</string>
     <!-- Shortcut Action Description: Show Toast (small popup message) -->
-    <string name="action_type_toast_description">Show message \"%1$s\"</string>
+    <string name="action_type_toast_description">Mostrar mensagem \"%1$s\"</string>
     <!-- Shortcut Action Editor Label: Message (to show in a toast) -->
-    <string name="action_type_toast_edit_label_message">Message</string>
+    <string name="action_type_toast_edit_label_message">Mensagem</string>
     <!-- Shortcut Action Title: Vibrate -->
-    <string name="action_type_vibrate_title">Vibrate</string>
+    <string name="action_type_vibrate_title">Vibrar</string>
     <!-- Shortcut Action Description: Vibrate, describes the vibration pattern -->
-    <string name="action_type_vibrate_description_pattern_0">1 short vibration</string>
+    <string name="action_type_vibrate_description_pattern_0">1 vibração curta</string>
     <!-- Shortcut Action Description: Vibrate, describes the vibration pattern -->
-    <string name="action_type_vibrate_description_pattern_1">1 long vibration</string>
+    <string name="action_type_vibrate_description_pattern_1">1 vibração longa</string>
     <!-- Shortcut Action Description: Vibrate, describes the vibration pattern -->
-    <string name="action_type_vibrate_description_pattern_2">3 short vibrations</string>
+    <string name="action_type_vibrate_description_pattern_2">3 vibrações curtas</string>
     <!-- Shortcut Action Editor Label: Vibration pattern -->
-    <string name="action_type_vibrate_edit_label_pattern">Pattern</string>
+    <string name="action_type_vibrate_edit_label_pattern">Padrão</string>
     <!-- Shortcut Action Editor Label: Checkbox, whether to wait for the vibration to complete -->
-    <string name="action_type_vibrate_edit_label_wait_until_complete">Wait for pattern to complete</string>
+    <string name="action_type_vibrate_edit_label_wait_until_complete">Aguardar a conclusão do padrão</string>
     <!-- Dialog title: Add action (shown above list of action types to select) -->
-    <string name="title_add_action">Add Action</string>
+    <string name="title_add_action">Adicionar Ação</string>
     <!-- Shortcut Action Title: Change Shortcut Name -->
-    <string name="action_type_rename_shortcut_title">Rename Shortcut</string>
+    <string name="action_type_rename_shortcut_title">Renomear Atalho</string>
     <!-- Shortcut Action Description: Change Shortcut Name -->
-    <string name="action_type_rename_shortcut_description">Rename Shortcut to \"%1$s\"</string>
+    <string name="action_type_rename_shortcut_description">Renomear Atalho para \"%1$s\"</string>
     <!-- Shortcut Action Editor Label: New name for shortcut -->
-    <string name="action_type_rename_shortcut_edit_label_new_name">New name</string>
+    <string name="action_type_rename_shortcut_edit_label_new_name">Novo nome</string>
     <!-- Action: Edit the current action. Shown in dropdown menu when selecting an action in the shortcut editor -->
-    <string name="action_edit_action">Edit action</string>
+    <string name="action_edit_action">Editar ação</string>
     <!-- Action: Remove the current action. Shown in dropdown menu when selecting an action in the shortcut editor -->
-    <string name="action_remove_action">Remove action</string>
+    <string name="action_remove_action">Remover ação</string>
     <!-- Shortcut Action Title: Extract (HTTP) Status Code (and store in variable) -->
     <string name="action_type_extract_status_code_title">Extract Status Code</string>
     <!-- Shortcut Action Description: Extract status code (from HTTP response) and store in variable -->
@@ -400,19 +400,19 @@
     <!-- Shortcut Action Editor Label: Target variable (to store a value) -->
     <string name="action_type_target_variable">Target variable</string>
     <!-- Shortcut Action Editor Placeholder: Shows when no variable was selected yet -->
-    <string name="action_type_target_variable_no_variable_selected">No variable selected</string>
+    <string name="action_type_target_variable_no_variable_selected">Nenhuma variável selecionada</string>
     <!-- Shortcut Action Title: Extract (HTTP) header (and store in variable) -->
-    <string name="action_type_extract_header_title">Extract Header</string>
+    <string name="action_type_extract_header_title">Extrair Cabeçalho</string>
     <!-- Shortcut Action Description: Extract header (from HTTP response) and store in variable -->
     <string name="action_type_extract_header_description">Store response header \"%1$s\" in \"%2$s\"</string>
     <!-- Shortcut Action Editor Help Text: Extract HTTP header, shown in action editor -->
     <string name="action_type_extract_header_help_text">Extracts the value of a specific header from the HTTP response and stores it in a variable. If no such header is present this action does nothing.</string>
     <!-- Shortcut Action Editor Label: (HTTP) header (to be extracted from response) -->
-    <string name="action_type_extract_header_label_header_key">Header</string>
+    <string name="action_type_extract_header_label_header_key">Cabeçalho</string>
     <!-- Shortcut Action Title: Extract cookie from HTTP response (and store in variable) -->
-    <string name="action_type_extract_cookie_title">Extract Cookie</string>
+    <string name="action_type_extract_cookie_title">Extrair Cookie</string>
     <!-- Shortcut Action Description: Extract cookie (from HTTP response) and store in variable -->
-    <string name="action_type_extract_cookie_description">Store cookie \"%1$s\" in \"%2$s\"</string>
+    <string name="action_type_extract_cookie_description">Armazenar cookie \"%1$s\" em \"%2$s\"</string>
     <!-- Shortcut Action Editor Help Text: Extract cookie, shown in action editor -->
     <string name="action_type_extract_cookie_help_text">Extracts the value of a specific cookie from the HTTP response and stores it in a variable. If no such cookie is present this action does nothing.</string>
     <!-- Shortcut Action Editor Label: cookie name (to be extracted from HTTP response) -->
@@ -420,7 +420,7 @@
     <!-- Shortcut Action Title: Extract from (HTTP response) body (and store in variable) -->
     <string name="action_type_extract_body_title">Extract from Body</string>
     <!-- Shortcut Action Description: Extract from HTTP response body (from HTTP response) and store in variable -->
-    <string name="action_type_extract_body_description">Store in \"%1$s\"</string>
+    <string name="action_type_extract_body_description">Armazenar em \"%1$s\"</string>
     <!-- Shortcut Action Editor Help Text: Extract HTTP response body, or part of it, shown in action editor -->
     <string name="action_type_extract_body_help_text">Extracts the body from the HTTP response, or part of it, and stores it in a variable. If the specified part is not present this action does nothing.</string>
     <!-- Shortcut Action Editor Label: Allows to select the type of how text is extracted from the HTTP response body -->
@@ -432,41 +432,41 @@
     <!-- Shortcut Action Editor Option Label: One of the options in the dropdown to select how text is extracted from the HTTP response body: try to parse it as JSON and use a specific part -->
     <string name="action_type_extract_body_description_option_json">Parse JSON</string>
     <!-- Shortcut Action Editor Option Label: Allows to select the start index of the substring option when extracting text from the HTTP response body -->
-    <string name="action_type_extract_body_label_substring_start_index">Substring start index</string>
+    <string name="action_type_extract_body_label_substring_start_index">Início da Substring</string>
     <!-- Shortcut Action Editor Option Label: Allows to select the end index of the substring option when extracting text from the HTTP response body -->
-    <string name="action_type_extract_body_label_substring_end_index">Substring end index</string>
+    <string name="action_type_extract_body_label_substring_end_index">Final da Substring</string>
     <!-- Shortcut Action Editor Option Label: Allows to specify the JSON path when using the JSON parse option when extracting text from the HTTP response body -->
     <string name="action_type_extract_body_label_json_path">JSON path</string>
     <!-- Shortcut Action Editor Help Text: Explains how the substring option can be used when extracting text from the HTTP response body -->
-    <string name="action_type_extract_body_help_text_substring_option">Use 0 to denote the start/end of the string. Use negative numbers to denote an offset from the end of the string.</string>
+    <string name="action_type_extract_body_help_text_substring_option">Use 0 para denotar o início/fim da string. Use números negativos para denotar um deslocamento do final da string.</string>
     <!-- Shortcut Action Editor Help Text: Explains how the JSON option can be used when extracting text from the HTTP response body -->
     <string name="action_type_extract_body_help_text_json_option">Describe the path within the JSON response, separated by dots. E.g. \"2.title\" would mean that the response is to be interpreted as a JSON array, of which the 2nd element should be used, which is then interpreted as a JSON object that contains a \"title\" field, from which the value should be extracted.</string>
     <!-- Generic error shown when something went wrong and there is no better error message available -->
-    <string name="error_generic">Something went wrong…</string>
+    <string name="error_generic">Algo deu errado...</string>
     <!-- Shortcut Action Title: Set the value of a variable -->
-    <string name="action_type_set_variable_title">Set Variable</string>
+    <string name="action_type_set_variable_title">Definir Variável</string>
     <!-- Shortcut Action Description: Set the value (%2$s placeholder) of a variable (%1$s placeholder) -->
-    <string name="action_type_set_variable_description">Set \"%1$s\" to \"%2$s\"</string>
+    <string name="action_type_set_variable_description">Definir \"%1$s\" para \"%2$s\"</string>
     <!-- Shortcut Action Editor Help Text: Set the value of a variable -->
-    <string name="action_type_set_variable_help_text">Changes the value of a variable.</string>
+    <string name="action_type_set_variable_help_text">Altera o valor de uma variável.</string>
     <!-- Shortcut Action Editor Label: allows to specify the new value of a variable -->
-    <string name="action_type_set_variable_label_new_value">New value</string>
+    <string name="action_type_set_variable_label_new_value">Novo valor</string>
     <!-- Label above dropdown in shortcut editor, allows user to decide how shortcut is executed: in app or in external browser -->
-    <string name="label_execution_type">Execute using…</string>
+    <string name="label_execution_type">Executar usando...</string>
     <!-- Option in dropdown when selecting how shortcut should be executed: Inside the app itself (vs. in external browser) -->
     <string name="execution_type_option_in_app">App</string>
     <!-- Option in dropdown when selecting how shortcut should be executed: In external browser (vs. inside the app itself) -->
-    <string name="execution_type_option_in_browser">Browser</string>
+    <string name="execution_type_option_in_browser">Navegador</string>
     <!-- Shortcut Action Title: Trigger a shortcut, i.e., execute it -->
-    <string name="action_type_trigger_shortcut_title">Trigger Shortcut</string>
+    <string name="action_type_trigger_shortcut_title">Acionar Atalho</string>
     <!-- Shortcut Action Description: Trigger a specific shortcut, %1$s is a placeholder for the name of that shortcut -->
-    <string name="action_type_trigger_shortcut_description">Trigger \"%1$s\"</string>
+    <string name="action_type_trigger_shortcut_description">Acionar \"%1$s\"</string>
     <!-- Shortcut error message: Maximum recursion depth reached, i.e., a potential infinite loop was detected and stopped -->
-    <string name="action_type_trigger_shortcut_error_recursion_depth_reached">Maximum recursion depth reached. Shortcut will not be triggered.</string>
+    <string name="action_type_trigger_shortcut_error_recursion_depth_reached">Profundidade máxima de recursão atingida. Atalho não será acionado.</string>
     <!-- Shortcut Action Editor Label: Allows to pick a shortcut (used in different places) -->
-    <string name="action_type_trigger_shortcut_label_shortcut_name">Shortcut</string>
+    <string name="action_type_trigger_shortcut_label_shortcut_name">Atalho</string>
     <!-- Shortcut Action Editor placeholder: No shortcut selected, used in different places where selecting a shortcut is necessary -->
-    <string name="action_target_shortcut_no_shortcut_selected">No shortcut selected</string>
+    <string name="action_target_shortcut_no_shortcut_selected">Nenhum atalho selecionado</string>
     <!-- Error message in Action Editor when selecting a shortcut is not possible because there are none yet, used in different places -->
     <string name="action_target_shortcut_error_no_shortcuts">You don\'t have any shortcuts yet.</string>
 </resources>
