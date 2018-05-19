@@ -8,7 +8,7 @@ import ch.rmy.android.http_shortcuts.adapters.ShortcutGridAdapter
 import ch.rmy.android.http_shortcuts.adapters.ShortcutListAdapter
 import ch.rmy.android.http_shortcuts.dialogs.CurlExportDialog
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
-import ch.rmy.android.http_shortcuts.http.ExecutionService
+import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Category
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
@@ -257,7 +257,7 @@ class ListFragment : BaseFragment() {
     private fun cancelPendingExecution(shortcut: Shortcut) {
         controller.removePendingExecution(shortcut.id)
                 .done {
-                    ExecutionService.schedule(context!!)
+                    ExecutionScheduler.schedule(context!!)
                 }
         tabHost.showSnackbar(String.format(getString(R.string.pending_shortcut_execution_cancelled), shortcut.name))
     }
@@ -307,7 +307,7 @@ class ListFragment : BaseFragment() {
         tabHost.removeShortcutFromHomeScreen(shortcut)
         controller.deleteShortcut(shortcut.id)
                 .done {
-                    ExecutionService.schedule(context!!)
+                    ExecutionScheduler.schedule(context!!)
                 }
     }
 

@@ -134,9 +134,10 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".http.ExecutionService"
-                 android:exported="true"
-                 android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <service
+            android:name=".http.ExecutionService"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
 
         <activity
             android:name=".plugin.PluginEditActivity"
@@ -157,8 +158,6 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".http.RestarterService"/>
-
         <activity-alias
             android:name=".ExecuteActivity"
             android:configChanges="orientation|screenSize"
@@ -173,8 +172,9 @@
             </intent-filter>
         </activity-alias>
 
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-                  android:theme="@style/Base.Theme.AppCompat"/>
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
 
     </application>
 

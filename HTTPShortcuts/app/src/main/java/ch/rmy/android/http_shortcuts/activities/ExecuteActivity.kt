@@ -14,7 +14,7 @@ import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.actions.ActionDTO
 import ch.rmy.android.http_shortcuts.actions.types.ActionFactory
-import ch.rmy.android.http_shortcuts.http.ExecutionService
+import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.http.HttpRequester
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.realm.Controller
@@ -116,7 +116,7 @@ class ExecuteActivity : BaseActivity() {
                         val waitUntil = DateUtil.calculateDate(shortcut.delay)
                         controller.createPendingExecution(shortcut.id, resolvedVariables, tryNumber, waitUntil, shortcut.isWaitForNetwork)
                                 .done {
-                                    ExecutionService.schedule(context)
+                                    ExecutionScheduler.schedule(context)
                                 }
                                 .always { _, _, _ ->
                                     controller.destroy()
@@ -221,7 +221,7 @@ class ExecuteActivity : BaseActivity() {
             val waitUntil = DateUtil.calculateDate(calculateDelay())
             controller.createPendingExecution(shortcut.id, resolvedVariables, tryNumber, waitUntil, shortcut.isWaitForNetwork)
                     .done {
-                        ExecutionService.schedule(context)
+                        ExecutionScheduler.schedule(context)
                     }
         }
     }
@@ -354,7 +354,7 @@ class ExecuteActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        ExecutionService.schedule(context)
+        ExecutionScheduler.schedule(context)
     }
 
     override val navigateUpIcon = R.drawable.ic_clear

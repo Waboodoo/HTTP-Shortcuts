@@ -14,7 +14,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.adapters.CategoryPagerAdapter
 import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
-import ch.rmy.android.http_shortcuts.http.ExecutionService
+import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
@@ -53,7 +53,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
         tabLayout.setTabTextColors(Color.WHITE, Color.WHITE)
         tabLayout.setSelectedTabIndicatorColor(Color.WHITE)
 
-        ExecutionService.schedule(context)
+        ExecutionScheduler.schedule(context)
     }
 
     private fun showCreateOptions() {
