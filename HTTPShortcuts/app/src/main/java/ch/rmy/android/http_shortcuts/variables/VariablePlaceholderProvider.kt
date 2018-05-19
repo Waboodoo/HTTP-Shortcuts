@@ -45,7 +45,9 @@ class VariablePlaceholderProvider(context: Context, private val variables: Realm
     }
 
     override fun destroy() {
-        variables.removeAllChangeListeners()
+        if (variables.isValid) {
+            variables.removeAllChangeListeners()
+        }
     }
 
 }
