@@ -63,4 +63,36 @@ public class CurlParserTest {
         assertEquals("{}", command.getData());
     }
 
+    @Test
+    public void testUserAgent() {
+        String target = "curl foo -A 'Custom Agent'";
+        CurlCommand command = CurlParser.parse(target);
+
+        assertEquals("Custom Agent", command.getHeaders().get("User-Agent"));
+    }
+
+    @Test
+    public void testUserAgent2() {
+        String target = "curl foo --user-agent 'Custom Agent'";
+        CurlCommand command = CurlParser.parse(target);
+
+        assertEquals("Custom Agent", command.getHeaders().get("User-Agent"));
+    }
+
+    @Test
+    public void testReferer() {
+        String target = "curl foo -e 'http://foo'";
+        CurlCommand command = CurlParser.parse(target);
+
+        assertEquals("http://foo", command.getHeaders().get("Referer"));
+    }
+
+    @Test
+    public void testReferer2() {
+        String target = "curl foo --referer 'http://foo'";
+        CurlCommand command = CurlParser.parse(target);
+
+        assertEquals("http://foo", command.getHeaders().get("Referer"));
+    }
+
 }

@@ -87,7 +87,7 @@ public class CurlParser {
                         continue;
                     }
                     case "-A":
-                    case "--user-agent <name>": {
+                    case "--user-agent": {
                         builder.header("User-Agent", iterator.next());
                         continue;
                     }
