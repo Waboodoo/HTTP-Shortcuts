@@ -28,15 +28,9 @@ object ExecutionScheduler {
         Controller().use { controller ->
             val pendingExecutions = controller.getShortcutsPendingExecution()
             pendingExecutions.forEach { pendingExecution ->
+                val delay = calculateDelay(pendingExecution.waitUntil)
                 val jobInfo = JobInfo.Builder(pendingExecution.shortcutId.toInt(), ComponentName(context, ExecutionService::class.java))
-                        .mapIf(pendingExecution.waitUntil != null) {
-                            val now = Calendar.getInstance().time
-                            val then = pendingExecution.waitUntil!!
-                            val latency = then.time - now.time
-                            it.mapIf(latency > 0) {
-                                it.setMinimumLatency(latency)
-                            }
-                        }
+                        .setMinimumLatency(delay)
                         .mapIf(pendingExecution.waitForNetwork) {
                             it.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
                         }
@@ -45,5 +39,16 @@ object ExecutionScheduler {
             }
         }
     }
+
+    private fun calculateDelay(waitUntil: Date?): Long {
+        if (waitUntil == null) {
+            return MIN_DELAY
+        }
+        val now = Calendar.getInstance().time
+        val difference = waitUntil.time - now.time
+        return maxOf(difference, MIN_DELAY)
+    }
+
+    private const val MIN_DELAY = 300L
 
 }
