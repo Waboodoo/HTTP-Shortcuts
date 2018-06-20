@@ -5,6 +5,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.actions.ActionDTO
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.utils.PromiseUtils
+import ch.rmy.android.http_shortcuts.utils.rejectSafely
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import com.afollestad.materialdialogs.MaterialDialog
@@ -48,9 +49,7 @@ abstract class BaseAction(
                 .title(actionType.title)
                 .customView(editorView, true)
                 .dismissListener {
-                    if (deferred.isPending) {
-                        deferred.reject(Unit)
-                    }
+                    deferred.rejectSafely(Unit)
                 }
                 .positiveText(R.string.dialog_ok)
                 .onPositive { dialog, _ ->
@@ -66,7 +65,7 @@ abstract class BaseAction(
                 .showIfPossible()
                 .let { dialogShown ->
                     if (!dialogShown) {
-                        deferred.reject(Unit)
+                        deferred.rejectSafely(Unit)
                     }
                 }
 

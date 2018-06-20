@@ -6,6 +6,7 @@ import android.content.DialogInterface
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Variable
+import ch.rmy.android.http_shortcuts.utils.rejectSafely
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import org.jdeferred2.Deferred
 import java.text.ParseException
@@ -27,15 +28,16 @@ internal class DateType : BaseVariableType(), AsyncVariableType {
                     val month = datePicker.getDatePicker().getMonth()
                     val year = datePicker.getDatePicker().getYear()
                     newDate.set(year, month, day)
-                    if (deferredValue.isPending) {
+                    if (variable.isValid && deferredValue.isPending) {
                         try {
-                            val dateFormat = SimpleDateFormat(variable.dataForType[KEY_FORMAT] ?: DEFAULT_FORMAT, Locale.US)
+                            val dateFormat = SimpleDateFormat(variable.dataForType[KEY_FORMAT]
+                                    ?: DEFAULT_FORMAT, Locale.US)
                             deferredValue.resolve(dateFormat.format(newDate.time))
                             if (variable.rememberValue) {
                                 controller.setVariableValue(variable.id, DATE_FORMAT.format(newDate.time))
                             }
                         } catch (e: Exception) {
-                            deferredValue.reject(Unit)
+                            deferredValue.rejectSafely(Unit)
                         }
                     }
                 })
@@ -44,9 +46,7 @@ internal class DateType : BaseVariableType(), AsyncVariableType {
         return {
             datePicker.showIfPossible()
             datePicker.setOnDismissListener {
-                if (deferredValue.isPending) {
-                    deferredValue.reject(Unit)
-                }
+                deferredValue.rejectSafely(Unit)
             }
         }
     }

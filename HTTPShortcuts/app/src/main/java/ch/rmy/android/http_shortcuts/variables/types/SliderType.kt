@@ -45,10 +45,12 @@ internal class SliderType : BaseVariableType(), AsyncVariableType {
                 .positiveText(R.string.button_ok)
                 .negativeText(R.string.button_cancel)
                 .onPositive { _, _ ->
-                    val value = findValue(slider, variable)
-                    deferredValue.resolve(value)
-                    if (variable.rememberValue) {
-                        controller.setVariableValue(variable.id, value)
+                    if (variable.isValid) {
+                        val value = findValue(slider, variable)
+                        deferredValue.resolve(value)
+                        if (variable.rememberValue) {
+                            controller.setVariableValue(variable.id, value)
+                        }
                     }
                 }
         return {

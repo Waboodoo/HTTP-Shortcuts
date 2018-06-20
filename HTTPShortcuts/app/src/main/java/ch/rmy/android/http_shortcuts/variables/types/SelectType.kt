@@ -15,8 +15,10 @@ internal class SelectType : BaseVariableType(), AsyncVariableType {
         val builder = BaseVariableType.createDialogBuilder(context, variable, deferredValue)
                 .mapFor(variable.options!!) { builder, option ->
                     builder.item(option.label) {
-                        deferredValue.resolve(option.value)
-                        controller.setVariableValue(variable.id, option.value)
+                        if (variable.isValid) {
+                            deferredValue.resolve(option.value)
+                            controller.setVariableValue(variable.id, option.value)
+                        }
                     }
                 }
         return {

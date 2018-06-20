@@ -25,6 +25,7 @@ import ch.rmy.curlcommand.CurlCommand
 import com.afollestad.materialdialogs.MaterialDialog
 import com.satsuware.usefulviews.LabelledSpinner
 import org.apache.http.HttpHeaders
+import org.jdeferred2.Deferred
 import org.jdeferred2.DoneFilter
 import org.jdeferred2.FailFilter
 import org.jdeferred2.ProgressFilter
@@ -116,6 +117,14 @@ fun Context.showToast(@StringRes message: Int, long: Boolean = false) {
 }
 
 fun <T, U, F, P> Promise<T, F, P>.filter(filter: (T) -> U) = this.then(DoneFilter<T, U> { result -> filter(result) }, null as FailFilter<F, F>?, null as ProgressFilter<P, P>?)!!
+
+fun <T, U, V> Deferred<T, U, V>.rejectSafely(reject: U): Deferred<T, U, V> {
+    return if (isPending) {
+        reject(reject)
+    } else {
+        this
+    }
+}
 
 fun CurlCommand.applyToShortcut(shortcut: Shortcut) {
     shortcut.url = url

@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.realm
 
 import ch.rmy.android.http_shortcuts.utils.logException
+import ch.rmy.android.http_shortcuts.utils.rejectSafely
 import io.realm.Realm
 import io.realm.RealmObject
 import org.jdeferred2.Promise
@@ -13,7 +14,7 @@ fun Realm.commitAsync(transaction: (realm: Realm) -> Unit): Promise<Unit, Throwa
                 try {
                     transaction(realm)
                 } catch (e: Throwable) {
-                    deferred.reject(e)
+                    deferred.rejectSafely(e)
                 }
             },
             {
@@ -23,7 +24,7 @@ fun Realm.commitAsync(transaction: (realm: Realm) -> Unit): Promise<Unit, Throwa
             },
             { error ->
                 logException(error)
-                deferred.reject(error)
+                deferred.rejectSafely(error)
             })
     return deferred.promise()
 }

@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.http
 
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.UserAgentUtil
+import ch.rmy.android.http_shortcuts.utils.rejectSafely
 import com.android.volley.AuthFailureError
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.NetworkResponse
@@ -14,7 +15,11 @@ import org.jdeferred2.Deferred
 import org.jdeferred2.Promise
 import org.jdeferred2.impl.DeferredObject
 
-internal class ShortcutRequest private constructor(method: Int, url: String, private val deferred: Deferred<ShortcutResponse, VolleyError, Unit>) : Request<ShortcutResponse>(method, url, Response.ErrorListener { error -> deferred.reject(error) }) {
+internal class ShortcutRequest private constructor(
+        method: Int,
+        url: String,
+        private val deferred: Deferred<ShortcutResponse, VolleyError, Unit>
+) : Request<ShortcutResponse>(method, url, Response.ErrorListener { error -> deferred.rejectSafely(error) }) {
 
     private val parameters = mutableMapOf<String, String>()
     private val headers = mutableMapOf<String, String>()
@@ -29,7 +34,7 @@ internal class ShortcutRequest private constructor(method: Int, url: String, pri
     @Throws(AuthFailureError::class)
     override fun getBody(): ByteArray? = when {
         contentType.startsWith("multipart/form-data") -> constructFormDataBody().toByteArray()
-        contentType.startsWith("application/x-www-form-urlencoded") -> super.getBody()
+        contentType.startsWith("application/x-www-form-urlencoded") -> super.getBody() ?: ByteArray(0)
         else -> (bodyContent ?: "").toByteArray()
     }
 
@@ -47,17 +52,17 @@ internal class ShortcutRequest private constructor(method: Int, url: String, pri
         deferred.resolve(response)
     }
 
-    private fun constructFormDataBody(): String {
-        val builder = StringBuilder("\n")
-        parameters.forEach { key, value ->
-            builder.append("\n--$FORM_MULTIPART_BOUNDARY\n")
-            builder.append("Content-Disposition: form-data; name=\"$key\"")
-            builder.append("\n\n")
-            builder.append(value)
-        }
-        builder.append("\n--$FORM_MULTIPART_BOUNDARY--\n")
-        return builder.toString()
-    }
+    private fun constructFormDataBody(): String =
+            StringBuilder("\n")
+                    .apply {
+                        parameters.forEach { key, value ->
+                            append("\n--$FORM_MULTIPART_BOUNDARY\n")
+                            append("Content-Disposition: form-data; name=\"$key\"")
+                            append("\n\n")
+                            append(value)
+                        }
+                        append("\n--$FORM_MULTIPART_BOUNDARY--\n")
+                    }.toString()
 
     val promise: Promise<ShortcutResponse, VolleyError, Unit>
         get() = deferred.promise()

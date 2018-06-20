@@ -8,6 +8,7 @@ import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.PromiseUtils
 import ch.rmy.android.http_shortcuts.utils.filter
 import ch.rmy.android.http_shortcuts.utils.mapIf
+import ch.rmy.android.http_shortcuts.utils.rejectSafely
 import ch.rmy.android.http_shortcuts.variables.types.AsyncVariableType
 import ch.rmy.android.http_shortcuts.variables.types.SyncVariableType
 import ch.rmy.android.http_shortcuts.variables.types.VariableTypeFactory
@@ -86,7 +87,7 @@ class VariableResolver(private val context: Context) {
                             }
                         }
                         .fail {
-                            deferred.reject(Unit)
+                            deferred.rejectSafely(Unit)
                         }
 
                 val dialog = variableType.createDialog(context, controller, variable, deferredValue)

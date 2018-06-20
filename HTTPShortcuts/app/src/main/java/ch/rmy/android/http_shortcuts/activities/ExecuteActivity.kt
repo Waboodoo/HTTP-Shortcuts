@@ -25,6 +25,7 @@ import ch.rmy.android.http_shortcuts.utils.DateUtil
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.PromiseUtils
+import ch.rmy.android.http_shortcuts.utils.Validation
 import ch.rmy.android.http_shortcuts.utils.consume
 import ch.rmy.android.http_shortcuts.utils.logException
 import ch.rmy.android.http_shortcuts.utils.showToast
@@ -127,6 +128,7 @@ class ExecuteActivity : BaseActivity() {
                 }
                 .fail {
                     controller.destroy()
+                    finishWithoutAnimation()
                 }
     }
 
@@ -160,7 +162,12 @@ class ExecuteActivity : BaseActivity() {
     private fun openShortcutInBrowser(resolvedVariables: MutableMap<String, String>) {
         val url = Variables.rawPlaceholdersToResolvedValues(shortcut.url, resolvedVariables)
         try {
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            val uri = Uri.parse(url)
+            if (!Validation.isValidUrl(uri)) {
+                showToast(R.string.error_invalid_url)
+                return
+            }
+            val browserIntent = Intent(Intent.ACTION_VIEW, uri)
             startActivity(browserIntent)
         } catch (e: ActivityNotFoundException) {
             showToast(R.string.error_not_supported)

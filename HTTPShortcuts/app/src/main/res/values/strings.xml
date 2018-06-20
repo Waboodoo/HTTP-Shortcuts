@@ -461,4 +461,6 @@
     <string name="action_target_shortcut_no_shortcut_selected">No shortcut selected</string>
     <!-- Error message in Action Editor when selecting a shortcut is not possible because there are none yet, used in different places -->
     <string name="action_target_shortcut_error_no_shortcuts">You don\'t have any shortcuts yet.</string>
+    <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid URL -->
+    <string name="error_invalid_url">Invalid URL. Must be HTTP(S).</string>
 </resources>

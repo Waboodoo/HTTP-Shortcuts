@@ -14,8 +14,10 @@ open class TextType : BaseVariableType(), AsyncVariableType {
         val builder = BaseVariableType.createDialogBuilder(context, variable, deferredValue)
                 .toDialogBuilder()
                 .input(null, if (variable.rememberValue) variable.value else "") { _, input ->
-                    deferredValue.resolve(input.toString())
-                    controller.setVariableValue(variable.id, input.toString())
+                    if (variable.isValid) {
+                        deferredValue.resolve(input.toString())
+                        controller.setVariableValue(variable.id, input.toString())
+                    }
                 }
         return {
             builder.showIfPossible()
