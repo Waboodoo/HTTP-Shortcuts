@@ -50,7 +50,11 @@ fun Fragment.showMessageDialog(@StringRes stringRes: Int) {
 
 fun EditText.focus() {
     requestFocus()
-    setSelection(text.length)
+    try {
+        setSelection(text.length)
+    } catch (e: Exception) {
+        logException(e)
+    }
 }
 
 @Suppress("DEPRECATION")

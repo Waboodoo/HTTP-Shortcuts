@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.v7.widget.AppCompatAutoCompleteTextView
 import android.util.AttributeSet
 import ch.rmy.android.http_shortcuts.utils.Destroyable
+import ch.rmy.android.http_shortcuts.utils.logException
 import ch.rmy.android.http_shortcuts.utils.showSoftKeyboard
 
 class VariableEditText : AppCompatAutoCompleteTextView {
@@ -19,7 +20,11 @@ class VariableEditText : AppCompatAutoCompleteTextView {
         set(value) {
             val processedText = Variables.rawPlaceholdersToVariableSpans(value, variablePlaceholderProvider)
             setText(processedText)
-            setSelection(processedText.length)
+            try {
+                setSelection(text.length)
+            } catch (e: Exception) {
+                logException(e)
+            }
         }
 
     private fun insertVariablePlaceholder(placeholder: VariablePlaceholder) {
