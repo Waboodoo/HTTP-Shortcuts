@@ -22,10 +22,10 @@ class IconSelector(context: Context, listener: (String) -> Unit) {
         grid.setHasFixedSize(true)
         val layoutManager = GridLayoutManager(context, 6)
         grid.layoutManager = layoutManager
-        val adapter = IconAdapter(context, { iconName ->
+        val adapter = IconAdapter(context) { iconName ->
             dialog.dismiss()
             listener(iconName)
-        })
+        }
         grid.adapter = adapter
     }
 

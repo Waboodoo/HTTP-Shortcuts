@@ -116,11 +116,11 @@ class ExecuteActivity : BaseActivity() {
                     if (shouldDelayExecution()) {
                         val waitUntil = DateUtil.calculateDate(shortcut.delay)
                         controller.createPendingExecution(shortcut.id, resolvedVariables, tryNumber, waitUntil, shortcut.isWaitForNetwork)
-                                .done {
-                                    ExecutionScheduler.schedule(context)
-                                }
-                                .always { _, _, _ ->
+                                .doOnTerminate {
                                     controller.destroy()
+                                }
+                                .subscribe {
+                                    ExecutionScheduler.schedule(context)
                                 }
                     } else {
                         executeWithActions(resolvedVariables.toMutableMap())
@@ -227,7 +227,7 @@ class ExecuteActivity : BaseActivity() {
         if (tryNumber < MAX_RETRY) {
             val waitUntil = DateUtil.calculateDate(calculateDelay())
             controller.createPendingExecution(shortcut.id, resolvedVariables, tryNumber, waitUntil, shortcut.isWaitForNetwork)
-                    .done {
+                    .subscribe {
                         ExecutionScheduler.schedule(context)
                     }
         }

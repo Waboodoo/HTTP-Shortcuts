@@ -14,7 +14,7 @@ internal class NumberType : TextType() {
                 .toDialogBuilder()
                 .input(null, if (variable.rememberValue) variable.value else "") { _, input ->
                     deferredValue.resolve(input.toString())
-                    controller.setVariableValue(variable.id, input.toString())
+                    controller.setVariableValue(variable.id, input.toString()).subscribe()
                 }
                 .inputType(InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED)
         return {

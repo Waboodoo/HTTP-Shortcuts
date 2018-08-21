@@ -17,7 +17,7 @@ internal class SelectType : BaseVariableType(), AsyncVariableType {
                     builder.item(option.label) {
                         if (variable.isValid) {
                             deferredValue.resolve(option.value)
-                            controller.setVariableValue(variable.id, option.value)
+                            controller.setVariableValue(variable.id, option.value).subscribe()
                         }
                     }
                 }

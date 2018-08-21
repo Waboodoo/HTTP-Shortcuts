@@ -128,7 +128,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
         } else {
             controller.getCategories().first()!!
         }
-        controller.moveShortcut(shortcut.id, targetCategoryId = category.id)
+        controller.moveShortcut(shortcut.id, targetCategoryId = category.id).subscribe()
 
         selectShortcut(shortcut)
     }

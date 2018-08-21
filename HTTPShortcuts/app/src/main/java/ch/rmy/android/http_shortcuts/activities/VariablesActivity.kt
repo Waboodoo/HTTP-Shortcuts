@@ -58,10 +58,10 @@ class VariablesActivity : BaseActivity() {
     }
 
     private fun initDragOrdering() {
-        val dragOrderingHelper = DragOrderingHelper({ variables.isNotEmpty() })
+        val dragOrderingHelper = DragOrderingHelper { variables.isNotEmpty() }
         dragOrderingHelper.positionChangeSource.add { (oldPosition, newPosition) ->
             val variable = variables[oldPosition]!!
-            controller.moveVariable(variable.id, newPosition)
+            controller.moveVariable(variable.id, newPosition).subscribe()
         }.attachTo(destroyer)
         dragOrderingHelper.attachTo(variableList)
     }
@@ -82,12 +82,12 @@ class VariablesActivity : BaseActivity() {
     private fun showContextMenu(variable: Variable) {
         MenuDialogBuilder(context)
                 .title(variable.key)
-                .item(R.string.action_edit, {
+                .item(R.string.action_edit) {
                     editVariable(variable)
-                })
-                .item(R.string.action_delete, {
+                }
+                .item(R.string.action_delete) {
                     showDeleteDialog(variable)
-                })
+                }
                 .showIfPossible()
     }
 
@@ -101,8 +101,10 @@ class VariablesActivity : BaseActivity() {
     }
 
     private fun deleteVariable(variable: Variable) {
-        showSnackbar(String.format(getString(R.string.variable_deleted), variable.key))
         controller.deleteVariable(variable.id)
+                .subscribe {
+                    showSnackbar(String.format(getString(R.string.variable_deleted), variable.key))
+                }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

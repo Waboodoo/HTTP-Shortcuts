@@ -28,7 +28,7 @@ internal class TimeType : BaseVariableType(), AsyncVariableType {
                             ?: DEFAULT_FORMAT, Locale.US)
                     deferredValue.resolve(dateFormat.format(newDate.time))
                     if (variable.rememberValue) {
-                        controller.setVariableValue(variable.id, DATE_FORMAT.format(newDate.time))
+                        controller.setVariableValue(variable.id, DATE_FORMAT.format(newDate.time)).subscribe()
                     }
                 } catch (e: Exception) {
                     deferredValue.rejectSafely(Unit)

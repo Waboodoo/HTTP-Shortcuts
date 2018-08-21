@@ -21,26 +21,25 @@ internal class DateType : BaseVariableType(), AsyncVariableType {
     override fun createDialog(context: Context, controller: Controller, variable: Variable, deferredValue: Deferred<String, Unit, Unit>): () -> Unit {
         val calendar = getInitialDate(variable.value)
         val datePicker = DatePickerDialog(context, null, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
-        datePicker.setButton(DialogInterface.BUTTON_POSITIVE, context.getString(R.string.button_ok),
-                { _, _ ->
-                    val newDate = Calendar.getInstance()
-                    val day = datePicker.getDatePicker().getDayOfMonth()
-                    val month = datePicker.getDatePicker().getMonth()
-                    val year = datePicker.getDatePicker().getYear()
-                    newDate.set(year, month, day)
-                    if (variable.isValid && deferredValue.isPending) {
-                        try {
-                            val dateFormat = SimpleDateFormat(variable.dataForType[KEY_FORMAT]
-                                    ?: DEFAULT_FORMAT, Locale.US)
-                            deferredValue.resolve(dateFormat.format(newDate.time))
-                            if (variable.rememberValue) {
-                                controller.setVariableValue(variable.id, DATE_FORMAT.format(newDate.time))
-                            }
-                        } catch (e: Exception) {
-                            deferredValue.rejectSafely(Unit)
-                        }
+        datePicker.setButton(DialogInterface.BUTTON_POSITIVE, context.getString(R.string.button_ok)) { _, _ ->
+            val newDate = Calendar.getInstance()
+            val day = datePicker.datePicker.dayOfMonth
+            val month = datePicker.datePicker.month
+            val year = datePicker.datePicker.year
+            newDate.set(year, month, day)
+            if (variable.isValid && deferredValue.isPending) {
+                try {
+                    val dateFormat = SimpleDateFormat(variable.dataForType[KEY_FORMAT]
+                            ?: DEFAULT_FORMAT, Locale.US)
+                    deferredValue.resolve(dateFormat.format(newDate.time))
+                    if (variable.rememberValue) {
+                        controller.setVariableValue(variable.id, DATE_FORMAT.format(newDate.time)).subscribe()
                     }
-                })
+                } catch (e: Exception) {
+                    deferredValue.rejectSafely(Unit)
+                }
+            }
+        }
         datePicker.setCancelable(true)
         datePicker.setCanceledOnTouchOutside(true)
         return {

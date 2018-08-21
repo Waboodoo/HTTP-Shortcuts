@@ -28,10 +28,11 @@ class ExecutionService : JobService() {
         val variableValues = pendingExecution.resolvedVariables
                 .associate { variable -> variable.key to variable.value }
         controller.removePendingExecution(shortcutId)
-                .always { _, _, _ ->
+                .doOnTerminate {
                     executeShortcut(shortcutId, variableValues, tryNumber)
                     jobFinished(params, false)
                 }
+                .subscribe()
         return true
     }
 

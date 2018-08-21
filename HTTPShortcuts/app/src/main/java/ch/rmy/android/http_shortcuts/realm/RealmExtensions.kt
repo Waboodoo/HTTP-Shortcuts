@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.realm
 
 import ch.rmy.android.http_shortcuts.utils.logException
 import ch.rmy.android.http_shortcuts.utils.rejectSafely
+import io.reactivex.Completable
 import io.realm.Realm
 import io.realm.RealmObject
 import org.jdeferred2.Promise
@@ -28,6 +29,25 @@ fun Realm.commitAsync(transaction: (realm: Realm) -> Unit): Promise<Unit, Throwa
             })
     return deferred.promise()
 }
+
+fun Realm.commitAsyncRx(transaction: (realm: Realm) -> Unit): Completable =
+        Completable.create { emitter ->
+            this.executeTransactionAsync(
+                    { realm ->
+                        try {
+                            transaction(realm)
+                        } catch (e: Throwable) {
+                            emitter.onError(e) // TODO: Check if not already emitted
+                        }
+                    },
+                    {
+                        emitter.onComplete() // TODO: Check if not already emitted
+                    },
+                    { error ->
+                        logException(error)
+                        emitter.onError(error) // TODO: Check if not already emitted
+                    })
+        }
 
 /**
  * Creates a copy of the RealmObject that is no longer attached to the (persisted!) Realm, i.e.,

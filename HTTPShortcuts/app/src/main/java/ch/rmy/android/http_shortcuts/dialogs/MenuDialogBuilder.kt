@@ -28,7 +28,7 @@ class MenuDialogBuilder(val context: Context) {
     }
 
     fun dismissListener(onDismissListener: () -> Unit) = this.also {
-        builder.dismissListener({ onDismissListener() })
+        builder.dismissListener { onDismissListener() }
     }
 
     fun toDialogBuilder() =

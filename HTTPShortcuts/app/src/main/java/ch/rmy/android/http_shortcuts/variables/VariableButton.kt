@@ -34,7 +34,7 @@ open class VariableButton : AppCompatImageButton {
         }
     }
 
-    open protected fun hasVariables()  = variablePlaceholderProvider.hasVariables
+    protected open fun hasVariables()  = variablePlaceholderProvider.hasVariables
 
     private fun openInstructionDialog() {
         MaterialDialog.Builder(context)

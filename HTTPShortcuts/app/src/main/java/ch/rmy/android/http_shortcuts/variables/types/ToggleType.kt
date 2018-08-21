@@ -11,7 +11,7 @@ internal class ToggleType : BaseVariableType(), SyncVariableType {
         }
         val previousIndex = variable.value?.toIntOrNull() ?: 0
         val index = (previousIndex + 1) % variable.options!!.size
-        controller.setVariableValue(variable.id, index.toString())
+        controller.setVariableValue(variable.id, index.toString()).subscribe()
         return variable.options!![index]!!.value
     }
 

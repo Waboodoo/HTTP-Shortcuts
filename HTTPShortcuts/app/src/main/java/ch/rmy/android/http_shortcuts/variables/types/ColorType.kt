@@ -25,7 +25,7 @@ internal class ColorType : BaseVariableType(), AsyncVariableType {
                     if (variable.isValid) {
                         val colorFormatted = String.format("%06x", color and 0xffffff)
                         deferredValue.resolve(colorFormatted)
-                        controller.setVariableValue(variable.id, colorFormatted)
+                        controller.setVariableValue(variable.id, colorFormatted).subscribe()
                     }
                 }
                 .create()

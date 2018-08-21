@@ -124,34 +124,34 @@ class ListFragment : BaseFragment() {
     private fun showContextMenu(shortcut: Shortcut) {
         MenuDialogBuilder(context!!)
                 .title(shortcut.name)
-                .item(R.string.action_place, {
+                .item(R.string.action_place) {
                     tabHost.placeShortcutOnHomeScreen(shortcut)
-                })
-                .item(R.string.action_run, {
+                }
+                .item(R.string.action_run) {
                     executeShortcut(shortcut)
-                })
-                .item(R.string.action_edit, {
+                }
+                .item(R.string.action_edit) {
                     editShortcut(shortcut)
-                })
+                }
                 .mapIf(canMoveShortcut(shortcut)) {
-                    it.item(R.string.action_move, {
+                    it.item(R.string.action_move) {
                         openMoveDialog(shortcut)
-                    })
+                    }
                 }
-                .item(R.string.action_duplicate, {
+                .item(R.string.action_duplicate) {
                     duplicateShortcut(shortcut)
-                })
-                .mapIf(isPending(shortcut)) {
-                    it.item(R.string.action_cancel_pending, {
-                        cancelPendingExecution(shortcut)
-                    })
                 }
-                .item(R.string.action_curl_export, {
+                .mapIf(isPending(shortcut)) {
+                    it.item(R.string.action_cancel_pending) {
+                        cancelPendingExecution(shortcut)
+                    }
+                }
+                .item(R.string.action_curl_export) {
                     showCurlExportDialog(shortcut)
-                })
-                .item(R.string.action_delete, {
+                }
+                .item(R.string.action_delete) {
                     showDeleteDialog(shortcut)
-                })
+                }
                 .showIfPossible()
     }
 
@@ -185,19 +185,19 @@ class ListFragment : BaseFragment() {
     private fun openMoveDialog(shortcut: Shortcut) {
         MenuDialogBuilder(context!!)
                 .mapIf(canMoveShortcut(shortcut, -1)) {
-                    it.item(R.string.action_move_up, {
+                    it.item(R.string.action_move_up) {
                         moveShortcut(shortcut, -1)
-                    })
+                    }
                 }
                 .mapIf(canMoveShortcut(shortcut, 1)) {
-                    it.item(R.string.action_move_down, {
+                    it.item(R.string.action_move_down) {
                         moveShortcut(shortcut, 1)
-                    })
+                    }
                 }
                 .mapIf(categories.size > 1) {
-                    it.item(R.string.action_move_to_category, {
+                    it.item(R.string.action_move_to_category) {
                         showMoveToCategoryDialog(shortcut)
-                    })
+                    }
                 }
                 .showIfPossible()
     }
@@ -212,7 +212,7 @@ class ListFragment : BaseFragment() {
                 controller.moveShortcut(shortcut.id, targetCategoryId = currentCategory.id)
             } else {
                 controller.moveShortcut(shortcut.id, targetPosition = position)
-            }
+            }.subscribe()
         }
     }
 
@@ -233,7 +233,9 @@ class ListFragment : BaseFragment() {
 
     private fun moveShortcut(shortcut: Shortcut, category: Category) {
         controller.moveShortcut(shortcut.id, targetCategoryId = category.id)
-        tabHost.showSnackbar(String.format(getString(R.string.shortcut_moved), shortcut.name))
+                .subscribe {
+                    tabHost.showSnackbar(String.format(getString(R.string.shortcut_moved), shortcut.name))
+                }
     }
 
     private fun duplicateShortcut(shortcut: Shortcut) {
@@ -249,6 +251,7 @@ class ListFragment : BaseFragment() {
                                         .takeIf { it != -1 }
                                         ?.let { it + 1 }
                         )
+                                .subscribe()
                     }
             tabHost.showSnackbar(String.format(getString(R.string.shortcut_duplicated), shortcut.name))
         }
@@ -256,10 +259,10 @@ class ListFragment : BaseFragment() {
 
     private fun cancelPendingExecution(shortcut: Shortcut) {
         controller.removePendingExecution(shortcut.id)
-                .done {
+                .subscribe {
+                    tabHost.showSnackbar(String.format(getString(R.string.pending_shortcut_execution_cancelled), shortcut.name))
                     ExecutionScheduler.schedule(context!!)
                 }
-        tabHost.showSnackbar(String.format(getString(R.string.pending_shortcut_execution_cancelled), shortcut.name))
     }
 
     private fun showCurlExportDialog(shortcut: Shortcut) {
@@ -306,7 +309,7 @@ class ListFragment : BaseFragment() {
         tabHost.showSnackbar(String.format(getString(R.string.shortcut_deleted), shortcut.name))
         tabHost.removeShortcutFromHomeScreen(shortcut)
         controller.deleteShortcut(shortcut.id)
-                .done {
+                .subscribe {
                     ExecutionScheduler.schedule(context!!)
                 }
     }

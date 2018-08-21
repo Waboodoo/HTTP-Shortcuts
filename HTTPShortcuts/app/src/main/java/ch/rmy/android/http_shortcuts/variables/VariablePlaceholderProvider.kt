@@ -28,9 +28,9 @@ class VariablePlaceholderProvider(context: Context, private val variables: Realm
     private var internalPlaceholders: List<VariablePlaceholder> = emptyList()
 
     init {
-        variables.addChangeListener({ _ ->
+        variables.addChangeListener { _ ->
             regenerateKeys()
-        })
+        }
         regenerateKeys()
     }
 

@@ -49,7 +49,7 @@ internal class SliderType : BaseVariableType(), AsyncVariableType {
                         val value = findValue(slider, variable)
                         deferredValue.resolve(value)
                         if (variable.rememberValue) {
-                            controller.setVariableValue(variable.id, value)
+                            controller.setVariableValue(variable.id, value).subscribe()
                         }
                     }
                 }

@@ -16,7 +16,7 @@ open class TextType : BaseVariableType(), AsyncVariableType {
                 .input(null, if (variable.rememberValue) variable.value else "") { _, input ->
                     if (variable.isValid) {
                         deferredValue.resolve(input.toString())
-                        controller.setVariableValue(variable.id, input.toString())
+                        controller.setVariableValue(variable.id, input.toString()).subscribe()
                     }
                 }
         return {

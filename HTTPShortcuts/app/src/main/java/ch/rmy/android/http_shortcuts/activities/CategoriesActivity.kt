@@ -49,7 +49,7 @@ class CategoriesActivity : BaseActivity() {
         dragOrderingHelper.attachTo(categoryList)
         dragOrderingHelper.positionChangeSource.add { (oldPosition, newPosition) ->
             val category = categories[oldPosition]!!
-            controller.moveCategory(category.id, newPosition)
+            controller.moveCategory(category.id, newPosition).subscribe()
         }.attachTo(destroyer)
     }
 
@@ -65,22 +65,24 @@ class CategoriesActivity : BaseActivity() {
 
     private fun createCategory(name: String) {
         controller.createCategory(name)
-        showSnackbar(R.string.message_category_created)
+                .subscribe {
+                    showSnackbar(R.string.message_category_created)
+                }
     }
 
     private fun showContextMenu(category: Category) {
         MenuDialogBuilder(context)
                 .title(category.name)
-                .item(R.string.action_rename, {
+                .item(R.string.action_rename) {
                     showRenameDialog(category)
-                })
-                .item(R.string.action_change_category_layout_type, {
+                }
+                .item(R.string.action_change_category_layout_type) {
                     showLayoutTypeDialog(category)
-                })
+                }
                 .mapIf(categories.size > 1) {
-                    it.item(R.string.action_delete, {
+                    it.item(R.string.action_delete) {
                         showDeleteDialog(category)
-                    })
+                    }
                 }
                 .showIfPossible()
     }
@@ -97,23 +99,27 @@ class CategoriesActivity : BaseActivity() {
 
     private fun showLayoutTypeDialog(category: Category) {
         MenuDialogBuilder(context)
-                .item(R.string.layout_type_linear_list, {
+                .item(R.string.layout_type_linear_list) {
                     changeLayoutType(category, Category.LAYOUT_LINEAR_LIST)
-                })
-                .item(R.string.layout_type_grid, {
+                }
+                .item(R.string.layout_type_grid) {
                     changeLayoutType(category, Category.LAYOUT_GRID)
-                })
+                }
                 .showIfPossible()
     }
 
     private fun renameCategory(category: Category, newName: String) {
         controller.renameCategory(category.id, newName)
-        showSnackbar(R.string.message_category_renamed)
+                .subscribe {
+                    showSnackbar(R.string.message_category_renamed)
+                }
     }
 
     private fun changeLayoutType(category: Category, layoutType: String) {
         controller.setLayoutType(category.id, layoutType)
-        showSnackbar(R.string.message_layout_type_changed)
+                .subscribe {
+                    showSnackbar(R.string.message_layout_type_changed)
+                }
     }
 
     private fun showDeleteDialog(category: Category) {
@@ -131,7 +137,9 @@ class CategoriesActivity : BaseActivity() {
 
     private fun deleteCategory(category: Category) {
         controller.deleteCategory(category.id)
-        showSnackbar(R.string.message_category_deleted)
+                .subscribe {
+                    showSnackbar(R.string.message_category_deleted)
+                }
     }
 
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, CategoriesActivity::class.java)
