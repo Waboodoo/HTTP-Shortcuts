@@ -23,6 +23,7 @@ import ch.rmy.android.http_shortcuts.utils.SelectionMode
 import ch.rmy.android.http_shortcuts.utils.consume
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.utils.visible
+import com.afollestad.materialdialogs.MaterialDialog
 import kotterknife.bindView
 
 class MainActivity : BaseActivity(), ListFragment.TabHost {
@@ -142,12 +143,29 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     }
 
     private fun returnForHomeScreen(shortcut: Shortcut) {
-        val shortcutIntent = if (LauncherShortcutManager.supportsPinning(context)) {
-            LauncherShortcutManager.createShortcutPinIntent(context, shortcut)
+        if (LauncherShortcutManager.supportsPinning(context)) {
+            MaterialDialog.Builder(context)
+                    .title(R.string.title_select_placement_method)
+                    .content(R.string.description_select_placement_method)
+                    .positiveText(R.string.label_placement_method_default)
+                    .onPositive { _, _ ->
+                        finishWithPlacement(
+                                LauncherShortcutManager.createShortcutPinIntent(context, shortcut)
+                        )
+
+                    }
+                    .negativeText(R.string.label_placement_method_legacy)
+                    .onNegative { _, _ ->
+                        finishWithPlacement(IntentUtil.getShortcutPlacementIntent(context, shortcut, true))
+                    }
+                    .showIfPossible()
         } else {
-            IntentUtil.getShortcutPlacementIntent(context, shortcut, true)
+            finishWithPlacement(IntentUtil.getShortcutPlacementIntent(context, shortcut, true))
         }
-        setResult(Activity.RESULT_OK, shortcutIntent)
+    }
+
+    private fun finishWithPlacement(intent: Intent) {
+        setResult(Activity.RESULT_OK, intent)
         finish()
     }
 

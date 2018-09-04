@@ -461,4 +461,12 @@
     <string name="action_target_shortcut_error_no_shortcuts">You don\'t have any shortcuts yet.</string>
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid URL -->
     <string name="error_invalid_url">Invalid URL. Must be HTTP(S).</string>
+    <!-- Title: Dialog title when selecting how to place a shortcut on the homescreen -->
+    <string name="title_select_placement_method">Placement Method</string>
+    <!-- Description: Dialog text when selecting how to place a shortcut on the homescreen -->
+    <string name="description_select_placement_method">Select the method to use for placing the shortcut. If you encounter problems with the \"Default\" method you may try the \"Legacy\" method instead. Please note that some features (e.g. changing shortcut name) are not available with the Legacy method.</string>
+    <!-- Label: Preferred option in dialog for selecting how to place the shortcut on the homescreen: Default (method) -->
+    <string name="label_placement_method_default">Default</string>
+    <!-- Label: Alternative option in dialog for selecting how to place the shortcut on the homescreen: Legacy (method) -->
+    <string name="label_placement_method_legacy">Legacy</string>
 </resources>
