@@ -2,6 +2,20 @@
 <resources>
     <string name="changelog_text" translatable="false"><![CDATA[
         <p>
+            <h3>Version 1.22.0</h3>
+            <b>Shortcut Placement / Using in Other Apps</b><br>
+            You may have encountered a problem when trying to use shortcuts in other apps (e.g. Tasker), where it would not select or make the other app crash. There is now an alternative method of selecting a shortcut that you may try in this case. Simply retry selecting the shortcut and you will be prompted with a dialog that asks you to pick either the new or the old method.
+            <br><br>
+            <b>Longer Timeouts</b><br>
+            It is now possible to have request timeouts of up to 10 minutes.
+            <br><br>
+            <b>Bugfixes</b>
+            <ul>
+                <li>Request body of <i>multipart/form</i> requests now currently uses CRLF instead of only LF</li>
+                <li>Fixed various rare app crashes</li>
+            </ul>
+        </p>
+        <p>
             <h3>Version 1.21.0</h3>
             <b>Shortcut Actions</b><br>
             You can now define what happens before and after a shortcut is executed. This includes things like displaying a Toast message, extracting part of the response or triggering another shortcut. More to come in future updates!
