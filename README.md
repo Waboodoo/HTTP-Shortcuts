@@ -1,7 +1,7 @@
 # HTTP Shortcuts for Android
 <img src="./HTTPShortcuts/app/src/main/res/drawable-xxxhdpi/ic_launcher.png" align="right" style="margin-left: 1em;"/>
 
-![Version](https://img.shields.io/badge/version-1.21.0-green.svg)
+![Version](https://img.shields.io/badge/version-1.22.0-green.svg)
 
 A simple Android app that allows you to create shortcuts that can be placed on your home screen. Each shortcut, when clicked, triggers an HTTP request.
 
@@ -59,6 +59,9 @@ If you want to add or edit a lot of shortcuts at once it can be very cumbersome 
 
 ### Customize look-and-feel of shortcuts
 As opposed to Android's home screen widgets, home screen shortcuts are very limitted in how they can be customized, i.e. only icon and label can be specified. If you wish to change the look-and-feel of your shortcuts beyond that, I recommend you have a look at some third-party apps that allow you to create custom widgets. I recommend [Elixir 2 - Widgets](https://play.google.com/store/apps/details?id=com.bartat.android.elixir.widget&hl=en), which I personally use to combine multiple shortcuts into a nice looking widget.
+
+### Voice Support
+The app has very basic voice support, though only experimental at this point. Try "Ok Google, search \[Name of Shortcut\] in HTTP Shortcuts".
 
 ## Acknowledgments
 
