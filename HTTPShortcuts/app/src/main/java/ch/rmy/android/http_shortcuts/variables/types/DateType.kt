@@ -21,7 +21,7 @@ internal class DateType : BaseVariableType(), AsyncVariableType {
     override fun createDialog(context: Context, controller: Controller, variable: Variable, deferredValue: Deferred<String, Unit, Unit>): () -> Unit {
         val calendar = getInitialDate(variable.value)
         val datePicker = DatePickerDialog(context, null, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
-        datePicker.setButton(DialogInterface.BUTTON_POSITIVE, context.getString(R.string.button_ok)) { _, _ ->
+        datePicker.setButton(DialogInterface.BUTTON_POSITIVE, context.getString(R.string.dialog_ok)) { _, _ ->
             val newDate = Calendar.getInstance()
             val day = datePicker.datePicker.dayOfMonth
             val month = datePicker.datePicker.month

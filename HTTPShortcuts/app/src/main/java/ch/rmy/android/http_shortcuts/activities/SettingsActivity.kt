@@ -147,8 +147,8 @@ class SettingsActivity : BaseActivity() {
 
         private fun showExportInstructions() {
             MaterialDialog.Builder(activity)
-                    .positiveText(R.string.button_ok)
-                    .negativeText(R.string.button_cancel)
+                    .positiveText(R.string.dialog_ok)
+                    .negativeText(R.string.dialog_cancel)
                     .content(R.string.export_instructions)
                     .onPositive { _, _ -> openFilePickerForExport() }
                     .showIfPossible()
@@ -175,8 +175,8 @@ class SettingsActivity : BaseActivity() {
 
         private fun showImportInstructions() {
             MaterialDialog.Builder(activity)
-                    .positiveText(R.string.button_ok)
-                    .negativeText(R.string.button_cancel)
+                    .positiveText(R.string.dialog_ok)
+                    .negativeText(R.string.dialog_cancel)
                     .content(R.string.import_instructions)
                     .onPositive { _, _ -> openLocalFilePickerForImport() }
                     .showIfPossible()

@@ -302,7 +302,7 @@ class ExecuteActivity : BaseActivity() {
                 MaterialDialog.Builder(context)
                         .title(shortcut.getSafeName(context))
                         .content(output)
-                        .positiveText(R.string.button_ok)
+                        .positiveText(R.string.dialog_ok)
                         .dismissListener { finishWithoutAnimation() }
                         .show()
             }

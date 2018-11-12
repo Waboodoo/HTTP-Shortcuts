@@ -74,16 +74,16 @@ class ShareActivity : BaseActivity() {
         MaterialDialog.Builder(context)
                 .content(text)
                 .dismissListener { finishWithoutAnimation() }
-                .positiveText(R.string.button_ok)
+                .positiveText(R.string.dialog_ok)
                 .showIfPossible()
     }
 
     private fun showShortcutSelection(shortcuts: List<Shortcut>, variableValues: Map<String, String>) {
         MenuDialogBuilder(context)
                 .mapFor(shortcuts) { builder, shortcut ->
-                    builder.item(shortcut.name, {
+                    builder.item(shortcut.name) {
                         executeShortcut(shortcut, variableValues)
-                    })
+                    }
                 }
                 .dismissListener { finishWithoutAnimation() }
                 .showIfPossible()

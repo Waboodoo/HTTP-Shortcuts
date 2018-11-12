@@ -42,8 +42,8 @@ internal class SliderType : BaseVariableType(), AsyncVariableType {
         val builder = BaseVariableType.createDialogBuilder(context, variable, deferredValue)
                 .toDialogBuilder()
                 .customView(view, true)
-                .positiveText(R.string.button_ok)
-                .negativeText(R.string.button_cancel)
+                .positiveText(R.string.dialog_ok)
+                .negativeText(R.string.dialog_cancel)
                 .onPositive { _, _ ->
                     if (variable.isValid) {
                         val value = findValue(slider, variable)
