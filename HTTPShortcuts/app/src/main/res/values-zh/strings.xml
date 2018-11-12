@@ -5,9 +5,9 @@
  Release: Working copy
  Locale: zh, Chinese
  Exported by: Roland Meyer
- Exported at: Tue, 04 Sep 2018 19:42:06 +0200
+ Exported at: Mon, 12 Nov 2018 15:50:21 +0100
 -->
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- The name of the app -->
     <string name="app_name">HTTP 快捷方式</string>
     <!-- The name of the default category -->
@@ -48,32 +48,59 @@
     <string name="feedback_response_toast">在吐司中显示响应</string>
     <!-- Option in dropdown, for shortcut response type: show complete response in Toast for errors (Android notification) -->
     <string name="feedback_response_toast_error">在吐司中显示响应（仅出错时）</string>
+    <!-- Option in dropdown, for shortcut response type: Show complete response in a dialog -->
     <string name="feedback_dialog">在对话框中显示响应</string>
+    <!-- Option in dropdown, for shortcut response type: Show complete response in a fullscreen window -->
     <string name="feedback_activity">在窗口中显示响应</string>
+    <!-- Shortcut dropdown option: Place shortcut on home screen -->
     <string name="action_place">发送到主屏幕</string>
+    <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
     <string name="action_run">执行</string>
+    <!-- Shortcut dropdown option: Edit the shortcut -->
     <string name="action_edit">编辑</string>
+    <!-- Shortcut dropdown option: Duplicate the shortcut -->
     <string name="action_duplicate">生成副本</string>
+    <!-- Shortcut dropdown option: Delete the shortcut -->
     <string name="action_delete">删除</string>
+    <!-- Shortcut dropdown option: export the shortcut in cURL format -->
     <string name="action_curl_export">cURL 导出</string>
+    <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
     <string name="action_move">搬到</string>
+    <!-- Shortcut dropdown option: Move the shortcut upwards -->
     <string name="action_move_up">上移</string>
+    <!-- Shortcut dropdown option: Move the shortcut downwards -->
     <string name="action_move_down">下移</string>
+    <!-- Shortcut dropdown option: Move the shortcut to a different category -->
     <string name="action_move_to_category">移至分类…</string>
+    <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="no_shortcuts">还没有快捷方式</string>
+    <!-- Empty state, shown in list when there are no variables yet -->
     <string name="no_variables">还没有变量</string>
+    <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
     <string name="confirm_delete_shortcut_message">确定删除这个快捷方式？</string>
+    <!-- Dialog prompt to ask user if unsaved changes should be discarded. -->
     <string name="confirm_discard_changes_message">您有尚未保存的更改，确定要丢弃吗？</string>
+    <!-- Dialog option: Discard (unsaved changes) -->
     <string name="dialog_discard">丢弃</string>
+    <!-- Title of fullscreen window when shortcut is executed/run -->
     <string name="title_activity_execute">执行快捷方式</string>
+    <!-- Confirmation message shown in Toast when a shortcut was executed. %s is a placeholder for the shortcut's name -->
     <string name="executed">%s 已执行</string>
+    <!-- Error message shown in Toast when shortcut was not found. -->
     <string name="shortcut_not_found">快捷方式不存在，您可能需要将其重新发送到主屏幕</string>
+    <!-- Validation error, shown when user tries to save a shortcut without a name -->
     <string name="validation_name_not_empty">请输入一个名称</string>
+    <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
     <string name="validation_url_invalid">请输入一个有效的 HTTP(s) 地址</string>
+    <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
     <string name="error_http">%1$s 执行失败，状态码 %2$d</string>
+    <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
     <string name="error_other">%1$s 执行失败： %2$s</string>
+    <!-- Error shown when a selected image cannot be used as an icon -->
     <string name="error_set_image">无法使用该图片作为快捷方式的图标</string>
+    <!-- Name template for a duplicated shortcut. %1$s is a placeholder for the name of the original shortcut -->
     <string name="copy">%1$s (副本)</string>
+    <!-- Option in "Change Icon" dialog, allows user to pick an icon from an ipack app (i.e., a special icon provider app) -->
     <string name="choose_ipack">选择一个 Ipack</string>
     <!-- Title of "Change Icon" dialog, where user can pick source/type of new icon for shortcut -->
     <string name="change_icon">更改图标</string>
@@ -83,28 +110,45 @@
     <string name="choose_ipack_icon">选择 Ipcak 图标</string>
     <!-- Option in "Change Icon" dialog, allows user to select one of the built-in icons to use as a shortcut icon -->
     <string name="choose_icon">选择内置的图标</string>
+    <!-- Label in shortcut editor: Request parameters, e.g. POST parameters -->
     <string name="label_post_params">参数</string>
+    <!-- Text on button to add a parameter to a shortcut -->
     <string name="button_add_post_param">添加参数</string>
+    <!-- Title of dialog to edit a parameter on a shortcut -->
     <string name="title_post_param_edit">编辑参数</string>
+    <!-- Title of dialog to add a new parameter to a shortcut -->
     <string name="title_post_param_add">添加参数</string>
+    <!-- Label of input field to provide the name/key of a parameter of a shortcut -->
     <string name="label_post_param_key">参数</string>
+    <!-- Label of input field to provide the value of a parameter of a shortcut -->
     <string name="label_post_param_value">值</string>
+    <!-- Generic dialog button: OK -->
     <string name="dialog_ok">确定</string>
+    <!-- Generic button: Cancel -->
     <string name="dialog_cancel">取消</string>
+    <!-- Generic button: remove -->
     <string name="dialog_remove">移除</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the headers of the HTTP request -->
     <string name="section_request_headers">头部</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the body of the HTTP request -->
     <string name="section_request_body">Request Body</string>
+    <!-- Text on button to add a custom header to a shortcut -->
     <string name="button_add_custom_header">添加头部</string>
+    <!-- Title of dialog to edit a custom header of a shortcut -->
     <string name="title_custom_header_edit">编辑头部</string>
+    <!-- Title of dialog to add a custom header to a shortcut -->
     <string name="title_custom_header_add">添加头部</string>
+    <!-- Label of input field to provide name of custom header -->
     <string name="label_custom_header_key">头部</string>
+    <!-- Label of input field to provide value of custom header -->
     <string name="label_custom_header_value">值</string>
+    <!-- Label of input field to provide request body of a shortcut -->
     <string name="label_custom_body">请求体</string>
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
     <string name="settings">设置</string>
+    <!-- Title of theme settings -->
     <string name="settings_theme">主题</string>
+    <!-- Title of section in "Settings" screen: Basic settings -->
     <string name="settings_title_basic">基本设置</string>
     <string name="settings_click_behavior">点击快捷方式的操作</string>
     <string name="settings_click_behavior_run">执行快捷方式</string>
@@ -162,7 +206,7 @@
     <string name="warning_icon_or_name_change">请注意，在修改快捷方式的名称和图标后，主屏幕上对应的名称和图标并不会同步改变。你必须再次将其添加到主屏幕，随后这些修改才会生效。</string>
     <string name="dialog_checkbox_do_not_show_again">不要再提示</string>
     <string name="label_certificates">证书</string>
-    <!-- Label above checkbox in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
+    <!-- checkbox label in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
     <string name="label_accept_all_certificates">接受所有证书</string>
     <string name="title_licenses">鸣谢</string>
     <string name="settings_licenses">鸣谢</string>
@@ -252,11 +296,17 @@
     <string name="button_create_new">新建快捷方式</string>
     <!-- Option 2 in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
     <string name="button_curl_import">从 cURL 命令行创建</string>
+    <!-- Window title for cURL import -->
     <string name="title_curl_import">从 cURL 命令行创建</string>
+    <!-- Instruction text for shortcut import from cURL format -->
     <string name="instructions_curl_import">在下面输入或粘贴一条 cURL 命令以新建一个快捷方式。请注意，这是一个实验性功能，目前只能识别部分 cURL 参数。</string>
+    <!-- Text on button to start shortcut import from a cURL command -->
     <string name="curl_import_button">导入</string>
+    <!-- Dropdown option for "Authentication" of a shortcut: no authentication -->
     <string name="authentication_none">No Authentication</string>
+    <!-- Dropdown option for "Authentication" of a shortcut: "Basic Authentication", aka. BasicAuth (username & password) -->
     <string name="authentication_basic">Basic Authentication</string>
+    <!-- Dropdown option for "Authentication" of a shortcut: "Digest Authentication", aka. DigestAuth (username & password) -->
     <string name="authentication_digest">Digest Authentication</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu, i.e., when long-pressing the app icon on the home screen -->
     <string name="label_launcher_shortcut">Show as app shortcut on launcher</string>
@@ -322,6 +372,7 @@
     <string name="dialog_title_variable_selection">Variables</string>
     <!-- Option shown on variable selection dialog, clicking it opens variable editor -->
     <string name="label_edit_variables">Edit variables</string>
+    <!-- Dialog title when creating a new shortcut, shows options below -->
     <string name="title_create_new_shortcut_options_dialog">Create New Shortcut</string>
     <!-- Button text: translate app (prompt to help & become a translator) -->
     <string name="settings_help_translate">Translate App</string>
@@ -477,4 +528,16 @@
     <string name="label_placement_method_default">Default</string>
     <!-- Label: Alternative option in dialog for selecting how to place the shortcut on the homescreen: Legacy (method) -->
     <string name="label_placement_method_legacy">Legacy</string>
+    <!-- Name of toolbar action: Unlock all settings (will prompt user to enter passcode) -->
+    <string name="menu_action_unlock_app">Unlock settings</string>
+    <!-- Label of section: Execution confirmation, i.e., require confirmation from user before executing shortcut -->
+    <string name="label_execution_confirmation">Confirmation</string>
+    <!-- Checkbox label in editor, if enabled user will be prompted to confirm before a shortcut is executed -->
+    <string name="label_require_execution_confirmation">Require confirmation before execution</string>
+    <!-- Title of section in settings that allows user to lock all settings with a passcode. -->
+    <string name="settings_lock_app_title">Lock Settings</string>
+    <!-- Summary/subtitle of section in settings that allows user to lock all settings with a passcode. -->
+    <string name="settings_lock_app_summary">Prevent changes to shortcuts and settings.</string>
+    <!-- Dialog message to prompt user to confirm execution of shortcut -->
+    <string name="dialog_message_confirm_shortcut_execution">Execute this shortcut?</string>
 </resources>

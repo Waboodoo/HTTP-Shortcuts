@@ -5,9 +5,9 @@
  Release: Working copy
  Locale: fr, French
  Exported by: Roland Meyer
- Exported at: Tue, 04 Sep 2018 19:42:06 +0200
+ Exported at: Mon, 12 Nov 2018 15:50:21 +0100
 -->
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- The name of the app -->
     <string name="app_name">HTTP Shortcuts</string>
     <!-- The name of the default category -->
@@ -48,32 +48,59 @@
     <string name="feedback_response_toast">Réponse dans le Toast</string>
     <!-- Option in dropdown, for shortcut response type: show complete response in Toast for errors (Android notification) -->
     <string name="feedback_response_toast_error">Réponse dans le Toast (erreurs seulement)</string>
+    <!-- Option in dropdown, for shortcut response type: Show complete response in a dialog -->
     <string name="feedback_dialog">Réponse dans boite de dialogue</string>
+    <!-- Option in dropdown, for shortcut response type: Show complete response in a fullscreen window -->
     <string name="feedback_activity">Réponse dans une fenêtre</string>
+    <!-- Shortcut dropdown option: Place shortcut on home screen -->
     <string name="action_place">Placer sur l\'écran d\'accueil</string>
+    <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
     <string name="action_run">Exécuter</string>
+    <!-- Shortcut dropdown option: Edit the shortcut -->
     <string name="action_edit">Éditer</string>
+    <!-- Shortcut dropdown option: Duplicate the shortcut -->
     <string name="action_duplicate">Dupliquer</string>
+    <!-- Shortcut dropdown option: Delete the shortcut -->
     <string name="action_delete">Effacer</string>
+    <!-- Shortcut dropdown option: export the shortcut in cURL format -->
     <string name="action_curl_export">exportation cURL</string>
+    <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
     <string name="action_move">Déplacer</string>
+    <!-- Shortcut dropdown option: Move the shortcut upwards -->
     <string name="action_move_up">Déplacer vers le haut</string>
+    <!-- Shortcut dropdown option: Move the shortcut downwards -->
     <string name="action_move_down">Déplacer vers le bas</string>
+    <!-- Shortcut dropdown option: Move the shortcut to a different category -->
     <string name="action_move_to_category">Déplacer vers la catégorie …</string>
+    <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="no_shortcuts">pas encore de raccourcis</string>
+    <!-- Empty state, shown in list when there are no variables yet -->
     <string name="no_variables">pas encore de variables</string>
+    <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
     <string name="confirm_delete_shortcut_message">Supprimer ce raccourci?</string>
+    <!-- Dialog prompt to ask user if unsaved changes should be discarded. -->
     <string name="confirm_discard_changes_message">Vous avez des modifications non enregistrées. Supprimer les modifications?</string>
+    <!-- Dialog option: Discard (unsaved changes) -->
     <string name="dialog_discard">Supprimer</string>
+    <!-- Title of fullscreen window when shortcut is executed/run -->
     <string name="title_activity_execute">Exécuter un raccourci</string>
+    <!-- Confirmation message shown in Toast when a shortcut was executed. %s is a placeholder for the shortcut's name -->
     <string name="executed">%s exécuté.</string>
+    <!-- Error message shown in Toast when shortcut was not found. -->
     <string name="shortcut_not_found">Raccourci introuvable. Vous devrez peut-être le rajouter à l\'écran d\'accueil.</string>
+    <!-- Validation error, shown when user tries to save a shortcut without a name -->
     <string name="validation_name_not_empty">Veuillez entrer un nom.</string>
+    <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
     <string name="validation_url_invalid">Veuillez entrer une url HTTP(S).</string>
+    <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
     <string name="error_http">%1$s échoué avec le code d\'état %2$d</string>
+    <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
     <string name="error_other">%1$s échoué: %2$s</string>
+    <!-- Error shown when a selected image cannot be used as an icon -->
     <string name="error_set_image">Impossible d\'utiliser l\'image comme icône.</string>
+    <!-- Name template for a duplicated shortcut. %1$s is a placeholder for the name of the original shortcut -->
     <string name="copy">%1$s (copie)</string>
+    <!-- Option in "Change Icon" dialog, allows user to pick an icon from an ipack app (i.e., a special icon provider app) -->
     <string name="choose_ipack">Choisir un icône du systeme</string>
     <!-- Title of "Change Icon" dialog, where user can pick source/type of new icon for shortcut -->
     <string name="change_icon">Changer l\'icône</string>
@@ -83,28 +110,45 @@
     <string name="choose_ipack_icon">Choisir un icône systeme</string>
     <!-- Option in "Change Icon" dialog, allows user to select one of the built-in icons to use as a shortcut icon -->
     <string name="choose_icon">Choisir un icône intégrée</string>
+    <!-- Label in shortcut editor: Request parameters, e.g. POST parameters -->
     <string name="label_post_params">Paramètres</string>
+    <!-- Text on button to add a parameter to a shortcut -->
     <string name="button_add_post_param">Ajouter un paramètre</string>
+    <!-- Title of dialog to edit a parameter on a shortcut -->
     <string name="title_post_param_edit">Modifier le paramètre</string>
+    <!-- Title of dialog to add a new parameter to a shortcut -->
     <string name="title_post_param_add">Ajouter un paramètre</string>
+    <!-- Label of input field to provide the name/key of a parameter of a shortcut -->
     <string name="label_post_param_key">Paramètre</string>
+    <!-- Label of input field to provide the value of a parameter of a shortcut -->
     <string name="label_post_param_value">Valeur</string>
+    <!-- Generic dialog button: OK -->
     <string name="dialog_ok">OK</string>
+    <!-- Generic button: Cancel -->
     <string name="dialog_cancel">Annuler</string>
+    <!-- Generic button: remove -->
     <string name="dialog_remove">Supprimer</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the headers of the HTTP request -->
     <string name="section_request_headers">Requête: Headers</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the body of the HTTP request -->
     <string name="section_request_body">Requête: Body</string>
+    <!-- Text on button to add a custom header to a shortcut -->
     <string name="button_add_custom_header">Ajouter Header</string>
+    <!-- Title of dialog to edit a custom header of a shortcut -->
     <string name="title_custom_header_edit">Modifier Header</string>
+    <!-- Title of dialog to add a custom header to a shortcut -->
     <string name="title_custom_header_add">Ajouter Header</string>
+    <!-- Label of input field to provide name of custom header -->
     <string name="label_custom_header_key">Header</string>
+    <!-- Label of input field to provide value of custom header -->
     <string name="label_custom_header_value">Valeur</string>
+    <!-- Label of input field to provide request body of a shortcut -->
     <string name="label_custom_body">Requête: Body</string>
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
     <string name="settings">Réglages</string>
+    <!-- Title of theme settings -->
     <string name="settings_theme">Thème</string>
+    <!-- Title of section in "Settings" screen: Basic settings -->
     <string name="settings_title_basic">Paramètres de base</string>
     <string name="settings_click_behavior">Action de raccourcis</string>
     <string name="settings_click_behavior_run">Exécuter le raccourci</string>
@@ -162,7 +206,7 @@
     <string name="warning_icon_or_name_change">Veuillez noter que les modifications apportées au nom ou à l\'icône ne s\'appliquent pas automatiquement aux raccourcis qui sont déjà placer sur l\'écran d\'accueil. Vous devrez les ajouter à nouveau pour que les modifications prennent effet. Toutes les autres modifications sont automatiquement appliquées.</string>
     <string name="dialog_checkbox_do_not_show_again">Ne plus afficher</string>
     <string name="label_certificates">Certificats</string>
-    <!-- Label above checkbox in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
+    <!-- checkbox label in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
     <string name="label_accept_all_certificates">Acceptez tous les certificats (je sais ce que je fais)</string>
     <string name="title_licenses">Remerciements</string>
     <string name="settings_licenses">Remerciements</string>
@@ -252,11 +296,17 @@
     <string name="button_create_new">Créer un nouveau raccourci</string>
     <!-- Option 2 in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
     <string name="button_curl_import">Depuis la commande cURL</string>
+    <!-- Window title for cURL import -->
     <string name="title_curl_import">Importation cURL</string>
+    <!-- Instruction text for shortcut import from cURL format -->
     <string name="instructions_curl_import">Tapez ou collez une commande cURL ci-dessous pour créer un nouveau raccourci.</string>
+    <!-- Text on button to start shortcut import from a cURL command -->
     <string name="curl_import_button">Importer</string>
+    <!-- Dropdown option for "Authentication" of a shortcut: no authentication -->
     <string name="authentication_none">Pas d\'authentification</string>
+    <!-- Dropdown option for "Authentication" of a shortcut: "Basic Authentication", aka. BasicAuth (username & password) -->
     <string name="authentication_basic">Authentification de base</string>
+    <!-- Dropdown option for "Authentication" of a shortcut: "Digest Authentication", aka. DigestAuth (username & password) -->
     <string name="authentication_digest">Authentification Digest</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu, i.e., when long-pressing the app icon on the home screen -->
     <string name="label_launcher_shortcut">Afficher en tant que raccourci d\'application sur le lanceur</string>
@@ -322,6 +372,7 @@
     <string name="dialog_title_variable_selection">Variables</string>
     <!-- Option shown on variable selection dialog, clicking it opens variable editor -->
     <string name="label_edit_variables">Edit variables</string>
+    <!-- Dialog title when creating a new shortcut, shows options below -->
     <string name="title_create_new_shortcut_options_dialog">Create New Shortcut</string>
     <!-- Button text: translate app (prompt to help & become a translator) -->
     <string name="settings_help_translate">Translate App</string>
@@ -477,4 +528,16 @@
     <string name="label_placement_method_default">Default</string>
     <!-- Label: Alternative option in dialog for selecting how to place the shortcut on the homescreen: Legacy (method) -->
     <string name="label_placement_method_legacy">Legacy</string>
+    <!-- Name of toolbar action: Unlock all settings (will prompt user to enter passcode) -->
+    <string name="menu_action_unlock_app">Unlock settings</string>
+    <!-- Label of section: Execution confirmation, i.e., require confirmation from user before executing shortcut -->
+    <string name="label_execution_confirmation">Confirmation</string>
+    <!-- Checkbox label in editor, if enabled user will be prompted to confirm before a shortcut is executed -->
+    <string name="label_require_execution_confirmation">Require confirmation before execution</string>
+    <!-- Title of section in settings that allows user to lock all settings with a passcode. -->
+    <string name="settings_lock_app_title">Lock Settings</string>
+    <!-- Summary/subtitle of section in settings that allows user to lock all settings with a passcode. -->
+    <string name="settings_lock_app_summary">Prevent changes to shortcuts and settings.</string>
+    <!-- Dialog message to prompt user to confirm execution of shortcut -->
+    <string name="dialog_message_confirm_shortcut_execution">Execute this shortcut?</string>
 </resources>
