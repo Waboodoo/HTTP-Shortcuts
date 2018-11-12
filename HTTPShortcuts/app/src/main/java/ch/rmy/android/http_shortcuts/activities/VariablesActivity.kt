@@ -101,9 +101,10 @@ class VariablesActivity : BaseActivity() {
     }
 
     private fun deleteVariable(variable: Variable) {
+        val key = variable.key
         controller.deleteVariable(variable.id)
                 .subscribe {
-                    showSnackbar(String.format(getString(R.string.variable_deleted), variable.key))
+                    showSnackbar(String.format(getString(R.string.variable_deleted), key))
                 }
     }
 

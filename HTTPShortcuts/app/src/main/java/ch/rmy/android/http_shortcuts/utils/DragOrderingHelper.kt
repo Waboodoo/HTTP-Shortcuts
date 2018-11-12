@@ -18,7 +18,7 @@ class DragOrderingHelper(isEnabledCallback: () -> Boolean = { true }) {
             return true
         }
 
-        override fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int) = Unit
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) = Unit
 
         override fun isItemViewSwipeEnabled() = false
 

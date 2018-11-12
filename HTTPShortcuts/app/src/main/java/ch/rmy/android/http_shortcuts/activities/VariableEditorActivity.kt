@@ -109,14 +109,16 @@ class VariableEditorActivity : BaseActivity() {
 
         titleView.visible = (variableType as? AsyncVariableType)?.hasTitle == true
 
-        fragmentManager
-                .beginTransaction()
-                .replace(R.id.variable_type_fragment_container, fragment, variableType.tag)
-                .commitAllowingStateLoss()
+        fragment?.let { fragment ->
+            fragmentManager
+                    .beginTransaction()
+                    .replace(R.id.variable_type_fragment_container, fragment, variableType.tag)
+                    .commitAllowingStateLoss()
+        }
     }
 
     fun onFragmentStarted() {
-        fragment!!.updateViews(variable)
+        fragment?.updateViews(variable)
     }
 
     private val selectedType: String

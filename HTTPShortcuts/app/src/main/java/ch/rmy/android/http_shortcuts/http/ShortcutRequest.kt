@@ -55,11 +55,11 @@ internal class ShortcutRequest private constructor(
     private fun constructFormDataBody(): String =
             StringBuilder("\r\n")
                     .apply {
-                        parameters.forEach { key, value ->
+                        parameters.entries.forEach { entry ->
                             append("\r\n--$FORM_MULTIPART_BOUNDARY\n")
-                            append("Content-Disposition: form-data; name=\"$key\"")
+                            append("Content-Disposition: form-data; name=\"${entry.key}\"")
                             append("\r\n\r\n")
-                            append(value)
+                            append(entry.value)
                         }
                         append("\n--$FORM_MULTIPART_BOUNDARY--\n")
                     }.toString()
