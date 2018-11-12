@@ -24,6 +24,7 @@ import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.DateUtil
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
+import ch.rmy.android.http_shortcuts.utils.NetworkUtil
 import ch.rmy.android.http_shortcuts.utils.PromiseUtils
 import ch.rmy.android.http_shortcuts.utils.Validation
 import ch.rmy.android.http_shortcuts.utils.consume
@@ -39,7 +40,9 @@ import com.android.volley.VolleyError
 import com.github.chen0040.androidcodeview.SourceCodeView
 import fr.castorflex.android.circularprogressbar.CircularProgressBar
 import kotterknife.bindView
+import org.jdeferred2.DoneFilter
 import org.jdeferred2.DonePipe
+import org.jdeferred2.FailFilter
 import org.jdeferred2.FailPipe
 import org.jdeferred2.Promise
 import org.jdeferred2.impl.DeferredObject
@@ -92,21 +95,27 @@ class ExecuteActivity : BaseActivity() {
             }
         }
 
-        val shouldFinishAfterExecution = !shortcut.isFeedbackUsesUI || shouldDelayExecution()
         val promise = if (shortcut.requireConfirmation) {
             promptForConfirmation()
                     .then(DonePipe {
-                        resolveVariablesAndExecute(variableValues)
+                        resolveVariablesAndExecute(variableValues, waitForExecution = shouldRunExecutionInForeground())
                     })
         } else {
-            resolveVariablesAndExecute(variableValues)
+            resolveVariablesAndExecute(variableValues, waitForExecution = shouldRunExecutionInForeground())
         }
-        if (shouldFinishAfterExecution) {
+        if (shouldFinishAfterExecution()) {
             finishAfter(promise)
         }
     }
 
-    private fun shouldDelayExecution() = shortcut.delay > 0 && tryNumber == 0
+    private fun shouldFinishAfterExecution() =
+            !shortcut.isFeedbackUsesUI || shouldDelayExecution()
+
+    private fun shouldRunExecutionInForeground() =
+            NetworkUtil.isNetworkPerformanceRestricted(context)
+
+    private fun shouldDelayExecution() =
+            shortcut.delay > 0 && tryNumber == 0
 
     private fun finishAfter(promise: Promise<*, *, *>) {
         if (promise.isPending) {
@@ -141,10 +150,10 @@ class ExecuteActivity : BaseActivity() {
         return deferred
     }
 
-    private fun resolveVariablesAndExecute(variableValues: Map<String, String>): Promise<Map<String, String>, Unit, Unit> =
+    private fun resolveVariablesAndExecute(variableValues: Map<String, String>, waitForExecution: Boolean): Promise<Unit, Unit, Unit> =
             VariableResolver(context)
                     .resolve(controller, shortcut, variableValues)
-                    .done { resolvedVariables ->
+                    .then(DonePipe<Map<String, String>, Unit, Unit, Unit> { resolvedVariables ->
                         if (shouldDelayExecution()) {
                             val waitUntil = DateUtil.calculateDate(shortcut.delay)
                             controller.createPendingExecution(shortcut.id, resolvedVariables, tryNumber, waitUntil, shortcut.isWaitForNetwork)
@@ -154,19 +163,24 @@ class ExecuteActivity : BaseActivity() {
                                     .subscribe {
                                         ExecutionScheduler.schedule(context)
                                     }
+                            PromiseUtils.resolve(Unit)
                         } else {
-                            executeWithActions(resolvedVariables.toMutableMap())
+                            val promise = executeWithActions(resolvedVariables.toMutableMap())
+                            if (waitForExecution) {
+                                promise.then(DoneFilter { }, FailFilter { })
+                            } else {
+                                PromiseUtils.resolve(Unit)
+                            }
                         }
-                    }
+                    })
                     .fail {
                         controller.destroy()
                         finishWithoutAnimation()
                     }
 
-    private fun executeWithActions(resolvedVariables: MutableMap<String, String>) {
+    private fun executeWithActions(resolvedVariables: MutableMap<String, String>): Promise<Unit, Throwable, Unit> {
         showProgress()
-
-        if (tryNumber == 0 || (tryNumber == 1 && shortcut.delay > 0)) {
+        return if (tryNumber == 0 || (tryNumber == 1 && shortcut.delay > 0)) {
             iterateActions(shortcut.beforeActions.iterator(), resolvedVariables)
         } else {
             PromiseUtils.resolve(Unit)
