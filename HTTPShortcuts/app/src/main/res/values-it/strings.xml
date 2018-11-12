@@ -59,7 +59,7 @@
     <string name="action_move">Muovi</string>
     <string name="action_move_up">Muovi su</string>
     <string name="action_move_down">Muovi giù</string>
-    <string name="action_move_to_category">Muovi alla categoria...</string>
+    <string name="action_move_to_category">Muovi alla categoria…</string>
     <string name="no_shortcuts">nessuna scorciatoia</string>
     <string name="no_variables">nessuna variable</string>
     <string name="confirm_delete_shortcut_message">Vuoi cancellare questa scorciatoia?</string>

@@ -34,9 +34,7 @@ internal object HttpClients {
                 override fun checkServerTrusted(chain: Array<java.security.cert.X509Certificate>, authType: String) {
                 }
 
-                override fun getAcceptedIssuers(): Array<java.security.cert.X509Certificate> {
-                    return arrayOf()
-                }
+                override fun getAcceptedIssuers(): Array<java.security.cert.X509Certificate> = emptyArray()
             })
 
             val sslContext = SSLContext.getInstance("SSL")

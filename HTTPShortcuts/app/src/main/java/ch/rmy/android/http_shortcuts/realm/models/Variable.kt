@@ -37,10 +37,12 @@ open class Variable : RealmObject(), HasId {
 
     var isShareText: Boolean
         get() = flags and FLAG_SHARE_TEXT != 0
-        set(shareText) = if (shareText) {
-            flags = flags or FLAG_SHARE_TEXT
-        } else {
-            flags = flags and FLAG_SHARE_TEXT.inv()
+        set(shareText) {
+            flags = if (shareText) {
+                flags or FLAG_SHARE_TEXT
+            } else {
+                flags and FLAG_SHARE_TEXT.inv()
+            }
         }
 
     fun isResetAfterUse(): Boolean =
@@ -95,7 +97,7 @@ open class Variable : RealmObject(), HasId {
             variable.type = TYPE_CONSTANT
             variable.value = ""
             variable.title = ""
-            variable.options = RealmList<Option>()
+            variable.options = RealmList()
             return variable
         }
 

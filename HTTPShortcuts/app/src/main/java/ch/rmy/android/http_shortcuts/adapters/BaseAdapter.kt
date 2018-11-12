@@ -48,7 +48,7 @@ abstract class BaseAdapter<T> internal constructor(val context: Context) : Recyc
 
     override fun getItemCount() = if (isEmpty && emptyMarkerStringResource != 0) 1 else count
 
-    protected val count: Int
+    private val count: Int
         get() = if (this.items?.isValid == true) items!!.size else 0
 
     protected val isEmpty: Boolean

@@ -19,7 +19,7 @@ object CrashReporting {
         initialized = true
     }
 
-    var enabled: Boolean by Delegates.observable(true, { _, old, new ->
+    var enabled: Boolean by Delegates.observable(true) { _, old, new ->
         if (initialized && old != new) {
             if (new) {
                 Bugsnag.enableExceptionHandler()
@@ -27,7 +27,7 @@ object CrashReporting {
                 Bugsnag.disableExceptionHandler()
             }
         }
-    })
+    }
 
     fun logException(e: Throwable) {
         if (initialized) {

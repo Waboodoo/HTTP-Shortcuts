@@ -8,13 +8,8 @@ class GridLayoutManager(context: Context) : android.support.v7.widget.GridLayout
 
     init {
         spanSizeLookup = object : android.support.v7.widget.GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                if (position == 0 && empty) {
-                    return spanCount
-                } else {
-                    return 1
-                }
-            }
+            override fun getSpanSize(position: Int): Int =
+                    if (position == 0 && empty) spanCount else 1
         }
     }
 

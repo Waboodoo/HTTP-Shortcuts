@@ -72,9 +72,9 @@ internal class SliderType : BaseVariableType(), AsyncVariableType {
         const val KEY_MAX = "max"
         const val KEY_STEP = "step"
 
-        val DEFAULT_MIN = 0
-        val DEFAULT_MAX = 100
-        val DEFAULT_STEP = 1
+        const val DEFAULT_MIN = 0
+        const val DEFAULT_MAX = 100
+        const val DEFAULT_STEP = 1
 
         fun findMax(variable: Variable): Int = variable.dataForType[KEY_MAX]?.toDoubleOrNull()?.toInt() ?: DEFAULT_MAX
         fun findMin(variable: Variable): Int = variable.dataForType[KEY_MIN]?.toDoubleOrNull()?.toInt() ?: DEFAULT_MIN

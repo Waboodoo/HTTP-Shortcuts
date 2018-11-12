@@ -40,7 +40,7 @@ class CurlExportDialog(private val context: Context, private val title: String, 
     private fun copyCurlExport() {
         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText(null, curlCommand)
-        clipboard.setPrimaryClip(clip)
+        clipboard.primaryClip = clip
     }
 
 }

@@ -115,8 +115,8 @@ class DatabaseMigration : RealmMigration {
                 schema.get("Shortcut")!!.addField("delay", Int::class.javaPrimitiveType)
             }
             14L -> { // 1.19.0
-                makeNonNullable(realm, "Category", "layoutType", { "linear_list" })
-                makeNonNullable(realm, "Option", "id", { UUIDUtils.create() })
+                makeNonNullable(realm, "Category", "layoutType") { "linear_list" }
+                makeNonNullable(realm, "Option", "id") { UUIDUtils.create() }
                 makeNonNullable(realm, "Option", "label")
                 makeNonNullable(realm, "Option", "value")
                 makeNonNullable(realm, "ResolvedVariable", "key")

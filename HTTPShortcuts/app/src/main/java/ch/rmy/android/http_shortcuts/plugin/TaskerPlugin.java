@@ -103,8 +103,6 @@ public class TaskerPlugin {
         JSON
     }
 
-    ;
-
     private final static String BUNDLE_KEY_ENCODING_JSON_KEYS = BASE_KEY + ".JSON_ENCODED_KEYS";
 
     public static boolean hostSupportsKeyEncoding(Bundle extrasFromHost, Encoding encoding) {
@@ -870,10 +868,7 @@ public class TaskerPlugin {
                 digitCount++;
         }
 
-        if (digitCount == (varName.length() - 1))
-            return false;
-
-        return true;
+        return digitCount != (varName.length() - 1);
     }
 
     private static String[] getStringArrayFromBundleString(Bundle bundle, String key, String funcName) {
@@ -897,7 +892,7 @@ public class TaskerPlugin {
             for (String keyName : toAdd) {
 
                 if (keyName.contains(" "))
-                    Log.w(TAG, callerName + ": ignoring bad keyName containing spaaaaaace: " + keyName);
+                    Log.w(TAG, callerName + ": ignoring bad keyName containing space: " + keyName);
                 else {
                     if (builder.length() > 0)
                         builder.append(' ');
@@ -938,7 +933,7 @@ public class TaskerPlugin {
             // pick a number
             toReturn = sr.nextInt(Integer.MAX_VALUE);
 
-            // check we havn't see it recently
+            // check we haven't seen it recently
             for (int seen : lastRandomsSeen) {
                 if (seen == toReturn) {
                     toReturn = -1;

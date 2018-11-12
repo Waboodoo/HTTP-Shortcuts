@@ -27,7 +27,7 @@ open class Category : RealmObject(), HasId {
             val category = Category()
             category.id = 0
             category.name = name
-            category.shortcuts = RealmList<Shortcut>()
+            category.shortcuts = RealmList()
             category.layoutType = LAYOUT_LINEAR_LIST
             return category
         }

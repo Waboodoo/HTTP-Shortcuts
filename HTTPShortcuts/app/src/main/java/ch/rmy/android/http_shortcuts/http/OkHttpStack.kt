@@ -80,7 +80,7 @@ class OkHttpStack(private val client: OkHttpClient) : HttpStack {
         Protocol.HTTP_1_1 -> ProtocolVersion("HTTP", 1, 1)
         Protocol.HTTP_2 -> ProtocolVersion("HTTP", 2, 0)
         else -> {
-            throw IllegalAccessError("Unknown protocol: " + p)
+            throw IllegalAccessError("Unknown protocol: $p")
         }
     }
 
