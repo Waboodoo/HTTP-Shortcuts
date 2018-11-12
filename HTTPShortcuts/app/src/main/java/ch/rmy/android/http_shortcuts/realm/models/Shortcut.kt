@@ -51,6 +51,7 @@ open class Shortcut : RealmObject(), HasId {
     @Required
     var contentType: String = ""
     var executionType: String? = ""
+    var requireConfirmation: Boolean = false
 
     var serializedBeforeActions: String? = "[]"
     var serializedSuccessActions: String? = "[]"

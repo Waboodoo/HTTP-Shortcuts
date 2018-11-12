@@ -373,6 +373,17 @@
                     android:text="@string/section_advanced_settings"/>
 
                 <TextView
+                    android:id="@+id/label_confirmation"
+                    style="@style/Label"
+                    android:text="@string/label_execution_confirmation"/>
+
+                <CheckBox
+                    android:id="@+id/input_require_execution_confirmation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_require_execution_confirmation"/>
+
+                <TextView
                     android:id="@+id/label_certificates"
                     style="@style/Label"
                     android:text="@string/label_certificates"/>

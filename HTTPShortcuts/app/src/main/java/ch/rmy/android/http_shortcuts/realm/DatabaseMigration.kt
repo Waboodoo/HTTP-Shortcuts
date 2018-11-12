@@ -164,6 +164,9 @@ class DatabaseMigration : RealmMigration {
                 val pendingExecutionSchema = schema.get("PendingExecution")!!
                 pendingExecutionSchema.addField("waitForNetwork", Boolean::class.javaPrimitiveType)
             }
+            20L -> { // 1.23.0
+                schema.get("Shortcut")!!.addField("requireConfirmation", Boolean::class.javaPrimitiveType)
+            }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -189,7 +192,7 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 19L
+        const val VERSION = 20L
 
     }
 

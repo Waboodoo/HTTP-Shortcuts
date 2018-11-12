@@ -28,6 +28,8 @@ import ch.rmy.android.http_shortcuts.utils.PromiseUtils
 import ch.rmy.android.http_shortcuts.utils.Validation
 import ch.rmy.android.http_shortcuts.utils.consume
 import ch.rmy.android.http_shortcuts.utils.logException
+import ch.rmy.android.http_shortcuts.utils.rejectSafely
+import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.utils.showToast
 import ch.rmy.android.http_shortcuts.utils.visible
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
@@ -40,6 +42,7 @@ import kotterknife.bindView
 import org.jdeferred2.DonePipe
 import org.jdeferred2.FailPipe
 import org.jdeferred2.Promise
+import org.jdeferred2.impl.DeferredObject
 import java.util.*
 
 class ExecuteActivity : BaseActivity() {
@@ -90,7 +93,14 @@ class ExecuteActivity : BaseActivity() {
         }
 
         val shouldFinishAfterExecution = !shortcut.isFeedbackUsesUI || shouldDelayExecution()
-        val promise = resolveVariablesAndExecute(variableValues)
+        val promise = if (shortcut.requireConfirmation) {
+            promptForConfirmation()
+                    .then(DonePipe {
+                        resolveVariablesAndExecute(variableValues)
+                    })
+        } else {
+            resolveVariablesAndExecute(variableValues)
+        }
         if (shouldFinishAfterExecution) {
             finishAfter(promise)
         }
@@ -109,28 +119,49 @@ class ExecuteActivity : BaseActivity() {
         }
     }
 
-    private fun resolveVariablesAndExecute(variableValues: Map<String, String>): Promise<Map<String, String>, Unit, Unit> {
-        return VariableResolver(context)
-                .resolve(controller, shortcut, variableValues)
-                .done { resolvedVariables ->
-                    if (shouldDelayExecution()) {
-                        val waitUntil = DateUtil.calculateDate(shortcut.delay)
-                        controller.createPendingExecution(shortcut.id, resolvedVariables, tryNumber, waitUntil, shortcut.isWaitForNetwork)
-                                .doOnTerminate {
-                                    controller.destroy()
-                                }
-                                .subscribe {
-                                    ExecutionScheduler.schedule(context)
-                                }
-                    } else {
-                        executeWithActions(resolvedVariables.toMutableMap())
+    private fun promptForConfirmation(): Promise<Unit, Unit, Unit> {
+        val deferred = DeferredObject<Unit, Unit, Unit>()
+        MaterialDialog.Builder(context)
+                .title(shortcut.getSafeName(context))
+                .content(R.string.dialog_message_confirm_shortcut_execution)
+                .dismissListener {
+                    deferred.rejectSafely(Unit)
+                }
+                .positiveText(R.string.dialog_ok)
+                .onPositive { _, _ ->
+                    deferred.resolve(Unit)
+                }
+                .negativeText(R.string.dialog_cancel)
+                .showIfPossible()
+                .let { dialogShown ->
+                    if (!dialogShown) {
+                        deferred.rejectSafely(Unit)
                     }
                 }
-                .fail {
-                    controller.destroy()
-                    finishWithoutAnimation()
-                }
+        return deferred
     }
+
+    private fun resolveVariablesAndExecute(variableValues: Map<String, String>): Promise<Map<String, String>, Unit, Unit> =
+            VariableResolver(context)
+                    .resolve(controller, shortcut, variableValues)
+                    .done { resolvedVariables ->
+                        if (shouldDelayExecution()) {
+                            val waitUntil = DateUtil.calculateDate(shortcut.delay)
+                            controller.createPendingExecution(shortcut.id, resolvedVariables, tryNumber, waitUntil, shortcut.isWaitForNetwork)
+                                    .doOnTerminate {
+                                        controller.destroy()
+                                    }
+                                    .subscribe {
+                                        ExecutionScheduler.schedule(context)
+                                    }
+                        } else {
+                            executeWithActions(resolvedVariables.toMutableMap())
+                        }
+                    }
+                    .fail {
+                        controller.destroy()
+                        finishWithoutAnimation()
+                    }
 
     private fun executeWithActions(resolvedVariables: MutableMap<String, String>) {
         showProgress()
@@ -146,10 +177,10 @@ class ExecuteActivity : BaseActivity() {
                         PromiseUtils.resolve(Unit)
                     } else {
                         executeShortcut(resolvedVariables)
-                                .then(DonePipe<ShortcutResponse, Unit, Throwable, Unit> {
-                                    iterateActions(shortcut.successActions.iterator(), resolvedVariables, response = it)
-                                }, FailPipe {
-                                    iterateActions(shortcut.failureActions.iterator(), resolvedVariables, volleyError = it)
+                                .then(DonePipe<ShortcutResponse, Unit, Throwable, Unit> { response ->
+                                    iterateActions(shortcut.successActions.iterator(), resolvedVariables, response = response)
+                                }, FailPipe { error ->
+                                    iterateActions(shortcut.failureActions.iterator(), resolvedVariables, volleyError = error)
                                 })
                     }
                 })

@@ -105,6 +105,7 @@ class EditorActivity : BaseActivity() {
     private val failureActionsView: ActionsView by bindView(R.id.failure_actions)
     private val appExecutionOnlyContainer: View by bindView(R.id.app_execution_only_options_container)
     private val appExecutionOnlyContainer2: View by bindView(R.id.app_execution_only_options_container2)
+    private val requiredExecutionCheckbox: CheckBox by bindView(R.id.input_require_execution_confirmation)
 
     private val itemChosenListener = object : OnItemChosenListener() {
         override fun onSelectionChanged() {
@@ -256,6 +257,7 @@ class EditorActivity : BaseActivity() {
         methodView.visible = !shortcut.isBrowserShortcut
         appExecutionOnlyContainer.visible = !shortcut.isBrowserShortcut
         appExecutionOnlyContainer2.visible = !shortcut.isBrowserShortcut
+        requiredExecutionCheckbox.isChecked = shortcut.requireConfirmation
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -406,6 +408,7 @@ class EditorActivity : BaseActivity() {
             beforeActions = beforeActionsView.actions
             successActions = successActionsView.actions
             failureActions = failureActionsView.actions
+            requireConfirmation = requiredExecutionCheckbox.isChecked
         }
     }
 

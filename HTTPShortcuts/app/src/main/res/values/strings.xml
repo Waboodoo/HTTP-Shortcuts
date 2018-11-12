@@ -223,8 +223,12 @@
     <string name="warning_icon_or_name_change">Please note that changes to the name or icon are not automatically applied to shortcuts that are already added to the home screen. You will have to add them again for the changes to take effect. All other changes are automatically applied.</string>
     <string name="dialog_checkbox_do_not_show_again">Don\'t show again</string>
     <string name="label_certificates">Certificates</string>
-    <!-- Label above checkbox in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
+    <!-- Label of section: Execution confirmation, i.e., require confirmation from user before executing shortcut -->
+    <string name="label_execution_confirmation">Confirmation</string>
+    <!-- checkbox label in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
     <string name="label_accept_all_certificates">Accept any certificate (I know what I\'m doing)</string>
+    <!-- Checkbox label in editor, if enabled user will be prompted to confirm before a shortcut is executed -->
+    <string name="label_require_execution_confirmation">Require confirmation before execution</string>
     <string name="title_licenses">Acknowledgements</string>
     <string name="settings_licenses">Acknowledgements</string>
     <string name="settings_licenses_summary"><![CDATA[Libraries & resources used]]></string>
@@ -518,4 +522,6 @@
     <string name="label_placement_method_default">Default</string>
     <!-- Label: Alternative option in dialog for selecting how to place the shortcut on the homescreen: Legacy (method) -->
     <string name="label_placement_method_legacy">Legacy</string>
+    <!-- Dialog message to prompt user to confirm execution of shortcut -->
+    <string name="dialog_message_confirm_shortcut_execution">Execute this shortcut?</string>
 </resources>
