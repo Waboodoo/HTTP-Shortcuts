@@ -8,7 +8,7 @@
         style="@style/SubHeader"
         android:text="@string/section_toggle_options"/>
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/toggle_options_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

@@ -1,11 +1,11 @@
 package ch.rmy.android.http_shortcuts.dialogs
 
 import android.content.Context
-import android.support.annotation.StringRes
 import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
+import androidx.annotation.StringRes
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 import com.afollestad.materialdialogs.MaterialDialog

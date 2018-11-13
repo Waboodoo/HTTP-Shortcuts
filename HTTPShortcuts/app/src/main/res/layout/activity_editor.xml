@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,7 +9,7 @@
 
     <include layout="@layout/toolbar_layout"/>
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -40,7 +40,7 @@
                     android:layout_toStartOf="@+id/icon_container"
                     android:orientation="vertical">
 
-                    <android.support.design.widget.TextInputLayout
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -54,7 +54,7 @@
                             android:maxLines="1">
 
                         </EditText>
-                    </android.support.design.widget.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
                 <FrameLayout
@@ -76,7 +76,7 @@
                 </FrameLayout>
             </RelativeLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -87,7 +87,7 @@
                     android:hint="@string/label_description"
                     android:inputType="textNoSuggestions"
                     android:maxLength="200"/>
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <CheckBox
                 android:id="@+id/input_launcher_shortcut"
@@ -115,7 +115,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toLeftOf="@+id/variable_button_url"
@@ -128,7 +128,7 @@
                         android:hint="@string/label_url"
                         android:inputType="textNoSuggestions|textUri|textMultiLine"
                         android:maxLines="8"/>
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <ch.rmy.android.http_shortcuts.variables.VariableButton
                     android:id="@+id/variable_button_url"
@@ -164,7 +164,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_toLeftOf="@+id/variable_button_username"
@@ -177,7 +177,7 @@
                                 android:ems="10"
                                 android:hint="@string/label_username"
                                 android:inputType="textNoSuggestions"/>
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
                         <ch.rmy.android.http_shortcuts.variables.VariableButton
                             android:id="@+id/variable_button_username"
@@ -191,7 +191,7 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_toLeftOf="@+id/variable_button_password"
@@ -206,7 +206,7 @@
                                 android:ems="10"
                                 android:hint="@string/label_password"
                                 android:inputType="textPassword"/>
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
                         <ch.rmy.android.http_shortcuts.variables.VariableButton
                             android:id="@+id/variable_button_password"
@@ -267,7 +267,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
@@ -280,13 +280,13 @@
                                 android:maxLines="1">
 
                             </AutoCompleteTextView>
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
                         <RelativeLayout
 
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
-                            <android.support.design.widget.TextInputLayout
+                            <com.google.android.material.textfield.TextInputLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_toLeftOf="@+id/variable_button_custom_body"
@@ -299,7 +299,7 @@
                                     android:ems="10"
                                     android:hint="@string/label_custom_body"
                                     android:inputType="textMultiLine|textNoSuggestions"/>
-                            </android.support.design.widget.TextInputLayout>
+                            </com.google.android.material.textfield.TextInputLayout>
 
                             <ch.rmy.android.http_shortcuts.variables.VariableButton
                                 android:id="@+id/variable_button_custom_body"
@@ -416,5 +416,5 @@
 
         </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
-</android.support.design.widget.CoordinatorLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

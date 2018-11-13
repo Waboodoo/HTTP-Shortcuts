@@ -1,8 +1,8 @@
 package ch.rmy.android.http_shortcuts.variables
 
 import android.content.Context
-import android.support.v7.widget.AppCompatAutoCompleteTextView
 import android.util.AttributeSet
+import androidx.appcompat.widget.AppCompatAutoCompleteTextView
 import ch.rmy.android.http_shortcuts.utils.Destroyable
 import ch.rmy.android.http_shortcuts.utils.logException
 import ch.rmy.android.http_shortcuts.utils.showSoftKeyboard

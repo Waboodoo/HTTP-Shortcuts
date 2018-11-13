@@ -4,8 +4,8 @@ import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.os.AsyncTask
-import android.support.design.widget.Snackbar
 import android.view.View
+import com.google.android.material.snackbar.Snackbar
 
 abstract class SimpleTask<T>(protected val context: Context, private val baseView: View) : AsyncTask<T, Unit, Exception?>() {
 

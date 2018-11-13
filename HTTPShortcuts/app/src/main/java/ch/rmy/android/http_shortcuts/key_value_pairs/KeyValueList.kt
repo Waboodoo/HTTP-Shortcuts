@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.key_value_pairs
 
 import android.content.Context
-import android.support.design.widget.TextInputLayout
 import android.text.InputType
 import android.util.AttributeSet
 import android.view.View
@@ -22,6 +21,7 @@ import ch.rmy.android.http_shortcuts.variables.VariableEditText
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
+import com.google.android.material.textfield.TextInputLayout
 import kotterknife.bindView
 
 

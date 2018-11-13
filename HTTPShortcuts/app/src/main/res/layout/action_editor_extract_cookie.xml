@@ -10,7 +10,7 @@
         style="@style/HelpDescription"
         android:text="@string/action_type_extract_cookie_help_text"/>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -21,7 +21,7 @@
             android:hint="@string/action_type_extract_cookie_label_cookie_name"
             android:inputType="text"
             android:lines="1"/>
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"

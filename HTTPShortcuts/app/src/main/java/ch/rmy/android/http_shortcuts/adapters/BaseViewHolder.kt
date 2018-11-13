@@ -1,8 +1,8 @@
 package ch.rmy.android.http_shortcuts.adapters
 
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.realm.models.HasId
 import io.realm.RealmObject
 

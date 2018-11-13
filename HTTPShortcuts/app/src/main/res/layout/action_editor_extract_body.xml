@@ -27,7 +27,7 @@
             android:layout_marginBottom="6dp"
             android:text="@string/action_type_extract_body_help_text_substring_option"/>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -37,9 +37,9 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/action_type_extract_body_label_substring_start_index"
                 android:inputType="numberSigned"/>
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/action_type_extract_body_label_substring_end_index"
                 android:inputType="numberSigned"/>
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 
@@ -64,7 +64,7 @@
             android:layout_marginBottom="6dp"
             android:text="@string/action_type_extract_body_help_text_json_option"/>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/action_type_extract_body_label_json_path"
                 android:inputType="textNoSuggestions"/>
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 

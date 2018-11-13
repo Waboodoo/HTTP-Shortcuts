@@ -1,9 +1,9 @@
 package ch.rmy.android.http_shortcuts.variables.types
 
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.widget.Button
 import android.widget.EditText
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.adapters.SelectVariableOptionsAdapter
 import ch.rmy.android.http_shortcuts.realm.models.Option

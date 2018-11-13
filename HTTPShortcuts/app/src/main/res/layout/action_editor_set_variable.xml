@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/variable_button_new_value"
@@ -28,7 +28,7 @@
                 android:hint="@string/action_type_set_variable_label_new_value"
                 android:inputType="text"
                 android:lines="1"/>
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <ch.rmy.android.http_shortcuts.variables.VariableButton
             android:id="@+id/variable_button_new_value"

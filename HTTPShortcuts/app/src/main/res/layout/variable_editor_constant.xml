@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@+id/variable_button"
@@ -19,7 +19,7 @@
             android:maxLength="300">
 
         </ch.rmy.android.http_shortcuts.variables.VariableEditText>
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <ch.rmy.android.http_shortcuts.variables.VariableButton
         android:id="@+id/variable_button"

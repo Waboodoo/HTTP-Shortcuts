@@ -2,9 +2,9 @@ package ch.rmy.android.http_shortcuts.utils
 
 import android.content.Context
 import android.os.Build
-import android.support.annotation.StringRes
 import android.text.Html
 import android.text.Spanned
+import androidx.annotation.StringRes
 
 object HTMLUtil {
 

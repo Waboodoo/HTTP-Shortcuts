@@ -2,9 +2,8 @@ package ch.rmy.android.http_shortcuts.icons
 
 import android.content.Context
 import android.net.Uri
-import android.support.v7.widget.AppCompatImageView
 import android.util.AttributeSet
-
+import androidx.appcompat.widget.AppCompatImageView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.utils.clearBackground
 

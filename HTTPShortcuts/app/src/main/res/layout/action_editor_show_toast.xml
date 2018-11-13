@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@+id/variable_button_toast_message"
@@ -18,7 +18,7 @@
             android:inputType="textMultiLine"
             android:maxLength="300"
             android:maxLines="6"/>
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <ch.rmy.android.http_shortcuts.variables.VariableButton
         android:id="@+id/variable_button_toast_message"

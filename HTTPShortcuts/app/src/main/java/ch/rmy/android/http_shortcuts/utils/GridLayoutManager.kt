@@ -1,13 +1,14 @@
 package ch.rmy.android.http_shortcuts.utils
 
 import android.content.Context
+import androidx.recyclerview.widget.GridLayoutManager
 
-class GridLayoutManager(context: Context) : android.support.v7.widget.GridLayoutManager(context, getNumberOfColumns(context)) {
+class GridLayoutManager(context: Context) : GridLayoutManager(context, getNumberOfColumns(context)) {
 
     private var empty: Boolean = false
 
     init {
-        spanSizeLookup = object : android.support.v7.widget.GridLayoutManager.SpanSizeLookup() {
+        spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int =
                     if (position == 0 && empty) spanCount else 1
         }
