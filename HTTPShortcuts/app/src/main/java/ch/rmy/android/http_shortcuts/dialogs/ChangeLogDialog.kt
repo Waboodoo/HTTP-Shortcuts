@@ -4,10 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager.NameNotFoundException
 import android.view.LayoutInflater
+import android.webkit.WebView
 import android.widget.CheckBox
-import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
@@ -33,7 +32,7 @@ class ChangeLogDialog(private val context: Context, private val whatsNew: Boolea
 
         val layoutInflater = LayoutInflater.from(context)
         val view = layoutInflater.inflate(R.layout.changelog_dialog, null)
-        val changelogText = view.findViewById<TextView>(R.id.changelog_text)
+        val webview = view.findViewById<WebView>(R.id.changelog_webview)
         val showAtStartupCheckbox = view.findViewById<CheckBox>(R.id.checkbox_show_at_startup)
 
         MaterialDialog.Builder(context)
@@ -42,7 +41,9 @@ class ChangeLogDialog(private val context: Context, private val whatsNew: Boolea
                 .positiveText(android.R.string.ok)
                 .showIfPossible()
 
-        changelogText.text = HTMLUtil.getHTML(context, R.string.changelog_text)
+
+        webview.loadUrl(CHANGELOG_ASSET_URL)
+
         showAtStartupCheckbox.isChecked = !isPermanentlyHidden
         showAtStartupCheckbox.setOnCheckedChangeListener { _, isChecked ->
             settings.isChangeLogPermanentlyHidden = !isChecked
@@ -57,5 +58,11 @@ class ChangeLogDialog(private val context: Context, private val whatsNew: Boolea
         } catch (e: NameNotFoundException) {
             0
         }
+
+    companion object {
+
+        private const val CHANGELOG_ASSET_URL = "file:///android_asset/changelog.html"
+
+    }
 
 }

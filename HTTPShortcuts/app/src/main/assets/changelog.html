@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        h2 {
+            font-size: 1.2em;
+            border-bottom: 1px solid #999999;
+            padding-bottom: 0.2em;
+        }
+        h3 {
+            font-size: 1em;
+            margin-bottom: 0;
+        }
+        h3 + p {
+            margin-top: 0;
+            padding-top: 0;
+        }
+        ul {
+            padding-left: 1em;
+            margin-top: 0.5em;
+        }
+    </style>
+</head>
+<body>
+<article>
+    <h2>Version 1.23.0</h2>
+    <h3>App Lock</h3>
+    <p>
+        It is now possible to lock the app with a password, to prevent modification of shortcuts or
+        app settings.
+    </p>
+    <h3>Require Confirmation</h3>
+    <p>
+        There is now a new option that allows you to mark a shortcut as requiring confirmation.
+        These shortcuts will prompt you with a confirmation dialog before executing, thereby
+        preventing accidental execution.
+    </p>
+    <h3>Bugfixes</h3>
+    <ul>
+        <li>Fixed shortcuts not working when Battery Saver or Data Saver enabled</li>
+        <li>Fixed crash when using form-data on Android Marshmallow or older</li>
+        <li>Fixed crash when deleting variable</li>
+    </ul>
+</article>
+
+<article>
+    <h2>Version 1.22.0</h2>
+    <h3>Shortcut Placement / Using in Other Apps</h3>
+    <p>
+        You may have encountered a problem when trying to use shortcuts in other apps (e.g. Tasker),
+        where it would not select or make the other app crash. There is now an alternative method of
+        selecting a shortcut that you may try in this case. Simply retry selecting the shortcut and
+        you will be prompted with a dialog that asks you to pick either the new or the old method.
+    </p>
+    <h3>Longer Timeouts</h3>
+    <p>
+        It is now possible to have request timeouts of up to 10 minutes.
+    </p>
+    <h3>Bugfixes</h3>
+    <ul>
+        <li>Request body of <i>multipart/form</i> requests now currently uses CRLF instead of only
+            LF
+        </li>
+        <li>Fixed various rare app crashes</li>
+    </ul>
+</article>
+
+<article>
+    <h2>Version 1.21.0</h2>
+    <h3>Shortcut Actions</h3>
+    <p>
+        You can now define what happens before and after a shortcut is executed. This includes
+        things like displaying a Toast message, extracting part of the response or triggering
+        another shortcut. More to come in future updates!
+    </p>
+    <h3>Support for multipart/form-data</h3>
+    <p>
+        In addition to sending a custom request body and simple parameters, it is now also possible
+        to send form data, i.e, using the "multipart/form-data" content type.
+    </p>
+    <h3>Miscellaneous</h3>
+    <ul>
+        <li>New translations: Norwegian (Bokmål), Italian</li>
+        <li>Shortcut can be opened in browser</li>
+        <li>Improved syntax highlighting & pretty printing of JSON & XML responses</li>
+    </ul>
+    <h3>Bugfixes</h3>
+    <ul>
+        <li>Delayed execution & waiting for network connectivity now work again</li>
+        <li>Custom icons now show on the home screen on Oreo</li>
+        <li>gzipped responses are now correctly parsed</li>
+        <li>Various occasional crashes</li>
+    </ul>
+</article>
+
+<article>
+    <h2>Version 1.20.0</h2>
+    <h3>Simplified Variable Insertion</h3>
+    <p>
+        Inserting variables into shortcuts has now become much easier. Each input field that
+        supports variables now has a button next to it. Clicking it opens a popup dialog with a list
+        of all available variables, allowing you to easily pick and insert one.
+    </p>
+    <h3>Improved Tasker Integration</h3>
+    <p>
+        When triggering shortcuts from Tasker, it is now possible to send along variables. Simply
+        define variables with the same name in Tasker as in your shortcut and their value will
+        automatically be sent from Tasker to your shortcut when triggered.
+    </p>
+    <h3>Drag & Drop Reordering</h3>
+    <p>
+        Categories & Variables, as well as options of <i>select</i> & <i>toggle</i> variables, can
+        now easily be reordered via drag & drop.
+    </p>
+    <h3>Improved Specification of Request Body</h3>
+    <p>
+        When specifying the request body of a shortcut, you now have the option to chose between <i>x-www-form-urlencoded</i>,
+        i.e., the body is a list of parameters, or <i>custom text</i>, i.e., you specify the request
+        body as raw text and give it a content-type.
+    </p>
+    <h3>Variables within Variables!</h3>
+    <p>
+        The <i>constant</i>, <i>toggle</i> and <i>select</i> variable types now support recursive
+        resolution of values. This means you can reference other variables from these variables. For
+        example, you could set up a <i>select</i> variable where one of the options is a
+        <i>color</i> variable.
+    </p>
+    <h3>Miscellaneous</h3>
+    <ul>
+        <li>The input field for request parameter values now allows multiline input.</li>
+        <li>The cURL export dialog now includes a <i>copy</i> button to allow you to quickly copy
+            the cURL command to the clipboard.
+        </li>
+        <li>The <i>About</i> section in the settings now features a <i>Translate this App</i> button
+            as a call-to-action for translators. Help me translate everything!
+        </li>
+    </ul>
+</article>
+
+<article>
+    <h2>Version 1.19.0</h2>
+    <ul>
+        <li>New variable type: number slider</li>
+        <li>"Number Input" variable allows decimals and minus sign</li>
+        <li>Better support for user-defined certificates</li>
+        <li>Password input is hidden</li>
+        <li>Internal storage is encrypted</li>
+    </ul>
+</article>
+
+<article>
+    <h2>Version 1.18.0</h2>
+    <ul>
+        <li>French translations</li>
+        <li>Fixed shortcut creation on Oreo</li>
+        <li>Added Privacy Policy & Crash Reporting opt-out</li>
+        <li>Minor bugfixes</li>
+    </ul>
+</article>
+
+<article>
+    <h2>Version1.17.0</h2>
+    <ul>
+        <li>New variable types: date & time</li>
+        <li>Fixed/improved retry on failure</li>
+        <li>Option to delay shortcut execution</li>
+        <li>Portuguese translations</li>
+        <li>Improved quality of custom icons</li>
+        <li>Minor bugfixes</li>
+    </ul>
+</article>
+
+<article>
+    <h2>Version1.16.0</h2>
+    <ul>
+        <li>Support for Digest Auth</li>
+        <li>Support for OPTIONS, HEAD and TRACE methods</li>
+        <li>Launcher Shortcuts (Android 7.1 and up only)</li>
+        <li>Categories can have different layout types: list or grid</li>
+        <li>Minor bugfixes & other improvements</li>
+    </ul>
+</article>
+
+<article>
+    <h2>Version1.15.0</h2>
+    <ul>
+        <li>Shortcuts can be exported as cURL commands</li>
+        <li>Chinese translations</li>
+        <li>Minor bugfixes</li>
+    </ul>
+</article>
+
+<article>
+    <h2>Version1.14.0</h2>
+    <ul>
+        <li>Syntax highlighting for JSON and XML responses</li>
+        <li>Import shortcuts from cURL commands</li>
+        <li>Improved import &amp; export</li>
+        <li>Themes</li>
+        <li>Minor bugfixes</li>
+    </ul>
+</article>
+
+<article>
+    <h2>Version1.13.0</h2>
+    <ul>
+        <li>New variable type: color</li>
+        <li>Allow sharing text snippets into variables</li>
+        <li>New app icon</li>
+    </ul>
+</article>
+
+<article>
+    <h2>Version1.12.0</h2>
+    <ul>
+        <li>New response options: show in dialog or window</li>
+        <li>Option to remember/forget variable values</li>
+        <li>Pending executions can be cancelled</li>
+    </ul>
+</article>
+
+<article>
+    <h2>Version1.11.0</h2>
+    <ul>
+        <li>Variables: inject custom values through prompt dialogs</li>
+        <li>Plugin support for integration with automation apps (e.g. Tasker)</li>
+    </ul>
+</article>
+
+<article>
+    <h2>Version1.10.1</h2>
+    <ul>
+        <li>Shortcuts are removed from homescreen when deleted in app</li>
+        <li>Fixed a crash when saving shortcuts</li>
+    </ul>
+</article>
+
+<article>
+    <h2>Version1.10.0</h2>
+    <ul>
+        <li>Shortcuts can be organized into categories</li>
+        <li>Possibility to accept any certificate</li>
+        <li>More icons</li>
+        <li><i>Acknowledgements</i> section in settings screen</li>
+        <li>Bugfixes</li>
+    </ul>
+</article>
+
+<article>
+    <h2>Version1.9.2</h2>
+    <ul>
+        <li>Bugfixes</li>
+    </ul>
+</article>
+
+<article>
+    <h2>Version1.9.1</h2>
+    <ul>
+        <li>Layout improvements</li>
+        <li>Auto-complete suggestions for custom headers</li>
+        <li>Import/Export uses JSON format now</li>
+        <li>Improved execution retries after reconnecting with the internet</li>
+        <li>Bugfixes</li>
+    </ul>
+</article>
+
+<article>
+    <h2>Version1.8.0</h2>
+    <ul>
+        <li>Shortcut execution can be delayed when not connected to the internet</li>
+        <li>Added <i>View in Play Store</i> button to settings screen</li>
+    </ul>
+</article>
+
+<article>
+    <h2>Version1.7.0</h2>
+    <ul>
+        <li>Shortcuts can have different timeouts (3, 10, 30 or 60 seconds)</li>
+        <li>Added <i>About</i> section to settings screen</li>
+        <li>Added <i>What\'s new</i> dialog</li>
+        <li>Minor language improvements</li>
+    </ul>
+</article>
+
+<article>
+    <h2>Version1.6.1</h2>
+    <ul>
+        <li>Bugfixes</li>
+    </ul>
+</article>
+
+<article>
+    <h2>Version1.6.0</h2>
+    <ul>
+        <li>Custom headers</li>
+        <li>Custom request body</li>
+        <li>Settings Screen</li>
+        <li>Import & Export (new permissions needed)</li>
+        <li>New request methods: <i>PUT</i>, <i>DELETE</i>, <i>PATCH</i></li>
+        <li>Shortcuts can be tested before being saved</li>
+        <li>Bugfixes</li>
+    </ul>
+</article>
+
+<article>
+    <h2>Version1.5.0</h2>
+    <ul>
+        <li>Possibility to add <i>POST</i> parameters</li>
+        <li>More built-in icons, with improved selector dialog</li>
+    </ul>
+</article>
+
+<article>
+    <h2>Version1.4.0</h2>
+    <ul>
+        <li>Built-in icons</li>
+        <li>Shortcuts can have descriptions for the overview screen</li>
+        <li>Bugfix: Connections are no longer left idle after use</li>
+    </ul>
+</article>
+
+<article>
+    <h2>Version1.2.0</h2>
+    <ul>
+        <li>Added support for Ipack icons</li>
+    </ul>
+</article>
+
+<article>
+    <h2>Version1.1.0</h2>
+    <ul>
+        <li>Shortcuts can be moved up and down in the shortcut list</li>
+        <li>Default click action executes the shortcuts instead of opening context menu</li>
+        <li>Buttons moved into action bar</li>
+        <li>Bugfixes</li>
+    </ul>
+</article>
+
+</body>
+</html>

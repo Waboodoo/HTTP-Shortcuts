@@ -5,26 +5,11 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp">
 
-    <ScrollView
-        android:id="@+id/scrollView1"
+    <WebView
+        android:id="@+id/changelog_webview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/checkbox_show_at_startup"
-        android:padding="10dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/changelog_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"/>
-
-        </LinearLayout>
-    </ScrollView>
+        android:layout_height="match_parent" android:layout_above="@+id/checkbox_show_at_startup">
+    </WebView>
 
     <CheckBox
         android:id="@+id/checkbox_show_at_startup"
