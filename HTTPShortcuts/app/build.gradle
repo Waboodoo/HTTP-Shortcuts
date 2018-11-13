@@ -76,7 +76,7 @@ dependencies {
     implementation('com.pavelsikun:vintage-chroma:1.5') {
         exclude group: 'com.android.support', module: 'preference-v7'
     }
-    implementation 'com.nononsenseapps:filepicker:2.5.2'
+    implementation 'com.nononsenseapps:filepicker:3.1.0'
 
     /* Acknowledgments */
     implementation('com.mikepenz:aboutlibraries:6.0.0@aar') {
