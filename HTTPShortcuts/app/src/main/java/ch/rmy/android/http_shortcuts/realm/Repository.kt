@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.realm
 
+import ch.rmy.android.http_shortcuts.realm.models.AppLock
 import ch.rmy.android.http_shortcuts.realm.models.Base
 import ch.rmy.android.http_shortcuts.realm.models.Category
 import ch.rmy.android.http_shortcuts.realm.models.HasId
@@ -64,6 +65,11 @@ object Repository {
             realm
                     .where<PendingExecution>()
                     .equalTo(PendingExecution.FIELD_SHORTCUT_ID, shortcutId)
+                    .findFirst()
+
+    internal fun getAppLock(realm: Realm): AppLock? =
+            realm
+                    .where<AppLock>()
                     .findFirst()
 
 }

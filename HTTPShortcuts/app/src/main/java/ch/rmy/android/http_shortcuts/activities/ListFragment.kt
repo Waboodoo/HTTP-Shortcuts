@@ -80,7 +80,7 @@ class ListFragment : BaseFragment() {
         }
         adapter.setPendingShortcuts(controller.getShortcutsPendingExecution())
         adapter.clickListener = this::onItemClicked
-        adapter.longClickListener = this::showContextMenu
+        adapter.longClickListener = this::onItemLongClicked
         adapter.setItems(category!!.shortcuts)
 
         shortcutList.layoutManager = manager
@@ -88,18 +88,30 @@ class ListFragment : BaseFragment() {
         onShortcutsChanged(category!!.shortcuts)
     }
 
-    private fun onItemClicked(item: Shortcut) {
+    private fun onItemClicked(shortcut: Shortcut) {
         when (selectionMode) {
-            SelectionMode.HOME_SCREEN, SelectionMode.PLUGIN -> tabHost.selectShortcut(item)
+            SelectionMode.HOME_SCREEN, SelectionMode.PLUGIN -> tabHost.selectShortcut(shortcut)
             else -> {
+                if (controller.isAppLocked()) {
+                    executeShortcut(shortcut)
+                    return
+                }
                 val action = Settings(context!!).clickBehavior
                 when (action) {
-                    Settings.CLICK_BEHAVIOR_RUN -> executeShortcut(item)
-                    Settings.CLICK_BEHAVIOR_EDIT -> editShortcut(item)
-                    Settings.CLICK_BEHAVIOR_MENU -> showContextMenu(item)
+                    Settings.CLICK_BEHAVIOR_RUN -> executeShortcut(shortcut)
+                    Settings.CLICK_BEHAVIOR_EDIT -> editShortcut(shortcut)
+                    Settings.CLICK_BEHAVIOR_MENU -> showContextMenu(shortcut)
                 }
             }
         }
+    }
+
+    private fun onItemLongClicked(shortcut: Shortcut): Boolean {
+        if (controller.isAppLocked()) {
+            return false
+        }
+        showContextMenu(shortcut)
+        return true
     }
 
     private fun onShortcutsChanged(shortcuts: List<Shortcut>) {

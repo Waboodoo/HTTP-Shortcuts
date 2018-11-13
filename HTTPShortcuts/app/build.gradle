@@ -97,6 +97,9 @@ dependencies {
     /* Tasker integration */
     implementation 'com.twofortyfouram:android-plugin-client-sdk-for-locale:4.0.3'
 
+    /* Password hashing */
+    implementation 'org.mindrot:jbcrypt:0.4'
+
     /* Crash Reporting */
     implementation 'com.bugsnag:bugsnag-android:4.9.1'
 

@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
+import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
 import ch.rmy.android.http_shortcuts.R
@@ -17,6 +18,7 @@ import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
+import ch.rmy.android.http_shortcuts.utils.CrashReporting
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.SelectionMode
@@ -85,6 +87,11 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
             viewPager.currentItem = 0
         }
         adapter!!.setCategories(categories, selectionMode)
+        updateCreateButton()
+    }
+
+    private fun updateCreateButton() {
+        createButton.visible = !controller.isAppLocked()
     }
 
     private fun checkChangeLog() {
@@ -113,6 +120,10 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
                     recreate()
                     openSettings()
                     overridePendingTransition(0, 0)
+                } else if (intent.getBooleanExtra(SettingsActivity.EXTRA_APP_LOCKED, false)) {
+                    invalidateOptionsMenu()
+                    updateCreateButton()
+                    showSnackbar(R.string.message_app_locked)
                 }
             }
         }
@@ -181,6 +192,11 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_activity_menu, menu)
+        val isAppLocked = controller.isAppLocked()
+        menu.findItem(R.id.action_categories).isVisible = !isAppLocked
+        menu.findItem(R.id.action_variables).isVisible = !isAppLocked
+        menu.findItem(R.id.action_settings).isVisible = !isAppLocked
+        menu.findItem(R.id.action_unlock).isVisible = isAppLocked
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -188,6 +204,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
         R.id.action_settings -> consume { openSettings() }
         R.id.action_categories -> consume { openCategoriesEditor() }
         R.id.action_variables -> consume { openVariablesEditor() }
+        R.id.action_unlock -> consume { openAppUnlockDialog() }
         else -> super.onOptionsItemSelected(item)
     }
 
@@ -207,6 +224,36 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
         val intent = VariablesActivity.IntentBuilder(context)
                 .build()
         startActivity(intent)
+    }
+
+    private fun openAppUnlockDialog(showError: Boolean = false) {
+        MaterialDialog.Builder(context)
+                .title(R.string.dialog_title_unlock_app)
+                .content(if (showError) R.string.dialog_text_unlock_app_retry else R.string.dialog_text_unlock_app)
+                .positiveText(R.string.button_unlock_app)
+                .input(null, "") { _, input ->
+                    unlockApp(input.toString())
+                }
+                .inputType(InputType.TYPE_TEXT_VARIATION_PASSWORD)
+                .negativeText(R.string.dialog_cancel)
+                .showIfPossible()
+    }
+
+    private fun unlockApp(password: String) {
+        controller.removeAppLock(password)
+                .done {
+                    if (controller.isAppLocked()) {
+                        openAppUnlockDialog(showError = true)
+                    } else {
+                        invalidateOptionsMenu()
+                        updateCreateButton()
+                        showSnackbar(R.string.message_app_unlocked)
+                    }
+                }
+                .fail { e ->
+                    showSnackbar(R.string.error_generic)
+                    CrashReporting.logException(e)
+                }
     }
 
     private fun openCurlImport() {

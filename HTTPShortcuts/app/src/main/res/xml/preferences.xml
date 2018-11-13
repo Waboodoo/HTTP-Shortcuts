@@ -21,6 +21,12 @@
             android:persistent="true"
             android:title="@string/settings_theme"/>
 
+        <com.afollestad.materialdialogs.prefs.MaterialPreference
+            android:icon="@drawable/ic_lock_black"
+            android:key="lock_settings"
+            android:summary="@string/settings_lock_app_summary"
+            android:title="@string/settings_lock_app_title"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory

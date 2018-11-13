@@ -140,6 +140,8 @@
     <string name="label_custom_body">Request Body</string>
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
     <string name="settings">Settings</string>
+    <!-- Name of toolbar action: Unlock all settings (will prompt user to enter passcode) -->
+    <string name="menu_action_unlock_app">Unlock settings</string>
     <!-- Title of theme settings -->
     <string name="settings_theme">Theme</string>
     <!-- Title of section in "Settings" screen: Basic settings -->
@@ -235,7 +237,7 @@
     <string name="title_categories">Categories</string>
     <string name="action_rename">Rename</string>
     <string name="action_change_category_layout_type">Change layout type</string>
-    <string name="message_layout_type_changed">Layout type changed</string>
+    <string name="message_layout_type_changed">Layout type changed.</string>
     <string name="layout_type_linear_list">List</string>
     <string name="layout_type_grid">Grid</string>
     <string name="title_rename_category">Rename Category</string>
@@ -364,6 +366,10 @@
     <string name="settings_privacy_policy">Privacy Policy</string>
     <!-- Summary/subtitle of section in settings that allows user to click to open privacy policy dialog -->
     <string name="settings_privacy_policy_summary">Nope, not stealing your data.</string>
+    <!-- Title of section in settings that allows user to lock all settings with a passcode. -->
+    <string name="settings_lock_app_title">Lock Settings</string>
+    <!-- Summary/subtitle of section in settings that allows user to lock all settings with a passcode. -->
+    <string name="settings_lock_app_summary">Prevent changes to shortcuts and settings.</string>
     <!-- Title of dialog that shows the privacy policy -->
     <string name="title_privacy_policy">Privacy Policy</string>
     <!-- Label above input box, for minimum (numeric) value of a horizontal slider -->
@@ -524,4 +530,22 @@
     <string name="label_placement_method_legacy">Legacy</string>
     <!-- Dialog message to prompt user to confirm execution of shortcut -->
     <string name="dialog_message_confirm_shortcut_execution">Execute this shortcut?</string>
+    <!-- Dialog title: Unlock the app (after it was locked. user is required to enter a password) -->
+    <string name="dialog_title_unlock_app">Unlock App</string>
+    <!-- Dialog button: Unlock the app (after entering a password) -->
+    <string name="button_unlock_app">Unlock</string>
+    <!-- Dialog text: Asks user to enter a password to unlock the app's settings -->
+    <string name="dialog_text_unlock_app">Enter your password to unlock the app settings.</string>
+    <!-- Dialog text: Asks user to enter the password to unlock the app's settings again, after an incorrect try -->
+    <string name="dialog_text_unlock_app_retry">Wrong password. Please try again.</string>
+    <!-- Dialog title: Asks user to enter a password to lock the app's settings -->
+    <string name="dialog_title_lock_app">Lock App</string>
+    <!-- Dialog text: Asks user to enter a password to lock the app's settings -->
+    <string name="dialog_text_lock_app">Enter a password to lock the app settings and prevent modification of your shortcuts.</string>
+    <!-- Dialog button: Lock the app (by entering a password) -->
+    <string name="button_lock_app">Lock</string>
+    <!-- Snackbar message: App was locked (settings can no longer be changed) -->
+    <string name="message_app_locked">App locked.</string>
+    <!-- Snackbar message: App was unlocked (settings can be changed again) -->
+    <string name="message_app_unlocked">App unlocked.</string>
 </resources>

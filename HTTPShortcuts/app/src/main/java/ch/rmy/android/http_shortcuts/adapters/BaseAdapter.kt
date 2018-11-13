@@ -17,7 +17,7 @@ import io.realm.RealmObject
 abstract class BaseAdapter<T> internal constructor(val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Destroyable where T : RealmObject, T : HasId {
 
     var clickListener: ((T) -> Unit)? = null
-    var longClickListener: ((T) -> Unit)? = null
+    var longClickListener: ((T) -> Boolean)? = null
 
     private var items: RealmList<T>? = null
 

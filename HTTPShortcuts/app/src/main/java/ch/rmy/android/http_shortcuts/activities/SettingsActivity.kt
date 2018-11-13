@@ -23,6 +23,7 @@ import ch.rmy.android.http_shortcuts.import_export.ImportTask
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.CrashReporting
+import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
@@ -42,6 +43,9 @@ class SettingsActivity : BaseActivity() {
 
     class SettingsFragment : PreferenceFragment() {
 
+        private val destroyer = Destroyer()
+        private val controller by lazy { destroyer.own(Controller()) }
+
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
 
@@ -50,11 +54,16 @@ class SettingsActivity : BaseActivity() {
             initListPreference("click_behavior")
 
             initListPreference("theme") {
-                val returnIntent = Intent()
-                returnIntent.putExtra(EXTRA_THEME_CHANGED, true)
+                val returnIntent = Intent().apply {
+                    putExtra(EXTRA_THEME_CHANGED, true)
+                }
                 activity.setResult(Activity.RESULT_OK, returnIntent)
                 activity.finish()
                 activity.overridePendingTransition(0, 0)
+            }
+
+            initPreference("lock_settings") {
+                showAppLockDialog()
             }
 
             initPreference("export") {
@@ -135,6 +144,34 @@ class SettingsActivity : BaseActivity() {
                 index = 0
             }
             preference.summary = preference.entries[index]
+        }
+
+        private fun showAppLockDialog() {
+            MaterialDialog.Builder(activity)
+                    .title(R.string.dialog_title_lock_app)
+                    .content(R.string.dialog_text_lock_app)
+                    .positiveText(R.string.button_lock_app)
+                    .input(null, "") { _, input ->
+                        lockApp(input.toString())
+                    }
+                    .inputRange(3, 50)
+                    .negativeText(R.string.dialog_cancel)
+                    .showIfPossible()
+        }
+
+        private fun lockApp(password: String) {
+            controller.setAppLock(password)
+                    .done {
+                        val returnIntent = Intent().apply {
+                            putExtra(EXTRA_APP_LOCKED, true)
+                        }
+                        activity.setResult(Activity.RESULT_OK, returnIntent)
+                        activity.finish()
+                    }
+                    .fail { e ->
+                        (activity as? BaseActivity)?.showSnackbar(R.string.error_generic)
+                        CrashReporting.logException(e)
+                    }
         }
 
         private fun showExportOptions() {
@@ -301,6 +338,11 @@ class SettingsActivity : BaseActivity() {
             task.execute(uri)
         }
 
+        override fun onDestroy() {
+            super.onDestroy()
+            destroyer.destroy()
+        }
+
     }
 
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, SettingsActivity::class.java)
@@ -308,6 +350,7 @@ class SettingsActivity : BaseActivity() {
     companion object {
 
         const val EXTRA_THEME_CHANGED = "theme_changed"
+        const val EXTRA_APP_LOCKED = "app_locked"
 
         private const val CONTACT_SUBJECT = "HTTP Shortcuts"
         private const val CONTACT_TEXT = "Hey Roland,\n\n"

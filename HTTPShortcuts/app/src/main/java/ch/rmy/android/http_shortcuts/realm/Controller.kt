@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.realm
 import android.content.Context
 import ch.rmy.android.http_shortcuts.BuildConfig
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.realm.models.AppLock
 import ch.rmy.android.http_shortcuts.realm.models.Base
 import ch.rmy.android.http_shortcuts.realm.models.Category
 import ch.rmy.android.http_shortcuts.realm.models.HasId
@@ -16,6 +17,7 @@ import io.realm.RealmObject
 import io.realm.RealmResults
 import org.jdeferred2.DoneFilter
 import org.jdeferred2.Promise
+import org.mindrot.jbcrypt.BCrypt
 import java.io.Closeable
 import java.util.*
 
@@ -217,6 +219,24 @@ class Controller : Destroyable, Closeable {
         }
                 .then(DoneFilter { getVariableById(variable.id)!! })
     }
+
+    fun isAppLocked() = Repository.getAppLock(realm) != null
+
+    fun setAppLock(password: String) =
+            realm.commitAsync { realm ->
+                realm.copyToRealmOrUpdate(AppLock()
+                        .apply {
+                            this.passwordHash = BCrypt.hashpw(password, BCrypt.gensalt())
+                        })
+            }
+
+    fun removeAppLock(password: String) =
+            realm.commitAsync { realm ->
+                val appLock = Repository.getAppLock(realm)
+                if (appLock != null && BCrypt.checkpw(password, appLock.passwordHash)) {
+                    appLock.deleteFromRealm()
+                }
+            }
 
     private fun generateId(realm: Realm, clazz: Class<out RealmObject>): Long {
         val maxId = realm.where(clazz).max(HasId.FIELD_ID)

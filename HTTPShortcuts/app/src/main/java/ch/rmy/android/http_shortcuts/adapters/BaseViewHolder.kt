@@ -18,9 +18,10 @@ abstract class BaseViewHolder<in T>(parent: ViewGroup, layoutRes: Int, baseAdapt
         }
         itemView.setOnLongClickListener {
             if (item?.isValid == true) {
-                baseAdapter.longClickListener?.invoke(item!!)
+                baseAdapter.longClickListener?.invoke(item!!) == true
+            } else {
+                false
             }
-            baseAdapter.longClickListener != null
         }
     }
 

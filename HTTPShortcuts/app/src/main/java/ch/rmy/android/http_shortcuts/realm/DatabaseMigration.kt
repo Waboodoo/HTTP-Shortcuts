@@ -167,6 +167,13 @@ class DatabaseMigration : RealmMigration {
             20L -> { // 1.23.0
                 schema.get("Shortcut")!!.addField("requireConfirmation", Boolean::class.javaPrimitiveType)
             }
+            21L -> { // 1.23.0
+                schema.create("AppLock")
+                        .addField("id", Long::class.javaPrimitiveType)
+                        .addPrimaryKey("id")
+                        .addField("passwordHash", String::class.java)
+                        .setRequired("passwordHash", true)
+            }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -192,7 +199,7 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 20L
+        const val VERSION = 21L
 
     }
 
