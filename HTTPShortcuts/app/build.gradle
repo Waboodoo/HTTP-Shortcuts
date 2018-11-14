@@ -73,9 +73,7 @@ dependencies {
     implementation('com.afollestad.material-dialogs:commons:0.9.6.0@aar') {
         transitive = true
     }
-    implementation('com.pavelsikun:vintage-chroma:1.5') {
-        exclude group: 'com.android.support', module: 'preference-v7'
-    }
+    implementation 'me.priyesh:chroma:1.0.2'
     implementation 'com.nononsenseapps:filepicker:3.1.0'
 
     /* Acknowledgments */
