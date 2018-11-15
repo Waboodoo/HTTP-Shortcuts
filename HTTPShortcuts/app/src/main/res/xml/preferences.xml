@@ -76,6 +76,11 @@
             android:summary="@string/settings_mail_summary"
             android:title="@string/settings_mail"/>
         <com.afollestad.materialdialogs.prefs.MaterialPreference
+            android:icon="@drawable/ic_faq"
+            android:key="faq"
+            android:summary="@string/settings_faq_summary"
+            android:title="@string/settings_faq"/>
+        <com.afollestad.materialdialogs.prefs.MaterialPreference
             android:icon="@drawable/ic_google_play"
             android:key="play_store"
             android:summary="@string/settings_play_store_summary"

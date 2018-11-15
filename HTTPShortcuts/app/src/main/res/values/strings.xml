@@ -209,6 +209,10 @@
     <string name="retry_policy_delayed">wait for connection</string>
     <string name="settings_play_store">View in Play Store</string>
     <string name="settings_play_store_summary">Thank you for your ratings and reviews</string>
+    <!-- Title of option in settings screen: FAQ (frequently asked questions), links the user to an external documentation page -->
+    <string name="settings_faq">FAQ</string>
+    <!-- Subtitle of option in settings screen: FAQ (frequently asked questions), links the user to an external documentation page -->
+    <string name="settings_faq_summary">Frequently asked questions</string>
     <string name="shortcut_duplicated">\"%1$s\" duplicated.</string>
     <string name="shortcut_moved">\"%1$s\" moved.</string>
     <string name="shortcut_deleted">\"%1$s\" deleted.</string>

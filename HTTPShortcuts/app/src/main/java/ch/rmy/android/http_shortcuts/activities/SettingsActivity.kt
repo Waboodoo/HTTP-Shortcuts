@@ -101,6 +101,10 @@ class SettingsActivity : BaseActivity() {
                 contactDeveloper()
             }
 
+            initPreference("faq") {
+                openFAQPage()
+            }
+
             initPreference("play_store") {
                 openPlayStore()
             }
@@ -271,18 +275,21 @@ class SettingsActivity : BaseActivity() {
             }
         }
 
+        private fun openFAQPage() {
+            openURL(FAQ_PAGE_URL)
+        }
+
         private fun openPlayStore() {
-            try {
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(PLAY_STORE_URL))
-                startActivity(browserIntent)
-            } catch (e: ActivityNotFoundException) {
-                activity.showToast(R.string.error_not_supported)
-            }
+            openURL(PLAY_STORE_URL)
         }
 
         private fun gotoGithub() {
+            openURL(GITHUB_URL)
+        }
+
+        private fun openURL(url: String) {
             try {
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(GITHUB_URL))
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
                 startActivity(browserIntent)
             } catch (e: ActivityNotFoundException) {
                 activity.showToast(R.string.error_not_supported)
@@ -357,6 +364,7 @@ class SettingsActivity : BaseActivity() {
         private const val TRANSLATE_SUBJECT = "Translate HTTP Shortcuts"
         private const val TRANSLATE_TEXT = "Hey Roland,\n\nI would like to help translate your app into [LANGUAGE]. Please give me access to the translation tool."
         private const val DEVELOPER_EMAIL = "android@rmy.ch"
+        private const val FAQ_PAGE_URL = "http://waboodoo.ch/http-shortcuts/#faq"
         private const val PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts"
         private const val GITHUB_URL = "https://github.com/Waboodoo/HTTP-Shortcuts"
 
