@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: de, German
  Exported by: Roland Meyer
- Exported at: Mon, 12 Nov 2018 15:50:21 +0100
+ Exported at: Thu, 15 Nov 2018 11:56:00 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- The name of the app -->
@@ -161,8 +161,6 @@
     <string name="export_success">Export erfolgreich</string>
     <string name="export_failed">Export fehlgeschlagen</string>
     <string name="export_in_progress">Exportiere…</string>
-    <string name="button_ok">OK</string>
-    <string name="button_cancel">Abbrechen</string>
     <string name="import_instructions">Wähle die Datei aus welcher du Shortcuts importieren möchtest.\n\nAchtung: bestehende Shortcuts können überschrieben werden.</string>
     <string name="import_failed">Import fehlgeschlagen.</string>
     <string name="import_success">Import erfolgreich.</string>
@@ -540,4 +538,26 @@
     <string name="settings_lock_app_summary">Änderungen an Shortcuts und Einstellungen verhindern</string>
     <!-- Dialog message to prompt user to confirm execution of shortcut -->
     <string name="dialog_message_confirm_shortcut_execution">Shortcut ausführen?</string>
+    <!-- Dialog title: Unlock the app (after it was locked. user is required to enter a password) -->
+    <string name="dialog_title_unlock_app">App entsperren</string>
+    <!-- Dialog button: Unlock the app (after entering a password) -->
+    <string name="button_unlock_app">Entsperren</string>
+    <!-- Dialog text: Asks user to enter a password to unlock the app's settings -->
+    <string name="dialog_text_unlock_app">Gib dein Passwort ein um die App zu entsperren.</string>
+    <!-- Dialog text: Asks user to enter the password to unlock the app's settings again, after an incorrect try -->
+    <string name="dialog_text_unlock_app_retry">Falsches Passwort. Bitte erneut versuchen.</string>
+    <!-- Dialog title: Asks user to enter a password to lock the app's settings -->
+    <string name="dialog_title_lock_app">App sperren</string>
+    <!-- Dialog text: Asks user to enter a password to lock the app's settings -->
+    <string name="dialog_text_lock_app">Gib ein Passwort ein um die App-Einstellungen zu sperren und das Verändern von Shortcuts zu verhindern.</string>
+    <!-- Dialog button: Lock the app (by entering a password) -->
+    <string name="button_lock_app">Sperren</string>
+    <!-- Snackbar message: App was locked (settings can no longer be changed) -->
+    <string name="message_app_locked">App gesperrt.</string>
+    <!-- Snackbar message: App was unlocked (settings can be changed again) -->
+    <string name="message_app_unlocked">App entsperrt.</string>
+    <!-- Title of option in settings screen: FAQ (frequently asked questions), links the user to an external documentation page -->
+    <string name="settings_faq">FAQ</string>
+    <!-- Subtitle of option in settings screen: FAQ (frequently asked questions), links the user to an external documentation page -->
+    <string name="settings_faq_summary">Häufig gestellte Fragen</string>
 </resources>

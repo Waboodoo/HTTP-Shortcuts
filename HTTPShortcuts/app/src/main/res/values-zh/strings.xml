@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: zh, Chinese
  Exported by: Roland Meyer
- Exported at: Mon, 12 Nov 2018 15:50:21 +0100
+ Exported at: Thu, 15 Nov 2018 11:56:00 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- The name of the app -->
@@ -161,8 +161,6 @@
     <string name="export_success">成功导出快捷方式</string>
     <string name="export_failed">导出快捷方式失败</string>
     <string name="export_in_progress">正在导出快捷方式……</string>
-    <string name="button_ok">确定</string>
-    <string name="button_cancel">取消</string>
     <string name="import_instructions">请选择快捷方式的导入文件。请注意！您当前的快捷方式将可能会被覆盖。</string>
     <string name="import_failed">导入快捷方式失败</string>
     <string name="import_success">成功导入快捷方式</string>
@@ -214,7 +212,7 @@
     <string name="title_categories">分类</string>
     <string name="action_rename">重命名</string>
     <string name="action_change_category_layout_type">Change layout type</string>
-    <string name="message_layout_type_changed">Layout type changed</string>
+    <string name="message_layout_type_changed">Layout type changed.</string>
     <string name="layout_type_linear_list">List</string>
     <string name="layout_type_grid">Grid</string>
     <string name="title_rename_category">重命名分类</string>
@@ -540,4 +538,26 @@
     <string name="settings_lock_app_summary">Prevent changes to shortcuts and settings.</string>
     <!-- Dialog message to prompt user to confirm execution of shortcut -->
     <string name="dialog_message_confirm_shortcut_execution">Execute this shortcut?</string>
+    <!-- Dialog title: Unlock the app (after it was locked. user is required to enter a password) -->
+    <string name="dialog_title_unlock_app">Unlock App</string>
+    <!-- Dialog button: Unlock the app (after entering a password) -->
+    <string name="button_unlock_app">Unlock</string>
+    <!-- Dialog text: Asks user to enter a password to unlock the app's settings -->
+    <string name="dialog_text_unlock_app">Enter your password to unlock the app settings.</string>
+    <!-- Dialog text: Asks user to enter the password to unlock the app's settings again, after an incorrect try -->
+    <string name="dialog_text_unlock_app_retry">Wrong password. Please try again.</string>
+    <!-- Dialog title: Asks user to enter a password to lock the app's settings -->
+    <string name="dialog_title_lock_app">Lock App</string>
+    <!-- Dialog text: Asks user to enter a password to lock the app's settings -->
+    <string name="dialog_text_lock_app">Enter a password to lock the app settings and prevent modification of your shortcuts.</string>
+    <!-- Dialog button: Lock the app (by entering a password) -->
+    <string name="button_lock_app">Lock</string>
+    <!-- Snackbar message: App was locked (settings can no longer be changed) -->
+    <string name="message_app_locked">App locked.</string>
+    <!-- Snackbar message: App was unlocked (settings can be changed again) -->
+    <string name="message_app_unlocked">App unlocked.</string>
+    <!-- Title of option in settings screen: FAQ (frequently asked questions), links the user to an external documentation page -->
+    <string name="settings_faq">FAQ</string>
+    <!-- Subtitle of option in settings screen: FAQ (frequently asked questions), links the user to an external documentation page -->
+    <string name="settings_faq_summary">Frequently asked questions</string>
 </resources>

@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: pt-BR, Brazilian Portuguese
  Exported by: Roland Meyer
- Exported at: Mon, 12 Nov 2018 15:50:21 +0100
+ Exported at: Thu, 15 Nov 2018 11:56:00 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- The name of the app -->
@@ -161,8 +161,6 @@
     <string name="export_success">Atalhos exportados com sucesso.</string>
     <string name="export_failed">Exportação de atalhos falhou.</string>
     <string name="export_in_progress">Exportando…</string>
-    <string name="button_ok">OK</string>
-    <string name="button_cancel">Cancelar</string>
     <string name="import_instructions">Selecione o arquivo para importar os atalhos.\n\nObserve que os seus atalhos atuais podem ser substituídos.</string>
     <string name="import_failed">Importação de atalhos falhou.</string>
     <string name="import_success">Atalhos importados com sucesso.</string>
@@ -529,15 +527,37 @@
     <!-- Label: Alternative option in dialog for selecting how to place the shortcut on the homescreen: Legacy (method) -->
     <string name="label_placement_method_legacy">Legado</string>
     <!-- Name of toolbar action: Unlock all settings (will prompt user to enter passcode) -->
-    <string name="menu_action_unlock_app">Unlock settings</string>
+    <string name="menu_action_unlock_app">Desbloquear configurações</string>
     <!-- Label of section: Execution confirmation, i.e., require confirmation from user before executing shortcut -->
-    <string name="label_execution_confirmation">Confirmation</string>
+    <string name="label_execution_confirmation">Confirmação</string>
     <!-- Checkbox label in editor, if enabled user will be prompted to confirm before a shortcut is executed -->
-    <string name="label_require_execution_confirmation">Require confirmation before execution</string>
+    <string name="label_require_execution_confirmation">Requer confirmação antes da execução</string>
     <!-- Title of section in settings that allows user to lock all settings with a passcode. -->
-    <string name="settings_lock_app_title">Lock Settings</string>
+    <string name="settings_lock_app_title">Bloquear configurações</string>
     <!-- Summary/subtitle of section in settings that allows user to lock all settings with a passcode. -->
-    <string name="settings_lock_app_summary">Prevent changes to shortcuts and settings.</string>
+    <string name="settings_lock_app_summary">Evitar alterações em atalhos e configurações.</string>
     <!-- Dialog message to prompt user to confirm execution of shortcut -->
-    <string name="dialog_message_confirm_shortcut_execution">Execute this shortcut?</string>
+    <string name="dialog_message_confirm_shortcut_execution">Executar este atalho?</string>
+    <!-- Dialog title: Unlock the app (after it was locked. user is required to enter a password) -->
+    <string name="dialog_title_unlock_app">Unlock App</string>
+    <!-- Dialog button: Unlock the app (after entering a password) -->
+    <string name="button_unlock_app">Unlock</string>
+    <!-- Dialog text: Asks user to enter a password to unlock the app's settings -->
+    <string name="dialog_text_unlock_app">Enter your password to unlock the app settings.</string>
+    <!-- Dialog text: Asks user to enter the password to unlock the app's settings again, after an incorrect try -->
+    <string name="dialog_text_unlock_app_retry">Wrong password. Please try again.</string>
+    <!-- Dialog title: Asks user to enter a password to lock the app's settings -->
+    <string name="dialog_title_lock_app">Lock App</string>
+    <!-- Dialog text: Asks user to enter a password to lock the app's settings -->
+    <string name="dialog_text_lock_app">Enter a password to lock the app settings and prevent modification of your shortcuts.</string>
+    <!-- Dialog button: Lock the app (by entering a password) -->
+    <string name="button_lock_app">Lock</string>
+    <!-- Snackbar message: App was locked (settings can no longer be changed) -->
+    <string name="message_app_locked">App locked.</string>
+    <!-- Snackbar message: App was unlocked (settings can be changed again) -->
+    <string name="message_app_unlocked">App unlocked.</string>
+    <!-- Title of option in settings screen: FAQ (frequently asked questions), links the user to an external documentation page -->
+    <string name="settings_faq">FAQ</string>
+    <!-- Subtitle of option in settings screen: FAQ (frequently asked questions), links the user to an external documentation page -->
+    <string name="settings_faq_summary">Frequently asked questions</string>
 </resources>
