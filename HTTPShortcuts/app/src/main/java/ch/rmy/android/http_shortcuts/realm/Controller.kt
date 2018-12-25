@@ -268,10 +268,12 @@ class Controller : Destroyable, Closeable {
                 val defaultCategory = Category.createNew(defaultCategoryName)
                 defaultCategory.id = 1
 
-                val newBase = Base()
-                newBase.categories = RealmList()
-                newBase.variables = RealmList()
-                newBase.categories.add(defaultCategory)
+                val newBase = Base().apply {
+                    categories = RealmList()
+                    variables = RealmList()
+                    categories.add(defaultCategory)
+                    version = DatabaseMigration.VERSION
+                }
                 it.copyToRealm(newBase)
             }
         }
