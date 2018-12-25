@@ -1,0 +1,1 @@
+include(":app", ":curl_command")
