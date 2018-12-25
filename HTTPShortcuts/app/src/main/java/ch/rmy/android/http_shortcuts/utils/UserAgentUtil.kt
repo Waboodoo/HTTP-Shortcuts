@@ -6,8 +6,8 @@ object UserAgentUtil {
 
     val userAgent: String
         get() {
-            val base = "HttpShortcuts/" + BuildConfig.VERSION_NAME
-            val userAgent = System.getProperty("http.agent")
+            val base = "HttpShortcuts/${BuildConfig.VERSION_NAME}"
+            val userAgent = System.getProperty("http.agent") ?: return base
             val start = userAgent.indexOf("(")
             val end = userAgent.indexOf(")")
             if (start == -1 || end == -1 || start > end) {

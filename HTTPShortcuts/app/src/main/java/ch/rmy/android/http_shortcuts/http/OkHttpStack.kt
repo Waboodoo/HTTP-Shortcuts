@@ -126,8 +126,8 @@ class OkHttpStack(private val client: OkHttpClient) : HttpStack {
     }
 
     @Throws(AuthFailureError::class)
-    private fun createRequestBody(r: Request<*>): RequestBody? {
-        val body = r.body ?: return null
+    private fun createRequestBody(r: Request<*>): RequestBody {
+        val body = r.body ?: ByteArray(0)
         return RequestBody.create(MediaType.parse(r.bodyContentType), body)
     }
 }

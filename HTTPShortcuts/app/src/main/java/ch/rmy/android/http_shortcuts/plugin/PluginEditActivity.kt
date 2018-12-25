@@ -44,7 +44,7 @@ class PluginEditActivity : AbstractFragmentPluginActivity() {
 
     override fun getResultBundle() = bundle
 
-    override fun getResultBlurb(bundle: Bundle) = getString(R.string.plugin_blurb_execute_task, name)!!
+    override fun getResultBlurb(bundle: Bundle) = getString(R.string.plugin_blurb_execute_task, name)
 
     companion object {
 

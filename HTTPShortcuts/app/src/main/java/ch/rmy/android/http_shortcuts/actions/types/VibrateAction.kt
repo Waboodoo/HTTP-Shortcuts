@@ -75,7 +75,7 @@ class VibrateAction(id: String, actionType: VibrateActionType, data: Map<String,
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             vibrator.vibrate(VibrationEffect.createOneShot(duration, VibrationEffect.DEFAULT_AMPLITUDE))
                         } else {
-                            //deprecated in API 26
+                            @Suppress("DEPRECATION")
                             vibrator.vibrate(duration)
                         }
                     }
@@ -92,6 +92,7 @@ class VibrateAction(id: String, actionType: VibrateActionType, data: Map<String,
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             vibrator.vibrate(VibrationEffect.createWaveform(pattern, -1))
                         } else {
+                            @Suppress("DEPRECATION")
                             vibrator.vibrate(pattern, -1)
                         }
                     }
@@ -107,6 +108,7 @@ class VibrateAction(id: String, actionType: VibrateActionType, data: Map<String,
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             vibrator.vibrate(VibrationEffect.createOneShot(duration, VibrationEffect.DEFAULT_AMPLITUDE))
                         } else {
+                            @Suppress("DEPRECATION")
                             vibrator.vibrate(duration)
                         }
                     }

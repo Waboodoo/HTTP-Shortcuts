@@ -11,7 +11,7 @@ abstract class SimpleTask<T>(protected val context: Context, private val baseVie
 
     private var progressDialog: Dialog? = null
 
-    protected fun getString(resId: Int) = context.getString(resId)!!
+    protected fun getString(resId: Int) = context.getString(resId)
 
     protected abstract val progressMessage: String
 
