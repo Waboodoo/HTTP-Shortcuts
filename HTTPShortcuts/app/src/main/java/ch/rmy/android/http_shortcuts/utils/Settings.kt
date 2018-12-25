@@ -10,7 +10,7 @@ class Settings(context: Context) {
     private val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     val clickBehavior: String
-        get() = preferences.getString(KEY_CLICK_BEHAVIOR, CLICK_BEHAVIOR_RUN)
+        get() = preferences.getString(KEY_CLICK_BEHAVIOR, CLICK_BEHAVIOR_RUN)!!
 
     val isCrashReportingAllowed: Boolean
         get() = preferences.getString(KEY_CRASH_REPORTING, "true") != "false"
@@ -27,6 +27,10 @@ class Settings(context: Context) {
         get() = preferences.getBoolean(KEY_CHANGE_LOG_PERMANENTLY_HIDDEN, false)
         set(hidden) = preferences.edit().putBoolean(KEY_CHANGE_LOG_PERMANENTLY_HIDDEN, hidden).apply()
 
+    var isNetworkRestrictionWarningPermanentlyHidden: Boolean
+        get() = preferences.getBoolean(KEY_NETWORK_RESTRICTION_PERMANENTLY_HIDDEN, false)
+        set(hidden) = preferences.edit().putBoolean(KEY_NETWORK_RESTRICTION_PERMANENTLY_HIDDEN, hidden).apply()
+
     var wasVariableIntroShown: Boolean
         get() = preferences.getBoolean(KEY_VARIABLE_INTRO_SHOWN, false)
         set(shown) = preferences.edit().putBoolean(KEY_VARIABLE_INTRO_SHOWN, shown).apply()
@@ -40,7 +44,7 @@ class Settings(context: Context) {
         set(hidden) = preferences.edit().putBoolean(KEY_ICON_NAME_CHANGE_PERMANENTLY_HIDDEN, hidden).apply()
 
     var theme: String
-        get() = preferences.getString(KEY_THEME, THEME_BLUE)
+        get() = preferences.getString(KEY_THEME, THEME_BLUE)!!
         set(theme) = preferences.edit().putString(KEY_THEME, theme).apply()
 
     companion object {
@@ -63,6 +67,7 @@ class Settings(context: Context) {
         private const val KEY_CHANGE_LOG_PERMANENTLY_HIDDEN = "change_log_permanently_hidden"
         private const val KEY_CHANGE_LOG_LAST_VERSION = "change_log_last_version"
         private const val KEY_ICON_NAME_CHANGE_PERMANENTLY_HIDDEN = "icon_name_change_permanently_hidden"
+        private const val KEY_NETWORK_RESTRICTION_PERMANENTLY_HIDDEN = "network_restriction_permanently_hidden"
         private const val KEY_THEME = "theme"
         private const val KEY_VARIABLE_INTRO_SHOWN = "variable_intro_shown"
 

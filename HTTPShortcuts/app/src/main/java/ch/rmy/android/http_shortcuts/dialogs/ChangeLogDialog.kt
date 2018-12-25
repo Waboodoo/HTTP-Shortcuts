@@ -10,12 +10,14 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
+import org.jdeferred2.Promise
+import org.jdeferred2.impl.DeferredObject
 
-class ChangeLogDialog(private val context: Context, private val whatsNew: Boolean) {
+class ChangeLogDialog(private val context: Context, private val whatsNew: Boolean): Dialog {
 
     private val settings: Settings = Settings(context)
 
-    fun shouldShow(): Boolean {
+    override fun shouldShow(): Boolean {
         if (isPermanentlyHidden) {
             return false
         }
@@ -27,7 +29,7 @@ class ChangeLogDialog(private val context: Context, private val whatsNew: Boolea
         get() = settings.isChangeLogPermanentlyHidden
 
     @SuppressLint("InflateParams")
-    fun show() {
+    override fun show(): Promise<Unit, Unit, Unit> {
         settings.changeLogLastVersion = version
 
         val layoutInflater = LayoutInflater.from(context)
@@ -35,12 +37,20 @@ class ChangeLogDialog(private val context: Context, private val whatsNew: Boolea
         val webview = view.findViewById<WebView>(R.id.changelog_webview)
         val showAtStartupCheckbox = view.findViewById<CheckBox>(R.id.checkbox_show_at_startup)
 
-        MaterialDialog.Builder(context)
+        val deferred = DeferredObject<Unit, Unit, Unit>()
+
+        val showing = MaterialDialog.Builder(context)
             .customView(view, false)
             .title(if (whatsNew) R.string.changelog_title_whats_new else R.string.changelog_title)
             .positiveText(android.R.string.ok)
+            .dismissListener {
+                deferred.resolve(Unit)
+            }
             .showIfPossible()
 
+        if (!showing) {
+            deferred.resolve(Unit)
+        }
 
         webview.loadUrl(CHANGELOG_ASSET_URL)
 
@@ -48,6 +58,8 @@ class ChangeLogDialog(private val context: Context, private val whatsNew: Boolea
         showAtStartupCheckbox.setOnCheckedChangeListener { _, isChecked ->
             settings.isChangeLogPermanentlyHidden = !isChecked
         }
+
+        return deferred.promise()
     }
 
     private val version

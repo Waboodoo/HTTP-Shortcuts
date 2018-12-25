@@ -552,4 +552,6 @@
     <string name="message_app_locked">App locked.</string>
     <!-- Snackbar message: App was unlocked (settings can be changed again) -->
     <string name="message_app_unlocked">App unlocked.</string>
+    <!-- Warning dialog: Shown to user on startup to inform them that Android's "Data Saver" and/or "Battery Saver" modes may cause problems. -->
+    <string name="warning_data_saver_battery_saver_enabled">Data Saver and/or Battery Saver modes are enabled on your device. If you encounter problems with shortcuts not working, please try disabling these.</string>
 </resources>

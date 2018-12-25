@@ -13,12 +13,14 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.adapters.CategoryPagerAdapter
 import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
+import ch.rmy.android.http_shortcuts.dialogs.NetworkRestrictionWarningDialog
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.CrashReporting
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
+import ch.rmy.android.http_shortcuts.utils.PromiseUtils
 import ch.rmy.android.http_shortcuts.utils.SelectionMode
 import ch.rmy.android.http_shortcuts.utils.consume
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
@@ -50,7 +52,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
         setupViewPager()
 
         if (selectionMode === SelectionMode.NORMAL) {
-            checkChangeLog()
+            showStartupDialogs()
         }
 
         tabLayout.setTabTextColors(Color.WHITE, Color.WHITE)
@@ -94,11 +96,19 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
         createButton.visible = !controller.isAppLocked()
     }
 
-    private fun checkChangeLog() {
-        val changeLog = ChangeLogDialog(context, true)
+    private fun showStartupDialogs() {
+        val changeLog = ChangeLogDialog(context, whatsNew = true)
         if (changeLog.shouldShow()) {
             changeLog.show()
+        } else {
+            PromiseUtils.resolve(Unit)
         }
+            .done {
+                val networkWarning = NetworkRestrictionWarningDialog(context)
+                if (networkWarning.shouldShow()) {
+                    networkWarning.show()
+                }
+            }
     }
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {

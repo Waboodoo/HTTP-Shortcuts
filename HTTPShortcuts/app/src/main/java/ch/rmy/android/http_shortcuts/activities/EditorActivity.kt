@@ -310,7 +310,10 @@ class EditorActivity : BaseActivity() {
             LauncherShortcutManager.updatePinnedShortcut(context, persistedShortcut)
             finish()
         } else if (!oldShortcut.isNew && nameOrIconChanged() && dialog.shouldShow()) {
-            dialog.show(MaterialDialog.SingleButtonCallback { _, _ -> finish() })
+            dialog.show()
+                .done {
+                    finish()
+                }
         } else {
             finish()
         }
