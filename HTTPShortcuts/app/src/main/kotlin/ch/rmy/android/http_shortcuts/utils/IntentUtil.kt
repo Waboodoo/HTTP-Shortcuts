@@ -12,21 +12,9 @@ object IntentUtil {
     private const val ACTION_UNINSTALL_SHORTCUT = "com.android.launcher.action.UNINSTALL_SHORTCUT"
     private const val EXTRA_SHORTCUT_DUPLICATE = "duplicate"
 
-    fun getShortcutId(intent: Intent): Long {
-        var shortcutId = -1L
-        val uri = intent.data
-        if (uri != null) {
-            try {
-                val id = uri.lastPathSegment
-                shortcutId = java.lang.Long.parseLong(id)
-            } catch (e: NumberFormatException) {
-            }
-        }
-        if (shortcutId == -1L) {
-            return intent.getLongExtra(ExecuteActivity.EXTRA_SHORTCUT_ID, -1L) // for backwards compatibility
-        }
-        return shortcutId
-    }
+    fun getShortcutId(intent: Intent): Long =
+        intent.data?.lastPathSegment?.toLongOrNull()
+            ?: intent.getLongExtra(ExecuteActivity.EXTRA_SHORTCUT_ID, -1L)// for backwards compatibility
 
     fun getVariableValues(intent: Intent): Map<String, String> {
         val serializable = intent.getSerializableExtra(ExecuteActivity.EXTRA_VARIABLE_VALUES)
