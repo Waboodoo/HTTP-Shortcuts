@@ -10,9 +10,9 @@ import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import kotterknife.bindView
 
 class SetVariableActionEditorView(
-        context: Context,
-        private val action: SetVariableAction,
-        variablePlaceholderProvider: VariablePlaceholderProvider
+    context: Context,
+    private val action: SetVariableAction,
+    variablePlaceholderProvider: VariablePlaceholderProvider
 ) : BaseActionEditorView(context, R.layout.action_editor_set_variable) {
 
     private val newValueView: VariableEditText by bindView(R.id.input_new_value)

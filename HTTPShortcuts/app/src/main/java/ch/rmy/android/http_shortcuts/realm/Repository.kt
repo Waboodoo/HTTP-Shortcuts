@@ -15,61 +15,61 @@ import io.realm.kotlin.where
 object Repository {
 
     internal fun getBase(realm: Realm): Base? =
-            realm
-                    .where<Base>()
-                    .findFirst()
+        realm
+            .where<Base>()
+            .findFirst()
 
     internal fun getShortcuts(realm: Realm): Collection<Shortcut> =
-            realm
-                    .where<Shortcut>()
-                    .notEqualTo(HasId.FIELD_ID, Shortcut.TEMPORARY_ID)
-                    .findAll()
+        realm
+            .where<Shortcut>()
+            .notEqualTo(HasId.FIELD_ID, Shortcut.TEMPORARY_ID)
+            .findAll()
 
     internal fun getCategoryById(realm: Realm, categoryId: Long): Category? =
-            realm
-                    .where<Category>()
-                    .equalTo(HasId.FIELD_ID, categoryId)
-                    .findFirst()
+        realm
+            .where<Category>()
+            .equalTo(HasId.FIELD_ID, categoryId)
+            .findFirst()
 
     internal fun getShortcutById(realm: Realm, shortcutId: Long): Shortcut? =
-            realm
-                    .where<Shortcut>()
-                    .equalTo(HasId.FIELD_ID, shortcutId)
-                    .findFirst()
+        realm
+            .where<Shortcut>()
+            .equalTo(HasId.FIELD_ID, shortcutId)
+            .findFirst()
 
     internal fun getShortcutByName(realm: Realm, shortcutName: String): Shortcut? =
-            realm
-                    .where<Shortcut>()
-                    .equalTo(Shortcut.FIELD_NAME, shortcutName, Case.INSENSITIVE)
-                    .findFirst()
+        realm
+            .where<Shortcut>()
+            .equalTo(Shortcut.FIELD_NAME, shortcutName, Case.INSENSITIVE)
+            .findFirst()
 
     internal fun getVariableById(realm: Realm, variableId: Long): Variable? =
-            realm
-                    .where<Variable>()
-                    .equalTo(HasId.FIELD_ID, variableId)
-                    .findFirst()
+        realm
+            .where<Variable>()
+            .equalTo(HasId.FIELD_ID, variableId)
+            .findFirst()
 
     internal fun getVariableByKey(realm: Realm, key: String): Variable? =
-            realm
-                    .where<Variable>()
-                    .equalTo(Variable.FIELD_KEY, key)
-                    .findFirst()
+        realm
+            .where<Variable>()
+            .equalTo(Variable.FIELD_KEY, key)
+            .findFirst()
 
     internal fun getShortcutsPendingExecution(realm: Realm): RealmResults<PendingExecution> =
-            realm
-                    .where<PendingExecution>()
-                    .sort(PendingExecution.FIELD_ENQUEUED_AT)
-                    .findAll()
+        realm
+            .where<PendingExecution>()
+            .sort(PendingExecution.FIELD_ENQUEUED_AT)
+            .findAll()
 
     internal fun getShortcutPendingExecution(realm: Realm, shortcutId: Long): PendingExecution? =
-            realm
-                    .where<PendingExecution>()
-                    .equalTo(PendingExecution.FIELD_SHORTCUT_ID, shortcutId)
-                    .findFirst()
+        realm
+            .where<PendingExecution>()
+            .equalTo(PendingExecution.FIELD_SHORTCUT_ID, shortcutId)
+            .findFirst()
 
     internal fun getAppLock(realm: Realm): AppLock? =
-            realm
-                    .where<AppLock>()
-                    .findFirst()
+        realm
+            .where<AppLock>()
+            .findFirst()
 
 }

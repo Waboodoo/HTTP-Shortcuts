@@ -140,16 +140,15 @@ open class Shortcut : RealmObject(), HasId {
         name
     }
 
-    fun allowsBody(): Boolean {
-        return METHOD_POST == method
-                || METHOD_PUT == method
-                || METHOD_DELETE == method
-                || METHOD_PATCH == method
-                || METHOD_OPTIONS == method
-    }
+    fun allowsBody(): Boolean =
+        METHOD_POST == method
+            || METHOD_PUT == method
+            || METHOD_DELETE == method
+            || METHOD_PATCH == method
+            || METHOD_OPTIONS == method
 
     fun isFeedbackErrorsOnly() =
-            feedback == FEEDBACK_TOAST_ERRORS || feedback == FEEDBACK_TOAST_SIMPLE_ERRORS
+        feedback == FEEDBACK_TOAST_ERRORS || feedback == FEEDBACK_TOAST_SIMPLE_ERRORS
 
     val isRetryAllowed
         get() = feedback != FEEDBACK_ACTIVITY && feedback != FEEDBACK_DIALOG && !isBrowserShortcut
@@ -166,27 +165,27 @@ open class Shortcut : RealmObject(), HasId {
 
     fun isSameAs(other: Shortcut): Boolean {
         if (other.name != name ||
-                other.bodyContent != bodyContent ||
-                other.description != description ||
-                other.feedback != feedback ||
-                other.iconName != iconName ||
-                other.method != method ||
-                other.password != password ||
-                other.retryPolicy != retryPolicy ||
-                other.timeout != timeout ||
-                other.url != url ||
-                other.username != username ||
-                other.authentication != authentication ||
-                other.launcherShortcut != launcherShortcut ||
-                other.acceptAllCertificates != acceptAllCertificates ||
-                other.delay != delay ||
-                other.parameters.size != parameters.size ||
-                other.headers.size != headers.size ||
-                other.requestBodyType != requestBodyType ||
-                other.contentType != contentType ||
-                other.serializedBeforeActions != serializedBeforeActions ||
-                other.serializedSuccessActions != serializedSuccessActions ||
-                other.serializedFailureActions != serializedFailureActions
+            other.bodyContent != bodyContent ||
+            other.description != description ||
+            other.feedback != feedback ||
+            other.iconName != iconName ||
+            other.method != method ||
+            other.password != password ||
+            other.retryPolicy != retryPolicy ||
+            other.timeout != timeout ||
+            other.url != url ||
+            other.username != username ||
+            other.authentication != authentication ||
+            other.launcherShortcut != launcherShortcut ||
+            other.acceptAllCertificates != acceptAllCertificates ||
+            other.delay != delay ||
+            other.parameters.size != parameters.size ||
+            other.headers.size != headers.size ||
+            other.requestBodyType != requestBodyType ||
+            other.contentType != contentType ||
+            other.serializedBeforeActions != serializedBeforeActions ||
+            other.serializedSuccessActions != serializedSuccessActions ||
+            other.serializedFailureActions != serializedFailureActions
         ) {
             return false
         }
@@ -282,15 +281,15 @@ open class Shortcut : RealmObject(), HasId {
         val REQUEST_BODY_TYPE_OPTIONS = arrayOf(REQUEST_BODY_TYPE_FORM_DATA, REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE, REQUEST_BODY_TYPE_CUSTOM_TEXT)
 
         val CONTENT_TYPE_SUGGESTIONS = arrayOf(
-                "application/javascript",
-                "application/json",
-                "application/octet-stream",
-                "application/xml",
-                "text/css",
-                "text/csv",
-                "text/plain",
-                "text/html",
-                "text/xml"
+            "application/javascript",
+            "application/json",
+            "application/octet-stream",
+            "application/xml",
+            "text/css",
+            "text/csv",
+            "text/plain",
+            "text/html",
+            "text/xml"
         )
 
         const val DEFAULT_CONTENT_TYPE = "text/plain"

@@ -47,16 +47,16 @@ class ShareActivity : BaseActivity() {
     }
 
     private fun getTargetableVariables(controller: Controller) =
-            controller
-                    .getVariables()
-                    .filter { it.isShareText }
-                    .map { it.key }
-                    .toSet()
+        controller
+            .getVariables()
+            .filter { it.isShareText }
+            .map { it.key }
+            .toSet()
 
     private fun getTargetableShortcuts(controller: Controller, variableKeys: Set<String>): List<Shortcut> =
-            controller
-                    .getShortcuts()
-                    .filter { hasShareVariable(it, variableKeys) }
+        controller
+            .getShortcuts()
+            .filter { hasShareVariable(it, variableKeys) }
 
     private fun hasShareVariable(shortcut: Shortcut, variableKeys: Set<String>): Boolean {
         val variableKeysInShortcut = VariableResolver.extractVariableKeys(shortcut)
@@ -65,28 +65,28 @@ class ShareActivity : BaseActivity() {
 
     private fun executeShortcut(shortcut: Shortcut, variableValues: Map<String, String>) {
         val intent = ExecuteActivity.IntentBuilder(context, shortcut.id)
-                .variableValues(variableValues)
-                .build()
+            .variableValues(variableValues)
+            .build()
         startActivity(intent)
     }
 
     private fun showInstructions(@StringRes text: Int) {
         MaterialDialog.Builder(context)
-                .content(text)
-                .dismissListener { finishWithoutAnimation() }
-                .positiveText(R.string.dialog_ok)
-                .showIfPossible()
+            .content(text)
+            .dismissListener { finishWithoutAnimation() }
+            .positiveText(R.string.dialog_ok)
+            .showIfPossible()
     }
 
     private fun showShortcutSelection(shortcuts: List<Shortcut>, variableValues: Map<String, String>) {
         MenuDialogBuilder(context)
-                .mapFor(shortcuts) { builder, shortcut ->
-                    builder.item(shortcut.name) {
-                        executeShortcut(shortcut, variableValues)
-                    }
+            .mapFor(shortcuts) { builder, shortcut ->
+                builder.item(shortcut.name) {
+                    executeShortcut(shortcut, variableValues)
                 }
-                .dismissListener { finishWithoutAnimation() }
-                .showIfPossible()
+            }
+            .dismissListener { finishWithoutAnimation() }
+            .showIfPossible()
     }
 
     companion object {

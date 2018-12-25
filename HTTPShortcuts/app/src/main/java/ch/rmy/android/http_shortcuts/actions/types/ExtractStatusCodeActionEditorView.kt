@@ -8,9 +8,9 @@ import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import kotterknife.bindView
 
 class ExtractStatusCodeActionEditorView(
-        context: Context,
-        private val action: ExtractStatusCodeAction,
-        variablePlaceholderProvider: VariablePlaceholderProvider
+    context: Context,
+    private val action: ExtractStatusCodeAction,
+    variablePlaceholderProvider: VariablePlaceholderProvider
 ) : BaseActionEditorView(context, R.layout.action_editor_extract_status_code) {
 
     private val targetVariableView: TextView by bindView(R.id.target_variable)

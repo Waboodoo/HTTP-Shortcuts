@@ -18,14 +18,14 @@ class CurlExportDialog(private val context: Context, private val title: String, 
         val view = layoutInflater.inflate(R.layout.curl_export_dialog, null)
 
         MaterialDialog.Builder(context)
-                .title(title)
-                .customView(view, false)
-                .neutralText(android.R.string.cancel)
-                .negativeText(R.string.share_button)
-                .onNegative { _, _ -> shareCurlExport() }
-                .positiveText(R.string.button_copy_curl_export)
-                .onPositive { _, _ -> copyCurlExport() }
-                .showIfPossible()
+            .title(title)
+            .customView(view, false)
+            .neutralText(android.R.string.cancel)
+            .negativeText(R.string.share_button)
+            .onNegative { _, _ -> shareCurlExport() }
+            .positiveText(R.string.button_copy_curl_export)
+            .onPositive { _, _ -> copyCurlExport() }
+            .showIfPossible()
 
         view.findViewById<TextView>(R.id.curl_export_textview).text = curlCommand
     }

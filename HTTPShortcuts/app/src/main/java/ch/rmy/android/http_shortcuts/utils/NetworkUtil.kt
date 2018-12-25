@@ -10,25 +10,23 @@ import android.os.PowerManager
 object NetworkUtil {
 
     fun isNetworkPerformanceRestricted(context: Context) =
-            isDataSaveModeEnabled(context) || isBatterySaveModeEnabled(context)
+        isDataSaveModeEnabled(context) || isBatterySaveModeEnabled(context)
 
-    private fun isBatterySaveModeEnabled(context: Context): Boolean {
-        val powerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    private fun isBatterySaveModeEnabled(context: Context): Boolean =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val powerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager
             powerManager.isPowerSaveMode
         } else {
             false
         }
-    }
 
-    private fun isDataSaveModeEnabled(context: Context): Boolean {
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+    private fun isDataSaveModeEnabled(context: Context): Boolean =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             (connectivityManager.isActiveNetworkMetered
-                    && connectivityManager.restrictBackgroundStatus == RESTRICT_BACKGROUND_STATUS_ENABLED)
+                && connectivityManager.restrictBackgroundStatus == RESTRICT_BACKGROUND_STATUS_ENABLED)
         } else {
             false
         }
-    }
 
 }

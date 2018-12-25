@@ -40,29 +40,29 @@ internal class SliderType : BaseVariableType(), AsyncVariableType {
         label.text = findValue(slider, variable)
 
         val builder = BaseVariableType.createDialogBuilder(context, variable, deferredValue)
-                .toDialogBuilder()
-                .customView(view, true)
-                .positiveText(R.string.dialog_ok)
-                .negativeText(R.string.dialog_cancel)
-                .onPositive { _, _ ->
-                    if (variable.isValid) {
-                        val value = findValue(slider, variable)
-                        deferredValue.resolve(value)
-                        if (variable.rememberValue) {
-                            controller.setVariableValue(variable.id, value).subscribe()
-                        }
+            .toDialogBuilder()
+            .customView(view, true)
+            .positiveText(R.string.dialog_ok)
+            .negativeText(R.string.dialog_cancel)
+            .onPositive { _, _ ->
+                if (variable.isValid) {
+                    val value = findValue(slider, variable)
+                    deferredValue.resolve(value)
+                    if (variable.rememberValue) {
+                        controller.setVariableValue(variable.id, value).subscribe()
                     }
                 }
+            }
         return {
             builder.showIfPossible()
         }
     }
 
     private fun findSliderMax(variable: Variable): Int =
-            ((findMax(variable) - findMin(variable)) / findStep(variable))
+        ((findMax(variable) - findMin(variable)) / findStep(variable))
 
     private fun findValue(slider: SeekBar, variable: Variable): String =
-            (slider.progress * findStep(variable) + findMin(variable)).toString()
+        (slider.progress * findStep(variable) + findMin(variable)).toString()
 
     override fun createEditorFragment() = SliderEditorFragment()
 

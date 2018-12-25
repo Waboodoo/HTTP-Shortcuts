@@ -9,9 +9,9 @@ import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import kotterknife.bindView
 
 class ToastActionEditorView(
-        context: Context,
-        private val action: ToastAction,
-        variablePlaceholderProvider: VariablePlaceholderProvider
+    context: Context,
+    private val action: ToastAction,
+    variablePlaceholderProvider: VariablePlaceholderProvider
 ) : BaseActionEditorView(context, R.layout.action_editor_show_toast) {
 
     private val messageView: VariableEditText by bindView(R.id.toast_message)

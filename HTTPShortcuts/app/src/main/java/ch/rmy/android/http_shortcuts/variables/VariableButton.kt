@@ -34,40 +34,40 @@ open class VariableButton : AppCompatImageButton {
         }
     }
 
-    protected open fun hasVariables()  = variablePlaceholderProvider.hasVariables
+    protected open fun hasVariables() = variablePlaceholderProvider.hasVariables
 
     private fun openInstructionDialog() {
         MaterialDialog.Builder(context)
-                .title(R.string.help_title_variables)
-                .content(if (isUsedFromVariableEditor()) R.string.help_text_variable_button_for_variables else R.string.help_text_variable_button)
-                .positiveText(android.R.string.ok)
-                .mapIf(!isUsedFromVariableEditor()) {
-                    it.neutralText(R.string.button_create_first_variable)
-                            .onNeutral { _, _ -> openVariableEditor() }
-                }
-                .show()
+            .title(R.string.help_title_variables)
+            .content(if (isUsedFromVariableEditor()) R.string.help_text_variable_button_for_variables else R.string.help_text_variable_button)
+            .positiveText(android.R.string.ok)
+            .mapIf(!isUsedFromVariableEditor()) {
+                it.neutralText(R.string.button_create_first_variable)
+                    .onNeutral { _, _ -> openVariableEditor() }
+            }
+            .show()
     }
 
     private fun openVariableEditor() {
         val intent = VariablesActivity.IntentBuilder(context)
-                .build()
+            .build()
         context.startActivity(intent)
     }
 
     private fun openVariableSelectionDialog() {
         MenuDialogBuilder(context)
-                .title(getTitle())
-                .mapFor(getVariables()) { builder, placeholder ->
-                    builder.item(placeholder.variableKey) {
-                        variableSource.notifyObservers(placeholder)
-                    }
+            .title(getTitle())
+            .mapFor(getVariables()) { builder, placeholder ->
+                builder.item(placeholder.variableKey) {
+                    variableSource.notifyObservers(placeholder)
                 }
-                .toDialogBuilder()
-                .mapIf(!isUsedFromVariableEditor()) {
-                    it.neutralText(R.string.label_edit_variables)
-                            .onNeutral { _, _ -> openVariableEditor() }
-                }
-                .showIfPossible()
+            }
+            .toDialogBuilder()
+            .mapIf(!isUsedFromVariableEditor()) {
+                it.neutralText(R.string.label_edit_variables)
+                    .onNeutral { _, _ -> openVariableEditor() }
+            }
+            .showIfPossible()
     }
 
     protected open fun getTitle() = R.string.dialog_title_variable_selection

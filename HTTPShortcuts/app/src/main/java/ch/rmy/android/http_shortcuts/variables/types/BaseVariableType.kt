@@ -27,13 +27,13 @@ abstract class BaseVariableType {
     companion object {
 
         internal fun createDialogBuilder(context: Context, variable: Variable, deferred: Deferred<String, Unit, Unit>) =
-                MenuDialogBuilder(context)
-                        .mapIf(!TextUtils.isEmpty(variable.title)) {
-                            it.title(variable.title)
-                        }
-                        .dismissListener {
-                            deferred.rejectSafely(Unit)
-                        }
+            MenuDialogBuilder(context)
+                .mapIf(!TextUtils.isEmpty(variable.title)) {
+                    it.title(variable.title)
+                }
+                .dismissListener {
+                    deferred.rejectSafely(Unit)
+                }
 
     }
 

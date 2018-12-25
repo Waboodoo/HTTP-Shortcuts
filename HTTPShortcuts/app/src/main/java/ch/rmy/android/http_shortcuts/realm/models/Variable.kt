@@ -46,15 +46,15 @@ open class Variable : RealmObject(), HasId {
         }
 
     fun isResetAfterUse(): Boolean =
-            !rememberValue && type in listOf(TYPE_TEXT, TYPE_NUMBER, TYPE_PASSWORD, TYPE_COLOR, TYPE_SLIDER)
+        !rememberValue && type in listOf(TYPE_TEXT, TYPE_NUMBER, TYPE_PASSWORD, TYPE_COLOR, TYPE_SLIDER)
 
     fun isSameAs(other: Variable): Boolean {
         if (other.key != key ||
-                other.type != type ||
-                other.value != value ||
-                other.title != title ||
-                other.options!!.size != options!!.size
-                ) {
+            other.type != type ||
+            other.value != value ||
+            other.title != title ||
+            other.options!!.size != options!!.size
+        ) {
             return false
         }
         if (other.options!!.indices.any { !options!![it]!!.isSameAs(other.options!![it]!!) }) {

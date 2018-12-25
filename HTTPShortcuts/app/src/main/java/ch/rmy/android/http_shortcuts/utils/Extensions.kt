@@ -43,9 +43,9 @@ var View.visible: Boolean
 
 fun Fragment.showMessageDialog(@StringRes stringRes: Int) {
     MaterialDialog.Builder(context!!)
-            .content(stringRes)
-            .positiveText(R.string.dialog_ok)
-            .showIfPossible()
+        .content(stringRes)
+        .positiveText(R.string.dialog_ok)
+        .showIfPossible()
 }
 
 fun EditText.focus() {
@@ -108,7 +108,7 @@ fun View.showSoftKeyboard() {
     requestFocus()
     post {
         (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
-                .showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+            .showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
     }
 }
 
@@ -166,3 +166,9 @@ fun EditText.onTextChanged(listener: (text: CharSequence) -> Unit): Destroyable 
         }
     }
 }
+
+fun <T> Array<T>.findIndex(item: T) =
+    indices.firstOrNull { this[it] == item } ?: 0
+
+fun IntArray.findIndex(item: Int) =
+    indices.firstOrNull { this[it] == item } ?: 0

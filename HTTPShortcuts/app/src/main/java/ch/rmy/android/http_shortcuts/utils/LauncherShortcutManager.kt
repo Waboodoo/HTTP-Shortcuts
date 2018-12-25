@@ -66,17 +66,17 @@ object LauncherShortcutManager {
     private fun createShortcutInfo(context: Context, shortcut: Shortcut, rank: Int = 0): ShortcutInfo {
         val icon = shortcut.getIcon(context)
         return ShortcutInfo.Builder(context, ID_PREFIX + shortcut.id)
-                .setShortLabel(shortcut.name)
-                .setLongLabel(shortcut.name)
-                .setRank(rank)
-                .setIntent(
-                        ExecuteActivity.IntentBuilder(context, shortcut.id)
-                                .build()
-                )
-                .mapIf(icon != null) {
-                    it.setIcon(icon)
-                }
-                .build()
+            .setShortLabel(shortcut.name)
+            .setLongLabel(shortcut.name)
+            .setRank(rank)
+            .setIntent(
+                ExecuteActivity.IntentBuilder(context, shortcut.id)
+                    .build()
+            )
+            .mapIf(icon != null) {
+                it.setIcon(icon)
+            }
+            .build()
     }
 
     fun supportsPinning(context: Context): Boolean {

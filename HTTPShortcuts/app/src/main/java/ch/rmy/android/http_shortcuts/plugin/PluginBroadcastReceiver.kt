@@ -15,8 +15,8 @@ class PluginBroadcastReceiver : AbstractPluginSettingReceiver() {
         val shortcutId = PluginBundleManager.getShortcutId(bundle)
         val variableValues = PluginBundleManager.getVariableValues(bundle)
         val intent = ExecuteActivity.IntentBuilder(context, shortcutId)
-                .variableValues(variableValues)
-                .build()
+            .variableValues(variableValues)
+            .build()
         context.startActivity(intent)
     }
 

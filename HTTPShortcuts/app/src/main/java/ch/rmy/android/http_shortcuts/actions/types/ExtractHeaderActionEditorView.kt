@@ -10,9 +10,9 @@ import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import kotterknife.bindView
 
 class ExtractHeaderActionEditorView(
-        context: Context,
-        private val action: ExtractHeaderAction,
-        variablePlaceholderProvider: VariablePlaceholderProvider
+    context: Context,
+    private val action: ExtractHeaderAction,
+    variablePlaceholderProvider: VariablePlaceholderProvider
 ) : BaseActionEditorView(context, R.layout.action_editor_extract_header) {
 
     private val headerKeyView: AutoCompleteTextView by bindView(R.id.input_header_key)
@@ -58,34 +58,34 @@ class ExtractHeaderActionEditorView(
     companion object {
 
         val SUGGESTED_KEYS = arrayOf(
-                "Age",
-                "Allow",
-                "Cache-Control",
-                "Content-Disposition",
-                "Content-Encoding",
-                "Content-Language",
-                "Content-Length",
-                "Content-Location",
-                "Content-MD5",
-                "Content-Range",
-                "Content-Type",
-                "Date",
-                "ETag",
-                "Expires",
-                "Last-Modified",
-                "Link",
-                "Location",
-                "Pragma",
-                "Refresh",
-                "Retry-After",
-                "Server",
-                "Set-Cookie",
-                "Trailer",
-                "Transfer-Encoding",
-                "Upgrade",
-                "Via",
-                "Warning",
-                "WWW-Authenticate"
+            "Age",
+            "Allow",
+            "Cache-Control",
+            "Content-Disposition",
+            "Content-Encoding",
+            "Content-Language",
+            "Content-Length",
+            "Content-Location",
+            "Content-MD5",
+            "Content-Range",
+            "Content-Type",
+            "Date",
+            "ETag",
+            "Expires",
+            "Last-Modified",
+            "Link",
+            "Location",
+            "Pragma",
+            "Refresh",
+            "Retry-After",
+            "Server",
+            "Set-Cookie",
+            "Trailer",
+            "Transfer-Encoding",
+            "Upgrade",
+            "Via",
+            "Warning",
+            "WWW-Authenticate"
         )
 
     }

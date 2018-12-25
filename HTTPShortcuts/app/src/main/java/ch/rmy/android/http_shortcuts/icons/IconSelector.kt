@@ -14,9 +14,9 @@ class IconSelector(context: Context, listener: (String) -> Unit) {
 
     init {
         dialog = MaterialDialog.Builder(context)
-                .title(R.string.title_choose_icon)
-                .customView(R.layout.dialog_icon_selector, false)
-                .build()
+            .title(R.string.title_choose_icon)
+            .customView(R.layout.dialog_icon_selector, false)
+            .build()
 
         val grid = dialog.findViewById(R.id.icon_selector_grid) as RecyclerView
         grid.setHasFixedSize(true)

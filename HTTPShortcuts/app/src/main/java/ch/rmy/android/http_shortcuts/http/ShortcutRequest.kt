@@ -16,9 +16,9 @@ import org.jdeferred2.Promise
 import org.jdeferred2.impl.DeferredObject
 
 internal class ShortcutRequest private constructor(
-        method: Int,
-        url: String,
-        private val deferred: Deferred<ShortcutResponse, VolleyError, Unit>
+    method: Int,
+    url: String,
+    private val deferred: Deferred<ShortcutResponse, VolleyError, Unit>
 ) : Request<ShortcutResponse>(method, url, Response.ErrorListener { error -> deferred.rejectSafely(error) }) {
 
     private val parameters = mutableMapOf<String, String>()
@@ -46,23 +46,23 @@ internal class ShortcutRequest private constructor(
     public override fun getParams() = parameters
 
     override fun parseNetworkResponse(response: NetworkResponse): Response<ShortcutResponse> =
-            Response.success(ShortcutResponse(response.headers, response.statusCode, response.data), null)
+        Response.success(ShortcutResponse(response.headers, response.statusCode, response.data), null)
 
     override fun deliverResponse(response: ShortcutResponse) {
         deferred.resolve(response)
     }
 
     private fun constructFormDataBody(): String =
-            StringBuilder("\r\n")
-                    .apply {
-                        parameters.entries.forEach { entry ->
-                            append("\r\n--$FORM_MULTIPART_BOUNDARY\n")
-                            append("Content-Disposition: form-data; name=\"${entry.key}\"")
-                            append("\r\n\r\n")
-                            append(entry.value)
-                        }
-                        append("\n--$FORM_MULTIPART_BOUNDARY--\n")
-                    }.toString()
+        StringBuilder("\r\n")
+            .apply {
+                parameters.entries.forEach { entry ->
+                    append("\r\n--$FORM_MULTIPART_BOUNDARY\n")
+                    append("Content-Disposition: form-data; name=\"${entry.key}\"")
+                    append("\r\n\r\n")
+                    append(entry.value)
+                }
+                append("\n--$FORM_MULTIPART_BOUNDARY--\n")
+            }.toString()
 
     val promise: Promise<ShortcutResponse, VolleyError, Unit>
         get() = deferred.promise()

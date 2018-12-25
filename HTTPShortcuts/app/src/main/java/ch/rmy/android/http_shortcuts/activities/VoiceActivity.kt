@@ -22,7 +22,7 @@ class VoiceActivity : BaseActivity() {
         }
 
         val intent = ExecuteActivity.IntentBuilder(context, shortcut.id)
-                .build()
+            .build()
         startActivity(intent)
         finishWithoutAnimation()
     }

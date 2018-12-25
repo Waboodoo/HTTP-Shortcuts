@@ -64,15 +64,15 @@ object GsonUtil {
 
     private val gson: Gson by lazy {
         GsonBuilder()
-                .addSerializationExclusionStrategy(RealmExclusionStrategy())
-                .create()
+            .addSerializationExclusionStrategy(RealmExclusionStrategy())
+            .create()
     }
 
     private fun getPrettyGson() =
-            GsonBuilder()
-                    .addSerializationExclusionStrategy(RealmExclusionStrategy())
-                    .setPrettyPrinting()
-                    .create()
+        GsonBuilder()
+            .addSerializationExclusionStrategy(RealmExclusionStrategy())
+            .setPrettyPrinting()
+            .create()
 
     private class RealmExclusionStrategy : ExclusionStrategy {
 

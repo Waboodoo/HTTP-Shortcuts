@@ -25,24 +25,24 @@ class DatabaseMigration : RealmMigration {
             }
             2L -> { // 1.11.0
                 val resolvedVariableSchema = schema.create("ResolvedVariable")
-                        .addField("key", String::class.java)
-                        .addField("value", String::class.java)
+                    .addField("key", String::class.java)
+                    .addField("value", String::class.java)
                 val optionSchema = schema.create("Option")
-                        .addField("label", String::class.java)
-                        .addField("value", String::class.java)
+                    .addField("label", String::class.java)
+                    .addField("value", String::class.java)
                 val variableSchema = schema.create("Variable")
-                        .addField("id", Long::class.javaPrimitiveType).addPrimaryKey("id")
-                        .addField("key", String::class.java).setRequired("key", true)
-                        .addField("type", String::class.java).setRequired("type", true)
-                        .addField("value", String::class.java)
-                        .addField("title", String::class.java).setRequired("title", true)
-                        .addField("urlEncode", Boolean::class.javaPrimitiveType)
-                        .addField("jsonEncode", Boolean::class.javaPrimitiveType)
-                        .addRealmListField("options", optionSchema)
+                    .addField("id", Long::class.javaPrimitiveType).addPrimaryKey("id")
+                    .addField("key", String::class.java).setRequired("key", true)
+                    .addField("type", String::class.java).setRequired("type", true)
+                    .addField("value", String::class.java)
+                    .addField("title", String::class.java).setRequired("title", true)
+                    .addField("urlEncode", Boolean::class.javaPrimitiveType)
+                    .addField("jsonEncode", Boolean::class.javaPrimitiveType)
+                    .addRealmListField("options", optionSchema)
                 schema.get("Base")!!
-                        .addRealmListField("variables", variableSchema)
+                    .addRealmListField("variables", variableSchema)
                 schema.get("PendingExecution")!!
-                        .addRealmListField("resolvedVariables", resolvedVariableSchema)
+                    .addRealmListField("resolvedVariables", resolvedVariableSchema)
 
                 val base = realm.where("Base").findFirst()
                 base?.setList("variables", RealmList<DynamicRealmObject>())
@@ -169,10 +169,10 @@ class DatabaseMigration : RealmMigration {
             }
             21L -> { // 1.23.0
                 schema.create("AppLock")
-                        .addField("id", Long::class.javaPrimitiveType)
-                        .addPrimaryKey("id")
-                        .addField("passwordHash", String::class.java)
-                        .setRequired("passwordHash", true)
+                    .addField("id", Long::class.javaPrimitiveType)
+                    .addPrimaryKey("id")
+                    .addField("passwordHash", String::class.java)
+                    .setRequired("passwordHash", true)
             }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }

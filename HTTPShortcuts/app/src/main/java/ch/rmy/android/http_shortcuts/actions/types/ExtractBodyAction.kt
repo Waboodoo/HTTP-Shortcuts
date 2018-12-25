@@ -14,9 +14,9 @@ import org.jdeferred2.Promise
 import java.nio.charset.Charset
 
 class ExtractBodyAction(
-        id: String,
-        actionType: ExtractBodyActionType,
-        data: Map<String, String>
+    id: String,
+    actionType: ExtractBodyActionType,
+    data: Map<String, String>
 ) : BaseAction(id, actionType, data) {
 
     var extractionType: String
@@ -50,10 +50,10 @@ class ExtractBodyAction(
         }
 
     override fun getDescription(context: Context): CharSequence =
-            Variables.rawPlaceholdersToVariableSpans(
-                    context,
-                    context.getString(R.string.action_type_extract_body_description, Variables.toRawPlaceholder(variableKey))
-            )
+        Variables.rawPlaceholdersToVariableSpans(
+            context,
+            context.getString(R.string.action_type_extract_body_description, Variables.toRawPlaceholder(variableKey))
+        )
 
     override fun perform(context: Context, shortcutId: Long, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Promise<Unit, Throwable, Unit> {
         val body = when {
@@ -119,7 +119,7 @@ class ExtractBodyAction(
     }
 
     override fun createEditorView(context: Context, variablePlaceholderProvider: VariablePlaceholderProvider) =
-            ExtractBodyActionEditorView(context, this, variablePlaceholderProvider)
+        ExtractBodyActionEditorView(context, this, variablePlaceholderProvider)
 
     companion object {
 

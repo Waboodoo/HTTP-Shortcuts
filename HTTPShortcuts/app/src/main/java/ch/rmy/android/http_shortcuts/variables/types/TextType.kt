@@ -12,13 +12,13 @@ open class TextType : BaseVariableType(), AsyncVariableType {
 
     override fun createDialog(context: Context, controller: Controller, variable: Variable, deferredValue: Deferred<String, Unit, Unit>): () -> Unit {
         val builder = BaseVariableType.createDialogBuilder(context, variable, deferredValue)
-                .toDialogBuilder()
-                .input(null, if (variable.rememberValue) variable.value else "") { _, input ->
-                    if (variable.isValid) {
-                        deferredValue.resolve(input.toString())
-                        controller.setVariableValue(variable.id, input.toString()).subscribe()
-                    }
+            .toDialogBuilder()
+            .input(null, if (variable.rememberValue) variable.value else "") { _, input ->
+                if (variable.isValid) {
+                    deferredValue.resolve(input.toString())
+                    controller.setVariableValue(variable.id, input.toString()).subscribe()
                 }
+            }
         return {
             builder.showIfPossible()
         }

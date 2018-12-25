@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.variables
 import android.content.Context
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.realm.models.Variable
+import ch.rmy.android.http_shortcuts.realm.models.Variable.Companion.TYPE_CONSTANT
 import ch.rmy.android.http_shortcuts.utils.Destroyable
 import ch.rmy.android.http_shortcuts.utils.color
 import io.realm.RealmList
@@ -35,12 +36,12 @@ class VariablePlaceholderProvider(context: Context, private val variables: Realm
     }
 
     fun findPlaceholder(variableKey: String): VariablePlaceholder? =
-            internalPlaceholders.firstOrNull { it.variableKey == variableKey }
+        internalPlaceholders.firstOrNull { it.variableKey == variableKey }
 
     private fun regenerateKeys() {
         if (variables.isValid) {
             internalPlaceholders = variables
-                    .map { VariablePlaceholder(it.key, placeholderColor, it.type == Variable.TYPE_CONSTANT) }
+                .map { VariablePlaceholder(it.key, placeholderColor, it.type == TYPE_CONSTANT) }
         }
     }
 

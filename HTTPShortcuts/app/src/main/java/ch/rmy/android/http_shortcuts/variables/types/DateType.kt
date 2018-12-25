@@ -29,8 +29,7 @@ internal class DateType : BaseVariableType(), AsyncVariableType {
             newDate.set(year, month, day)
             if (variable.isValid && deferredValue.isPending) {
                 try {
-                    val dateFormat = SimpleDateFormat(variable.dataForType[KEY_FORMAT]
-                            ?: DEFAULT_FORMAT, Locale.US)
+                    val dateFormat = SimpleDateFormat(variable.dataForType[KEY_FORMAT] ?: DEFAULT_FORMAT, Locale.US)
                     deferredValue.resolve(dateFormat.format(newDate.time))
                     if (variable.rememberValue) {
                         controller.setVariableValue(variable.id, DATE_FORMAT.format(newDate.time)).subscribe()

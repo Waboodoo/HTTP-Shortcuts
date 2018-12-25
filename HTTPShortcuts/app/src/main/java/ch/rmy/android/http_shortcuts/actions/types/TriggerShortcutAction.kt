@@ -13,9 +13,9 @@ import com.android.volley.VolleyError
 import org.jdeferred2.Promise
 
 class TriggerShortcutAction(
-        id: String,
-        actionType: TriggerShortcutActionType,
-        data: Map<String, String>
+    id: String,
+    actionType: TriggerShortcutActionType,
+    data: Map<String, String>
 ) : BaseAction(id, actionType, data) {
 
     var shortcutId: Long
@@ -32,13 +32,13 @@ class TriggerShortcutAction(
         }
 
     override fun getDescription(context: Context): CharSequence =
-            Variables.rawPlaceholdersToVariableSpans(
-                    context,
-                    context.getString(
-                            R.string.action_type_trigger_shortcut_description,
-                            shortcutName ?: "???"
-                    )
+        Variables.rawPlaceholdersToVariableSpans(
+            context,
+            context.getString(
+                R.string.action_type_trigger_shortcut_description,
+                shortcutName ?: "???"
             )
+        )
 
     override fun perform(context: Context, shortcutId: Long, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Promise<Unit, Throwable, Unit> {
         if (recursionDepth >= MAX_RECURSION_DEPTH) {
@@ -46,16 +46,16 @@ class TriggerShortcutAction(
             return PromiseUtils.resolve(Unit)
         }
         return PromiseUtils.resolveDelayed<Unit, Throwable, Unit>(Unit, EXECUTION_DELAY)
-                .done {
-                    val intent = ExecuteActivity.IntentBuilder(context, this.shortcutId)
-                            .recursionDepth(recursionDepth + 1)
-                            .build()
-                    context.startActivity(intent)
-                }
+            .done {
+                val intent = ExecuteActivity.IntentBuilder(context, this.shortcutId)
+                    .recursionDepth(recursionDepth + 1)
+                    .build()
+                context.startActivity(intent)
+            }
     }
 
     override fun createEditorView(context: Context, variablePlaceholderProvider: VariablePlaceholderProvider) =
-            TriggerShortcutActionEditorView(context, this)
+        TriggerShortcutActionEditorView(context, this)
 
     companion object {
 

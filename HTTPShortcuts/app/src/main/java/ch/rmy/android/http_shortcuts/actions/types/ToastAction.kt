@@ -9,9 +9,9 @@ import ch.rmy.android.http_shortcuts.variables.Variables
 import com.android.volley.VolleyError
 
 class ToastAction(
-        id: String,
-        actionType: ToastActionType,
-        data: Map<String, String>
+    id: String,
+    actionType: ToastActionType,
+    data: Map<String, String>
 ) : BaseAction(id, actionType, data) {
 
     var message: String
@@ -21,7 +21,7 @@ class ToastAction(
         }
 
     override fun getDescription(context: Context): CharSequence =
-            Variables.rawPlaceholdersToVariableSpans(context, context.getString(R.string.action_type_toast_description, message))
+        Variables.rawPlaceholdersToVariableSpans(context, context.getString(R.string.action_type_toast_description, message))
 
     override fun performBlocking(context: Context, shortcutId: Long, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int) {
         val finalMessage = Variables.rawPlaceholdersToResolvedValues(message, variableValues)
@@ -31,7 +31,7 @@ class ToastAction(
     }
 
     override fun createEditorView(context: Context, variablePlaceholderProvider: VariablePlaceholderProvider) =
-            ToastActionEditorView(context, this, variablePlaceholderProvider)
+        ToastActionEditorView(context, this, variablePlaceholderProvider)
 
     companion object {
 

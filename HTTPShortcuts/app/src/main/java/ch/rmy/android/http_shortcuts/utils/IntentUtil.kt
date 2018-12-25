@@ -40,7 +40,7 @@ object IntentUtil {
     @Suppress("DEPRECATION")
     fun getShortcutPlacementIntent(context: Context, shortcut: Shortcut, install: Boolean): Intent {
         val shortcutIntent = ExecuteActivity.IntentBuilder(context, shortcut.id)
-                .build()
+            .build()
         val addIntent = Intent()
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent)
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcut.name)

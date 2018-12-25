@@ -72,28 +72,28 @@ class SelectEditorFragment : VariableEditorFragment() {
         }
 
         MaterialDialog.Builder(context!!)
-                .title(if (option != null) R.string.title_edit_select_option else R.string.title_add_select_option)
-                .customView(editorView, true)
-                .positiveText(R.string.dialog_ok)
-                .onPositive { _, _ ->
-                    val label = labelInput.text.toString()
-                    val value = valueInput.rawString
-                    if (option != null) {
-                        updateOption(option, label, value)
-                    } else {
-                        addNewOption(label, value)
-                    }
+            .title(if (option != null) R.string.title_edit_select_option else R.string.title_add_select_option)
+            .customView(editorView, true)
+            .positiveText(R.string.dialog_ok)
+            .onPositive { _, _ ->
+                val label = labelInput.text.toString()
+                val value = valueInput.rawString
+                if (option != null) {
+                    updateOption(option, label, value)
+                } else {
+                    addNewOption(label, value)
                 }
-                .negativeText(R.string.dialog_cancel)
-                .mapIf(option != null) {
-                    it
-                            .neutralText(R.string.dialog_remove)
-                            .onNeutral { _, _ -> removeOption(option!!) }
-                }
-                .dismissListener {
-                    destroyer.destroy()
-                }
-                .showIfPossible()
+            }
+            .negativeText(R.string.dialog_cancel)
+            .mapIf(option != null) {
+                it
+                    .neutralText(R.string.dialog_remove)
+                    .onNeutral { _, _ -> removeOption(option!!) }
+            }
+            .dismissListener {
+                destroyer.destroy()
+            }
+            .showIfPossible()
     }
 
     private fun addNewOption(label: String, value: String) {

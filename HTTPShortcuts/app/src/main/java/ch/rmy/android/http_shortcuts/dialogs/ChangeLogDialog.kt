@@ -36,10 +36,10 @@ class ChangeLogDialog(private val context: Context, private val whatsNew: Boolea
         val showAtStartupCheckbox = view.findViewById<CheckBox>(R.id.checkbox_show_at_startup)
 
         MaterialDialog.Builder(context)
-                .customView(view, false)
-                .title(if (whatsNew) R.string.changelog_title_whats_new else R.string.changelog_title)
-                .positiveText(android.R.string.ok)
-                .showIfPossible()
+            .customView(view, false)
+            .title(if (whatsNew) R.string.changelog_title_whats_new else R.string.changelog_title)
+            .positiveText(android.R.string.ok)
+            .showIfPossible()
 
 
         webview.loadUrl(CHANGELOG_ASSET_URL)
@@ -53,8 +53,8 @@ class ChangeLogDialog(private val context: Context, private val whatsNew: Boolea
     private val version
         get() = try {
             context.packageManager
-                    .getPackageInfo(context.packageName, 0)
-                    .versionCode / 1000000
+                .getPackageInfo(context.packageName, 0)
+                .versionCode / 1000000
         } catch (e: NameNotFoundException) {
             0
         }

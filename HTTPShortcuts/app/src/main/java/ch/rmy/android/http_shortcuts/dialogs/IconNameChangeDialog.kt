@@ -13,19 +13,19 @@ class IconNameChangeDialog(private val context: Context) {
 
     fun show(callback: MaterialDialog.SingleButtonCallback) {
         MaterialDialog.Builder(context)
-                .positiveText(R.string.dialog_ok)
-                .onPositive(callback)
-                .customView(R.layout.dialog_icon_name_changes, true)
-                .cancelable(false)
-                .canceledOnTouchOutside(false)
-                .build()
-                .also {
-                    val checkBox = it.findViewById(R.id.checkbox_do_not_show_again) as CheckBox
-                    checkBox.setOnCheckedChangeListener { _, isChecked ->
-                        settings.isIconNameWarningPermanentlyHidden = isChecked
-                    }
+            .positiveText(R.string.dialog_ok)
+            .onPositive(callback)
+            .customView(R.layout.dialog_icon_name_changes, true)
+            .cancelable(false)
+            .canceledOnTouchOutside(false)
+            .build()
+            .also {
+                val checkBox = it.findViewById(R.id.checkbox_do_not_show_again) as CheckBox
+                checkBox.setOnCheckedChangeListener { _, isChecked ->
+                    settings.isIconNameWarningPermanentlyHidden = isChecked
                 }
-                .showIfPossible()
+            }
+            .showIfPossible()
     }
 
     fun shouldShow() = !settings.isIconNameWarningPermanentlyHidden

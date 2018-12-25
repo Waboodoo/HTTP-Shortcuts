@@ -24,8 +24,7 @@ internal class TimeType : BaseVariableType(), AsyncVariableType {
             newDate.set(Calendar.MINUTE, minute)
             if (variable.isValid && deferredValue.isPending) {
                 try {
-                    val dateFormat = SimpleDateFormat(variable.dataForType[KEY_FORMAT]
-                            ?: DEFAULT_FORMAT, Locale.US)
+                    val dateFormat = SimpleDateFormat(variable.dataForType[KEY_FORMAT] ?: DEFAULT_FORMAT, Locale.US)
                     deferredValue.resolve(dateFormat.format(newDate.time))
                     if (variable.rememberValue) {
                         controller.setVariableValue(variable.id, DATE_FORMAT.format(newDate.time)).subscribe()
@@ -47,15 +46,15 @@ internal class TimeType : BaseVariableType(), AsyncVariableType {
     }
 
     private fun getInitialTime(previousValue: String?) =
-            Calendar.getInstance()
-                    .also {
-                        if (previousValue != null) {
-                            try {
-                                it.time = DATE_FORMAT.parse(previousValue)
-                            } catch (e: ParseException) {
-                            }
-                        }
+        Calendar.getInstance()
+            .also {
+                if (previousValue != null) {
+                    try {
+                        it.time = DATE_FORMAT.parse(previousValue)
+                    } catch (e: ParseException) {
                     }
+                }
+            }
 
     override fun createEditorFragment() = TimeEditorFragment()
 

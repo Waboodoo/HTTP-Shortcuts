@@ -10,7 +10,7 @@ class GridLayoutManager(context: Context) : GridLayoutManager(context, getNumber
     init {
         spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int =
-                    if (position == 0 && empty) spanCount else 1
+                if (position == 0 && empty) spanCount else 1
         }
     }
 

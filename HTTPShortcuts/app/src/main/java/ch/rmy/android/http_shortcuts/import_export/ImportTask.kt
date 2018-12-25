@@ -19,7 +19,7 @@ class ImportTask(context: Context, baseView: View) : SimpleTask<Uri>(context, ba
         Controller().use { controller ->
             return try {
                 val inputStream = context.contentResolver.openInputStream(uri)
-                        ?: return IOException("Failed to open input stream")
+                    ?: return IOException("Failed to open input stream")
                 BufferedReader(InputStreamReader(inputStream)).use { reader ->
                     val base = GsonUtil.importData(reader)
                     ImportMigrator.migrate(base)

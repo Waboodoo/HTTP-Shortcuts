@@ -28,12 +28,12 @@ class SliderEditorFragment : VariableEditorFragment() {
     }
 
     override fun validate() =
-            if (maxValue <= minValue) {
-                showMessageDialog(R.string.error_slider_max_not_greater_than_min)
-                false
-            } else {
-                true
-            }
+        if (maxValue <= minValue) {
+            showMessageDialog(R.string.error_slider_max_not_greater_than_min)
+            false
+        } else {
+            true
+        }
 
     override fun compileIntoVariable(variable: Variable) {
         variable.rememberValue = inputRememberValue.isChecked

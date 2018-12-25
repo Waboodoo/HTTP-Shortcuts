@@ -13,14 +13,14 @@ internal class SelectType : BaseVariableType(), AsyncVariableType {
 
     override fun createDialog(context: Context, controller: Controller, variable: Variable, deferredValue: Deferred<String, Unit, Unit>): () -> Unit {
         val builder = BaseVariableType.createDialogBuilder(context, variable, deferredValue)
-                .mapFor(variable.options!!) { builder, option ->
-                    builder.item(option.label) {
-                        if (variable.isValid) {
-                            deferredValue.resolve(option.value)
-                            controller.setVariableValue(variable.id, option.value).subscribe()
-                        }
+            .mapFor(variable.options!!) { builder, option ->
+                builder.item(option.label) {
+                    if (variable.isValid) {
+                        deferredValue.resolve(option.value)
+                        controller.setVariableValue(variable.id, option.value).subscribe()
                     }
                 }
+            }
         return {
             builder.showIfPossible()
         }

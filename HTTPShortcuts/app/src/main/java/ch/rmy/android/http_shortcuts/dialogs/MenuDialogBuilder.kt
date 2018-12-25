@@ -32,13 +32,13 @@ class MenuDialogBuilder(val context: Context) {
     }
 
     fun toDialogBuilder() =
-            builder.mapIf(names.isNotEmpty()) {
-                builder
-                        .items(names)
-                        .itemsCallback { _, _, which, _ ->
-                            actions[which]()
-                        }!!
-            }
+        builder.mapIf(names.isNotEmpty()) {
+            builder
+                .items(names)
+                .itemsCallback { _, _, which, _ ->
+                    actions[which]()
+                }!!
+        }
 
     fun show() = toDialogBuilder().showIfPossible()
 

@@ -81,7 +81,7 @@ class VibrateAction(id: String, actionType: VibrateActionType, data: Map<String,
                     }
 
                     override fun getDescription(context: Context): CharSequence =
-                            context.getString(R.string.action_type_vibrate_description_pattern_1)
+                        context.getString(R.string.action_type_vibrate_description_pattern_1)
                 }
                 2 -> object : VibrationPattern {
                     override val duration: Long
@@ -97,7 +97,7 @@ class VibrateAction(id: String, actionType: VibrateActionType, data: Map<String,
                     }
 
                     override fun getDescription(context: Context): CharSequence =
-                            context.getString(R.string.action_type_vibrate_description_pattern_2)
+                        context.getString(R.string.action_type_vibrate_description_pattern_2)
                 }
                 else -> object : VibrationPattern {
                     override val duration: Long
@@ -112,7 +112,7 @@ class VibrateAction(id: String, actionType: VibrateActionType, data: Map<String,
                     }
 
                     override fun getDescription(context: Context): CharSequence =
-                            context.getString(R.string.action_type_vibrate_description_pattern_0)
+                        context.getString(R.string.action_type_vibrate_description_pattern_0)
                 }
             }
         }

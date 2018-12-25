@@ -64,27 +64,27 @@ class ToggleEditorFragment : VariableEditorFragment() {
         }
 
         MaterialDialog.Builder(context!!)
-                .title(if (option != null) R.string.title_edit_toggle_option else R.string.title_add_toggle_option)
-                .customView(editorView, true)
-                .positiveText(R.string.dialog_ok)
-                .onPositive { _, _ ->
-                    val value = valueInput.rawString
-                    if (option != null) {
-                        updateOption(option, value)
-                    } else {
-                        addNewOption(value)
-                    }
+            .title(if (option != null) R.string.title_edit_toggle_option else R.string.title_add_toggle_option)
+            .customView(editorView, true)
+            .positiveText(R.string.dialog_ok)
+            .onPositive { _, _ ->
+                val value = valueInput.rawString
+                if (option != null) {
+                    updateOption(option, value)
+                } else {
+                    addNewOption(value)
                 }
-                .negativeText(R.string.dialog_cancel)
-                .mapIf(option != null) {
-                    it
-                            .neutralText(R.string.dialog_remove)
-                            .onNeutral { _, _ -> removeOption(option!!) }
-                }
-                .dismissListener {
-                    destroyer.destroy()
-                }
-                .showIfPossible()
+            }
+            .negativeText(R.string.dialog_cancel)
+            .mapIf(option != null) {
+                it
+                    .neutralText(R.string.dialog_remove)
+                    .onNeutral { _, _ -> removeOption(option!!) }
+            }
+            .dismissListener {
+                destroyer.destroy()
+            }
+            .showIfPossible()
     }
 
     private fun addNewOption(value: String) {

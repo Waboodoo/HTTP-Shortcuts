@@ -25,13 +25,13 @@ class TimeEditorFragment : VariableEditorFragment() {
     }
 
     override fun validate() =
-            try {
-                SimpleDateFormat(variable.dataForType[TimeType.KEY_FORMAT], Locale.US)
-                true
-            } catch (e: Exception) {
-                showMessageDialog(R.string.error_invalid_time_format)
-                false
-            }
+        try {
+            SimpleDateFormat(variable.dataForType[TimeType.KEY_FORMAT], Locale.US)
+            true
+        } catch (e: Exception) {
+            showMessageDialog(R.string.error_invalid_time_format)
+            false
+        }
 
     override fun compileIntoVariable(variable: Variable) {
         variable.rememberValue = inputRememberValue.isChecked

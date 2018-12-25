@@ -30,11 +30,11 @@ object ExecutionScheduler {
             pendingExecutions.forEach { pendingExecution ->
                 val delay = calculateDelay(pendingExecution.waitUntil)
                 val jobInfo = JobInfo.Builder(pendingExecution.shortcutId.toInt(), ComponentName(context, ExecutionService::class.java))
-                        .setMinimumLatency(delay)
-                        .mapIf(pendingExecution.waitForNetwork) {
-                            it.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                        }
-                        .build()
+                    .setMinimumLatency(delay)
+                    .mapIf(pendingExecution.waitForNetwork) {
+                        it.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                    }
+                    .build()
                 (context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler).schedule(jobInfo)
             }
         }

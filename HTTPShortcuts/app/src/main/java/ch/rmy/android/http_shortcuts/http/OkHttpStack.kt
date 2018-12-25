@@ -59,8 +59,11 @@ class OkHttpStack(private val client: OkHttpClient) : HttpStack {
         val okHttpCall = client.newCall(okHttpRequest)
         val okHttpResponse = okHttpCall.execute()
 
-        val responseStatus = BasicStatusLine(parseProtocol(okHttpResponse.protocol()), okHttpResponse.code(),
-                okHttpResponse.message())
+        val responseStatus = BasicStatusLine(
+            parseProtocol(okHttpResponse.protocol()),
+            okHttpResponse.code(),
+            okHttpResponse.message()
+        )
         val response = BasicHttpResponse(responseStatus)
         response.entity = getEntity(okHttpResponse)
 

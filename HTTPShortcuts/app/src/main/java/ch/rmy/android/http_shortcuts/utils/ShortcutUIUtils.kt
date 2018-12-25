@@ -17,46 +17,46 @@ object ShortcutUIUtils {
     val DEFAULT_ICON = R.drawable.ic_launcher
 
     fun getExecutionTypeOptions(context: Context) =
-            getOptions(context, Shortcut.EXECUTION_TYPES, EXECUTION_TYPE_RESOURCES)
+        getOptions(context, Shortcut.EXECUTION_TYPES, EXECUTION_TYPE_RESOURCES)
 
     fun getFeedbackOptions(context: Context) =
-            getOptions(context, Shortcut.FEEDBACK_OPTIONS, FEEDBACK_RESOURCES)
+        getOptions(context, Shortcut.FEEDBACK_OPTIONS, FEEDBACK_RESOURCES)
 
     fun getRetryPolicyOptions(context: Context) =
-            getOptions(context, Shortcut.RETRY_POLICY_OPTIONS, RETRY_POLICY_RESOURCES)
+        getOptions(context, Shortcut.RETRY_POLICY_OPTIONS, RETRY_POLICY_RESOURCES)
 
     fun getAuthenticationOptions(context: Context) =
-            getOptions(context, Shortcut.AUTHENTICATION_OPTIONS, AUTHENTICATION_RESOURCES)
+        getOptions(context, Shortcut.AUTHENTICATION_OPTIONS, AUTHENTICATION_RESOURCES)
 
     fun getVariableTypeOptions(context: Context) =
-            getOptions(context, Variable.TYPE_OPTIONS, Variable.TYPE_RESOURCES)
+        getOptions(context, Variable.TYPE_OPTIONS, Variable.TYPE_RESOURCES)
 
     fun getRequestBodyTypeOptions(context: Context) =
-            getOptions(context, Shortcut.REQUEST_BODY_TYPE_OPTIONS, REQUEST_BODY_RESOURCES)
+        getOptions(context, Shortcut.REQUEST_BODY_TYPE_OPTIONS, REQUEST_BODY_RESOURCES)
 
     fun getTimeoutOptions(context: Context): Array<String> =
-            Array(Shortcut.TIMEOUT_OPTIONS.size) { i ->
-                val timeName = context.getString(TIMEOUT_RESOURCES[i])
-                val timeString = getTimeString(context, Shortcut.TIMEOUT_OPTIONS[i] / 1000)
-                context.getString(R.string.timeout_format, timeName, timeString)
-            }
+        Array(Shortcut.TIMEOUT_OPTIONS.size) { i ->
+            val timeName = context.getString(TIMEOUT_RESOURCES[i])
+            val timeString = getTimeString(context, Shortcut.TIMEOUT_OPTIONS[i] / 1000)
+            context.getString(R.string.timeout_format, timeName, timeString)
+        }
 
     fun getDelayOptions(context: Context): Array<String> =
-            Array(Shortcut.DELAY_OPTIONS.size) { i ->
-                getTimeString(context, Shortcut.DELAY_OPTIONS[i] / 1000)
-            }
+        Array(Shortcut.DELAY_OPTIONS.size) { i ->
+            getTimeString(context, Shortcut.DELAY_OPTIONS[i] / 1000)
+        }
 
     private fun getTimeString(context: Context, seconds: Int) =
-            when {
-                seconds == 0 -> context.resources.getString(R.string.label_no_delay)
-                seconds < 60 -> context.resources.getQuantityString(R.plurals.seconds, seconds, seconds)
-                else -> {
-                    val minutes = seconds / 60
-                    context.resources.getQuantityString(R.plurals.minutes, minutes, minutes)
-                }
+        when {
+            seconds == 0 -> context.resources.getString(R.string.label_no_delay)
+            seconds < 60 -> context.resources.getQuantityString(R.plurals.seconds, seconds, seconds)
+            else -> {
+                val minutes = seconds / 60
+                context.resources.getQuantityString(R.plurals.minutes, minutes, minutes)
             }
+        }
 
     private fun getOptions(context: Context, keys: Array<String>, valueResources: IntArray): Array<String> =
-            Array(keys.size) { i -> context.getString(valueResources[i]) }
+        Array(keys.size) { i -> context.getString(valueResources[i]) }
 
 }

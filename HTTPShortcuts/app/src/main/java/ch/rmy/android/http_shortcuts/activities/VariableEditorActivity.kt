@@ -11,12 +11,12 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.detachFromRealm
 import ch.rmy.android.http_shortcuts.realm.models.Variable
-import ch.rmy.android.http_shortcuts.utils.ArrayUtil
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.OnItemChosenListener
 import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils
 import ch.rmy.android.http_shortcuts.utils.consume
+import ch.rmy.android.http_shortcuts.utils.findIndex
 import ch.rmy.android.http_shortcuts.utils.fix
 import ch.rmy.android.http_shortcuts.utils.focus
 import ch.rmy.android.http_shortcuts.utils.onTextChanged
@@ -82,7 +82,7 @@ class VariableEditorActivity : BaseActivity() {
 
         typeSpinner.setItemsArray(ShortcutUIUtils.getVariableTypeOptions(context))
         typeSpinner.fix()
-        typeSpinner.setSelection(ArrayUtil.findIndex(Variable.TYPE_OPTIONS, variable.type))
+        typeSpinner.setSelection(Variable.TYPE_OPTIONS.findIndex(variable.type))
 
         urlEncode.isChecked = variable.urlEncode
         jsonEncode.isChecked = variable.jsonEncode
@@ -111,9 +111,9 @@ class VariableEditorActivity : BaseActivity() {
 
         fragment?.let { fragment ->
             fragmentManager
-                    .beginTransaction()
-                    .replace(R.id.variable_type_fragment_container, fragment, variableType.tag)
-                    .commitAllowingStateLoss()
+                .beginTransaction()
+                .replace(R.id.variable_type_fragment_container, fragment, variableType.tag)
+                .commitAllowingStateLoss()
         }
     }
 
@@ -145,11 +145,11 @@ class VariableEditorActivity : BaseActivity() {
         compileVariable()
         if (hasChanges()) {
             MaterialDialog.Builder(context)
-                    .content(R.string.confirm_discard_changes_message)
-                    .positiveText(R.string.dialog_discard)
-                    .onPositive { _, _ -> finish() }
-                    .negativeText(R.string.dialog_cancel)
-                    .showIfPossible()
+                .content(R.string.confirm_discard_changes_message)
+                .positiveText(R.string.dialog_discard)
+                .onPositive { _, _ -> finish() }
+                .negativeText(R.string.dialog_cancel)
+                .showIfPossible()
         } else {
             finish()
         }
@@ -161,9 +161,9 @@ class VariableEditorActivity : BaseActivity() {
         compileVariable()
         if (validate()) {
             controller.persist(variable)
-                    .done {
-                        finish()
-                    }
+                .done {
+                    finish()
+                }
         }
     }
 

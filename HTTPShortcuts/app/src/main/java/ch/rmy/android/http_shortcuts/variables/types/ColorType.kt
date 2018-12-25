@@ -18,18 +18,18 @@ internal class ColorType : BaseVariableType(), AsyncVariableType {
 
     override fun createDialog(context: Context, controller: Controller, variable: Variable, deferredValue: Deferred<String, Unit, Unit>): () -> Unit {
         val dialog = ChromaDialog.Builder()
-                .initialColor(getInitialColor(variable))
-                .colorMode(ColorMode.RGB)
-                .onColorSelected(object : ColorSelectListener {
-                    override fun onColorSelected(color: Int) {
-                        if (variable.isValid) {
-                            val colorFormatted = String.format("%06x", color and 0xffffff)
-                            deferredValue.resolve(colorFormatted)
-                            controller.setVariableValue(variable.id, colorFormatted).subscribe()
-                        }
+            .initialColor(getInitialColor(variable))
+            .colorMode(ColorMode.RGB)
+            .onColorSelected(object : ColorSelectListener {
+                override fun onColorSelected(color: Int) {
+                    if (variable.isValid) {
+                        val colorFormatted = String.format("%06x", color and 0xffffff)
+                        deferredValue.resolve(colorFormatted)
+                        controller.setVariableValue(variable.id, colorFormatted).subscribe()
                     }
-                })
-                .create()
+                }
+            })
+            .create()
 
         return {
             dialog.show((context as AppCompatActivity).supportFragmentManager, "ChromaDialog")

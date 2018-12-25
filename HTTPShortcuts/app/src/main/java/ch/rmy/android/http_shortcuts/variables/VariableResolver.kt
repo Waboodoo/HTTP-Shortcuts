@@ -26,15 +26,15 @@ class VariableResolver(private val context: Context) {
         val requiredVariableKeys = extractVariableKeys(shortcut)
         val variablesToResolve = requiredVariableKeys.mapNotNull { variableMap[it] }
         return resolveVariables(controller, variablesToResolve, preResolvedValues)
-                .then(DonePipe<Map<String, String>, Map<String, String>, Unit, Unit> { resolvedVariables ->
-                    return@DonePipe resolveRecursiveVariables(controller, variableMap, resolvedVariables)
-                })
-                .filter { resolvedValues ->
-                    resolvedValues.mapValues { entry ->
-                        val variable = variableMap[entry.key] ?: return@mapValues entry.value
-                        encodeValue(variable, entry.value)
-                    }
+            .then(DonePipe<Map<String, String>, Map<String, String>, Unit, Unit> { resolvedVariables ->
+                return@DonePipe resolveRecursiveVariables(controller, variableMap, resolvedVariables)
+            })
+            .filter { resolvedValues ->
+                resolvedValues.mapValues { entry ->
+                    val variable = variableMap[entry.key] ?: return@mapValues entry.value
+                    encodeValue(variable, entry.value)
                 }
+            }
     }
 
     private fun resolveRecursiveVariables(controller: Controller, variableMap: Map<String, Variable>, preResolvedValues: Map<String, String>, recursionDepth: Int = 0): Promise<Map<String, String>, Unit, Unit> {
@@ -48,16 +48,16 @@ class VariableResolver(private val context: Context) {
 
         val variablesToResolve = requiredVariableKeys.mapNotNull { variableMap[it] }
         return resolveVariables(controller, variablesToResolve, preResolvedValues)
-                .filter {
-                    it.toMutableMap().also { resolvedVariables ->
-                        resolvedVariables.forEach { resolvedVariable ->
-                            resolvedVariables[resolvedVariable.key] = Variables.rawPlaceholdersToResolvedValues(resolvedVariable.value, resolvedVariables)
-                        }
+            .filter {
+                it.toMutableMap().also { resolvedVariables ->
+                    resolvedVariables.forEach { resolvedVariable ->
+                        resolvedVariables[resolvedVariable.key] = Variables.rawPlaceholdersToResolvedValues(resolvedVariable.value, resolvedVariables)
                     }
                 }
-                .then(DonePipe { resolvedVariables ->
-                    resolveRecursiveVariables(controller, variableMap, resolvedVariables, recursionDepth + 1)
-                })
+            }
+            .then(DonePipe { resolvedVariables ->
+                resolveRecursiveVariables(controller, variableMap, resolvedVariables, recursionDepth + 1)
+            })
     }
 
     private fun resolveVariables(controller: Controller, variablesToResolve: List<Variable>, preResolvedValues: Map<String, String> = emptyMap()): Promise<Map<String, String>, Unit, Unit> {
@@ -77,18 +77,18 @@ class VariableResolver(private val context: Context) {
 
                 val deferredValue = DeferredObject<String, Unit, Unit>()
                 deferredValue
-                        .done { value ->
-                            resolvedVariables[variable.key] = value
+                    .done { value ->
+                        resolvedVariables[variable.key] = value
 
-                            if (index + 1 >= waitingDialogs.size) {
-                                deferred.resolve(resolvedVariables)
-                            } else {
-                                waitingDialogs[index + 1]()
-                            }
+                        if (index + 1 >= waitingDialogs.size) {
+                            deferred.resolve(resolvedVariables)
+                        } else {
+                            waitingDialogs[index + 1]()
                         }
-                        .fail {
-                            deferred.rejectSafely(Unit)
-                        }
+                    }
+                    .fail {
+                        deferred.rejectSafely(Unit)
+                    }
 
                 val dialog = variableType.createDialog(context, controller, variable, deferredValue)
                 waitingDialogs.add(dialog)
@@ -104,64 +104,64 @@ class VariableResolver(private val context: Context) {
         }
 
         return deferred
-                .promise()
-                .always { _, _, _ ->
-                    resetVariableValues(controller, variablesToResolve)
-                }
+            .promise()
+            .always { _, _, _ ->
+                resetVariableValues(controller, variablesToResolve)
+            }
     }
 
     private fun resetVariableValues(controller: Controller, variables: List<Variable>) =
-            controller.resetVariableValues(variables
-                    .filter { it.isResetAfterUse() }
-                    .map { it.id }
-            )
+        controller.resetVariableValues(variables
+            .filter { it.isResetAfterUse() }
+            .map { it.id }
+        )
 
     companion object {
 
         private const val MAX_RECURSION_DEPTH = 3
 
         fun extractVariableKeys(shortcut: Shortcut): Set<String> =
-                mutableSetOf<String>().apply {
-                    addAll(Variables.extractVariableKeys(shortcut.url))
-                    addAll(Variables.extractVariableKeys(shortcut.username))
-                    addAll(Variables.extractVariableKeys(shortcut.password))
-                    if (shortcut.usesCustomBody()) {
-                        addAll(Variables.extractVariableKeys(shortcut.bodyContent))
-                    }
-                    if (shortcut.usesRequestParameters()) {
-                        for (parameter in shortcut.parameters) {
-                            addAll(Variables.extractVariableKeys(parameter.key))
-                            addAll(Variables.extractVariableKeys(parameter.value))
-                        }
-                    }
-                    for (header in shortcut.headers) {
-                        addAll(Variables.extractVariableKeys(header.key))
-                        addAll(Variables.extractVariableKeys(header.value))
-                    }
-                    addAll(extractVariableKeys(shortcut.beforeActions))
-                    addAll(extractVariableKeys(shortcut.successActions))
-                    addAll(extractVariableKeys(shortcut.failureActions))
+            mutableSetOf<String>().apply {
+                addAll(Variables.extractVariableKeys(shortcut.url))
+                addAll(Variables.extractVariableKeys(shortcut.username))
+                addAll(Variables.extractVariableKeys(shortcut.password))
+                if (shortcut.usesCustomBody()) {
+                    addAll(Variables.extractVariableKeys(shortcut.bodyContent))
                 }
+                if (shortcut.usesRequestParameters()) {
+                    for (parameter in shortcut.parameters) {
+                        addAll(Variables.extractVariableKeys(parameter.key))
+                        addAll(Variables.extractVariableKeys(parameter.value))
+                    }
+                }
+                for (header in shortcut.headers) {
+                    addAll(Variables.extractVariableKeys(header.key))
+                    addAll(Variables.extractVariableKeys(header.value))
+                }
+                addAll(extractVariableKeys(shortcut.beforeActions))
+                addAll(extractVariableKeys(shortcut.successActions))
+                addAll(extractVariableKeys(shortcut.failureActions))
+            }
 
         private fun extractVariableKeys(actions: List<ActionDTO>) =
-                actions.flatMap {
-                    it.data.values
-                            .map { Variables.extractVariableKeys(it) }
-                            .flatten()
-                }
+            actions.flatMap {
+                it.data.values
+                    .map { Variables.extractVariableKeys(it) }
+                    .flatten()
+            }
 
         private fun encodeValue(variable: Variable, value: String) =
-                value
-                        .mapIf(variable.jsonEncode) {
-                            JSONObject.quote(it).drop(1).dropLast(1)
-                        }
-                        .mapIf(variable.urlEncode) {
-                            try {
-                                URLEncoder.encode(it, "utf-8")
-                            } catch (e: UnsupportedEncodingException) {
-                                it
-                            }
-                        }
+            value
+                .mapIf(variable.jsonEncode) {
+                    JSONObject.quote(it).drop(1).dropLast(1)
+                }
+                .mapIf(variable.urlEncode) {
+                    try {
+                        URLEncoder.encode(it, "utf-8")
+                    } catch (e: UnsupportedEncodingException) {
+                        it
+                    }
+                }
 
     }
 

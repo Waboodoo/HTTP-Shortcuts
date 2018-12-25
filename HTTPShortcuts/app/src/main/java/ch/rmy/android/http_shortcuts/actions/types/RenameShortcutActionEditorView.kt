@@ -9,9 +9,9 @@ import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import kotterknife.bindView
 
 class RenameShortcutActionEditorView(
-        context: Context,
-        private val action: RenameShortcutAction,
-        variablePlaceholderProvider: VariablePlaceholderProvider
+    context: Context,
+    private val action: RenameShortcutAction,
+    variablePlaceholderProvider: VariablePlaceholderProvider
 ) : BaseActionEditorView(context, R.layout.action_editor_rename_shortcut) {
 
     private val newNameView: VariableEditText by bindView(R.id.new_shortcut_name)

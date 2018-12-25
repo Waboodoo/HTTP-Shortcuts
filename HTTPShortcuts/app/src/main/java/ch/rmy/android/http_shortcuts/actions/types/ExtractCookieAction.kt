@@ -11,9 +11,9 @@ import com.android.volley.VolleyError
 import org.jdeferred2.Promise
 
 class ExtractCookieAction(
-        id: String,
-        actionType: ExtractCookieActionType,
-        data: Map<String, String>
+    id: String,
+    actionType: ExtractCookieActionType,
+    data: Map<String, String>
 ) : BaseAction(id, actionType, data) {
 
     var cookieName: String
@@ -29,15 +29,15 @@ class ExtractCookieAction(
         }
 
     override fun getDescription(context: Context): CharSequence =
-            Variables.rawPlaceholdersToVariableSpans(
-                    context,
-                    context.getString(R.string.action_type_extract_cookie_description, cookieName, Variables.toRawPlaceholder(variableKey))
-            )
+        Variables.rawPlaceholdersToVariableSpans(
+            context,
+            context.getString(R.string.action_type_extract_cookie_description, cookieName, Variables.toRawPlaceholder(variableKey))
+        )
 
     override fun perform(context: Context, shortcutId: Long, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Promise<Unit, Throwable, Unit> {
         val cookiesString = response?.headers?.get(COOKIE_HEADER)
-                ?: volleyError?.networkResponse?.headers?.get(COOKIE_HEADER)
-                ?: return PromiseUtils.resolve(Unit)
+            ?: volleyError?.networkResponse?.headers?.get(COOKIE_HEADER)
+            ?: return PromiseUtils.resolve(Unit)
 
         val cookie = cookiesString.split(';').first().split('=')
         val cookieName = cookie.first()
@@ -53,7 +53,7 @@ class ExtractCookieAction(
     }
 
     override fun createEditorView(context: Context, variablePlaceholderProvider: VariablePlaceholderProvider) =
-            ExtractCookieActionEditorView(context, this, variablePlaceholderProvider)
+        ExtractCookieActionEditorView(context, this, variablePlaceholderProvider)
 
     companion object {
 

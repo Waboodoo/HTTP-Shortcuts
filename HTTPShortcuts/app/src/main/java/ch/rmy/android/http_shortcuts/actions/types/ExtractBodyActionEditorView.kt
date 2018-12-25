@@ -5,8 +5,8 @@ import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.utils.ArrayUtil
 import ch.rmy.android.http_shortcuts.utils.OnItemChosenListener
+import ch.rmy.android.http_shortcuts.utils.findIndex
 import ch.rmy.android.http_shortcuts.utils.fix
 import ch.rmy.android.http_shortcuts.utils.visible
 import ch.rmy.android.http_shortcuts.variables.VariableButton
@@ -15,9 +15,9 @@ import com.satsuware.usefulviews.LabelledSpinner
 import kotterknife.bindView
 
 class ExtractBodyActionEditorView(
-        context: Context,
-        private val action: ExtractBodyAction,
-        variablePlaceholderProvider: VariablePlaceholderProvider
+    context: Context,
+    private val action: ExtractBodyAction,
+    variablePlaceholderProvider: VariablePlaceholderProvider
 ) : BaseActionEditorView(context, R.layout.action_editor_extract_body) {
 
     private val extractionOption: LabelledSpinner by bindView(R.id.input_extraction_option)
@@ -35,7 +35,7 @@ class ExtractBodyActionEditorView(
     init {
         extractionOption.fix()
         extractionOption.setItemsArray(getOptionStrings())
-        extractionOption.setSelection(ArrayUtil.findIndex(EXTRACTION_OPTIONS, action.extractionType))
+        extractionOption.setSelection(EXTRACTION_OPTIONS.findIndex(action.extractionType))
         extractionOption.onItemChosenListener = object : OnItemChosenListener() {
             override fun onSelectionChanged() {
                 updateViews()
@@ -86,22 +86,22 @@ class ExtractBodyActionEditorView(
     }
 
     private fun getSelectedOption() =
-            EXTRACTION_OPTIONS[extractionOption.spinner.selectedItemPosition]
+        EXTRACTION_OPTIONS[extractionOption.spinner.selectedItemPosition]
 
     private fun getOptionStrings() = EXTRACTION_OPTIONS_RESOURCES.map { context.getString(it) }
 
     companion object {
 
         private val EXTRACTION_OPTIONS = arrayOf(
-                ExtractBodyAction.EXTRACTION_OPTION_FULL_BODY,
-                ExtractBodyAction.EXTRACTION_OPTION_SUBSTRING,
-                ExtractBodyAction.EXTRACTION_OPTION_PARSE_JSON
+            ExtractBodyAction.EXTRACTION_OPTION_FULL_BODY,
+            ExtractBodyAction.EXTRACTION_OPTION_SUBSTRING,
+            ExtractBodyAction.EXTRACTION_OPTION_PARSE_JSON
         )
 
         private val EXTRACTION_OPTIONS_RESOURCES = intArrayOf(
-                R.string.action_type_extract_body_description_option_full_body,
-                R.string.action_type_extract_body_description_option_substring,
-                R.string.action_type_extract_body_description_option_json
+            R.string.action_type_extract_body_description_option_full_body,
+            R.string.action_type_extract_body_description_option_substring,
+            R.string.action_type_extract_body_description_option_json
         )
 
     }

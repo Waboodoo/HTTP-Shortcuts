@@ -11,8 +11,8 @@ import ch.rmy.android.http_shortcuts.actions.types.ActionFactory
 import ch.rmy.android.http_shortcuts.actions.types.BaseAction
 import ch.rmy.android.http_shortcuts.adapters.ActionListAdapter
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
-import ch.rmy.android.http_shortcuts.utils.Destroyable
 import ch.rmy.android.http_shortcuts.utils.Destroyer
+import ch.rmy.android.http_shortcuts.utils.DestroyerDestroyable
 import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
 import ch.rmy.android.http_shortcuts.utils.mapFor
 import ch.rmy.android.http_shortcuts.utils.mapIf
@@ -20,7 +20,7 @@ import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import kotterknife.bindView
 
-class ActionsView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr), Destroyable {
+class ActionsView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr), DestroyerDestroyable {
 
     private val actionFactory = ActionFactory(context)
 
@@ -40,7 +40,7 @@ class ActionsView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     private val addButton: Button by bindView(R.id.action_add_button)
     private val actionList: RecyclerView by bindView(R.id.action_list)
     private val adapter = ActionListAdapter(context)
-    private val destroyer = Destroyer()
+    override val destroyer = Destroyer()
 
     init {
         inflate(context, R.layout.action_list, this)
@@ -49,18 +49,18 @@ class ActionsView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
         adapter.clickListener = { action ->
             MenuDialogBuilder(context)
-                    .title(action.actionType.title)
-                    .item(R.string.action_edit_action) {
-                        action.edit(context, variablePlaceholderProvider)
-                                .done {
-                                    adapter.notifyDataSetChanged()
-                                }
-                    }
-                    .item(R.string.action_remove_action) {
-                        internalActions.removeAll { it.id == action.id }
-                        adapter.notifyDataSetChanged()
-                    }
-                    .showIfPossible()
+                .title(action.actionType.title)
+                .item(R.string.action_edit_action) {
+                    action.edit(context, variablePlaceholderProvider)
+                        .done {
+                            adapter.notifyDataSetChanged()
+                        }
+                }
+                .item(R.string.action_remove_action) {
+                    internalActions.removeAll { it.id == action.id }
+                    adapter.notifyDataSetChanged()
+                }
+                .showIfPossible()
         }
 
         addButton.setOnClickListener { openAddDialog() }
@@ -69,22 +69,22 @@ class ActionsView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     private fun openAddDialog() {
         val actionTypes = actionFactory.availableActionTypes
-                .mapIf(isBeforeActions) {
-                    it.filter { it.isValidBeforeAction }
-                }
+            .mapIf(isBeforeActions) {
+                it.filter { it.isValidBeforeAction }
+            }
         MenuDialogBuilder(context)
-                .title(R.string.title_add_action)
-                .mapFor(actionTypes) { builder, actionType ->
-                    builder.item(actionType.title) {
-                        val action = actionType.createAction()
-                        action.edit(context, variablePlaceholderProvider)
-                                .done {
-                                    internalActions.add(action)
-                                    adapter.notifyDataSetChanged()
-                                }
-                    }
+            .title(R.string.title_add_action)
+            .mapFor(actionTypes) { builder, actionType ->
+                builder.item(actionType.title) {
+                    val action = actionType.createAction()
+                    action.edit(context, variablePlaceholderProvider)
+                        .done {
+                            internalActions.add(action)
+                            adapter.notifyDataSetChanged()
+                        }
                 }
-                .showIfPossible()
+            }
+            .showIfPossible()
     }
 
     private fun initDragOrdering() {
@@ -95,10 +95,6 @@ class ActionsView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             internalActions.add(newPosition, action)
             adapter.notifyItemMoved(oldPosition, newPosition)
         }.attachTo(destroyer)
-    }
-
-    override fun destroy() {
-        destroyer.destroy()
     }
 
 }

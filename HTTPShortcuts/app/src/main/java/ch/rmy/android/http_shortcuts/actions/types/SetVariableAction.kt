@@ -10,9 +10,9 @@ import com.android.volley.VolleyError
 import org.jdeferred2.Promise
 
 class SetVariableAction(
-        id: String,
-        actionType: SetVariableActionType,
-        data: Map<String, String>
+    id: String,
+    actionType: SetVariableActionType,
+    data: Map<String, String>
 ) : BaseAction(id, actionType, data) {
 
     var newValue: String
@@ -28,10 +28,10 @@ class SetVariableAction(
         }
 
     override fun getDescription(context: Context): CharSequence =
-            Variables.rawPlaceholdersToVariableSpans(
-                    context,
-                    context.getString(R.string.action_type_set_variable_description, Variables.toRawPlaceholder(variableKey), newValue)
-            )
+        Variables.rawPlaceholdersToVariableSpans(
+            context,
+            context.getString(R.string.action_type_set_variable_description, Variables.toRawPlaceholder(variableKey), newValue)
+        )
 
     override fun perform(context: Context, shortcutId: Long, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Promise<Unit, Throwable, Unit> {
         val value = Variables.rawPlaceholdersToResolvedValues(newValue, variableValues)
@@ -42,7 +42,7 @@ class SetVariableAction(
     }
 
     override fun createEditorView(context: Context, variablePlaceholderProvider: VariablePlaceholderProvider) =
-            SetVariableActionEditorView(context, this, variablePlaceholderProvider)
+        SetVariableActionEditorView(context, this, variablePlaceholderProvider)
 
     companion object {
 

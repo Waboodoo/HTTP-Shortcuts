@@ -14,28 +14,28 @@ import org.jdeferred2.Promise
 import org.jdeferred2.impl.DeferredObject
 
 abstract class BaseAction(
-        val id: String,
-        val actionType: BaseActionType,
-        data: Map<String, String>
+    val id: String,
+    val actionType: BaseActionType,
+    data: Map<String, String>
 ) {
 
     protected val internalData = data.toMutableMap()
 
     fun toDTO() = ActionDTO(
-            id = id,
-            type = actionType.type,
-            data = internalData
+        id = id,
+        type = actionType.type,
+        data = internalData
     )
 
     abstract fun getDescription(context: Context): CharSequence
 
     open fun perform(context: Context, shortcutId: Long, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Promise<Unit, Throwable, Unit> =
-            try {
-                performBlocking(context, shortcutId, variableValues, response, volleyError, recursionDepth)
-                PromiseUtils.resolve(Unit)
-            } catch (e: Throwable) {
-                PromiseUtils.reject(e)
-            }
+        try {
+            performBlocking(context, shortcutId, variableValues, response, volleyError, recursionDepth)
+            PromiseUtils.resolve(Unit)
+        } catch (e: Throwable) {
+            PromiseUtils.reject(e)
+        }
 
     protected open fun performBlocking(context: Context, shortcutId: Long, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int) {
 
@@ -43,34 +43,33 @@ abstract class BaseAction(
 
     open fun edit(context: Context, variablePlaceholderProvider: VariablePlaceholderProvider): Promise<Unit, Unit, Unit> {
         val editorView = createEditorView(context, variablePlaceholderProvider)
-                ?: return PromiseUtils.resolve(Unit)
+            ?: return PromiseUtils.resolve(Unit)
         val deferred = DeferredObject<Unit, Unit, Unit>()
         MaterialDialog.Builder(context)
-                .title(actionType.title)
-                .customView(editorView, true)
-                .dismissListener {
+            .title(actionType.title)
+            .customView(editorView, true)
+            .dismissListener {
+                deferred.rejectSafely(Unit)
+            }
+            .positiveText(R.string.dialog_ok).onPositive { dialog, _ ->
+                val success = editorView.compile()
+                if (success) {
+                    deferred.resolve(Unit)
+                    dialog.dismiss()
+                }
+            }
+            .autoDismiss(false)
+            .negativeText(R.string.dialog_cancel)
+            .onNegative { dialog, _ -> dialog.dismiss() }
+            .showIfPossible()
+            .let { dialogShown ->
+                if (!dialogShown) {
                     deferred.rejectSafely(Unit)
                 }
-                .positiveText(R.string.dialog_ok)
-                .onPositive { dialog, _ ->
-                    val success = editorView.compile()
-                    if (success) {
-                        deferred.resolve(Unit)
-                        dialog.dismiss()
-                    }
-                }
-                .autoDismiss(false)
-                .negativeText(R.string.dialog_cancel)
-                .onNegative { dialog, _ -> dialog.dismiss() }
-                .showIfPossible()
-                .let { dialogShown ->
-                    if (!dialogShown) {
-                        deferred.rejectSafely(Unit)
-                    }
-                }
+            }
 
         return deferred.promise()
-                .always { _, _, _ -> editorView.destroy() }
+            .always { _, _, _ -> editorView.destroy() }
     }
 
     open fun createEditorView(context: Context, variablePlaceholderProvider: VariablePlaceholderProvider): BaseActionEditorView? = null

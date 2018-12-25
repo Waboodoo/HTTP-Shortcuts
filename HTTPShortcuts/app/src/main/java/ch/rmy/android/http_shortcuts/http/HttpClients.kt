@@ -13,13 +13,13 @@ import javax.net.ssl.X509TrustManager
 internal object HttpClients {
 
     fun getClient(acceptAllCertificates: Boolean, username: String?, password: String?): OkHttpClient =
-            (if (acceptAllCertificates) createUnsafeOkHttpClientBuilder() else createDefaultOkHttpClientBuilder())
-                    .mapIf(username != null && password != null) {
-                        val authenticator = DigestAuthenticator(Credentials(username, password))
-                        it.authenticator(authenticator)
-                    }
-                    .addNetworkInterceptor(StethoInterceptor())
-                    .build()
+        (if (acceptAllCertificates) createUnsafeOkHttpClientBuilder() else createDefaultOkHttpClientBuilder())
+            .mapIf(username != null && password != null) {
+                val authenticator = DigestAuthenticator(Credentials(username, password))
+                it.authenticator(authenticator)
+            }
+            .addNetworkInterceptor(StethoInterceptor())
+            .build()
 
     private fun createDefaultOkHttpClientBuilder() = OkHttpClient.Builder()
 
@@ -42,8 +42,8 @@ internal object HttpClients {
             val sslSocketFactory = sslContext.socketFactory
 
             return OkHttpClient.Builder()
-                    .sslSocketFactory(sslSocketFactory, trustAllCerts[0])
-                    .hostnameVerifier { _, _ -> true }
+                .sslSocketFactory(sslSocketFactory, trustAllCerts[0])
+                .hostnameVerifier { _, _ -> true }
         } catch (e: Exception) {
             throw RuntimeException(e)
         }

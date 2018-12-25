@@ -24,7 +24,7 @@ class ShortcutResponse internal constructor(val headers: Map<String, String>, va
     private fun isGzipped(): Boolean = headers["Content-Encoding"] == "gzip"
 
     private fun parseByteArray(): String =
-            data.toString(Charset.forName(HttpHeaderParser.parseCharset(headers, "UTF-8")))
+        data.toString(Charset.forName(HttpHeaderParser.parseCharset(headers, "UTF-8")))
 
     private fun parseGzippedByteArray(): String {
         val output = StringBuilder()

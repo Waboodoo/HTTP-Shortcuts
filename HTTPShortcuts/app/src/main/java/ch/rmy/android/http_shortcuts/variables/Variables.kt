@@ -24,7 +24,7 @@ object Variables {
     private val PATTERN = Pattern.compile(RAW_PLACEHOLDER_REGEX)
 
     fun isValidVariableKey(variableKey: String) =
-            VARIABLE_KEY_REGEX.toRegex().matchEntire(variableKey) != null
+        VARIABLE_KEY_REGEX.toRegex().matchEntire(variableKey) != null
 
     fun rawPlaceholdersToResolvedValues(string: String, variables: Map<String, String>): String {
         val builder = StringBuilder()
@@ -85,16 +85,16 @@ object Variables {
     fun variableSpansToRawPlaceholders(text: Spannable): String {
         val builder = StringBuilder(text)
         text.getSpans(0, text.length, VariableSpan::class.java)
-                .sortedBy {
-                    text.getSpanStart(it)
-                }
-                .reversed()
-                .forEach { span ->
-                    val start = text.getSpanStart(span)
-                    val end = text.getSpanEnd(span)
-                    val replacement = toRawPlaceholder(span.variableKey)
-                    builder.replace(start, end, replacement)
-                }
+            .sortedBy {
+                text.getSpanStart(it)
+            }
+            .reversed()
+            .forEach { span ->
+                val start = text.getSpanStart(span)
+                val end = text.getSpanEnd(span)
+                val replacement = toRawPlaceholder(span.variableKey)
+                builder.replace(start, end, replacement)
+            }
 
         return builder.toString()
     }

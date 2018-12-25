@@ -26,13 +26,13 @@ class ExecutionService : JobService() {
         val pendingExecution = controller.getShortcutPendingExecution(shortcutId) ?: return false
         val tryNumber = pendingExecution.tryNumber + 1
         val variableValues = pendingExecution.resolvedVariables
-                .associate { variable -> variable.key to variable.value }
+            .associate { variable -> variable.key to variable.value }
         controller.removePendingExecution(shortcutId)
-                .doOnTerminate {
-                    executeShortcut(shortcutId, variableValues, tryNumber)
-                    jobFinished(params, false)
-                }
-                .subscribe()
+            .doOnTerminate {
+                executeShortcut(shortcutId, variableValues, tryNumber)
+                jobFinished(params, false)
+            }
+            .subscribe()
         return true
     }
 
@@ -40,9 +40,9 @@ class ExecutionService : JobService() {
 
     private fun executeShortcut(id: Long, variableValues: Map<String, String>, tryNumber: Int) {
         val shortcutIntent = ExecuteActivity.IntentBuilder(context, id)
-                .variableValues(variableValues)
-                .tryNumber(tryNumber)
-                .build()
+            .variableValues(variableValues)
+            .tryNumber(tryNumber)
+            .build()
         startActivity(shortcutIntent)
     }
 

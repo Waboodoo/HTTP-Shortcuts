@@ -11,9 +11,9 @@ import com.android.volley.VolleyError
 import org.jdeferred2.Promise
 
 class ExtractStatusCodeAction(
-        id: String,
-        actionType: ExtractStatusCodeActionType,
-        data: Map<String, String>
+    id: String,
+    actionType: ExtractStatusCodeActionType,
+    data: Map<String, String>
 ) : BaseAction(id, actionType, data) {
 
     var variableKey: String
@@ -23,10 +23,10 @@ class ExtractStatusCodeAction(
         }
 
     override fun getDescription(context: Context): CharSequence =
-            Variables.rawPlaceholdersToVariableSpans(
-                    context,
-                    context.getString(R.string.action_type_extract_status_code_description, Variables.toRawPlaceholder(variableKey))
-            )
+        Variables.rawPlaceholdersToVariableSpans(
+            context,
+            context.getString(R.string.action_type_extract_status_code_description, Variables.toRawPlaceholder(variableKey))
+        )
 
     override fun perform(context: Context, shortcutId: Long, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Promise<Unit, Throwable, Unit> {
         val statusCode = response?.statusCode ?: volleyError?.networkResponse?.statusCode
@@ -39,7 +39,7 @@ class ExtractStatusCodeAction(
     }
 
     override fun createEditorView(context: Context, variablePlaceholderProvider: VariablePlaceholderProvider) =
-            ExtractStatusCodeActionEditorView(context, this, variablePlaceholderProvider)
+        ExtractStatusCodeActionEditorView(context, this, variablePlaceholderProvider)
 
     companion object {
 

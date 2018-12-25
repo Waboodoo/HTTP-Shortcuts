@@ -55,71 +55,71 @@ class CategoriesActivity : BaseActivity() {
 
     private fun openCreateDialog() {
         MaterialDialog.Builder(context)
-                .title(R.string.title_create_category)
-                .inputRange(NAME_MIN_LENGTH, NAME_MAX_LENGTH)
-                .input(getString(R.string.placeholder_category_name), null) { _, input ->
-                    createCategory(input.toString())
-                }
-                .showIfPossible()
+            .title(R.string.title_create_category)
+            .inputRange(NAME_MIN_LENGTH, NAME_MAX_LENGTH)
+            .input(getString(R.string.placeholder_category_name), null) { _, input ->
+                createCategory(input.toString())
+            }
+            .showIfPossible()
     }
 
     private fun createCategory(name: String) {
         controller.createCategory(name)
-                .subscribe {
-                    showSnackbar(R.string.message_category_created)
-                }
+            .subscribe {
+                showSnackbar(R.string.message_category_created)
+            }
     }
 
     private fun showContextMenu(category: Category) {
         MenuDialogBuilder(context)
-                .title(category.name)
-                .item(R.string.action_rename) {
-                    showRenameDialog(category)
+            .title(category.name)
+            .item(R.string.action_rename) {
+                showRenameDialog(category)
+            }
+            .item(R.string.action_change_category_layout_type) {
+                showLayoutTypeDialog(category)
+            }
+            .mapIf(categories.size > 1) {
+                it.item(R.string.action_delete) {
+                    showDeleteDialog(category)
                 }
-                .item(R.string.action_change_category_layout_type) {
-                    showLayoutTypeDialog(category)
-                }
-                .mapIf(categories.size > 1) {
-                    it.item(R.string.action_delete) {
-                        showDeleteDialog(category)
-                    }
-                }
-                .showIfPossible()
+            }
+            .showIfPossible()
     }
 
     private fun showRenameDialog(category: Category) {
         MaterialDialog.Builder(context)
-                .title(R.string.title_rename_category)
-                .inputRange(NAME_MIN_LENGTH, NAME_MAX_LENGTH)
-                .input(getString(R.string.placeholder_category_name), category.name) { _, input ->
-                    renameCategory(category, input.toString())
-                }
-                .showIfPossible()
+            .title(R.string.title_rename_category)
+            .inputRange(NAME_MIN_LENGTH, NAME_MAX_LENGTH)
+            .input(getString(R.string.placeholder_category_name), category.name) { _, input ->
+                renameCategory(category, input.toString())
+            }
+            .showIfPossible()
     }
 
     private fun showLayoutTypeDialog(category: Category) {
         MenuDialogBuilder(context)
-                .item(R.string.layout_type_linear_list) {
-                    changeLayoutType(category, Category.LAYOUT_LINEAR_LIST)
-                }
-                .item(R.string.layout_type_grid) {
-                    changeLayoutType(category, Category.LAYOUT_GRID)
-                }
-                .showIfPossible()
+            .item(R.string.layout_type_linear_list) {
+                changeLayoutType(category, Category.LAYOUT_LINEAR_LIST)
+            }
+            .item(R.string.layout_type_grid) {
+                changeLayoutType(category, Category.LAYOUT_GRID)
+            }
+            .showIfPossible()
     }
 
     private fun renameCategory(category: Category, newName: String) {
         controller.renameCategory(category.id, newName)
-                .subscribe {
-                    showSnackbar(R.string.message_category_renamed)
-                }
+            .subscribe {
+                showSnackbar(R.string.message_category_renamed)
+            }
     }
 
     private fun changeLayoutType(category: Category, layoutType: String) {
         controller.setLayoutType(category.id, layoutType)
-                .subscribe {
-                    showSnackbar(R.string.message_layout_type_changed)
-                }
+            .subscribe {
+                showSnackbar(R.string.message_layout_type_changed)
+            }
     }
 
     private fun showDeleteDialog(category: Category) {
@@ -128,18 +128,18 @@ class CategoriesActivity : BaseActivity() {
             return
         }
         MaterialDialog.Builder(context)
-                .content(R.string.confirm_delete_category_message)
-                .positiveText(R.string.dialog_delete)
-                .onPositive { _, _ -> deleteCategory(category) }
-                .negativeText(R.string.dialog_cancel)
-                .showIfPossible()
+            .content(R.string.confirm_delete_category_message)
+            .positiveText(R.string.dialog_delete)
+            .onPositive { _, _ -> deleteCategory(category) }
+            .negativeText(R.string.dialog_cancel)
+            .showIfPossible()
     }
 
     private fun deleteCategory(category: Category) {
         controller.deleteCategory(category.id)
-                .subscribe {
-                    showSnackbar(R.string.message_category_deleted)
-                }
+            .subscribe {
+                showSnackbar(R.string.message_category_deleted)
+            }
     }
 
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, CategoriesActivity::class.java)

@@ -21,8 +21,8 @@ class HelpDialogBuilder(context: Context) {
         view = layoutInflater.inflate(R.layout.help_dialog, null)
 
         builder = MaterialDialog.Builder(context)
-                .customView(view, false)
-                .positiveText(android.R.string.ok)
+            .customView(view, false)
+            .positiveText(android.R.string.ok)
     }
 
     fun title(@StringRes title: Int) = this.also {

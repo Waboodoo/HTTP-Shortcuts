@@ -12,9 +12,9 @@ import com.android.volley.VolleyError
 import org.jdeferred2.Promise
 
 class RenameShortcutAction(
-        id: String,
-        actionType: RenameShortcutActionType,
-        data: Map<String, String>
+    id: String,
+    actionType: RenameShortcutActionType,
+    data: Map<String, String>
 ) : BaseAction(id, actionType, data) {
 
     var name
@@ -26,10 +26,10 @@ class RenameShortcutAction(
     val shortcutId = data[KEY_SHORTCUT_ID]?.toLongOrNull()
 
     override fun getDescription(context: Context): CharSequence =
-            Variables.rawPlaceholdersToVariableSpans(context, context.getString(R.string.action_type_rename_shortcut_description, name))
+        Variables.rawPlaceholdersToVariableSpans(context, context.getString(R.string.action_type_rename_shortcut_description, name))
 
     override fun perform(context: Context, shortcutId: Long, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Promise<Unit, Throwable, Unit> =
-            renameShortcut(context, this.shortcutId ?: shortcutId, variableValues)
+        renameShortcut(context, this.shortcutId ?: shortcutId, variableValues)
 
     private fun renameShortcut(context: Context, shortcutId: Long, variableValues: Map<String, String>): Promise<Unit, Throwable, Unit> {
         Controller().use { controller ->
@@ -38,17 +38,17 @@ class RenameShortcutAction(
                 return PromiseUtils.resolve(Unit)
             }
             return controller.renameShortcut(shortcutId, newName)
-                    .done {
-                        val shortcut = controller.getShortcutById(shortcutId)
-                        if (LauncherShortcutManager.supportsPinning(context) && shortcut != null) {
-                            LauncherShortcutManager.updatePinnedShortcut(context, shortcut)
-                        }
+                .done {
+                    val shortcut = controller.getShortcutById(shortcutId)
+                    if (LauncherShortcutManager.supportsPinning(context) && shortcut != null) {
+                        LauncherShortcutManager.updatePinnedShortcut(context, shortcut)
                     }
+                }
         }
     }
 
     override fun createEditorView(context: Context, variablePlaceholderProvider: VariablePlaceholderProvider) =
-            RenameShortcutActionEditorView(context, this, variablePlaceholderProvider)
+        RenameShortcutActionEditorView(context, this, variablePlaceholderProvider)
 
     companion object {
 

@@ -61,15 +61,15 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
 
     private fun showCreateOptions() {
         MenuDialogBuilder(context)
-                .title(R.string.title_create_new_shortcut_options_dialog)
-                .item(R.string.button_create_new, this::openEditorForCreation)
-                .item(R.string.button_curl_import, this::openCurlImport)
-                .showIfPossible()
+            .title(R.string.title_create_new_shortcut_options_dialog)
+            .item(R.string.button_create_new, this::openEditorForCreation)
+            .item(R.string.button_curl_import, this::openCurlImport)
+            .showIfPossible()
     }
 
     private fun openEditorForCreation() {
         val intent = EditorActivity.IntentBuilder(context)
-                .build()
+            .build()
         startActivityForResult(intent, REQUEST_CREATE_SHORTCUT)
     }
 
@@ -156,20 +156,20 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     private fun returnForHomeScreen(shortcut: Shortcut) {
         if (LauncherShortcutManager.supportsPinning(context)) {
             MaterialDialog.Builder(context)
-                    .title(R.string.title_select_placement_method)
-                    .content(R.string.description_select_placement_method)
-                    .positiveText(R.string.label_placement_method_default)
-                    .onPositive { _, _ ->
-                        finishWithPlacement(
-                                LauncherShortcutManager.createShortcutPinIntent(context, shortcut)
-                        )
+                .title(R.string.title_select_placement_method)
+                .content(R.string.description_select_placement_method)
+                .positiveText(R.string.label_placement_method_default)
+                .onPositive { _, _ ->
+                    finishWithPlacement(
+                        LauncherShortcutManager.createShortcutPinIntent(context, shortcut)
+                    )
 
-                    }
-                    .negativeText(R.string.label_placement_method_legacy)
-                    .onNegative { _, _ ->
-                        finishWithPlacement(IntentUtil.getShortcutPlacementIntent(context, shortcut, true))
-                    }
-                    .showIfPossible()
+                }
+                .negativeText(R.string.label_placement_method_legacy)
+                .onNegative { _, _ ->
+                    finishWithPlacement(IntentUtil.getShortcutPlacementIntent(context, shortcut, true))
+                }
+                .showIfPossible()
         } else {
             finishWithPlacement(IntentUtil.getShortcutPlacementIntent(context, shortcut, true))
         }
@@ -210,55 +210,55 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
 
     private fun openSettings() {
         val intent = SettingsActivity.IntentBuilder(context)
-                .build()
+            .build()
         startActivityForResult(intent, REQUEST_SETTINGS)
     }
 
     private fun openCategoriesEditor() {
         val intent = CategoriesActivity.IntentBuilder(context)
-                .build()
+            .build()
         startActivity(intent)
     }
 
     private fun openVariablesEditor() {
         val intent = VariablesActivity.IntentBuilder(context)
-                .build()
+            .build()
         startActivity(intent)
     }
 
     private fun openAppUnlockDialog(showError: Boolean = false) {
         MaterialDialog.Builder(context)
-                .title(R.string.dialog_title_unlock_app)
-                .content(if (showError) R.string.dialog_text_unlock_app_retry else R.string.dialog_text_unlock_app)
-                .positiveText(R.string.button_unlock_app)
-                .input(null, "") { _, input ->
-                    unlockApp(input.toString())
-                }
-                .inputType(InputType.TYPE_TEXT_VARIATION_PASSWORD)
-                .negativeText(R.string.dialog_cancel)
-                .showIfPossible()
+            .title(R.string.dialog_title_unlock_app)
+            .content(if (showError) R.string.dialog_text_unlock_app_retry else R.string.dialog_text_unlock_app)
+            .positiveText(R.string.button_unlock_app)
+            .input(null, "") { _, input ->
+                unlockApp(input.toString())
+            }
+            .inputType(InputType.TYPE_TEXT_VARIATION_PASSWORD)
+            .negativeText(R.string.dialog_cancel)
+            .showIfPossible()
     }
 
     private fun unlockApp(password: String) {
         controller.removeAppLock(password)
-                .done {
-                    if (controller.isAppLocked()) {
-                        openAppUnlockDialog(showError = true)
-                    } else {
-                        invalidateOptionsMenu()
-                        updateCreateButton()
-                        showSnackbar(R.string.message_app_unlocked)
-                    }
+            .done {
+                if (controller.isAppLocked()) {
+                    openAppUnlockDialog(showError = true)
+                } else {
+                    invalidateOptionsMenu()
+                    updateCreateButton()
+                    showSnackbar(R.string.message_app_unlocked)
                 }
-                .fail { e ->
-                    showSnackbar(R.string.error_generic)
-                    CrashReporting.logException(e)
-                }
+            }
+            .fail { e ->
+                showSnackbar(R.string.error_generic)
+                CrashReporting.logException(e)
+            }
     }
 
     private fun openCurlImport() {
         val intent = CurlImportActivity.IntentBuilder(context)
-                .build()
+            .build()
         startActivityForResult(intent, REQUEST_CREATE_SHORTCUT_FROM_CURL)
     }
 

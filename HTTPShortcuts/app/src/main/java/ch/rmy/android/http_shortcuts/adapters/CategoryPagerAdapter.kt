@@ -15,14 +15,14 @@ class CategoryPagerAdapter(private val fragmentManager: FragmentManager) : Fragm
 
     fun setCategories(categories: List<Category>, selectionMode: SelectionMode) {
         (fragments.size until categories.size)
-                .map { fragmentManager.findFragmentByTag(makeFragmentName(it)) }
-                .forEach {
-                    if (it is ListFragment) {
-                        fragments.add(it)
-                    } else {
-                        fragments.add(ListFragment())
-                    }
+            .map { fragmentManager.findFragmentByTag(makeFragmentName(it)) }
+            .forEach {
+                if (it is ListFragment) {
+                    fragments.add(it)
+                } else {
+                    fragments.add(ListFragment())
                 }
+            }
 
         while (fragments.size > categories.size) {
             fragments.removeAt(fragments.size - 1)

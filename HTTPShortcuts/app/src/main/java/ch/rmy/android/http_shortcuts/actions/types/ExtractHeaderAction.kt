@@ -11,9 +11,9 @@ import com.android.volley.VolleyError
 import org.jdeferred2.Promise
 
 class ExtractHeaderAction(
-        id: String,
-        actionType: ExtractHeaderActionType,
-        data: Map<String, String>
+    id: String,
+    actionType: ExtractHeaderActionType,
+    data: Map<String, String>
 ) : BaseAction(id, actionType, data) {
 
     var headerKey: String
@@ -29,15 +29,15 @@ class ExtractHeaderAction(
         }
 
     override fun getDescription(context: Context): CharSequence =
-            Variables.rawPlaceholdersToVariableSpans(
-                    context,
-                    context.getString(R.string.action_type_extract_header_description, headerKey, Variables.toRawPlaceholder(variableKey))
-            )
+        Variables.rawPlaceholdersToVariableSpans(
+            context,
+            context.getString(R.string.action_type_extract_header_description, headerKey, Variables.toRawPlaceholder(variableKey))
+        )
 
     override fun perform(context: Context, shortcutId: Long, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Promise<Unit, Throwable, Unit> {
         val headerValue = response?.headers?.get(headerKey)
-                ?: volleyError?.networkResponse?.headers?.get(headerKey)
-                ?: return PromiseUtils.resolve(Unit)
+            ?: volleyError?.networkResponse?.headers?.get(headerKey)
+            ?: return PromiseUtils.resolve(Unit)
 
         variableValues[variableKey] = headerValue
         Controller().use { controller ->
@@ -46,7 +46,7 @@ class ExtractHeaderAction(
     }
 
     override fun createEditorView(context: Context, variablePlaceholderProvider: VariablePlaceholderProvider) =
-            ExtractHeaderActionEditorView(context, this, variablePlaceholderProvider)
+        ExtractHeaderActionEditorView(context, this, variablePlaceholderProvider)
 
     companion object {
 

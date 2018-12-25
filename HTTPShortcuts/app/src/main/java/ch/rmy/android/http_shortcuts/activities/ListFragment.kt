@@ -135,56 +135,56 @@ class ListFragment : BaseFragment() {
 
     private fun showContextMenu(shortcut: Shortcut) {
         MenuDialogBuilder(context!!)
-                .title(shortcut.name)
-                .item(R.string.action_place) {
-                    tabHost.placeShortcutOnHomeScreen(shortcut)
+            .title(shortcut.name)
+            .item(R.string.action_place) {
+                tabHost.placeShortcutOnHomeScreen(shortcut)
+            }
+            .item(R.string.action_run) {
+                executeShortcut(shortcut)
+            }
+            .item(R.string.action_edit) {
+                editShortcut(shortcut)
+            }
+            .mapIf(canMoveShortcut(shortcut)) {
+                it.item(R.string.action_move) {
+                    openMoveDialog(shortcut)
                 }
-                .item(R.string.action_run) {
-                    executeShortcut(shortcut)
+            }
+            .item(R.string.action_duplicate) {
+                duplicateShortcut(shortcut)
+            }
+            .mapIf(isPending(shortcut)) {
+                it.item(R.string.action_cancel_pending) {
+                    cancelPendingExecution(shortcut)
                 }
-                .item(R.string.action_edit) {
-                    editShortcut(shortcut)
-                }
-                .mapIf(canMoveShortcut(shortcut)) {
-                    it.item(R.string.action_move) {
-                        openMoveDialog(shortcut)
-                    }
-                }
-                .item(R.string.action_duplicate) {
-                    duplicateShortcut(shortcut)
-                }
-                .mapIf(isPending(shortcut)) {
-                    it.item(R.string.action_cancel_pending) {
-                        cancelPendingExecution(shortcut)
-                    }
-                }
-                .item(R.string.action_curl_export) {
-                    showCurlExportDialog(shortcut)
-                }
-                .item(R.string.action_delete) {
-                    showDeleteDialog(shortcut)
-                }
-                .showIfPossible()
+            }
+            .item(R.string.action_curl_export) {
+                showCurlExportDialog(shortcut)
+            }
+            .item(R.string.action_delete) {
+                showDeleteDialog(shortcut)
+            }
+            .showIfPossible()
     }
 
     private fun isPending(shortcut: Shortcut) =
-            controller.getShortcutPendingExecution(shortcut.id) != null
+        controller.getShortcutPendingExecution(shortcut.id) != null
 
     private fun executeShortcut(shortcut: Shortcut) {
         val intent = ExecuteActivity.IntentBuilder(context!!, shortcut.id)
-                .build()
+            .build()
         startActivity(intent)
     }
 
     private fun editShortcut(shortcut: Shortcut) {
         val intent = EditorActivity.IntentBuilder(context!!)
-                .shortcutId(shortcut.id)
-                .build()
+            .shortcutId(shortcut.id)
+            .build()
         startActivityForResult(intent, REQUEST_EDIT_SHORTCUT)
     }
 
     private fun canMoveShortcut(shortcut: Shortcut): Boolean =
-            canMoveShortcut(shortcut, -1) || canMoveShortcut(shortcut, +1) || categories.size > 1
+        canMoveShortcut(shortcut, -1) || canMoveShortcut(shortcut, +1) || categories.size > 1
 
     private fun canMoveShortcut(shortcut: Shortcut, offset: Int): Boolean {
         if (category == null) {
@@ -196,22 +196,22 @@ class ListFragment : BaseFragment() {
 
     private fun openMoveDialog(shortcut: Shortcut) {
         MenuDialogBuilder(context!!)
-                .mapIf(canMoveShortcut(shortcut, -1)) {
-                    it.item(R.string.action_move_up) {
-                        moveShortcut(shortcut, -1)
-                    }
+            .mapIf(canMoveShortcut(shortcut, -1)) {
+                it.item(R.string.action_move_up) {
+                    moveShortcut(shortcut, -1)
                 }
-                .mapIf(canMoveShortcut(shortcut, 1)) {
-                    it.item(R.string.action_move_down) {
-                        moveShortcut(shortcut, 1)
-                    }
+            }
+            .mapIf(canMoveShortcut(shortcut, 1)) {
+                it.item(R.string.action_move_down) {
+                    moveShortcut(shortcut, 1)
                 }
-                .mapIf(categories.size > 1) {
-                    it.item(R.string.action_move_to_category) {
-                        showMoveToCategoryDialog(shortcut)
-                    }
+            }
+            .mapIf(categories.size > 1) {
+                it.item(R.string.action_move_to_category) {
+                    showMoveToCategoryDialog(shortcut)
                 }
-                .showIfPossible()
+            }
+            .showIfPossible()
     }
 
     private fun moveShortcut(shortcut: Shortcut, offset: Int) {
@@ -231,99 +231,99 @@ class ListFragment : BaseFragment() {
     private fun showMoveToCategoryDialog(shortcut: Shortcut) {
         category?.let { currentCategory ->
             MenuDialogBuilder(context!!)
-                    .title(R.string.title_move_to_category)
-                    .mapFor(this.categories.filter { it.id != currentCategory.id }) { builder, category ->
-                        builder.item(category.name) {
-                            if (category.isValid) {
-                                moveShortcut(shortcut, category)
-                            }
+                .title(R.string.title_move_to_category)
+                .mapFor(this.categories.filter { it.id != currentCategory.id }) { builder, category ->
+                    builder.item(category.name) {
+                        if (category.isValid) {
+                            moveShortcut(shortcut, category)
                         }
                     }
-                    .showIfPossible()
+                }
+                .showIfPossible()
         }
     }
 
     private fun moveShortcut(shortcut: Shortcut, category: Category) {
         controller.moveShortcut(shortcut.id, targetCategoryId = category.id)
-                .subscribe {
-                    tabHost.showSnackbar(String.format(getString(R.string.shortcut_moved), shortcut.name))
-                }
+            .subscribe {
+                tabHost.showSnackbar(String.format(getString(R.string.shortcut_moved), shortcut.name))
+            }
     }
 
     private fun duplicateShortcut(shortcut: Shortcut) {
         category?.let { currentCategory ->
             val newName = String.format(getString(R.string.copy), shortcut.name)
             controller.persist(shortcut.duplicate(newName))
-                    .done { duplicate ->
-                        controller.moveShortcut(
-                                duplicate.id,
-                                targetCategoryId = currentCategory.id,
-                                targetPosition = currentCategory
-                                        .shortcuts.indexOfFirst { it.id == shortcut.id }
-                                        .takeIf { it != -1 }
-                                        ?.let { it + 1 }
-                        )
-                                .subscribe()
-                    }
+                .done { duplicate ->
+                    controller.moveShortcut(
+                        duplicate.id,
+                        targetCategoryId = currentCategory.id,
+                        targetPosition = currentCategory
+                            .shortcuts.indexOfFirst { it.id == shortcut.id }
+                            .takeIf { it != -1 }
+                            ?.let { it + 1 }
+                    )
+                        .subscribe()
+                }
             tabHost.showSnackbar(String.format(getString(R.string.shortcut_duplicated), shortcut.name))
         }
     }
 
     private fun cancelPendingExecution(shortcut: Shortcut) {
         controller.removePendingExecution(shortcut.id)
-                .subscribe {
-                    tabHost.showSnackbar(String.format(getString(R.string.pending_shortcut_execution_cancelled), shortcut.name))
-                    ExecutionScheduler.schedule(context!!)
-                }
+            .subscribe {
+                tabHost.showSnackbar(String.format(getString(R.string.pending_shortcut_execution_cancelled), shortcut.name))
+                ExecutionScheduler.schedule(context!!)
+            }
     }
 
     private fun showCurlExportDialog(shortcut: Shortcut) {
         val command = CurlCommand.Builder()
-                .url(shortcut.url)
-                .username(shortcut.username)
-                .password(shortcut.password)
-                .method(shortcut.method)
-                .timeout(shortcut.timeout)
-                .mapFor(shortcut.headers) { builder, header ->
-                    builder.header(header.key, header.value)
+            .url(shortcut.url)
+            .username(shortcut.username)
+            .password(shortcut.password)
+            .method(shortcut.method)
+            .timeout(shortcut.timeout)
+            .mapFor(shortcut.headers) { builder, header ->
+                builder.header(header.key, header.value)
+            }
+            .mapFor(shortcut.parameters) { builder, parameter ->
+                try {
+                    builder.data(URLEncoder.encode(parameter.key, "UTF-8")
+                        + "="
+                        + URLEncoder.encode(parameter.value, "UTF-8")
+                        + "&"
+                    )
+                } catch (e: UnsupportedEncodingException) {
+                    builder
                 }
-                .mapFor(shortcut.parameters) { builder, parameter ->
-                    try {
-                        builder.data(URLEncoder.encode(parameter.key, "UTF-8")
-                                + "="
-                                + URLEncoder.encode(parameter.value, "UTF-8")
-                                + "&"
-                        )
-                    } catch (e: UnsupportedEncodingException) {
-                        builder
-                    }
-                }
-                .data(shortcut.bodyContent)
-                .build()
+            }
+            .data(shortcut.bodyContent)
+            .build()
 
         CurlExportDialog(
-                context!!,
-                shortcut.getSafeName(context!!),
-                CurlConstructor.toCurlCommandString(command)
+            context!!,
+            shortcut.getSafeName(context!!),
+            CurlConstructor.toCurlCommandString(command)
         ).show()
     }
 
     private fun showDeleteDialog(shortcut: Shortcut) {
         MaterialDialog.Builder(context!!)
-                .content(R.string.confirm_delete_shortcut_message)
-                .positiveText(R.string.dialog_delete)
-                .onPositive { _, _ -> deleteShortcut(shortcut) }
-                .negativeText(R.string.dialog_cancel)
-                .showIfPossible()
+            .content(R.string.confirm_delete_shortcut_message)
+            .positiveText(R.string.dialog_delete)
+            .onPositive { _, _ -> deleteShortcut(shortcut) }
+            .negativeText(R.string.dialog_cancel)
+            .showIfPossible()
     }
 
     private fun deleteShortcut(shortcut: Shortcut) {
         tabHost.showSnackbar(String.format(getString(R.string.shortcut_deleted), shortcut.name))
         tabHost.removeShortcutFromHomeScreen(shortcut)
         controller.deleteShortcut(shortcut.id)
-                .subscribe {
-                    ExecutionScheduler.schedule(context!!)
-                }
+            .subscribe {
+                ExecutionScheduler.schedule(context!!)
+            }
     }
 
     private val tabHost: TabHost

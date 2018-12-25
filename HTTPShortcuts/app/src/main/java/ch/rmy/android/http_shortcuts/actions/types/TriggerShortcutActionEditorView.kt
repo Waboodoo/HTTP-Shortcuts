@@ -11,8 +11,8 @@ import com.afollestad.materialdialogs.MaterialDialog
 import kotterknife.bindView
 
 class TriggerShortcutActionEditorView(
-        context: Context,
-        private val action: TriggerShortcutAction
+    context: Context,
+    private val action: TriggerShortcutAction
 ) : BaseActionEditorView(context, R.layout.action_editor_trigger_shortcut) {
 
     private val controller by lazy {
@@ -37,26 +37,21 @@ class TriggerShortcutActionEditorView(
 
         if (shortcuts.isEmpty()) {
             MaterialDialog.Builder(context)
-                    .content(R.string.action_target_shortcut_error_no_shortcuts)
-                    .positiveText(R.string.dialog_ok)
-                    .showIfPossible()
+                .content(R.string.action_target_shortcut_error_no_shortcuts)
+                .positiveText(R.string.dialog_ok)
+                .showIfPossible()
         } else {
             MenuDialogBuilder(context)
-                    .mapFor(shortcuts) { builder, shortcut ->
-                        builder.item(shortcut.name) {
-                            action.shortcutId = shortcut.id
-                            updateViews()
-                        }
+                .mapFor(shortcuts) { builder, shortcut ->
+                    builder.item(shortcut.name) {
+                        action.shortcutId = shortcut.id
+                        updateViews()
                     }
-                    .showIfPossible()
+                }
+                .showIfPossible()
         }
     }
 
-    override fun compile(): Boolean {
-        if (action.shortcutName == null) {
-            return false
-        }
-        return true
-    }
+    override fun compile() = action.shortcutName != null
 
 }

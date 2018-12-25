@@ -9,9 +9,9 @@ import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import kotterknife.bindView
 
 class ExtractCookieActionEditorView(
-        context: Context,
-        private val action: ExtractCookieAction,
-        variablePlaceholderProvider: VariablePlaceholderProvider
+    context: Context,
+    private val action: ExtractCookieAction,
+    variablePlaceholderProvider: VariablePlaceholderProvider
 ) : BaseActionEditorView(context, R.layout.action_editor_extract_cookie) {
 
     private val cookieNameView: EditText by bindView(R.id.input_cookie_name)

@@ -31,7 +31,6 @@ import ch.rmy.android.http_shortcuts.realm.models.Header
 import ch.rmy.android.http_shortcuts.realm.models.Parameter
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut.Companion.TEMPORARY_ID
-import ch.rmy.android.http_shortcuts.utils.ArrayUtil
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.IpackUtil
@@ -43,6 +42,7 @@ import ch.rmy.android.http_shortcuts.utils.Validation
 import ch.rmy.android.http_shortcuts.utils.applyToShortcut
 import ch.rmy.android.http_shortcuts.utils.consume
 import ch.rmy.android.http_shortcuts.utils.dimen
+import ch.rmy.android.http_shortcuts.utils.findIndex
 import ch.rmy.android.http_shortcuts.utils.fix
 import ch.rmy.android.http_shortcuts.utils.focus
 import ch.rmy.android.http_shortcuts.utils.logException
@@ -160,18 +160,18 @@ class EditorActivity : BaseActivity() {
         executionTypeView.onItemChosenListener = itemChosenListener
         executionTypeView.fix()
         executionTypeView.setSelection(
-                ArrayUtil.findIndex(Shortcut.EXECUTION_TYPES, shortcut.executionType ?: "")
+            Shortcut.EXECUTION_TYPES.findIndex(shortcut.executionType ?: "")
         )
 
         methodView.setItemsArray(Shortcut.METHODS)
         methodView.fix()
         methodView.onItemChosenListener = itemChosenListener
-        methodView.setSelection(ArrayUtil.findIndex(Shortcut.METHODS, shortcut.method))
+        methodView.setSelection(Shortcut.METHODS.findIndex(shortcut.method))
 
         authenticationView.setItemsArray(ShortcutUIUtils.getAuthenticationOptions(context))
         authenticationView.fix()
         authenticationView.onItemChosenListener = itemChosenListener
-        authenticationView.setSelection(ArrayUtil.findIndex(Shortcut.AUTHENTICATION_OPTIONS, shortcut.authentication!!))
+        authenticationView.setSelection(Shortcut.AUTHENTICATION_OPTIONS.findIndex(shortcut.authentication!!))
 
         parameterList.variablePlaceholderProvider = variableKeyProvider
         parameterList.addItems(shortcut.parameters)
@@ -196,7 +196,7 @@ class EditorActivity : BaseActivity() {
         feedbackView.setItemsArray(ShortcutUIUtils.getFeedbackOptions(context))
         feedbackView.onItemChosenListener = itemChosenListener
         feedbackView.fix()
-        feedbackView.setSelection(ArrayUtil.findIndex(Shortcut.FEEDBACK_OPTIONS, shortcut.feedback))
+        feedbackView.setSelection(Shortcut.FEEDBACK_OPTIONS.findIndex(shortcut.feedback))
 
         beforeActionsView.isBeforeActions = true
         beforeActionsView.variablePlaceholderProvider = variableKeyProvider
@@ -213,23 +213,23 @@ class EditorActivity : BaseActivity() {
 
         timeoutView.setItemsArray(ShortcutUIUtils.getTimeoutOptions(context))
         timeoutView.fix()
-        timeoutView.setSelection(ArrayUtil.findIndex(Shortcut.TIMEOUT_OPTIONS, shortcut.timeout))
+        timeoutView.setSelection(Shortcut.TIMEOUT_OPTIONS.findIndex(shortcut.timeout))
 
         retryPolicyView.setItemsArray(ShortcutUIUtils.getRetryPolicyOptions(context))
         retryPolicyView.fix()
-        retryPolicyView.setSelection(ArrayUtil.findIndex(Shortcut.RETRY_POLICY_OPTIONS, shortcut.retryPolicy))
+        retryPolicyView.setSelection(Shortcut.RETRY_POLICY_OPTIONS.findIndex(shortcut.retryPolicy))
 
         acceptCertificatesCheckbox.isChecked = shortcut.acceptAllCertificates
         launcherShortcutCheckbox.isChecked = shortcut.launcherShortcut
 
         delayView.setItemsArray(ShortcutUIUtils.getDelayOptions(context))
         delayView.fix()
-        delayView.setSelection(ArrayUtil.findIndex(Shortcut.DELAY_OPTIONS, shortcut.delay))
+        delayView.setSelection(Shortcut.DELAY_OPTIONS.findIndex(shortcut.delay))
 
         requestBodyTypeView.setItemsArray(ShortcutUIUtils.getRequestBodyTypeOptions(context))
         requestBodyTypeView.fix()
         requestBodyTypeView.onItemChosenListener = itemChosenListener
-        requestBodyTypeView.setSelection(ArrayUtil.findIndex(Shortcut.REQUEST_BODY_TYPE_OPTIONS, shortcut.requestBodyType))
+        requestBodyTypeView.setSelection(Shortcut.REQUEST_BODY_TYPE_OPTIONS.findIndex(shortcut.requestBodyType))
 
         iconViewContainer.setOnClickListener { openIconSelectionDialog() }
 
@@ -279,27 +279,27 @@ class EditorActivity : BaseActivity() {
         if (validate(false)) {
             prepareForSave(shortcut, shortcutId)
             controller.persist(shortcut)
-                    .done { persistedShortcut ->
-                        onShortcutSaved(persistedShortcut)
-                    }
+                .done { persistedShortcut ->
+                    onShortcutSaved(persistedShortcut)
+                }
         }
     }
 
     private fun validate(testOnly: Boolean) =
-            if (!testOnly && shortcut.name.isBlank()) {
-                nameView.error = getString(R.string.validation_name_not_empty)
-                nameView.focus()
-                false
-            } else if (!Validation.isAcceptableUrl(shortcut.url)) {
-                urlView.error = getString(R.string.validation_url_invalid)
-                urlView.focus()
-                false
-            } else {
-                true
-            }
+        if (!testOnly && shortcut.name.isBlank()) {
+            nameView.error = getString(R.string.validation_name_not_empty)
+            nameView.focus()
+            false
+        } else if (!Validation.isAcceptableUrl(shortcut.url)) {
+            urlView.error = getString(R.string.validation_url_invalid)
+            urlView.focus()
+            false
+        } else {
+            true
+        }
 
     private fun nameOrIconChanged() =
-            oldShortcut.name != shortcut.name || oldShortcut.iconName != shortcut.iconName
+        oldShortcut.name != shortcut.name || oldShortcut.iconName != shortcut.iconName
 
     private fun onShortcutSaved(persistedShortcut: Shortcut) {
         val returnIntent = Intent()
@@ -321,21 +321,21 @@ class EditorActivity : BaseActivity() {
         if (validate(true)) {
             prepareForTest(shortcut)
             controller.persist(shortcut)
-                    .done {
-                        val intent = ExecuteActivity.IntentBuilder(context, TEMPORARY_ID)
-                                .build()
-                        startActivity(intent)
-                    }
+                .done {
+                    val intent = ExecuteActivity.IntentBuilder(context, TEMPORARY_ID)
+                        .build()
+                    startActivity(intent)
+                }
         }
     }
 
     private fun openIconSelectionDialog() {
         MenuDialogBuilder(context)
-                .title(R.string.change_icon)
-                .item(R.string.choose_icon, this::openBuiltInIconSelectionDialog)
-                .item(R.string.choose_image, this::openImagePicker)
-                .item(R.string.choose_ipack_icon, this::openIpackPicker)
-                .showIfPossible()
+            .title(R.string.change_icon)
+            .item(R.string.choose_icon, this::openBuiltInIconSelectionDialog)
+            .item(R.string.choose_image, this::openImagePicker)
+            .item(R.string.choose_ipack_icon, this::openIpackPicker)
+            .showIfPossible()
     }
 
     private fun openBuiltInIconSelectionDialog() {
@@ -343,18 +343,18 @@ class EditorActivity : BaseActivity() {
             shortcut.iconName = iconName
             updateUI()
         }
-                .show()
+            .show()
     }
 
     private fun openImagePicker() {
         CropImage.activity()
-                .setCropMenuCropButtonIcon(R.drawable.ic_save)
-                .setCropMenuCropButtonTitle(getString(R.string.button_apply_icon))
-                .setAspectRatio(1, 1)
-                .setRequestedSize(iconSize, iconSize)
-                .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
-                .setMultiTouchEnabled(true)
-                .start(this)
+            .setCropMenuCropButtonIcon(R.drawable.ic_save)
+            .setCropMenuCropButtonTitle(getString(R.string.button_apply_icon))
+            .setAspectRatio(1, 1)
+            .setRequestedSize(iconSize, iconSize)
+            .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
+            .setMultiTouchEnabled(true)
+            .start(this)
     }
 
     private fun openIpackPicker() {
@@ -370,11 +370,11 @@ class EditorActivity : BaseActivity() {
         compileShortcut()
         if (hasChanges()) {
             MaterialDialog.Builder(context)
-                    .content(R.string.confirm_discard_changes_message)
-                    .positiveText(R.string.dialog_discard)
-                    .onPositive { _, _ -> cancelAndClose() }
-                    .negativeText(R.string.dialog_cancel)
-                    .showIfPossible()
+                .content(R.string.confirm_discard_changes_message)
+                .positiveText(R.string.dialog_discard)
+                .onPositive { _, _ -> cancelAndClose() }
+                .negativeText(R.string.dialog_cancel)
+                .showIfPossible()
         } else {
             cancelAndClose()
         }

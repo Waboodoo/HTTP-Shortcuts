@@ -68,44 +68,44 @@ class VariablesActivity : BaseActivity() {
 
     private fun openEditorForCreation() {
         val intent = VariableEditorActivity.IntentBuilder(context)
-                .build()
+            .build()
         startActivity(intent)
     }
 
     private fun editVariable(variable: Variable) {
         val intent = VariableEditorActivity.IntentBuilder(context)
-                .variableId(variable.id)
-                .build()
+            .variableId(variable.id)
+            .build()
         startActivity(intent)
     }
 
     private fun showContextMenu(variable: Variable) {
         MenuDialogBuilder(context)
-                .title(variable.key)
-                .item(R.string.action_edit) {
-                    editVariable(variable)
-                }
-                .item(R.string.action_delete) {
-                    showDeleteDialog(variable)
-                }
-                .showIfPossible()
+            .title(variable.key)
+            .item(R.string.action_edit) {
+                editVariable(variable)
+            }
+            .item(R.string.action_delete) {
+                showDeleteDialog(variable)
+            }
+            .showIfPossible()
     }
 
     private fun showDeleteDialog(variable: Variable) {
         MaterialDialog.Builder(context)
-                .content(R.string.confirm_delete_variable_message)
-                .positiveText(R.string.dialog_delete)
-                .onPositive { _, _ -> deleteVariable(variable) }
-                .negativeText(R.string.dialog_cancel)
-                .showIfPossible()
+            .content(R.string.confirm_delete_variable_message)
+            .positiveText(R.string.dialog_delete)
+            .onPositive { _, _ -> deleteVariable(variable) }
+            .negativeText(R.string.dialog_cancel)
+            .showIfPossible()
     }
 
     private fun deleteVariable(variable: Variable) {
         val key = variable.key
         controller.deleteVariable(variable.id)
-                .subscribe {
-                    showSnackbar(String.format(getString(R.string.variable_deleted), key))
-                }
+            .subscribe {
+                showSnackbar(String.format(getString(R.string.variable_deleted), key))
+            }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -120,11 +120,11 @@ class VariablesActivity : BaseActivity() {
 
     private fun showHelp() {
         HelpDialogBuilder(context)
-                .title(R.string.help_title_variables)
-                .message(R.string.help_variables)
-                .build()
-                .show()
-                .attachTo(destroyer)
+            .title(R.string.help_title_variables)
+            .message(R.string.help_variables)
+            .build()
+            .show()
+            .attachTo(destroyer)
     }
 
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, VariablesActivity::class.java)

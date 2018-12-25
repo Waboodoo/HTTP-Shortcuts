@@ -15,16 +15,16 @@ class LicensesActivity : BaseActivity() {
         val fragmentManager = supportFragmentManager
         fragmentManager.findFragmentById(R.id.fragment_host) ?: run {
             LibsBuilder()
-                    .withAutoDetect(false)
-                    .withLibraries(*LIBRARIES)
-                    .withLicenseShown(true)
-                    .supportFragment()
-                    .also {
-                        fragmentManager
-                                .beginTransaction()
-                                .add(R.id.fragment_host, it)
-                                .commit()
-                    }
+                .withAutoDetect(false)
+                .withLibraries(*LIBRARIES)
+                .withLicenseShown(true)
+                .supportFragment()
+                .also {
+                    fragmentManager
+                        .beginTransaction()
+                        .add(R.id.fragment_host, it)
+                        .commit()
+                }
         }
     }
 
@@ -33,20 +33,20 @@ class LicensesActivity : BaseActivity() {
     companion object {
 
         private val LIBRARIES = arrayOf(
-                "gson",
-                "materialdialogs",
-                "okhttp",
-                "recyclerview_v7",
-                "realm",
-                "volley",
-                "flaticons",
-                "bitsies",
-                "filepicker",
-                "jdeferred",
-                "vintagechroma",
-                "codeviewandroid",
-                "stetho",
-                "okhttpdigest"
+            "gson",
+            "materialdialogs",
+            "okhttp",
+            "recyclerview_v7",
+            "realm",
+            "volley",
+            "flaticons",
+            "bitsies",
+            "filepicker",
+            "jdeferred",
+            "vintagechroma",
+            "codeviewandroid",
+            "stetho",
+            "okhttpdigest"
         )
     }
 }

@@ -70,76 +70,76 @@ class KeyValueList<T : KeyValuePair> @JvmOverloads constructor(context: Context,
 
     private fun showDialog(item: T?) {
         MaterialDialog.Builder(context)
-                .customView(R.layout.dialog_key_value_editor, false)
-                .title(if (item == null) addDialogTitle else editDialogTitle)
-                .positiveText(R.string.dialog_ok)
-                .canceledOnTouchOutside(false)
-                .onPositive { dialog, _ ->
-                    val keyField = dialog.findViewById(R.id.key_value_key) as VariableEditText
-                    val valueField = dialog.findViewById(R.id.key_value_value) as VariableEditText
+            .customView(R.layout.dialog_key_value_editor, false)
+            .title(if (item == null) addDialogTitle else editDialogTitle)
+            .positiveText(R.string.dialog_ok)
+            .canceledOnTouchOutside(false)
+            .onPositive { dialog, _ ->
+                val keyField = dialog.findViewById(R.id.key_value_key) as VariableEditText
+                val valueField = dialog.findViewById(R.id.key_value_value) as VariableEditText
 
-                    val keyText = keyField.rawString
-                    val valueText = valueField.rawString
+                val keyText = keyField.rawString
+                val valueText = valueField.rawString
 
-                    if (!keyText.isEmpty()) {
-                        if (item == null) {
-                            val newItem = factory.invoke(keyText, valueText)
-                            adapter.add(newItem)
-                            updateListViewHeightBasedOnChildren()
-                        } else {
-                            item.key = keyText
-                            item.value = valueText
-                            adapter.notifyDataSetChanged()
-                        }
+                if (!keyText.isEmpty()) {
+                    if (item == null) {
+                        val newItem = factory.invoke(keyText, valueText)
+                        adapter.add(newItem)
+                        updateListViewHeightBasedOnChildren()
+                    } else {
+                        item.key = keyText
+                        item.value = valueText
+                        adapter.notifyDataSetChanged()
                     }
                 }
-                .mapIf(item != null) {
-                    it.neutralText(R.string.dialog_remove)
-                            .onNeutral { _, _ ->
-                                adapter.remove(item)
-                                updateListViewHeightBasedOnChildren()
-                            }
+            }
+            .mapIf(item != null) {
+                it.neutralText(R.string.dialog_remove)
+                    .onNeutral { _, _ ->
+                        adapter.remove(item)
+                        updateListViewHeightBasedOnChildren()
+                    }
+            }
+            .negativeText(R.string.dialog_cancel)
+            .build()
+            .also { dialog ->
+                val destroyer = Destroyer()
+
+                val keyInput = dialog.findViewById(R.id.key_value_key) as VariableEditText
+                val valueInput = dialog.findViewById(R.id.key_value_value) as VariableEditText
+                val keyVariableButton = dialog.findViewById(R.id.variable_button_key) as VariableButton
+                val valueVariableButton = dialog.findViewById(R.id.variable_button_value) as VariableButton
+
+                keyInput.bind(keyVariableButton, variablePlaceholderProvider).attachTo(destroyer)
+                keyInput.rawString = item?.key ?: ""
+                valueInput.bind(valueVariableButton, variablePlaceholderProvider).attachTo(destroyer)
+                valueInput.rawString = item?.value ?: ""
+
+                valueInput.inputType = (if (isMultiLine) InputType.TYPE_TEXT_FLAG_MULTI_LINE else 0) or InputType.TYPE_CLASS_TEXT
+                if (isMultiLine) {
+                    valueInput.maxLines = MAX_LINES
                 }
-                .negativeText(R.string.dialog_cancel)
-                .build()
-                .also { dialog ->
-                    val destroyer = Destroyer()
 
-                    val keyInput = dialog.findViewById(R.id.key_value_key) as VariableEditText
-                    val valueInput = dialog.findViewById(R.id.key_value_value) as VariableEditText
-                    val keyVariableButton = dialog.findViewById(R.id.variable_button_key) as VariableButton
-                    val valueVariableButton = dialog.findViewById(R.id.variable_button_value) as VariableButton
+                (dialog.findViewById(R.id.key_value_key_layout) as TextInputLayout).hint = context.getString(keyLabel)
+                (dialog.findViewById(R.id.key_value_value_layout) as TextInputLayout).hint = context.getString(valueLabel)
 
-                    keyInput.bind(keyVariableButton, variablePlaceholderProvider).attachTo(destroyer)
-                    keyInput.rawString = item?.key ?: ""
-                    valueInput.bind(valueVariableButton, variablePlaceholderProvider).attachTo(destroyer)
-                    valueInput.rawString = item?.value ?: ""
-
-                    valueInput.inputType = (if (isMultiLine) InputType.TYPE_TEXT_FLAG_MULTI_LINE else 0) or InputType.TYPE_CLASS_TEXT
-                    if (isMultiLine) {
-                        valueInput.maxLines = MAX_LINES
-                    }
-
-                    (dialog.findViewById(R.id.key_value_key_layout) as TextInputLayout).hint = context.getString(keyLabel)
-                    (dialog.findViewById(R.id.key_value_value_layout) as TextInputLayout).hint = context.getString(valueLabel)
-
-                    if (suggestionAdapter != null) {
-                        keyInput.setAdapter<ArrayAdapter<String>>(suggestionAdapter)
-                    }
-
-                    dialog.setOnShowListener {
-                        keyInput.showSoftKeyboard()
-                    }
-                    dialog.setOnDismissListener {
-                        destroyer.destroy()
-                    }
-
-                    val okButton = dialog.getActionButton(DialogAction.POSITIVE)
-                    keyInput.onTextChanged { text ->
-                        okButton.isEnabled = text.isNotEmpty()
-                    }.attachTo(destroyer)
+                if (suggestionAdapter != null) {
+                    keyInput.setAdapter<ArrayAdapter<String>>(suggestionAdapter)
                 }
-                .showIfPossible()
+
+                dialog.setOnShowListener {
+                    keyInput.showSoftKeyboard()
+                }
+                dialog.setOnDismissListener {
+                    destroyer.destroy()
+                }
+
+                val okButton = dialog.getActionButton(DialogAction.POSITIVE)
+                keyInput.onTextChanged { text ->
+                    okButton.isEnabled = text.isNotEmpty()
+                }.attachTo(destroyer)
+            }
+            .showIfPossible()
     }
 
     fun addItems(items: Collection<T>) {

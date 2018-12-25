@@ -50,8 +50,8 @@ class CurlImportActivity : BaseActivity() {
         val command = CurlParser.parse(commandString)
 
         val intent = EditorActivity.IntentBuilder(context)
-                .curlCommand(command)
-                .build()
+            .curlCommand(command)
+            .build()
         startActivityForResult(intent, REQUEST_CREATE_SHORTCUT)
     }
 

@@ -76,11 +76,11 @@ class SettingsActivity : BaseActivity() {
 
             initPreference("privacy_policy") {
                 HelpDialogBuilder(activity)
-                        .title(R.string.title_privacy_policy)
-                        .message(R.string.privacy_policy)
-                        .build()
-                        .show()
-                        .attachTo((activity as BaseActivity).destroyer)
+                    .title(R.string.title_privacy_policy)
+                    .message(R.string.privacy_policy)
+                    .build()
+                    .show()
+                    .attachTo((activity as BaseActivity).destroyer)
             }
 
             initListPreference("crash_reporting") { newValue ->
@@ -152,47 +152,47 @@ class SettingsActivity : BaseActivity() {
 
         private fun showAppLockDialog() {
             MaterialDialog.Builder(activity)
-                    .title(R.string.dialog_title_lock_app)
-                    .content(R.string.dialog_text_lock_app)
-                    .positiveText(R.string.button_lock_app)
-                    .input(null, "") { _, input ->
-                        lockApp(input.toString())
-                    }
-                    .inputRange(3, 50)
-                    .negativeText(R.string.dialog_cancel)
-                    .showIfPossible()
+                .title(R.string.dialog_title_lock_app)
+                .content(R.string.dialog_text_lock_app)
+                .positiveText(R.string.button_lock_app)
+                .input(null, "") { _, input ->
+                    lockApp(input.toString())
+                }
+                .inputRange(3, 50)
+                .negativeText(R.string.dialog_cancel)
+                .showIfPossible()
         }
 
         private fun lockApp(password: String) {
             controller.setAppLock(password)
-                    .done {
-                        val returnIntent = Intent().apply {
-                            putExtra(EXTRA_APP_LOCKED, true)
-                        }
-                        activity.setResult(Activity.RESULT_OK, returnIntent)
-                        activity.finish()
+                .done {
+                    val returnIntent = Intent().apply {
+                        putExtra(EXTRA_APP_LOCKED, true)
                     }
-                    .fail { e ->
-                        (activity as? BaseActivity)?.showSnackbar(R.string.error_generic)
-                        CrashReporting.logException(e)
-                    }
+                    activity.setResult(Activity.RESULT_OK, returnIntent)
+                    activity.finish()
+                }
+                .fail { e ->
+                    (activity as? BaseActivity)?.showSnackbar(R.string.error_generic)
+                    CrashReporting.logException(e)
+                }
         }
 
         private fun showExportOptions() {
             MenuDialogBuilder(activity)
-                    .title(R.string.title_export)
-                    .item(R.string.button_export_to_filesystem, this::showExportInstructions)
-                    .item(R.string.button_export_send_to, this::sendExport)
-                    .showIfPossible()
+                .title(R.string.title_export)
+                .item(R.string.button_export_to_filesystem, this::showExportInstructions)
+                .item(R.string.button_export_send_to, this::sendExport)
+                .showIfPossible()
         }
 
         private fun showExportInstructions() {
             MaterialDialog.Builder(activity)
-                    .positiveText(R.string.dialog_ok)
-                    .negativeText(R.string.dialog_cancel)
-                    .content(R.string.export_instructions)
-                    .onPositive { _, _ -> openFilePickerForExport() }
-                    .showIfPossible()
+                .positiveText(R.string.dialog_ok)
+                .negativeText(R.string.dialog_cancel)
+                .content(R.string.export_instructions)
+                .onPositive { _, _ -> openFilePickerForExport() }
+                .showIfPossible()
         }
 
         private fun sendExport() {
@@ -208,36 +208,40 @@ class SettingsActivity : BaseActivity() {
 
         private fun showImportOptions() {
             MenuDialogBuilder(activity)
-                    .title(R.string.title_import)
-                    .item(R.string.button_import_from_filesystem, this::showImportInstructions)
-                    .item(R.string.button_import_from_general, this::openGeneralPickerForImport)
-                    .showIfPossible()
+                .title(R.string.title_import)
+                .item(R.string.button_import_from_filesystem, this::showImportInstructions)
+                .item(R.string.button_import_from_general, this::openGeneralPickerForImport)
+                .showIfPossible()
         }
 
         private fun showImportInstructions() {
             MaterialDialog.Builder(activity)
-                    .positiveText(R.string.dialog_ok)
-                    .negativeText(R.string.dialog_cancel)
-                    .content(R.string.import_instructions)
-                    .onPositive { _, _ -> openLocalFilePickerForImport() }
-                    .showIfPossible()
+                .positiveText(R.string.dialog_ok)
+                .negativeText(R.string.dialog_cancel)
+                .content(R.string.import_instructions)
+                .onPositive { _, _ -> openLocalFilePickerForImport() }
+                .showIfPossible()
         }
 
         private fun openFilePickerForExport() {
             val intent = Intent(activity, FilePickerActivity::class.java)
-            intent.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false)
-            intent.putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, true)
-            intent.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_DIR)
-            intent.putExtra(FilePickerActivity.EXTRA_START_PATH, Settings(activity).importExportDirectory)
+                .apply {
+                    putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false)
+                    putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, true)
+                    putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_DIR)
+                    putExtra(FilePickerActivity.EXTRA_START_PATH, Settings(activity).importExportDirectory)
+                }
             startActivityForResult(intent, REQUEST_PICK_DIR_FOR_EXPORT)
         }
 
         private fun openLocalFilePickerForImport() {
             val intent = Intent(activity, FilePickerActivity::class.java)
-            intent.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false)
-            intent.putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, false)
-            intent.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_FILE)
-            intent.putExtra(FilePickerActivity.EXTRA_START_PATH, Settings(activity).importExportDirectory)
+                .apply {
+                    putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false)
+                    putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, false)
+                    putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_FILE)
+                    putExtra(FilePickerActivity.EXTRA_START_PATH, Settings(activity).importExportDirectory)
+                }
             startActivityForResult(intent, REQUEST_PICK_FILE_FOR_IMPORT)
         }
 
@@ -247,9 +251,11 @@ class SettingsActivity : BaseActivity() {
             } else {
                 Intent(Intent.ACTION_GET_CONTENT)
             }
-            pickerIntent.type = "*/*"
-            pickerIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            pickerIntent.addCategory(Intent.CATEGORY_OPENABLE)
+                .apply {
+                    type = "*/*"
+                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                }
             try {
                 startActivityForResult(pickerIntent, REQUEST_IMPORT_FROM_DOCUMENTS)
             } catch (e: ActivityNotFoundException) {
@@ -263,11 +269,12 @@ class SettingsActivity : BaseActivity() {
 
         private fun sendMail(subject: String, text: String, title: String) {
             val intent = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:$DEVELOPER_EMAIL"))
-            val recipients = arrayOf(DEVELOPER_EMAIL)
-            intent.putExtra(Intent.EXTRA_EMAIL, recipients)
-            intent.putExtra(Intent.EXTRA_SUBJECT, subject)
-            intent.putExtra(Intent.EXTRA_TEXT, text)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                .apply {
+                    putExtra(Intent.EXTRA_EMAIL, arrayOf(DEVELOPER_EMAIL))
+                    putExtra(Intent.EXTRA_SUBJECT, subject)
+                    putExtra(Intent.EXTRA_TEXT, text)
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }
             try {
                 startActivity(Intent.createChooser(intent, title))
             } catch (e: ActivityNotFoundException) {
@@ -302,7 +309,7 @@ class SettingsActivity : BaseActivity() {
 
         private fun showLicenses() {
             val intent = LicensesActivity.IntentBuilder(activity)
-                    .build()
+                .build()
             startActivity(intent)
         }
 
@@ -312,20 +319,20 @@ class SettingsActivity : BaseActivity() {
             }
             when (requestCode) {
                 REQUEST_PICK_DIR_FOR_EXPORT -> {
-                    val uri = intent.data
-                    val directoryPath = uri.path
+                    val uri = intent.data ?: return
+                    val directoryPath = uri.path ?: return
                     persistPath(directoryPath)
                     startExport(directoryPath)
                 }
                 REQUEST_PICK_FILE_FOR_IMPORT -> {
-                    val uri = intent.data
+                    val uri = intent.data ?: return
                     val filePath = uri.path
                     val directoryPath = File(filePath).parent
                     persistPath(directoryPath)
                     startImport(uri)
                 }
                 REQUEST_IMPORT_FROM_DOCUMENTS -> {
-                    val uri = intent.data
+                    val uri = intent.data ?: return
                     startImport(uri)
                 }
             }

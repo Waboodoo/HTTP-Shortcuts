@@ -97,9 +97,9 @@ class ExecuteActivity : BaseActivity() {
 
         val promise = if (shortcut.requireConfirmation) {
             promptForConfirmation()
-                    .then(DonePipe {
-                        resolveVariablesAndExecute(variableValues, waitForExecution = shouldRunExecutionInForeground())
-                    })
+                .then(DonePipe {
+                    resolveVariablesAndExecute(variableValues, waitForExecution = shouldRunExecutionInForeground())
+                })
         } else {
             resolveVariablesAndExecute(variableValues, waitForExecution = shouldRunExecutionInForeground())
         }
@@ -109,20 +109,20 @@ class ExecuteActivity : BaseActivity() {
     }
 
     private fun shouldFinishAfterExecution() =
-            !shortcut.isFeedbackUsesUI || shouldDelayExecution()
+        !shortcut.isFeedbackUsesUI || shouldDelayExecution()
 
     private fun shouldRunExecutionInForeground() =
-            NetworkUtil.isNetworkPerformanceRestricted(context)
+        NetworkUtil.isNetworkPerformanceRestricted(context)
 
     private fun shouldDelayExecution() =
-            shortcut.delay > 0 && tryNumber == 0
+        shortcut.delay > 0 && tryNumber == 0
 
     private fun finishAfter(promise: Promise<*, *, *>) {
         if (promise.isPending) {
             promise
-                    .always { _, _, _ ->
-                        finishWithoutAnimation()
-                    }
+                .always { _, _, _ ->
+                    finishWithoutAnimation()
+                }
         } else {
             finishWithoutAnimation()
         }
@@ -131,52 +131,52 @@ class ExecuteActivity : BaseActivity() {
     private fun promptForConfirmation(): Promise<Unit, Unit, Unit> {
         val deferred = DeferredObject<Unit, Unit, Unit>()
         MaterialDialog.Builder(context)
-                .title(shortcut.getSafeName(context))
-                .content(R.string.dialog_message_confirm_shortcut_execution)
-                .dismissListener {
+            .title(shortcut.getSafeName(context))
+            .content(R.string.dialog_message_confirm_shortcut_execution)
+            .dismissListener {
+                deferred.rejectSafely(Unit)
+            }
+            .positiveText(R.string.dialog_ok)
+            .onPositive { _, _ ->
+                deferred.resolve(Unit)
+            }
+            .negativeText(R.string.dialog_cancel)
+            .showIfPossible()
+            .let { dialogShown ->
+                if (!dialogShown) {
                     deferred.rejectSafely(Unit)
                 }
-                .positiveText(R.string.dialog_ok)
-                .onPositive { _, _ ->
-                    deferred.resolve(Unit)
-                }
-                .negativeText(R.string.dialog_cancel)
-                .showIfPossible()
-                .let { dialogShown ->
-                    if (!dialogShown) {
-                        deferred.rejectSafely(Unit)
-                    }
-                }
+            }
         return deferred
     }
 
     private fun resolveVariablesAndExecute(variableValues: Map<String, String>, waitForExecution: Boolean): Promise<Unit, Unit, Unit> =
-            VariableResolver(context)
-                    .resolve(controller, shortcut, variableValues)
-                    .then(DonePipe<Map<String, String>, Unit, Unit, Unit> { resolvedVariables ->
-                        if (shouldDelayExecution()) {
-                            val waitUntil = DateUtil.calculateDate(shortcut.delay)
-                            controller.createPendingExecution(shortcut.id, resolvedVariables, tryNumber, waitUntil, shortcut.isWaitForNetwork)
-                                    .doOnTerminate {
-                                        controller.destroy()
-                                    }
-                                    .subscribe {
-                                        ExecutionScheduler.schedule(context)
-                                    }
-                            PromiseUtils.resolve(Unit)
-                        } else {
-                            val promise = executeWithActions(resolvedVariables.toMutableMap())
-                            if (waitForExecution) {
-                                promise.then(DoneFilter { }, FailFilter { })
-                            } else {
-                                PromiseUtils.resolve(Unit)
-                            }
+        VariableResolver(context)
+            .resolve(controller, shortcut, variableValues)
+            .then(DonePipe<Map<String, String>, Unit, Unit, Unit> { resolvedVariables ->
+                if (shouldDelayExecution()) {
+                    val waitUntil = DateUtil.calculateDate(shortcut.delay)
+                    controller.createPendingExecution(shortcut.id, resolvedVariables, tryNumber, waitUntil, shortcut.isWaitForNetwork)
+                        .doOnTerminate {
+                            controller.destroy()
                         }
-                    })
-                    .fail {
-                        controller.destroy()
-                        finishWithoutAnimation()
+                        .subscribe {
+                            ExecutionScheduler.schedule(context)
+                        }
+                    PromiseUtils.resolve(Unit)
+                } else {
+                    val promise = executeWithActions(resolvedVariables.toMutableMap())
+                    if (waitForExecution) {
+                        promise.then(DoneFilter { }, FailFilter { })
+                    } else {
+                        PromiseUtils.resolve(Unit)
                     }
+                }
+            })
+            .fail {
+                controller.destroy()
+                finishWithoutAnimation()
+            }
 
     private fun executeWithActions(resolvedVariables: MutableMap<String, String>): Promise<Unit, Throwable, Unit> {
         showProgress()
@@ -185,23 +185,23 @@ class ExecuteActivity : BaseActivity() {
         } else {
             PromiseUtils.resolve(Unit)
         }
-                .then(DonePipe<Unit, Unit, Throwable, Unit> {
-                    if (shortcut.isBrowserShortcut) {
-                        openShortcutInBrowser(resolvedVariables)
-                        PromiseUtils.resolve(Unit)
-                    } else {
-                        executeShortcut(resolvedVariables)
-                                .then(DonePipe<ShortcutResponse, Unit, Throwable, Unit> { response ->
-                                    iterateActions(shortcut.successActions.iterator(), resolvedVariables, response = response)
-                                }, FailPipe { error ->
-                                    iterateActions(shortcut.failureActions.iterator(), resolvedVariables, volleyError = error)
-                                })
-                    }
-                })
-                .always { _, _, _ ->
-                    hideProgress()
-                    controller.destroy()
+            .then(DonePipe<Unit, Unit, Throwable, Unit> {
+                if (shortcut.isBrowserShortcut) {
+                    openShortcutInBrowser(resolvedVariables)
+                    PromiseUtils.resolve(Unit)
+                } else {
+                    executeShortcut(resolvedVariables)
+                        .then(DonePipe<ShortcutResponse, Unit, Throwable, Unit> { response ->
+                            iterateActions(shortcut.successActions.iterator(), resolvedVariables, response = response)
+                        }, FailPipe { error ->
+                            iterateActions(shortcut.failureActions.iterator(), resolvedVariables, volleyError = error)
+                        })
                 }
+            })
+            .always { _, _, _ ->
+                hideProgress()
+                controller.destroy()
+            }
     }
 
     private fun openShortcutInBrowser(resolvedVariables: MutableMap<String, String>) {
@@ -224,46 +224,46 @@ class ExecuteActivity : BaseActivity() {
 
     private fun executeShortcut(resolvedVariables: Map<String, String>): Promise<ShortcutResponse, VolleyError, Unit> {
         return HttpRequester.executeShortcut(context, shortcut, resolvedVariables)
-                .done { response ->
-                    setLastResponse(response)
-                    if (shortcut.isFeedbackErrorsOnly()) {
-                        finishWithoutAnimation()
-                    } else {
-                        val simple = shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE
-                        val output = if (simple) String.format(getString(R.string.executed), shortcut.getSafeName(context)) else generateOutputFromResponse(response)
-                        displayOutput(output, response.contentType)
-                    }
+            .done { response ->
+                setLastResponse(response)
+                if (shortcut.isFeedbackErrorsOnly()) {
+                    finishWithoutAnimation()
+                } else {
+                    val simple = shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE
+                    val output = if (simple) String.format(getString(R.string.executed), shortcut.getSafeName(context)) else generateOutputFromResponse(response)
+                    displayOutput(output, response.contentType)
                 }
-                .fail { error ->
-                    if (!shortcut.isFeedbackUsesUI && shortcut.retryPolicy == Shortcut.RETRY_POLICY_WAIT_FOR_INTERNET && error.networkResponse == null) {
-                        rescheduleExecution(resolvedVariables)
-                        if (shortcut.feedback != Shortcut.FEEDBACK_NONE && tryNumber == 0) {
-                            showToast(String.format(context.getString(R.string.execution_delayed), shortcut.getSafeName(context)), long = true)
-                        }
-                        finishWithoutAnimation()
-                    } else {
-                        setLastResponse(null)
-                        val simple = shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE_ERRORS || shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE
-                        displayOutput(generateOutputFromError(error, simple), ShortcutResponse.TYPE_TEXT)
+            }
+            .fail { error ->
+                if (!shortcut.isFeedbackUsesUI && shortcut.retryPolicy == Shortcut.RETRY_POLICY_WAIT_FOR_INTERNET && error.networkResponse == null) {
+                    rescheduleExecution(resolvedVariables)
+                    if (shortcut.feedback != Shortcut.FEEDBACK_NONE && tryNumber == 0) {
+                        showToast(String.format(context.getString(R.string.execution_delayed), shortcut.getSafeName(context)), long = true)
                     }
+                    finishWithoutAnimation()
+                } else {
+                    setLastResponse(null)
+                    val simple = shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE_ERRORS || shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE
+                    displayOutput(generateOutputFromError(error, simple), ShortcutResponse.TYPE_TEXT)
                 }
+            }
     }
 
     private fun iterateActions(
-            iterator: Iterator<ActionDTO>,
-            resolvedVariables: MutableMap<String, String>,
-            response: ShortcutResponse? = null,
-            volleyError: VolleyError? = null
+        iterator: Iterator<ActionDTO>,
+        resolvedVariables: MutableMap<String, String>,
+        response: ShortcutResponse? = null,
+        volleyError: VolleyError? = null
     ): Promise<Unit, Throwable, Unit> {
         if (iterator.hasNext()) {
             val action = actionFactory.fromDTO(iterator.next())
             return action.perform(context, shortcut.id, resolvedVariables, response, volleyError, recursionDepth)
-                    .then(DonePipe<Unit, Unit, Throwable, Unit> {
-                        iterateActions(iterator, resolvedVariables, response, volleyError)
-                    })
-                    .fail { e ->
-                        logException(e)
-                    }
+                .then(DonePipe<Unit, Unit, Throwable, Unit> {
+                    iterateActions(iterator, resolvedVariables, response, volleyError)
+                })
+                .fail { e ->
+                    logException(e)
+                }
         }
         return PromiseUtils.resolve(Unit)
     }
@@ -272,9 +272,9 @@ class ExecuteActivity : BaseActivity() {
         if (tryNumber < MAX_RETRY) {
             val waitUntil = DateUtil.calculateDate(calculateDelay())
             controller.createPendingExecution(shortcut.id, resolvedVariables, tryNumber, waitUntil, shortcut.isWaitForNetwork)
-                    .subscribe {
-                        ExecutionScheduler.schedule(context)
-                    }
+                .subscribe {
+                    ExecutionScheduler.schedule(context)
+                }
         }
     }
 
@@ -345,11 +345,11 @@ class ExecuteActivity : BaseActivity() {
             }
             Shortcut.FEEDBACK_DIALOG -> {
                 MaterialDialog.Builder(context)
-                        .title(shortcut.getSafeName(context))
-                        .content(output)
-                        .positiveText(R.string.dialog_ok)
-                        .dismissListener { finishWithoutAnimation() }
-                        .show()
+                    .title(shortcut.getSafeName(context))
+                    .content(output)
+                    .positiveText(R.string.dialog_ok)
+                    .dismissListener { finishWithoutAnimation() }
+                    .show()
             }
             Shortcut.FEEDBACK_ACTIVITY -> {
                 when (type) {
@@ -382,7 +382,7 @@ class ExecuteActivity : BaseActivity() {
     }
 
     private fun canShareResponse() =
-            lastResponse != null && lastResponse!!.bodyAsString.length < MAX_SHARE_LENGTH
+        lastResponse != null && lastResponse!!.bodyAsString.length < MAX_SHARE_LENGTH
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_share_response -> consume { shareLastResponse() }
@@ -452,7 +452,7 @@ class ExecuteActivity : BaseActivity() {
         private const val MAX_SHARE_LENGTH = 500000
 
         private fun truncateIfNeeded(string: String, maxLength: Int) =
-                if (string.length > maxLength) string.substring(0, maxLength) + "…" else string
+            if (string.length > maxLength) string.substring(0, maxLength) + "…" else string
     }
 
 }

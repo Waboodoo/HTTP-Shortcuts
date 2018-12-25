@@ -29,11 +29,11 @@ object PluginBundleManager {
     fun getShortcutId(bundle: Bundle) = bundle.getLong(PARAM_SHORTCUT_ID)
 
     fun getVariableValues(bundle: Bundle): Map<String, String> =
-            bundle
-                    .keySet()
-                    .filter { it.startsWith(PARAM_VARIABLE_PREFIX) }
-                    .associate { it.substring(PARAM_VARIABLE_PREFIX.length) to bundle.getString(it) }
-                    .filter { (variableKey, variableValue) -> variableValue != TaskerPlugin.VARIABLE_PREFIX + variableKey }
+        bundle
+            .keySet()
+            .filter { it.startsWith(PARAM_VARIABLE_PREFIX) }
+            .associate { it.substring(PARAM_VARIABLE_PREFIX.length) to bundle.getString(it) }
+            .filter { (variableKey, variableValue) -> variableValue != TaskerPlugin.VARIABLE_PREFIX + variableKey }
 
     fun isBundleValid(bundle: Bundle?) = bundle?.containsKey(PARAM_SHORTCUT_ID) ?: false
 

@@ -20,48 +20,46 @@ object HttpRequester {
         val acceptAllCertificates = detachedShortcut.acceptAllCertificates
 
         val request = ShortcutRequest.Builder(detachedShortcut.method, url)
-                .mapIf(detachedShortcut.usesCustomBody()) {
-                    it.body(body)
-                }
-                .contentType(determineContentType(detachedShortcut))
-                .timeout(detachedShortcut.timeout)
-                .mapIf(detachedShortcut.usesBasicAuthentication()) {
-                    it.basicAuth(username, password)
-                }
-                .mapIf(detachedShortcut.usesRequestParameters()) {
-                    it.mapFor(detachedShortcut.parameters) { builder, parameter ->
-                        builder.parameter(
-                                Variables.rawPlaceholdersToResolvedValues(parameter.key, variables),
-                                Variables.rawPlaceholdersToResolvedValues(parameter.value, variables)
-                        )
-                    }
-                }
-                .mapFor(detachedShortcut.headers) { builder, header ->
-                    builder.header(
-                            Variables.rawPlaceholdersToResolvedValues(header.key, variables),
-                            Variables.rawPlaceholdersToResolvedValues(header.value, variables)
+            .mapIf(detachedShortcut.usesCustomBody()) {
+                it.body(body)
+            }
+            .contentType(determineContentType(detachedShortcut))
+            .timeout(detachedShortcut.timeout)
+            .mapIf(detachedShortcut.usesBasicAuthentication()) {
+                it.basicAuth(username, password)
+            }
+            .mapIf(detachedShortcut.usesRequestParameters()) {
+                it.mapFor(detachedShortcut.parameters) { builder, parameter ->
+                    builder.parameter(
+                        Variables.rawPlaceholdersToResolvedValues(parameter.key, variables),
+                        Variables.rawPlaceholdersToResolvedValues(parameter.value, variables)
                     )
                 }
-                .build()
+            }
+            .mapFor(detachedShortcut.headers) { builder, header ->
+                builder.header(
+                    Variables.rawPlaceholdersToResolvedValues(header.key, variables),
+                    Variables.rawPlaceholdersToResolvedValues(header.value, variables)
+                )
+            }
+            .build()
 
         getQueue(
-                context,
-                acceptAllCertificates,
-                if (detachedShortcut.usesDigestAuthentication()) username else null,
-                if (detachedShortcut.usesDigestAuthentication()) password else null
+            context,
+            acceptAllCertificates,
+            username.takeIf { detachedShortcut.usesDigestAuthentication() },
+            password.takeIf { detachedShortcut.usesDigestAuthentication() }
         )
-                .add(request)
+            .add(request)
 
         return request.promise
     }
 
-    private fun determineContentType(shortcut: Shortcut): String {
-        return when {
-            shortcut.requestBodyType == Shortcut.REQUEST_BODY_TYPE_FORM_DATA -> "multipart/form-data; boundary=${ShortcutRequest.FORM_MULTIPART_BOUNDARY}"
-            shortcut.requestBodyType == Shortcut.REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE -> "application/x-www-form-urlencoded; charset=UTF-8"
-            shortcut.contentType.isNotEmpty() -> shortcut.contentType
-            else -> Shortcut.DEFAULT_CONTENT_TYPE
-        }
+    private fun determineContentType(shortcut: Shortcut): String = when {
+        shortcut.requestBodyType == Shortcut.REQUEST_BODY_TYPE_FORM_DATA -> "multipart/form-data; boundary=${ShortcutRequest.FORM_MULTIPART_BOUNDARY}"
+        shortcut.requestBodyType == Shortcut.REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE -> "application/x-www-form-urlencoded; charset=UTF-8"
+        shortcut.contentType.isNotEmpty() -> shortcut.contentType
+        else -> Shortcut.DEFAULT_CONTENT_TYPE
     }
 
     private fun getQueue(context: Context, acceptAllCertificates: Boolean, username: String? = null, password: String? = null): RequestQueue {

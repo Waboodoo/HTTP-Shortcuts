@@ -20,18 +20,18 @@ internal class RealmFactory(private val encryptionKey: ByteArray) {
 
     private val configuration: RealmConfiguration by lazy {
         RealmConfiguration.Builder()
-                .schemaVersion(DatabaseMigration.VERSION)
-                .migration(DatabaseMigration())
-                .encryptionKey(encryptionKey)
-                .name(DB_NAME)
-                .build()
+            .schemaVersion(DatabaseMigration.VERSION)
+            .migration(DatabaseMigration())
+            .encryptionKey(encryptionKey)
+            .name(DB_NAME)
+            .build()
     }
 
     private val unencryptedLegacyConfiguration: RealmConfiguration by lazy {
         RealmConfiguration.Builder()
-                .schemaVersion(DatabaseMigration.VERSION)
-                .migration(DatabaseMigration())
-                .build()
+            .schemaVersion(DatabaseMigration.VERSION)
+            .migration(DatabaseMigration())
+            .build()
     }
 
     companion object {

@@ -27,11 +27,11 @@ open class PendingExecution : RealmObject() {
         const val FIELD_ENQUEUED_AT = "enqueuedAt"
 
         fun createNew(
-                shortcutId: Long,
-                resolvedVariables: Map<String, String> = emptyMap(),
-                tryNumber: Int = 0,
-                waitUntil: Date? = null,
-                waitForNetwork: Boolean = false
+            shortcutId: Long,
+            resolvedVariables: Map<String, String> = emptyMap(),
+            tryNumber: Int = 0,
+            waitUntil: Date? = null,
+            waitForNetwork: Boolean = false
         ): PendingExecution {
             val pendingExecution = PendingExecution()
 
