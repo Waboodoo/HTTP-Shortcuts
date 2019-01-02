@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.realm.models
 
 import ch.rmy.android.http_shortcuts.key_value_pairs.KeyValuePair
-import ch.rmy.android.http_shortcuts.utils.UUIDUtils
+import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.Required
@@ -57,7 +57,7 @@ open class Header : RealmObject(), KeyValuePair {
 
         fun createNew(key: String, value: String): Header {
             val header = Header()
-            header.id = UUIDUtils.create()
+            header.id = newUUID()
             header.key = key
             header.value = value
             return header

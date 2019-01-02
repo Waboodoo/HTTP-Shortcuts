@@ -6,6 +6,7 @@ import ch.rmy.android.http_shortcuts.actions.ActionDTO
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.utils.PromiseUtils
 import ch.rmy.android.http_shortcuts.utils.rejectSafely
+import ch.rmy.android.http_shortcuts.utils.resolveSafely
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import com.afollestad.materialdialogs.MaterialDialog
@@ -54,7 +55,7 @@ abstract class BaseAction(
             .positiveText(R.string.dialog_ok).onPositive { dialog, _ ->
                 val success = editorView.compile()
                 if (success) {
-                    deferred.resolve(Unit)
+                    deferred.resolveSafely(Unit)
                     dialog.dismiss()
                 }
             }

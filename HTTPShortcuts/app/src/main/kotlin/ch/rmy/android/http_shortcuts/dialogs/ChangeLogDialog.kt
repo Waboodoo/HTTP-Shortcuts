@@ -8,6 +8,7 @@ import android.webkit.WebView
 import android.widget.CheckBox
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.utils.Settings
+import ch.rmy.android.http_shortcuts.utils.resolveSafely
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
 import org.jdeferred2.Promise
@@ -44,12 +45,12 @@ class ChangeLogDialog(private val context: Context, private val whatsNew: Boolea
             .title(if (whatsNew) R.string.changelog_title_whats_new else R.string.changelog_title)
             .positiveText(android.R.string.ok)
             .dismissListener {
-                deferred.resolve(Unit)
+                deferred.resolveSafely(Unit)
             }
             .showIfPossible()
 
         if (!showing) {
-            deferred.resolve(Unit)
+            deferred.resolveSafely(Unit)
         }
 
         webview.loadUrl(CHANGELOG_ASSET_URL)

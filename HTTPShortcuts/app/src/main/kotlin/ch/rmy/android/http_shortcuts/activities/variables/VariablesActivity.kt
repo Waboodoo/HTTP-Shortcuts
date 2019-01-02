@@ -1,20 +1,22 @@
-package ch.rmy.android.http_shortcuts.activities
+package ch.rmy.android.http_shortcuts.activities.variables
 
 import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.activities.VariableEditorActivity
 import ch.rmy.android.http_shortcuts.adapters.VariableAdapter
 import ch.rmy.android.http_shortcuts.dialogs.HelpDialogBuilder
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
-import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
-import ch.rmy.android.http_shortcuts.utils.Settings
+import ch.rmy.android.http_shortcuts.utils.attachTo
 import ch.rmy.android.http_shortcuts.utils.consume
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
@@ -23,20 +25,21 @@ import kotterknife.bindView
 
 class VariablesActivity : BaseActivity() {
 
-    private val settings by lazy { Settings(context) }
+    private val viewModel: VariablesViewModel by lazy {
+        ViewModelProviders.of(this).get(VariablesViewModel::class.java)
+    }
 
+    // Views
     private val variableList: RecyclerView by bindView(R.id.variable_list)
     private val createButton: FloatingActionButton by bindView(R.id.button_create_variable)
 
-    private val controller by lazy { destroyer.own(Controller()) }
-    private val variables by lazy { controller.getVariables() }
+    private val variables by lazy { viewModel.getVariables() }
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_variables)
 
-        val adapter = destroyer.own(VariableAdapter(context))
-        adapter.setItems(controller.getVariables())
+        val adapter = destroyer.own(VariableAdapter(context, variables))
         adapter.clickListener = this::showContextMenu
 
         val manager = LinearLayoutManager(context)
@@ -49,20 +52,16 @@ class VariablesActivity : BaseActivity() {
         createButton.setOnClickListener { openEditorForCreation() }
     }
 
-    override fun onStart() {
-        super.onStart()
-        if (!settings.wasVariableIntroShown) {
-            showHelp()
-            settings.wasVariableIntroShown = true
-        }
-    }
-
     private fun initDragOrdering() {
-        val dragOrderingHelper = DragOrderingHelper { variables.isNotEmpty() }
-        dragOrderingHelper.positionChangeSource.add { (oldPosition, newPosition) ->
-            val variable = variables[oldPosition]!!
-            controller.moveVariable(variable.id, newPosition).subscribe()
-        }.attachTo(destroyer)
+        val dragOrderingHelper = DragOrderingHelper { variables.size > 1 }
+        dragOrderingHelper.positionChangeSource
+            .add { (oldPosition, newPosition) ->
+                val variable = variables[oldPosition]!!
+                viewModel.moveVariable(variable.id, newPosition)
+                    .subscribe()
+                    .attachTo(destroyer)
+            }
+            .attachTo(destroyer)
         dragOrderingHelper.attachTo(variableList)
     }
 
@@ -102,10 +101,11 @@ class VariablesActivity : BaseActivity() {
 
     private fun deleteVariable(variable: Variable) {
         val key = variable.key
-        controller.deleteVariable(variable.id)
+        viewModel.deleteVariable(variable.id)
             .subscribe {
                 showSnackbar(String.format(getString(R.string.variable_deleted), key))
             }
+            .attachTo(destroyer)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -125,6 +125,18 @@ class VariablesActivity : BaseActivity() {
             .build()
             .show()
             .attachTo(destroyer)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        showHelpIfNeeded()
+    }
+
+    private fun showHelpIfNeeded() {
+        if (!viewModel.wasVariableIntroShown) {
+            showHelp()
+            viewModel.wasVariableIntroShown = true
+        }
     }
 
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, VariablesActivity::class.java)

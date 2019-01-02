@@ -1,28 +1,37 @@
-package ch.rmy.android.http_shortcuts.activities
+package ch.rmy.android.http_shortcuts.activities.main
 
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
+import android.graphics.Color.WHITE
 import android.os.Bundle
 import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.activities.CurlImportActivity
+import ch.rmy.android.http_shortcuts.activities.EditorActivity
+import ch.rmy.android.http_shortcuts.activities.categories.CategoriesActivity
+import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
+import ch.rmy.android.http_shortcuts.activities.settings.SettingsActivity
+import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.adapters.CategoryPagerAdapter
 import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.dialogs.NetworkRestrictionWarningDialog
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
-import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
-import ch.rmy.android.http_shortcuts.utils.CrashReporting
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.PromiseUtils
 import ch.rmy.android.http_shortcuts.utils.SelectionMode
+import ch.rmy.android.http_shortcuts.utils.attachTo
 import ch.rmy.android.http_shortcuts.utils.consume
+import ch.rmy.android.http_shortcuts.utils.logException
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.utils.visible
 import com.afollestad.materialdialogs.MaterialDialog
@@ -32,33 +41,61 @@ import kotterknife.bindView
 
 class MainActivity : BaseActivity(), ListFragment.TabHost {
 
-    private val createButton: FloatingActionButton by bindView(R.id.button_create_shortcut)
-    private val viewPager: ViewPager by bindView(R.id.view_pager)
-    private val tabLayout: TabLayout by bindView(R.id.tabs)
+    private val viewModel: MainViewModel by lazy {
+        ViewModelProviders.of(this).get(MainViewModel::class.java)
+    }
 
-    private val controller by lazy { destroyer.own(Controller()) }
-    private var adapter: CategoryPagerAdapter? = null
+    private lateinit var adapter: CategoryPagerAdapter
 
     private val selectionMode by lazy {
         SelectionMode.determineMode(intent.action)
     }
+
+    private val categories by lazy {
+        viewModel.getCategories()
+    }
+
+    // Views
+    private val createButton: FloatingActionButton by bindView(R.id.button_create_shortcut)
+    private val viewPager: ViewPager by bindView(R.id.view_pager)
+    private val tabLayout: TabLayout by bindView(R.id.tabs)
 
     @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        createButton.setOnClickListener { showCreateOptions() }
-        setupViewPager()
+        initViews()
 
         if (selectionMode === SelectionMode.NORMAL) {
             showStartupDialogs()
         }
 
-        tabLayout.setTabTextColors(Color.WHITE, Color.WHITE)
-        tabLayout.setSelectedTabIndicatorColor(Color.WHITE)
-
         ExecutionScheduler.schedule(context)
+    }
+
+    private fun initViews() {
+        createButton.setOnClickListener { showCreateOptions() }
+        setupViewPager()
+
+        tabLayout.setTabTextColors(WHITE, WHITE)
+        tabLayout.setSelectedTabIndicatorColor(WHITE)
+
+        bindViewsToViewModel()
+    }
+
+    private fun bindViewsToViewModel() {
+        viewModel.appLockedSource.observe(this, Observer { isLocked ->
+            createButton.visible = !isLocked
+            invalidateOptionsMenu()
+        })
+
+        viewModel.getCategories().observe(this, Observer { categories ->
+            tabLayout.visible = categories.size > 1
+            if (viewPager.currentItem >= categories.size) {
+                viewPager.currentItem = 0
+            }
+        })
     }
 
     private fun showCreateOptions() {
@@ -70,30 +107,18 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     }
 
     private fun openEditorForCreation() {
-        val intent = EditorActivity.IntentBuilder(context)
+        val intent = ShortcutEditorActivity.IntentBuilder(context)
             .build()
         startActivityForResult(intent, REQUEST_CREATE_SHORTCUT)
     }
 
     private fun setupViewPager() {
-        adapter = CategoryPagerAdapter(supportFragmentManager)
+        adapter = CategoryPagerAdapter(supportFragmentManager, selectionMode)
         viewPager.adapter = adapter
         tabLayout.setupWithViewPager(viewPager)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        val categories = controller.getCategories()
-        tabLayout.visible = categories.size > 1
-        if (viewPager.currentItem >= categories.size) {
-            viewPager.currentItem = 0
-        }
-        adapter!!.setCategories(categories, selectionMode)
-        updateCreateButton()
-    }
-
-    private fun updateCreateButton() {
-        createButton.visible = !controller.isAppLocked()
+        viewModel.getCategories().observe(this, Observer { categories ->
+            adapter.setCategories(categories)
+        })
     }
 
     private fun showStartupDialogs() {
@@ -131,8 +156,6 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
                     openSettings()
                     overridePendingTransition(0, 0)
                 } else if (intent.getBooleanExtra(SettingsActivity.EXTRA_APP_LOCKED, false)) {
-                    invalidateOptionsMenu()
-                    updateCreateButton()
                     showSnackbar(R.string.message_app_locked)
                 }
             }
@@ -140,19 +163,22 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     }
 
     private fun onShortcutCreated(shortcutId: Long) {
-        val shortcut = controller.getShortcutById(shortcutId) ?: return
+        val shortcut = viewModel.getShortcutById(shortcutId) ?: return
 
         val currentCategory = viewPager.currentItem
-        val category = if (currentCategory < adapter!!.count) {
-            val currentListFragment = adapter!!.getItem(currentCategory)
+        val category = if (currentCategory < categories.size) {
+            val currentListFragment = adapter.getItem(currentCategory)
             val categoryId = currentListFragment.categoryId
-            controller.getCategoryById(categoryId)!!
+            categories.firstOrNull { it.id == categoryId }
         } else {
-            controller.getCategories().first()!!
+            null
         }
-        controller.moveShortcut(shortcut.id, targetCategoryId = category.id).subscribe()
-
-        selectShortcut(shortcut)
+            ?: categories.first()
+        viewModel.moveShortcut(shortcut.id, targetCategoryId = category.id)
+            .subscribe {
+                selectShortcut(shortcut)
+            }
+            .attachTo(destroyer)
     }
 
     override fun selectShortcut(shortcut: Shortcut) {
@@ -201,12 +227,11 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     override val navigateUpIcon = 0
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main_activity_menu, menu)
-        val isAppLocked = controller.isAppLocked()
-        menu.findItem(R.id.action_categories).isVisible = !isAppLocked
-        menu.findItem(R.id.action_variables).isVisible = !isAppLocked
-        menu.findItem(R.id.action_settings).isVisible = !isAppLocked
-        menu.findItem(R.id.action_unlock).isVisible = isAppLocked
+        if (viewModel.isAppLocked()) {
+            menuInflater.inflate(R.menu.locked_main_activity_menu, menu)
+        } else {
+            menuInflater.inflate(R.menu.main_activity_menu, menu)
+        }
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -250,20 +275,18 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     }
 
     private fun unlockApp(password: String) {
-        controller.removeAppLock(password)
-            .done {
-                if (controller.isAppLocked()) {
+        viewModel.removeAppLock(password)
+            .subscribe({
+                if (viewModel.isAppLocked()) {
                     openAppUnlockDialog(showError = true)
                 } else {
-                    invalidateOptionsMenu()
-                    updateCreateButton()
                     showSnackbar(R.string.message_app_unlocked)
                 }
-            }
-            .fail { e ->
+            }, { e ->
                 showSnackbar(R.string.error_generic)
-                CrashReporting.logException(e)
-            }
+                logException(e)
+            })
+            .attachTo(destroyer)
     }
 
     private fun openCurlImport() {
@@ -283,6 +306,13 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
 
     override fun removeShortcutFromHomeScreen(shortcut: Shortcut) {
         sendBroadcast(IntentUtil.getShortcutPlacementIntent(context, shortcut, false))
+    }
+
+    override fun isAppLocked() = viewModel.isAppLocked()
+
+    override fun onDestroy() {
+        LauncherShortcutManager.updateAppShortcuts(context, categories)
+        super.onDestroy()
     }
 
     companion object {

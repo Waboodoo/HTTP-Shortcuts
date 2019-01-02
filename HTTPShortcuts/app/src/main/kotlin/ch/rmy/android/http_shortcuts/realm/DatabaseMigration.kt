@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.realm
 
 import android.text.TextUtils
-import ch.rmy.android.http_shortcuts.utils.UUIDUtils
+import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import io.realm.DynamicRealm
 import io.realm.DynamicRealmObject
 import io.realm.RealmList
@@ -81,15 +81,15 @@ class DatabaseMigration : RealmMigration {
                 schema.get("Option")!!.addField("id", String::class.java)
                 val parameters = realm.where("Parameter").findAll()
                 for (parameter in parameters) {
-                    parameter.setString("id", UUIDUtils.create())
+                    parameter.setString("id", newUUID())
                 }
                 val headers = realm.where("Header").findAll()
                 for (header in headers) {
-                    header.setString("id", UUIDUtils.create())
+                    header.setString("id", newUUID())
                 }
                 val options = realm.where("Option").findAll()
                 for (option in options) {
-                    option.setString("id", UUIDUtils.create())
+                    option.setString("id", newUUID())
                 }
                 schema.get("Parameter")!!.addPrimaryKey("id")
                 schema.get("Header")!!.addPrimaryKey("id")
@@ -116,7 +116,7 @@ class DatabaseMigration : RealmMigration {
             }
             14L -> { // 1.19.0
                 makeNonNullable(realm, "Category", "layoutType") { "linear_list" }
-                makeNonNullable(realm, "Option", "id") { UUIDUtils.create() }
+                makeNonNullable(realm, "Option", "id") { newUUID() }
                 makeNonNullable(realm, "Option", "label")
                 makeNonNullable(realm, "Option", "value")
                 makeNonNullable(realm, "ResolvedVariable", "key")

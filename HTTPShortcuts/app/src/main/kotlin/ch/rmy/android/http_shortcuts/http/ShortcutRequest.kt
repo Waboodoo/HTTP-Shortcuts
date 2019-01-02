@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.http
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.UserAgentUtil
 import ch.rmy.android.http_shortcuts.utils.rejectSafely
+import ch.rmy.android.http_shortcuts.utils.resolveSafely
 import com.android.volley.AuthFailureError
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.NetworkResponse
@@ -49,7 +50,7 @@ internal class ShortcutRequest private constructor(
         Response.success(ShortcutResponse(response.headers, response.statusCode, response.data), null)
 
     override fun deliverResponse(response: ShortcutResponse) {
-        deferred.resolve(response)
+        deferred.resolveSafely(response)
     }
 
     private fun constructFormDataBody(): String =

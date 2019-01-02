@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.activities
+package ch.rmy.android.http_shortcuts.activities.settings
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -14,7 +14,10 @@ import android.preference.Preference
 import android.preference.Preference.OnPreferenceChangeListener
 import android.preference.Preference.OnPreferenceClickListener
 import android.preference.PreferenceFragment
+import androidx.lifecycle.ViewModelProviders
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.activities.LicensesActivity
 import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog
 import ch.rmy.android.http_shortcuts.dialogs.HelpDialogBuilder
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
@@ -26,6 +29,8 @@ import ch.rmy.android.http_shortcuts.utils.CrashReporting
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
+import ch.rmy.android.http_shortcuts.utils.attachTo
+import ch.rmy.android.http_shortcuts.utils.logException
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.utils.showToast
 import com.afollestad.materialdialogs.MaterialDialog
@@ -33,6 +38,10 @@ import com.nononsenseapps.filepicker.FilePickerActivity
 import java.io.File
 
 class SettingsActivity : BaseActivity() {
+
+    private val viewModel: SettingsViewModel by lazy {
+        ViewModelProviders.of(this).get(SettingsViewModel::class.java)
+    }
 
     @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +53,9 @@ class SettingsActivity : BaseActivity() {
     class SettingsFragment : PreferenceFragment() {
 
         private val destroyer = Destroyer()
-        private val controller by lazy { destroyer.own(Controller()) }
+
+        private val viewModel: SettingsViewModel
+            get() = (activity as SettingsActivity).viewModel
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
@@ -164,18 +175,19 @@ class SettingsActivity : BaseActivity() {
         }
 
         private fun lockApp(password: String) {
-            controller.setAppLock(password)
-                .done {
+            viewModel.setAppLock(password)
+                .subscribe({
                     val returnIntent = Intent().apply {
                         putExtra(EXTRA_APP_LOCKED, true)
                     }
                     activity.setResult(Activity.RESULT_OK, returnIntent)
                     activity.finish()
-                }
-                .fail { e ->
-                    (activity as? BaseActivity)?.showSnackbar(R.string.error_generic)
-                    CrashReporting.logException(e)
-                }
+                },
+                    { e ->
+                        (activity as? BaseActivity)?.showSnackbar(R.string.error_generic)
+                        logException(e)
+                    })
+                .attachTo(destroyer)
         }
 
         private fun showExportOptions() {

@@ -7,12 +7,13 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.icons.IconView
+import ch.rmy.android.http_shortcuts.realm.ListLiveData
 import ch.rmy.android.http_shortcuts.realm.models.Category
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.dimen
 import kotterknife.bindView
 
-class CategoryAdapter(context: Context) : BaseAdapter<Category>(context) {
+class CategoryAdapter(context: Context, categories: ListLiveData<Category>) : BaseAdapter<Category>(context, categories) {
 
     override fun createViewHolder(parentView: ViewGroup) = CategoryViewHolder(parentView)
 

@@ -24,12 +24,15 @@ import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.curlcommand.CurlCommand
 import com.afollestad.materialdialogs.MaterialDialog
 import com.satsuware.usefulviews.LabelledSpinner
+import io.reactivex.Completable
+import io.reactivex.disposables.Disposable
 import org.apache.http.HttpHeaders
 import org.jdeferred2.Deferred
 import org.jdeferred2.DoneFilter
 import org.jdeferred2.FailFilter
 import org.jdeferred2.ProgressFilter
 import org.jdeferred2.Promise
+import org.jdeferred2.impl.DeferredObject
 
 var View.visible: Boolean
     get() = this.visibility == View.VISIBLE
@@ -122,13 +125,20 @@ fun Context.showToast(@StringRes message: Int, long: Boolean = false) {
 
 fun <T, U, F, P> Promise<T, F, P>.filter(filter: (T) -> U) = this.then(DoneFilter<T, U> { result -> filter(result) }, null as FailFilter<F, F>?, null as ProgressFilter<P, P>?)!!
 
-fun <T, U, V> Deferred<T, U, V>.rejectSafely(reject: U): Deferred<T, U, V> {
-    return if (isPending) {
+fun <T, U, V> Deferred<T, U, V>.rejectSafely(reject: U): Deferred<T, U, V> =
+    if (isPending) {
         reject(reject)
     } else {
         this
     }
-}
+
+fun <T, U, V> Deferred<T, U, V>.resolveSafely(resolve: T): Deferred<T, U, V> =
+    if (isPending) {
+        resolve(resolve)
+    } else {
+        this
+    }
+
 
 fun CurlCommand.applyToShortcut(shortcut: Shortcut) {
     shortcut.url = url
@@ -172,3 +182,17 @@ fun <T> Array<T>.findIndex(item: T) =
 
 fun IntArray.findIndex(item: Int) =
     indices.firstOrNull { this[it] == item } ?: 0
+
+fun Disposable.attachTo(destroyer: Destroyer) {
+    destroyer.own { dispose() }
+}
+
+fun Completable.toPromise(): Promise<Unit, Throwable, Unit> {
+    val deferred = DeferredObject<Unit, Throwable, Unit>()
+    subscribe({
+        deferred.resolveSafely(Unit)
+    }, {
+        deferred.rejectSafely(it)
+    })
+    return deferred.promise()
+}

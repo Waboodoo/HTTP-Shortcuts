@@ -7,6 +7,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.realm.Controller
+import ch.rmy.android.http_shortcuts.realm.RealmFactory
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -48,7 +49,7 @@ class ExecutionService : JobService() {
 
     override fun onCreate() {
         super.onCreate()
-        Controller.init(applicationContext)
+        RealmFactory.init(applicationContext)
     }
 
     override fun onDestroy() {

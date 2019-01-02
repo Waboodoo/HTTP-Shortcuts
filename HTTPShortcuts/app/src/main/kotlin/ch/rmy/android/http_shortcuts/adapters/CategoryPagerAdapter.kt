@@ -3,46 +3,32 @@ package ch.rmy.android.http_shortcuts.adapters
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.ListFragment
+import ch.rmy.android.http_shortcuts.activities.main.ListFragment
 import ch.rmy.android.http_shortcuts.realm.models.Category
 import ch.rmy.android.http_shortcuts.utils.SelectionMode
-import java.util.*
 
-class CategoryPagerAdapter(private val fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
+class CategoryPagerAdapter(private val fragmentManager: FragmentManager, private val selectionMode: SelectionMode) : FragmentPagerAdapter(fragmentManager) {
 
-    private val fragments = ArrayList<ListFragment>()
-    private val names = ArrayList<String>()
+    private var fragments: List<Pair<String, ListFragment>> = emptyList()
 
-    fun setCategories(categories: List<Category>, selectionMode: SelectionMode) {
-        (fragments.size until categories.size)
-            .map { fragmentManager.findFragmentByTag(makeFragmentName(it)) }
-            .forEach {
-                if (it is ListFragment) {
-                    fragments.add(it)
-                } else {
-                    fragments.add(ListFragment())
-                }
+    fun setCategories(categories: List<Category>) {
+        fragments = categories
+            .mapIndexed { index, category ->
+                val fragment = fragmentManager.findFragmentByTag(makeFragmentName(index))
+                    ?.let { it as? ListFragment }
+                    ?.takeIf { it.categoryId == category.id }
+                    ?: ListFragment.create(category.id, selectionMode)
+
+                category.name to fragment
             }
-
-        while (fragments.size > categories.size) {
-            fragments.removeAt(fragments.size - 1)
-        }
-
-        names.clear()
-        fragments.forEachIndexed { i, fragment ->
-            val category = categories[i]
-            fragment.categoryId = category.id
-            fragment.selectionMode = selectionMode
-            names.add(category.name)
-        }
         notifyDataSetChanged()
     }
 
-    override fun getItem(position: Int) = fragments[position]
+    override fun getItem(position: Int) = fragments[position].second
 
     override fun getCount() = fragments.size
 
-    override fun getPageTitle(position: Int) = names[position]
+    override fun getPageTitle(position: Int) = fragments[position].first
 
     private fun makeFragmentName(position: Int) = "android:switcher:" + R.id.view_pager + ":" + position
 

@@ -15,6 +15,7 @@ import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.OnItemChosenListener
 import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils
+import ch.rmy.android.http_shortcuts.utils.attachTo
 import ch.rmy.android.http_shortcuts.utils.consume
 import ch.rmy.android.http_shortcuts.utils.findIndex
 import ch.rmy.android.http_shortcuts.utils.fix
@@ -161,9 +162,10 @@ class VariableEditorActivity : BaseActivity() {
         compileVariable()
         if (validate()) {
             controller.persist(variable)
-                .done {
+                .subscribe {
                     finish()
                 }
+                .attachTo(destroyer)
         }
     }
 

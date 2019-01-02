@@ -37,9 +37,10 @@ import ch.rmy.android.http_shortcuts.utils.IpackUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.OnItemChosenListener
 import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils
-import ch.rmy.android.http_shortcuts.utils.UUIDUtils
+import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.utils.Validation
 import ch.rmy.android.http_shortcuts.utils.applyToShortcut
+import ch.rmy.android.http_shortcuts.utils.attachTo
 import ch.rmy.android.http_shortcuts.utils.consume
 import ch.rmy.android.http_shortcuts.utils.dimen
 import ch.rmy.android.http_shortcuts.utils.findIndex
@@ -55,6 +56,7 @@ import ch.rmy.curlcommand.CurlCommand
 import com.afollestad.materialdialogs.MaterialDialog
 import com.satsuware.usefulviews.LabelledSpinner
 import com.theartofdev.edmodo.cropper.CropImage
+import io.reactivex.functions.Consumer
 import kotterknife.bindView
 
 
@@ -279,9 +281,10 @@ class EditorActivity : BaseActivity() {
         if (validate(false)) {
             prepareForSave(shortcut, shortcutId)
             controller.persist(shortcut)
-                .done { persistedShortcut ->
+                .subscribe { persistedShortcut ->
                     onShortcutSaved(persistedShortcut)
                 }
+                .attachTo(destroyer)
         }
     }
 
@@ -324,11 +327,12 @@ class EditorActivity : BaseActivity() {
         if (validate(true)) {
             prepareForTest(shortcut)
             controller.persist(shortcut)
-                .done {
+                .subscribe(Consumer {
                     val intent = ExecuteActivity.IntentBuilder(context, TEMPORARY_ID)
                         .build()
                     startActivity(intent)
-                }
+                })
+                .attachTo(destroyer)
         }
     }
 
@@ -428,7 +432,7 @@ class EditorActivity : BaseActivity() {
                     val result = CropImage.getActivityResult(intent)
                     if (resultCode == RESULT_OK) {
                         val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, result.uri)
-                        val iconName = UUIDUtils.create() + ".png"
+                        val iconName = newUUID() + ".png"
                         openFileOutput(iconName, 0).use {
                             bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
                             it.flush()

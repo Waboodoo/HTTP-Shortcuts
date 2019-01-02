@@ -11,7 +11,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.realm.Controller
+import ch.rmy.android.http_shortcuts.realm.RealmFactory
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.ThemeHelper
 import ch.rmy.android.http_shortcuts.utils.color
@@ -31,7 +31,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Controller.init(applicationContext)
+        RealmFactory.init(applicationContext)
     }
 
     override fun setContentView(layoutResID: Int) {

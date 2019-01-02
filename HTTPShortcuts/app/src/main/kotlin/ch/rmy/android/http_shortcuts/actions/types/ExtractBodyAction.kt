@@ -6,6 +6,7 @@ import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.PromiseUtils
+import ch.rmy.android.http_shortcuts.utils.toPromise
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
 import com.android.volley.VolleyError
@@ -114,7 +115,7 @@ class ExtractBodyAction(
 
         variableValues[variableKey] = value
         Controller().use { controller ->
-            return controller.setVariableValue(variableKey, value)
+            return controller.setVariableValue(variableKey, value).toPromise()
         }
     }
 

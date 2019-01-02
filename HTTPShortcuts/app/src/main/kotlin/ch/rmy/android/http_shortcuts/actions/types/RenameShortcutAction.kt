@@ -6,6 +6,7 @@ import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.PromiseUtils
+import ch.rmy.android.http_shortcuts.utils.toPromise
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
 import com.android.volley.VolleyError
@@ -38,6 +39,7 @@ class RenameShortcutAction(
                 return PromiseUtils.resolve(Unit)
             }
             return controller.renameShortcut(shortcutId, newName)
+                .toPromise()
                 .done {
                     val shortcut = controller.getShortcutById(shortcutId)
                     if (LauncherShortcutManager.supportsPinning(context) && shortcut != null) {

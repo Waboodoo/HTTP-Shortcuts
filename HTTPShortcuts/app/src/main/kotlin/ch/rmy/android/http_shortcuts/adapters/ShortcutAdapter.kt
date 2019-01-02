@@ -3,22 +3,19 @@ package ch.rmy.android.http_shortcuts.adapters
 import android.content.Context
 
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.realm.ListLiveData
 import ch.rmy.android.http_shortcuts.realm.models.PendingExecution
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
-import io.realm.RealmChangeListener
-import io.realm.RealmResults
 
-abstract class ShortcutAdapter internal constructor(context: Context) : BaseAdapter<Shortcut>(context) {
+abstract class ShortcutAdapter internal constructor(context: Context, shortcuts: ListLiveData<Shortcut>) : BaseAdapter<Shortcut>(context, shortcuts) {
 
-    private val changeListener = RealmChangeListener<RealmResults<PendingExecution>> { notifyDataSetChanged() }
-    internal var shortcutsPendingExecution: RealmResults<PendingExecution>? = null
+    internal var shortcutsPendingExecution: List<PendingExecution> = emptyList()
 
     override val emptyMarkerStringResource = R.string.no_shortcuts
 
-    fun setPendingShortcuts(shortcutsPendingExecution: RealmResults<PendingExecution>) {
-        this.shortcutsPendingExecution?.removeChangeListener(changeListener)
+    fun setPendingShortcuts(shortcutsPendingExecution: List<PendingExecution>) {
         this.shortcutsPendingExecution = shortcutsPendingExecution
-        this.shortcutsPendingExecution?.addChangeListener(changeListener)
+        notifyDataSetChanged()
     }
 
 }

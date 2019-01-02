@@ -16,9 +16,4 @@
         android:icon="@drawable/ic_settings"
         android:title="@string/settings"
         app:showAsAction="ifRoom"/>
-    <item
-        android:id="@+id/action_unlock"
-        android:icon="@drawable/ic_lock"
-        android:title="@string/menu_action_unlock_app"
-        app:showAsAction="always"/>
 </menu>

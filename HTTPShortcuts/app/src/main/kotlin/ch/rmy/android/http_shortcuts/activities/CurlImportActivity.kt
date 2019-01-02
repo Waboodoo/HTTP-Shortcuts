@@ -31,7 +31,8 @@ class CurlImportActivity : BaseActivity() {
 
         curlCommand.onTextChanged { text ->
             commandEmpty = text.isEmpty()
-        }.attachTo(destroyer)
+        }
+            .attachTo(destroyer)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

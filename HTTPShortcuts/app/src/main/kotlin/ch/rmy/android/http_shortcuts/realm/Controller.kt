@@ -1,29 +1,23 @@
 package ch.rmy.android.http_shortcuts.realm
 
-import android.content.Context
-import ch.rmy.android.http_shortcuts.BuildConfig
-import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.realm.models.AppLock
+import ch.rmy.android.http_shortcuts.realm.Repository.generateId
 import ch.rmy.android.http_shortcuts.realm.models.Base
 import ch.rmy.android.http_shortcuts.realm.models.Category
-import ch.rmy.android.http_shortcuts.realm.models.HasId
 import ch.rmy.android.http_shortcuts.realm.models.PendingExecution
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.Destroyable
+import io.reactivex.Completable
+import io.reactivex.Single
 import io.realm.Realm
 import io.realm.RealmList
-import io.realm.RealmObject
 import io.realm.RealmResults
-import org.jdeferred2.DoneFilter
-import org.jdeferred2.Promise
-import org.mindrot.jbcrypt.BCrypt
 import java.io.Closeable
 import java.util.*
 
 class Controller : Destroyable, Closeable {
 
-    private val realm: Realm = realmFactory!!.createRealm()
+    private val realm: Realm = RealmFactory.getInstance().createRealm()
 
     override fun destroy() {
         if (!realm.isClosed) {
@@ -38,8 +32,6 @@ class Controller : Destroyable, Closeable {
     fun getCategories(): RealmList<Category> = getBase().categories
 
     fun getVariables(): RealmList<Variable> = getBase().variables
-
-    fun getCategoryById(id: Long) = Repository.getCategoryById(realm, id)
 
     fun getShortcutById(id: Long) = Repository.getShortcutById(realm, id)
 
@@ -58,7 +50,7 @@ class Controller : Destroyable, Closeable {
     private fun getBase() = Repository.getBase(realm)!!
 
     fun setVariableValue(variableId: Long, value: String) =
-        realm.commitAsyncRx { realm ->
+        realm.commitAsync { realm ->
             Repository.getVariableById(realm, variableId)?.value = value
         }
 
@@ -87,93 +79,9 @@ class Controller : Destroyable, Closeable {
         }
     }
 
-    fun deleteShortcut(shortcutId: Long) =
-        realm.commitAsyncRx { realm ->
-            val shortcut = Repository.getShortcutById(realm, shortcutId) ?: return@commitAsyncRx
-            Repository.getShortcutPendingExecution(realm, shortcutId)?.deleteFromRealm()
-            shortcut.headers.deleteAllFromRealm()
-            shortcut.parameters.deleteAllFromRealm()
-            shortcut.deleteFromRealm()
-        }
-
-    fun moveShortcut(shortcutId: Long, targetPosition: Int? = null, targetCategoryId: Long? = null) =
-        realm.commitAsyncRx { realm ->
-            val shortcut = Repository.getShortcutById(realm, shortcutId) ?: return@commitAsyncRx
-            val categories = Repository.getBase(realm)?.categories ?: return@commitAsyncRx
-            val targetCategory = if (targetCategoryId != null) {
-                Repository.getCategoryById(realm, targetCategoryId)
-            } else {
-                categories.first { it.shortcuts.any { it.id == shortcutId } }
-            } ?: return@commitAsyncRx
-
-            for (category in categories) {
-                category.shortcuts.remove(shortcut)
-            }
-            if (targetPosition != null) {
-                targetCategory.shortcuts.add(targetPosition, shortcut)
-            } else {
-                targetCategory.shortcuts.add(shortcut)
-            }
-        }
-
     fun renameShortcut(shortcutId: Long, newName: String) =
         realm.commitAsync { realm ->
             Repository.getShortcutById(realm, shortcutId)?.name = newName
-        }
-
-    fun createCategory(name: String) =
-        realm.commitAsyncRx { realm ->
-            val base = Repository.getBase(realm) ?: return@commitAsyncRx
-            val categories = base.categories
-            val category = Category.createNew(name)
-            category.id = generateId(realm, Category::class.java)
-            categories.add(realm.copyToRealm(category))
-        }
-
-    fun renameCategory(categoryId: Long, newName: String) =
-        realm.commitAsyncRx { realm ->
-            Repository.getCategoryById(realm, categoryId)?.name = newName
-        }
-
-    fun setLayoutType(categoryId: Long, layoutType: String) =
-        realm.commitAsyncRx { realm ->
-            Repository.getCategoryById(realm, categoryId)?.layoutType = layoutType
-        }
-
-    fun moveCategory(categoryId: Long, position: Int) =
-        realm.commitAsyncRx { realm ->
-            val base = Repository.getBase(realm) ?: return@commitAsyncRx
-            val category = Repository.getCategoryById(realm, categoryId) ?: return@commitAsyncRx
-            val categories = base.categories
-            val oldPosition = categories.indexOf(category)
-            categories.move(oldPosition, position)
-        }
-
-    fun deleteCategory(categoryId: Long) =
-        realm.commitAsyncRx { realm ->
-            val category = Repository.getCategoryById(realm, categoryId) ?: return@commitAsyncRx
-            for (shortcut in category.shortcuts) {
-                shortcut.headers.deleteAllFromRealm()
-                shortcut.parameters.deleteAllFromRealm()
-            }
-            category.shortcuts.deleteAllFromRealm()
-            category.deleteFromRealm()
-        }
-
-    fun moveVariable(variableId: Long, position: Int) =
-        realm.commitAsyncRx { realm ->
-            val base = Repository.getBase(realm) ?: return@commitAsyncRx
-            val variable = Repository.getVariableById(realm, variableId) ?: return@commitAsyncRx
-            val variables = base.variables
-            val oldPosition = variables.indexOf(variable)
-            variables.move(oldPosition, position)
-        }
-
-    fun deleteVariable(variableId: Long) =
-        realm.commitAsyncRx { realm ->
-            val variable = Repository.getVariableById(realm, variableId) ?: return@commitAsyncRx
-            variable.options?.deleteAllFromRealm()
-            variable.deleteFromRealm()
         }
 
     fun createPendingExecution(
@@ -183,7 +91,7 @@ class Controller : Destroyable, Closeable {
         waitUntil: Date? = null,
         requiresNetwork: Boolean
     ) =
-        realm.commitAsyncRx { realm ->
+        realm.commitAsync { realm ->
             val alreadyPending = Repository.getShortcutPendingExecution(realm, shortcutId) != null
             if (!alreadyPending) {
                 realm.copyToRealm(PendingExecution.createNew(shortcutId, resolvedVariables, tryNumber, waitUntil, requiresNetwork))
@@ -191,21 +99,23 @@ class Controller : Destroyable, Closeable {
         }
 
     fun removePendingExecution(shortcutId: Long) =
-        realm.commitAsyncRx { realm ->
+        realm.commitAsync { realm ->
             Repository.getShortcutPendingExecution(realm, shortcutId)?.deleteFromRealm()
         }
 
-    fun persist(shortcut: Shortcut): Promise<Shortcut, Throwable, Unit> {
+    fun persist(shortcut: Shortcut): Single<Shortcut> {
         if (shortcut.isNew) {
             shortcut.id = generateId(realm, Shortcut::class.java)
         }
         return realm.commitAsync { realm ->
             realm.copyToRealmOrUpdate(shortcut)
         }
-            .then(DoneFilter { getShortcutById(shortcut.id)!! })
+            .toSingle {
+                getShortcutById(shortcut.id)!!
+            }
     }
 
-    fun persist(variable: Variable): Promise<Variable, Throwable, Unit> {
+    fun persist(variable: Variable): Completable {
         val isNew = variable.isNew
         if (isNew) {
             variable.id = generateId(realm, Variable::class.java)
@@ -217,67 +127,6 @@ class Controller : Destroyable, Closeable {
                 base.variables.add(newVariable)
             }
         }
-            .then(DoneFilter { getVariableById(variable.id)!! })
-    }
-
-    fun isAppLocked() = Repository.getAppLock(realm) != null
-
-    fun setAppLock(password: String) =
-        realm.commitAsync { realm ->
-            realm.copyToRealmOrUpdate(AppLock()
-                .apply {
-                    this.passwordHash = BCrypt.hashpw(password, BCrypt.gensalt())
-                })
-        }
-
-    fun removeAppLock(password: String) =
-        realm.commitAsync { realm ->
-            val appLock = Repository.getAppLock(realm)
-            if (appLock != null && BCrypt.checkpw(password, appLock.passwordHash)) {
-                appLock.deleteFromRealm()
-            }
-        }
-
-    private fun generateId(realm: Realm, clazz: Class<out RealmObject>): Long {
-        val maxId = realm.where(clazz).max(HasId.FIELD_ID)
-        val maxIdLong = Math.max(maxId?.toLong() ?: 0, 0)
-        return maxIdLong + 1
-    }
-
-    companion object {
-
-        private var realmFactory: RealmFactory? = null
-
-        fun init(context: Context) {
-            if (realmFactory != null) {
-                return
-            }
-
-            Realm.init(context)
-            realmFactory = RealmFactory(BuildConfig.REALM_ENCRYPTION_KEY.toByteArray())
-            realmFactory!!.createRealm().use { realm ->
-                if (Repository.getBase(realm) == null) {
-                    setupBase(context, realm)
-                }
-            }
-        }
-
-        private fun setupBase(context: Context, realm: Realm) {
-            val defaultCategoryName = context.getString(R.string.shortcuts)
-            realm.executeTransaction {
-                val defaultCategory = Category.createNew(defaultCategoryName)
-                defaultCategory.id = 1
-
-                val newBase = Base().apply {
-                    categories = RealmList()
-                    variables = RealmList()
-                    categories.add(defaultCategory)
-                    version = DatabaseMigration.VERSION
-                }
-                it.copyToRealm(newBase)
-            }
-        }
-
     }
 
 }

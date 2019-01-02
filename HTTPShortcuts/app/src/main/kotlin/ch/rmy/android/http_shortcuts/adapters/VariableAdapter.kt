@@ -4,11 +4,12 @@ import android.content.Context
 import android.view.ViewGroup
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.realm.ListLiveData
 import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.findIndex
 import kotterknife.bindView
 
-class VariableAdapter(context: Context) : BaseAdapter<Variable>(context) {
+class VariableAdapter(context: Context, variables: ListLiveData<Variable>) : BaseAdapter<Variable>(context, variables) {
 
     override fun createViewHolder(parentView: ViewGroup) = VariableViewHolder(parentView)
 

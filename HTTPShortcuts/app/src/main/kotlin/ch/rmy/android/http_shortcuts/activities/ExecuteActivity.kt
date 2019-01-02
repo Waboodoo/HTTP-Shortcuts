@@ -30,6 +30,7 @@ import ch.rmy.android.http_shortcuts.utils.Validation
 import ch.rmy.android.http_shortcuts.utils.consume
 import ch.rmy.android.http_shortcuts.utils.logException
 import ch.rmy.android.http_shortcuts.utils.rejectSafely
+import ch.rmy.android.http_shortcuts.utils.resolveSafely
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.utils.showToast
 import ch.rmy.android.http_shortcuts.utils.visible
@@ -138,7 +139,7 @@ class ExecuteActivity : BaseActivity() {
             }
             .positiveText(R.string.dialog_ok)
             .onPositive { _, _ ->
-                deferred.resolve(Unit)
+                deferred.resolveSafely(Unit)
             }
             .negativeText(R.string.dialog_cancel)
             .showIfPossible()

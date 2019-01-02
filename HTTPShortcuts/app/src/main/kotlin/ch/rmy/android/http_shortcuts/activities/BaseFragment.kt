@@ -14,12 +14,20 @@ open class BaseFragment : Fragment() {
 
     val destroyer = Destroyer()
 
+    protected val args
+        get() = arguments ?: Bundle()
+
     final override fun onCreateView(inflater: LayoutInflater, parent: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(layoutResource, parent, false)
 
     final override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        destroyer.destroy()
     }
 
     override fun onDestroy() {

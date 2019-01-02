@@ -7,8 +7,10 @@ import ch.rmy.android.http_shortcuts.realm.models.HasId
 import ch.rmy.android.http_shortcuts.realm.models.PendingExecution
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.realm.models.Variable
+import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import io.realm.Case
 import io.realm.Realm
+import io.realm.RealmObject
 import io.realm.RealmResults
 import io.realm.kotlin.where
 
@@ -30,6 +32,12 @@ object Repository {
             .where<Category>()
             .equalTo(HasId.FIELD_ID, categoryId)
             .findFirst()
+
+    internal fun getCategoryByIdAsync(realm: Realm, categoryId: Long): Category =
+        realm
+            .where<Category>()
+            .equalTo(HasId.FIELD_ID, categoryId)
+            .findFirstAsync()
 
     internal fun getShortcutById(realm: Realm, shortcutId: Long): Shortcut? =
         realm
@@ -71,5 +79,53 @@ object Repository {
         realm
             .where<AppLock>()
             .findFirst()
+
+    internal fun deleteShortcut(realm: Realm, shortcutId: Long) {
+        getShortcutById(realm, shortcutId)?.apply {
+            headers.deleteAllFromRealm()
+            parameters.deleteAllFromRealm()
+            deleteFromRealm()
+        }
+    }
+
+    internal fun copyShortcut(realm: Realm, sourceShortcut: Shortcut, targetShortcutId: Long): Shortcut =
+        sourceShortcut.detachFromRealm()
+            .apply {
+                id = targetShortcutId
+                parameters.forEach { parameter ->
+                    parameter.id = newUUID()
+                }
+                headers.forEach { header ->
+                    header.id = newUUID()
+                }
+            }
+            .let {
+                realm.copyToRealm(it)
+            }
+
+    internal fun generateId(realm: Realm, clazz: Class<out RealmObject>): Long {
+        val maxId = realm.where(clazz).max(HasId.FIELD_ID)
+        val maxIdLong = Math.max(maxId?.toLong() ?: 0, 0)
+        return maxIdLong + 1
+    }
+
+    internal fun moveShortcut(realm: Realm, shortcutId: Long, targetPosition: Int? = null, targetCategoryId: Long? = null) {
+        val shortcut = Repository.getShortcutById(realm, shortcutId) ?: return
+        val categories = Repository.getBase(realm)?.categories ?: return
+        val targetCategory = if (targetCategoryId != null) {
+            Repository.getCategoryById(realm, targetCategoryId)
+        } else {
+            categories.first { category -> category.shortcuts.any { it.id == shortcutId } }
+        } ?: return
+
+        for (category in categories) {
+            category.shortcuts.remove(shortcut)
+        }
+        if (targetPosition != null) {
+            targetCategory.shortcuts.add(targetPosition, shortcut)
+        } else {
+            targetCategory.shortcuts.add(shortcut)
+        }
+    }
 
 }

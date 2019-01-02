@@ -294,8 +294,8 @@ open class Shortcut : RealmObject(), HasId {
 
         const val DEFAULT_CONTENT_TYPE = "text/plain"
 
-        fun createNew() = Shortcut().apply {
-            id = 0
+        fun createNew(id: Long = 0) = Shortcut().apply {
+            this.id = id
             name = ""
             description = ""
             username = ""

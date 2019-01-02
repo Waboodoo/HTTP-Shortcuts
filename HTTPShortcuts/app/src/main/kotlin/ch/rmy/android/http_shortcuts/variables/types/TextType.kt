@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.variables.types
 import android.content.Context
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Variable
+import ch.rmy.android.http_shortcuts.utils.resolveSafely
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import org.jdeferred2.Deferred
 
@@ -15,7 +16,7 @@ open class TextType : BaseVariableType(), AsyncVariableType {
             .toDialogBuilder()
             .input(null, if (variable.rememberValue) variable.value else "") { _, input ->
                 if (variable.isValid) {
-                    deferredValue.resolve(input.toString())
+                    deferredValue.resolveSafely(input.toString())
                     controller.setVariableValue(variable.id, input.toString()).subscribe()
                 }
             }

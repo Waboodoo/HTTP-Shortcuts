@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.icons.IconView
+import ch.rmy.android.http_shortcuts.realm.ListLiveData
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.visible
 import kotterknife.bindView
 
-class ShortcutListAdapter(context: Context) : ShortcutAdapter(context) {
+class ShortcutListAdapter(context: Context, shortcuts: ListLiveData<Shortcut>) : ShortcutAdapter(context, shortcuts) {
 
     override fun createViewHolder(parentView: ViewGroup) = ShortcutViewHolder(parentView)
 
@@ -30,7 +31,7 @@ class ShortcutListAdapter(context: Context) : ShortcutAdapter(context) {
             waitingIcon.visible = isPendingExecution(item.id)
         }
 
-        private fun isPendingExecution(shortcutId: Long) = shortcutsPendingExecution!!.any {
+        private fun isPendingExecution(shortcutId: Long) = shortcutsPendingExecution.any {
             it.shortcutId == shortcutId
         }
 

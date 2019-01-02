@@ -1,98 +1,132 @@
-package ch.rmy.android.http_shortcuts.activities
+package ch.rmy.android.http_shortcuts.activities.main
 
+import android.os.Bundle
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.BaseFragment
+import ch.rmy.android.http_shortcuts.activities.EditorActivity
+import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.adapters.ShortcutAdapter
 import ch.rmy.android.http_shortcuts.adapters.ShortcutGridAdapter
 import ch.rmy.android.http_shortcuts.adapters.ShortcutListAdapter
 import ch.rmy.android.http_shortcuts.dialogs.CurlExportDialog
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
-import ch.rmy.android.http_shortcuts.realm.Controller
+import ch.rmy.android.http_shortcuts.realm.ListLiveData
 import ch.rmy.android.http_shortcuts.realm.models.Category
+import ch.rmy.android.http_shortcuts.realm.models.PendingExecution
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.GridLayoutManager
-import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.SelectionMode
 import ch.rmy.android.http_shortcuts.utils.Settings
+import ch.rmy.android.http_shortcuts.utils.attachTo
 import ch.rmy.android.http_shortcuts.utils.mapFor
 import ch.rmy.android.http_shortcuts.utils.mapIf
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.curlcommand.CurlCommand
 import ch.rmy.curlcommand.CurlConstructor
 import com.afollestad.materialdialogs.MaterialDialog
-import io.realm.RealmChangeListener
-import io.realm.RealmList
 import kotterknife.bindView
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
 
 class ListFragment : BaseFragment() {
 
+    val categoryId by lazy {
+        args.getLong(ARG_CATEGORY_ID)
+    }
+
+    private val selectionMode by lazy {
+        args.getSerializable(ARG_SELECTION_MODE) as SelectionMode
+    }
+
+    private val viewModel: ShortcutListViewModel by lazy {
+        ViewModelProviders.of(this).get(ShortcutListViewModel::class.java)
+    }
+
+    private lateinit var categories: ListLiveData<Category>
+    private lateinit var categoryData: LiveData<Category?>
+    private lateinit var shortcuts: ListLiveData<Shortcut>
+    private lateinit var pendingShortcuts: ListLiveData<PendingExecution>
+
+    private var layoutType: String? = null
+    private var adapter: ShortcutAdapter? = null
+
     override val layoutResource = R.layout.fragment_list
 
+    // Views
     private val shortcutList: RecyclerView by bindView(R.id.shortcut_list)
 
-    var categoryId: Long = 0
-        set(categoryId) {
-            field = categoryId
-            if (isAdded) {
-                onCategoryChanged()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.categoryId = categoryId
+
+        categories = viewModel.getCategories()
+        categoryData = viewModel.getCategory()
+        shortcuts = viewModel.getShortcuts()
+        pendingShortcuts = viewModel.getPendingShortcuts()
+    }
+
+    override fun setupViews() {
+        shortcutList.setHasFixedSize(true)
+
+        bindViewsToViewModel()
+    }
+
+    private fun bindViewsToViewModel() {
+        categoryData.observe(this, Observer {
+            updateViews()
+        })
+        pendingShortcuts.observe(this, Observer { pendingShortcuts ->
+            adapter?.setPendingShortcuts(pendingShortcuts)
+        })
+        shortcuts.observe(this, Observer {
+            updateEmptyState()
+        })
+    }
+
+    private fun updateViews() {
+        val layoutType = categoryData.value?.layoutType
+
+        if (layoutType != this.layoutType || adapter == null) {
+            this.layoutType = layoutType
+            adapter?.destroy()
+
+            val adapter = when (layoutType) {
+                Category.LAYOUT_GRID -> ShortcutGridAdapter(context!!, shortcuts)
+                else -> ShortcutListAdapter(context!!, shortcuts)
             }
-        }
-    var selectionMode: SelectionMode? = null
-    private var category: Category? = null
+            val manager = when (layoutType) {
+                Category.LAYOUT_GRID -> GridLayoutManager(context!!)
+                else -> LinearLayoutManager(context)
+            }
+            this.adapter = destroyer.own(adapter)
+            destroyer.own {
+                this.adapter = null
+            }
 
-    private val controller by lazy { Controller() }
-    private val categories by lazy { controller.getCategories() }
+            adapter.clickListener = this::onItemClicked
+            adapter.longClickListener = this::onItemLongClicked
 
-    private val shortcutChangeListener = RealmChangeListener<RealmList<Shortcut>> { shortcuts ->
-        if (isVisible && shortcuts.isValid) {
-            onShortcutsChanged(shortcuts)
+            shortcutList.layoutManager = manager
+            shortcutList.adapter = adapter
+            updateEmptyState()
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        onCategoryChanged()
-    }
-
-    private fun onCategoryChanged() {
-        if (context == null) {
-            return
-        }
-        category?.shortcuts?.removeChangeListener(shortcutChangeListener)
-        category = controller.getCategoryById(this.categoryId) ?: return
-        category!!.shortcuts.addChangeListener(shortcutChangeListener)
-
-        val manager: RecyclerView.LayoutManager
-        val adapter: ShortcutAdapter
-        when (category!!.layoutType) {
-            Category.LAYOUT_GRID -> {
-                adapter = ShortcutGridAdapter(context!!)
-                manager = GridLayoutManager(context!!)
-            }
-            else -> {
-                adapter = ShortcutListAdapter(context!!)
-                manager = LinearLayoutManager(context)
-            }
-        }
-        adapter.setPendingShortcuts(controller.getShortcutsPendingExecution())
-        adapter.clickListener = this::onItemClicked
-        adapter.longClickListener = this::onItemLongClicked
-        adapter.setItems(category!!.shortcuts)
-
-        shortcutList.layoutManager = manager
-        shortcutList.adapter = adapter
-        onShortcutsChanged(category!!.shortcuts)
+    private fun updateEmptyState() {
+        (shortcutList.layoutManager as? GridLayoutManager)?.setEmpty(shortcuts.isEmpty())
     }
 
     private fun onItemClicked(shortcut: Shortcut) {
         when (selectionMode) {
-            SelectionMode.HOME_SCREEN, SelectionMode.PLUGIN -> tabHost.selectShortcut(shortcut)
+            SelectionMode.HOME_SCREEN, SelectionMode.PLUGIN -> tabHost?.selectShortcut(shortcut)
             else -> {
-                if (controller.isAppLocked()) {
+                if (tabHost?.isAppLocked() == true) {
                     executeShortcut(shortcut)
                     return
                 }
@@ -107,37 +141,18 @@ class ListFragment : BaseFragment() {
     }
 
     private fun onItemLongClicked(shortcut: Shortcut): Boolean {
-        if (controller.isAppLocked()) {
+        if (tabHost?.isAppLocked() != false) {
             return false
         }
         showContextMenu(shortcut)
         return true
     }
 
-    private fun onShortcutsChanged(shortcuts: List<Shortcut>) {
-        val categories = controller.getCategories()
-        if (categories.isValid) {
-            (shortcutList.layoutManager as? GridLayoutManager)?.setEmpty(shortcuts.isEmpty())
-            LauncherShortcutManager.updateAppShortcuts(context!!, categories)
-        }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        category?.shortcuts?.removeAllChangeListeners()
-        controller.destroy()
-    }
-
-    override fun setupViews() {
-        shortcutList.setHasFixedSize(true)
-        onCategoryChanged()
-    }
-
     private fun showContextMenu(shortcut: Shortcut) {
         MenuDialogBuilder(context!!)
             .title(shortcut.name)
             .item(R.string.action_place) {
-                tabHost.placeShortcutOnHomeScreen(shortcut)
+                tabHost?.placeShortcutOnHomeScreen(shortcut)
             }
             .item(R.string.action_run) {
                 executeShortcut(shortcut)
@@ -168,7 +183,7 @@ class ListFragment : BaseFragment() {
     }
 
     private fun isPending(shortcut: Shortcut) =
-        controller.getShortcutPendingExecution(shortcut.id) != null
+        pendingShortcuts.any { it.shortcutId == shortcut.id }
 
     private fun executeShortcut(shortcut: Shortcut) {
         val intent = ExecuteActivity.IntentBuilder(context!!, shortcut.id)
@@ -187,11 +202,8 @@ class ListFragment : BaseFragment() {
         canMoveShortcut(shortcut, -1) || canMoveShortcut(shortcut, +1) || categories.size > 1
 
     private fun canMoveShortcut(shortcut: Shortcut, offset: Int): Boolean {
-        if (category == null) {
-            return false
-        }
-        val position = category!!.shortcuts.indexOf(shortcut) + offset
-        return position >= 0 && position < category!!.shortcuts.size
+        val position = shortcuts.indexOf(shortcut) + offset
+        return position >= 0 && position < shortcuts.size
     }
 
     private fun openMoveDialog(shortcut: Shortcut) {
@@ -215,26 +227,28 @@ class ListFragment : BaseFragment() {
     }
 
     private fun moveShortcut(shortcut: Shortcut, offset: Int) {
-        category?.let { currentCategory ->
+        categoryData.value?.let { currentCategory ->
             if (!canMoveShortcut(shortcut, offset)) {
                 return
             }
             val position = currentCategory.shortcuts.indexOf(shortcut) + offset
             if (position == currentCategory.shortcuts.size) {
-                controller.moveShortcut(shortcut.id, targetCategoryId = currentCategory.id)
+                viewModel.moveShortcut(shortcut.id, targetCategoryId = currentCategory.id)
             } else {
-                controller.moveShortcut(shortcut.id, targetPosition = position)
-            }.subscribe()
+                viewModel.moveShortcut(shortcut.id, targetPosition = position)
+            }
+                .subscribe()
+                .attachTo(destroyer)
         }
     }
 
     private fun showMoveToCategoryDialog(shortcut: Shortcut) {
-        category?.let { currentCategory ->
+        categoryData.value?.let { currentCategory ->
             MenuDialogBuilder(context!!)
                 .title(R.string.title_move_to_category)
-                .mapFor(this.categories.filter { it.id != currentCategory.id }) { builder, category ->
+                .mapFor(categories.filter { it.id != currentCategory.id }) { builder, category ->
                     builder.item(category.name) {
-                        if (category.isValid) {
+                        categoryData.value?.let { category ->
                             moveShortcut(shortcut, category)
                         }
                     }
@@ -244,37 +258,37 @@ class ListFragment : BaseFragment() {
     }
 
     private fun moveShortcut(shortcut: Shortcut, category: Category) {
-        controller.moveShortcut(shortcut.id, targetCategoryId = category.id)
+        val name = shortcut.name
+        viewModel.moveShortcut(shortcut.id, targetCategoryId = category.id)
             .subscribe {
-                tabHost.showSnackbar(String.format(getString(R.string.shortcut_moved), shortcut.name))
+                tabHost?.showSnackbar(String.format(getString(R.string.shortcut_moved), name))
             }
+            .attachTo(destroyer)
     }
 
     private fun duplicateShortcut(shortcut: Shortcut) {
-        category?.let { currentCategory ->
-            val newName = String.format(getString(R.string.copy), shortcut.name)
-            controller.persist(shortcut.duplicate(newName))
-                .done { duplicate ->
-                    controller.moveShortcut(
-                        duplicate.id,
-                        targetCategoryId = currentCategory.id,
-                        targetPosition = currentCategory
-                            .shortcuts.indexOfFirst { it.id == shortcut.id }
-                            .takeIf { it != -1 }
-                            ?.let { it + 1 }
-                    )
-                        .subscribe()
-                }
-            tabHost.showSnackbar(String.format(getString(R.string.shortcut_duplicated), shortcut.name))
-        }
+        val name = shortcut.name
+        val newName = String.format(getString(R.string.copy), shortcut.name)
+        val categoryId = categoryData.value?.id ?: return
+        val newPosition = categoryData.value
+            ?.shortcuts
+            ?.indexOfFirst { it.id == shortcut.id }
+            .takeIf { it != -1 }
+            ?.let { it + 1 }
+        viewModel.duplicateShortcut(shortcut.id, newName, newPosition, categoryId)
+            .subscribe {
+                tabHost?.showSnackbar(String.format(getString(R.string.shortcut_duplicated), name))
+            }
+            .attachTo(destroyer)
     }
 
     private fun cancelPendingExecution(shortcut: Shortcut) {
-        controller.removePendingExecution(shortcut.id)
+        viewModel.removePendingExecution(shortcut.id)
             .subscribe {
-                tabHost.showSnackbar(String.format(getString(R.string.pending_shortcut_execution_cancelled), shortcut.name))
+                tabHost?.showSnackbar(String.format(getString(R.string.pending_shortcut_execution_cancelled), shortcut.name))
                 ExecutionScheduler.schedule(context!!)
             }
+            .attachTo(destroyer)
     }
 
     private fun showCurlExportDialog(shortcut: Shortcut) {
@@ -318,16 +332,17 @@ class ListFragment : BaseFragment() {
     }
 
     private fun deleteShortcut(shortcut: Shortcut) {
-        tabHost.showSnackbar(String.format(getString(R.string.shortcut_deleted), shortcut.name))
-        tabHost.removeShortcutFromHomeScreen(shortcut)
-        controller.deleteShortcut(shortcut.id)
+        tabHost?.showSnackbar(String.format(getString(R.string.shortcut_deleted), shortcut.name))
+        tabHost?.removeShortcutFromHomeScreen(shortcut)
+        viewModel.deleteShortcut(shortcut.id)
             .subscribe {
                 ExecutionScheduler.schedule(context!!)
             }
+            .attachTo(destroyer)
     }
 
-    private val tabHost: TabHost
-        get() = activity as TabHost
+    private val tabHost: TabHost?
+        get() = activity as? TabHost
 
     internal interface TabHost {
 
@@ -339,11 +354,26 @@ class ListFragment : BaseFragment() {
 
         fun showSnackbar(message: CharSequence)
 
+        fun isAppLocked(): Boolean
+
     }
 
     companion object {
 
+        fun create(categoryId: Long, selectionMode: SelectionMode): ListFragment =
+            ListFragment()
+                .apply {
+                    arguments = Bundle()
+                        .apply {
+                            putLong(ARG_CATEGORY_ID, categoryId)
+                            putSerializable(ARG_SELECTION_MODE, selectionMode)
+                        }
+                }
+
         private const val REQUEST_EDIT_SHORTCUT = 2
+
+        private const val ARG_CATEGORY_ID = "categoryId"
+        private const val ARG_SELECTION_MODE = "selectionMode"
 
     }
 

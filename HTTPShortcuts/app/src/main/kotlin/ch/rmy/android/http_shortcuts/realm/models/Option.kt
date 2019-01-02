@@ -1,6 +1,6 @@
 package ch.rmy.android.http_shortcuts.realm.models
 
-import ch.rmy.android.http_shortcuts.utils.UUIDUtils
+import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.Required
@@ -18,13 +18,13 @@ open class Option : RealmObject() {
 
     companion object {
 
-        fun createNew(label: String, value: String): Option {
-            val option = Option()
-            option.id = UUIDUtils.create()
-            option.label = label
-            option.value = value
-            return option
-        }
+        fun createNew(label: String, value: String) =
+            Option().apply {
+                this.id = newUUID()
+                this.label = label
+                this.value = value
+            }
+
     }
 
     fun isSameAs(other: Option) = other.label == label && other.value == value

@@ -4,7 +4,7 @@ package ch.rmy.android.http_shortcuts.import_export
 import android.text.TextUtils
 import ch.rmy.android.http_shortcuts.realm.DatabaseMigration
 import ch.rmy.android.http_shortcuts.realm.models.Base
-import ch.rmy.android.http_shortcuts.utils.UUIDUtils
+import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 
 internal object ImportMigrator {
 
@@ -34,17 +34,17 @@ internal object ImportMigrator {
                 for (category in base.categories) {
                     for (shortcut in category.shortcuts) {
                         for (header in shortcut.headers) {
-                            header.id = UUIDUtils.create()
+                            header.id = newUUID()
                         }
                         for (parameter in shortcut.parameters) {
-                            parameter.id = UUIDUtils.create()
+                            parameter.id = newUUID()
                         }
                     }
                 }
                 for (variable in base.variables) {
                     if (variable.options != null) {
                         for (option in variable.options!!) {
-                            option.id = UUIDUtils.create()
+                            option.id = newUUID()
                         }
                     }
                 }

@@ -9,6 +9,8 @@ import ch.rmy.android.http_shortcuts.utils.PromiseUtils
 import ch.rmy.android.http_shortcuts.utils.filter
 import ch.rmy.android.http_shortcuts.utils.mapIf
 import ch.rmy.android.http_shortcuts.utils.rejectSafely
+import ch.rmy.android.http_shortcuts.utils.resolveSafely
+import ch.rmy.android.http_shortcuts.utils.toPromise
 import ch.rmy.android.http_shortcuts.variables.types.AsyncVariableType
 import ch.rmy.android.http_shortcuts.variables.types.SyncVariableType
 import ch.rmy.android.http_shortcuts.variables.types.VariableTypeFactory
@@ -81,7 +83,7 @@ class VariableResolver(private val context: Context) {
                         resolvedVariables[variable.key] = value
 
                         if (index + 1 >= waitingDialogs.size) {
-                            deferred.resolve(resolvedVariables)
+                            deferred.resolveSafely(resolvedVariables)
                         } else {
                             waitingDialogs[index + 1]()
                         }
@@ -98,7 +100,7 @@ class VariableResolver(private val context: Context) {
         }
 
         if (waitingDialogs.isEmpty()) {
-            deferred.resolve(resolvedVariables)
+            deferred.resolveSafely(resolvedVariables)
         } else {
             waitingDialogs.first().invoke()
         }
@@ -111,10 +113,12 @@ class VariableResolver(private val context: Context) {
     }
 
     private fun resetVariableValues(controller: Controller, variables: List<Variable>) =
-        controller.resetVariableValues(variables
-            .filter { it.isResetAfterUse() }
-            .map { it.id }
+        controller.resetVariableValues(
+            variables
+                .filter { it.isResetAfterUse() }
+                .map { it.id }
         )
+            .toPromise()
 
     companion object {
 

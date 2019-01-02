@@ -20,7 +20,7 @@
         android:roundIcon="@drawable/ic_launcher"
         android:theme="@style/LightTheme">
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".activities.main.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -31,57 +31,66 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.EditorActivity"
+            android:name=".activities.editor.ShortcutEditorActivity"
             android:label="@string/edit_shortcut"
-            android:parentActivityName=".activities.MainActivity"
+            android:parentActivityName=".activities.main.MainActivity"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity"/>
+                android:value=".activities.main.MainActivity"/>
         </activity>
         <activity
-            android:name=".activities.CategoriesActivity"
-            android:label="@string/title_categories"
-            android:parentActivityName=".activities.MainActivity"
+            android:name=".activities.EditorActivity"
+            android:label="@string/edit_shortcut"
+            android:parentActivityName=".activities.main.MainActivity"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity"/>
+                android:value=".activities.main.MainActivity"/>
+        </activity>
+        <activity
+            android:name=".activities.categories.CategoriesActivity"
+            android:label="@string/title_categories"
+            android:parentActivityName=".activities.main.MainActivity"
+            android:windowSoftInputMode="adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.main.MainActivity"/>
         </activity>
         <activity
             android:name=".activities.CurlImportActivity"
             android:label="@string/title_curl_import"
-            android:parentActivityName=".activities.MainActivity"
+            android:parentActivityName=".activities.main.MainActivity"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity"/>
+                android:value=".activities.main.MainActivity"/>
         </activity>
         <activity
-            android:name=".activities.VariablesActivity"
+            android:name=".activities.variables.VariablesActivity"
             android:label="@string/title_variables"
-            android:parentActivityName=".activities.MainActivity"
+            android:parentActivityName=".activities.main.MainActivity"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity"/>
+                android:value=".activities.main.MainActivity"/>
         </activity>
         <activity
             android:name=".activities.VariableEditorActivity"
             android:label="@string/edit_variable"
-            android:parentActivityName=".activities.VariablesActivity"
+            android:parentActivityName=".activities.variables.VariablesActivity"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.VariablesActivity"/>
+                android:value=".activities.variables.VariablesActivity"/>
         </activity>
         <activity
-            android:name=".activities.SettingsActivity"
+            android:name=".activities.settings.SettingsActivity"
             android:label="@string/settings"
-            android:parentActivityName=".activities.MainActivity">
+            android:parentActivityName=".activities.main.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity"/>
+                android:value=".activities.main.MainActivity"/>
         </activity>
         <activity
             android:name=".activities.ExecuteActivity"

@@ -5,53 +5,43 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.StringRes
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.realm.ListLiveData
 import ch.rmy.android.http_shortcuts.realm.models.HasId
 import ch.rmy.android.http_shortcuts.utils.Destroyable
-import io.realm.RealmChangeListener
-import io.realm.RealmList
 import io.realm.RealmObject
 
-abstract class BaseAdapter<T> internal constructor(val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Destroyable where T : RealmObject, T : HasId {
+abstract class BaseAdapter<T> internal constructor(val context: Context, private val items: ListLiveData<T>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Destroyable where T : RealmObject, T : HasId {
 
     var clickListener: ((T) -> Unit)? = null
     var longClickListener: ((T) -> Boolean)? = null
 
-    private var items: RealmList<T>? = null
-
-    private val changeListener = RealmChangeListener<RealmList<T>> { notifyDataSetChanged() }
+    private val observer = Observer<List<T>> { notifyDataSetChanged() }
 
     init {
         setHasStableIds(true)
-    }
-
-    fun setItems(items: RealmList<T>) {
-        this.items?.removeChangeListener(changeListener)
-        this.items = items
-        this.items?.addChangeListener(changeListener)
-        notifyDataSetChanged()
+        items.observeForever(observer)
     }
 
     override fun destroy() {
-        if (this.items?.isValid == true) {
-            this.items?.removeChangeListener(changeListener)
-        }
+        items.removeObserver(observer)
     }
 
     override fun getItemViewType(position: Int) = if (isEmpty) TYPE_EMPTY_MARKER else TYPE_ITEM
 
-    private fun getItem(position: Int) = items!![position]!!
+    private fun getItem(position: Int) = items[position]!!
 
     override fun getItemId(position: Int) = if (isEmpty) ID_EMPTY_MARKER else getItem(position).id
 
     override fun getItemCount() = if (isEmpty && emptyMarkerStringResource != 0) 1 else count
 
     private val count: Int
-        get() = if (this.items?.isValid == true) items!!.size else 0
+        get() = items.size
 
     protected val isEmpty: Boolean
-        get() = count == 0
+        get() = items.isEmpty()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
         if (viewType == TYPE_EMPTY_MARKER) EmptyMarkerViewHolder(parent, emptyMarkerStringResource) else createViewHolder(parent)

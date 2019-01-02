@@ -4,6 +4,7 @@ import android.content.Context
 import android.widget.CheckBox
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.utils.resolveSafely
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
 import org.jdeferred2.Promise
@@ -20,7 +21,7 @@ abstract class DismissableDialog(private val context: Context) : Dialog {
             .canceledOnTouchOutside(false)
             .dismissListener {
                 if (deferred.isPending) {
-                    deferred.resolve(Unit)
+                    deferred.resolveSafely(Unit)
                 }
             }
             .build()
@@ -34,7 +35,7 @@ abstract class DismissableDialog(private val context: Context) : Dialog {
             }
             .showIfPossible()
         if (!shown) {
-            deferred.resolve(Unit)
+            deferred.resolveSafely(Unit)
         }
         return deferred.promise()
     }
