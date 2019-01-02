@@ -1,7 +1,7 @@
 # HTTP Shortcuts for Android
 <img src="./HTTPShortcuts/app/src/main/res/drawable-xxxhdpi/ic_launcher.png" align="right" style="margin-left: 1em;"/>
 
-![Version](https://img.shields.io/badge/version-1.23.0-green.svg)
+![Version](https://img.shields.io/badge/version-1.24.0-green.svg)
 
 A simple Android app that allows you to create shortcuts that can be placed on your home screen. Each shortcut, when clicked, triggers an HTTP request.
 
@@ -43,6 +43,10 @@ Become a [Beta Tester](https://play.google.com/apps/testing/ch.rmy.android.http_
 ![Image](/Screenshots/6.png)
 ![Image](/Screenshots/7.png)
 ![Image](/Screenshots/8.png)
+
+## FAQ
+
+Check out the [FAQ](http://waboodoo.ch/http-shortcuts/#faq) page.
 
 ## Hints for Experts
 
