@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.activities
+package ch.rmy.android.http_shortcuts.activities.variables
 
 import android.content.Context
 import android.graphics.Color
@@ -7,20 +7,19 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.CheckBox
 import android.widget.EditText
+import androidx.lifecycle.ViewModelProviders
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.realm.Controller
-import ch.rmy.android.http_shortcuts.realm.detachFromRealm
+import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
-import ch.rmy.android.http_shortcuts.utils.GsonUtil
-import ch.rmy.android.http_shortcuts.utils.OnItemChosenListener
-import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils
+import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils.getVariableTypeOptions
 import ch.rmy.android.http_shortcuts.utils.attachTo
 import ch.rmy.android.http_shortcuts.utils.consume
 import ch.rmy.android.http_shortcuts.utils.findIndex
 import ch.rmy.android.http_shortcuts.utils.fix
 import ch.rmy.android.http_shortcuts.utils.focus
 import ch.rmy.android.http_shortcuts.utils.onTextChanged
+import ch.rmy.android.http_shortcuts.utils.setOnItemSelected
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.utils.visible
 import ch.rmy.android.http_shortcuts.variables.Variables
@@ -33,6 +32,15 @@ import kotterknife.bindView
 
 class VariableEditorActivity : BaseActivity() {
 
+    private val viewModel: VariableEditorViewModel by lazy {
+        ViewModelProviders.of(this).get(VariableEditorViewModel::class.java)
+    }
+
+    private val variable by lazy {
+        viewModel.getVariable()
+    }
+
+    // Views
     private val typeSpinner: LabelledSpinner by bindView(R.id.input_variable_type)
     private val keyView: EditText by bindView(R.id.input_variable_key)
     private val titleView: EditText by bindView(R.id.input_variable_title)
@@ -40,50 +48,41 @@ class VariableEditorActivity : BaseActivity() {
     private val jsonEncode: CheckBox by bindView(R.id.input_json_encode)
     private val allowShare: CheckBox by bindView(R.id.input_allow_share)
 
-    private val controller by lazy { destroyer.own(Controller()) }
-    private lateinit var variable: Variable
-    private lateinit var oldVariable: Variable
-
     private var fragment: VariableEditorFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_variable_editor)
-
-        val variableId = intent.getLongExtra(EXTRA_VARIABLE_ID, 0)
-        val variable = if (savedInstanceState?.containsKey(STATE_JSON_VARIABLE) == true) {
-            GsonUtil.fromJson(savedInstanceState.getString(STATE_JSON_VARIABLE)!!, Variable::class.java)
-        } else {
-            if (variableId == 0L) Variable.createNew() else controller.getVariableById(variableId)?.detachFromRealm()
-        }
-        if (variable == null) {
-            finish()
-            return
-        }
-        this.variable = variable
-        oldVariable = (if (variableId != 0L) controller.getVariableById(variableId)?.detachFromRealm() else null) ?: Variable.createNew()
-
+        initViewModel()
         initViews()
-        initTypeSelector()
+    }
+
+    private fun initViewModel() {
+        viewModel.variableId = intent.getLongExtra(EXTRA_VARIABLE_ID, 0)
+            .takeUnless { it == 0L }
     }
 
     private fun initViews() {
+        setContentView(R.layout.activity_variable_editor)
+
         keyView.setText(variable.key)
         titleView.setText(variable.title)
         val defaultColor = keyView.textColors
-        keyView.onTextChanged { text ->
-            if (text.isEmpty() || Variables.isValidVariableKey(text.toString())) {
-                keyView.setTextColor(defaultColor)
-                keyView.error = null
-            } else {
-                keyView.setTextColor(Color.RED)
-                keyView.error = getString(R.string.warning_invalid_variable_key)
+        keyView
+            .onTextChanged { text ->
+                if (text.isEmpty() || Variables.isValidVariableKey(text.toString())) {
+                    keyView.setTextColor(defaultColor)
+                    keyView.error = null
+                } else {
+                    keyView.setTextColor(Color.RED)
+                    keyView.error = getString(R.string.warning_invalid_variable_key)
+                }
             }
-        }.attachTo(destroyer)
+            .attachTo(destroyer)
 
-        typeSpinner.setItemsArray(ShortcutUIUtils.getVariableTypeOptions(context))
+        typeSpinner.setItemsArray(getVariableTypeOptions(context))
         typeSpinner.fix()
         typeSpinner.setSelection(Variable.TYPE_OPTIONS.findIndex(variable.type))
+        typeSpinner.setOnItemSelected(this::updateTypeEditor)
 
         urlEncode.isChecked = variable.urlEncode
         jsonEncode.isChecked = variable.jsonEncode
@@ -92,14 +91,6 @@ class VariableEditorActivity : BaseActivity() {
         setTitle(if (variable.isNew) R.string.create_variable else R.string.edit_variable)
 
         updateTypeEditor()
-    }
-
-    private fun initTypeSelector() {
-        typeSpinner.onItemChosenListener = object : OnItemChosenListener() {
-            override fun onSelectionChanged() {
-                updateTypeEditor()
-            }
-        }
     }
 
     private fun updateTypeEditor() {
@@ -144,7 +135,7 @@ class VariableEditorActivity : BaseActivity() {
 
     private fun confirmClose() {
         compileVariable()
-        if (hasChanges()) {
+        if (viewModel.hasChanges()) {
             MaterialDialog.Builder(context)
                 .content(R.string.confirm_discard_changes_message)
                 .positiveText(R.string.dialog_discard)
@@ -156,12 +147,10 @@ class VariableEditorActivity : BaseActivity() {
         }
     }
 
-    private fun hasChanges() = !oldVariable.isSameAs(variable)
-
     private fun trySave() {
         compileVariable()
         if (validate()) {
-            controller.persist(variable)
+            viewModel.save()
                 .subscribe {
                     finish()
                 }
@@ -185,8 +174,7 @@ class VariableEditorActivity : BaseActivity() {
             keyView.focus()
             return false
         }
-        val otherVariable = controller.getVariableByKey(variable.key)
-        if (otherVariable != null && otherVariable.id != variable.id) {
+        if (viewModel.isKeyAlreadyInUsed()) {
             keyView.error = getString(R.string.validation_key_already_exists)
             keyView.focus()
             return false
@@ -194,10 +182,9 @@ class VariableEditorActivity : BaseActivity() {
         return fragment == null || fragment!!.validate()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
+    override fun onStop() {
+        super.onStop()
         compileVariable()
-        outState.putString(STATE_JSON_VARIABLE, GsonUtil.toJson(variable))
     }
 
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, VariableEditorActivity::class.java) {
@@ -210,8 +197,7 @@ class VariableEditorActivity : BaseActivity() {
 
     companion object {
 
-        private const val EXTRA_VARIABLE_ID = "ch.rmy.android.http_shortcuts.activities.VariableEditorActivity.variable_id"
-        private const val STATE_JSON_VARIABLE = "variable_json"
+        private const val EXTRA_VARIABLE_ID = "ch.rmy.android.http_shortcuts.activities.variables.VariableEditorActivity.variable_id"
 
     }
 

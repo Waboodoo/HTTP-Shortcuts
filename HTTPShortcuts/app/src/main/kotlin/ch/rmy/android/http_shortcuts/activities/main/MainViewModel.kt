@@ -3,10 +3,10 @@ package ch.rmy.android.http_shortcuts.activities.main
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import ch.rmy.android.http_shortcuts.realm.ListLiveData
 import ch.rmy.android.http_shortcuts.realm.RealmViewModel
 import ch.rmy.android.http_shortcuts.realm.Repository
 import ch.rmy.android.http_shortcuts.realm.commitAsync
+import ch.rmy.android.http_shortcuts.realm.livedata.ListLiveData
 import ch.rmy.android.http_shortcuts.realm.models.AppLock
 import ch.rmy.android.http_shortcuts.realm.models.Category
 import ch.rmy.android.http_shortcuts.realm.toLiveData

@@ -76,7 +76,7 @@
                 android:value=".activities.main.MainActivity"/>
         </activity>
         <activity
-            android:name=".activities.VariableEditorActivity"
+            android:name=".activities.variables.VariableEditorActivity"
             android:label="@string/edit_variable"
             android:parentActivityName=".activities.variables.VariablesActivity"
             android:windowSoftInputMode="adjustResize">

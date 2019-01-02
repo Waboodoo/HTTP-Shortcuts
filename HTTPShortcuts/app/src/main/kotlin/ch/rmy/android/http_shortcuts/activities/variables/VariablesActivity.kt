@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
-import ch.rmy.android.http_shortcuts.activities.VariableEditorActivity
 import ch.rmy.android.http_shortcuts.adapters.VariableAdapter
 import ch.rmy.android.http_shortcuts.dialogs.HelpDialogBuilder
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder

@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.realm
+package ch.rmy.android.http_shortcuts.realm.livedata
 
 import androidx.lifecycle.LiveData
 import io.realm.RealmChangeListener

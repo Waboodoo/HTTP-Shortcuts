@@ -16,7 +16,7 @@ import ch.rmy.android.http_shortcuts.adapters.ShortcutListAdapter
 import ch.rmy.android.http_shortcuts.dialogs.CurlExportDialog
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
-import ch.rmy.android.http_shortcuts.realm.ListLiveData
+import ch.rmy.android.http_shortcuts.realm.livedata.ListLiveData
 import ch.rmy.android.http_shortcuts.realm.models.Category
 import ch.rmy.android.http_shortcuts.realm.models.PendingExecution
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut

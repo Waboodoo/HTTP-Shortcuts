@@ -35,7 +35,6 @@ import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.IpackUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
-import ch.rmy.android.http_shortcuts.utils.OnItemChosenListener
 import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.utils.Validation
@@ -47,6 +46,7 @@ import ch.rmy.android.http_shortcuts.utils.findIndex
 import ch.rmy.android.http_shortcuts.utils.fix
 import ch.rmy.android.http_shortcuts.utils.focus
 import ch.rmy.android.http_shortcuts.utils.logException
+import ch.rmy.android.http_shortcuts.utils.setOnItemSelected
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.utils.visible
 import ch.rmy.android.http_shortcuts.variables.VariableButton
@@ -109,13 +109,6 @@ class EditorActivity : BaseActivity() {
     private val appExecutionOnlyContainer2: View by bindView(R.id.app_execution_only_options_container2)
     private val requiredExecutionCheckbox: CheckBox by bindView(R.id.input_require_execution_confirmation)
 
-    private val itemChosenListener = object : OnItemChosenListener() {
-        override fun onSelectionChanged() {
-            compileShortcut()
-            updateUI()
-        }
-    }
-
     @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -159,7 +152,7 @@ class EditorActivity : BaseActivity() {
         descriptionView.setText(shortcut.description)
 
         executionTypeView.setItemsArray(ShortcutUIUtils.getExecutionTypeOptions(context))
-        executionTypeView.onItemChosenListener = itemChosenListener
+        executionTypeView.setOnItemSelected(this::onItemSelected)
         executionTypeView.fix()
         executionTypeView.setSelection(
             Shortcut.EXECUTION_TYPES.findIndex(shortcut.executionType ?: "")
@@ -167,12 +160,12 @@ class EditorActivity : BaseActivity() {
 
         methodView.setItemsArray(Shortcut.METHODS)
         methodView.fix()
-        methodView.onItemChosenListener = itemChosenListener
+        methodView.setOnItemSelected(this::onItemSelected)
         methodView.setSelection(Shortcut.METHODS.findIndex(shortcut.method))
 
         authenticationView.setItemsArray(ShortcutUIUtils.getAuthenticationOptions(context))
         authenticationView.fix()
-        authenticationView.onItemChosenListener = itemChosenListener
+        authenticationView.setOnItemSelected(this::onItemSelected)
         authenticationView.setSelection(Shortcut.AUTHENTICATION_OPTIONS.findIndex(shortcut.authentication!!))
 
         parameterList.variablePlaceholderProvider = variableKeyProvider
@@ -196,7 +189,7 @@ class EditorActivity : BaseActivity() {
         customHeaderList.setSuggestions(Header.SUGGESTED_KEYS)
 
         feedbackView.setItemsArray(ShortcutUIUtils.getFeedbackOptions(context))
-        feedbackView.onItemChosenListener = itemChosenListener
+        feedbackView.setOnItemSelected(this::onItemSelected)
         feedbackView.fix()
         feedbackView.setSelection(Shortcut.FEEDBACK_OPTIONS.findIndex(shortcut.feedback))
 
@@ -230,7 +223,7 @@ class EditorActivity : BaseActivity() {
 
         requestBodyTypeView.setItemsArray(ShortcutUIUtils.getRequestBodyTypeOptions(context))
         requestBodyTypeView.fix()
-        requestBodyTypeView.onItemChosenListener = itemChosenListener
+        requestBodyTypeView.setOnItemSelected(this::onItemSelected)
         requestBodyTypeView.setSelection(Shortcut.REQUEST_BODY_TYPE_OPTIONS.findIndex(shortcut.requestBodyType))
 
         iconViewContainer.setOnClickListener { openIconSelectionDialog() }
@@ -239,6 +232,11 @@ class EditorActivity : BaseActivity() {
         customContentType.setAdapter(ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, Shortcut.CONTENT_TYPE_SUGGESTIONS))
 
         setTitle(if (shortcut.isNew) R.string.create_shortcut else R.string.edit_shortcut)
+        updateUI()
+    }
+
+    private fun onItemSelected() {
+        compileShortcut()
         updateUI()
     }
 

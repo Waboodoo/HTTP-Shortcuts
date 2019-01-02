@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.icons.IconView
-import ch.rmy.android.http_shortcuts.realm.ListLiveData
+import ch.rmy.android.http_shortcuts.realm.livedata.ListLiveData
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.visible
 import kotterknife.bindView

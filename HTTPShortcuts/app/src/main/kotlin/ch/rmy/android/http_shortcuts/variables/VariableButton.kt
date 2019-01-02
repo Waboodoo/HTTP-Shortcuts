@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageButton
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.VariableEditorActivity
+import ch.rmy.android.http_shortcuts.activities.variables.VariableEditorActivity
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.utils.EventSource

@@ -8,6 +8,7 @@ import android.text.Editable
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.AdapterView
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
@@ -73,6 +74,18 @@ fun LabelledSpinner.fix() {
     val paddingTop = spinner.context.resources.getDimensionPixelSize(R.dimen.spinner_padding_top)
     label.setPadding(0, paddingTop, 0, 0)
     errorLabel.visibility = View.GONE
+}
+
+fun LabelledSpinner.setOnItemSelected(listener: () -> Unit) {
+    this.onItemChosenListener = object : LabelledSpinner.OnItemChosenListener {
+        override fun onItemChosen(labelledSpinner: View?, adapterView: AdapterView<*>?, itemView: View?, position: Int, id: Long) {
+            listener.invoke()
+        }
+
+        override fun onNothingChosen(labelledSpinner: View?, adapterView: AdapterView<*>?) {
+
+        }
+    }
 }
 
 @ColorInt

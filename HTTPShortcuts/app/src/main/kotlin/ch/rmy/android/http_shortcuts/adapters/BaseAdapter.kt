@@ -8,7 +8,7 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.realm.ListLiveData
+import ch.rmy.android.http_shortcuts.realm.livedata.ListLiveData
 import ch.rmy.android.http_shortcuts.realm.models.HasId
 import ch.rmy.android.http_shortcuts.utils.Destroyable
 import io.realm.RealmObject

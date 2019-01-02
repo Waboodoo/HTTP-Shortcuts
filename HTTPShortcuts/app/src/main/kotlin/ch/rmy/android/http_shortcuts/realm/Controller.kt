@@ -7,7 +7,6 @@ import ch.rmy.android.http_shortcuts.realm.models.PendingExecution
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.Destroyable
-import io.reactivex.Completable
 import io.reactivex.Single
 import io.realm.Realm
 import io.realm.RealmList
@@ -40,10 +39,6 @@ class Controller : Destroyable, Closeable {
     fun getShortcutsPendingExecution(): RealmResults<PendingExecution> = Repository.getShortcutsPendingExecution(realm)
 
     fun getShortcutPendingExecution(shortcutId: Long) = Repository.getShortcutPendingExecution(realm, shortcutId)
-
-    fun getVariableById(id: Long) = Repository.getVariableById(realm, id)
-
-    fun getVariableByKey(variableKey: String): Variable? = Repository.getVariableByKey(realm, variableKey)
 
     fun exportBase() = getBase().detachFromRealm()
 
@@ -113,20 +108,6 @@ class Controller : Destroyable, Closeable {
             .toSingle {
                 getShortcutById(shortcut.id)!!
             }
-    }
-
-    fun persist(variable: Variable): Completable {
-        val isNew = variable.isNew
-        if (isNew) {
-            variable.id = generateId(realm, Variable::class.java)
-        }
-        return realm.commitAsync { realm ->
-            val base = Repository.getBase(realm) ?: return@commitAsync
-            val newVariable = realm.copyToRealmOrUpdate(variable)
-            if (isNew) {
-                base.variables.add(newVariable)
-            }
-        }
     }
 
 }

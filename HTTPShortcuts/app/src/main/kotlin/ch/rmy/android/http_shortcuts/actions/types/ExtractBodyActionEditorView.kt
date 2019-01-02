@@ -5,9 +5,9 @@ import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.utils.OnItemChosenListener
 import ch.rmy.android.http_shortcuts.utils.findIndex
 import ch.rmy.android.http_shortcuts.utils.fix
+import ch.rmy.android.http_shortcuts.utils.setOnItemSelected
 import ch.rmy.android.http_shortcuts.utils.visible
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
@@ -36,11 +36,7 @@ class ExtractBodyActionEditorView(
         extractionOption.fix()
         extractionOption.setItemsArray(getOptionStrings())
         extractionOption.setSelection(EXTRACTION_OPTIONS.findIndex(action.extractionType))
-        extractionOption.onItemChosenListener = object : OnItemChosenListener() {
-            override fun onSelectionChanged() {
-                updateViews()
-            }
-        }
+        extractionOption.setOnItemSelected(this::updateViews)
 
         substringStart.setText(action.substringStart.toString())
         substringEnd.setText(action.substringEnd.toString())

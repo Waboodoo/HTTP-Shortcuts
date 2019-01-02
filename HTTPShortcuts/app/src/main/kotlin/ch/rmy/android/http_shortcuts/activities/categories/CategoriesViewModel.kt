@@ -1,10 +1,10 @@
 package ch.rmy.android.http_shortcuts.activities.categories
 
 import android.app.Application
-import ch.rmy.android.http_shortcuts.realm.ListLiveData
 import ch.rmy.android.http_shortcuts.realm.RealmViewModel
 import ch.rmy.android.http_shortcuts.realm.Repository
 import ch.rmy.android.http_shortcuts.realm.commitAsync
+import ch.rmy.android.http_shortcuts.realm.livedata.ListLiveData
 import ch.rmy.android.http_shortcuts.realm.models.Category
 import ch.rmy.android.http_shortcuts.realm.toLiveData
 
