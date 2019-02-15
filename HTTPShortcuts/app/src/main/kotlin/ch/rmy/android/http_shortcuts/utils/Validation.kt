@@ -5,12 +5,12 @@ import android.net.Uri
 object Validation {
 
     fun isAcceptableUrl(url: String) =
-        !url.isBlank() &&
-            !url.equals("http://", ignoreCase = true) &&
-            !url.equals("https://", ignoreCase = true)
+        url.matches("^(http(s?)://.+)|((h(t(t(p(s)?)?)?)?)?\\{\\{[a-z0-9]{1,20}}}.*)".toRegex(RegexOption.IGNORE_CASE))
 
     fun isValidUrl(uri: Uri) =
-        uri.scheme?.equals("http", ignoreCase = true) == true
-            || uri.scheme?.equals("https", ignoreCase = true) == true
+        uri.scheme?.let { scheme ->
+            scheme.equals("http", ignoreCase = true)
+                || scheme.equals("https", ignoreCase = true)
+        } ?: false
 
 }

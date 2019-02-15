@@ -20,6 +20,8 @@ android {
         buildConfigField 'String', 'BUGSNAG_API_KEY', "\"${rootProject.ext.bugsnagAPIKey}\""
         buildConfigField 'String', 'REALM_ENCRYPTION_KEY', "\"${rootProject.ext.realmEncryptionKey}\""
         multiDexEnabled true
+
+        testInstrumentationRunnerArguments = [package: "ch.rmy.android.http_shortcuts"]
     }
 
     buildTypes {
@@ -37,6 +39,13 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 }
+
+project.configure(project.android, {
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+    }
+})
 
 buildscript {
     repositories {
@@ -59,7 +68,7 @@ dependencies {
 
     /* Support libraries */
     implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'com.google.android.material:material:1.1.0-alpha02'
+    implementation 'com.google.android.material:material:1.1.0-alpha03'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'androidx.annotation:annotation:1.0.1'
     implementation 'androidx.cardview:cardview:1.0.0'
@@ -122,6 +131,18 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+
+    // Testing
+    testImplementation "org.hamcrest:hamcrest-library:$hamcrestVersion"
+    testImplementation "junit:junit:$junitVersion"
+    testImplementation "org.robolectric:robolectric:$robolectricVersion"
+    testImplementation "org.robolectric:shadows-multidex:$robolectricVersion"
+    testImplementation 'androidx.test:monitor:1.1.1'
+
+    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test:rules:1.1.1'
+    androidTestImplementation "org.hamcrest:hamcrest-library:$hamcrestVersion"
+    androidTestImplementation "junit:junit:$junitVersion"
 }
 
 apply plugin: 'realm-android'
