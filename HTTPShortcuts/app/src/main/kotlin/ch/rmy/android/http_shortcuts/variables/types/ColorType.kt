@@ -36,7 +36,7 @@ internal class ColorType : BaseVariableType(), AsyncVariableType {
 
             // The following hack is needed because the ChromaDialog library does not have a method to register a dismiss listener
             Handler().post {
-                dialog.dialog.setOnDismissListener {
+                dialog.dialog?.setOnDismissListener {
                     deferredValue.rejectSafely(Unit)
                 }
             }

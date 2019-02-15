@@ -30,9 +30,9 @@ object IntentUtil {
         val shortcutIntent = ExecuteActivity.IntentBuilder(context, shortcut.id)
             .build()
         val addIntent = Intent()
-        addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent)
-        addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcut.name)
-        addIntent.putExtra(EXTRA_SHORTCUT_DUPLICATE, true)
+            .putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent)
+            .putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcut.name)
+            .putExtra(EXTRA_SHORTCUT_DUPLICATE, true)
         if (shortcut.iconName != null) {
             val iconUri = shortcut.getIconURI(context)
             try {
