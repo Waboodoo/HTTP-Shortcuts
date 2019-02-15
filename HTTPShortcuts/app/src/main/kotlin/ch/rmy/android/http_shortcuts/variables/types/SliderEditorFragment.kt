@@ -33,7 +33,7 @@ class SliderEditorFragment : VariableEditorFragment() {
                 showMessageDialog(R.string.error_slider_max_not_greater_than_min)
                 false
             }
-            stepValue <= 0 -> {
+            stepSize <= 0 -> {
                 showMessageDialog(R.string.error_slider_step_size_must_be_positive)
                 false
             }
@@ -42,7 +42,7 @@ class SliderEditorFragment : VariableEditorFragment() {
 
     override fun compileIntoVariable(variable: Variable) {
         variable.rememberValue = inputRememberValue.isChecked
-        variable.dataForType = mapOf(SliderType.KEY_MAX to maxValue.toString(), SliderType.KEY_MIN to minValue.toString(), SliderType.KEY_STEP to stepValue.toString())
+        variable.dataForType = SliderType.getData(maxValue, minValue, stepSize)
     }
 
     private val minValue
@@ -51,7 +51,7 @@ class SliderEditorFragment : VariableEditorFragment() {
     private val maxValue
         get() = inputMax.text.toString().toIntOrNull() ?: SliderType.DEFAULT_MAX
 
-    private val stepValue
+    private val stepSize
         get() = inputStep.text.toString().toIntOrNull() ?: SliderType.DEFAULT_STEP
 
 }

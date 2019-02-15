@@ -68,9 +68,9 @@ internal class SliderType : BaseVariableType(), AsyncVariableType {
 
     companion object {
 
-        const val KEY_MIN = "min"
-        const val KEY_MAX = "max"
-        const val KEY_STEP = "step"
+        private const val KEY_MIN = "min"
+        private const val KEY_MAX = "max"
+        private const val KEY_STEP = "step"
 
         const val DEFAULT_MIN = 0
         const val DEFAULT_MAX = 100
@@ -79,6 +79,12 @@ internal class SliderType : BaseVariableType(), AsyncVariableType {
         fun findMax(variable: Variable): Int = variable.dataForType[KEY_MAX]?.toDoubleOrNull()?.toInt() ?: DEFAULT_MAX
         fun findMin(variable: Variable): Int = variable.dataForType[KEY_MIN]?.toDoubleOrNull()?.toInt() ?: DEFAULT_MIN
         fun findStep(variable: Variable): Int = variable.dataForType[KEY_STEP]?.toDoubleOrNull()?.toInt() ?: DEFAULT_STEP
+
+        fun getData(maxValue: Int, minValue: Int, stepValue: Int) = mapOf(
+            SliderType.KEY_MAX to maxValue.toString(),
+            SliderType.KEY_MIN to minValue.toString(),
+            SliderType.KEY_STEP to stepValue.toString()
+        )
 
     }
 
