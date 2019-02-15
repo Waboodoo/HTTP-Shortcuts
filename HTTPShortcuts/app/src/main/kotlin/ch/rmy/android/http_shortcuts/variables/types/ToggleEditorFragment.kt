@@ -9,6 +9,7 @@ import ch.rmy.android.http_shortcuts.realm.models.Option
 import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
+import ch.rmy.android.http_shortcuts.utils.attachTo
 import ch.rmy.android.http_shortcuts.utils.mapIf
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.utils.showMessageDialog
@@ -39,7 +40,7 @@ class ToggleEditorFragment : VariableEditorFragment() {
 
     private fun initDragOrdering() {
         val dragOrderingHelper = DragOrderingHelper()
-        dragOrderingHelper.positionChangeSource.add { (oldPosition, newPosition) ->
+        dragOrderingHelper.positionChangeSource.subscribe { (oldPosition, newPosition) ->
             variable!!.options!!.move(oldPosition, newPosition)
             optionsAdapter.notifyItemMoved(oldPosition, newPosition)
         }.attachTo(destroyer)

@@ -55,7 +55,7 @@ class CategoriesActivity : BaseActivity() {
     private fun initDragOrdering() {
         val dragOrderingHelper = DragOrderingHelper()
         dragOrderingHelper.attachTo(categoryList)
-        dragOrderingHelper.positionChangeSource.add { (oldPosition, newPosition) ->
+        dragOrderingHelper.positionChangeSource.subscribe { (oldPosition, newPosition) ->
             val category = categories[oldPosition]!!
             viewModel.moveCategory(category.id, newPosition)
                 .subscribe()

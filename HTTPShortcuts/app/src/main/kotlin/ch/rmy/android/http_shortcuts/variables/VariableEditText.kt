@@ -6,6 +6,7 @@ import androidx.appcompat.widget.AppCompatAutoCompleteTextView
 import ch.rmy.android.http_shortcuts.utils.Destroyable
 import ch.rmy.android.http_shortcuts.utils.logException
 import ch.rmy.android.http_shortcuts.utils.showSoftKeyboard
+import ch.rmy.android.http_shortcuts.utils.toDestroyable
 
 class VariableEditText : AppCompatAutoCompleteTextView {
 
@@ -35,10 +36,10 @@ class VariableEditText : AppCompatAutoCompleteTextView {
     fun bind(variableButton: VariableButton, variablePlaceholderProvider: VariablePlaceholderProvider): Destroyable {
         this.variablePlaceholderProvider = variablePlaceholderProvider
         variableButton.variablePlaceholderProvider = variablePlaceholderProvider
-        return variableButton.variableSource.add { placeholder ->
+        return variableButton.variableSource.subscribe { placeholder ->
             insertVariablePlaceholder(placeholder)
             showSoftKeyboard()
-        }
+        }.toDestroyable()
     }
 
 }

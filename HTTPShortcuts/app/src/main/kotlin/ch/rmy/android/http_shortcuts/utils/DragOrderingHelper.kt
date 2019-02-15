@@ -2,10 +2,15 @@ package ch.rmy.android.http_shortcuts.utils
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
 
 class DragOrderingHelper(isEnabledCallback: () -> Boolean = { true }) {
 
-    val positionChangeSource = EventSource<Pair<Int, Int>>()
+    val positionChangeSource: Observable<Pair<Int, Int>>
+        get() = positionChangeSubject
+
+    private val positionChangeSubject = PublishSubject.create<Pair<Int, Int>>()
 
     private val callback = object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0) {
         override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
@@ -14,7 +19,7 @@ class DragOrderingHelper(isEnabledCallback: () -> Boolean = { true }) {
             if (oldPosition == RecyclerView.NO_POSITION || newPosition == RecyclerView.NO_POSITION) {
                 return false
             }
-            positionChangeSource.notifyObservers(oldPosition to newPosition)
+            positionChangeSubject.onNext(oldPosition to newPosition)
             return true
         }
 

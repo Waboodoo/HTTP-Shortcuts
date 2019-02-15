@@ -7,18 +7,22 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.VariableEditorActivity
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
-import ch.rmy.android.http_shortcuts.utils.EventSource
 import ch.rmy.android.http_shortcuts.utils.mapFor
 import ch.rmy.android.http_shortcuts.utils.mapIf
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
 
 
 open class VariableButton : AppCompatImageButton {
 
     lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
 
-    val variableSource = EventSource<VariablePlaceholder>()
+    val variableSource: Observable<VariablePlaceholder>
+        get() = variableSubject
+
+    private val variableSubject = PublishSubject.create<VariablePlaceholder>()
 
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
@@ -59,7 +63,7 @@ open class VariableButton : AppCompatImageButton {
             .title(getTitle())
             .mapFor(getVariables()) { builder, placeholder ->
                 builder.item(placeholder.variableKey) {
-                    variableSource.notifyObservers(placeholder)
+                    variableSubject.onNext(placeholder)
                 }
             }
             .toDialogBuilder()

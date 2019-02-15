@@ -196,6 +196,12 @@ fun <T> Array<T>.findIndex(item: T) =
 fun IntArray.findIndex(item: Int) =
     indices.firstOrNull { this[it] == item } ?: 0
 
+fun Disposable.toDestroyable() = object : Destroyable {
+    override fun destroy() {
+        dispose()
+    }
+}
+
 fun Disposable.attachTo(destroyer: Destroyer) {
     destroyer.own { dispose() }
 }

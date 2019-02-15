@@ -14,6 +14,7 @@ import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.DestroyerDestroyable
 import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
+import ch.rmy.android.http_shortcuts.utils.attachTo
 import ch.rmy.android.http_shortcuts.utils.mapFor
 import ch.rmy.android.http_shortcuts.utils.mapIf
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
@@ -90,7 +91,7 @@ class ActionsView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     private fun initDragOrdering() {
         val dragOrderingHelper = DragOrderingHelper()
         dragOrderingHelper.attachTo(actionList)
-        dragOrderingHelper.positionChangeSource.add { (oldPosition, newPosition) ->
+        dragOrderingHelper.positionChangeSource.subscribe { (oldPosition, newPosition) ->
             val action = internalActions.removeAt(oldPosition)
             internalActions.add(newPosition, action)
             adapter.notifyItemMoved(oldPosition, newPosition)

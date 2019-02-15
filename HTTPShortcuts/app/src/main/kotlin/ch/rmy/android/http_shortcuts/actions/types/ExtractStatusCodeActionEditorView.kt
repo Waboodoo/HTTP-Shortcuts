@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.actions.types
 import android.content.Context
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.utils.attachTo
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import kotterknife.bindView
@@ -24,7 +25,7 @@ class ExtractStatusCodeActionEditorView(
             variableButton.performClick()
         }
         variableButton.variablePlaceholderProvider = variablePlaceholderProvider
-        variableButton.variableSource.add {
+        variableButton.variableSource.subscribe {
             selectedVariableKey = it.variableKey
             updateViews()
         }.attachTo(destroyer)

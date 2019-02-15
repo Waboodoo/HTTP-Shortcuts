@@ -54,7 +54,7 @@ class VariablesActivity : BaseActivity() {
     private fun initDragOrdering() {
         val dragOrderingHelper = DragOrderingHelper { variables.size > 1 }
         dragOrderingHelper.positionChangeSource
-            .add { (oldPosition, newPosition) ->
+            .subscribe { (oldPosition, newPosition) ->
                 val variable = variables[oldPosition]!!
                 viewModel.moveVariable(variable.id, newPosition)
                     .subscribe()

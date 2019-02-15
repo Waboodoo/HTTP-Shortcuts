@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.actions.types
 import android.content.Context
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.utils.attachTo
 import ch.rmy.android.http_shortcuts.utils.focus
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
@@ -32,7 +33,7 @@ class SetVariableActionEditorView(
             variableButton2.performClick()
         }
         variableButton2.variablePlaceholderProvider = variablePlaceholderProvider
-        variableButton2.variableSource.add {
+        variableButton2.variableSource.subscribe {
             selectedVariableKey = it.variableKey
             updateViews()
         }.attachTo(destroyer)
