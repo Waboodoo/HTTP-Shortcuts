@@ -28,11 +28,16 @@ class SliderEditorFragment : VariableEditorFragment() {
     }
 
     override fun validate() =
-        if (maxValue <= minValue) {
-            showMessageDialog(R.string.error_slider_max_not_greater_than_min)
-            false
-        } else {
-            true
+        when {
+            maxValue <= minValue -> {
+                showMessageDialog(R.string.error_slider_max_not_greater_than_min)
+                false
+            }
+            stepValue <= 0 -> {
+                showMessageDialog(R.string.error_slider_step_size_must_be_positive)
+                false
+            }
+            else -> true
         }
 
     override fun compileIntoVariable(variable: Variable) {
