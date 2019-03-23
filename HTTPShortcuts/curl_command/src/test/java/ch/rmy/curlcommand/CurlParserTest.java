@@ -25,14 +25,14 @@ public class CurlParserTest {
     public void testUrlEncodedData() {
         String target = "curl --data-urlencode \"Hä&?4\"";
         CurlCommand command = CurlParser.parse(target);
-        assertEquals("H%C3%83%C2%A4%26%3F4", command.getData());
+        assertEquals("H%C3%A4%26%3F4", command.getData());
     }
 
     @Test
     public void testUrlEncodedData2() {
         String target = "curl --data-urlencode \"föö=Hä&?4\"";
         CurlCommand command = CurlParser.parse(target);
-        assertEquals("föö=H%C3%83%C2%A4%26%3F4", command.getData());
+        assertEquals("föö=H%C3%A4%26%3F4", command.getData());
     }
 
     @Test
