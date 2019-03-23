@@ -10,11 +10,13 @@ import android.widget.EditText
 import androidx.lifecycle.Observer
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.showToast
+import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
@@ -130,8 +132,9 @@ class ShortcutEditorActivity : BaseActivity() {
     private fun testShortcut() {
         updateViewModelFromViews()
             .subscribe {
-                // TODO
-                showToast("Testing")
+                ExecuteActivity.IntentBuilder(context, Shortcut.TEMPORARY_ID)
+                    .build()
+                    .startActivity(this)
             }
             .attachTo(destroyer)
     }
