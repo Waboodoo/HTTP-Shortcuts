@@ -5,10 +5,12 @@ import android.app.job.JobScheduler
 import android.content.ComponentName
 import android.content.Context
 import android.os.Build
+import android.os.PersistableBundle
 import androidx.annotation.RequiresApi
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.realm.Controller
+import ch.rmy.android.http_shortcuts.utils.UUIDUtils
 import java.util.*
 
 object ExecutionScheduler {
@@ -29,7 +31,9 @@ object ExecutionScheduler {
             val pendingExecutions = controller.getShortcutsPendingExecution()
             pendingExecutions.forEach { pendingExecution ->
                 val delay = calculateDelay(pendingExecution.waitUntil)
-                val jobInfo = JobInfo.Builder(pendingExecution.shortcutId.toInt(), ComponentName(context, ExecutionService::class.java))
+                val jobId = UUIDUtils.toLong(pendingExecution.shortcutId).toInt()
+                val jobInfo = JobInfo.Builder(jobId, ComponentName(context, ExecutionService::class.java))
+                    .setExtras(PersistableBundle().apply { putString(ExecutionService.PARAM_SHORTCUT_ID, pendingExecution.shortcutId) })
                     .setMinimumLatency(delay)
                     .mapIf(pendingExecution.waitForNetwork) {
                         it.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)

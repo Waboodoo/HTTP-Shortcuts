@@ -55,8 +55,7 @@ class VariableEditorActivity : BaseActivity() {
     }
 
     private fun initViewModel() {
-        viewModel.variableId = intent.getLongExtra(EXTRA_VARIABLE_ID, 0)
-            .takeUnless { it == 0L }
+        viewModel.variableId = intent.getStringExtra(EXTRA_VARIABLE_ID)
     }
 
     private fun initViews() {
@@ -187,7 +186,7 @@ class VariableEditorActivity : BaseActivity() {
 
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, VariableEditorActivity::class.java) {
 
-        fun variableId(variableId: Long) = also {
+        fun variableId(variableId: String) = also {
             intent.putExtra(EXTRA_VARIABLE_ID, variableId)
         }
 

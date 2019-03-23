@@ -11,7 +11,7 @@ import io.realm.annotations.Required
 open class Variable : RealmObject(), HasId {
 
     @PrimaryKey
-    override var id: Long = 0
+    override var id: String = ""
 
     @Required
     var key: String = ""
@@ -31,9 +31,6 @@ open class Variable : RealmObject(), HasId {
 
     @Required
     var title: String = ""
-
-    override val isNew: Boolean
-        get() = id == 0L
 
     var isShareText: Boolean
         get() = flags and FLAG_SHARE_TEXT != 0

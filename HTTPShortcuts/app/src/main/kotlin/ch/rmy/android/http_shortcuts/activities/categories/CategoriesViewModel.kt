@@ -7,6 +7,7 @@ import ch.rmy.android.http_shortcuts.realm.commitAsync
 import ch.rmy.android.http_shortcuts.realm.livedata.ListLiveData
 import ch.rmy.android.http_shortcuts.realm.models.Category
 import ch.rmy.android.http_shortcuts.realm.toLiveData
+import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 
 class CategoriesViewModel(application: Application) : RealmViewModel(application) {
 
@@ -20,21 +21,21 @@ class CategoriesViewModel(application: Application) : RealmViewModel(application
             val base = Repository.getBase(realm) ?: return@commitAsync
             val categories = base.categories
             val category = Category.createNew(name)
-            category.id = Repository.generateId(realm, Category::class.java)
+            category.id = newUUID()
             categories.add(realm.copyToRealm(category))
         }
 
-    fun renameCategory(categoryId: Long, newName: String) =
+    fun renameCategory(categoryId: String, newName: String) =
         persistedRealm.commitAsync { realm ->
             Repository.getCategoryById(realm, categoryId)?.name = newName
         }
 
-    fun setLayoutType(categoryId: Long, layoutType: String) =
+    fun setLayoutType(categoryId: String, layoutType: String) =
         persistedRealm.commitAsync { realm ->
             Repository.getCategoryById(realm, categoryId)?.layoutType = layoutType
         }
 
-    fun moveCategory(categoryId: Long, position: Int) =
+    fun moveCategory(categoryId: String, position: Int) =
         persistedRealm.commitAsync { realm ->
             val base = Repository.getBase(realm) ?: return@commitAsync
             val category = Repository.getCategoryById(realm, categoryId) ?: return@commitAsync
@@ -43,7 +44,7 @@ class CategoriesViewModel(application: Application) : RealmViewModel(application
             categories.move(oldPosition, position)
         }
 
-    fun deleteCategory(categoryId: Long) =
+    fun deleteCategory(categoryId: String) =
         persistedRealm.commitAsync { realm ->
             val category = Repository.getCategoryById(realm, categoryId) ?: return@commitAsync
             for (shortcut in category.shortcuts) {

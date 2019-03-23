@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts.activities.variables
 import android.app.Application
 import ch.rmy.android.http_shortcuts.realm.RealmViewModel
 import ch.rmy.android.http_shortcuts.realm.Repository
-import ch.rmy.android.http_shortcuts.realm.Repository.generateId
 import ch.rmy.android.http_shortcuts.realm.Repository.getBase
 import ch.rmy.android.http_shortcuts.realm.Repository.getVariableById
 import ch.rmy.android.http_shortcuts.realm.commitAsync
@@ -31,7 +30,7 @@ class VariablesViewModel(application: Application) : RealmViewModel(application)
             .variables
             .toLiveData()
 
-    fun moveVariable(variableId: Long, position: Int) =
+    fun moveVariable(variableId: String, position: Int) =
         persistedRealm.commitAsync { realm ->
             val variable = getVariableById(realm, variableId) ?: return@commitAsync
             val variables = getBase(realm)?.variables ?: return@commitAsync
@@ -39,7 +38,7 @@ class VariablesViewModel(application: Application) : RealmViewModel(application)
             variables.move(oldPosition, position)
         }
 
-    fun deleteVariable(variableId: Long) =
+    fun deleteVariable(variableId: String) =
         persistedRealm.commitAsync { realm ->
             getVariableById(realm, variableId)?.apply {
                 options?.deleteAllFromRealm()
@@ -47,11 +46,11 @@ class VariablesViewModel(application: Application) : RealmViewModel(application)
             }
         }
 
-    fun duplicateVariable(variableId: Long) =
+    fun duplicateVariable(variableId: String) =
         persistedRealm.commitAsync { realm ->
             val oldVariable = getVariableById(realm, variableId) ?: return@commitAsync
             val newVariable = oldVariable.detachFromRealm()
-            newVariable.id = generateId(realm, Variable::class.java)
+            newVariable.id = newUUID()
             newVariable.key = generateNewKey(realm, oldVariable.key)
             newVariable.options?.forEach {
                 it.id = newUUID()

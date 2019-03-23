@@ -8,15 +8,12 @@ import io.realm.annotations.Required
 open class Category : RealmObject(), HasId {
 
     @PrimaryKey
-    override var id: Long = 0
+    override var id: String = ""
     @Required
     var name: String = ""
     var shortcuts: RealmList<Shortcut> = RealmList()
     @Required
     var layoutType: String = LAYOUT_LINEAR_LIST
-
-    override val isNew: Boolean
-        get() = id == 0L
 
     companion object {
 
@@ -25,7 +22,7 @@ open class Category : RealmObject(), HasId {
 
         fun createNew(name: String): Category {
             val category = Category()
-            category.id = 0
+            category.id = ""
             category.name = name
             category.shortcuts = RealmList()
             category.layoutType = LAYOUT_LINEAR_LIST

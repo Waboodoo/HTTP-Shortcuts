@@ -28,7 +28,7 @@ class PluginEditActivity : AbstractFragmentPluginActivity() {
         if (requestCode == REQUEST_SELECT) {
             if (resultCode == Activity.RESULT_OK) {
                 intent?.extras?.let { extras ->
-                    val shortcutId = extras.getLong(MainActivity.EXTRA_SELECTION_ID)
+                    val shortcutId = extras.getString(MainActivity.EXTRA_SELECTION_ID) ?: ""
                     val supportsVariables = TaskerPlugin.Setting.hostSupportsOnFireVariableReplacement(this)
                     bundle = PluginBundleManager.generateBundle(shortcutId, supportsVariables)
                     name = extras.getString(MainActivity.EXTRA_SELECTION_NAME)

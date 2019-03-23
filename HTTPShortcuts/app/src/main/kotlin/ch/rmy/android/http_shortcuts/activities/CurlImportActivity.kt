@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
 import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.onTextChanged
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
@@ -50,18 +51,16 @@ class CurlImportActivity : BaseActivity() {
         val commandString = curlCommand.text.toString()
         val command = CurlParser.parse(commandString)
 
-        val intent = EditorActivity.IntentBuilder(context)
-            .curlCommand(command)
+        val intent = ShortcutEditorActivity.IntentBuilder(context)
+            //.curlCommand(command) // TODO
             .build()
         startActivityForResult(intent, REQUEST_CREATE_SHORTCUT)
     }
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CREATE_SHORTCUT && intent != null) {
-            val shortcutId = intent.getLongExtra(EditorActivity.EXTRA_SHORTCUT_ID, 0)
-            val returnIntent = Intent()
-            returnIntent.putExtra(EXTRA_SHORTCUT_ID, shortcutId)
-            setResult(Activity.RESULT_OK, returnIntent)
+            val shortcutId = intent.getStringExtra(ShortcutEditorActivity.RESULT_SHORTCUT_ID)
+            setResult(RESULT_OK, Intent().putExtra(ShortcutEditorActivity.RESULT_SHORTCUT_ID, shortcutId))
         }
         finish()
     }
@@ -73,8 +72,6 @@ class CurlImportActivity : BaseActivity() {
     companion object {
 
         private const val REQUEST_CREATE_SHORTCUT = 1
-
-        const val EXTRA_SHORTCUT_ID = "ch.rmy.android.http_shortcuts.activities.CurlImportActivity.shortcut_id"
 
     }
 

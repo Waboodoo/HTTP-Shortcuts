@@ -63,7 +63,7 @@ import kotterknife.bindView
 @SuppressLint("InflateParams")
 class EditorActivity : BaseActivity() {
 
-    private var shortcutId: Long = 0
+    private var shortcutId: String = ""
 
     private val controller by lazy { destroyer.own(Controller()) }
     private val variableKeyProvider by lazy {
@@ -114,18 +114,18 @@ class EditorActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_editor)
 
-        shortcutId = intent.getLongExtra(EXTRA_SHORTCUT_ID, 0)
+        shortcutId = intent.getStringExtra(EXTRA_SHORTCUT_ID)
         val shortcut = if (savedInstanceState?.containsKey(STATE_JSON_SHORTCUT) == true) {
             GsonUtil.fromJson(savedInstanceState.getString(STATE_JSON_SHORTCUT)!!, Shortcut::class.java)
         } else {
-            if (shortcutId == 0L) Shortcut.createNew() else controller.getShortcutById(shortcutId)?.detachFromRealm()
+            if (shortcutId.isNullOrEmpty()) Shortcut.createNew() else controller.getShortcutById(shortcutId)?.detachFromRealm()
         }
         if (shortcut == null) {
             finish()
             return
         }
         this.shortcut = shortcut
-        oldShortcut = (if (shortcutId != 0L) controller.getShortcutById(shortcutId)?.detachFromRealm() else null) ?: Shortcut.createNew()
+        oldShortcut = (if (!shortcutId.isNullOrEmpty()) controller.getShortcutById(shortcutId)?.detachFromRealm() else null) ?: Shortcut.createNew()
 
         if (shortcut.isNew) {
             val curlCommand = (intent.getSerializableExtra(EXTRA_CURL_COMMAND) as? CurlCommand)
@@ -473,7 +473,7 @@ class EditorActivity : BaseActivity() {
 
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, EditorActivity::class.java) {
 
-        fun shortcutId(shortcutId: Long) = also {
+        fun shortcutId(shortcutId: String) = also {
             intent.putExtra(EXTRA_SHORTCUT_ID, shortcutId)
         }
 
@@ -494,7 +494,7 @@ class EditorActivity : BaseActivity() {
 
         private const val TEST_PREFIX = "test_"
 
-        private fun prepareForSave(shortcut: Shortcut, id: Long) {
+        private fun prepareForSave(shortcut: Shortcut, id: String) {
             shortcut.id = id
             shortcut.headers.forEach { header ->
                 if (header.id.startsWith(TEST_PREFIX)) {

@@ -40,9 +40,9 @@ open class MainViewModel(application: Application) : RealmViewModel(application)
             .categories
             .toLiveData()
 
-    fun getShortcutById(shortcutId: Long) = Repository.getShortcutById(persistedRealm, shortcutId)
+    fun getShortcutById(shortcutId: String) = Repository.getShortcutById(persistedRealm, shortcutId)
 
-    fun moveShortcut(shortcutId: Long, targetPosition: Int? = null, targetCategoryId: Long? = null) =
+    fun moveShortcut(shortcutId: String, targetPosition: Int? = null, targetCategoryId: String? = null) =
         persistedRealm.commitAsync { realm ->
             Repository.moveShortcut(realm, shortcutId, targetPosition, targetCategoryId)
         }

@@ -23,7 +23,7 @@ class ExecutionService : JobService() {
     }
 
     override fun onStartJob(params: JobParameters): Boolean {
-        val shortcutId = params.jobId.toLong()
+        val shortcutId = params.extras.getString(PARAM_SHORTCUT_ID) ?: ""
         val pendingExecution = controller.getShortcutPendingExecution(shortcutId) ?: return false
         val tryNumber = pendingExecution.tryNumber + 1
         val variableValues = pendingExecution.resolvedVariables
@@ -39,7 +39,7 @@ class ExecutionService : JobService() {
 
     override fun onStopJob(params: JobParameters) = false
 
-    private fun executeShortcut(id: Long, variableValues: Map<String, String>, tryNumber: Int) {
+    private fun executeShortcut(id: String, variableValues: Map<String, String>, tryNumber: Int) {
         val shortcutIntent = ExecuteActivity.IntentBuilder(context, id)
             .variableValues(variableValues)
             .tryNumber(tryNumber)
@@ -54,6 +54,12 @@ class ExecutionService : JobService() {
 
     override fun onDestroy() {
         destroyer.destroy()
+    }
+
+    companion object {
+
+        const val PARAM_SHORTCUT_ID = "shortcutId"
+
     }
 
 }

@@ -37,7 +37,7 @@ import java.net.URLEncoder
 class ListFragment : BaseFragment() {
 
     val categoryId by lazy {
-        args.getLong(ARG_CATEGORY_ID)
+        args.getString(ARG_CATEGORY_ID) ?: ""
     }
 
     private val selectionMode by lazy {
@@ -362,12 +362,12 @@ class ListFragment : BaseFragment() {
 
     companion object {
 
-        fun create(categoryId: Long, selectionMode: SelectionMode): ListFragment =
+        fun create(categoryId: String, selectionMode: SelectionMode): ListFragment =
             ListFragment()
                 .apply {
                     arguments = Bundle()
                         .apply {
-                            putLong(ARG_CATEGORY_ID, categoryId)
+                            putString(ARG_CATEGORY_ID, categoryId)
                             putSerializable(ARG_SELECTION_MODE, selectionMode)
                         }
                 }

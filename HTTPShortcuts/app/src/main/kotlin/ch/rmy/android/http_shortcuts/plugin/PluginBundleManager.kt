@@ -8,8 +8,8 @@ object PluginBundleManager {
     private const val PARAM_SHORTCUT_ID = "ch.rmy.android.http_shortcuts.shortcut_id"
     private const val PARAM_VARIABLE_PREFIX = "ch.rmy.android.http_shortcuts.variables."
 
-    fun generateBundle(shortcutId: Long, withVariables: Boolean) = Bundle().also {
-        it.putLong(PARAM_SHORTCUT_ID, shortcutId)
+    fun generateBundle(shortcutId: String, withVariables: Boolean) = Bundle().also {
+        it.putString(PARAM_SHORTCUT_ID, shortcutId)
         if (withVariables) {
             attachVariableNamesIfPossible(it)
         }
@@ -26,7 +26,7 @@ object PluginBundleManager {
         }
     }
 
-    fun getShortcutId(bundle: Bundle) = bundle.getLong(PARAM_SHORTCUT_ID)
+    fun getShortcutId(bundle: Bundle): String = bundle.getString(PARAM_SHORTCUT_ID) ?: ""
 
     fun getVariableValues(bundle: Bundle): Map<String, String> =
         bundle

@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.activities
 
 import android.app.ProgressDialog
 import android.content.ActivityNotFoundException
-import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -14,6 +13,7 @@ import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.actions.ActionDTO
 import ch.rmy.android.http_shortcuts.actions.types.ActionFactory
+import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.rejectSafely
@@ -66,7 +66,7 @@ class ExecuteActivity : BaseActivity() {
         ActionFactory(context)
     }
 
-    private val shortcutId by lazy {
+    private val shortcutId: String by lazy {
         IntentUtil.getShortcutId(intent)
     }
     private val variableValues by lazy {
@@ -276,6 +276,7 @@ class ExecuteActivity : BaseActivity() {
                 .subscribe {
                     ExecutionScheduler.schedule(context)
                 }
+                .attachTo(destroyer)
         }
     }
 
@@ -412,13 +413,16 @@ class ExecuteActivity : BaseActivity() {
 
     override val navigateUpIcon = R.drawable.ic_clear
 
-    class IntentBuilder(context: Context, shortcutId: Long) : BaseIntentBuilder(context, ExecuteActivity::class.java) {
+    class IntentBuilder(context: Context, shortcutId: String) : BaseIntentBuilder(context, ExecuteActivity::class.java) {
 
         init {
             intent.putExtra(EXTRA_SHORTCUT_ID, shortcutId)
             intent.action = ExecuteActivity.ACTION_EXECUTE_SHORTCUT
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NO_ANIMATION
-            intent.data = ContentUris.withAppendedId(Uri.fromParts("content", context.packageName, null), shortcutId)
+            intent.data = Uri.fromParts("content", context.packageName, null)
+                .buildUpon()
+                .appendPath(shortcutId)
+                .build()
         }
 
         fun tryNumber(tryNumber: Int) = also {

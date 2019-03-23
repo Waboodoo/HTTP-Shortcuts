@@ -10,7 +10,7 @@ import java.util.*
 open class PendingExecution : RealmObject() {
 
     @PrimaryKey
-    var shortcutId: Long = 0
+    var shortcutId: String = ""
     @Index
     @Required
     var enqueuedAt: Date = Date()
@@ -27,7 +27,7 @@ open class PendingExecution : RealmObject() {
         const val FIELD_ENQUEUED_AT = "enqueuedAt"
 
         fun createNew(
-            shortcutId: Long,
+            shortcutId: String,
             resolvedVariables: Map<String, String> = emptyMap(),
             tryNumber: Int = 0,
             waitUntil: Date? = null,

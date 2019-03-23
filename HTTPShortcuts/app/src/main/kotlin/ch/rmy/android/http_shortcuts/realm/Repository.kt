@@ -10,7 +10,6 @@ import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import io.realm.Case
 import io.realm.Realm
-import io.realm.RealmObject
 import io.realm.RealmResults
 import io.realm.kotlin.where
 
@@ -27,19 +26,19 @@ object Repository {
             .notEqualTo(HasId.FIELD_ID, Shortcut.TEMPORARY_ID)
             .findAll()
 
-    internal fun getCategoryById(realm: Realm, categoryId: Long): Category? =
+    internal fun getCategoryById(realm: Realm, categoryId: String): Category? =
         realm
             .where<Category>()
             .equalTo(HasId.FIELD_ID, categoryId)
             .findFirst()
 
-    internal fun getCategoryByIdAsync(realm: Realm, categoryId: Long): Category =
+    internal fun getCategoryByIdAsync(realm: Realm, categoryId: String): Category =
         realm
             .where<Category>()
             .equalTo(HasId.FIELD_ID, categoryId)
             .findFirstAsync()
 
-    internal fun getShortcutById(realm: Realm, shortcutId: Long): Shortcut? =
+    internal fun getShortcutById(realm: Realm, shortcutId: String): Shortcut? =
         realm
             .where<Shortcut>()
             .equalTo(HasId.FIELD_ID, shortcutId)
@@ -51,7 +50,7 @@ object Repository {
             .equalTo(Shortcut.FIELD_NAME, shortcutName, Case.INSENSITIVE)
             .findFirst()
 
-    internal fun getVariableById(realm: Realm, variableId: Long): Variable? =
+    internal fun getVariableById(realm: Realm, variableId: String): Variable? =
         realm
             .where<Variable>()
             .equalTo(HasId.FIELD_ID, variableId)
@@ -69,7 +68,7 @@ object Repository {
             .sort(PendingExecution.FIELD_ENQUEUED_AT)
             .findAll()
 
-    internal fun getShortcutPendingExecution(realm: Realm, shortcutId: Long): PendingExecution? =
+    internal fun getShortcutPendingExecution(realm: Realm, shortcutId: String): PendingExecution? =
         realm
             .where<PendingExecution>()
             .equalTo(PendingExecution.FIELD_SHORTCUT_ID, shortcutId)
@@ -80,7 +79,7 @@ object Repository {
             .where<AppLock>()
             .findFirst()
 
-    internal fun deleteShortcut(realm: Realm, shortcutId: Long) {
+    internal fun deleteShortcut(realm: Realm, shortcutId: String) {
         getShortcutById(realm, shortcutId)?.apply {
             headers.deleteAllFromRealm()
             parameters.deleteAllFromRealm()
@@ -88,7 +87,7 @@ object Repository {
         }
     }
 
-    internal fun copyShortcut(realm: Realm, sourceShortcut: Shortcut, targetShortcutId: Long): Shortcut =
+    internal fun copyShortcut(realm: Realm, sourceShortcut: Shortcut, targetShortcutId: String): Shortcut =
         sourceShortcut.detachFromRealm()
             .apply {
                 id = targetShortcutId
@@ -103,13 +102,7 @@ object Repository {
                 realm.copyToRealmOrUpdate(it)
             }
 
-    internal fun generateId(realm: Realm, clazz: Class<out RealmObject>): Long {
-        val maxId = realm.where(clazz).max(HasId.FIELD_ID)
-        val maxIdLong = Math.max(maxId?.toLong() ?: 0, 0)
-        return maxIdLong + 1
-    }
-
-    internal fun moveShortcut(realm: Realm, shortcutId: Long, targetPosition: Int? = null, targetCategoryId: Long? = null) {
+    internal fun moveShortcut(realm: Realm, shortcutId: String, targetPosition: Int? = null, targetCategoryId: String? = null) {
         val shortcut = Repository.getShortcutById(realm, shortcutId) ?: return
         val categories = Repository.getBase(realm)?.categories ?: return
         val targetCategory = if (targetCategoryId != null) {

@@ -9,13 +9,15 @@ import ch.rmy.android.http_shortcuts.realm.models.HasId.Companion.FIELD_ID
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut.Companion.TEMPORARY_ID
 import ch.rmy.android.http_shortcuts.realm.toLiveData
+import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import io.reactivex.Completable
+import io.reactivex.Single
 import io.realm.Realm
 import io.realm.kotlin.where
 
 class ShortcutEditorViewModel(application: Application) : RealmViewModel(application) {
 
-    fun init(categoryId: Long?, shortcutId: Long?): Completable {
+    fun init(categoryId: String?, shortcutId: String?): Completable {
         this.categoryId = categoryId
         this.shortcutId = shortcutId
         return persistedRealm.commitAsync { realm ->
@@ -34,8 +36,8 @@ class ShortcutEditorViewModel(application: Application) : RealmViewModel(applica
     var isInitialized: Boolean = false
         private set
 
-    private var categoryId: Long? = null
-    private var shortcutId: Long? = null
+    private var categoryId: String? = null
+    private var shortcutId: String? = null
 
     val shortcut: LiveData<Shortcut?>
         get() = persistedRealm
@@ -63,12 +65,11 @@ class ShortcutEditorViewModel(application: Application) : RealmViewModel(applica
     private fun getShortcut(realm: Realm): Shortcut =
         Repository.getShortcutById(realm, TEMPORARY_ID)!!
 
-    fun trySave(): Completable {
+    fun trySave(): Single<String> {
         // TODO: Validate, abort if invalid
 
+        val id = shortcutId ?: newUUID()
         return persistedRealm.commitAsync { realm ->
-            val id = shortcutId ?: Repository.generateId(realm, Shortcut::class.java)
-
             val shortcut = Repository.getShortcutById(realm, TEMPORARY_ID)!!
             val newShortcut = Repository.copyShortcut(realm, shortcut, id)
             if (shortcutId == null && categoryId != null) {
@@ -79,6 +80,7 @@ class ShortcutEditorViewModel(application: Application) : RealmViewModel(applica
 
             Repository.deleteShortcut(realm, TEMPORARY_ID)
         }
+            .andThen(Single.just(id))
     }
 
 }

@@ -5,6 +5,7 @@ import ch.rmy.android.http_shortcuts.BuildConfig
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.realm.models.Base
 import ch.rmy.android.http_shortcuts.realm.models.Category
+import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.RealmList
@@ -67,7 +68,7 @@ internal class RealmFactory(private val encryptionKey: ByteArray) {
             val defaultCategoryName = context.getString(R.string.shortcuts)
             realm.executeTransaction {
                 val defaultCategory = Category.createNew(defaultCategoryName)
-                defaultCategory.id = 1
+                defaultCategory.id = newUUID()
 
                 val newBase = Base().apply {
                     categories = RealmList()

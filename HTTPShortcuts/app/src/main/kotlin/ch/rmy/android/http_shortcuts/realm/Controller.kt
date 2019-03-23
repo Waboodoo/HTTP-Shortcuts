@@ -1,12 +1,12 @@
 package ch.rmy.android.http_shortcuts.realm
 
-import ch.rmy.android.http_shortcuts.realm.Repository.generateId
 import ch.rmy.android.http_shortcuts.realm.models.Base
 import ch.rmy.android.http_shortcuts.realm.models.Category
 import ch.rmy.android.http_shortcuts.realm.models.PendingExecution
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.Destroyable
+import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import io.reactivex.Single
 import io.realm.Realm
 import io.realm.RealmList
@@ -32,29 +32,29 @@ class Controller : Destroyable, Closeable {
 
     fun getVariables(): RealmList<Variable> = getBase().variables
 
-    fun getShortcutById(id: Long) = Repository.getShortcutById(realm, id)
+    fun getShortcutById(id: String) = Repository.getShortcutById(realm, id)
 
     fun getShortcutByName(shortcutName: String): Shortcut? = Repository.getShortcutByName(realm, shortcutName)
 
     fun getShortcutsPendingExecution(): RealmResults<PendingExecution> = Repository.getShortcutsPendingExecution(realm)
 
-    fun getShortcutPendingExecution(shortcutId: Long) = Repository.getShortcutPendingExecution(realm, shortcutId)
+    fun getShortcutPendingExecution(shortcutId: String) = Repository.getShortcutPendingExecution(realm, shortcutId)
 
     fun exportBase() = getBase().detachFromRealm()
 
     private fun getBase() = Repository.getBase(realm)!!
 
-    fun setVariableValue(variableId: Long, value: String) =
+    fun setVariableValueById(variableId: String, value: String) =
         realm.commitAsync { realm ->
             Repository.getVariableById(realm, variableId)?.value = value
         }
 
-    fun setVariableValue(variableKey: String, value: String) =
+    fun setVariableValueByKey(variableKey: String, value: String) =
         realm.commitAsync { realm ->
             Repository.getVariableByKey(realm, variableKey)?.value = value
         }
 
-    fun resetVariableValues(variableIds: List<Long>) =
+    fun resetVariableValues(variableIds: List<String>) =
         realm.commitAsync { realm ->
             variableIds.forEach { variableId ->
                 Repository.getVariableById(realm, variableId)?.value = ""
@@ -74,13 +74,13 @@ class Controller : Destroyable, Closeable {
         }
     }
 
-    fun renameShortcut(shortcutId: Long, newName: String) =
+    fun renameShortcut(shortcutId: String, newName: String) =
         realm.commitAsync { realm ->
             Repository.getShortcutById(realm, shortcutId)?.name = newName
         }
 
     fun createPendingExecution(
-        shortcutId: Long,
+        shortcutId: String,
         resolvedVariables: Map<String, String>,
         tryNumber: Int = 0,
         waitUntil: Date? = null,
@@ -93,14 +93,14 @@ class Controller : Destroyable, Closeable {
             }
         }
 
-    fun removePendingExecution(shortcutId: Long) =
+    fun removePendingExecution(shortcutId: String) =
         realm.commitAsync { realm ->
             Repository.getShortcutPendingExecution(realm, shortcutId)?.deleteFromRealm()
         }
 
     fun persist(shortcut: Shortcut): Single<Shortcut> {
         if (shortcut.isNew) {
-            shortcut.id = generateId(realm, Shortcut::class.java)
+            shortcut.id = newUUID()
         }
         return realm.commitAsync { realm ->
             realm.copyToRealmOrUpdate(shortcut)

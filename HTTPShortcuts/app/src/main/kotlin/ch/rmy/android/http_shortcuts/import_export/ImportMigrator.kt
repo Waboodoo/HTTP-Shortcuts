@@ -77,11 +77,28 @@ internal object ImportMigrator {
                     }
                 }
             }
-            18L -> {
+            18L -> { // 1.21.0
                 for (category in base["categories"].asJsonArray) {
                     for (shortcut in category.asJsonObject["shortcuts"].asJsonArray) {
                         shortcut.asJsonObject.addProperty("executionType", "app")
                     }
+                }
+            }
+            22L -> { // 1.24.0
+                for (category in base["categories"].asJsonArray) {
+                    val oldCategoryId = category.asJsonObject["id"].asLong
+                    category.asJsonObject.remove("id")
+                    category.asJsonObject.addProperty("id", oldCategoryId.toString())
+                    for (shortcut in category.asJsonObject["shortcuts"].asJsonArray) {
+                        val oldShortcutId = shortcut.asJsonObject["id"].asLong
+                        shortcut.asJsonObject.remove("id")
+                        shortcut.asJsonObject.addProperty("id", oldShortcutId.toString())
+                    }
+                }
+                for (variable in base["variables"].asJsonArray) {
+                    val oldVariableId = variable.asJsonObject["id"].asLong
+                    variable.asJsonObject.remove("id")
+                    variable.asJsonObject.addProperty("id", oldVariableId.toString())
                 }
             }
         }

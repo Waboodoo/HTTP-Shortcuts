@@ -18,10 +18,10 @@ class TriggerShortcutAction(
     data: Map<String, String>
 ) : BaseAction(id, actionType, data) {
 
-    var shortcutId: Long
-        get() = internalData[KEY_SHORTCUT_ID]?.toLongOrNull() ?: 0L
+    var shortcutId: String
+        get() = internalData[KEY_SHORTCUT_ID]?: ""
         set(value) {
-            internalData[KEY_SHORTCUT_ID] = value.toString()
+            internalData[KEY_SHORTCUT_ID] = value
         }
 
     val shortcutName: String?
@@ -40,7 +40,7 @@ class TriggerShortcutAction(
             )
         )
 
-    override fun perform(context: Context, shortcutId: Long, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Promise<Unit, Throwable, Unit> {
+    override fun perform(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Promise<Unit, Throwable, Unit> {
         if (recursionDepth >= MAX_RECURSION_DEPTH) {
             context.showToast(R.string.action_type_trigger_shortcut_error_recursion_depth_reached, long = true)
             return PromiseUtils.resolve(Unit)

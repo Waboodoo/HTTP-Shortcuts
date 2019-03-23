@@ -30,7 +30,7 @@ abstract class BaseAction(
 
     abstract fun getDescription(context: Context): CharSequence
 
-    open fun perform(context: Context, shortcutId: Long, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Promise<Unit, Throwable, Unit> =
+    open fun perform(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Promise<Unit, Throwable, Unit> =
         try {
             performBlocking(context, shortcutId, variableValues, response, volleyError, recursionDepth)
             PromiseUtils.resolve(Unit)
@@ -38,7 +38,7 @@ abstract class BaseAction(
             PromiseUtils.reject(e)
         }
 
-    protected open fun performBlocking(context: Context, shortcutId: Long, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int) {
+    protected open fun performBlocking(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int) {
 
     }
 

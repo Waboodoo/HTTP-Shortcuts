@@ -13,7 +13,6 @@ import androidx.viewpager.widget.ViewPager
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.CurlImportActivity
-import ch.rmy.android.http_shortcuts.activities.EditorActivity
 import ch.rmy.android.http_shortcuts.activities.categories.CategoriesActivity
 import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
 import ch.rmy.android.http_shortcuts.activities.settings.SettingsActivity
@@ -143,12 +142,8 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
             return
         }
         when (requestCode) {
-            REQUEST_CREATE_SHORTCUT -> {
-                val shortcutId = intent.getLongExtra(EditorActivity.EXTRA_SHORTCUT_ID, 0)
-                selectShortcut(shortcutId)
-            }
-            REQUEST_CREATE_SHORTCUT_FROM_CURL -> {
-                val shortcutId = intent.getLongExtra(CurlImportActivity.EXTRA_SHORTCUT_ID, 0)
+            REQUEST_CREATE_SHORTCUT, REQUEST_CREATE_SHORTCUT_FROM_CURL -> {
+                val shortcutId = intent.getStringExtra(ShortcutEditorActivity.RESULT_SHORTCUT_ID)
                 selectShortcut(shortcutId)
             }
             REQUEST_SETTINGS -> {
@@ -163,7 +158,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
         }
     }
 
-    private fun selectShortcut(shortcutId: Long) {
+    private fun selectShortcut(shortcutId: String) {
         selectShortcut(viewModel.getShortcutById(shortcutId) ?: return)
     }
 

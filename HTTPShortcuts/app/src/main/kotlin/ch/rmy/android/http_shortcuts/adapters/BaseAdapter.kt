@@ -12,6 +12,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.realm.livedata.ListLiveData
 import ch.rmy.android.http_shortcuts.realm.models.HasId
 import ch.rmy.android.http_shortcuts.utils.Destroyable
+import ch.rmy.android.http_shortcuts.utils.UUIDUtils
 import io.realm.RealmObject
 
 abstract class BaseAdapter<T> internal constructor(val context: Context, private val items: ListLiveData<T>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Destroyable where T : RealmObject, T : HasId {
@@ -34,7 +35,7 @@ abstract class BaseAdapter<T> internal constructor(val context: Context, private
 
     private fun getItem(position: Int) = items[position]!!
 
-    override fun getItemId(position: Int) = if (isEmpty) ID_EMPTY_MARKER else getItem(position).id
+    override fun getItemId(position: Int) = if (isEmpty) ID_EMPTY_MARKER else UUIDUtils.toLong(getItem(position).id)
 
     override fun getItemCount() = if (isEmpty && emptyMarkerStringResource != 0) 1 else count
 

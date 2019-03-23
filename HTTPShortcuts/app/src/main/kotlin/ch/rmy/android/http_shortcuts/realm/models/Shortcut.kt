@@ -19,7 +19,7 @@ import io.realm.annotations.Required
 open class Shortcut : RealmObject(), HasId {
 
     @PrimaryKey
-    override var id: Long = 0
+    override var id: String = ""
     @Required
     var name: String = ""
     @Required
@@ -57,12 +57,9 @@ open class Shortcut : RealmObject(), HasId {
     var serializedSuccessActions: String? = "[]"
     var serializedFailureActions: String? = "[]"
 
-    override val isNew: Boolean
-        get() = id == 0L
-
     fun duplicate(newName: String): Shortcut {
         val duplicate = Shortcut()
-        duplicate.id = 0
+        duplicate.id = ""
         duplicate.name = newName
         duplicate.bodyContent = bodyContent
         duplicate.description = description
@@ -233,7 +230,7 @@ open class Shortcut : RealmObject(), HasId {
 
     companion object {
 
-        const val TEMPORARY_ID: Long = -1
+        const val TEMPORARY_ID: String = "temp"
 
         const val FIELD_NAME = "name"
 
@@ -294,7 +291,7 @@ open class Shortcut : RealmObject(), HasId {
 
         const val DEFAULT_CONTENT_TYPE = "text/plain"
 
-        fun createNew(id: Long = 0) = Shortcut().apply {
+        fun createNew(id: String = "") = Shortcut().apply {
             this.id = id
             name = ""
             description = ""

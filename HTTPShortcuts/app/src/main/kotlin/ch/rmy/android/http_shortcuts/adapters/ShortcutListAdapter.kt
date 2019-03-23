@@ -31,7 +31,7 @@ class ShortcutListAdapter(context: Context, shortcuts: ListLiveData<Shortcut>) :
             waitingIcon.visible = isPendingExecution(item.id)
         }
 
-        private fun isPendingExecution(shortcutId: Long) = shortcutsPendingExecution.any {
+        private fun isPendingExecution(shortcutId: String) = shortcutsPendingExecution.any {
             it.shortcutId == shortcutId
         }
 

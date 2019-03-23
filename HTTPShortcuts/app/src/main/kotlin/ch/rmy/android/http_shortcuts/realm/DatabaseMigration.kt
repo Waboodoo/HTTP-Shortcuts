@@ -174,6 +174,51 @@ class DatabaseMigration : RealmMigration {
                     .addField("passwordHash", String::class.java)
                     .setRequired("passwordHash", true)
             }
+            22L -> { // 1.24.0
+                schema.get("Shortcut")!!
+                    .removePrimaryKey()
+                    .renameField("id", "oldId")
+                    .addField("id", String::class.java)
+                realm.where("Shortcut").findAll().forEach { shortcut ->
+                    shortcut.setString("id", shortcut.getInt("oldId").toString())
+                }
+                schema.get("Shortcut")!!
+                    .setRequired("id", true)
+                    .addPrimaryKey("id")
+                    .removeField("oldId")
+
+                schema.get("Category")!!
+                    .removePrimaryKey()
+                    .renameField("id", "oldId")
+                    .addField("id", String::class.java)
+                realm.where("Category").findAll().forEach { category ->
+                    category.setString("id", category.getInt("oldId").toString())
+                }
+                schema.get("Category")!!
+                    .setRequired("id", true)
+                    .addPrimaryKey("id")
+                    .removeField("oldId")
+
+                schema.get("Variable")!!
+                    .removePrimaryKey()
+                    .renameField("id", "oldId")
+                    .addField("id", String::class.java)
+                realm.where("Variable").findAll().forEach { variable ->
+                    variable.setString("id", variable.getInt("oldId").toString())
+                }
+                schema.get("Variable")!!
+                    .setRequired("id", true)
+                    .addPrimaryKey("id")
+                    .removeField("oldId")
+
+                realm.where("PendingExecution").findAll().deleteAllFromRealm()
+                schema.get("PendingExecution")!!
+                    .removePrimaryKey()
+                    .removeField("shortcutId")
+                    .addField("shortcutId", String::class.java)
+                    .setRequired("shortcutId", true)
+                    .addPrimaryKey("shortcutId")
+            }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -199,7 +244,7 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 21L
+        const val VERSION = 22L
 
     }
 

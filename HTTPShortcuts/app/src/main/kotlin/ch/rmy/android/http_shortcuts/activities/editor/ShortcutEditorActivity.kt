@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.editor
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -24,11 +25,11 @@ import kotterknife.bindView
 class ShortcutEditorActivity : BaseActivity() {
 
     private val shortcutId by lazy {
-        intent.getLongExtra(EXTRA_SHORTCUT_ID, 0L).takeUnless { it == 0L }
+        intent.getStringExtra(EXTRA_SHORTCUT_ID)
     }
 
     private val categoryId by lazy {
-        intent.getLongExtra(EXTRA_CATEGORY_ID, 0L).takeUnless { it == 0L }
+        intent.getStringExtra(EXTRA_CATEGORY_ID)
     }
 
     private val viewModel: ShortcutEditorViewModel by bindViewModel()
@@ -119,7 +120,8 @@ class ShortcutEditorActivity : BaseActivity() {
     private fun trySaveShortcut() {
         updateViewModelFromViews()
             .andThen(viewModel.trySave())
-            .subscribe {
+            .subscribe { id ->
+                setResult(RESULT_OK, Intent().putExtra(RESULT_SHORTCUT_ID, id))
                 finish()
             }
             .attachTo(destroyer)
@@ -146,11 +148,11 @@ class ShortcutEditorActivity : BaseActivity() {
 
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, ShortcutEditorActivity::class.java) {
 
-        fun shortcutId(shortcutId: Long) = also {
+        fun shortcutId(shortcutId: String) = also {
             intent.putExtra(EXTRA_SHORTCUT_ID, shortcutId)
         }
 
-        fun categoryId(categoryId: Long) = also {
+        fun categoryId(categoryId: String) = also {
             intent.putExtra(EXTRA_CATEGORY_ID, categoryId)
         }
 
@@ -160,6 +162,8 @@ class ShortcutEditorActivity : BaseActivity() {
 
         private const val EXTRA_SHORTCUT_ID = "shortcutId"
         private const val EXTRA_CATEGORY_ID = "categoryId"
+
+        const val RESULT_SHORTCUT_ID = "shortcutId"
 
     }
 
