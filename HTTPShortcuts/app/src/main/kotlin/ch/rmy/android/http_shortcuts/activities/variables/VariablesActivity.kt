@@ -15,6 +15,7 @@ import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.consume
+import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
@@ -64,9 +65,9 @@ class VariablesActivity : BaseActivity() {
     }
 
     private fun openEditorForCreation() {
-        val intent = VariableEditorActivity.IntentBuilder(context)
+        VariableEditorActivity.IntentBuilder(context)
             .build()
-        startActivity(intent)
+            .startActivity(this)
     }
 
 
@@ -87,10 +88,10 @@ class VariablesActivity : BaseActivity() {
     }
 
     private fun editVariable(variable: Variable) {
-        val intent = VariableEditorActivity.IntentBuilder(context)
+        VariableEditorActivity.IntentBuilder(context)
             .variableId(variable.id)
             .build()
-        startActivity(intent)
+            .startActivity(this)
     }
 
     private fun duplicateVariable(variable: Variable) {

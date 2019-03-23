@@ -6,6 +6,7 @@ import androidx.annotation.StringRes
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.mapFor
+import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
@@ -64,10 +65,10 @@ class ShareActivity : BaseActivity() {
     }
 
     private fun executeShortcut(shortcut: Shortcut, variableValues: Map<String, String>) {
-        val intent = ExecuteActivity.IntentBuilder(context, shortcut.id)
+        ExecuteActivity.IntentBuilder(context, shortcut.id)
             .variableValues(variableValues)
             .build()
-        startActivity(intent)
+            .startActivity(this)
     }
 
     private fun showInstructions(@StringRes text: Int) {

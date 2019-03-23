@@ -18,6 +18,7 @@ import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.mapIf
+import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.realm.livedata.ListLiveData
 import ch.rmy.android.http_shortcuts.realm.models.Category
@@ -186,17 +187,17 @@ class ListFragment : BaseFragment() {
         pendingShortcuts.any { it.shortcutId == shortcut.id }
 
     private fun executeShortcut(shortcut: Shortcut) {
-        val intent = ExecuteActivity.IntentBuilder(context!!, shortcut.id)
+        ExecuteActivity.IntentBuilder(context!!, shortcut.id)
             .build()
-        startActivity(intent)
+            .startActivity(this)
     }
 
     private fun editShortcut(shortcut: Shortcut) {
-        val intent = ShortcutEditorActivity.IntentBuilder(context!!)
+        ShortcutEditorActivity.IntentBuilder(context!!)
             .categoryId(categoryId)
             .shortcutId(shortcut.id)
             .build()
-        startActivityForResult(intent, REQUEST_EDIT_SHORTCUT)
+            .startActivity(this, REQUEST_EDIT_SHORTCUT)
     }
 
     private fun canMoveShortcut(shortcut: Shortcut): Boolean =

@@ -4,6 +4,7 @@ import android.content.Context
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.extensions.showToast
+import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.utils.PromiseUtils
@@ -47,10 +48,10 @@ class TriggerShortcutAction(
         }
         return PromiseUtils.resolveDelayed<Unit, Throwable, Unit>(Unit, EXECUTION_DELAY)
             .done {
-                val intent = ExecuteActivity.IntentBuilder(context, this.shortcutId)
+                ExecuteActivity.IntentBuilder(context, this.shortcutId)
                     .recursionDepth(recursionDepth + 1)
                     .build()
-                context.startActivity(intent)
+                    .startActivity(context)
             }
     }
 

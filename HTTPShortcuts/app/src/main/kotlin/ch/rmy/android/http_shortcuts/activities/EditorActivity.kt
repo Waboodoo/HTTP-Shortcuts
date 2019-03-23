@@ -30,6 +30,7 @@ import ch.rmy.android.http_shortcuts.extensions.fix
 import ch.rmy.android.http_shortcuts.extensions.focus
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.setOnItemSelected
+import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.icons.IconSelector
 import ch.rmy.android.http_shortcuts.icons.IconView
@@ -326,9 +327,9 @@ class EditorActivity : BaseActivity() {
             prepareForTest(shortcut)
             controller.persist(shortcut)
                 .subscribe(Consumer {
-                    val intent = ExecuteActivity.IntentBuilder(context, TEMPORARY_ID)
+                    ExecuteActivity.IntentBuilder(context, TEMPORARY_ID)
                         .build()
-                    startActivity(intent)
+                        .startActivity(this)
                 })
                 .attachTo(destroyer)
         }
@@ -363,8 +364,8 @@ class EditorActivity : BaseActivity() {
     }
 
     private fun openIpackPicker() {
-        val intent = IpackUtil.getIpackIntent(context)
-        startActivityForResult(intent, REQUEST_SELECT_IPACK_ICON)
+        IpackUtil.getIpackIntent(context)
+            .startActivity(this, REQUEST_SELECT_IPACK_ICON)
     }
 
     override fun onBackPressed() {

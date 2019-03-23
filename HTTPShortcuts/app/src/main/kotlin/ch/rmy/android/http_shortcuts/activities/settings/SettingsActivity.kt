@@ -24,6 +24,7 @@ import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.showToast
+import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.import_export.ExportTask
 import ch.rmy.android.http_shortcuts.import_export.ImportTask
 import ch.rmy.android.http_shortcuts.realm.Controller
@@ -209,10 +210,13 @@ class SettingsActivity : BaseActivity() {
             Controller().use { controller ->
                 val base = controller.exportBase()
                 val data = GsonUtil.exportData(base)
-                val sharingIntent = Intent(android.content.Intent.ACTION_SEND)
-                sharingIntent.type = IMPORT_EXPORT_FILE_TYPE
-                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, data)
-                startActivity(Intent.createChooser(sharingIntent, getString(R.string.title_export)))
+                Intent(android.content.Intent.ACTION_SEND)
+                    .setType(IMPORT_EXPORT_FILE_TYPE)
+                    .putExtra(android.content.Intent.EXTRA_TEXT, data)
+                    .let {
+                        Intent.createChooser(it, getString(R.string.title_export))
+                            .startActivity(activity)
+                    }
             }
         }
 
@@ -234,25 +238,21 @@ class SettingsActivity : BaseActivity() {
         }
 
         private fun openFilePickerForExport() {
-            val intent = Intent(activity, FilePickerActivity::class.java)
-                .apply {
-                    putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false)
-                    putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, true)
-                    putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_DIR)
-                    putExtra(FilePickerActivity.EXTRA_START_PATH, Settings(activity).importExportDirectory)
-                }
-            startActivityForResult(intent, REQUEST_PICK_DIR_FOR_EXPORT)
+            Intent(activity, FilePickerActivity::class.java)
+                .putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false)
+                .putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, true)
+                .putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_DIR)
+                .putExtra(FilePickerActivity.EXTRA_START_PATH, Settings(activity).importExportDirectory)
+                .startActivity(activity, REQUEST_PICK_DIR_FOR_EXPORT)
         }
 
         private fun openLocalFilePickerForImport() {
-            val intent = Intent(activity, FilePickerActivity::class.java)
-                .apply {
-                    putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false)
-                    putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, false)
-                    putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_FILE)
-                    putExtra(FilePickerActivity.EXTRA_START_PATH, Settings(activity).importExportDirectory)
-                }
-            startActivityForResult(intent, REQUEST_PICK_FILE_FOR_IMPORT)
+            Intent(activity, FilePickerActivity::class.java)
+                .putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false)
+                .putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, false)
+                .putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_FILE)
+                .putExtra(FilePickerActivity.EXTRA_START_PATH, Settings(activity).importExportDirectory)
+                .startActivity(activity, REQUEST_PICK_FILE_FOR_IMPORT)
         }
 
         private fun openGeneralPickerForImport() {
@@ -267,7 +267,8 @@ class SettingsActivity : BaseActivity() {
                     addCategory(Intent.CATEGORY_OPENABLE)
                 }
             try {
-                startActivityForResult(pickerIntent, REQUEST_IMPORT_FROM_DOCUMENTS)
+                pickerIntent
+                    .startActivity(activity, REQUEST_IMPORT_FROM_DOCUMENTS)
             } catch (e: ActivityNotFoundException) {
                 activity.showToast(R.string.error_not_supported)
             }
@@ -278,15 +279,16 @@ class SettingsActivity : BaseActivity() {
         }
 
         private fun sendMail(subject: String, text: String, title: String) {
-            val intent = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:$DEVELOPER_EMAIL"))
-                .apply {
-                    putExtra(Intent.EXTRA_EMAIL, arrayOf(DEVELOPER_EMAIL))
-                    putExtra(Intent.EXTRA_SUBJECT, subject)
-                    putExtra(Intent.EXTRA_TEXT, text)
-                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                }
             try {
-                startActivity(Intent.createChooser(intent, title))
+                Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:$DEVELOPER_EMAIL"))
+                    .putExtra(Intent.EXTRA_EMAIL, arrayOf(DEVELOPER_EMAIL))
+                    .putExtra(Intent.EXTRA_SUBJECT, subject)
+                    .putExtra(Intent.EXTRA_TEXT, text)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    .let {
+                        Intent.createChooser(it, title)
+                            .startActivity(activity)
+                    }
             } catch (e: ActivityNotFoundException) {
                 activity.showToast(R.string.error_not_supported)
             }
@@ -306,8 +308,8 @@ class SettingsActivity : BaseActivity() {
 
         private fun openURL(url: String) {
             try {
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                startActivity(browserIntent)
+                Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                    .startActivity(activity)
             } catch (e: ActivityNotFoundException) {
                 activity.showToast(R.string.error_not_supported)
             }
@@ -318,9 +320,9 @@ class SettingsActivity : BaseActivity() {
         }
 
         private fun showLicenses() {
-            val intent = LicensesActivity.IntentBuilder(activity)
+            LicensesActivity.IntentBuilder(activity)
                 .build()
-            startActivity(intent)
+                .startActivity(activity)
         }
 
         override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {

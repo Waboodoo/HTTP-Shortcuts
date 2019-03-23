@@ -6,6 +6,7 @@ import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
+import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.RealmFactory
 import ch.rmy.android.http_shortcuts.utils.Destroyer
@@ -40,11 +41,11 @@ class ExecutionService : JobService() {
     override fun onStopJob(params: JobParameters) = false
 
     private fun executeShortcut(id: String, variableValues: Map<String, String>, tryNumber: Int) {
-        val shortcutIntent = ExecuteActivity.IntentBuilder(context, id)
+        ExecuteActivity.IntentBuilder(context, id)
             .variableValues(variableValues)
             .tryNumber(tryNumber)
             .build()
-        startActivity(shortcutIntent)
+            .startActivity(context)
     }
 
     override fun onCreate() {

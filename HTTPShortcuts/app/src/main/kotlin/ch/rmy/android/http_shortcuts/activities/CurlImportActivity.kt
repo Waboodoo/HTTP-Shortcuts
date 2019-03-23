@@ -11,6 +11,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
 import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.onTextChanged
+import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.curlcommand.CurlParser
 import kotterknife.bindView
@@ -51,10 +52,10 @@ class CurlImportActivity : BaseActivity() {
         val commandString = curlCommand.text.toString()
         val command = CurlParser.parse(commandString)
 
-        val intent = ShortcutEditorActivity.IntentBuilder(context)
+        ShortcutEditorActivity.IntentBuilder(context)
             //.curlCommand(command) // TODO
             .build()
-        startActivityForResult(intent, REQUEST_CREATE_SHORTCUT)
+            .startActivity(this, REQUEST_CREATE_SHORTCUT)
     }
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {

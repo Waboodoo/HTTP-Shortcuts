@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.activities
 import android.app.SearchManager
 import android.os.Bundle
 import ch.rmy.android.http_shortcuts.extensions.showToast
+import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.realm.Controller
 
 // THIS IMPLEMENTATION IS EXPERIMENTAL ONLY
@@ -14,16 +15,15 @@ class VoiceActivity : BaseActivity() {
         val shortcutName = intent.getStringExtra(SearchManager.QUERY) ?: return
 
         val controller = destroyer.own(Controller())
-        val shortcut = controller.getShortcutByName(shortcutName)
-        if (shortcut == null) {
+        val shortcut = controller.getShortcutByName(shortcutName) ?: run {
             showToast("Shortcut \"$shortcutName\" not found")
             finishWithoutAnimation()
             return
         }
 
-        val intent = ExecuteActivity.IntentBuilder(context, shortcut.id)
+        ExecuteActivity.IntentBuilder(context, shortcut.id)
             .build()
-        startActivity(intent)
+            .startActivity(this)
         finishWithoutAnimation()
     }
 

@@ -19,6 +19,7 @@ import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.rejectSafely
 import ch.rmy.android.http_shortcuts.extensions.resolveSafely
 import ch.rmy.android.http_shortcuts.extensions.showToast
+import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.http.HttpRequester
@@ -213,8 +214,8 @@ class ExecuteActivity : BaseActivity() {
                 showToast(R.string.error_invalid_url)
                 return
             }
-            val browserIntent = Intent(Intent.ACTION_VIEW, uri)
-            startActivity(browserIntent)
+            Intent(Intent.ACTION_VIEW, uri)
+                .startActivity(this)
         } catch (e: ActivityNotFoundException) {
             showToast(R.string.error_not_supported)
         } catch (e: Exception) {
@@ -396,10 +397,13 @@ class ExecuteActivity : BaseActivity() {
             return
         }
         try {
-            val sharingIntent = Intent(Intent.ACTION_SEND)
-            sharingIntent.type = ShortcutResponse.TYPE_TEXT
-            sharingIntent.putExtra(Intent.EXTRA_TEXT, lastResponse!!.bodyAsString)
-            startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_title)))
+            Intent(Intent.ACTION_SEND)
+                .setType(ShortcutResponse.TYPE_TEXT)
+                .putExtra(Intent.EXTRA_TEXT, lastResponse!!.bodyAsString)
+                .let {
+                    Intent.createChooser(it, getString(R.string.share_title))
+                        .startActivity(this)
+                }
         } catch (e: Exception) {
             showToast(getString(R.string.error_share_failed), long = true)
             logException(e)

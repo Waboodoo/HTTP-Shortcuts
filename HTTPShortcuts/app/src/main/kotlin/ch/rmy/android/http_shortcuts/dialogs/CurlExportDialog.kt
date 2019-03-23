@@ -7,6 +7,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
@@ -31,10 +32,13 @@ class CurlExportDialog(private val context: Context, private val title: String, 
     }
 
     private fun shareCurlExport() {
-        val sharingIntent = Intent(android.content.Intent.ACTION_SEND)
-        sharingIntent.type = ShortcutResponse.TYPE_TEXT
-        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, curlCommand)
-        context.startActivity(Intent.createChooser(sharingIntent, context.getString(R.string.share_title)))
+        Intent(android.content.Intent.ACTION_SEND)
+            .setType(ShortcutResponse.TYPE_TEXT)
+            .putExtra(android.content.Intent.EXTRA_TEXT, curlCommand)
+            .let {
+                Intent.createChooser(it, context.getString(R.string.share_title))
+                    .startActivity(context)
+            }
     }
 
     private fun copyCurlExport() {

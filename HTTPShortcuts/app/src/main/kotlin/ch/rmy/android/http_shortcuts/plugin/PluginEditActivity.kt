@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.main.MainActivity
+import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.realm.RealmFactory
 import com.twofortyfouram.locale.sdk.client.ui.activity.AbstractFragmentPluginActivity
 
@@ -17,10 +18,9 @@ class PluginEditActivity : AbstractFragmentPluginActivity() {
         super.onCreate(savedInstanceState)
         RealmFactory.init(applicationContext)
 
-        val intent = Intent(this, MainActivity::class.java)
-        intent.action = ACTION_SELECT_SHORTCUT_FOR_PLUGIN
-
-        startActivityForResult(intent, REQUEST_SELECT)
+        Intent(this, MainActivity::class.java)
+            .setAction(ACTION_SELECT_SHORTCUT_FOR_PLUGIN)
+            .startActivity(this, REQUEST_SELECT)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {

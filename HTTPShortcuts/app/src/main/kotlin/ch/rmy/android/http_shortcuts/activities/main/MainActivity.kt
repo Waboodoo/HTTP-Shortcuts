@@ -25,6 +25,7 @@ import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
@@ -106,10 +107,10 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
 
     private fun openEditorForCreation() {
         val categoryId = adapter.getItem(viewPager.currentItem).categoryId
-        val intent = ShortcutEditorActivity.IntentBuilder(context)
+        ShortcutEditorActivity.IntentBuilder(context)
             .categoryId(categoryId)
             .build()
-        startActivityForResult(intent, REQUEST_CREATE_SHORTCUT)
+            .startActivity(this, REQUEST_CREATE_SHORTCUT)
     }
 
     private fun setupViewPager() {
@@ -225,21 +226,21 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     }
 
     private fun openSettings() {
-        val intent = SettingsActivity.IntentBuilder(context)
+        SettingsActivity.IntentBuilder(context)
             .build()
-        startActivityForResult(intent, REQUEST_SETTINGS)
+            .startActivity(this, REQUEST_SETTINGS)
     }
 
     private fun openCategoriesEditor() {
-        val intent = CategoriesActivity.IntentBuilder(context)
+        CategoriesActivity.IntentBuilder(context)
             .build()
-        startActivity(intent)
+            .startActivity(this)
     }
 
     private fun openVariablesEditor() {
-        val intent = VariablesActivity.IntentBuilder(context)
+        VariablesActivity.IntentBuilder(context)
             .build()
-        startActivity(intent)
+            .startActivity(this)
     }
 
     private fun openAppUnlockDialog(showError: Boolean = false) {
@@ -271,9 +272,9 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     }
 
     private fun openCurlImport() {
-        val intent = CurlImportActivity.IntentBuilder(context)
+        CurlImportActivity.IntentBuilder(context)
             .build()
-        startActivityForResult(intent, REQUEST_CREATE_SHORTCUT_FROM_CURL)
+            .startActivity(this, REQUEST_CREATE_SHORTCUT_FROM_CURL)
     }
 
     override fun placeShortcutOnHomeScreen(shortcut: Shortcut) {
