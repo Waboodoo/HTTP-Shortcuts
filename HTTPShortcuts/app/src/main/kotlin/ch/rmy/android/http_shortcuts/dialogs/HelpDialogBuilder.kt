@@ -25,11 +25,11 @@ class HelpDialogBuilder(context: Context) {
             .positiveText(android.R.string.ok)
     }
 
-    fun title(@StringRes title: Int) = this.also {
+    fun title(@StringRes title: Int) = also {
         builder.title(title)
     }
 
-    fun message(@StringRes message: Int) = this.also {
+    fun message(@StringRes message: Int) = also {
         val textView = view.findViewById<TextView>(R.id.help_text)
         textView.text = HTMLUtil.getHTML(view.context, message)
         textView.movementMethod = LinkMovementMethod.getInstance()

@@ -106,7 +106,9 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     }
 
     private fun openEditorForCreation() {
+        val categoryId = adapter.getItem(viewPager.currentItem).categoryId
         val intent = ShortcutEditorActivity.IntentBuilder(context)
+            .categoryId(categoryId)
             .build()
         startActivityForResult(intent, REQUEST_CREATE_SHORTCUT)
     }
@@ -143,11 +145,11 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
         when (requestCode) {
             REQUEST_CREATE_SHORTCUT -> {
                 val shortcutId = intent.getLongExtra(EditorActivity.EXTRA_SHORTCUT_ID, 0)
-                onShortcutCreated(shortcutId)
+                selectShortcut(shortcutId)
             }
             REQUEST_CREATE_SHORTCUT_FROM_CURL -> {
                 val shortcutId = intent.getLongExtra(CurlImportActivity.EXTRA_SHORTCUT_ID, 0)
-                onShortcutCreated(shortcutId)
+                selectShortcut(shortcutId)
             }
             REQUEST_SETTINGS -> {
                 if (intent.getBooleanExtra(SettingsActivity.EXTRA_THEME_CHANGED, false)) {
@@ -161,23 +163,8 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
         }
     }
 
-    private fun onShortcutCreated(shortcutId: Long) {
-        val shortcut = viewModel.getShortcutById(shortcutId) ?: return
-
-        val currentCategory = viewPager.currentItem
-        val category = if (currentCategory < categories.size) {
-            val currentListFragment = adapter.getItem(currentCategory)
-            val categoryId = currentListFragment.categoryId
-            categories.firstOrNull { it.id == categoryId }
-        } else {
-            null
-        }
-            ?: categories.first()
-        viewModel.moveShortcut(shortcut.id, targetCategoryId = category.id)
-            .subscribe {
-                selectShortcut(shortcut)
-            }
-            .attachTo(destroyer)
+    private fun selectShortcut(shortcutId: Long) {
+        selectShortcut(viewModel.getShortcutById(shortcutId) ?: return)
     }
 
     override fun selectShortcut(shortcut: Shortcut) {

@@ -87,23 +87,23 @@ internal class ShortcutRequest private constructor(
             else -> Request.Method.GET
         }
 
-        fun contentType(contentType: String) = this.also {
+        fun contentType(contentType: String) = also {
             request.contentType = contentType
         }
 
-        fun basicAuth(username: String, password: String) = this.also {
+        fun basicAuth(username: String, password: String) = also {
             request.headers[HttpHeaders.AUTHORIZATION] = Credentials.basic(username, password)
         }
 
-        fun body(body: String) = this.also {
+        fun body(body: String) = also {
             request.bodyContent = body
         }
 
-        fun parameter(key: String, value: String) = this.also {
+        fun parameter(key: String, value: String) = also {
             request.parameters[key] = value
         }
 
-        fun header(key: String, value: String) = this.also {
+        fun header(key: String, value: String) = also {
             if (key.equals(HttpHeaders.CONTENT_TYPE, ignoreCase = true)) {
                 request.contentType = value
             } else {
@@ -111,7 +111,7 @@ internal class ShortcutRequest private constructor(
             }
         }
 
-        fun timeout(timeout: Int) = this.also {
+        fun timeout(timeout: Int) = also {
             request.retryPolicy = DefaultRetryPolicy(timeout, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         }
 

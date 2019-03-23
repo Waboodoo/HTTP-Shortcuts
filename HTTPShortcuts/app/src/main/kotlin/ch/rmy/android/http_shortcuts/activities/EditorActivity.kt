@@ -473,11 +473,11 @@ class EditorActivity : BaseActivity() {
 
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, EditorActivity::class.java) {
 
-        fun shortcutId(shortcutId: Long) = this.also {
+        fun shortcutId(shortcutId: Long) = also {
             intent.putExtra(EXTRA_SHORTCUT_ID, shortcutId)
         }
 
-        fun curlCommand(command: CurlCommand) = this.also {
+        fun curlCommand(command: CurlCommand) = also {
             intent.putExtra(EXTRA_CURL_COMMAND, command)
         }
 

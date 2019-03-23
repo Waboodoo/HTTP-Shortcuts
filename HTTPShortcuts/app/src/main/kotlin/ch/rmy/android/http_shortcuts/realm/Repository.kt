@@ -100,7 +100,7 @@ object Repository {
                 }
             }
             .let {
-                realm.copyToRealm(it)
+                realm.copyToRealmOrUpdate(it)
             }
 
     internal fun generateId(realm: Realm, clazz: Class<out RealmObject>): Long {

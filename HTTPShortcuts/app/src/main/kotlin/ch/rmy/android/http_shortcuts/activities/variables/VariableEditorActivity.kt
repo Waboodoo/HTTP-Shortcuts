@@ -187,7 +187,7 @@ class VariableEditorActivity : BaseActivity() {
 
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, VariableEditorActivity::class.java) {
 
-        fun variableId(variableId: Long) = this.also {
+        fun variableId(variableId: Long) = also {
             intent.putExtra(EXTRA_VARIABLE_ID, variableId)
         }
 

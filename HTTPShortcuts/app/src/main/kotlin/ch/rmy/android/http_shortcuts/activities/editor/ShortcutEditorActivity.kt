@@ -18,12 +18,17 @@ import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
+import io.reactivex.Completable
 import kotterknife.bindView
 
 class ShortcutEditorActivity : BaseActivity() {
 
     private val shortcutId by lazy {
         intent.getLongExtra(EXTRA_SHORTCUT_ID, 0L).takeUnless { it == 0L }
+    }
+
+    private val categoryId by lazy {
+        intent.getLongExtra(EXTRA_CATEGORY_ID, 0L).takeUnless { it == 0L }
     }
 
     private val viewModel: ShortcutEditorViewModel by bindViewModel()
@@ -44,7 +49,7 @@ class ShortcutEditorActivity : BaseActivity() {
     }
 
     private fun initViewModel() {
-        viewModel.init(shortcutId)
+        viewModel.init(categoryId, shortcutId)
             .subscribe({
                 initViews()
             }, { e ->
@@ -113,8 +118,7 @@ class ShortcutEditorActivity : BaseActivity() {
 
     private fun trySaveShortcut() {
         updateViewModelFromViews()
-
-        viewModel.trySave()
+            .andThen(viewModel.trySave())
             .subscribe {
                 finish()
             }
@@ -123,15 +127,18 @@ class ShortcutEditorActivity : BaseActivity() {
 
     private fun testShortcut() {
         updateViewModelFromViews()
-        // TODO
+            .subscribe {
+                // TODO
+                showToast("Testing")
+            }
+            .attachTo(destroyer)
     }
 
-    private fun updateViewModelFromViews() {
+    private fun updateViewModelFromViews(): Completable =
         viewModel.updateShortcut(
             name = nameView.text.toString(),
             description = descriptionView.text.toString()
         )
-    }
 
     override fun onBackPressed() {
         onCloseEditor()
@@ -139,8 +146,12 @@ class ShortcutEditorActivity : BaseActivity() {
 
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, ShortcutEditorActivity::class.java) {
 
-        fun shortcutId(shortcutId: Long) = this.also {
+        fun shortcutId(shortcutId: Long) = also {
             intent.putExtra(EXTRA_SHORTCUT_ID, shortcutId)
+        }
+
+        fun categoryId(categoryId: Long) = also {
+            intent.putExtra(EXTRA_CATEGORY_ID, categoryId)
         }
 
     }
@@ -148,6 +159,7 @@ class ShortcutEditorActivity : BaseActivity() {
     companion object {
 
         private const val EXTRA_SHORTCUT_ID = "shortcutId"
+        private const val EXTRA_CATEGORY_ID = "categoryId"
 
     }
 

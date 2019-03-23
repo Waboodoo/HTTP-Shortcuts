@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseFragment
-import ch.rmy.android.http_shortcuts.activities.EditorActivity
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
+import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
 import ch.rmy.android.http_shortcuts.adapters.ShortcutAdapter
 import ch.rmy.android.http_shortcuts.adapters.ShortcutGridAdapter
 import ch.rmy.android.http_shortcuts.adapters.ShortcutListAdapter
@@ -192,7 +192,8 @@ class ListFragment : BaseFragment() {
     }
 
     private fun editShortcut(shortcut: Shortcut) {
-        val intent = EditorActivity.IntentBuilder(context!!)
+        val intent = ShortcutEditorActivity.IntentBuilder(context!!)
+            .categoryId(categoryId)
             .shortcutId(shortcut.id)
             .build()
         startActivityForResult(intent, REQUEST_EDIT_SHORTCUT)

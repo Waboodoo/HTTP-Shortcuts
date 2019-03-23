@@ -10,11 +10,13 @@ import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut.Companion.TEMPORARY_ID
 import ch.rmy.android.http_shortcuts.realm.toLiveData
 import io.reactivex.Completable
+import io.realm.Realm
 import io.realm.kotlin.where
 
 class ShortcutEditorViewModel(application: Application) : RealmViewModel(application) {
 
-    fun init(shortcutId: Long?): Completable {
+    fun init(categoryId: Long?, shortcutId: Long?): Completable {
+        this.categoryId = categoryId
         this.shortcutId = shortcutId
         return persistedRealm.commitAsync { realm ->
             Repository.deleteShortcut(realm, TEMPORARY_ID)
@@ -32,6 +34,7 @@ class ShortcutEditorViewModel(application: Application) : RealmViewModel(applica
     var isInitialized: Boolean = false
         private set
 
+    private var categoryId: Long? = null
     private var shortcutId: Long? = null
 
     val shortcut: LiveData<Shortcut?>
@@ -45,20 +48,20 @@ class ShortcutEditorViewModel(application: Application) : RealmViewModel(applica
         val oldShortcut = shortcutId
             ?.let { Repository.getShortcutById(persistedRealm, it)!! }
             ?: Shortcut.createNew()
-        val newShortcut = getShortcut()
+        val newShortcut = getShortcut(persistedRealm)
         return !newShortcut.isSameAs(oldShortcut)
     }
 
     fun updateShortcut(name: String, description: String): Completable =
-        persistedRealm.commitAsync {
-            getShortcut().apply {
+        persistedRealm.commitAsync { realm ->
+            getShortcut(realm).apply {
                 this.name = name
                 this.description = description
             }
         }
 
-    private fun getShortcut(): Shortcut =
-        Repository.getShortcutById(persistedRealm, TEMPORARY_ID)!!
+    private fun getShortcut(realm: Realm): Shortcut =
+        Repository.getShortcutById(realm, TEMPORARY_ID)!!
 
     fun trySave(): Completable {
         // TODO: Validate, abort if invalid
@@ -66,12 +69,13 @@ class ShortcutEditorViewModel(application: Application) : RealmViewModel(applica
         return persistedRealm.commitAsync { realm ->
             val id = shortcutId ?: Repository.generateId(realm, Shortcut::class.java)
 
-            shortcutId?.let { shortcutId ->
-                Repository.deleteShortcut(realm, shortcutId)
-            }
-
             val shortcut = Repository.getShortcutById(realm, TEMPORARY_ID)!!
-            Repository.copyShortcut(realm, shortcut, id)
+            val newShortcut = Repository.copyShortcut(realm, shortcut, id)
+            if (shortcutId == null && categoryId != null) {
+                Repository.getCategoryById(realm, categoryId!!)
+                    ?.shortcuts
+                    ?.add(newShortcut)
+            }
 
             Repository.deleteShortcut(realm, TEMPORARY_ID)
         }

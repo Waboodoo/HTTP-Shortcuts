@@ -421,17 +421,17 @@ class ExecuteActivity : BaseActivity() {
             intent.data = ContentUris.withAppendedId(Uri.fromParts("content", context.packageName, null), shortcutId)
         }
 
-        fun tryNumber(tryNumber: Int) = this.also {
+        fun tryNumber(tryNumber: Int) = also {
             if (tryNumber > 0) {
                 intent.putExtra(EXTRA_TRY_NUMBER, tryNumber)
             }
         }
 
-        fun variableValues(variableValues: Map<String, String>) = this.also {
+        fun variableValues(variableValues: Map<String, String>) = also {
             intent.putExtra(EXTRA_VARIABLE_VALUES, HashMap(variableValues))
         }
 
-        fun recursionDepth(recursionDepth: Int) = this.also {
+        fun recursionDepth(recursionDepth: Int) = also {
             intent.putExtra(EXTRA_RECURSION_DEPTH, recursionDepth)
         }
 

@@ -12,22 +12,22 @@ class MenuDialogBuilder(val context: Context) {
     private val names = mutableListOf<CharSequence>()
     private val actions = mutableListOf<() -> Unit>()
 
-    fun title(@StringRes title: Int) = this.also {
+    fun title(@StringRes title: Int) = also {
         it.title(builder.context.getString(title))
     }
 
-    fun title(title: CharSequence) = this.also { builder.title(title) }
+    fun title(title: CharSequence) = also { builder.title(title) }
 
-    fun item(@StringRes name: Int, action: () -> Unit) = this.also {
+    fun item(@StringRes name: Int, action: () -> Unit) = also {
         item(builder.context.getString(name), action)
     }
 
-    fun item(name: CharSequence, action: () -> Unit) = this.also {
+    fun item(name: CharSequence, action: () -> Unit) = also {
         names.add(name)
         actions.add(action)
     }
 
-    fun dismissListener(onDismissListener: () -> Unit) = this.also {
+    fun dismissListener(onDismissListener: () -> Unit) = also {
         builder.dismissListener { onDismissListener() }
     }
 
