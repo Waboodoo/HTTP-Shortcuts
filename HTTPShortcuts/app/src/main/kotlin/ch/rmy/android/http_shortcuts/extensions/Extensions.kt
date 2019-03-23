@@ -43,10 +43,13 @@ import org.jdeferred2.impl.DeferredObject
 var View.visible: Boolean
     get() = this.visibility == View.VISIBLE
     set(value) {
-        this.visibility = if (value) {
+        val newState = if (value) {
             View.VISIBLE
         } else {
             View.GONE
+        }
+        if (visibility != newState) {
+            visibility = newState
         }
     }
 

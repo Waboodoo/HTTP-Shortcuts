@@ -153,13 +153,21 @@ class ShortcutEditorActivity : BaseActivity() {
     }
 
     private fun onCloseEditor() {
-        if (viewModel.isInitialized && viewModel.hasChanges()) {
-            MaterialDialog.Builder(context)
-                .content(R.string.confirm_discard_changes_message)
-                .positiveText(R.string.dialog_discard)
-                .onPositive { _, _ -> cancelAndClose() }
-                .negativeText(R.string.dialog_cancel)
-                .showIfPossible()
+        if (viewModel.isInitialized) {
+            updateViewModelFromViews()
+                .subscribe {
+                    if (viewModel.hasChanges()) {
+                        MaterialDialog.Builder(context)
+                            .content(R.string.confirm_discard_changes_message)
+                            .positiveText(R.string.dialog_discard)
+                            .onPositive { _, _ -> cancelAndClose() }
+                            .negativeText(R.string.dialog_cancel)
+                            .showIfPossible()
+                    } else {
+                        cancelAndClose()
+                    }
+                }
+                .attachTo(destroyer)
         } else {
             cancelAndClose()
         }

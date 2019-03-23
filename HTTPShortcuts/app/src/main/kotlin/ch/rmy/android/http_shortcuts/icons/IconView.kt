@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.extensions.clearBackground
+import ch.rmy.android.http_shortcuts.utils.Animations
 
 class IconView : AppCompatImageView {
 
@@ -35,8 +36,22 @@ class IconView : AppCompatImageView {
     private fun requiresBackground() = iconName?.startsWith("white_") ?: false
 
     fun setImageURI(uri: Uri, iconName: String?) {
+        if (this.iconName == iconName) {
+            return
+        }
+        if (this.iconName == null) {
+            this.iconName = iconName
+            applyImageURI(uri)
+        } else {
+            this.iconName = iconName
+            Animations.zoomSwap(this) {
+                applyImageURI(uri)
+            }
+        }
+    }
+
+    private fun applyImageURI(uri: Uri) {
         setImageURI(uri)
-        this.iconName = iconName
         updateBackground()
     }
 

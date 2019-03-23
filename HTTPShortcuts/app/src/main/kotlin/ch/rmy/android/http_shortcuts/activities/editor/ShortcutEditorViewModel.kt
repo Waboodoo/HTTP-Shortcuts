@@ -54,7 +54,7 @@ class ShortcutEditorViewModel(application: Application) : RealmViewModel(applica
     fun hasChanges(): Boolean {
         val oldShortcut = shortcutId
             ?.let { Repository.getShortcutById(persistedRealm, it)!! }
-            ?: Shortcut.createNew()
+            ?: Shortcut.createNew(iconName = randomInitialIconName)
         val newShortcut = getShortcut(persistedRealm)
         return !newShortcut.isSameAs(oldShortcut)
     }
