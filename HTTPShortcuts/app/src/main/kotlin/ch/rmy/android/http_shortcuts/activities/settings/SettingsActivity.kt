@@ -215,8 +215,8 @@ class SettingsActivity : BaseActivity() {
                     .putExtra(android.content.Intent.EXTRA_TEXT, data)
                     .let {
                         Intent.createChooser(it, getString(R.string.title_export))
-                            .startActivity(activity)
                     }
+                    .startActivity(this)
             }
         }
 
@@ -243,7 +243,7 @@ class SettingsActivity : BaseActivity() {
                 .putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, true)
                 .putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_DIR)
                 .putExtra(FilePickerActivity.EXTRA_START_PATH, Settings(activity).importExportDirectory)
-                .startActivity(activity, REQUEST_PICK_DIR_FOR_EXPORT)
+                .startActivity(this, REQUEST_PICK_DIR_FOR_EXPORT)
         }
 
         private fun openLocalFilePickerForImport() {
@@ -252,7 +252,7 @@ class SettingsActivity : BaseActivity() {
                 .putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, false)
                 .putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_FILE)
                 .putExtra(FilePickerActivity.EXTRA_START_PATH, Settings(activity).importExportDirectory)
-                .startActivity(activity, REQUEST_PICK_FILE_FOR_IMPORT)
+                .startActivity(this, REQUEST_PICK_FILE_FOR_IMPORT)
         }
 
         private fun openGeneralPickerForImport() {
@@ -268,7 +268,7 @@ class SettingsActivity : BaseActivity() {
                 }
             try {
                 pickerIntent
-                    .startActivity(activity, REQUEST_IMPORT_FROM_DOCUMENTS)
+                    .startActivity(this, REQUEST_IMPORT_FROM_DOCUMENTS)
             } catch (e: ActivityNotFoundException) {
                 activity.showToast(R.string.error_not_supported)
             }
@@ -287,8 +287,8 @@ class SettingsActivity : BaseActivity() {
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     .let {
                         Intent.createChooser(it, title)
-                            .startActivity(activity)
                     }
+                    .startActivity(this)
             } catch (e: ActivityNotFoundException) {
                 activity.showToast(R.string.error_not_supported)
             }
@@ -309,7 +309,7 @@ class SettingsActivity : BaseActivity() {
         private fun openURL(url: String) {
             try {
                 Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                    .startActivity(activity)
+                    .startActivity(this)
             } catch (e: ActivityNotFoundException) {
                 activity.showToast(R.string.error_not_supported)
             }
@@ -322,7 +322,7 @@ class SettingsActivity : BaseActivity() {
         private fun showLicenses() {
             LicensesActivity.IntentBuilder(activity)
                 .build()
-                .startActivity(activity)
+                .startActivity(this)
         }
 
         override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
