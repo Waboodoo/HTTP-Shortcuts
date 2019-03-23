@@ -30,6 +30,7 @@ import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.IpackUtil
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
+import ch.rmy.android.http_shortcuts.views.PanelButton
 import com.afollestad.materialdialogs.MaterialDialog
 import com.theartofdev.edmodo.cropper.CropImage
 import io.reactivex.Completable
@@ -52,6 +53,14 @@ class ShortcutEditorActivity : BaseActivity() {
     private val iconContainer: View by bindView(R.id.icon_container)
     private val nameView: EditText by bindView(R.id.input_shortcut_name)
     private val descriptionView: EditText by bindView(R.id.input_description)
+    private val basicRequestSettigsButton: PanelButton by bindView(R.id.button_basic_request_settings)
+    private val headersButton: PanelButton by bindView(R.id.button_headers)
+    private val requestBodyButton: PanelButton by bindView(R.id.button_request_body)
+    private val authenticationButton: PanelButton by bindView(R.id.button_authentication)
+    private val preRequestActionsButton: PanelButton by bindView(R.id.button_pre_request_actions)
+    private val postRequestActionsButton: PanelButton by bindView(R.id.button_post_request_actions)
+    private val miscSettingsButton: PanelButton by bindView(R.id.button_misc_settings)
+    private val advancedHttpSettingsButton: PanelButton by bindView(R.id.button_advanced_http_settings)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,11 +102,38 @@ class ShortcutEditorActivity : BaseActivity() {
         iconView.setImageURI(shortcut.getIconURI(context), shortcut.iconName)
         nameView.setText(shortcut.name)
         descriptionView.setText(shortcut.description)
+
+        basicRequestSettigsButton.subtitle = viewModel.getBasicSettingsSubtitle(shortcut)
+        requestBodyButton.subtitle = "foobar"
     }
 
     private fun bindClickListeners() {
         iconContainer.setOnClickListener {
             openIconSelectionDialog()
+        }
+        basicRequestSettigsButton.setOnClickListener {
+
+        }
+        headersButton.setOnClickListener {
+
+        }
+        requestBodyButton.setOnClickListener {
+
+        }
+        authenticationButton.setOnClickListener {
+
+        }
+        preRequestActionsButton.setOnClickListener {
+
+        }
+        postRequestActionsButton.setOnClickListener {
+
+        }
+        miscSettingsButton.setOnClickListener {
+
+        }
+        advancedHttpSettingsButton.setOnClickListener {
+
         }
     }
 

@@ -1,10 +1,14 @@
 package ch.rmy.android.http_shortcuts.extensions
 
+import android.content.Context
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import ch.rmy.android.http_shortcuts.Application
 import kotlin.properties.ReadOnlyProperty
 
 inline fun <reified V : ViewModel> FragmentActivity.bindViewModel(): ReadOnlyProperty<FragmentActivity, V> {
@@ -29,3 +33,8 @@ private val Fragment.viewModelProviderFinder: Fragment.() -> ViewModelProvider
 
 private fun <T, V : ViewModel> bind(clazz: Class<V>, finder: T.() -> ViewModelProvider) =
     LazyWithTarget { t: T, desc -> t.finder().get(clazz) }
+
+val AndroidViewModel.context: Context
+    get() = getApplication<Application>().context
+
+fun AndroidViewModel.getString(@StringRes stringRes: Int, vararg args: Any) = context.getString(stringRes, *args)

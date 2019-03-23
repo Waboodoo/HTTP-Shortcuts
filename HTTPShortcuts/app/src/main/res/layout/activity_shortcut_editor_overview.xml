@@ -13,20 +13,20 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:orientation="vertical"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp">
 
             <FrameLayout
                 android:id="@+id/icon_container"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_gravity="center"
                 android:background="?selectableItemBackgroundBorderless"
-                android:padding="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:padding="8dp">
 
                 <ch.rmy.android.http_shortcuts.icons.IconView
                     android:id="@+id/input_icon"
@@ -41,8 +41,8 @@
                 android:id="@+id/container_input_shortcut_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/icon_container">
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
 
                 <EditText
                     android:id="@+id/input_shortcut_name"
@@ -61,8 +61,9 @@
                 android:id="@+id/container_input_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/container_input_shortcut_name">
+                android:layout_marginBottom="32dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
 
                 <EditText
                     android:id="@+id/input_description"
@@ -74,7 +75,94 @@
                     android:maxLength="200" />
             </com.google.android.material.textfield.TextInputLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <include layout="@layout/divider_line" />
+
+            <ch.rmy.android.http_shortcuts.views.PanelButton
+                android:id="@+id/button_basic_request_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:text="@string/section_basic_request" />
+
+            <include layout="@layout/divider_line" />
+
+            <ch.rmy.android.http_shortcuts.views.PanelButton
+                android:id="@+id/button_headers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:text="Headers" />
+
+            <include layout="@layout/divider_line" />
+
+            <ch.rmy.android.http_shortcuts.views.PanelButton
+                android:id="@+id/button_request_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:text="Request Body" />
+
+            <include layout="@layout/divider_line" />
+
+            <ch.rmy.android.http_shortcuts.views.PanelButton
+                android:id="@+id/button_authentication"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:text="Authentication"
+                app:subtitle="This text will come later" />
+
+            <include layout="@layout/divider_line" />
+
+            <ch.rmy.android.http_shortcuts.views.PanelButton
+                android:id="@+id/button_pre_request_actions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:text="Pre-Request Actions"
+                app:subtitle="This text will come later" />
+
+            <include layout="@layout/divider_line" />
+
+            <ch.rmy.android.http_shortcuts.views.PanelButton
+                android:id="@+id/button_post_request_actions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:text="Post-Request Actions"
+                app:subtitle="This text will come later" />
+
+            <include layout="@layout/divider_line" />
+
+            <ch.rmy.android.http_shortcuts.views.PanelButton
+                android:id="@+id/button_misc_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:text="Misc Settings"
+                app:subtitle="This text will come later" />
+
+            <include layout="@layout/divider_line" />
+
+            <ch.rmy.android.http_shortcuts.views.PanelButton
+                android:id="@+id/button_advanced_http_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:text="Advanced HTTP Settings"
+                app:subtitle="This text will come later" />
+
+            <include layout="@layout/divider_line" />
+
+        </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
 

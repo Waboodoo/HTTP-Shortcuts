@@ -2,6 +2,9 @@ package ch.rmy.android.http_shortcuts.activities.editor
 
 import android.app.Application
 import androidx.lifecycle.LiveData
+import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.extensions.context
+import ch.rmy.android.http_shortcuts.extensions.getString
 import ch.rmy.android.http_shortcuts.icons.Icons
 import ch.rmy.android.http_shortcuts.realm.RealmViewModel
 import ch.rmy.android.http_shortcuts.realm.Repository
@@ -11,6 +14,7 @@ import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut.Companion.TEMPORARY_ID
 import ch.rmy.android.http_shortcuts.realm.toLiveData
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
+import ch.rmy.android.http_shortcuts.variables.Variables
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.realm.Realm
@@ -94,5 +98,17 @@ class ShortcutEditorViewModel(application: Application) : RealmViewModel(applica
         }
             .andThen(Single.just(id))
     }
+
+    // TODO: Find a way to not having to pass in 'shortcut'
+    fun getBasicSettingsSubtitle(shortcut: Shortcut): CharSequence =
+        if (shortcut.url.isEmpty() || shortcut.url == "http://") {
+            getString(R.string.subtitle_basic_request_settings_prompt)
+        } else {
+            Variables.rawPlaceholdersToVariableSpans(context, getString(
+                R.string.subtitle_basic_request_settings_pattern,
+                shortcut.method,
+                shortcut.url
+            ))
+        }
 
 }

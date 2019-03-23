@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/panel_button_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lines="1"
+        android:paddingStart="16dp"
+        android:paddingLeft="16dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="2dp"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/panel_button_subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lines="1"
+        android:paddingStart="16dp"
+        android:paddingLeft="16dp"
+        android:paddingTop="2dp"
+        android:paddingEnd="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="8dp"
+        android:textColor="#666666"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/panel_button_title" />
+
+</merge>

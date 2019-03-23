@@ -558,4 +558,8 @@
     <string name="warning_data_saver_battery_saver_enabled">Data Saver and/or Battery Saver modes are enabled on your device. If you encounter problems with shortcuts not working, please try disabling these.</string>
     <!-- Message: Shown as a snackbar popup when a variable was duplicated. -->
     <string name="message_variable_duplicated">\"%1$s\" duplicated.</string>
+    <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
+    <string name="subtitle_basic_request_settings_prompt">Set the shortcut\'s URL and HTTP method</string>
+    <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings". Pattern for Method and URL -->
+    <string name="subtitle_basic_request_settings_pattern">%1$s %2$s</string>
 </resources>
