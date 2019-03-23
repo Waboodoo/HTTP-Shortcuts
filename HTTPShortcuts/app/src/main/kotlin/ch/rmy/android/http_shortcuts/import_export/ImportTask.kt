@@ -7,6 +7,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
+import com.google.gson.JsonParser
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
@@ -21,9 +22,11 @@ class ImportTask(context: Context, baseView: View) : SimpleTask<Uri>(context, ba
                 val inputStream = context.contentResolver.openInputStream(uri)
                     ?: return IOException("Failed to open input stream")
                 BufferedReader(InputStreamReader(inputStream)).use { reader ->
-                    val base = GsonUtil.importData(reader)
-                    ImportMigrator.migrate(base)
-                    controller.importBaseSynchronously(base)
+                    val importData = JsonParser().parse(reader)
+
+                    val migratedImportData = ImportMigrator.migrate(importData)
+                    val newBase = GsonUtil.importData(migratedImportData)
+                    controller.importBaseSynchronously(newBase)
                     LauncherShortcutManager.updateAppShortcuts(context, controller.getCategories())
                 }
                 null

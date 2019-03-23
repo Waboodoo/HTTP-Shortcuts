@@ -11,7 +11,6 @@ import com.google.gson.JsonParseException
 import com.google.gson.JsonParser
 import com.google.gson.reflect.TypeToken
 import io.realm.RealmObject
-import java.io.Reader
 
 object GsonUtil {
 
@@ -36,7 +35,7 @@ object GsonUtil {
 
     fun exportData(base: Base): String = getPrettyGson().toJson(base)
 
-    fun importData(reader: Reader): Base = gson.fromJson(reader, Base::class.java)
+    fun importData(data: JsonElement): Base = gson.fromJson(data, Base::class.java)
 
     fun <T> fromJsonObject(jsonObject: String?): Map<String, T> {
         if (jsonObject == null) {
