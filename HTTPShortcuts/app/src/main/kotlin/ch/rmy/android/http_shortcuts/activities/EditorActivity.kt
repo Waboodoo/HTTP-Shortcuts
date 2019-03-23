@@ -2,13 +2,10 @@ package ch.rmy.android.http_shortcuts.activities
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -20,19 +17,15 @@ import android.widget.LinearLayout
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.actions.ActionsView
 import ch.rmy.android.http_shortcuts.dialogs.IconNameChangeDialog
-import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.applyToShortcut
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.consume
-import ch.rmy.android.http_shortcuts.extensions.dimen
 import ch.rmy.android.http_shortcuts.extensions.findIndex
 import ch.rmy.android.http_shortcuts.extensions.fix
 import ch.rmy.android.http_shortcuts.extensions.focus
-import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.setOnItemSelected
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.extensions.visible
-import ch.rmy.android.http_shortcuts.icons.IconSelector
 import ch.rmy.android.http_shortcuts.icons.IconView
 import ch.rmy.android.http_shortcuts.icons.Icons
 import ch.rmy.android.http_shortcuts.key_value_pairs.KeyValueList
@@ -44,10 +37,8 @@ import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut.Companion.TEMPORARY_ID
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
-import ch.rmy.android.http_shortcuts.utils.IpackUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils
-import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.utils.Validation
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.variables.VariableButton
@@ -56,7 +47,6 @@ import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.curlcommand.CurlCommand
 import com.afollestad.materialdialogs.MaterialDialog
 import com.satsuware.usefulviews.LabelledSpinner
-import com.theartofdev.edmodo.cropper.CropImage
 import io.reactivex.functions.Consumer
 import kotterknife.bindView
 
@@ -227,8 +217,6 @@ class EditorActivity : BaseActivity() {
         requestBodyTypeView.setOnItemSelected(::onItemSelected)
         requestBodyTypeView.setSelection(Shortcut.REQUEST_BODY_TYPE_OPTIONS.findIndex(shortcut.requestBodyType))
 
-        iconViewContainer.setOnClickListener { openIconSelectionDialog() }
-
         customContentType.setText(shortcut.contentType)
         customContentType.setAdapter(ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, Shortcut.CONTENT_TYPE_SUGGESTIONS))
 
@@ -335,39 +323,6 @@ class EditorActivity : BaseActivity() {
         }
     }
 
-    private fun openIconSelectionDialog() {
-        MenuDialogBuilder(context)
-            .title(R.string.change_icon)
-            .item(R.string.choose_icon, ::openBuiltInIconSelectionDialog)
-            .item(R.string.choose_image, ::openImagePicker)
-            .item(R.string.choose_ipack_icon, ::openIpackPicker)
-            .showIfPossible()
-    }
-
-    private fun openBuiltInIconSelectionDialog() {
-        IconSelector(context) { iconName ->
-            shortcut.iconName = iconName
-            updateUI()
-        }
-            .show()
-    }
-
-    private fun openImagePicker() {
-        CropImage.activity()
-            .setCropMenuCropButtonIcon(R.drawable.ic_save)
-            .setCropMenuCropButtonTitle(getString(R.string.button_apply_icon))
-            .setAspectRatio(1, 1)
-            .setRequestedSize(iconSize, iconSize)
-            .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
-            .setMultiTouchEnabled(true)
-            .start(this)
-    }
-
-    private fun openIpackPicker() {
-        IpackUtil.getIpackIntent(context)
-            .startActivity(this, REQUEST_SELECT_IPACK_ICON)
-    }
-
     override fun onBackPressed() {
         confirmClose()
     }
@@ -423,47 +378,6 @@ class EditorActivity : BaseActivity() {
         finish()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
-        super.onActivityResult(requestCode, resultCode, intent)
-        when (requestCode) {
-            CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
-                try {
-                    val result = CropImage.getActivityResult(intent)
-                    if (resultCode == RESULT_OK) {
-                        val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, result.uri)
-                        val iconName = newUUID() + ".png"
-                        openFileOutput(iconName, 0).use {
-                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
-                            it.flush()
-                        }
-                        bitmap.recycle()
-                        shortcut.iconName = iconName
-                    } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                        if (result.error != null) {
-                            logException(result.error)
-                        }
-                        showSnackbar(getString(R.string.error_set_image))
-                    }
-                } catch (e: Exception) {
-                    logException(e)
-                    showSnackbar(getString(R.string.error_set_image))
-                }
-            }
-            REQUEST_SELECT_IPACK_ICON -> {
-                if (resultCode == RESULT_OK && intent != null) {
-                    shortcut.iconName = IpackUtil.getIpackUri(intent).toString()
-                }
-            }
-        }
-        updateUI()
-    }
-
-    private val iconSize by lazy {
-        Math.max(dimen(android.R.dimen.app_icon_size), launcherLargeIconSize)
-    }
-
-    private val launcherLargeIconSize: Int
-        get() = (getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager).launcherLargeIconSize
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)

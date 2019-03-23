@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.editor
 
 import android.app.Application
 import androidx.lifecycle.LiveData
+import ch.rmy.android.http_shortcuts.icons.Icons
 import ch.rmy.android.http_shortcuts.realm.RealmViewModel
 import ch.rmy.android.http_shortcuts.realm.Repository
 import ch.rmy.android.http_shortcuts.realm.commitAsync
@@ -23,7 +24,7 @@ class ShortcutEditorViewModel(application: Application) : RealmViewModel(applica
         return persistedRealm.commitAsync { realm ->
             Repository.deleteShortcut(realm, TEMPORARY_ID)
             if (shortcutId == null) {
-                realm.copyToRealmOrUpdate(Shortcut.createNew(id = TEMPORARY_ID))
+                realm.copyToRealmOrUpdate(Shortcut.createNew(id = TEMPORARY_ID, iconName = randomInitialIconName))
             } else {
                 Repository.copyShortcut(realm, Repository.getShortcutById(realm, shortcutId)!!, TEMPORARY_ID)
             }
@@ -46,6 +47,10 @@ class ShortcutEditorViewModel(application: Application) : RealmViewModel(applica
             .findFirstAsync()
             .toLiveData()
 
+    private val randomInitialIconName by lazy {
+        Icons.getRandomIcon(application)
+    }
+
     fun hasChanges(): Boolean {
         val oldShortcut = shortcutId
             ?.let { Repository.getShortcutById(persistedRealm, it)!! }
@@ -54,11 +59,18 @@ class ShortcutEditorViewModel(application: Application) : RealmViewModel(applica
         return !newShortcut.isSameAs(oldShortcut)
     }
 
-    fun updateShortcut(name: String, description: String): Completable =
+    fun setNameAndDescription(name: String, description: String): Completable =
         persistedRealm.commitAsync { realm ->
             getShortcut(realm).apply {
                 this.name = name
                 this.description = description
+            }
+        }
+
+    fun setIconName(iconName: String?): Completable =
+        persistedRealm.commitAsync { realm ->
+            getShortcut(realm).apply {
+                this.iconName = iconName
             }
         }
 
