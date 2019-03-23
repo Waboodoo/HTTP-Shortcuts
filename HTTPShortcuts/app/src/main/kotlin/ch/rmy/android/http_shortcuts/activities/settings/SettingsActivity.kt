@@ -14,13 +14,16 @@ import android.preference.Preference
 import android.preference.Preference.OnPreferenceChangeListener
 import android.preference.Preference.OnPreferenceClickListener
 import android.preference.PreferenceFragment
-import androidx.lifecycle.ViewModelProviders
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.LicensesActivity
 import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog
 import ch.rmy.android.http_shortcuts.dialogs.HelpDialogBuilder
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
+import ch.rmy.android.http_shortcuts.extensions.attachTo
+import ch.rmy.android.http_shortcuts.extensions.bindViewModel
+import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.import_export.ExportTask
 import ch.rmy.android.http_shortcuts.import_export.ImportTask
 import ch.rmy.android.http_shortcuts.realm.Controller
@@ -29,19 +32,14 @@ import ch.rmy.android.http_shortcuts.utils.CrashReporting
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
-import ch.rmy.android.http_shortcuts.utils.attachTo
-import ch.rmy.android.http_shortcuts.utils.logException
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
-import ch.rmy.android.http_shortcuts.utils.showToast
 import com.afollestad.materialdialogs.MaterialDialog
 import com.nononsenseapps.filepicker.FilePickerActivity
 import java.io.File
 
 class SettingsActivity : BaseActivity() {
 
-    private val viewModel: SettingsViewModel by lazy {
-        ViewModelProviders.of(this).get(SettingsViewModel::class.java)
-    }
+    private val viewModel: SettingsViewModel by bindViewModel()
 
     @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -193,8 +191,8 @@ class SettingsActivity : BaseActivity() {
         private fun showExportOptions() {
             MenuDialogBuilder(activity)
                 .title(R.string.title_export)
-                .item(R.string.button_export_to_filesystem, this::showExportInstructions)
-                .item(R.string.button_export_send_to, this::sendExport)
+                .item(R.string.button_export_to_filesystem, ::showExportInstructions)
+                .item(R.string.button_export_send_to, ::sendExport)
                 .showIfPossible()
         }
 
@@ -221,8 +219,8 @@ class SettingsActivity : BaseActivity() {
         private fun showImportOptions() {
             MenuDialogBuilder(activity)
                 .title(R.string.title_import)
-                .item(R.string.button_import_from_filesystem, this::showImportInstructions)
-                .item(R.string.button_import_from_general, this::openGeneralPickerForImport)
+                .item(R.string.button_import_from_filesystem, ::showImportInstructions)
+                .item(R.string.button_import_from_general, ::openGeneralPickerForImport)
                 .showIfPossible()
         }
 

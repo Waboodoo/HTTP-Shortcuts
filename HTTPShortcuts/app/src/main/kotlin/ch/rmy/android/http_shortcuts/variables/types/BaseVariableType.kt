@@ -4,9 +4,9 @@ import android.content.Context
 import android.text.TextUtils
 import androidx.fragment.app.FragmentManager
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
+import ch.rmy.android.http_shortcuts.extensions.mapIf
+import ch.rmy.android.http_shortcuts.extensions.rejectSafely
 import ch.rmy.android.http_shortcuts.realm.models.Variable
-import ch.rmy.android.http_shortcuts.utils.mapIf
-import ch.rmy.android.http_shortcuts.utils.rejectSafely
 import org.jdeferred2.Deferred
 
 abstract class BaseVariableType {

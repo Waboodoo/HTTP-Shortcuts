@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.utils
 import android.content.Context
 
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.extensions.color
 
 class ThemeHelper(context: Context) {
 

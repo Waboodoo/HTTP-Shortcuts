@@ -4,9 +4,9 @@ import android.content.Context
 import android.graphics.Color
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
+import ch.rmy.android.http_shortcuts.extensions.rejectSafely
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Variable
-import ch.rmy.android.http_shortcuts.utils.rejectSafely
 import me.priyesh.chroma.ChromaDialog
 import me.priyesh.chroma.ColorMode
 import me.priyesh.chroma.ColorSelectListener

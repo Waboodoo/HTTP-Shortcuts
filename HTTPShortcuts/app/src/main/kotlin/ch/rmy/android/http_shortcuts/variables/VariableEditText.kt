@@ -3,10 +3,10 @@ package ch.rmy.android.http_shortcuts.variables
 import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView
+import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.http_shortcuts.extensions.showSoftKeyboard
+import ch.rmy.android.http_shortcuts.extensions.toDestroyable
 import ch.rmy.android.http_shortcuts.utils.Destroyable
-import ch.rmy.android.http_shortcuts.utils.logException
-import ch.rmy.android.http_shortcuts.utils.showSoftKeyboard
-import ch.rmy.android.http_shortcuts.utils.toDestroyable
 
 class VariableEditText : AppCompatAutoCompleteTextView {
 

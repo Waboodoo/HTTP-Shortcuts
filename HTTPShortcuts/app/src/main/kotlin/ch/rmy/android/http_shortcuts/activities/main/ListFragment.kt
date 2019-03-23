@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts.activities.main
 import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
@@ -15,6 +14,10 @@ import ch.rmy.android.http_shortcuts.adapters.ShortcutGridAdapter
 import ch.rmy.android.http_shortcuts.adapters.ShortcutListAdapter
 import ch.rmy.android.http_shortcuts.dialogs.CurlExportDialog
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
+import ch.rmy.android.http_shortcuts.extensions.attachTo
+import ch.rmy.android.http_shortcuts.extensions.bindViewModel
+import ch.rmy.android.http_shortcuts.extensions.mapFor
+import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.realm.livedata.ListLiveData
 import ch.rmy.android.http_shortcuts.realm.models.Category
@@ -23,9 +26,6 @@ import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.GridLayoutManager
 import ch.rmy.android.http_shortcuts.utils.SelectionMode
 import ch.rmy.android.http_shortcuts.utils.Settings
-import ch.rmy.android.http_shortcuts.utils.attachTo
-import ch.rmy.android.http_shortcuts.utils.mapFor
-import ch.rmy.android.http_shortcuts.utils.mapIf
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.curlcommand.CurlCommand
 import ch.rmy.curlcommand.CurlConstructor
@@ -44,9 +44,7 @@ class ListFragment : BaseFragment() {
         args.getSerializable(ARG_SELECTION_MODE) as SelectionMode
     }
 
-    private val viewModel: ShortcutListViewModel by lazy {
-        ViewModelProviders.of(this).get(ShortcutListViewModel::class.java)
-    }
+    private val viewModel: ShortcutListViewModel by bindViewModel()
 
     private lateinit var categories: ListLiveData<Category>
     private lateinit var categoryData: LiveData<Category?>
@@ -109,8 +107,8 @@ class ListFragment : BaseFragment() {
                 this.adapter = null
             }
 
-            adapter.clickListener = this::onItemClicked
-            adapter.longClickListener = this::onItemLongClicked
+            adapter.clickListener = ::onItemClicked
+            adapter.longClickListener = ::onItemLongClicked
 
             shortcutList.layoutManager = manager
             shortcutList.adapter = adapter
@@ -122,7 +120,8 @@ class ListFragment : BaseFragment() {
         (shortcutList.layoutManager as? GridLayoutManager)?.setEmpty(shortcuts.isEmpty())
     }
 
-    private fun onItemClicked(shortcut: Shortcut) {
+    private fun onItemClicked(shortcutData: LiveData<Shortcut?>) {
+        val shortcut = shortcutData.value ?: return
         when (selectionMode) {
             SelectionMode.HOME_SCREEN, SelectionMode.PLUGIN -> tabHost?.selectShortcut(shortcut)
             else -> {
@@ -134,50 +133,51 @@ class ListFragment : BaseFragment() {
                 when (action) {
                     Settings.CLICK_BEHAVIOR_RUN -> executeShortcut(shortcut)
                     Settings.CLICK_BEHAVIOR_EDIT -> editShortcut(shortcut)
-                    Settings.CLICK_BEHAVIOR_MENU -> showContextMenu(shortcut)
+                    Settings.CLICK_BEHAVIOR_MENU -> showContextMenu(shortcutData)
                 }
             }
         }
     }
 
-    private fun onItemLongClicked(shortcut: Shortcut): Boolean {
+    private fun onItemLongClicked(shortcutData: LiveData<Shortcut?>): Boolean {
         if (tabHost?.isAppLocked() != false) {
             return false
         }
-        showContextMenu(shortcut)
+        showContextMenu(shortcutData)
         return true
     }
 
-    private fun showContextMenu(shortcut: Shortcut) {
+    private fun showContextMenu(shortcutData: LiveData<Shortcut?>) {
+        val shortcut = shortcutData.value ?: return
         MenuDialogBuilder(context!!)
             .title(shortcut.name)
             .item(R.string.action_place) {
-                tabHost?.placeShortcutOnHomeScreen(shortcut)
+                tabHost?.placeShortcutOnHomeScreen(shortcutData.value ?: return@item)
             }
             .item(R.string.action_run) {
-                executeShortcut(shortcut)
+                executeShortcut(shortcutData.value ?: return@item)
             }
             .item(R.string.action_edit) {
-                editShortcut(shortcut)
+                editShortcut(shortcutData.value ?: return@item)
             }
             .mapIf(canMoveShortcut(shortcut)) {
                 it.item(R.string.action_move) {
-                    openMoveDialog(shortcut)
+                    openMoveDialog(shortcutData)
                 }
             }
             .item(R.string.action_duplicate) {
-                duplicateShortcut(shortcut)
+                duplicateShortcut(shortcutData.value ?: return@item)
             }
             .mapIf(isPending(shortcut)) {
                 it.item(R.string.action_cancel_pending) {
-                    cancelPendingExecution(shortcut)
+                    cancelPendingExecution(shortcutData.value ?: return@item)
                 }
             }
             .item(R.string.action_curl_export) {
-                showCurlExportDialog(shortcut)
+                showCurlExportDialog(shortcutData.value ?: return@item)
             }
             .item(R.string.action_delete) {
-                showDeleteDialog(shortcut)
+                showDeleteDialog(shortcutData)
             }
             .showIfPossible()
     }
@@ -206,7 +206,8 @@ class ListFragment : BaseFragment() {
         return position >= 0 && position < shortcuts.size
     }
 
-    private fun openMoveDialog(shortcut: Shortcut) {
+    private fun openMoveDialog(shortcutData: LiveData<Shortcut?>) {
+        val shortcut = shortcutData.value ?: return
         MenuDialogBuilder(context!!)
             .mapIf(canMoveShortcut(shortcut, -1)) {
                 it.item(R.string.action_move_up) {
@@ -220,7 +221,7 @@ class ListFragment : BaseFragment() {
             }
             .mapIf(categories.size > 1) {
                 it.item(R.string.action_move_to_category) {
-                    showMoveToCategoryDialog(shortcut)
+                    showMoveToCategoryDialog(shortcutData)
                 }
             }
             .showIfPossible()
@@ -242,14 +243,14 @@ class ListFragment : BaseFragment() {
         }
     }
 
-    private fun showMoveToCategoryDialog(shortcut: Shortcut) {
+    private fun showMoveToCategoryDialog(shortcutData: LiveData<Shortcut?>) {
         categoryData.value?.let { currentCategory ->
             MenuDialogBuilder(context!!)
                 .title(R.string.title_move_to_category)
                 .mapFor(categories.filter { it.id != currentCategory.id }) { builder, category ->
                     builder.item(category.name) {
                         categoryData.value?.let { category ->
-                            moveShortcut(shortcut, category)
+                            moveShortcut(shortcutData.value ?: return@item, category)
                         }
                     }
                 }
@@ -322,11 +323,11 @@ class ListFragment : BaseFragment() {
         ).show()
     }
 
-    private fun showDeleteDialog(shortcut: Shortcut) {
+    private fun showDeleteDialog(shortcutData: LiveData<Shortcut?>) {
         MaterialDialog.Builder(context!!)
             .content(R.string.confirm_delete_shortcut_message)
             .positiveText(R.string.dialog_delete)
-            .onPositive { _, _ -> deleteShortcut(shortcut) }
+            .onPositive { _, _ -> deleteShortcut(shortcutData.value ?: return@onPositive) }
             .negativeText(R.string.dialog_cancel)
             .showIfPossible()
     }

@@ -5,14 +5,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.adapters.ToggleVariableOptionsAdapter
+import ch.rmy.android.http_shortcuts.extensions.attachTo
+import ch.rmy.android.http_shortcuts.extensions.mapIf
+import ch.rmy.android.http_shortcuts.extensions.showMessageDialog
 import ch.rmy.android.http_shortcuts.realm.models.Option
 import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
-import ch.rmy.android.http_shortcuts.utils.attachTo
-import ch.rmy.android.http_shortcuts.utils.mapIf
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
-import ch.rmy.android.http_shortcuts.utils.showMessageDialog
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
 import com.afollestad.materialdialogs.MaterialDialog
@@ -34,7 +34,7 @@ class ToggleEditorFragment : VariableEditorFragment() {
         toggleOptionsAddButton.setOnClickListener { showAddDialog() }
         toggleOptionsList.layoutManager = LinearLayoutManager(context)
         toggleOptionsList.adapter = optionsAdapter
-        optionsAdapter.clickListener = this::showEditDialog
+        optionsAdapter.clickListener = ::showEditDialog
         initDragOrdering()
     }
 

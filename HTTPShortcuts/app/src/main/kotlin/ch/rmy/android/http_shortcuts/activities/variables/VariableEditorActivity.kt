@@ -7,21 +7,21 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.CheckBox
 import android.widget.EditText
-import androidx.lifecycle.ViewModelProviders
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.extensions.attachTo
+import ch.rmy.android.http_shortcuts.extensions.bindViewModel
+import ch.rmy.android.http_shortcuts.extensions.consume
+import ch.rmy.android.http_shortcuts.extensions.findIndex
+import ch.rmy.android.http_shortcuts.extensions.fix
+import ch.rmy.android.http_shortcuts.extensions.focus
+import ch.rmy.android.http_shortcuts.extensions.onTextChanged
+import ch.rmy.android.http_shortcuts.extensions.setOnItemSelected
+import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils.getVariableTypeOptions
-import ch.rmy.android.http_shortcuts.utils.attachTo
-import ch.rmy.android.http_shortcuts.utils.consume
-import ch.rmy.android.http_shortcuts.utils.findIndex
-import ch.rmy.android.http_shortcuts.utils.fix
-import ch.rmy.android.http_shortcuts.utils.focus
-import ch.rmy.android.http_shortcuts.utils.onTextChanged
-import ch.rmy.android.http_shortcuts.utils.setOnItemSelected
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
-import ch.rmy.android.http_shortcuts.utils.visible
 import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.android.http_shortcuts.variables.types.AsyncVariableType
 import ch.rmy.android.http_shortcuts.variables.types.VariableEditorFragment
@@ -32,9 +32,7 @@ import kotterknife.bindView
 
 class VariableEditorActivity : BaseActivity() {
 
-    private val viewModel: VariableEditorViewModel by lazy {
-        ViewModelProviders.of(this).get(VariableEditorViewModel::class.java)
-    }
+    private val viewModel: VariableEditorViewModel by bindViewModel()
 
     private val variable by lazy {
         viewModel.getVariable()
@@ -82,7 +80,7 @@ class VariableEditorActivity : BaseActivity() {
         typeSpinner.setItemsArray(getVariableTypeOptions(context))
         typeSpinner.fix()
         typeSpinner.setSelection(Variable.TYPE_OPTIONS.findIndex(variable.type))
-        typeSpinner.setOnItemSelected(this::updateTypeEditor)
+        typeSpinner.setOnItemSelected(::updateTypeEditor)
 
         urlEncode.isChecked = variable.urlEncode
         jsonEncode.isChecked = variable.jsonEncode

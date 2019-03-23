@@ -7,16 +7,16 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.extensions.attachTo
+import ch.rmy.android.http_shortcuts.extensions.bindViewModel
+import ch.rmy.android.http_shortcuts.extensions.consume
+import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
-import ch.rmy.android.http_shortcuts.utils.attachTo
-import ch.rmy.android.http_shortcuts.utils.consume
-import ch.rmy.android.http_shortcuts.utils.logException
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
-import ch.rmy.android.http_shortcuts.utils.showToast
 import com.afollestad.materialdialogs.MaterialDialog
 import kotterknife.bindView
 
@@ -26,9 +26,7 @@ class ShortcutEditorActivity : BaseActivity() {
         intent.getLongExtra(EXTRA_SHORTCUT_ID, 0L).takeUnless { it == 0L }
     }
 
-    private val viewModel: ShortcutEditorViewModel by lazy {
-        ViewModelProviders.of(this).get(ShortcutEditorViewModel::class.java)
-    }
+    private val viewModel: ShortcutEditorViewModel by bindViewModel()
 
     // Views
     private val nameView: EditText by bindView(R.id.input_shortcut_name)
@@ -66,7 +64,7 @@ class ShortcutEditorActivity : BaseActivity() {
 
     private fun bindViewsToViewModel() {
         viewModel.shortcut.observe(this, Observer {
-            it?.let(this::updateShortcutViews)
+            it?.let(::updateShortcutViews)
         })
     }
 

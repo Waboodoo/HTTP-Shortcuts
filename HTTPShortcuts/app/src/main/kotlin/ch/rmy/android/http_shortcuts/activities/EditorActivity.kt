@@ -21,6 +21,16 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.actions.ActionsView
 import ch.rmy.android.http_shortcuts.dialogs.IconNameChangeDialog
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
+import ch.rmy.android.http_shortcuts.extensions.applyToShortcut
+import ch.rmy.android.http_shortcuts.extensions.attachTo
+import ch.rmy.android.http_shortcuts.extensions.consume
+import ch.rmy.android.http_shortcuts.extensions.dimen
+import ch.rmy.android.http_shortcuts.extensions.findIndex
+import ch.rmy.android.http_shortcuts.extensions.fix
+import ch.rmy.android.http_shortcuts.extensions.focus
+import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.http_shortcuts.extensions.setOnItemSelected
+import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.icons.IconSelector
 import ch.rmy.android.http_shortcuts.icons.IconView
 import ch.rmy.android.http_shortcuts.icons.Icons
@@ -38,17 +48,7 @@ import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.utils.Validation
-import ch.rmy.android.http_shortcuts.utils.applyToShortcut
-import ch.rmy.android.http_shortcuts.utils.attachTo
-import ch.rmy.android.http_shortcuts.utils.consume
-import ch.rmy.android.http_shortcuts.utils.dimen
-import ch.rmy.android.http_shortcuts.utils.findIndex
-import ch.rmy.android.http_shortcuts.utils.fix
-import ch.rmy.android.http_shortcuts.utils.focus
-import ch.rmy.android.http_shortcuts.utils.logException
-import ch.rmy.android.http_shortcuts.utils.setOnItemSelected
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
-import ch.rmy.android.http_shortcuts.utils.visible
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
@@ -152,7 +152,7 @@ class EditorActivity : BaseActivity() {
         descriptionView.setText(shortcut.description)
 
         executionTypeView.setItemsArray(ShortcutUIUtils.getExecutionTypeOptions(context))
-        executionTypeView.setOnItemSelected(this::onItemSelected)
+        executionTypeView.setOnItemSelected(::onItemSelected)
         executionTypeView.fix()
         executionTypeView.setSelection(
             Shortcut.EXECUTION_TYPES.findIndex(shortcut.executionType ?: "")
@@ -160,12 +160,12 @@ class EditorActivity : BaseActivity() {
 
         methodView.setItemsArray(Shortcut.METHODS)
         methodView.fix()
-        methodView.setOnItemSelected(this::onItemSelected)
+        methodView.setOnItemSelected(::onItemSelected)
         methodView.setSelection(Shortcut.METHODS.findIndex(shortcut.method))
 
         authenticationView.setItemsArray(ShortcutUIUtils.getAuthenticationOptions(context))
         authenticationView.fix()
-        authenticationView.setOnItemSelected(this::onItemSelected)
+        authenticationView.setOnItemSelected(::onItemSelected)
         authenticationView.setSelection(Shortcut.AUTHENTICATION_OPTIONS.findIndex(shortcut.authentication!!))
 
         parameterList.variablePlaceholderProvider = variableKeyProvider
@@ -189,7 +189,7 @@ class EditorActivity : BaseActivity() {
         customHeaderList.setSuggestions(Header.SUGGESTED_KEYS)
 
         feedbackView.setItemsArray(ShortcutUIUtils.getFeedbackOptions(context))
-        feedbackView.setOnItemSelected(this::onItemSelected)
+        feedbackView.setOnItemSelected(::onItemSelected)
         feedbackView.fix()
         feedbackView.setSelection(Shortcut.FEEDBACK_OPTIONS.findIndex(shortcut.feedback))
 
@@ -223,7 +223,7 @@ class EditorActivity : BaseActivity() {
 
         requestBodyTypeView.setItemsArray(ShortcutUIUtils.getRequestBodyTypeOptions(context))
         requestBodyTypeView.fix()
-        requestBodyTypeView.setOnItemSelected(this::onItemSelected)
+        requestBodyTypeView.setOnItemSelected(::onItemSelected)
         requestBodyTypeView.setSelection(Shortcut.REQUEST_BODY_TYPE_OPTIONS.findIndex(shortcut.requestBodyType))
 
         iconViewContainer.setOnClickListener { openIconSelectionDialog() }
@@ -337,9 +337,9 @@ class EditorActivity : BaseActivity() {
     private fun openIconSelectionDialog() {
         MenuDialogBuilder(context)
             .title(R.string.change_icon)
-            .item(R.string.choose_icon, this::openBuiltInIconSelectionDialog)
-            .item(R.string.choose_image, this::openImagePicker)
-            .item(R.string.choose_ipack_icon, this::openIpackPicker)
+            .item(R.string.choose_icon, ::openBuiltInIconSelectionDialog)
+            .item(R.string.choose_image, ::openImagePicker)
+            .item(R.string.choose_ipack_icon, ::openIpackPicker)
             .showIfPossible()
     }
 

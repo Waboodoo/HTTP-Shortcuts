@@ -2,7 +2,7 @@ package ch.rmy.android.http_shortcuts.dialogs
 
 import android.content.Context
 import androidx.annotation.StringRes
-import ch.rmy.android.http_shortcuts.utils.mapIf
+import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
 

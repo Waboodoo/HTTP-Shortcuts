@@ -8,9 +8,9 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.extensions.consume
+import ch.rmy.android.http_shortcuts.extensions.onTextChanged
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
-import ch.rmy.android.http_shortcuts.utils.consume
-import ch.rmy.android.http_shortcuts.utils.onTextChanged
 import ch.rmy.curlcommand.CurlParser
 import kotterknife.bindView
 import kotlin.properties.Delegates

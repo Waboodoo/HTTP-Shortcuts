@@ -2,7 +2,7 @@ package ch.rmy.android.http_shortcuts.actions.types
 
 import android.content.Context
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.utils.focus
+import ch.rmy.android.http_shortcuts.extensions.focus
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider

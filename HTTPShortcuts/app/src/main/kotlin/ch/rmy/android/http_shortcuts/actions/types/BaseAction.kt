@@ -3,10 +3,10 @@ package ch.rmy.android.http_shortcuts.actions.types
 import android.content.Context
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.actions.ActionDTO
+import ch.rmy.android.http_shortcuts.extensions.rejectSafely
+import ch.rmy.android.http_shortcuts.extensions.resolveSafely
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.utils.PromiseUtils
-import ch.rmy.android.http_shortcuts.utils.rejectSafely
-import ch.rmy.android.http_shortcuts.utils.resolveSafely
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import com.afollestad.materialdialogs.MaterialDialog

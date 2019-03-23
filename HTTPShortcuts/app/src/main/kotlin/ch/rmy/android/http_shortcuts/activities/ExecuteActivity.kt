@@ -14,6 +14,12 @@ import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.actions.ActionDTO
 import ch.rmy.android.http_shortcuts.actions.types.ActionFactory
+import ch.rmy.android.http_shortcuts.extensions.consume
+import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.http_shortcuts.extensions.rejectSafely
+import ch.rmy.android.http_shortcuts.extensions.resolveSafely
+import ch.rmy.android.http_shortcuts.extensions.showToast
+import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.http.HttpRequester
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
@@ -27,13 +33,7 @@ import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.NetworkUtil
 import ch.rmy.android.http_shortcuts.utils.PromiseUtils
 import ch.rmy.android.http_shortcuts.utils.Validation
-import ch.rmy.android.http_shortcuts.utils.consume
-import ch.rmy.android.http_shortcuts.utils.logException
-import ch.rmy.android.http_shortcuts.utils.rejectSafely
-import ch.rmy.android.http_shortcuts.utils.resolveSafely
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
-import ch.rmy.android.http_shortcuts.utils.showToast
-import ch.rmy.android.http_shortcuts.utils.visible
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import ch.rmy.android.http_shortcuts.variables.Variables
 import com.afollestad.materialdialogs.MaterialDialog
@@ -90,7 +90,7 @@ class ExecuteActivity : BaseActivity() {
         }
         if (shortcut.isFeedbackUsesUI) {
             title = shortcut.getSafeName(context)
-            destroyer.own(this::hideProgress)
+            destroyer.own(::hideProgress)
             if (shortcut.isFeedbackInWindow) {
                 setContentView(R.layout.activity_execute)
             }

@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import ch.rmy.android.http_shortcuts.realm.livedata.RealmSingleLiveData
 import ch.rmy.android.http_shortcuts.realm.models.HasId
 import io.realm.RealmObject
 
@@ -12,16 +13,14 @@ abstract class BaseViewHolder<in T>(parent: ViewGroup, layoutRes: Int, baseAdapt
 
     init {
         itemView.setOnClickListener {
-            if (item?.isValid == true) {
-                baseAdapter.clickListener?.invoke(item!!)
+            item?.let {
+                baseAdapter.clickListener?.invoke(RealmSingleLiveData(it))
             }
         }
         itemView.setOnLongClickListener {
-            if (item?.isValid == true) {
-                baseAdapter.longClickListener?.invoke(item!!) == true
-            } else {
-                false
-            }
+            item?.let {
+                baseAdapter.longClickListener?.invoke(RealmSingleLiveData(it)) == true
+            } ?: false
         }
     }
 

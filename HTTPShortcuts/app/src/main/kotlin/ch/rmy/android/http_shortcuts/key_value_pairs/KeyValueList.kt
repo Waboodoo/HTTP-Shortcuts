@@ -11,11 +11,11 @@ import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ListView
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.extensions.mapIf
+import ch.rmy.android.http_shortcuts.extensions.onTextChanged
+import ch.rmy.android.http_shortcuts.extensions.showSoftKeyboard
 import ch.rmy.android.http_shortcuts.utils.Destroyer
-import ch.rmy.android.http_shortcuts.utils.mapIf
-import ch.rmy.android.http_shortcuts.utils.onTextChanged
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
-import ch.rmy.android.http_shortcuts.utils.showSoftKeyboard
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider

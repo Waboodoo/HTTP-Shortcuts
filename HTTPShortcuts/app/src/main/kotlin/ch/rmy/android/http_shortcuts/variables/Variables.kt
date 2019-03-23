@@ -12,6 +12,8 @@ import java.util.regex.Pattern
 
 object Variables {
 
+    const val KEY_MAX_LENGTH = 20
+
     private const val VARIABLE_KEY_REGEX = "[A-Za-z0-9]{1,20}"
 
     private const val RAW_PLACEHOLDER_PREFIX = "{{"

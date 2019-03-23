@@ -5,11 +5,11 @@ import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.utils.attachTo
-import ch.rmy.android.http_shortcuts.utils.findIndex
-import ch.rmy.android.http_shortcuts.utils.fix
-import ch.rmy.android.http_shortcuts.utils.setOnItemSelected
-import ch.rmy.android.http_shortcuts.utils.visible
+import ch.rmy.android.http_shortcuts.extensions.attachTo
+import ch.rmy.android.http_shortcuts.extensions.findIndex
+import ch.rmy.android.http_shortcuts.extensions.fix
+import ch.rmy.android.http_shortcuts.extensions.setOnItemSelected
+import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import com.satsuware.usefulviews.LabelledSpinner
@@ -37,7 +37,7 @@ class ExtractBodyActionEditorView(
         extractionOption.fix()
         extractionOption.setItemsArray(getOptionStrings())
         extractionOption.setSelection(EXTRACTION_OPTIONS.findIndex(action.extractionType))
-        extractionOption.setOnItemSelected(this::updateViews)
+        extractionOption.setOnItemSelected(::updateViews)
 
         substringStart.setText(action.substringStart.toString())
         substringEnd.setText(action.substringEnd.toString())

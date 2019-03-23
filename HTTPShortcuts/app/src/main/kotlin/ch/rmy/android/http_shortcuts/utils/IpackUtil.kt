@@ -15,7 +15,7 @@ object IpackUtil {
         Intent.createChooser(Intent(PACKAGE_NAME + ACTION_SELECT_SUFFIX), context.getString(R.string.choose_ipack))!!
 
     fun getIpackUri(intent: Intent): Uri {
-        val packageName = intent.data.authority
+        val packageName = intent.data!!.authority
         val id = intent.getIntExtra(PACKAGE_NAME + ICON_ID_SUFFIX, -1)
         return Uri.parse("android.resource://$packageName/$id")
     }

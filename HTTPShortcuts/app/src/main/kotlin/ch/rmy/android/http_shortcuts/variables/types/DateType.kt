@@ -4,9 +4,9 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.content.DialogInterface
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.extensions.rejectSafely
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Variable
-import ch.rmy.android.http_shortcuts.utils.rejectSafely
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import org.jdeferred2.Deferred
 import java.text.ParseException

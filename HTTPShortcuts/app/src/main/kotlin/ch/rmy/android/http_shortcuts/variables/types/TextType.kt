@@ -1,9 +1,9 @@
 package ch.rmy.android.http_shortcuts.variables.types
 
 import android.content.Context
+import ch.rmy.android.http_shortcuts.extensions.resolveSafely
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Variable
-import ch.rmy.android.http_shortcuts.utils.resolveSafely
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import org.jdeferred2.Deferred
 

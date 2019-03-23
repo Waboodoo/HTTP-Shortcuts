@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.StringRes
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
@@ -15,8 +16,8 @@ import io.realm.RealmObject
 
 abstract class BaseAdapter<T> internal constructor(val context: Context, private val items: ListLiveData<T>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Destroyable where T : RealmObject, T : HasId {
 
-    var clickListener: ((T) -> Unit)? = null
-    var longClickListener: ((T) -> Boolean)? = null
+    var clickListener: ((LiveData<T?>) -> Unit)? = null
+    var longClickListener: ((LiveData<T?>) -> Boolean)? = null
 
     private val observer = Observer<List<T>> { notifyDataSetChanged() }
 

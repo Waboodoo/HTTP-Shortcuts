@@ -2,15 +2,15 @@ package ch.rmy.android.http_shortcuts.variables
 
 import android.content.Context
 import ch.rmy.android.http_shortcuts.actions.ActionDTO
+import ch.rmy.android.http_shortcuts.extensions.filter
+import ch.rmy.android.http_shortcuts.extensions.mapIf
+import ch.rmy.android.http_shortcuts.extensions.rejectSafely
+import ch.rmy.android.http_shortcuts.extensions.resolveSafely
+import ch.rmy.android.http_shortcuts.extensions.toPromise
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.PromiseUtils
-import ch.rmy.android.http_shortcuts.utils.filter
-import ch.rmy.android.http_shortcuts.utils.mapIf
-import ch.rmy.android.http_shortcuts.utils.rejectSafely
-import ch.rmy.android.http_shortcuts.utils.resolveSafely
-import ch.rmy.android.http_shortcuts.utils.toPromise
 import ch.rmy.android.http_shortcuts.variables.types.AsyncVariableType
 import ch.rmy.android.http_shortcuts.variables.types.SyncVariableType
 import ch.rmy.android.http_shortcuts.variables.types.VariableTypeFactory

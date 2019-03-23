@@ -5,7 +5,7 @@ import android.net.Uri
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.utils.clearBackground
+import ch.rmy.android.http_shortcuts.extensions.clearBackground
 
 class IconView : AppCompatImageView {
 

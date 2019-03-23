@@ -50,9 +50,9 @@
     <string name="action_run">Execute</string>
     <!-- Shortcut dropdown option: Edit the shortcut -->
     <string name="action_edit">Edit</string>
-    <!-- Shortcut dropdown option: Duplicate the shortcut -->
+    <!-- Shortcut dropdown option: Duplicate the shortcut/variable -->
     <string name="action_duplicate">Duplicate</string>
-    <!-- Shortcut dropdown option: Delete the shortcut -->
+    <!-- Shortcut dropdown option: Delete the shortcut/variable -->
     <string name="action_delete">Delete</string>
     <!-- Shortcut dropdown option: export the shortcut in cURL format -->
     <string name="action_curl_export">cURL export</string>
@@ -556,4 +556,6 @@
     <string name="message_app_unlocked">App unlocked.</string>
     <!-- Warning dialog: Shown to user on startup to inform them that Android's "Data Saver" and/or "Battery Saver" modes may cause problems. -->
     <string name="warning_data_saver_battery_saver_enabled">Data Saver and/or Battery Saver modes are enabled on your device. If you encounter problems with shortcuts not working, please try disabling these.</string>
+    <!-- Message: Shown as a snackbar popup when a variable was duplicated. -->
+    <string name="message_variable_duplicated">\"%1$s\" duplicated.</string>
 </resources>

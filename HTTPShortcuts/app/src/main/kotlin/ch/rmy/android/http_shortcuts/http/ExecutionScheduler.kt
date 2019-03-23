@@ -6,9 +6,9 @@ import android.content.ComponentName
 import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
+import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.realm.Controller
-import ch.rmy.android.http_shortcuts.utils.logException
-import ch.rmy.android.http_shortcuts.utils.mapIf
 import java.util.*
 
 object ExecutionScheduler {

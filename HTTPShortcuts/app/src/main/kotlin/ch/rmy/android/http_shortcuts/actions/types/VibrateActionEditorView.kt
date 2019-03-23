@@ -3,7 +3,7 @@ package ch.rmy.android.http_shortcuts.actions.types
 import android.content.Context
 import android.widget.CheckBox
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.utils.fix
+import ch.rmy.android.http_shortcuts.extensions.fix
 import com.satsuware.usefulviews.LabelledSpinner
 import kotterknife.bindView
 

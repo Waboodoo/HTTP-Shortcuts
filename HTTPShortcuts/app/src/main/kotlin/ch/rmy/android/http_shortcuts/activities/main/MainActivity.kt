@@ -9,7 +9,6 @@ import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
@@ -23,17 +22,18 @@ import ch.rmy.android.http_shortcuts.adapters.CategoryPagerAdapter
 import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.dialogs.NetworkRestrictionWarningDialog
+import ch.rmy.android.http_shortcuts.extensions.attachTo
+import ch.rmy.android.http_shortcuts.extensions.bindViewModel
+import ch.rmy.android.http_shortcuts.extensions.consume
+import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.PromiseUtils
 import ch.rmy.android.http_shortcuts.utils.SelectionMode
-import ch.rmy.android.http_shortcuts.utils.attachTo
-import ch.rmy.android.http_shortcuts.utils.consume
-import ch.rmy.android.http_shortcuts.utils.logException
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
-import ch.rmy.android.http_shortcuts.utils.visible
 import com.afollestad.materialdialogs.MaterialDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
@@ -41,9 +41,7 @@ import kotterknife.bindView
 
 class MainActivity : BaseActivity(), ListFragment.TabHost {
 
-    private val viewModel: MainViewModel by lazy {
-        ViewModelProviders.of(this).get(MainViewModel::class.java)
-    }
+    private val viewModel: MainViewModel by bindViewModel()
 
     private lateinit var adapter: CategoryPagerAdapter
 
@@ -72,6 +70,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
         }
 
         ExecutionScheduler.schedule(context)
+        LauncherShortcutManager.updateAppShortcuts(context, categories)
     }
 
     private fun initViews() {
@@ -101,8 +100,8 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     private fun showCreateOptions() {
         MenuDialogBuilder(context)
             .title(R.string.title_create_new_shortcut_options_dialog)
-            .item(R.string.button_create_new, this::openEditorForCreation)
-            .item(R.string.button_curl_import, this::openCurlImport)
+            .item(R.string.button_create_new, ::openEditorForCreation)
+            .item(R.string.button_curl_import, ::openCurlImport)
             .showIfPossible()
     }
 
@@ -309,11 +308,6 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     }
 
     override fun isAppLocked() = viewModel.isAppLocked()
-
-    override fun onDestroy() {
-        LauncherShortcutManager.updateAppShortcuts(context, categories)
-        super.onDestroy()
-    }
 
     companion object {
 

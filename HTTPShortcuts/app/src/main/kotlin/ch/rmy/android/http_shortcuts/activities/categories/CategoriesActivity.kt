@@ -2,18 +2,19 @@ package ch.rmy.android.http_shortcuts.activities.categories
 
 import android.content.Context
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.adapters.CategoryAdapter
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
+import ch.rmy.android.http_shortcuts.extensions.attachTo
+import ch.rmy.android.http_shortcuts.extensions.bindViewModel
+import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.realm.models.Category
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
-import ch.rmy.android.http_shortcuts.utils.attachTo
-import ch.rmy.android.http_shortcuts.utils.mapIf
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -21,9 +22,7 @@ import kotterknife.bindView
 
 class CategoriesActivity : BaseActivity() {
 
-    private val viewModel: CategoriesViewModel by lazy {
-        ViewModelProviders.of(this).get(CategoriesViewModel::class.java)
-    }
+    private val viewModel: CategoriesViewModel by bindViewModel()
 
     // Views
     private val categoryList: RecyclerView by bindView(R.id.category_list)
@@ -45,7 +44,7 @@ class CategoriesActivity : BaseActivity() {
         categoryList.setHasFixedSize(true)
         categoryList.adapter = adapter
 
-        adapter.clickListener = this::showContextMenu
+        adapter.clickListener = ::showContextMenu
 
         initDragOrdering()
 
@@ -82,45 +81,48 @@ class CategoriesActivity : BaseActivity() {
             .attachTo(destroyer)
     }
 
-    private fun showContextMenu(category: Category) {
+    private fun showContextMenu(categoryData: LiveData<Category?>) {
+        val category = categoryData.value ?: return
         MenuDialogBuilder(context)
             .title(category.name)
             .item(R.string.action_rename) {
-                showRenameDialog(category)
+                showRenameDialog(categoryData)
             }
             .item(R.string.action_change_category_layout_type) {
-                showLayoutTypeDialog(category)
+                showLayoutTypeDialog(categoryData)
             }
             .mapIf(categories.size > 1) {
                 it.item(R.string.action_delete) {
-                    showDeleteDialog(category)
+                    showDeleteDialog(categoryData)
                 }
             }
             .showIfPossible()
     }
 
-    private fun showRenameDialog(category: Category) {
+    private fun showRenameDialog(categoryData: LiveData<Category?>) {
+        val category = categoryData.value ?: return
         MaterialDialog.Builder(context)
             .title(R.string.title_rename_category)
             .inputRange(NAME_MIN_LENGTH, NAME_MAX_LENGTH)
             .input(getString(R.string.placeholder_category_name), category.name) { _, input ->
-                renameCategory(category, input.toString())
+                renameCategory(categoryData, input.toString())
             }
             .showIfPossible()
     }
 
-    private fun showLayoutTypeDialog(category: Category) {
+    private fun showLayoutTypeDialog(categoryData: LiveData<Category?>) {
         MenuDialogBuilder(context)
             .item(R.string.layout_type_linear_list) {
-                changeLayoutType(category, Category.LAYOUT_LINEAR_LIST)
+                changeLayoutType(categoryData, Category.LAYOUT_LINEAR_LIST)
             }
             .item(R.string.layout_type_grid) {
-                changeLayoutType(category, Category.LAYOUT_GRID)
+                changeLayoutType(categoryData, Category.LAYOUT_GRID)
             }
             .showIfPossible()
     }
 
-    private fun renameCategory(category: Category, newName: String) {
+    private fun renameCategory(categoryData: LiveData<Category?>, newName: String) {
+        val category = categoryData.value ?: return
         viewModel.renameCategory(category.id, newName)
             .subscribe {
                 showSnackbar(R.string.message_category_renamed)
@@ -128,7 +130,8 @@ class CategoriesActivity : BaseActivity() {
             .attachTo(destroyer)
     }
 
-    private fun changeLayoutType(category: Category, layoutType: String) {
+    private fun changeLayoutType(categoryData: LiveData<Category?>, layoutType: String) {
+        val category = categoryData.value ?: return
         viewModel.setLayoutType(category.id, layoutType)
             .subscribe {
                 showSnackbar(R.string.message_layout_type_changed)
@@ -136,7 +139,8 @@ class CategoriesActivity : BaseActivity() {
             .attachTo(destroyer)
     }
 
-    private fun showDeleteDialog(category: Category) {
+    private fun showDeleteDialog(categoryData: LiveData<Category?>) {
+        val category = categoryData.value ?: return
         if (category.shortcuts.isEmpty()) {
             deleteCategory(category)
             return
@@ -144,7 +148,7 @@ class CategoriesActivity : BaseActivity() {
         MaterialDialog.Builder(context)
             .content(R.string.confirm_delete_category_message)
             .positiveText(R.string.dialog_delete)
-            .onPositive { _, _ -> deleteCategory(category) }
+            .onPositive { _, _ -> deleteCategory(categoryData.value ?: return@onPositive) }
             .negativeText(R.string.dialog_cancel)
             .showIfPossible()
     }

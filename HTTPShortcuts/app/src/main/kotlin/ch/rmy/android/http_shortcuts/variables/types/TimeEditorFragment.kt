@@ -3,8 +3,8 @@ package ch.rmy.android.http_shortcuts.variables.types
 import android.widget.CheckBox
 import android.widget.EditText
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.extensions.showMessageDialog
 import ch.rmy.android.http_shortcuts.realm.models.Variable
-import ch.rmy.android.http_shortcuts.utils.showMessageDialog
 import kotterknife.bindView
 import java.text.SimpleDateFormat
 import java.util.*
