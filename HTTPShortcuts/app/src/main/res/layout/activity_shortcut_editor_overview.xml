@@ -93,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
-                android:text="Headers" />
+                android:text="@string/section_request_headers" />
 
             <include layout="@layout/divider_line" />
 
@@ -103,7 +103,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
-                android:text="Request Body" />
+                android:text="@string/section_request_body" />
 
             <include layout="@layout/divider_line" />
 
@@ -113,8 +113,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
-                android:text="Authentication"
-                app:subtitle="This text will come later" />
+                android:text="@string/section_authentication" />
 
             <include layout="@layout/divider_line" />
 
@@ -124,8 +123,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
-                android:text="Pre-Request Actions"
-                app:subtitle="This text will come later" />
+                android:text="@string/label_actions_pre_request" />
 
             <include layout="@layout/divider_line" />
 
@@ -135,8 +133,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
-                android:text="Post-Request Actions"
-                app:subtitle="This text will come later" />
+                android:text="@string/label_actions_post_request" />
 
             <include layout="@layout/divider_line" />
 
@@ -146,19 +143,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
-                android:text="Misc Settings"
-                app:subtitle="This text will come later" />
+                android:text="@string/label_misc_settings"
+                app:subtitle="@string/label_misc_settings_subtitle" />
 
             <include layout="@layout/divider_line" />
 
             <ch.rmy.android.http_shortcuts.views.PanelButton
-                android:id="@+id/button_advanced_http_settings"
+                android:id="@+id/button_advanced_technical_settings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
-                android:text="Advanced HTTP Settings"
-                app:subtitle="This text will come later" />
+                android:text="@string/label_advanced_technical_settings"
+                app:subtitle="@string/label_advanced_technical_settings_subtitle" />
 
             <include layout="@layout/divider_line" />
 

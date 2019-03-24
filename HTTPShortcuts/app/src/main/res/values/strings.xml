@@ -125,7 +125,7 @@
     <!-- Section title in shortcut editor, for section that contains options to specify the headers of the HTTP request -->
     <string name="section_request_headers">Request Headers</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the body of the HTTP request -->
-    <string name="section_request_body">Request Body</string>
+    <string name="section_request_body">Request Body / Parameters</string>
     <!-- Text on button to add a custom header to a shortcut -->
     <string name="button_add_custom_header">Add header</string>
     <!-- Title of dialog to edit a custom header of a shortcut -->
@@ -409,11 +409,17 @@
     <!-- Button to add actions to a shortcut (to define what should happen on success, on failure, etc.) -->
     <string name="button_add_action">Add Action</string>
     <!-- Section title in shortcut editor: "Before actions", i.e., shown above list of actions that execute before the shortcut -->
-    <string name="label_actions_before">Before Actions</string>
-    <!-- Section title in shortcut editor: "Success actions", i.e., shown above list of actions that execute after the shortcut executed successfully -->
-    <string name="label_actions_success">Success Actions</string>
-    <!-- Section title in shortcut editor: "Failure actions", i.e., shown above list of actions that execute after the shortcut executed with a failure -->
-    <string name="label_actions_failure">Failure Actions</string>
+    <string name="label_actions_pre_request">Pre-Request Actions</string>
+    <!-- Section title in shortcut editor: "Post-Request Actions", allows to configure what should happen when an HTTP request succeeds or fails -->
+    <string name="label_actions_post_request">Post-Request Actions</string>
+    <!-- TODO -->
+    <string name="label_misc_settings">Misc Settings</string>
+    <!-- TODO -->
+    <string name="label_misc_settings_subtitle">Various additional options</string>
+    <!-- TODO -->
+    <string name="label_advanced_technical_settings">Advanced Technical Settings</string>
+    <!-- TODO -->
+    <string name="label_advanced_technical_settings_subtitle">For people who know what they\'re doing</string>
     <!-- Shown as a placeholder for the title field of an action of unknown type. This should never happen. -->
     <string name="action_type_unknown_title">Unknown action</string>
     <!-- Shown as a placeholder for the description field of an action of unknown type. This should never happen. -->
@@ -562,4 +568,36 @@
     <string name="subtitle_basic_request_settings_prompt">Set the shortcut\'s URL and HTTP method</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings". Pattern for Method and URL -->
     <string name="subtitle_basic_request_settings_pattern">%1$s %2$s</string>
+    <!-- TODO -->
+    <string name="subtitle_request_headers_none">No custom headers set</string>
+    <!-- TODO -->
+    <plurals name="subtitle_request_headers_pattern">
+        <item quantity="one">1 custom header set</item>
+        <item quantity="other">%d custom headers set</item>
+    </plurals>
+    <!-- TODO -->
+    <string name="subtitle_actions_none">No actions set</string>
+    <plurals name="subtitle_actions_pattern">
+        <item quantity="one">1 action set</item>
+        <item quantity="other">%d actions set</item>
+    </plurals>
+    <!-- TODO -->
+    <string name="subtitle_authentication_none">No authentication</string>
+    <!-- TODO -->
+    <string name="subtitle_authentication_basic">Basic authentication with username and password</string>
+    <!-- TODO -->
+    <string name="subtitle_authentication_digest">Digest authentication with username and password</string>
+    <!-- TODO -->
+    <string name="subtitle_request_body_params_none">No parameters set</string>
+    <!-- TODO -->
+    <plurals name="subtitle_request_body_params_pattern">
+        <item quantity="one">1 parameter set</item>
+        <item quantity="other">%d parameters set</item>
+    </plurals>
+    <!-- TODO -->
+    <string name="subtitle_request_body_none">No request body set</string>
+    <!-- TODO -->
+    <string name="subtitle_request_body_custom">Custom request body set</string>
+    <!-- TODO -->
+    <string name="subtitle_request_body_not_available">Not applicable for %1$s</string>
 </resources>

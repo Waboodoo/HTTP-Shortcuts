@@ -1,6 +1,8 @@
 package ch.rmy.android.http_shortcuts.activities.editor
 
 import android.app.Application
+import androidx.annotation.PluralsRes
+import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.extensions.context
@@ -119,6 +121,60 @@ class ShortcutEditorViewModel(application: Application) : RealmViewModel(applica
                 shortcut.method,
                 shortcut.url
             ))
+        }
+
+    fun getHeadersSettingsSubtitle(shortcut: Shortcut): CharSequence =
+        getQuantityString(
+            shortcut.headers.size,
+            R.string.subtitle_request_headers_none,
+            R.plurals.subtitle_request_headers_pattern
+        )
+
+    fun getRequestBodySettingsSubtitle(shortcut: Shortcut): CharSequence =
+        if (shortcut.allowsBody()) {
+            when (shortcut.requestBodyType) {
+                Shortcut.REQUEST_BODY_TYPE_FORM_DATA,
+                Shortcut.REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE -> getQuantityString(
+                    shortcut.parameters.size,
+                    R.string.subtitle_request_body_params_none,
+                    R.plurals.subtitle_request_body_params_pattern
+                )
+                else -> if (shortcut.bodyContent.isBlank()) {
+                    getString(R.string.subtitle_request_body_none)
+                } else {
+                    getString(R.string.subtitle_request_body_custom)
+                }
+            }
+        } else {
+            getString(R.string.subtitle_request_body_not_available, shortcut.method)
+        }
+
+    fun getAuthenticationSettingsSubtitle(shortcut: Shortcut): CharSequence =
+        when (shortcut.authentication) {
+            Shortcut.AUTHENTICATION_BASIC -> getString(R.string.subtitle_authentication_basic)
+            Shortcut.AUTHENTICATION_DIGEST -> getString(R.string.subtitle_authentication_digest)
+            else -> getString(R.string.subtitle_authentication_none)
+        }
+
+    fun getPreRequestActionsSettingsSubtitle(shortcut: Shortcut): CharSequence =
+        getQuantityString(
+            shortcut.beforeActions.size,
+            R.string.subtitle_actions_none,
+            R.plurals.subtitle_actions_pattern
+        )
+
+    fun getPostRequestActionsSettingsSubtitle(shortcut: Shortcut): CharSequence =
+        getQuantityString(
+            shortcut.successActions.size + shortcut.failureActions.size,
+            R.string.subtitle_actions_none,
+            R.plurals.subtitle_actions_pattern
+        )
+
+    private fun getQuantityString(count: Int, @StringRes zeroRes: Int, @PluralsRes pluralRes: Int) =
+        if (count == 0) {
+            getString(zeroRes)
+        } else {
+            context.resources.getQuantityString(pluralRes, count, count)
         }
 
     companion object {

@@ -55,14 +55,14 @@ class ShortcutEditorActivity : BaseActivity() {
     private val iconContainer: View by bindView(R.id.icon_container)
     private val nameView: EditText by bindView(R.id.input_shortcut_name)
     private val descriptionView: EditText by bindView(R.id.input_description)
-    private val basicRequestSettigsButton: PanelButton by bindView(R.id.button_basic_request_settings)
+    private val basicRequestSettingsButton: PanelButton by bindView(R.id.button_basic_request_settings)
     private val headersButton: PanelButton by bindView(R.id.button_headers)
     private val requestBodyButton: PanelButton by bindView(R.id.button_request_body)
     private val authenticationButton: PanelButton by bindView(R.id.button_authentication)
     private val preRequestActionsButton: PanelButton by bindView(R.id.button_pre_request_actions)
     private val postRequestActionsButton: PanelButton by bindView(R.id.button_post_request_actions)
     private val miscSettingsButton: PanelButton by bindView(R.id.button_misc_settings)
-    private val advancedHttpSettingsButton: PanelButton by bindView(R.id.button_advanced_http_settings)
+    private val advancedTechnicalSettingsButton: PanelButton by bindView(R.id.button_advanced_technical_settings)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,15 +104,21 @@ class ShortcutEditorActivity : BaseActivity() {
         nameView.setText(shortcut.name)
         descriptionView.setText(shortcut.description)
 
-        basicRequestSettigsButton.subtitle = viewModel.getBasicSettingsSubtitle(shortcut)
-        requestBodyButton.subtitle = "foobar"
+        basicRequestSettingsButton.subtitle = viewModel.getBasicSettingsSubtitle(shortcut)
+        headersButton.subtitle = viewModel.getHeadersSettingsSubtitle(shortcut)
+        requestBodyButton.subtitle = viewModel.getRequestBodySettingsSubtitle(shortcut)
+        authenticationButton.subtitle = viewModel.getAuthenticationSettingsSubtitle(shortcut)
+        preRequestActionsButton.subtitle = viewModel.getPreRequestActionsSettingsSubtitle(shortcut)
+        postRequestActionsButton.subtitle = viewModel.getPostRequestActionsSettingsSubtitle(shortcut)
+
+        requestBodyButton.isEnabled = shortcut.allowsBody()
     }
 
     private fun bindClickListeners() {
         iconContainer.setOnClickListener {
             openIconSelectionDialog()
         }
-        basicRequestSettigsButton.setOnClickListener {
+        basicRequestSettingsButton.setOnClickListener {
 
         }
         headersButton.setOnClickListener {
@@ -133,7 +139,7 @@ class ShortcutEditorActivity : BaseActivity() {
         miscSettingsButton.setOnClickListener {
 
         }
-        advancedHttpSettingsButton.setOnClickListener {
+        advancedTechnicalSettingsButton.setOnClickListener {
 
         }
     }

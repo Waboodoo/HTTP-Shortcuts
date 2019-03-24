@@ -398,12 +398,6 @@
     <string name="dialog_title_variable_selection_constants_only">Variables (Constants només)</string>
     <!-- Button to add actions to a shortcut (to define what should happen on success, on failure, etc.) -->
     <string name="button_add_action">Afegir una acció</string>
-    <!-- Section title in shortcut editor: "Before actions", i.e., shown above list of actions that execute before the shortcut -->
-    <string name="label_actions_before">Accions prèvies</string>
-    <!-- Section title in shortcut editor: "Success actions", i.e., shown above list of actions that execute after the shortcut executed successfully -->
-    <string name="label_actions_success">Accions executades amb èxit</string>
-    <!-- Section title in shortcut editor: "Failure actions", i.e., shown above list of actions that execute after the shortcut executed with a failure -->
-    <string name="label_actions_failure">Accions executades amb errors</string>
     <!-- Shown as a placeholder for the title field of an action of unknown type. This should never happen. -->
     <string name="action_type_unknown_title">Acció desconeguda</string>
     <!-- Shown as a placeholder for the description field of an action of unknown type. This should never happen. -->

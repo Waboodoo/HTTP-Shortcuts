@@ -16,13 +16,13 @@ class PanelButton @JvmOverloads constructor(context: Context, attrs: AttributeSe
     private val titleView: TextView by bindView(R.id.panel_button_title)
     private val subtitleView: TextView by bindView(R.id.panel_button_subtitle)
 
-    var title: CharSequence? = ""
+    var title: CharSequence = ""
         set(value) {
             field = value
             titleView.text = value
         }
 
-    var subtitle: CharSequence? = ""
+    var subtitle: CharSequence = ""
         set(value) {
             field = value
             subtitleView.text = value
@@ -37,12 +37,19 @@ class PanelButton @JvmOverloads constructor(context: Context, attrs: AttributeSe
             try {
                 @SuppressLint("Recycle")
                 a = context.obtainStyledAttributes(attrs, ATTRIBUTE_IDS)!!
-                title = a.getText(ATTRIBUTE_IDS.indexOf(android.R.attr.text))
-                subtitle = a.getText(ATTRIBUTE_IDS.indexOf(R.attr.subtitle))
+                title = a.getText(ATTRIBUTE_IDS.indexOf(android.R.attr.text)) ?: ""
+                subtitle = a.getText(ATTRIBUTE_IDS.indexOf(R.attr.subtitle)) ?: ""
             } finally {
                 a?.recycle()
             }
         }
+    }
+
+    override fun setEnabled(enabled: Boolean) {
+        super.setEnabled(enabled)
+        val alpha = if (enabled) 1f else 0.4f
+        titleView.alpha = alpha
+        subtitleView.alpha = alpha
     }
 
 
