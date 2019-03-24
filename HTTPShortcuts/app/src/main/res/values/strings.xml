@@ -278,7 +278,7 @@
     <string name="variable_type_date">Date Input</string>
     <string name="variable_type_time">Time Input</string>
     <string name="variable_type_color">Color Input</string>
-    <string name="warning_invalid_variable_key">Variable keys may only contain digits and letters from the English alphabet.</string>
+    <string name="warning_invalid_variable_key">Variable keys may only contain underscores, digits and letters from the English alphabet.</string>
     <string name="confirm_delete_variable_message">Delete this variable?</string>
     <string name="variable_deleted">\"%1$s\" deleted.</string>
     <string name="label_url_encode">URL encode</string>

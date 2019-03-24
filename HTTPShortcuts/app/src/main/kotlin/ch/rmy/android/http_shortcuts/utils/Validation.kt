@@ -1,11 +1,12 @@
 package ch.rmy.android.http_shortcuts.utils
 
 import android.net.Uri
+import ch.rmy.android.http_shortcuts.variables.Variables.VARIABLE_KEY_REGEX
 
 object Validation {
 
     fun isAcceptableUrl(url: String) =
-        url.matches("^(http(s?)://.+)|((h(t(t(p(s)?)?)?)?)?\\{\\{[a-z0-9]{1,20}\\}\\}.*)".toRegex(RegexOption.IGNORE_CASE))
+        url.matches("^(http(s?)://.+)|((h(t(t(p(s)?)?)?)?)?\\{\\{$VARIABLE_KEY_REGEX\\}\\}.*)".toRegex(RegexOption.IGNORE_CASE))
 
     fun isValidUrl(uri: Uri) =
         uri.scheme?.let { scheme ->

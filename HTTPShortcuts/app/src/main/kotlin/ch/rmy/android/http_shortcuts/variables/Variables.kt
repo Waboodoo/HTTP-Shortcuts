@@ -12,9 +12,9 @@ import java.util.regex.Pattern
 
 object Variables {
 
-    const val KEY_MAX_LENGTH = 20
+    const val KEY_MAX_LENGTH = 30
 
-    private const val VARIABLE_KEY_REGEX = "[A-Za-z0-9]{1,20}"
+    const val VARIABLE_KEY_REGEX = "[A-Za-z0-9_]{1,$KEY_MAX_LENGTH}"
 
     private const val RAW_PLACEHOLDER_PREFIX = "{{"
     private const val RAW_PLACEHOLDER_SUFFIX = "}}"

@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/label_variable_key"
                     android:inputType="textNoSuggestions"
-                    android:maxLength="20"
+                    android:maxLength="30"
                     android:maxLines="1">
 
                 </EditText>
