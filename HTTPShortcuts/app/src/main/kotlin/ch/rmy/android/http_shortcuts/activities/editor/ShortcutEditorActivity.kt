@@ -20,6 +20,7 @@ import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.dimen
+import ch.rmy.android.http_shortcuts.extensions.focus
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
@@ -34,6 +35,7 @@ import ch.rmy.android.http_shortcuts.views.PanelButton
 import com.afollestad.materialdialogs.MaterialDialog
 import com.theartofdev.edmodo.cropper.CropImage
 import io.reactivex.Completable
+import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import kotterknife.bindView
 
 class ShortcutEditorActivity : BaseActivity() {
@@ -78,8 +80,7 @@ class ShortcutEditorActivity : BaseActivity() {
             .subscribe({
                 initViews()
             }, { e ->
-                logException(e)
-                showToast(R.string.error_generic)
+                handleUnknownError(e)
                 finish()
             })
             .attachTo(destroyer)
@@ -217,11 +218,43 @@ class ShortcutEditorActivity : BaseActivity() {
     private fun trySaveShortcut() {
         updateViewModelFromViews()
             .andThen(viewModel.trySave())
-            .subscribe { id ->
+            .observeOn(mainThread())
+            .subscribe({ id ->
                 setResult(RESULT_OK, Intent().putExtra(RESULT_SHORTCUT_ID, id))
-                finish()
-            }
+                onSaveComplete()
+            }, { e ->
+                if (e is ShortcutValidationError) {
+                    when (e.type) {
+                        ShortcutEditorViewModel.VALIDATION_ERROR_EMPTY_NAME -> {
+                            showSnackbar(getString(R.string.validation_name_not_empty))
+                            nameView.focus()
+                        }
+                        ShortcutEditorViewModel.VALIDATION_ERROR_INVALID_URL -> {
+                            showSnackbar(getString(R.string.validation_url_invalid))
+                        }
+                        else -> handleUnknownError(e)
+                    }
+                } else {
+                    handleUnknownError(e)
+                }
+            })
             .attachTo(destroyer)
+    }
+
+    private fun onSaveComplete() {
+        finish()
+        /*val dialog = IconNameChangeDialog(context)
+        if (LauncherShortcutManager.supportsPinning(context)) {
+            LauncherShortcutManager.updatePinnedShortcut(context, persistedShortcut)
+            finish()
+        } else if (!oldShortcut.isNew && nameOrIconChanged() && dialog.shouldShow()) {
+            dialog.show()
+                .done {
+                    finish()
+                }
+        } else {
+            finish()
+        }*/
     }
 
     private fun testShortcut() {
@@ -290,6 +323,11 @@ class ShortcutEditorActivity : BaseActivity() {
 
     private val launcherLargeIconSize: Int
         get() = (getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager).launcherLargeIconSize
+
+    private fun handleUnknownError(e: Throwable) {
+        logException(e)
+        showToast(R.string.error_generic)
+    }
 
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, ShortcutEditorActivity::class.java) {
 

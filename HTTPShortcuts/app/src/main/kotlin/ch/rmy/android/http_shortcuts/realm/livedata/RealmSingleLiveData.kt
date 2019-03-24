@@ -13,7 +13,9 @@ class RealmSingleLiveData<T : RealmObject>(private val data: T) : LiveData<T?>()
     override fun getValue(): T? = data.takeIf { it.isLoaded && it.isValid }
 
     override fun onActive() {
-        data.addChangeListener(listener)
+        if (data.isValid || !data.isLoaded) {
+            data.addChangeListener(listener)
+        }
         onChange()
     }
 
@@ -22,7 +24,9 @@ class RealmSingleLiveData<T : RealmObject>(private val data: T) : LiveData<T?>()
     }
 
     override fun onInactive() {
-        data.removeChangeListener(listener)
+        if (data.isValid || !data.isLoaded) {
+            data.removeChangeListener(listener)
+        }
     }
 
 }

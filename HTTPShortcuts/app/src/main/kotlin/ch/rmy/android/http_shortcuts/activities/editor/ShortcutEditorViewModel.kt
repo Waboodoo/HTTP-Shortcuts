@@ -14,6 +14,7 @@ import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut.Companion.TEMPORARY_ID
 import ch.rmy.android.http_shortcuts.realm.toLiveData
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
+import ch.rmy.android.http_shortcuts.utils.Validation
 import ch.rmy.android.http_shortcuts.variables.Variables
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -82,11 +83,11 @@ class ShortcutEditorViewModel(application: Application) : RealmViewModel(applica
         Repository.getShortcutById(realm, TEMPORARY_ID)!!
 
     fun trySave(): Single<String> {
-        // TODO: Validate, abort if invalid
-
         val id = shortcutId ?: newUUID()
         return persistedRealm.commitAsync { realm ->
             val shortcut = Repository.getShortcutById(realm, TEMPORARY_ID)!!
+            validateShortcut(shortcut)
+
             val newShortcut = Repository.copyShortcut(realm, shortcut, id)
             if (shortcutId == null && categoryId != null) {
                 Repository.getCategoryById(realm, categoryId!!)
@@ -97,6 +98,15 @@ class ShortcutEditorViewModel(application: Application) : RealmViewModel(applica
             Repository.deleteShortcut(realm, TEMPORARY_ID)
         }
             .andThen(Single.just(id))
+    }
+
+    private fun validateShortcut(shortcut: Shortcut) {
+        if (shortcut.name.isNullOrBlank()) {
+            throw ShortcutValidationError(VALIDATION_ERROR_EMPTY_NAME)
+        }
+        if (!Validation.isAcceptableUrl(shortcut.url)) {
+            throw ShortcutValidationError(VALIDATION_ERROR_INVALID_URL)
+        }
     }
 
     // TODO: Find a way to not having to pass in 'shortcut'
@@ -110,5 +120,12 @@ class ShortcutEditorViewModel(application: Application) : RealmViewModel(applica
                 shortcut.url
             ))
         }
+
+    companion object {
+
+        const val VALIDATION_ERROR_EMPTY_NAME = 1
+        const val VALIDATION_ERROR_INVALID_URL = 2
+
+    }
 
 }
