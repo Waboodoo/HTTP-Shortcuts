@@ -29,6 +29,8 @@ class ShortcutListAdapter(context: Context, shortcuts: ListLiveData<Shortcut>) :
             description.visible = !TextUtils.isEmpty(item.description)
             icon.setImageURI(item.getIconURI(context), item.iconName)
             waitingIcon.visible = isPendingExecution(item.id)
+            name.setTextColor(nameTextColor)
+            description.setTextColor(descriptionTextColor)
         }
 
         private fun isPendingExecution(shortcutId: String) = shortcutsPendingExecution.any {

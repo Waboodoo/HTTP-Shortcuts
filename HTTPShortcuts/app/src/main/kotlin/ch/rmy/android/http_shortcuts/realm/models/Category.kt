@@ -15,10 +15,16 @@ open class Category : RealmObject(), HasId {
     @Required
     var layoutType: String = LAYOUT_LINEAR_LIST
 
+    var background: String = BACKGROUND_TYPE_WHITE
+
     companion object {
 
         const val LAYOUT_LINEAR_LIST = "linear_list"
         const val LAYOUT_GRID = "grid"
+
+        const val BACKGROUND_TYPE_WHITE = "white"
+        const val BACKGROUND_TYPE_BLACK = "black"
+        const val BACKGROUND_TYPE_WALLPAPER = "wallpaper"
 
         fun createNew(name: String): Category {
             val category = Category()
@@ -26,6 +32,7 @@ open class Category : RealmObject(), HasId {
             category.name = name
             category.shortcuts = RealmList()
             category.layoutType = LAYOUT_LINEAR_LIST
+            category.background = BACKGROUND_TYPE_WHITE
             return category
         }
     }

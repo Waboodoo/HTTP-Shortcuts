@@ -22,7 +22,12 @@
     <item name="primary_dark_alt6" type="color">#FF283593</item>
 
     <item name="transparent" type="color">#00000000</item>
-    <item name="divider" type="color">#FFE0E0E0</item>
+    <item name="divider" type="color">#44606060</item>
     <item name="variable" type="color">#FF3F51B5</item>
     <item name="activity_background" type="color">#FAFAFA</item>
+    <item name="activity_background_dark" type="color">#FF101010</item>
+    <item name="text_color_primary_bright" type="color">#FAFAFA</item>
+    <item name="text_color_primary_dark" type="color">#000000</item>
+    <item name="text_color_secondary_bright" type="color">#C0C0C0</item>
+    <item name="text_color_secondary_dark" type="color">#666666</item>
 </resources>

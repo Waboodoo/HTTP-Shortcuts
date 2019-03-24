@@ -55,4 +55,9 @@ class CategoriesViewModel(application: Application) : RealmViewModel(application
             category.deleteFromRealm()
         }
 
+    fun setBackground(categoryId: String, background: String) =
+        persistedRealm.commitAsync { realm ->
+            Repository.getCategoryById(realm, categoryId)?.background = background
+        }
+
 }

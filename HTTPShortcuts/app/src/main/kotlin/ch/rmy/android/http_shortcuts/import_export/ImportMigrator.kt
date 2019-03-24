@@ -101,6 +101,11 @@ internal object ImportMigrator {
                     variable.asJsonObject.addProperty("id", oldVariableId.toString())
                 }
             }
+            23L -> { // 1.24.0
+                for (category in base["categories"].asJsonArray) {
+                    category.asJsonObject.addProperty("background", "white")
+                }
+            }
         }
         return base
     }

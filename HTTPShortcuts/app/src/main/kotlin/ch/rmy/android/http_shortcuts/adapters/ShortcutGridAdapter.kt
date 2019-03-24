@@ -21,6 +21,7 @@ class ShortcutGridAdapter(context: Context, shortcuts: ListLiveData<Shortcut>) :
         override fun updateViews(item: Shortcut) {
             name.text = item.name
             icon.setImageURI(item.getIconURI(context), item.iconName)
+            name.setTextColor(nameTextColor)
         }
 
     }

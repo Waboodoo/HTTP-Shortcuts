@@ -1,6 +1,9 @@
 package ch.rmy.android.http_shortcuts.activities.main
 
+import android.app.WallpaperManager
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.widget.ImageView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +19,7 @@ import ch.rmy.android.http_shortcuts.dialogs.CurlExportDialog
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
+import ch.rmy.android.http_shortcuts.extensions.color
 import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.extensions.startActivity
@@ -59,6 +63,12 @@ class ListFragment : BaseFragment() {
 
     // Views
     private val shortcutList: RecyclerView by bindView(R.id.shortcut_list)
+    private val backgroundView: ImageView by bindView(R.id.background)
+
+    private val wallpaper: Drawable by lazy {
+        val wallpaperManager = WallpaperManager.getInstance(context)
+        wallpaperManager.drawable
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +82,6 @@ class ListFragment : BaseFragment() {
 
     override fun setupViews() {
         shortcutList.setHasFixedSize(true)
-
         bindViewsToViewModel()
     }
 
@@ -114,6 +123,31 @@ class ListFragment : BaseFragment() {
             shortcutList.layoutManager = manager
             shortcutList.adapter = adapter
             updateEmptyState()
+        }
+
+        categoryData.value?.background?.let {
+            updateBackground(it)
+            adapter?.textColor = if (it == Category.BACKGROUND_TYPE_WHITE) {
+                ShortcutAdapter.TextColor.DARK
+            } else {
+                ShortcutAdapter.TextColor.BRIGHT
+            }
+        }
+    }
+
+    private fun updateBackground(background: String) {
+        backgroundView.apply {
+            when (background) {
+                Category.BACKGROUND_TYPE_BLACK -> {
+                    setImageDrawable(null)
+                    setBackgroundColor(color(context!!, R.color.activity_background_dark))
+                }
+                Category.BACKGROUND_TYPE_WALLPAPER -> setImageDrawable(wallpaper)
+                else -> {
+                    setImageDrawable(null)
+                    setBackgroundColor(color(context!!, R.color.activity_background))
+                }
+            }
         }
     }
 

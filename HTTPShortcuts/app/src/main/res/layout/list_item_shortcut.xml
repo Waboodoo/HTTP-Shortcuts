@@ -1,39 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/list_item_background">
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:id="@+id/shortcut_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:attr/selectableItemBackground"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp">
+        android:background="?android:attr/selectableItemBackground">
 
         <ch.rmy.android.http_shortcuts.icons.IconView
             android:id="@+id/icon"
             android:layout_width="44dp"
             android:layout_height="44dp"
             android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginRight="0dp"
             android:contentDescription="@string/icon_description"
-            tools:src="@drawable/ic_launcher"/>
+            tools:src="@drawable/ic_launcher" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="72dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
             android:layout_marginStart="20dp"
-            android:layout_toEndOf="@+id/icon"
-            android:layout_toLeftOf="@+id/waiting_icon"
-            android:layout_toRightOf="@+id/icon"
+            android:layout_marginLeft="20dp"
             android:layout_toStartOf="@+id/waiting_icon"
+            android:layout_toLeftOf="@+id/waiting_icon"
+            android:layout_toEndOf="@+id/icon"
+            android:layout_toRightOf="@+id/icon"
             android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingStart="0dp"
+            android:paddingLeft="0dp"
+            android:paddingEnd="16dp"
+            android:paddingRight="16dp">
 
             <TextView
                 android:id="@+id/name"
@@ -42,7 +46,7 @@
                 android:ellipsize="end"
                 android:lines="1"
                 android:textAppearance="@style/ListName"
-                tools:text="Name"/>
+                tools:text="Name" />
 
             <TextView
                 android:id="@+id/description"
@@ -50,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:lines="1"
-                tools:text="Description"/>
+                tools:text="Description" />
         </LinearLayout>
 
         <ImageView
@@ -60,9 +64,17 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            android:src="@drawable/ic_waiting"/>
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/ic_waiting" />
+
+        <include
+            layout="@layout/divider_line"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true" />
 
     </RelativeLayout>
 </FrameLayout>

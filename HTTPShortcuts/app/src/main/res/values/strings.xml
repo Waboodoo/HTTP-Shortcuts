@@ -240,10 +240,20 @@
     <string name="settings_licenses_summary"><![CDATA[Libraries & resources used]]></string>
     <string name="title_categories">Categories</string>
     <string name="action_rename">Rename</string>
-    <string name="action_change_category_layout_type">Change layout type</string>
+    <string name="action_change_category_layout_type">Change Layout Type</string>
     <string name="message_layout_type_changed">Layout type changed.</string>
+    <!-- TODO -->
+    <string name="action_change_category_background">Change Background</string>
+    <!-- TODO -->
+    <string name="message_background_type_changed">Background changed.</string>
     <string name="layout_type_linear_list">List</string>
     <string name="layout_type_grid">Grid</string>
+    <!-- TODO -->
+    <string name="category_background_type_white">White</string>
+    <!-- TODO -->
+    <string name="category_background_type_black">Black</string>
+    <!-- TODO -->
+    <string name="category_background_type_wallpaper">Wallpaper</string>
     <string name="title_rename_category">Rename Category</string>
     <string name="placeholder_category_name">Enter Category Name…</string>
     <string name="placeholder_value">Value</string>

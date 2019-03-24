@@ -219,6 +219,15 @@ class DatabaseMigration : RealmMigration {
                     .setRequired("shortcutId", true)
                     .addPrimaryKey("shortcutId")
             }
+            23L -> { // 1.24.0
+                schema.get("Category")!!
+                    .addField("background", String::class.java)
+                realm.where("Category").findAll().forEach { category ->
+                    category.setString("background", "white")
+                }
+                schema.get("Category")!!
+                    .setRequired("background", true)
+            }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -244,7 +253,7 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 22L
+        const val VERSION = 23L
 
     }
 

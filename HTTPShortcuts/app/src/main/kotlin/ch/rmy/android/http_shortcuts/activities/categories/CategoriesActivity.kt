@@ -91,6 +91,9 @@ class CategoriesActivity : BaseActivity() {
             .item(R.string.action_change_category_layout_type) {
                 showLayoutTypeDialog(categoryData)
             }
+            .item(R.string.action_change_category_background) {
+                showBackgroundChangeDialog(categoryData)
+            }
             .mapIf(categories.size > 1) {
                 it.item(R.string.action_delete) {
                     showDeleteDialog(categoryData)
@@ -121,6 +124,20 @@ class CategoriesActivity : BaseActivity() {
             .showIfPossible()
     }
 
+    private fun showBackgroundChangeDialog(categoryData: LiveData<Category?>) {
+        MenuDialogBuilder(context)
+            .item(R.string.category_background_type_white) {
+                changeBackgroundType(categoryData, Category.BACKGROUND_TYPE_WHITE)
+            }
+            .item(R.string.category_background_type_black) {
+                changeBackgroundType(categoryData, Category.BACKGROUND_TYPE_BLACK)
+            }
+            .item(R.string.category_background_type_wallpaper) {
+                changeBackgroundType(categoryData, Category.BACKGROUND_TYPE_WALLPAPER)
+            }
+            .showIfPossible()
+    }
+
     private fun renameCategory(categoryData: LiveData<Category?>, newName: String) {
         val category = categoryData.value ?: return
         viewModel.renameCategory(category.id, newName)
@@ -135,6 +152,15 @@ class CategoriesActivity : BaseActivity() {
         viewModel.setLayoutType(category.id, layoutType)
             .subscribe {
                 showSnackbar(R.string.message_layout_type_changed)
+            }
+            .attachTo(destroyer)
+    }
+
+    private fun changeBackgroundType(categoryData: LiveData<Category?>, backgroundType: String) {
+        val category = categoryData.value ?: return
+        viewModel.setBackground(category.id, backgroundType)
+            .subscribe {
+                showSnackbar(R.string.message_background_type_changed)
             }
             .attachTo(destroyer)
     }
