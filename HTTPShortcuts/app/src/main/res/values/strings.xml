@@ -146,10 +146,15 @@
     <string name="settings_theme">Theme</string>
     <!-- Title of section in "Settings" screen: Basic settings -->
     <string name="settings_title_basic">Basic Settings</string>
+    <!-- Name of setting that allows the user to pick what should happen when a shortcut is clicked -->
     <string name="settings_click_behavior">Shortcut Click Action</string>
+    <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: execute the shortcut (i.e., send request) -->
     <string name="settings_click_behavior_run">Execute the shortcut</string>
+    <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: edit the shortcut -->
     <string name="settings_click_behavior_edit">Edit the shortcut</string>
+    <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: show options / context menu -->
     <string name="settings_click_behavior_menu">Show the options menu</string>
+    <!-- Title of section in settings page, section contains opens for importing and exporting shortcuts -->
     <string name="settings_title_import_export">Import / Export</string>
     <!-- Section title on settings screen for privacy related settings -->
     <string name="settings_title_privacy">Privacy</string>
@@ -159,10 +164,15 @@
     <string name="settings_crash_reporting_allow">Send crash reports to help improve the app</string>
     <!-- Option for crash reporting opt out -->
     <string name="settings_crash_reporting_disallow">Don\'t send any crash reports</string>
+    <!-- Button in settings page to start import of shortcuts -->
     <string name="settings_import">Import Shortcuts</string>
+    <!-- Button in settings page to start export of shortcuts -->
     <string name="settings_export">Export Shortcuts</string>
+    <!-- Instructions shown before shortcut export is started -->
     <string name="export_instructions">Select the directory into which to export your shortcuts.\n\nPlease note that custom icons can not be exported.</string>
+    <!-- Success message after shortcuts were exported -->
     <string name="export_success">Shortcuts successfully exported.</string>
+    <!-- Error message after shortcuts failed to be exported -->
     <string name="export_failed">Exporting shortcuts failed.</string>
     <string name="export_in_progress">Exporting…</string>
     <string name="import_instructions">Select the file to import shortcuts from.\n\nPlease note that your current shortcuts might be overwritten.</string>
@@ -242,17 +252,19 @@
     <string name="action_rename">Rename</string>
     <string name="action_change_category_layout_type">Change Layout Type</string>
     <string name="message_layout_type_changed">Layout type changed.</string>
-    <!-- TODO -->
+    <!-- Option in context menu for category, allows user to change the background of a category -->
     <string name="action_change_category_background">Change Background</string>
-    <!-- TODO -->
+    <!-- Success message after background of a category was changed. Shown in snackbar. -->
     <string name="message_background_type_changed">Background changed.</string>
+    <!-- One of two options when picking the layout for a category: Show shortcuts in a list -->
     <string name="layout_type_linear_list">List</string>
+    <!-- One of two options when picking the layout for a category: Show shortcuts in a grid -->
     <string name="layout_type_grid">Grid</string>
-    <!-- TODO -->
+    <!-- Option to choose from when selecting the background of a category: Plain white -->
     <string name="category_background_type_white">White</string>
-    <!-- TODO -->
+    <!-- Option to choose from when selecting the background of a category: Plain black -->
     <string name="category_background_type_black">Black</string>
-    <!-- TODO -->
+    <!-- Option to choose from when selecting the background of a category: Use phone's wallpaper -->
     <string name="category_background_type_wallpaper">Wallpaper</string>
     <string name="title_rename_category">Rename Category</string>
     <string name="placeholder_category_name">Enter Category Name…</string>
@@ -422,13 +434,13 @@
     <string name="label_actions_pre_request">Pre-Request Actions</string>
     <!-- Section title in shortcut editor: "Post-Request Actions", allows to configure what should happen when an HTTP request succeeds or fails -->
     <string name="label_actions_post_request">Post-Request Actions</string>
-    <!-- TODO -->
+    <!-- Section title in shortcut editor, groups together miscellaneous settings -->
     <string name="label_misc_settings">Misc Settings</string>
-    <!-- TODO -->
+    <!-- Section subtitle, shown underneath "Misc Settings", gives brief summary of what the section is about -->
     <string name="label_misc_settings_subtitle">Various additional options</string>
-    <!-- TODO -->
+    <!-- Section title in shortcut editor, groups together technical settings -->
     <string name="label_advanced_technical_settings">Advanced Technical Settings</string>
-    <!-- TODO -->
+    <!-- Section subtitle in shortcut editor, shown below "Advanced Technical Settings" -->
     <string name="label_advanced_technical_settings_subtitle">For people who know what they\'re doing</string>
     <!-- Shown as a placeholder for the title field of an action of unknown type. This should never happen. -->
     <string name="action_type_unknown_title">Unknown action</string>
@@ -578,36 +590,37 @@
     <string name="subtitle_basic_request_settings_prompt">Set the shortcut\'s URL and HTTP method</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings". Pattern for Method and URL -->
     <string name="subtitle_basic_request_settings_pattern">%1$s %2$s</string>
-    <!-- TODO -->
+    <!-- Section subtitle, shown in shortcut editor when the shortcut has no custom HTTP headers -->
     <string name="subtitle_request_headers_none">No custom headers set</string>
-    <!-- TODO -->
+    <!-- Section subtitle, shown in shortcut editor when the shortcut has one or more custom HTTP headers -->
     <plurals name="subtitle_request_headers_pattern">
         <item quantity="one">1 custom header set</item>
         <item quantity="other">%d custom headers set</item>
     </plurals>
-    <!-- TODO -->
+    <!-- Section subtitle, shown in shortcut editor for "Pre-Request" and "Post-Request" options, shown when there are no such actions defined -->
     <string name="subtitle_actions_none">No actions set</string>
+    <!-- Section subtitle, shown in shortcut editor for "Pre-Request" and "Post-Request" options, shown when there are one ore more such actions defined -->
     <plurals name="subtitle_actions_pattern">
         <item quantity="one">1 action set</item>
         <item quantity="other">%d actions set</item>
     </plurals>
-    <!-- TODO -->
+    <!-- Section subtitle, shown in shortcut editor when no authentication behavior is defined -->
     <string name="subtitle_authentication_none">No authentication</string>
-    <!-- TODO -->
+    <!-- Section subtitle, shown in shortcut editor when no Basic Authentication is enabled -->
     <string name="subtitle_authentication_basic">Basic authentication with username and password</string>
-    <!-- TODO -->
+    <!-- Section subtitle, shown in shortcut editor when Digest Authentication is enabled -->
     <string name="subtitle_authentication_digest">Digest authentication with username and password</string>
-    <!-- TODO -->
+    <!-- Section subtitle, shown in shortcut editor when no (POST) parameters are set -->
     <string name="subtitle_request_body_params_none">No parameters set</string>
-    <!-- TODO -->
+    <!-- Section subtitle, shown in shortcut editor when one or more (POST) parameters are set -->
     <plurals name="subtitle_request_body_params_pattern">
         <item quantity="one">1 parameter set</item>
         <item quantity="other">%d parameters set</item>
     </plurals>
-    <!-- TODO -->
+    <!-- Section subtitle, shown in shortcut editor when no custom request body is set -->
     <string name="subtitle_request_body_none">No request body set</string>
-    <!-- TODO -->
+    <!-- Section subtitle, shown in shortcut editor when a custom request body is set -->
     <string name="subtitle_request_body_custom">Custom request body set</string>
-    <!-- TODO -->
+    <!-- Section subtitle, shown for "Custom Request Body" option when it is not available because the selected HTTP method (%1$s) does not support a request body -->
     <string name="subtitle_request_body_not_available">Not applicable for %1$s</string>
 </resources>
