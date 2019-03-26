@@ -11,6 +11,10 @@ internal object ImportMigrator {
     fun migrate(importData: JsonElement): JsonElement {
         var base = importData.asJsonObject
         val fromVersion = base["version"].asInt
+        if (fromVersion > DatabaseMigration.VERSION) {
+            throw IllegalArgumentException("Import data is newer than app")
+        }
+
         for (version in fromVersion + 1..DatabaseMigration.VERSION) {
             base = migrate(base, version)
             base.addProperty("version", version)
