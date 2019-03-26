@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +13,7 @@ import ch.rmy.android.http_shortcuts.realm.models.HasId
 import ch.rmy.android.http_shortcuts.utils.Destroyable
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils
 import io.realm.RealmObject
+import kotterknife.bindView
 
 abstract class BaseAdapter<T> internal constructor(val context: Context, private val items: ListLiveData<T>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Destroyable where T : RealmObject, T : HasId {
 
@@ -37,7 +37,7 @@ abstract class BaseAdapter<T> internal constructor(val context: Context, private
 
     override fun getItemId(position: Int) = if (isEmpty) ID_EMPTY_MARKER else UUIDUtils.toLong(getItem(position).id)
 
-    override fun getItemCount() = if (isEmpty && emptyMarkerStringResource != 0) 1 else count
+    override fun getItemCount() = if (isEmpty && emptyMarker != null) 1 else count
 
     private val count: Int
         get() = items.size
@@ -46,11 +46,15 @@ abstract class BaseAdapter<T> internal constructor(val context: Context, private
         get() = items.isEmpty()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
-        if (viewType == TYPE_EMPTY_MARKER) EmptyMarkerViewHolder(parent, emptyMarkerStringResource) else createViewHolder(parent)
+        if (viewType == TYPE_EMPTY_MARKER) {
+            EmptyMarkerViewHolder(parent, emptyMarker!!)
+        } else {
+            createViewHolder(parent)
+        }
+
+    internal open val emptyMarker: EmptyMarker? = null
 
     protected abstract fun createViewHolder(parentView: ViewGroup): BaseViewHolder<*>
-
-    internal open val emptyMarkerStringResource = 0
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is BaseViewHolder<*>) {
@@ -59,14 +63,18 @@ abstract class BaseAdapter<T> internal constructor(val context: Context, private
         }
     }
 
-    private inner class EmptyMarkerViewHolder internal constructor(parent: ViewGroup, @StringRes textRes: Int) : RecyclerView.ViewHolder(LayoutInflater.from(context).inflate(R.layout.list_empty_item, parent, false)) {
+    private inner class EmptyMarkerViewHolder internal constructor(parent: ViewGroup, emptyMarker: EmptyMarker) : RecyclerView.ViewHolder(LayoutInflater.from(context).inflate(R.layout.list_empty_item, parent, false)) {
+
+        private val emptyMarkerText: TextView by bindView(R.id.empty_marker)
+        private val emptyMarkerInstructions: TextView by bindView(R.id.empty_marker_instructions)
 
         init {
-            if (textRes != 0) {
-                itemView.findViewById<TextView>(R.id.empty_marker).setText(textRes)
-            }
+            emptyMarkerText.text = emptyMarker.title
+            emptyMarkerInstructions.text = emptyMarker.instructions
         }
     }
+
+    class EmptyMarker(val title: String, val instructions: String)
 
     companion object {
 

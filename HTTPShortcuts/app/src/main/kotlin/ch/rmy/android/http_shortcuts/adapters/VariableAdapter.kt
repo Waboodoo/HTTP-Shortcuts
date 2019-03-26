@@ -13,7 +13,10 @@ class VariableAdapter(context: Context, variables: ListLiveData<Variable>) : Bas
 
     override fun createViewHolder(parentView: ViewGroup) = VariableViewHolder(parentView)
 
-    override val emptyMarkerStringResource = R.string.no_variables
+    override val emptyMarker = EmptyMarker(
+        context.getString(R.string.empty_state_variables),
+        context.getString(R.string.empty_state_variables_instructions)
+    )
 
     inner class VariableViewHolder(parent: ViewGroup) : BaseViewHolder<Variable>(parent, R.layout.list_item_variable, this@VariableAdapter) {
 

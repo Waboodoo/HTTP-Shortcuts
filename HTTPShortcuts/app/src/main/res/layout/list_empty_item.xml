@@ -1,27 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
-    <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_gravity="center"
-                  android:gravity="center"
-                  android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="4dp">
+
         <ImageView
             android:id="@+id/empty_marker_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:alpha="0.15"
-            android:src="@drawable/ic_launcher"/>
+            android:src="@drawable/ic_launcher" />
+
         <TextView
             android:id="@+id/empty_marker"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="#999999"
-            tools:text="@string/no_shortcuts"/>
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/empty_marker_instructions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:textColor="#999999"
+            android:textSize="14sp" />
     </LinearLayout>
 
 </FrameLayout>

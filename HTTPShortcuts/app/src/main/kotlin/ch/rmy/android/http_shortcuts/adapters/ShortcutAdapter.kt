@@ -18,7 +18,10 @@ abstract class ShortcutAdapter internal constructor(context: Context, shortcuts:
 
     internal var shortcutsPendingExecution: List<PendingExecution> = emptyList()
 
-    override val emptyMarkerStringResource = R.string.no_shortcuts
+    override val emptyMarker = EmptyMarker(
+        context.getString(R.string.empty_state_shortcuts),
+        context.getString(R.string.empty_state_shortcuts_instructions)
+    )
 
     fun setPendingShortcuts(shortcutsPendingExecution: List<PendingExecution>) {
         this.shortcutsPendingExecution = shortcutsPendingExecution

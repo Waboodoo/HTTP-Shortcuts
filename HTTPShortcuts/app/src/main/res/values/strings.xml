@@ -65,9 +65,13 @@
     <!-- Shortcut dropdown option: Move the shortcut to a different category -->
     <string name="action_move_to_category">Move to category…</string>
     <!-- Empty state, shown in list when there are no shortcuts yet -->
-    <string name="no_shortcuts">no shortcuts yet</string>
+    <string name="empty_state_shortcuts">no shortcuts yet</string>
+    <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
+    <string name="empty_state_shortcuts_instructions">Click the + button to get started.</string>
     <!-- Empty state, shown in list when there are no variables yet -->
-    <string name="no_variables">no variables yet</string>
+    <string name="empty_state_variables">no variables yet</string>
+    <!-- Empty state instructions, shown in list when there are no variables yet -->
+    <string name="empty_state_variables_instructions">Click the + button to add a variable.</string>
     <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
     <string name="confirm_delete_shortcut_message">Delete this shortcut?</string>
     <!-- Dialog prompt to ask user if unsaved changes should be discarded. -->
