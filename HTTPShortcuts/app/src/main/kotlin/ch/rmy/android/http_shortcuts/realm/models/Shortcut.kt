@@ -52,6 +52,7 @@ open class Shortcut : RealmObject(), HasId {
     var contentType: String = ""
     var executionType: String? = ""
     var requireConfirmation: Boolean = false
+    var followRedirects: Boolean = true
 
     var serializedBeforeActions: String? = "[]"
     var serializedSuccessActions: String? = "[]"
@@ -80,6 +81,7 @@ open class Shortcut : RealmObject(), HasId {
         duplicate.serializedBeforeActions = serializedBeforeActions
         duplicate.serializedSuccessActions = serializedSuccessActions
         duplicate.serializedFailureActions = serializedFailureActions
+        duplicate.followRedirects = followRedirects
 
         duplicate.parameters = RealmList()
         for (parameter in parameters) {
@@ -182,7 +184,8 @@ open class Shortcut : RealmObject(), HasId {
             other.contentType != contentType ||
             other.serializedBeforeActions != serializedBeforeActions ||
             other.serializedSuccessActions != serializedSuccessActions ||
-            other.serializedFailureActions != serializedFailureActions
+            other.serializedFailureActions != serializedFailureActions ||
+            other.followRedirects != followRedirects
         ) {
             return false
         }
@@ -313,6 +316,7 @@ open class Shortcut : RealmObject(), HasId {
             serializedBeforeActions = "[]"
             serializedSuccessActions = "[]"
             serializedFailureActions = "[]"
+            followRedirects = true
         }
     }
 

@@ -12,12 +12,14 @@ import javax.net.ssl.X509TrustManager
 
 internal object HttpClients {
 
-    fun getClient(acceptAllCertificates: Boolean, username: String?, password: String?): OkHttpClient =
+    fun getClient(acceptAllCertificates: Boolean, username: String?, password: String?, followRedirects: Boolean): OkHttpClient =
         (if (acceptAllCertificates) createUnsafeOkHttpClientBuilder() else createDefaultOkHttpClientBuilder())
             .mapIf(username != null && password != null) {
                 val authenticator = DigestAuthenticator(Credentials(username, password))
                 it.authenticator(authenticator)
             }
+            .followRedirects(followRedirects)
+            .followSslRedirects(followRedirects)
             .addNetworkInterceptor(StethoInterceptor())
             .build()
 

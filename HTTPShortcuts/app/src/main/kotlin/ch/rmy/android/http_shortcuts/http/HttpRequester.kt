@@ -48,7 +48,8 @@ object HttpRequester {
             context,
             acceptAllCertificates,
             username.takeIf { detachedShortcut.usesDigestAuthentication() },
-            password.takeIf { detachedShortcut.usesDigestAuthentication() }
+            password.takeIf { detachedShortcut.usesDigestAuthentication() },
+            detachedShortcut.followRedirects
         )
             .add(request)
 
@@ -62,8 +63,8 @@ object HttpRequester {
         else -> Shortcut.DEFAULT_CONTENT_TYPE
     }
 
-    private fun getQueue(context: Context, acceptAllCertificates: Boolean, username: String? = null, password: String? = null): RequestQueue {
-        val client = HttpClients.getClient(acceptAllCertificates, username, password)
+    private fun getQueue(context: Context, acceptAllCertificates: Boolean, username: String? = null, password: String? = null, followRedirects: Boolean = false): RequestQueue {
+        val client = HttpClients.getClient(acceptAllCertificates, username, password, followRedirects)
         return Volley.newRequestQueue(context, OkHttpStack(client))
     }
 
