@@ -81,3 +81,4 @@ The app has very basic voice support, though only experimental at this point. Tr
 - Italian: [Flavio Barisi](https://github.com/flavio20002)
 - Norwegian (Bokmål): [Imre Kristoffer Eilertsen](https://github.com/DandelionSprout)
 - Spanish: [iprockbyte](https://github.com/iprockbyte)
+- Turkish: [Bilal Bayrak](https://github.com/bayrakbilal)
