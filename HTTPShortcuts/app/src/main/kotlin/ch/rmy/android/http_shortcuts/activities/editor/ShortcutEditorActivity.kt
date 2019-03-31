@@ -22,6 +22,7 @@ import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.dimen
 import ch.rmy.android.http_shortcuts.extensions.focus
 import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
@@ -31,13 +32,16 @@ import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.IpackUtil
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
+import ch.rmy.android.http_shortcuts.utils.Validation
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.views.PanelButton
 import com.afollestad.materialdialogs.MaterialDialog
 import com.theartofdev.edmodo.cropper.CropImage
 import io.reactivex.Completable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import kotterknife.bindView
+import java.util.concurrent.TimeUnit
 
 class ShortcutEditorActivity : BaseActivity() {
 
@@ -50,6 +54,9 @@ class ShortcutEditorActivity : BaseActivity() {
     }
 
     private val viewModel: ShortcutEditorViewModel by bindViewModel()
+    private val shortcutData by lazy {
+        viewModel.shortcut
+    }
 
     // Views
     private val iconView: IconView by bindView(R.id.input_icon)
@@ -92,11 +99,13 @@ class ShortcutEditorActivity : BaseActivity() {
         invalidateOptionsMenu()
         bindViewsToViewModel()
         bindClickListeners()
+        bindTextChangeListeners()
     }
 
     private fun bindViewsToViewModel() {
-        viewModel.shortcut.observe(this, Observer {
+        shortcutData.observe(this, Observer {
             it?.let(::updateShortcutViews)
+            invalidateOptionsMenu()
         })
     }
 
@@ -145,6 +154,21 @@ class ShortcutEditorActivity : BaseActivity() {
         }
     }
 
+    private fun bindTextChangeListeners() {
+        bindTextChangeListener(nameView) { shortcutData.value?.name }
+        bindTextChangeListener(descriptionView) { shortcutData.value?.description }
+    }
+
+    private fun bindTextChangeListener(textView: EditText, currentValueProvider: () -> String?) {
+        textView.observeTextChanges()
+            .debounce(1, TimeUnit.SECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .filter { it.toString() != currentValueProvider.invoke() }
+            .concatMapCompletable { updateViewModelFromViews() }
+            .subscribe()
+            .attachTo(destroyer)
+    }
+
     private fun openIconSelectionDialog() {
         MenuDialogBuilder(context)
             .title(R.string.change_icon)
@@ -185,6 +209,7 @@ class ShortcutEditorActivity : BaseActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         if (viewModel.isInitialized) {
             menuInflater.inflate(R.menu.editor_activity_menu, menu)
+            menu.findItem(R.id.action_test_shortcut).isVisible = shortcutData.value?.url?.let { Validation.isAcceptableUrl(it) } == true
         }
         return super.onCreateOptionsMenu(menu)
     }

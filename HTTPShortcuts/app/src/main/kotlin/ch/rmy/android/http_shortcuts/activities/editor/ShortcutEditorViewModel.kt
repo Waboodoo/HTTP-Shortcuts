@@ -26,6 +26,9 @@ import io.realm.kotlin.where
 class ShortcutEditorViewModel(application: Application) : RealmViewModel(application) {
 
     fun init(categoryId: String?, shortcutId: String?): Completable {
+        if (isInitialized) {
+            return Completable.complete()
+        }
         this.categoryId = categoryId
         this.shortcutId = shortcutId
         return persistedRealm.commitAsync { realm ->

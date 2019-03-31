@@ -44,7 +44,7 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp">
 
-                <EditText
+                <ch.rmy.android.http_shortcuts.views.BetterEditText
                     android:id="@+id/input_shortcut_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                     android:maxLength="40"
                     android:maxLines="1">
 
-                </EditText>
+                </ch.rmy.android.http_shortcuts.views.BetterEditText>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -65,7 +65,7 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp">
 
-                <EditText
+                <ch.rmy.android.http_shortcuts.views.BetterEditText
                     android:id="@+id/input_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
