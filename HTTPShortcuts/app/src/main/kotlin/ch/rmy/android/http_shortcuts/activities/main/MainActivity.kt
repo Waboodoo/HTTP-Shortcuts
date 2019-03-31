@@ -25,6 +25,7 @@ import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
@@ -265,7 +266,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
                     showSnackbar(R.string.message_app_unlocked)
                 }
             }, { e ->
-                showSnackbar(R.string.error_generic)
+                showSnackbar(R.string.error_generic, long = true)
                 logException(e)
             })
             .attachTo(destroyer)

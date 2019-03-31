@@ -5,9 +5,7 @@ import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.ViewGroup
 import android.view.WindowManager
-import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import ch.rmy.android.http_shortcuts.R
@@ -17,7 +15,6 @@ import ch.rmy.android.http_shortcuts.extensions.drawable
 import ch.rmy.android.http_shortcuts.realm.RealmFactory
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.ThemeHelper
-import com.google.android.material.snackbar.Snackbar
 
 abstract class BaseActivity : AppCompatActivity() {
 
@@ -56,15 +53,6 @@ abstract class BaseActivity : AppCompatActivity() {
         val upArrow = drawable(context, iconResource) ?: return
         upArrow.setColorFilter(color(context, android.R.color.white), PorterDuff.Mode.SRC_ATOP)
         actionBar.setHomeAsUpIndicator(upArrow)
-    }
-
-    fun showSnackbar(@StringRes message: Int) {
-        showSnackbar(getString(message))
-    }
-
-    fun showSnackbar(message: CharSequence) {
-        val baseView = findViewById<ViewGroup>(android.R.id.content).getChildAt(0)
-        Snackbar.make(baseView, message, Snackbar.LENGTH_SHORT).show()
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {

@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.settings
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -14,6 +15,7 @@ import android.preference.Preference
 import android.preference.Preference.OnPreferenceChangeListener
 import android.preference.Preference.OnPreferenceClickListener
 import android.preference.PreferenceFragment
+import androidx.annotation.StringRes
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.LicensesActivity
@@ -23,10 +25,11 @@ import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
-import ch.rmy.android.http_shortcuts.import_export.ExportTask
-import ch.rmy.android.http_shortcuts.import_export.ImportTask
+import ch.rmy.android.http_shortcuts.import_export.Exporter
+import ch.rmy.android.http_shortcuts.import_export.Importer
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.CrashReporting
@@ -35,7 +38,10 @@ import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
+import com.google.gson.JsonParseException
+import com.google.gson.JsonSyntaxException
 import com.nononsenseapps.filepicker.FilePickerActivity
+import io.reactivex.android.schedulers.AndroidSchedulers
 import java.io.File
 
 class SettingsActivity : BaseActivity() {
@@ -183,7 +189,7 @@ class SettingsActivity : BaseActivity() {
                     activity.finish()
                 },
                     { e ->
-                        (activity as? BaseActivity)?.showSnackbar(R.string.error_generic)
+                        activity?.showSnackbar(R.string.error_generic, long = true)
                         logException(e)
                     })
                 .attachTo(destroyer)
@@ -355,13 +361,68 @@ class SettingsActivity : BaseActivity() {
         }
 
         private fun startExport(directoryPath: String) {
-            val task = ExportTask(activity, view!!)
-            task.execute(directoryPath)
+            // TODO: Replace progress dialog with something better
+            val progressDialog = ProgressDialog(activity).apply {
+                setMessage(getString(R.string.export_in_progress))
+            }
+            Exporter()
+                .export(directoryPath)
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe {
+                    progressDialog.show()
+                }
+                .doOnEvent { _, _ ->
+                    progressDialog.dismiss()
+                }
+                .subscribe({ status ->
+                    showSnackbar(activity.resources.getQuantityString(
+                        R.plurals.shortcut_export_success,
+                        status.exportedShortcuts,
+                        status.exportedShortcuts
+                    ))
+                }, {
+                    // TODO: Show more meaningful error message
+                    showSnackbar(R.string.export_failed)
+                })
+                .attachTo(destroyer)
         }
 
         private fun startImport(uri: Uri) {
-            val task = ImportTask(activity, view!!)
-            task.execute(uri)
+            // TODO: Replace progress dialog with something better
+            val progressDialog = ProgressDialog(activity).apply {
+                setMessage(getString(R.string.export_in_progress))
+            }
+            Importer()
+                .import(activity.applicationContext, uri)
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe {
+                    progressDialog.show()
+                }
+                .doOnEvent { _, _ ->
+                    progressDialog.dismiss()
+                }
+                .subscribe({ status ->
+                    showSnackbar(activity.resources.getQuantityString(
+                        R.plurals.shortcut_import_success,
+                        status.importedShortcuts,
+                        status.importedShortcuts
+                    ))
+                }, { e ->
+                    if (e is JsonParseException || e is JsonSyntaxException) {
+                        showSnackbar(R.string.import_failed_invalid_json, long = true)
+                    } else {
+                        showSnackbar(R.string.import_failed)
+                    }
+                })
+                .attachTo(destroyer)
+        }
+
+        private fun showSnackbar(@StringRes message: Int, long: Boolean = false) {
+            activity?.showSnackbar(message, long)
+        }
+
+        private fun showSnackbar(message: CharSequence, long: Boolean = false) {
+            activity?.showSnackbar(message, long)
         }
 
         override fun onDestroy() {

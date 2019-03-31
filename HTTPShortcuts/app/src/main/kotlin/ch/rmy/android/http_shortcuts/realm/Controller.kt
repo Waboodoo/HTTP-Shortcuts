@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.realm
 
 import ch.rmy.android.http_shortcuts.realm.models.Base
-import ch.rmy.android.http_shortcuts.realm.models.Category
 import ch.rmy.android.http_shortcuts.realm.models.PendingExecution
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.realm.models.Variable
@@ -27,8 +26,6 @@ class Controller : Destroyable, Closeable {
     override fun close() = destroy()
 
     fun getShortcuts() = Repository.getShortcuts(realm)
-
-    fun getCategories(): RealmList<Category> = getBase().categories
 
     fun getVariables(): RealmList<Variable> = getBase().variables
 

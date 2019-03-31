@@ -22,6 +22,7 @@ import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.dimen
 import ch.rmy.android.http_shortcuts.extensions.focus
 import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.icons.IconSelector
@@ -232,11 +233,11 @@ class ShortcutEditorActivity : BaseActivity() {
                 if (e is ShortcutValidationError) {
                     when (e.type) {
                         ShortcutEditorViewModel.VALIDATION_ERROR_EMPTY_NAME -> {
-                            showSnackbar(getString(R.string.validation_name_not_empty))
+                            showSnackbar(R.string.validation_name_not_empty, long = true)
                             nameView.focus()
                         }
                         ShortcutEditorViewModel.VALIDATION_ERROR_INVALID_URL -> {
-                            showSnackbar(getString(R.string.validation_url_invalid))
+                            showSnackbar(R.string.validation_url_invalid, long = true)
                         }
                         else -> handleUnknownError(e)
                     }
@@ -298,11 +299,11 @@ class ShortcutEditorActivity : BaseActivity() {
                         if (result.error != null) {
                             logException(result.error)
                         }
-                        showSnackbar(getString(R.string.error_set_image))
+                        showSnackbar(R.string.error_set_image, long = true)
                     }
                 } catch (e: Exception) {
                     logException(e)
-                    showSnackbar(getString(R.string.error_set_image))
+                    showSnackbar(R.string.error_set_image, long = true)
                 }
             }
             REQUEST_SELECT_IPACK_ICON -> {

@@ -103,7 +103,7 @@ class ShortcutEditorViewModel(application: Application) : RealmViewModel(applica
     }
 
     private fun validateShortcut(shortcut: Shortcut) {
-        if (shortcut.name.isNullOrBlank()) {
+        if (shortcut.name.isBlank()) {
             throw ShortcutValidationError(VALIDATION_ERROR_EMPTY_NAME)
         }
         if (!Validation.isAcceptableUrl(shortcut.url)) {

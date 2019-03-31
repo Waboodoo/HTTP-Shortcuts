@@ -9,4 +9,7 @@ open class Base : RealmObject() {
     var categories: RealmList<Category> = RealmList()
     var variables: RealmList<Variable> = RealmList()
 
+    val shortcuts: List<Shortcut>
+        get() = categories.flatMap { it.shortcuts }
+
 }

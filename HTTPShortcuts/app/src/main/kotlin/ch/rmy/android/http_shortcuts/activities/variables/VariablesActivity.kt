@@ -15,6 +15,7 @@ import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.consume
+import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
@@ -100,7 +101,7 @@ class VariablesActivity : BaseActivity() {
             .subscribe({
                 showSnackbar(getString(R.string.message_variable_duplicated).format(key))
             }, {
-                showSnackbar(R.string.error_generic)
+                showSnackbar(R.string.error_generic, long = true)
             })
             .attachTo(destroyer)
     }

@@ -22,6 +22,7 @@ import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.color
 import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.mapIf
+import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.realm.livedata.ListLiveData
@@ -298,7 +299,7 @@ class ListFragment : BaseFragment() {
         val name = shortcut.name
         viewModel.moveShortcut(shortcut.id, targetCategoryId = category.id)
             .subscribe {
-                tabHost?.showSnackbar(String.format(getString(R.string.shortcut_moved), name))
+                activity?.showSnackbar(String.format(getString(R.string.shortcut_moved), name))
             }
             .attachTo(destroyer)
     }
@@ -314,7 +315,7 @@ class ListFragment : BaseFragment() {
             ?.let { it + 1 }
         viewModel.duplicateShortcut(shortcut.id, newName, newPosition, categoryId)
             .subscribe {
-                tabHost?.showSnackbar(String.format(getString(R.string.shortcut_duplicated), name))
+                showSnackbar(String.format(getString(R.string.shortcut_duplicated), name))
             }
             .attachTo(destroyer)
     }
@@ -322,7 +323,7 @@ class ListFragment : BaseFragment() {
     private fun cancelPendingExecution(shortcut: Shortcut) {
         viewModel.removePendingExecution(shortcut.id)
             .subscribe {
-                tabHost?.showSnackbar(String.format(getString(R.string.pending_shortcut_execution_cancelled), shortcut.name))
+                showSnackbar(String.format(getString(R.string.pending_shortcut_execution_cancelled), shortcut.name))
                 ExecutionScheduler.schedule(context!!)
             }
             .attachTo(destroyer)
@@ -369,7 +370,7 @@ class ListFragment : BaseFragment() {
     }
 
     private fun deleteShortcut(shortcut: Shortcut) {
-        tabHost?.showSnackbar(String.format(getString(R.string.shortcut_deleted), shortcut.name))
+        showSnackbar(String.format(getString(R.string.shortcut_deleted), shortcut.name))
         tabHost?.removeShortcutFromHomeScreen(shortcut)
         viewModel.deleteShortcut(shortcut.id)
             .subscribe {
@@ -388,8 +389,6 @@ class ListFragment : BaseFragment() {
         fun placeShortcutOnHomeScreen(shortcut: Shortcut)
 
         fun removeShortcutFromHomeScreen(shortcut: Shortcut)
-
-        fun showSnackbar(message: CharSequence)
 
         fun isAppLocked(): Boolean
 

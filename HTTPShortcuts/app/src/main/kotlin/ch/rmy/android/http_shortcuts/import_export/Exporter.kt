@@ -1,32 +1,30 @@
 package ch.rmy.android.http_shortcuts.import_export
 
-import android.content.Context
-import android.view.View
-import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
+import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
-import java.io.IOException
 
-class ExportTask(context: Context, baseView: View) : SimpleTask<String>(context, baseView) {
+class Exporter {
 
-    override fun doInBackground(vararg path: String): Exception? {
-        val base = Controller().use { controller ->
-            controller.exportBase()
-        }
+    fun export(path: String): Single<ExportStatus> =
+        Single.create<ExportStatus> { emitter ->
+            val base = Controller().use { controller ->
+                controller.exportBase()
+            }
 
-        return try {
-            val file = getFile(path[0])
+            val file = getFile(path)
             BufferedWriter(FileWriter(file)).use {
                 GsonUtil.exportData(base, it)
             }
-            null
-        } catch (e: IOException) {
-            e
+            emitter.onSuccess(ExportStatus(
+                exportedShortcuts = base.shortcuts.size
+            ))
         }
-    }
+            .observeOn(Schedulers.io())
 
     private fun getFile(directoryPath: String): File {
         val directory = File(directoryPath)
@@ -40,11 +38,7 @@ class ExportTask(context: Context, baseView: View) : SimpleTask<String>(context,
         return file
     }
 
-    override val progressMessage = getString(R.string.export_in_progress)
-
-    override val successMessage = getString(R.string.export_success)
-
-    override val failureMessage = getString(R.string.export_failed)
+    data class ExportStatus(val exportedShortcuts: Int)
 
     companion object {
 
