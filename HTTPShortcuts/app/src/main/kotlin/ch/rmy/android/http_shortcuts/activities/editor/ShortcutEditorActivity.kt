@@ -110,7 +110,7 @@ class ShortcutEditorActivity : BaseActivity() {
     }
 
     private fun updateShortcutViews(shortcut: Shortcut) {
-        iconView.setImageURI(shortcut.getIconURI(context), shortcut.iconName)
+        iconView.setImageURI(shortcut.getIconURI(context), shortcut.iconName, animated = true)
         nameView.setText(shortcut.name)
         descriptionView.setText(shortcut.description)
 

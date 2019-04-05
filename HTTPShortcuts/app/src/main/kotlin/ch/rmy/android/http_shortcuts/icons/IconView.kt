@@ -35,11 +35,11 @@ class IconView : AppCompatImageView {
 
     private fun requiresBackground() = iconName?.startsWith("white_") ?: false
 
-    fun setImageURI(uri: Uri, iconName: String?) {
+    fun setImageURI(uri: Uri, iconName: String?, animated: Boolean = false) {
         if (this.iconName == iconName) {
             return
         }
-        if (this.iconName == null) {
+        if (this.iconName == null || !animated) {
             this.iconName = iconName
             applyImageURI(uri)
         } else {
