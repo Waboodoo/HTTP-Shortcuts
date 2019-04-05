@@ -285,19 +285,18 @@ class ListFragment : BaseFragment() {
             MenuDialogBuilder(context!!)
                 .title(R.string.title_move_to_category)
                 .mapFor(categories.filter { it.id != currentCategory.id }) { builder, category ->
+                    val categoryId = category.id
                     builder.item(category.name) {
-                        categoryData.value?.let { category ->
-                            moveShortcut(shortcutData.value ?: return@item, category)
-                        }
+                        moveShortcut(shortcutData.value ?: return@item, categoryId)
                     }
                 }
                 .showIfPossible()
         }
     }
 
-    private fun moveShortcut(shortcut: Shortcut, category: Category) {
+    private fun moveShortcut(shortcut: Shortcut, categoryId: String) {
         val name = shortcut.name
-        viewModel.moveShortcut(shortcut.id, targetCategoryId = category.id)
+        viewModel.moveShortcut(shortcut.id, targetCategoryId = categoryId)
             .subscribe {
                 activity?.showSnackbar(String.format(getString(R.string.shortcut_moved), name))
             }
