@@ -61,6 +61,10 @@ class Controller : Destroyable, Closeable {
     fun importBaseSynchronously(base: Base) {
         val oldBase = getBase()
         realm.executeTransaction { realm ->
+            if (oldBase.categories.singleOrNull()?.shortcuts?.isEmpty() == true) {
+                oldBase.categories.clear()
+            }
+
             val persistedCategories = realm.copyToRealmOrUpdate(base.categories)
             oldBase.categories.removeAll(persistedCategories)
             oldBase.categories.addAll(persistedCategories)
