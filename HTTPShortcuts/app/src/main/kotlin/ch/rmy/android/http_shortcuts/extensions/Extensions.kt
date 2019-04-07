@@ -3,14 +3,7 @@ package ch.rmy.android.http_shortcuts.extensions
 import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.os.Build
-import android.text.Editable
 import android.util.Log
-import android.view.View
-import android.view.inputmethod.InputMethodManager
-import android.widget.AdapterView
-import android.widget.EditText
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
@@ -25,11 +18,9 @@ import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.CrashReporting
 import ch.rmy.android.http_shortcuts.utils.Destroyable
 import ch.rmy.android.http_shortcuts.utils.Destroyer
-import ch.rmy.android.http_shortcuts.utils.SimpleTextWatcher
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.curlcommand.CurlCommand
 import com.afollestad.materialdialogs.MaterialDialog
-import com.satsuware.usefulviews.LabelledSpinner
 import io.reactivex.Completable
 import io.reactivex.disposables.Disposable
 import org.apache.http.HttpHeaders
@@ -40,60 +31,11 @@ import org.jdeferred2.ProgressFilter
 import org.jdeferred2.Promise
 import org.jdeferred2.impl.DeferredObject
 
-var View.visible: Boolean
-    get() = this.visibility == View.VISIBLE
-    set(value) {
-        val newState = if (value) {
-            View.VISIBLE
-        } else {
-            View.GONE
-        }
-        if (visibility != newState) {
-            visibility = newState
-        }
-    }
-
 fun Fragment.showMessageDialog(@StringRes stringRes: Int) {
     MaterialDialog.Builder(context!!)
         .content(stringRes)
         .positiveText(R.string.dialog_ok)
         .showIfPossible()
-}
-
-fun EditText.focus() {
-    requestFocus()
-    try {
-        setSelection(text.length)
-    } catch (e: Exception) {
-        logException(e)
-    }
-}
-
-@Suppress("DEPRECATION")
-fun ImageView.clearBackground() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-        background = null
-    } else {
-        setBackgroundDrawable(null)
-    }
-}
-
-fun LabelledSpinner.fix() {
-    val paddingTop = spinner.context.resources.getDimensionPixelSize(R.dimen.spinner_padding_top)
-    label.setPadding(0, paddingTop, 0, 0)
-    errorLabel.visibility = View.GONE
-}
-
-fun LabelledSpinner.setOnItemSelected(listener: () -> Unit) {
-    this.onItemChosenListener = object : LabelledSpinner.OnItemChosenListener {
-        override fun onItemChosen(labelledSpinner: View?, adapterView: AdapterView<*>?, itemView: View?, position: Int, id: Long) {
-            listener.invoke()
-        }
-
-        override fun onNothingChosen(labelledSpinner: View?, adapterView: AdapterView<*>?) {
-
-        }
-    }
 }
 
 @ColorInt
@@ -125,14 +67,6 @@ fun Any.logException(e: Throwable) {
         CrashReporting.logException(e)
     } else {
         Log.e(this.javaClass.simpleName, "An error occurred", e)
-    }
-}
-
-fun View.showSoftKeyboard() {
-    requestFocus()
-    post {
-        (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
-            .showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
     }
 }
 
@@ -183,25 +117,7 @@ fun CurlCommand.applyToShortcut(shortcut: Shortcut) {
     }
 }
 
-fun EditText.onTextChanged(listener: (text: CharSequence) -> Unit): Destroyable {
-    val watcher = object : SimpleTextWatcher() {
-        override fun afterTextChanged(s: Editable) {
-            listener.invoke(s)
-        }
-    }
-    addTextChangedListener(watcher)
-    listener.invoke(text)
-    return object : Destroyable {
-        override fun destroy() {
-            removeTextChangedListener(watcher)
-        }
-    }
-}
-
 fun <T> Array<T>.findIndex(item: T) =
-    indices.firstOrNull { this[it] == item } ?: 0
-
-fun IntArray.findIndex(item: Int) =
     indices.firstOrNull { this[it] == item } ?: 0
 
 fun Disposable.toDestroyable() = object : Destroyable {

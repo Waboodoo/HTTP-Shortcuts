@@ -4,6 +4,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
+import ch.rmy.android.http_shortcuts.variables.VariableViewUtils.bindVariableViews
 import kotterknife.bindView
 
 class ConstantEditorFragment : VariableEditorFragment() {
@@ -14,7 +15,8 @@ class ConstantEditorFragment : VariableEditorFragment() {
     private val inputVariableValue: VariableEditText by bindView(R.id.input_variable_value)
 
     override fun setupViews() {
-        inputVariableValue.bind(variableButton, variableKeyProvider).attachTo(destroyer)
+        bindVariableViews(inputVariableValue, variableButton, variablePlaceholderProvider)
+            .attachTo(destroyer)
     }
 
     override fun updateViews(variable: Variable) {

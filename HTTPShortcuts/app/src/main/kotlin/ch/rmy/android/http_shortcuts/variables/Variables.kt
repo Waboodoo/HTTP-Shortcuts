@@ -1,11 +1,9 @@
 package ch.rmy.android.http_shortcuts.variables
 
-import android.content.Context
-import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.Spanned
-import ch.rmy.android.http_shortcuts.realm.Controller
+import androidx.annotation.ColorInt
 import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -53,7 +51,7 @@ object Variables {
 
     private fun match(s: CharSequence): Matcher = PATTERN.matcher(s)
 
-    fun rawPlaceholdersToVariableSpans(text: CharSequence, variablePlaceholderProvider: VariablePlaceholderProvider): Spannable {
+    fun rawPlaceholdersToVariableSpans(text: CharSequence, variablePlaceholderProvider: VariablePlaceholderProvider, @ColorInt color: Int): Spannable {
         val builder = SpannableStringBuilder(text)
         val matcher = match(text)
 
@@ -70,18 +68,11 @@ object Variables {
         while (it.hasNext()) {
             val replacement = it.next()
             val placeholderText = toPrettyPlaceholder(replacement.placeholder.variableKey)
-            val span = VariableSpan(replacement.placeholder.color, replacement.placeholder.variableKey)
+            val span = VariableSpan(color, replacement.placeholder.variableKey)
             builder.replace(replacement.startIndex, replacement.endIndex, placeholderText)
             builder.setSpan(span, replacement.startIndex, replacement.startIndex + placeholderText.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
         return builder
-    }
-
-    fun rawPlaceholdersToVariableSpans(context: Context, text: CharSequence): Spannable {
-        Controller().use { controller ->
-            val variableKeyProvider = VariablePlaceholderProvider(context, controller.getVariables())
-            return Variables.rawPlaceholdersToVariableSpans(text, variableKeyProvider)
-        }
     }
 
     fun variableSpansToRawPlaceholders(text: Spannable): String {
@@ -101,16 +92,9 @@ object Variables {
         return builder.toString()
     }
 
-    fun insertVariableSpan(text: Editable, placeholder: VariablePlaceholder, position: Int) {
-        val placeholderText = toPrettyPlaceholder(placeholder.variableKey)
-        val span = VariableSpan(placeholder.color, placeholder.variableKey)
-        text.insert(position, placeholderText)
-        text.setSpan(span, position, position + placeholderText.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-    }
-
     fun toRawPlaceholder(variableKey: String) = "$RAW_PLACEHOLDER_PREFIX$variableKey$RAW_PLACEHOLDER_SUFFIX"
 
-    private fun toPrettyPlaceholder(variableKey: String) = "$PRETTY_PLACEHOLDER_PREFIX$variableKey$PRETTY_PLACEHOLDER_SUFFIX"
+    fun toPrettyPlaceholder(variableKey: String) = "$PRETTY_PLACEHOLDER_PREFIX$variableKey$PRETTY_PLACEHOLDER_SUFFIX"
 
     private class Replacement(internal val startIndex: Int, internal val endIndex: Int, internal val placeholder: VariablePlaceholder)
 

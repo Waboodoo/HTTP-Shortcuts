@@ -1,13 +1,58 @@
 package ch.rmy.android.http_shortcuts.extensions
 
+import android.content.Context
+import android.os.Build
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.LayoutRes
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.utils.SimpleTextWatcher
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
+import kotlin.math.min
+
+var View.visible: Boolean
+    get() = this.visibility == View.VISIBLE
+    set(value) {
+        val newState = if (value) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+        if (visibility != newState) {
+            visibility = newState
+        }
+    }
+
+fun EditText.focus() {
+    requestFocus()
+    try {
+        setSelection(text.length)
+    } catch (e: Exception) {
+        logException(e)
+    }
+}
+
+fun View.showSoftKeyboard() {
+    requestFocus()
+    post {
+        (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+            .showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+    }
+}
+
+@Suppress("DEPRECATION")
+fun ImageView.clearBackground() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+        background = null
+    } else {
+        setBackgroundDrawable(null)
+    }
+}
 
 fun ViewGroup.setContentView(@LayoutRes layoutResource: Int): View =
     View.inflate(context, layoutResource, this)
@@ -38,4 +83,13 @@ fun TextView.observeTextChanges(): Observable<CharSequence> {
         .doOnDispose {
             removeTextChangedListener(watcher)
         }
+}
+
+fun EditText.setTextMaintainingSelection(text: CharSequence) {
+    val start = selectionStart
+    val end = selectionEnd
+    setText(text)
+    if (start != -1 && end != -1) {
+        setSelection(min(start, length()), min(end, length()))
+    }
 }

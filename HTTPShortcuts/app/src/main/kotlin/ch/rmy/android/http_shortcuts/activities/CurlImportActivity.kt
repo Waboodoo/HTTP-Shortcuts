@@ -9,8 +9,9 @@ import android.view.MenuItem
 import android.widget.EditText
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
+import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.consume
-import ch.rmy.android.http_shortcuts.extensions.onTextChanged
+import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.curlcommand.CurlParser
@@ -31,9 +32,10 @@ class CurlImportActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_curl_import)
 
-        curlCommand.onTextChanged { text ->
-            commandEmpty = text.isEmpty()
-        }
+        curlCommand.observeTextChanges()
+            .subscribe { text ->
+                commandEmpty = text.isEmpty()
+            }
             .attachTo(destroyer)
     }
 

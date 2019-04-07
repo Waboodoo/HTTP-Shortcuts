@@ -9,7 +9,6 @@ import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.utils.PromiseUtils
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
-import ch.rmy.android.http_shortcuts.variables.Variables
 import com.android.volley.VolleyError
 import org.jdeferred2.Promise
 
@@ -20,7 +19,7 @@ class TriggerShortcutAction(
 ) : BaseAction(id, actionType, data) {
 
     var shortcutId: String
-        get() = internalData[KEY_SHORTCUT_ID]?: ""
+        get() = internalData[KEY_SHORTCUT_ID] ?: ""
         set(value) {
             internalData[KEY_SHORTCUT_ID] = value
         }
@@ -33,12 +32,9 @@ class TriggerShortcutAction(
         }
 
     override fun getDescription(context: Context): CharSequence =
-        Variables.rawPlaceholdersToVariableSpans(
-            context,
-            context.getString(
-                R.string.action_type_trigger_shortcut_description,
-                shortcutName ?: "???"
-            )
+        context.getString(
+            R.string.action_type_trigger_shortcut_description,
+            shortcutName ?: "???"
         )
 
     override fun perform(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Promise<Unit, Throwable, Unit> {

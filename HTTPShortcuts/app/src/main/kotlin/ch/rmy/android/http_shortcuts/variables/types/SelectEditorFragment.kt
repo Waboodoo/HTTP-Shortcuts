@@ -16,6 +16,7 @@ import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
+import ch.rmy.android.http_shortcuts.variables.VariableViewUtils.bindVariableViews
 import com.afollestad.materialdialogs.MaterialDialog
 import kotterknife.bindView
 
@@ -65,7 +66,8 @@ class SelectEditorFragment : VariableEditorFragment() {
         val valueInput = editorView.findViewById<VariableEditText>(R.id.select_option_value)
         val valueVariableButton = editorView.findViewById<VariableButton>(R.id.variable_button_value)
 
-        valueInput.bind(valueVariableButton, variableKeyProvider).attachTo(destroyer)
+        bindVariableViews(valueInput, valueVariableButton, variablePlaceholderProvider)
+            .attachTo(destroyer)
 
         if (option != null) {
             labelInput.setText(option.label)

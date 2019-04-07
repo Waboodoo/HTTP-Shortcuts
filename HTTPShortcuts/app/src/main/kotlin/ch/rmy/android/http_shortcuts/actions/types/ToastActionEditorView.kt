@@ -6,6 +6,7 @@ import ch.rmy.android.http_shortcuts.extensions.focus
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
+import ch.rmy.android.http_shortcuts.variables.VariableViewUtils.bindVariableViews
 import kotterknife.bindView
 
 class ToastActionEditorView(
@@ -18,7 +19,8 @@ class ToastActionEditorView(
     private val variableButton: VariableButton by bindView(R.id.variable_button_toast_message)
 
     init {
-        messageView.bind(variableButton, variablePlaceholderProvider)
+        bindVariableViews(messageView, variableButton, variablePlaceholderProvider)
+            .attachTo(destroyer)
         messageView.rawString = action.message
         messageView.focus()
     }

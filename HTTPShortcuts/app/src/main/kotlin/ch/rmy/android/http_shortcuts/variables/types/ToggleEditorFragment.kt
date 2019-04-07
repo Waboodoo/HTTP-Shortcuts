@@ -15,6 +15,7 @@ import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
+import ch.rmy.android.http_shortcuts.variables.VariableViewUtils.bindVariableViews
 import com.afollestad.materialdialogs.MaterialDialog
 import kotterknife.bindView
 
@@ -29,7 +30,7 @@ class ToggleEditorFragment : VariableEditorFragment() {
     private val optionsAdapter = ToggleVariableOptionsAdapter()
 
     override fun setupViews() {
-        optionsAdapter.variablePlaceholderProvider = variableKeyProvider
+        optionsAdapter.variablePlaceholderProvider = variablePlaceholderProvider
 
         toggleOptionsAddButton.setOnClickListener { showAddDialog() }
         toggleOptionsList.layoutManager = LinearLayoutManager(context)
@@ -57,8 +58,8 @@ class ToggleEditorFragment : VariableEditorFragment() {
         val editorView = layoutInflater.inflate(R.layout.toggle_option_editor_item, null)
         val valueInput = editorView.findViewById<VariableEditText>(R.id.toggle_option_value)
         val valueVariableButton = editorView.findViewById<VariableButton>(R.id.variable_button_value)
-
-        valueInput.bind(valueVariableButton, variableKeyProvider).attachTo(destroyer)
+        bindVariableViews(valueInput, valueVariableButton, variablePlaceholderProvider)
+            .attachTo(destroyer)
 
         if (option != null) {
             valueInput.rawString = option.value

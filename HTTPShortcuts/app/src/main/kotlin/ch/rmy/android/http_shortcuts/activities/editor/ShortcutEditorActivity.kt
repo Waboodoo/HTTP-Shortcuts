@@ -15,14 +15,17 @@ import androidx.lifecycle.Observer
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
+import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.BasicRequestSettingsActivity
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
+import ch.rmy.android.http_shortcuts.extensions.color
 import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.dimen
 import ch.rmy.android.http_shortcuts.extensions.focus
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
+import ch.rmy.android.http_shortcuts.extensions.setTextMaintainingSelection
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
@@ -34,11 +37,12 @@ import ch.rmy.android.http_shortcuts.utils.IpackUtil
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.utils.Validation
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
+import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
+import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.android.http_shortcuts.views.PanelButton
 import com.afollestad.materialdialogs.MaterialDialog
 import com.theartofdev.edmodo.cropper.CropImage
 import io.reactivex.Completable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import kotterknife.bindView
 import java.util.concurrent.TimeUnit
@@ -57,6 +61,12 @@ class ShortcutEditorActivity : BaseActivity() {
     private val shortcutData by lazy {
         viewModel.shortcut
     }
+    private val variablesData by lazy {
+        viewModel.variables
+    }
+    private val variablePlaceholderProvider by lazy {
+        VariablePlaceholderProvider(variablesData)
+    }
 
     // Views
     private val iconView: IconView by bindView(R.id.input_icon)
@@ -71,6 +81,10 @@ class ShortcutEditorActivity : BaseActivity() {
     private val postRequestActionsButton: PanelButton by bindView(R.id.button_post_request_actions)
     private val miscSettingsButton: PanelButton by bindView(R.id.button_misc_settings)
     private val advancedTechnicalSettingsButton: PanelButton by bindView(R.id.button_advanced_technical_settings)
+
+    private val variablePlaceholderColor by lazy {
+        color(context, R.color.variable)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,17 +118,28 @@ class ShortcutEditorActivity : BaseActivity() {
 
     private fun bindViewsToViewModel() {
         shortcutData.observe(this, Observer {
-            it?.let(::updateShortcutViews)
+            updateShortcutViews()
             invalidateOptionsMenu()
+        })
+        variablesData.observe(this, Observer {
+            updateShortcutViews()
         })
     }
 
-    private fun updateShortcutViews(shortcut: Shortcut) {
+    private fun updateShortcutViews() {
+        val shortcut = shortcutData.value ?: return
         iconView.setImageURI(shortcut.getIconURI(context), shortcut.iconName, animated = true)
-        nameView.setText(shortcut.name)
-        descriptionView.setText(shortcut.description)
+        nameView.setTextMaintainingSelection(shortcut.name)
+        descriptionView.setTextMaintainingSelection(shortcut.description)
 
         basicRequestSettingsButton.subtitle = viewModel.getBasicSettingsSubtitle(shortcut)
+            .let { subtitle ->
+                Variables.rawPlaceholdersToVariableSpans(
+                    subtitle,
+                    variablePlaceholderProvider,
+                    variablePlaceholderColor
+                )
+            }
         headersButton.subtitle = viewModel.getHeadersSettingsSubtitle(shortcut)
         requestBodyButton.subtitle = viewModel.getRequestBodySettingsSubtitle(shortcut)
         authenticationButton.subtitle = viewModel.getAuthenticationSettingsSubtitle(shortcut)
@@ -129,7 +154,9 @@ class ShortcutEditorActivity : BaseActivity() {
             openIconSelectionDialog()
         }
         basicRequestSettingsButton.setOnClickListener {
-
+            BasicRequestSettingsActivity.IntentBuilder(context)
+                .build()
+                .startActivity(this)
         }
         headersButton.setOnClickListener {
 
@@ -161,8 +188,8 @@ class ShortcutEditorActivity : BaseActivity() {
 
     private fun bindTextChangeListener(textView: EditText, currentValueProvider: () -> String?) {
         textView.observeTextChanges()
-            .debounce(1, TimeUnit.SECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
+            .debounce(300, TimeUnit.MILLISECONDS)
+            .observeOn(mainThread())
             .filter { it.toString() != currentValueProvider.invoke() }
             .concatMapCompletable { updateViewModelFromViews() }
             .subscribe()

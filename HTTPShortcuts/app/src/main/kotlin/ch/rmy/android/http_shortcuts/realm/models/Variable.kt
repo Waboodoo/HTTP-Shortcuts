@@ -68,6 +68,9 @@ open class Variable : RealmObject(), HasId {
             data = GsonUtil.toJson(dataMap)
         }
 
+    val isConstant
+        get() = type == TYPE_CONSTANT
+
     companion object {
 
         const val FIELD_KEY = "key"

@@ -6,13 +6,10 @@ import android.widget.EditText
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.extensions.attachTo
-import ch.rmy.android.http_shortcuts.extensions.findIndex
-import ch.rmy.android.http_shortcuts.extensions.fix
-import ch.rmy.android.http_shortcuts.extensions.setOnItemSelected
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
-import com.satsuware.usefulviews.LabelledSpinner
+import ch.rmy.android.http_shortcuts.views.LabelledSpinner
 import kotterknife.bindView
 
 class ExtractBodyActionEditorView(
@@ -32,12 +29,19 @@ class ExtractBodyActionEditorView(
     private val variableButton: VariableButton by bindView(R.id.variable_button_target_variable)
 
     private var selectedVariableKey: String = action.variableKey
+        set(value) {
+            field = value
+            updateViews()
+        }
 
     init {
-        extractionOption.fix()
-        extractionOption.setItemsArray(getOptionStrings())
-        extractionOption.setSelection(EXTRACTION_OPTIONS.findIndex(action.extractionType))
-        extractionOption.setOnItemSelected(::updateViews)
+        extractionOption.items = getOptionStrings()
+        extractionOption.selectedItem = action.extractionType
+        extractionOption.selectionChanges
+            .subscribe {
+                updateViews()
+            }
+            .attachTo(destroyer)
 
         substringStart.setText(action.substringStart.toString())
         substringEnd.setText(action.substringEnd.toString())
@@ -50,11 +54,11 @@ class ExtractBodyActionEditorView(
         }
         variableButton.variablePlaceholderProvider = variablePlaceholderProvider
 
-
-        variableButton.variableSource.subscribe {
-            selectedVariableKey = it.variableKey
-            updateViews()
-        }.attachTo(destroyer)
+        variableButton.variableSource
+            .subscribe {
+                selectedVariableKey = it.variableKey
+            }
+            .attachTo(destroyer)
         updateViews()
     }
 
@@ -87,7 +91,10 @@ class ExtractBodyActionEditorView(
     private fun getSelectedOption() =
         EXTRACTION_OPTIONS[extractionOption.spinner.selectedItemPosition]
 
-    private fun getOptionStrings() = EXTRACTION_OPTIONS_RESOURCES.map { context.getString(it) }
+    private fun getOptionStrings() =
+        EXTRACTION_OPTIONS_RESOURCES
+            .map { context.getString(it) }
+            .toTypedArray()
 
     companion object {
 

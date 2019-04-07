@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.satsuware.usefulviews.LabelledSpinner
+    <ch.rmy.android.http_shortcuts.views.LabelledSpinner
         android:id="@+id/input_vibration_pattern"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

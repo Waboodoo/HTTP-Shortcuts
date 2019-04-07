@@ -21,7 +21,7 @@ class ToastAction(
         }
 
     override fun getDescription(context: Context): CharSequence =
-        Variables.rawPlaceholdersToVariableSpans(context, context.getString(R.string.action_type_toast_description, message))
+        context.getString(R.string.action_type_toast_description, message)
 
     override fun performBlocking(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int) {
         val finalMessage = Variables.rawPlaceholdersToResolvedValues(message, variableValues)

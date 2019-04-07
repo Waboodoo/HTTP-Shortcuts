@@ -24,10 +24,10 @@ internal class KeyValueAdapter<T : KeyValuePair>(context: Context) : ArrayAdapte
 
         if (parameter != null) {
             val keyView = row.findViewById<TextView>(R.id.text_key)
-            keyView.text = Variables.rawPlaceholdersToVariableSpans(parameter.key, variablePlaceholderProvider)
+            keyView.text = Variables.rawPlaceholdersToVariableSpans(parameter.key, variablePlaceholderProvider, 0)
 
             val valueView = row.findViewById<TextView>(R.id.text_value)
-            valueView.text = Variables.rawPlaceholdersToVariableSpans(parameter.value, variablePlaceholderProvider)
+            valueView.text = Variables.rawPlaceholdersToVariableSpans(parameter.value, variablePlaceholderProvider, 0)
         }
         return row
     }

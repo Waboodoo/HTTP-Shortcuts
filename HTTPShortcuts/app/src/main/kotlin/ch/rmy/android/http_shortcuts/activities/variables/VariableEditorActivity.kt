@@ -13,10 +13,8 @@ import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.findIndex
-import ch.rmy.android.http_shortcuts.extensions.fix
 import ch.rmy.android.http_shortcuts.extensions.focus
-import ch.rmy.android.http_shortcuts.extensions.onTextChanged
-import ch.rmy.android.http_shortcuts.extensions.setOnItemSelected
+import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
@@ -26,8 +24,8 @@ import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.android.http_shortcuts.variables.types.AsyncVariableType
 import ch.rmy.android.http_shortcuts.variables.types.VariableEditorFragment
 import ch.rmy.android.http_shortcuts.variables.types.VariableTypeFactory
+import ch.rmy.android.http_shortcuts.views.LabelledSpinner
 import com.afollestad.materialdialogs.MaterialDialog
-import com.satsuware.usefulviews.LabelledSpinner
 import kotterknife.bindView
 
 class VariableEditorActivity : BaseActivity() {
@@ -65,7 +63,8 @@ class VariableEditorActivity : BaseActivity() {
         titleView.setText(variable.title)
         val defaultColor = keyView.textColors
         keyView
-            .onTextChanged { text ->
+            .observeTextChanges()
+            .subscribe { text ->
                 if (text.isEmpty() || Variables.isValidVariableKey(text.toString())) {
                     keyView.setTextColor(defaultColor)
                     keyView.error = null
@@ -76,10 +75,13 @@ class VariableEditorActivity : BaseActivity() {
             }
             .attachTo(destroyer)
 
-        typeSpinner.setItemsArray(getVariableTypeOptions(context))
-        typeSpinner.fix()
+        typeSpinner.items = getVariableTypeOptions(context)
         typeSpinner.setSelection(Variable.TYPE_OPTIONS.findIndex(variable.type))
-        typeSpinner.setOnItemSelected(::updateTypeEditor)
+        typeSpinner.selectionChanges
+            .subscribe {
+                updateTypeEditor()
+            }
+            .attachTo(destroyer)
 
         urlEncode.isChecked = variable.urlEncode
         jsonEncode.isChecked = variable.jsonEncode

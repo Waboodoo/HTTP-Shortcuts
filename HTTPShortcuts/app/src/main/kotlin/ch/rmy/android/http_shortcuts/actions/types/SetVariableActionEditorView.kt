@@ -8,6 +8,7 @@ import ch.rmy.android.http_shortcuts.extensions.focus
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
+import ch.rmy.android.http_shortcuts.variables.VariableViewUtils.bindVariableViews
 import kotterknife.bindView
 
 class SetVariableActionEditorView(
@@ -22,9 +23,16 @@ class SetVariableActionEditorView(
     private val variableButton2: VariableButton by bindView(R.id.variable_button_target_variable)
 
     private var selectedVariableKey: String = action.variableKey
+        set(value) {
+            field = value
+            updateViews()
+        }
 
     init {
-        newValueView.bind(variableButton, variablePlaceholderProvider)
+        newValueView.variablePlaceholderProvider = variablePlaceholderProvider
+        variableButton.variablePlaceholderProvider = variablePlaceholderProvider
+        variableButton2.variablePlaceholderProvider = variablePlaceholderProvider
+
         newValueView.rawString = action.newValue
         newValueView.focus()
 
@@ -32,11 +40,14 @@ class SetVariableActionEditorView(
         targetVariableView.setOnClickListener {
             variableButton2.performClick()
         }
+        bindVariableViews(newValueView, variableButton, variablePlaceholderProvider)
+            .attachTo(destroyer)
         variableButton2.variablePlaceholderProvider = variablePlaceholderProvider
-        variableButton2.variableSource.subscribe {
-            selectedVariableKey = it.variableKey
-            updateViews()
-        }.attachTo(destroyer)
+        variableButton2.variableSource
+            .subscribe {
+                selectedVariableKey = it.variableKey
+            }
+            .attachTo(destroyer)
         updateViews()
     }
 

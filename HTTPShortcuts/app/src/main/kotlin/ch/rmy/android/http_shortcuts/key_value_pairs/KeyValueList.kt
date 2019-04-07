@@ -11,14 +11,16 @@ import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ListView
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.mapIf
-import ch.rmy.android.http_shortcuts.extensions.onTextChanged
+import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
 import ch.rmy.android.http_shortcuts.extensions.showSoftKeyboard
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
+import ch.rmy.android.http_shortcuts.variables.VariableViewUtils.bindVariableViews
 import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
 import com.google.android.material.textfield.TextInputLayout
@@ -110,9 +112,11 @@ class KeyValueList<T : KeyValuePair> @JvmOverloads constructor(context: Context,
                 val keyVariableButton = dialog.findViewById(R.id.variable_button_key) as VariableButton
                 val valueVariableButton = dialog.findViewById(R.id.variable_button_value) as VariableButton
 
-                keyInput.bind(keyVariableButton, variablePlaceholderProvider).attachTo(destroyer)
+                bindVariableViews(keyInput, keyVariableButton, variablePlaceholderProvider)
+                    .attachTo(destroyer)
                 keyInput.rawString = item?.key ?: ""
-                valueInput.bind(valueVariableButton, variablePlaceholderProvider).attachTo(destroyer)
+                bindVariableViews(valueInput, valueVariableButton, variablePlaceholderProvider)
+                    .attachTo(destroyer)
                 valueInput.rawString = item?.value ?: ""
 
                 valueInput.inputType = (if (isMultiLine) InputType.TYPE_TEXT_FLAG_MULTI_LINE else 0) or InputType.TYPE_CLASS_TEXT
@@ -135,9 +139,11 @@ class KeyValueList<T : KeyValuePair> @JvmOverloads constructor(context: Context,
                 }
 
                 val okButton = dialog.getActionButton(DialogAction.POSITIVE)
-                keyInput.onTextChanged { text ->
-                    okButton.isEnabled = text.isNotEmpty()
-                }.attachTo(destroyer)
+                keyInput.observeTextChanges()
+                    .subscribe { text ->
+                        okButton.isEnabled = text.isNotEmpty()
+                    }
+                    .attachTo(destroyer)
             }
             .showIfPossible()
     }

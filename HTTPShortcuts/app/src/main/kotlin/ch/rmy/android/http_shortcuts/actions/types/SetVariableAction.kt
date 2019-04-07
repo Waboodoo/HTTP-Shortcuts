@@ -29,10 +29,7 @@ class SetVariableAction(
         }
 
     override fun getDescription(context: Context): CharSequence =
-        Variables.rawPlaceholdersToVariableSpans(
-            context,
-            context.getString(R.string.action_type_set_variable_description, Variables.toRawPlaceholder(variableKey), newValue)
-        )
+        context.getString(R.string.action_type_set_variable_description, Variables.toRawPlaceholder(variableKey), newValue)
 
     override fun perform(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Promise<Unit, Throwable, Unit> {
         val value = Variables.rawPlaceholdersToResolvedValues(newValue, variableValues)

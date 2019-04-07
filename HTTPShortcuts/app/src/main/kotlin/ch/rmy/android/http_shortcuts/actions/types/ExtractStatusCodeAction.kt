@@ -24,10 +24,7 @@ class ExtractStatusCodeAction(
         }
 
     override fun getDescription(context: Context): CharSequence =
-        Variables.rawPlaceholdersToVariableSpans(
-            context,
-            context.getString(R.string.action_type_extract_status_code_description, Variables.toRawPlaceholder(variableKey))
-        )
+        context.getString(R.string.action_type_extract_status_code_description, Variables.toRawPlaceholder(variableKey))
 
     override fun perform(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Promise<Unit, Throwable, Unit> {
         val statusCode = response?.statusCode ?: volleyError?.networkResponse?.statusCode

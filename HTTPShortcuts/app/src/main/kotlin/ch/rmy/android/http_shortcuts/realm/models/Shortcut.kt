@@ -233,7 +233,7 @@ open class Shortcut : RealmObject(), HasId {
 
     companion object {
 
-        const val TEMPORARY_ID: String = "temp"
+        const val TEMPORARY_ID: String = "0"
 
         const val FIELD_NAME = "name"
 

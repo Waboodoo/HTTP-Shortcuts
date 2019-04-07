@@ -27,7 +27,7 @@ class RenameShortcutAction(
     val shortcutId = data[KEY_SHORTCUT_ID]
 
     override fun getDescription(context: Context): CharSequence =
-        Variables.rawPlaceholdersToVariableSpans(context, context.getString(R.string.action_type_rename_shortcut_description, name))
+        context.getString(R.string.action_type_rename_shortcut_description, name)
 
     override fun perform(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Promise<Unit, Throwable, Unit> =
         renameShortcut(context, this.shortcutId ?: shortcutId, variableValues)

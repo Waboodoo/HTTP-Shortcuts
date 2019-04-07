@@ -29,7 +29,7 @@ class ToggleVariableOptionsAdapter : SimpleListAdapter<Option, ToggleVariableOpt
         private val value: TextView by bindView(R.id.toggle_option_value)
 
         override fun updateViews(item: Option) {
-            value.text = Variables.rawPlaceholdersToVariableSpans(item.value, variablePlaceholderProvider)
+            value.text = Variables.rawPlaceholdersToVariableSpans(item.value, variablePlaceholderProvider, 0)
             itemView.setOnClickListener { clickListener?.invoke(item) }
         }
 

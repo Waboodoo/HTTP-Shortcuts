@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/toolbar_layout" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <ch.rmy.android.http_shortcuts.views.LabelledSpinner
+                android:id="@+id/input_method"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:labelText="@string/label_method"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@+id/variable_button_url"
+                    android:layout_toLeftOf="@+id/variable_button_url">
+
+                    <ch.rmy.android.http_shortcuts.variables.VariableEditText
+                        android:id="@+id/input_url"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/label_url"
+                        android:inputType="textNoSuggestions|textUri|textMultiLine"
+                        android:maxLines="8" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ch.rmy.android.http_shortcuts.variables.VariableButton
+                    android:id="@+id/variable_button_url"
+                    style="@style/VariableButton"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

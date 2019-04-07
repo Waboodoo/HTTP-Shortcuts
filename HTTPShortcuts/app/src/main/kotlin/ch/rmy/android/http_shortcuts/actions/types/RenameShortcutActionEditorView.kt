@@ -2,7 +2,9 @@ package ch.rmy.android.http_shortcuts.actions.types
 
 import android.content.Context
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.focus
+import ch.rmy.android.http_shortcuts.extensions.showSoftKeyboard
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
@@ -18,7 +20,13 @@ class RenameShortcutActionEditorView(
     private val variableButton: VariableButton by bindView(R.id.variable_button_new_shortcut_name)
 
     init {
-        newNameView.bind(variableButton, variablePlaceholderProvider)
+        newNameView.variablePlaceholderProvider = variablePlaceholderProvider
+        variableButton.variableSource
+            .subscribe { variablePlaceholder ->
+                newNameView.insertVariablePlaceholder(variablePlaceholder)
+                newNameView.showSoftKeyboard()
+            }
+            .attachTo(destroyer)
         newNameView.rawString = action.name
         newNameView.focus()
     }

@@ -10,7 +10,7 @@
         style="@style/HelpDescription"
         android:text="@string/action_type_extract_body_help_text"/>
 
-    <com.satsuware.usefulviews.LabelledSpinner
+    <ch.rmy.android.http_shortcuts.views.LabelledSpinner
         android:id="@+id/input_extraction_option"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

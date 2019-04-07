@@ -11,13 +11,14 @@ import ch.rmy.android.http_shortcuts.icons.Icons
 import ch.rmy.android.http_shortcuts.realm.RealmViewModel
 import ch.rmy.android.http_shortcuts.realm.Repository
 import ch.rmy.android.http_shortcuts.realm.commitAsync
+import ch.rmy.android.http_shortcuts.realm.livedata.ListLiveData
 import ch.rmy.android.http_shortcuts.realm.models.HasId.Companion.FIELD_ID
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.realm.models.Shortcut.Companion.TEMPORARY_ID
+import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.realm.toLiveData
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.utils.Validation
-import ch.rmy.android.http_shortcuts.variables.Variables
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.realm.Realm
@@ -32,7 +33,6 @@ class ShortcutEditorViewModel(application: Application) : RealmViewModel(applica
         this.categoryId = categoryId
         this.shortcutId = shortcutId
         return persistedRealm.commitAsync { realm ->
-            Repository.deleteShortcut(realm, TEMPORARY_ID)
             if (shortcutId == null) {
                 realm.copyToRealmOrUpdate(Shortcut.createNew(id = TEMPORARY_ID, iconName = randomInitialIconName))
             } else {
@@ -65,13 +65,13 @@ class ShortcutEditorViewModel(application: Application) : RealmViewModel(applica
         val oldShortcut = shortcutId
             ?.let { Repository.getShortcutById(persistedRealm, it)!! }
             ?: Shortcut.createNew(iconName = randomInitialIconName)
-        val newShortcut = getShortcut(persistedRealm)
+        val newShortcut = getShortcut(persistedRealm) ?: return false
         return !newShortcut.isSameAs(oldShortcut)
     }
 
     fun setNameAndDescription(name: String, description: String): Completable =
         persistedRealm.commitAsync { realm ->
-            getShortcut(realm).apply {
+            getShortcut(realm)?.apply {
                 this.name = name
                 this.description = description
             }
@@ -79,13 +79,13 @@ class ShortcutEditorViewModel(application: Application) : RealmViewModel(applica
 
     fun setIconName(iconName: String?): Completable =
         persistedRealm.commitAsync { realm ->
-            getShortcut(realm).apply {
+            getShortcut(realm)?.apply {
                 this.iconName = iconName
             }
         }
 
-    private fun getShortcut(realm: Realm): Shortcut =
-        Repository.getShortcutById(realm, TEMPORARY_ID)!!
+    private fun getShortcut(realm: Realm): Shortcut? =
+        Repository.getShortcutById(realm, TEMPORARY_ID)
 
     fun trySave(): Single<String> {
         val id = shortcutId ?: newUUID()
@@ -119,11 +119,11 @@ class ShortcutEditorViewModel(application: Application) : RealmViewModel(applica
         if (shortcut.url.isEmpty() || shortcut.url == "http://") {
             getString(R.string.subtitle_basic_request_settings_prompt)
         } else {
-            Variables.rawPlaceholdersToVariableSpans(context, getString(
+            getString(
                 R.string.subtitle_basic_request_settings_pattern,
                 shortcut.method,
                 shortcut.url
-            ))
+            )
         }
 
     fun getHeadersSettingsSubtitle(shortcut: Shortcut): CharSequence =
@@ -179,6 +179,12 @@ class ShortcutEditorViewModel(application: Application) : RealmViewModel(applica
         } else {
             context.resources.getQuantityString(pluralRes, count, count)
         }
+
+    val variables: ListLiveData<Variable>
+        get() = persistedRealm
+            .where<Variable>()
+            .findAllAsync()
+            .toLiveData()
 
     companion object {
 

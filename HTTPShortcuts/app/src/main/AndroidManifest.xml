@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    package="ch.rmy.android.http_shortcuts"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="ch.rmy.android.http_shortcuts">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
-    <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name="ch.rmy.android.http_shortcuts.Application"
@@ -18,16 +18,17 @@
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@drawable/ic_launcher"
-        android:theme="@style/LightTheme">
+        android:theme="@style/LightTheme"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".activities.main.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.CREATE_SHORTCUT"/>
+                <action android:name="android.intent.action.CREATE_SHORTCUT" />
             </intent-filter>
         </activity>
         <activity
@@ -37,16 +38,15 @@
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.main.MainActivity"/>
+                android:value=".activities.main.MainActivity" />
         </activity>
         <activity
-            android:name=".activities.EditorActivity"
-            android:label="@string/edit_shortcut"
-            android:parentActivityName=".activities.main.MainActivity"
+            android:name=".activities.editor.basicsettings.BasicRequestSettingsActivity"
+            android:label="@string/section_basic_request"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.main.MainActivity"/>
+                android:value=".activities.editor.ShortcutEditorActivity" />
         </activity>
         <activity
             android:name=".activities.categories.CategoriesActivity"
@@ -55,7 +55,7 @@
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.main.MainActivity"/>
+                android:value=".activities.main.MainActivity" />
         </activity>
         <activity
             android:name=".activities.CurlImportActivity"
@@ -64,7 +64,7 @@
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.main.MainActivity"/>
+                android:value=".activities.main.MainActivity" />
         </activity>
         <activity
             android:name=".activities.variables.VariablesActivity"
@@ -73,7 +73,7 @@
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.main.MainActivity"/>
+                android:value=".activities.main.MainActivity" />
         </activity>
         <activity
             android:name=".activities.variables.VariableEditorActivity"
@@ -82,7 +82,7 @@
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.variables.VariablesActivity"/>
+                android:value=".activities.variables.VariablesActivity" />
         </activity>
         <activity
             android:name=".activities.settings.SettingsActivity"
@@ -90,7 +90,7 @@
             android:parentActivityName=".activities.main.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.main.MainActivity"/>
+                android:value=".activities.main.MainActivity" />
         </activity>
         <activity
             android:name=".activities.ExecuteActivity"
@@ -101,12 +101,12 @@
             android:noHistory="true"
             android:theme="@style/Theme.Transparent">
             <intent-filter>
-                <action android:name="ch.rmy.android.http_shortcuts.execute"/>
+                <action android:name="ch.rmy.android.http_shortcuts.execute" />
             </intent-filter>
         </activity>
         <activity
             android:name=".activities.LicensesActivity"
-            android:label="@string/title_licenses"/>
+            android:label="@string/title_licenses" />
 
         <activity
             android:name=".activities.ShareActivity"
@@ -117,16 +117,16 @@
             android:noHistory="true"
             android:theme="@style/Theme.Transparent">
             <intent-filter>
-                <action android:name="android.intent.action.SEND"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:mimeType="text/plain"/>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
 
         <activity
             android:name="com.nononsenseapps.filepicker.FilePickerActivity"
             android:label=".FilePickerActivity"
-            android:theme="@style/FilePickerTheme"/>
+            android:theme="@style/FilePickerTheme" />
 
         <!-- EXPERIMENTAL -->
         <activity
@@ -138,15 +138,15 @@
             android:noHistory="true"
             android:theme="@style/Theme.Transparent">
             <intent-filter>
-                <action android:name="com.google.android.gms.actions.SEARCH_ACTION"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="com.google.android.gms.actions.SEARCH_ACTION" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <service
             android:name=".http.ExecutionService"
             android:exported="true"
-            android:permission="android.permission.BIND_JOB_SERVICE"/>
+            android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <activity
             android:name=".plugin.PluginEditActivity"
@@ -154,7 +154,7 @@
             android:icon="@drawable/ic_plugin"
             android:label="@string/plugin_name">
             <intent-filter>
-                <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING"/>
+                <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />
             </intent-filter>
         </activity>
 
@@ -163,7 +163,7 @@
             android:exported="true"
             android:process=":background">
             <intent-filter>
-                <action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING"/>
+                <action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING" />
             </intent-filter>
         </receiver>
 
@@ -177,13 +177,13 @@
             android:targetActivity=".activities.ExecuteActivity"
             android:theme="@style/Theme.Transparent">
             <intent-filter>
-                <action android:name="ch.rmy.android.http_shortcuts.execute"/>
+                <action android:name="ch.rmy.android.http_shortcuts.execute" />
             </intent-filter>
         </activity-alias>
 
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat"/>
+            android:theme="@style/Base.Theme.AppCompat" />
 
     </application>
 

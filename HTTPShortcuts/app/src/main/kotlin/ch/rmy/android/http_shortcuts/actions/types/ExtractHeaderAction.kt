@@ -30,10 +30,7 @@ class ExtractHeaderAction(
         }
 
     override fun getDescription(context: Context): CharSequence =
-        Variables.rawPlaceholdersToVariableSpans(
-            context,
-            context.getString(R.string.action_type_extract_header_description, headerKey, Variables.toRawPlaceholder(variableKey))
-        )
+        context.getString(R.string.action_type_extract_header_description, headerKey, Variables.toRawPlaceholder(variableKey))
 
     override fun perform(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Promise<Unit, Throwable, Unit> {
         val headerValue = response?.headers?.get(headerKey)
