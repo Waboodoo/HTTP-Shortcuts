@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.realm.models
+package ch.rmy.android.http_shortcuts.data.models
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -57,44 +57,6 @@ open class Shortcut : RealmObject(), HasId {
     var serializedBeforeActions: String? = "[]"
     var serializedSuccessActions: String? = "[]"
     var serializedFailureActions: String? = "[]"
-
-    fun duplicate(newName: String): Shortcut {
-        val duplicate = Shortcut()
-        duplicate.id = ""
-        duplicate.name = newName
-        duplicate.bodyContent = bodyContent
-        duplicate.description = description
-        duplicate.feedback = feedback
-        duplicate.iconName = iconName
-        duplicate.method = method
-        duplicate.password = password
-        duplicate.retryPolicy = retryPolicy
-        duplicate.timeout = timeout
-        duplicate.url = url
-        duplicate.username = username
-        duplicate.authentication = authentication
-        duplicate.launcherShortcut = launcherShortcut
-        duplicate.acceptAllCertificates = acceptAllCertificates
-        duplicate.delay = delay
-        duplicate.requestBodyType = requestBodyType
-        duplicate.contentType = contentType
-        duplicate.serializedBeforeActions = serializedBeforeActions
-        duplicate.serializedSuccessActions = serializedSuccessActions
-        duplicate.serializedFailureActions = serializedFailureActions
-        duplicate.followRedirects = followRedirects
-
-        duplicate.parameters = RealmList()
-        for (parameter in parameters) {
-            duplicate.parameters.add(Parameter.createNew(parameter.key, parameter.value))
-        }
-
-        duplicate.headers = RealmList()
-        for (header in headers) {
-            duplicate.headers.add(Header.createNew(header.key, header.value))
-        }
-
-        return duplicate
-    }
 
     fun getIconURI(context: Context): Uri {
         val packageName = context.packageName

@@ -2,19 +2,19 @@ package ch.rmy.android.http_shortcuts.activities.main
 
 import android.app.Application
 import androidx.lifecycle.LiveData
-import ch.rmy.android.http_shortcuts.realm.Repository.copyShortcut
-import ch.rmy.android.http_shortcuts.realm.Repository.getBase
-import ch.rmy.android.http_shortcuts.realm.Repository.getCategoryByIdAsync
-import ch.rmy.android.http_shortcuts.realm.Repository.getShortcutById
-import ch.rmy.android.http_shortcuts.realm.Repository.getShortcutPendingExecution
-import ch.rmy.android.http_shortcuts.realm.Repository.getShortcutsPendingExecution
-import ch.rmy.android.http_shortcuts.realm.Repository.moveShortcut
-import ch.rmy.android.http_shortcuts.realm.commitAsync
-import ch.rmy.android.http_shortcuts.realm.livedata.ListLiveData
-import ch.rmy.android.http_shortcuts.realm.models.Category
-import ch.rmy.android.http_shortcuts.realm.models.PendingExecution
-import ch.rmy.android.http_shortcuts.realm.models.Shortcut
-import ch.rmy.android.http_shortcuts.realm.toLiveData
+import ch.rmy.android.http_shortcuts.data.Repository.copyShortcut
+import ch.rmy.android.http_shortcuts.data.Repository.getBase
+import ch.rmy.android.http_shortcuts.data.Repository.getCategoryByIdAsync
+import ch.rmy.android.http_shortcuts.data.Repository.getShortcutById
+import ch.rmy.android.http_shortcuts.data.Repository.getShortcutPendingExecution
+import ch.rmy.android.http_shortcuts.data.Repository.getShortcutsPendingExecution
+import ch.rmy.android.http_shortcuts.data.Repository.moveShortcut
+import ch.rmy.android.http_shortcuts.data.livedata.ListLiveData
+import ch.rmy.android.http_shortcuts.data.models.Category
+import ch.rmy.android.http_shortcuts.data.models.PendingExecution
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.extensions.commitAsync
+import ch.rmy.android.http_shortcuts.extensions.toLiveData
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 
 class ShortcutListViewModel(application: Application) : MainViewModel(application) {

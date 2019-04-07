@@ -1,14 +1,13 @@
 package ch.rmy.android.http_shortcuts.activities.variables
 
 import android.app.Application
-import ch.rmy.android.http_shortcuts.realm.RealmViewModel
-import ch.rmy.android.http_shortcuts.realm.Repository.getBase
-import ch.rmy.android.http_shortcuts.realm.Repository.getVariableById
-import ch.rmy.android.http_shortcuts.realm.Repository.getVariableByKey
-
-import ch.rmy.android.http_shortcuts.realm.commitAsync
-import ch.rmy.android.http_shortcuts.realm.detachFromRealm
-import ch.rmy.android.http_shortcuts.realm.models.Variable
+import ch.rmy.android.http_shortcuts.data.RealmViewModel
+import ch.rmy.android.http_shortcuts.data.Repository.getBase
+import ch.rmy.android.http_shortcuts.data.Repository.getVariableById
+import ch.rmy.android.http_shortcuts.data.Repository.getVariableByKey
+import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.extensions.commitAsync
+import ch.rmy.android.http_shortcuts.extensions.detachFromRealm
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import io.reactivex.Completable
 
@@ -27,7 +26,7 @@ class VariableEditorViewModel(application: Application) : RealmViewModel(applica
         if (variableId != null) {
             getVariableById(persistedRealm, variableId)!!.detachFromRealm()
         } else {
-            Variable.createNew()
+            Variable()
         }
 
     fun getVariable(): Variable = variable

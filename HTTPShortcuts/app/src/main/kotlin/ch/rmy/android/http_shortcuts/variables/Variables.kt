@@ -13,15 +13,16 @@ object Variables {
     const val KEY_MAX_LENGTH = 30
 
     const val VARIABLE_KEY_REGEX = "[A-Za-z0-9_]{1,$KEY_MAX_LENGTH}"
+    private const val VARIABLE_ID_REGEX = "([0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}|[0-9]+)"
 
     private const val RAW_PLACEHOLDER_PREFIX = "{{"
     private const val RAW_PLACEHOLDER_SUFFIX = "}}"
-    private const val RAW_PLACEHOLDER_REGEX = "\\{\\{($VARIABLE_KEY_REGEX)\\}\\}"
+    private const val RAW_PLACEHOLDER_REGEX = "\\{\\{($VARIABLE_ID_REGEX)\\}\\}"
 
     private const val PRETTY_PLACEHOLDER_PREFIX = "{"
     private const val PRETTY_PLACEHOLDER_SUFFIX = "}"
 
-    private val PATTERN = Pattern.compile(RAW_PLACEHOLDER_REGEX)
+    private val PATTERN = Pattern.compile(RAW_PLACEHOLDER_REGEX, Pattern.CASE_INSENSITIVE)
 
     fun isValidVariableKey(variableKey: String) =
         VARIABLE_KEY_REGEX.toRegex().matchEntire(variableKey) != null
@@ -32,15 +33,15 @@ object Variables {
         var previousEnd = 0
         while (matcher.find()) {
             builder.append(string.substring(previousEnd, matcher.start()))
-            val variableKey = matcher.group(1)
-            builder.append(variables[variableKey] ?: matcher.group(0))
+            val variableId = matcher.group(1)
+            builder.append(variables[variableId] ?: matcher.group(0))
             previousEnd = matcher.end()
         }
         builder.append(string.substring(previousEnd, string.length))
         return builder.toString()
     }
 
-    internal fun extractVariableKeys(string: String): Set<String> {
+    internal fun extractVariableIds(string: String): Set<String> {
         val discoveredVariables = mutableSetOf<String>()
         val matcher = match(string)
         while (matcher.find()) {
@@ -57,8 +58,8 @@ object Variables {
 
         val replacements = LinkedList<Replacement>()
         while (matcher.find()) {
-            val variableKey = matcher.group(1)
-            val placeholder = variablePlaceholderProvider.findPlaceholder(variableKey)
+            val variableId = matcher.group(1)
+            val placeholder = variablePlaceholderProvider.findPlaceholderById(variableId)
             if (placeholder != null) {
                 replacements.add(Replacement(matcher.start(), matcher.end(), placeholder))
             }
@@ -68,7 +69,7 @@ object Variables {
         while (it.hasNext()) {
             val replacement = it.next()
             val placeholderText = toPrettyPlaceholder(replacement.placeholder.variableKey)
-            val span = VariableSpan(color, replacement.placeholder.variableKey)
+            val span = VariableSpan(color, replacement.placeholder.variableId)
             builder.replace(replacement.startIndex, replacement.endIndex, placeholderText)
             builder.setSpan(span, replacement.startIndex, replacement.startIndex + placeholderText.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
@@ -85,14 +86,14 @@ object Variables {
             .forEach { span ->
                 val start = text.getSpanStart(span)
                 val end = text.getSpanEnd(span)
-                val replacement = toRawPlaceholder(span.variableKey)
+                val replacement = toRawPlaceholder(span.variableId)
                 builder.replace(start, end, replacement)
             }
 
         return builder.toString()
     }
 
-    fun toRawPlaceholder(variableKey: String) = "$RAW_PLACEHOLDER_PREFIX$variableKey$RAW_PLACEHOLDER_SUFFIX"
+    fun toRawPlaceholder(variableId: String) = "$RAW_PLACEHOLDER_PREFIX$variableId$RAW_PLACEHOLDER_SUFFIX"
 
     fun toPrettyPlaceholder(variableKey: String) = "$PRETTY_PLACEHOLDER_PREFIX$variableKey$PRETTY_PLACEHOLDER_SUFFIX"
 

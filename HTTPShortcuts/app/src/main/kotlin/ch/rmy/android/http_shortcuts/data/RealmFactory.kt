@@ -1,10 +1,11 @@
-package ch.rmy.android.http_shortcuts.realm
+package ch.rmy.android.http_shortcuts.data
 
 import android.content.Context
 import ch.rmy.android.http_shortcuts.BuildConfig
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.realm.models.Base
-import ch.rmy.android.http_shortcuts.realm.models.Category
+import ch.rmy.android.http_shortcuts.data.migration.DatabaseMigration
+import ch.rmy.android.http_shortcuts.data.models.Base
+import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import io.realm.Realm
 import io.realm.RealmConfiguration

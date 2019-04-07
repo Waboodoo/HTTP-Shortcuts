@@ -1,8 +1,8 @@
 package ch.rmy.android.http_shortcuts.http
 
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.rejectSafely
 import ch.rmy.android.http_shortcuts.extensions.resolveSafely
-import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.UserAgentUtil
 import com.android.volley.AuthFailureError
 import com.android.volley.DefaultRetryPolicy

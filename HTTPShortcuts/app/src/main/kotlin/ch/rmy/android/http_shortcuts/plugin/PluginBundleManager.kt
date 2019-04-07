@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.plugin
 
 import android.os.Bundle
-import ch.rmy.android.http_shortcuts.realm.Controller
+import ch.rmy.android.http_shortcuts.data.Controller
 
 object PluginBundleManager {
 

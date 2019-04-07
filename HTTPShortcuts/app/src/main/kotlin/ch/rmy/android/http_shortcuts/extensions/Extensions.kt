@@ -13,17 +13,13 @@ import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.realm.models.Header
-import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.CrashReporting
 import ch.rmy.android.http_shortcuts.utils.Destroyable
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
-import ch.rmy.curlcommand.CurlCommand
 import com.afollestad.materialdialogs.MaterialDialog
 import io.reactivex.Completable
 import io.reactivex.disposables.Disposable
-import org.apache.http.HttpHeaders
 import org.jdeferred2.Deferred
 import org.jdeferred2.DoneFilter
 import org.jdeferred2.FailFilter
@@ -94,7 +90,7 @@ fun <T, U, V> Deferred<T, U, V>.resolveSafely(resolve: T): Deferred<T, U, V> =
         this
     }
 
-
+/*
 fun CurlCommand.applyToShortcut(shortcut: Shortcut) {
     shortcut.url = url
     shortcut.method = method
@@ -115,7 +111,7 @@ fun CurlCommand.applyToShortcut(shortcut: Shortcut) {
             shortcut.headers.add(Header.createNew(key, value))
         }
     }
-}
+}*/
 
 fun <T> Array<T>.findIndex(item: T) =
     indices.firstOrNull { this[it] == item } ?: 0

@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.utils
 
 import ch.rmy.android.http_shortcuts.actions.ActionDTO
-import ch.rmy.android.http_shortcuts.realm.models.Base
+import ch.rmy.android.http_shortcuts.data.models.Base
 import com.google.gson.ExclusionStrategy
 import com.google.gson.FieldAttributes
 import com.google.gson.Gson

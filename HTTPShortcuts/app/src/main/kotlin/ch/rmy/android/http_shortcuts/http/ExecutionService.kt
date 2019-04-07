@@ -6,9 +6,9 @@ import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
+import ch.rmy.android.http_shortcuts.data.Controller
+import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.extensions.startActivity
-import ch.rmy.android.http_shortcuts.realm.Controller
-import ch.rmy.android.http_shortcuts.realm.RealmFactory
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)

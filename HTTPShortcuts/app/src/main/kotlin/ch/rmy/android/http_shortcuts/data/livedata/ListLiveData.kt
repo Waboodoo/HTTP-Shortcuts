@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.realm.livedata
+package ch.rmy.android.http_shortcuts.data.livedata
 
 import androidx.lifecycle.LiveData
 

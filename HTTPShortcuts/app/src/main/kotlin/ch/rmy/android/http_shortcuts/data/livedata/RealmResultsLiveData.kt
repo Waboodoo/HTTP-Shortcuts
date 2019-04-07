@@ -1,11 +1,11 @@
-package ch.rmy.android.http_shortcuts.realm.livedata
+package ch.rmy.android.http_shortcuts.data.livedata
 
 import io.realm.RealmChangeListener
-import io.realm.RealmList
+import io.realm.RealmResults
 
-class RealmListLiveData<T>(private val data: RealmList<T>) : ListLiveData<T>() {
+class RealmResultsLiveData<T>(private val data: RealmResults<T>) : ListLiveData<T>() {
 
-    private val listener = RealmChangeListener<RealmList<T>> {
+    private val listener = RealmChangeListener<RealmResults<T>> {
         onChange()
     }
 

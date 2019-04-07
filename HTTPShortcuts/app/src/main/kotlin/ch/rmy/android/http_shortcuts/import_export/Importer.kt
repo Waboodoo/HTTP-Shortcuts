@@ -2,7 +2,8 @@ package ch.rmy.android.http_shortcuts.import_export
 
 import android.content.Context
 import android.net.Uri
-import ch.rmy.android.http_shortcuts.realm.Controller
+import ch.rmy.android.http_shortcuts.data.Controller
+import ch.rmy.android.http_shortcuts.data.migration.ImportMigrator
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import com.google.gson.JsonParser
 import io.reactivex.Single

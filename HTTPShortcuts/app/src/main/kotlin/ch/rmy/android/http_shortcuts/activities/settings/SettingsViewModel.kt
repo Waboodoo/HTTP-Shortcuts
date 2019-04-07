@@ -1,9 +1,9 @@
 package ch.rmy.android.http_shortcuts.activities.settings
 
 import android.app.Application
-import ch.rmy.android.http_shortcuts.realm.RealmViewModel
-import ch.rmy.android.http_shortcuts.realm.commitAsync
-import ch.rmy.android.http_shortcuts.realm.models.AppLock
+import ch.rmy.android.http_shortcuts.data.RealmViewModel
+import ch.rmy.android.http_shortcuts.data.models.AppLock
+import ch.rmy.android.http_shortcuts.extensions.commitAsync
 import org.mindrot.jbcrypt.BCrypt
 
 class SettingsViewModel(application: Application) : RealmViewModel(application) {

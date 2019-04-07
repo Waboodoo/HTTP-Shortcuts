@@ -6,11 +6,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.adapters.SelectVariableOptionsAdapter
+import ch.rmy.android.http_shortcuts.data.models.Option
+import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.extensions.showMessageDialog
-import ch.rmy.android.http_shortcuts.realm.models.Option
-import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
@@ -100,7 +100,7 @@ class SelectEditorFragment : VariableEditorFragment() {
     }
 
     private fun addNewOption(label: String, value: String) {
-        val option = Option.createNew(label, value)
+        val option = Option(label = label, value = value)
         variable!!.options!!.add(option)
         updateViews(variable!!)
     }

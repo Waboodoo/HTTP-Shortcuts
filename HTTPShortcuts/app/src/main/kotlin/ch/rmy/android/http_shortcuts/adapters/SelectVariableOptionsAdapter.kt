@@ -3,7 +3,7 @@ package ch.rmy.android.http_shortcuts.adapters
 import android.view.ViewGroup
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.realm.models.Option
+import ch.rmy.android.http_shortcuts.data.models.Option
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils
 import kotterknife.bindView
 

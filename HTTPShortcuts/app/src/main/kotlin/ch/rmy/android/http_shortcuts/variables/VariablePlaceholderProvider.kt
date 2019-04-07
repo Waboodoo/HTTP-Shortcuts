@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.variables
 
-import ch.rmy.android.http_shortcuts.realm.livedata.ListLiveData
-import ch.rmy.android.http_shortcuts.realm.models.Variable
+import ch.rmy.android.http_shortcuts.data.livedata.ListLiveData
+import ch.rmy.android.http_shortcuts.data.models.Variable
 
 class VariablePlaceholderProvider(private val variables: ListLiveData<Variable> = object : ListLiveData<Variable>() {}) {
 
@@ -19,15 +19,16 @@ class VariablePlaceholderProvider(private val variables: ListLiveData<Variable> 
     val hasConstants
         get() = variables.any { it.isConstant }
 
-    fun findPlaceholder(variableKey: String): VariablePlaceholder? =
+    fun findPlaceholderById(variableId: String): VariablePlaceholder? =
         variables
-            .firstOrNull { it.key == variableKey }
+            .firstOrNull { it.id == variableId }
             ?.let(::toPlaceholder)
 
     companion object {
 
         private fun toPlaceholder(variable: Variable) =
             VariablePlaceholder(
+                variableId = variable.id,
                 variableKey = variable.key
             )
 

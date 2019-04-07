@@ -7,6 +7,7 @@ import androidx.appcompat.widget.AppCompatAutoCompleteTextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.extensions.color
 import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.http_shortcuts.extensions.setTextMaintainingSelection
 
 class VariableEditText : AppCompatAutoCompleteTextView {
 
@@ -23,15 +24,21 @@ class VariableEditText : AppCompatAutoCompleteTextView {
     var rawString: String
         get() = Variables.variableSpansToRawPlaceholders(text)
         set(value) {
-            val newText = variablePlaceholderProvider?.let { variablePlaceholderProvider ->
-                Variables.rawPlaceholdersToVariableSpans(value, variablePlaceholderProvider, placeholderColor)
-            } ?: value
+            val newText = variablePlaceholderProvider
+                ?.let { variablePlaceholderProvider ->
+                    Variables.rawPlaceholdersToVariableSpans(value, variablePlaceholderProvider, placeholderColor)
+                } ?: value
+
             if ((text ?: "").toString() != newText.toString()) {
-                setText(newText)
-                try {
-                    setSelection(newText.length)
-                } catch (e: Exception) {
-                    logException(e)
+                if (text.isEmpty()) {
+                    setText(newText)
+                    try {
+                        setSelection(newText.length)
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
+                } else {
+                    setTextMaintainingSelection(newText)
                 }
             }
         }
@@ -39,7 +46,7 @@ class VariableEditText : AppCompatAutoCompleteTextView {
     fun insertVariablePlaceholder(placeholder: VariablePlaceholder) {
         val position = selectionEnd.takeIf { it != -1 } ?: text.length
         val placeholderText = Variables.toPrettyPlaceholder(placeholder.variableKey)
-        val span = VariableSpan(placeholderColor, placeholder.variableKey)
+        val span = VariableSpan(placeholderColor, placeholder.variableId)
         text.insert(position, placeholderText)
         text.setSpan(span, position, position + placeholderText.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
     }

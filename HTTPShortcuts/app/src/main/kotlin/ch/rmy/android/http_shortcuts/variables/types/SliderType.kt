@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.widget.SeekBar
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.realm.Controller
-import ch.rmy.android.http_shortcuts.realm.models.Variable
+import ch.rmy.android.http_shortcuts.data.Controller
+import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.utils.SimpleOnSeekBarChangeListener
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import org.jdeferred2.Deferred

@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.realm.models
+package ch.rmy.android.http_shortcuts.data.models
 
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
@@ -8,29 +8,29 @@ import io.realm.annotations.PrimaryKey
 import io.realm.annotations.Required
 
 
-open class Variable : RealmObject(), HasId {
-
+open class Variable(
     @PrimaryKey
-    override var id: String = ""
+    override var id: String = "",
 
     @Required
-    var key: String = ""
+    var key: String = "",
     @Required
-    var type: String = ""
+    var type: String = TYPE_CONSTANT,
 
-    var value: String? = null
-    var options: RealmList<Option>? = null
+    var value: String? = "",
+    var options: RealmList<Option>? = RealmList(),
 
-    var rememberValue: Boolean = false
-    var urlEncode: Boolean = false
-    var jsonEncode: Boolean = false
+    var rememberValue: Boolean = false,
+    var urlEncode: Boolean = false,
+    var jsonEncode: Boolean = false,
 
-    var data: String? = null
+    var data: String? = null,
 
-    var flags: Int = 0
+    var flags: Int = 0,
 
     @Required
     var title: String = ""
+) : RealmObject(), HasId {
 
     var isShareText: Boolean
         get() = flags and FLAG_SHARE_TEXT != 0
@@ -90,16 +90,6 @@ open class Variable : RealmObject(), HasId {
         val TYPE_RESOURCES = intArrayOf(R.string.variable_type_constant, R.string.variable_type_text, R.string.variable_type_number, R.string.variable_type_password, R.string.variable_type_date, R.string.variable_type_time, R.string.variable_type_color, R.string.variable_type_select, R.string.variable_type_toggle, R.string.variable_type_slider)
 
         private const val FLAG_SHARE_TEXT = 0x1
-
-        fun createNew(): Variable {
-            val variable = Variable()
-            variable.key = ""
-            variable.type = TYPE_CONSTANT
-            variable.value = ""
-            variable.title = ""
-            variable.options = RealmList()
-            return variable
-        }
 
     }
 

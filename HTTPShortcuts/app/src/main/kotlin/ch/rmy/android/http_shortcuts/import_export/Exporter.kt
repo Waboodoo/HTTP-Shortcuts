@@ -1,6 +1,6 @@
 package ch.rmy.android.http_shortcuts.import_export
 
-import ch.rmy.android.http_shortcuts.realm.Controller
+import ch.rmy.android.http_shortcuts.data.Controller
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers

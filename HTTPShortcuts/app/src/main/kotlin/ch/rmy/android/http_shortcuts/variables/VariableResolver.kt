@@ -2,14 +2,14 @@ package ch.rmy.android.http_shortcuts.variables
 
 import android.content.Context
 import ch.rmy.android.http_shortcuts.actions.ActionDTO
+import ch.rmy.android.http_shortcuts.data.Controller
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.filter
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.extensions.rejectSafely
 import ch.rmy.android.http_shortcuts.extensions.resolveSafely
 import ch.rmy.android.http_shortcuts.extensions.toPromise
-import ch.rmy.android.http_shortcuts.realm.Controller
-import ch.rmy.android.http_shortcuts.realm.models.Shortcut
-import ch.rmy.android.http_shortcuts.realm.models.Variable
 import ch.rmy.android.http_shortcuts.utils.PromiseUtils
 import ch.rmy.android.http_shortcuts.variables.types.AsyncVariableType
 import ch.rmy.android.http_shortcuts.variables.types.SyncVariableType
@@ -24,9 +24,9 @@ import java.net.URLEncoder
 class VariableResolver(private val context: Context) {
 
     fun resolve(controller: Controller, shortcut: Shortcut, preResolvedValues: Map<String, String> = emptyMap()): Promise<Map<String, String>, Unit, Unit> {
-        val variableMap = controller.getVariables().associate { it.key to it }
-        val requiredVariableKeys = extractVariableKeys(shortcut)
-        val variablesToResolve = requiredVariableKeys.mapNotNull { variableMap[it] }
+        val variableMap = controller.getVariables().associate { it.id to it }
+        val requiredVariableIds = extractVariableIds(shortcut)
+        val variablesToResolve = requiredVariableIds.mapNotNull { variableMap[it] }
         return resolveVariables(controller, variablesToResolve, preResolvedValues)
             .then(DonePipe<Map<String, String>, Map<String, String>, Unit, Unit> { resolvedVariables ->
                 return@DonePipe resolveRecursiveVariables(controller, variableMap, resolvedVariables)
@@ -40,15 +40,15 @@ class VariableResolver(private val context: Context) {
     }
 
     private fun resolveRecursiveVariables(controller: Controller, variableMap: Map<String, Variable>, preResolvedValues: Map<String, String>, recursionDepth: Int = 0): Promise<Map<String, String>, Unit, Unit> {
-        val requiredVariableKeys = mutableSetOf<String>()
+        val requiredVariableIds = mutableSetOf<String>()
         preResolvedValues.values.forEach { value ->
-            requiredVariableKeys.addAll(Variables.extractVariableKeys(value))
+            requiredVariableIds.addAll(Variables.extractVariableIds(value))
         }
-        if (recursionDepth >= MAX_RECURSION_DEPTH || requiredVariableKeys.isEmpty()) {
+        if (recursionDepth >= MAX_RECURSION_DEPTH || requiredVariableIds.isEmpty()) {
             return PromiseUtils.resolve(preResolvedValues)
         }
 
-        val variablesToResolve = requiredVariableKeys.mapNotNull { variableMap[it] }
+        val variablesToResolve = requiredVariableIds.mapNotNull { variableMap[it] }
         return resolveVariables(controller, variablesToResolve, preResolvedValues)
             .filter {
                 it.toMutableMap().also { resolvedVariables ->
@@ -64,12 +64,16 @@ class VariableResolver(private val context: Context) {
 
     private fun resolveVariables(controller: Controller, variablesToResolve: List<Variable>, preResolvedValues: Map<String, String> = emptyMap()): Promise<Map<String, String>, Unit, Unit> {
         val deferred = DeferredObject<Map<String, String>, Unit, Unit>()
-        val resolvedVariables = preResolvedValues.toMutableMap()
+        val resolvedVariables = mutableMapOf<String, String>()
 
         val waitingDialogs = mutableListOf<() -> Unit>()
         var i = 0
         for (variable in variablesToResolve) {
-            if (resolvedVariables.containsKey(variable.key)) {
+            if (resolvedVariables.containsKey(variable.id)) {
+                continue
+            }
+            if (preResolvedValues.containsKey(variable.key)) {
+                resolvedVariables[variable.id] = preResolvedValues.getValue(variable.key)
                 continue
             }
 
@@ -80,7 +84,7 @@ class VariableResolver(private val context: Context) {
                 val deferredValue = DeferredObject<String, Unit, Unit>()
                 deferredValue
                     .done { value ->
-                        resolvedVariables[variable.key] = value
+                        resolvedVariables[variable.id] = value
 
                         if (index + 1 >= waitingDialogs.size) {
                             deferred.resolveSafely(resolvedVariables)
@@ -95,7 +99,7 @@ class VariableResolver(private val context: Context) {
                 val dialog = variableType.createDialog(context, controller, variable, deferredValue)
                 waitingDialogs.add(dialog)
             } else if (variableType is SyncVariableType) {
-                resolvedVariables[variable.key] = variableType.resolveValue(controller, variable)
+                resolvedVariables[variable.id] = variableType.resolveValue(controller, variable)
             }
         }
 
@@ -124,33 +128,33 @@ class VariableResolver(private val context: Context) {
 
         private const val MAX_RECURSION_DEPTH = 3
 
-        fun extractVariableKeys(shortcut: Shortcut): Set<String> =
+        fun extractVariableIds(shortcut: Shortcut): Set<String> =
             mutableSetOf<String>().apply {
-                addAll(Variables.extractVariableKeys(shortcut.url))
-                addAll(Variables.extractVariableKeys(shortcut.username))
-                addAll(Variables.extractVariableKeys(shortcut.password))
+                addAll(Variables.extractVariableIds(shortcut.url))
+                addAll(Variables.extractVariableIds(shortcut.username))
+                addAll(Variables.extractVariableIds(shortcut.password))
                 if (shortcut.usesCustomBody()) {
-                    addAll(Variables.extractVariableKeys(shortcut.bodyContent))
+                    addAll(Variables.extractVariableIds(shortcut.bodyContent))
                 }
                 if (shortcut.usesRequestParameters()) {
                     for (parameter in shortcut.parameters) {
-                        addAll(Variables.extractVariableKeys(parameter.key))
-                        addAll(Variables.extractVariableKeys(parameter.value))
+                        addAll(Variables.extractVariableIds(parameter.key))
+                        addAll(Variables.extractVariableIds(parameter.value))
                     }
                 }
                 for (header in shortcut.headers) {
-                    addAll(Variables.extractVariableKeys(header.key))
-                    addAll(Variables.extractVariableKeys(header.value))
+                    addAll(Variables.extractVariableIds(header.key))
+                    addAll(Variables.extractVariableIds(header.value))
                 }
-                addAll(extractVariableKeys(shortcut.beforeActions))
-                addAll(extractVariableKeys(shortcut.successActions))
-                addAll(extractVariableKeys(shortcut.failureActions))
+                addAll(extractVariableIds(shortcut.beforeActions))
+                addAll(extractVariableIds(shortcut.successActions))
+                addAll(extractVariableIds(shortcut.failureActions))
             }
 
-        private fun extractVariableKeys(actions: List<ActionDTO>) =
+        private fun extractVariableIds(actions: List<ActionDTO>) =
             actions.flatMap {
                 it.data.values
-                    .map { Variables.extractVariableKeys(it) }
+                    .map(Variables::extractVariableIds)
                     .flatten()
             }
 

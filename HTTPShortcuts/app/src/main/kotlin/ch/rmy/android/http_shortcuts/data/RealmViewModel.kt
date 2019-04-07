@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.realm
+package ch.rmy.android.http_shortcuts.data
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

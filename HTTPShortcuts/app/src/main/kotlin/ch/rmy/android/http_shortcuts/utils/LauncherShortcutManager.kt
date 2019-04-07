@@ -7,10 +7,10 @@ import android.content.pm.ShortcutManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
+import ch.rmy.android.http_shortcuts.data.models.Category
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.mapIf
-import ch.rmy.android.http_shortcuts.realm.models.Category
-import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import java.util.*
 
 object LauncherShortcutManager {

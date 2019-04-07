@@ -2,14 +2,14 @@ package ch.rmy.android.http_shortcuts.activities.editor.basicsettings
 
 import android.app.Application
 import androidx.lifecycle.LiveData
-import ch.rmy.android.http_shortcuts.realm.RealmViewModel
-import ch.rmy.android.http_shortcuts.realm.Repository
-import ch.rmy.android.http_shortcuts.realm.commitAsync
-import ch.rmy.android.http_shortcuts.realm.livedata.ListLiveData
-import ch.rmy.android.http_shortcuts.realm.models.HasId
-import ch.rmy.android.http_shortcuts.realm.models.Shortcut
-import ch.rmy.android.http_shortcuts.realm.models.Variable
-import ch.rmy.android.http_shortcuts.realm.toLiveData
+import ch.rmy.android.http_shortcuts.data.RealmViewModel
+import ch.rmy.android.http_shortcuts.data.Repository
+import ch.rmy.android.http_shortcuts.data.livedata.ListLiveData
+import ch.rmy.android.http_shortcuts.data.models.HasId
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.extensions.commitAsync
+import ch.rmy.android.http_shortcuts.extensions.toLiveData
 import io.reactivex.Completable
 import io.realm.Realm
 import io.realm.kotlin.where

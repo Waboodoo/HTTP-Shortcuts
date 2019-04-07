@@ -3,13 +3,13 @@ package ch.rmy.android.http_shortcuts.activities.main
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import ch.rmy.android.http_shortcuts.realm.RealmViewModel
-import ch.rmy.android.http_shortcuts.realm.Repository
-import ch.rmy.android.http_shortcuts.realm.commitAsync
-import ch.rmy.android.http_shortcuts.realm.livedata.ListLiveData
-import ch.rmy.android.http_shortcuts.realm.models.AppLock
-import ch.rmy.android.http_shortcuts.realm.models.Category
-import ch.rmy.android.http_shortcuts.realm.toLiveData
+import ch.rmy.android.http_shortcuts.data.RealmViewModel
+import ch.rmy.android.http_shortcuts.data.Repository
+import ch.rmy.android.http_shortcuts.data.livedata.ListLiveData
+import ch.rmy.android.http_shortcuts.data.models.AppLock
+import ch.rmy.android.http_shortcuts.data.models.Category
+import ch.rmy.android.http_shortcuts.extensions.commitAsync
+import ch.rmy.android.http_shortcuts.extensions.toLiveData
 import io.realm.kotlin.where
 import org.mindrot.jbcrypt.BCrypt
 

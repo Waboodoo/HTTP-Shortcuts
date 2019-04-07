@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.provider.MediaStore
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
-import ch.rmy.android.http_shortcuts.realm.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 
 object IntentUtil {
 

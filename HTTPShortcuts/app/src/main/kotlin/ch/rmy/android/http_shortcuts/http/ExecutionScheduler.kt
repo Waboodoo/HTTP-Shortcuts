@@ -7,9 +7,9 @@ import android.content.Context
 import android.os.Build
 import android.os.PersistableBundle
 import androidx.annotation.RequiresApi
+import ch.rmy.android.http_shortcuts.data.Controller
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.mapIf
-import ch.rmy.android.http_shortcuts.realm.Controller
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils
 import java.util.*
 

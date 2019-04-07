@@ -1,11 +1,10 @@
-package ch.rmy.android.http_shortcuts.realm
+package ch.rmy.android.http_shortcuts.extensions
 
 import androidx.lifecycle.LiveData
-import ch.rmy.android.http_shortcuts.extensions.logException
-import ch.rmy.android.http_shortcuts.realm.livedata.ListLiveData
-import ch.rmy.android.http_shortcuts.realm.livedata.RealmListLiveData
-import ch.rmy.android.http_shortcuts.realm.livedata.RealmResultsLiveData
-import ch.rmy.android.http_shortcuts.realm.livedata.RealmSingleLiveData
+import ch.rmy.android.http_shortcuts.data.livedata.ListLiveData
+import ch.rmy.android.http_shortcuts.data.livedata.RealmListLiveData
+import ch.rmy.android.http_shortcuts.data.livedata.RealmResultsLiveData
+import ch.rmy.android.http_shortcuts.data.livedata.RealmSingleLiveData
 import io.reactivex.Completable
 import io.realm.Realm
 import io.realm.RealmList

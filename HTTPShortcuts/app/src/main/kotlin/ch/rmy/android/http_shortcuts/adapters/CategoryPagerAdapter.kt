@@ -4,7 +4,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.main.ListFragment
-import ch.rmy.android.http_shortcuts.realm.models.Category
+import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.utils.SelectionMode
 
 class CategoryPagerAdapter(private val fragmentManager: FragmentManager, private val selectionMode: SelectionMode) : FragmentPagerAdapter(fragmentManager) {

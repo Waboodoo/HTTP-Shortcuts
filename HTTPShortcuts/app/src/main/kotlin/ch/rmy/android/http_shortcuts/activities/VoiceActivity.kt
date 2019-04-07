@@ -2,9 +2,9 @@ package ch.rmy.android.http_shortcuts.activities
 
 import android.app.SearchManager
 import android.os.Bundle
+import ch.rmy.android.http_shortcuts.data.Controller
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
-import ch.rmy.android.http_shortcuts.realm.Controller
 
 // THIS IMPLEMENTATION IS EXPERIMENTAL ONLY
 class VoiceActivity : BaseActivity() {

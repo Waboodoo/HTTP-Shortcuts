@@ -1,8 +1,8 @@
 package ch.rmy.android.http_shortcuts.variables.types
 
 import android.content.Context
-import ch.rmy.android.http_shortcuts.realm.Controller
-import ch.rmy.android.http_shortcuts.realm.models.Variable
+import ch.rmy.android.http_shortcuts.data.Controller
+import ch.rmy.android.http_shortcuts.data.models.Variable
 import org.jdeferred2.Deferred
 
 interface AsyncVariableType {

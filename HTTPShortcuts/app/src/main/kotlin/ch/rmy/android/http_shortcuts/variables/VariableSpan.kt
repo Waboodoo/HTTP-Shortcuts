@@ -5,7 +5,7 @@ import android.graphics.Paint
 import android.graphics.Typeface
 import android.text.style.ReplacementSpan
 
-class VariableSpan(private val color: Int, val variableKey: String) : ReplacementSpan() {
+class VariableSpan(private val color: Int, val variableId: String) : ReplacementSpan() {
 
     private val typeface by lazy {
         Typeface.create(Typeface.MONOSPACE, Typeface.BOLD)

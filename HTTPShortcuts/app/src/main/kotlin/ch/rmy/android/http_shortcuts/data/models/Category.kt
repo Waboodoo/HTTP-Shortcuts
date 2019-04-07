@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.realm.models
+package ch.rmy.android.http_shortcuts.data.models
 
 import io.realm.RealmList
 import io.realm.RealmObject

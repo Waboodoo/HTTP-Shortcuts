@@ -15,6 +15,10 @@ import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
 import ch.rmy.android.http_shortcuts.adapters.ShortcutAdapter
 import ch.rmy.android.http_shortcuts.adapters.ShortcutGridAdapter
 import ch.rmy.android.http_shortcuts.adapters.ShortcutListAdapter
+import ch.rmy.android.http_shortcuts.data.livedata.ListLiveData
+import ch.rmy.android.http_shortcuts.data.models.Category
+import ch.rmy.android.http_shortcuts.data.models.PendingExecution
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.dialogs.CurlExportDialog
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
@@ -25,10 +29,6 @@ import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
-import ch.rmy.android.http_shortcuts.realm.livedata.ListLiveData
-import ch.rmy.android.http_shortcuts.realm.models.Category
-import ch.rmy.android.http_shortcuts.realm.models.PendingExecution
-import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.GridLayoutManager
 import ch.rmy.android.http_shortcuts.utils.SelectionMode
 import ch.rmy.android.http_shortcuts.utils.Settings

@@ -2,7 +2,7 @@ package ch.rmy.android.http_shortcuts.variables.types
 
 import android.widget.CheckBox
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.realm.models.Variable
+import ch.rmy.android.http_shortcuts.data.models.Variable
 import kotterknife.bindView
 
 class TextEditorFragment : VariableEditorFragment() {

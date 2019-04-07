@@ -3,8 +3,8 @@ package ch.rmy.android.http_shortcuts.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import ch.rmy.android.http_shortcuts.realm.livedata.RealmSingleLiveData
-import ch.rmy.android.http_shortcuts.realm.models.HasId
+import ch.rmy.android.http_shortcuts.data.livedata.RealmSingleLiveData
+import ch.rmy.android.http_shortcuts.data.models.HasId
 import io.realm.RealmObject
 
 abstract class BaseViewHolder<in T>(parent: ViewGroup, layoutRes: Int, baseAdapter: BaseAdapter<T>) : RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(layoutRes, parent, false)) where T : RealmObject, T : HasId {

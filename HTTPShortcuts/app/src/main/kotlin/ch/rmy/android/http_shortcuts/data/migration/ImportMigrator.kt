@@ -1,7 +1,7 @@
-package ch.rmy.android.http_shortcuts.import_export
+package ch.rmy.android.http_shortcuts.data.migration
 
 
-import ch.rmy.android.http_shortcuts.realm.DatabaseMigration
+import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceVariableKeysWithIdsMigration
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
@@ -16,13 +16,13 @@ internal object ImportMigrator {
         }
 
         for (version in fromVersion + 1..DatabaseMigration.VERSION) {
-            base = migrate(base, version)
+            migrate(base, version)
             base.addProperty("version", version)
         }
         return base
     }
 
-    private fun migrate(base: JsonObject, newVersion: Long): JsonObject {
+    private fun migrate(base: JsonObject, newVersion: Long) {
         when (newVersion) {
             5L -> { // 1.16.0
                 for (category in base["categories"].asJsonArray) {
@@ -110,8 +110,10 @@ internal object ImportMigrator {
                     category.asJsonObject.addProperty("background", "white")
                 }
             }
+            25L -> { // 1.24.0
+                ReplaceVariableKeysWithIdsMigration().migrateImport(base)
+            }
         }
-        return base
     }
 
 }

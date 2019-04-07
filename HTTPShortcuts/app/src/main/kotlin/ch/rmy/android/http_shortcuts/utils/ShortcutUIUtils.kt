@@ -3,8 +3,8 @@ package ch.rmy.android.http_shortcuts.utils
 import android.content.Context
 
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.realm.models.Shortcut
-import ch.rmy.android.http_shortcuts.realm.models.Variable
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.Variable
 
 object ShortcutUIUtils {
 

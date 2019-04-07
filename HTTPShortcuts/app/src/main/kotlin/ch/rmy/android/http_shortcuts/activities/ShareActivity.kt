@@ -4,11 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.annotation.StringRes
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.data.Controller
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.startActivity
-import ch.rmy.android.http_shortcuts.realm.Controller
-import ch.rmy.android.http_shortcuts.realm.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import com.afollestad.materialdialogs.MaterialDialog
@@ -30,11 +30,11 @@ class ShareActivity : BaseActivity() {
         }
 
         val controller = destroyer.own(Controller())
-        val variables = getTargetableVariables(controller)
-        val shortcuts = getTargetableShortcuts(controller, variables)
+        val variableIds = getTargetableVariableIds(controller)
+        val shortcuts = getTargetableShortcuts(controller, variableIds)
 
-        val variableValues = variables.associate { variable ->
-            variable to text
+        val variableValues = variableIds.associate { variableId ->
+            variableId to text
         }
 
         when (shortcuts.size) {
@@ -47,21 +47,21 @@ class ShareActivity : BaseActivity() {
         }
     }
 
-    private fun getTargetableVariables(controller: Controller) =
+    private fun getTargetableVariableIds(controller: Controller) =
         controller
             .getVariables()
             .filter { it.isShareText }
-            .map { it.key }
+            .map { it.id }
             .toSet()
 
-    private fun getTargetableShortcuts(controller: Controller, variableKeys: Set<String>): List<Shortcut> =
+    private fun getTargetableShortcuts(controller: Controller, variableIds: Set<String>): List<Shortcut> =
         controller
             .getShortcuts()
-            .filter { hasShareVariable(it, variableKeys) }
+            .filter { hasShareVariable(it, variableIds) }
 
-    private fun hasShareVariable(shortcut: Shortcut, variableKeys: Set<String>): Boolean {
-        val variableKeysInShortcut = VariableResolver.extractVariableKeys(shortcut)
-        return variableKeys.any { variableKeysInShortcut.contains(it) }
+    private fun hasShareVariable(shortcut: Shortcut, variableIds: Set<String>): Boolean {
+        val variableIdsInShortcut = VariableResolver.extractVariableIds(shortcut)
+        return variableIds.any { variableIdsInShortcut.contains(it) }
     }
 
     private fun executeShortcut(shortcut: Shortcut, variableValues: Map<String, String>) {

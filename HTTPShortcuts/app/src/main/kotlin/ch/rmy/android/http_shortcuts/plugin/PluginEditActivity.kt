@@ -5,8 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.main.MainActivity
+import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.extensions.startActivity
-import ch.rmy.android.http_shortcuts.realm.RealmFactory
 import com.twofortyfouram.locale.sdk.client.ui.activity.AbstractFragmentPluginActivity
 
 class PluginEditActivity : AbstractFragmentPluginActivity() {

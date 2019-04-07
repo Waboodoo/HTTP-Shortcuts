@@ -1,6 +1,7 @@
-package ch.rmy.android.http_shortcuts.realm
+package ch.rmy.android.http_shortcuts.data.migration
 
 import android.text.TextUtils
+import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceVariableKeysWithIdsMigration
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import io.realm.DynamicRealm
 import io.realm.DynamicRealmObject
@@ -235,6 +236,9 @@ class DatabaseMigration : RealmMigration {
                     shortcut.setBoolean("followRedirects", true)
                 }
             }
+            25L -> {
+                ReplaceVariableKeysWithIdsMigration().migrateRealm(realm)
+            }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -260,7 +264,7 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 24L
+        const val VERSION = 25L
 
     }
 

@@ -1,12 +1,13 @@
-package ch.rmy.android.http_shortcuts.realm
+package ch.rmy.android.http_shortcuts.data
 
-import ch.rmy.android.http_shortcuts.realm.models.AppLock
-import ch.rmy.android.http_shortcuts.realm.models.Base
-import ch.rmy.android.http_shortcuts.realm.models.Category
-import ch.rmy.android.http_shortcuts.realm.models.HasId
-import ch.rmy.android.http_shortcuts.realm.models.PendingExecution
-import ch.rmy.android.http_shortcuts.realm.models.Shortcut
-import ch.rmy.android.http_shortcuts.realm.models.Variable
+import ch.rmy.android.http_shortcuts.data.models.AppLock
+import ch.rmy.android.http_shortcuts.data.models.Base
+import ch.rmy.android.http_shortcuts.data.models.Category
+import ch.rmy.android.http_shortcuts.data.models.HasId
+import ch.rmy.android.http_shortcuts.data.models.PendingExecution
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.extensions.detachFromRealm
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import io.realm.Case
 import io.realm.Realm
