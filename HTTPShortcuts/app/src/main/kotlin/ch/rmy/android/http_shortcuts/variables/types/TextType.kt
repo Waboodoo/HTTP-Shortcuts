@@ -12,7 +12,7 @@ open class TextType : BaseVariableType(), AsyncVariableType {
     override val hasTitle = true
 
     override fun createDialog(context: Context, controller: Controller, variable: Variable, deferredValue: Deferred<String, Unit, Unit>): () -> Unit {
-        val builder = BaseVariableType.createDialogBuilder(context, variable, deferredValue)
+        val builder = createDialogBuilder(context, variable, deferredValue)
             .toDialogBuilder()
             .input(null, if (variable.rememberValue) variable.value else "") { _, input ->
                 if (variable.isValid) {

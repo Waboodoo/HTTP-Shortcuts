@@ -25,7 +25,7 @@ class SelectVariableOptionsAdapter : SimpleListAdapter<Option, SelectVariableOpt
         private val label: TextView by bindView(R.id.select_option_label)
 
         override fun updateViews(item: Option) {
-            label.text = item.label
+            label.text = item.labelOrValue
             itemView.setOnClickListener { clickListener?.invoke(item) }
         }
 

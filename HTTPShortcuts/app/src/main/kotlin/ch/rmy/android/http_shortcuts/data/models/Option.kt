@@ -16,6 +16,11 @@ open class Option(
 
 ) : RealmObject() {
 
+    val labelOrValue: String
+        get() = label
+            .ifEmpty { value }
+            .ifEmpty { "-" }
+
     fun isSameAs(other: Option) = other.label == label && other.value == value
 
 }
