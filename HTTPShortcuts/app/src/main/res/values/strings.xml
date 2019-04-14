@@ -153,11 +153,11 @@
     <!-- Name of setting that allows the user to pick what should happen when a shortcut is clicked -->
     <string name="settings_click_behavior">Shortcut Click Action</string>
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: execute the shortcut (i.e., send request) -->
-    <string name="settings_click_behavior_run">Execute the shortcut</string>
+    <string name="settings_click_behavior_run">Execute the Shortcut</string>
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: edit the shortcut -->
-    <string name="settings_click_behavior_edit">Edit the shortcut</string>
+    <string name="settings_click_behavior_edit">Edit the Shortcut</string>
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: show options / context menu -->
-    <string name="settings_click_behavior_menu">Show the options menu</string>
+    <string name="settings_click_behavior_menu">Show the Options Menu</string>
     <!-- Title of section in settings page, section contains opens for importing and exporting shortcuts -->
     <string name="settings_title_import_export">Import / Export</string>
     <!-- Section title on settings screen for privacy related settings -->
@@ -165,9 +165,9 @@
     <!-- Setting title for crash reporting settings, as part of privacy settings (opt-in/opt-out) -->
     <string name="settings_crash_reporting">Crash Reporting</string>
     <!-- Option for crash reporting opt in -->
-    <string name="settings_crash_reporting_allow">Send crash reports to help improve the app</string>
+    <string name="settings_crash_reporting_allow">Send Crash Reports to Help Improve the App</string>
     <!-- Option for crash reporting opt out -->
-    <string name="settings_crash_reporting_disallow">Don\'t send any crash reports</string>
+    <string name="settings_crash_reporting_disallow">Don\'t Send Any Crash Reports</string>
     <!-- Button in settings page to start import of shortcuts -->
     <string name="settings_import">Import Shortcuts</string>
     <!-- Button in settings page to start export of shortcuts -->
@@ -374,10 +374,10 @@
     <string name="theme_purple">Purple</string>
     <string name="theme_indigo">Indigo</string>
     <string name="title_export">Export to…</string>
-    <string name="button_export_to_filesystem">Local storage</string>
+    <string name="button_export_to_filesystem">Local Storage</string>
     <string name="button_export_send_to">Other app</string>
     <string name="title_import">Import from…</string>
-    <string name="button_import_from_filesystem">Local storage</string>
+    <string name="button_import_from_filesystem">Local Storage</string>
     <string name="button_import_from_general">Documents</string>
     <!-- Dialog title when creating a new shortcut, shows options below -->
     <string name="title_create_new_shortcut_options_dialog">Create New Shortcut</string>
