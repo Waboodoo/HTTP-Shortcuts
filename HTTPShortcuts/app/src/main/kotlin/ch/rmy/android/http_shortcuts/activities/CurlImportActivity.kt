@@ -55,7 +55,7 @@ class CurlImportActivity : BaseActivity() {
         val command = CurlParser.parse(commandString)
 
         ShortcutEditorActivity.IntentBuilder(context)
-            //.curlCommand(command) // TODO
+            .curlCommand(command)
             .build()
             .startActivity(this, REQUEST_CREATE_SHORTCUT)
     }

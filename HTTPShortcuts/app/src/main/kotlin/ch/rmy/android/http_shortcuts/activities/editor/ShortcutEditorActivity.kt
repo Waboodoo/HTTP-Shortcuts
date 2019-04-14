@@ -40,6 +40,7 @@ import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.android.http_shortcuts.views.PanelButton
+import ch.rmy.curlcommand.CurlCommand
 import com.afollestad.materialdialogs.MaterialDialog
 import com.theartofdev.edmodo.cropper.CropImage
 import io.reactivex.Completable
@@ -52,9 +53,11 @@ class ShortcutEditorActivity : BaseActivity() {
     private val shortcutId by lazy {
         intent.getStringExtra(EXTRA_SHORTCUT_ID)
     }
-
     private val categoryId by lazy {
         intent.getStringExtra(EXTRA_CATEGORY_ID)
+    }
+    private val curlCommand by lazy {
+        intent.getSerializableExtra(EXTRA_CURL_COMMAND) as CurlCommand?
     }
 
     private val viewModel: ShortcutEditorViewModel by bindViewModel()
@@ -98,7 +101,7 @@ class ShortcutEditorActivity : BaseActivity() {
     }
 
     private fun initViewModel() {
-        viewModel.init(categoryId, shortcutId)
+        viewModel.init(categoryId, shortcutId, curlCommand)
             .subscribe({
                 initViews()
             }, { e ->
@@ -398,12 +401,17 @@ class ShortcutEditorActivity : BaseActivity() {
             intent.putExtra(EXTRA_CATEGORY_ID, categoryId)
         }
 
+        fun curlCommand(command: CurlCommand) = also {
+            intent.putExtra(EXTRA_CURL_COMMAND, command)
+        }
+
     }
 
     companion object {
 
         private const val EXTRA_SHORTCUT_ID = "shortcutId"
         private const val EXTRA_CATEGORY_ID = "categoryId"
+        private const val EXTRA_CURL_COMMAND = "curlCommand"
 
         private const val REQUEST_SELECT_IPACK_ICON = 3
 

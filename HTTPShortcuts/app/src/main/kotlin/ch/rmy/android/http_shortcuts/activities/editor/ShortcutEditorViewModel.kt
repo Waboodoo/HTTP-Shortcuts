@@ -9,6 +9,7 @@ import ch.rmy.android.http_shortcuts.data.RealmViewModel
 import ch.rmy.android.http_shortcuts.data.Repository
 import ch.rmy.android.http_shortcuts.data.livedata.ListLiveData
 import ch.rmy.android.http_shortcuts.data.models.HasId.Companion.FIELD_ID
+import ch.rmy.android.http_shortcuts.data.models.Header
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Shortcut.Companion.TEMPORARY_ID
 import ch.rmy.android.http_shortcuts.data.models.Variable
@@ -19,6 +20,7 @@ import ch.rmy.android.http_shortcuts.extensions.toLiveData
 import ch.rmy.android.http_shortcuts.icons.Icons
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.utils.Validation
+import ch.rmy.curlcommand.CurlCommand
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.realm.Realm
@@ -26,18 +28,35 @@ import io.realm.kotlin.where
 
 class ShortcutEditorViewModel(application: Application) : RealmViewModel(application) {
 
-    fun init(categoryId: String?, shortcutId: String?): Completable {
+    fun init(categoryId: String?, shortcutId: String?, curlCommand: CurlCommand?): Completable {
         if (isInitialized) {
             return Completable.complete()
         }
         this.categoryId = categoryId
         this.shortcutId = shortcutId
         return persistedRealm.commitAsync { realm ->
-            if (shortcutId == null) {
+            val shortcut = if (shortcutId == null) {
                 realm.copyToRealmOrUpdate(Shortcut.createNew(id = TEMPORARY_ID, iconName = randomInitialIconName))
             } else {
                 Repository.copyShortcut(realm, Repository.getShortcutById(realm, shortcutId)!!, TEMPORARY_ID)
             }
+
+            curlCommand?.let { curlCommand ->
+                shortcut.method = curlCommand.method
+                shortcut.url = curlCommand.url
+                shortcut.username = curlCommand.username
+                shortcut.password = curlCommand.password
+                if (curlCommand.username.isNotEmpty() || curlCommand.password.isNotEmpty()) {
+                    shortcut.authentication = Shortcut.AUTHENTICATION_BASIC
+                }
+                shortcut.timeout = curlCommand.timeout
+                shortcut.bodyContent = curlCommand.data
+                shortcut.requestBodyType = Shortcut.REQUEST_BODY_TYPE_CUSTOM_TEXT
+                curlCommand.headers.forEach { (key, value) ->
+                    shortcut.headers.add(realm.copyToRealm(Header(key = key, value = value)))
+                }
+            }
+
         }
             .doOnComplete {
                 isInitialized = true
