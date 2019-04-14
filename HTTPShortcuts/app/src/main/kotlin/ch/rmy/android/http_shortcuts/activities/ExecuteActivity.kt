@@ -144,10 +144,8 @@ class ExecuteActivity : BaseActivity() {
             }
             .negativeText(R.string.dialog_cancel)
             .showIfPossible()
-            .let { dialogShown ->
-                if (!dialogShown) {
-                    deferred.rejectSafely(Unit)
-                }
+            ?: run {
+                deferred.rejectSafely(Unit)
             }
         return deferred
     }

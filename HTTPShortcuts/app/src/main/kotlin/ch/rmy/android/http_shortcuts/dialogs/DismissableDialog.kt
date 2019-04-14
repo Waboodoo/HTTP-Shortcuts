@@ -4,25 +4,22 @@ import android.content.Context
 import android.widget.CheckBox
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.extensions.resolveSafely
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
-import org.jdeferred2.Promise
-import org.jdeferred2.impl.DeferredObject
+import io.reactivex.Completable
+import io.reactivex.subjects.CompletableSubject
 
 abstract class DismissableDialog(private val context: Context) : Dialog {
 
-    override fun show(): Promise<Unit, Unit, Unit> {
-        val deferred = DeferredObject<Unit, Unit, Unit>()
-        val shown = MaterialDialog.Builder(context)
+    override fun show(): Completable {
+        val completable = CompletableSubject.create()
+        val dialog = MaterialDialog.Builder(context)
             .positiveText(R.string.dialog_ok)
             .customView(R.layout.dismissable_dialog, true)
             .cancelable(false)
             .canceledOnTouchOutside(false)
             .dismissListener {
-                if (deferred.isPending) {
-                    deferred.resolveSafely(Unit)
-                }
+                completable.onComplete()
             }
             .build()
             .also {
@@ -34,10 +31,13 @@ abstract class DismissableDialog(private val context: Context) : Dialog {
                 }
             }
             .showIfPossible()
-        if (!shown) {
-            deferred.resolveSafely(Unit)
+        return if (dialog != null) {
+            completable.doOnDispose {
+                dialog.dismiss()
+            }
+        } else {
+            Completable.complete()
         }
-        return deferred.promise()
     }
 
     protected abstract val message: String

@@ -68,7 +68,7 @@ dependencies {
 
     /* Support libraries */
     implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'com.google.android.material:material:1.1.0-alpha04'
+    implementation 'com.google.android.material:material:1.1.0-alpha05'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'androidx.annotation:annotation:1.0.2'
     implementation 'androidx.cardview:cardview:1.0.0'

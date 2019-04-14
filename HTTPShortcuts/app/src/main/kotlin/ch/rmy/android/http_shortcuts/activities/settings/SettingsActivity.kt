@@ -104,14 +104,14 @@ class SettingsActivity : BaseActivity() {
             }
 
             initPreference("changelog") {
-                ChangeLogDialog(activity, false).show()
-            }.let {
-                it.summary = getString(R.string.settings_changelog_summary, try {
-                    activity.packageManager.getPackageInfo(activity.packageName, 0).versionName
-                } catch (e: NameNotFoundException) {
-                    "???"
-                })
+                ChangeLogDialog(activity, false)
+                    .show()
+                    .subscribe()
+                    .attachTo(destroyer)
             }
+                .let {
+                    it.summary = getString(R.string.settings_changelog_summary, versionName)
+                }
 
             initPreference("mail") {
                 contactDeveloper()
@@ -137,6 +137,13 @@ class SettingsActivity : BaseActivity() {
                 showLicenses()
             }
         }
+
+        private val versionName: String
+            get() = try {
+                activity.packageManager.getPackageInfo(activity.packageName, 0).versionName
+            } catch (e: NameNotFoundException) {
+                "???"
+            }
 
         private fun initPreference(key: String, action: () -> Unit = {}): Preference {
             val preference = findPreference(key)

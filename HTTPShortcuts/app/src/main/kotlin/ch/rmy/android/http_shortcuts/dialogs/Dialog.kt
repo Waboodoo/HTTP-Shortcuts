@@ -1,11 +1,18 @@
 package ch.rmy.android.http_shortcuts.dialogs
 
-import org.jdeferred2.Promise
+import io.reactivex.Completable
 
 interface Dialog {
 
     fun shouldShow(): Boolean
 
-    fun show(): Promise<Unit, Unit, Unit>
+    fun show(): Completable
+
+    fun showIfNeeded(): Completable =
+        if (shouldShow()) {
+            show()
+        } else {
+            Completable.complete()
+        }
 
 }

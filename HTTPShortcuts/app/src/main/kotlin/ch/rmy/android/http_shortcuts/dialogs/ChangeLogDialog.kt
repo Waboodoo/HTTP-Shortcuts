@@ -7,14 +7,13 @@ import android.view.LayoutInflater
 import android.webkit.WebView
 import android.widget.CheckBox
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.extensions.resolveSafely
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
-import org.jdeferred2.Promise
-import org.jdeferred2.impl.DeferredObject
+import io.reactivex.Completable
+import io.reactivex.subjects.CompletableSubject
 
-class ChangeLogDialog(private val context: Context, private val whatsNew: Boolean): Dialog {
+class ChangeLogDialog(private val context: Context, private val whatsNew: Boolean) : Dialog {
 
     private val settings: Settings = Settings(context)
 
@@ -30,37 +29,39 @@ class ChangeLogDialog(private val context: Context, private val whatsNew: Boolea
         get() = settings.isChangeLogPermanentlyHidden
 
     @SuppressLint("InflateParams")
-    override fun show(): Promise<Unit, Unit, Unit> {
+    override fun show(): Completable {
         settings.changeLogLastVersion = version
 
         val layoutInflater = LayoutInflater.from(context)
         val view = layoutInflater.inflate(R.layout.changelog_dialog, null)
-        val webview = view.findViewById<WebView>(R.id.changelog_webview)
+        val webView = view.findViewById<WebView>(R.id.changelog_webview)
         val showAtStartupCheckbox = view.findViewById<CheckBox>(R.id.checkbox_show_at_startup)
 
-        val deferred = DeferredObject<Unit, Unit, Unit>()
+        val completable = CompletableSubject.create()
 
-        val showing = MaterialDialog.Builder(context)
+        val dialog = MaterialDialog.Builder(context)
             .customView(view, false)
             .title(if (whatsNew) R.string.changelog_title_whats_new else R.string.changelog_title)
             .positiveText(android.R.string.ok)
             .dismissListener {
-                deferred.resolveSafely(Unit)
+                completable.onComplete()
             }
             .showIfPossible()
 
-        if (!showing) {
-            deferred.resolveSafely(Unit)
+        return if (dialog != null) {
+            webView.loadUrl(CHANGELOG_ASSET_URL)
+
+            showAtStartupCheckbox.isChecked = !isPermanentlyHidden
+            showAtStartupCheckbox.setOnCheckedChangeListener { _, isChecked ->
+                settings.isChangeLogPermanentlyHidden = !isChecked
+            }
+
+            completable.doOnDispose {
+                dialog.dismiss()
+            }
+        } else {
+            Completable.complete()
         }
-
-        webview.loadUrl(CHANGELOG_ASSET_URL)
-
-        showAtStartupCheckbox.isChecked = !isPermanentlyHidden
-        showAtStartupCheckbox.setOnCheckedChangeListener { _, isChecked ->
-            settings.isChangeLogPermanentlyHidden = !isChecked
-        }
-
-        return deferred.promise()
     }
 
     private val version

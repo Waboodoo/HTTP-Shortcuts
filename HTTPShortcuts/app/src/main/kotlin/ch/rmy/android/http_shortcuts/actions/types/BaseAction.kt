@@ -63,10 +63,8 @@ abstract class BaseAction(
             .negativeText(R.string.dialog_cancel)
             .onNegative { dialog, _ -> dialog.dismiss() }
             .showIfPossible()
-            .let { dialogShown ->
-                if (!dialogShown) {
-                    deferred.rejectSafely(Unit)
-                }
+            ?: run {
+                deferred.rejectSafely(Unit)
             }
 
         return deferred.promise()

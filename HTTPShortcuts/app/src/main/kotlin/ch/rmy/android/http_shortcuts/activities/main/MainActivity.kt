@@ -32,7 +32,6 @@ import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
-import ch.rmy.android.http_shortcuts.utils.PromiseUtils
 import ch.rmy.android.http_shortcuts.utils.SelectionMode
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
@@ -124,18 +123,14 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     }
 
     private fun showStartupDialogs() {
-        val changeLog = ChangeLogDialog(context, whatsNew = true)
-        if (changeLog.shouldShow()) {
-            changeLog.show()
-        } else {
-            PromiseUtils.resolve(Unit)
-        }
-            .done {
-                val networkWarning = NetworkRestrictionWarningDialog(context)
-                if (networkWarning.shouldShow()) {
-                    networkWarning.show()
-                }
-            }
+        ChangeLogDialog(context, whatsNew = true)
+            .showIfNeeded()
+            .andThen(
+                NetworkRestrictionWarningDialog(context)
+                    .showIfNeeded()
+            )
+            .subscribe()
+            .attachTo(destroyer)
     }
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {

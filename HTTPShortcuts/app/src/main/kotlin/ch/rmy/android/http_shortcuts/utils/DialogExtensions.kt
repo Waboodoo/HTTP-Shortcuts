@@ -6,34 +6,31 @@ import androidx.appcompat.app.AlertDialog
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import com.afollestad.materialdialogs.MaterialDialog
 
-fun MaterialDialog.Builder.showIfPossible(): Boolean {
+fun MaterialDialog.Builder.showIfPossible(): MaterialDialog? {
     if ((context as? Activity)?.isFinishing == true) {
-        return false
+        return null
     }
-    this.show()
-    return true
+    return show()
 }
 
-fun MenuDialogBuilder.showIfPossible(): Boolean {
+fun MenuDialogBuilder.showIfPossible(): MaterialDialog? {
     if ((context as? Activity)?.isFinishing == true) {
-        return false
+        return null
     }
-    this.show()
-    return true
+    return show()
 }
 
-fun AlertDialog.Builder.showIfPossible(): Boolean {
+fun AlertDialog.Builder.showIfPossible(): AlertDialog? {
     if ((context as? Activity)?.isFinishing == true) {
-        return false
+        return null
     }
-    this.show()
-    return true
+    return show()
 }
 
-fun Dialog.showIfPossible(): Boolean {
+fun Dialog.showIfPossible(): Dialog? {
     if ((context as? Activity)?.isFinishing == true) {
-        return false
+        return null
     }
     this.show()
-    return true
+    return this
 }

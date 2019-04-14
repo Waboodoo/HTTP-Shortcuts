@@ -37,10 +37,10 @@ class IconSelector(context: Context) {
     }
 
     fun show(): Maybe<String> {
-        val visible = dialog.showIfPossible()
-        if (!visible) {
-            source.onComplete()
-        }
+        dialog.showIfPossible()
+            ?: run {
+                source.onComplete()
+            }
         return source
     }
 
