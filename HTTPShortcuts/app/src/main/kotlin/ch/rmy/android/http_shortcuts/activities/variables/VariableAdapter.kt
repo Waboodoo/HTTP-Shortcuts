@@ -1,9 +1,11 @@
-package ch.rmy.android.http_shortcuts.adapters
+package ch.rmy.android.http_shortcuts.activities.variables
 
 import android.content.Context
 import android.view.ViewGroup
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.BaseAdapter
+import ch.rmy.android.http_shortcuts.activities.BaseViewHolder
 import ch.rmy.android.http_shortcuts.data.livedata.ListLiveData
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.findIndex

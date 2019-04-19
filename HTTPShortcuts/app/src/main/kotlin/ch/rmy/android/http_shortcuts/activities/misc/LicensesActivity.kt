@@ -1,8 +1,9 @@
-package ch.rmy.android.http_shortcuts.activities
+package ch.rmy.android.http_shortcuts.activities.misc
 
 import android.content.Context
 import android.os.Bundle
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import com.mikepenz.aboutlibraries.LibsBuilder
 

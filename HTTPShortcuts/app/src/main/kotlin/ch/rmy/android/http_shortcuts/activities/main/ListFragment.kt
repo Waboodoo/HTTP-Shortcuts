@@ -12,9 +12,6 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseFragment
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
-import ch.rmy.android.http_shortcuts.adapters.ShortcutAdapter
-import ch.rmy.android.http_shortcuts.adapters.ShortcutGridAdapter
-import ch.rmy.android.http_shortcuts.adapters.ShortcutListAdapter
 import ch.rmy.android.http_shortcuts.data.livedata.ListLiveData
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.PendingExecution
@@ -58,7 +55,7 @@ class ListFragment : BaseFragment() {
     private lateinit var pendingShortcuts: ListLiveData<PendingExecution>
 
     private var layoutType: String? = null
-    private var adapter: ShortcutAdapter? = null
+    private var adapter: BaseShortcutAdapter? = null
 
     override val layoutResource = R.layout.fragment_list
 
@@ -129,9 +126,9 @@ class ListFragment : BaseFragment() {
         categoryData.value?.background?.let {
             updateBackground(it)
             adapter?.textColor = if (it == Category.BACKGROUND_TYPE_WHITE) {
-                ShortcutAdapter.TextColor.DARK
+                BaseShortcutAdapter.TextColor.DARK
             } else {
-                ShortcutAdapter.TextColor.BRIGHT
+                BaseShortcutAdapter.TextColor.BRIGHT
             }
         }
     }

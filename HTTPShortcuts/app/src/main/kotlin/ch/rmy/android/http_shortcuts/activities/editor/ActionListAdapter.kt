@@ -1,10 +1,12 @@
-package ch.rmy.android.http_shortcuts.adapters
+package ch.rmy.android.http_shortcuts.activities.editor
 
 import android.content.Context
 import android.view.ViewGroup
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.actions.types.BaseAction
+import ch.rmy.android.http_shortcuts.activities.SimpleListAdapter
+import ch.rmy.android.http_shortcuts.activities.SimpleViewHolder
 import ch.rmy.android.http_shortcuts.extensions.color
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider

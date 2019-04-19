@@ -4,7 +4,7 @@ import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.adapters.ToggleVariableOptionsAdapter
+import ch.rmy.android.http_shortcuts.activities.variables.ToggleVariableOptionsAdapter
 import ch.rmy.android.http_shortcuts.data.models.Option
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.attachTo

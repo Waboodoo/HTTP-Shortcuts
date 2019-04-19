@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.actions.types.ActionFactory
 import ch.rmy.android.http_shortcuts.actions.types.BaseAction
-import ch.rmy.android.http_shortcuts.adapters.ActionListAdapter
+import ch.rmy.android.http_shortcuts.activities.editor.ActionListAdapter
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.mapFor

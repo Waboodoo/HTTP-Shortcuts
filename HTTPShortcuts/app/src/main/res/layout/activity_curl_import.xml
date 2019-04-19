@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.LicensesActivity">
+    tools:context=".activities.misc.LicensesActivity">
 
     <include layout="@layout/toolbar_layout"/>
 

@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.adapters
+package ch.rmy.android.http_shortcuts.activities
 
 import android.content.Context
 import android.view.LayoutInflater

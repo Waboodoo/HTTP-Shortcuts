@@ -18,7 +18,7 @@ import android.preference.PreferenceFragment
 import androidx.annotation.StringRes
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
-import ch.rmy.android.http_shortcuts.activities.LicensesActivity
+import ch.rmy.android.http_shortcuts.activities.misc.LicensesActivity
 import ch.rmy.android.http_shortcuts.data.Controller
 import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog
 import ch.rmy.android.http_shortcuts.dialogs.HelpDialogBuilder

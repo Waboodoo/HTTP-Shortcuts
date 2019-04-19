@@ -114,7 +114,7 @@
                 android:value=".activities.main.MainActivity" />
         </activity>
         <activity
-            android:name=".activities.CurlImportActivity"
+            android:name=".activities.misc.CurlImportActivity"
             android:label="@string/title_curl_import"
             android:parentActivityName=".activities.main.MainActivity"
             android:windowSoftInputMode="adjustResize">
@@ -161,11 +161,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.LicensesActivity"
+            android:name=".activities.misc.LicensesActivity"
             android:label="@string/title_licenses" />
 
         <activity
-            android:name=".activities.ShareActivity"
+            android:name=".activities.misc.ShareActivity"
             android:configChanges="orientation|screenSize"
             android:excludeFromRecents="true"
             android:label="@string/action_send_to"
@@ -186,7 +186,7 @@
 
         <!-- EXPERIMENTAL -->
         <activity
-            android:name=".activities.VoiceActivity"
+            android:name=".activities.misc.VoiceActivity"
             android:configChanges="orientation|screenSize"
             android:excludeFromRecents="true"
             android:label="@string/title_activity_execute"
