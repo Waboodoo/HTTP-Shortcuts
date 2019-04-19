@@ -3,30 +3,22 @@ package ch.rmy.android.http_shortcuts.activities.editor
 import android.app.Application
 import androidx.annotation.PluralsRes
 import androidx.annotation.StringRes
-import androidx.lifecycle.LiveData
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.data.RealmViewModel
 import ch.rmy.android.http_shortcuts.data.Repository
-import ch.rmy.android.http_shortcuts.data.livedata.ListLiveData
-import ch.rmy.android.http_shortcuts.data.models.HasId.Companion.FIELD_ID
 import ch.rmy.android.http_shortcuts.data.models.Header
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Shortcut.Companion.TEMPORARY_ID
-import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.commitAsync
 import ch.rmy.android.http_shortcuts.extensions.context
 import ch.rmy.android.http_shortcuts.extensions.getString
-import ch.rmy.android.http_shortcuts.extensions.toLiveData
 import ch.rmy.android.http_shortcuts.icons.Icons
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.utils.Validation
 import ch.rmy.curlcommand.CurlCommand
 import io.reactivex.Completable
 import io.reactivex.Single
-import io.realm.Realm
-import io.realm.kotlin.where
 
-class ShortcutEditorViewModel(application: Application) : RealmViewModel(application) {
+class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorViewModel(application) {
 
     fun init(categoryId: String?, shortcutId: String?, curlCommand: CurlCommand?): Completable {
         if (isInitialized) {
@@ -69,13 +61,6 @@ class ShortcutEditorViewModel(application: Application) : RealmViewModel(applica
     private var categoryId: String? = null
     private var shortcutId: String? = null
 
-    val shortcut: LiveData<Shortcut?>
-        get() = persistedRealm
-            .where<Shortcut>()
-            .equalTo(FIELD_ID, TEMPORARY_ID)
-            .findFirstAsync()
-            .toLiveData()
-
     private val randomInitialIconName by lazy {
         Icons.getRandomIcon(application)
     }
@@ -102,9 +87,6 @@ class ShortcutEditorViewModel(application: Application) : RealmViewModel(applica
                 this.iconName = iconName
             }
         }
-
-    private fun getShortcut(realm: Realm): Shortcut? =
-        Repository.getShortcutById(realm, TEMPORARY_ID)
 
     fun trySave(): Single<String> {
         val id = shortcutId ?: newUUID()
@@ -198,12 +180,6 @@ class ShortcutEditorViewModel(application: Application) : RealmViewModel(applica
         } else {
             context.resources.getQuantityString(pluralRes, count, count)
         }
-
-    val variables: ListLiveData<Variable>
-        get() = persistedRealm
-            .where<Variable>()
-            .findAllAsync()
-            .toLiveData()
 
     companion object {
 

@@ -15,7 +15,14 @@ import androidx.lifecycle.Observer
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
+import ch.rmy.android.http_shortcuts.activities.editor.advancedsettings.AdvancedSettingsActivity
+import ch.rmy.android.http_shortcuts.activities.editor.authentication.AuthenticationActivity
 import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.BasicRequestSettingsActivity
+import ch.rmy.android.http_shortcuts.activities.editor.body.RequestBodyActivity
+import ch.rmy.android.http_shortcuts.activities.editor.headers.RequestHeadersActivity
+import ch.rmy.android.http_shortcuts.activities.editor.miscsettings.MiscSettingsActivity
+import ch.rmy.android.http_shortcuts.activities.editor.postrequest.PostRequestActivity
+import ch.rmy.android.http_shortcuts.activities.editor.prerequest.PreRequestActivity
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
@@ -162,25 +169,39 @@ class ShortcutEditorActivity : BaseActivity() {
                 .startActivity(this)
         }
         headersButton.setOnClickListener {
-
+            RequestHeadersActivity.IntentBuilder(context)
+                .build()
+                .startActivity(this)
         }
         requestBodyButton.setOnClickListener {
-
+            RequestBodyActivity.IntentBuilder(context)
+                .build()
+                .startActivity(this)
         }
         authenticationButton.setOnClickListener {
-
+            AuthenticationActivity.IntentBuilder(context)
+                .build()
+                .startActivity(this)
         }
         preRequestActionsButton.setOnClickListener {
-
+            PreRequestActivity.IntentBuilder(context)
+                .build()
+                .startActivity(this)
         }
         postRequestActionsButton.setOnClickListener {
-
+            PostRequestActivity.IntentBuilder(context)
+                .build()
+                .startActivity(this)
         }
         miscSettingsButton.setOnClickListener {
-
+            MiscSettingsActivity.IntentBuilder(context)
+                .build()
+                .startActivity(this)
         }
         advancedTechnicalSettingsButton.setOnClickListener {
-
+            AdvancedSettingsActivity.IntentBuilder(context)
+                .build()
+                .startActivity(this)
         }
     }
 

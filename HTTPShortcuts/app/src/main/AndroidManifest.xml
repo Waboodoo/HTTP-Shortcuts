@@ -49,6 +49,62 @@
                 android:value=".activities.editor.ShortcutEditorActivity" />
         </activity>
         <activity
+            android:name=".activities.editor.headers.RequestHeadersActivity"
+            android:label="@string/section_request_headers"
+            android:windowSoftInputMode="adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.editor.ShortcutEditorActivity" />
+        </activity>
+        <activity
+            android:name=".activities.editor.body.RequestBodyActivity"
+            android:label="@string/section_request_body"
+            android:windowSoftInputMode="adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.editor.ShortcutEditorActivity" />
+        </activity>
+        <activity
+            android:name=".activities.editor.authentication.AuthenticationActivity"
+            android:label="@string/section_authentication"
+            android:windowSoftInputMode="adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.editor.ShortcutEditorActivity" />
+        </activity>
+        <activity
+            android:name=".activities.editor.prerequest.PreRequestActivity"
+            android:label="@string/label_actions_pre_request"
+            android:windowSoftInputMode="adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.editor.ShortcutEditorActivity" />
+        </activity>
+        <activity
+            android:name=".activities.editor.postrequest.PostRequestActivity"
+            android:label="@string/label_actions_post_request"
+            android:windowSoftInputMode="adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.editor.ShortcutEditorActivity" />
+        </activity>
+        <activity
+            android:name=".activities.editor.miscsettings.MiscSettingsActivity"
+            android:label="@string/label_misc_settings"
+            android:windowSoftInputMode="adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.editor.ShortcutEditorActivity" />
+        </activity>
+        <activity
+            android:name=".activities.editor.advancedsettings.AdvancedSettingsActivity"
+            android:label="@string/label_advanced_technical_settings"
+            android:windowSoftInputMode="adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.editor.ShortcutEditorActivity" />
+        </activity>
+        <activity
             android:name=".activities.categories.CategoriesActivity"
             android:label="@string/title_categories"
             android:parentActivityName=".activities.main.MainActivity"
