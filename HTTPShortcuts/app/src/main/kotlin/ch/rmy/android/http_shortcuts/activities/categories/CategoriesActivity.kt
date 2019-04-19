@@ -54,12 +54,12 @@ class CategoriesActivity : BaseActivity() {
     private fun initDragOrdering() {
         val dragOrderingHelper = DragOrderingHelper()
         dragOrderingHelper.attachTo(categoryList)
-        dragOrderingHelper.positionChangeSource.subscribe { (oldPosition, newPosition) ->
-            val category = categories[oldPosition]!!
-            viewModel.moveCategory(category.id, newPosition)
-                .subscribe()
-                .attachTo(destroyer)
-        }
+        dragOrderingHelper.positionChangeSource
+            .concatMapCompletable { (oldPosition, newPosition) ->
+                val category = categories[oldPosition]!!
+                viewModel.moveCategory(category.id, newPosition)
+            }
+            .subscribe()
             .attachTo(destroyer)
     }
 

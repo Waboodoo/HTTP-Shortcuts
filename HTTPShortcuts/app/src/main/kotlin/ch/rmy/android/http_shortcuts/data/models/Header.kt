@@ -8,12 +8,12 @@ import io.realm.annotations.Required
 open class Header(
     @PrimaryKey
     @Required
-    var id: String = newUUID(),
+    override var id: String = newUUID(),
     @Required
     var key: String = "",
     @Required
     var value: String = ""
-) : RealmObject() {
+) : RealmObject(), HasId {
 
     fun isSameAs(other: Header) = other.key == key && other.value == value
 

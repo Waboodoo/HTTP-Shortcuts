@@ -326,6 +326,7 @@ class ShortcutEditorActivity : BaseActivity() {
 
     private fun onSaveComplete() {
         finish()
+        // TODO
         /*val dialog = IconNameChangeDialog(context)
         if (LauncherShortcutManager.supportsPinning(context)) {
             LauncherShortcutManager.updatePinnedShortcut(context, persistedShortcut)

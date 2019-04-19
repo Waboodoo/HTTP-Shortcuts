@@ -642,4 +642,8 @@
     <string name="subtitle_request_body_custom">Custom request body set</string>
     <!-- Section subtitle, shown for "Custom Request Body" option when it is not available because the selected HTTP method (%1$s) does not support a request body -->
     <string name="subtitle_request_body_not_available">Not applicable for %1$s</string>
+    <!-- Empty state, shown in list when there are no custom request headers yet -->
+    <string name="empty_state_request_headers">no custom headers set</string>
+    <!-- Empty state instructions, shown in list when there are no custom request headers yet -->
+    <string name="empty_state_request_headers_instructions">Click the + button to add a custom request header.</string>
 </resources>
