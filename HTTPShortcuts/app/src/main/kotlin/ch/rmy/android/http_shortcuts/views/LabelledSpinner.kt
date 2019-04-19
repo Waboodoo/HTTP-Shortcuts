@@ -27,7 +27,7 @@ class LabelledSpinner @JvmOverloads constructor(context: Context, attrs: Attribu
         label.setPadding(0, paddingTop, 0, 0)
         errorLabel.visibility = View.GONE
 
-        onItemChosenListener = object : com.satsuware.usefulviews.LabelledSpinner.OnItemChosenListener {
+        onItemChosenListener = object : OnItemChosenListener {
             override fun onItemChosen(labelledSpinner: View?, adapterView: AdapterView<*>?, itemView: View?, position: Int, id: Long) {
                 selectedItem = items[position]
             }
@@ -43,7 +43,7 @@ class LabelledSpinner @JvmOverloads constructor(context: Context, attrs: Attribu
             val before = field
             field = value
             setSelection(items.findIndex(value))
-            if (before != value) {
+            if (before != value && before.isNotEmpty()) {
                 selectionChangeSubject.onNext(value)
             }
         }

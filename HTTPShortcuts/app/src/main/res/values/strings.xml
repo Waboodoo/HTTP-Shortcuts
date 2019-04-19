@@ -165,9 +165,9 @@
     <!-- Setting title for crash reporting settings, as part of privacy settings (opt-in/opt-out) -->
     <string name="settings_crash_reporting">Crash Reporting</string>
     <!-- Option for crash reporting opt in -->
-    <string name="settings_crash_reporting_allow">Send Crash Reports to Help Improve the App</string>
+    <string name="settings_crash_reporting_allow">Send crash reports to help improve the app</string>
     <!-- Option for crash reporting opt out -->
-    <string name="settings_crash_reporting_disallow">Don\'t Send Any Crash Reports</string>
+    <string name="settings_crash_reporting_disallow">Don\'t send any crash reports</string>
     <!-- Button in settings page to start import of shortcuts -->
     <string name="settings_import">Import Shortcuts</string>
     <!-- Button in settings page to start export of shortcuts -->
