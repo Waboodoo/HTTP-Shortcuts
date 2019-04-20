@@ -17,6 +17,8 @@ import ch.rmy.android.http_shortcuts.utils.Validation
 import ch.rmy.curlcommand.CurlCommand
 import io.reactivex.Completable
 import io.reactivex.Single
+import io.realm.Realm
+import org.apache.http.HttpHeaders
 
 class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorViewModel(application) {
 
@@ -34,19 +36,7 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
             }
 
             curlCommand?.let { curlCommand ->
-                shortcut.method = curlCommand.method
-                shortcut.url = curlCommand.url
-                shortcut.username = curlCommand.username
-                shortcut.password = curlCommand.password
-                if (curlCommand.username.isNotEmpty() || curlCommand.password.isNotEmpty()) {
-                    shortcut.authentication = Shortcut.AUTHENTICATION_BASIC
-                }
-                shortcut.timeout = curlCommand.timeout
-                shortcut.bodyContent = curlCommand.data
-                shortcut.requestBodyType = Shortcut.REQUEST_BODY_TYPE_CUSTOM_TEXT
-                curlCommand.headers.forEach { (key, value) ->
-                    shortcut.headers.add(realm.copyToRealm(Header(key = key, value = value)))
-                }
+                importFromCurl(realm, shortcut, curlCommand)
             }
 
         }
@@ -146,7 +136,7 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
                 else -> if (shortcut.bodyContent.isBlank()) {
                     getString(R.string.subtitle_request_body_none)
                 } else {
-                    getString(R.string.subtitle_request_body_custom)
+                    getString(R.string.subtitle_request_body_custom, shortcut.contentType)
                 }
             }
         } else {
@@ -185,6 +175,29 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
 
         const val VALIDATION_ERROR_EMPTY_NAME = 1
         const val VALIDATION_ERROR_INVALID_URL = 2
+
+        private fun importFromCurl(realm: Realm, shortcut: Shortcut, curlCommand: CurlCommand) {
+            shortcut.method = curlCommand.method
+            shortcut.url = curlCommand.url
+            shortcut.username = curlCommand.username
+            shortcut.password = curlCommand.password
+            if (curlCommand.username.isNotEmpty() || curlCommand.password.isNotEmpty()) {
+                shortcut.authentication = Shortcut.AUTHENTICATION_BASIC
+            }
+            shortcut.timeout = curlCommand.timeout
+            shortcut.bodyContent = curlCommand.data
+            shortcut.requestBodyType = Shortcut.REQUEST_BODY_TYPE_CUSTOM_TEXT
+            curlCommand.headers.entries
+                .find { it.key.equals(HttpHeaders.CONTENT_TYPE, ignoreCase = true) }
+                ?.let {
+                    shortcut.contentType = it.value
+                }
+            curlCommand.headers.forEach { (key, value) ->
+                if (!key.equals(HttpHeaders.CONTENT_TYPE, ignoreCase = true)) {
+                    shortcut.headers.add(realm.copyToRealm(Header(key = key, value = value)))
+                }
+            }
+        }
 
     }
 

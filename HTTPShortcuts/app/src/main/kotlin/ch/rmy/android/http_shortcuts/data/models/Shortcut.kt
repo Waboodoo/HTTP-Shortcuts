@@ -114,8 +114,6 @@ open class Shortcut : RealmObject(), HasId {
     val isRetryAllowed
         get() = feedback != FEEDBACK_ACTIVITY && feedback != FEEDBACK_DIALOG && !isBrowserShortcut
 
-    fun usesAuthentication() = usesBasicAuthentication() || usesDigestAuthentication()
-
     fun usesBasicAuthentication() = authentication == AUTHENTICATION_BASIC
 
     fun usesDigestAuthentication() = authentication == AUTHENTICATION_DIGEST

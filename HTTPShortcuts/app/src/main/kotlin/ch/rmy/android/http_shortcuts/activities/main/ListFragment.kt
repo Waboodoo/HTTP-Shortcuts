@@ -34,6 +34,7 @@ import ch.rmy.curlcommand.CurlCommand
 import ch.rmy.curlcommand.CurlConstructor
 import com.afollestad.materialdialogs.MaterialDialog
 import kotterknife.bindView
+import org.apache.http.HttpHeaders
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
 
@@ -334,6 +335,9 @@ class ListFragment : BaseFragment() {
             .timeout(shortcut.timeout)
             .mapFor(shortcut.headers) { builder, header ->
                 builder.header(header.key, header.value)
+            }
+            .mapIf(shortcut.usesCustomBody()) { builder ->
+                builder.header(HttpHeaders.CONTENT_TYPE, shortcut.contentType.ifEmpty { Shortcut.DEFAULT_CONTENT_TYPE })
             }
             .mapFor(shortcut.parameters) { builder, parameter ->
                 try {
