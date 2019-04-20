@@ -79,6 +79,9 @@ class ExecuteActivity : BaseActivity() {
     private val recursionDepth by lazy {
         intent?.extras?.getInt(EXTRA_RECURSION_DEPTH) ?: 0
     }
+    private val shortcutName by lazy {
+        shortcut.name.ifEmpty { getString(R.string.shortcut_safe_name) }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,7 +93,7 @@ class ExecuteActivity : BaseActivity() {
             return
         }
         if (shortcut.isFeedbackUsesUI) {
-            title = shortcut.getSafeName(context)
+            title = shortcutName
             destroyer.own(::hideProgress)
             if (shortcut.isFeedbackInWindow) {
                 setContentView(R.layout.activity_execute)
@@ -133,7 +136,7 @@ class ExecuteActivity : BaseActivity() {
     private fun promptForConfirmation(): Promise<Unit, Unit, Unit> {
         val deferred = DeferredObject<Unit, Unit, Unit>()
         MaterialDialog.Builder(context)
-            .title(shortcut.getSafeName(context))
+            .title(shortcutName)
             .content(R.string.dialog_message_confirm_shortcut_execution)
             .dismissListener {
                 deferred.rejectSafely(Unit)
@@ -230,7 +233,7 @@ class ExecuteActivity : BaseActivity() {
                     finishWithoutAnimation()
                 } else {
                     val simple = shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE
-                    val output = if (simple) String.format(getString(R.string.executed), shortcut.getSafeName(context)) else generateOutputFromResponse(response)
+                    val output = if (simple) String.format(getString(R.string.executed), shortcutName) else generateOutputFromResponse(response)
                     displayOutput(output, response.contentType)
                 }
             }
@@ -238,7 +241,7 @@ class ExecuteActivity : BaseActivity() {
                 if (!shortcut.isFeedbackUsesUI && shortcut.retryPolicy == Shortcut.RETRY_POLICY_WAIT_FOR_INTERNET && error.networkResponse == null) {
                     rescheduleExecution(resolvedVariables)
                     if (shortcut.feedback != Shortcut.FEEDBACK_NONE && tryNumber == 0) {
-                        showToast(String.format(context.getString(R.string.execution_delayed), shortcut.getSafeName(context)), long = true)
+                        showToast(String.format(context.getString(R.string.execution_delayed), shortcutName), long = true)
                     }
                     finishWithoutAnimation()
                 } else {
@@ -284,11 +287,9 @@ class ExecuteActivity : BaseActivity() {
     private fun generateOutputFromResponse(response: ShortcutResponse) = response.bodyAsString
 
     private fun generateOutputFromError(error: VolleyError, simple: Boolean): String {
-        val name = shortcut.getSafeName(context)
-
         if (error.networkResponse != null) {
             val builder = StringBuilder()
-            builder.append(String.format(getString(R.string.error_http), name, error.networkResponse.statusCode))
+            builder.append(String.format(getString(R.string.error_http), shortcutName, error.networkResponse.statusCode))
 
             if (!simple && error.networkResponse.data != null) {
                 try {
@@ -302,9 +303,9 @@ class ExecuteActivity : BaseActivity() {
             return builder.toString()
         } else {
             return when {
-                error.cause?.message != null -> String.format(getString(R.string.error_other), name, error.cause!!.message)
-                error.message != null -> String.format(getString(R.string.error_other), name, error.message)
-                else -> String.format(getString(R.string.error_other), name, error.javaClass.simpleName)
+                error.cause?.message != null -> String.format(getString(R.string.error_other), shortcutName, error.cause!!.message)
+                error.message != null -> String.format(getString(R.string.error_other), shortcutName, error.message)
+                else -> String.format(getString(R.string.error_other), shortcutName, error.javaClass.simpleName)
             }
         }
     }
@@ -313,7 +314,7 @@ class ExecuteActivity : BaseActivity() {
         when {
             shortcut.isFeedbackInDialog -> {
                 if (progressDialog == null) {
-                    progressDialog = ProgressDialog.show(context, null, String.format(getString(R.string.progress_dialog_message), shortcut.getSafeName(context)))
+                    progressDialog = ProgressDialog.show(context, null, String.format(getString(R.string.progress_dialog_message), shortcutName))
                 }
             }
             shortcut.isFeedbackInWindow -> {
@@ -346,7 +347,7 @@ class ExecuteActivity : BaseActivity() {
             }
             Shortcut.FEEDBACK_DIALOG -> {
                 MaterialDialog.Builder(context)
-                    .title(shortcut.getSafeName(context))
+                    .title(shortcutName)
                     .content(output)
                     .positiveText(R.string.dialog_ok)
                     .dismissListener { finishWithoutAnimation() }
@@ -419,7 +420,7 @@ class ExecuteActivity : BaseActivity() {
 
         init {
             intent.putExtra(EXTRA_SHORTCUT_ID, shortcutId)
-            intent.action = ExecuteActivity.ACTION_EXECUTE_SHORTCUT
+            intent.action = ACTION_EXECUTE_SHORTCUT
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NO_ANIMATION
             intent.data = Uri.fromParts("content", context.packageName, null)
                 .buildUpon()

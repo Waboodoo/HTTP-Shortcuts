@@ -11,6 +11,7 @@ import ch.rmy.android.http_shortcuts.data.livedata.ListLiveData
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.icons.IconView
+import ch.rmy.android.http_shortcuts.utils.IconUtil
 import kotterknife.bindView
 
 class ShortcutListAdapter(context: Context, shortcuts: ListLiveData<Shortcut>) : BaseShortcutAdapter(context, shortcuts) {
@@ -28,7 +29,7 @@ class ShortcutListAdapter(context: Context, shortcuts: ListLiveData<Shortcut>) :
             name.text = item.name
             description.text = item.description
             description.visible = !TextUtils.isEmpty(item.description)
-            icon.setImageURI(item.getIconURI(context), item.iconName)
+            icon.setImageURI(IconUtil.getIconURI(context, item), item.iconName)
             waitingIcon.visible = isPendingExecution(item.id)
             name.setTextColor(nameTextColor)
             description.setTextColor(descriptionTextColor)

@@ -40,6 +40,7 @@ import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.icons.IconSelector
 import ch.rmy.android.http_shortcuts.icons.IconView
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
+import ch.rmy.android.http_shortcuts.utils.IconUtil
 import ch.rmy.android.http_shortcuts.utils.IpackUtil
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.utils.Validation
@@ -138,7 +139,7 @@ class ShortcutEditorActivity : BaseActivity() {
 
     private fun updateShortcutViews() {
         val shortcut = shortcutData.value ?: return
-        iconView.setImageURI(shortcut.getIconURI(context), shortcut.iconName, animated = true)
+        iconView.setImageURI(IconUtil.getIconURI(context, shortcut), shortcut.iconName, animated = true)
         nameView.setTextMaintainingSelection(shortcut.name)
         descriptionView.setTextMaintainingSelection(shortcut.description)
 

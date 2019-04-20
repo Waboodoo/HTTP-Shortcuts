@@ -65,8 +65,8 @@ class VibrateAction(id: String, actionType: VibrateActionType, data: Map<String,
 
         fun getPatterns() = (0 until PATTERN_COUNT).map { findPattern(it) }
 
-        private fun findPattern(patternId: Int): VibrationPattern {
-            return when (patternId) {
+        private fun findPattern(patternId: Int): VibrationPattern =
+            when (patternId) {
                 1 -> object : VibrationPattern {
                     override val duration: Long
                         get() = 1000L
@@ -117,7 +117,6 @@ class VibrateAction(id: String, actionType: VibrateActionType, data: Map<String,
                         context.getString(R.string.action_type_vibrate_description_pattern_0)
                 }
             }
-        }
 
     }
 

@@ -47,7 +47,9 @@ class BasicRequestSettingsActivity : BaseActivity() {
     }
 
     private fun initViews() {
-        methodSpinner.items = Shortcut.METHODS
+        methodSpinner.setItemsFromPairs(METHODS.map {
+            it to it
+        })
         bindVariableViews(urlView, urlVariableButton, variablePlaceholderProvider)
             .attachTo(destroyer)
     }
@@ -87,5 +89,20 @@ class BasicRequestSettingsActivity : BaseActivity() {
     }
 
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, BasicRequestSettingsActivity::class.java)
+
+    companion object {
+
+        private val METHODS = listOf(
+            Shortcut.METHOD_GET,
+            Shortcut.METHOD_POST,
+            Shortcut.METHOD_PUT,
+            Shortcut.METHOD_DELETE,
+            Shortcut.METHOD_PATCH,
+            Shortcut.METHOD_HEAD,
+            Shortcut.METHOD_OPTIONS,
+            Shortcut.METHOD_TRACE
+        )
+
+    }
 
 }

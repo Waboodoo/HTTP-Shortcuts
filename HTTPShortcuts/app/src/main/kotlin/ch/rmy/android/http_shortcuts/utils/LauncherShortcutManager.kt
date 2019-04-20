@@ -66,7 +66,7 @@ object LauncherShortcutManager {
 
     @RequiresApi(Build.VERSION_CODES.N_MR1)
     private fun createShortcutInfo(context: Context, shortcut: Shortcut, rank: Int = 0): ShortcutInfo {
-        val icon = shortcut.getIcon(context)
+        val icon = IconUtil.getIcon(context, shortcut)
         return ShortcutInfo.Builder(context, ID_PREFIX + shortcut.id)
             .setShortLabel(shortcut.name)
             .setLongLabel(shortcut.name)

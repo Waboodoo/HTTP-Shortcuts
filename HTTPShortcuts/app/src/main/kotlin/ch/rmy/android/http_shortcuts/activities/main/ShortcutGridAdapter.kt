@@ -8,6 +8,7 @@ import ch.rmy.android.http_shortcuts.activities.BaseViewHolder
 import ch.rmy.android.http_shortcuts.data.livedata.ListLiveData
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.icons.IconView
+import ch.rmy.android.http_shortcuts.utils.IconUtil
 import kotterknife.bindView
 
 class ShortcutGridAdapter(context: Context, shortcuts: ListLiveData<Shortcut>) : BaseShortcutAdapter(context, shortcuts) {
@@ -21,7 +22,7 @@ class ShortcutGridAdapter(context: Context, shortcuts: ListLiveData<Shortcut>) :
 
         override fun updateViews(item: Shortcut) {
             name.text = item.name
-            icon.setImageURI(item.getIconURI(context), item.iconName)
+            icon.setImageURI(IconUtil.getIconURI(context, item), item.iconName)
             name.setTextColor(nameTextColor)
         }
 

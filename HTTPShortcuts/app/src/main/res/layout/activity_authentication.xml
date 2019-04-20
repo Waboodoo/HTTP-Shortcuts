@@ -19,7 +19,68 @@
             android:orientation="vertical"
             android:padding="16dp">
 
+            <ch.rmy.android.http_shortcuts.views.LabelledSpinner
+                android:id="@+id/input_authentication_method"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:labelText="@string/label_authentication_method" />
 
+            <RelativeLayout
+                android:id="@+id/container_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@+id/variable_button_username"
+                    android:layout_toLeftOf="@+id/variable_button_username">
+
+                    <ch.rmy.android.http_shortcuts.variables.VariableEditText
+                        android:id="@+id/input_username"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/label_username"
+                        android:inputType="textNoSuggestions"
+                        android:lines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ch.rmy.android.http_shortcuts.variables.VariableButton
+                    android:id="@+id/variable_button_username"
+                    style="@style/VariableButton"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/container_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@+id/variable_button_password"
+                    android:layout_toLeftOf="@+id/variable_button_password">
+
+                    <ch.rmy.android.http_shortcuts.variables.VariableEditText
+                        android:id="@+id/input_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/label_password"
+                        android:inputType="textNoSuggestions"
+                        android:lines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ch.rmy.android.http_shortcuts.variables.VariableButton
+                    android:id="@+id/variable_button_password"
+                    style="@style/VariableButton"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+            </RelativeLayout>
 
 
         </LinearLayout>

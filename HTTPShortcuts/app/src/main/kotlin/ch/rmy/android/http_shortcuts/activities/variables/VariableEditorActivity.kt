@@ -13,12 +13,10 @@ import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.consume
-import ch.rmy.android.http_shortcuts.extensions.findIndex
 import ch.rmy.android.http_shortcuts.extensions.focus
 import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
-import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils.getVariableTypeOptions
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.android.http_shortcuts.variables.types.AsyncVariableType
@@ -75,8 +73,10 @@ class VariableEditorActivity : BaseActivity() {
             }
             .attachTo(destroyer)
 
-        typeSpinner.items = getVariableTypeOptions(context)
-        typeSpinner.setSelection(Variable.TYPE_OPTIONS.findIndex(variable.type))
+        typeSpinner.setItemsFromPairs(VARIABLE_TYPES.map {
+            it.first to getString(it.second)
+        })
+        typeSpinner.selectedItem = variable.type
         typeSpinner.selectionChanges
             .subscribe {
                 updateTypeEditor()
@@ -94,7 +94,7 @@ class VariableEditorActivity : BaseActivity() {
 
     private fun updateTypeEditor() {
         compileVariable()
-        val variableType = VariableTypeFactory.getType(selectedType)
+        val variableType = VariableTypeFactory.getType(typeSpinner.selectedItem)
         val fragmentManager = supportFragmentManager
         fragment = variableType.getEditorFragment(fragmentManager)
 
@@ -111,9 +111,6 @@ class VariableEditorActivity : BaseActivity() {
     fun onFragmentStarted() {
         fragment?.updateViews(variable)
     }
-
-    private val selectedType: String
-        get() = Variable.TYPE_OPTIONS[typeSpinner.spinner.selectedItemPosition]
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.variable_editor_activity_menu, menu)
@@ -161,7 +158,7 @@ class VariableEditorActivity : BaseActivity() {
         fragment?.compileIntoVariable(variable)
         variable.title = titleView.text.toString().trim { it <= ' ' }
         variable.key = keyView.text.toString()
-        variable.type = Variable.TYPE_OPTIONS[typeSpinner.spinner.selectedItemPosition]
+        variable.type = typeSpinner.selectedItem
         variable.urlEncode = urlEncode.isChecked
         variable.jsonEncode = jsonEncode.isChecked
         variable.isShareText = allowShare.isChecked
@@ -197,6 +194,19 @@ class VariableEditorActivity : BaseActivity() {
     companion object {
 
         private const val EXTRA_VARIABLE_ID = "ch.rmy.android.http_shortcuts.activities.variables.VariableEditorActivity.variable_id"
+
+        val VARIABLE_TYPES = listOf(
+            Variable.TYPE_CONSTANT to R.string.variable_type_constant,
+            Variable.TYPE_TEXT to R.string.variable_type_text,
+            Variable.TYPE_NUMBER to R.string.variable_type_number,
+            Variable.TYPE_PASSWORD to R.string.variable_type_password,
+            Variable.TYPE_DATE to R.string.variable_type_date,
+            Variable.TYPE_TIME to R.string.variable_type_time,
+            Variable.TYPE_COLOR to R.string.variable_type_color,
+            Variable.TYPE_SELECT to R.string.variable_type_select,
+            Variable.TYPE_TOGGLE to R.string.variable_type_toggle,
+            Variable.TYPE_SLIDER to R.string.variable_type_slider
+        )
 
     }
 

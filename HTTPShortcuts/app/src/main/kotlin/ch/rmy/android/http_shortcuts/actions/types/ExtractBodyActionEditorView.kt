@@ -35,7 +35,9 @@ class ExtractBodyActionEditorView(
         }
 
     init {
-        extractionOption.items = getOptionStrings()
+        extractionOption.setItemsFromPairs(EXTRACTION_OPTIONS.map {
+            it.first to context.getString(it.second)
+        })
         extractionOption.selectedItem = action.extractionType
         extractionOption.selectionChanges
             .subscribe {
@@ -68,7 +70,7 @@ class ExtractBodyActionEditorView(
         } else {
             targetVariableView.text = selectedVariableKey
         }
-        val selectedOption = getSelectedOption()
+        val selectedOption = extractionOption.selectedItem
         substringOptions.visible = selectedOption == ExtractBodyAction.EXTRACTION_OPTION_SUBSTRING
         jsonOptions.visible = selectedOption == ExtractBodyAction.EXTRACTION_OPTION_PARSE_JSON
     }
@@ -77,7 +79,7 @@ class ExtractBodyActionEditorView(
         if (selectedVariableKey.isEmpty()) {
             return false
         }
-        action.extractionType = getSelectedOption()
+        action.extractionType = extractionOption.selectedItem
         action.variableKey = selectedVariableKey
 
         action.substringStart = substringStart.text.toString().toIntOrNull() ?: 0
@@ -88,26 +90,12 @@ class ExtractBodyActionEditorView(
         return true
     }
 
-    private fun getSelectedOption() =
-        EXTRACTION_OPTIONS[extractionOption.spinner.selectedItemPosition]
-
-    private fun getOptionStrings() =
-        EXTRACTION_OPTIONS_RESOURCES
-            .map { context.getString(it) }
-            .toTypedArray()
-
     companion object {
 
-        private val EXTRACTION_OPTIONS = arrayOf(
-            ExtractBodyAction.EXTRACTION_OPTION_FULL_BODY,
-            ExtractBodyAction.EXTRACTION_OPTION_SUBSTRING,
-            ExtractBodyAction.EXTRACTION_OPTION_PARSE_JSON
-        )
-
-        private val EXTRACTION_OPTIONS_RESOURCES = intArrayOf(
-            R.string.action_type_extract_body_description_option_full_body,
-            R.string.action_type_extract_body_description_option_substring,
-            R.string.action_type_extract_body_description_option_json
+        private val EXTRACTION_OPTIONS = listOf(
+            ExtractBodyAction.EXTRACTION_OPTION_FULL_BODY to R.string.action_type_extract_body_description_option_full_body,
+            ExtractBodyAction.EXTRACTION_OPTION_SUBSTRING to R.string.action_type_extract_body_description_option_substring,
+            ExtractBodyAction.EXTRACTION_OPTION_PARSE_JSON to R.string.action_type_extract_body_description_option_json
         )
 
     }

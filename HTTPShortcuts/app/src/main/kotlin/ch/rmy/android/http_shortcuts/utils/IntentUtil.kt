@@ -33,15 +33,15 @@ object IntentUtil {
             .putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcut.name)
             .putExtra(EXTRA_SHORTCUT_DUPLICATE, true)
         if (shortcut.iconName != null) {
-            val iconUri = shortcut.getIconURI(context)
+            val iconUri = IconUtil.getIconURI(context, shortcut)
             try {
                 val icon = MediaStore.Images.Media.getBitmap(context.contentResolver, iconUri)
                 addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON, icon)
             } catch (e: Exception) {
-                addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(context.applicationContext, ShortcutUIUtils.DEFAULT_ICON))
+                addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(context.applicationContext, IconUtil.DEFAULT_ICON))
             }
         } else {
-            addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(context.applicationContext, ShortcutUIUtils.DEFAULT_ICON))
+            addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(context.applicationContext, IconUtil.DEFAULT_ICON))
         }
 
         addIntent.action = if (install) ACTION_INSTALL_SHORTCUT else ACTION_UNINSTALL_SHORTCUT

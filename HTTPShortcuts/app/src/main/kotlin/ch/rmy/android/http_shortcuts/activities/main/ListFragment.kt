@@ -355,7 +355,7 @@ class ListFragment : BaseFragment() {
 
         CurlExportDialog(
             context!!,
-            shortcut.getSafeName(context!!),
+            shortcut.name,
             CurlConstructor.toCurlCommandString(command)
         ).show()
     }

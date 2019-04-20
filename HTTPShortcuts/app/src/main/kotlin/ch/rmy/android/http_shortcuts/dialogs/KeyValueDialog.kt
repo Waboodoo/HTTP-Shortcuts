@@ -13,6 +13,7 @@ import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
+import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
 import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
 import com.google.android.material.textfield.TextInputLayout
@@ -64,21 +65,9 @@ class KeyValueDialog(
                 val keyVariableButton = dialog.findViewById(R.id.variable_button_key) as VariableButton
                 val valueVariableButton = dialog.findViewById(R.id.variable_button_value) as VariableButton
 
-                keyInput.variablePlaceholderProvider = variablePlaceholderProvider
-                valueInput.variablePlaceholderProvider = variablePlaceholderProvider
-                keyVariableButton.variablePlaceholderProvider = variablePlaceholderProvider
-                valueVariableButton.variablePlaceholderProvider = variablePlaceholderProvider
-                keyVariableButton.variableSource
-                    .subscribe { variablePlaceholder ->
-                        keyInput.insertVariablePlaceholder(variablePlaceholder)
-                        keyInput.showSoftKeyboard()
-                    }
+                VariableViewUtils.bindVariableViews(keyInput, keyVariableButton, variablePlaceholderProvider)
                     .attachTo(destroyer)
-                valueVariableButton.variableSource
-                    .subscribe { variablePlaceholder ->
-                        valueInput.insertVariablePlaceholder(variablePlaceholder)
-                        valueInput.showSoftKeyboard()
-                    }
+                VariableViewUtils.bindVariableViews(valueInput, valueVariableButton, variablePlaceholderProvider)
                     .attachTo(destroyer)
 
                 valueInput.inputType = (if (isMultiLine) InputType.TYPE_TEXT_FLAG_MULTI_LINE else 0) or InputType.TYPE_CLASS_TEXT

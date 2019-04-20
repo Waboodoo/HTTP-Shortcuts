@@ -6,9 +6,9 @@ import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseAdapter
 import ch.rmy.android.http_shortcuts.activities.BaseViewHolder
+import ch.rmy.android.http_shortcuts.activities.variables.VariableEditorActivity.Companion.VARIABLE_TYPES
 import ch.rmy.android.http_shortcuts.data.livedata.ListLiveData
 import ch.rmy.android.http_shortcuts.data.models.Variable
-import ch.rmy.android.http_shortcuts.extensions.findIndex
 import kotterknife.bindView
 
 class VariableAdapter(context: Context, variables: ListLiveData<Variable>) : BaseAdapter<Variable>(context, variables) {
@@ -27,7 +27,11 @@ class VariableAdapter(context: Context, variables: ListLiveData<Variable>) : Bas
 
         override fun updateViews(item: Variable) {
             name.text = item.key
-            type.setText(Variable.TYPE_RESOURCES[Variable.TYPE_OPTIONS.findIndex(item.type)])
+            type.text = VARIABLE_TYPES
+                .find { it.first == item.type }
+                ?.second
+                ?.let { context.getString(it) }
+                ?: ""
         }
 
     }

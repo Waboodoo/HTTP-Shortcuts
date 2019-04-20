@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.data.models
 
-import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import io.realm.RealmList
 import io.realm.RealmObject
@@ -85,9 +84,6 @@ open class Variable(
         const val TYPE_DATE = "date"
         const val TYPE_TIME = "time"
         const val TYPE_SLIDER = "slider"
-
-        val TYPE_OPTIONS = arrayOf(TYPE_CONSTANT, TYPE_TEXT, TYPE_NUMBER, TYPE_PASSWORD, TYPE_DATE, TYPE_TIME, TYPE_COLOR, TYPE_SELECT, TYPE_TOGGLE, TYPE_SLIDER)
-        val TYPE_RESOURCES = intArrayOf(R.string.variable_type_constant, R.string.variable_type_text, R.string.variable_type_number, R.string.variable_type_password, R.string.variable_type_date, R.string.variable_type_time, R.string.variable_type_color, R.string.variable_type_select, R.string.variable_type_toggle, R.string.variable_type_slider)
 
         private const val FLAG_SHARE_TEXT = 0x1
 

@@ -1,16 +1,7 @@
 package ch.rmy.android.http_shortcuts.data.models
 
-import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.drawable.Icon
-import android.net.Uri
-import android.os.Build
-import androidx.annotation.RequiresApi
-import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.actions.ActionDTO
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
-import ch.rmy.android.http_shortcuts.utils.ShortcutUIUtils
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
@@ -58,49 +49,6 @@ open class Shortcut : RealmObject(), HasId {
     var serializedSuccessActions: String? = "[]"
     var serializedFailureActions: String? = "[]"
 
-    fun getIconURI(context: Context): Uri {
-        val packageName = context.packageName
-        return when {
-            iconName == null -> Uri.parse("android.resource://" + packageName + "/" + ShortcutUIUtils.DEFAULT_ICON)
-            iconName!!.startsWith("android.resource://") -> Uri.parse(iconName)
-            iconName!!.endsWith(".png") -> Uri.fromFile(context.getFileStreamPath(iconName))
-            else -> {
-                val identifier = context.resources.getIdentifier(iconName, "drawable", context.packageName)
-                Uri.parse("android.resource://$packageName/$identifier")
-            }
-        }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    fun getIcon(context: Context): Icon? = try {
-        val packageName = context.packageName
-        when {
-            iconName == null -> Icon.createWithResource(packageName, ShortcutUIUtils.DEFAULT_ICON)
-            iconName!!.startsWith("android.resource://") -> {
-                val pathSegments = Uri.parse(iconName).pathSegments
-                Icon.createWithResource(pathSegments[0], Integer.parseInt(pathSegments[1]))
-            }
-            iconName!!.endsWith(".png") -> {
-                val options = BitmapFactory.Options()
-                options.inPreferredConfig = Bitmap.Config.ARGB_8888
-                val bitmap = BitmapFactory.decodeFile(context.getFileStreamPath(iconName).absolutePath, options)
-                Icon.createWithBitmap(bitmap)
-            }
-            else -> {
-                val identifier = context.resources.getIdentifier(iconName, "drawable", context.packageName)
-                Icon.createWithResource(packageName, identifier)
-            }
-        }
-    } catch (e: Exception) {
-        null
-    }
-
-    fun getSafeName(context: Context): String = if (name.isBlank()) {
-        context.getString(R.string.shortcut_safe_name)
-    } else {
-        name
-    }
-
     fun allowsBody(): Boolean =
         METHOD_POST == method
             || METHOD_PUT == method
@@ -117,6 +65,8 @@ open class Shortcut : RealmObject(), HasId {
     fun usesBasicAuthentication() = authentication == AUTHENTICATION_BASIC
 
     fun usesDigestAuthentication() = authentication == AUTHENTICATION_DIGEST
+
+    fun usesAuthentication() = usesBasicAuthentication() || usesDigestAuthentication()
 
     fun usesRequestParameters() = allowsBody() && (requestBodyType == REQUEST_BODY_TYPE_FORM_DATA || requestBodyType == REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE)
 
@@ -225,7 +175,6 @@ open class Shortcut : RealmObject(), HasId {
         const val EXECUTION_TYPE_BROWSER = "browser"
 
         val EXECUTION_TYPES = arrayOf(EXECUTION_TYPE_APP, EXECUTION_TYPE_BROWSER)
-        val METHODS = arrayOf(METHOD_GET, METHOD_POST, METHOD_PUT, METHOD_DELETE, METHOD_PATCH, METHOD_HEAD, METHOD_OPTIONS, METHOD_TRACE)
         val FEEDBACK_OPTIONS = arrayOf(FEEDBACK_NONE, FEEDBACK_TOAST_SIMPLE, FEEDBACK_TOAST_SIMPLE_ERRORS, FEEDBACK_TOAST, FEEDBACK_TOAST_ERRORS, FEEDBACK_DIALOG, FEEDBACK_ACTIVITY)
         val TIMEOUT_OPTIONS = intArrayOf(3000, 10000, 30000, 60000, 180000, 300000, 600000)
         val DELAY_OPTIONS = intArrayOf(0, 5000, 10000, 30000, 60000, 120000, 300000, 600000)
@@ -235,8 +184,6 @@ open class Shortcut : RealmObject(), HasId {
         const val AUTHENTICATION_NONE = "none"
         const val AUTHENTICATION_BASIC = "basic"
         const val AUTHENTICATION_DIGEST = "digest"
-
-        val AUTHENTICATION_OPTIONS = arrayOf(AUTHENTICATION_NONE, AUTHENTICATION_BASIC, AUTHENTICATION_DIGEST)
 
         val REQUEST_BODY_TYPE_OPTIONS = arrayOf(REQUEST_BODY_TYPE_FORM_DATA, REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE, REQUEST_BODY_TYPE_CUSTOM_TEXT)
 

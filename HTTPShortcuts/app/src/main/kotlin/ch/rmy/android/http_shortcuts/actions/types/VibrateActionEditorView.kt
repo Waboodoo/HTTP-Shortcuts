@@ -12,9 +12,10 @@ class VibrateActionEditorView(context: Context, private val action: VibrateActio
     private val waitForCompleteCheckbox: CheckBox by bindView(R.id.input_wait_for_vibration_complete)
 
     init {
-        patternSpinner.items = VibrateAction.getPatterns()
-            .map { it.getDescription(context) }
-            .toTypedArray()
+        patternSpinner.setItemsFromPairs(VibrateAction.getPatterns()
+            .mapIndexed { index, vibrationPattern ->
+                index.toString() to vibrationPattern.getDescription(context)
+            })
         patternSpinner.setSelection(action.patternId)
         waitForCompleteCheckbox.isChecked = action.waitForCompletion
     }

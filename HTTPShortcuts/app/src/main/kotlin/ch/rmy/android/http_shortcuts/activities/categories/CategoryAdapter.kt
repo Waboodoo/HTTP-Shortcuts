@@ -13,6 +13,7 @@ import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.dimen
 import ch.rmy.android.http_shortcuts.icons.IconView
+import ch.rmy.android.http_shortcuts.utils.IconUtil
 import kotterknife.bindView
 
 class CategoryAdapter(context: Context, categories: ListLiveData<Category>) : BaseAdapter<Category>(context, categories) {
@@ -37,15 +38,12 @@ class CategoryAdapter(context: Context, categories: ListLiveData<Category>) : Ba
 
         private fun updateIcons(shortcuts: List<Shortcut>) {
             updateIconNumber(Math.min(shortcuts.size, MAX_ICONS))
-            var i = 0
-            for (shortcut in shortcuts) {
-                val icon = smallIconContainer.getChildAt(i) as IconView
-                icon.setImageURI(shortcut.getIconURI(context), shortcut.iconName)
-                i++
-                if (i >= MAX_ICONS) {
-                    break
+            shortcuts
+                .take(MAX_ICONS)
+                .forEachIndexed { index, shortcut ->
+                    val icon = smallIconContainer.getChildAt(index) as IconView
+                    icon.setImageURI(IconUtil.getIconURI(context, shortcut), shortcut.iconName)
                 }
-            }
         }
 
         private fun updateIconNumber(number: Int) {
