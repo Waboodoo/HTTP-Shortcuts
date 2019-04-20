@@ -33,6 +33,7 @@ import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.SelectionMode
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
+import ch.rmy.curlcommand.CurlCommand
 import com.afollestad.materialdialogs.MaterialDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
@@ -138,7 +139,11 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
             return
         }
         when (requestCode) {
-            REQUEST_CREATE_SHORTCUT, REQUEST_CREATE_SHORTCUT_FROM_CURL -> {
+            REQUEST_CREATE_SHORTCUT_FROM_CURL -> {
+                val curlCommand = intent.getSerializableExtra(CurlImportActivity.EXTRA_CURL_COMMAND) as CurlCommand
+                openEditorWithCurlCommand(curlCommand)
+            }
+            REQUEST_CREATE_SHORTCUT -> {
                 val shortcutId = intent.getStringExtra(ShortcutEditorActivity.RESULT_SHORTCUT_ID)
                 selectShortcut(shortcutId)
             }
@@ -152,6 +157,15 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
                 }
             }
         }
+    }
+
+    private fun openEditorWithCurlCommand(curlCommand: CurlCommand) {
+        val categoryId = adapter.getItem(viewPager.currentItem).categoryId
+        ShortcutEditorActivity.IntentBuilder(context)
+            .categoryId(categoryId)
+            .curlCommand(curlCommand)
+            .build()
+            .startActivity(this, REQUEST_CREATE_SHORTCUT)
     }
 
     private fun selectShortcut(shortcutId: String) {
