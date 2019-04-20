@@ -610,7 +610,7 @@
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings". Pattern for Method and URL -->
     <string name="subtitle_basic_request_settings_pattern">%1$s %2$s</string>
     <!-- Section subtitle, shown in shortcut editor when the shortcut has no custom HTTP headers -->
-    <string name="subtitle_request_headers_none">No custom headers set</string>
+    <string name="subtitle_request_headers_none">No headers set</string>
     <!-- Section subtitle, shown in shortcut editor when the shortcut has one or more custom HTTP headers -->
     <plurals name="subtitle_request_headers_pattern">
         <item quantity="one">1 header set</item>

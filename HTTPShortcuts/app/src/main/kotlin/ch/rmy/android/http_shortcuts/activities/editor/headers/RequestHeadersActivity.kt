@@ -2,19 +2,19 @@ package ch.rmy.android.http_shortcuts.activities.editor.headers
 
 import android.content.Context
 import android.os.Bundle
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.data.models.Header
+import ch.rmy.android.http_shortcuts.dialogs.KeyValueDialog
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
-import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import io.reactivex.Completable
 import kotterknife.bindView
 
 class RequestHeadersActivity : BaseActivity() {
@@ -51,7 +51,7 @@ class RequestHeadersActivity : BaseActivity() {
 
         initDragOrdering()
 
-        adapter.clickListener = ::showEditDialog
+        adapter.clickListener = { it.value?.let { header -> showEditDialog(header) } }
         addButton.setOnClickListener {
             showAddDialog()
         }
@@ -68,12 +68,45 @@ class RequestHeadersActivity : BaseActivity() {
             .attachTo(destroyer)
     }
 
-    private fun showEditDialog(headerData: LiveData<Header?>) {
-        showToast("TODO")
+    private fun showEditDialog(header: Header) {
+        val headerId = header.id
+        KeyValueDialog(
+            variablePlaceholderProvider = variablePlaceholderProvider,
+            title = getString(R.string.title_custom_header_edit),
+            keyLabel = getString(R.string.label_custom_header_key),
+            valueLabel = getString(R.string.label_custom_header_value),
+            data = header.key to header.value,
+            suggestions = SUGGESTED_KEYS
+        )
+            .show(context)
+            .flatMapCompletable { event ->
+                when (event) {
+                    is KeyValueDialog.DataChangedEvent -> viewModel.updateHeader(headerId, event.data.first, event.data.second)
+                    is KeyValueDialog.DataRemovedEvent -> viewModel.removeHeader(headerId)
+                    else -> Completable.complete()
+                }
+            }
+            .subscribe()
+            .attachTo(destroyer)
     }
 
     private fun showAddDialog() {
-        showToast("TODO")
+        KeyValueDialog(
+            variablePlaceholderProvider = variablePlaceholderProvider,
+            title = getString(R.string.title_custom_header_add),
+            keyLabel = getString(R.string.label_custom_header_key),
+            valueLabel = getString(R.string.label_custom_header_value),
+            suggestions = SUGGESTED_KEYS
+        )
+            .show(context)
+            .flatMapCompletable { event ->
+                when (event) {
+                    is KeyValueDialog.DataChangedEvent -> viewModel.addHeader(event.data.first, event.data.second)
+                    else -> Completable.complete()
+                }
+            }
+            .subscribe()
+            .attachTo(destroyer)
     }
 
     private fun bindViewsToViewModel() {

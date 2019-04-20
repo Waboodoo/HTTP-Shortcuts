@@ -21,4 +21,29 @@ class RequestHeadersViewModel(application: Application) : BasicShortcutEditorVie
             headers.move(oldPosition, newPosition)
         }
 
+    fun addHeader(key: String, value: String) =
+        persistedRealm.commitAsync { realm ->
+            val shortcut = getShortcut(realm) ?: return@commitAsync
+            val headers = shortcut.headers
+            headers.add(Header(
+                key = key,
+                value = value
+            ))
+        }
+
+    fun updateHeader(headerId: String, key: String, value: String) =
+        persistedRealm.commitAsync { realm ->
+            val shortcut = getShortcut(realm) ?: return@commitAsync
+            val header = shortcut.headers.find { it.id == headerId } ?: return@commitAsync
+            header.key = key
+            header.value = value
+        }
+
+    fun removeHeader(headerId: String) =
+        persistedRealm.commitAsync { realm ->
+            val shortcut = getShortcut(realm) ?: return@commitAsync
+            val header = shortcut.headers.find { it.id == headerId } ?: return@commitAsync
+            header.deleteFromRealm()
+        }
+
 }
