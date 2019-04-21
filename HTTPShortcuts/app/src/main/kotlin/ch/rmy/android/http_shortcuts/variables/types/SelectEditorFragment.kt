@@ -39,7 +39,7 @@ class SelectEditorFragment : VariableEditorFragment() {
     }
 
     private fun initDragOrdering() {
-        val dragOrderingHelper = DragOrderingHelper()
+        val dragOrderingHelper = DragOrderingHelper { variable!!.options!!.size > 1 }
         dragOrderingHelper.positionChangeSource.subscribe { (oldPosition, newPosition) ->
             variable!!.options!!.move(oldPosition, newPosition)
 

@@ -58,7 +58,7 @@ class RequestHeadersActivity : BaseActivity() {
     }
 
     private fun initDragOrdering() {
-        val dragOrderingHelper = DragOrderingHelper()
+        val dragOrderingHelper = DragOrderingHelper { headers.size > 1 }
         dragOrderingHelper.attachTo(headerList)
         dragOrderingHelper.positionChangeSource
             .concatMapCompletable { (oldPosition, newPosition) ->

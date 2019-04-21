@@ -92,6 +92,7 @@ class KeyValueDialog(
                 }
 
                 val okButton = dialog.getActionButton(DialogAction.POSITIVE)
+                okButton.isEnabled = keyInput.text.isNotEmpty()
                 keyInput.observeTextChanges()
                     .subscribe { text ->
                         okButton.isEnabled = text.isNotEmpty()

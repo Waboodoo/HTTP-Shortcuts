@@ -646,4 +646,8 @@
     <string name="empty_state_request_headers">no headers set</string>
     <!-- Empty state instructions, shown in list when there are no custom request headers yet -->
     <string name="empty_state_request_headers_instructions">Click the + button to add a request header.</string>
+    <!-- Empty state, shown in list when there are no request parameters yet -->
+    <string name="empty_state_request_parameters">no parameters set</string>
+    <!-- Empty state instructions, shown in list when there are no parameters yet -->
+    <string name="empty_state_request_parameters_instructions">Click the + button to add a parameter.</string>
 </resources>

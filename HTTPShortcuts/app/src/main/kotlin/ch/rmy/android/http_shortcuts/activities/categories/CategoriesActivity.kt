@@ -52,7 +52,7 @@ class CategoriesActivity : BaseActivity() {
     }
 
     private fun initDragOrdering() {
-        val dragOrderingHelper = DragOrderingHelper()
+        val dragOrderingHelper = DragOrderingHelper { categories.size > 1 }
         dragOrderingHelper.attachTo(categoryList)
         dragOrderingHelper.positionChangeSource
             .concatMapCompletable { (oldPosition, newPosition) ->

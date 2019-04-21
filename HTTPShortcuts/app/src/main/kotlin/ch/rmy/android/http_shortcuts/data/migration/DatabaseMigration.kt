@@ -239,6 +239,9 @@ class DatabaseMigration : RealmMigration {
             25L -> {
                 ReplaceVariableKeysWithIdsMigration().migrateRealm(realm)
             }
+            26L -> {
+                schema.get("Parameter")!!.setRequired("id", true)
+            }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -264,7 +267,7 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 25L
+        const val VERSION = 26L
 
     }
 

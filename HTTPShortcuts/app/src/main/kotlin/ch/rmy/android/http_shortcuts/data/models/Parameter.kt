@@ -7,12 +7,13 @@ import io.realm.annotations.Required
 
 open class Parameter(
     @PrimaryKey
-    var id: String? = newUUID(),
+    @Required
+    override var id: String = newUUID(),
     @Required
     var key: String = "",
     @Required
     var value: String = ""
-) : RealmObject() {
+) : RealmObject(), HasId {
 
     fun isSameAs(other: Parameter) = other.key == key && other.value == value
 
