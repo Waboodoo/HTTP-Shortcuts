@@ -107,7 +107,7 @@ dependencies {
     implementation 'com.facebook.stetho:stetho:1.5.0'
     implementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
     implementation 'com.burgstaller:okhttp-digest:1.12'
-    implementation 'org.apache.httpcomponents:httpcore:4.4.7'
+    implementation 'org.apache.httpcomponents:httpcore:4.4.11'
 
     /* Tasker integration */
     implementation 'com.twofortyfouram:android-plugin-client-sdk-for-locale:4.0.3'
@@ -125,7 +125,7 @@ dependencies {
     implementation 'org.jdeferred.v2:jdeferred-android-aar:2.0.0-beta1'
 
     /* JSON serialization & deserialization */
-    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.google.code.gson:gson:2.8.5'
 
     /* RX */
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
