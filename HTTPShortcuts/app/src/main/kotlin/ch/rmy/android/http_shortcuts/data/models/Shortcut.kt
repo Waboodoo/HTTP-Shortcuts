@@ -185,20 +185,6 @@ open class Shortcut : RealmObject(), HasId {
         const val AUTHENTICATION_BASIC = "basic"
         const val AUTHENTICATION_DIGEST = "digest"
 
-        val REQUEST_BODY_TYPE_OPTIONS = arrayOf(REQUEST_BODY_TYPE_FORM_DATA, REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE, REQUEST_BODY_TYPE_CUSTOM_TEXT)
-
-        val CONTENT_TYPE_SUGGESTIONS = arrayOf(
-            "application/javascript",
-            "application/json",
-            "application/octet-stream",
-            "application/xml",
-            "text/css",
-            "text/csv",
-            "text/plain",
-            "text/html",
-            "text/xml"
-        )
-
         const val DEFAULT_CONTENT_TYPE = "text/plain"
 
         fun createNew(id: String = "", iconName: String? = null) = Shortcut().apply {

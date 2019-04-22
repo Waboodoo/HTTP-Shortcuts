@@ -52,4 +52,12 @@ class RequestBodyViewModel(application: Application) : BasicShortcutEditorViewMo
             parameter.deleteFromRealm()
         }
 
+    fun setRequestBody(contentType: String, bodyContent: String): Completable =
+        persistedRealm.commitAsync { realm ->
+            getShortcut(realm)?.let { shortcut ->
+                shortcut.contentType = contentType
+                shortcut.bodyContent = bodyContent
+            }
+        }
+
 }

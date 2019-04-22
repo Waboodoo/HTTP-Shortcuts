@@ -26,6 +26,60 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/input_request_body_type" />
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/container_input_content_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/input_request_body_type"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/input_content_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/label_content_type"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:maxLines="1" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/container_input_content_type">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/container_input_body_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@id/variable_button_url"
+                android:layout_toLeftOf="@id/variable_button_url"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <ch.rmy.android.http_shortcuts.variables.VariableEditText
+                    android:id="@+id/input_body_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/label_custom_body"
+                    android:importantForAutofill="no"
+                    android:inputType="textMultiLine"
+                    android:minLines="5" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ch.rmy.android.http_shortcuts.variables.VariableButton
+                android:id="@+id/variable_button_body_content"
+                style="@style/VariableButton"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
+
+
+        </RelativeLayout>
+
     </RelativeLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

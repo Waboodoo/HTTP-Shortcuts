@@ -2,6 +2,10 @@ package ch.rmy.android.http_shortcuts.activities.editor.body
 
 import android.content.Context
 import android.os.Bundle
+import android.view.View
+import android.widget.ArrayAdapter
+import android.widget.EditText
+import androidx.appcompat.widget.AppCompatAutoCompleteTextView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,14 +17,21 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.dialogs.KeyValueDialog
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
+import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
+import ch.rmy.android.http_shortcuts.extensions.setTextMaintainingSelection
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
+import ch.rmy.android.http_shortcuts.variables.VariableButton
+import ch.rmy.android.http_shortcuts.variables.VariableEditText
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
+import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
 import ch.rmy.android.http_shortcuts.views.LabelledSpinner
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import io.reactivex.Completable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import kotterknife.bindView
+import java.util.concurrent.TimeUnit
 
 class RequestBodyActivity : BaseActivity() {
 
@@ -40,6 +51,11 @@ class RequestBodyActivity : BaseActivity() {
 
     private val requestBodyTypeSpinner: LabelledSpinner by bindView(R.id.input_request_body_type)
     private val parameterList: RecyclerView by bindView(R.id.parameter_list)
+    private val contentTypeContainer: View by bindView(R.id.container_input_content_type)
+    private val contentTypeView: AppCompatAutoCompleteTextView by bindView(R.id.input_content_type)
+    private val bodyContentContainer: View by bindView(R.id.container_input_body_content)
+    private val bodyContentView: VariableEditText by bindView(R.id.input_body_content)
+    private val bodyContentVariableButton: VariableButton by bindView(R.id.variable_button_body_content)
     private val addButton: FloatingActionButton by bindView(R.id.button_add_parameter)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,6 +84,10 @@ class RequestBodyActivity : BaseActivity() {
         addButton.setOnClickListener {
             showAddDialog()
         }
+
+        VariableViewUtils.bindVariableViews(bodyContentView, bodyContentVariableButton, variablePlaceholderProvider)
+
+        contentTypeView.setAdapter<ArrayAdapter<String>>(ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, CONTENT_TYPE_SUGGESTIONS))
     }
 
     private fun initDragOrdering() {
@@ -93,15 +113,40 @@ class RequestBodyActivity : BaseActivity() {
             .concatMapCompletable { type -> viewModel.setRequestBodyType(type) }
             .subscribe()
             .attachTo(destroyer)
+
+        bindTextChangeListener(contentTypeView) { shortcutData.value?.contentType }
+        bindTextChangeListener(bodyContentView) { shortcutData.value?.bodyContent }
     }
+
+    private fun bindTextChangeListener(textView: EditText, currentValueProvider: () -> String?) {
+        textView.observeTextChanges()
+            .debounce(300, TimeUnit.MILLISECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .filter { it.toString() != currentValueProvider.invoke() }
+            .concatMapCompletable { updateViewModelFromViews() }
+            .subscribe()
+            .attachTo(destroyer)
+    }
+
+    private fun updateViewModelFromViews(): Completable =
+        viewModel.setRequestBody(
+            contentType = contentTypeView.text.toString(),
+            bodyContent = bodyContentView.text.toString()
+        )
 
     private fun updateShortcutViews() {
         val shortcut = shortcutData.value ?: return
         requestBodyTypeSpinner.selectedItem = shortcut.requestBodyType
+        contentTypeView.setTextMaintainingSelection(shortcut.contentType)
+        bodyContentView.rawString = shortcut.bodyContent
 
         val usesParameters = shortcut.usesRequestParameters()
         parameterList.visible = usesParameters
         addButton.visible = usesParameters
+
+        val usesCustomBody = shortcut.usesCustomBody()
+        contentTypeContainer.visible = usesCustomBody
+        bodyContentContainer.visible = usesCustomBody
     }
 
     private fun showEditDialog(parameter: Parameter) {
@@ -153,6 +198,18 @@ class RequestBodyActivity : BaseActivity() {
             Shortcut.REQUEST_BODY_TYPE_FORM_DATA to R.string.request_body_option_form_data,
             Shortcut.REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE to R.string.request_body_option_x_www_form_urlencoded,
             Shortcut.REQUEST_BODY_TYPE_CUSTOM_TEXT to R.string.request_body_option_custom_text
+        )
+
+        private val CONTENT_TYPE_SUGGESTIONS = listOf(
+            "application/javascript",
+            "application/json",
+            "application/octet-stream",
+            "application/xml",
+            "text/css",
+            "text/csv",
+            "text/plain",
+            "text/html",
+            "text/xml"
         )
 
     }
