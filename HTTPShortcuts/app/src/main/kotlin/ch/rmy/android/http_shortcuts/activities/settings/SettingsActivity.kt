@@ -416,7 +416,9 @@ class SettingsActivity : BaseActivity() {
                     ))
                 }, { e ->
                     if (e is JsonParseException || e is JsonSyntaxException) {
-                        showSnackbar(R.string.import_failed_invalid_json, long = true)
+                        showSnackbar(getString(R.string.import_failed_with_reason, getString(R.string.import_failure_reason_invalid_json)), long = true)
+                    } else if (e is IllegalArgumentException) {
+                        showSnackbar(getString(R.string.import_failed_with_reason, e.message), long = true)
                     } else {
                         showSnackbar(R.string.import_failed)
                     }
