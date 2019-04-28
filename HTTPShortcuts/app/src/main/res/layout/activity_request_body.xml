@@ -46,12 +46,12 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <RelativeLayout
+            android:id="@+id/container_input_body_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/container_input_content_type">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/container_input_body_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toStartOf="@id/variable_button_url"
