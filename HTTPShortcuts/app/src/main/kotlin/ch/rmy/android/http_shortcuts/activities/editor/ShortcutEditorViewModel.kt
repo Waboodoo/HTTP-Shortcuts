@@ -22,7 +22,7 @@ import org.apache.http.HttpHeaders
 
 class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorViewModel(application) {
 
-    fun init(categoryId: String?, shortcutId: String?, curlCommand: CurlCommand?): Completable {
+    fun init(categoryId: String?, shortcutId: String?, curlCommand: CurlCommand?, createBrowserShortcut: Boolean): Completable {
         if (isInitialized) {
             return Completable.complete()
         }
@@ -30,7 +30,11 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
         this.shortcutId = shortcutId
         return persistedRealm.commitAsync { realm ->
             val shortcut = if (shortcutId == null) {
-                realm.copyToRealmOrUpdate(Shortcut.createNew(id = TEMPORARY_ID, iconName = randomInitialIconName))
+                realm.copyToRealmOrUpdate(Shortcut.createNew(
+                    id = TEMPORARY_ID,
+                    iconName = randomInitialIconName,
+                    browserShortcut = createBrowserShortcut
+                ))
             } else {
                 Repository.copyShortcut(realm, Repository.getShortcutById(realm, shortcutId)!!, TEMPORARY_ID)
             }
@@ -116,14 +120,22 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
 
     // TODO: Find a way to not having to pass in 'shortcut'
     fun getBasicSettingsSubtitle(shortcut: Shortcut): CharSequence =
-        if (shortcut.url.isEmpty() || shortcut.url == "http://") {
-            getString(R.string.subtitle_basic_request_settings_prompt)
-        } else {
-            getString(
-                R.string.subtitle_basic_request_settings_pattern,
-                shortcut.method,
+        if (shortcut.isBrowserShortcut) {
+            if (shortcut.url.isEmpty() || shortcut.url == "http://") {
+                getString(R.string.subtitle_basic_request_settings_url_only_prompt)
+            } else {
                 shortcut.url
-            )
+            }
+        } else {
+            if (shortcut.url.isEmpty() || shortcut.url == "http://") {
+                getString(R.string.subtitle_basic_request_settings_prompt)
+            } else {
+                getString(
+                    R.string.subtitle_basic_request_settings_pattern,
+                    shortcut.method,
+                    shortcut.url
+                )
+            }
         }
 
     fun getHeadersSettingsSubtitle(shortcut: Shortcut): CharSequence =

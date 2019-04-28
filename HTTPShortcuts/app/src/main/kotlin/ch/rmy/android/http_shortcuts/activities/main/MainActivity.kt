@@ -102,6 +102,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
             .title(R.string.title_create_new_shortcut_options_dialog)
             .item(R.string.button_create_new, ::openEditorForCreation)
             .item(R.string.button_curl_import, ::openCurlImport)
+            .item(R.string.button_create_browser_shortcut, ::openEditorForBrowserShortcutCreation)
             .showIfPossible()
     }
 
@@ -109,6 +110,15 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
         val categoryId = adapter.getItem(viewPager.currentItem).categoryId
         ShortcutEditorActivity.IntentBuilder(context)
             .categoryId(categoryId)
+            .build()
+            .startActivity(this, REQUEST_CREATE_SHORTCUT)
+    }
+
+    private fun openEditorForBrowserShortcutCreation() {
+        val categoryId = adapter.getItem(viewPager.currentItem).categoryId
+        ShortcutEditorActivity.IntentBuilder(context)
+            .categoryId(categoryId)
+            .browserShortcut(true)
             .build()
             .startActivity(this, REQUEST_CREATE_SHORTCUT)
     }

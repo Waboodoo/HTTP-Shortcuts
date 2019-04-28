@@ -38,6 +38,7 @@ import ch.rmy.android.http_shortcuts.extensions.setTextSafely
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
+import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.icons.IconSelector
 import ch.rmy.android.http_shortcuts.icons.IconView
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
@@ -68,6 +69,9 @@ class ShortcutEditorActivity : BaseActivity() {
     private val curlCommand by lazy {
         intent.getSerializableExtra(EXTRA_CURL_COMMAND) as CurlCommand?
     }
+    private val createBrowserShortcut: Boolean by lazy {
+        intent.getBooleanExtra(EXTRA_BROWSER_SHORTCUT, false)
+    }
 
     private val viewModel: ShortcutEditorViewModel by bindViewModel()
     private val shortcutData by lazy {
@@ -93,6 +97,10 @@ class ShortcutEditorActivity : BaseActivity() {
     private val postRequestActionsButton: PanelButton by bindView(R.id.button_post_request_actions)
     private val miscSettingsButton: PanelButton by bindView(R.id.button_misc_settings)
     private val advancedTechnicalSettingsButton: PanelButton by bindView(R.id.button_advanced_technical_settings)
+    private val dividerBelowHeaders: View by bindView(R.id.divider_below_headers)
+    private val dividerBelowRequestBody: View by bindView(R.id.divider_below_request_body)
+    private val dividerBelowAuthentication: View by bindView(R.id.divider_below_authentication)
+    private val dividerBelowPostActions: View by bindView(R.id.divider_below_post_request_actions)
 
     private val variablePlaceholderColor by lazy {
         color(context, R.color.variable)
@@ -110,7 +118,7 @@ class ShortcutEditorActivity : BaseActivity() {
     }
 
     private fun initViewModel() {
-        viewModel.init(categoryId, shortcutId, curlCommand)
+        viewModel.init(categoryId, shortcutId, curlCommand, createBrowserShortcut)
             .subscribe({
                 initViews()
             }, { e ->
@@ -144,6 +152,16 @@ class ShortcutEditorActivity : BaseActivity() {
         nameView.setTextSafely(shortcut.name)
         descriptionView.setTextSafely(shortcut.description)
 
+        val isBrowserShortcut = shortcut.isBrowserShortcut
+        headersButton.visible = !isBrowserShortcut
+        dividerBelowHeaders.visible = !isBrowserShortcut
+        requestBodyButton.visible = !isBrowserShortcut
+        dividerBelowRequestBody.visible = !isBrowserShortcut
+        authenticationButton.visible = !isBrowserShortcut
+        dividerBelowAuthentication.visible = !isBrowserShortcut
+        postRequestActionsButton.visible = !isBrowserShortcut
+        dividerBelowPostActions.visible = !isBrowserShortcut
+
         basicRequestSettingsButton.subtitle = viewModel.getBasicSettingsSubtitle(shortcut)
             .let { subtitle ->
                 Variables.rawPlaceholdersToVariableSpans(
@@ -152,13 +170,16 @@ class ShortcutEditorActivity : BaseActivity() {
                     variablePlaceholderColor
                 )
             }
-        headersButton.subtitle = viewModel.getHeadersSettingsSubtitle(shortcut)
-        requestBodyButton.subtitle = viewModel.getRequestBodySettingsSubtitle(shortcut)
-        authenticationButton.subtitle = viewModel.getAuthenticationSettingsSubtitle(shortcut)
         preRequestActionsButton.subtitle = viewModel.getPreRequestActionsSettingsSubtitle(shortcut)
-        postRequestActionsButton.subtitle = viewModel.getPostRequestActionsSettingsSubtitle(shortcut)
 
-        requestBodyButton.isEnabled = shortcut.allowsBody()
+        if (!isBrowserShortcut) {
+            headersButton.subtitle = viewModel.getHeadersSettingsSubtitle(shortcut)
+            requestBodyButton.subtitle = viewModel.getRequestBodySettingsSubtitle(shortcut)
+            authenticationButton.subtitle = viewModel.getAuthenticationSettingsSubtitle(shortcut)
+            postRequestActionsButton.subtitle = viewModel.getPostRequestActionsSettingsSubtitle(shortcut)
+
+            requestBodyButton.isEnabled = shortcut.allowsBody()
+        }
     }
 
     private fun bindClickListeners() {
@@ -426,6 +447,10 @@ class ShortcutEditorActivity : BaseActivity() {
             intent.putExtra(EXTRA_CURL_COMMAND, command)
         }
 
+        fun browserShortcut(browserShortcut: Boolean) = also {
+            intent.putExtra(EXTRA_BROWSER_SHORTCUT, browserShortcut)
+        }
+
     }
 
     companion object {
@@ -433,6 +458,7 @@ class ShortcutEditorActivity : BaseActivity() {
         private const val EXTRA_SHORTCUT_ID = "shortcutId"
         private const val EXTRA_CATEGORY_ID = "categoryId"
         private const val EXTRA_CURL_COMMAND = "curlCommand"
+        private const val EXTRA_BROWSER_SHORTCUT = "browserShortcut"
 
         private const val REQUEST_SELECT_IPACK_ICON = 3
 

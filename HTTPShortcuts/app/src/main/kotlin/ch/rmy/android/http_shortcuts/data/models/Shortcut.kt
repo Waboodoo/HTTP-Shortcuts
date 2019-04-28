@@ -171,10 +171,9 @@ open class Shortcut : RealmObject(), HasId {
         const val REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE = "x_www_form_urlencode"
         const val REQUEST_BODY_TYPE_CUSTOM_TEXT = "custom_text"
 
-        const val EXECUTION_TYPE_APP = "app"
-        const val EXECUTION_TYPE_BROWSER = "browser"
+        private const val EXECUTION_TYPE_APP = "app"
+        private const val EXECUTION_TYPE_BROWSER = "browser"
 
-        val EXECUTION_TYPES = arrayOf(EXECUTION_TYPE_APP, EXECUTION_TYPE_BROWSER)
         val FEEDBACK_OPTIONS = arrayOf(FEEDBACK_NONE, FEEDBACK_TOAST_SIMPLE, FEEDBACK_TOAST_SIMPLE_ERRORS, FEEDBACK_TOAST, FEEDBACK_TOAST_ERRORS, FEEDBACK_DIALOG, FEEDBACK_ACTIVITY)
         val TIMEOUT_OPTIONS = intArrayOf(3000, 10000, 30000, 60000, 180000, 300000, 600000)
         val DELAY_OPTIONS = intArrayOf(0, 5000, 10000, 30000, 60000, 120000, 300000, 600000)
@@ -187,7 +186,7 @@ open class Shortcut : RealmObject(), HasId {
 
         const val DEFAULT_CONTENT_TYPE = "text/plain"
 
-        fun createNew(id: String = "", iconName: String? = null) = Shortcut().apply {
+        fun createNew(id: String = "", iconName: String? = null, browserShortcut: Boolean = false) = Shortcut().apply {
             this.id = id
             this.iconName = iconName
             name = ""
@@ -210,6 +209,7 @@ open class Shortcut : RealmObject(), HasId {
             serializedSuccessActions = "[]"
             serializedFailureActions = "[]"
             followRedirects = true
+            executionType = if (browserShortcut) EXECUTION_TYPE_BROWSER else EXECUTION_TYPE_APP
         }
     }
 

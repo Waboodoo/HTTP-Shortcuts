@@ -382,9 +382,11 @@
     <!-- Dialog title when creating a new shortcut, shows options below -->
     <string name="title_create_new_shortcut_options_dialog">Create New Shortcut</string>
     <!-- Option 1 in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
-    <string name="button_create_new">From Scratch</string>
+    <string name="button_create_new">Regular Shortcut</string>
     <!-- Option 2 in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
     <string name="button_curl_import">From cURL Command</string>
+    <!-- Option 3 in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
+    <string name="button_create_browser_shortcut">Browser Shortcut</string>
     <!-- Window title for cURL import -->
     <string name="title_curl_import">cURL Import</string>
     <!-- Instruction text for shortcut import from cURL format -->
@@ -553,12 +555,6 @@
     <string name="action_type_set_variable_help_text">Changes the value of a variable.</string>
     <!-- Shortcut Action Editor Label: allows to specify the new value of a variable -->
     <string name="action_type_set_variable_label_new_value">New value</string>
-    <!-- Label above dropdown in shortcut editor, allows user to decide how shortcut is executed: in app or in external browser -->
-    <string name="label_execution_type">Execute using…</string>
-    <!-- Option in dropdown when selecting how shortcut should be executed: Inside the app itself (vs. in external browser) -->
-    <string name="execution_type_option_in_app">App</string>
-    <!-- Option in dropdown when selecting how shortcut should be executed: In external browser (vs. inside the app itself) -->
-    <string name="execution_type_option_in_browser">Browser</string>
     <!-- Shortcut Action Title: Trigger a shortcut, i.e., execute it -->
     <string name="action_type_trigger_shortcut_title">Trigger Shortcut</string>
     <!-- Shortcut Action Description: Trigger a specific shortcut, %1$s is a placeholder for the name of that shortcut -->
@@ -607,6 +603,8 @@
     <string name="message_variable_duplicated">\"%1$s\" duplicated.</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
     <string name="subtitle_basic_request_settings_prompt">Set the shortcut\'s URL and HTTP method</string>
+    <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
+    <string name="subtitle_basic_request_settings_url_only_prompt">Set the shortcut\'s URL</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings". Pattern for Method and URL -->
     <string name="subtitle_basic_request_settings_pattern">%1$s %2$s</string>
     <!-- Section subtitle, shown in shortcut editor when the shortcut has no custom HTTP headers -->
