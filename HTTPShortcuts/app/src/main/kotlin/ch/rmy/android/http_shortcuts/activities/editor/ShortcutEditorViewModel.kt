@@ -78,8 +78,9 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
             }
         }
 
-    fun trySave(): Single<String> {
+    fun trySave(): Single<SaveResult> {
         val id = shortcutId ?: newUUID()
+        val nameOrIconChanged = hasNameOrIconChanges()
         return persistedRealm.commitAsync { realm ->
             val shortcut = Repository.getShortcutById(realm, TEMPORARY_ID)!!
             validateShortcut(shortcut)
@@ -93,7 +94,15 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
 
             Repository.deleteShortcut(realm, TEMPORARY_ID)
         }
-            .andThen(Single.just(id))
+            .andThen(Single.just(SaveResult(id = id, nameOrIconChanged = nameOrIconChanged)))
+    }
+
+    private fun hasNameOrIconChanges(): Boolean {
+        val oldShortcut = shortcutId
+            ?.let { Repository.getShortcutById(persistedRealm, it)!! }
+            ?: return false
+        val newShortcut = getShortcut(persistedRealm) ?: return false
+        return oldShortcut.name != newShortcut.name || oldShortcut.iconName != newShortcut.iconName
     }
 
     private fun validateShortcut(shortcut: Shortcut) {
@@ -170,6 +179,8 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
         } else {
             context.resources.getQuantityString(pluralRes, count, count)
         }
+
+    data class SaveResult(val id: String, val nameOrIconChanged: Boolean)
 
     companion object {
 

@@ -24,6 +24,7 @@ import ch.rmy.android.http_shortcuts.activities.editor.miscsettings.MiscSettings
 import ch.rmy.android.http_shortcuts.activities.editor.postrequest.PostRequestActivity
 import ch.rmy.android.http_shortcuts.activities.editor.prerequest.PreRequestActivity
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.dialogs.IconNameChangeDialog
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
@@ -303,9 +304,9 @@ class ShortcutEditorActivity : BaseActivity() {
         updateViewModelFromViews()
             .andThen(viewModel.trySave())
             .observeOn(mainThread())
-            .subscribe({ id ->
-                setResult(RESULT_OK, Intent().putExtra(RESULT_SHORTCUT_ID, id))
-                onSaveComplete()
+            .subscribe({ saveResult ->
+                setResult(RESULT_OK, Intent().putExtra(RESULT_SHORTCUT_ID, saveResult.id))
+                onSaveComplete(saveResult.nameOrIconChanged)
             }, { e ->
                 if (e is ShortcutValidationError) {
                     when (e.type) {
@@ -325,21 +326,18 @@ class ShortcutEditorActivity : BaseActivity() {
             .attachTo(destroyer)
     }
 
-    private fun onSaveComplete() {
-        finish()
-        // TODO
-        /*val dialog = IconNameChangeDialog(context)
-        if (LauncherShortcutManager.supportsPinning(context)) {
-            LauncherShortcutManager.updatePinnedShortcut(context, persistedShortcut)
-            finish()
-        } else if (!oldShortcut.isNew && nameOrIconChanged() && dialog.shouldShow()) {
-            dialog.show()
-                .done {
+    private fun onSaveComplete(nameOrIconChanged: Boolean) {
+        // TODO: LauncherShortcutManager.updatePinnedShortcut(context, persistedShortcut)
+        if (nameOrIconChanged) {
+            IconNameChangeDialog(context)
+                .showIfNeeded()
+                .subscribe {
                     finish()
                 }
+                .attachTo(destroyer)
         } else {
             finish()
-        }*/
+        }
     }
 
     private fun testShortcut() {
