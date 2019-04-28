@@ -114,11 +114,11 @@ class OkHttpStack(private val client: OkHttpClient) : HttpStack {
     private fun setConnectionParameters(builder: okhttp3.Request.Builder, request: Request<*>) {
         when (request.method) {
             Request.Method.GET -> builder.get()
-            Request.Method.DELETE -> builder.delete()
+            Request.Method.DELETE -> builder.delete(createRequestBody(request))
             Request.Method.POST -> builder.post(createRequestBody(request))
             Request.Method.PUT -> builder.put(createRequestBody(request))
             Request.Method.HEAD -> builder.head()
-            Request.Method.OPTIONS -> builder.method("OPTIONS", null)
+            Request.Method.OPTIONS -> builder.method("OPTIONS", createRequestBody(request))
             Request.Method.TRACE -> builder.method("TRACE", null)
             Request.Method.PATCH -> builder.patch(createRequestBody(request))
             else -> throw IllegalStateException("Unknown method type.")
