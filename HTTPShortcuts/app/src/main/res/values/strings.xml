@@ -108,10 +108,6 @@
     <string name="choose_icon">Choose Built-in Icon</string>
     <!-- Title of dialog that allows user to pick an icon from the built-in icons -->
     <string name="title_choose_icon">Choose Built-in Icon</string>
-    <!-- Label in shortcut editor: Request parameters, e.g. POST parameters -->
-    <string name="label_post_params">Parameters</string>
-    <!-- Text on button to add a parameter to a shortcut -->
-    <string name="button_add_post_param">Add parameter</string>
     <!-- Title of dialog to edit a parameter on a shortcut -->
     <string name="title_post_param_edit">Edit Parameter</string>
     <!-- Title of dialog to add a new parameter to a shortcut -->
@@ -130,8 +126,6 @@
     <string name="section_request_headers">Request Headers</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the body of the HTTP request -->
     <string name="section_request_body">Request Body / Parameters</string>
-    <!-- Text on button to add a custom header to a shortcut -->
-    <string name="button_add_custom_header">Add header</string>
     <!-- Title of dialog to edit a custom header of a shortcut -->
     <string name="title_custom_header_edit">Edit Header</string>
     <!-- Title of dialog to add a custom header to a shortcut -->
@@ -197,7 +191,6 @@
     <!-- Message shown in progress dialog while shortcuts are being imported -->
     <string name="import_in_progress">Importing…</string>
     <string name="label_timeout">Timeout</string>
-    <string name="timeout_format">%1$s (%2$s)</string>
     <!-- Used in various places to indicate a number of seconds, e.g. for a delay. %s is a placeholder for the actual number. -->
     <plurals name="seconds">
         <item quantity="one">%d second</item>
@@ -210,14 +203,6 @@
     </plurals>
     <!-- Pattern: Combines an indication of minutes (first %s) with an indication of seconds (second %s), e.g. 1 minute, 24 seconds -->
     <string name="pattern_minutes_seconds">%s, %s</string>
-    <!-- Timeout option: short, i.e. only a few seconds -->
-    <string name="timeout_short">short</string>
-    <!-- Timeout option: medium, i.e. around 10 seconds -->
-    <string name="timeout_medium">medium</string>
-    <!-- Timeout option: long, i.e. around 30 seconds -->
-    <string name="timeout_long">long</string>
-    <!-- Timeout option: very long, i.e. around 60 seconds -->
-    <string name="timeout_very_long">very long</string>
     <!-- Section title in app settings -->
     <string name="settings_about">About this App</string>
     <!-- Title of option in settings to show change changelog of current and past versions -->
@@ -248,19 +233,12 @@
     <string name="shortcut_placed">\"%1$s\" placed on home screen.</string>
     <!-- Generic 'Delete' option, used in various dialogs, e.g., to confirm the deletion of a shortcut -->
     <string name="dialog_delete">Delete</string>
-    <string name="section_appearance">Appearance</string>
     <string name="section_basic_request">Basic Request Settings</string>
-    <string name="section_response">Response Settings</string>
-    <!-- Section title in shortcut editor: Actions (i.e. what should happen before and after shortcut executes) -->
-    <string name="section_actions">Actions</string>
     <string name="section_advanced_settings">Advanced Settings</string>
     <string name="section_authentication">Authentication</string>
     <string name="label_authentication_method">Authentication Method</string>
     <string name="warning_icon_or_name_change">Please note that changes to the name or icon are not automatically applied to shortcuts that are already added to the home screen. You will have to add them again for the changes to take effect. All other changes are automatically applied.</string>
     <string name="dialog_checkbox_do_not_show_again">Don\'t show again</string>
-    <string name="label_certificates">Certificates</string>
-    <!-- Label of section: Execution confirmation, i.e., require confirmation from user before executing shortcut -->
-    <string name="label_execution_confirmation">Confirmation</string>
     <!-- checkbox label in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
     <string name="label_accept_all_certificates">Accept any certificate (I know what I\'m doing)</string>
     <!-- Checkbox label in editor, if enabled user will be prompted to confirm before a shortcut is executed -->

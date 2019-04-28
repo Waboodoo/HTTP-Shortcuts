@@ -397,7 +397,7 @@ class SettingsActivity : BaseActivity() {
         private fun startImport(uri: Uri) {
             // TODO: Replace progress dialog with something better
             val progressDialog = ProgressDialog(activity).apply {
-                setMessage(getString(R.string.export_in_progress))
+                setMessage(getString(R.string.import_in_progress))
             }
             Importer()
                 .import(activity.applicationContext, uri)
