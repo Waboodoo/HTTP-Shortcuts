@@ -85,11 +85,15 @@ fun TextView.observeTextChanges(): Observable<CharSequence> {
         }
 }
 
-fun EditText.setTextMaintainingSelection(text: CharSequence) {
+fun EditText.setTextSafely(text: CharSequence) {
+    if (isFocused) {
+        return
+    }
     val start = selectionStart
     val end = selectionEnd
     setText(text)
     if (start != -1 && end != -1) {
-        setSelection(min(start, length()), min(end, length()))
+        val length = length()
+        setSelection(min(start, length), min(end, length))
     }
 }

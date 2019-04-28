@@ -7,7 +7,7 @@ import androidx.appcompat.widget.AppCompatAutoCompleteTextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.extensions.color
 import ch.rmy.android.http_shortcuts.extensions.logException
-import ch.rmy.android.http_shortcuts.extensions.setTextMaintainingSelection
+import ch.rmy.android.http_shortcuts.extensions.setTextSafely
 
 class VariableEditText : AppCompatAutoCompleteTextView {
 
@@ -38,7 +38,7 @@ class VariableEditText : AppCompatAutoCompleteTextView {
                         logException(e)
                     }
                 } else {
-                    setTextMaintainingSelection(newText)
+                    setTextSafely(newText)
                 }
             }
         }

@@ -18,7 +18,7 @@ import ch.rmy.android.http_shortcuts.dialogs.KeyValueDialog
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
-import ch.rmy.android.http_shortcuts.extensions.setTextMaintainingSelection
+import ch.rmy.android.http_shortcuts.extensions.setTextSafely
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
@@ -137,7 +137,7 @@ class RequestBodyActivity : BaseActivity() {
     private fun updateShortcutViews() {
         val shortcut = shortcutData.value ?: return
         requestBodyTypeSpinner.selectedItem = shortcut.requestBodyType
-        contentTypeView.setTextMaintainingSelection(shortcut.contentType)
+        contentTypeView.setTextSafely(shortcut.contentType)
         bodyContentView.rawString = shortcut.bodyContent
 
         val usesParameters = shortcut.usesRequestParameters()

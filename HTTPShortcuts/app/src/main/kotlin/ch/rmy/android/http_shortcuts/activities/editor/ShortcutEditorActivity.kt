@@ -34,7 +34,7 @@ import ch.rmy.android.http_shortcuts.extensions.dimen
 import ch.rmy.android.http_shortcuts.extensions.focus
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
-import ch.rmy.android.http_shortcuts.extensions.setTextMaintainingSelection
+import ch.rmy.android.http_shortcuts.extensions.setTextSafely
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
@@ -141,8 +141,8 @@ class ShortcutEditorActivity : BaseActivity() {
     private fun updateShortcutViews() {
         val shortcut = shortcutData.value ?: return
         iconView.setImageURI(IconUtil.getIconURI(context, shortcut), shortcut.iconName, animated = true)
-        nameView.setTextMaintainingSelection(shortcut.name)
-        descriptionView.setTextMaintainingSelection(shortcut.description)
+        nameView.setTextSafely(shortcut.name)
+        descriptionView.setTextSafely(shortcut.description)
 
         basicRequestSettingsButton.subtitle = viewModel.getBasicSettingsSubtitle(shortcut)
             .let { subtitle ->
