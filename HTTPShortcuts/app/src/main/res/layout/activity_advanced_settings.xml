@@ -17,10 +17,45 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp">
 
+            <CheckBox
+                android:id="@+id/input_wait_for_connection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/label_wait_for_connection" />
 
+            <CheckBox
+                android:id="@+id/input_follow_redirects"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/label_follow_redirects" />
 
+            <CheckBox
+                android:id="@+id/input_accept_certificates"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/label_accept_all_certificates" />
+
+            <include layout="@layout/divider_line" />
+
+            <ch.rmy.android.http_shortcuts.views.PanelButton
+                android:id="@+id/input_timeout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_timeout" />
+
+            <include layout="@layout/divider_line" />
 
         </LinearLayout>
 

@@ -1,15 +1,13 @@
 package ch.rmy.android.http_shortcuts.activities.editor
 
 import android.app.Application
-import androidx.annotation.PluralsRes
-import androidx.annotation.StringRes
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.Repository
 import ch.rmy.android.http_shortcuts.data.models.Header
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Shortcut.Companion.TEMPORARY_ID
 import ch.rmy.android.http_shortcuts.extensions.commitAsync
-import ch.rmy.android.http_shortcuts.extensions.context
+import ch.rmy.android.http_shortcuts.extensions.getQuantityString
 import ch.rmy.android.http_shortcuts.extensions.getString
 import ch.rmy.android.http_shortcuts.icons.Icons
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
@@ -184,13 +182,6 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
             R.string.subtitle_actions_none,
             R.plurals.subtitle_actions_pattern
         )
-
-    private fun getQuantityString(count: Int, @StringRes zeroRes: Int, @PluralsRes pluralRes: Int) =
-        if (count == 0) {
-            getString(zeroRes)
-        } else {
-            context.resources.getQuantityString(pluralRes, count, count)
-        }
 
     data class SaveResult(val id: String, val nameOrIconChanged: Boolean)
 

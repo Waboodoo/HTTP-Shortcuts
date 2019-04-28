@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.extensions
 
 import android.content.Context
+import androidx.annotation.PluralsRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -38,3 +39,10 @@ val AndroidViewModel.context: Context
     get() = getApplication<Application>().context
 
 fun AndroidViewModel.getString(@StringRes stringRes: Int, vararg args: Any) = context.getString(stringRes, *args)
+
+fun AndroidViewModel.getQuantityString(count: Int, @StringRes zeroRes: Int, @PluralsRes pluralRes: Int) =
+    if (count == 0) {
+        getString(zeroRes)
+    } else {
+        context.resources.getQuantityString(pluralRes, count, count)
+    }

@@ -138,8 +138,11 @@ open class Shortcut : RealmObject(), HasId {
     val isBrowserShortcut
         get() = executionType == EXECUTION_TYPE_BROWSER
 
-    val isWaitForNetwork
+    var isWaitForNetwork
         get() = retryPolicy == RETRY_POLICY_WAIT_FOR_INTERNET
+        set(value) {
+            retryPolicy = if (value) RETRY_POLICY_WAIT_FOR_INTERNET else RETRY_POLICY_NONE
+        }
 
     companion object {
 
@@ -164,8 +167,8 @@ open class Shortcut : RealmObject(), HasId {
         const val FEEDBACK_DIALOG = "dialog"
         const val FEEDBACK_ACTIVITY = "activity"
 
-        const val RETRY_POLICY_NONE = "none"
-        const val RETRY_POLICY_WAIT_FOR_INTERNET = "wait_for_internet"
+        private const val RETRY_POLICY_NONE = "none"
+        private const val RETRY_POLICY_WAIT_FOR_INTERNET = "wait_for_internet"
 
         const val REQUEST_BODY_TYPE_FORM_DATA = "form_data"
         const val REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE = "x_www_form_urlencode"
@@ -175,10 +178,7 @@ open class Shortcut : RealmObject(), HasId {
         private const val EXECUTION_TYPE_BROWSER = "browser"
 
         val FEEDBACK_OPTIONS = arrayOf(FEEDBACK_NONE, FEEDBACK_TOAST_SIMPLE, FEEDBACK_TOAST_SIMPLE_ERRORS, FEEDBACK_TOAST, FEEDBACK_TOAST_ERRORS, FEEDBACK_DIALOG, FEEDBACK_ACTIVITY)
-        val TIMEOUT_OPTIONS = intArrayOf(3000, 10000, 30000, 60000, 180000, 300000, 600000)
         val DELAY_OPTIONS = intArrayOf(0, 5000, 10000, 30000, 60000, 120000, 300000, 600000)
-
-        val RETRY_POLICY_OPTIONS = arrayOf(RETRY_POLICY_NONE, RETRY_POLICY_WAIT_FOR_INTERNET)
 
         const val AUTHENTICATION_NONE = "none"
         const val AUTHENTICATION_BASIC = "basic"
@@ -196,7 +196,7 @@ open class Shortcut : RealmObject(), HasId {
             bodyContent = ""
             method = METHOD_GET
             url = "http://"
-            timeout = TIMEOUT_OPTIONS[1]
+            timeout = 10000
             feedback = FEEDBACK_TOAST_SIMPLE
             retryPolicy = RETRY_POLICY_NONE
             authentication = AUTHENTICATION_NONE

@@ -5,6 +5,8 @@ import android.os.Build
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.CheckBox
+import android.widget.CompoundButton
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -82,6 +84,20 @@ fun TextView.observeTextChanges(): Observable<CharSequence> {
         }
         .doOnDispose {
             removeTextChangedListener(watcher)
+        }
+}
+
+fun CheckBox.observeChecked(): Observable<Boolean> {
+    val subject = PublishSubject.create<Boolean>()
+    val listener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
+        subject.onNext(isChecked)
+    }
+    return subject
+        .doOnSubscribe {
+            setOnCheckedChangeListener(listener)
+        }
+        .doOnDispose {
+            setOnCheckedChangeListener(null)
         }
 }
 

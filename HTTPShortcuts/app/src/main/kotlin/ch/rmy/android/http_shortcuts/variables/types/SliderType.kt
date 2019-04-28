@@ -81,9 +81,9 @@ internal class SliderType : BaseVariableType(), AsyncVariableType {
         fun findStep(variable: Variable): Int = variable.dataForType[KEY_STEP]?.toDoubleOrNull()?.toInt() ?: DEFAULT_STEP
 
         fun getData(maxValue: Int, minValue: Int, stepValue: Int) = mapOf(
-            SliderType.KEY_MAX to maxValue.toString(),
-            SliderType.KEY_MIN to minValue.toString(),
-            SliderType.KEY_STEP to stepValue.toString()
+            KEY_MAX to maxValue.toString(),
+            KEY_MIN to minValue.toString(),
+            KEY_STEP to stepValue.toString()
         )
 
     }

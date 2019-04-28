@@ -238,7 +238,7 @@ class ExecuteActivity : BaseActivity() {
                 }
             }
             .fail { error ->
-                if (!shortcut.isFeedbackUsesUI && shortcut.retryPolicy == Shortcut.RETRY_POLICY_WAIT_FOR_INTERNET && error.networkResponse == null) {
+                if (!shortcut.isFeedbackUsesUI && shortcut.isWaitForNetwork && error.networkResponse == null) {
                     rescheduleExecution(resolvedVariables)
                     if (shortcut.feedback != Shortcut.FEEDBACK_NONE && tryNumber == 0) {
                         showToast(String.format(context.getString(R.string.execution_delayed), shortcutName), long = true)

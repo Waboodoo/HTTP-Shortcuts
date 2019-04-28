@@ -208,6 +208,8 @@
         <item quantity="one">%d minute</item>
         <item quantity="other">%d minutes</item>
     </plurals>
+    <!-- Pattern: Combines an indication of minutes (first %s) with an indication of seconds (second %s), e.g. 1 minute, 24 seconds -->
+    <string name="pattern_minutes_seconds">%s, %s</string>
     <!-- Timeout option: short, i.e. only a few seconds -->
     <string name="timeout_short">short</string>
     <!-- Timeout option: medium, i.e. around 10 seconds -->
@@ -231,10 +233,9 @@
     <string name="changelog_checkbox_show_at_startup">Show at startup</string>
     <!-- Message displayed when the shortcut cannot be executed because there is no internet connection. %1$s is a placeholder for the shortcut name. -->
     <string name="execution_delayed">%1$s will execute once a connection to the internet is available.</string>
-    <string name="label_retry_policy">When not connected to the internet</string>
+    <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor -->
+    <string name="label_wait_for_connection">Wait for connection when offline</string>
     <string name="label_delay_execution">Delay execution</string>
-    <string name="retry_policy_none">drop the request</string>
-    <string name="retry_policy_delayed">wait for connection</string>
     <string name="settings_play_store">View in Play Store</string>
     <string name="settings_play_store_summary">Thank you for your ratings and reviews</string>
     <!-- Title of option in settings screen: FAQ (frequently asked questions), links the user to an external documentation page -->
@@ -648,4 +649,6 @@
     <string name="empty_state_request_parameters">no parameters set</string>
     <!-- Empty state instructions, shown in list when there are no parameters yet -->
     <string name="empty_state_request_parameters_instructions">Click the + button to add a parameter.</string>
+    <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor.-->
+    <string name="label_follow_redirects">Follow redirects</string>
 </resources>
