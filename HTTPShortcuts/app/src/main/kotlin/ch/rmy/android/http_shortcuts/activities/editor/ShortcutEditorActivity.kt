@@ -44,6 +44,7 @@ import ch.rmy.android.http_shortcuts.icons.IconView
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.IconUtil
 import ch.rmy.android.http_shortcuts.utils.IpackUtil
+import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.utils.Validation
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
@@ -148,7 +149,7 @@ class ShortcutEditorActivity : BaseActivity() {
 
     private fun updateShortcutViews() {
         val shortcut = shortcutData.value ?: return
-        iconView.setImageURI(IconUtil.getIconURI(context, shortcut), shortcut.iconName, animated = true)
+        iconView.setImageURI(IconUtil.getIconURI(context, shortcut.iconName), shortcut.iconName, animated = true)
         nameView.setTextSafely(shortcut.name)
         descriptionView.setTextSafely(shortcut.description)
 
@@ -326,6 +327,7 @@ class ShortcutEditorActivity : BaseActivity() {
             .andThen(viewModel.trySave())
             .observeOn(mainThread())
             .subscribe({ saveResult ->
+                LauncherShortcutManager.updatePinnedShortcut(context, saveResult.id, saveResult.name, saveResult.iconName)
                 setResult(RESULT_OK, Intent().putExtra(RESULT_SHORTCUT_ID, saveResult.id))
                 onSaveComplete(saveResult.nameOrIconChanged)
             }, { e ->
@@ -348,7 +350,6 @@ class ShortcutEditorActivity : BaseActivity() {
     }
 
     private fun onSaveComplete(nameOrIconChanged: Boolean) {
-        // TODO: LauncherShortcutManager.updatePinnedShortcut(context, persistedShortcut)
         if (nameOrIconChanged) {
             IconNameChangeDialog(context)
                 .showIfNeeded()

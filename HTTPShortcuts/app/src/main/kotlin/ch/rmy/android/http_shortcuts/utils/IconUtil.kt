@@ -8,36 +8,35 @@ import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
 
 object IconUtil {
 
-    fun getIconURI(context: Context, shortcut: Shortcut): Uri = when {
-        shortcut.iconName == null -> Uri.parse("android.resource://${context.packageName}/$DEFAULT_ICON")
-        shortcut.iconName!!.startsWith("android.resource://") -> Uri.parse(shortcut.iconName)
-        shortcut.iconName!!.endsWith(".png") -> Uri.fromFile(context.getFileStreamPath(shortcut.iconName))
+    fun getIconURI(context: Context, iconName: String?): Uri = when {
+        iconName == null -> Uri.parse("android.resource://${context.packageName}/$DEFAULT_ICON")
+        iconName.startsWith("android.resource://") -> Uri.parse(iconName)
+        iconName.endsWith(".png") -> Uri.fromFile(context.getFileStreamPath(iconName))
         else -> {
-            val identifier = context.resources.getIdentifier(shortcut.iconName, "drawable", context.packageName)
+            val identifier = context.resources.getIdentifier(iconName, "drawable", context.packageName)
             Uri.parse("android.resource://${context.packageName}/$identifier")
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    fun getIcon(context: Context, shortcut: Shortcut): Icon? = try {
+    fun getIcon(context: Context, iconName: String?): Icon? = try {
         when {
-            shortcut.iconName == null -> Icon.createWithResource(context.packageName, DEFAULT_ICON)
-            shortcut.iconName!!.startsWith("android.resource://") -> {
-                val pathSegments = Uri.parse(shortcut.iconName).pathSegments
+            iconName == null -> Icon.createWithResource(context.packageName, DEFAULT_ICON)
+            iconName.startsWith("android.resource://") -> {
+                val pathSegments = Uri.parse(iconName).pathSegments
                 Icon.createWithResource(pathSegments[0], Integer.parseInt(pathSegments[1]))
             }
-            shortcut.iconName!!.endsWith(".png") -> {
+            iconName.endsWith(".png") -> {
                 val options = BitmapFactory.Options()
                 options.inPreferredConfig = Bitmap.Config.ARGB_8888
-                val bitmap = BitmapFactory.decodeFile(context.getFileStreamPath(shortcut.iconName).absolutePath, options)
+                val bitmap = BitmapFactory.decodeFile(context.getFileStreamPath(iconName).absolutePath, options)
                 Icon.createWithBitmap(bitmap)
             }
             else -> {
-                val identifier = context.resources.getIdentifier(shortcut.iconName, "drawable", context.packageName)
+                val identifier = context.resources.getIdentifier(iconName, "drawable", context.packageName)
                 Icon.createWithResource(context.packageName, identifier)
             }
         }

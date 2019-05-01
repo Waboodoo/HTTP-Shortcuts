@@ -42,7 +42,7 @@ class CategoryAdapter(context: Context, categories: ListLiveData<Category>) : Ba
                 .take(MAX_ICONS)
                 .forEachIndexed { index, shortcut ->
                     val icon = smallIconContainer.getChildAt(index) as IconView
-                    icon.setImageURI(IconUtil.getIconURI(context, shortcut), shortcut.iconName)
+                    icon.setImageURI(IconUtil.getIconURI(context, shortcut.iconName), shortcut.iconName)
                 }
         }
 

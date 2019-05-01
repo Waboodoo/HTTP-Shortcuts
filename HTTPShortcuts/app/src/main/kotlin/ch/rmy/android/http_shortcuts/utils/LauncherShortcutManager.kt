@@ -11,7 +11,6 @@ import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.mapIf
-import java.util.*
 
 object LauncherShortcutManager {
 
@@ -54,7 +53,13 @@ object LauncherShortcutManager {
             for (shortcut in category.shortcuts) {
                 if (shortcut.launcherShortcut) {
                     val rank = max - count + 1
-                    launcherShortcuts.add(createShortcutInfo(context, shortcut, rank))
+                    launcherShortcuts.add(createShortcutInfo(
+                        context = context,
+                        shortcutId = shortcut.id,
+                        shortcutName = shortcut.name,
+                        shortcutIcon = shortcut.iconName,
+                        rank = rank
+                    ))
                     if (++count >= max) {
                         return launcherShortcuts
                     }
@@ -64,15 +69,17 @@ object LauncherShortcutManager {
         return launcherShortcuts
     }
 
+    private fun createShortcutInfo(context: Context, shortcut: Shortcut) = createShortcutInfo(context, shortcut.id, shortcut.name, shortcut.iconName)
+
     @RequiresApi(Build.VERSION_CODES.N_MR1)
-    private fun createShortcutInfo(context: Context, shortcut: Shortcut, rank: Int = 0): ShortcutInfo {
-        val icon = IconUtil.getIcon(context, shortcut)
-        return ShortcutInfo.Builder(context, ID_PREFIX + shortcut.id)
-            .setShortLabel(shortcut.name)
-            .setLongLabel(shortcut.name)
+    private fun createShortcutInfo(context: Context, shortcutId: String, shortcutName: String, shortcutIcon: String?, rank: Int = 0): ShortcutInfo {
+        val icon = IconUtil.getIcon(context, shortcutIcon)
+        return ShortcutInfo.Builder(context, ID_PREFIX + shortcutId)
+            .setShortLabel(shortcutName)
+            .setLongLabel(shortcutName)
             .setRank(rank)
             .setIntent(
-                ExecuteActivity.IntentBuilder(context, shortcut.id)
+                ExecuteActivity.IntentBuilder(context, shortcutId)
                     .build()
             )
             .mapIf(icon != null) {
@@ -108,12 +115,11 @@ object LauncherShortcutManager {
         throw RuntimeException()
     }
 
-    fun updatePinnedShortcut(context: Context, shortcut: Shortcut) {
+    fun updatePinnedShortcut(context: Context, shortcutId: String, shortcutName: String, shortcutIcon: String?) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val shortcutManager = context.getSystemService(ShortcutManager::class.java)
-            val shortcutInfo = createShortcutInfo(context, shortcut)
-            val list = Collections.singletonList(shortcutInfo)
-            shortcutManager.updateShortcuts(list)
+            val shortcutInfo = createShortcutInfo(context, shortcutId, shortcutName, shortcutIcon)
+            shortcutManager.updateShortcuts(listOf(shortcutInfo))
         }
     }
 

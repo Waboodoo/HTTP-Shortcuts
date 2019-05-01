@@ -84,7 +84,7 @@ class AdvancedSettingsActivity : BaseActivity() {
     private fun showTimeoutDialog() {
         // TODO: Move this out into its own class
         val shortcut = shortcutData.value ?: return
-        val view = LayoutInflater.from(context).inflate(R.layout.dialog_timeout, null)
+        val view = LayoutInflater.from(context).inflate(R.layout.dialog_time_picker, null)
 
         val slider = view.findViewById<SeekBar>(R.id.slider)
         val label = view.findViewById<TextView>(R.id.slider_value)
@@ -96,6 +96,7 @@ class AdvancedSettingsActivity : BaseActivity() {
                 label.text = viewModel.getTimeoutText(progressToTimeout(progress))
             }
         })
+        label.text = viewModel.getTimeoutText(shortcut.timeout)
         slider.progress = timeoutToProgress(shortcut.timeout)
 
         MaterialDialog.Builder(context)

@@ -26,22 +26,22 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
         }
         this.categoryId = categoryId
         this.shortcutId = shortcutId
-        return persistedRealm.commitAsync { realm ->
-            val shortcut = if (shortcutId == null) {
-                realm.copyToRealmOrUpdate(Shortcut.createNew(
-                    id = TEMPORARY_ID,
-                    iconName = randomInitialIconName,
-                    browserShortcut = createBrowserShortcut
-                ))
-            } else {
-                Repository.copyShortcut(realm, Repository.getShortcutById(realm, shortcutId)!!, TEMPORARY_ID)
-            }
+        return persistedRealm
+            .commitAsync { realm ->
+                val shortcut = if (shortcutId == null) {
+                    realm.copyToRealmOrUpdate(Shortcut.createNew(
+                        id = TEMPORARY_ID,
+                        iconName = randomInitialIconName,
+                        browserShortcut = createBrowserShortcut
+                    ))
+                } else {
+                    Repository.copyShortcut(realm, Repository.getShortcutById(realm, shortcutId)!!, TEMPORARY_ID)
+                }
 
-            curlCommand?.let { curlCommand ->
-                importFromCurl(realm, shortcut, curlCommand)
+                curlCommand?.let { curlCommand ->
+                    importFromCurl(realm, shortcut, curlCommand)
+                }
             }
-
-        }
             .doOnComplete {
                 isInitialized = true
             }
@@ -82,21 +82,33 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
 
     fun trySave(): Single<SaveResult> {
         val id = shortcutId ?: newUUID()
+        var name: String = ""
+        var iconName: String? = null
         val nameOrIconChanged = hasNameOrIconChanges()
-        return persistedRealm.commitAsync { realm ->
-            val shortcut = Repository.getShortcutById(realm, TEMPORARY_ID)!!
-            validateShortcut(shortcut)
+        return persistedRealm
+            .commitAsync { realm ->
+                val shortcut = Repository.getShortcutById(realm, TEMPORARY_ID)!!
+                name = shortcut.name
+                iconName = shortcut.iconName
+                validateShortcut(shortcut)
 
-            val newShortcut = Repository.copyShortcut(realm, shortcut, id)
-            if (shortcutId == null && categoryId != null) {
-                Repository.getCategoryById(realm, categoryId!!)
-                    ?.shortcuts
-                    ?.add(newShortcut)
+                val newShortcut = Repository.copyShortcut(realm, shortcut, id)
+                if (shortcutId == null && categoryId != null) {
+                    Repository.getCategoryById(realm, categoryId!!)
+                        ?.shortcuts
+                        ?.add(newShortcut)
+                }
+
+                Repository.deleteShortcut(realm, TEMPORARY_ID)
             }
-
-            Repository.deleteShortcut(realm, TEMPORARY_ID)
-        }
-            .andThen(Single.just(SaveResult(id = id, nameOrIconChanged = nameOrIconChanged)))
+            .andThen(Single.create {
+                it.onSuccess(SaveResult(
+                    id = id,
+                    name = name,
+                    iconName = iconName,
+                    nameOrIconChanged = nameOrIconChanged
+                ))
+            })
     }
 
     private fun hasNameOrIconChanges(): Boolean {
@@ -183,7 +195,7 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
             R.plurals.subtitle_actions_pattern
         )
 
-    data class SaveResult(val id: String, val nameOrIconChanged: Boolean)
+    data class SaveResult(val id: String, val name: String, val iconName: String?, val nameOrIconChanged: Boolean)
 
     companion object {
 

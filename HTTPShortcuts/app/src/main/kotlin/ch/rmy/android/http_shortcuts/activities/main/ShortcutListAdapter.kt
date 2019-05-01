@@ -29,7 +29,7 @@ class ShortcutListAdapter(context: Context, shortcuts: ListLiveData<Shortcut>) :
             name.text = item.name
             description.text = item.description
             description.visible = !TextUtils.isEmpty(item.description)
-            icon.setImageURI(IconUtil.getIconURI(context, item), item.iconName)
+            icon.setImageURI(IconUtil.getIconURI(context, item.iconName), item.iconName)
             waitingIcon.visible = isPendingExecution(item.id)
             name.setTextColor(nameTextColor)
             description.setTextColor(descriptionTextColor)

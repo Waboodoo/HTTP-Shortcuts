@@ -43,7 +43,12 @@ class RenameShortcutAction(
                 .done {
                     val shortcut = controller.getShortcutById(shortcutId)
                     if (LauncherShortcutManager.supportsPinning(context) && shortcut != null) {
-                        LauncherShortcutManager.updatePinnedShortcut(context, shortcut)
+                        LauncherShortcutManager.updatePinnedShortcut(
+                            context = context,
+                            shortcutId = shortcut.id,
+                            shortcutName = shortcut.name,
+                            shortcutIcon = shortcut.iconName
+                        )
                     }
                 }
         }
