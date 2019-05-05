@@ -26,10 +26,10 @@ class ExtractBodyAction(
             internalData[KEY_EXTRACTION_TYPE] = value
         }
 
-    var variableKey: String
-        get() = internalData[KEY_VARIABLE_KEY] ?: ""
+    var variableId: String
+        get() = internalData[KEY_VARIABLE_ID] ?: ""
         set(value) {
-            internalData[KEY_VARIABLE_KEY] = value
+            internalData[KEY_VARIABLE_ID] = value
         }
 
     var substringStart: Int
@@ -51,7 +51,7 @@ class ExtractBodyAction(
         }
 
     override fun getDescription(context: Context): CharSequence =
-        context.getString(R.string.action_type_extract_body_description, Variables.toRawPlaceholder(variableKey))
+        context.getString(R.string.action_type_extract_body_description, Variables.toRawPlaceholder(variableId))
 
     override fun perform(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Promise<Unit, Throwable, Unit> {
         val body = when {
@@ -110,9 +110,9 @@ class ExtractBodyAction(
             else -> return PromiseUtils.resolve(Unit)
         }
 
-        variableValues[variableKey] = value
+        variableValues[variableId] = value
         Controller().use { controller ->
-            return controller.setVariableValueByKey(variableKey, value).toPromise()
+            return controller.setVariableValue(variableId, value).toPromise()
         }
     }
 
@@ -122,7 +122,7 @@ class ExtractBodyAction(
     companion object {
 
         private const val KEY_EXTRACTION_TYPE = "extractionType"
-        private const val KEY_VARIABLE_KEY = "variableKey"
+        private const val KEY_VARIABLE_ID = "variableId"
         private const val KEY_SUBSTRING_START = "substringStart"
         private const val KEY_SUBSTRING_END = "substringEnd"
         private const val KEY_JSON_PATH = "jsonPath"

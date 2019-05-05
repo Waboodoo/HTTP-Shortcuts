@@ -15,7 +15,7 @@ import kotterknife.bindView
 class ExtractBodyActionEditorView(
     context: Context,
     private val action: ExtractBodyAction,
-    variablePlaceholderProvider: VariablePlaceholderProvider
+    private val variablePlaceholderProvider: VariablePlaceholderProvider
 ) : BaseActionEditorView(context, R.layout.action_editor_extract_body) {
 
     private val extractionOption: LabelledSpinner by bindView(R.id.input_extraction_option)
@@ -28,7 +28,7 @@ class ExtractBodyActionEditorView(
     private val targetVariableView: TextView by bindView(R.id.target_variable)
     private val variableButton: VariableButton by bindView(R.id.variable_button_target_variable)
 
-    private var selectedVariableKey: String = action.variableKey
+    private var selectedVariableId: String = action.variableId
         set(value) {
             field = value
             updateViews()
@@ -50,7 +50,7 @@ class ExtractBodyActionEditorView(
 
         jsonPath.setText(action.jsonPath)
 
-        targetVariableView.text = action.variableKey
+        targetVariableView.text = action.variableId
         targetVariableView.setOnClickListener {
             variableButton.performClick()
         }
@@ -58,17 +58,18 @@ class ExtractBodyActionEditorView(
 
         variableButton.variableSource
             .subscribe {
-                selectedVariableKey = it.variableKey
+                selectedVariableId = it.variableId
             }
             .attachTo(destroyer)
         updateViews()
     }
 
     private fun updateViews() {
-        if (selectedVariableKey.isEmpty()) {
+        val variablePlaceholder = variablePlaceholderProvider.findPlaceholderById(selectedVariableId)
+        if (variablePlaceholder == null) {
             targetVariableView.setText(R.string.action_type_target_variable_no_variable_selected)
         } else {
-            targetVariableView.text = selectedVariableKey
+            targetVariableView.text = variablePlaceholder.variableKey
         }
         val selectedOption = extractionOption.selectedItem
         substringOptions.visible = selectedOption == ExtractBodyAction.EXTRACTION_OPTION_SUBSTRING
@@ -76,11 +77,11 @@ class ExtractBodyActionEditorView(
     }
 
     override fun compile(): Boolean {
-        if (selectedVariableKey.isEmpty()) {
+        if (selectedVariableId.isEmpty()) {
             return false
         }
         action.extractionType = extractionOption.selectedItem
-        action.variableKey = selectedVariableKey
+        action.variableId = selectedVariableId
 
         action.substringStart = substringStart.text.toString().toIntOrNull() ?: 0
         action.substringEnd = substringEnd.text.toString().toIntOrNull() ?: 0

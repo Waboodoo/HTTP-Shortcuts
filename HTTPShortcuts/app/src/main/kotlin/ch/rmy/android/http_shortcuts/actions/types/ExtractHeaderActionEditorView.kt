@@ -13,46 +13,47 @@ import kotterknife.bindView
 class ExtractHeaderActionEditorView(
     context: Context,
     private val action: ExtractHeaderAction,
-    variablePlaceholderProvider: VariablePlaceholderProvider
+    private val variablePlaceholderProvider: VariablePlaceholderProvider
 ) : BaseActionEditorView(context, R.layout.action_editor_extract_header) {
 
     private val headerKeyView: AutoCompleteTextView by bindView(R.id.input_header_key)
     private val targetVariableView: TextView by bindView(R.id.target_variable)
     private val variableButton: VariableButton by bindView(R.id.variable_button_target_variable)
 
-    private var selectedVariableKey: String = action.variableKey
+    private var selectedVariableId: String = action.variableId
 
     init {
         headerKeyView.setAdapter(ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, SUGGESTED_KEYS))
         headerKeyView.setText(action.headerKey)
 
-        targetVariableView.text = action.variableKey
+        targetVariableView.text = action.variableId
         targetVariableView.setOnClickListener {
             variableButton.performClick()
         }
         variableButton.variablePlaceholderProvider = variablePlaceholderProvider
         variableButton.variableSource.subscribe {
-            selectedVariableKey = it.variableKey
+            selectedVariableId = it.variableId
             updateViews()
         }.attachTo(destroyer)
         updateViews()
     }
 
     private fun updateViews() {
-        if (selectedVariableKey.isEmpty()) {
+        val variablePlaceholder = variablePlaceholderProvider.findPlaceholderById(selectedVariableId)
+        if (variablePlaceholder == null) {
             targetVariableView.setText(R.string.action_type_target_variable_no_variable_selected)
         } else {
-            targetVariableView.text = selectedVariableKey
+            targetVariableView.text = variablePlaceholder.variableKey
         }
     }
 
     override fun compile(): Boolean {
         val headerKey = headerKeyView.text.toString()
-        if (selectedVariableKey.isEmpty() || headerKey.isEmpty()) {
+        if (selectedVariableId.isEmpty() || headerKey.isEmpty()) {
             return false
         }
         action.headerKey = headerKey
-        action.variableKey = selectedVariableKey
+        action.variableId = selectedVariableId
         return true
     }
 

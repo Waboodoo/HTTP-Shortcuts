@@ -32,7 +32,7 @@ internal class DateType : BaseVariableType(), AsyncVariableType {
                     val dateFormat = SimpleDateFormat(variable.dataForType[KEY_FORMAT] ?: DEFAULT_FORMAT, Locale.US)
                     deferredValue.resolve(dateFormat.format(newDate.time))
                     if (variable.rememberValue) {
-                        controller.setVariableValueById(variable.id, DATE_FORMAT.format(newDate.time)).subscribe()
+                        controller.setVariableValue(variable.id, DATE_FORMAT.format(newDate.time)).subscribe()
                     }
                 } catch (e: Exception) {
                     deferredValue.rejectSafely(Unit)

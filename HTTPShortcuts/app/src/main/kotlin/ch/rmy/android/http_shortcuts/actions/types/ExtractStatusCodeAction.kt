@@ -17,22 +17,22 @@ class ExtractStatusCodeAction(
     data: Map<String, String>
 ) : BaseAction(id, actionType, data) {
 
-    var variableKey: String
-        get() = internalData[KEY_VARIABLE_KEY] ?: ""
+    var variableId: String
+        get() = internalData[KEY_VARIABLE_ID] ?: ""
         set(value) {
-            internalData[KEY_VARIABLE_KEY] = value
+            internalData[KEY_VARIABLE_ID] = value
         }
 
     override fun getDescription(context: Context): CharSequence =
-        context.getString(R.string.action_type_extract_status_code_description, Variables.toRawPlaceholder(variableKey))
+        context.getString(R.string.action_type_extract_status_code_description, Variables.toRawPlaceholder(variableId))
 
     override fun perform(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Promise<Unit, Throwable, Unit> {
         val statusCode = response?.statusCode ?: volleyError?.networkResponse?.statusCode
         ?: return PromiseUtils.resolve(Unit)
         val statusCodeString = statusCode.toString()
-        variableValues[variableKey] = statusCodeString
+        variableValues[variableId] = statusCodeString
         Controller().use { controller ->
-            return controller.setVariableValueByKey(variableKey, statusCodeString).toPromise()
+            return controller.setVariableValue(variableId, statusCodeString).toPromise()
         }
     }
 
@@ -41,7 +41,7 @@ class ExtractStatusCodeAction(
 
     companion object {
 
-        private const val KEY_VARIABLE_KEY = "variableKey"
+        private const val KEY_VARIABLE_ID = "variableId"
 
     }
 

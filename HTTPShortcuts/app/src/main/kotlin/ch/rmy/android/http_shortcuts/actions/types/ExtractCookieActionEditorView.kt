@@ -12,45 +12,46 @@ import kotterknife.bindView
 class ExtractCookieActionEditorView(
     context: Context,
     private val action: ExtractCookieAction,
-    variablePlaceholderProvider: VariablePlaceholderProvider
+    private val variablePlaceholderProvider: VariablePlaceholderProvider
 ) : BaseActionEditorView(context, R.layout.action_editor_extract_cookie) {
 
     private val cookieNameView: EditText by bindView(R.id.input_cookie_name)
     private val targetVariableView: TextView by bindView(R.id.target_variable)
     private val variableButton: VariableButton by bindView(R.id.variable_button_target_variable)
 
-    private var selectedVariableKey: String = action.variableKey
+    private var selectedVariableId: String = action.variableId
 
     init {
         cookieNameView.setText(action.cookieName)
 
-        targetVariableView.text = action.variableKey
+        targetVariableView.text = action.variableId
         targetVariableView.setOnClickListener {
             variableButton.performClick()
         }
         variableButton.variablePlaceholderProvider = variablePlaceholderProvider
         variableButton.variableSource.subscribe {
-            selectedVariableKey = it.variableKey
+            selectedVariableId = it.variableId
             updateViews()
         }.attachTo(destroyer)
         updateViews()
     }
 
     private fun updateViews() {
-        if (selectedVariableKey.isEmpty()) {
+        val variablePlaceholder = variablePlaceholderProvider.findPlaceholderById(selectedVariableId)
+        if (variablePlaceholder == null) {
             targetVariableView.setText(R.string.action_type_target_variable_no_variable_selected)
         } else {
-            targetVariableView.text = selectedVariableKey
+            targetVariableView.text = variablePlaceholder.variableKey
         }
     }
 
     override fun compile(): Boolean {
         val cookieName = cookieNameView.text.toString()
-        if (selectedVariableKey.isEmpty() || cookieName.isEmpty()) {
+        if (selectedVariableId.isEmpty() || cookieName.isEmpty()) {
             return false
         }
         action.cookieName = cookieName
-        action.variableKey = selectedVariableKey
+        action.variableId = selectedVariableId
         return true
     }
 

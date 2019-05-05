@@ -125,12 +125,17 @@ class ReplaceVariableKeysWithIdsMigration : BaseMigration {
                 val variableKey = match.groups[1]!!.value
                 "\\{\\{" + (variableMap[variableKey] ?: variableKey) + "\\}\\}"
             }
+            .replace(VARIABLE_KEY_JSON_REGEX) { match ->
+                val variableKey = match.groups[1]!!.value
+                "\"variableId\":\"" + (variableMap[variableKey] ?: variableKey) + "\""
+            }
 
     companion object {
 
         private const val VARIABLE_KEY_REGEX = "[A-Za-z0-9_]{1,30}"
         private val PLACEHOLDER_REGEX = ("\\{\\{(" + VARIABLE_KEY_REGEX + ")\\}\\}").toRegex()
         private val JSON_PLACEHOLDER_REGEX = ("\\\\\\{\\\\\\{(" + VARIABLE_KEY_REGEX + ")\\\\\\}\\\\\\}").toRegex()
+        private val VARIABLE_KEY_JSON_REGEX = ("\\\"variableKey\\\":\\\"(" + VARIABLE_KEY_REGEX + ")\\\"").toRegex()
 
     }
 

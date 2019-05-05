@@ -22,20 +22,20 @@ class SetVariableAction(
             internalData[KEY_NEW_VALUE] = value
         }
 
-    var variableKey: String
-        get() = internalData[KEY_VARIABLE_KEY] ?: ""
+    var variableId: String
+        get() = internalData[KEY_VARIABLE_ID] ?: ""
         set(value) {
-            internalData[KEY_VARIABLE_KEY] = value
+            internalData[KEY_VARIABLE_ID] = value
         }
 
     override fun getDescription(context: Context): CharSequence =
-        context.getString(R.string.action_type_set_variable_description, Variables.toRawPlaceholder(variableKey), newValue)
+        context.getString(R.string.action_type_set_variable_description, Variables.toRawPlaceholder(variableId), newValue)
 
     override fun perform(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Promise<Unit, Throwable, Unit> {
         val value = Variables.rawPlaceholdersToResolvedValues(newValue, variableValues)
-        variableValues[variableKey] = value
+        variableValues[variableId] = value
         Controller().use { controller ->
-            return controller.setVariableValueByKey(variableKey, value).toPromise()
+            return controller.setVariableValue(variableId, value).toPromise()
         }
     }
 
@@ -45,7 +45,7 @@ class SetVariableAction(
     companion object {
 
         private const val KEY_NEW_VALUE = "newValue"
-        private const val KEY_VARIABLE_KEY = "variableKey"
+        private const val KEY_VARIABLE_ID = "variableId"
 
     }
 

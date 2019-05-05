@@ -23,14 +23,14 @@ class ExtractCookieAction(
             internalData[KEY_COOKIE_NAME] = value
         }
 
-    var variableKey: String
-        get() = internalData[KEY_VARIABLE_KEY] ?: ""
+    var variableId: String
+        get() = internalData[KEY_VARIABLE_ID] ?: ""
         set(value) {
-            internalData[KEY_VARIABLE_KEY] = value
+            internalData[KEY_VARIABLE_ID] = value
         }
 
     override fun getDescription(context: Context): CharSequence =
-        context.getString(R.string.action_type_extract_cookie_description, cookieName, Variables.toRawPlaceholder(variableKey))
+        context.getString(R.string.action_type_extract_cookie_description, cookieName, Variables.toRawPlaceholder(variableId))
 
     override fun perform(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Promise<Unit, Throwable, Unit> {
         val cookiesString = response?.headers?.get(COOKIE_HEADER)
@@ -44,9 +44,9 @@ class ExtractCookieAction(
         }
         val cookieValue = cookie[1]
 
-        variableValues[variableKey] = cookieValue
+        variableValues[variableId] = cookieValue
         Controller().use { controller ->
-            return controller.setVariableValueByKey(variableKey, cookieValue).toPromise()
+            return controller.setVariableValue(variableId, cookieValue).toPromise()
         }
     }
 
@@ -56,7 +56,7 @@ class ExtractCookieAction(
     companion object {
 
         private const val KEY_COOKIE_NAME = "cookieName"
-        private const val KEY_VARIABLE_KEY = "variableKey"
+        private const val KEY_VARIABLE_ID = "variableId"
 
         private const val COOKIE_HEADER = "Set-Cookie"
 

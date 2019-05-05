@@ -14,7 +14,7 @@ import kotterknife.bindView
 class SetVariableActionEditorView(
     context: Context,
     private val action: SetVariableAction,
-    variablePlaceholderProvider: VariablePlaceholderProvider
+    private val variablePlaceholderProvider: VariablePlaceholderProvider
 ) : BaseActionEditorView(context, R.layout.action_editor_set_variable) {
 
     private val newValueView: VariableEditText by bindView(R.id.input_new_value)
@@ -22,7 +22,7 @@ class SetVariableActionEditorView(
     private val variableButton: VariableButton by bindView(R.id.variable_button_new_value)
     private val variableButton2: VariableButton by bindView(R.id.variable_button_target_variable)
 
-    private var selectedVariableKey: String = action.variableKey
+    private var selectedVariableId: String = action.variableId
         set(value) {
             field = value
             updateViews()
@@ -36,7 +36,7 @@ class SetVariableActionEditorView(
         newValueView.rawString = action.newValue
         newValueView.focus()
 
-        targetVariableView.text = action.variableKey
+        targetVariableView.text = action.variableId
         targetVariableView.setOnClickListener {
             variableButton2.performClick()
         }
@@ -45,26 +45,27 @@ class SetVariableActionEditorView(
         variableButton2.variablePlaceholderProvider = variablePlaceholderProvider
         variableButton2.variableSource
             .subscribe {
-                selectedVariableKey = it.variableKey
+                selectedVariableId = it.variableId
             }
             .attachTo(destroyer)
         updateViews()
     }
 
     private fun updateViews() {
-        if (selectedVariableKey.isEmpty()) {
+        val variablePlaceholder = variablePlaceholderProvider.findPlaceholderById(selectedVariableId)
+        if (variablePlaceholder == null) {
             targetVariableView.setText(R.string.action_type_target_variable_no_variable_selected)
         } else {
-            targetVariableView.text = selectedVariableKey
+            targetVariableView.text = selectedVariableId
         }
     }
 
     override fun compile(): Boolean {
-        if (selectedVariableKey.isEmpty()) {
+        if (selectedVariableId.isEmpty()) {
             return false
         }
         action.newValue = newValueView.rawString
-        action.variableKey = selectedVariableKey
+        action.variableId = selectedVariableId
         return true
     }
 

@@ -11,40 +11,43 @@ import kotterknife.bindView
 class ExtractStatusCodeActionEditorView(
     context: Context,
     private val action: ExtractStatusCodeAction,
-    variablePlaceholderProvider: VariablePlaceholderProvider
+    private val variablePlaceholderProvider: VariablePlaceholderProvider
 ) : BaseActionEditorView(context, R.layout.action_editor_extract_status_code) {
 
     private val targetVariableView: TextView by bindView(R.id.target_variable)
     private val variableButton: VariableButton by bindView(R.id.variable_button_target_variable)
 
-    private var selectedVariableKey: String = action.variableKey
+    private var selectedVariableId: String = action.variableId
 
     init {
-        targetVariableView.text = action.variableKey
+        targetVariableView.text = action.variableId
         targetVariableView.setOnClickListener {
             variableButton.performClick()
         }
         variableButton.variablePlaceholderProvider = variablePlaceholderProvider
-        variableButton.variableSource.subscribe {
-            selectedVariableKey = it.variableKey
-            updateViews()
-        }.attachTo(destroyer)
+        variableButton.variableSource
+            .subscribe {
+                selectedVariableId = it.variableId
+                updateViews()
+            }
+            .attachTo(destroyer)
         updateViews()
     }
 
     private fun updateViews() {
-        if (selectedVariableKey.isEmpty()) {
+        val variablePlaceholder = variablePlaceholderProvider.findPlaceholderById(selectedVariableId)
+        if (variablePlaceholder == null) {
             targetVariableView.setText(R.string.action_type_target_variable_no_variable_selected)
         } else {
-            targetVariableView.text = selectedVariableKey
+            targetVariableView.text = selectedVariableId
         }
     }
 
     override fun compile(): Boolean {
-        if (selectedVariableKey.isEmpty()) {
+        if (selectedVariableId.isEmpty()) {
             return false
         }
-        action.variableKey = selectedVariableKey
+        action.variableId = selectedVariableId
         return true
     }
 

@@ -23,23 +23,23 @@ class ExtractHeaderAction(
             internalData[KEY_HEADER_KEY] = value
         }
 
-    var variableKey: String
-        get() = internalData[KEY_VARIABLE_KEY] ?: ""
+    var variableId: String
+        get() = internalData[KEY_VARIABLE_ID] ?: ""
         set(value) {
-            internalData[KEY_VARIABLE_KEY] = value
+            internalData[KEY_VARIABLE_ID] = value
         }
 
     override fun getDescription(context: Context): CharSequence =
-        context.getString(R.string.action_type_extract_header_description, headerKey, Variables.toRawPlaceholder(variableKey))
+        context.getString(R.string.action_type_extract_header_description, headerKey, Variables.toRawPlaceholder(variableId))
 
     override fun perform(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Promise<Unit, Throwable, Unit> {
         val headerValue = response?.headers?.get(headerKey)
             ?: volleyError?.networkResponse?.headers?.get(headerKey)
             ?: return PromiseUtils.resolve(Unit)
 
-        variableValues[variableKey] = headerValue
+        variableValues[variableId] = headerValue
         Controller().use { controller ->
-            return controller.setVariableValueByKey(variableKey, headerValue).toPromise()
+            return controller.setVariableValue(variableId, headerValue).toPromise()
         }
     }
 
@@ -49,7 +49,7 @@ class ExtractHeaderAction(
     companion object {
 
         private const val KEY_HEADER_KEY = "headerKey"
-        private const val KEY_VARIABLE_KEY = "variableKey"
+        private const val KEY_VARIABLE_ID = "variableId"
 
     }
 
