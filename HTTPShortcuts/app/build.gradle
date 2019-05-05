@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId 'ch.rmy.android.http_shortcuts'
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 27
         versionName rootProject.ext.versionName
         versionCode rootProject.ext.versionCode
@@ -111,6 +111,9 @@ dependencies {
 
     /* Tasker integration */
     implementation 'com.twofortyfouram:android-plugin-client-sdk-for-locale:4.0.3'
+
+    /* Scripting */
+    implementation 'com.github.LiquidPlayer:LiquidCore:0.6.0'
 
     /* Password hashing */
     implementation 'org.mindrot:jbcrypt:0.4'

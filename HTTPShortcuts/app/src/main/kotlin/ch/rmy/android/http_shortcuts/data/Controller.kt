@@ -41,18 +41,6 @@ class Controller : Destroyable, Closeable {
 
     private fun getBase() = Repository.getBase(realm)!!
 
-    fun setVariableValue(variableId: String, value: String) =
-        realm.commitAsync { realm ->
-            Repository.getVariableById(realm, variableId)?.value = value
-        }
-
-    fun resetVariableValues(variableIds: List<String>) =
-        realm.commitAsync { realm ->
-            variableIds.forEach { variableId ->
-                Repository.getVariableById(realm, variableId)?.value = ""
-            }
-        }
-
     fun importBaseSynchronously(base: Base) {
         val oldBase = getBase()
         realm.executeTransaction { realm ->

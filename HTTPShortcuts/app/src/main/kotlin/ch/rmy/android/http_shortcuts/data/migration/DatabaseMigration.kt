@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.data.migration
 
 import android.text.TextUtils
+import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceActionsWithScriptsMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceVariableKeysWithIdsMigration
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import io.realm.DynamicRealm
@@ -242,6 +243,9 @@ class DatabaseMigration : RealmMigration {
             26L -> {
                 schema.get("Parameter")!!.setRequired("id", true)
             }
+            27L -> {
+                ReplaceActionsWithScriptsMigration().migrateRealm(realm)
+            }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -267,7 +271,7 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 26L
+        const val VERSION = 27L
 
     }
 

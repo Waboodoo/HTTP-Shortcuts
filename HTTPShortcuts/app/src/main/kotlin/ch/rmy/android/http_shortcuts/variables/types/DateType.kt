@@ -4,7 +4,7 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.content.DialogInterface
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.data.Controller
+import ch.rmy.android.http_shortcuts.data.Commons
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.rejectSafely
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
@@ -18,7 +18,7 @@ internal class DateType : BaseVariableType(), AsyncVariableType {
 
     override val hasTitle = false
 
-    override fun createDialog(context: Context, controller: Controller, variable: Variable, deferredValue: Deferred<String, Unit, Unit>): () -> Unit {
+    override fun createDialog(context: Context, variable: Variable, deferredValue: Deferred<String, Unit, Unit>): () -> Unit {
         val calendar = getInitialDate(variable.value)
         val datePicker = DatePickerDialog(context, null, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
         datePicker.setButton(DialogInterface.BUTTON_POSITIVE, context.getString(R.string.dialog_ok)) { _, _ ->
@@ -32,7 +32,7 @@ internal class DateType : BaseVariableType(), AsyncVariableType {
                     val dateFormat = SimpleDateFormat(variable.dataForType[KEY_FORMAT] ?: DEFAULT_FORMAT, Locale.US)
                     deferredValue.resolve(dateFormat.format(newDate.time))
                     if (variable.rememberValue) {
-                        controller.setVariableValue(variable.id, DATE_FORMAT.format(newDate.time)).subscribe()
+                        Commons.setVariableValue(variable.id, DATE_FORMAT.format(newDate.time)).subscribe()
                     }
                 } catch (e: Exception) {
                     deferredValue.rejectSafely(Unit)

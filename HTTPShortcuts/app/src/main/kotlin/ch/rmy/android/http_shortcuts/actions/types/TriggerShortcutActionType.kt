@@ -10,7 +10,7 @@ class TriggerShortcutActionType(context: Context) : BaseActionType(context) {
 
     override val title: String = context.getString(R.string.action_type_trigger_shortcut_title)
 
-    override fun fromDTO(actionDTO: ActionDTO) = TriggerShortcutAction(actionDTO.id, this, actionDTO.data)
+    override fun fromDTO(actionDTO: ActionDTO) = TriggerShortcutAction(this, actionDTO.data)
 
     override val isValidBeforeAction = false
 

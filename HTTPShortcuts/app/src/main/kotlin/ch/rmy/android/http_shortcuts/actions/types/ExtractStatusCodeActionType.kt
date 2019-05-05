@@ -12,7 +12,7 @@ class ExtractStatusCodeActionType(context: Context) : BaseActionType(context) {
 
     override val isValidBeforeAction = false
 
-    override fun fromDTO(actionDTO: ActionDTO) = ExtractStatusCodeAction(actionDTO.id, this, actionDTO.data)
+    override fun fromDTO(actionDTO: ActionDTO) = ExtractStatusCodeAction(this, actionDTO.data)
 
     companion object {
 

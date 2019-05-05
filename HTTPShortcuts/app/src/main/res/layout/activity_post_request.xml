@@ -19,7 +19,21 @@
             android:orientation="vertical"
             android:padding="16dp">
 
+            <EditText
+                android:id="@+id/input_code_success"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="monospace"
+                android:gravity="top"
+                android:minLines="6" />
 
+            <EditText
+                android:id="@+id/input_code_failure"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="monospace"
+                android:gravity="top"
+                android:minLines="6" />
 
 
         </LinearLayout>

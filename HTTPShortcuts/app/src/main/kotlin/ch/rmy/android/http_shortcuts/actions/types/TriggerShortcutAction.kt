@@ -7,16 +7,15 @@ import ch.rmy.android.http_shortcuts.data.Controller
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
-import ch.rmy.android.http_shortcuts.utils.PromiseUtils
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import com.android.volley.VolleyError
-import org.jdeferred2.Promise
+import io.reactivex.Completable
+import java.util.concurrent.TimeUnit
 
 class TriggerShortcutAction(
-    id: String,
     actionType: TriggerShortcutActionType,
     data: Map<String, String>
-) : BaseAction(id, actionType, data) {
+) : BaseAction(actionType, data) {
 
     var shortcutId: String
         get() = internalData[KEY_SHORTCUT_ID] ?: ""
@@ -37,13 +36,14 @@ class TriggerShortcutAction(
             shortcutName ?: "???"
         )
 
-    override fun perform(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Promise<Unit, Throwable, Unit> {
+    override fun perform(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Completable {
         if (recursionDepth >= MAX_RECURSION_DEPTH) {
             context.showToast(R.string.action_type_trigger_shortcut_error_recursion_depth_reached, long = true)
-            return PromiseUtils.resolve(Unit)
+            return Completable.complete()
         }
-        return PromiseUtils.resolveDelayed<Unit, Throwable, Unit>(Unit, EXECUTION_DELAY)
-            .done {
+        return Completable.complete()
+            .delay(EXECUTION_DELAY, TimeUnit.MILLISECONDS)
+            .andThen {
                 ExecuteActivity.IntentBuilder(context, this.shortcutId)
                     .recursionDepth(recursionDepth + 1)
                     .build()

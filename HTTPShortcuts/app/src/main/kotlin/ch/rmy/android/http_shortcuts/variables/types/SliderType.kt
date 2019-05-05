@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.widget.SeekBar
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.data.Controller
+import ch.rmy.android.http_shortcuts.data.Commons
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.utils.SimpleOnSeekBarChangeListener
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
@@ -16,7 +16,7 @@ internal class SliderType : BaseVariableType(), AsyncVariableType {
 
     override val hasTitle = true
 
-    override fun createDialog(context: Context, controller: Controller, variable: Variable, deferredValue: Deferred<String, Unit, Unit>): () -> Unit {
+    override fun createDialog(context: Context, variable: Variable, deferredValue: Deferred<String, Unit, Unit>): () -> Unit {
         val view = LayoutInflater.from(context).inflate(R.layout.variable_dialog_slider, null)
 
         val slider = view.findViewById<SeekBar>(R.id.slider)
@@ -49,7 +49,7 @@ internal class SliderType : BaseVariableType(), AsyncVariableType {
                     val value = findValue(slider, variable)
                     deferredValue.resolve(value)
                     if (variable.rememberValue) {
-                        controller.setVariableValue(variable.id, value).subscribe()
+                        Commons.setVariableValue(variable.id, value).subscribe()
                     }
                 }
             }

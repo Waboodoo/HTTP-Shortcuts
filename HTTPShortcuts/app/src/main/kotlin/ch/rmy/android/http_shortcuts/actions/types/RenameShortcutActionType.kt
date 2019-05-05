@@ -11,7 +11,7 @@ class RenameShortcutActionType(context: Context) : BaseActionType(context) {
 
     override val title: String = context.getString(R.string.action_type_rename_shortcut_title)
 
-    override fun fromDTO(actionDTO: ActionDTO) = RenameShortcutAction(actionDTO.id, this, actionDTO.data)
+    override fun fromDTO(actionDTO: ActionDTO) = RenameShortcutAction(this, actionDTO.data)
 
     override val isAvailable: Boolean
         get() = LauncherShortcutManager.supportsPinning(context)

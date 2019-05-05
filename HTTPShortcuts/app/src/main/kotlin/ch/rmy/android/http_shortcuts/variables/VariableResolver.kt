@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.variables
 
 import android.content.Context
 import ch.rmy.android.http_shortcuts.actions.ActionDTO
+import ch.rmy.android.http_shortcuts.data.Commons
 import ch.rmy.android.http_shortcuts.data.Controller
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
@@ -9,11 +10,11 @@ import ch.rmy.android.http_shortcuts.extensions.filter
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.extensions.rejectSafely
 import ch.rmy.android.http_shortcuts.extensions.resolveSafely
-import ch.rmy.android.http_shortcuts.extensions.toPromise
 import ch.rmy.android.http_shortcuts.utils.PromiseUtils
 import ch.rmy.android.http_shortcuts.variables.types.AsyncVariableType
 import ch.rmy.android.http_shortcuts.variables.types.SyncVariableType
 import ch.rmy.android.http_shortcuts.variables.types.VariableTypeFactory
+import io.reactivex.Completable
 import org.jdeferred2.DonePipe
 import org.jdeferred2.Promise
 import org.jdeferred2.impl.DeferredObject
@@ -25,11 +26,19 @@ class VariableResolver(private val context: Context) {
 
     fun resolve(controller: Controller, shortcut: Shortcut, preResolvedValues: Map<String, String> = emptyMap()): Promise<Map<String, String>, Unit, Unit> {
         val variableMap = controller.getVariables().associate { it.id to it }
-        val requiredVariableIds = extractVariableIds(shortcut)
+        val requiredVariableIds = extractVariableIds(shortcut).toMutableSet()
+
+        // Always export all constants
+        variableMap.forEach { variableId, variable ->
+            if (variable.isConstant) {
+                requiredVariableIds.add(variableId)
+            }
+        }
+
         val variablesToResolve = requiredVariableIds.mapNotNull { variableMap[it] }
-        return resolveVariables(controller, variablesToResolve, preResolvedValues)
+        return resolveVariables(variablesToResolve, preResolvedValues)
             .then(DonePipe<Map<String, String>, Map<String, String>, Unit, Unit> { resolvedVariables ->
-                return@DonePipe resolveRecursiveVariables(controller, variableMap, resolvedVariables)
+                return@DonePipe resolveRecursiveVariables(variableMap, resolvedVariables)
             })
             .filter { resolvedValues ->
                 resolvedValues.mapValues { entry ->
@@ -39,7 +48,7 @@ class VariableResolver(private val context: Context) {
             }
     }
 
-    private fun resolveRecursiveVariables(controller: Controller, variableMap: Map<String, Variable>, preResolvedValues: Map<String, String>, recursionDepth: Int = 0): Promise<Map<String, String>, Unit, Unit> {
+    private fun resolveRecursiveVariables(variableMap: Map<String, Variable>, preResolvedValues: Map<String, String>, recursionDepth: Int = 0): Promise<Map<String, String>, Unit, Unit> {
         val requiredVariableIds = mutableSetOf<String>()
         preResolvedValues.values.forEach { value ->
             requiredVariableIds.addAll(Variables.extractVariableIds(value))
@@ -49,7 +58,7 @@ class VariableResolver(private val context: Context) {
         }
 
         val variablesToResolve = requiredVariableIds.mapNotNull { variableMap[it] }
-        return resolveVariables(controller, variablesToResolve, preResolvedValues)
+        return resolveVariables(variablesToResolve, preResolvedValues)
             .filter {
                 it.toMutableMap().also { resolvedVariables ->
                     resolvedVariables.forEach { resolvedVariable ->
@@ -58,11 +67,11 @@ class VariableResolver(private val context: Context) {
                 }
             }
             .then(DonePipe { resolvedVariables ->
-                resolveRecursiveVariables(controller, variableMap, resolvedVariables, recursionDepth + 1)
+                resolveRecursiveVariables(variableMap, resolvedVariables, recursionDepth + 1)
             })
     }
 
-    private fun resolveVariables(controller: Controller, variablesToResolve: List<Variable>, preResolvedValues: Map<String, String> = emptyMap()): Promise<Map<String, String>, Unit, Unit> {
+    private fun resolveVariables(variablesToResolve: List<Variable>, preResolvedValues: Map<String, String> = emptyMap()): Promise<Map<String, String>, Unit, Unit> {
         val deferred = DeferredObject<Map<String, String>, Unit, Unit>()
         val resolvedVariables = mutableMapOf<String, String>()
 
@@ -96,10 +105,10 @@ class VariableResolver(private val context: Context) {
                         deferred.rejectSafely(Unit)
                     }
 
-                val dialog = variableType.createDialog(context, controller, variable, deferredValue)
+                val dialog = variableType.createDialog(context, variable, deferredValue)
                 waitingDialogs.add(dialog)
             } else if (variableType is SyncVariableType) {
-                resolvedVariables[variable.id] = variableType.resolveValue(controller, variable)
+                resolvedVariables[variable.id] = variableType.resolveValue(variable)
             }
         }
 
@@ -112,17 +121,16 @@ class VariableResolver(private val context: Context) {
         return deferred
             .promise()
             .always { _, _, _ ->
-                resetVariableValues(controller, variablesToResolve)
+                resetVariableValues(variablesToResolve).subscribe()
             }
     }
 
-    private fun resetVariableValues(controller: Controller, variables: List<Variable>) =
-        controller.resetVariableValues(
+    private fun resetVariableValues(variables: List<Variable>): Completable =
+        Commons.resetVariableValues(
             variables
                 .filter { it.isResetAfterUse() }
                 .map { it.id }
         )
-            .toPromise()
 
     companion object {
 
@@ -146,9 +154,6 @@ class VariableResolver(private val context: Context) {
                     addAll(Variables.extractVariableIds(header.key))
                     addAll(Variables.extractVariableIds(header.value))
                 }
-                addAll(extractVariableIds(shortcut.beforeActions))
-                addAll(extractVariableIds(shortcut.successActions))
-                addAll(extractVariableIds(shortcut.failureActions))
             }
 
         private fun extractVariableIds(actions: List<ActionDTO>) =

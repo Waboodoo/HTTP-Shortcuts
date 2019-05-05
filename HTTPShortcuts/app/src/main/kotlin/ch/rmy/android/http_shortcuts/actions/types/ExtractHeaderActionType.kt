@@ -12,7 +12,7 @@ class ExtractHeaderActionType(context: Context) : BaseActionType(context) {
 
     override val isValidBeforeAction = false
 
-    override fun fromDTO(actionDTO: ActionDTO) = ExtractHeaderAction(actionDTO.id, this, actionDTO.data)
+    override fun fromDTO(actionDTO: ActionDTO) = ExtractHeaderAction(this, actionDTO.data)
 
     companion object {
 

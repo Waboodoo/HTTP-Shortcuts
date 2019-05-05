@@ -10,7 +10,7 @@ class SetVariableActionType(context: Context) : BaseActionType(context) {
 
     override val title: String = context.getString(R.string.action_type_set_variable_title)
 
-    override fun fromDTO(actionDTO: ActionDTO) = SetVariableAction(actionDTO.id, this, actionDTO.data)
+    override fun fromDTO(actionDTO: ActionDTO) = SetVariableAction(this, actionDTO.data)
 
     companion object {
 

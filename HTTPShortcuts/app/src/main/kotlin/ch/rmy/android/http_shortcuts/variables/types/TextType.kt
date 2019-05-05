@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.variables.types
 
 import android.content.Context
-import ch.rmy.android.http_shortcuts.data.Controller
+import ch.rmy.android.http_shortcuts.data.Commons
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.resolveSafely
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
@@ -11,13 +11,13 @@ open class TextType : BaseVariableType(), AsyncVariableType {
 
     override val hasTitle = true
 
-    override fun createDialog(context: Context, controller: Controller, variable: Variable, deferredValue: Deferred<String, Unit, Unit>): () -> Unit {
+    override fun createDialog(context: Context, variable: Variable, deferredValue: Deferred<String, Unit, Unit>): () -> Unit {
         val builder = createDialogBuilder(context, variable, deferredValue)
             .toDialogBuilder()
             .input(null, if (variable.rememberValue) variable.value else "") { _, input ->
                 if (variable.isValid) {
                     deferredValue.resolveSafely(input.toString())
-                    controller.setVariableValue(variable.id, input.toString()).subscribe()
+                    Commons.setVariableValue(variable.id, input.toString()).subscribe()
                 }
             }
         return {

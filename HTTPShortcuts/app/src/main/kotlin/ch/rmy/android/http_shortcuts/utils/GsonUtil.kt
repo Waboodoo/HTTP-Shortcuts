@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.utils
 
-import ch.rmy.android.http_shortcuts.actions.ActionDTO
 import ch.rmy.android.http_shortcuts.data.models.Base
 import com.google.gson.ExclusionStrategy
 import com.google.gson.FieldAttributes
@@ -44,15 +43,6 @@ object GsonUtil {
         val type = object : TypeToken<Map<String, T>>() {
         }.type
         return gson.fromJson(jsonObject, type)
-    }
-
-    fun parseActionList(jsonList: String?): List<ActionDTO> {
-        if (jsonList == null) {
-            return emptyList()
-        }
-        val type = object : TypeToken<List<ActionDTO>>() {
-        }.type
-        return gson.fromJson<List<ActionDTO>>(jsonList, type)
     }
 
     fun toJson(item: Map<String, Any>): String = gson.toJson(item)

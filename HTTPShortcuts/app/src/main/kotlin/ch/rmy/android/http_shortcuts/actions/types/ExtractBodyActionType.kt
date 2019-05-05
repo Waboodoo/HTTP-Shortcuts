@@ -12,7 +12,7 @@ class ExtractBodyActionType(context: Context) : BaseActionType(context) {
 
     override val isValidBeforeAction = false
 
-    override fun fromDTO(actionDTO: ActionDTO) = ExtractBodyAction(actionDTO.id, this, actionDTO.data)
+    override fun fromDTO(actionDTO: ActionDTO) = ExtractBodyAction(this, actionDTO.data)
 
     companion object {
 

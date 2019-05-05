@@ -3,7 +3,7 @@ package ch.rmy.android.http_shortcuts.variables.types
 import android.app.TimePickerDialog
 import android.content.Context
 import android.text.format.DateFormat
-import ch.rmy.android.http_shortcuts.data.Controller
+import ch.rmy.android.http_shortcuts.data.Commons
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.rejectSafely
 import ch.rmy.android.http_shortcuts.utils.showIfPossible
@@ -16,7 +16,7 @@ internal class TimeType : BaseVariableType(), AsyncVariableType {
 
     override val hasTitle = false
 
-    override fun createDialog(context: Context, controller: Controller, variable: Variable, deferredValue: Deferred<String, Unit, Unit>): () -> Unit {
+    override fun createDialog(context: Context, variable: Variable, deferredValue: Deferred<String, Unit, Unit>): () -> Unit {
         val calendar = getInitialTime(variable.value)
         val timePicker = TimePickerDialog(context, TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
             val newDate = Calendar.getInstance()
@@ -27,7 +27,7 @@ internal class TimeType : BaseVariableType(), AsyncVariableType {
                     val dateFormat = SimpleDateFormat(variable.dataForType[KEY_FORMAT] ?: DEFAULT_FORMAT, Locale.US)
                     deferredValue.resolve(dateFormat.format(newDate.time))
                     if (variable.rememberValue) {
-                        controller.setVariableValue(variable.id, DATE_FORMAT.format(newDate.time)).subscribe()
+                        Commons.setVariableValue(variable.id, DATE_FORMAT.format(newDate.time)).subscribe()
                     }
                 } catch (e: Exception) {
                     deferredValue.rejectSafely(Unit)

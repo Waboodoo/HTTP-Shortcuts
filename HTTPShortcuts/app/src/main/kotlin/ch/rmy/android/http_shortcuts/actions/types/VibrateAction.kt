@@ -5,28 +5,28 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
-import ch.rmy.android.http_shortcuts.utils.PromiseUtils
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import com.android.volley.VolleyError
-import org.jdeferred2.Promise
+import io.reactivex.Completable
+import java.util.concurrent.TimeUnit
 
-class VibrateAction(id: String, actionType: VibrateActionType, data: Map<String, String>) : BaseAction(id, actionType, data) {
+class VibrateAction(actionType: VibrateActionType, data: Map<String, String>) : BaseAction(actionType, data) {
 
     override fun getDescription(context: Context) = pattern.getDescription(context)
 
-    override fun perform(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Promise<Unit, Throwable, Unit> {
+    override fun perform(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Completable {
         val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         if (!vibrator.hasVibrator()) {
-            return PromiseUtils.resolve(Unit)
+            return Completable.complete()
         }
         val pattern = pattern
         pattern.execute(vibrator)
-        return if (waitForCompletion) {
-            PromiseUtils.resolveDelayed(Unit, pattern.duration)
-        } else {
-            PromiseUtils.resolve(Unit)
-        }
+        return Completable.complete()
+            .mapIf(waitForCompletion) {
+                it.delay(pattern.duration, TimeUnit.MILLISECONDS)
+            }
     }
 
     var patternId

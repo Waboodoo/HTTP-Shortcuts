@@ -181,20 +181,6 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
             else -> getString(R.string.subtitle_authentication_none)
         }
 
-    fun getPreRequestActionsSettingsSubtitle(shortcut: Shortcut): CharSequence =
-        getQuantityString(
-            shortcut.beforeActions.size,
-            R.string.subtitle_actions_none,
-            R.plurals.subtitle_actions_pattern
-        )
-
-    fun getPostRequestActionsSettingsSubtitle(shortcut: Shortcut): CharSequence =
-        getQuantityString(
-            shortcut.successActions.size + shortcut.failureActions.size,
-            R.string.subtitle_actions_none,
-            R.plurals.subtitle_actions_pattern
-        )
-
     data class SaveResult(val id: String, val name: String, val iconName: String?, val nameOrIconChanged: Boolean)
 
     companion object {

@@ -171,13 +171,11 @@ class ShortcutEditorActivity : BaseActivity() {
                     variablePlaceholderColor
                 )
             }
-        preRequestActionsButton.subtitle = viewModel.getPreRequestActionsSettingsSubtitle(shortcut)
 
         if (!isBrowserShortcut) {
             headersButton.subtitle = viewModel.getHeadersSettingsSubtitle(shortcut)
             requestBodyButton.subtitle = viewModel.getRequestBodySettingsSubtitle(shortcut)
             authenticationButton.subtitle = viewModel.getAuthenticationSettingsSubtitle(shortcut)
-            postRequestActionsButton.subtitle = viewModel.getPostRequestActionsSettingsSubtitle(shortcut)
 
             requestBodyButton.isEnabled = shortcut.allowsBody()
         }

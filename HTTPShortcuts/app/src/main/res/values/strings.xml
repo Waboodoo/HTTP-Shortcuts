@@ -434,8 +434,12 @@
     <string name="button_add_action">Add Action</string>
     <!-- Section title in shortcut editor: "Before actions", i.e., shown above list of actions that execute before the shortcut -->
     <string name="label_actions_pre_request">Pre-Request Actions</string>
+    <!-- Section subtitle in shortcut editor: "Before actions", i.e., shown above list of actions that execute before the shortcut -->
+    <string name="label_actions_pre_request_subtitle">Define what to do before the request</string>
     <!-- Section title in shortcut editor: "Post-Request Actions", allows to configure what should happen when an HTTP request succeeds or fails -->
     <string name="label_actions_post_request">Post-Request Actions</string>
+    <!-- Section subtitle in shortcut editor: "Post-Request Actions", allows to configure what should happen when an HTTP request succeeds or fails -->
+    <string name="label_actions_post_request_subtitle">Define how to handle the response</string>
     <!-- Section title in shortcut editor, groups together miscellaneous settings -->
     <string name="label_misc_settings">Misc Settings</string>
     <!-- Section subtitle, shown underneath "Misc Settings", gives brief summary of what the section is about -->
@@ -594,13 +598,6 @@
     <plurals name="subtitle_request_headers_pattern">
         <item quantity="one">1 header set</item>
         <item quantity="other">%d headers set</item>
-    </plurals>
-    <!-- Section subtitle, shown in shortcut editor for "Pre-Request" and "Post-Request" options, shown when there are no such actions defined -->
-    <string name="subtitle_actions_none">No actions set</string>
-    <!-- Section subtitle, shown in shortcut editor for "Pre-Request" and "Post-Request" options, shown when there are one ore more such actions defined -->
-    <plurals name="subtitle_actions_pattern">
-        <item quantity="one">1 action set</item>
-        <item quantity="other">%d actions set</item>
     </plurals>
     <!-- Section subtitle, shown in shortcut editor when no authentication behavior is defined -->
     <string name="subtitle_authentication_none">No authentication</string>

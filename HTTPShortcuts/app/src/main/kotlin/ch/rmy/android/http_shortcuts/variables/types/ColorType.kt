@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
-import ch.rmy.android.http_shortcuts.data.Controller
+import ch.rmy.android.http_shortcuts.data.Commons
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.rejectSafely
 import me.priyesh.chroma.ChromaDialog
@@ -16,7 +16,7 @@ internal class ColorType : BaseVariableType(), AsyncVariableType {
 
     override val hasTitle = false
 
-    override fun createDialog(context: Context, controller: Controller, variable: Variable, deferredValue: Deferred<String, Unit, Unit>): () -> Unit {
+    override fun createDialog(context: Context, variable: Variable, deferredValue: Deferred<String, Unit, Unit>): () -> Unit {
         val dialog = ChromaDialog.Builder()
             .initialColor(getInitialColor(variable))
             .colorMode(ColorMode.RGB)
@@ -25,7 +25,7 @@ internal class ColorType : BaseVariableType(), AsyncVariableType {
                     if (variable.isValid) {
                         val colorFormatted = String.format("%06x", color and 0xffffff)
                         deferredValue.resolve(colorFormatted)
-                        controller.setVariableValue(variable.id, colorFormatted).subscribe()
+                        Commons.setVariableValue(variable.id, colorFormatted).subscribe()
                     }
                 }
             })

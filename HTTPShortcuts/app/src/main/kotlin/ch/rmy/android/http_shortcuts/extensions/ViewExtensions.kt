@@ -1,14 +1,12 @@
 package ch.rmy.android.http_shortcuts.extensions
 
 import android.content.Context
-import android.os.Build
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.LayoutRes
 import ch.rmy.android.http_shortcuts.R
@@ -44,15 +42,6 @@ fun View.showSoftKeyboard() {
     post {
         (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
             .showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
-    }
-}
-
-@Suppress("DEPRECATION")
-fun ImageView.clearBackground() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-        background = null
-    } else {
-        setBackgroundDrawable(null)
     }
 }
 

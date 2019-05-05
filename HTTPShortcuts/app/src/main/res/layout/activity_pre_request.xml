@@ -19,8 +19,13 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-
-
+            <EditText
+                android:id="@+id/input_code_prepare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="monospace"
+                android:gravity="top"
+                android:minLines="6" />
 
         </LinearLayout>
 

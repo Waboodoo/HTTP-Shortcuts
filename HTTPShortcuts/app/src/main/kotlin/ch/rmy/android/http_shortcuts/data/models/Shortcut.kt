@@ -1,7 +1,5 @@
 package ch.rmy.android.http_shortcuts.data.models
 
-import ch.rmy.android.http_shortcuts.actions.ActionDTO
-import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
@@ -45,9 +43,14 @@ open class Shortcut : RealmObject(), HasId {
     var requireConfirmation: Boolean = false
     var followRedirects: Boolean = true
 
-    var serializedBeforeActions: String? = "[]"
-    var serializedSuccessActions: String? = "[]"
-    var serializedFailureActions: String? = "[]"
+    @Required
+    var codeOnPrepare: String = ""
+
+    @Required
+    var codeOnSuccess: String = ""
+
+    @Required
+    var codeOnFailure: String = ""
 
     fun allowsBody(): Boolean =
         METHOD_POST == method
@@ -92,9 +95,9 @@ open class Shortcut : RealmObject(), HasId {
             other.headers.size != headers.size ||
             other.requestBodyType != requestBodyType ||
             other.contentType != contentType ||
-            other.serializedBeforeActions != serializedBeforeActions ||
-            other.serializedSuccessActions != serializedSuccessActions ||
-            other.serializedFailureActions != serializedFailureActions ||
+            other.codeOnPrepare != codeOnPrepare ||
+            other.codeOnSuccess != codeOnSuccess ||
+            other.codeOnFailure != codeOnFailure ||
             other.followRedirects != followRedirects
         ) {
             return false
@@ -107,24 +110,6 @@ open class Shortcut : RealmObject(), HasId {
         }
         return true
     }
-
-    var beforeActions: List<ActionDTO>
-        get() = GsonUtil.parseActionList(serializedBeforeActions)
-        set(value) {
-            serializedBeforeActions = GsonUtil.toJson(value)
-        }
-
-    var successActions: List<ActionDTO>
-        get() = GsonUtil.parseActionList(serializedSuccessActions)
-        set(value) {
-            serializedSuccessActions = GsonUtil.toJson(value)
-        }
-
-    var failureActions: List<ActionDTO>
-        get() = GsonUtil.parseActionList(serializedFailureActions)
-        set(value) {
-            serializedFailureActions = GsonUtil.toJson(value)
-        }
 
     val isFeedbackUsesUI
         get() = isFeedbackInWindow || isFeedbackInDialog
@@ -204,9 +189,9 @@ open class Shortcut : RealmObject(), HasId {
             headers = RealmList()
             requestBodyType = REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE
             contentType = DEFAULT_CONTENT_TYPE
-            serializedBeforeActions = "[]"
-            serializedSuccessActions = "[]"
-            serializedFailureActions = "[]"
+            codeOnPrepare = "[]"
+            codeOnSuccess = "[]"
+            codeOnFailure = "[]"
             followRedirects = true
             executionType = if (browserShortcut) EXECUTION_TYPE_BROWSER else EXECUTION_TYPE_APP
         }

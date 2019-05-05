@@ -13,7 +13,7 @@ class VibrateActionType(context: Context) : BaseActionType(context) {
 
     override val isAvailable = (context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator).hasVibrator()
 
-    override fun fromDTO(actionDTO: ActionDTO) = VibrateAction(actionDTO.id, this, actionDTO.data)
+    override fun fromDTO(actionDTO: ActionDTO) = VibrateAction(this, actionDTO.data)
 
     companion object {
 

@@ -2,23 +2,20 @@ package ch.rmy.android.http_shortcuts.actions.types
 
 import android.content.Context
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.data.Controller
-import ch.rmy.android.http_shortcuts.extensions.toPromise
+import ch.rmy.android.http_shortcuts.data.Commons
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
-import ch.rmy.android.http_shortcuts.utils.PromiseUtils
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.HttpHeaderParser
-import org.jdeferred2.Promise
+import io.reactivex.Completable
 import java.nio.charset.Charset
 
 class ExtractBodyAction(
-    id: String,
     actionType: ExtractBodyActionType,
     data: Map<String, String>
-) : BaseAction(id, actionType, data) {
+) : BaseAction(actionType, data) {
 
     var extractionType: String
         get() = internalData[KEY_EXTRACTION_TYPE] ?: ""
@@ -53,11 +50,11 @@ class ExtractBodyAction(
     override fun getDescription(context: Context): CharSequence =
         context.getString(R.string.action_type_extract_body_description, Variables.toRawPlaceholder(variableId))
 
-    override fun perform(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Promise<Unit, Throwable, Unit> {
+    override fun perform(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Completable {
         val body = when {
             response != null -> response.bodyAsString
             volleyError?.networkResponse?.data != null -> volleyError.networkResponse.data.toString(Charset.forName(HttpHeaderParser.parseCharset(volleyError.networkResponse.headers, "UTF-8")))
-            else -> return PromiseUtils.resolve(Unit)
+            else -> return Completable.complete()
         }
 
         val value = when (extractionType) {
@@ -72,7 +69,7 @@ class ExtractBodyAction(
                     end += body.length
                 }
                 if (start > end) {
-                    return PromiseUtils.resolve(Unit)
+                    return Completable.complete()
                 }
                 body.substring(start, end)
             }
@@ -87,7 +84,7 @@ class ExtractBodyAction(
                             json = when {
                                 json.isJsonArray -> json.asJsonArray[pathPart.toInt()]
                                 json.isJsonObject -> json.asJsonObject.get(pathPart)
-                                else -> return PromiseUtils.resolve(Unit)
+                                else -> return Completable.complete()
                             }
                         }
 
@@ -104,16 +101,14 @@ class ExtractBodyAction(
                         }
                     }
                 } catch (e: Exception) {
-                    return PromiseUtils.resolve(Unit)
+                    return Completable.complete()
                 }
             }
-            else -> return PromiseUtils.resolve(Unit)
+            else -> return Completable.complete()
         }
 
         variableValues[variableId] = value
-        Controller().use { controller ->
-            return controller.setVariableValue(variableId, value).toPromise()
-        }
+        return Commons.setVariableValue(variableId, value)
     }
 
     override fun createEditorView(context: Context, variablePlaceholderProvider: VariablePlaceholderProvider) =

@@ -134,7 +134,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
-                android:text="@string/label_actions_pre_request" />
+                android:text="@string/label_actions_pre_request"
+                app:subtitle="@string/label_actions_pre_request_subtitle" />
 
             <include layout="@layout/divider_line" />
 
@@ -144,7 +145,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
-                android:text="@string/label_actions_post_request" />
+                android:text="@string/label_actions_post_request"
+                app:subtitle="@string/label_actions_post_request_subtitle" />
 
             <include
                 android:id="@+id/divider_below_post_request_actions"

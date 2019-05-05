@@ -11,11 +11,11 @@ import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import com.afollestad.materialdialogs.MaterialDialog
 import com.android.volley.VolleyError
+import io.reactivex.Completable
 import org.jdeferred2.Promise
 import org.jdeferred2.impl.DeferredObject
 
 abstract class BaseAction(
-    val id: String,
     val actionType: BaseActionType,
     data: Map<String, String>
 ) {
@@ -23,19 +23,16 @@ abstract class BaseAction(
     protected val internalData = data.toMutableMap()
 
     fun toDTO() = ActionDTO(
-        id = id,
         type = actionType.type,
         data = internalData
     )
 
     abstract fun getDescription(context: Context): CharSequence
 
-    open fun perform(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Promise<Unit, Throwable, Unit> =
-        try {
+    open fun perform(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Completable =
+        Completable.create { emitter ->
             performBlocking(context, shortcutId, variableValues, response, volleyError, recursionDepth)
-            PromiseUtils.resolve(Unit)
-        } catch (e: Throwable) {
-            PromiseUtils.reject(e)
+            emitter.onComplete()
         }
 
     protected open fun performBlocking(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int) {

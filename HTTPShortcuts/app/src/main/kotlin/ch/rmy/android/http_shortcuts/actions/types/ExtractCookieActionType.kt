@@ -12,7 +12,7 @@ class ExtractCookieActionType(context: Context) : BaseActionType(context) {
 
     override val isValidBeforeAction = false
 
-    override fun fromDTO(actionDTO: ActionDTO) = ExtractCookieAction(actionDTO.id, this, actionDTO.data)
+    override fun fromDTO(actionDTO: ActionDTO) = ExtractCookieAction(this, actionDTO.data)
 
     companion object {
 

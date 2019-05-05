@@ -11,7 +11,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.actions.ActionDTO
 import ch.rmy.android.http_shortcuts.actions.types.ActionFactory
 import ch.rmy.android.http_shortcuts.data.Controller
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
@@ -23,10 +22,12 @@ import ch.rmy.android.http_shortcuts.extensions.rejectSafely
 import ch.rmy.android.http_shortcuts.extensions.resolveSafely
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
+import ch.rmy.android.http_shortcuts.extensions.toPromise
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.http.HttpRequester
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
+import ch.rmy.android.http_shortcuts.scripting.ScriptExecutor
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.DateUtil
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
@@ -41,6 +42,8 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.android.volley.VolleyError
 import com.github.chen0040.androidcodeview.SourceCodeView
 import fr.castorflex.android.circularprogressbar.CircularProgressBar
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotterknife.bindView
 import org.jdeferred2.DoneFilter
 import org.jdeferred2.DonePipe
@@ -65,6 +68,9 @@ class ExecuteActivity : BaseActivity() {
 
     private val actionFactory by lazy {
         ActionFactory(context)
+    }
+    private val scriptExecutor: ScriptExecutor by lazy {
+        ScriptExecutor(actionFactory)
     }
 
     private val shortcutId: String by lazy {
@@ -184,7 +190,10 @@ class ExecuteActivity : BaseActivity() {
     private fun executeWithActions(resolvedVariables: MutableMap<String, String>): Promise<Unit, Throwable, Unit> {
         showProgress()
         return if (tryNumber == 0 || (tryNumber == 1 && shortcut.delay > 0)) {
-            iterateActions(shortcut.beforeActions.iterator(), resolvedVariables)
+            scriptExecutor.execute(context, shortcut.codeOnPrepare, shortcut.id, resolvedVariables)
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .toPromise()
         } else {
             PromiseUtils.resolve(Unit)
         }
@@ -195,9 +204,29 @@ class ExecuteActivity : BaseActivity() {
                 } else {
                     executeShortcut(resolvedVariables)
                         .then(DonePipe<ShortcutResponse, Unit, Throwable, Unit> { response ->
-                            iterateActions(shortcut.successActions.iterator(), resolvedVariables, response = response)
+                            scriptExecutor.execute(
+                                context = context,
+                                script = shortcut.codeOnSuccess,
+                                shortcutId = shortcut.id,
+                                variableValues = resolvedVariables,
+                                response = response,
+                                recursionDepth = recursionDepth
+                            )
+                                .subscribeOn(Schedulers.computation())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .toPromise()
                         }, FailPipe { error ->
-                            iterateActions(shortcut.failureActions.iterator(), resolvedVariables, volleyError = error)
+                            scriptExecutor.execute(
+                                context = context,
+                                script = shortcut.codeOnFailure,
+                                shortcutId = shortcut.id,
+                                variableValues = resolvedVariables,
+                                volleyError = error,
+                                recursionDepth = recursionDepth
+                            )
+                                .subscribeOn(Schedulers.computation())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .toPromise()
                         })
                 }
             })
@@ -250,25 +279,6 @@ class ExecuteActivity : BaseActivity() {
                     displayOutput(generateOutputFromError(error, simple), ShortcutResponse.TYPE_TEXT)
                 }
             }
-    }
-
-    private fun iterateActions(
-        iterator: Iterator<ActionDTO>,
-        resolvedVariables: MutableMap<String, String>,
-        response: ShortcutResponse? = null,
-        volleyError: VolleyError? = null
-    ): Promise<Unit, Throwable, Unit> {
-        if (iterator.hasNext()) {
-            val action = actionFactory.fromDTO(iterator.next())
-            return action.perform(context, shortcut.id, resolvedVariables, response, volleyError, recursionDepth)
-                .then(DonePipe<Unit, Unit, Throwable, Unit> {
-                    iterateActions(iterator, resolvedVariables, response, volleyError)
-                })
-                .fail { e ->
-                    logException(e)
-                }
-        }
-        return PromiseUtils.resolve(Unit)
     }
 
     private fun rescheduleExecution(resolvedVariables: Map<String, String>) {
