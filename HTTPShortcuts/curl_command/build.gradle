@@ -1,8 +1,20 @@
-apply plugin: 'java'
+buildscript {
+    repositories {
+        jcenter()
+    }
 
-dependencies {
-    testCompile 'junit:junit:4.12'
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.21"
+    }
 }
 
-sourceCompatibility = "1.7"
-targetCompatibility = "1.7"
+apply plugin: 'kotlin'
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.21"
+
+    testCompile "junit:junit:$junitVersion"
+}
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
