@@ -35,6 +35,7 @@ import ch.rmy.android.http_shortcuts.extensions.focus
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
 import ch.rmy.android.http_shortcuts.extensions.setTextSafely
+import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
@@ -47,7 +48,6 @@ import ch.rmy.android.http_shortcuts.utils.IpackUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.utils.Validation
-import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.android.http_shortcuts.views.PanelButton

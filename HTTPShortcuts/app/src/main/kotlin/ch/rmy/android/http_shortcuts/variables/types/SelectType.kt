@@ -4,27 +4,27 @@ import android.content.Context
 import ch.rmy.android.http_shortcuts.data.Commons
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.mapFor
-import ch.rmy.android.http_shortcuts.utils.showIfPossible
-import org.jdeferred2.Deferred
+import ch.rmy.android.http_shortcuts.extensions.showIfPossible
+import io.reactivex.Single
 
 internal class SelectType : BaseVariableType(), AsyncVariableType {
 
     override val hasTitle = true
 
-    override fun createDialog(context: Context, variable: Variable, deferredValue: Deferred<String, Unit, Unit>): () -> Unit {
-        val builder = createDialogBuilder(context, variable, deferredValue)
-            .mapFor(variable.options!!) { builder, option ->
-                builder.item(option.labelOrValue) {
-                    if (variable.isValid) {
-                        deferredValue.resolve(option.value)
-                        Commons.setVariableValue(variable.id, option.value).subscribe()
+    override fun resolveValue(context: Context, variable: Variable): Single<String> =
+        Single.create<String> { emitter ->
+            createDialogBuilder(context, variable, emitter)
+                .mapFor(variable.options!!) { builder, option ->
+                    builder.item(option.labelOrValue) {
+                        emitter.onSuccess(option.value)
                     }
                 }
-            }
-        return {
-            builder.showIfPossible()
+                .showIfPossible()
         }
-    }
+            .flatMap { resolvedValue ->
+                Commons.setVariableValue(variable.id, resolvedValue)
+                    .toSingle { resolvedValue }
+            }
 
     override fun createEditorFragment() = SelectEditorFragment()
 

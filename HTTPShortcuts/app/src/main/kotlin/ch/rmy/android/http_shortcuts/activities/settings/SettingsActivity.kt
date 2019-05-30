@@ -26,6 +26,7 @@ import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
@@ -36,7 +37,6 @@ import ch.rmy.android.http_shortcuts.utils.CrashReporting
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
-import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
 import com.google.gson.JsonParseException
 import com.google.gson.JsonSyntaxException

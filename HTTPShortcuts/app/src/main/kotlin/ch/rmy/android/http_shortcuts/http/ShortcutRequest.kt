@@ -1,26 +1,21 @@
 package ch.rmy.android.http_shortcuts.http
 
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.extensions.rejectSafely
-import ch.rmy.android.http_shortcuts.extensions.resolveSafely
 import ch.rmy.android.http_shortcuts.utils.UserAgentUtil
 import com.android.volley.AuthFailureError
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.NetworkResponse
 import com.android.volley.Request
 import com.android.volley.Response
-import com.android.volley.VolleyError
+import io.reactivex.SingleEmitter
 import okhttp3.Credentials
 import org.apache.http.HttpHeaders
-import org.jdeferred2.Deferred
-import org.jdeferred2.Promise
-import org.jdeferred2.impl.DeferredObject
 
 internal class ShortcutRequest private constructor(
     method: Int,
     url: String,
-    private val deferred: Deferred<ShortcutResponse, VolleyError, Unit>
-) : Request<ShortcutResponse>(method, url, Response.ErrorListener { error -> deferred.rejectSafely(error) }) {
+    private val emitter: SingleEmitter<ShortcutResponse>
+) : Request<ShortcutResponse>(method, url, Response.ErrorListener(emitter::onError)) {
 
     private val parameters = mutableMapOf<String, String>()
     private val headers = mutableMapOf<String, String>()
@@ -50,7 +45,7 @@ internal class ShortcutRequest private constructor(
         Response.success(ShortcutResponse(response.headers, response.statusCode, response.data), null)
 
     override fun deliverResponse(response: ShortcutResponse) {
-        deferred.resolveSafely(response)
+        emitter.onSuccess(response)
     }
 
     private fun constructFormDataBody(): String =
@@ -65,15 +60,12 @@ internal class ShortcutRequest private constructor(
                 append("\n--$FORM_MULTIPART_BOUNDARY--\n")
             }.toString()
 
-    val promise: Promise<ShortcutResponse, VolleyError, Unit>
-        get() = deferred.promise()
-
-    internal class Builder(method: String, url: String) {
+    internal class Builder(method: String, url: String, emitter: SingleEmitter<ShortcutResponse>) {
 
         private val request: ShortcutRequest
 
         init {
-            request = ShortcutRequest(getMethod(method), url, DeferredObject<ShortcutResponse, VolleyError, Unit>())
+            request = ShortcutRequest(getMethod(method), url, emitter)
         }
 
         private fun getMethod(method: String) = when (method) {

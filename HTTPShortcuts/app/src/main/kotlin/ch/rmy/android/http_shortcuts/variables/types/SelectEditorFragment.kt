@@ -10,10 +10,10 @@ import ch.rmy.android.http_shortcuts.data.models.Option
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.mapIf
+import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.extensions.showMessageDialog
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
-import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils.bindVariableViews

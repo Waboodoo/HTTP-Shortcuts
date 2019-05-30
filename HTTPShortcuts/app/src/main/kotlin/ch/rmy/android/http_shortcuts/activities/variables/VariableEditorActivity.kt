@@ -15,9 +15,9 @@ import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.focus
 import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
+import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
-import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.android.http_shortcuts.variables.types.AsyncVariableType
 import ch.rmy.android.http_shortcuts.variables.types.VariableEditorFragment

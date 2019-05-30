@@ -5,7 +5,7 @@ import android.content.Context
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.utils.showIfPossible
+import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
 import io.reactivex.Maybe
 import io.reactivex.subjects.MaybeSubject

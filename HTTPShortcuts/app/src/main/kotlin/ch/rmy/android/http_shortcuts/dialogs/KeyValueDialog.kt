@@ -7,9 +7,9 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
+import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.extensions.showSoftKeyboard
 import ch.rmy.android.http_shortcuts.utils.Destroyer
-import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider

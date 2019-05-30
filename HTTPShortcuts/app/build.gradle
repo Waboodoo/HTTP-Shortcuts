@@ -124,9 +124,6 @@ dependencies {
     /* cURL import & export */
     implementation project(path: ':curl_command')
 
-    /* Promises */
-    implementation 'org.jdeferred.v2:jdeferred-android-aar:2.0.0-beta1'
-
     /* JSON serialization & deserialization */
     implementation 'com.google.code.gson:gson:2.8.5'
 

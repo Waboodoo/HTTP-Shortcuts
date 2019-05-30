@@ -25,6 +25,7 @@ import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.extensions.visible
@@ -32,7 +33,6 @@ import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.SelectionMode
-import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.curlcommand.CurlCommand
 import com.afollestad.materialdialogs.MaterialDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -310,6 +310,10 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     }
 
     override fun isAppLocked() = viewModel.isAppLocked()
+
+    override fun onDestroy() {
+        super.onDestroy()
+    }
 
     companion object {
 

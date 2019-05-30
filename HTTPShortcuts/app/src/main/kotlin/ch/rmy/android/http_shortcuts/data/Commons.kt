@@ -1,13 +1,18 @@
 package ch.rmy.android.http_shortcuts.data
 
+import androidx.annotation.CheckResult
+import io.reactivex.Completable
+
 object Commons { // TODO: Find better name
 
-    fun setVariableValue(variableId: String, value: String) =
+    @CheckResult
+    fun setVariableValue(variableId: String, value: String): Completable =
         Transactions.commit { realm ->
             Repository.getVariableById(realm, variableId)?.value = value
         }
 
-    fun resetVariableValues(variableIds: List<String>) =
+    @CheckResult
+    fun resetVariableValues(variableIds: List<String>): Completable =
         Transactions.commit { realm ->
             variableIds.forEach { variableId ->
                 Repository.getVariableById(realm, variableId)?.value = ""

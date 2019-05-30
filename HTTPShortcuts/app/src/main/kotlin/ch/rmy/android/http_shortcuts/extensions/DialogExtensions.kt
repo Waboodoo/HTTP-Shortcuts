@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.utils
+package ch.rmy.android.http_shortcuts.extensions
 
 import android.app.Activity
 import android.app.Dialog

@@ -15,47 +15,42 @@ import ch.rmy.android.http_shortcuts.actions.types.ActionFactory
 import ch.rmy.android.http_shortcuts.data.Controller
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.attachTo
+import ch.rmy.android.http_shortcuts.extensions.cancel
 import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.detachFromRealm
 import ch.rmy.android.http_shortcuts.extensions.logException
-import ch.rmy.android.http_shortcuts.extensions.rejectSafely
-import ch.rmy.android.http_shortcuts.extensions.resolveSafely
+import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
-import ch.rmy.android.http_shortcuts.extensions.toPromise
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.http.HttpRequester
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.scripting.ScriptExecutor
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
+import ch.rmy.android.http_shortcuts.utils.CanceledByUserException
 import ch.rmy.android.http_shortcuts.utils.DateUtil
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
-import ch.rmy.android.http_shortcuts.utils.NetworkUtil
-import ch.rmy.android.http_shortcuts.utils.PromiseUtils
 import ch.rmy.android.http_shortcuts.utils.Validation
-import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import ch.rmy.android.http_shortcuts.variables.Variables
 import com.afollestad.materialdialogs.MaterialDialog
 import com.android.volley.VolleyError
 import com.github.chen0040.androidcodeview.SourceCodeView
 import fr.castorflex.android.circularprogressbar.CircularProgressBar
+import io.reactivex.Completable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotterknife.bindView
-import org.jdeferred2.DoneFilter
-import org.jdeferred2.DonePipe
-import org.jdeferred2.FailFilter
-import org.jdeferred2.FailPipe
-import org.jdeferred2.Promise
-import org.jdeferred2.impl.DeferredObject
 import java.util.*
 
 class ExecuteActivity : BaseActivity() {
 
-    private val controller by lazy { Controller() }
+    private val controller by lazy {
+        destroyer.own(Controller())
+    }
     private lateinit var shortcut: Shortcut
     private var lastResponse: ShortcutResponse? = null
 
@@ -94,7 +89,6 @@ class ExecuteActivity : BaseActivity() {
 
         shortcut = controller.getShortcutById(shortcutId)?.detachFromRealm() ?: run {
             showToast(getString(R.string.shortcut_not_found), long = true)
-            controller.destroy()
             finishWithoutAnimation()
             return
         }
@@ -106,104 +100,90 @@ class ExecuteActivity : BaseActivity() {
             }
         }
 
-        val promise = if (shortcut.requireConfirmation) {
+        destroyer.own {
+            ExecutionScheduler.schedule(context)
+        }
+
+        if (shortcut.requireConfirmation) {
             promptForConfirmation()
-                .then(DonePipe {
-                    resolveVariablesAndExecute(variableValues, waitForExecution = shouldRunExecutionInForeground())
-                })
         } else {
-            resolveVariablesAndExecute(variableValues, waitForExecution = shouldRunExecutionInForeground())
+            Completable.complete()
         }
-        if (shouldFinishAfterExecution()) {
-            finishAfter(promise)
-        }
+            .concatWith(resolveVariablesAndExecute(variableValues))
+            .subscribe(
+                {
+                    if (shouldFinishAfterExecution()) {
+                        finishWithoutAnimation()
+                    }
+                },
+                { error ->
+                    if (error !is CanceledByUserException) {
+                        logException(error) // TODO
+                    }
+                    finishWithoutAnimation()
+                }
+            )
+            .attachTo(destroyer)
     }
 
     private fun shouldFinishAfterExecution() =
         !shortcut.isFeedbackUsesUI || shouldDelayExecution()
 
-    private fun shouldRunExecutionInForeground() =
-        NetworkUtil.isNetworkPerformanceRestricted(context)
-
     private fun shouldDelayExecution() =
         shortcut.delay > 0 && tryNumber == 0
 
-    private fun finishAfter(promise: Promise<*, *, *>) {
-        if (promise.isPending) {
-            promise
-                .always { _, _, _ ->
-                    finishWithoutAnimation()
+    private fun promptForConfirmation(): Completable =
+        Completable.create { emitter ->
+            MaterialDialog.Builder(context)
+                .title(shortcutName)
+                .content(R.string.dialog_message_confirm_shortcut_execution)
+                .dismissListener {
+                    emitter.cancel()
                 }
-        } else {
-            finishWithoutAnimation()
+                .positiveText(R.string.dialog_ok)
+                .onPositive { _, _ ->
+                    emitter.onComplete()
+                }
+                .negativeText(R.string.dialog_cancel)
+                .showIfPossible()
+                ?: run {
+                    emitter.cancel()
+                }
         }
-    }
 
-    private fun promptForConfirmation(): Promise<Unit, Unit, Unit> {
-        val deferred = DeferredObject<Unit, Unit, Unit>()
-        MaterialDialog.Builder(context)
-            .title(shortcutName)
-            .content(R.string.dialog_message_confirm_shortcut_execution)
-            .dismissListener {
-                deferred.rejectSafely(Unit)
-            }
-            .positiveText(R.string.dialog_ok)
-            .onPositive { _, _ ->
-                deferred.resolveSafely(Unit)
-            }
-            .negativeText(R.string.dialog_cancel)
-            .showIfPossible()
-            ?: run {
-                deferred.rejectSafely(Unit)
-            }
-        return deferred
-    }
-
-    private fun resolveVariablesAndExecute(variableValues: Map<String, String>, waitForExecution: Boolean): Promise<Unit, Unit, Unit> =
+    private fun resolveVariablesAndExecute(variableValues: Map<String, String>): Completable =
         VariableResolver(context)
             .resolve(controller, shortcut, variableValues)
-            .then(DonePipe<Map<String, String>, Unit, Unit, Unit> { resolvedVariables ->
+            .flatMapCompletable { resolvedVariables ->
                 if (shouldDelayExecution()) {
                     val waitUntil = DateUtil.calculateDate(shortcut.delay)
                     controller.createPendingExecution(shortcut.id, resolvedVariables, tryNumber, waitUntil, shortcut.isWaitForNetwork)
-                        .doOnTerminate {
-                            controller.destroy()
-                        }
-                        .subscribe {
-                            ExecutionScheduler.schedule(context)
-                        }
-                    PromiseUtils.resolve(Unit)
                 } else {
-                    val promise = executeWithActions(resolvedVariables.toMutableMap())
-                    if (waitForExecution) {
-                        promise.then(DoneFilter { }, FailFilter { })
-                    } else {
-                        PromiseUtils.resolve(Unit)
-                    }
+                    executeWithActions(resolvedVariables.toMutableMap())
                 }
-            })
-            .fail {
-                controller.destroy()
-                finishWithoutAnimation()
             }
 
-    private fun executeWithActions(resolvedVariables: MutableMap<String, String>): Promise<Unit, Throwable, Unit> {
-        showProgress()
-        return if (tryNumber == 0 || (tryNumber == 1 && shortcut.delay > 0)) {
-            scriptExecutor.execute(context, shortcut.codeOnPrepare, shortcut.id, resolvedVariables)
-                .subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .toPromise()
-        } else {
-            PromiseUtils.resolve(Unit)
+    private fun executeWithActions(resolvedVariables: MutableMap<String, String>): Completable {
+        return Completable.fromAction {
+            showProgress()
         }
-            .then(DonePipe<Unit, Unit, Throwable, Unit> {
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .concatWith(
+                if (tryNumber == 0 || (tryNumber == 1 && shortcut.delay > 0)) {
+                    scriptExecutor.execute(context, shortcut.codeOnPrepare, shortcut.id, resolvedVariables)
+                        .subscribeOn(Schedulers.computation())
+                        .observeOn(AndroidSchedulers.mainThread())
+                } else {
+                    Completable.complete()
+                }
+            )
+            .concatWith(
                 if (shortcut.isBrowserShortcut) {
                     openShortcutInBrowser(resolvedVariables)
-                    PromiseUtils.resolve(Unit)
+                    Completable.complete()
                 } else {
                     executeShortcut(resolvedVariables)
-                        .then(DonePipe<ShortcutResponse, Unit, Throwable, Unit> { response ->
+                        .flatMapCompletable { response ->
                             scriptExecutor.execute(
                                 context = context,
                                 script = shortcut.codeOnSuccess,
@@ -214,23 +194,22 @@ class ExecuteActivity : BaseActivity() {
                             )
                                 .subscribeOn(Schedulers.computation())
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .toPromise()
-                        }, FailPipe { error ->
+                        }
+                        .onErrorResumeNext { error ->
                             scriptExecutor.execute(
                                 context = context,
                                 script = shortcut.codeOnFailure,
                                 shortcutId = shortcut.id,
                                 variableValues = resolvedVariables,
-                                volleyError = error,
+                                volleyError = error as? VolleyError?,
                                 recursionDepth = recursionDepth
                             )
                                 .subscribeOn(Schedulers.computation())
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .toPromise()
-                        })
+                        }
                 }
-            })
-            .always { _, _, _ ->
+            )
+            .doOnTerminate {
                 hideProgress()
                 controller.destroy()
             }
@@ -254,9 +233,9 @@ class ExecuteActivity : BaseActivity() {
         }
     }
 
-    private fun executeShortcut(resolvedVariables: Map<String, String>): Promise<ShortcutResponse, VolleyError, Unit> {
-        return HttpRequester.executeShortcut(context, shortcut, resolvedVariables)
-            .done { response ->
+    private fun executeShortcut(resolvedVariables: Map<String, String>): Single<ShortcutResponse> =
+        HttpRequester.executeShortcut(context, shortcut, resolvedVariables)
+            .doOnSuccess { response ->
                 setLastResponse(response)
                 if (shortcut.isFeedbackErrorsOnly()) {
                     finishWithoutAnimation()
@@ -266,8 +245,8 @@ class ExecuteActivity : BaseActivity() {
                     displayOutput(output, response.contentType)
                 }
             }
-            .fail { error ->
-                if (!shortcut.isFeedbackUsesUI && shortcut.isWaitForNetwork && error.networkResponse == null) {
+            .doOnError { error ->
+                if (!shortcut.isFeedbackUsesUI && shortcut.isWaitForNetwork && (error as? VolleyError)?.networkResponse == null) {
                     rescheduleExecution(resolvedVariables)
                     if (shortcut.feedback != Shortcut.FEEDBACK_NONE && tryNumber == 0) {
                         showToast(String.format(context.getString(R.string.execution_delayed), shortcutName), long = true)
@@ -279,7 +258,6 @@ class ExecuteActivity : BaseActivity() {
                     displayOutput(generateOutputFromError(error, simple), ShortcutResponse.TYPE_TEXT)
                 }
             }
-    }
 
     private fun rescheduleExecution(resolvedVariables: Map<String, String>) {
         if (tryNumber < MAX_RETRY) {
@@ -296,8 +274,8 @@ class ExecuteActivity : BaseActivity() {
 
     private fun generateOutputFromResponse(response: ShortcutResponse) = response.bodyAsString
 
-    private fun generateOutputFromError(error: VolleyError, simple: Boolean): String {
-        if (error.networkResponse != null) {
+    private fun generateOutputFromError(error: Throwable, simple: Boolean): String {
+        if (error is VolleyError && error.networkResponse != null) {
             val builder = StringBuilder()
             builder.append(String.format(getString(R.string.error_http), shortcutName, error.networkResponse.statusCode))
 
@@ -417,11 +395,6 @@ class ExecuteActivity : BaseActivity() {
             showToast(getString(R.string.error_share_failed), long = true)
             logException(e)
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        ExecutionScheduler.schedule(context)
     }
 
     override val navigateUpIcon = R.drawable.ic_clear

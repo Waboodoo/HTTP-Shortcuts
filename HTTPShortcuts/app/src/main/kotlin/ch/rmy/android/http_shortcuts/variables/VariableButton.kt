@@ -9,8 +9,8 @@ import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.mapIf
+import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.extensions.startActivity
-import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject

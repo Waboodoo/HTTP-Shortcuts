@@ -16,16 +16,8 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.utils.CrashReporting
 import ch.rmy.android.http_shortcuts.utils.Destroyable
 import ch.rmy.android.http_shortcuts.utils.Destroyer
-import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
-import io.reactivex.Completable
 import io.reactivex.disposables.Disposable
-import org.jdeferred2.Deferred
-import org.jdeferred2.DoneFilter
-import org.jdeferred2.FailFilter
-import org.jdeferred2.ProgressFilter
-import org.jdeferred2.Promise
-import org.jdeferred2.impl.DeferredObject
 
 fun Fragment.showMessageDialog(@StringRes stringRes: Int) {
     MaterialDialog.Builder(context!!)
@@ -74,45 +66,6 @@ fun Context.showToast(@StringRes message: Int, long: Boolean = false) {
     Toast.makeText(this, message, if (long) Toast.LENGTH_LONG else Toast.LENGTH_SHORT).show()
 }
 
-fun <T, U, F, P> Promise<T, F, P>.filter(filter: (T) -> U) = this.then(DoneFilter<T, U> { result -> filter(result) }, null as FailFilter<F, F>?, null as ProgressFilter<P, P>?)!!
-
-fun <T, U, V> Deferred<T, U, V>.rejectSafely(reject: U): Deferred<T, U, V> =
-    if (isPending) {
-        reject(reject)
-    } else {
-        this
-    }
-
-fun <T, U, V> Deferred<T, U, V>.resolveSafely(resolve: T): Deferred<T, U, V> =
-    if (isPending) {
-        resolve(resolve)
-    } else {
-        this
-    }
-
-/*
-fun CurlCommand.applyToShortcut(shortcut: Shortcut) {
-    shortcut.url = url
-    shortcut.method = method
-    shortcut.bodyContent = data
-    shortcut.requestBodyType = Shortcut.REQUEST_BODY_TYPE_CUSTOM_TEXT
-    shortcut.username = username
-    shortcut.password = password
-    if (!username.isNullOrEmpty() || !password.isNullOrEmpty()) {
-        shortcut.authentication = Shortcut.AUTHENTICATION_BASIC
-    }
-    if (timeout != 0) {
-        shortcut.timeout = timeout
-    }
-    for ((key, value) in headers) {
-        if (key.equals(HttpHeaders.CONTENT_TYPE, ignoreCase = true)) {
-            shortcut.contentType = value
-        } else {
-            shortcut.headers.add(Header.createNew(key, value))
-        }
-    }
-}*/
-
 fun <T> Array<T>.findIndex(item: T) =
     indices.firstOrNull { this[it] == item } ?: 0
 
@@ -124,14 +77,4 @@ fun Disposable.toDestroyable() = object : Destroyable {
 
 fun Disposable.attachTo(destroyer: Destroyer) {
     destroyer.own { dispose() }
-}
-
-fun Completable.toPromise(): Promise<Unit, Throwable, Unit> {
-    val deferred = DeferredObject<Unit, Throwable, Unit>()
-    subscribe({
-        deferred.resolveSafely(Unit)
-    }, {
-        deferred.rejectSafely(it)
-    })
-    return deferred.promise()
 }

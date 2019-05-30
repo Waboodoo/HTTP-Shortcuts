@@ -6,54 +6,54 @@ import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.variables.Variables
 import com.android.volley.RequestQueue
-import com.android.volley.VolleyError
 import com.android.volley.toolbox.Volley
-import org.jdeferred2.Promise
+import io.reactivex.Single
 
 object HttpRequester {
 
-    fun executeShortcut(context: Context, detachedShortcut: Shortcut, variables: Map<String, String>): Promise<ShortcutResponse, VolleyError, Unit> {
+    fun executeShortcut(context: Context, detachedShortcut: Shortcut, variables: Map<String, String>): Single<ShortcutResponse> {
         val url = Variables.rawPlaceholdersToResolvedValues(detachedShortcut.url, variables)
         val username = Variables.rawPlaceholdersToResolvedValues(detachedShortcut.username, variables)
         val password = Variables.rawPlaceholdersToResolvedValues(detachedShortcut.password, variables)
         val body = Variables.rawPlaceholdersToResolvedValues(detachedShortcut.bodyContent, variables)
         val acceptAllCertificates = detachedShortcut.acceptAllCertificates
 
-        val request = ShortcutRequest.Builder(detachedShortcut.method, url)
-            .mapIf(detachedShortcut.usesCustomBody()) {
-                it.body(body)
-            }
-            .contentType(determineContentType(detachedShortcut))
-            .timeout(detachedShortcut.timeout)
-            .mapIf(detachedShortcut.usesBasicAuthentication()) {
-                it.basicAuth(username, password)
-            }
-            .mapIf(detachedShortcut.usesRequestParameters()) {
-                it.mapFor(detachedShortcut.parameters) { builder, parameter ->
-                    builder.parameter(
-                        Variables.rawPlaceholdersToResolvedValues(parameter.key, variables),
-                        Variables.rawPlaceholdersToResolvedValues(parameter.value, variables)
+        return Single.create<ShortcutResponse> { emitter ->
+            val request = ShortcutRequest.Builder(detachedShortcut.method, url, emitter)
+                .mapIf(detachedShortcut.usesCustomBody()) {
+                    it.body(body)
+                }
+                .contentType(determineContentType(detachedShortcut))
+                .timeout(detachedShortcut.timeout)
+                .mapIf(detachedShortcut.usesBasicAuthentication()) {
+                    it.basicAuth(username, password)
+                }
+                .mapIf(detachedShortcut.usesRequestParameters()) {
+                    it.mapFor(detachedShortcut.parameters) { builder, parameter ->
+                        builder.parameter(
+                            Variables.rawPlaceholdersToResolvedValues(parameter.key, variables),
+                            Variables.rawPlaceholdersToResolvedValues(parameter.value, variables)
+                        )
+                    }
+                }
+                .mapFor(detachedShortcut.headers) { builder, header ->
+                    builder.header(
+                        Variables.rawPlaceholdersToResolvedValues(header.key, variables),
+                        Variables.rawPlaceholdersToResolvedValues(header.value, variables)
                     )
                 }
-            }
-            .mapFor(detachedShortcut.headers) { builder, header ->
-                builder.header(
-                    Variables.rawPlaceholdersToResolvedValues(header.key, variables),
-                    Variables.rawPlaceholdersToResolvedValues(header.value, variables)
-                )
-            }
-            .build()
+                .build()
 
-        getQueue(
-            context,
-            acceptAllCertificates,
-            username.takeIf { detachedShortcut.usesDigestAuthentication() },
-            password.takeIf { detachedShortcut.usesDigestAuthentication() },
-            detachedShortcut.followRedirects
-        )
-            .add(request)
+            getQueue(
+                context,
+                acceptAllCertificates,
+                username.takeIf { detachedShortcut.usesDigestAuthentication() },
+                password.takeIf { detachedShortcut.usesDigestAuthentication() },
+                detachedShortcut.followRedirects
+            )
+                .add(request)
 
-        return request.promise
+        }
     }
 
     private fun determineContentType(shortcut: Shortcut): String = when {

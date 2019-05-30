@@ -43,7 +43,7 @@ class LicensesActivity : BaseActivity() {
             "flaticons",
             "bitsies",
             "filepicker",
-            "jdeferred",
+            "rxjava",
             "vintagechroma",
             "codeviewandroid",
             "stetho",

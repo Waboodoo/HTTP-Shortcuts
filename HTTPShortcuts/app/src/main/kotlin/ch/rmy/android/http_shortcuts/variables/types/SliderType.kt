@@ -7,56 +7,59 @@ import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.Commons
 import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.extensions.mapIf
+import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.utils.SimpleOnSeekBarChangeListener
-import ch.rmy.android.http_shortcuts.utils.showIfPossible
-import org.jdeferred2.Deferred
+import io.reactivex.Single
 
 
 internal class SliderType : BaseVariableType(), AsyncVariableType {
 
     override val hasTitle = true
 
-    override fun createDialog(context: Context, variable: Variable, deferredValue: Deferred<String, Unit, Unit>): () -> Unit {
-        val view = LayoutInflater.from(context).inflate(R.layout.variable_dialog_slider, null)
+    override fun resolveValue(context: Context, variable: Variable): Single<String> =
+        Single.create<String> { emitter ->
+            val view = LayoutInflater.from(context).inflate(R.layout.variable_dialog_slider, null)
 
-        val slider = view.findViewById<SeekBar>(R.id.slider)
-        val label = view.findViewById<TextView>(R.id.slider_value)
+            val slider = view.findViewById<SeekBar>(R.id.slider)
+            val label = view.findViewById<TextView>(R.id.slider_value)
 
-        slider.max = findSliderMax(variable)
+            slider.max = findSliderMax(variable)
 
-        if (variable.rememberValue) {
-            val value = variable.value?.toIntOrNull() ?: 0
-            val sliderValue = (value - findMin(variable)) / findStep(variable)
-            if (sliderValue >= 0 && sliderValue <= slider.max) {
-                slider.progress = sliderValue
-            }
-        }
-
-        slider.setOnSeekBarChangeListener(object : SimpleOnSeekBarChangeListener() {
-            override fun onProgressChanged(slider: SeekBar, progress: Int, fromUser: Boolean) {
-                label.text = findValue(slider, variable)
-            }
-        })
-        label.text = findValue(slider, variable)
-
-        val builder = BaseVariableType.createDialogBuilder(context, variable, deferredValue)
-            .toDialogBuilder()
-            .customView(view, true)
-            .positiveText(R.string.dialog_ok)
-            .negativeText(R.string.dialog_cancel)
-            .onPositive { _, _ ->
-                if (variable.isValid) {
-                    val value = findValue(slider, variable)
-                    deferredValue.resolve(value)
-                    if (variable.rememberValue) {
-                        Commons.setVariableValue(variable.id, value).subscribe()
-                    }
+            if (variable.rememberValue) {
+                val value = variable.value?.toIntOrNull() ?: 0
+                val sliderValue = (value - findMin(variable)) / findStep(variable)
+                if (sliderValue >= 0 && sliderValue <= slider.max) {
+                    slider.progress = sliderValue
                 }
             }
-        return {
-            builder.showIfPossible()
+
+            slider.setOnSeekBarChangeListener(object : SimpleOnSeekBarChangeListener() {
+                override fun onProgressChanged(slider: SeekBar, progress: Int, fromUser: Boolean) {
+                    label.text = findValue(slider, variable)
+                }
+            })
+            label.text = findValue(slider, variable)
+
+            BaseVariableType.createDialogBuilder(context, variable, emitter)
+                .toDialogBuilder()
+                .customView(view, true)
+                .positiveText(R.string.dialog_ok)
+                .negativeText(R.string.dialog_cancel)
+                .onPositive { _, _ ->
+                    if (variable.isValid) {
+                        val value = findValue(slider, variable)
+                        emitter.onSuccess(value)
+                    }
+                }
+                .showIfPossible()
         }
-    }
+            .mapIf(variable.rememberValue) {
+                it.flatMap { resolvedValue ->
+                    Commons.setVariableValue(variable.id, resolvedValue)
+                        .toSingle { resolvedValue }
+                }
+            }
 
     private fun findSliderMax(variable: Variable): Int =
         ((findMax(variable) - findMin(variable)) / findStep(variable))

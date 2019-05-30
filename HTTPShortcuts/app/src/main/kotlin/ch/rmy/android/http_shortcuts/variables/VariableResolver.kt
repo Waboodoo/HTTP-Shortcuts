@@ -6,26 +6,21 @@ import ch.rmy.android.http_shortcuts.data.Commons
 import ch.rmy.android.http_shortcuts.data.Controller
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
-import ch.rmy.android.http_shortcuts.extensions.filter
+import ch.rmy.android.http_shortcuts.extensions.detachFromRealm
 import ch.rmy.android.http_shortcuts.extensions.mapIf
-import ch.rmy.android.http_shortcuts.extensions.rejectSafely
-import ch.rmy.android.http_shortcuts.extensions.resolveSafely
-import ch.rmy.android.http_shortcuts.utils.PromiseUtils
 import ch.rmy.android.http_shortcuts.variables.types.AsyncVariableType
 import ch.rmy.android.http_shortcuts.variables.types.SyncVariableType
 import ch.rmy.android.http_shortcuts.variables.types.VariableTypeFactory
 import io.reactivex.Completable
-import org.jdeferred2.DonePipe
-import org.jdeferred2.Promise
-import org.jdeferred2.impl.DeferredObject
+import io.reactivex.Single
 import org.json.JSONObject
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
 
 class VariableResolver(private val context: Context) {
 
-    fun resolve(controller: Controller, shortcut: Shortcut, preResolvedValues: Map<String, String> = emptyMap()): Promise<Map<String, String>, Unit, Unit> {
-        val variableMap = controller.getVariables().associate { it.id to it }
+    fun resolve(controller: Controller, shortcut: Shortcut, preResolvedValues: Map<String, String> = emptyMap()): Single<Map<String, String>> {
+        val variableMap = controller.getVariables().associate { it.id to it.detachFromRealm() }
         val requiredVariableIds = extractVariableIds(shortcut).toMutableSet()
 
         // Always export all constants
@@ -37,92 +32,75 @@ class VariableResolver(private val context: Context) {
 
         val variablesToResolve = requiredVariableIds.mapNotNull { variableMap[it] }
         return resolveVariables(variablesToResolve, preResolvedValues)
-            .then(DonePipe<Map<String, String>, Map<String, String>, Unit, Unit> { resolvedVariables ->
-                return@DonePipe resolveRecursiveVariables(variableMap, resolvedVariables)
-            })
-            .filter { resolvedValues ->
+            .flatMap { resolvedVariables ->
+                resolveRecursiveVariables(variableMap, resolvedVariables)
+            }
+            .map { resolvedValues ->
                 resolvedValues.mapValues { entry ->
-                    val variable = variableMap[entry.key] ?: return@mapValues entry.value
-                    encodeValue(variable, entry.value)
+                    variableMap[entry.key]
+                        ?.let { variable ->
+                            encodeValue(variable, entry.value)
+                        }
+                        ?: entry.value
                 }
             }
     }
 
-    private fun resolveRecursiveVariables(variableMap: Map<String, Variable>, preResolvedValues: Map<String, String>, recursionDepth: Int = 0): Promise<Map<String, String>, Unit, Unit> {
+    private fun resolveRecursiveVariables(variableMap: Map<String, Variable>, preResolvedValues: Map<String, String>, recursionDepth: Int = 0): Single<Map<String, String>> {
         val requiredVariableIds = mutableSetOf<String>()
         preResolvedValues.values.forEach { value ->
             requiredVariableIds.addAll(Variables.extractVariableIds(value))
         }
         if (recursionDepth >= MAX_RECURSION_DEPTH || requiredVariableIds.isEmpty()) {
-            return PromiseUtils.resolve(preResolvedValues)
+            return Single.just(preResolvedValues)
         }
 
         val variablesToResolve = requiredVariableIds.mapNotNull { variableMap[it] }
         return resolveVariables(variablesToResolve, preResolvedValues)
-            .filter {
+            .map {
                 it.toMutableMap().also { resolvedVariables ->
                     resolvedVariables.forEach { resolvedVariable ->
                         resolvedVariables[resolvedVariable.key] = Variables.rawPlaceholdersToResolvedValues(resolvedVariable.value, resolvedVariables)
                     }
                 }
             }
-            .then(DonePipe { resolvedVariables ->
+            .flatMap { resolvedVariables ->
                 resolveRecursiveVariables(variableMap, resolvedVariables, recursionDepth + 1)
-            })
+            }
     }
 
-    private fun resolveVariables(variablesToResolve: List<Variable>, preResolvedValues: Map<String, String> = emptyMap()): Promise<Map<String, String>, Unit, Unit> {
-        val deferred = DeferredObject<Map<String, String>, Unit, Unit>()
+    private fun resolveVariables(variablesToResolve: List<Variable>, preResolvedValues: Map<String, String> = emptyMap()): Single<Map<String, String>> {
+        var completable = Completable.complete()
         val resolvedVariables = mutableMapOf<String, String>()
 
-        val waitingDialogs = mutableListOf<() -> Unit>()
-        var i = 0
         for (variable in variablesToResolve) {
             if (resolvedVariables.containsKey(variable.id)) {
+                // Variable value is already resolved
                 continue
             }
             if (preResolvedValues.containsKey(variable.key)) {
+                // Variable value was pre-resolved
                 resolvedVariables[variable.id] = preResolvedValues.getValue(variable.key)
                 continue
             }
 
             val variableType = VariableTypeFactory.getType(variable.type)
             if (variableType is AsyncVariableType) {
-                val index = i++
-
-                val deferredValue = DeferredObject<String, Unit, Unit>()
-                deferredValue
-                    .done { value ->
-                        resolvedVariables[variable.id] = value
-
-                        if (index + 1 >= waitingDialogs.size) {
-                            deferred.resolveSafely(resolvedVariables)
-                        } else {
-                            waitingDialogs[index + 1]()
+                completable = completable.concatWith(
+                    variableType.resolveValue(context, variable)
+                        .doOnSuccess { resolvedValue ->
+                            resolvedVariables[variable.id] = resolvedValue
                         }
-                    }
-                    .fail {
-                        deferred.rejectSafely(Unit)
-                    }
-
-                val dialog = variableType.createDialog(context, variable, deferredValue)
-                waitingDialogs.add(dialog)
+                        .ignoreElement()
+                )
             } else if (variableType is SyncVariableType) {
                 resolvedVariables[variable.id] = variableType.resolveValue(variable)
             }
         }
 
-        if (waitingDialogs.isEmpty()) {
-            deferred.resolveSafely(resolvedVariables)
-        } else {
-            waitingDialogs.first().invoke()
-        }
-
-        return deferred
-            .promise()
-            .always { _, _, _ ->
-                resetVariableValues(variablesToResolve).subscribe()
-            }
+        return completable
+            .concatWith(resetVariableValues(variablesToResolve))
+            .toSingle { resolvedVariables }
     }
 
     private fun resetVariableValues(variables: List<Variable>): Completable =

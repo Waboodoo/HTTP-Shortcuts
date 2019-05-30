@@ -6,7 +6,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.Controller
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.mapFor
-import ch.rmy.android.http_shortcuts.utils.showIfPossible
+import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
 import kotterknife.bindView
 

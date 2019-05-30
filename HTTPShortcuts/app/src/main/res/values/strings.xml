@@ -458,6 +458,12 @@
     <string name="action_type_toast_description">Show message \"%1$s\"</string>
     <!-- Shortcut Action Editor Label: Message (to show in a toast) -->
     <string name="action_type_toast_edit_label_message">Message</string>
+    <!-- Shortcut Action Title: Show Dialog -->
+    <string name="action_type_dialog_title">Show Dialog</string>
+    <!-- Shortcut Action Description: Show Dialog -->
+    <string name="action_type_dialog_description">Show message \"%1$s\"</string>
+    <!-- Shortcut Action Editor Label: Message (to show in a dialog) -->
+    <string name="action_type_dialog_edit_label_message">Message</string>
     <!-- Shortcut Action Title: Vibrate -->
     <string name="action_type_vibrate_title">Vibrate</string>
     <!-- Shortcut Action Description: Vibrate, describes the vibration pattern -->

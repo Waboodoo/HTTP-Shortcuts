@@ -12,9 +12,9 @@ import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.observeChecked
+import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.SimpleOnSeekBarChangeListener
-import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import ch.rmy.android.http_shortcuts.views.PanelButton
 import com.afollestad.materialdialogs.MaterialDialog
 import kotterknife.bindView

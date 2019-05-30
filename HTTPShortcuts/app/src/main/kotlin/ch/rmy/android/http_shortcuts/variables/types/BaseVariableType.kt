@@ -5,9 +5,9 @@ import android.text.TextUtils
 import androidx.fragment.app.FragmentManager
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
+import ch.rmy.android.http_shortcuts.extensions.cancel
 import ch.rmy.android.http_shortcuts.extensions.mapIf
-import ch.rmy.android.http_shortcuts.extensions.rejectSafely
-import org.jdeferred2.Deferred
+import io.reactivex.SingleEmitter
 
 abstract class BaseVariableType {
 
@@ -26,13 +26,13 @@ abstract class BaseVariableType {
 
     companion object {
 
-        internal fun createDialogBuilder(context: Context, variable: Variable, deferred: Deferred<String, Unit, Unit>) =
+        internal fun createDialogBuilder(context: Context, variable: Variable, emitter: SingleEmitter<String>) =
             MenuDialogBuilder(context)
                 .mapIf(!TextUtils.isEmpty(variable.title)) {
                     it.title(variable.title)
                 }
                 .dismissListener {
-                    deferred.rejectSafely(Unit)
+                    emitter.cancel()
                 }
 
     }

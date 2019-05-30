@@ -7,9 +7,9 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
-import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
 
 class CurlExportDialog(private val context: Context, private val title: String, private val curlCommand: String) {

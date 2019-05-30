@@ -7,6 +7,7 @@ class ActionFactory(private val context: Context) {
 
     private val types by lazy {
         listOf(
+            DialogActionType(context),
             ExtractBodyActionType(context),
             ExtractStatusCodeActionType(context),
             ExtractHeaderActionType(context),

@@ -7,8 +7,8 @@ import android.view.LayoutInflater
 import android.webkit.WebView
 import android.widget.CheckBox
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.utils.Settings
-import ch.rmy.android.http_shortcuts.utils.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
 import io.reactivex.Completable
 import io.reactivex.subjects.CompletableSubject

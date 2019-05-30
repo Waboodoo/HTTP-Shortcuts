@@ -3,7 +3,7 @@ package ch.rmy.android.http_shortcuts.dialogs
 import android.content.Context
 import androidx.annotation.StringRes
 import ch.rmy.android.http_shortcuts.extensions.mapIf
-import ch.rmy.android.http_shortcuts.utils.showIfPossible
+import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import com.afollestad.materialdialogs.MaterialDialog
 
 class MenuDialogBuilder(val context: Context) {

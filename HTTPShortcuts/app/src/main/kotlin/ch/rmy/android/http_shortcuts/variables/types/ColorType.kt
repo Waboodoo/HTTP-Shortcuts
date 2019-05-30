@@ -2,46 +2,48 @@ package ch.rmy.android.http_shortcuts.variables.types
 
 import android.content.Context
 import android.graphics.Color
-import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import ch.rmy.android.http_shortcuts.data.Commons
 import ch.rmy.android.http_shortcuts.data.models.Variable
-import ch.rmy.android.http_shortcuts.extensions.rejectSafely
+import ch.rmy.android.http_shortcuts.extensions.cancel
+import ch.rmy.android.http_shortcuts.extensions.mapIf
+import io.reactivex.Single
 import me.priyesh.chroma.ChromaDialog
 import me.priyesh.chroma.ColorMode
 import me.priyesh.chroma.ColorSelectListener
-import org.jdeferred2.Deferred
 
 internal class ColorType : BaseVariableType(), AsyncVariableType {
 
     override val hasTitle = false
 
-    override fun createDialog(context: Context, variable: Variable, deferredValue: Deferred<String, Unit, Unit>): () -> Unit {
-        val dialog = ChromaDialog.Builder()
-            .initialColor(getInitialColor(variable))
-            .colorMode(ColorMode.RGB)
-            .onColorSelected(object : ColorSelectListener {
-                override fun onColorSelected(color: Int) {
-                    if (variable.isValid) {
-                        val colorFormatted = String.format("%06x", color and 0xffffff)
-                        deferredValue.resolve(colorFormatted)
-                        Commons.setVariableValue(variable.id, colorFormatted).subscribe()
+    override fun resolveValue(context: Context, variable: Variable): Single<String> =
+        Single.create<String> { emitter ->
+            val dialog = ChromaDialog.Builder()
+                .initialColor(getInitialColor(variable))
+                .colorMode(ColorMode.RGB)
+                .onColorSelected(object : ColorSelectListener {
+                    override fun onColorSelected(color: Int) {
+                        if (variable.isValid) {
+                            val colorFormatted = String.format("%06x", color and 0xffffff)
+                            emitter.onSuccess(colorFormatted)
+                        }
                     }
-                }
-            })
-            .create()
+                })
+                .create()
 
-        return {
             dialog.show((context as AppCompatActivity).supportFragmentManager, "ChromaDialog")
 
             // The following hack is needed because the ChromaDialog library does not have a method to register a dismiss listener
-            Handler().post {
-                dialog.dialog?.setOnDismissListener {
-                    deferredValue.rejectSafely(Unit)
-                }
+            dialog.dialog?.setOnDismissListener {
+                emitter.cancel()
             }
         }
-    }
+            .mapIf(variable.rememberValue) {
+                it.flatMap { variableValue ->
+                    Commons.setVariableValue(variable.id, variableValue)
+                        .toSingle { variableValue }
+                }
+            }
 
     private fun getInitialColor(variable: Variable): Int {
         if (variable.rememberValue && variable.value!!.length == 6) {
