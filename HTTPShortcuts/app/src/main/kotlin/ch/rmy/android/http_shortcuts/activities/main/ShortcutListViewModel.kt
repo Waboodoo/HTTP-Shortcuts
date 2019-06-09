@@ -9,11 +9,11 @@ import ch.rmy.android.http_shortcuts.data.Repository.getShortcutById
 import ch.rmy.android.http_shortcuts.data.Repository.getShortcutPendingExecution
 import ch.rmy.android.http_shortcuts.data.Repository.getShortcutsPendingExecution
 import ch.rmy.android.http_shortcuts.data.Repository.moveShortcut
+import ch.rmy.android.http_shortcuts.data.Transactions
 import ch.rmy.android.http_shortcuts.data.livedata.ListLiveData
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.PendingExecution
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.extensions.commitAsync
 import ch.rmy.android.http_shortcuts.extensions.toLiveData
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 
@@ -37,8 +37,8 @@ class ShortcutListViewModel(application: Application) : MainViewModel(applicatio
             .toLiveData()
 
     fun deleteShortcut(shortcutId: String) =
-        persistedRealm.commitAsync { realm ->
-            val shortcut = getShortcutById(realm, shortcutId) ?: return@commitAsync
+        Transactions.commit { realm ->
+            val shortcut = getShortcutById(realm, shortcutId) ?: return@commit
             getShortcutPendingExecution(realm, shortcutId)?.deleteFromRealm()
             shortcut.headers.deleteAllFromRealm()
             shortcut.parameters.deleteAllFromRealm()
@@ -46,13 +46,13 @@ class ShortcutListViewModel(application: Application) : MainViewModel(applicatio
         }
 
     fun removePendingExecution(shortcutId: String) =
-        persistedRealm.commitAsync { realm ->
+        Transactions.commit { realm ->
             getShortcutPendingExecution(realm, shortcutId)?.deleteFromRealm()
         }
 
     fun duplicateShortcut(shortcutId: String, newName: String, newPosition: Int?, categoryId: String) =
-        persistedRealm.commitAsync { realm ->
-            val shortcut = getShortcutById(realm, shortcutId) ?: return@commitAsync
+        Transactions.commit { realm ->
+            val shortcut = getShortcutById(realm, shortcutId) ?: return@commit
             val newShortcut = copyShortcut(realm, shortcut, newUUID())
             newShortcut.name = newName
             moveShortcut(realm, newShortcut.id, newPosition, categoryId)

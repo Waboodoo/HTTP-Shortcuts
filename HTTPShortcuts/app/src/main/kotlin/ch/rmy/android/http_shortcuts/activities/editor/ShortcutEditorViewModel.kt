@@ -3,10 +3,10 @@ package ch.rmy.android.http_shortcuts.activities.editor
 import android.app.Application
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.Repository
+import ch.rmy.android.http_shortcuts.data.Transactions
 import ch.rmy.android.http_shortcuts.data.models.Header
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Shortcut.Companion.TEMPORARY_ID
-import ch.rmy.android.http_shortcuts.extensions.commitAsync
 import ch.rmy.android.http_shortcuts.extensions.getQuantityString
 import ch.rmy.android.http_shortcuts.extensions.getString
 import ch.rmy.android.http_shortcuts.icons.Icons
@@ -26,22 +26,21 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
         }
         this.categoryId = categoryId
         this.shortcutId = shortcutId
-        return persistedRealm
-            .commitAsync { realm ->
-                val shortcut = if (shortcutId == null) {
-                    realm.copyToRealmOrUpdate(Shortcut.createNew(
-                        id = TEMPORARY_ID,
-                        iconName = randomInitialIconName,
-                        browserShortcut = createBrowserShortcut
-                    ))
-                } else {
-                    Repository.copyShortcut(realm, Repository.getShortcutById(realm, shortcutId)!!, TEMPORARY_ID)
-                }
-
-                curlCommand?.let { curlCommand ->
-                    importFromCurl(realm, shortcut, curlCommand)
-                }
+        return Transactions.commit { realm ->
+            val shortcut = if (shortcutId == null) {
+                realm.copyToRealmOrUpdate(Shortcut.createNew(
+                    id = TEMPORARY_ID,
+                    iconName = randomInitialIconName,
+                    browserShortcut = createBrowserShortcut
+                ))
+            } else {
+                Repository.copyShortcut(realm, Repository.getShortcutById(realm, shortcutId)!!, TEMPORARY_ID)
             }
+
+            curlCommand?.let { curlCommand ->
+                importFromCurl(realm, shortcut, curlCommand)
+            }
+        }
             .doOnComplete {
                 isInitialized = true
             }
@@ -66,7 +65,7 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
     }
 
     fun setNameAndDescription(name: String, description: String): Completable =
-        persistedRealm.commitAsync { realm ->
+        Transactions.commit { realm ->
             getShortcut(realm)?.apply {
                 this.name = name
                 this.description = description
@@ -74,7 +73,7 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
         }
 
     fun setIconName(iconName: String?): Completable =
-        persistedRealm.commitAsync { realm ->
+        Transactions.commit { realm ->
             getShortcut(realm)?.apply {
                 this.iconName = iconName
             }
@@ -85,22 +84,21 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
         var name: String = ""
         var iconName: String? = null
         val nameOrIconChanged = hasNameOrIconChanges()
-        return persistedRealm
-            .commitAsync { realm ->
-                val shortcut = Repository.getShortcutById(realm, TEMPORARY_ID)!!
-                name = shortcut.name
-                iconName = shortcut.iconName
-                validateShortcut(shortcut)
+        return Transactions.commit { realm ->
+            val shortcut = Repository.getShortcutById(realm, TEMPORARY_ID)!!
+            name = shortcut.name
+            iconName = shortcut.iconName
+            validateShortcut(shortcut)
 
-                val newShortcut = Repository.copyShortcut(realm, shortcut, id)
-                if (shortcutId == null && categoryId != null) {
-                    Repository.getCategoryById(realm, categoryId!!)
-                        ?.shortcuts
-                        ?.add(newShortcut)
-                }
-
-                Repository.deleteShortcut(realm, TEMPORARY_ID)
+            val newShortcut = Repository.copyShortcut(realm, shortcut, id)
+            if (shortcutId == null && categoryId != null) {
+                Repository.getCategoryById(realm, categoryId!!)
+                    ?.shortcuts
+                    ?.add(newShortcut)
             }
+
+            Repository.deleteShortcut(realm, TEMPORARY_ID)
+        }
             .andThen(Single.create {
                 it.onSuccess(SaveResult(
                     id = id,

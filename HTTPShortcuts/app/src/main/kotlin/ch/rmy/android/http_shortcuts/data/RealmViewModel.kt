@@ -6,9 +6,17 @@ import io.realm.Realm
 
 abstract class RealmViewModel(application: Application) : AndroidViewModel(application) {
 
-    protected val persistedRealm: Realm = RealmFactory.getInstance().createRealm()
+    protected val persistedRealm: Realm
+        get() {
+            if (realm == null) {
+                realm = RealmFactory.getInstance().createRealm()
+            }
+            return realm!!
+        }
+
+    private var realm: Realm? = null
 
     override fun onCleared() {
-        persistedRealm.close()
+        realm?.close()
     }
 }

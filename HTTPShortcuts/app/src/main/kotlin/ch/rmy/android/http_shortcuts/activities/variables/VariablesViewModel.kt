@@ -5,9 +5,9 @@ import ch.rmy.android.http_shortcuts.data.RealmViewModel
 import ch.rmy.android.http_shortcuts.data.Repository
 import ch.rmy.android.http_shortcuts.data.Repository.getBase
 import ch.rmy.android.http_shortcuts.data.Repository.getVariableById
+import ch.rmy.android.http_shortcuts.data.Transactions
 import ch.rmy.android.http_shortcuts.data.livedata.ListLiveData
 import ch.rmy.android.http_shortcuts.data.models.Variable
-import ch.rmy.android.http_shortcuts.extensions.commitAsync
 import ch.rmy.android.http_shortcuts.extensions.detachFromRealm
 import ch.rmy.android.http_shortcuts.extensions.toLiveData
 import ch.rmy.android.http_shortcuts.utils.Settings
@@ -31,15 +31,15 @@ class VariablesViewModel(application: Application) : RealmViewModel(application)
             .toLiveData()
 
     fun moveVariable(variableId: String, position: Int) =
-        persistedRealm.commitAsync { realm ->
-            val variable = getVariableById(realm, variableId) ?: return@commitAsync
-            val variables = getBase(realm)?.variables ?: return@commitAsync
+        Transactions.commit { realm ->
+            val variable = getVariableById(realm, variableId) ?: return@commit
+            val variables = getBase(realm)?.variables ?: return@commit
             val oldPosition = variables.indexOf(variable)
             variables.move(oldPosition, position)
         }
 
     fun deleteVariable(variableId: String) =
-        persistedRealm.commitAsync { realm ->
+        Transactions.commit { realm ->
             getVariableById(realm, variableId)?.apply {
                 options?.deleteAllFromRealm()
                 deleteFromRealm()
@@ -47,8 +47,8 @@ class VariablesViewModel(application: Application) : RealmViewModel(application)
         }
 
     fun duplicateVariable(variableId: String) =
-        persistedRealm.commitAsync { realm ->
-            val oldVariable = getVariableById(realm, variableId) ?: return@commitAsync
+        Transactions.commit { realm ->
+            val oldVariable = getVariableById(realm, variableId) ?: return@commit
             val newVariable = oldVariable.detachFromRealm()
             newVariable.id = newUUID()
             newVariable.key = generateNewKey(realm, oldVariable.key)
@@ -56,7 +56,7 @@ class VariablesViewModel(application: Application) : RealmViewModel(application)
                 it.id = newUUID()
             }
 
-            val base = getBase(realm) ?: return@commitAsync
+            val base = getBase(realm) ?: return@commit
             val oldPosition = base.variables.indexOf(oldVariable)
             val newPersistedVariable = realm.copyToRealmOrUpdate(newVariable)
             base.variables.add(oldPosition + 1, newPersistedVariable)

@@ -22,6 +22,7 @@ import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
+import ch.rmy.android.http_shortcuts.extensions.truncate
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.http.HttpRequester
@@ -104,7 +105,7 @@ class ExecuteActivity : BaseActivity() {
             ExecutionScheduler.schedule(context)
         }
 
-        if (shortcut.requireConfirmation) {
+        if (requiresConfirmation()) {
             promptForConfirmation()
         } else {
             Completable.complete()
@@ -125,6 +126,9 @@ class ExecuteActivity : BaseActivity() {
             )
             .attachTo(destroyer)
     }
+
+    private fun requiresConfirmation() =
+        shortcut.requireConfirmation && tryNumber == 0
 
     private fun shouldFinishAfterExecution() =
         !shortcut.isFeedbackUsesUI || shouldDelayExecution()
@@ -163,8 +167,8 @@ class ExecuteActivity : BaseActivity() {
                 }
             }
 
-    private fun executeWithActions(resolvedVariables: MutableMap<String, String>): Completable {
-        return Completable.fromAction {
+    private fun executeWithActions(resolvedVariables: MutableMap<String, String>): Completable =
+        Completable.fromAction {
             showProgress()
         }
             .subscribeOn(AndroidSchedulers.mainThread())
@@ -213,7 +217,6 @@ class ExecuteActivity : BaseActivity() {
                 hideProgress()
                 controller.destroy()
             }
-    }
 
     private fun openShortcutInBrowser(resolvedVariables: MutableMap<String, String>) {
         val url = Variables.rawPlaceholdersToResolvedValues(shortcut.url, resolvedVariables)
@@ -331,7 +334,7 @@ class ExecuteActivity : BaseActivity() {
                 showToast(output)
             }
             Shortcut.FEEDBACK_TOAST, Shortcut.FEEDBACK_TOAST_ERRORS -> {
-                showToast(truncateIfNeeded(output, TOAST_MAX_LENGTH), long = true)
+                showToast(output.truncate(maxLength = TOAST_MAX_LENGTH), long = true)
             }
             Shortcut.FEEDBACK_DIALOG -> {
                 MaterialDialog.Builder(context)
@@ -442,8 +445,6 @@ class ExecuteActivity : BaseActivity() {
 
         private const val MAX_SHARE_LENGTH = 500000
 
-        private fun truncateIfNeeded(string: String, maxLength: Int) =
-            if (string.length > maxLength) string.substring(0, maxLength) + "…" else string
     }
 
 }

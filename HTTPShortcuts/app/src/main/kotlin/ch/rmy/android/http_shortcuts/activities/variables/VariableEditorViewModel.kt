@@ -5,8 +5,8 @@ import ch.rmy.android.http_shortcuts.data.RealmViewModel
 import ch.rmy.android.http_shortcuts.data.Repository.getBase
 import ch.rmy.android.http_shortcuts.data.Repository.getVariableById
 import ch.rmy.android.http_shortcuts.data.Repository.getVariableByKey
+import ch.rmy.android.http_shortcuts.data.Transactions
 import ch.rmy.android.http_shortcuts.data.models.Variable
-import ch.rmy.android.http_shortcuts.extensions.commitAsync
 import ch.rmy.android.http_shortcuts.extensions.detachFromRealm
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import io.reactivex.Completable
@@ -43,8 +43,8 @@ class VariableEditorViewModel(application: Application) : RealmViewModel(applica
         if (isNew) {
             variable.id = newUUID()
         }
-        return persistedRealm.commitAsync { realm ->
-            val base = getBase(realm) ?: return@commitAsync
+        return Transactions.commit { realm ->
+            val base = getBase(realm) ?: return@commit
             val newVariable = realm.copyToRealmOrUpdate(variable)
             if (isNew) {
                 base.variables.add(newVariable)

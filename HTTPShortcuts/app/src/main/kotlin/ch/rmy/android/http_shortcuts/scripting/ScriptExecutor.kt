@@ -22,7 +22,9 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
             this.responseData = response
 
             jsContext.setExceptionHandler { exception ->
-                emitter.onError(exception)
+                if (!emitter.isDisposed) {
+                    emitter.onError(exception)
+                }
             }
 
             jsContext.property("getVariable", object : JSFunction(jsContext, "run") {

@@ -311,10 +311,6 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
 
     override fun isAppLocked() = viewModel.isAppLocked()
 
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
     companion object {
 
         const val EXTRA_SELECTION_ID = "ch.rmy.android.http_shortcuts.shortcut_id"

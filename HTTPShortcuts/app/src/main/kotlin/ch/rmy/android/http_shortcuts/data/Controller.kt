@@ -4,7 +4,6 @@ import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.PendingExecution
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
-import ch.rmy.android.http_shortcuts.extensions.commitAsync
 import ch.rmy.android.http_shortcuts.extensions.detachFromRealm
 import ch.rmy.android.http_shortcuts.utils.Destroyable
 import io.realm.Realm
@@ -59,7 +58,7 @@ class Controller : Destroyable, Closeable {
     }
 
     fun renameShortcut(shortcutId: String, newName: String) =
-        realm.commitAsync { realm ->
+        Transactions.commit { realm ->
             Repository.getShortcutById(realm, shortcutId)?.name = newName
         }
 
@@ -70,7 +69,7 @@ class Controller : Destroyable, Closeable {
         waitUntil: Date? = null,
         requiresNetwork: Boolean
     ) =
-        realm.commitAsync { realm ->
+        Transactions.commit { realm ->
             val alreadyPending = Repository.getShortcutPendingExecution(realm, shortcutId) != null
             if (!alreadyPending) {
                 realm.copyToRealm(PendingExecution.createNew(shortcutId, resolvedVariables, tryNumber, waitUntil, requiresNetwork))
@@ -78,7 +77,7 @@ class Controller : Destroyable, Closeable {
         }
 
     fun removePendingExecution(shortcutId: String) =
-        realm.commitAsync { realm ->
+        Transactions.commit { realm ->
             Repository.getShortcutPendingExecution(realm, shortcutId)?.deleteFromRealm()
         }
 

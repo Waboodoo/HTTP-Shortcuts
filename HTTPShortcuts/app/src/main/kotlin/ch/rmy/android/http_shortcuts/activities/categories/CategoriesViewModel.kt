@@ -3,9 +3,9 @@ package ch.rmy.android.http_shortcuts.activities.categories
 import android.app.Application
 import ch.rmy.android.http_shortcuts.data.RealmViewModel
 import ch.rmy.android.http_shortcuts.data.Repository
+import ch.rmy.android.http_shortcuts.data.Transactions
 import ch.rmy.android.http_shortcuts.data.livedata.ListLiveData
 import ch.rmy.android.http_shortcuts.data.models.Category
-import ch.rmy.android.http_shortcuts.extensions.commitAsync
 import ch.rmy.android.http_shortcuts.extensions.toLiveData
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 
@@ -17,8 +17,8 @@ class CategoriesViewModel(application: Application) : RealmViewModel(application
             .toLiveData()
 
     fun createCategory(name: String) =
-        persistedRealm.commitAsync { realm ->
-            val base = Repository.getBase(realm) ?: return@commitAsync
+        Transactions.commit { realm ->
+            val base = Repository.getBase(realm) ?: return@commit
             val categories = base.categories
             val category = Category.createNew(name)
             category.id = newUUID()
@@ -26,27 +26,27 @@ class CategoriesViewModel(application: Application) : RealmViewModel(application
         }
 
     fun renameCategory(categoryId: String, newName: String) =
-        persistedRealm.commitAsync { realm ->
+        Transactions.commit { realm ->
             Repository.getCategoryById(realm, categoryId)?.name = newName
         }
 
     fun setLayoutType(categoryId: String, layoutType: String) =
-        persistedRealm.commitAsync { realm ->
+        Transactions.commit { realm ->
             Repository.getCategoryById(realm, categoryId)?.layoutType = layoutType
         }
 
     fun moveCategory(categoryId: String, position: Int) =
-        persistedRealm.commitAsync { realm ->
-            val base = Repository.getBase(realm) ?: return@commitAsync
-            val category = Repository.getCategoryById(realm, categoryId) ?: return@commitAsync
+        Transactions.commit { realm ->
+            val base = Repository.getBase(realm) ?: return@commit
+            val category = Repository.getCategoryById(realm, categoryId) ?: return@commit
             val categories = base.categories
             val oldPosition = categories.indexOf(category)
             categories.move(oldPosition, position)
         }
 
     fun deleteCategory(categoryId: String) =
-        persistedRealm.commitAsync { realm ->
-            val category = Repository.getCategoryById(realm, categoryId) ?: return@commitAsync
+        Transactions.commit { realm ->
+            val category = Repository.getCategoryById(realm, categoryId) ?: return@commit
             for (shortcut in category.shortcuts) {
                 shortcut.headers.deleteAllFromRealm()
                 shortcut.parameters.deleteAllFromRealm()
@@ -56,7 +56,7 @@ class CategoriesViewModel(application: Application) : RealmViewModel(application
         }
 
     fun setBackground(categoryId: String, background: String) =
-        persistedRealm.commitAsync { realm ->
+        Transactions.commit { realm ->
             Repository.getCategoryById(realm, categoryId)?.background = background
         }
 

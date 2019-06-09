@@ -4,9 +4,9 @@ buildscript {
         google()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:3.3.2")
-        classpath("io.realm:realm-gradle-plugin:5.10.0")
-        classpath(kotlin("gradle-plugin", "1.3.11"))
+        classpath("com.android.tools.build:gradle:3.4.1")
+        classpath("io.realm:realm-gradle-plugin:5.11.0")
+        classpath(kotlin("gradle-plugin", "1.3.31"))
     }
 }
 

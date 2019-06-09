@@ -33,7 +33,7 @@ private val Fragment.viewModelProviderFinder: Fragment.() -> ViewModelProvider
     get() = { ViewModelProviders.of(activity!!) }
 
 private fun <T, V : ViewModel> bind(clazz: Class<V>, finder: T.() -> ViewModelProvider) =
-    LazyWithTarget { t: T, desc -> t.finder().get(clazz) }
+    LazyWithTarget { t: T, _ -> t.finder().get(clazz) }
 
 val AndroidViewModel.context: Context
     get() = getApplication<Application>().context
