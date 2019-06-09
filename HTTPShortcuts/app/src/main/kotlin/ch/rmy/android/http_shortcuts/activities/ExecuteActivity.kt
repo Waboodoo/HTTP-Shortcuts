@@ -215,7 +215,6 @@ class ExecuteActivity : BaseActivity() {
             )
             .doOnTerminate {
                 hideProgress()
-                controller.destroy()
             }
 
     private fun openShortcutInBrowser(resolvedVariables: MutableMap<String, String>) {
