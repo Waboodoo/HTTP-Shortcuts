@@ -19,13 +19,21 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <EditText
-                android:id="@+id/input_code_prepare"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="monospace"
-                android:gravity="top"
-                android:minLines="6" />
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/input_code_prepare"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="monospace"
+                    android:gravity="top"
+                    android:textSize="@dimen/js_font_size"
+                    android:hint="@string/label_pre_request_script"
+                    android:minLines="6" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
 

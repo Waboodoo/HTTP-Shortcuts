@@ -15,4 +15,10 @@ class PostRequestViewModel(application: Application) : BasicShortcutEditorViewMo
             }
         }
 
+    fun setFeedbackType(type: String): Completable =
+        Transactions.commit { realm ->
+            getShortcut(realm)?.feedback = type
+
+        }
+
 }

@@ -29,7 +29,6 @@ import ch.rmy.android.http_shortcuts.http.HttpRequester
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.scripting.ScriptExecutor
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
-import ch.rmy.android.http_shortcuts.utils.CanceledByUserException
 import ch.rmy.android.http_shortcuts.utils.DateUtil
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
@@ -111,16 +110,16 @@ class ExecuteActivity : BaseActivity() {
             Completable.complete()
         }
             .concatWith(resolveVariablesAndExecute(variableValues))
+            .onErrorResumeNext { error ->
+                ExecuteErrorHandler(context).handleError(error)
+            }
             .subscribe(
                 {
                     if (shouldFinishAfterExecution()) {
                         finishWithoutAnimation()
                     }
                 },
-                { error ->
-                    if (error !is CanceledByUserException) {
-                        logException(error) // TODO
-                    }
+                {
                     finishWithoutAnimation()
                 }
             )

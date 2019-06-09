@@ -2,4 +2,5 @@
 <resources>
     <dimen name="spinner_padding_top">6dp</dimen>
     <dimen name="divider_height">0.5dp</dimen>
+    <dimen name="js_font_size">14sp</dimen>
 </resources>

@@ -19,21 +19,45 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <EditText
-                android:id="@+id/input_code_success"
+            <ch.rmy.android.http_shortcuts.views.LabelledSpinner
+                android:id="@+id/input_feedback_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="monospace"
-                android:gravity="top"
-                android:minLines="6" />
+                android:layout_marginBottom="16dp"
+                app:labelText="@string/label_feedback" />
 
-            <EditText
-                android:id="@+id/input_code_failure"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="monospace"
-                android:gravity="top"
-                android:minLines="6" />
+                android:layout_marginBottom="16dp">
+
+                <EditText
+                    android:id="@+id/input_code_success"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="monospace"
+                    android:gravity="top"
+                    android:hint="@string/label_post_request_success_script"
+                    android:minLines="6"
+                    android:textSize="@dimen/js_font_size" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/input_code_failure"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="monospace"
+                    android:gravity="top"
+                    android:hint="@string/label_post_request_failure_script"
+                    android:minLines="6"
+                    android:textSize="@dimen/js_font_size" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
 
         </LinearLayout>

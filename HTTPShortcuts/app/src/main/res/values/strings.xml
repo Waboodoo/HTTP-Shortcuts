@@ -634,4 +634,14 @@
     <string name="empty_state_request_parameters_instructions">Click the + button to add a parameter.</string>
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor.-->
     <string name="label_follow_redirects">Follow redirects</string>
+    <!-- Label: shown above input box that lets user define JS code to be executed before shortcut -->
+    <string name="label_pre_request_script">Run before Execution (JavaScript)</string>
+    <!-- Label: shown above input box that lets user define JS code to be executed after shortcut succeeds -->
+    <string name="label_post_request_success_script">Run on Success (JavaScript)</string>
+    <!-- Label: shown above input box that lets user define JS code to be executed after shortcut fails -->
+    <string name="label_post_request_failure_script">Run on Failure (JavaScript)</string>
+    <!-- Dialog title: Shown on dialog that shows an error message when something goes wrong while executing a shortcut (e.g. JS exception) -->
+    <string name="dialog_title_error">Error</string>
+    <!-- Error message: Shown when a JS error occurs. %s is a placeholder for the more detailed error message. -->
+    <string name="error_js_pattern">JavaScript error:\n%s</string>
 </resources>

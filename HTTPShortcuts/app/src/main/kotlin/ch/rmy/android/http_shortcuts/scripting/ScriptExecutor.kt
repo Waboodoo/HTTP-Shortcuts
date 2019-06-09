@@ -20,6 +20,7 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
     fun execute(context: Context, script: String, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse? = null, volleyError: VolleyError? = null, recursionDepth: Int = 0): Completable =
         Completable.create { emitter ->
             this.responseData = response
+            this.volleyErrorData = volleyError
 
             jsContext.setExceptionHandler { exception ->
                 if (!emitter.isDisposed) {
