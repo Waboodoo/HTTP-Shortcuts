@@ -23,6 +23,7 @@ abstract class BaseAction(
         data = internalData
     )
 
+    // TODO: Should this be removed?
     abstract fun getDescription(context: Context): CharSequence
 
     open fun perform(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Completable {

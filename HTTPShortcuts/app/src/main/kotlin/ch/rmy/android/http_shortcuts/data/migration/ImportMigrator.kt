@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.data.migration
 
 
+import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceActionsWithScriptsMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceVariableKeysWithIdsMigration
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import com.google.gson.JsonElement
@@ -112,6 +113,10 @@ internal object ImportMigrator {
             }
             25L -> { // 1.24.0
                 ReplaceVariableKeysWithIdsMigration().migrateImport(base)
+            }
+            27L -> { // 1.24.0
+                ReplaceActionsWithScriptsMigration().migrateImport(base)
+
             }
         }
     }

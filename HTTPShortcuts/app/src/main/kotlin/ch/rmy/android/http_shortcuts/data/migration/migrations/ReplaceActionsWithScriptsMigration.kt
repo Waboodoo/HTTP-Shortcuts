@@ -41,13 +41,12 @@ class ReplaceActionsWithScriptsMigration : BaseMigration {
             codeBuilder.append(action.getString("type"))
             codeBuilder.append("\", ")
             codeBuilder.append(action.getJSONObject("data").toString())
-            codeBuilder.append("); // built-in\n")
+            codeBuilder.append("); /* built-in */\n")
         }
         return codeBuilder.toString()
     }
 
     override fun migrateImport(base: JsonObject) {
-        // TODO Migrate actions to code
         for (category in base["categories"].asJsonArray) {
             for (shortcutObj in category.asJsonObject["shortcuts"].asJsonArray) {
                 val shortcut = shortcutObj.asJsonObject

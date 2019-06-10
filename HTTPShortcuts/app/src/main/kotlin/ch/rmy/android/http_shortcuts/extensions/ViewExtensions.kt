@@ -7,7 +7,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.EditText
-import android.widget.TextView
 import androidx.annotation.LayoutRes
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.utils.SimpleTextWatcher
@@ -56,7 +55,7 @@ fun View.addRippleAnimation(borderless: Boolean = false) {
     setBackgroundResource(backgroundResource)
 }
 
-fun TextView.observeTextChanges(): Observable<CharSequence> {
+fun EditText.observeTextChanges(): Observable<CharSequence> {
     var previousText: CharSequence = text
     val subject = PublishSubject.create<CharSequence>()
     val watcher = object : SimpleTextWatcher() {

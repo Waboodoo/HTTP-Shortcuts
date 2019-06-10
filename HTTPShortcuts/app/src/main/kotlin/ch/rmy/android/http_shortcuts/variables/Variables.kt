@@ -79,10 +79,9 @@ object Variables {
     fun variableSpansToRawPlaceholders(text: Spannable): String {
         val builder = StringBuilder(text)
         text.getSpans(0, text.length, VariableSpan::class.java)
-            .sortedBy {
+            .sortedByDescending {
                 text.getSpanStart(it)
             }
-            .reversed()
             .forEach { span ->
                 val start = text.getSpanStart(span)
                 val end = text.getSpanEnd(span)

@@ -2,9 +2,15 @@ package ch.rmy.android.http_shortcuts.activities.editor.postrequest
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Spannable
+import android.text.method.LinkMovementMethod
 import android.widget.EditText
 import androidx.lifecycle.Observer
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.actions.ActionDTO
+import ch.rmy.android.http_shortcuts.actions.ActionsUtil
+import ch.rmy.android.http_shortcuts.actions.types.ActionFactory
+import ch.rmy.android.http_shortcuts.actions.types.BaseAction
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.attachTo
@@ -31,6 +37,9 @@ class PostRequestActivity : BaseActivity() {
     private val variablePlaceholderProvider by lazy {
         VariablePlaceholderProvider(variablesData)
     }
+    private val actionFactory by lazy {
+        ActionFactory(context)
+    }
 
     private val feedbackTypeSpinner: LabelledSpinner by bindView(R.id.input_feedback_type)
     private val successCodeInput: EditText by bindView(R.id.input_code_success)
@@ -48,6 +57,9 @@ class PostRequestActivity : BaseActivity() {
         feedbackTypeSpinner.setItemsFromPairs(REQUEST_BODY_TYPES.map {
             it.first to getString(it.second)
         })
+
+        successCodeInput.movementMethod = LinkMovementMethod.getInstance()
+        failureCodeInput.movementMethod = LinkMovementMethod.getInstance()
     }
 
     private fun bindViewsToViewModel() {
@@ -67,6 +79,9 @@ class PostRequestActivity : BaseActivity() {
         textView.observeTextChanges()
             .debounce(300, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
+            .map {
+                ActionsUtil.removeSpans(it as Spannable)
+            }
             .filter { it.toString() != currentValueProvider.invoke() }
             .concatMapCompletable { updateViewModelFromViews() }
             .subscribe()
@@ -75,15 +90,43 @@ class PostRequestActivity : BaseActivity() {
 
     private fun updateViewModelFromViews(): Completable =
         viewModel.setCode(
-            successCode = successCodeInput.text.toString(),
-            failureCode = failureCodeInput.text.toString()
+            successCode = ActionsUtil.removeSpans(successCodeInput.text),
+            failureCode = ActionsUtil.removeSpans(failureCodeInput.text)
         )
 
     private fun updateShortcutViews() {
         val shortcut = shortcutData.value ?: return
-        successCodeInput.setTextSafely(shortcut.codeOnSuccess)
-        failureCodeInput.setTextSafely(shortcut.codeOnFailure)
+        successCodeInput.setTextSafely(
+            ActionsUtil.addSpans(
+                context,
+                shortcut.codeOnSuccess,
+                actionFactory,
+                ::editAction
+            )
+        )
+        failureCodeInput.setTextSafely(
+            ActionsUtil.addSpans(
+                context,
+                shortcut.codeOnFailure,
+                actionFactory,
+                ::editAction
+            )
+        )
         feedbackTypeSpinner.selectedItem = shortcut.feedback
+    }
+
+    private fun editAction(action: BaseAction, setter: (ActionDTO) -> Unit) {
+        action.edit(context, variablePlaceholderProvider)
+            .subscribe(
+                {
+                    setter(action.toDTO())
+                    updateViewModelFromViews()
+                        .subscribe()
+                        .attachTo(destroyer)
+                },
+                {}
+            )
+            .attachTo(destroyer)
     }
 
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, PostRequestActivity::class.java)
