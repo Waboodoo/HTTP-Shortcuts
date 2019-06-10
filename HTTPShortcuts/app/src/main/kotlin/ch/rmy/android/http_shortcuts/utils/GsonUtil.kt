@@ -24,10 +24,6 @@ object GsonUtil {
         }
     }
 
-    fun toJson(item: RealmObject): String = gson.toJson(item)
-
-    fun <T : RealmObject> fromJson(json: String, clazz: Class<T>): T = gson.fromJson(json, clazz)
-
     fun exportData(base: Base, writer: Appendable) {
         getPrettyGson().toJson(base, writer)
     }
@@ -46,8 +42,6 @@ object GsonUtil {
     }
 
     fun toJson(item: Map<String, Any>): String = gson.toJson(item)
-
-    fun toJson(list: List<Any>): String = gson.toJson(list)
 
     fun parseString(jsonString: String): JsonElement = JsonParser().parse(jsonString)
 

@@ -104,10 +104,10 @@ object Repository {
             }
 
     internal fun moveShortcut(realm: Realm, shortcutId: String, targetPosition: Int? = null, targetCategoryId: String? = null) {
-        val shortcut = Repository.getShortcutById(realm, shortcutId) ?: return
-        val categories = Repository.getBase(realm)?.categories ?: return
+        val shortcut = getShortcutById(realm, shortcutId) ?: return
+        val categories = getBase(realm)?.categories ?: return
         val targetCategory = if (targetCategoryId != null) {
-            Repository.getCategoryById(realm, targetCategoryId)
+            getCategoryById(realm, targetCategoryId)
         } else {
             categories.first { category -> category.shortcuts.any { it.id == shortcutId } }
         } ?: return

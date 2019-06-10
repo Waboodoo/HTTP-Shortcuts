@@ -163,8 +163,7 @@ class ListFragment : BaseFragment() {
                     executeShortcut(shortcut)
                     return
                 }
-                val action = Settings(context!!).clickBehavior
-                when (action) {
+                when (Settings(context!!).clickBehavior) {
                     Settings.CLICK_BEHAVIOR_RUN -> executeShortcut(shortcut)
                     Settings.CLICK_BEHAVIOR_EDIT -> editShortcut(shortcut)
                     Settings.CLICK_BEHAVIOR_MENU -> showContextMenu(shortcutData)

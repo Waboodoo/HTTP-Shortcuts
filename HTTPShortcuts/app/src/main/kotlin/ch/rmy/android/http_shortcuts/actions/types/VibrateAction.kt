@@ -14,8 +14,6 @@ import java.util.concurrent.TimeUnit
 
 class VibrateAction(actionType: VibrateActionType, data: Map<String, String>) : BaseAction(actionType, data) {
 
-    override fun getDescription(context: Context) = pattern.getDescription(context)
-
     override fun perform(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Completable {
         val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         if (!vibrator.hasVibrator()) {

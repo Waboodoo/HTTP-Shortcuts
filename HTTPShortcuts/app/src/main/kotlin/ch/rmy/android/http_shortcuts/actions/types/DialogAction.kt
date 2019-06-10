@@ -22,9 +22,6 @@ class DialogAction(
             internalData[KEY_TEXT] = value
         }
 
-    override fun getDescription(context: Context): CharSequence =
-        context.getString(R.string.action_type_dialog_description, message)
-
     override fun perform(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Completable {
         val finalMessage = Variables.rawPlaceholdersToResolvedValues(message, variableValues)
         return if (finalMessage.isNotEmpty()) {

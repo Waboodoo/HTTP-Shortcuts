@@ -69,14 +69,14 @@ internal class ShortcutRequest private constructor(
         }
 
         private fun getMethod(method: String) = when (method) {
-            Shortcut.METHOD_POST -> Request.Method.POST
-            Shortcut.METHOD_PUT -> Request.Method.PUT
-            Shortcut.METHOD_DELETE -> Request.Method.DELETE
-            Shortcut.METHOD_PATCH -> Request.Method.PATCH
-            Shortcut.METHOD_OPTIONS -> Request.Method.OPTIONS
-            Shortcut.METHOD_HEAD -> Request.Method.HEAD
-            Shortcut.METHOD_TRACE -> Request.Method.TRACE
-            else -> Request.Method.GET
+            Shortcut.METHOD_POST -> Method.POST
+            Shortcut.METHOD_PUT -> Method.PUT
+            Shortcut.METHOD_DELETE -> Method.DELETE
+            Shortcut.METHOD_PATCH -> Method.PATCH
+            Shortcut.METHOD_OPTIONS -> Method.OPTIONS
+            Shortcut.METHOD_HEAD -> Method.HEAD
+            Shortcut.METHOD_TRACE -> Method.TRACE
+            else -> Method.GET
         }
 
         fun contentType(contentType: String) = also {

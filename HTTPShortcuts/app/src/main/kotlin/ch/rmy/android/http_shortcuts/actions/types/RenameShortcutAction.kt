@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.actions.types
 
 import android.content.Context
-import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.Controller
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
@@ -22,9 +21,6 @@ class RenameShortcutAction(
         }
 
     val shortcutId = data[KEY_SHORTCUT_ID]
-
-    override fun getDescription(context: Context): CharSequence =
-        context.getString(R.string.action_type_rename_shortcut_description, name)
 
     override fun perform(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Completable =
         renameShortcut(context, this.shortcutId ?: shortcutId, variableValues)

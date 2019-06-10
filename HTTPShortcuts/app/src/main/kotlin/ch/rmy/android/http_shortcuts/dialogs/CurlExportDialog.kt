@@ -32,9 +32,9 @@ class CurlExportDialog(private val context: Context, private val title: String, 
     }
 
     private fun shareCurlExport() {
-        Intent(android.content.Intent.ACTION_SEND)
+        Intent(Intent.ACTION_SEND)
             .setType(ShortcutResponse.TYPE_TEXT)
-            .putExtra(android.content.Intent.EXTRA_TEXT, curlCommand)
+            .putExtra(Intent.EXTRA_TEXT, curlCommand)
             .let {
                 Intent.createChooser(it, context.getString(R.string.share_title))
                     .startActivity(context)

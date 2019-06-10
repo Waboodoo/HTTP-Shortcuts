@@ -109,9 +109,7 @@ class SettingsActivity : BaseActivity() {
                     .subscribe()
                     .attachTo(destroyer)
             }
-                .let {
-                    it.summary = getString(R.string.settings_changelog_summary, versionName)
-                }
+                .summary = getString(R.string.settings_changelog_summary, versionName)
 
             initPreference("mail") {
                 contactDeveloper()
@@ -223,9 +221,9 @@ class SettingsActivity : BaseActivity() {
             Controller().use { controller ->
                 val base = controller.exportBase()
                 val data = GsonUtil.exportData(base)
-                Intent(android.content.Intent.ACTION_SEND)
+                Intent(Intent.ACTION_SEND)
                     .setType(IMPORT_EXPORT_FILE_TYPE)
-                    .putExtra(android.content.Intent.EXTRA_TEXT, data)
+                    .putExtra(Intent.EXTRA_TEXT, data)
                     .let {
                         Intent.createChooser(it, getString(R.string.title_export))
                     }

@@ -18,9 +18,9 @@ object PluginBundleManager {
     private fun attachVariableNamesIfPossible(bundle: Bundle) {
         Controller().use { controller ->
             val variableKeys = controller.getVariables().map { it.key }
-            val variableParams = variableKeys.map { PluginBundleManager.PARAM_VARIABLE_PREFIX + it }
+            val variableParams = variableKeys.map { PARAM_VARIABLE_PREFIX + it }
             variableKeys.forEach { variableKey ->
-                bundle.putString(PluginBundleManager.PARAM_VARIABLE_PREFIX + variableKey, TaskerPlugin.VARIABLE_PREFIX + variableKey)
+                bundle.putString(PARAM_VARIABLE_PREFIX + variableKey, TaskerPlugin.VARIABLE_PREFIX + variableKey)
             }
             TaskerPlugin.Setting.setVariableReplaceKeys(bundle, variableParams.toTypedArray())
         }

@@ -62,6 +62,7 @@ open class Shortcut : RealmObject(), HasId {
     fun isFeedbackErrorsOnly() =
         feedback == FEEDBACK_TOAST_ERRORS || feedback == FEEDBACK_TOAST_SIMPLE_ERRORS
 
+    // TODO: Is this still needed?
     val isRetryAllowed
         get() = feedback != FEEDBACK_ACTIVITY && feedback != FEEDBACK_DIALOG && !isBrowserShortcut
 
@@ -161,8 +162,6 @@ open class Shortcut : RealmObject(), HasId {
 
         private const val EXECUTION_TYPE_APP = "app"
         private const val EXECUTION_TYPE_BROWSER = "browser"
-
-        val FEEDBACK_OPTIONS = arrayOf(FEEDBACK_NONE, FEEDBACK_TOAST_SIMPLE, FEEDBACK_TOAST_SIMPLE_ERRORS, FEEDBACK_TOAST, FEEDBACK_TOAST_ERRORS, FEEDBACK_DIALOG, FEEDBACK_ACTIVITY)
 
         const val AUTHENTICATION_NONE = "none"
         const val AUTHENTICATION_BASIC = "basic"

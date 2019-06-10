@@ -44,11 +44,11 @@ class CurlParser private constructor(arguments: List<String>) {
                         var data = iterator.next()
                         if (argument == "--data-urlencode") {
                             try {
-                                if (data.contains("=")) {
+                                data = if (data.contains("=")) {
                                     val parts = data.split("=".toRegex(), 2)
-                                    data = parts[0] + "=" + URLEncoder.encode(parts[1], "utf-8")
+                                    parts[0] + "=" + URLEncoder.encode(parts[1], "utf-8")
                                 } else {
-                                    data = URLEncoder.encode(data, "utf-8")
+                                    URLEncoder.encode(data, "utf-8")
                                 }
                             } catch (e: UnsupportedEncodingException) {
                             }

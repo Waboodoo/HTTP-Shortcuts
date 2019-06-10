@@ -30,12 +30,6 @@ class TriggerShortcutAction(
             }
         }
 
-    override fun getDescription(context: Context): CharSequence =
-        context.getString(
-            R.string.action_type_trigger_shortcut_description,
-            shortcutName ?: "???"
-        )
-
     override fun perform(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Completable {
         if (recursionDepth >= MAX_RECURSION_DEPTH) {
             context.showToast(R.string.action_type_trigger_shortcut_error_recursion_depth_reached, long = true)

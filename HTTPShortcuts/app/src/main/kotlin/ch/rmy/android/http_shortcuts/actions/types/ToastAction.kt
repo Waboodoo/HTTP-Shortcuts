@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.actions.types
 
 import android.content.Context
-import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
@@ -19,9 +18,6 @@ class ToastAction(
         set(value) {
             internalData[KEY_TEXT] = value
         }
-
-    override fun getDescription(context: Context): CharSequence =
-        context.getString(R.string.action_type_toast_description, message)
 
     override fun performBlocking(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int) {
         val finalMessage = Variables.rawPlaceholdersToResolvedValues(message, variableValues)

@@ -66,9 +66,6 @@ fun Context.showToast(@StringRes message: Int, long: Boolean = false) {
     Toast.makeText(this, message, if (long) Toast.LENGTH_LONG else Toast.LENGTH_SHORT).show()
 }
 
-fun <T> Array<T>.findIndex(item: T) =
-    indices.firstOrNull { this[it] == item } ?: 0
-
 fun Disposable.toDestroyable() = object : Destroyable {
     override fun destroy() {
         dispose()

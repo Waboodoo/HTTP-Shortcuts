@@ -26,7 +26,7 @@ class VariablesViewModel(application: Application) : RealmViewModel(application)
         }
 
     fun getVariables(): ListLiveData<Variable> =
-        Repository.getBase(persistedRealm)!!
+        getBase(persistedRealm)!!
             .variables
             .toLiveData()
 

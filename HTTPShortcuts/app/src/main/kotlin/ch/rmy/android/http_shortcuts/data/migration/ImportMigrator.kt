@@ -10,7 +10,7 @@ import com.google.gson.JsonObject
 internal object ImportMigrator {
 
     fun migrate(importData: JsonElement): JsonElement {
-        var base = importData.asJsonObject
+        val base = importData.asJsonObject
         val fromVersion = base["version"].asInt
         if (fromVersion > DatabaseMigration.VERSION) {
             throw IllegalArgumentException("Import data is newer than app")

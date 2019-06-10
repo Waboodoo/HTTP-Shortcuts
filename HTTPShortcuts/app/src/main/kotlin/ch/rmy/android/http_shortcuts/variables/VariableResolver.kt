@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.variables
 
 import android.content.Context
-import ch.rmy.android.http_shortcuts.actions.ActionDTO
 import ch.rmy.android.http_shortcuts.data.Commons
 import ch.rmy.android.http_shortcuts.data.Controller
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
@@ -24,7 +23,7 @@ class VariableResolver(private val context: Context) {
         val requiredVariableIds = extractVariableIds(shortcut).toMutableSet()
 
         // Always export all constants
-        variableMap.forEach { variableId, variable ->
+        variableMap.forEach { (variableId, variable) ->
             if (variable.isConstant) {
                 requiredVariableIds.add(variableId)
             }
@@ -132,13 +131,6 @@ class VariableResolver(private val context: Context) {
                     addAll(Variables.extractVariableIds(header.key))
                     addAll(Variables.extractVariableIds(header.value))
                 }
-            }
-
-        private fun extractVariableIds(actions: List<ActionDTO>) =
-            actions.flatMap {
-                it.data.values
-                    .map(Variables::extractVariableIds)
-                    .flatten()
             }
 
         private fun encodeValue(variable: Variable, value: String) =
