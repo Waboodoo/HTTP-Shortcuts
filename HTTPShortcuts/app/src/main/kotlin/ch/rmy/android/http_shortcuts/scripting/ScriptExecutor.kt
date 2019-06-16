@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.scripting
 import android.content.Context
 import ch.rmy.android.http_shortcuts.actions.ActionDTO
 import ch.rmy.android.http_shortcuts.actions.types.ActionFactory
+import ch.rmy.android.http_shortcuts.extensions.getShortcutResponse
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import com.android.volley.VolleyError
 import io.reactivex.Completable
@@ -27,6 +28,16 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
                     emitter.onError(exception)
                 }
             }
+
+            val responseObject = (response ?: volleyError?.getShortcutResponse())
+            jsContext.property("response", responseObject?.let {
+                mapOf(
+                    "body" to it.bodyAsString,
+                    "headers" to it.headers,
+                    "statusCode" to it.statusCode
+                )
+            })
+            jsContext.property("networkError", volleyError?.message)
 
             jsContext.property("getVariable", object : JSFunction(jsContext, "run") {
                 fun run(variableName: String): String? = variableValues[variableName]

@@ -44,6 +44,7 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotterknife.bindView
+import org.liquidplayer.javascript.JSException
 import java.util.*
 
 class ExecuteActivity : BaseActivity() {
@@ -199,16 +200,21 @@ class ExecuteActivity : BaseActivity() {
                                 .observeOn(AndroidSchedulers.mainThread())
                         }
                         .onErrorResumeNext { error ->
-                            scriptExecutor.execute(
-                                context = context,
-                                script = shortcut.codeOnFailure,
-                                shortcutId = shortcut.id,
-                                variableValues = resolvedVariables,
-                                volleyError = error as? VolleyError?,
-                                recursionDepth = recursionDepth
-                            )
-                                .subscribeOn(Schedulers.computation())
-                                .observeOn(AndroidSchedulers.mainThread())
+                            if (error is JSException) {
+                                // TODO: Find a better way to differenciate network exceptions from JS exceptions
+                                Completable.error(error)
+                            } else {
+                                scriptExecutor.execute(
+                                    context = context,
+                                    script = shortcut.codeOnFailure,
+                                    shortcutId = shortcut.id,
+                                    variableValues = resolvedVariables,
+                                    volleyError = error as? VolleyError?,
+                                    recursionDepth = recursionDepth
+                                )
+                                    .subscribeOn(Schedulers.computation())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                            }
                         }
                 }
             )
