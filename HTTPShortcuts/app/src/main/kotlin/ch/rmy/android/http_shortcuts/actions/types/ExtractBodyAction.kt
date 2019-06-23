@@ -4,6 +4,7 @@ import android.content.Context
 import ch.rmy.android.http_shortcuts.data.Commons
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
+import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.HttpHeaderParser
@@ -45,7 +46,7 @@ class ExtractBodyAction(
             internalData[KEY_JSON_PATH] = value
         }
 
-    override fun perform(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Completable {
+    override fun perform(context: Context, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Completable {
         val body = when {
             response != null -> response.bodyAsString
             volleyError?.networkResponse?.data != null -> volleyError.networkResponse.data.toString(Charset.forName(HttpHeaderParser.parseCharset(volleyError.networkResponse.headers, "UTF-8")))
@@ -102,7 +103,7 @@ class ExtractBodyAction(
             else -> return Completable.complete()
         }
 
-        variableValues[variableId] = value
+        variableManager.setVariableValueById(variableId, value)
         return Commons.setVariableValue(variableId, value)
     }
 

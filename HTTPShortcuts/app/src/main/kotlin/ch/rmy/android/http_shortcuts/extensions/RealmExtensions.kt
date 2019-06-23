@@ -17,6 +17,8 @@ import io.realm.RealmResults
 </T> */
 fun <T : RealmObject> T.detachFromRealm(): T = realm?.copyFromRealm(this) ?: this
 
+fun <T : RealmObject> RealmList<T>.detachFromRealm(): List<T> = realm?.copyFromRealm(this) ?: this
+
 fun <T : RealmObject> T.toLiveData(): LiveData<T?> = RealmSingleLiveData(this)
 
 fun <T : RealmObject> RealmResults<T>.toLiveData(): ListLiveData<T> = RealmResultsLiveData(this)

@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.actions.types
 import android.content.Context
 import ch.rmy.android.http_shortcuts.data.Commons
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
+import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
 import com.android.volley.VolleyError
@@ -25,9 +26,9 @@ class SetVariableAction(
             internalData[KEY_VARIABLE_ID] = value
         }
 
-    override fun perform(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Completable {
-        val value = Variables.rawPlaceholdersToResolvedValues(newValue, variableValues)
-        variableValues[variableId] = value
+    override fun perform(context: Context, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Completable {
+        val value = Variables.rawPlaceholdersToResolvedValues(newValue, variableManager.getVariableValuesByIds())
+        variableManager.setVariableValueById(variableId, value)
         return Commons.setVariableValue(variableId, value)
     }
 

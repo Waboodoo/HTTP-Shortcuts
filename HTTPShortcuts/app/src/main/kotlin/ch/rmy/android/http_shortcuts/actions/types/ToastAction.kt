@@ -1,12 +1,14 @@
 package ch.rmy.android.http_shortcuts.actions.types
 
 import android.content.Context
-import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
+import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
 import com.android.volley.VolleyError
+import io.reactivex.Completable
+import io.reactivex.android.schedulers.AndroidSchedulers
 
 class ToastAction(
     actionType: ToastActionType,
@@ -19,13 +21,15 @@ class ToastAction(
             internalData[KEY_TEXT] = value
         }
 
-    override fun performBlocking(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int) {
-        val finalMessage = Variables.rawPlaceholdersToResolvedValues(message, variableValues)
-        if (finalMessage.isNotEmpty()) {
-            (context as ExecuteActivity).runOnUiThread {
-                // TODO: Find a nicer way for running on the UI thread
+    override fun perform(context: Context, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Completable {
+        val finalMessage = Variables.rawPlaceholdersToResolvedValues(message, variableManager.getVariableValuesByIds())
+        return if (finalMessage.isNotEmpty()) {
+            Completable.fromAction {
                 context.showToast(finalMessage, long = true)
             }
+                .subscribeOn(AndroidSchedulers.mainThread())
+        } else {
+            Completable.complete()
         }
     }
 
@@ -34,7 +38,7 @@ class ToastAction(
 
     companion object {
 
-        private const val KEY_TEXT = "text"
+        const val KEY_TEXT = "text"
 
     }
 

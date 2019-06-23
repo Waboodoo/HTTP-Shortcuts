@@ -3,8 +3,11 @@ package ch.rmy.android.http_shortcuts.scripting
 import android.content.Context
 import ch.rmy.android.http_shortcuts.actions.ActionDTO
 import ch.rmy.android.http_shortcuts.actions.types.ActionFactory
+import ch.rmy.android.http_shortcuts.data.RealmFactory
+import ch.rmy.android.http_shortcuts.data.Repository
 import ch.rmy.android.http_shortcuts.extensions.getShortcutResponse
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
+import ch.rmy.android.http_shortcuts.variables.VariableManager
 import com.android.volley.VolleyError
 import io.reactivex.Completable
 import org.liquidplayer.javascript.JSContext
@@ -18,62 +21,106 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
     private var responseData: ShortcutResponse? = null
     private var volleyErrorData: VolleyError? = null
 
-    fun execute(context: Context, script: String, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse? = null, volleyError: VolleyError? = null, recursionDepth: Int = 0): Completable =
-        Completable.create { emitter ->
-            this.responseData = response
-            this.volleyErrorData = volleyError
+    init {
+        registerActionAliases(actionFactory.getAliases())
+    }
 
+    private fun registerActionAliases(aliases: Map<String, ActionAlias>) {
+        aliases.forEach { (actionName, alias) ->
+            jsContext.evaluateScript("""
+            const ${alias.functionName} = (${alias.parameters.joinToString()}) => {
+                _runAction("$actionName", {
+                    ${alias.parameters.joinToString { parameter -> "\"$parameter\": $parameter" }}
+                });
+            };
+        """.trimIndent())
+        }
+    }
+
+    fun execute(context: Context, script: String, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse? = null, volleyError: VolleyError? = null, recursionDepth: Int = 0): Completable =
+        Completable.create { emitter ->
             jsContext.setExceptionHandler { exception ->
                 if (!emitter.isDisposed) {
                     emitter.onError(exception)
                 }
             }
 
-            val responseObject = (response ?: volleyError?.getShortcutResponse())
-            jsContext.property("response", responseObject?.let {
-                mapOf(
-                    "body" to it.bodyAsString,
-                    "headers" to it.headers,
-                    "statusCode" to it.statusCode
-                )
-            })
-            jsContext.property("networkError", volleyError?.message)
+            registerResponse(response, volleyError)
 
-            jsContext.property("getVariable", object : JSFunction(jsContext, "run") {
-                fun run(variableName: String): String? = variableValues[variableName]
-            })
+            registerVariables(variableManager)
 
-            jsContext.property("_runAction", object : JSFunction(jsContext, "run") {
-                fun run(actionType: String, data: Map<String, JSValue>) {
-
-                    val action = actionFactory.fromDTO(ActionDTO(
-                        type = actionType,
-                        data = sanitizeData(data)
-                    ))
-
-                    action.perform(
-                        context = context,
-                        shortcutId = shortcutId,
-                        variableValues = variableValues,
-                        response = responseData,
-                        volleyError = volleyErrorData,
-                        recursionDepth = recursionDepth
-                    )
-                        .doOnComplete {
-                            emitter.onComplete()
-                        }
-                        .doOnError { error ->
-                            emitter.onError(error)
-                        }
-                        .blockingAwait()
-                }
-            }, JSContext.JSPropertyAttributeReadOnly or JSContext.JSPropertyAttributeDontDelete)
+            this.responseData = response
+            this.volleyErrorData = volleyError
+            registerActions(context, shortcutId, variableManager, recursionDepth)
 
             jsContext.evaluateScript(script)
             emitter.onComplete()
         }
 
-    private fun sanitizeData(data: Map<String, JSValue?>): Map<String, String> =
-        data.mapValues { it.value?.toString() ?: "" }
+    private fun registerResponse(response: ShortcutResponse?, volleyError: VolleyError?) {
+        val responseObject = (response ?: volleyError?.getShortcutResponse())
+        jsContext.property("response", responseObject?.let {
+            mapOf(
+                "body" to it.bodyAsString,
+                "headers" to it.headers,
+                "statusCode" to it.statusCode,
+                "cookies" to it.cookies
+            )
+        })
+        jsContext.property("networkError", volleyError?.message)
+    }
+
+    private fun registerVariables(variableManager: VariableManager) {
+        jsContext.property("getVariable", object : JSFunction(jsContext, "run") {
+            fun run(variableKey: String): String? =
+                variableManager.getVariableValueByKey(variableKey)
+        })
+        jsContext.property("setVariable", object : JSFunction(jsContext, "run") {
+            fun run(variableKey: String, rawValue: JSValue?) {
+                val value = sanitizeData(rawValue)
+                variableManager.setVariableValueByKey(variableKey, value)
+
+                // TODO: Handle variable persistance in a better way
+                RealmFactory.getInstance().createRealm().use { realm ->
+                    realm.executeTransaction {
+                        Repository.getVariableByKey(realm, variableKey)
+                            ?.value = value
+                    }
+                }
+            }
+        })
+    }
+
+    private fun registerActions(context: Context, shortcutId: String, variableManager: VariableManager, recursionDepth: Int) {
+        jsContext.property("_runAction", object : JSFunction(jsContext, "run") {
+            fun run(actionType: String, data: Map<String, JSValue>) {
+
+                val action = actionFactory.fromDTO(ActionDTO(
+                    type = actionType,
+                    data = sanitizeData(data)
+                ))
+
+                action.perform(
+                    context = context,
+                    shortcutId = shortcutId,
+                    variableManager = variableManager,
+                    response = responseData,
+                    volleyError = volleyErrorData,
+                    recursionDepth = recursionDepth
+                )
+                    .blockingAwait()
+            }
+        }, JSContext.JSPropertyAttributeReadOnly or JSContext.JSPropertyAttributeDontDelete)
+    }
+
+    companion object {
+
+        private fun sanitizeData(data: Map<String, JSValue?>): Map<String, String> =
+            data.mapValues { sanitizeData(it.value) }
+
+        private fun sanitizeData(data: JSValue?): String =
+            data?.toString() ?: ""
+
+    }
 
 }

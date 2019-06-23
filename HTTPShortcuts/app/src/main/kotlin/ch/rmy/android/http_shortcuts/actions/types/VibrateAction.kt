@@ -7,6 +7,7 @@ import android.os.Vibrator
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
+import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import com.android.volley.VolleyError
 import io.reactivex.Completable
@@ -14,7 +15,7 @@ import java.util.concurrent.TimeUnit
 
 class VibrateAction(actionType: VibrateActionType, data: Map<String, String>) : BaseAction(actionType, data) {
 
-    override fun perform(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Completable {
+    override fun perform(context: Context, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Completable {
         val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         if (!vibrator.hasVibrator()) {
             return Completable.complete()
@@ -56,8 +57,8 @@ class VibrateAction(actionType: VibrateActionType, data: Map<String, String>) : 
 
     companion object {
 
-        private const val KEY_PATTERN = "pattern"
-        private const val KEY_WAIT_FOR_COMPLETION = "wait"
+        const val KEY_PATTERN = "pattern"
+        const val KEY_WAIT_FOR_COMPLETION = "wait"
 
         private const val PATTERN_COUNT = 3
 

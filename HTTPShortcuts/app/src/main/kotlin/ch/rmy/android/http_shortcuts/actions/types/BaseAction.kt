@@ -6,6 +6,7 @@ import ch.rmy.android.http_shortcuts.actions.ActionDTO
 import ch.rmy.android.http_shortcuts.extensions.cancel
 import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
+import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import com.afollestad.materialdialogs.MaterialDialog
 import com.android.volley.VolleyError
@@ -23,12 +24,12 @@ abstract class BaseAction(
         data = internalData
     )
 
-    open fun perform(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Completable {
-        performBlocking(context, shortcutId, variableValues, response, volleyError, recursionDepth)
+    open fun perform(context: Context, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Completable {
+        performBlocking(context, shortcutId, variableManager, response, volleyError, recursionDepth)
         return Completable.complete()
     }
 
-    protected open fun performBlocking(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int) {
+    protected open fun performBlocking(context: Context, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int) {
 
     }
 

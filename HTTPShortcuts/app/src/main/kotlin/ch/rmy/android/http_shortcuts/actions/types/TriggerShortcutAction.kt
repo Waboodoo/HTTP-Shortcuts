@@ -7,6 +7,7 @@ import ch.rmy.android.http_shortcuts.data.Controller
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
+import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import com.android.volley.VolleyError
 import io.reactivex.Completable
@@ -30,7 +31,7 @@ class TriggerShortcutAction(
             }
         }
 
-    override fun perform(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Completable {
+    override fun perform(context: Context, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Completable {
         if (recursionDepth >= MAX_RECURSION_DEPTH) {
             context.showToast(R.string.action_type_trigger_shortcut_error_recursion_depth_reached, long = true)
             return Completable.complete()
@@ -50,7 +51,7 @@ class TriggerShortcutAction(
 
     companion object {
 
-        private const val KEY_SHORTCUT_ID = "shortcutId"
+        const val KEY_SHORTCUT_ID = "shortcutId"
 
         private const val MAX_RECURSION_DEPTH = 5
 

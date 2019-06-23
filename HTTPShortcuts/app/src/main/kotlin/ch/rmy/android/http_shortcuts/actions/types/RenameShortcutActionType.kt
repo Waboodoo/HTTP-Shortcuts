@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.actions.types
 import android.content.Context
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.actions.ActionDTO
+import ch.rmy.android.http_shortcuts.scripting.ActionAlias
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 
 class RenameShortcutActionType(context: Context) : BaseActionType(context) {
@@ -15,6 +16,11 @@ class RenameShortcutActionType(context: Context) : BaseActionType(context) {
 
     override val isAvailable: Boolean
         get() = LauncherShortcutManager.supportsPinning(context)
+
+    override fun getAlias() = ActionAlias(
+        functionName = "renameShortcut",
+        parameters = listOf(RenameShortcutAction.KEY_SHORTCUT_ID, RenameShortcutAction.KEY_NAME)
+    )
 
     companion object {
 

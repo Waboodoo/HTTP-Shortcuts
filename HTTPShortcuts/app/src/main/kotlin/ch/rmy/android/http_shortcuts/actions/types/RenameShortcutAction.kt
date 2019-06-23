@@ -4,6 +4,7 @@ import android.content.Context
 import ch.rmy.android.http_shortcuts.data.Controller
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
+import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
 import com.android.volley.VolleyError
@@ -22,12 +23,12 @@ class RenameShortcutAction(
 
     val shortcutId = data[KEY_SHORTCUT_ID]
 
-    override fun perform(context: Context, shortcutId: String, variableValues: MutableMap<String, String>, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Completable =
-        renameShortcut(context, this.shortcutId ?: shortcutId, variableValues)
+    override fun perform(context: Context, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Completable =
+        renameShortcut(context, this.shortcutId ?: shortcutId, variableManager)
 
-    private fun renameShortcut(context: Context, shortcutId: String, variableValues: Map<String, String>): Completable {
+    private fun renameShortcut(context: Context, shortcutId: String, variableManager: VariableManager): Completable {
         Controller().use { controller ->
-            val newName = Variables.rawPlaceholdersToResolvedValues(name, variableValues)
+            val newName = Variables.rawPlaceholdersToResolvedValues(name, variableManager.getVariableValuesByIds())
             if (newName.isEmpty()) {
                 return Completable.complete()
             }

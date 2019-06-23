@@ -48,6 +48,20 @@ class ShortcutResponse internal constructor(val headers: Map<String, String>, va
             TYPE_TEXT
         }
 
+    val cookies: Map<String, String>
+        get() = getHeaderValue(HEADER_COOKIE)
+            ?.split(';')
+            ?.map { it.split('=') }
+            ?.associate { it.first() to (it.getOrNull(1) ?: "") }
+            ?: emptyMap()
+
+    private fun getHeaderValue(headerName: String) =
+        headers.entries
+            .firstOrNull {
+                it.key.equals(headerName, ignoreCase = true)
+            }
+            ?.value
+
     companion object {
 
         const val TYPE_TEXT = "text/plain"
@@ -57,6 +71,7 @@ class ShortcutResponse internal constructor(val headers: Map<String, String>, va
         private const val GZIP_BUFFER_SIZE = 16384
 
         private const val HEADER_CONTENT_TYPE = "Content-Type"
+        private const val HEADER_COOKIE = "Set-Cookie"
     }
 
 }

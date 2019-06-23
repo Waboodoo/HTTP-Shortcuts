@@ -6,46 +6,52 @@ import ch.rmy.android.http_shortcuts.data.Controller
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.detachFromRealm
-import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.variables.types.AsyncVariableType
 import ch.rmy.android.http_shortcuts.variables.types.SyncVariableType
 import ch.rmy.android.http_shortcuts.variables.types.VariableTypeFactory
 import io.reactivex.Completable
 import io.reactivex.Single
-import org.json.JSONObject
-import java.io.UnsupportedEncodingException
-import java.net.URLEncoder
 
 class VariableResolver(private val context: Context) {
 
-    fun resolve(controller: Controller, shortcut: Shortcut, preResolvedValues: Map<String, String> = emptyMap()): Single<Map<String, String>> {
-        val variableMap = controller.getVariables().associate { it.id to it.detachFromRealm() }
+    fun resolve(controller: Controller, shortcut: Shortcut, preResolvedValues: Map<String, String> = emptyMap()): Single<VariableManager> {
+        val variables = controller.getVariables().detachFromRealm()
+        val variableManager = VariableManager(variables)
         val requiredVariableIds = extractVariableIds(shortcut).toMutableSet()
 
         // Always export all constants
-        variableMap.forEach { (variableId, variable) ->
-            if (variable.isConstant) {
-                requiredVariableIds.add(variableId)
-            }
-        }
+        variables
+            .filter { it.isConstant }
+            .map { it.id }
+            .toCollection(requiredVariableIds)
 
-        val variablesToResolve = requiredVariableIds.mapNotNull { variableMap[it] }
-        return resolveVariables(variablesToResolve, preResolvedValues)
+        val preResolvedVariables = mutableMapOf<Variable, String>()
+        preResolvedValues
+            .forEach { (variableKey, value) ->
+                variableManager.getVariableByKey(variableKey)?.let { variable ->
+                    preResolvedVariables[variable] = value
+                }
+            }
+
+        val variablesToResolve = requiredVariableIds
+            .mapNotNull { variableId ->
+                variableManager.getVariableById(variableId)
+            }
+
+        return resolveVariables(variablesToResolve, preResolvedVariables)
             .flatMap { resolvedVariables ->
-                resolveRecursiveVariables(variableMap, resolvedVariables)
+                resolveRecursiveVariables(variableManager, resolvedVariables)
             }
             .map { resolvedValues ->
-                resolvedValues.mapValues { entry ->
-                    variableMap[entry.key]
-                        ?.let { variable ->
-                            encodeValue(variable, entry.value)
-                        }
-                        ?: entry.value
-                }
+                resolvedValues
+                    .forEach { (variable, value) ->
+                        variableManager.setVariableValue(variable, value)
+                    }
+                variableManager
             }
     }
 
-    private fun resolveRecursiveVariables(variableMap: Map<String, Variable>, preResolvedValues: Map<String, String>, recursionDepth: Int = 0): Single<Map<String, String>> {
+    private fun resolveRecursiveVariables(variableLookup: VariableLookup, preResolvedValues: Map<Variable, String>, recursionDepth: Int = 0): Single<Map<Variable, String>> {
         val requiredVariableIds = mutableSetOf<String>()
         preResolvedValues.values.forEach { value ->
             requiredVariableIds.addAll(Variables.extractVariableIds(value))
@@ -54,32 +60,41 @@ class VariableResolver(private val context: Context) {
             return Single.just(preResolvedValues)
         }
 
-        val variablesToResolve = requiredVariableIds.mapNotNull { variableMap[it] }
+        val variablesToResolve = requiredVariableIds
+            .mapNotNull { variableId ->
+                variableLookup.getVariableById(variableId)
+            }
         return resolveVariables(variablesToResolve, preResolvedValues)
             .map {
                 it.toMutableMap().also { resolvedVariables ->
                     resolvedVariables.forEach { resolvedVariable ->
-                        resolvedVariables[resolvedVariable.key] = Variables.rawPlaceholdersToResolvedValues(resolvedVariable.value, resolvedVariables)
+                        resolvedVariables[resolvedVariable.key] = Variables.rawPlaceholdersToResolvedValues(
+                            resolvedVariable.value,
+                            resolvedVariables.mapKeys { it.key.id }
+                        )
                     }
                 }
             }
             .flatMap { resolvedVariables ->
-                resolveRecursiveVariables(variableMap, resolvedVariables, recursionDepth + 1)
+                resolveRecursiveVariables(variableLookup, resolvedVariables, recursionDepth + 1)
             }
     }
 
-    private fun resolveVariables(variablesToResolve: List<Variable>, preResolvedValues: Map<String, String> = emptyMap()): Single<Map<String, String>> {
+    private fun resolveVariables(variablesToResolve: List<Variable>, preResolvedValues: Map<Variable, String> = emptyMap()): Single<Map<Variable, String>> {
         var completable = Completable.complete()
-        val resolvedVariables = mutableMapOf<String, String>()
+        val resolvedVariables = mutableMapOf<Variable, String>()
 
         for (variable in variablesToResolve) {
-            if (resolvedVariables.containsKey(variable.id)) {
+            if (resolvedVariables.keys.any { it.id == variable.id }) {
                 // Variable value is already resolved
                 continue
             }
-            if (preResolvedValues.containsKey(variable.key)) {
+            val preResolvedValue = preResolvedValues.entries
+                .firstOrNull { it.key.id == variable.id }
+                ?.value
+            if (preResolvedValue != null) {
                 // Variable value was pre-resolved
-                resolvedVariables[variable.id] = preResolvedValues.getValue(variable.key)
+                resolvedVariables[variable] = preResolvedValue
                 continue
             }
 
@@ -88,12 +103,12 @@ class VariableResolver(private val context: Context) {
                 completable = completable.concatWith(
                     variableType.resolveValue(context, variable)
                         .doOnSuccess { resolvedValue ->
-                            resolvedVariables[variable.id] = resolvedValue
+                            resolvedVariables[variable] = resolvedValue
                         }
                         .ignoreElement()
                 )
             } else if (variableType is SyncVariableType) {
-                resolvedVariables[variable.id] = variableType.resolveValue(variable)
+                resolvedVariables[variable] = variableType.resolveValue(variable)
             }
         }
 
@@ -132,19 +147,6 @@ class VariableResolver(private val context: Context) {
                     addAll(Variables.extractVariableIds(header.value))
                 }
             }
-
-        private fun encodeValue(variable: Variable, value: String) =
-            value
-                .mapIf(variable.jsonEncode) {
-                    JSONObject.quote(it).drop(1).dropLast(1)
-                }
-                .mapIf(variable.urlEncode) {
-                    try {
-                        URLEncoder.encode(it, "utf-8")
-                    } catch (e: UnsupportedEncodingException) {
-                        it
-                    }
-                }
 
     }
 

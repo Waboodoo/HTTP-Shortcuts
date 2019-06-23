@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.actions.types
 
 import android.content.Context
 import ch.rmy.android.http_shortcuts.actions.ActionDTO
+import ch.rmy.android.http_shortcuts.scripting.ActionAlias
 
 class ActionFactory(private val context: Context) {
 
@@ -26,7 +27,10 @@ class ActionFactory(private val context: Context) {
         types.firstOrNull { it.type == actionType }
             ?: UnknownActionType(context)
 
-    val availableActionTypes: List<BaseActionType>
-        get() = types.filter { it.isAvailable }
+    fun getAliases(): Map<String, ActionAlias> =
+        types
+            .map { it.type to it.getAlias() }
+            .filter { it.second != null }
+            .associate { it.first to it.second!! }
 
 }

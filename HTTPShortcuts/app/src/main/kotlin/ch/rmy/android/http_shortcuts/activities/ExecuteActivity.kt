@@ -33,6 +33,7 @@ import ch.rmy.android.http_shortcuts.utils.DateUtil
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.Validation
+import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import ch.rmy.android.http_shortcuts.variables.Variables
 import com.afollestad.materialdialogs.MaterialDialog
@@ -158,23 +159,29 @@ class ExecuteActivity : BaseActivity() {
     private fun resolveVariablesAndExecute(variableValues: Map<String, String>): Completable =
         VariableResolver(context)
             .resolve(controller, shortcut, variableValues)
-            .flatMapCompletable { resolvedVariables ->
+            .flatMapCompletable { variableManager ->
                 if (shouldDelayExecution()) {
                     val waitUntil = DateUtil.calculateDate(shortcut.delay)
-                    controller.createPendingExecution(shortcut.id, resolvedVariables, tryNumber, waitUntil, shortcut.isWaitForNetwork)
+                    controller.createPendingExecution(
+                        shortcutId = shortcut.id,
+                        resolvedVariables = variableManager.getVariableValuesByKeys(),
+                        tryNumber = tryNumber,
+                        waitUntil = waitUntil,
+                        requiresNetwork = shortcut.isWaitForNetwork
+                    )
                 } else {
-                    executeWithActions(resolvedVariables.toMutableMap())
+                    executeWithActions(variableManager)
                 }
             }
 
-    private fun executeWithActions(resolvedVariables: MutableMap<String, String>): Completable =
+    private fun executeWithActions(variableManager: VariableManager): Completable =
         Completable.fromAction {
             showProgress()
         }
             .subscribeOn(AndroidSchedulers.mainThread())
             .concatWith(
                 if (tryNumber == 0 || (tryNumber == 1 && shortcut.delay > 0)) {
-                    scriptExecutor.execute(context, shortcut.codeOnPrepare, shortcut.id, resolvedVariables)
+                    scriptExecutor.execute(context, shortcut.codeOnPrepare, shortcut.id, variableManager)
                         .subscribeOn(Schedulers.computation())
                         .observeOn(AndroidSchedulers.mainThread())
                 } else {
@@ -183,16 +190,16 @@ class ExecuteActivity : BaseActivity() {
             )
             .concatWith(
                 if (shortcut.isBrowserShortcut) {
-                    openShortcutInBrowser(resolvedVariables)
+                    openShortcutInBrowser(variableManager)
                     Completable.complete()
                 } else {
-                    executeShortcut(resolvedVariables)
+                    executeShortcut(variableManager)
                         .flatMapCompletable { response ->
                             scriptExecutor.execute(
                                 context = context,
                                 script = shortcut.codeOnSuccess,
                                 shortcutId = shortcut.id,
-                                variableValues = resolvedVariables,
+                                variableManager = variableManager,
                                 response = response,
                                 recursionDepth = recursionDepth
                             )
@@ -208,7 +215,7 @@ class ExecuteActivity : BaseActivity() {
                                     context = context,
                                     script = shortcut.codeOnFailure,
                                     shortcutId = shortcut.id,
-                                    variableValues = resolvedVariables,
+                                    variableManager = variableManager,
                                     volleyError = error as? VolleyError?,
                                     recursionDepth = recursionDepth
                                 )
@@ -222,8 +229,8 @@ class ExecuteActivity : BaseActivity() {
                 hideProgress()
             }
 
-    private fun openShortcutInBrowser(resolvedVariables: MutableMap<String, String>) {
-        val url = Variables.rawPlaceholdersToResolvedValues(shortcut.url, resolvedVariables)
+    private fun openShortcutInBrowser(variableManager: VariableManager) {
+        val url = Variables.rawPlaceholdersToResolvedValues(shortcut.url, variableManager.getVariableValuesByIds())
         try {
             val uri = Uri.parse(url)
             if (!Validation.isValidUrl(uri)) {
@@ -240,8 +247,8 @@ class ExecuteActivity : BaseActivity() {
         }
     }
 
-    private fun executeShortcut(resolvedVariables: Map<String, String>): Single<ShortcutResponse> =
-        HttpRequester.executeShortcut(context, shortcut, resolvedVariables)
+    private fun executeShortcut(variableManager: VariableManager): Single<ShortcutResponse> =
+        HttpRequester.executeShortcut(context, shortcut, variableManager.getVariableValuesByIds())
             .doOnSuccess { response ->
                 setLastResponse(response)
                 if (shortcut.isFeedbackErrorsOnly()) {
@@ -254,7 +261,7 @@ class ExecuteActivity : BaseActivity() {
             }
             .doOnError { error ->
                 if (!shortcut.isFeedbackUsesUI && shortcut.isWaitForNetwork && (error as? VolleyError)?.networkResponse == null) {
-                    rescheduleExecution(resolvedVariables)
+                    rescheduleExecution(variableManager)
                     if (shortcut.feedback != Shortcut.FEEDBACK_NONE && tryNumber == 0) {
                         showToast(String.format(context.getString(R.string.execution_delayed), shortcutName), long = true)
                     }
@@ -266,10 +273,10 @@ class ExecuteActivity : BaseActivity() {
                 }
             }
 
-    private fun rescheduleExecution(resolvedVariables: Map<String, String>) {
+    private fun rescheduleExecution(variableManager: VariableManager) {
         if (tryNumber < MAX_RETRY) {
             val waitUntil = DateUtil.calculateDate(calculateDelay())
-            controller.createPendingExecution(shortcut.id, resolvedVariables, tryNumber, waitUntil, shortcut.isWaitForNetwork)
+            controller.createPendingExecution(shortcut.id, variableManager.getVariableValuesByKeys(), tryNumber, waitUntil, shortcut.isWaitForNetwork)
                 .subscribe {
                     ExecutionScheduler.schedule(context)
                 }
