@@ -47,7 +47,8 @@ class LicensesActivity : BaseActivity() {
             "vintagechroma",
             "codeviewandroid",
             "stetho",
-            "okhttpdigest"
+            "okhttpdigest",
+            "liquidcore"
         )
     }
 }

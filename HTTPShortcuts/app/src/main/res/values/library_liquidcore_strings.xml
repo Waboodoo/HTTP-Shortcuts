@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="define_int_Liquidcore" translatable="false">year;owner</string>
+    <string name="library_Liquidcore_author" translatable="false">LiquidPlayer</string>
+    <string name="library_Liquidcore_libraryName" translatable="false">LiquidCore</string>
+    <string name="library_Liquidcore_libraryDescription" translatable="false">LiquidCore provides a convenient way for Android developers to execute raw JavaScript inside of their apps.</string>
+    <string name="library_Liquidcore_libraryWebsite" translatable="false">https://github.com/LiquidPlayer/LiquidCore</string>
+    <string name="library_Liquidcore_licenseId" translatable="false">mit</string>
+    <!-- Custom variables section -->
+    <string name="library_Liquidcore_owner" translatable="false">LiquidPlayer</string>
+    <string name="library_Liquidcore_year" translatable="false">2019</string>
+</resources>
