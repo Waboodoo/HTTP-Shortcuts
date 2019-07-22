@@ -87,7 +87,7 @@
     <!-- Confirmation message shown in Toast when a shortcut was executed. %s is a placeholder for the shortcut's name -->
     <string name="executed">%s executado.</string>
     <!-- Error message shown in Toast when shortcut was not found. -->
-    <string name="shortcut_not_found">Atalho não encontrado. Talvez seja necessário adiciona-lo novamente à tela inicial.</string>
+    <string name="shortcut_not_found">Atalho não encontrado. Talvez seja necessário adicioná-lo novamente à tela inicial.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
     <string name="validation_name_not_empty">Por favor, informe um nome.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
@@ -433,11 +433,11 @@
     <!-- Action: Remove the current action. Shown in dropdown menu when selecting an action in the shortcut editor -->
     <string name="action_remove_action">Remover ação</string>
     <!-- Shortcut Action Title: Extract (HTTP) Status Code (and store in variable) -->
-    <string name="action_type_extract_status_code_title">Estrai Código de Status</string>
+    <string name="action_type_extract_status_code_title">Extrai Código de Status</string>
     <!-- Shortcut Action Description: Extract status code (from HTTP response) and store in variable -->
     <string name="action_type_extract_status_code_description">Armazene o código de status da resposta em \"%1$s\"</string>
     <!-- Shortcut Action Editor Help Text: Extract status code, shown in action editor -->
-    <string name="action_type_extract_status_code_help_text">Estrai o código de status da resposta HTTP e armazena em uma variável.</string>
+    <string name="action_type_extract_status_code_help_text">Extrai o código de status da resposta HTTP e armazena em uma variável.</string>
     <!-- Shortcut Action Editor Label: Target variable (to store a value) -->
     <string name="action_type_target_variable">Variável alvo</string>
     <!-- Shortcut Action Editor Placeholder: Shows when no variable was selected yet -->
@@ -533,25 +533,25 @@
     <!-- Dialog message to prompt user to confirm execution of shortcut -->
     <string name="dialog_message_confirm_shortcut_execution">Executar este atalho?</string>
     <!-- Dialog title: Unlock the app (after it was locked. user is required to enter a password) -->
-    <string name="dialog_title_unlock_app">Unlock App</string>
+    <string name="dialog_title_unlock_app">Desbloquear App</string>
     <!-- Dialog button: Unlock the app (after entering a password) -->
-    <string name="button_unlock_app">Unlock</string>
+    <string name="button_unlock_app">Desbloquear</string>
     <!-- Dialog text: Asks user to enter a password to unlock the app's settings -->
-    <string name="dialog_text_unlock_app">Enter your password to unlock the app settings.</string>
+    <string name="dialog_text_unlock_app">Entre com a sua senha para desbloquear as configurações do aplicativo.</string>
     <!-- Dialog text: Asks user to enter the password to unlock the app's settings again, after an incorrect try -->
-    <string name="dialog_text_unlock_app_retry">Wrong password. Please try again.</string>
+    <string name="dialog_text_unlock_app_retry">Senha incorreta. tente novamente.</string>
     <!-- Dialog title: Asks user to enter a password to lock the app's settings -->
-    <string name="dialog_title_lock_app">Lock App</string>
+    <string name="dialog_title_lock_app">Bloquear App</string>
     <!-- Dialog text: Asks user to enter a password to lock the app's settings -->
-    <string name="dialog_text_lock_app">Enter a password to lock the app settings and prevent modification of your shortcuts.</string>
+    <string name="dialog_text_lock_app">Entre com sua senha para bloquear as configurações do App e prevenir a modificação de seus atalhos.</string>
     <!-- Dialog button: Lock the app (by entering a password) -->
-    <string name="button_lock_app">Lock</string>
+    <string name="button_lock_app">Bloqeuar</string>
     <!-- Snackbar message: App was locked (settings can no longer be changed) -->
-    <string name="message_app_locked">App locked.</string>
+    <string name="message_app_locked">App bloqueado.</string>
     <!-- Snackbar message: App was unlocked (settings can be changed again) -->
-    <string name="message_app_unlocked">App unlocked.</string>
+    <string name="message_app_unlocked">App desbloqueado.</string>
     <!-- Title of option in settings screen: FAQ (frequently asked questions), links the user to an external documentation page -->
     <string name="settings_faq">FAQ</string>
     <!-- Subtitle of option in settings screen: FAQ (frequently asked questions), links the user to an external documentation page -->
-    <string name="settings_faq_summary">Frequently asked questions</string>
+    <string name="settings_faq_summary">Perguntas frequentes</string>
 </resources>
