@@ -63,6 +63,14 @@ object Repository {
             .equalTo(Variable.FIELD_KEY, key)
             .findFirst()
 
+    internal fun getVariableByKeyOrId(realm: Realm, keyOrId: String): Variable? =
+        realm
+            .where<Variable>()
+            .equalTo(Variable.FIELD_KEY, keyOrId)
+            .or()
+            .equalTo(HasId.FIELD_ID, keyOrId)
+            .findFirst()
+
     internal fun getShortcutsPendingExecution(realm: Realm): RealmResults<PendingExecution> =
         realm
             .where<PendingExecution>()

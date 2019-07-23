@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Spannable
 import android.text.method.LinkMovementMethod
+import android.widget.Button
 import android.widget.EditText
 import androidx.lifecycle.Observer
 import ch.rmy.android.http_shortcuts.R
@@ -12,6 +13,7 @@ import ch.rmy.android.http_shortcuts.actions.ActionsUtil
 import ch.rmy.android.http_shortcuts.actions.types.ActionFactory
 import ch.rmy.android.http_shortcuts.actions.types.BaseAction
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.activities.editor.CodeSnippetPicker
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
@@ -38,8 +40,12 @@ class PreRequestActivity : BaseActivity() {
     private val actionFactory by lazy {
         ActionFactory(context)
     }
+    private val codeSnippetPicker by lazy {
+        CodeSnippetPicker(context, variablePlaceholderProvider)
+    }
 
     private val prepareCodeInput: EditText by bindView(R.id.input_code_prepare)
+    private val prepareSnippetButton: Button by bindView(R.id.button_add_code_snippet_pre)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +57,10 @@ class PreRequestActivity : BaseActivity() {
 
     private fun initViews() {
         prepareCodeInput.movementMethod = LinkMovementMethod.getInstance()
+
+        prepareSnippetButton.setOnClickListener {
+            codeSnippetPicker.showCodeSnippetPicker(prepareCodeInput, includeResponseOptions = false)
+        }
     }
 
     private fun bindViewsToViewModel() {

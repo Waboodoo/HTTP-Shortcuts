@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Spannable
 import android.text.method.LinkMovementMethod
+import android.widget.Button
 import android.widget.EditText
 import androidx.lifecycle.Observer
 import ch.rmy.android.http_shortcuts.R
@@ -12,6 +13,7 @@ import ch.rmy.android.http_shortcuts.actions.ActionsUtil
 import ch.rmy.android.http_shortcuts.actions.types.ActionFactory
 import ch.rmy.android.http_shortcuts.actions.types.BaseAction
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.activities.editor.CodeSnippetPicker
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
@@ -40,10 +42,15 @@ class PostRequestActivity : BaseActivity() {
     private val actionFactory by lazy {
         ActionFactory(context)
     }
+    private val codeSnippetPicker by lazy {
+        CodeSnippetPicker(context, variablePlaceholderProvider)
+    }
 
     private val feedbackTypeSpinner: LabelledSpinner by bindView(R.id.input_feedback_type)
     private val successCodeInput: EditText by bindView(R.id.input_code_success)
     private val failureCodeInput: EditText by bindView(R.id.input_code_failure)
+    private val successSnippetButton: Button by bindView(R.id.button_add_code_snippet_success)
+    private val failureSnippetButton: Button by bindView(R.id.button_add_code_snippet_failure)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +67,13 @@ class PostRequestActivity : BaseActivity() {
 
         successCodeInput.movementMethod = LinkMovementMethod.getInstance()
         failureCodeInput.movementMethod = LinkMovementMethod.getInstance()
+
+        successSnippetButton.setOnClickListener {
+            codeSnippetPicker.showCodeSnippetPicker(successCodeInput)
+        }
+        failureSnippetButton.setOnClickListener {
+            codeSnippetPicker.showCodeSnippetPicker(failureCodeInput, includeNetworkErrorOption = true)
+        }
     }
 
     private fun bindViewsToViewModel() {

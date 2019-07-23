@@ -72,18 +72,18 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
 
     private fun registerVariables(variableManager: VariableManager) {
         jsContext.property("getVariable", object : JSFunction(jsContext, "run") {
-            fun run(variableKey: String): String? =
-                variableManager.getVariableValueByKey(variableKey)
+            fun run(variableKeyOrId: String): String? =
+                variableManager.getVariableValueByKey(variableKeyOrId)
         })
         jsContext.property("setVariable", object : JSFunction(jsContext, "run") {
-            fun run(variableKey: String, rawValue: JSValue?) {
+            fun run(variableKeyOrId: String, rawValue: JSValue?) {
                 val value = sanitizeData(rawValue)
-                variableManager.setVariableValueByKey(variableKey, value)
+                variableManager.setVariableValueByKeyOrId(variableKeyOrId, value)
 
                 // TODO: Handle variable persistance in a better way
                 RealmFactory.getInstance().createRealm().use { realm ->
                     realm.executeTransaction {
-                        Repository.getVariableByKey(realm, variableKey)
+                        Repository.getVariableByKey(realm, variableKeyOrId)
                             ?.value = value
                     }
                 }

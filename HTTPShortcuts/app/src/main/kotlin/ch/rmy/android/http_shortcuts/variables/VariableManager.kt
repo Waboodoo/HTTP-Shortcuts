@@ -20,11 +20,24 @@ class VariableManager(private val variables: List<Variable>) : VariableLookup {
     override fun getVariableByKey(key: String): Variable? =
         variablesByKey[key]
 
+    fun getVariableByKeyOrId(keyOrId: String): Variable? =
+        if (variablesById.containsKey(keyOrId)) {
+            getVariableById(keyOrId)
+        } else {
+            getVariableByKey(keyOrId)
+        }
+
     fun getVariableValueById(variableId: String): String? =
         variableValuesById[variableId]
 
     fun getVariableValueByKey(variableKey: String): String? =
         getVariableByKey(variableKey)?.id
+            ?.let { variableId ->
+                getVariableValueById(variableId)
+            }
+
+    fun getVariableValueByKeyOrId(variableKeyOrId: String): String? =
+        getVariableByKeyOrId(variableKeyOrId)?.id
             ?.let { variableId ->
                 getVariableValueById(variableId)
             }
@@ -45,6 +58,13 @@ class VariableManager(private val variables: List<Variable>) : VariableLookup {
 
     fun setVariableValue(variable: Variable, value: String) {
         variableValuesById[variable.id] = encodeValue(variable, value)
+    }
+
+    fun setVariableValueByKeyOrId(variableKeyOrId: String, value: String) {
+        getVariableByKeyOrId(variableKeyOrId)
+            ?.let { variable ->
+                setVariableValue(variable, value)
+            }
     }
 
     fun getVariableValuesByIds(): Map<String, String> =

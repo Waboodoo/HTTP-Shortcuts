@@ -36,6 +36,20 @@ fun EditText.focus() {
     }
 }
 
+fun EditText.insertAroundCursor(before: String, after: String = "") {
+    val cursor = selectionStart
+    val position = if (cursor != -1 && cursor < text.length) {
+        cursor
+    } else {
+        text.length
+    }
+
+    text.insert(position, before)
+    text.insert(position + before.length, after)
+    setSelection(position + before.length)
+    showSoftKeyboard()
+}
+
 fun View.showSoftKeyboard() {
     requestFocus()
     post {

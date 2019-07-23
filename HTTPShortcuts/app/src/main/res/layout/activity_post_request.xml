@@ -28,8 +28,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp">
+                android:layout_height="wrap_content">
 
                 <EditText
                     android:id="@+id/input_code_success"
@@ -43,9 +42,16 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <Button
+                android:id="@+id/button_add_code_snippet_success"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_add_code_snippet" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
 
                 <EditText
                     android:id="@+id/input_code_failure"
@@ -58,6 +64,12 @@
                     android:textSize="@dimen/js_font_size" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/button_add_code_snippet_failure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_add_code_snippet" />
 
 
         </LinearLayout>
