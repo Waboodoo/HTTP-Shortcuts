@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/placeholder_value"
-            android:maxLength="300">
+            android:maxLength="3000">
 
         </ch.rmy.android.http_shortcuts.variables.VariableEditText>
     </com.google.android.material.textfield.TextInputLayout>
