@@ -16,10 +16,13 @@ import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.editor.CodeSnippetPicker
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
+import ch.rmy.android.http_shortcuts.extensions.color
+import ch.rmy.android.http_shortcuts.extensions.insertAroundCursor
 import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
 import ch.rmy.android.http_shortcuts.extensions.setTextSafely
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
+import ch.rmy.android.http_shortcuts.variables.Variables
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotterknife.bindView
@@ -43,6 +46,9 @@ class PreRequestActivity : BaseActivity() {
     private val codeSnippetPicker by lazy {
         CodeSnippetPicker(context, variablePlaceholderProvider)
     }
+    private val variablePlaceholderColor by lazy {
+        color(context, R.color.variable)
+    }
 
     private val prepareCodeInput: EditText by bindView(R.id.input_code_prepare)
     private val prepareSnippetButton: Button by bindView(R.id.button_add_code_snippet_pre)
@@ -59,7 +65,10 @@ class PreRequestActivity : BaseActivity() {
         prepareCodeInput.movementMethod = LinkMovementMethod.getInstance()
 
         prepareSnippetButton.setOnClickListener {
-            codeSnippetPicker.showCodeSnippetPicker(prepareCodeInput, includeResponseOptions = false)
+            codeSnippetPicker.showCodeSnippetPicker({ before, after ->
+                prepareCodeInput.insertAroundCursor(before, after)
+                Variables.applyVariableFormattingToJS(prepareCodeInput.text, variablePlaceholderProvider, variablePlaceholderColor)
+            }, includeResponseOptions = false)
         }
     }
 
@@ -90,14 +99,18 @@ class PreRequestActivity : BaseActivity() {
 
     private fun updateShortcutViews() {
         val shortcut = shortcutData.value ?: return
-        prepareCodeInput.setTextSafely(
-            ActionsUtil.addSpans(
-                context,
-                shortcut.codeOnPrepare,
-                actionFactory,
-                ::editAction
-            )
+        prepareCodeInput.setTextSafely(processTextForView(shortcut.codeOnPrepare))
+    }
+
+    private fun processTextForView(input: String): CharSequence {
+        val text = ActionsUtil.addSpans(
+            context,
+            input,
+            actionFactory,
+            ::editAction
         )
+        Variables.applyVariableFormattingToJS(text, variablePlaceholderProvider, variablePlaceholderColor)
+        return text
     }
 
     private fun editAction(action: BaseAction, setter: (ActionDTO) -> Unit) {

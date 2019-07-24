@@ -4,6 +4,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.text.style.ReplacementSpan
+import kotlin.math.roundToInt
 
 class VariableSpan(private val color: Int, val variableId: String) : ReplacementSpan() {
 
@@ -30,7 +31,7 @@ class VariableSpan(private val color: Int, val variableId: String) : Replacement
         paint.color = color
         paint.typeface = typeface
         val textWidth = paint.measureText(text, 0, text.length)
-        return Math.round(textWidth)
+        return textWidth.roundToInt()
     }
 
 }

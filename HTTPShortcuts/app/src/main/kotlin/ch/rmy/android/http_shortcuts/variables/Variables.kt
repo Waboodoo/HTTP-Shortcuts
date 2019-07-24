@@ -19,10 +19,13 @@ object Variables {
     private const val RAW_PLACEHOLDER_SUFFIX = "}}"
     private const val RAW_PLACEHOLDER_REGEX = "\\{\\{($VARIABLE_ID_REGEX)\\}\\}"
 
+    private const val JS_PLACEHOLDER_REGEX = "/\\*\\[variable]\\*/\"([^\"]+)\"/\\*\\[/variable]\\*/"
+
     private const val PRETTY_PLACEHOLDER_PREFIX = "{"
     private const val PRETTY_PLACEHOLDER_SUFFIX = "}"
 
     private val PATTERN = Pattern.compile(RAW_PLACEHOLDER_REGEX, Pattern.CASE_INSENSITIVE)
+    private val JS_PATTERN = Pattern.compile(JS_PLACEHOLDER_REGEX, Pattern.CASE_INSENSITIVE)
 
     fun isValidVariableKey(variableKey: String) =
         VARIABLE_KEY_REGEX.toRegex().matchEntire(variableKey) != null
@@ -90,6 +93,20 @@ object Variables {
             }
 
         return builder.toString()
+    }
+
+    fun applyVariableFormattingToJS(text: Spannable, variablePlaceholderProvider: VariablePlaceholderProvider, @ColorInt color: Int) {
+        text.getSpans(0, text.length, JSVariableSpan::class.java)
+            .forEach { span ->
+                text.removeSpan(span)
+            }
+        val matcher = JS_PATTERN.matcher(text)
+        while (matcher.find()) {
+            val variableId = matcher.group(1)
+            val placeholder = variablePlaceholderProvider.findPlaceholderById(variableId)
+            val variableKey = placeholder?.variableKey ?: "???"
+            text.setSpan(JSVariableSpan(color, variableKey), matcher.start(), matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
     }
 
     private fun toRawPlaceholder(variableId: String) = "$RAW_PLACEHOLDER_PREFIX$variableId$RAW_PLACEHOLDER_SUFFIX"

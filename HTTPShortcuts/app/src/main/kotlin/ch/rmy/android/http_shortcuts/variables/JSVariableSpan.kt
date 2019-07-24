@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.actions
+package ch.rmy.android.http_shortcuts.variables
 
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -6,16 +6,18 @@ import android.graphics.Typeface
 import android.text.style.ReplacementSpan
 import kotlin.math.roundToInt
 
-class ActionSpan(private val color: Int, var actionDTO: ActionDTO) : ReplacementSpan() {
+class JSVariableSpan(private val color: Int, val variableKey: String) : ReplacementSpan() {
 
     private val typeface by lazy {
         Typeface.create(Typeface.MONOSPACE, Typeface.BOLD)
     }
 
+    private val displayedText = "\"$variableKey\""
+
     override fun draw(canvas: Canvas, text: CharSequence, start: Int, end: Int, x: Float, top: Int, y: Int, bottom: Int, paint: Paint) {
         paint.color = color
         paint.typeface = typeface
-        canvas.drawText(text, start, end, x, y.toFloat(), paint)
+        canvas.drawText(displayedText, 0, displayedText.length, x, y.toFloat(), paint)
     }
 
     override fun getSize(paint: Paint, text: CharSequence, start: Int, end: Int, fm: Paint.FontMetricsInt?): Int {
@@ -24,14 +26,13 @@ class ActionSpan(private val color: Int, var actionDTO: ActionDTO) : Replacement
         fm?.descent = paint.fontMetricsInt.descent
         fm?.leading = paint.fontMetricsInt.leading
         fm?.top = paint.fontMetricsInt.top
-        return calculateTextWidth(paint, text.subSequence(start, end))
+        return calculateTextWidth(paint, displayedText)
     }
 
     private fun calculateTextWidth(paint: Paint, text: CharSequence): Int {
         paint.color = color
         paint.typeface = typeface
-        val textWidth = paint.measureText(text, 0, text.length)
-        return textWidth.roundToInt()
+        return paint.measureText(text, 0, text.length).roundToInt()
     }
 
 }

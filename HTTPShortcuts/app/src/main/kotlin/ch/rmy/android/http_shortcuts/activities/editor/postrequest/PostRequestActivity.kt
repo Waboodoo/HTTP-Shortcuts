@@ -17,10 +17,13 @@ import ch.rmy.android.http_shortcuts.activities.editor.CodeSnippetPicker
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
+import ch.rmy.android.http_shortcuts.extensions.color
+import ch.rmy.android.http_shortcuts.extensions.insertAroundCursor
 import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
 import ch.rmy.android.http_shortcuts.extensions.setTextSafely
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
+import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.android.http_shortcuts.views.LabelledSpinner
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -44,6 +47,9 @@ class PostRequestActivity : BaseActivity() {
     }
     private val codeSnippetPicker by lazy {
         CodeSnippetPicker(context, variablePlaceholderProvider)
+    }
+    private val variablePlaceholderColor by lazy {
+        color(context, R.color.variable)
     }
 
     private val feedbackTypeSpinner: LabelledSpinner by bindView(R.id.input_feedback_type)
@@ -69,10 +75,16 @@ class PostRequestActivity : BaseActivity() {
         failureCodeInput.movementMethod = LinkMovementMethod.getInstance()
 
         successSnippetButton.setOnClickListener {
-            codeSnippetPicker.showCodeSnippetPicker(successCodeInput)
+            codeSnippetPicker.showCodeSnippetPicker({ before, after ->
+                successCodeInput.insertAroundCursor(before, after)
+                Variables.applyVariableFormattingToJS(successCodeInput.text, variablePlaceholderProvider, variablePlaceholderColor)
+            })
         }
         failureSnippetButton.setOnClickListener {
-            codeSnippetPicker.showCodeSnippetPicker(failureCodeInput, includeNetworkErrorOption = true)
+            codeSnippetPicker.showCodeSnippetPicker({ before, after ->
+                failureCodeInput.insertAroundCursor(before, after)
+                Variables.applyVariableFormattingToJS(failureCodeInput.text, variablePlaceholderProvider, variablePlaceholderColor)
+            }, includeNetworkErrorOption = true)
         }
     }
 
@@ -110,23 +122,20 @@ class PostRequestActivity : BaseActivity() {
 
     private fun updateShortcutViews() {
         val shortcut = shortcutData.value ?: return
-        successCodeInput.setTextSafely(
-            ActionsUtil.addSpans(
-                context,
-                shortcut.codeOnSuccess,
-                actionFactory,
-                ::editAction
-            )
-        )
-        failureCodeInput.setTextSafely(
-            ActionsUtil.addSpans(
-                context,
-                shortcut.codeOnFailure,
-                actionFactory,
-                ::editAction
-            )
-        )
+        successCodeInput.setTextSafely(processTextForView(shortcut.codeOnSuccess))
+        failureCodeInput.setTextSafely(processTextForView(shortcut.codeOnFailure))
         feedbackTypeSpinner.selectedItem = shortcut.feedback
+    }
+
+    private fun processTextForView(input: String): CharSequence {
+        val text = ActionsUtil.addSpans(
+            context,
+            input,
+            actionFactory,
+            ::editAction
+        )
+        Variables.applyVariableFormattingToJS(text, variablePlaceholderProvider, variablePlaceholderColor)
+        return text
     }
 
     private fun editAction(action: BaseAction, setter: (ActionDTO) -> Unit) {
