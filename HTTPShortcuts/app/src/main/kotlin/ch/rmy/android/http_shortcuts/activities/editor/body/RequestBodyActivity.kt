@@ -87,7 +87,7 @@ class RequestBodyActivity : BaseActivity() {
 
         VariableViewUtils.bindVariableViews(bodyContentView, bodyContentVariableButton, variablePlaceholderProvider)
 
-        contentTypeView.setAdapter<ArrayAdapter<String>>(ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, CONTENT_TYPE_SUGGESTIONS))
+        contentTypeView.setAdapter(ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, CONTENT_TYPE_SUGGESTIONS))
     }
 
     private fun initDragOrdering() {

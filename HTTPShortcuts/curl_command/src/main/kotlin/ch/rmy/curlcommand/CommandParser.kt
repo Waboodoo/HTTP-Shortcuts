@@ -50,7 +50,7 @@ internal object CommandParser {
                             continue@loop
                         }
                         " " -> {
-                            if (flush || builder.length > 0) {
+                            if (flush || builder.isNotEmpty()) {
                                 arguments.add(builder.toString())
                                 builder.setLength(0)
                             }

@@ -18,7 +18,7 @@ object HttpRequester {
         val body = Variables.rawPlaceholdersToResolvedValues(detachedShortcut.bodyContent, variables)
         val acceptAllCertificates = detachedShortcut.acceptAllCertificates
 
-        return Single.create<ShortcutResponse> { emitter ->
+        return Single.create { emitter ->
             val request = ShortcutRequest.Builder(detachedShortcut.method, url, emitter)
                 .mapIf(detachedShortcut.usesCustomBody()) {
                     it.body(body)

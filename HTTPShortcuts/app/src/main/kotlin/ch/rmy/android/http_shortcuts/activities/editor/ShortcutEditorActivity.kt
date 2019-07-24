@@ -58,6 +58,7 @@ import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import kotterknife.bindView
 import java.util.concurrent.TimeUnit
+import kotlin.math.max
 
 class ShortcutEditorActivity : BaseActivity() {
 
@@ -421,7 +422,7 @@ class ShortcutEditorActivity : BaseActivity() {
     }
 
     private val iconSize by lazy {
-        Math.max(dimen(android.R.dimen.app_icon_size), launcherLargeIconSize)
+        max(dimen(android.R.dimen.app_icon_size), launcherLargeIconSize)
     }
 
     private val launcherLargeIconSize: Int

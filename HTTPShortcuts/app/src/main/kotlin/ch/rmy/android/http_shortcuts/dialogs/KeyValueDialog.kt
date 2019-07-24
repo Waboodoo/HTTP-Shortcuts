@@ -84,7 +84,7 @@ class KeyValueDialog(
                 }
 
                 if (suggestions != null) {
-                    keyInput.setAdapter<ArrayAdapter<String>>(ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, suggestions))
+                    keyInput.setAdapter(ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, suggestions))
                 }
 
                 dialog.setOnShowListener {

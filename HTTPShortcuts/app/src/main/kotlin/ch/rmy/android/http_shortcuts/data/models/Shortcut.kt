@@ -62,10 +62,6 @@ open class Shortcut : RealmObject(), HasId {
     fun isFeedbackErrorsOnly() =
         feedback == FEEDBACK_TOAST_ERRORS || feedback == FEEDBACK_TOAST_SIMPLE_ERRORS
 
-    // TODO: Is this still needed?
-    val isRetryAllowed
-        get() = feedback != FEEDBACK_ACTIVITY && feedback != FEEDBACK_DIALOG && !isBrowserShortcut
-
     fun usesBasicAuthentication() = authentication == AUTHENTICATION_BASIC
 
     fun usesDigestAuthentication() = authentication == AUTHENTICATION_DIGEST

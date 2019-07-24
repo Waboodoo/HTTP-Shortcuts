@@ -15,6 +15,7 @@ import ch.rmy.android.http_shortcuts.extensions.dimen
 import ch.rmy.android.http_shortcuts.icons.IconView
 import ch.rmy.android.http_shortcuts.utils.IconUtil
 import kotterknife.bindView
+import kotlin.math.min
 
 class CategoryAdapter(context: Context, categories: ListLiveData<Category>) : BaseAdapter<Category>(context, categories) {
 
@@ -37,7 +38,7 @@ class CategoryAdapter(context: Context, categories: ListLiveData<Category>) : Ba
         }
 
         private fun updateIcons(shortcuts: List<Shortcut>) {
-            updateIconNumber(Math.min(shortcuts.size, MAX_ICONS))
+            updateIconNumber(min(shortcuts.size, MAX_ICONS))
             shortcuts
                 .take(MAX_ICONS)
                 .forEachIndexed { index, shortcut ->

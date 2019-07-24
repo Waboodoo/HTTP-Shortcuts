@@ -6,7 +6,7 @@ import org.json.JSONObject
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
 
-class VariableManager(private val variables: List<Variable>) : VariableLookup {
+class VariableManager(variables: List<Variable>) : VariableLookup {
 
     private val variablesById = variables.associateBy { it.id }
 

@@ -38,9 +38,9 @@ private fun <T, V : ViewModel> bind(clazz: Class<V>, finder: T.() -> ViewModelPr
 val AndroidViewModel.context: Context
     get() = getApplication<Application>().context
 
-fun AndroidViewModel.getString(@StringRes stringRes: Int, vararg args: Any) = context.getString(stringRes, *args)
+fun AndroidViewModel.getString(@StringRes stringRes: Int, vararg args: Any): String = context.getString(stringRes, *args)
 
-fun AndroidViewModel.getQuantityString(count: Int, @StringRes zeroRes: Int, @PluralsRes pluralRes: Int) =
+fun AndroidViewModel.getQuantityString(count: Int, @StringRes zeroRes: Int, @PluralsRes pluralRes: Int): String =
     if (count == 0) {
         getString(zeroRes)
     } else {

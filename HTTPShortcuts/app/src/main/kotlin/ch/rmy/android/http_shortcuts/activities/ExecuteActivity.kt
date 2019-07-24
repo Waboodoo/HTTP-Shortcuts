@@ -47,6 +47,7 @@ import io.reactivex.schedulers.Schedulers
 import kotterknife.bindView
 import org.liquidplayer.javascript.JSException
 import java.util.*
+import kotlin.math.pow
 
 class ExecuteActivity : BaseActivity() {
 
@@ -284,7 +285,7 @@ class ExecuteActivity : BaseActivity() {
         }
     }
 
-    private fun calculateDelay() = Math.pow(RETRY_BACKOFF, tryNumber.toDouble()).toInt() * 1000
+    private fun calculateDelay() = RETRY_BACKOFF.pow(tryNumber.toDouble()).toInt() * 1000
 
     private fun generateOutputFromResponse(response: ShortcutResponse) = response.bodyAsString
 

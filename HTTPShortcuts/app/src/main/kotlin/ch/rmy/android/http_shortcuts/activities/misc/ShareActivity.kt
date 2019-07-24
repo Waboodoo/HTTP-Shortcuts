@@ -35,9 +35,7 @@ class ShareActivity : BaseActivity() {
         val variableIds = getTargetableVariableIds(controller)
         val shortcuts = getTargetableShortcuts(controller, variableIds)
 
-        val variableValues = variableIds.associate { variableId ->
-            variableId to text
-        }
+        val variableValues = variableIds.associateWith { _ -> text }
 
         when (shortcuts.size) {
             0 -> showInstructions(R.string.error_not_suitable_shortcuts)

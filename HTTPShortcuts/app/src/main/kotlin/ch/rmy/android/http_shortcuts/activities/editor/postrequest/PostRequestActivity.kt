@@ -108,7 +108,7 @@ class PostRequestActivity : BaseActivity() {
             .map {
                 ActionsUtil.removeSpans(it as Spannable)
             }
-            .filter { it.toString() != currentValueProvider.invoke() }
+            .filter { it != currentValueProvider.invoke() }
             .concatMapCompletable { updateViewModelFromViews() }
             .subscribe()
             .attachTo(destroyer)

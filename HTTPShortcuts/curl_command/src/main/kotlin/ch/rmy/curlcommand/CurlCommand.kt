@@ -34,8 +34,8 @@ class CurlCommand private constructor() : Serializable {
 
         fun data(data: String) = also {
             curlCommand.data = curlCommand.data + data
-            if (curlCommand.method == CurlCommand.METHOD_GET) {
-                curlCommand.method = CurlCommand.METHOD_POST
+            if (curlCommand.method == METHOD_GET) {
+                curlCommand.method = METHOD_POST
             }
         }
 

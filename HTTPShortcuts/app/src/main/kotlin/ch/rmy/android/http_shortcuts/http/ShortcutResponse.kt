@@ -43,7 +43,7 @@ class ShortcutResponse internal constructor(val headers: Map<String, String>, va
 
     val contentType: String
         get() = if (headers.containsKey(HEADER_CONTENT_TYPE)) {
-            headers[HEADER_CONTENT_TYPE]!!.split(";".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0].toLowerCase()
+            headers[HEADER_CONTENT_TYPE]!!.split(';', limit = 2)[0].toLowerCase()
         } else {
             TYPE_TEXT
         }
