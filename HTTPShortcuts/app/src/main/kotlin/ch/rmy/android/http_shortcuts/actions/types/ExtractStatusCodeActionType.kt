@@ -10,8 +10,6 @@ class ExtractStatusCodeActionType(context: Context) : BaseActionType(context) {
 
     override val title: String = context.getString(R.string.action_type_extract_status_code_title)
 
-    override val isValidBeforeAction = false
-
     override fun fromDTO(actionDTO: ActionDTO) = ExtractStatusCodeAction(this, actionDTO.data)
 
     companion object {

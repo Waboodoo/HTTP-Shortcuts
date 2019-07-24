@@ -10,8 +10,6 @@ class ExtractBodyActionType(context: Context) : BaseActionType(context) {
 
     override val title: String = context.getString(R.string.action_type_extract_body_title)
 
-    override val isValidBeforeAction = false
-
     override fun fromDTO(actionDTO: ActionDTO) = ExtractBodyAction(this, actionDTO.data)
 
     companion object {

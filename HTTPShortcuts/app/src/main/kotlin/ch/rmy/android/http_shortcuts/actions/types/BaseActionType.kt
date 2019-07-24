@@ -10,10 +10,6 @@ abstract class BaseActionType(protected val context: Context) {
 
     abstract val title: CharSequence
 
-    open val isAvailable = true
-
-    open val isValidBeforeAction = true
-
     abstract fun fromDTO(actionDTO: ActionDTO): BaseAction
 
     open fun createAction(): BaseAction = fromDTO(ActionDTO(type = type))

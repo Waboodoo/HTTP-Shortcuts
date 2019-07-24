@@ -10,8 +10,6 @@ class ExtractCookieActionType(context: Context) : BaseActionType(context) {
 
     override val title: String = context.getString(R.string.action_type_extract_cookie_title)
 
-    override val isValidBeforeAction = false
-
     override fun fromDTO(actionDTO: ActionDTO) = ExtractCookieAction(this, actionDTO.data)
 
     companion object {

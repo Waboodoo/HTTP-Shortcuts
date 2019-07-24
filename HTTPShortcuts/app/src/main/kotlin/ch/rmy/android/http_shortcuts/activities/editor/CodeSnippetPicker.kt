@@ -7,6 +7,7 @@ import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.extensions.showIfPossible
+import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 
 class CodeSnippetPicker(private val context: Context, private val variablePlaceholderProvider: VariablePlaceholderProvider) {
@@ -89,8 +90,10 @@ class CodeSnippetPicker(private val context: Context, private val variablePlaceh
             .item(R.string.action_type_trigger_shortcut_title) {
                 insertText("triggerShortcut(\"shortcut name or ID\", \"\");", "")
             }
-            .item(R.string.action_type_rename_shortcut_title) {
-                insertText("renameShortcut(\"shortcut name or ID\", \"\", \"new name\");", "")
+            .mapIf(LauncherShortcutManager.supportsPinning(context)) {
+                it.item(R.string.action_type_rename_shortcut_title) {
+                    insertText("renameShortcut(\"shortcut name or ID\", \"\", \"new name\");", "")
+                }
             }
             .showIfPossible()
     }

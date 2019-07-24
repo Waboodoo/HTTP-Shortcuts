@@ -13,8 +13,6 @@ class TriggerShortcutActionType(context: Context) : BaseActionType(context) {
 
     override fun fromDTO(actionDTO: ActionDTO) = TriggerShortcutAction(this, actionDTO.data)
 
-    override val isValidBeforeAction = false
-
     override fun getAlias() = ActionAlias(
         functionName = "triggerShortcut",
         parameters = listOf(TriggerShortcutAction.KEY_SHORTCUT_ID)
