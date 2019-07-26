@@ -134,7 +134,6 @@ class ExecuteActivity : BaseActivity() {
                     finishWithoutAnimation()
                 }
             )
-            .attachTo(destroyer)
     }
 
     private fun requiresConfirmation() =
