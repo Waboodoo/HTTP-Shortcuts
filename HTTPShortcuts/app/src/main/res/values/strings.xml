@@ -624,6 +624,8 @@
     <string name="dialog_code_snippet_variables">Variables</string>
     <!-- Dialog option: shown in code snippet picker, shows options to run certain actions (e.g. to show a toast, vibrate, ...) -->
     <string name="dialog_code_snippet_actions">Actions</string>
+    <!-- Dialog option: shown in code snippet picker at bottom, will open the browser to show a help page with infos about JS code execution -->
+    <string name="dialog_code_snippet_learn_more">Learn More…</string>
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a string -->
     <string name="dialog_code_snippet_response_body">Get Reponse Body</string>
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response headers -->
