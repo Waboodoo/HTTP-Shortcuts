@@ -1,7 +1,5 @@
 package ch.rmy.android.http_shortcuts.dialogs
 
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -10,6 +8,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
+import ch.rmy.android.http_shortcuts.utils.ClipboardUtil
 import com.afollestad.materialdialogs.MaterialDialog
 
 class CurlExportDialog(private val context: Context, private val title: String, private val curlCommand: String) {
@@ -42,9 +41,7 @@ class CurlExportDialog(private val context: Context, private val title: String, 
     }
 
     private fun copyCurlExport() {
-        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clip = ClipData.newPlainText(null, curlCommand)
-        clipboard.primaryClip = clip
+        ClipboardUtil.copyToClipboard(context, curlCommand)
     }
 
 }

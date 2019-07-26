@@ -83,6 +83,8 @@ class CodeSnippetPicker(private val context: Context, private val variablePlaceh
     }
 
     private fun showActionsPicker(insertText: (before: String, after: String) -> Unit) {
+        // TODO: Avoid duplicate code and decouple code snippet picker from action declarion
+        // -> move action declaration to actions themselves
         MenuDialogBuilder(context)
             .item(R.string.action_type_toast_title) {
                 insertText("showToast(\"", "\");")
@@ -102,6 +104,9 @@ class CodeSnippetPicker(private val context: Context, private val variablePlaceh
                 it.item(R.string.action_type_rename_shortcut_title) {
                     insertText("renameShortcut(\"shortcut name or ID\", \"\", \"new name\");", "")
                 }
+            }
+            .item(R.string.action_copy_to_clipboard_title) {
+                insertText("copyToClipboard(\"", "\");")
             }
             .showIfPossible()
     }
