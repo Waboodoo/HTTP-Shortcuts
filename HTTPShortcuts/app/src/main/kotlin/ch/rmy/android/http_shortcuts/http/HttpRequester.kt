@@ -1,9 +1,12 @@
 package ch.rmy.android.http_shortcuts.http
 
 import android.content.Context
+import android.net.Uri
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.mapIf
+import ch.rmy.android.http_shortcuts.utils.Validation
 import ch.rmy.android.http_shortcuts.variables.Variables
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
@@ -17,6 +20,10 @@ object HttpRequester {
         val password = Variables.rawPlaceholdersToResolvedValues(detachedShortcut.password, variables)
         val body = Variables.rawPlaceholdersToResolvedValues(detachedShortcut.bodyContent, variables)
         val acceptAllCertificates = detachedShortcut.acceptAllCertificates
+
+        if (!Validation.isValidUrl(Uri.parse(url))) {
+            return Single.error(Exception(context.getString(R.string.error_invalid_url)))
+        }
 
         return Single.create { emitter ->
             val request = ShortcutRequest.Builder(detachedShortcut.method, url, emitter)

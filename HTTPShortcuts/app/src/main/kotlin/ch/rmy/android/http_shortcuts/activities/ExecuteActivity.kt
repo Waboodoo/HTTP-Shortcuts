@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -57,12 +58,19 @@ class ExecuteActivity : BaseActivity() {
     private lateinit var shortcut: Shortcut
     private var lastResponse: ShortcutResponse? = null
 
+    private val showProgressRunnable = Runnable {
+        if (progressDialog == null) {
+            progressDialog = ProgressDialog.show(context, null, String.format(getString(R.string.progress_dialog_message), shortcutName))
+        }
+    }
     private var progressDialog: ProgressDialog? = null
 
     private val responseText: TextView by bindView(R.id.response_text)
     private val responseTextContainer: View by bindView(R.id.response_text_container)
     private val formattedResponseText: SourceCodeView by bindView(R.id.formatted_response_text)
     private val progressSpinner: CircularProgressBar by bindView(R.id.progress_spinner)
+
+    private val handler = Handler()
 
     private val actionFactory by lazy {
         ActionFactory(context)
@@ -195,6 +203,9 @@ class ExecuteActivity : BaseActivity() {
                     Completable.complete()
                 } else {
                     executeShortcut(variableManager)
+                        .doOnEvent { _, _ ->
+                            hideProgress()
+                        }
                         .flatMapCompletable { response ->
                             scriptExecutor.execute(
                                 context = context,
@@ -325,6 +336,10 @@ class ExecuteActivity : BaseActivity() {
                 responseTextContainer.visible = false
                 formattedResponseText.visible = false
             }
+            else -> {
+                handler.removeCallbacks(showProgressRunnable)
+                handler.postDelayed(showProgressRunnable, 1000)
+            }
         }
     }
 
@@ -336,6 +351,11 @@ class ExecuteActivity : BaseActivity() {
             }
             shortcut.isFeedbackInWindow -> {
                 progressSpinner.visible = false
+            }
+            else -> {
+                handler.removeCallbacks(showProgressRunnable)
+                progressDialog?.dismiss()
+                progressDialog = null
             }
         }
     }

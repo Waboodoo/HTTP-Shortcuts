@@ -101,8 +101,8 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
         MenuDialogBuilder(context)
             .title(R.string.title_create_new_shortcut_options_dialog)
             .item(R.string.button_create_new, ::openEditorForCreation)
-            .item(R.string.button_curl_import, ::openCurlImport)
             .item(R.string.button_create_browser_shortcut, ::openEditorForBrowserShortcutCreation)
+            .item(R.string.button_curl_import, ::openCurlImport)
             .showIfPossible()
     }
 

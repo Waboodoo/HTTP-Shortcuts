@@ -32,10 +32,11 @@ class ShareActivity : BaseActivity() {
         }
 
         val controller = destroyer.own(Controller())
-        val variableIds = getTargetableVariableIds(controller)
+        val variables = getTargetableVariables(controller)
+        val variableIds = variables.map { it.id }.toSet()
         val shortcuts = getTargetableShortcuts(controller, variableIds)
 
-        val variableValues = variableIds.associateWith { _ -> text }
+        val variableValues = variables.associate { variable -> variable.key to text }
 
         when (shortcuts.size) {
             0 -> showInstructions(R.string.error_not_suitable_shortcuts)
@@ -47,11 +48,10 @@ class ShareActivity : BaseActivity() {
         }
     }
 
-    private fun getTargetableVariableIds(controller: Controller) =
+    private fun getTargetableVariables(controller: Controller) =
         controller
             .getVariables()
             .filter { it.isShareText }
-            .map { it.id }
             .toSet()
 
     private fun getTargetableShortcuts(controller: Controller, variableIds: Set<String>): List<Shortcut> =

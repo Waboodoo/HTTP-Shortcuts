@@ -184,9 +184,9 @@ open class Shortcut : RealmObject(), HasId {
             headers = RealmList()
             requestBodyType = REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE
             contentType = DEFAULT_CONTENT_TYPE
-            codeOnPrepare = "[]"
-            codeOnSuccess = "[]"
-            codeOnFailure = "[]"
+            codeOnPrepare = ""
+            codeOnSuccess = ""
+            codeOnFailure = ""
             followRedirects = true
             executionType = if (browserShortcut) EXECUTION_TYPE_BROWSER else EXECUTION_TYPE_APP
         }
