@@ -24,21 +24,38 @@
 <body>
 <article>
     <h2>Version 1.24.0</h2>
-    <h3>To be continued..</h3>
+    <h3>Redesigned Editor</h3>
     <p>
-        - Redesigned editor
-        - Replaced actions with option to execute JS code before/after execution
-        - Added action to show dialog
-        - Added action to copy to clipboard
-        - HTML responses are shown in webview instead of plain text
-        - Option to follow redirects
-        - Option to change background of categories
-        - Loosened variable name restrictions
-        - Fixed bug where importing shortcuts overwrites existing shortcuts
-        - Fixed DELETE and OPTIONS requests not sending a request body
-        - Fixed negative step sizes in Slider variable
-        - Increased maximum constant length to 3000 characters
+        The editor for creating and editing shortcuts was completely redesigned. The many different options are now separated
+        into their own screens to make the UI easier to navigate.
     </p>
+    <h3>Javascript Code Execution</h3>
+    <p>
+        Previously you were able to add specific actions to be executed before or after a shortcut runs. Now, instead of a static list
+        of actions, you can run arbitrary Javascript code, which allows for much more flexibility and more advanced workflows.
+        On top of that, there are now 2 new actions that can be called directly from within the Javascript code:
+    </p>
+    <ul>
+        <li>Added action to show a dialog window with text in it</li>
+        <li>Added action to copy text to the clipboard</li>
+    </ul>
+    <h3>Miscellaneous</h3>
+    <ul>
+        <li>HTML responses are shown in a web view instead of as plain text, allowing to include styling and formatting</li>
+        <li>Added option to have HTTP requests follow redirects</li>
+        <li>Increased maximum length for variables of type 'Constant' from 300 to 3000 characters</li>
+        <li>Loosened variable name restrictions: They may now contain underscores and be up to 30 characters long.</li>
+        <li>Added option to change the background of individual categories</li>
+    </ul>
+    <h3>Bugfixes</h3>
+    <ul>
+        <li>Fixed bug where importing shortcuts would sometimes overwrite other existing shortcuts</li>
+        <li>Fixed requests with method DELETE or OPTIONS not sending a request body</li>
+        <li>Fixed zero or negative step sizes in variables of type 'Slider' crashing the app</li>
+    </ul>
+</article>
+
+<article>
     <h2>Version 1.23.0</h2>
     <h3>App Lock</h3>
     <p>
