@@ -1,17 +1,13 @@
 package ch.rmy.android.http_shortcuts.activities.editor
 
-import android.content.ActivityNotFoundException
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.os.Vibrator
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.mapIf
+import ch.rmy.android.http_shortcuts.extensions.openURL
 import ch.rmy.android.http_shortcuts.extensions.showIfPossible
-import ch.rmy.android.http_shortcuts.extensions.showToast
-import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 
@@ -32,7 +28,7 @@ class CodeSnippetPicker(private val context: Context, private val variablePlaceh
                 showActionsPicker(insertText)
             }
             .item(R.string.dialog_code_snippet_learn_more) {
-                openURL(CODE_HELP_URL)
+                context.openURL(CODE_HELP_URL)
             }
             .showIfPossible()
     }
@@ -109,15 +105,6 @@ class CodeSnippetPicker(private val context: Context, private val variablePlaceh
                 insertText("copyToClipboard(\"", "\");")
             }
             .showIfPossible()
-    }
-
-    private fun openURL(url: String) {
-        try {
-            Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                .startActivity(context)
-        } catch (e: ActivityNotFoundException) {
-            context.showToast(R.string.error_not_supported)
-        }
     }
 
     companion object {

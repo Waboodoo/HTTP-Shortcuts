@@ -42,7 +42,7 @@ internal class ShortcutRequest private constructor(
     public override fun getParams() = parameters
 
     override fun parseNetworkResponse(response: NetworkResponse): Response<ShortcutResponse> =
-        Response.success(ShortcutResponse(response.headers, response.statusCode, response.data), null)
+        Response.success(ShortcutResponse(url, response.headers, response.statusCode, response.data), null)
 
     override fun deliverResponse(response: ShortcutResponse) {
         emitter.onSuccess(response)

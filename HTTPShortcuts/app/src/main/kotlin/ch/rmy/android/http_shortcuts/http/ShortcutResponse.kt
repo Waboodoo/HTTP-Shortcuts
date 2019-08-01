@@ -8,7 +8,7 @@ import java.nio.charset.Charset
 import java.util.zip.GZIPInputStream
 
 
-class ShortcutResponse internal constructor(val headers: Map<String, String>, val statusCode: Int, private val data: ByteArray) {
+class ShortcutResponse internal constructor(val url: String?, val headers: Map<String, String>, val statusCode: Int, private val data: ByteArray) {
 
     val bodyAsString: String
         get() = try {
@@ -67,6 +67,7 @@ class ShortcutResponse internal constructor(val headers: Map<String, String>, va
         const val TYPE_TEXT = "text/plain"
         const val TYPE_XML = "text/xml"
         const val TYPE_JSON = "application/json"
+        const val TYPE_HTML = "text/html"
 
         private const val GZIP_BUFFER_SIZE = 16384
 

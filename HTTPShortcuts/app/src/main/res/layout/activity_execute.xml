@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.ExecuteActivity">
 
-    <include layout="@layout/toolbar_layout"/>
+    <include layout="@layout/toolbar_layout" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,7 +16,7 @@
         <com.github.chen0040.androidcodeview.SourceCodeView
             android:id="@+id/formatted_response_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/response_text_container"
@@ -28,13 +27,19 @@
                 android:id="@+id/response_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
                 android:paddingLeft="16dp"
-                android:paddingRight="16dp"
                 android:paddingTop="10dp"
-                android:textIsSelectable="true"/>
+                android:paddingRight="16dp"
+                android:paddingBottom="10dp"
+                android:textIsSelectable="true" />
 
         </androidx.core.widget.NestedScrollView>
+
+        <ch.rmy.android.http_shortcuts.views.ResponseWebView
+            android:id="@+id/response_web_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
 
         <fr.castorflex.android.circularprogressbar.CircularProgressBar
             android:id="@+id/progress_spinner"
@@ -47,7 +52,7 @@
             app:cpb_min_sweep_angle="10"
             app:cpb_rotation_speed="1.5"
             app:cpb_stroke_width="4dp"
-            app:cpb_sweep_speed="1.0"/>
+            app:cpb_sweep_speed="1.0" />
 
     </RelativeLayout>
 

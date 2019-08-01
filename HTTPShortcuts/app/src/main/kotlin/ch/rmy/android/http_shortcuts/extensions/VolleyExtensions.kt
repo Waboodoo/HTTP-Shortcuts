@@ -6,6 +6,7 @@ import com.android.volley.VolleyError
 fun VolleyError.getShortcutResponse(): ShortcutResponse? =
     networkResponse?.let {
         ShortcutResponse(
+            url = null,
             headers = it.headers,
             statusCode = it.statusCode,
             data = it.data

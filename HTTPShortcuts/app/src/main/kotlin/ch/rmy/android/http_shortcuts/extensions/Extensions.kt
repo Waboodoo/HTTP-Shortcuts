@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.Log
-import android.widget.Toast
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
@@ -56,14 +55,6 @@ fun Any.logException(e: Throwable) {
     } else {
         Log.e(this.javaClass.simpleName, "An error occurred", e)
     }
-}
-
-fun Context.showToast(message: String, long: Boolean = false) {
-    Toast.makeText(this, message, if (long) Toast.LENGTH_LONG else Toast.LENGTH_SHORT).show()
-}
-
-fun Context.showToast(@StringRes message: Int, long: Boolean = false) {
-    Toast.makeText(this, message, if (long) Toast.LENGTH_LONG else Toast.LENGTH_SHORT).show()
 }
 
 fun Disposable.toDestroyable() = object : Destroyable {

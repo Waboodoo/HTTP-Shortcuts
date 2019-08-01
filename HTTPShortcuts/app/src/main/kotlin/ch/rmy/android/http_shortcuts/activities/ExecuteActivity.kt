@@ -37,6 +37,7 @@ import ch.rmy.android.http_shortcuts.utils.Validation
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import ch.rmy.android.http_shortcuts.variables.Variables
+import ch.rmy.android.http_shortcuts.views.ResponseWebView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.android.volley.VolleyError
 import com.github.chen0040.androidcodeview.SourceCodeView
@@ -68,6 +69,7 @@ class ExecuteActivity : BaseActivity() {
     private val responseText: TextView by bindView(R.id.response_text)
     private val responseTextContainer: View by bindView(R.id.response_text_container)
     private val formattedResponseText: SourceCodeView by bindView(R.id.formatted_response_text)
+    private val responseWebView: ResponseWebView by bindView(R.id.response_web_view)
     private val progressSpinner: CircularProgressBar by bindView(R.id.progress_spinner)
 
     private val handler = Handler()
@@ -267,7 +269,7 @@ class ExecuteActivity : BaseActivity() {
                 } else {
                     val simple = shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE
                     val output = if (simple) String.format(getString(R.string.executed), shortcutName) else generateOutputFromResponse(response)
-                    displayOutput(output, response.contentType)
+                    displayOutput(output, response.contentType, response.url)
                 }
             }
             .doOnError { error ->
@@ -280,7 +282,7 @@ class ExecuteActivity : BaseActivity() {
                 } else {
                     setLastResponse(null)
                     val simple = shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE_ERRORS || shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE
-                    displayOutput(generateOutputFromError(error, simple), ShortcutResponse.TYPE_TEXT)
+                    displayOutput(generateOutputFromError(error, simple), ShortcutResponse.TYPE_TEXT, null)
                 }
             }
 
@@ -334,6 +336,7 @@ class ExecuteActivity : BaseActivity() {
                 progressSpinner.visible = true
                 responseTextContainer.visible = false
                 formattedResponseText.visible = false
+                responseWebView.visible = false
             }
             else -> {
                 handler.removeCallbacks(showProgressRunnable)
@@ -359,7 +362,7 @@ class ExecuteActivity : BaseActivity() {
         }
     }
 
-    private fun displayOutput(output: String, type: String) {
+    private fun displayOutput(output: String, type: String, url: String?) {
         when (shortcut.feedback) {
             Shortcut.FEEDBACK_TOAST_SIMPLE, Shortcut.FEEDBACK_TOAST_SIMPLE_ERRORS -> {
                 showToast(output)
@@ -377,6 +380,10 @@ class ExecuteActivity : BaseActivity() {
             }
             Shortcut.FEEDBACK_ACTIVITY -> {
                 when (type) {
+                    ShortcutResponse.TYPE_HTML -> {
+                        responseWebView.visible = true
+                        responseWebView.loadFromString(output, url);
+                    }
                     ShortcutResponse.TYPE_JSON -> {
                         formattedResponseText.setCode(GsonUtil.prettyPrint(output), "json")
                         formattedResponseText.visible = true
