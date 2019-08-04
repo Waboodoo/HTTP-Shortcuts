@@ -4,6 +4,7 @@ import android.content.Context
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.actions.ActionDTO
 
+@Deprecated("Will be removed eventually")
 class ExtractBodyActionType(context: Context) : BaseActionType(context) {
 
     override val type = TYPE

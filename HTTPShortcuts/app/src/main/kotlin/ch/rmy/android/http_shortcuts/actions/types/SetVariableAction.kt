@@ -9,6 +9,7 @@ import ch.rmy.android.http_shortcuts.variables.Variables
 import com.android.volley.VolleyError
 import io.reactivex.Completable
 
+@Deprecated("Will be removed eventually")
 class SetVariableAction(
     actionType: SetVariableActionType,
     data: Map<String, String>

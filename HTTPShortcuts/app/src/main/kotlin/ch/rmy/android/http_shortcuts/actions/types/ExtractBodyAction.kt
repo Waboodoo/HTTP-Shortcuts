@@ -11,6 +11,7 @@ import com.android.volley.toolbox.HttpHeaderParser
 import io.reactivex.Completable
 import java.nio.charset.Charset
 
+@Deprecated("Will be removed eventually")
 class ExtractBodyAction(
     actionType: ExtractBodyActionType,
     data: Map<String, String>

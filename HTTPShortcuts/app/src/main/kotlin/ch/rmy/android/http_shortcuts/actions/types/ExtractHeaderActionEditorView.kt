@@ -10,6 +10,7 @@ import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import kotterknife.bindView
 
+@Deprecated("Will be removed eventually")
 class ExtractHeaderActionEditorView(
     context: Context,
     private val action: ExtractHeaderAction,

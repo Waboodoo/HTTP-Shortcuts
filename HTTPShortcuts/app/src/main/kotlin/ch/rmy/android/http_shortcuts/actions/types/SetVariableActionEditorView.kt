@@ -11,6 +11,7 @@ import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils.bindVariableViews
 import kotterknife.bindView
 
+@Deprecated("Will be removed eventually")
 class SetVariableActionEditorView(
     context: Context,
     private val action: SetVariableAction,

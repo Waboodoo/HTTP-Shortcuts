@@ -12,6 +12,7 @@ import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.views.LabelledSpinner
 import kotterknife.bindView
 
+@Deprecated("Will be removed eventually")
 class ExtractBodyActionEditorView(
     context: Context,
     private val action: ExtractBodyAction,

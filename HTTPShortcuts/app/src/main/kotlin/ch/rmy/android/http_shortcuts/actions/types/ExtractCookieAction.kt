@@ -8,6 +8,7 @@ import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import com.android.volley.VolleyError
 import io.reactivex.Completable
 
+@Deprecated("Will be removed eventually")
 class ExtractCookieAction(
     actionType: ExtractCookieActionType,
     data: Map<String, String>
