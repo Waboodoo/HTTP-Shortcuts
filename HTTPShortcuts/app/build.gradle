@@ -14,7 +14,7 @@ android {
     defaultConfig {
         applicationId 'ch.rmy.android.http_shortcuts'
         minSdkVersion 16
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionName rootProject.ext.versionName
         versionCode rootProject.ext.versionCode
         buildConfigField 'String', 'BUGSNAG_API_KEY', "\"${rootProject.ext.bugsnagAPIKey}\""
