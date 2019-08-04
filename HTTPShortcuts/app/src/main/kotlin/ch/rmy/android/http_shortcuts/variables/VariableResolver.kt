@@ -146,6 +146,9 @@ class VariableResolver(private val context: Context) {
                     addAll(Variables.extractVariableIds(header.key))
                     addAll(Variables.extractVariableIds(header.value))
                 }
+                addAll(Variables.extractVariableIdsFromJS(shortcut.codeOnPrepare))
+                addAll(Variables.extractVariableIdsFromJS(shortcut.codeOnSuccess))
+                addAll(Variables.extractVariableIdsFromJS(shortcut.codeOnFailure))
             }
 
     }

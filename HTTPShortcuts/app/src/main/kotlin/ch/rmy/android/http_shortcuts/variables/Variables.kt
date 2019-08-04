@@ -44,6 +44,9 @@ object Variables {
         return builder.toString()
     }
 
+    /**
+     * Searches for variable placeholders and returns all variable IDs found in them.
+     */
     internal fun extractVariableIds(string: String): Set<String> {
         val discoveredVariables = mutableSetOf<String>()
         val matcher = match(string)
@@ -107,6 +110,18 @@ object Variables {
             val variableKey = placeholder?.variableKey ?: "???"
             text.setSpan(JSVariableSpan(color, variableKey), matcher.start(), matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
+    }
+
+    /**
+     * Searches for variable placeholders in JS code and returns all variable IDs found in them.
+     */
+    internal fun extractVariableIdsFromJS(string: String): Set<String> {
+        val discoveredVariables = mutableSetOf<String>()
+        val matcher = JS_PATTERN.matcher(string)
+        while (matcher.find()) {
+            discoveredVariables.add(matcher.group(1))
+        }
+        return discoveredVariables
     }
 
     private fun toRawPlaceholder(variableId: String) = "$RAW_PLACEHOLDER_PREFIX$variableId$RAW_PLACEHOLDER_SUFFIX"
