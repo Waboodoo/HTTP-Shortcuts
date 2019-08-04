@@ -32,6 +32,7 @@ import ch.rmy.android.http_shortcuts.scripting.ScriptExecutor
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.DateUtil
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
+import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.Validation
 import ch.rmy.android.http_shortcuts.variables.VariableManager
@@ -373,7 +374,7 @@ class ExecuteActivity : BaseActivity() {
             Shortcut.FEEDBACK_DIALOG -> {
                 MaterialDialog.Builder(context)
                     .title(shortcutName)
-                    .content(output)
+                    .content(HTMLUtil.format(output))
                     .positiveText(R.string.dialog_ok)
                     .dismissListener { finishWithoutAnimation() }
                     .show()

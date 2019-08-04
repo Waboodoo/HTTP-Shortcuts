@@ -5,6 +5,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
+import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
@@ -39,7 +40,7 @@ class DialogAction(
                         .mapIf(title.isNotEmpty()) {
                             it.title(title)
                         }
-                        .content(finalMessage)
+                        .content(HTMLUtil.format(finalMessage))
                         .positiveText(R.string.dialog_ok)
                         .dismissListener { emitter.onComplete() }
                         .show()

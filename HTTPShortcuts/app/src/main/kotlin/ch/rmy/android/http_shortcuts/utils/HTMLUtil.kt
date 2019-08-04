@@ -16,4 +16,9 @@ object HTMLUtil {
         return Html.fromHtml(context.getString(stringRes))
     }
 
+    fun format(string: String): Spanned = Html.fromHtml(
+        string.replace("\n", "<br>")
+        , 0
+    )
+
 }
