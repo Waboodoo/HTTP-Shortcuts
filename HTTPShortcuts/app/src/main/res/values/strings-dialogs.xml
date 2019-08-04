@@ -20,8 +20,8 @@
             There are 10 different types of variables:</p>
         <p>
             <u>Constant</u><br>
-            A <i>constant</i> stores a value, until explicitly changed. There is no prompt dialog. It can be used to store a piece of information that is shared across multiple shortcut, such as an authentication token or a domain name. This way it can easily be changed.<br>
-            There are also certain actions that can be attached to a shortcut that allow you to change the value of a constant, e.g., by storing part of the HTTP response into it.
+            A <i>constant</i> stores a static value, until explicitly changed. There is no prompt dialog. It can be used to store a piece of information that is shared across multiple shortcut, such as an authentication token or a domain name. This way it can easily be changed.<br>
+            It is also possible to change the value of a constant programmatically before or after a shortcut runs, e.g. to store parts of a HTTP response into it.
         </p>
         <p>
             <u>Toggle</u><br>

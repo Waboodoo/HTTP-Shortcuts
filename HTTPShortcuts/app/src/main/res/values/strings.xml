@@ -324,6 +324,10 @@
     <string name="help_text_variable_button">This button allows you to include placeholders for variables, i.e., dynamic values, into your shortcut.\n\nYou don\'t have any variables configured yet. You can do so by clicking the CREATE button below.</string>
     <!-- Instructions shown in dialog when user clicks the variables button in the variable editor but doesn't have any variables configured yet -->
     <string name="help_text_variable_button_for_variables">This button allows you to include placeholders for the values of other variables into this one.\n\nYou don\'t have any variables configured yet, however.</string>
+    <!-- Instructions shown in code snippet picker when the user selects the "Get Variable" option and there are no variables yet -->
+    <string name="help_text_code_snippet_get_variable_no_variable">You don\'t have any variables yet. Click the CREATE button below to get started.</string>
+    <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
+    <string name="help_text_code_snippet_set_variable_no_variable">You don\'t have any variables of type "Constant" yet that can be set by this action. Click the CREATE button below to get started.</string>
     <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
     <string name="button_create_first_variable">Create</string>
     <!-- Title of dialog that allows users to pick a variable from a list to insert its placeholder somewhere -->
@@ -641,5 +645,5 @@
     <!-- Dialog option: shown in code snippet picker, option allows to get the value of a variable -->
     <string name="dialog_code_snippet_get_variable">Get Variable</string>
     <!-- Dialog option: shown in code snippet picker, option allows to set the value of a variable -->
-    <string name="dialog_code_snippet_set_variable">Set Variable</string>
+    <string name="dialog_code_snippet_set_variable">Set Variable (Constant)</string>
 </resources>

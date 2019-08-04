@@ -3,13 +3,16 @@ package ch.rmy.android.http_shortcuts.activities.editor
 import android.content.Context
 import android.os.Vibrator
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.extensions.openURL
 import ch.rmy.android.http_shortcuts.extensions.showIfPossible
+import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
+import com.afollestad.materialdialogs.MaterialDialog
 
 class CodeSnippetPicker(private val context: Context, private val variablePlaceholderProvider: VariablePlaceholderProvider) {
 
@@ -56,26 +59,60 @@ class CodeSnippetPicker(private val context: Context, private val variablePlaceh
     }
 
     private fun showVariablesOptionsPicker(insertText: (before: String, after: String) -> Unit) {
-        MenuDialogBuilder(context)
-            .item(R.string.dialog_code_snippet_get_variable) {
-                MenuDialogBuilder(context)
-                    .mapFor(variablePlaceholderProvider.placeholders) { builder, variable ->
-                        builder.item(variable.variableKey) {
-                            insertText("getVariable(/*[variable]*/\"${variable.variableId}\"/*[/variable]*/)", "")
+        if (variablePlaceholderProvider.hasVariables) {
+            MenuDialogBuilder(context)
+                .item(R.string.dialog_code_snippet_get_variable) {
+                    MenuDialogBuilder(context)
+                        .mapFor(variablePlaceholderProvider.placeholders) { builder, variable ->
+                            builder.item(variable.variableKey) {
+                                insertText("getVariable(/*[variable]*/\"${variable.variableId}\"/*[/variable]*/)", "")
+                            }
                         }
+                        .showIfPossible()
+                }
+                .item(R.string.dialog_code_snippet_set_variable) {
+                    if (variablePlaceholderProvider.hasConstants) {
+                        MenuDialogBuilder(context)
+                            .mapFor(variablePlaceholderProvider.constantsPlaceholders) { builder, variable ->
+                                builder.item(variable.variableKey) {
+                                    insertText("setVariable(/*[variable]*/\"${variable.variableId}\"/*[/variable]*/, \"", "\");")
+                                }
+                            }
+                            .showIfPossible()
+                    } else {
+                        openSetVariablesInstructionDialog()
                     }
-                    .showIfPossible()
-            }
-            .item(R.string.dialog_code_snippet_set_variable) {
-                MenuDialogBuilder(context)
-                    .mapFor(variablePlaceholderProvider.constantsPlaceholders) { builder, variable ->
-                        builder.item(variable.variableKey) {
-                            insertText("setVariable(/*[variable]*/\"${variable.variableId}\"/*[/variable]*/, \"", "\");")
-                        }
-                    }
-                    .showIfPossible()
-            }
-            .showIfPossible()
+                }
+                .showIfPossible()
+        } else {
+            openGetVariablesInstructionDialog()
+        }
+    }
+
+    private fun openGetVariablesInstructionDialog() {
+        MaterialDialog.Builder(context)
+            .title(R.string.help_title_variables)
+            .content(R.string.help_text_code_snippet_get_variable_no_variable)
+            .negativeText(android.R.string.cancel)
+            .positiveText(R.string.button_create_first_variable)
+            .onPositive { _, _ -> openVariableEditor() }
+            .show()
+    }
+
+    private fun openVariableEditor() {
+        VariablesActivity.IntentBuilder(context)
+            .build()
+            .startActivity(context)
+    }
+
+    private fun openSetVariablesInstructionDialog() {
+        MaterialDialog.Builder(context)
+            .title(R.string.help_title_variables)
+            .content(R.string.help_text_code_snippet_set_variable_no_variable)
+            .negativeText(android.R.string.cancel)
+            .positiveText(R.string.button_create_first_variable)
+            .onPositive { _, _ -> openVariableEditor() }
+            .show()
     }
 
     private fun showActionsPicker(insertText: (before: String, after: String) -> Unit) {
