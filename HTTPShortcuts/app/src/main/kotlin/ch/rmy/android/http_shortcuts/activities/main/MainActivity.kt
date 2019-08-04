@@ -35,6 +35,7 @@ import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.SelectionMode
 import ch.rmy.curlcommand.CurlCommand
 import com.afollestad.materialdialogs.MaterialDialog
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import kotterknife.bindView
@@ -62,6 +63,9 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        if (categories.size <= 1) {
+            (toolbar?.layoutParams as? AppBarLayout.LayoutParams?)?.scrollFlags = 0
+        }
 
         initViews()
 
