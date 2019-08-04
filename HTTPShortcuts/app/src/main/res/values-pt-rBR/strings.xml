@@ -1,11 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Loco xml export: Android string resources
  Project: HTTP Shortcuts
  Release: Working copy
  Locale: pt-BR, Brazilian Portuguese
+ Status: Translated
  Exported by: Roland Meyer
- Exported at: Thu, 15 Nov 2018 11:56:00 +0100
+ Exported at: Sun, 04 Aug 2019 14:25:58 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- The name of the app -->
@@ -58,9 +59,9 @@
     <string name="action_run">Executar</string>
     <!-- Shortcut dropdown option: Edit the shortcut -->
     <string name="action_edit">Editar</string>
-    <!-- Shortcut dropdown option: Duplicate the shortcut -->
+    <!-- Shortcut dropdown option: Duplicate the shortcut/variable -->
     <string name="action_duplicate">Duplicar</string>
-    <!-- Shortcut dropdown option: Delete the shortcut -->
+    <!-- Shortcut dropdown option: Delete the shortcut/variable -->
     <string name="action_delete">Excluir</string>
     <!-- Shortcut dropdown option: export the shortcut in cURL format -->
     <string name="action_curl_export">Exportar cURL</string>
@@ -72,10 +73,6 @@
     <string name="action_move_down">Abaixo</string>
     <!-- Shortcut dropdown option: Move the shortcut to a different category -->
     <string name="action_move_to_category">Mover para categoria…</string>
-    <!-- Empty state, shown in list when there are no shortcuts yet -->
-    <string name="no_shortcuts">nenhum atalho ainda</string>
-    <!-- Empty state, shown in list when there are no variables yet -->
-    <string name="no_variables">nenhuma variável ainda</string>
     <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
     <string name="confirm_delete_shortcut_message">Excluir este atalho?</string>
     <!-- Dialog prompt to ask user if unsaved changes should be discarded. -->
@@ -110,10 +107,6 @@
     <string name="choose_ipack_icon">Escolha um ícone Ipack</string>
     <!-- Option in "Change Icon" dialog, allows user to select one of the built-in icons to use as a shortcut icon -->
     <string name="choose_icon">Escolha um ícone interno</string>
-    <!-- Label in shortcut editor: Request parameters, e.g. POST parameters -->
-    <string name="label_post_params">Parâmetros</string>
-    <!-- Text on button to add a parameter to a shortcut -->
-    <string name="button_add_post_param">Adicionar parâmetro</string>
     <!-- Title of dialog to edit a parameter on a shortcut -->
     <string name="title_post_param_edit">Editar parâmetro</string>
     <!-- Title of dialog to add a new parameter to a shortcut -->
@@ -132,8 +125,6 @@
     <string name="section_request_headers">Cabeçalhos da Requisição</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the body of the HTTP request -->
     <string name="section_request_body">Corpo da Requisição</string>
-    <!-- Text on button to add a custom header to a shortcut -->
-    <string name="button_add_custom_header">Adicionar cabeçalho</string>
     <!-- Title of dialog to edit a custom header of a shortcut -->
     <string name="title_custom_header_edit">Editar cabeçalho</string>
     <!-- Title of dialog to add a custom header to a shortcut -->
@@ -150,31 +141,34 @@
     <string name="settings_theme">Tema</string>
     <!-- Title of section in "Settings" screen: Basic settings -->
     <string name="settings_title_basic">Configurações Básicas</string>
+    <!-- Name of setting that allows the user to pick what should happen when a shortcut is clicked -->
     <string name="settings_click_behavior">Ação de clique no atalho</string>
+    <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: execute the shortcut (i.e., send request) -->
     <string name="settings_click_behavior_run">Executar o atalho</string>
+    <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: edit the shortcut -->
     <string name="settings_click_behavior_edit">Editar o atalho</string>
+    <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: show options / context menu -->
     <string name="settings_click_behavior_menu">Exibir o menu de opções</string>
+    <!-- Title of section in settings page, section contains opens for importing and exporting shortcuts -->
     <string name="settings_title_import_export">Importar / Exportar</string>
+    <!-- Button in settings page to start import of shortcuts -->
     <string name="settings_import">Importar atalhos</string>
+    <!-- Button in settings page to start export of shortcuts -->
     <string name="settings_export">Exportar atalhos</string>
+    <!-- Instructions shown before shortcut export is started -->
     <string name="export_instructions">Selecione o diretório no qual deseja exportar seus atalhos.\n\nObserve que os ícones customizados não serão exportados.</string>
-    <string name="export_success">Atalhos exportados com sucesso.</string>
+    <!-- Error message after shortcuts failed to be exported -->
     <string name="export_failed">Exportação de atalhos falhou.</string>
+    <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
     <string name="export_in_progress">Exportando…</string>
+    <!-- Instructions shown on dialog before exporting of shortcuts & variable begins -->
     <string name="import_instructions">Selecione o arquivo para importar os atalhos.\n\nObserve que os seus atalhos atuais podem ser substituídos.</string>
+    <!-- Error message: Shown in snackbar when import of shortcuts & variables failed -->
     <string name="import_failed">Importação de atalhos falhou.</string>
-    <string name="import_success">Atalhos importados com sucesso.</string>
+    <!-- Message shown in progress dialog while shortcuts are being imported -->
     <string name="import_in_progress">Importando…</string>
     <string name="label_timeout">Tempo de Espera</string>
-    <string name="timeout_format">%1$s (%2$s)</string>
-    <!-- Timeout option: short, i.e. only a few seconds -->
-    <string name="timeout_short">curto</string>
-    <!-- Timeout option: medium, i.e. around 10 seconds -->
-    <string name="timeout_medium">médio</string>
-    <!-- Timeout option: long, i.e. around 30 seconds -->
-    <string name="timeout_long">longo</string>
-    <!-- Timeout option: very long, i.e. around 60 seconds -->
-    <string name="timeout_very_long">muito longo</string>
+    <!-- Section title in app settings -->
     <string name="settings_about">Sobre este App</string>
     <string name="settings_mail">Contate o desenvolvedor</string>
     <string name="settings_mail_summary">Perguntas, requisição de funcionalidades, outros comentários, …</string>
@@ -185,25 +179,20 @@
     <string name="changelog_checkbox_show_at_startup">Mostrar ao iniciar</string>
     <!-- Message displayed when the shortcut cannot be executed because there is no internet connection. %1$s is a placeholder for the shortcut name. -->
     <string name="execution_delayed">%1$s será executado uma vez que a conexão com a internet esteja disponível.</string>
-    <string name="label_retry_policy">Quando não estiver conectado na Internet</string>
-    <string name="retry_policy_none">descartar a requisição</string>
-    <string name="retry_policy_delayed">aguardar pela conexão</string>
     <string name="settings_play_store">Ver na Play Store</string>
     <string name="settings_play_store_summary">Obrigado por sua classificação e comentários</string>
     <string name="shortcut_duplicated">%1$s duplicado.</string>
     <string name="shortcut_moved">%1$s movido.</string>
     <string name="shortcut_deleted">%1$s excluído.</string>
     <string name="shortcut_placed">%1$s adicionado na tela inicial.</string>
+    <!-- Generic 'Delete' option, used in various dialogs, e.g., to confirm the deletion of a shortcut -->
     <string name="dialog_delete">Excluir</string>
-    <string name="section_appearance">Aparência</string>
     <string name="section_basic_request">Configurações Básicas da Requisição</string>
-    <string name="section_response">Configurações de Resposta</string>
     <string name="section_advanced_settings">Configurações Avançadas</string>
     <string name="section_authentication">Autenticação</string>
     <string name="label_authentication_method">Método de Autenticação</string>
     <string name="warning_icon_or_name_change">Observe que as alterações no nome ou ícone não serão aplicadas automaticamente aos atalhos que já estão na tela inicial. Você terá que adicioná-los novamente para que as alterações tenham efeito. Todas as outras alterações são aplicadas automaticamente.</string>
     <string name="dialog_checkbox_do_not_show_again">Não mostrar novamente</string>
-    <string name="label_certificates">Certificados</string>
     <!-- checkbox label in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
     <string name="label_accept_all_certificates">Aceitar qualquer certificado (Sei o que estou fazendo)</string>
     <string name="title_licenses">Agradecimentos</string>
@@ -213,7 +202,9 @@
     <string name="action_rename">Renomear</string>
     <string name="action_change_category_layout_type">Mudar tipo do layout</string>
     <string name="message_layout_type_changed">Tipo do layout modificado</string>
+    <!-- One of two options when picking the layout for a category: Show shortcuts in a list -->
     <string name="layout_type_linear_list">Lista</string>
+    <!-- One of two options when picking the layout for a category: Show shortcuts in a grid -->
     <string name="layout_type_grid">Grade</string>
     <string name="title_rename_category">Renomear Categoria</string>
     <string name="placeholder_category_name">Informe o Nome da Categoria…</string>
@@ -321,8 +312,6 @@
         <item quantity="other">%d minutos</item>
     </plurals>
     <string name="label_delay_execution">Atrasar execução</string>
-    <!-- Option to delay the execution of a shortcut. Default option is "No delay" -->
-    <string name="label_no_delay">Sem atraso</string>
     <string name="label_variable_time_format">Formato de Hora</string>
     <string name="variable_type_time">Campo de Hora</string>
     <string name="error_invalid_time_format">O formato de hora não é válido.</string>
@@ -392,20 +381,12 @@
     <string name="button_copy_curl_export">Copiar</string>
     <!-- Title of dialog that allows user to pick an icon from the built-in icons -->
     <string name="title_choose_icon">Escolher ícone interno</string>
-    <!-- Section title in shortcut editor: Actions (i.e. what should happen before and after shortcut executes) -->
-    <string name="section_actions">Ações</string>
     <!-- Title of dialog that allows users to pick a constant variable from a list to insert its placeholder somewhere -->
     <string name="dialog_title_variable_selection_constants_only">Variáveis (Somente Constantes)</string>
-    <!-- Button to add actions to a shortcut (to define what should happen on success, on failure, etc.) -->
-    <string name="button_add_action">Adicionar Ação</string>
     <!-- Shown as a placeholder for the title field of an action of unknown type. This should never happen. -->
     <string name="action_type_unknown_title">Ação desconhecida</string>
-    <!-- Shown as a placeholder for the description field of an action of unknown type. This should never happen. -->
-    <string name="action_type_unknown_description">Ação Desconhecida</string>
     <!-- Shortcut Action Title: Show Toast (small popup message) -->
     <string name="action_type_toast_title">Mostrar Toast</string>
-    <!-- Shortcut Action Description: Show Toast (small popup message) -->
-    <string name="action_type_toast_description">Mostrar mensagem \"%1$s\"</string>
     <!-- Shortcut Action Editor Label: Message (to show in a toast) -->
     <string name="action_type_toast_edit_label_message">Mensagem</string>
     <!-- Shortcut Action Title: Vibrate -->
@@ -420,22 +401,12 @@
     <string name="action_type_vibrate_edit_label_pattern">Padrão</string>
     <!-- Shortcut Action Editor Label: Checkbox, whether to wait for the vibration to complete -->
     <string name="action_type_vibrate_edit_label_wait_until_complete">Aguardar a conclusão do padrão</string>
-    <!-- Dialog title: Add action (shown above list of action types to select) -->
-    <string name="title_add_action">Adicionar Ação</string>
     <!-- Shortcut Action Title: Change Shortcut Name -->
     <string name="action_type_rename_shortcut_title">Renomear Atalho</string>
-    <!-- Shortcut Action Description: Change Shortcut Name -->
-    <string name="action_type_rename_shortcut_description">Renomear Atalho para \"%1$s\"</string>
     <!-- Shortcut Action Editor Label: New name for shortcut -->
     <string name="action_type_rename_shortcut_edit_label_new_name">Novo nome</string>
-    <!-- Action: Edit the current action. Shown in dropdown menu when selecting an action in the shortcut editor -->
-    <string name="action_edit_action">Editar ação</string>
-    <!-- Action: Remove the current action. Shown in dropdown menu when selecting an action in the shortcut editor -->
-    <string name="action_remove_action">Remover ação</string>
     <!-- Shortcut Action Title: Extract (HTTP) Status Code (and store in variable) -->
     <string name="action_type_extract_status_code_title">Extrai Código de Status</string>
-    <!-- Shortcut Action Description: Extract status code (from HTTP response) and store in variable -->
-    <string name="action_type_extract_status_code_description">Armazene o código de status da resposta em \"%1$s\"</string>
     <!-- Shortcut Action Editor Help Text: Extract status code, shown in action editor -->
     <string name="action_type_extract_status_code_help_text">Extrai o código de status da resposta HTTP e armazena em uma variável.</string>
     <!-- Shortcut Action Editor Label: Target variable (to store a value) -->
@@ -444,24 +415,18 @@
     <string name="action_type_target_variable_no_variable_selected">Nenhuma variável selecionada</string>
     <!-- Shortcut Action Title: Extract (HTTP) header (and store in variable) -->
     <string name="action_type_extract_header_title">Extrair Cabeçalho</string>
-    <!-- Shortcut Action Description: Extract header (from HTTP response) and store in variable -->
-    <string name="action_type_extract_header_description">Armazenar cabeçalho de resposta\u0020\u0020\"%1$s\" em \"%2$s\"</string>
     <!-- Shortcut Action Editor Help Text: Extract HTTP header, shown in action editor -->
     <string name="action_type_extract_header_help_text">Extrai o valor específico do cabeçalho da resposta HTTP e armazena em uma variável. Se nenhum cabeçalho estiver presente, esta ação não faz nada.</string>
     <!-- Shortcut Action Editor Label: (HTTP) header (to be extracted from response) -->
     <string name="action_type_extract_header_label_header_key">Cabeçalho</string>
     <!-- Shortcut Action Title: Extract cookie from HTTP response (and store in variable) -->
     <string name="action_type_extract_cookie_title">Extrair Cookie</string>
-    <!-- Shortcut Action Description: Extract cookie (from HTTP response) and store in variable -->
-    <string name="action_type_extract_cookie_description">Armazenar cookie \"%1$s\" em \"%2$s\"</string>
     <!-- Shortcut Action Editor Help Text: Extract cookie, shown in action editor -->
     <string name="action_type_extract_cookie_help_text">Extrai o valor específico do cookie da resposta HTTP e armazena em uma variável. Se nenhum cookie estiver presente, esta ação não faz nada.</string>
     <!-- Shortcut Action Editor Label: cookie name (to be extracted from HTTP response) -->
     <string name="action_type_extract_cookie_label_cookie_name">Nome do Cookie</string>
     <!-- Shortcut Action Title: Extract from (HTTP response) body (and store in variable) -->
     <string name="action_type_extract_body_title">Extrair do Corpo</string>
-    <!-- Shortcut Action Description: Extract from HTTP response body (from HTTP response) and store in variable -->
-    <string name="action_type_extract_body_description">Armazenar em \"%1$s\"</string>
     <!-- Shortcut Action Editor Help Text: Extract HTTP response body, or part of it, shown in action editor -->
     <string name="action_type_extract_body_help_text">Extrai o corpo da resposta HTTP, ou parte dele, e armazena em uma variável. Se a parte especificada não estiver presente, essa ação não fará nada.</string>
     <!-- Shortcut Action Editor Label: Allows to select the type of how text is extracted from the HTTP response body -->
@@ -486,22 +451,12 @@
     <string name="error_generic">Algo deu errado…</string>
     <!-- Shortcut Action Title: Set the value of a variable -->
     <string name="action_type_set_variable_title">Definir Variável</string>
-    <!-- Shortcut Action Description: Set the value (%2$s placeholder) of a variable (%1$s placeholder) -->
-    <string name="action_type_set_variable_description">Definir \"%1$s\" para \"%2$s\"</string>
     <!-- Shortcut Action Editor Help Text: Set the value of a variable -->
     <string name="action_type_set_variable_help_text">Altera o valor de uma variável.</string>
     <!-- Shortcut Action Editor Label: allows to specify the new value of a variable -->
     <string name="action_type_set_variable_label_new_value">Novo valor</string>
-    <!-- Label above dropdown in shortcut editor, allows user to decide how shortcut is executed: in app or in external browser -->
-    <string name="label_execution_type">Executar usando…</string>
-    <!-- Option in dropdown when selecting how shortcut should be executed: Inside the app itself (vs. in external browser) -->
-    <string name="execution_type_option_in_app">App</string>
-    <!-- Option in dropdown when selecting how shortcut should be executed: In external browser (vs. inside the app itself) -->
-    <string name="execution_type_option_in_browser">Navegador</string>
     <!-- Shortcut Action Title: Trigger a shortcut, i.e., execute it -->
     <string name="action_type_trigger_shortcut_title">Acionar Atalho</string>
-    <!-- Shortcut Action Description: Trigger a specific shortcut, %1$s is a placeholder for the name of that shortcut -->
-    <string name="action_type_trigger_shortcut_description">Acionar \"%1$s\"</string>
     <!-- Shortcut error message: Maximum recursion depth reached, i.e., a potential infinite loop was detected and stopped -->
     <string name="action_type_trigger_shortcut_error_recursion_depth_reached">Profundidade máxima de recursão atingida. Atalho não será acionado.</string>
     <!-- Shortcut Action Editor Label: Allows to pick a shortcut (used in different places) -->
@@ -522,8 +477,6 @@
     <string name="label_placement_method_legacy">Legado</string>
     <!-- Name of toolbar action: Unlock all settings (will prompt user to enter passcode) -->
     <string name="menu_action_unlock_app">Desbloquear configurações</string>
-    <!-- Label of section: Execution confirmation, i.e., require confirmation from user before executing shortcut -->
-    <string name="label_execution_confirmation">Confirmação</string>
     <!-- Checkbox label in editor, if enabled user will be prompted to confirm before a shortcut is executed -->
     <string name="label_require_execution_confirmation">Requer confirmação antes da execução</string>
     <!-- Title of section in settings that allows user to lock all settings with a passcode. -->
@@ -550,8 +503,6 @@
     <string name="message_app_locked">App bloqueado.</string>
     <!-- Snackbar message: App was unlocked (settings can be changed again) -->
     <string name="message_app_unlocked">App desbloqueado.</string>
-    <!-- Title of option in settings screen: FAQ (frequently asked questions), links the user to an external documentation page -->
-    <string name="settings_faq">FAQ</string>
     <!-- Subtitle of option in settings screen: FAQ (frequently asked questions), links the user to an external documentation page -->
     <string name="settings_faq_summary">Perguntas frequentes</string>
 </resources>

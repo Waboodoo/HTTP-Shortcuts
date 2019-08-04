@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Loco xml export: Android string resources
+ Project: HTTP Shortcuts
+ Release: Working copy
+ Locale: tr, Turkish
+ Status: Translated
+ Exported by: Roland Meyer
+ Exported at: Sun, 04 Aug 2019 14:25:58 +0200
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- The name of the app -->
+    <string name="app_name">HTTP Kısayol</string>
+    <!-- The name of the default category -->
+    <string name="shortcuts">Kısayollar</string>
+    <!-- The name used as a fallback for shortcuts without a name -->
+    <string name="shortcut_safe_name">Kısayol</string>
+    <!-- Title in editor when editing a shortcut -->
+    <string name="edit_shortcut">Kısayolu düzenle</string>
+    <!-- Title in editor when creating a new shortcut -->
+    <string name="create_shortcut">Kısayol oluştur</string>
+    <!-- Content description of icon image, accessibility information -->
+    <string name="icon_description">Simge</string>
+    <!-- Label above input field in editor, for shortcut name -->
+    <string name="label_name">Kısayol Adı</string>
+    <!-- Label above input field in editor, for shortcut description -->
+    <string name="label_description">Açıklama</string>
+    <!-- Label above input field in editor, for shortcut URL -->
+    <string name="label_url">URL</string>
+    <!-- Button to save changes made to shortcut/variable -->
+    <string name="save_button">Kaydet</string>
+    <!-- Button to test changes made to shortcut -->
+    <string name="test_button">Test</string>
+    <!-- Label above input field in editor, for shortcut HTTP method (GET, POST, PUT, …) -->
+    <string name="label_method">Metot</string>
+    <!-- Label above input field in editor, for shortcut authentication username -->
+    <string name="label_username">Kullanıcı Adı</string>
+    <!-- Label above input field in editor, for shortcut authentication password -->
+    <string name="label_password">Parola</string>
+    <!-- Label above input field in editor, for shortcut response type dropdown -->
+    <string name="label_feedback">Yanıt Türü</string>
+    <!-- Option in dropdown, for shortcut response type: ignore response -->
+    <string name="feedback_none">Yanıtı yoksay (sessizce çalıştır)</string>
+    <!-- Option in dropdown, for shortcut response type: show simple Toast (Android notification) -->
+    <string name="feedback_simple_toast">Basit Mesaj</string>
+    <!-- Option in dropdown, for shortcut response type: show simple Toast but only for errors (Android notification) -->
+    <string name="feedback_simple_toast_error">Basit Mesaj (sadece hatalar)</string>
+    <!-- Option in dropdown, for shortcut response type: show complete response in Toast (Android notification) -->
+    <string name="feedback_response_toast">Yanıtı mesaj olarak göster</string>
+    <!-- Option in dropdown, for shortcut response type: show complete response in Toast for errors (Android notification) -->
+    <string name="feedback_response_toast_error">Yanıtı mesaj olarak göster (sadece hatalar)</string>
+    <!-- Option in dropdown, for shortcut response type: Show complete response in a dialog -->
+    <string name="feedback_dialog">Yanıtı iletişim kutusunda göster</string>
+    <!-- Option in dropdown, for shortcut response type: Show complete response in a fullscreen window -->
+    <string name="feedback_activity">Yanıtı pencerede göster</string>
+    <!-- Shortcut dropdown option: Place shortcut on home screen -->
+    <string name="action_place">Ana ekrana yerleştir</string>
+    <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
+    <string name="action_run">Çalıştır</string>
+    <!-- Shortcut dropdown option: Edit the shortcut -->
+    <string name="action_edit">Düzenle</string>
+    <!-- Shortcut dropdown option: Duplicate the shortcut/variable -->
+    <string name="action_duplicate">Kopyala</string>
+    <!-- Shortcut dropdown option: Delete the shortcut/variable -->
+    <string name="action_delete">Sil</string>
+    <!-- Shortcut dropdown option: export the shortcut in cURL format -->
+    <string name="action_curl_export">cURL çıktısı</string>
+    <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
+    <string name="action_move">Taşı</string>
+    <!-- Shortcut dropdown option: Move the shortcut upwards -->
+    <string name="action_move_up">Yukarı taşı</string>
+    <!-- Shortcut dropdown option: Move the shortcut downwards -->
+    <string name="action_move_down">Aşağı taşı</string>
+    <!-- Shortcut dropdown option: Move the shortcut to a different category -->
+    <string name="action_move_to_category">Kategoriye taşı...</string>
+    <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
+    <string name="confirm_delete_shortcut_message">Bu kısayolu silinsin mi?</string>
+    <!-- Dialog prompt to ask user if unsaved changes should be discarded. -->
+    <string name="confirm_discard_changes_message">Kaydedilmemiş değişiklikleriniz mevcut. Değişiklikleri gözardı et?</string>
+    <!-- Dialog option: Discard (unsaved changes) -->
+    <string name="dialog_discard">Gözardı et</string>
+    <!-- Title of fullscreen window when shortcut is executed/run -->
+    <string name="title_activity_execute">Kısayolu Çalıştır</string>
+    <!-- Confirmation message shown in Toast when a shortcut was executed. %s is a placeholder for the shortcut's name -->
+    <string name="executed">%s çalıştırıldı.</string>
+    <!-- Error message shown in Toast when shortcut was not found. -->
+    <string name="shortcut_not_found">Kısayol bulunamadı. Ana ekrana tekrar eklemeniz gerekebilir.</string>
+    <!-- Validation error, shown when user tries to save a shortcut without a name -->
+    <string name="validation_name_not_empty">Lütfen bir isim giriniz</string>
+    <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
+    <string name="validation_url_invalid">Lütfen bir HTTP(S) URL\'si girin.</string>
+    <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
+    <string name="error_http">%1$s, %2$d durum koduyla başarısız oldu.</string>
+    <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
+    <string name="error_other">%1$ başarısız oldu: %2$s</string>
+    <!-- Error shown when a selected image cannot be used as an icon -->
+    <string name="error_set_image">Resim simge olarak kullanılamadı.</string>
+    <!-- Name template for a duplicated shortcut. %1$s is a placeholder for the name of the original shortcut -->
+    <string name="copy">%1$s (kopya)</string>
+    <!-- Option in "Change Icon" dialog, allows user to pick an icon from an ipack app (i.e., a special icon provider app) -->
+    <string name="choose_ipack">Bir Ipack seçin</string>
+    <!-- Title of "Change Icon" dialog, where user can pick source/type of new icon for shortcut -->
+    <string name="change_icon">Simge Değiştir</string>
+    <!-- Option in "Change Icon" dialog, allows user to select a custom image to use as a shortcut icon -->
+    <string name="choose_image">Özel resim seç</string>
+    <!-- Option in "Change Icon" dialog, allows user to select an icon from an Ipack icon set (from a third-party icon app) -->
+    <string name="choose_ipack_icon">Ipack simgesi seçin</string>
+    <!-- Option in "Change Icon" dialog, allows user to select one of the built-in icons to use as a shortcut icon -->
+    <string name="choose_icon">Yerleşik simge seçin</string>
+    <!-- Title of dialog to edit a parameter on a shortcut -->
+    <string name="title_post_param_edit">Parametreyi Düzenle</string>
+    <!-- Title of dialog to add a new parameter to a shortcut -->
+    <string name="title_post_param_add">Parametre Ekle</string>
+    <!-- Label of input field to provide the name/key of a parameter of a shortcut -->
+    <string name="label_post_param_key">Parametre</string>
+    <!-- Label of input field to provide the value of a parameter of a shortcut -->
+    <string name="label_post_param_value">Değer</string>
+    <!-- Generic dialog button: OK -->
+    <string name="dialog_ok">Tamam</string>
+    <!-- Generic button: Cancel -->
+    <string name="dialog_cancel">İptal</string>
+    <!-- Generic button: remove -->
+    <string name="dialog_remove">Kaldır</string>
+    <!-- Section title in shortcut editor, for section that contains options to specify the headers of the HTTP request -->
+    <string name="section_request_headers">İstek Başlığı</string>
+    <!-- Section title in shortcut editor, for section that contains options to specify the body of the HTTP request -->
+    <string name="section_request_body">İstek Gövdesi</string>
+    <!-- Title of dialog to edit a custom header of a shortcut -->
+    <string name="title_custom_header_edit">Başlığı Düzenle</string>
+    <!-- Title of dialog to add a custom header to a shortcut -->
+    <string name="title_custom_header_add">Başlık Ekle</string>
+    <!-- Label of input field to provide name of custom header -->
+    <string name="label_custom_header_key">Başlık</string>
+    <!-- Label of input field to provide value of custom header -->
+    <string name="label_custom_header_value">Değer</string>
+    <!-- Label of input field to provide request body of a shortcut -->
+    <string name="label_custom_body">İstek Gövdesi</string>
+    <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
+    <string name="settings">Ayarlar</string>
+    <!-- Title of theme settings -->
+    <string name="settings_theme">Tema</string>
+    <!-- Title of section in "Settings" screen: Basic settings -->
+    <string name="settings_title_basic">Temel Ayarlar</string>
+    <!-- Name of setting that allows the user to pick what should happen when a shortcut is clicked -->
+    <string name="settings_click_behavior">Kısayol Tıklama İşlemi</string>
+    <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: execute the shortcut (i.e., send request) -->
+    <string name="settings_click_behavior_run">Kısayolu Çalıştır</string>
+    <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: edit the shortcut -->
+    <string name="settings_click_behavior_edit">Kısayolu Düzenle</string>
+    <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: show options / context menu -->
+    <string name="settings_click_behavior_menu">Seçenekler menüsünü göster</string>
+    <!-- Title of section in settings page, section contains opens for importing and exporting shortcuts -->
+    <string name="settings_title_import_export">İçe Aktar / Dışa Aktar</string>
+    <!-- Button in settings page to start import of shortcuts -->
+    <string name="settings_import">Kısayolları İçe Aktar</string>
+    <!-- Button in settings page to start export of shortcuts -->
+    <string name="settings_export">Kısayolları Dışa Aktar</string>
+    <!-- Instructions shown before shortcut export is started -->
+    <string name="export_instructions">Kısayollarınızı dışarı aktaracağınız dizini seçin.\n\nÖzel simgelerin dışa aktarılamayacağını lütfen unutmayın.</string>
+    <!-- Error message after shortcuts failed to be exported -->
+    <string name="export_failed">Kısayolları dışa aktarma işlemi başarısız oldu.\n</string>
+    <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
+    <string name="export_in_progress">Kısayollar dışa aktarılıyor...</string>
+    <!-- Instructions shown on dialog before exporting of shortcuts & variable begins -->
+    <string name="import_instructions">Kısayolları almak için dosyayı seçin.\n\nLütfen mevcut kısayollarınızın üzerine yazılabileceğini unutmayın.</string>
+    <!-- Error message: Shown in snackbar when import of shortcuts & variables failed -->
+    <string name="import_failed">Kısayolları içe aktarma işlemi başarısız oldu.</string>
+    <!-- Message shown in progress dialog while shortcuts are being imported -->
+    <string name="import_in_progress">Kısayollar içe aktarılıyor...</string>
+    <string name="label_timeout">Zaman aşımı</string>
+    <!-- Section title in app settings -->
+    <string name="settings_about">Bu uygulama hakkında</string>
+    <string name="settings_mail">Geliştirici ile iletişim kur</string>
+    <string name="settings_mail_summary">Sorular, özellik istekleri, geri bildirim,…</string>
+    <string name="settings_github">Github\'da görüntüleyin</string>
+    <string name="settings_github_summary">Doğru, bu uygulama açık kaynak kodludur</string>
+    <string name="changelog_title_whats_new">Neler yeni?</string>
+    <string name="changelog_title">Değişiklikler</string>
+    <string name="changelog_checkbox_show_at_startup">Başlangıçta göster</string>
+    <!-- Message displayed when the shortcut cannot be executed because there is no internet connection. %1$s is a placeholder for the shortcut name. -->
+    <string name="execution_delayed">İnternet bağlantısı mevcut olduğunda %1$s çalıştırılacak.</string>
+    <string name="settings_play_store">Play Store\'da görüntüle</string>
+    <string name="settings_play_store_summary">Derecelendirmeleriniz ve yorumlarınız için teşekkür ederiz</string>
+    <string name="shortcut_duplicated">\"%1$s\" kopyalandı.</string>
+    <string name="shortcut_moved">\"%1$s\" taşındı.</string>
+    <string name="shortcut_deleted">\"%1$s\" silindi.</string>
+    <string name="shortcut_placed">\"%1$s\" ana ekrana yerleştirildi.</string>
+    <!-- Generic 'Delete' option, used in various dialogs, e.g., to confirm the deletion of a shortcut -->
+    <string name="dialog_delete">Sil</string>
+    <string name="section_basic_request">Temel İstek Ayarları</string>
+    <string name="section_advanced_settings">Gelişmiş Ayarlar</string>
+    <string name="section_authentication">Kimlik Doğrulama</string>
+    <string name="label_authentication_method">Kimlik Doğrulama Yöntemi\n</string>
+    <string name="warning_icon_or_name_change">Lütfen, ad veya simge üzerinde yapılan değişikliklerin, ana ekrana önceden eklenmiş olan kısayollara otomatik olarak uygulanmadığını unutmayın. Değişikliklerin etkili olması için tekrar eklemeniz gerekecek. Diğer tüm değişiklikler otomatik olarak uygulanır.</string>
+    <string name="dialog_checkbox_do_not_show_again">Tekrar gösterme</string>
+    <!-- checkbox label in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
+    <string name="label_accept_all_certificates">Herhangi bir sertifikayı kabul et (Ne yaptığımı biliyorum)</string>
+    <string name="title_licenses">Teşekkürler</string>
+    <string name="settings_licenses">Teşekkürler</string>
+    <string name="settings_licenses_summary">Kütüphaneler ve kullanılan kaynaklar</string>
+    <string name="title_categories">Kategoriler</string>
+    <string name="action_rename">Yeniden Adlandır</string>
+    <string name="action_change_category_layout_type">Görünüm türünü değiştir</string>
+    <string name="message_layout_type_changed">Görünüm türü değiştirildi.</string>
+    <!-- One of two options when picking the layout for a category: Show shortcuts in a list -->
+    <string name="layout_type_linear_list">Liste</string>
+    <!-- One of two options when picking the layout for a category: Show shortcuts in a grid -->
+    <string name="layout_type_grid">Tablo</string>
+    <string name="title_rename_category">Kategoriyi Yeniden Adlandır</string>
+    <string name="placeholder_category_name">Kategori Adını Girin…</string>
+    <string name="placeholder_value">Değer</string>
+    <string name="title_create_category">Kategori Oluştur</string>
+    <string name="confirm_delete_category_message">Bu kategoriyi sil?\n\nİçindeki tüm kısayollar silinecek.</string>
+    <string name="message_category_renamed">Kategori yeniden adlandırıldı.</string>
+    <string name="message_category_created">Kategori oluşturuldu.\n</string>
+    <string name="message_category_deleted">Kategori silindi.\n</string>
+    <plurals name="shortcut_count">
+        <item quantity="one">%d kısayol</item>
+        <item quantity="other">%d kısayol</item>
+    </plurals>
+    <string name="title_move_to_category">Kategoriye Taşı\n</string>
+    <!-- Name/title to describe what the plugin action does, used by external plugins, e.g. Tasker -->
+    <string name="plugin_name">HTTP Kısayol ile çalıştır</string>
+    <string name="title_variables">Değişkenler</string>
+    <string name="edit_variable">Değişkeni Düzenle</string>
+    <string name="create_variable">Değişken Oluştur</string>
+    <string name="label_variable_type">Tür</string>
+    <string name="label_variable_key">Anahtar</string>
+    <string name="label_variable_title">İletişim Başlığı (isteğe bağlı)</string>
+    <string name="label_variable_date_format">Tarih Formatı</string>
+    <string name="variable_type_constant">Sabit</string>
+    <string name="variable_type_text">Metin Girişi</string>
+    <string name="variable_type_number">Sayı Girişi</string>
+    <string name="variable_type_password">Şifre Girişi</string>
+    <string name="variable_type_select">Seçim</string>
+    <string name="variable_type_toggle">Geçiş</string>
+    <string name="variable_type_date">Tarih Girişi</string>
+    <string name="variable_type_color">Renk Girişi</string>
+    <string name="warning_invalid_variable_key">Değişken anahtarları sadece İngilizce karakterler ve rakam içerebilir.</string>
+    <string name="confirm_delete_variable_message">Bu değişken silinsin mi?</string>
+    <string name="variable_deleted">\"%1$s\" silindi.</string>
+    <string name="label_url_encode">URL kodlaması</string>
+    <string name="label_json_encode">JSON kodlaması</string>
+    <string name="section_basic_variable_settings">Temel ayarlar</string>
+    <string name="validation_key_non_empty">Değişken anahtarı boş olmamalıdır.</string>
+    <string name="validation_key_already_exists">Bu anahtarla başka bir değişken zaten var.</string>
+    <string name="title_add_toggle_option">Değer Ekle</string>
+    <string name="button_add_toggle_option">Değer ekle</string>
+    <string name="section_toggle_options">Değerleri Değiştir</string>
+    <string name="title_add_select_option">Seçenek Ekle</string>
+    <string name="button_add_select_option">Seçenek ekle</string>
+    <string name="section_select_options">Seçilebilir Seçenekler</string>
+    <string name="label_select_label">Etiket</string>
+    <string name="label_select_value">Değer</string>
+    <string name="button_show_help">Yardımı Göster</string>
+    <string name="help_title_variables">Değişkenler</string>
+    <string name="error_not_enough_toggle_values">Lütfen en az iki değer ekleyin.</string>
+    <string name="error_not_enough_select_values">Lütfen en az bir seçilebilir seçenek ekleyin.</string>
+    <string name="error_invalid_date_format">Tarih formatı geçerli değil.</string>
+    <string name="share_button">Paylaş</string>
+    <string name="share_title">Paylaş...</string>
+    <string name="progress_dialog_message">%1$s…</string>
+    <string name="section_input_options">Giriş Seçenekleri</string>
+    <string name="label_remember_value">Değeri hatırla</string>
+    <string name="action_cancel_pending">Bekleyen işlemi iptal et</string>
+    <string name="pending_shortcut_execution_cancelled">%1$s iptal edildi.</string>
+    <string name="action_send_to">Gönder...</string>
+    <string name="error_not_suitable_shortcuts">Uygun bir kısayol bulunamadı.\n\nBu özelliği kullanmak için \'Paylaş…\' seçeneğine izin veren bir değişkeni kullanan en az bir kısayolun olması gerekir.\n\nDaha fazla bilgi için değişken bölümdeki belgelere bakın.</string>
+    <string name="error_sharing_feature_not_available_yet">Maalesef, metin dosyalarını kısayollarla paylaşma henüz desteklenmiyor. Muhtemelen gelecekte bir zaman eklenecektir.\nAncak, zaten metin snippet\'lerini paylaşabilirsiniz. Daha fazla bilgi için değişken bölümdeki belgelere bakın.\n\nAnlayışınız için teşekkürler.</string>
+    <string name="label_allow_share_into">\'Paylaş…\' seçeneğine izin ver</string>
+    <string name="theme_blue">Açık Mavi</string>
+    <string name="theme_green">Yeşil</string>
+    <string name="theme_red">Kırmızı</string>
+    <string name="theme_grey">Gri</string>
+    <string name="theme_orange">Turuncu</string>
+    <string name="theme_purple">Mor</string>
+    <string name="theme_indigo">Çivit Mavisi</string>
+    <string name="title_export">Dışarı aktar...</string>
+    <string name="button_export_to_filesystem">Yerel depolama</string>
+    <string name="button_export_send_to">Başka uygulama</string>
+    <string name="title_import">İçeri aktar...</string>
+    <string name="button_import_from_filesystem">Yerel depolama\n</string>
+    <string name="button_import_from_general">Dökümanlar</string>
+    <!-- Option 1 in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
+    <string name="button_create_new">Sıfırdan</string>
+    <!-- Option 2 in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
+    <string name="button_curl_import">cURL komutundan\n</string>
+    <!-- Window title for cURL import -->
+    <string name="title_curl_import">cURL Komutu</string>
+    <!-- Instruction text for shortcut import from cURL format -->
+    <string name="instructions_curl_import">Yeni bir kısayol oluşturmak için aşağıya bir cURL komutu yazın veya yapıştırın.</string>
+    <!-- Text on button to start shortcut import from a cURL command -->
+    <string name="curl_import_button">İçeri Aktar</string>
+    <!-- Dropdown option for "Authentication" of a shortcut: no authentication -->
+    <string name="authentication_none">Kimlik doğrulama yok</string>
+    <!-- Dropdown option for "Authentication" of a shortcut: "Basic Authentication", aka. BasicAuth (username & password) -->
+    <string name="authentication_basic">Temel Kimlik Doğrulama</string>
+    <!-- Dropdown option for "Authentication" of a shortcut: "Digest Authentication", aka. DigestAuth (username & password) -->
+    <string name="authentication_digest">Özet Kimlik Doğrulama</string>
+    <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu, i.e., when long-pressing the app icon on the home screen -->
+    <string name="label_launcher_shortcut">Başlatıcıda uygulama kısayolu olarak göster</string>
+    <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
+    <string name="error_share_failed">Paylaşılırken bir hata oluştu.</string>
+    <plurals name="seconds">
+        <!-- Used in various places to indicate a number of seconds, e.g. for a delay. %s is a placeholder for the actual number. -->
+        <item quantity="one">%d saniye</item>
+        <item quantity="other">%d saniye</item>
+    </plurals>
+    <plurals name="minutes">
+        <!-- Used in various places to indicate a number of minutes, e.g. for a delay. %s is a placeholder for the actual number. -->
+        <item quantity="one">%d dakika</item>
+        <item quantity="other">%d dakika</item>
+    </plurals>
+    <string name="label_delay_execution">Gecikme uygula</string>
+    <string name="label_variable_time_format">Zaman formatı</string>
+    <string name="variable_type_time">Zaman girişi</string>
+    <string name="error_invalid_time_format">Saat formatı geçerli değil.</string>
+    <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
+    <string name="error_not_supported">Bu özellik cihazınızda desteklenmiyor.</string>
+    <!-- Section title on settings screen for privacy related settings -->
+    <string name="settings_title_privacy">Gizlilik</string>
+    <!-- Setting title for crash reporting settings, as part of privacy settings (opt-in/opt-out) -->
+    <string name="settings_crash_reporting">Kilitlenme Raporlaması</string>
+    <!-- Option for crash reporting opt in -->
+    <string name="settings_crash_reporting_allow">Uygulamanın iyileştirilmesine yardımcı olmak için kilitlenme raporları gönderin</string>
+    <!-- Option for crash reporting opt out -->
+    <string name="settings_crash_reporting_disallow">Herhangi bir kilitlenme raporu göndermeyin</string>
+    <!-- Title of section in settings that allows user to click to open privacy policy dialog -->
+    <string name="settings_privacy_policy">Gizlilik Politikası</string>
+    <!-- Summary/subtitle of section in settings that allows user to click to open privacy policy dialog -->
+    <string name="settings_privacy_policy_summary">Hayır, verilerinizi çalmıyoruz.</string>
+    <!-- Title of dialog that shows the privacy policy -->
+    <string name="title_privacy_policy">Gizlilik Politikası\n</string>
+    <!-- Type of variable: Slider, i.e. a horizontal bar that allows to pick a number by sliding a knob left or right -->
+    <string name="variable_type_slider">Sayı Çubuğu</string>
+    <!-- Label above input box, for minimum (numeric) value of a horizontal slider -->
+    <string name="label_variable_slider_min">En az</string>
+    <!-- Label above input box, for maximum (numeric) value of a horizontal slider -->
+    <string name="label_variable_slider_max">En fazla</string>
+    <!-- Label above input box, for step size (numeric) value of a horizontal slider -->
+    <string name="label_variable_slider_step">Adım boyutu\n</string>
+    <!-- error message displayed when "Maximum" is lesser than or equal to "Minimum" for "slider" variable type -->
+    <string name="error_slider_max_not_greater_than_min">Maksimum değer minimum değerden büyük olmalıdır.</string>
+    <!-- Button text: Set image as icon (after selecting and editing) -->
+    <string name="button_apply_icon">Simgeyi uygula</string>
+    <!-- Title of option in settings to show change changelog of current and past versions -->
+    <string name="settings_changelog">Değişiklikler</string>
+    <!-- Subtitle/summary of "Changelog" option in settings, showing the current app version number -->
+    <string name="settings_changelog_summary">Versiyon %1$s</string>
+    <string name="title_edit_toggle_option">Değeri Düzenle</string>
+    <string name="title_edit_select_option">Seçeneği Düzenle</string>
+    <!-- Instructions shown in dialog when user clicks the variables button in the shortcut editor but doesn't have any variables configured yet -->
+    <string name="help_text_variable_button">Bu düğme, değişkenler, yani dinamik değerler için yer tutucuları kısayolunuza eklemenizi sağlar.</string>
+    <!-- Instructions shown in dialog when user clicks the variables button in the variable editor but doesn't have any variables configured yet -->
+    <string name="help_text_variable_button_for_variables">Bu düğme, bu değişkene diğer değişkenlerin değerleri için yer tutucuları eklemenizi sağlar.</string>
+    <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
+    <string name="button_create_first_variable">Oluştur</string>
+    <!-- Title of dialog that allows users to pick a variable from a list to insert its placeholder somewhere -->
+    <string name="dialog_title_variable_selection">Değişkenler</string>
+    <!-- Option shown on variable selection dialog, clicking it opens variable editor -->
+    <string name="label_edit_variables">Değişkenleri düzenle</string>
+    <!-- Dialog title when creating a new shortcut, shows options below -->
+    <string name="title_create_new_shortcut_options_dialog">Yeni Kısayol Oluştur</string>
+    <!-- Button text: translate app (prompt to help & become a translator) -->
+    <string name="settings_help_translate">Uygulamayı Çevir</string>
+    <!-- Summary/subtitle of section in settings that prompts user to help translate the app -->
+    <string name="settings_help_translate_summary">Bu uygulamayı daha iyi hale getirmeme yardım et!</string>
+    <!-- Blurb/short description of plugin action (for Tasker integration), where %1$s is a placeholder for the shortcut name. -->
+    <string name="plugin_blurb_execute_task">Kısayolu çalıştır \"%1$s\"</string>
+    <!-- Label of dropdown to select the request body type in shortcut editor -->
+    <string name="label_request_body_type">İstek Gövde Türü</string>
+    <!-- Dropdown option for request body: form-data (i.e. list of parameters) -->
+    <string name="request_body_option_form_data">Parametreler (form-data)</string>
+    <!-- Dropdown option for request body: x-www-form-urlencoded (i.e. list of parameters) -->
+    <string name="request_body_option_x_www_form_urlencoded">Parametreler (x-www-form-urlencoded)</string>
+    <!-- Dropdown option for request body: custom text (i.e. enter a custom Content-Type and a request body as text) -->
+    <string name="request_body_option_custom_text">Özel Metin</string>
+    <!-- Label above input box for Request Content-Type -->
+    <string name="label_content_type">İçerik Türü (Content-Type)</string>
+    <!-- Button to copy the cURL export of a shortcut to the clipboard -->
+    <string name="button_copy_curl_export">Kopyala</string>
+    <!-- Title of dialog that allows user to pick an icon from the built-in icons -->
+    <string name="title_choose_icon">Yerleşik Simge Seçin\n</string>
+    <!-- Title of dialog that allows users to pick a constant variable from a list to insert its placeholder somewhere -->
+    <string name="dialog_title_variable_selection_constants_only">Değişkenler (Yalnızca Sabitler)</string>
+    <!-- Shown as a placeholder for the title field of an action of unknown type. This should never happen. -->
+    <string name="action_type_unknown_title">Bilinmeyen işlem</string>
+    <!-- Shortcut Action Title: Show Toast (small popup message) -->
+    <string name="action_type_toast_title">Mesaj Göster</string>
+    <!-- Shortcut Action Editor Label: Message (to show in a toast) -->
+    <string name="action_type_toast_edit_label_message">Mesaj</string>
+    <!-- Shortcut Action Title: Vibrate -->
+    <string name="action_type_vibrate_title">Titreşim</string>
+    <!-- Shortcut Action Description: Vibrate, describes the vibration pattern -->
+    <string name="action_type_vibrate_description_pattern_0">1 kısa titreşim</string>
+    <!-- Shortcut Action Description: Vibrate, describes the vibration pattern -->
+    <string name="action_type_vibrate_description_pattern_1">1 uzun titreşim</string>
+    <!-- Shortcut Action Description: Vibrate, describes the vibration pattern -->
+    <string name="action_type_vibrate_description_pattern_2">3 kısa titreşim</string>
+    <!-- Shortcut Action Editor Label: Vibration pattern -->
+    <string name="action_type_vibrate_edit_label_pattern">Titreşim şekli</string>
+    <!-- Shortcut Action Editor Label: Checkbox, whether to wait for the vibration to complete -->
+    <string name="action_type_vibrate_edit_label_wait_until_complete">Titreşimin bitmesini bekle</string>
+    <!-- Shortcut Action Title: Change Shortcut Name -->
+    <string name="action_type_rename_shortcut_title">Kısayolu Yeniden Adlandır</string>
+    <!-- Shortcut Action Editor Label: New name for shortcut -->
+    <string name="action_type_rename_shortcut_edit_label_new_name">Yeni isim</string>
+    <!-- Shortcut Action Title: Extract (HTTP) Status Code (and store in variable) -->
+    <string name="action_type_extract_status_code_title">Durum Kodunu Ayıkla</string>
+    <!-- Shortcut Action Editor Help Text: Extract status code, shown in action editor -->
+    <string name="action_type_extract_status_code_help_text">HTTP yanıtının durum kodunu çıkarır ve değişkende saklar.</string>
+    <!-- Shortcut Action Editor Label: Target variable (to store a value) -->
+    <string name="action_type_target_variable">Hedef değişken</string>
+    <!-- Shortcut Action Editor Placeholder: Shows when no variable was selected yet -->
+    <string name="action_type_target_variable_no_variable_selected">Değişken seçilmedi</string>
+    <!-- Shortcut Action Title: Extract (HTTP) header (and store in variable) -->
+    <string name="action_type_extract_header_title">Başlık Ayıkla</string>
+    <!-- Shortcut Action Editor Help Text: Extract HTTP header, shown in action editor -->
+    <string name="action_type_extract_header_help_text">Belirli bir başlığın değerini HTTP yanıtından ayıklar ve onu bir değişkende saklar. Eğer böyle bir başlık yoksa, bu işlem hiçbir şey yapmaz.</string>
+    <!-- Shortcut Action Editor Label: (HTTP) header (to be extracted from response) -->
+    <string name="action_type_extract_header_label_header_key">Başlık</string>
+    <!-- Shortcut Action Title: Extract cookie from HTTP response (and store in variable) -->
+    <string name="action_type_extract_cookie_title">Çerez Ayıkla</string>
+    <!-- Shortcut Action Editor Help Text: Extract cookie, shown in action editor -->
+    <string name="action_type_extract_cookie_help_text">Belirli bir çerezin değerini HTTP yanıtından ayıklar ve onu bir değişkende saklar. Böyle bir çerez yoksa, bu işlem hiçbir şey yapmaz.</string>
+    <!-- Shortcut Action Editor Label: cookie name (to be extracted from HTTP response) -->
+    <string name="action_type_extract_cookie_label_cookie_name">Çerez adı</string>
+    <!-- Shortcut Action Title: Extract from (HTTP response) body (and store in variable) -->
+    <string name="action_type_extract_body_title">Sayfa Gövdesini Ayıkla</string>
+    <!-- Shortcut Action Editor Help Text: Extract HTTP response body, or part of it, shown in action editor -->
+    <string name="action_type_extract_body_help_text">Sayfa gövdesini veya bir bölümünü HTTP yanıtından alır ve değişkende saklar. Belirtilen kısım mevcut değilse, bu işlem hiçbir şey yapmaz.</string>
+    <!-- Shortcut Action Editor Label: Allows to select the type of how text is extracted from the HTTP response body -->
+    <string name="action_type_extract_body_label_options">Ayıklama türü</string>
+    <!-- Shortcut Action Editor Option Label: One of the options in the dropdown to select how text is extracted from the HTTP response body: use the full body, i.e., all of it as is -->
+    <string name="action_type_extract_body_description_option_full_body">Tüm gövde</string>
+    <!-- Shortcut Action Editor Option Label: One of the options in the dropdown to select how text is extracted from the HTTP response body: use a substring, i.e., only a part of it -->
+    <string name="action_type_extract_body_description_option_substring">Metin kırp</string>
+    <!-- Shortcut Action Editor Option Label: One of the options in the dropdown to select how text is extracted from the HTTP response body: try to parse it as JSON and use a specific part -->
+    <string name="action_type_extract_body_description_option_json">JSON Ayrıştırma</string>
+    <!-- Shortcut Action Editor Option Label: Allows to select the start index of the substring option when extracting text from the HTTP response body -->
+    <string name="action_type_extract_body_label_substring_start_index">Metin kırpma başlangıç indeksi</string>
+    <!-- Shortcut Action Editor Option Label: Allows to select the end index of the substring option when extracting text from the HTTP response body -->
+    <string name="action_type_extract_body_label_substring_end_index">Metin kırpma bitiş indeksi</string>
+    <!-- Shortcut Action Editor Option Label: Allows to specify the JSON path when using the JSON parse option when extracting text from the HTTP response body -->
+    <string name="action_type_extract_body_label_json_path">JSON yolu</string>
+    <!-- Shortcut Action Editor Help Text: Explains how the substring option can be used when extracting text from the HTTP response body -->
+    <string name="action_type_extract_body_help_text_substring_option">Metinin başlangıcını/sonunu belirtmek için 0 kullanın. Metnin sonundaki bir kaymayı belirtmek için negatif sayılar kullanın.</string>
+    <!-- Shortcut Action Editor Help Text: Explains how the JSON option can be used when extracting text from the HTTP response body -->
+    <string name="action_type_extract_body_help_text_json_option">JSON yanıtı içindeki ve noktalarla ayrılmış yolu tanımlayın. Örneğin. \"2.title\", cevabın 2. öğesinin kullanılması gereken bir JSON dizisi olarak yorumlanacağı anlamına gelir, daha sonra değerin çıkarılması gereken bir \"title\" alanı içeren bir JSON nesnesi olarak yorumlanır.</string>
+    <!-- Generic error shown when something went wrong and there is no better error message available -->
+    <string name="error_generic">Bir şeyler yanlış gitti…</string>
+    <!-- Shortcut Action Title: Set the value of a variable -->
+    <string name="action_type_set_variable_title">Değişken Ayarla</string>
+    <!-- Shortcut Action Editor Help Text: Set the value of a variable -->
+    <string name="action_type_set_variable_help_text">Bir değişkenin değerini değiştirir.</string>
+    <!-- Shortcut Action Editor Label: allows to specify the new value of a variable -->
+    <string name="action_type_set_variable_label_new_value">Yeni değer</string>
+    <!-- Shortcut Action Title: Trigger a shortcut, i.e., execute it -->
+    <string name="action_type_trigger_shortcut_title">Kısayolu Tetikle</string>
+    <!-- Shortcut error message: Maximum recursion depth reached, i.e., a potential infinite loop was detected and stopped -->
+    <string name="action_type_trigger_shortcut_error_recursion_depth_reached">Maksimum tekrarlama derinliğine ulaşıldı. Kısayol tetiklenmeyecek.</string>
+    <!-- Shortcut Action Editor Label: Allows to pick a shortcut (used in different places) -->
+    <string name="action_type_trigger_shortcut_label_shortcut_name">Kısayol</string>
+    <!-- Shortcut Action Editor placeholder: No shortcut selected, used in different places where selecting a shortcut is necessary -->
+    <string name="action_target_shortcut_no_shortcut_selected">Kısayol seçilmedi</string>
+    <!-- Error message in Action Editor when selecting a shortcut is not possible because there are none yet, used in different places -->
+    <string name="action_target_shortcut_error_no_shortcuts">Henüz hiç kısayolunuz yok.</string>
+    <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid URL -->
+    <string name="error_invalid_url">Geçersiz URL. HTTP(S) olmalı.</string>
+    <!-- Title: Dialog title when selecting how to place a shortcut on the homescreen -->
+    <string name="title_select_placement_method">Yerleşim Yöntemi</string>
+    <!-- Description: Dialog text when selecting how to place a shortcut on the homescreen -->
+    <string name="description_select_placement_method">Kısayolu yerleştirmek için kullanılacak yöntemi seçin. \"Varsayılan\" yöntemiyle ilgili bir sorunla karşılaşırsanız, bunun yerine \"Katılım\" yöntemini deneyebilirsiniz. Lütfen bazı özelliklerin (örneğin, kısayol adının değiştirilmesi) Katılım yönteminde mevcut olmadığını unutmayın.</string>
+    <!-- Label: Preferred option in dialog for selecting how to place the shortcut on the homescreen: Default (method) -->
+    <string name="label_placement_method_default">Varsayılan</string>
+    <!-- Label: Alternative option in dialog for selecting how to place the shortcut on the homescreen: Legacy (method) -->
+    <string name="label_placement_method_legacy">Kalıtım</string>
+    <!-- Name of toolbar action: Unlock all settings (will prompt user to enter passcode) -->
+    <string name="menu_action_unlock_app">Ayarların kilidini aç</string>
+    <!-- Checkbox label in editor, if enabled user will be prompted to confirm before a shortcut is executed -->
+    <string name="label_require_execution_confirmation">Başlamadan önce onay gerekir</string>
+    <!-- Title of section in settings that allows user to lock all settings with a passcode. -->
+    <string name="settings_lock_app_title">Kilitleme Ayarları</string>
+    <!-- Summary/subtitle of section in settings that allows user to lock all settings with a passcode. -->
+    <string name="settings_lock_app_summary">Kısayollarda ve ayarlarda yapılan değişiklikleri önleyin.</string>
+    <!-- Dialog message to prompt user to confirm execution of shortcut -->
+    <string name="dialog_message_confirm_shortcut_execution">Bu kısayol çalıştırılsın mı?</string>
+    <!-- Dialog title: Unlock the app (after it was locked. user is required to enter a password) -->
+    <string name="dialog_title_unlock_app">Uygulama Kilidini Aç</string>
+    <!-- Dialog button: Unlock the app (after entering a password) -->
+    <string name="button_unlock_app">Kilidi Aç</string>
+    <!-- Dialog text: Asks user to enter a password to unlock the app's settings -->
+    <string name="dialog_text_unlock_app">Uygulama ayarlarının kilidini açmak için şifrenizi girin.</string>
+    <!-- Dialog text: Asks user to enter the password to unlock the app's settings again, after an incorrect try -->
+    <string name="dialog_text_unlock_app_retry">Hatalı şifre. Lütfen tekrar deneyin.</string>
+    <!-- Dialog title: Asks user to enter a password to lock the app's settings -->
+    <string name="dialog_title_lock_app">Uygulamayı Kilitle</string>
+    <!-- Dialog text: Asks user to enter a password to lock the app's settings -->
+    <string name="dialog_text_lock_app">Uygulama ayarlarını kilitlemek ve kısayollarınızın değiştirilmesini önlemek için bir şifre girin.</string>
+    <!-- Dialog button: Lock the app (by entering a password) -->
+    <string name="button_lock_app">Kilitle</string>
+    <!-- Snackbar message: App was locked (settings can no longer be changed) -->
+    <string name="message_app_locked">Uygulama kilitlendi.</string>
+    <!-- Snackbar message: App was unlocked (settings can be changed again) -->
+    <string name="message_app_unlocked">Uygulamanın kilidi açıldı.</string>
+    <!-- Title of option in settings screen: FAQ (frequently asked questions), links the user to an external documentation page -->
+    <string name="settings_faq">SSS</string>
+    <!-- Subtitle of option in settings screen: FAQ (frequently asked questions), links the user to an external documentation page -->
+    <string name="settings_faq_summary">Sıkça sorulan sorular</string>
+</resources>
