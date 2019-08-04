@@ -51,6 +51,14 @@ object Repository {
             .equalTo(Shortcut.FIELD_NAME, shortcutName, Case.INSENSITIVE)
             .findFirst()
 
+    fun getShortcutByNameOrId(realm: Realm, shortcutNameOrId: String): Shortcut? =
+        realm
+            .where<Shortcut>()
+            .equalTo(HasId.FIELD_ID, shortcutNameOrId)
+            .or()
+            .equalTo(Shortcut.FIELD_NAME, shortcutNameOrId, Case.INSENSITIVE)
+            .findFirst()
+
     internal fun getVariableById(realm: Realm, variableId: String): Variable? =
         realm
             .where<Variable>()

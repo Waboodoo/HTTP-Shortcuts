@@ -15,7 +15,7 @@ class TriggerShortcutActionType(context: Context) : BaseActionType(context) {
 
     override fun getAlias() = ActionAlias(
         functionName = "triggerShortcut",
-        parameters = listOf(TriggerShortcutAction.KEY_SHORTCUT_ID)
+        parameters = listOf(TriggerShortcutAction.KEY_SHORTCUT_NAME_OR_ID)
     )
 
     companion object {

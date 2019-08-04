@@ -57,11 +57,6 @@ class Controller : Destroyable, Closeable {
         }
     }
 
-    fun renameShortcut(shortcutId: String, newName: String) =
-        Transactions.commit { realm ->
-            Repository.getShortcutById(realm, shortcutId)?.name = newName
-        }
-
     fun createPendingExecution(
         shortcutId: String,
         resolvedVariables: Map<String, String>,

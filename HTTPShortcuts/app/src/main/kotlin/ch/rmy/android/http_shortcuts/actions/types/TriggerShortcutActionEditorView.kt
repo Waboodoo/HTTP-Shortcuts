@@ -44,7 +44,7 @@ class TriggerShortcutActionEditorView(
             MenuDialogBuilder(context)
                 .mapFor(shortcuts) { builder, shortcut ->
                     builder.item(shortcut.name) {
-                        action.shortcutId = shortcut.id
+                        action.shortcutNameOrId = shortcut.id
                         updateViews()
                     }
                 }

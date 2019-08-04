@@ -1,7 +1,9 @@
 package ch.rmy.android.http_shortcuts.actions.types
 
 import android.content.Context
-import ch.rmy.android.http_shortcuts.data.Controller
+import ch.rmy.android.http_shortcuts.data.DataSource
+import ch.rmy.android.http_shortcuts.data.Repository
+import ch.rmy.android.http_shortcuts.data.Transactions
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.variables.VariableManager
@@ -21,30 +23,31 @@ class RenameShortcutAction(
             internalData[KEY_NAME] = value
         }
 
-    val shortcutId = data[KEY_SHORTCUT_ID]
+    val shortcutNameOrId = data[KEY_SHORTCUT_NAME_OR_ID]
 
     override fun perform(context: Context, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Completable =
-        renameShortcut(context, this.shortcutId ?: shortcutId, variableManager)
+        renameShortcut(context, this.shortcutNameOrId ?: shortcutId, variableManager)
 
-    private fun renameShortcut(context: Context, shortcutId: String, variableManager: VariableManager): Completable {
-        Controller().use { controller ->
-            val newName = Variables.rawPlaceholdersToResolvedValues(name, variableManager.getVariableValuesByIds())
-            if (newName.isEmpty()) {
-                return Completable.complete()
-            }
-            return controller.renameShortcut(shortcutId, newName)
-                .andThen {
-                    val shortcut = controller.getShortcutById(shortcutId)
-                    if (LauncherShortcutManager.supportsPinning(context) && shortcut != null) {
-                        LauncherShortcutManager.updatePinnedShortcut(
-                            context = context,
-                            shortcutId = shortcut.id,
-                            shortcutName = shortcut.name,
-                            shortcutIcon = shortcut.iconName
-                        )
-                    }
-                }
+    private fun renameShortcut(context: Context, shortcutNameOrId: String, variableManager: VariableManager): Completable {
+        val newName = Variables.rawPlaceholdersToResolvedValues(name, variableManager.getVariableValuesByIds())
+        if (newName.isEmpty()) {
+            return Completable.complete()
         }
+        val shortcut = DataSource.getShortcutByNameOrId(shortcutNameOrId)
+        if (shortcut == null) {
+            return Completable.complete()
+        }
+        return renameShortcut(shortcut.id, newName)
+            .andThen(Completable.fromAction {
+                if (LauncherShortcutManager.supportsPinning(context)) {
+                    LauncherShortcutManager.updatePinnedShortcut(
+                        context = context,
+                        shortcutId = shortcut.id,
+                        shortcutName = newName,
+                        shortcutIcon = shortcut.iconName
+                    )
+                }
+            })
     }
 
     override fun createEditorView(context: Context, variablePlaceholderProvider: VariablePlaceholderProvider) =
@@ -53,7 +56,12 @@ class RenameShortcutAction(
     companion object {
 
         const val KEY_NAME = "name"
-        const val KEY_SHORTCUT_ID = "shortcut_id"
+        const val KEY_SHORTCUT_NAME_OR_ID = "shortcut_id"
+
+        private fun renameShortcut(shortcutId: String, newName: String) =
+            Transactions.commit { realm ->
+                Repository.getShortcutById(realm, shortcutId)?.name = newName
+            }
 
     }
 

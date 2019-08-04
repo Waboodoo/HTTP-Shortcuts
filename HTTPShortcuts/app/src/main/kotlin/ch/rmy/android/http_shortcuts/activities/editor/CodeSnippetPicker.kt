@@ -88,21 +88,21 @@ class CodeSnippetPicker(private val context: Context, private val variablePlaceh
             .item(R.string.action_type_dialog_title) {
                 insertText("showDialog(\"Message\"", ", \"Title\");")
             }
+            .item(R.string.action_copy_to_clipboard_title) {
+                insertText("copyToClipboard(\"", "\");")
+            }
             .mapIf((context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator).hasVibrator()) {
                 it.item(R.string.action_type_vibrate_title) {
                     insertText("vibrate();", "")
                 }
             }
             .item(R.string.action_type_trigger_shortcut_title) {
-                insertText("triggerShortcut(\"shortcut name or ID\", \"\");", "")
+                insertText("triggerShortcut(\"shortcut name or ID", "\");")
             }
             .mapIf(LauncherShortcutManager.supportsPinning(context)) {
                 it.item(R.string.action_type_rename_shortcut_title) {
-                    insertText("renameShortcut(\"shortcut name or ID\", \"\", \"new name\");", "")
+                    insertText("renameShortcut(\"shortcut name or ID\", \"new name", "\");")
                 }
-            }
-            .item(R.string.action_copy_to_clipboard_title) {
-                insertText("copyToClipboard(\"", "\");")
             }
             .showIfPossible()
     }

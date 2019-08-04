@@ -15,7 +15,7 @@ class RenameShortcutActionType(context: Context) : BaseActionType(context) {
 
     override fun getAlias() = ActionAlias(
         functionName = "renameShortcut",
-        parameters = listOf(RenameShortcutAction.KEY_SHORTCUT_ID, RenameShortcutAction.KEY_NAME)
+        parameters = listOf(RenameShortcutAction.KEY_SHORTCUT_NAME_OR_ID, RenameShortcutAction.KEY_NAME)
     )
 
     companion object {
