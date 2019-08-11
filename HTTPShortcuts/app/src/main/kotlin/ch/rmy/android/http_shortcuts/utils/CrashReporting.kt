@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import ch.rmy.android.http_shortcuts.BuildConfig
 import com.bugsnag.android.Bugsnag
+import java.util.*
 import kotlin.properties.Delegates
 
 object CrashReporting {
@@ -15,6 +16,7 @@ object CrashReporting {
             return
         }
         Bugsnag.init(context, BuildConfig.BUGSNAG_API_KEY)
+        Bugsnag.addToTab("device", "language", Locale.getDefault().toString())
         initialized = true
     }
 

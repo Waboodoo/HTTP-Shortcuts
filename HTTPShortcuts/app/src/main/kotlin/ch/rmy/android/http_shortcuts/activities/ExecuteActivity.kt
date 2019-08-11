@@ -25,6 +25,7 @@ import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.extensions.truncate
+import ch.rmy.android.http_shortcuts.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.http.HttpRequester
@@ -63,7 +64,11 @@ class ExecuteActivity : BaseActivity() {
 
     private val showProgressRunnable = Runnable {
         if (progressDialog == null) {
-            progressDialog = ProgressDialog.show(context, null, String.format(getString(R.string.progress_dialog_message), shortcutName))
+            if ((context as? BaseActivity)?.isFinishing == false) {
+                tryOrLog {
+                    progressDialog = ProgressDialog.show(context, null, String.format(getString(R.string.progress_dialog_message), shortcutName))
+                }
+            }
         }
     }
     private var progressDialog: ProgressDialog? = null

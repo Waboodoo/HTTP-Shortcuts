@@ -32,9 +32,10 @@ class ShortcutListViewModel(application: Application) : MainViewModel(applicatio
     fun getShortcuts(): ListLiveData<Shortcut> =
         getBase(persistedRealm)!!
             .categories
-            .first { category -> category.id == categoryId }
-            .shortcuts
-            .toLiveData()
+            .firstOrNull { category -> category.id == categoryId }
+            ?.shortcuts
+            ?.toLiveData()
+            ?: (object : ListLiveData<Shortcut>() {})
 
     fun deleteShortcut(shortcutId: String) =
         Transactions.commit { realm ->
