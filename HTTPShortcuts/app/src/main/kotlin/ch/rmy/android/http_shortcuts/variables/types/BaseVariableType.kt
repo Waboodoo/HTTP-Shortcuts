@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.variables.types
 
 import android.content.Context
-import android.text.TextUtils
 import androidx.fragment.app.FragmentManager
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
@@ -28,7 +27,7 @@ abstract class BaseVariableType {
 
         internal fun createDialogBuilder(context: Context, variable: Variable, emitter: SingleEmitter<String>) =
             MenuDialogBuilder(context)
-                .mapIf(!TextUtils.isEmpty(variable.title)) {
+                .mapIf(!variable.title.isNullOrEmpty()) {
                     it.title(variable.title)
                 }
                 .dismissListener {

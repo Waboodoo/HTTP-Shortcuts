@@ -116,7 +116,6 @@ internal object ImportMigrator {
             }
             27L -> { // 1.24.0
                 ReplaceActionsWithScriptsMigration().migrateImport(base)
-
             }
         }
     }

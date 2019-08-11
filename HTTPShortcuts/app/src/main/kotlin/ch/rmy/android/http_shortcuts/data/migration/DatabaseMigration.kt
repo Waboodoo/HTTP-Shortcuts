@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.data.migration
 
-import android.text.TextUtils
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceActionsWithScriptsMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceVariableKeysWithIdsMigration
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
@@ -66,7 +65,7 @@ class DatabaseMigration : RealmMigration {
                 schema.get("Shortcut")!!.addField("authentication", String::class.java)
                 val shortcuts = realm.where("Shortcut").findAll()
                 for (shortcut in shortcuts) {
-                    if (!TextUtils.isEmpty(shortcut.getString("username")) || !TextUtils.isEmpty(shortcut.getString("password"))) {
+                    if (!shortcut.getString("username").isNullOrEmpty() || !shortcut.getString("password").isNullOrEmpty()) {
                         shortcut.setString("authentication", "basic")
                     }
                 }
@@ -237,14 +236,18 @@ class DatabaseMigration : RealmMigration {
                     shortcut.setBoolean("followRedirects", true)
                 }
             }
-            25L -> {
+            25L -> { // 1.24.0
                 ReplaceVariableKeysWithIdsMigration().migrateRealm(realm)
             }
-            26L -> {
+            26L -> { // 1.24.0
                 schema.get("Parameter")!!.setRequired("id", true)
             }
-            27L -> {
+            27L -> { // 1.24.0
                 ReplaceActionsWithScriptsMigration().migrateRealm(realm)
+            }
+            28L -> { // 1.24.0
+                schema.get("PendingExecution")!!
+                    .addField("recursionDepth", Int::class.javaPrimitiveType)
             }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
@@ -271,7 +274,7 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 27L
+        const val VERSION = 28L
 
     }
 

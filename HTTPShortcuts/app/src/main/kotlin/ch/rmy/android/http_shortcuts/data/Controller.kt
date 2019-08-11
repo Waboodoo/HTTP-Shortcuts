@@ -10,7 +10,6 @@ import io.realm.Realm
 import io.realm.RealmList
 import io.realm.RealmResults
 import java.io.Closeable
-import java.util.*
 
 class Controller : Destroyable, Closeable {
 
@@ -56,24 +55,5 @@ class Controller : Destroyable, Closeable {
             oldBase.variables.addAll(persistedVariables)
         }
     }
-
-    fun createPendingExecution(
-        shortcutId: String,
-        resolvedVariables: Map<String, String>,
-        tryNumber: Int = 0,
-        waitUntil: Date? = null,
-        requiresNetwork: Boolean
-    ) =
-        Transactions.commit { realm ->
-            val alreadyPending = Repository.getShortcutPendingExecution(realm, shortcutId) != null
-            if (!alreadyPending) {
-                realm.copyToRealm(PendingExecution.createNew(shortcutId, resolvedVariables, tryNumber, waitUntil, requiresNetwork))
-            }
-        }
-
-    fun removePendingExecution(shortcutId: String) =
-        Transactions.commit { realm ->
-            Repository.getShortcutPendingExecution(realm, shortcutId)?.deleteFromRealm()
-        }
 
 }

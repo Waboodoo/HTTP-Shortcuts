@@ -19,6 +19,8 @@ open class PendingExecution : RealmObject() {
     var waitUntil: Date? = null
     var waitForNetwork: Boolean = false
 
+    var recursionDepth: Int = 0
+
     var resolvedVariables: RealmList<ResolvedVariable> = RealmList()
 
     companion object {
@@ -31,7 +33,8 @@ open class PendingExecution : RealmObject() {
             resolvedVariables: Map<String, String> = emptyMap(),
             tryNumber: Int = 0,
             waitUntil: Date? = null,
-            waitForNetwork: Boolean = false
+            waitForNetwork: Boolean = false,
+            recursionDepth: Int = 0
         ): PendingExecution {
             val pendingExecution = PendingExecution()
 
@@ -46,6 +49,7 @@ open class PendingExecution : RealmObject() {
             pendingExecution.waitUntil = waitUntil
             pendingExecution.enqueuedAt = Date()
             pendingExecution.waitForNetwork = waitForNetwork
+            pendingExecution.recursionDepth = recursionDepth
             return pendingExecution
         }
     }

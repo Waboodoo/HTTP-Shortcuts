@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.main
 
 import android.content.Context
-import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -28,7 +27,7 @@ class ShortcutListAdapter(context: Context, shortcuts: ListLiveData<Shortcut>) :
         override fun updateViews(item: Shortcut) {
             name.text = item.name
             description.text = item.description
-            description.visible = !TextUtils.isEmpty(item.description)
+            description.visible = item.description.isNotEmpty()
             icon.setImageURI(IconUtil.getIconURI(context, item.iconName), item.iconName)
             waitingIcon.visible = isPendingExecution(item.id)
             name.setTextColor(nameTextColor)

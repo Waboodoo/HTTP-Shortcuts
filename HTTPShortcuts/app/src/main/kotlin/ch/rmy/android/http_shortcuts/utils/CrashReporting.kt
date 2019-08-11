@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.utils
 
 import android.content.Context
-import android.text.TextUtils
 import android.util.Log
 import ch.rmy.android.http_shortcuts.BuildConfig
 import com.bugsnag.android.Bugsnag
@@ -12,7 +11,7 @@ object CrashReporting {
     private var initialized = false
 
     fun init(context: Context) {
-        if (TextUtils.isEmpty(BuildConfig.BUGSNAG_API_KEY) || BuildConfig.DEBUG) {
+        if (BuildConfig.BUGSNAG_API_KEY.isEmpty() || BuildConfig.DEBUG) {
             return
         }
         Bugsnag.init(context, BuildConfig.BUGSNAG_API_KEY)

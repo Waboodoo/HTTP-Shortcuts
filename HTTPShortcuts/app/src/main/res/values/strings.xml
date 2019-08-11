@@ -82,7 +82,7 @@
     <string name="title_activity_execute">Execute Shortcut</string>
     <!-- Confirmation message shown in Toast when a shortcut was executed. %s is a placeholder for the shortcut's name -->
     <string name="executed">%s executed.</string>
-    <!-- Error message shown in Toast when shortcut was not found. -->
+    <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
     <string name="shortcut_not_found">Shortcut not found. You might have to re-add it to the home screen.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
     <string name="validation_name_not_empty">Please enter a name.</string>
@@ -646,4 +646,8 @@
     <string name="dialog_code_snippet_get_variable">Get Variable</string>
     <!-- Dialog option: shown in code snippet picker, option allows to set the value of a variable -->
     <string name="dialog_code_snippet_set_variable">Set Variable (Constant)</string>
+    <!-- Error message: Shown in toast when "Trigger Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
+    <string name="error_shortcut_not_found_for_triggering">Could not trigger shortcut \"%1$s\" because it does not exist.</string>
+    <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
+    <string name="error_shortcut_not_found_for_renaming">Could not rename shortcut \"%1$s\" because it does not exist.</string>
 </resources>

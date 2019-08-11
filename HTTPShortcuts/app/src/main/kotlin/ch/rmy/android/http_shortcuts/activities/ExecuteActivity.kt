@@ -13,6 +13,7 @@ import android.view.View
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.actions.types.ActionFactory
+import ch.rmy.android.http_shortcuts.data.Commons
 import ch.rmy.android.http_shortcuts.data.Controller
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.attachTo
@@ -173,7 +174,7 @@ class ExecuteActivity : BaseActivity() {
             .flatMapCompletable { variableManager ->
                 if (shouldDelayExecution()) {
                     val waitUntil = DateUtil.calculateDate(shortcut.delay)
-                    controller.createPendingExecution(
+                    Commons.createPendingExecution(
                         shortcutId = shortcut.id,
                         resolvedVariables = variableManager.getVariableValuesByKeys(),
                         tryNumber = tryNumber,
@@ -290,7 +291,13 @@ class ExecuteActivity : BaseActivity() {
     private fun rescheduleExecution(variableManager: VariableManager) {
         if (tryNumber < MAX_RETRY) {
             val waitUntil = DateUtil.calculateDate(calculateDelay())
-            controller.createPendingExecution(shortcut.id, variableManager.getVariableValuesByKeys(), tryNumber, waitUntil, shortcut.isWaitForNetwork)
+            Commons.createPendingExecution(
+                shortcut.id,
+                variableManager.getVariableValuesByKeys(),
+                tryNumber,
+                waitUntil,
+                shortcut.isWaitForNetwork
+            )
                 .subscribe {
                     ExecutionScheduler.schedule(context)
                 }
