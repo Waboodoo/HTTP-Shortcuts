@@ -64,9 +64,13 @@ class ListFragment : BaseFragment() {
     private val shortcutList: RecyclerView by bindView(R.id.shortcut_list)
     private val backgroundView: ImageView by bindView(R.id.background)
 
-    private val wallpaper: Drawable by lazy {
-        val wallpaperManager = WallpaperManager.getInstance(context)
-        wallpaperManager.drawable
+    private val wallpaper: Drawable? by lazy {
+        try {
+            val wallpaperManager = WallpaperManager.getInstance(context)
+            wallpaperManager.drawable
+        } catch (e: SecurityException) {
+            null
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -141,7 +145,16 @@ class ListFragment : BaseFragment() {
                     setImageDrawable(null)
                     setBackgroundColor(color(context!!, R.color.activity_background_dark))
                 }
-                Category.BACKGROUND_TYPE_WALLPAPER -> setImageDrawable(wallpaper)
+                Category.BACKGROUND_TYPE_WALLPAPER -> {
+                    wallpaper
+                        ?.also {
+                            setImageDrawable(it)
+                        }
+                        ?: run {
+                            setImageDrawable(null)
+                            setBackgroundColor(color(context!!, R.color.activity_background))
+                        }
+                }
                 else -> {
                     setImageDrawable(null)
                     setBackgroundColor(color(context!!, R.color.activity_background))

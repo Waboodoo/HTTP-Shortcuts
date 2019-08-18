@@ -27,7 +27,7 @@ Become a [Beta Tester](https://play.google.com/apps/testing/ch.rmy.android.http_
 - Display response as a toast, window or dialog, or run silently
 - Grouping into categories through tabs
 - Value injection through variables (e.g., text, numbers, passwords, selections, colors, dates, …)
-- Trigger actions before & after execution (e.g., vibrate, show toast, extract value from response…), 
+- Run arbitrary JavaScript before & after execution, including special actions (e.g., vibrate, show toast, parse and process response…), 
 - Import & Export in JSON or cURL format
 - 3rd party integration (e.g. Tasker)
 - Themes

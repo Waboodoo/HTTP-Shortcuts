@@ -1,24 +1,21 @@
 package ch.rmy.android.http_shortcuts.utils
 
-import android.content.Context
 import android.os.Build
 import android.text.Html
 import android.text.Spanned
-import androidx.annotation.StringRes
 
 object HTMLUtil {
 
     @Suppress("DEPRECATION")
-    fun getHTML(context: Context, @StringRes stringRes: Int): Spanned {
+    fun getHTML(string: String): Spanned =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return Html.fromHtml(context.getString(stringRes), 0)
+            Html.fromHtml(string, 0)
+        } else {
+            Html.fromHtml(string)
         }
-        return Html.fromHtml(context.getString(stringRes))
-    }
 
-    fun format(string: String): Spanned = Html.fromHtml(
+    fun format(string: String): Spanned = getHTML(
         string.replace("\n", "<br>")
-        , 0
     )
 
 }

@@ -16,6 +16,7 @@ import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
+import ch.rmy.android.http_shortcuts.utils.PermissionManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotterknife.bindView
@@ -133,6 +134,7 @@ class CategoriesActivity : BaseActivity() {
                 changeBackgroundType(categoryData, Category.BACKGROUND_TYPE_BLACK)
             }
             .item(R.string.category_background_type_wallpaper) {
+                PermissionManager.requestFileStoragePermissionIfNeeded(this)
                 changeBackgroundType(categoryData, Category.BACKGROUND_TYPE_WALLPAPER)
             }
             .showIfPossible()
