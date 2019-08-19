@@ -80,6 +80,6 @@ The app has very basic voice support, though only experimental at this point. Tr
 - German: [Roland Meyer](https://github.com/Waboodoo)
 - Italian: [Flavio Barisi](https://github.com/flavio20002), [Roberto Bellingeri](https://github.com/bellingeri)
 - Norwegian (Bokmål): [Imre Kristoffer Eilertsen](https://github.com/DandelionSprout)
-- Persian: [Amir Motahari]: https://github.com/a-motahari
+- Persian: [Amir Motahari](https://github.com/a-motahari)
 - Spanish: [iprockbyte](https://github.com/iprockbyte)
 - Turkish: [Bilal Bayrak](https://github.com/bayrakbilal)
