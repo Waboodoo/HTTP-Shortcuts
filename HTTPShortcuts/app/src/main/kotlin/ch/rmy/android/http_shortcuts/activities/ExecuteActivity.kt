@@ -350,7 +350,7 @@ class ExecuteActivity : BaseActivity() {
     private fun showProgress() {
         when {
             shortcut.isFeedbackInDialog -> {
-                if (progressDialog == null) {
+                if (progressDialog == null && !isFinishing) {
                     progressDialog = ProgressDialog.show(context, null, String.format(getString(R.string.progress_dialog_message), shortcutName))
                 }
             }

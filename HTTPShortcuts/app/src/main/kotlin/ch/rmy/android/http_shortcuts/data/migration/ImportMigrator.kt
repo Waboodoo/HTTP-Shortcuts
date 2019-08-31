@@ -11,10 +11,8 @@ internal object ImportMigrator {
 
     fun migrate(importData: JsonElement): JsonElement {
         val base = importData.asJsonObject
-        val fromVersion = base["version"].asInt
-        if (fromVersion > DatabaseMigration.VERSION) {
-            throw IllegalArgumentException("Import data is newer than app")
-        }
+        val fromVersion = base["version"]?.takeUnless { it.isJsonNull }?.asInt ?: 0
+        require(fromVersion <= DatabaseMigration.VERSION) { "Import data is newer than app" }
 
         for (version in fromVersion + 1..DatabaseMigration.VERSION) {
             migrate(base, version)
