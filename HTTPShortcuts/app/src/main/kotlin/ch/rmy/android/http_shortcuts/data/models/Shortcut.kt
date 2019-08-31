@@ -108,7 +108,7 @@ open class Shortcut : RealmObject(), HasId {
         return true
     }
 
-    val isFeedbackUsesUI
+    val isFeedbackUsingUI
         get() = isFeedbackInWindow || isFeedbackInDialog
 
     val isFeedbackInWindow

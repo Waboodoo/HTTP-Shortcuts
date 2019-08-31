@@ -5,6 +5,7 @@ import ch.rmy.android.http_shortcuts.actions.ActionDTO
 import ch.rmy.android.http_shortcuts.actions.types.ActionFactory
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.Repository
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.getShortcutResponse
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.variables.VariableManager
@@ -37,25 +38,36 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
         }
     }
 
-    fun execute(context: Context, script: String, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse? = null, volleyError: VolleyError? = null, recursionDepth: Int = 0): Completable =
-        Completable.create { emitter ->
-            jsContext.setExceptionHandler { exception ->
-                if (!emitter.isDisposed) {
-                    emitter.onError(exception)
+    fun execute(context: Context, script: String, shortcut: Shortcut, variableManager: VariableManager, response: ShortcutResponse? = null, volleyError: VolleyError? = null, recursionDepth: Int = 0): Completable =
+        if (script.isEmpty()) {
+            Completable.complete()
+        } else {
+            Completable.create { emitter ->
+                jsContext.setExceptionHandler { exception ->
+                    if (!emitter.isDisposed) {
+                        emitter.onError(exception)
+                    }
                 }
+
+                registerShortcut(shortcut)
+                registerResponse(response, volleyError)
+                registerVariables(variableManager)
+
+                this.responseData = response
+                this.volleyErrorData = volleyError
+                registerActions(context, shortcut.id, variableManager, recursionDepth)
+
+                jsContext.evaluateScript(script)
+                emitter.onComplete()
             }
-
-            registerResponse(response, volleyError)
-
-            registerVariables(variableManager)
-
-            this.responseData = response
-            this.volleyErrorData = volleyError
-            registerActions(context, shortcutId, variableManager, recursionDepth)
-
-            jsContext.evaluateScript(script)
-            emitter.onComplete()
         }
+
+    private fun registerShortcut(shortcut: Shortcut) {
+        jsContext.property("shortcut", mapOf(
+            "name" to shortcut.name,
+            "description" to shortcut.description
+        ))
+    }
 
     private fun registerResponse(response: ShortcutResponse?, volleyError: VolleyError?) {
         val responseObject = (response ?: volleyError?.getShortcutResponse())

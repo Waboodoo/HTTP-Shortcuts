@@ -112,7 +112,7 @@ class ExecuteActivity : BaseActivity() {
             finishWithoutAnimation()
             return
         }
-        if (shortcut.isFeedbackUsesUI) {
+        if (shortcut.isFeedbackUsingUI) {
             title = shortcutName
             destroyer.own(::hideProgress)
             if (shortcut.isFeedbackInWindow) {
@@ -149,10 +149,16 @@ class ExecuteActivity : BaseActivity() {
         shortcut.requireConfirmation && tryNumber == 0
 
     private fun shouldFinishAfterExecution() =
-        !shortcut.isFeedbackUsesUI || shouldDelayExecution()
+        !shortcut.isFeedbackUsingUI || shouldDelayExecution()
 
     private fun shouldDelayExecution() =
         shortcut.delay > 0 && tryNumber == 0
+
+    private fun shouldFinishImmediately() =
+        shouldFinishAfterExecution()
+            && shortcut.codeOnPrepare.isEmpty()
+            && shortcut.codeOnSuccess.isEmpty()
+            && shortcut.codeOnFailure.isEmpty()
 
     private fun promptForConfirmation(): Completable =
         Completable.create { emitter ->
@@ -187,6 +193,9 @@ class ExecuteActivity : BaseActivity() {
                         requiresNetwork = shortcut.isWaitForNetwork
                     )
                 } else {
+                    if (shouldFinishImmediately()) {
+                        finishWithoutAnimation()
+                    }
                     executeWithActions(variableManager)
                 }
             }
@@ -198,7 +207,7 @@ class ExecuteActivity : BaseActivity() {
             .subscribeOn(AndroidSchedulers.mainThread())
             .concatWith(
                 if (tryNumber == 0 || (tryNumber == 1 && shortcut.delay > 0)) {
-                    scriptExecutor.execute(context, shortcut.codeOnPrepare, shortcut.id, variableManager)
+                    scriptExecutor.execute(context, shortcut.codeOnPrepare, shortcut, variableManager)
                         .subscribeOn(Schedulers.computation())
                         .observeOn(AndroidSchedulers.mainThread())
                 } else {
@@ -218,7 +227,7 @@ class ExecuteActivity : BaseActivity() {
                             scriptExecutor.execute(
                                 context = context,
                                 script = shortcut.codeOnSuccess,
-                                shortcutId = shortcut.id,
+                                shortcut = shortcut,
                                 variableManager = variableManager,
                                 response = response,
                                 recursionDepth = recursionDepth
@@ -234,7 +243,7 @@ class ExecuteActivity : BaseActivity() {
                                 scriptExecutor.execute(
                                     context = context,
                                     script = shortcut.codeOnFailure,
-                                    shortcutId = shortcut.id,
+                                    shortcut = shortcut,
                                     variableManager = variableManager,
                                     volleyError = error as? VolleyError?,
                                     recursionDepth = recursionDepth
@@ -280,7 +289,7 @@ class ExecuteActivity : BaseActivity() {
                 }
             }
             .doOnError { error ->
-                if (!shortcut.isFeedbackUsesUI && shortcut.isWaitForNetwork && (error as? VolleyError)?.networkResponse == null) {
+                if (!shortcut.isFeedbackUsingUI && shortcut.isWaitForNetwork && (error as? VolleyError)?.networkResponse == null) {
                     rescheduleExecution(variableManager)
                     if (shortcut.feedback != Shortcut.FEEDBACK_NONE && tryNumber == 0) {
                         showToast(String.format(context.getString(R.string.execution_delayed), shortcutName), long = true)
