@@ -175,7 +175,7 @@ class ExecuteActivity : BaseActivity() {
 
     private fun resolveVariablesAndExecute(variableValues: Map<String, String>): Completable =
         VariableResolver(context)
-            .resolve(controller, shortcut, variableValues)
+            .resolve(controller.getVariables().detachFromRealm(), shortcut, variableValues)
             .flatMapCompletable { variableManager ->
                 if (shouldDelayExecution()) {
                     val waitUntil = DateUtil.calculateDate(shortcut.delay)

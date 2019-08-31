@@ -12,6 +12,8 @@ import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.extensions.startActivity
+import ch.rmy.android.http_shortcuts.variables.VariableLookup
+import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import com.afollestad.materialdialogs.MaterialDialog
 
@@ -32,9 +34,10 @@ class ShareActivity : BaseActivity() {
         }
 
         val controller = destroyer.own(Controller())
+        val variableLookup = VariableManager(controller.getVariables())
         val variables = getTargetableVariables(controller)
         val variableIds = variables.map { it.id }.toSet()
-        val shortcuts = getTargetableShortcuts(controller, variableIds)
+        val shortcuts = getTargetableShortcuts(controller, variableIds, variableLookup)
 
         val variableValues = variables.associate { variable -> variable.key to text }
 
@@ -54,13 +57,13 @@ class ShareActivity : BaseActivity() {
             .filter { it.isShareText }
             .toSet()
 
-    private fun getTargetableShortcuts(controller: Controller, variableIds: Set<String>): List<Shortcut> =
+    private fun getTargetableShortcuts(controller: Controller, variableIds: Set<String>, variableLookup: VariableLookup): List<Shortcut> =
         controller
             .getShortcuts()
-            .filter { hasShareVariable(it, variableIds) }
+            .filter { hasShareVariable(it, variableIds, variableLookup) }
 
-    private fun hasShareVariable(shortcut: Shortcut, variableIds: Set<String>): Boolean {
-        val variableIdsInShortcut = VariableResolver.extractVariableIds(shortcut)
+    private fun hasShareVariable(shortcut: Shortcut, variableIds: Set<String>, variableLookup: VariableLookup): Boolean {
+        val variableIdsInShortcut = VariableResolver.extractVariableIds(shortcut, variableLookup)
         return variableIds.any { variableIdsInShortcut.contains(it) }
     }
 

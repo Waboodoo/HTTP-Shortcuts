@@ -1,11 +1,8 @@
 package ch.rmy.android.http_shortcuts.variables
 
 import android.content.Context
-import ch.rmy.android.http_shortcuts.data.Commons
-import ch.rmy.android.http_shortcuts.data.Controller
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
-import ch.rmy.android.http_shortcuts.extensions.detachFromRealm
 import ch.rmy.android.http_shortcuts.variables.types.AsyncVariableType
 import ch.rmy.android.http_shortcuts.variables.types.SyncVariableType
 import ch.rmy.android.http_shortcuts.variables.types.VariableTypeFactory
@@ -14,16 +11,9 @@ import io.reactivex.Single
 
 class VariableResolver(private val context: Context) {
 
-    fun resolve(controller: Controller, shortcut: Shortcut, preResolvedValues: Map<String, String> = emptyMap()): Single<VariableManager> {
-        val variables = controller.getVariables().detachFromRealm()
+    fun resolve(variables: List<Variable>, shortcut: Shortcut, preResolvedValues: Map<String, String> = emptyMap()): Single<VariableManager> {
         val variableManager = VariableManager(variables)
-        val requiredVariableIds = extractVariableIds(shortcut).toMutableSet()
-
-        // Always export all constants
-        variables
-            .filter { it.isConstant }
-            .map { it.id }
-            .toCollection(requiredVariableIds)
+        val requiredVariableIds = extractVariableIds(shortcut, variableManager).toMutableSet()
 
         val preResolvedVariables = mutableMapOf<Variable, String>()
         preResolvedValues
@@ -82,7 +72,7 @@ class VariableResolver(private val context: Context) {
 
     private fun resolveVariables(variablesToResolve: List<Variable>, preResolvedValues: Map<Variable, String> = emptyMap()): Single<Map<Variable, String>> {
         var completable = Completable.complete()
-        val resolvedVariables = mutableMapOf<Variable, String>()
+        val resolvedVariables = preResolvedValues.toMutableMap()
 
         for (variable in variablesToResolve) {
             if (resolvedVariables.keys.any { it.id == variable.id }) {
@@ -112,23 +102,14 @@ class VariableResolver(private val context: Context) {
             }
         }
 
-        return completable
-            .concatWith(resetVariableValues(variablesToResolve))
-            .toSingle { resolvedVariables }
+        return completable.toSingle { resolvedVariables }
     }
-
-    private fun resetVariableValues(variables: List<Variable>): Completable =
-        Commons.resetVariableValues(
-            variables
-                .filter { it.isResetAfterUse() }
-                .map { it.id }
-        )
 
     companion object {
 
         private const val MAX_RECURSION_DEPTH = 3
 
-        fun extractVariableIds(shortcut: Shortcut): Set<String> =
+        fun extractVariableIds(shortcut: Shortcut, variableLookup: VariableLookup): Set<String> =
             mutableSetOf<String>().apply {
                 addAll(Variables.extractVariableIds(shortcut.url))
                 addAll(Variables.extractVariableIds(shortcut.username))
@@ -146,10 +127,19 @@ class VariableResolver(private val context: Context) {
                     addAll(Variables.extractVariableIds(header.key))
                     addAll(Variables.extractVariableIds(header.value))
                 }
-                addAll(Variables.extractVariableIdsFromJS(shortcut.codeOnPrepare))
-                addAll(Variables.extractVariableIdsFromJS(shortcut.codeOnSuccess))
-                addAll(Variables.extractVariableIdsFromJS(shortcut.codeOnFailure))
+                addAll(extractVariableIdsFromJS(shortcut.codeOnPrepare, variableLookup))
+                addAll(extractVariableIdsFromJS(shortcut.codeOnSuccess, variableLookup))
+                addAll(extractVariableIdsFromJS(shortcut.codeOnFailure, variableLookup))
             }
+
+        private fun extractVariableIdsFromJS(code: String, variableLookup: VariableLookup): Set<String> =
+            Variables.extractVariableIdsFromJS(code)
+                .plus(
+                    Variables.extractVariableKeysFromJS(code)
+                        .map { variableKey ->
+                            variableLookup.getVariableByKey(variableKey)?.id ?: variableKey
+                        }
+                )
 
     }
 

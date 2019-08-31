@@ -84,6 +84,7 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
                 RealmFactory.getInstance().createRealm().use { realm ->
                     realm.executeTransaction {
                         Repository.getVariableByKeyOrId(realm, variableKeyOrId)
+                            ?.takeIf { it.isConstant }
                             ?.value = value
                     }
                 }

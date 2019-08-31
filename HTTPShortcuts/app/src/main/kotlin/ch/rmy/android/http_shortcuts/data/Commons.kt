@@ -13,13 +13,6 @@ object Commons { // TODO: Find better name
             Repository.getVariableById(realm, variableId)?.value = value
         }
 
-    @CheckResult
-    fun resetVariableValues(variableIds: List<String>): Completable =
-        Transactions.commit { realm ->
-            variableIds.forEach { variableId ->
-                Repository.getVariableById(realm, variableId)?.value = ""
-            }
-        }
 
     @CheckResult
     fun createPendingExecution(

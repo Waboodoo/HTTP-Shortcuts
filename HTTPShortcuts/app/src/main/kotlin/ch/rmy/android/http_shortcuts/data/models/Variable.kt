@@ -41,9 +41,6 @@ open class Variable(
             }
         }
 
-    fun isResetAfterUse(): Boolean =
-        !rememberValue && type in listOf(TYPE_TEXT, TYPE_NUMBER, TYPE_PASSWORD, TYPE_COLOR, TYPE_SLIDER)
-
     fun isSameAs(other: Variable): Boolean {
         if (other.key != key ||
             other.type != type ||
@@ -69,6 +66,8 @@ open class Variable(
 
     val isConstant
         get() = type == TYPE_CONSTANT
+
+    override fun toString() = "Variable($type, $key, $id)"
 
     companion object {
 

@@ -13,19 +13,21 @@ object Variables {
     const val KEY_MAX_LENGTH = 30
 
     const val VARIABLE_KEY_REGEX = "[A-Za-z0-9_]{1,$KEY_MAX_LENGTH}"
-    private const val VARIABLE_ID_REGEX = "([0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}|[0-9]+)"
+    private const val VARIABLE_ID_REGEX = "([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}|[0-9]+)"
 
     private const val RAW_PLACEHOLDER_PREFIX = "{{"
     private const val RAW_PLACEHOLDER_SUFFIX = "}}"
     private const val RAW_PLACEHOLDER_REGEX = "\\{\\{($VARIABLE_ID_REGEX)\\}\\}"
 
-    private const val JS_PLACEHOLDER_REGEX = "/\\*\\[variable]\\*/\"([^\"]+)\"/\\*\\[/variable]\\*/"
+    private const val JS_PLACEHOLDER_REGEX = """/\*\[variable]\*/"([^"]+)"/\*\[/variable]\*/"""
+    private const val JS_PLACEHOLDER_REGEX2 = """getVariable\("($VARIABLE_KEY_REGEX)"\)"""
 
     private const val PRETTY_PLACEHOLDER_PREFIX = "{"
     private const val PRETTY_PLACEHOLDER_SUFFIX = "}"
 
     private val PATTERN = Pattern.compile(RAW_PLACEHOLDER_REGEX, Pattern.CASE_INSENSITIVE)
-    private val JS_PATTERN = Pattern.compile(JS_PLACEHOLDER_REGEX, Pattern.CASE_INSENSITIVE)
+    private val JS_PATTERN = Pattern.compile(JS_PLACEHOLDER_REGEX)
+    private val JS_PATTERN2 = Pattern.compile(JS_PLACEHOLDER_REGEX2)
 
     fun isValidVariableKey(variableKey: String) =
         VARIABLE_KEY_REGEX.toRegex().matchEntire(variableKey) != null
@@ -118,6 +120,15 @@ object Variables {
     internal fun extractVariableIdsFromJS(string: String): Set<String> {
         val discoveredVariables = mutableSetOf<String>()
         val matcher = JS_PATTERN.matcher(string)
+        while (matcher.find()) {
+            discoveredVariables.add(matcher.group(1))
+        }
+        return discoveredVariables
+    }
+
+    internal fun extractVariableKeysFromJS(string: String): Set<String> {
+        val discoveredVariables = mutableSetOf<String>()
+        val matcher = JS_PATTERN2.matcher(string)
         while (matcher.find()) {
             discoveredVariables.add(matcher.group(1))
         }

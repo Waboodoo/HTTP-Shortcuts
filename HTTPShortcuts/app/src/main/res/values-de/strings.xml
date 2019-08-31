@@ -302,7 +302,7 @@
     <string name="error_share_failed">Beim Teilen ist ein Fehler aufgetreten.</string>
     <plurals name="seconds">
         <!-- Used in various places to indicate a number of seconds, e.g. for a delay. %s is a placeholder for the actual number. -->
-        <item quantity="one">% Sekunde</item>
+        <item quantity="one">%d Sekunde</item>
         <item quantity="other">%d Sekunden</item>
     </plurals>
     <plurals name="minutes">
