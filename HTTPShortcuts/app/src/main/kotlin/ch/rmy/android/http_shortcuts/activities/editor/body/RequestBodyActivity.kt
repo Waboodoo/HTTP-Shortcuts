@@ -131,7 +131,7 @@ class RequestBodyActivity : BaseActivity() {
     private fun updateViewModelFromViews(): Completable =
         viewModel.setRequestBody(
             contentType = contentTypeView.text.toString(),
-            bodyContent = bodyContentView.text.toString()
+            bodyContent = bodyContentView.rawString
         )
 
     private fun updateShortcutViews() {
