@@ -4,8 +4,9 @@
  Project: HTTP Shortcuts
  Release: Working copy
  Locale: de, German
+ Status: Translated
  Exported by: Roland Meyer
- Exported at: Sun, 04 Aug 2019 15:45:32 +0200
+ Exported at: Sun, 01 Sep 2019 11:33:29 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- The name of the app -->
@@ -82,7 +83,7 @@
     <string name="title_activity_execute">Shortcut ausführen</string>
     <!-- Confirmation message shown in Toast when a shortcut was executed. %s is a placeholder for the shortcut's name -->
     <string name="executed">%s ausgeführt.</string>
-    <!-- Error message shown in Toast when shortcut was not found. -->
+    <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
     <string name="shortcut_not_found">Shortcut nicht gefunden. Der Shortcut muss ev. neu platziert werden.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
     <string name="validation_name_not_empty">Bitte gib einen Namen ein.</string>
@@ -651,7 +652,11 @@
     <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
     <string name="help_text_code_snippet_set_variable_no_variable">Du hast noch keine Variablen vom Typen \"Konstante\" erstellt dessen Wert verändert werden könnte. Klicke den ERSTELLEN-Button um loszulegen.</string>
     <!-- Shortcut Action Title: Action that allows to copy strings to the device's clipboard -->
-    <string name="action_copy_to_clipboard_title"></string>
+    <string name="action_copy_to_clipboard_title">In Zwischenablage kopieren</string>
     <!-- Dialog option: shown in code snippet picker at bottom, will open the browser to show a help page with infos about JS code execution -->
-    <string name="dialog_code_snippet_learn_more"></string>
+    <string name="dialog_code_snippet_learn_more">Mehr erfahren…</string>
+    <!-- Error message: Shown in toast when "Trigger Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
+    <string name="error_shortcut_not_found_for_triggering">Shortcut \"%1$s\" konnte nicht ausgeführt werden, da er nicht existiert.</string>
+    <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
+    <string name="error_shortcut_not_found_for_renaming">Shortcut \"%1$s\" konnte nicht umbenannt werden, da er nicht existiert.</string>
 </resources>

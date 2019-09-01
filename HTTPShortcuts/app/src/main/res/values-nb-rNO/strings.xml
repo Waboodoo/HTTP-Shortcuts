@@ -6,7 +6,7 @@
  Locale: nb-NO, Bokmål (Norway)
  Status: Translated
  Exported by: Roland Meyer
- Exported at: Sun, 04 Aug 2019 14:25:58 +0200
+ Exported at: Sun, 01 Sep 2019 11:33:29 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- The name of the app -->
@@ -83,7 +83,7 @@
     <string name="title_activity_execute">Iverksett snarveien</string>
     <!-- Confirmation message shown in Toast when a shortcut was executed. %s is a placeholder for the shortcut's name -->
     <string name="executed">%s ble iverksatt.</string>
-    <!-- Error message shown in Toast when shortcut was not found. -->
+    <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
     <string name="shortcut_not_found">Snarveien ble ikke funnet. Du kan bli nødt til å legge den til startskjermen på nytt.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
     <string name="validation_name_not_empty">Vennligst skriv inn et navn.</string>

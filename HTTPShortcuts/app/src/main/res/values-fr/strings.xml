@@ -6,7 +6,7 @@
  Locale: fr, French
  Status: Translated
  Exported by: Roland Meyer
- Exported at: Sun, 04 Aug 2019 14:25:58 +0200
+ Exported at: Sun, 01 Sep 2019 11:33:29 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- The name of the app -->
@@ -83,7 +83,7 @@
     <string name="title_activity_execute">Exécuter un raccourci</string>
     <!-- Confirmation message shown in Toast when a shortcut was executed. %s is a placeholder for the shortcut's name -->
     <string name="executed">%s exécuté.</string>
-    <!-- Error message shown in Toast when shortcut was not found. -->
+    <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
     <string name="shortcut_not_found">Raccourci introuvable. Vous devrez peut-être le rajouter à l\'écran d\'accueil.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
     <string name="validation_name_not_empty">Veuillez entrer un nom.</string>
