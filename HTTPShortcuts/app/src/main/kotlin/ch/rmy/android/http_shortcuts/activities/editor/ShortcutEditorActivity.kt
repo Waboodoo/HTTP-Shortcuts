@@ -163,6 +163,7 @@ class ShortcutEditorActivity : BaseActivity() {
         dividerBelowAuthentication.visible = !isBrowserShortcut
         postRequestActionsButton.visible = !isBrowserShortcut
         dividerBelowPostActions.visible = !isBrowserShortcut
+        advancedTechnicalSettingsButton.visible = !isBrowserShortcut
 
         basicRequestSettingsButton.subtitle = viewModel.getBasicSettingsSubtitle(shortcut)
             .let { subtitle ->
