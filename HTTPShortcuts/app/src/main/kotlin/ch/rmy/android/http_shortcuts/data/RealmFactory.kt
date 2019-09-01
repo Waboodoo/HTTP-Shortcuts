@@ -12,39 +12,40 @@ import io.realm.RealmConfiguration
 import io.realm.RealmList
 import java.io.File
 
-internal class RealmFactory(private val encryptionKey: ByteArray) {
+internal class RealmFactory() {
 
     fun createRealm(): Realm {
-        val realmFile = File(configuration.realmDirectory, configuration.realmFileName)
-        val legacyRealmFile = File(unencryptedLegacyConfiguration.realmDirectory, unencryptedLegacyConfiguration.realmFileName)
-
-        if (legacyRealmFile.exists() && !realmFile.exists()) {
-            Realm.getInstance(unencryptedLegacyConfiguration).use {
-                it.writeEncryptedCopyTo(realmFile, encryptionKey)
-            }
-        }
+        migrateRealmFiles()
         return Realm.getInstance(configuration)
     }
 
-    private val configuration: RealmConfiguration by lazy {
-        RealmConfiguration.Builder()
-            .schemaVersion(DatabaseMigration.VERSION)
-            .migration(DatabaseMigration())
-            .encryptionKey(encryptionKey)
-            .name(DB_NAME)
-            .build()
-    }
+    private fun migrateRealmFiles() {
+        val realmFile = File(configuration.realmDirectory, configuration.realmFileName)
+        if (realmFile.exists()) {
+            return
+        }
 
-    private val unencryptedLegacyConfiguration: RealmConfiguration by lazy {
-        RealmConfiguration.Builder()
-            .schemaVersion(DatabaseMigration.VERSION)
-            .migration(DatabaseMigration())
-            .build()
+        val encryptedLegacyRealmFile = File(encryptedLegacyConfiguration.realmDirectory, encryptedLegacyConfiguration.realmFileName)
+        if (encryptedLegacyRealmFile.exists()) {
+            Realm.getInstance(encryptedLegacyConfiguration).use {
+                it.writeCopyTo(realmFile)
+            }
+            return
+        }
+
+        val unencryptedLegacyRealmFile = File(unencryptedLegacyConfiguration.realmDirectory, unencryptedLegacyConfiguration.realmFileName)
+        if (unencryptedLegacyRealmFile.exists()) {
+            Realm.getInstance(unencryptedLegacyConfiguration).use {
+                it.writeCopyTo(realmFile)
+            }
+            return
+        }
     }
 
     companion object {
 
-        private const val DB_NAME = "shortcuts_db"
+        private const val DB_NAME = "shortcuts_db_v2"
+        private const val LEGACY_DB_NAME = "shortcuts_db"
         private var instance: RealmFactory? = null
 
         fun init(context: Context) {
@@ -53,7 +54,7 @@ internal class RealmFactory(private val encryptionKey: ByteArray) {
             }
 
             Realm.init(context)
-            instance = RealmFactory(BuildConfig.REALM_ENCRYPTION_KEY.toByteArray())
+            instance = RealmFactory()
                 .apply {
                     createRealm().use { realm ->
                         if (Repository.getBase(realm) == null) {
@@ -79,6 +80,30 @@ internal class RealmFactory(private val encryptionKey: ByteArray) {
                 }
                 it.copyToRealm(newBase)
             }
+        }
+
+        private val configuration: RealmConfiguration by lazy {
+            RealmConfiguration.Builder()
+                .schemaVersion(DatabaseMigration.VERSION)
+                .migration(DatabaseMigration())
+                .name(DB_NAME)
+                .build()
+        }
+
+        private val encryptedLegacyConfiguration: RealmConfiguration by lazy {
+            RealmConfiguration.Builder()
+                .schemaVersion(DatabaseMigration.VERSION)
+                .migration(DatabaseMigration())
+                .encryptionKey(BuildConfig.REALM_ENCRYPTION_KEY.toByteArray())
+                .name(LEGACY_DB_NAME)
+                .build()
+        }
+
+        private val unencryptedLegacyConfiguration: RealmConfiguration by lazy {
+            RealmConfiguration.Builder()
+                .schemaVersion(DatabaseMigration.VERSION)
+                .migration(DatabaseMigration())
+                .build()
         }
 
     }
