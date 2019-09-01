@@ -59,7 +59,7 @@ class TriggerShortcutAction(
 
         private const val MAX_RECURSION_DEPTH = 5
 
-        private const val EXECUTION_DELAY = 500
+        private const val EXECUTION_DELAY = 300
 
     }
 
