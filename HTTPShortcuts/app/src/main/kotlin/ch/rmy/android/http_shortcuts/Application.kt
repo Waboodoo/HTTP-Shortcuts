@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts
 
 import android.content.Context
 import androidx.multidex.MultiDex
+import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.utils.CrashReporting
 import ch.rmy.android.http_shortcuts.utils.Settings
@@ -21,6 +22,8 @@ class Application : android.app.Application() {
         RxJavaPlugins.setErrorHandler { error ->
             logException(error)
         }
+
+        RealmFactory.init(applicationContext)
     }
 
     public override fun attachBaseContext(base: Context) {
