@@ -91,6 +91,14 @@ class BasicRequestSettingsActivity : BaseActivity() {
         urlView.rawString = shortcut.url
     }
 
+    override fun onBackPressed() {
+        updateViewModelFromUrlView()
+            .subscribe {
+                finish()
+            }
+            .attachTo(destroyer)
+    }
+
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, BasicRequestSettingsActivity::class.java)
 
     companion object {

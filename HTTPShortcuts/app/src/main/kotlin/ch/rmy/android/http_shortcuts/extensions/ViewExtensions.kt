@@ -70,14 +70,10 @@ fun View.addRippleAnimation(borderless: Boolean = false) {
 }
 
 fun EditText.observeTextChanges(): Observable<CharSequence> {
-    var previousText: CharSequence = text
     val subject = PublishSubject.create<CharSequence>()
     val watcher = object : SimpleTextWatcher() {
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-            if (s != previousText) {
-                subject.onNext(s)
-            }
-            previousText = s
+            subject.onNext(s)
         }
     }
     return subject

@@ -105,6 +105,14 @@ class AuthenticationActivity : BaseActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        updateViewModelFromViews()
+            .subscribe {
+                finish()
+            }
+            .attachTo(destroyer)
+    }
+
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, AuthenticationActivity::class.java)
 
     companion object {

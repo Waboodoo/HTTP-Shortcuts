@@ -64,6 +64,7 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
 
     private fun registerShortcut(shortcut: Shortcut) {
         jsContext.property("shortcut", mapOf(
+            "id" to shortcut.id,
             "name" to shortcut.name,
             "description" to shortcut.description
         ))

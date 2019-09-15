@@ -190,6 +190,14 @@ class RequestBodyActivity : BaseActivity() {
             .attachTo(destroyer)
     }
 
+    override fun onBackPressed() {
+        updateViewModelFromViews()
+            .subscribe {
+                finish()
+            }
+            .attachTo(destroyer)
+    }
+
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, RequestBodyActivity::class.java)
 
     companion object {

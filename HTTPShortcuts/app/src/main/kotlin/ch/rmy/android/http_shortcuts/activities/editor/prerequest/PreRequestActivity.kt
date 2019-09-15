@@ -127,6 +127,14 @@ class PreRequestActivity : BaseActivity() {
             .attachTo(destroyer)
     }
 
+    override fun onBackPressed() {
+        updateViewModelFromViews()
+            .subscribe {
+                finish()
+            }
+            .attachTo(destroyer)
+    }
+
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, PreRequestActivity::class.java)
 
 }
