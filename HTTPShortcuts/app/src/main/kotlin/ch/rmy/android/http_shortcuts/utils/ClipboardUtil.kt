@@ -8,7 +8,7 @@ object ClipboardUtil {
 
     fun copyToClipboard(context: Context, text: String) {
         val clip = ClipData.newPlainText(null, text)
-        getClipboardManager(context).primaryClip = clip
+        getClipboardManager(context).setPrimaryClip(clip)
     }
 
     fun copyFromClipboard(context: Context): String? {

@@ -32,7 +32,7 @@ object PluginBundleManager {
         bundle
             .keySet()
             .filter { it.startsWith(PARAM_VARIABLE_PREFIX) }
-            .associate { it.substring(PARAM_VARIABLE_PREFIX.length) to bundle.getString(it) }
+            .associate { it.substring(PARAM_VARIABLE_PREFIX.length) to (bundle.getString(it) ?: "") }
             .filter { (variableKey, variableValue) -> variableValue != TaskerPlugin.VARIABLE_PREFIX + variableKey }
 
     fun isBundleValid(bundle: Bundle?) = bundle?.containsKey(PARAM_SHORTCUT_ID) ?: false
