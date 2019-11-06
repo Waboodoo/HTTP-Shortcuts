@@ -8,16 +8,15 @@ import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.data.models.Category
-import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
+import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
+import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.mapIf
-import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
 import ch.rmy.android.http_shortcuts.utils.PermissionManager
-import com.afollestad.materialdialogs.MaterialDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotterknife.bindView
 
@@ -49,6 +48,7 @@ class CategoriesActivity : BaseActivity() {
 
         initDragOrdering()
 
+        createButton.applyTheme(themeHelper)
         createButton.setOnClickListener { openCreateDialog() }
     }
 
@@ -65,10 +65,13 @@ class CategoriesActivity : BaseActivity() {
     }
 
     private fun openCreateDialog() {
-        MaterialDialog.Builder(context)
+        DialogBuilder(context)
             .title(R.string.title_create_category)
-            .inputRange(NAME_MIN_LENGTH, NAME_MAX_LENGTH)
-            .input(getString(R.string.placeholder_category_name), null) { _, input ->
+            .textInput(
+                hint = getString(R.string.placeholder_category_name),
+                allowEmpty = false,
+                maxLength = NAME_MAX_LENGTH
+            ) { input ->
                 createCategory(input.toString())
             }
             .showIfPossible()
@@ -84,7 +87,7 @@ class CategoriesActivity : BaseActivity() {
 
     private fun showContextMenu(categoryData: LiveData<Category?>) {
         val category = categoryData.value ?: return
-        MenuDialogBuilder(context)
+        DialogBuilder(context)
             .title(category.name)
             .item(R.string.action_rename) {
                 showRenameDialog(categoryData)
@@ -105,17 +108,21 @@ class CategoriesActivity : BaseActivity() {
 
     private fun showRenameDialog(categoryData: LiveData<Category?>) {
         val category = categoryData.value ?: return
-        MaterialDialog.Builder(context)
+        DialogBuilder(context)
             .title(R.string.title_rename_category)
-            .inputRange(NAME_MIN_LENGTH, NAME_MAX_LENGTH)
-            .input(getString(R.string.placeholder_category_name), category.name) { _, input ->
+            .textInput(
+                hint = getString(R.string.placeholder_category_name),
+                prefill = category.name,
+                allowEmpty = false,
+                maxLength = NAME_MAX_LENGTH
+            ) { input ->
                 renameCategory(categoryData, input.toString())
             }
             .showIfPossible()
     }
 
     private fun showLayoutTypeDialog(categoryData: LiveData<Category?>) {
-        MenuDialogBuilder(context)
+        DialogBuilder(context)
             .item(R.string.layout_type_linear_list) {
                 changeLayoutType(categoryData, Category.LAYOUT_LINEAR_LIST)
             }
@@ -126,7 +133,7 @@ class CategoriesActivity : BaseActivity() {
     }
 
     private fun showBackgroundChangeDialog(categoryData: LiveData<Category?>) {
-        MenuDialogBuilder(context)
+        DialogBuilder(context)
             .item(R.string.category_background_type_white) {
                 changeBackgroundType(categoryData, Category.BACKGROUND_TYPE_WHITE)
             }
@@ -173,11 +180,10 @@ class CategoriesActivity : BaseActivity() {
             deleteCategory(category)
             return
         }
-        MaterialDialog.Builder(context)
-            .content(R.string.confirm_delete_category_message)
-            .positiveText(R.string.dialog_delete)
-            .onPositive { _, _ -> deleteCategory(categoryData.value ?: return@onPositive) }
-            .negativeText(R.string.dialog_cancel)
+        DialogBuilder(context)
+            .message(R.string.confirm_delete_category_message)
+            .positive(R.string.dialog_delete) { deleteCategory(categoryData.value ?: return@positive) }
+            .negative(R.string.dialog_cancel)
             .showIfPossible()
     }
 
@@ -193,7 +199,6 @@ class CategoriesActivity : BaseActivity() {
 
     companion object {
 
-        private const val NAME_MIN_LENGTH = 1
         private const val NAME_MAX_LENGTH = 20
 
     }

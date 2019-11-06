@@ -8,6 +8,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.data.models.Header
 import ch.rmy.android.http_shortcuts.dialogs.KeyValueDialog
+import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
@@ -52,6 +53,7 @@ class RequestHeadersActivity : BaseActivity() {
         initDragOrdering()
 
         adapter.clickListener = { it.value?.let { header -> showEditDialog(header) } }
+        addButton.applyTheme(themeHelper)
         addButton.setOnClickListener {
             showAddDialog()
         }

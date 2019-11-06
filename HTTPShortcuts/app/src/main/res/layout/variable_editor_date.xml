@@ -1,32 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
         style="@style/SubHeader"
-        android:text="@string/section_input_options"/>
+        android:text="@string/section_input_options" />
 
-    <com.google.android.material.textfield.TextInputLayout
+    <TextView
+        style="@style/Label"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:text="@string/label_variable_date_format" />
 
-        <EditText
-            android:id="@+id/input_variable_date_format"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/label_variable_date_format"
-            android:inputType="textNoSuggestions"
-            android:maxLength="20"
-            android:maxLines="1"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
+    <EditText
+        android:id="@+id/input_variable_date_format"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textNoSuggestions"
+        android:maxLength="20"
+        android:maxLines="1" />
 
     <CheckBox
         android:id="@+id/input_remember_value"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/label_remember_value"/>
+        android:text="@string/label_remember_value" />
 
 </LinearLayout>

@@ -8,10 +8,8 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.lifecycle.Observer
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.actions.ActionDTO
 import ch.rmy.android.http_shortcuts.actions.ActionsUtil
 import ch.rmy.android.http_shortcuts.actions.types.ActionFactory
-import ch.rmy.android.http_shortcuts.actions.types.BaseAction
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.editor.CodeSnippetPicker
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
@@ -131,25 +129,10 @@ class PostRequestActivity : BaseActivity() {
         val text = ActionsUtil.addSpans(
             context,
             input,
-            actionFactory,
-            ::editAction
+            actionFactory
         )
         Variables.applyVariableFormattingToJS(text, variablePlaceholderProvider, variablePlaceholderColor)
         return text
-    }
-
-    private fun editAction(action: BaseAction, setter: (ActionDTO) -> Unit) {
-        action.edit(context, variablePlaceholderProvider)
-            .subscribe(
-                {
-                    setter(action.toDTO())
-                    updateViewModelFromViews()
-                        .subscribe()
-                        .attachTo(destroyer)
-                },
-                {}
-            )
-            .attachTo(destroyer)
     }
 
     override fun onBackPressed() {

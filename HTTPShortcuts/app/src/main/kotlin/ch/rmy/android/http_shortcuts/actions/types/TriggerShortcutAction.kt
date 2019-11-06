@@ -8,7 +8,6 @@ import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.utils.DateUtil
 import ch.rmy.android.http_shortcuts.variables.VariableManager
-import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import com.android.volley.VolleyError
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -49,9 +48,6 @@ class TriggerShortcutAction(
             recursionDepth = recursionDepth + 1
         )
     }
-
-    override fun createEditorView(context: Context, variablePlaceholderProvider: VariablePlaceholderProvider) =
-        TriggerShortcutActionEditorView(context, this)
 
     companion object {
 

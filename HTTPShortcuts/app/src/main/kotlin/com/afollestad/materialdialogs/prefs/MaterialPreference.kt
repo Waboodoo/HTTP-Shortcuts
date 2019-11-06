@@ -27,7 +27,7 @@ class MaterialPreference : Preference {
     }
 
     private fun init(context: Context, attrs: AttributeSet?) {
-        PrefUtil.setLayoutResource(context, this, attrs)
+        // PrefUtil.setLayoutResource(context, this, attrs)
     }
 
 }

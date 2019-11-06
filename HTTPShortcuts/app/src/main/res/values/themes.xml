@@ -1,43 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="LightTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primary_dark</item>
-        <item name="colorAccent">@color/primary</item>
+    <style name="BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
     </style>
 
-    <style name="LightThemeAlt1" parent="@style/Theme.AppCompat.Light.NoActionBar">
+    <style name="LightThemeAlt0" parent="BaseTheme">
+        <item name="colorPrimary">@color/primary_alt0</item>
+        <item name="colorPrimaryDark">@color/primary_dark_alt0</item>
+        <item name="colorAccent">@color/primary_alt0</item>
+    </style>
+
+    <style name="LightThemeAlt1" parent="BaseTheme">
         <item name="colorPrimary">@color/primary_alt1</item>
         <item name="colorPrimaryDark">@color/primary_dark_alt1</item>
         <item name="colorAccent">@color/primary_alt1</item>
     </style>
 
-    <style name="LightThemeAlt2" parent="@style/Theme.AppCompat.Light.NoActionBar">
+    <style name="LightThemeAlt2" parent="BaseTheme">
         <item name="colorPrimary">@color/primary_alt2</item>
         <item name="colorPrimaryDark">@color/primary_dark_alt2</item>
         <item name="colorAccent">@color/primary_alt2</item>
     </style>
 
-    <style name="LightThemeAlt3" parent="@style/Theme.AppCompat.Light.NoActionBar">
+    <style name="LightThemeAlt3" parent="BaseTheme">
         <item name="colorPrimary">@color/primary_alt3</item>
         <item name="colorPrimaryDark">@color/primary_dark_alt3</item>
         <item name="colorAccent">@color/primary_alt3</item>
     </style>
 
-    <style name="LightThemeAlt4" parent="@style/Theme.AppCompat.Light.NoActionBar">
+    <style name="LightThemeAlt4" parent="BaseTheme">
         <item name="colorPrimary">@color/primary_alt4</item>
         <item name="colorPrimaryDark">@color/primary_dark_alt4</item>
         <item name="colorAccent">@color/primary_alt4</item>
     </style>
 
-    <style name="LightThemeAlt5" parent="@style/Theme.AppCompat.Light.NoActionBar">
+    <style name="LightThemeAlt5" parent="BaseTheme">
         <item name="colorPrimary">@color/primary_alt5</item>
         <item name="colorPrimaryDark">@color/primary_dark_alt5</item>
         <item name="colorAccent">@color/primary_alt5</item>
     </style>
 
-    <style name="LightThemeAlt6" parent="@style/Theme.AppCompat.Light.NoActionBar">
+    <style name="LightThemeAlt6" parent="BaseTheme">
         <item name="colorPrimary">@color/primary_alt6</item>
         <item name="colorPrimaryDark">@color/primary_dark_alt6</item>
         <item name="colorAccent">@color/primary_alt6</item>
@@ -61,24 +64,24 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:backgroundDimEnabled">false</item>
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primary_dark</item>
-        <item name="colorAccent">@color/primary</item>
+        <item name="colorPrimary">@color/primary_alt0</item>
+        <item name="colorPrimaryDark">@color/primary_dark_alt0</item>
+        <item name="colorAccent">@color/primary_alt0</item>
     </style>
 
     <style name="FilePickerTheme" parent="NNF_BaseTheme.Light">
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primary_dark</item>
-        <item name="colorAccent">@color/primary</item>
+        <item name="colorPrimary">@color/primary_alt0</item>
+        <item name="colorPrimaryDark">@color/primary_dark_alt0</item>
+        <item name="colorAccent">@color/primary_alt0</item>
 
         <item name="nnf_toolbarTheme">@style/ToolbarTheme</item>
         <item name="alertDialogTheme">@style/FilePickerAlertDialogTheme</item>
     </style>
 
     <style name="FilePickerAlertDialogTheme" parent="Theme.AppCompat.Dialog.Alert">
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primary_dark</item>
-        <item name="colorAccent">@color/primary</item>
+        <item name="colorPrimary">@color/primary_alt0</item>
+        <item name="colorPrimaryDark">@color/primary_dark_alt0</item>
+        <item name="colorAccent">@color/primary_alt0</item>
     </style>
 
 </resources>

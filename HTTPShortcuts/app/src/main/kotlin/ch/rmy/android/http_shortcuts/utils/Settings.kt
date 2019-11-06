@@ -35,9 +35,13 @@ class Settings(context: Context) {
         get() = preferences.getBoolean(KEY_VARIABLE_INTRO_SHOWN, false)
         set(shown) = preferences.edit().putBoolean(KEY_VARIABLE_INTRO_SHOWN, shown).apply()
 
-    var changeLogLastVersion: Int
-        get() = preferences.getInt(KEY_CHANGE_LOG_LAST_VERSION, 0)
-        set(version) = preferences.edit().putInt(KEY_CHANGE_LOG_LAST_VERSION, version).apply()
+    var changeLogLastVersion: Long
+        get() = try {
+            preferences.getLong(KEY_CHANGE_LOG_LAST_VERSION, 0L)
+        } catch (e: ClassCastException) {
+            preferences.getInt(KEY_CHANGE_LOG_LAST_VERSION, 0).toLong()
+        }
+        set(version) = preferences.edit().putLong(KEY_CHANGE_LOG_LAST_VERSION, version).apply()
 
     var isIconNameWarningPermanentlyHidden: Boolean
         get() = preferences.getBoolean(KEY_ICON_NAME_CHANGE_PERMANENTLY_HIDDEN, false)

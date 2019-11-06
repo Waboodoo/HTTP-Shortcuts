@@ -5,17 +5,18 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.CheckBox
 import android.widget.EditText
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.focus
 import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
-import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.variables.Variables
@@ -23,7 +24,6 @@ import ch.rmy.android.http_shortcuts.variables.types.AsyncVariableType
 import ch.rmy.android.http_shortcuts.variables.types.VariableEditorFragment
 import ch.rmy.android.http_shortcuts.variables.types.VariableTypeFactory
 import ch.rmy.android.http_shortcuts.views.LabelledSpinner
-import com.afollestad.materialdialogs.MaterialDialog
 import kotterknife.bindView
 
 class VariableEditorActivity : BaseActivity() {
@@ -38,6 +38,7 @@ class VariableEditorActivity : BaseActivity() {
     private val typeSpinner: LabelledSpinner by bindView(R.id.input_variable_type)
     private val keyView: EditText by bindView(R.id.input_variable_key)
     private val titleView: EditText by bindView(R.id.input_variable_title)
+    private val titleViewContainer: View by bindView(R.id.dialog_title_container)
     private val urlEncode: CheckBox by bindView(R.id.input_url_encode)
     private val jsonEncode: CheckBox by bindView(R.id.input_json_encode)
     private val allowShare: CheckBox by bindView(R.id.input_allow_share)
@@ -98,7 +99,7 @@ class VariableEditorActivity : BaseActivity() {
         val fragmentManager = supportFragmentManager
         fragment = variableType.getEditorFragment(fragmentManager)
 
-        titleView.visible = (variableType as? AsyncVariableType)?.hasTitle == true
+        titleViewContainer.visible = (variableType as? AsyncVariableType)?.hasTitle == true
 
         fragment?.let { fragment ->
             fragmentManager
@@ -132,11 +133,10 @@ class VariableEditorActivity : BaseActivity() {
     private fun confirmClose() {
         compileVariable()
         if (viewModel.hasChanges()) {
-            MaterialDialog.Builder(context)
-                .content(R.string.confirm_discard_changes_message)
-                .positiveText(R.string.dialog_discard)
-                .onPositive { _, _ -> finish() }
-                .negativeText(R.string.dialog_cancel)
+            DialogBuilder(context)
+                .message(R.string.confirm_discard_changes_message)
+                .positive(R.string.dialog_discard) { finish() }
+                .negative(R.string.dialog_cancel)
                 .showIfPossible()
         } else {
             finish()

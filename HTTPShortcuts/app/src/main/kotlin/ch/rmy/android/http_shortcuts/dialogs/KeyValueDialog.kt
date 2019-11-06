@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.dialogs
 import android.content.Context
 import android.text.InputType
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.mapIf
@@ -14,15 +15,14 @@ import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
-import com.afollestad.materialdialogs.DialogAction
-import com.afollestad.materialdialogs.MaterialDialog
-import com.google.android.material.textfield.TextInputLayout
+import com.afollestad.materialdialogs.WhichButton
+import com.afollestad.materialdialogs.actions.getActionButton
 import io.reactivex.Maybe
 import io.reactivex.subjects.MaybeSubject
 
 class KeyValueDialog(
     private val variablePlaceholderProvider: VariablePlaceholderProvider,
-    private val title: CharSequence,
+    private val title: String,
     private val data: Pair<String, String>? = null,
     private val keyLabel: CharSequence? = null,
     private val valueLabel: CharSequence? = null,
@@ -34,12 +34,11 @@ class KeyValueDialog(
         val subject = MaybeSubject.create<Event>()
 
         val destroyer = Destroyer()
-        MaterialDialog.Builder(context)
-            .customView(R.layout.dialog_key_value_editor, false)
+        DialogBuilder(context)
+            .view(R.layout.dialog_key_value_editor)
             .title(title)
-            .positiveText(R.string.dialog_ok)
             .canceledOnTouchOutside(false)
-            .onPositive { dialog, _ ->
+            .positive(R.string.dialog_ok) { dialog ->
                 val keyField = dialog.findViewById(R.id.key_value_key) as VariableEditText
                 val valueField = dialog.findViewById(R.id.key_value_value) as VariableEditText
 
@@ -48,12 +47,11 @@ class KeyValueDialog(
                 subject.onSuccess(DataChangedEvent(keyText to valueText))
             }
             .mapIf(data != null) {
-                it.neutralText(R.string.dialog_remove)
-                    .onNeutral { _, _ ->
-                        subject.onSuccess(DataRemovedEvent())
-                    }
+                it.neutral(R.string.dialog_remove) {
+                    subject.onSuccess(DataRemovedEvent())
+                }
             }
-            .negativeText(R.string.dialog_cancel)
+            .negative(R.string.dialog_cancel)
             .dismissListener {
                 subject.onComplete()
                 destroyer.destroy()
@@ -75,8 +73,8 @@ class KeyValueDialog(
                     valueInput.maxLines = MAX_LINES
                 }
 
-                (dialog.findViewById(R.id.key_value_key_layout) as TextInputLayout).hint = keyLabel
-                (dialog.findViewById(R.id.key_value_value_layout) as TextInputLayout).hint = valueLabel
+                (dialog.findViewById(R.id.label_key_value) as TextView).text = keyLabel
+                (dialog.findViewById(R.id.label_value_value) as TextView).text = valueLabel
 
                 if (data != null) {
                     keyInput.rawString = data.first
@@ -91,7 +89,7 @@ class KeyValueDialog(
                     keyInput.showSoftKeyboard()
                 }
 
-                val okButton = dialog.getActionButton(DialogAction.POSITIVE)
+                val okButton = dialog.getActionButton(WhichButton.POSITIVE)
                 okButton.isEnabled = keyInput.text.isNotEmpty()
                 keyInput.observeTextChanges()
                     .subscribe { text ->

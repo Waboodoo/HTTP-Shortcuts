@@ -7,16 +7,15 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.ToggleVariableOptionsAdapter
 import ch.rmy.android.http_shortcuts.data.models.Option
 import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.mapIf
-import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.extensions.showMessageDialog
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils.bindVariableViews
-import com.afollestad.materialdialogs.MaterialDialog
 import kotterknife.bindView
 
 class ToggleEditorFragment : VariableEditorFragment() {
@@ -65,11 +64,10 @@ class ToggleEditorFragment : VariableEditorFragment() {
             valueInput.rawString = option.value
         }
 
-        MaterialDialog.Builder(context!!)
+        DialogBuilder(context!!)
             .title(if (option != null) R.string.title_edit_toggle_option else R.string.title_add_toggle_option)
-            .customView(editorView, true)
-            .positiveText(R.string.dialog_ok)
-            .onPositive { _, _ ->
+            .view(editorView)
+            .positive(R.string.dialog_ok) {
                 val value = valueInput.rawString
                 if (option != null) {
                     updateOption(option, value)
@@ -77,11 +75,10 @@ class ToggleEditorFragment : VariableEditorFragment() {
                     addNewOption(value)
                 }
             }
-            .negativeText(R.string.dialog_cancel)
+            .negative(R.string.dialog_cancel)
             .mapIf(option != null) {
                 it
-                    .neutralText(R.string.dialog_remove)
-                    .onNeutral { _, _ -> removeOption(option!!) }
+                    .neutral(R.string.dialog_remove) { removeOption(option!!) }
             }
             .dismissListener {
                 destroyer.destroy()

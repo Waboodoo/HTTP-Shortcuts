@@ -30,7 +30,7 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
             val shortcut = if (shortcutId == null) {
                 realm.copyToRealmOrUpdate(Shortcut.createNew(
                     id = TEMPORARY_ID,
-                    iconName = randomInitialIconName,
+                    iconName = Icons.getDefaultIcon(getApplication()),
                     browserShortcut = createBrowserShortcut
                 ))
             } else {
@@ -52,14 +52,10 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
     private var categoryId: String? = null
     private var shortcutId: String? = null
 
-    private val randomInitialIconName by lazy {
-        Icons.getRandomIcon(application)
-    }
-
     fun hasChanges(): Boolean {
         val oldShortcut = shortcutId
             ?.let { Repository.getShortcutById(persistedRealm, it)!! }
-            ?: Shortcut.createNew(iconName = randomInitialIconName)
+            ?: Shortcut.createNew(iconName = Icons.getDefaultIcon(getApplication()))
         val newShortcut = getShortcut(persistedRealm) ?: return false
         return !newShortcut.isSameAs(oldShortcut)
     }

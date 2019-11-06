@@ -5,7 +5,6 @@ import android.widget.CheckBox
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.extensions.showIfPossible
-import com.afollestad.materialdialogs.MaterialDialog
 import io.reactivex.Completable
 import io.reactivex.subjects.CompletableSubject
 
@@ -13,9 +12,9 @@ abstract class DismissableDialog(private val context: Context) : Dialog {
 
     override fun show(): Completable {
         val completable = CompletableSubject.create()
-        val dialog = MaterialDialog.Builder(context)
-            .positiveText(R.string.dialog_ok)
-            .customView(R.layout.dismissable_dialog, true)
+        val dialog = DialogBuilder(context)
+            .positive(R.string.dialog_ok)
+            .message(R.layout.dismissable_dialog)
             .cancelable(false)
             .canceledOnTouchOutside(false)
             .dismissListener {

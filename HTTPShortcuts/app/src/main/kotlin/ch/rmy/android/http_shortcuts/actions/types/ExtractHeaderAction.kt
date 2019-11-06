@@ -4,7 +4,6 @@ import android.content.Context
 import ch.rmy.android.http_shortcuts.data.Commons
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.variables.VariableManager
-import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import com.android.volley.VolleyError
 import io.reactivex.Completable
 
@@ -34,9 +33,6 @@ class ExtractHeaderAction(
         variableManager.setVariableValueById(variableId, headerValue)
         return Commons.setVariableValue(variableId, headerValue)
     }
-
-    override fun createEditorView(context: Context, variablePlaceholderProvider: VariablePlaceholderProvider) =
-        ExtractHeaderActionEditorView(context, this, variablePlaceholderProvider)
 
     companion object {
 

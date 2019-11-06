@@ -1,5 +1,3 @@
-val kotlinVersion: String by project
-
 buildscript {
     repositories {
         jcenter()

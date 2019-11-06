@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:background">@color/primary_color</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:itemTextAppearance">@style/BlackMenuText</item>
+        <item name="selectableItemBackground">?android:selectableItemBackground</item>
+    </style>
+</resources>

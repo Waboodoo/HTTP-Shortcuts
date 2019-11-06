@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.extensions
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import android.widget.Toast
 import androidx.annotation.StringRes
@@ -24,3 +25,6 @@ fun Context.openURL(url: String) {
         showToast(R.string.error_not_supported)
     }
 }
+
+fun Context.isDarkThemeEnabled() =
+    resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES

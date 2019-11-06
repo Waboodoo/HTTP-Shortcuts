@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="primary_alt0" type="color">#FFFFFFFF</item>
+    <item name="primary_dark_alt0" type="color">#FFFFFFFF</item>
+
+    <item name="primary_alt1" type="color">#FFFFFFFF</item>
+    <item name="primary_dark_alt1" type="color">#FFFFFFFF</item>
+
+    <item name="primary_alt2" type="color">#FFFFFFFF</item>
+    <item name="primary_dark_alt2" type="color">#FFFFFFFF</item>
+
+    <item name="primary_alt3" type="color">#FFFFFFFF</item>
+    <item name="primary_dark_alt3" type="color">#FFFFFFFF</item>
+
+    <item name="primary_alt4" type="color">#FFFFFFFF</item>
+    <item name="primary_dark_alt4" type="color">#FFFFFFFF</item>
+
+    <item name="primary_alt5" type="color">#FFFFFFFF</item>
+    <item name="primary_dark_alt5" type="color">#FFFFFFFF</item>
+
+    <item name="primary_alt6" type="color">#FFFFFFFF</item>
+    <item name="primary_dark_alt6" type="color">#FFFFFFFF</item>
+
+
+    <item name="primary_color" type="color">#FF1F1F1F</item>
+
+    <item name="divider" type="color">#44FFFFFF</item>
+    <item name="activity_background" type="color">#FF000000</item>
+    <item name="activity_background_dark" type="color">#FF000000</item>
+    <item name="text_color_primary_bright" type="color">#FFFFFFFF</item>
+    <item name="text_color_primary_dark" type="color">#FFFFFFFF</item>
+    <item name="text_color_secondary_bright" type="color">#B3FFFFFF</item>
+    <item name="text_color_secondary_dark" type="color">#B3FFFFFF</item>
+
+    <item name="textarea_background" type="color">#FF1F1F1F</item>
+    <item name="icon_background" type="color">#99FFFFFF</item>
+</resources>

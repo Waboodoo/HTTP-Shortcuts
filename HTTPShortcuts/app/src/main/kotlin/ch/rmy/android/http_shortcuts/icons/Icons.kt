@@ -2,14 +2,11 @@ package ch.rmy.android.http_shortcuts.icons
 
 import android.content.Context
 import ch.rmy.android.http_shortcuts.R
-import java.util.*
 
 object Icons {
 
-    fun getRandomIcon(context: Context): String {
-        val resId = ICONS[Random().nextInt(ICONS.size)]
-        return context.resources.getResourceEntryName(resId)
-    }
+    fun getDefaultIcon(context: Context): String =
+        context.resources.getResourceEntryName(R.drawable.flat_color_lightbulb)
 
     internal val ICONS = intArrayOf(
         R.drawable.circle_blue,

@@ -36,7 +36,7 @@ class PanelButton @JvmOverloads constructor(context: Context, attrs: AttributeSe
             var a: TypedArray? = null
             try {
                 @SuppressLint("Recycle")
-                a = context.obtainStyledAttributes(attrs, ATTRIBUTE_IDS)!!
+                a = context.obtainStyledAttributes(attrs, ATTRIBUTE_IDS)
                 title = a.getText(ATTRIBUTE_IDS.indexOf(android.R.attr.text)) ?: ""
                 subtitle = a.getText(ATTRIBUTE_IDS.indexOf(R.attr.subtitle)) ?: ""
             } finally {
