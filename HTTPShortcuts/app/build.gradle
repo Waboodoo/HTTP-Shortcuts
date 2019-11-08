@@ -109,7 +109,7 @@ dependencies {
     implementation 'com.twofortyfouram:android-plugin-client-sdk-for-locale:4.0.3'
 
     /* Scripting */
-    implementation 'com.github.LiquidPlayer:LiquidCore:0.6.0'
+    implementation 'com.github.LiquidPlayer:LiquidCore:0.6.2'
 
     /* Password hashing */
     implementation 'org.mindrot:jbcrypt:0.4'
