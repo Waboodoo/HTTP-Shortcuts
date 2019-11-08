@@ -6,7 +6,7 @@
  Locale: de, German
  Status: Translated
  Exported by: Roland Meyer
- Exported at: Sun, 01 Sep 2019 11:33:29 +0200
+ Exported at: Fri, 08 Nov 2019 14:25:39 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- The name of the app -->
@@ -387,84 +387,16 @@
     <string name="action_type_unknown_title">Unbekannte Aktion</string>
     <!-- Shortcut Action Title: Show Toast (small popup message) -->
     <string name="action_type_toast_title">Toast anzeigen</string>
-    <!-- Shortcut Action Editor Label: Message (to show in a toast) -->
-    <string name="action_type_toast_edit_label_message">Nachricht</string>
     <!-- Shortcut Action Title: Vibrate -->
     <string name="action_type_vibrate_title">Vibrieren</string>
-    <!-- Shortcut Action Description: Vibrate, describes the vibration pattern -->
-    <string name="action_type_vibrate_description_pattern_0">1 kurze Vibration</string>
-    <!-- Shortcut Action Description: Vibrate, describes the vibration pattern -->
-    <string name="action_type_vibrate_description_pattern_1">1 lange Vibration</string>
-    <!-- Shortcut Action Description: Vibrate, describes the vibration pattern -->
-    <string name="action_type_vibrate_description_pattern_2">3 kurze Vibrationen</string>
-    <!-- Shortcut Action Editor Label: Vibration pattern -->
-    <string name="action_type_vibrate_edit_label_pattern">Vibrationsmuster</string>
-    <!-- Shortcut Action Editor Label: Checkbox, whether to wait for the vibration to complete -->
-    <string name="action_type_vibrate_edit_label_wait_until_complete">Warten bis vollendet</string>
     <!-- Shortcut Action Title: Change Shortcut Name -->
     <string name="action_type_rename_shortcut_title">Shortcut umbenennen</string>
-    <!-- Shortcut Action Editor Label: New name for shortcut -->
-    <string name="action_type_rename_shortcut_edit_label_new_name">Neuer Name</string>
-    <!-- Shortcut Action Title: Extract (HTTP) Status Code (and store in variable) -->
-    <string name="action_type_extract_status_code_title">Statuscode extrahieren</string>
-    <!-- Shortcut Action Editor Help Text: Extract status code, shown in action editor -->
-    <string name="action_type_extract_status_code_help_text">Speichert den Statuscode der HTTP-Response in eine Variable.</string>
-    <!-- Shortcut Action Editor Label: Target variable (to store a value) -->
-    <string name="action_type_target_variable">Zielvariable</string>
-    <!-- Shortcut Action Editor Placeholder: Shows when no variable was selected yet -->
-    <string name="action_type_target_variable_no_variable_selected">Keine Variable ausgewählt</string>
-    <!-- Shortcut Action Title: Extract (HTTP) header (and store in variable) -->
-    <string name="action_type_extract_header_title">Header extrahieren</string>
-    <!-- Shortcut Action Editor Help Text: Extract HTTP header, shown in action editor -->
-    <string name="action_type_extract_header_help_text">Extrahiert den Wert eines bestimmten HTTP-Headers und speichert ihn in eine Variable. Falls kein solcher Header vorhanden ist geschieht nichts.</string>
-    <!-- Shortcut Action Editor Label: (HTTP) header (to be extracted from response) -->
-    <string name="action_type_extract_header_label_header_key">Header</string>
-    <!-- Shortcut Action Title: Extract cookie from HTTP response (and store in variable) -->
-    <string name="action_type_extract_cookie_title">Cookie extrahieren</string>
-    <!-- Shortcut Action Editor Help Text: Extract cookie, shown in action editor -->
-    <string name="action_type_extract_cookie_help_text">Extrahiert den Wert eines bestimmten HTTP-Cookies und speichert ihn in eine Variable. Falls kein solches Cookie vorhanden ist geschieht nichts.</string>
-    <!-- Shortcut Action Editor Label: cookie name (to be extracted from HTTP response) -->
-    <string name="action_type_extract_cookie_label_cookie_name">Cookie-Name</string>
-    <!-- Shortcut Action Title: Extract from (HTTP response) body (and store in variable) -->
-    <string name="action_type_extract_body_title">Extrahieren aus Response-Body</string>
-    <!-- Shortcut Action Editor Help Text: Extract HTTP response body, or part of it, shown in action editor -->
-    <string name="action_type_extract_body_help_text">Extrahiert den Response-Body oder einen Teil davon und speichert ihn in einer Variable. Falls der angegebene Teil nicht vorhanden ist geschieht nichts.</string>
-    <!-- Shortcut Action Editor Label: Allows to select the type of how text is extracted from the HTTP response body -->
-    <string name="action_type_extract_body_label_options">Extraktionsart</string>
-    <!-- Shortcut Action Editor Option Label: One of the options in the dropdown to select how text is extracted from the HTTP response body: use the full body, i.e., all of it as is -->
-    <string name="action_type_extract_body_description_option_full_body">Vollständiger Body</string>
-    <!-- Shortcut Action Editor Option Label: One of the options in the dropdown to select how text is extracted from the HTTP response body: use a substring, i.e., only a part of it -->
-    <string name="action_type_extract_body_description_option_substring">Teilsequenz</string>
-    <!-- Shortcut Action Editor Option Label: One of the options in the dropdown to select how text is extracted from the HTTP response body: try to parse it as JSON and use a specific part -->
-    <string name="action_type_extract_body_description_option_json">JSON parsen</string>
-    <!-- Shortcut Action Editor Option Label: Allows to select the start index of the substring option when extracting text from the HTTP response body -->
-    <string name="action_type_extract_body_label_substring_start_index">Startindex der Teilsequenz</string>
-    <!-- Shortcut Action Editor Option Label: Allows to select the end index of the substring option when extracting text from the HTTP response body -->
-    <string name="action_type_extract_body_label_substring_end_index">Endindex der Teilsequenz</string>
-    <!-- Shortcut Action Editor Option Label: Allows to specify the JSON path when using the JSON parse option when extracting text from the HTTP response body -->
-    <string name="action_type_extract_body_label_json_path">JSON-Pfad</string>
-    <!-- Shortcut Action Editor Help Text: Explains how the substring option can be used when extracting text from the HTTP response body -->
-    <string name="action_type_extract_body_help_text_substring_option">Verwende 0 um den Start oder das Ende des Bodys zu bezeichnen. Negative Zahlen können verwendet werden um einen Index relativ zum Ende zu bezeichnen.</string>
-    <!-- Shortcut Action Editor Help Text: Explains how the JSON option can be used when extracting text from the HTTP response body -->
-    <string name="action_type_extract_body_help_text_json_option">Beschreibe den Pfad innerhalb der JSON-Response, abgetrennt mit Punkten. Z.B. \"2.title\" bedeutet, dass die Response als JSON-Array interpretiert wird, deren 2. Element ein JSON-Objekt mit einem Feld \"title\" ist.</string>
     <!-- Generic error shown when something went wrong and there is no better error message available -->
     <string name="error_generic">Ein unbekannter Fehler ist aufgetreten…</string>
-    <!-- Shortcut Action Title: Set the value of a variable -->
-    <string name="action_type_set_variable_title">Variablenwert ändern</string>
-    <!-- Shortcut Action Editor Help Text: Set the value of a variable -->
-    <string name="action_type_set_variable_help_text">Ändert den Wert einer Variablen.</string>
-    <!-- Shortcut Action Editor Label: allows to specify the new value of a variable -->
-    <string name="action_type_set_variable_label_new_value">Neuer Wert</string>
     <!-- Shortcut Action Title: Trigger a shortcut, i.e., execute it -->
     <string name="action_type_trigger_shortcut_title">Shortcut auslösen</string>
     <!-- Shortcut error message: Maximum recursion depth reached, i.e., a potential infinite loop was detected and stopped -->
     <string name="action_type_trigger_shortcut_error_recursion_depth_reached">Maximale Rekursionstiefe erreicht. Shortcut wird nicht ausgelöst.</string>
-    <!-- Shortcut Action Editor Label: Allows to pick a shortcut (used in different places) -->
-    <string name="action_type_trigger_shortcut_label_shortcut_name">Shortcut</string>
-    <!-- Shortcut Action Editor placeholder: No shortcut selected, used in different places where selecting a shortcut is necessary -->
-    <string name="action_target_shortcut_no_shortcut_selected">Kein Shortcut ausgewählt</string>
-    <!-- Error message in Action Editor when selecting a shortcut is not possible because there are none yet, used in different places -->
-    <string name="action_target_shortcut_error_no_shortcuts">Du hast noch keine Shortcuts.</string>
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid URL -->
     <string name="error_invalid_url">Ungültige URL. Muss HTTP(S) sein.</string>
     <!-- Title: Dialog title when selecting how to place a shortcut on the homescreen -->
@@ -599,8 +531,6 @@
     <string name="label_actions_post_request_subtitle">Wie soll die Response verwendet werden?</string>
     <!-- Shortcut Action Title: Show Dialog -->
     <string name="action_type_dialog_title">Dialog anzeigen</string>
-    <!-- Shortcut Action Editor Label: Message (to show in a dialog) -->
-    <string name="action_type_dialog_edit_label_message">Nachricht</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
     <string name="subtitle_basic_request_settings_url_only_prompt">Shortcut-URL einstellen</string>
     <!-- Empty state, shown in list when there are no custom request headers yet -->
@@ -659,4 +589,12 @@
     <string name="error_shortcut_not_found_for_triggering">Shortcut \"%1$s\" konnte nicht ausgeführt werden, da er nicht existiert.</string>
     <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_renaming">Shortcut \"%1$s\" konnte nicht umbenannt werden, da er nicht existiert.</string>
+    <!-- Settings option for dark mode: when selected the app will always use Dark Mode -->
+    <string name="settings_dark_theme_options_on">Immer dunkel</string>
+    <!-- Settings option for dark mode: when selected the app will never use Dark Mode -->
+    <string name="settings_dark_theme_options_off">Immer hell</string>
+    <!-- Settings option for dark mode: when selected the app will use Dark Mode according to the system settings (i.e., automatically switch) -->
+    <string name="settings_dark_theme_options_auto">System-Einstellungen verwenden</string>
+    <!-- Title of dark mode theme settings (which allows user to pick how/when the app should use dark mode) -->
+    <string name="settings_dark_theme">Dark-Mode</string>
 </resources>
