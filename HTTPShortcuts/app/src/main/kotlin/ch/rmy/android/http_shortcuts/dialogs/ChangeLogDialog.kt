@@ -7,11 +7,10 @@ import android.view.LayoutInflater
 import android.webkit.WebView
 import android.widget.CheckBox
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.utils.Settings
-import com.afollestad.materialdialogs.MaterialDialog
 import io.reactivex.Completable
 import io.reactivex.subjects.CompletableSubject
+
 
 class ChangeLogDialog(private val context: Context, private val whatsNew: Boolean) : Dialog {
 
@@ -22,7 +21,7 @@ class ChangeLogDialog(private val context: Context, private val whatsNew: Boolea
             return false
         }
         val lastSeenVersion = settings.changeLogLastVersion
-        return version != lastSeenVersion && lastSeenVersion != 0
+        return version != lastSeenVersion && lastSeenVersion != 0L
     }
 
     private val isPermanentlyHidden: Boolean
@@ -39,10 +38,10 @@ class ChangeLogDialog(private val context: Context, private val whatsNew: Boolea
 
         val completable = CompletableSubject.create()
 
-        val dialog = MaterialDialog.Builder(context)
-            .customView(view, false)
+        val dialog = DialogBuilder(context)
+            .view(view)
             .title(if (whatsNew) R.string.changelog_title_whats_new else R.string.changelog_title)
-            .positiveText(android.R.string.ok)
+            .positive(android.R.string.ok)
             .dismissListener {
                 completable.onComplete()
             }
@@ -64,13 +63,13 @@ class ChangeLogDialog(private val context: Context, private val whatsNew: Boolea
         }
     }
 
-    private val version
+    private val version: Long
         get() = try {
             context.packageManager
                 .getPackageInfo(context.packageName, 0)
-                .versionCode / 1000000
+                .getLongVersionCode() / 1000000
         } catch (e: NameNotFoundException) {
-            0
+            0L
         }
 
     companion object {

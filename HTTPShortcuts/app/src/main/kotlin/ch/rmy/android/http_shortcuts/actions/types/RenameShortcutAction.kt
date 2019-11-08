@@ -10,7 +10,6 @@ import ch.rmy.android.http_shortcuts.extensions.truncate
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.variables.VariableManager
-import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
 import com.android.volley.VolleyError
 import io.reactivex.Completable
@@ -56,9 +55,6 @@ class RenameShortcutAction(
                 }
             })
     }
-
-    override fun createEditorView(context: Context, variablePlaceholderProvider: VariablePlaceholderProvider) =
-        RenameShortcutActionEditorView(context, this, variablePlaceholderProvider)
 
     companion object {
 

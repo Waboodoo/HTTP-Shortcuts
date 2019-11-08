@@ -17,13 +17,12 @@ import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.PendingExecution
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.dialogs.CurlExportDialog
-import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
+import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.color
 import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.mapIf
-import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
@@ -32,7 +31,6 @@ import ch.rmy.android.http_shortcuts.utils.SelectionMode
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.curlcommand.CurlCommand
 import ch.rmy.curlcommand.CurlConstructor
-import com.afollestad.materialdialogs.MaterialDialog
 import kotterknife.bindView
 import org.apache.http.HttpHeaders
 import java.io.UnsupportedEncodingException
@@ -195,7 +193,7 @@ class ListFragment : BaseFragment() {
 
     private fun showContextMenu(shortcutData: LiveData<Shortcut?>) {
         val shortcut = shortcutData.value ?: return
-        MenuDialogBuilder(context!!)
+        DialogBuilder(context!!)
             .title(shortcut.name)
             .item(R.string.action_place) {
                 tabHost?.placeShortcutOnHomeScreen(shortcutData.value ?: return@item)
@@ -255,7 +253,7 @@ class ListFragment : BaseFragment() {
 
     private fun openMoveDialog(shortcutData: LiveData<Shortcut?>) {
         val shortcut = shortcutData.value ?: return
-        MenuDialogBuilder(context!!)
+        DialogBuilder(context!!)
             .mapIf(canMoveShortcut(shortcut, -1)) {
                 it.item(R.string.action_move_up) {
                     moveShortcut(shortcut, -1)
@@ -292,7 +290,7 @@ class ListFragment : BaseFragment() {
 
     private fun showMoveToCategoryDialog(shortcutData: LiveData<Shortcut?>) {
         categoryData.value?.let { currentCategory ->
-            MenuDialogBuilder(context!!)
+            DialogBuilder(context!!)
                 .title(R.string.title_move_to_category)
                 .mapFor(categories.filter { it.id != currentCategory.id }) { builder, category ->
                     val categoryId = category.id
@@ -373,11 +371,10 @@ class ListFragment : BaseFragment() {
     }
 
     private fun showDeleteDialog(shortcutData: LiveData<Shortcut?>) {
-        MaterialDialog.Builder(context!!)
-            .content(R.string.confirm_delete_shortcut_message)
-            .positiveText(R.string.dialog_delete)
-            .onPositive { _, _ -> deleteShortcut(shortcutData.value ?: return@onPositive) }
-            .negativeText(R.string.dialog_cancel)
+        DialogBuilder(context!!)
+            .message(R.string.confirm_delete_shortcut_message)
+            .positive(R.string.dialog_delete) { deleteShortcut(shortcutData.value ?: return@positive) }
+            .negative(R.string.dialog_cancel)
             .showIfPossible()
     }
 

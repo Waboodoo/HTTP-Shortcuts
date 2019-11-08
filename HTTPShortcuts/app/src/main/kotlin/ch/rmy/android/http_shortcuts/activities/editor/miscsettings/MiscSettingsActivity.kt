@@ -9,14 +9,13 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.observeChecked
-import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.SimpleOnSeekBarChangeListener
 import ch.rmy.android.http_shortcuts.views.PanelButton
-import com.afollestad.materialdialogs.MaterialDialog
 import kotterknife.bindView
 
 class MiscSettingsActivity : BaseActivity() {
@@ -89,11 +88,10 @@ class MiscSettingsActivity : BaseActivity() {
         label.text = viewModel.getDelayText(shortcut.delay)
         slider.progress = delayToProgress(shortcut.delay)
 
-        MaterialDialog.Builder(context)
+        DialogBuilder(context)
             .title(R.string.label_delay_execution)
-            .customView(view, true)
-            .positiveText(R.string.dialog_ok)
-            .onPositive { _, _ ->
+            .view(view)
+            .positive(R.string.dialog_ok) {
                 viewModel.setDelay(progressToDelay(slider.progress))
                     .subscribe()
                     .attachTo(destroyer)

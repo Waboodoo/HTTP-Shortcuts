@@ -1,30 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <com.google.android.material.textfield.TextInputLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/variable_button"
-        android:layout_toStartOf="@+id/variable_button">
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/label_variable_value"
+            style="@style/Label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/placeholder_value" />
 
         <ch.rmy.android.http_shortcuts.variables.VariableEditText
             android:id="@+id/input_variable_value"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/placeholder_value"
-            android:maxLength="3000">
+            android:layout_below="@+id/label_variable_value"
+            android:inputType="textNoSuggestions"
+            android:maxLength="3000"
+            android:paddingRight="@dimen/variable_button_spacing">
 
         </ch.rmy.android.http_shortcuts.variables.VariableEditText>
-    </com.google.android.material.textfield.TextInputLayout>
 
-    <ch.rmy.android.http_shortcuts.variables.VariableButton
-        android:id="@+id/variable_button"
-        style="@style/VariableButton"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"/>
-</RelativeLayout>
+        <ch.rmy.android.http_shortcuts.variables.VariableButton
+            android:id="@+id/variable_button"
+            style="@style/VariableButton"
+            android:layout_below="@+id/label_variable_value"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+</LinearLayout>

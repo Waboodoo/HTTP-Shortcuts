@@ -4,9 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/app_bar"
-        layout="@layout/toolbar_layout" />
+    <include layout="@layout/toolbar_layout" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -26,21 +24,20 @@
                 android:layout_marginBottom="16dp"
                 app:labelText="@string/label_feedback" />
 
-            <com.google.android.material.textfield.TextInputLayout
+            <TextView
+                style="@style/Label"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:text="@string/label_post_request_success_script" />
 
-                <EditText
-                    android:id="@+id/input_code_success"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="monospace"
-                    android:gravity="top"
-                    android:hint="@string/label_post_request_success_script"
-                    android:minLines="6"
-                    android:textSize="@dimen/js_font_size" />
-
-            </com.google.android.material.textfield.TextInputLayout>
+            <EditText
+                android:id="@+id/input_code_success"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="monospace"
+                android:gravity="top"
+                android:minLines="6"
+                android:textSize="@dimen/js_font_size" />
 
             <Button
                 android:id="@+id/button_add_code_snippet_success"
@@ -48,22 +45,21 @@
                 android:layout_height="wrap_content"
                 android:text="@string/button_add_code_snippet" />
 
-            <com.google.android.material.textfield.TextInputLayout
+            <TextView
+                style="@style/Label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp">
+                android:layout_marginTop="16dp"
+                android:text="@string/label_post_request_failure_script" />
 
-                <EditText
-                    android:id="@+id/input_code_failure"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="monospace"
-                    android:gravity="top"
-                    android:hint="@string/label_post_request_failure_script"
-                    android:minLines="6"
-                    android:textSize="@dimen/js_font_size" />
-
-            </com.google.android.material.textfield.TextInputLayout>
+            <EditText
+                android:id="@+id/input_code_failure"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="monospace"
+                android:gravity="top"
+                android:minLines="6"
+                android:textSize="@dimen/js_font_size" />
 
             <Button
                 android:id="@+id/button_add_code_snippet_failure"

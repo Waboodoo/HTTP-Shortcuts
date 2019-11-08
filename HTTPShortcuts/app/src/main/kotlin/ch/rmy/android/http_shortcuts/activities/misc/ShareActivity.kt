@@ -8,14 +8,12 @@ import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.data.Controller
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
+import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.mapFor
-import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.variables.VariableLookup
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
-import com.afollestad.materialdialogs.MaterialDialog
 
 class ShareActivity : BaseActivity() {
 
@@ -75,15 +73,15 @@ class ShareActivity : BaseActivity() {
     }
 
     private fun showInstructions(@StringRes text: Int) {
-        MaterialDialog.Builder(context)
-            .content(text)
+        DialogBuilder(context)
+            .message(text)
             .dismissListener { finishWithoutAnimation() }
-            .positiveText(R.string.dialog_ok)
+            .positive(R.string.dialog_ok)
             .showIfPossible()
     }
 
     private fun showShortcutSelection(shortcuts: List<Shortcut>, variableValues: Map<String, String>) {
-        MenuDialogBuilder(context)
+        DialogBuilder(context)
             .mapFor(shortcuts) { builder, shortcut ->
                 builder.item(shortcut.name) {
                     executeShortcut(shortcut, variableValues)

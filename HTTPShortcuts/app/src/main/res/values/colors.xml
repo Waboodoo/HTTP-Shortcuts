@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="primary" type="color">#FF03A9F4</item>
-    <item name="primary_dark" type="color">#FF0277BD</item>
+
+    <item name="primary_alt0" type="color">#FF03A9F4</item>
+    <item name="primary_dark_alt0" type="color">#FF0277BD</item>
 
     <item name="primary_alt1" type="color">#FF4CAF50</item>
     <item name="primary_dark_alt1" type="color">#FF2E7D32</item>
@@ -21,6 +22,8 @@
     <item name="primary_alt6" type="color">#FF3F51B5</item>
     <item name="primary_dark_alt6" type="color">#FF283593</item>
 
+    <item name="primary_color" type="color">#FF0277BD</item>
+
     <item name="transparent" type="color">#00000000</item>
     <item name="divider" type="color">#44606060</item>
     <item name="variable" type="color">#FF3F51B5</item>
@@ -31,4 +34,7 @@
     <item name="text_color_primary_dark" type="color">#000000</item>
     <item name="text_color_secondary_bright" type="color">#C0C0C0</item>
     <item name="text_color_secondary_dark" type="color">#666666</item>
+
+    <item name="textarea_background" type="color">#FFDFDFDF</item>
+    <item name="icon_background" type="color">#99000000</item>
 </resources>

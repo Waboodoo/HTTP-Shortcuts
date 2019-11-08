@@ -4,7 +4,6 @@ import android.content.Context
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.variables.VariableManager
-import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
 import com.android.volley.VolleyError
 import io.reactivex.Completable
@@ -32,9 +31,6 @@ class ToastAction(
             Completable.complete()
         }
     }
-
-    override fun createEditorView(context: Context, variablePlaceholderProvider: VariablePlaceholderProvider) =
-        ToastActionEditorView(context, this, variablePlaceholderProvider)
 
     companion object {
 

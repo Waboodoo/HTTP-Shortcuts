@@ -5,6 +5,7 @@ import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -22,18 +23,22 @@ abstract class BaseActivity : AppCompatActivity() {
 
     val destroyer = Destroyer()
 
-    private val themeHelper by lazy {
+    val themeHelper by lazy {
         ThemeHelper(context)
     }
 
+    val baseView: ViewGroup?
+        get() = (findViewById<ViewGroup>(android.R.id.content))?.getChildAt(0) as ViewGroup?
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(themeHelper.theme)
         super.onCreate(savedInstanceState)
         RealmFactory.init(applicationContext)
     }
 
     override fun setContentView(layoutResID: Int) {
-        setTheme(themeHelper.theme)
         super.setContentView(layoutResID)
+        baseView?.setBackgroundColor(color(context, R.color.activity_background))
         toolbar = findViewById<Toolbar?>(R.id.toolbar) ?: return
         updateStatusBarColor()
         setSupportActionBar(toolbar)

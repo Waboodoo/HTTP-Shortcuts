@@ -1,105 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory
-        android:title="@string/settings_title_basic">
+        app:title="@string/settings_title_basic">
 
-        <com.afollestad.materialdialogs.prefs.MaterialListPreference
-            android:defaultValue="run"
-            android:entries="@array/click_behaviors"
-            android:entryValues="@array/click_behaviors_values"
-            android:icon="@drawable/settings_click"
-            android:key="click_behavior"
-            android:persistent="true"
-            android:title="@string/settings_click_behavior"/>
+        <ListPreference
+            app:defaultValue="run"
+            app:entries="@array/click_behaviors"
+            app:entryValues="@array/click_behaviors_values"
+            app:icon="@drawable/settings_click"
+            app:key="click_behavior"
+            app:persistent="true"
+            app:title="@string/settings_click_behavior"/>
 
-        <com.afollestad.materialdialogs.prefs.MaterialListPreference
-            android:defaultValue="blue"
-            android:entries="@array/themes"
-            android:entryValues="@array/themes_values"
-            android:icon="@drawable/ic_theme"
-            android:key="theme"
-            android:persistent="true"
-            android:title="@string/settings_theme"/>
+        <ListPreference
+            app:defaultValue="blue"
+            app:entries="@array/themes"
+            app:entryValues="@array/themes_values"
+            app:icon="@drawable/ic_theme"
+            app:key="theme"
+            app:persistent="true"
+            app:title="@string/settings_theme"/>
 
-        <com.afollestad.materialdialogs.prefs.MaterialPreference
-            android:icon="@drawable/ic_lock_black"
-            android:key="lock_settings"
-            android:summary="@string/settings_lock_app_summary"
-            android:title="@string/settings_lock_app_title"/>
+        <ListPreference
+            app:defaultValue="auto"
+            app:entries="@array/dark_theme_options"
+            app:entryValues="@array/dark_theme_options_values"
+            app:icon="@drawable/ic_dark_theme"
+            app:key="dark_theme"
+            app:persistent="true"
+            app:title="@string/settings_dark_theme"/>
+
+        <Preference
+            app:icon="@drawable/ic_lock_black"
+            app:key="lock_settings"
+            app:summary="@string/settings_lock_app_summary"
+            app:title="@string/settings_lock_app_title"/>
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/settings_title_import_export">
+        app:title="@string/settings_title_import_export">
 
-        <com.afollestad.materialdialogs.prefs.MaterialPreference
-            android:icon="@drawable/settings_import"
-            android:key="import"
-            android:title="@string/settings_import"/>
-        <com.afollestad.materialdialogs.prefs.MaterialPreference
-            android:icon="@drawable/settings_export"
-            android:key="export"
-            android:title="@string/settings_export"/>
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/settings_title_privacy">
-
-        <com.afollestad.materialdialogs.prefs.MaterialPreference
-            android:icon="@drawable/file_document"
-            android:key="privacy_policy"
-            android:summary="@string/settings_privacy_policy_summary"
-            android:title="@string/settings_privacy_policy"/>
-
-        <com.afollestad.materialdialogs.prefs.MaterialListPreference
-            android:defaultValue="true"
-            android:entries="@array/crash_reporting"
-            android:entryValues="@array/crash_reporting_values"
-            android:icon="@drawable/bug"
-            android:key="crash_reporting"
-            android:persistent="true"
-            android:title="@string/settings_crash_reporting"/>
+        <Preference
+            app:icon="@drawable/settings_import"
+            app:key="import"
+            app:title="@string/settings_import"/>
+        <Preference
+            app:icon="@drawable/settings_export"
+            app:key="export"
+            app:title="@string/settings_export"/>
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/settings_about">
+        app:title="@string/settings_title_privacy">
 
-        <com.afollestad.materialdialogs.prefs.MaterialPreference
-            android:icon="@drawable/ic_version"
-            android:key="changelog"
-            android:title="@string/settings_changelog"/>
-        <com.afollestad.materialdialogs.prefs.MaterialPreference
-            android:icon="@drawable/ic_email_outline"
-            android:key="mail"
-            android:summary="@string/settings_mail_summary"
-            android:title="@string/settings_mail"/>
-        <com.afollestad.materialdialogs.prefs.MaterialPreference
-            android:icon="@drawable/ic_faq"
-            android:key="faq"
-            android:summary="@string/settings_faq_summary"
-            android:title="@string/settings_faq"/>
-        <com.afollestad.materialdialogs.prefs.MaterialPreference
-            android:icon="@drawable/ic_google_play"
-            android:key="play_store"
-            android:summary="@string/settings_play_store_summary"
-            android:title="@string/settings_play_store"/>
-        <com.afollestad.materialdialogs.prefs.MaterialPreference
-            android:icon="@drawable/ic_github_circle"
-            android:key="github"
-            android:summary="@string/settings_github_summary"
-            android:title="@string/settings_github"/>
-        <com.afollestad.materialdialogs.prefs.MaterialPreference
-            android:icon="@drawable/ic_translate"
-            android:key="translate"
-            android:summary="@string/settings_help_translate_summary"
-            android:title="@string/settings_help_translate"/>
-        <com.afollestad.materialdialogs.prefs.MaterialPreference
-            android:icon="@drawable/ic_licenses"
-            android:key="licenses"
-            android:summary="@string/settings_licenses_summary"
-            android:title="@string/settings_licenses"/>
+        <Preference
+            app:icon="@drawable/file_document"
+            app:key="privacy_policy"
+            app:summary="@string/settings_privacy_policy_summary"
+            app:title="@string/settings_privacy_policy"/>
+
+        <ListPreference
+            app:defaultValue="true"
+            app:entries="@array/crash_reporting"
+            app:entryValues="@array/crash_reporting_values"
+            app:icon="@drawable/bug"
+            app:key="crash_reporting"
+            app:persistent="true"
+            app:title="@string/settings_crash_reporting"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:title="@string/settings_about">
+
+        <Preference
+            app:icon="@drawable/ic_version"
+            app:key="changelog"
+            app:title="@string/settings_changelog"/>
+        <Preference
+            app:icon="@drawable/ic_email_outline"
+            app:key="mail"
+            app:summary="@string/settings_mail_summary"
+            app:title="@string/settings_mail"/>
+        <Preference
+            app:icon="@drawable/ic_faq"
+            app:key="faq"
+            app:summary="@string/settings_faq_summary"
+            app:title="@string/settings_faq"/>
+        <Preference
+            app:icon="@drawable/ic_google_play"
+            app:key="play_store"
+            app:summary="@string/settings_play_store_summary"
+            app:title="@string/settings_play_store"/>
+        <Preference
+            app:icon="@drawable/ic_github_circle"
+            app:key="github"
+            app:summary="@string/settings_github_summary"
+            app:title="@string/settings_github"/>
+        <Preference
+            app:icon="@drawable/ic_translate"
+            app:key="translate"
+            app:summary="@string/settings_help_translate_summary"
+            app:title="@string/settings_help_translate"/>
+        <Preference
+            app:icon="@drawable/ic_licenses"
+            app:key="licenses"
+            app:summary="@string/settings_licenses_summary"
+            app:title="@string/settings_licenses"/>
 
     </PreferenceCategory>
 

@@ -4,9 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/app_bar"
-        layout="@layout/toolbar_layout" />
+    <include layout="@layout/toolbar_layout" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -23,35 +21,35 @@
                 android:id="@+id/input_method"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:labelText="@string/label_method"/>
+                app:labelText="@string/label_method" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.google.android.material.textfield.TextInputLayout
+                <TextView
+                    android:id="@+id/label_url"
+                    style="@style/Label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toStartOf="@+id/variable_button_url"
-                    android:layout_toLeftOf="@+id/variable_button_url">
+                    android:text="@string/label_url" />
 
-                    <ch.rmy.android.http_shortcuts.variables.VariableEditText
-                        android:id="@+id/input_url"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/label_url"
-                        android:inputType="textNoSuggestions|textUri|textMultiLine"
-                        android:maxLines="12" />
-                </com.google.android.material.textfield.TextInputLayout>
+                <ch.rmy.android.http_shortcuts.variables.VariableEditText
+                    android:id="@+id/input_url"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/label_url"
+                    android:inputType="textNoSuggestions|textUri|textMultiLine"
+                    android:maxLines="12"
+                    android:paddingRight="@dimen/variable_button_spacing" />
 
                 <ch.rmy.android.http_shortcuts.variables.VariableButton
                     android:id="@+id/variable_button_url"
                     style="@style/VariableButton"
+                    android:layout_below="@+id/label_url"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true" />
+                    android:layout_alignParentRight="true" />
             </RelativeLayout>
-
 
         </LinearLayout>
 

@@ -1,24 +1,15 @@
 package ch.rmy.android.http_shortcuts.extensions
 
 import android.app.Activity
-import android.app.Fragment
 import android.content.Context
 import android.content.Intent
-import ch.rmy.android.http_shortcuts.activities.BaseFragment
+import androidx.fragment.app.Fragment
 
 fun Intent.startActivity(activity: Activity, requestCode: Int? = null) {
     if (requestCode != null) {
         activity.startActivityForResult(this, requestCode)
     } else {
         activity.startActivity(this)
-    }
-}
-
-fun Intent.startActivity(fragment: BaseFragment, requestCode: Int? = null) {
-    if (requestCode != null) {
-        fragment.startActivityForResult(this, requestCode)
-    } else {
-        fragment.startActivity(this)
     }
 }
 

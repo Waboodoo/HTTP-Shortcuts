@@ -2,10 +2,9 @@ package ch.rmy.android.http_shortcuts.activities
 
 import android.content.Context
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.logException
-import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.utils.CanceledByUserException
-import com.afollestad.materialdialogs.MaterialDialog
 import io.reactivex.Completable
 import org.liquidplayer.javascript.JSException
 
@@ -27,13 +26,13 @@ class ExecuteErrorHandler(private val context: Context) {
 
     private fun showUserError(error: Throwable): Completable =
         Completable.create { emitter ->
-            MaterialDialog.Builder(context)
+            DialogBuilder(context)
                 .title(R.string.dialog_title_error)
-                .content(getErrorMessage(error))
+                .message(getErrorMessage(error))
                 .dismissListener {
                     emitter.onComplete()
                 }
-                .positiveText(R.string.dialog_ok)
+                .positive(R.string.dialog_ok)
                 .showIfPossible()
                 ?: run {
                     emitter.onComplete()

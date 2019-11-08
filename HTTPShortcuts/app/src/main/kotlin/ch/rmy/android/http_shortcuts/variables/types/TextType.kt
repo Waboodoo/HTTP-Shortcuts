@@ -4,7 +4,6 @@ import android.content.Context
 import ch.rmy.android.http_shortcuts.data.Commons
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.mapIf
-import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import io.reactivex.Single
 
 open class TextType : BaseVariableType(), AsyncVariableType {
@@ -14,8 +13,7 @@ open class TextType : BaseVariableType(), AsyncVariableType {
     override fun resolveValue(context: Context, variable: Variable): Single<String> =
         Single.create<String> { emitter ->
             createDialogBuilder(context, variable, emitter)
-                .toDialogBuilder()
-                .input(null, if (variable.rememberValue) variable.value else "") { _, input ->
+                .textInput(variable.value?.takeIf { variable.rememberValue } ?: "") { input ->
                     emitter.onSuccess(input.toString())
                 }
                 .showIfPossible()

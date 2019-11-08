@@ -24,8 +24,8 @@ import ch.rmy.android.http_shortcuts.activities.editor.miscsettings.MiscSettings
 import ch.rmy.android.http_shortcuts.activities.editor.postrequest.PostRequestActivity
 import ch.rmy.android.http_shortcuts.activities.editor.prerequest.PreRequestActivity
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.dialogs.IconNameChangeDialog
-import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.color
@@ -35,7 +35,6 @@ import ch.rmy.android.http_shortcuts.extensions.focus
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
 import ch.rmy.android.http_shortcuts.extensions.setTextSafely
-import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
@@ -52,7 +51,6 @@ import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.android.http_shortcuts.views.PanelButton
 import ch.rmy.curlcommand.CurlCommand
-import com.afollestad.materialdialogs.MaterialDialog
 import com.theartofdev.edmodo.cropper.CropImage
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
@@ -245,7 +243,7 @@ class ShortcutEditorActivity : BaseActivity() {
     }
 
     private fun openIconSelectionDialog() {
-        MenuDialogBuilder(context)
+        DialogBuilder(context)
             .title(R.string.change_icon)
             .item(R.string.choose_icon, ::openBuiltInIconSelectionDialog)
             .item(R.string.choose_image, ::openImagePicker)
@@ -301,11 +299,10 @@ class ShortcutEditorActivity : BaseActivity() {
             updateViewModelFromViews()
                 .subscribe {
                     if (viewModel.hasChanges()) {
-                        MaterialDialog.Builder(context)
-                            .content(R.string.confirm_discard_changes_message)
-                            .positiveText(R.string.dialog_discard)
-                            .onPositive { _, _ -> cancelAndClose() }
-                            .negativeText(R.string.dialog_cancel)
+                        DialogBuilder(context)
+                            .message(R.string.confirm_discard_changes_message)
+                            .positive(R.string.dialog_discard) { cancelAndClose() }
+                            .negative(R.string.dialog_cancel)
                             .showIfPossible()
                     } else {
                         cancelAndClose()

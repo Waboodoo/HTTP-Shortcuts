@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts.activities.main
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Color.WHITE
 import android.os.Bundle
 import android.text.InputType
 import android.view.Menu
@@ -19,13 +18,13 @@ import ch.rmy.android.http_shortcuts.activities.settings.SettingsActivity
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog
-import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
+import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.dialogs.NetworkRestrictionWarningDialog
+import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.logException
-import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.extensions.visible
@@ -34,7 +33,6 @@ import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.SelectionMode
 import ch.rmy.curlcommand.CurlCommand
-import com.afollestad.materialdialogs.MaterialDialog
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
@@ -80,10 +78,8 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     private fun initViews() {
         createButton.setOnClickListener { showCreateOptions() }
         setupViewPager()
-
-        tabLayout.setTabTextColors(WHITE, WHITE)
-        tabLayout.setSelectedTabIndicatorColor(WHITE)
-
+        tabLayout.applyTheme(themeHelper)
+        createButton.applyTheme(themeHelper)
         bindViewsToViewModel()
     }
 
@@ -102,7 +98,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     }
 
     private fun showCreateOptions() {
-        MenuDialogBuilder(context)
+        DialogBuilder(context)
             .title(R.string.title_create_new_shortcut_options_dialog)
             .item(R.string.button_create_new, ::openEditorForCreation)
             .item(R.string.button_create_browser_shortcut, ::openEditorForBrowserShortcutCreation)
@@ -196,18 +192,15 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
 
     private fun returnForHomeScreen(shortcut: Shortcut) {
         if (LauncherShortcutManager.supportsPinning(context)) {
-            MaterialDialog.Builder(context)
+            DialogBuilder(context)
                 .title(R.string.title_select_placement_method)
-                .content(R.string.description_select_placement_method)
-                .positiveText(R.string.label_placement_method_default)
-                .onPositive { _, _ ->
+                .message(R.string.description_select_placement_method)
+                .positive(R.string.label_placement_method_default) {
                     finishWithPlacement(
                         LauncherShortcutManager.createShortcutPinIntent(context, shortcut)
                     )
-
                 }
-                .negativeText(R.string.label_placement_method_legacy)
-                .onNegative { _, _ ->
+                .negative(R.string.label_placement_method_legacy) {
                     finishWithPlacement(IntentUtil.getShortcutPlacementIntent(context, shortcut, true))
                 }
                 .showIfPossible()
@@ -267,15 +260,14 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     }
 
     private fun openAppUnlockDialog(showError: Boolean = false) {
-        MaterialDialog.Builder(context)
+        DialogBuilder(context)
             .title(R.string.dialog_title_unlock_app)
-            .content(if (showError) R.string.dialog_text_unlock_app_retry else R.string.dialog_text_unlock_app)
-            .positiveText(R.string.button_unlock_app)
-            .input(null, "") { _, input ->
+            .message(if (showError) R.string.dialog_text_unlock_app_retry else R.string.dialog_text_unlock_app)
+            .positive(R.string.button_unlock_app)
+            .textInput(inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD) { input ->
                 unlockApp(input.toString())
             }
-            .inputType(InputType.TYPE_TEXT_VARIATION_PASSWORD)
-            .negativeText(R.string.dialog_cancel)
+            .negative(R.string.dialog_cancel)
             .showIfPossible()
     }
 

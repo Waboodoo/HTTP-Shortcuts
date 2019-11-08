@@ -16,12 +16,12 @@ import ch.rmy.android.http_shortcuts.actions.types.ActionFactory
 import ch.rmy.android.http_shortcuts.data.Commons
 import ch.rmy.android.http_shortcuts.data.Controller
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.cancel
 import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.detachFromRealm
 import ch.rmy.android.http_shortcuts.extensions.logException
-import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.extensions.truncate
@@ -41,7 +41,6 @@ import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.android.http_shortcuts.views.ResponseWebView
-import com.afollestad.materialdialogs.MaterialDialog
 import com.android.volley.VolleyError
 import com.github.chen0040.androidcodeview.SourceCodeView
 import fr.castorflex.android.circularprogressbar.CircularProgressBar
@@ -162,17 +161,16 @@ class ExecuteActivity : BaseActivity() {
 
     private fun promptForConfirmation(): Completable =
         Completable.create { emitter ->
-            MaterialDialog.Builder(context)
+            DialogBuilder(context)
                 .title(shortcutName)
-                .content(R.string.dialog_message_confirm_shortcut_execution)
+                .message(R.string.dialog_message_confirm_shortcut_execution)
                 .dismissListener {
                     emitter.cancel()
                 }
-                .positiveText(R.string.dialog_ok)
-                .onPositive { _, _ ->
+                .positive(R.string.dialog_ok) {
                     emitter.onComplete()
                 }
-                .negativeText(R.string.dialog_cancel)
+                .negative(R.string.dialog_cancel)
                 .showIfPossible()
                 ?: run {
                     emitter.cancel()
@@ -393,10 +391,10 @@ class ExecuteActivity : BaseActivity() {
                 showToast(output.truncate(maxLength = TOAST_MAX_LENGTH), long = true)
             }
             Shortcut.FEEDBACK_DIALOG -> {
-                MaterialDialog.Builder(context)
+                DialogBuilder(context)
                     .title(shortcutName)
-                    .content(HTMLUtil.format(output))
-                    .positiveText(R.string.dialog_ok)
+                    .message(HTMLUtil.format(output))
+                    .positive(R.string.dialog_ok)
                     .dismissListener { finishWithoutAnimation() }
                     .show()
             }

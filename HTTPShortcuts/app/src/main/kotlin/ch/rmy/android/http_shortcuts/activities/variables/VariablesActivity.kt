@@ -10,17 +10,16 @@ import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.dialogs.HelpDialogBuilder
-import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
+import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.consume
-import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
-import com.afollestad.materialdialogs.MaterialDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotterknife.bindView
 
@@ -48,6 +47,7 @@ class VariablesActivity : BaseActivity() {
 
         initDragOrdering()
 
+        createButton.applyTheme(themeHelper)
         createButton.setOnClickListener { openEditorForCreation() }
     }
 
@@ -73,7 +73,7 @@ class VariablesActivity : BaseActivity() {
 
     private fun showContextMenu(variableData: LiveData<Variable?>) {
         val variable = variableData.value ?: return
-        MenuDialogBuilder(context)
+        DialogBuilder(context)
             .title(variable.key)
             .item(R.string.action_edit) {
                 editVariable(variable)
@@ -106,11 +106,10 @@ class VariablesActivity : BaseActivity() {
     }
 
     private fun showDeleteDialog(variableData: LiveData<Variable?>) {
-        MaterialDialog.Builder(context)
-            .content(R.string.confirm_delete_variable_message)
-            .positiveText(R.string.dialog_delete)
-            .onPositive { _, _ -> deleteVariable(variableData.value ?: return@onPositive) }
-            .negativeText(R.string.dialog_cancel)
+        DialogBuilder(context)
+            .message(R.string.confirm_delete_variable_message)
+            .positive(R.string.dialog_delete) { deleteVariable(variableData.value ?: return@positive) }
+            .negative(R.string.dialog_cancel)
             .showIfPossible()
     }
 
@@ -139,7 +138,6 @@ class VariablesActivity : BaseActivity() {
             .message(R.string.help_variables)
             .build()
             .show()
-            .attachTo(destroyer)
     }
 
     override fun onStart() {

@@ -11,15 +11,15 @@ import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.utils.Destroyable
 import ch.rmy.android.http_shortcuts.utils.Destroyer
-import com.afollestad.materialdialogs.MaterialDialog
 import io.reactivex.disposables.Disposable
 
 fun Fragment.showMessageDialog(@StringRes stringRes: Int) {
-    MaterialDialog.Builder(context!!)
-        .content(stringRes)
-        .positiveText(R.string.dialog_ok)
+    DialogBuilder(context!!)
+        .message(stringRes)
+        .positive(R.string.dialog_ok)
         .showIfPossible()
 }
 

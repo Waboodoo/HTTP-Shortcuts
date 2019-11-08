@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingLeft="24dp"
-            android:paddingRight="24dp">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="24dp"
+    android:paddingRight="24dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,57 +14,59 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/key_value_key_layout"
+            <TextView
+                android:id="@+id/label_key_value"
+                style="@style/Label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/variable_button_key"
-                android:layout_toStartOf="@+id/variable_button_key">
+                android:text="@string/placeholder_value" />
 
-                <ch.rmy.android.http_shortcuts.variables.VariableEditText
-                    android:id="@+id/key_value_key"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:maxLines="1">
+            <ch.rmy.android.http_shortcuts.variables.VariableEditText
+                android:id="@+id/key_value_key"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/label_key_value"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingRight="@dimen/variable_button_spacing">
 
-                    <requestFocus/>
-                </ch.rmy.android.http_shortcuts.variables.VariableEditText>
-            </com.google.android.material.textfield.TextInputLayout>
+                <requestFocus />
+            </ch.rmy.android.http_shortcuts.variables.VariableEditText>
 
             <ch.rmy.android.http_shortcuts.variables.VariableButton
                 android:id="@+id/variable_button_key"
                 style="@style/VariableButton"
+                android:layout_below="@+id/label_key_value"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"/>
+                android:layout_alignParentRight="true" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/key_value_value_layout"
+            <TextView
+                android:id="@+id/label_value_value"
+                style="@style/Label"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <ch.rmy.android.http_shortcuts.variables.VariableEditText
+                android:id="@+id/key_value_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/variable_button_value"
-                android:layout_toStartOf="@+id/variable_button_value">
-
-                <ch.rmy.android.http_shortcuts.variables.VariableEditText
-                    android:id="@+id/key_value_value"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:maxLines="1"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                android:layout_below="@+id/label_value_value"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingRight="@dimen/variable_button_spacing" />
 
             <ch.rmy.android.http_shortcuts.variables.VariableButton
                 android:id="@+id/variable_button_value"
                 style="@style/VariableButton"
+                android:layout_below="@+id/label_value_value"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"/>
+                android:layout_alignParentRight="true" />
         </RelativeLayout>
     </LinearLayout>
 

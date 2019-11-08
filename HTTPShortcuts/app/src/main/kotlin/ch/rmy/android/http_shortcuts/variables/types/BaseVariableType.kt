@@ -3,7 +3,7 @@ package ch.rmy.android.http_shortcuts.variables.types
 import android.content.Context
 import androidx.fragment.app.FragmentManager
 import ch.rmy.android.http_shortcuts.data.models.Variable
-import ch.rmy.android.http_shortcuts.dialogs.MenuDialogBuilder
+import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.cancel
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import io.reactivex.SingleEmitter
@@ -26,7 +26,7 @@ abstract class BaseVariableType {
     companion object {
 
         internal fun createDialogBuilder(context: Context, variable: Variable, emitter: SingleEmitter<String>) =
-            MenuDialogBuilder(context)
+            DialogBuilder(context)
                 .mapIf(!variable.title.isNullOrEmpty()) {
                     it.title(variable.title)
                 }

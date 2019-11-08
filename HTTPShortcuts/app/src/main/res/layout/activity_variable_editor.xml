@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:ls="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".activities.variables.VariableEditorActivity">
 
-    <include layout="@layout/toolbar_layout"/>
+    <include layout="@layout/toolbar_layout" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -21,78 +20,84 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:orientation="vertical"
-            android:paddingBottom="10dp"
             android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+            android:paddingRight="16dp"
+            android:paddingBottom="10dp">
 
             <TextView
                 style="@style/SubHeader"
-                android:text="@string/section_basic_variable_settings"/>
+                android:text="@string/section_basic_variable_settings" />
 
-            <com.google.android.material.textfield.TextInputLayout
+            <TextView
+                style="@style/Label"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:text="@string/label_variable_key" />
 
-                <EditText
-                    android:id="@+id/input_variable_key"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/label_variable_key"
-                    android:inputType="textNoSuggestions"
-                    android:maxLength="30"
-                    android:maxLines="1">
+            <EditText
+                android:id="@+id/input_variable_key"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textNoSuggestions"
+                android:maxLength="30"
+                android:maxLines="1">
 
-                </EditText>
-            </com.google.android.material.textfield.TextInputLayout>
+            </EditText>
 
             <ch.rmy.android.http_shortcuts.views.LabelledSpinner
                 android:id="@+id/input_variable_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                ls:labelText="@string/label_variable_type"/>
+                ls:labelText="@string/label_variable_type" />
 
-            <com.google.android.material.textfield.TextInputLayout
+            <LinearLayout
+                android:id="@+id/dialog_title_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/Label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_variable_title" />
 
                 <EditText
                     android:id="@+id/input_variable_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/label_variable_title"
                     android:inputType="textNoSuggestions"
                     android:maxLength="20"
-                    android:maxLines="1">
+                    android:maxLines="1" />
 
-                </EditText>
-            </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
 
             <FrameLayout
                 android:id="@+id/variable_type_fragment_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <TextView
                 style="@style/SubHeader"
-                android:text="@string/section_advanced_settings"/>
+                android:text="@string/section_advanced_settings" />
 
             <CheckBox
                 android:id="@+id/input_url_encode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_url_encode"/>
+                android:text="@string/label_url_encode" />
 
             <CheckBox
                 android:id="@+id/input_json_encode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_json_encode"/>
+                android:text="@string/label_json_encode" />
 
             <CheckBox
                 android:id="@+id/input_allow_share"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_allow_share_into"/>
+                android:text="@string/label_allow_share_into" />
 
         </LinearLayout>
 

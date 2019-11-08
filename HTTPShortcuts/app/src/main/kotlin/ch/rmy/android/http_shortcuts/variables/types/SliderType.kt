@@ -8,7 +8,6 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.Commons
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.mapIf
-import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.utils.SimpleOnSeekBarChangeListener
 import io.reactivex.Single
 
@@ -42,16 +41,14 @@ internal class SliderType : BaseVariableType(), AsyncVariableType {
             label.text = findValue(slider, variable)
 
             BaseVariableType.createDialogBuilder(context, variable, emitter)
-                .toDialogBuilder()
-                .customView(view, true)
-                .positiveText(R.string.dialog_ok)
-                .negativeText(R.string.dialog_cancel)
-                .onPositive { _, _ ->
+                .view(view)
+                .positive(R.string.dialog_ok) {
                     if (variable.isValid) {
                         val value = findValue(slider, variable)
                         emitter.onSuccess(value)
                     }
                 }
+                .negative(R.string.dialog_cancel)
                 .showIfPossible()
         }
             .mapIf(variable.rememberValue) {

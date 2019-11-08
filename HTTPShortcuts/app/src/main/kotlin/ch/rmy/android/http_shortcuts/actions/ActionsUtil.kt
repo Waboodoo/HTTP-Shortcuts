@@ -4,11 +4,8 @@ import android.content.Context
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.Spanned
-import android.text.style.ClickableSpan
-import android.view.View
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.actions.types.ActionFactory
-import ch.rmy.android.http_shortcuts.actions.types.BaseAction
 import ch.rmy.android.http_shortcuts.extensions.color
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import java.util.*
@@ -25,7 +22,7 @@ object ActionsUtil {
         "_runAction(\"${actionDTO.type}\", ${GsonUtil.toJson(actionDTO.data)}); /* built-in */"
 
 
-    fun addSpans(context: Context, script: CharSequence, actionFactory: ActionFactory, editor: (BaseAction, (ActionDTO) -> Unit) -> Unit): Spannable {
+    fun addSpans(context: Context, script: CharSequence, actionFactory: ActionFactory): Spannable {
         val color = color(context, R.color.action)
 
         val builder = SpannableStringBuilder(script)
@@ -54,16 +51,6 @@ object ActionsUtil {
             val span = ActionSpan(color, actionDTO)
             builder.replace(replacement.startIndex, replacement.endIndex, placeholderText)
             builder.setSpan(span, replacement.startIndex, replacement.startIndex + placeholderText.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-
-            val clickableSpan = object : ClickableSpan() {
-                override fun onClick(widget: View) {
-                    editor.invoke(action) {
-                        span.actionDTO = it
-                    }
-                }
-            }
-
-            builder.setSpan(clickableSpan, replacement.startIndex, replacement.startIndex + placeholderText.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
         return builder
     }
