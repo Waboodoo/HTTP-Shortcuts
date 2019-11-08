@@ -275,7 +275,7 @@ class ExecuteActivity : BaseActivity() {
     }
 
     private fun executeShortcut(variableManager: VariableManager): Single<ShortcutResponse> =
-        HttpRequester.executeShortcut(context, shortcut, variableManager.getVariableValuesByIds())
+        HttpRequester.executeShortcut(context, shortcut, variableManager)
             .doOnSuccess { response ->
                 setLastResponse(response)
                 if (shortcut.isFeedbackErrorsOnly()) {
