@@ -51,6 +51,9 @@ class Settings(context: Context) {
         get() = preferences.getString(KEY_THEME, THEME_BLUE)!!
         set(theme) = preferences.edit().putString(KEY_THEME, theme).apply()
 
+    val darkThemeSetting: String
+        get() = preferences.getString(KEY_DARK_THEME, DARK_THEME_AUTO)!!
+
     companion object {
 
         const val CLICK_BEHAVIOR_RUN = "run"
@@ -65,6 +68,10 @@ class Settings(context: Context) {
         const val THEME_PURPLE = "purple"
         const val THEME_INDIGO = "indigo"
 
+        const val DARK_THEME_ON = "on"
+        const val DARK_THEME_OFF = "off"
+        const val DARK_THEME_AUTO = "auto"
+
         private const val KEY_CLICK_BEHAVIOR = "click_behavior"
         private const val KEY_CRASH_REPORTING = "crash_reporting"
         private const val KEY_IMPORT_EXPORT_DIR = "import_export_dir"
@@ -74,6 +81,7 @@ class Settings(context: Context) {
         private const val KEY_NETWORK_RESTRICTION_PERMANENTLY_HIDDEN = "network_restriction_permanently_hidden"
         private const val KEY_THEME = "theme"
         private const val KEY_VARIABLE_INTRO_SHOWN = "variable_intro_shown"
+        private const val KEY_DARK_THEME = "dark_theme"
 
     }
 

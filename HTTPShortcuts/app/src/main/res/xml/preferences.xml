@@ -21,6 +21,15 @@
             app:persistent="true"
             app:title="@string/settings_theme"/>
 
+        <ListPreference
+            app:defaultValue="auto"
+            app:entries="@array/dark_theme_options"
+            app:entryValues="@array/dark_theme_options_values"
+            app:icon="@drawable/ic_dark_theme"
+            app:key="dark_theme"
+            app:persistent="true"
+            app:title="@string/settings_dark_theme"/>
+
         <Preference
             app:icon="@drawable/ic_lock_black"
             app:key="lock_settings"

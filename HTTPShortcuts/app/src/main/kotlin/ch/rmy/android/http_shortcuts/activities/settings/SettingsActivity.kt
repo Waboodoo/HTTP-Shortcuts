@@ -32,6 +32,7 @@ import ch.rmy.android.http_shortcuts.import_export.Exporter
 import ch.rmy.android.http_shortcuts.import_export.Importer
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.CrashReporting
+import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
@@ -73,12 +74,12 @@ class SettingsActivity : BaseActivity() {
             initListPreference("click_behavior")
 
             initListPreference("theme") {
-                val returnIntent = Intent().apply {
-                    putExtra(EXTRA_THEME_CHANGED, true)
-                }
-                activity!!.setResult(Activity.RESULT_OK, returnIntent)
-                activity!!.finish()
-                activity!!.overridePendingTransition(0, 0)
+                restartToApplyThemeChanges()
+            }
+
+            initListPreference("dark_theme") { newSetting ->
+                DarkThemeHelper.applyDarkThemeSettings(newSetting as String)
+                restartToApplyThemeChanges()
             }
 
             initPreference("lock_settings") {
@@ -136,6 +137,15 @@ class SettingsActivity : BaseActivity() {
             initPreference("licenses") {
                 showLicenses()
             }
+        }
+
+        private fun restartToApplyThemeChanges() {
+            val returnIntent = Intent().apply {
+                putExtra(EXTRA_THEME_CHANGED, true)
+            }
+            activity!!.setResult(Activity.RESULT_OK, returnIntent)
+            activity!!.finish()
+            activity!!.overridePendingTransition(0, 0)
         }
 
         private val versionName: String

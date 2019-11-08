@@ -27,8 +27,8 @@
         <item>@string/theme_purple</item>
         <item>@string/theme_red</item>
         <item>@string/theme_orange</item>
-
     </string-array>
+
     <string-array name="themes_values" translatable="false">
         <item>blue</item>
         <item>indigo</item>
@@ -37,5 +37,17 @@
         <item>purple</item>
         <item>red</item>
         <item>orange</item>
+    </string-array>
+
+    <string-array name="dark_theme_options" translatable="false">
+        <item>@string/settings_dark_theme_options_on</item>
+        <item>@string/settings_dark_theme_options_off</item>
+        <item>@string/settings_dark_theme_options_auto</item>
+    </string-array>
+
+    <string-array name="dark_theme_options_values" translatable="false">
+        <item>on</item>
+        <item>off</item>
+        <item>auto</item>
     </string-array>
 </resources>

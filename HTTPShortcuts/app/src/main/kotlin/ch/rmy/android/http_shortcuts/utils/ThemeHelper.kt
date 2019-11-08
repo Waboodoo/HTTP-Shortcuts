@@ -8,11 +8,13 @@ import ch.rmy.android.http_shortcuts.extensions.isDarkThemeEnabled
 
 class ThemeHelper(context: Context) {
 
-    val isDarkThemeEnabled: Boolean = context.isDarkThemeEnabled()
+    val isDarkThemeEnabled: Boolean
     val theme: Int
     val statusBarColor: Int
 
     init {
+        isDarkThemeEnabled = context.isDarkThemeEnabled()
+
         val themeId = Settings(context).theme
         theme = when (themeId) {
             Settings.THEME_GREEN -> R.style.LightThemeAlt1
