@@ -36,6 +36,7 @@ import ch.rmy.android.http_shortcuts.utils.DateUtil
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
+import ch.rmy.android.http_shortcuts.utils.NetworkUtil
 import ch.rmy.android.http_shortcuts.utils.Validation
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
@@ -158,6 +159,7 @@ class ExecuteActivity : BaseActivity() {
             && shortcut.codeOnPrepare.isEmpty()
             && shortcut.codeOnSuccess.isEmpty()
             && shortcut.codeOnFailure.isEmpty()
+            && !NetworkUtil.isNetworkPerformanceRestricted(context)
 
     private fun promptForConfirmation(): Completable =
         Completable.create { emitter ->
