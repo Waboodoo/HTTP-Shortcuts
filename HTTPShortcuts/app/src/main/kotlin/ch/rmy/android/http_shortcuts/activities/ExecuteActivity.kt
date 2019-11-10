@@ -41,8 +41,8 @@ import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.android.http_shortcuts.views.ResponseWebView
+import ch.rmy.android.http_shortcuts.views.SyntaxHighlightView
 import com.android.volley.VolleyError
-import com.github.chen0040.androidcodeview.SourceCodeView
 import fr.castorflex.android.circularprogressbar.CircularProgressBar
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -74,7 +74,7 @@ class ExecuteActivity : BaseActivity() {
 
     private val responseText: TextView by bindView(R.id.response_text)
     private val responseTextContainer: View by bindView(R.id.response_text_container)
-    private val formattedResponseText: SourceCodeView by bindView(R.id.formatted_response_text)
+    private val formattedResponseText: SyntaxHighlightView by bindView(R.id.formatted_response_text)
     private val responseWebView: ResponseWebView by bindView(R.id.response_web_view)
     private val progressSpinner: CircularProgressBar by bindView(R.id.progress_spinner)
 
@@ -410,6 +410,10 @@ class ExecuteActivity : BaseActivity() {
                     }
                     ShortcutResponse.TYPE_XML -> {
                         formattedResponseText.setCode(output, "xml")
+                        formattedResponseText.visible = true
+                    }
+                    ShortcutResponse.TYPE_YAML, ShortcutResponse.TYPE_YAML_ALT -> {
+                        formattedResponseText.setCode(output, "yaml")
                         formattedResponseText.visible = true
                     }
                     else -> {

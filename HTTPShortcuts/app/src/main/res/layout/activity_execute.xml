@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <com.github.chen0040.androidcodeview.SourceCodeView
+        <ch.rmy.android.http_shortcuts.views.SyntaxHighlightView
             android:id="@+id/formatted_response_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

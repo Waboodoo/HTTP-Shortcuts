@@ -79,7 +79,6 @@ dependencies {
     implementation 'com.satsuware.lib:usefulviews:2.3.1'
     implementation 'com.github.castorflex.smoothprogressbar:library:1.1.0'
     implementation 'com.github.castorflex.smoothprogressbar:library-circular:1.1.0'
-    implementation 'com.github.chen0040:android-code-view:1.0.4'
 
     /* Dialogs / Activities */
     implementation('com.afollestad.material-dialogs:core:3.1.1') {

@@ -68,6 +68,8 @@ class ShortcutResponse internal constructor(val url: String?, val headers: Map<S
         const val TYPE_XML = "text/xml"
         const val TYPE_JSON = "application/json"
         const val TYPE_HTML = "text/html"
+        const val TYPE_YAML = "text/yaml"
+        const val TYPE_YAML_ALT = "application/x-yaml"
 
         private const val GZIP_BUFFER_SIZE = 16384
 
