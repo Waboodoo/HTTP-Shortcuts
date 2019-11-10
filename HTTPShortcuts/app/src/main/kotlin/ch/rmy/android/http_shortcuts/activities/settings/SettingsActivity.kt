@@ -157,7 +157,7 @@ class SettingsActivity : BaseActivity() {
 
         private fun initPreference(key: String, action: () -> Unit = {}): Preference {
             val preference = findPreference<Preference>(key)!!
-            preference.applyTheme(themeHelper)
+            preference.applyTheme()
             preference.onPreferenceClickListener = Preference.OnPreferenceClickListener {
                 action()
                 true
@@ -167,7 +167,7 @@ class SettingsActivity : BaseActivity() {
 
         private fun initListPreference(key: String, action: (newValue: Any) -> Unit = {}): ListPreference {
             val preference = findPreference<ListPreference>(key)!!
-            preference.applyTheme(themeHelper)
+            preference.applyTheme()
             preference.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, newValue ->
                 updateSummary(preference, newValue)
                 action(newValue)
@@ -178,11 +178,9 @@ class SettingsActivity : BaseActivity() {
         }
 
         private fun updateSummary(preference: ListPreference, value: Any?) {
-            var index = preference.findIndexOfValue((value ?: preference.value) as String?)
-            if (index == -1) {
-                index = 0
-            }
-            preference.summary = preference.entries[index]
+            val index = preference.findIndexOfValue((value ?: preference.value) as String?)
+                .takeUnless { it == -1 }
+            preference.summary = preference.entries[index ?: 0]
         }
 
         private fun showAppLockDialog() {

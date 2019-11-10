@@ -11,6 +11,7 @@ import ch.rmy.android.http_shortcuts.activities.BaseViewHolder
 import ch.rmy.android.http_shortcuts.data.livedata.ListLiveData
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.extensions.dimen
 import ch.rmy.android.http_shortcuts.icons.IconView
 import ch.rmy.android.http_shortcuts.utils.IconUtil
@@ -60,10 +61,11 @@ class CategoryAdapter(context: Context, categories: ListLiveData<Category>) : Ba
         }
 
         private fun updateLayoutTypeIcon(layoutType: String) {
-            when (layoutType) {
-                Category.LAYOUT_GRID -> layoutTypeIcon.setImageResource(R.drawable.ic_grid)
-                else -> layoutTypeIcon.setImageResource(R.drawable.ic_list)
-            }
+            layoutTypeIcon.setImageResource(when (layoutType) {
+                Category.LAYOUT_GRID -> R.drawable.ic_grid
+                else -> R.drawable.ic_list
+            })
+            layoutTypeIcon.applyTheme()
         }
 
     }

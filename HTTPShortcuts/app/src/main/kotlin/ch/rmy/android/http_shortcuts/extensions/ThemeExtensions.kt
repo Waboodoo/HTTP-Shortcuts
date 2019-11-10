@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.extensions
 
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.widget.ImageView
 import androidx.preference.Preference
 import ch.rmy.android.http_shortcuts.utils.ThemeHelper
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -18,8 +19,14 @@ fun FloatingActionButton.applyTheme(themeHelper: ThemeHelper) {
     backgroundTintList = ColorStateList.valueOf(themeHelper.getPrimaryColor(context))
 }
 
-fun Preference.applyTheme(themeHelper: ThemeHelper) {
-    if (themeHelper.isDarkThemeEnabled) {
+fun Preference.applyTheme() {
+    if (context.isDarkThemeEnabled()) {
         icon?.setTint(Color.WHITE)
+    }
+}
+
+fun ImageView.applyTheme() {
+    if (context.isDarkThemeEnabled()) {
+        drawable.setTint(Color.WHITE)
     }
 }
