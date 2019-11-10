@@ -16,6 +16,7 @@ class LicensesActivity : BaseActivity() {
         val fragmentManager = supportFragmentManager
         fragmentManager.findFragmentById(R.id.fragment_host) ?: run {
             LibsBuilder()
+                .withAboutIconShown(false)
                 .withAutoDetect(false)
                 .withLibraries(*LIBRARIES)
                 .withLicenseShown(true)
@@ -45,7 +46,7 @@ class LicensesActivity : BaseActivity() {
             "filepicker",
             "rxjava",
             "vintagechroma",
-            "codeviewandroid",
+            "highlightjs",
             "stetho",
             "okhttpdigest",
             "liquidcore"

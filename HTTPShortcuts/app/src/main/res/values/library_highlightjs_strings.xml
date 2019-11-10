@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="define_int_Highlightjs" translatable="false">year;owner</string>
+    <string name="library_Highlightjs_libraryName" translatable="false">highlight.js</string>
+    <string name="library_Highlightjs_libraryDescription" translatable="false">Syntax highlighting for JSON and XML.</string>
+    <string name="library_Highlightjs_libraryWebsite" translatable="false">https://highlightjs.org/</string>
+    <string name="library_Highlightjs_licenseId" translatable="false">bsd_3</string>
+    <!-- Custom variables section -->
+    <string name="library_Highlightjs_year" translatable="false">2019</string>
+</resources>

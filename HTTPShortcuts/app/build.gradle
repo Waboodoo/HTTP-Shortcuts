@@ -89,9 +89,7 @@ dependencies {
     implementation 'com.nononsenseapps:filepicker:3.1.0'
 
     /* Acknowledgments */
-    implementation('com.mikepenz:aboutlibraries:6.0.0@aar') {
-        transitive = true
-    }
+    implementation 'com.mikepenz:aboutlibraries:7.0.4'
 
     /* Image selection */
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
