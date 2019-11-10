@@ -14,7 +14,7 @@ abstract class DismissableDialog(private val context: Context) : Dialog {
         val completable = CompletableSubject.create()
         val dialog = DialogBuilder(context)
             .positive(R.string.dialog_ok)
-            .message(R.layout.dismissable_dialog)
+            .view(R.layout.dismissable_dialog)
             .cancelable(false)
             .canceledOnTouchOutside(false)
             .dismissListener {
