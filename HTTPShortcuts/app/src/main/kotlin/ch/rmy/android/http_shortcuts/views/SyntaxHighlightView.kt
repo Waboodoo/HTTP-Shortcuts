@@ -19,6 +19,7 @@ class SyntaxHighlightView @JvmOverloads constructor(context: Context, attrs: Att
             <html>
                 <head>
                     <link rel="stylesheet" href="file:///android_asset/highlight/styles/${getStyle()}.css">
+                    <link rel="stylesheet" href="file:///android_asset/highlight/style-override.css">
                     <script src="file:///android_asset/highlight/highlight.pack.js"></script>
                     <script>hljs.initHighlightingOnLoad();</script>
                 </head>

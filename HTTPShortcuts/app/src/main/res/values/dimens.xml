@@ -3,6 +3,7 @@
     <dimen name="spinner_padding_top">6dp</dimen>
     <dimen name="divider_height">0.5dp</dimen>
     <dimen name="js_font_size">14sp</dimen>
+    <dimen name="response_font_size">18sp</dimen>
     <dimen name="small_icon_size">20dp</dimen>
     <dimen name="variable_button_spacing">44dp</dimen>
 </resources>

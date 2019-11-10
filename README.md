@@ -30,7 +30,7 @@ Become a [Beta Tester](https://play.google.com/apps/testing/ch.rmy.android.http_
 - Run arbitrary JavaScript before & after execution, including special actions (e.g., vibrate, show toast, parse and process response…), 
 - Import & Export in JSON or cURL format
 - 3rd party integration (e.g. Tasker)
-- Themes
+- Themes (with Dark Mode support)
 
 
 ## Screenshots
