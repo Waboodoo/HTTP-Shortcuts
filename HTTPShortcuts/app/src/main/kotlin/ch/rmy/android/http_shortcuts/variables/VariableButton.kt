@@ -11,6 +11,7 @@ import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.isDarkThemeEnabled
 import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.mapIf
+import ch.rmy.android.http_shortcuts.extensions.setTintCompat
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
@@ -39,7 +40,7 @@ open class VariableButton : AppCompatImageButton {
         }
 
         if (context.isDarkThemeEnabled()) {
-            drawable?.setTint(Color.WHITE)
+            drawable?.setTintCompat(Color.WHITE)
         }
     }
 

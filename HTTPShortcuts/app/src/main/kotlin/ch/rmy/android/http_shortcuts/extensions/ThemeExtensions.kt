@@ -15,18 +15,18 @@ fun TabLayout.applyTheme(themeHelper: ThemeHelper) {
 }
 
 fun FloatingActionButton.applyTheme(themeHelper: ThemeHelper) {
-    drawable?.setTint(Color.WHITE)
+    drawable?.setTintCompat(Color.WHITE)
     backgroundTintList = ColorStateList.valueOf(themeHelper.getPrimaryColor(context))
 }
 
 fun Preference.applyTheme() {
     if (context.isDarkThemeEnabled()) {
-        icon?.setTint(Color.WHITE)
+        icon?.setTintCompat(Color.WHITE)
     }
 }
 
 fun ImageView.applyTheme() {
     if (context.isDarkThemeEnabled()) {
-        drawable.setTint(Color.WHITE)
+        drawable.setTintCompat(Color.WHITE)
     }
 }

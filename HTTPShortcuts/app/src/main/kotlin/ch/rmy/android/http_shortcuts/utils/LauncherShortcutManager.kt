@@ -27,7 +27,7 @@ object LauncherShortcutManager {
     @RequiresApi(Build.VERSION_CODES.N_MR1)
     private fun update(context: Context, categories: Collection<Category>) {
         try {
-            val shortcutManager = context.getSystemService(ShortcutManager::class.java)
+            val shortcutManager = context.getSystemService(ShortcutManager::class.java)!!
             val max = try {
                 shortcutManager.maxShortcutCountPerActivity
             } catch (e: Exception) {
@@ -90,7 +90,7 @@ object LauncherShortcutManager {
 
     fun supportsPinning(context: Context): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val shortcutManager = context.getSystemService(ShortcutManager::class.java)
+            val shortcutManager = context.getSystemService(ShortcutManager::class.java) !!
             if (shortcutManager.isRequestPinShortcutSupported) {
                 return true
             }
@@ -100,7 +100,7 @@ object LauncherShortcutManager {
 
     fun pinShortcut(context: Context, shortcut: Shortcut) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val shortcutManager = context.getSystemService(ShortcutManager::class.java)
+            val shortcutManager = context.getSystemService(ShortcutManager::class.java)!!
             val shortcutInfo = createShortcutInfo(context, shortcut)
             shortcutManager.requestPinShortcut(shortcutInfo, null)
         }
@@ -108,7 +108,7 @@ object LauncherShortcutManager {
 
     fun createShortcutPinIntent(context: Context, shortcut: Shortcut): Intent {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val shortcutManager = context.getSystemService(ShortcutManager::class.java)
+            val shortcutManager = context.getSystemService(ShortcutManager::class.java)!!
             val shortcutInfo = createShortcutInfo(context, shortcut)
             return shortcutManager.createShortcutResultIntent(shortcutInfo)
         }
@@ -117,7 +117,7 @@ object LauncherShortcutManager {
 
     fun updatePinnedShortcut(context: Context, shortcutId: String, shortcutName: String, shortcutIcon: String?) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val shortcutManager = context.getSystemService(ShortcutManager::class.java)
+            val shortcutManager = context.getSystemService(ShortcutManager::class.java)!!
             val shortcutInfo = createShortcutInfo(context, shortcutId, shortcutName, shortcutIcon)
             shortcutManager.updateShortcuts(listOf(shortcutInfo))
         }

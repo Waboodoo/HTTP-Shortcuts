@@ -6,6 +6,7 @@ import android.content.pm.PackageManager.NameNotFoundException
 import android.view.LayoutInflater
 import android.webkit.WebView
 import android.widget.CheckBox
+import androidx.core.content.pm.PackageInfoCompat
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.utils.Settings
 import io.reactivex.Completable
@@ -65,9 +66,10 @@ class ChangeLogDialog(private val context: Context, private val whatsNew: Boolea
 
     private val version: Long
         get() = try {
-            context.packageManager
-                .getPackageInfo(context.packageName, 0)
-                .getLongVersionCode() / 1000000
+            PackageInfoCompat.getLongVersionCode(
+                context.packageManager
+                    .getPackageInfo(context.packageName, 0)
+            ) / 1000000
         } catch (e: NameNotFoundException) {
             0L
         }

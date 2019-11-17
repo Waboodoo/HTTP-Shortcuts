@@ -42,6 +42,7 @@ import com.google.gson.JsonSyntaxException
 import com.nononsenseapps.filepicker.FilePickerActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import java.io.File
+import java.io.FileNotFoundException
 
 
 class SettingsActivity : BaseActivity() {
@@ -424,12 +425,12 @@ class SettingsActivity : BaseActivity() {
                 }, { e ->
                     if (e is JsonParseException || e is JsonSyntaxException) {
                         showSnackbar(getString(R.string.import_failed_with_reason, getString(R.string.import_failure_reason_invalid_json)), long = true)
-                    } else if (e is IllegalArgumentException) {
+                    } else if (e is IllegalArgumentException || e is FileNotFoundException) {
                         showSnackbar(getString(R.string.import_failed_with_reason, e.message), long = true)
                     } else {
                         showSnackbar(R.string.import_failed)
+                        logException(e)
                     }
-                    logException(e)
                 })
                 .attachTo(destroyer)
         }
