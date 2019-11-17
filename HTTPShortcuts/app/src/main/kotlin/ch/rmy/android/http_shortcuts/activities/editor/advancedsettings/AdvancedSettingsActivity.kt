@@ -88,7 +88,8 @@ class AdvancedSettingsActivity : BaseActivity() {
         val slider = view.findViewById<SeekBar>(R.id.slider)
         val label = view.findViewById<TextView>(R.id.slider_value)
 
-        slider.max = TIMEOUT_MAX - TIMEOUT_MIN
+        slider.min = 0
+        slider.max = TIMEOUT_OPTIONS.lastIndex
 
         slider.setOnSeekBarChangeListener(object : SimpleOnSeekBarChangeListener() {
             override fun onProgressChanged(slider: SeekBar, progress: Int, fromUser: Boolean) {
@@ -113,13 +114,36 @@ class AdvancedSettingsActivity : BaseActivity() {
 
     companion object {
 
-        private const val TIMEOUT_MIN = 1
+        private val TIMEOUT_OPTIONS = arrayOf(
+            500,
+            1000,
+            2000,
+            3000,
+            5000,
+            8000,
+            10000,
+            15000,
+            20000,
+            25000,
+            30000,
+            45000,
+            60000,
+            90000,
+            120000,
+            180000,
+            300000,
+            450000,
+            600000
+        )
 
-        private const val TIMEOUT_MAX = 10 * 60
 
-        private fun timeoutToProgress(timeout: Int) = (timeout / 1000) - TIMEOUT_MIN
+        private fun timeoutToProgress(timeout: Int) = TIMEOUT_OPTIONS.indexOfFirst {
+            it >= timeout
+        }
+            .takeUnless { it == -1 }
+            ?: TIMEOUT_OPTIONS.lastIndex
 
-        private fun progressToTimeout(progress: Int) = (progress + TIMEOUT_MIN) * 1000
+        private fun progressToTimeout(progress: Int) = TIMEOUT_OPTIONS[progress]
 
     }
 

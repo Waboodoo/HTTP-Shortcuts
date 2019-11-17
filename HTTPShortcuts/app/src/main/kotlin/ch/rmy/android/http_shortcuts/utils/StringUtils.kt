@@ -6,6 +6,13 @@ import ch.rmy.android.http_shortcuts.R
 object StringUtils {
 
     fun getDurationText(context: Context, durationInMilliseconds: Int): CharSequence {
+        if (durationInMilliseconds < 1000) {
+            return context.resources.getQuantityString(
+                R.plurals.milliseconds,
+                durationInMilliseconds,
+                durationInMilliseconds
+            )
+        }
         val durationInSeconds = durationInMilliseconds / 1000
         val minutes = durationInSeconds / 60
         val seconds = durationInSeconds % 60

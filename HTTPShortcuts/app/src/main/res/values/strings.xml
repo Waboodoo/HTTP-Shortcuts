@@ -198,6 +198,11 @@
         <item quantity="one">%d second</item>
         <item quantity="other">%d seconds</item>
     </plurals>
+    <!-- Used in various places to indicate a number of milliseconds, e.g. for a delay. %s is a placeholder for the actual number. -->
+    <plurals name="milliseconds">
+        <item quantity="one">%d millisecond</item>
+        <item quantity="other">%d milliseconds</item>
+    </plurals>
     <!-- Used in various places to indicate a number of minutes, e.g. for a delay. %s is a placeholder for the actual number. -->
     <plurals name="minutes">
         <item quantity="one">%d minute</item>
