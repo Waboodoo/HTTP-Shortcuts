@@ -6,7 +6,7 @@
  Locale: de, German
  Status: Translated
  Exported by: Roland Meyer
- Exported at: Fri, 08 Nov 2019 14:25:39 +0100
+ Exported at: Sun, 17 Nov 2019 12:19:51 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- The name of the app -->
@@ -597,4 +597,9 @@
     <string name="settings_dark_theme_options_auto">System-Einstellungen verwenden</string>
     <!-- Title of dark mode theme settings (which allows user to pick how/when the app should use dark mode) -->
     <string name="settings_dark_theme">Dark-Mode</string>
+    <plurals name="milliseconds">
+        <!-- Used in various places to indicate a number of milliseconds, e.g. for a delay. %s is a placeholder for the actual number. -->
+        <item quantity="one">%d Millisekunde</item>
+        <item quantity="other">%d Millisekunden</item>
+    </plurals>
 </resources>
