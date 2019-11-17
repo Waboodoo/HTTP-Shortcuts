@@ -27,11 +27,16 @@ abstract class BaseActivity : AppCompatActivity() {
         ThemeHelper(context)
     }
 
+    open val initializeWithTheme: Boolean
+        get() = true
+
     val baseView: ViewGroup?
         get() = (findViewById<ViewGroup>(android.R.id.content))?.getChildAt(0) as ViewGroup?
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(themeHelper.theme)
+        if (initializeWithTheme) {
+            setTheme(themeHelper.theme)
+        }
         super.onCreate(savedInstanceState)
         RealmFactory.init(applicationContext)
     }

@@ -88,7 +88,6 @@ class AdvancedSettingsActivity : BaseActivity() {
         val slider = view.findViewById<SeekBar>(R.id.slider)
         val label = view.findViewById<TextView>(R.id.slider_value)
 
-        slider.min = 0
         slider.max = TIMEOUT_OPTIONS.lastIndex
 
         slider.setOnSeekBarChangeListener(object : SimpleOnSeekBarChangeListener() {

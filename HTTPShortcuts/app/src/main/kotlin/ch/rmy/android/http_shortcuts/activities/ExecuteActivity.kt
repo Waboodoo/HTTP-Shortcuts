@@ -56,6 +56,9 @@ import kotlin.math.pow
 
 class ExecuteActivity : BaseActivity() {
 
+    override val initializeWithTheme: Boolean
+        get() = false
+
     private val controller by lazy {
         destroyer.own(Controller())
     }
@@ -116,6 +119,7 @@ class ExecuteActivity : BaseActivity() {
             title = shortcutName
             destroyer.own(::hideProgress)
             if (shortcut.isFeedbackInWindow) {
+                setTheme(themeHelper.theme)
                 setContentView(R.layout.activity_execute)
             }
         }
