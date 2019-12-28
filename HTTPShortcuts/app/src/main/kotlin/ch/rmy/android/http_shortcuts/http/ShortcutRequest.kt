@@ -20,7 +20,7 @@ internal class ShortcutRequest private constructor(
     private val parameters = mutableMapOf<String, String>()
     private val headers = mutableMapOf<String, String>()
     private var bodyContent: String? = null
-    private var contentType: String = "text/plain"
+    private var contentType: String? = null
 
     init {
         headers[HttpHeaders.CONNECTION] = "close"
@@ -29,15 +29,15 @@ internal class ShortcutRequest private constructor(
 
     @Throws(AuthFailureError::class)
     override fun getBody(): ByteArray? = when {
-        contentType.startsWith("multipart/form-data") -> constructFormDataBody().toByteArray()
-        contentType.startsWith("application/x-www-form-urlencoded") -> super.getBody() ?: ByteArray(0)
+        contentType?.startsWith("multipart/form-data") == true -> constructFormDataBody().toByteArray()
+        contentType?.startsWith("application/x-www-form-urlencoded") == true -> super.getBody() ?: ByteArray(0)
         else -> (bodyContent ?: "").toByteArray()
     }
 
     @Throws(AuthFailureError::class)
     override fun getHeaders(): Map<String, String> = headers
 
-    override fun getBodyContentType(): String = contentType
+    override fun getBodyContentType(): String = contentType ?: DEFAULT_CONTENT_TYPE
 
     public override fun getParams() = parameters
 
@@ -98,9 +98,8 @@ internal class ShortcutRequest private constructor(
         fun header(key: String, value: String) = also {
             if (key.equals(HttpHeaders.CONTENT_TYPE, ignoreCase = true)) {
                 request.contentType = value
-            } else {
-                request.headers[key] = value
             }
+            request.headers[key] = value
         }
 
         fun timeout(timeout: Int) = also {
@@ -114,6 +113,7 @@ internal class ShortcutRequest private constructor(
     companion object {
 
         const val FORM_MULTIPART_BOUNDARY = "----53014704754052338"
+        private const val DEFAULT_CONTENT_TYPE = "text/plain"
 
     }
 

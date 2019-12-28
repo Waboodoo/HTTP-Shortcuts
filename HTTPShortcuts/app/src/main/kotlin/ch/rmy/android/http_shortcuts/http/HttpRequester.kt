@@ -34,7 +34,9 @@ object HttpRequester {
                 .mapIf(detachedShortcut.usesCustomBody()) {
                     it.body(body)
                 }
-                .contentType(determineContentType(detachedShortcut))
+                .mapIf(detachedShortcut.allowsBody()) {
+                    it.contentType(determineContentType(detachedShortcut))
+                }
                 .timeout(detachedShortcut.timeout)
                 .mapIf(detachedShortcut.usesBasicAuthentication()) {
                     it.basicAuth(username, password)
