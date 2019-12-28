@@ -43,14 +43,27 @@ class ValidationTest {
 
     @Test
     fun testVariableSchemeAcceptable() {
-        assertThat(isAcceptableUrl("{{scheme}}://example.com"), equalTo(true))
-        assertThat(isAcceptableUrl("{{scheme2}}example.com"), equalTo(true))
-        assertThat(isAcceptableUrl("http{{scheme3}}://example.com"), equalTo(true))
+        assertThat(isAcceptableUrl("{{12a21268-84a3-4e79-b7cd-51b87fc49eb7}}://example.com"), equalTo(true))
+        assertThat(isAcceptableUrl("{{12a21268-84a3-4e79-b7cd-51b87fc49eb7}}example.com"), equalTo(true))
+        assertThat(isAcceptableUrl("http{{12a21268-84a3-4e79-b7cd-51b87fc49eb7}}://example.com"), equalTo(true))
+
+        assertThat(isAcceptableUrl("{{42}}://example.com"), equalTo(true))
+        assertThat(isAcceptableUrl("{{42}}example.com"), equalTo(true))
+        assertThat(isAcceptableUrl("http{{42}}://example.com"), equalTo(true))
+    }
+
+    @Test
+    fun testVariableOnlyUrlAcceptable() {
+        assertThat(isAcceptableUrl("{{12a21268-84a3-4e79-b7cd-51b87fc49eb7}}"), equalTo(true))
+
+        assertThat(isAcceptableUrl("{{42}}"), equalTo(true))
     }
 
     @Test
     fun testPartialVariableSchemeAcceptable() {
-        assertThat(isAcceptableUrl("http{{useHttps}}://example.com"), equalTo(true))
+        assertThat(isAcceptableUrl("http{{12a21268-84a3-4e79-b7cd-51b87fc49eb7}}://example.com"), equalTo(true))
+
+        assertThat(isAcceptableUrl("http{{42}}://example.com"), equalTo(true))
     }
 
     @Test
