@@ -15,15 +15,16 @@ import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.curlcommand.CurlParser
 import kotterknife.bindView
-import kotlin.properties.Delegates
 
 class CurlImportActivity : BaseActivity() {
 
-    private var commandEmpty by Delegates.observable(true) { _, old, new ->
-        if (old != new) {
-            invalidateOptionsMenu()
+    private var commandEmpty = true
+        set(value) {
+            if (field != value) {
+                field = value
+                invalidateOptionsMenu()
+            }
         }
-    }
 
     private val curlCommand: EditText by bindView(R.id.curl_import_command)
 
@@ -40,7 +41,7 @@ class CurlImportActivity : BaseActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.curl_import_activity_menu, menu)
-        menu.findItem(R.id.action_create_from_curl).isVisible = curlCommand.text.isNotEmpty()
+        menu.findItem(R.id.action_create_from_curl).isVisible = !commandEmpty
         return super.onCreateOptionsMenu(menu)
     }
 

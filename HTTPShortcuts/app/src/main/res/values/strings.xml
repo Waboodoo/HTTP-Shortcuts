@@ -419,10 +419,6 @@
     <string name="error_slider_step_size_must_be_positive">The step size must be a positive number.</string>
     <!-- Button text: Set image as icon (after selecting and editing) -->
     <string name="button_apply_icon">Apply icon</string>
-    <!-- Button text: translate app (prompt to help & become a translator) -->
-    <string name="settings_help_translate">Translate App</string>
-    <!-- Summary/subtitle of section in settings that prompts user to help translate the app -->
-    <string name="settings_help_translate_summary">Help me make this app better!</string>
     <!-- Blurb/short description of plugin action (for Tasker integration), where %1$s is a placeholder for the shortcut name. -->
     <string name="plugin_blurb_execute_task">Execute shortcut \"%1$s\"</string>
     <!-- Label of dropdown to select the request body type in shortcut editor -->

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Button text: translate app (prompt to help & become a translator) -->
+    <string name="settings_help_translate" translatable="false">Translate App</string>
+    <!-- Summary/subtitle of section in settings that prompts user to help translate the app -->
+    <string name="settings_help_translate_summary" translatable="false">Help me make this app better!</string>
+    <string name="title_translate" translatable="false">Translate App</string>
+    <string name="developer_email_address" translatable="false">android@rmy.ch</string>
+    <string name="email_subject_contact" translatable="false">HTTP Shortcuts</string>
+    <string name="email_text_contact" translatable="false">Hey Roland,\n\n</string>
+    <string name="label_translate_target_language" translatable="false">Language (required)</string>
+    <string name="label_translate_github_profile" translatable="false">Github Profile (optional)</string>
+    <string name="translate_instructions" translatable="false">If you would like to help me translate this app into your language, please send me an email using the form below. Please provide your Github profile if you would like to be credited.\n\nThank you for your help in making this app better.</string>
+    <string name="email_subject_translate" translatable="false">Translate HTTP Shortcuts</string>
+    <string name="email_text_translate" translatable="false">Hey Roland,\n\nI would like to help translate your app into \"%1$s\". Please give me access to the translation tool.</string>
+    <string name="email_text_translate_github_optional" translatable="false">\n\nMy Github username is \"%1$s\", and I would like to be credited as a contributor.</string>
+</resources>

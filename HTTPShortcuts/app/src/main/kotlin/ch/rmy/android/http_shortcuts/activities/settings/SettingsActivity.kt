@@ -25,6 +25,7 @@ import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.http_shortcuts.extensions.sendMail
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
@@ -296,23 +297,12 @@ class SettingsActivity : BaseActivity() {
         }
 
         private fun contactDeveloper() {
-            sendMail(CONTACT_SUBJECT, CONTACT_TEXT, getString(R.string.settings_mail))
-        }
-
-        private fun sendMail(subject: String, text: String, title: String) {
-            try {
-                Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:$DEVELOPER_EMAIL"))
-                    .putExtra(Intent.EXTRA_EMAIL, arrayOf(DEVELOPER_EMAIL))
-                    .putExtra(Intent.EXTRA_SUBJECT, subject)
-                    .putExtra(Intent.EXTRA_TEXT, text)
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    .let {
-                        Intent.createChooser(it, title)
-                    }
-                    .startActivity(this)
-            } catch (e: ActivityNotFoundException) {
-                activity!!.showToast(R.string.error_not_supported)
-            }
+            activity!!.sendMail(
+                getString(R.string.developer_email_address),
+                getString(R.string.email_subject_contact),
+                getString(R.string.email_text_contact),
+                getString(R.string.settings_mail)
+            )
         }
 
         private fun openFAQPage() {
@@ -337,7 +327,9 @@ class SettingsActivity : BaseActivity() {
         }
 
         private fun helpTranslate() {
-            sendMail(TRANSLATE_SUBJECT, TRANSLATE_TEXT, getString(R.string.settings_help_translate))
+            TranslateActivity.IntentBuilder(context!!)
+                .build()
+                .startActivity(this)
         }
 
         private fun showLicenses() {
@@ -457,11 +449,6 @@ class SettingsActivity : BaseActivity() {
         const val EXTRA_THEME_CHANGED = "theme_changed"
         const val EXTRA_APP_LOCKED = "app_locked"
 
-        private const val CONTACT_SUBJECT = "HTTP Shortcuts"
-        private const val CONTACT_TEXT = "Hey Roland,\n\n"
-        private const val TRANSLATE_SUBJECT = "Translate HTTP Shortcuts"
-        private const val TRANSLATE_TEXT = "Hey Roland,\n\nI would like to help translate your app into [INSERT LANGUAGE HERE]. Please give me access to the translation tool.\n\nMy Github username is [INSERT GITHUB USERNAME HERE], and I would like to be credited as a contributor"
-        private const val DEVELOPER_EMAIL = "android@rmy.ch"
         private const val FAQ_PAGE_URL = "https://http-shortcuts.rmy.ch/#faq"
         private const val PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts"
         private const val GITHUB_URL = "https://github.com/Waboodoo/HTTP-Shortcuts"
