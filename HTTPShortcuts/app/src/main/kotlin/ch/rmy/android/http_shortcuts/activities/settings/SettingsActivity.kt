@@ -462,7 +462,7 @@ class SettingsActivity : BaseActivity() {
         private const val TRANSLATE_SUBJECT = "Translate HTTP Shortcuts"
         private const val TRANSLATE_TEXT = "Hey Roland,\n\nI would like to help translate your app into [INSERT LANGUAGE HERE]. Please give me access to the translation tool.\n\nMy Github username is [INSERT GITHUB USERNAME HERE], and I would like to be credited as a contributor"
         private const val DEVELOPER_EMAIL = "android@rmy.ch"
-        private const val FAQ_PAGE_URL = "http://waboodoo.ch/http-shortcuts/#faq"
+        private const val FAQ_PAGE_URL = "https://http-shortcuts.rmy.ch/#faq"
         private const val PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts"
         private const val GITHUB_URL = "https://github.com/Waboodoo/HTTP-Shortcuts"
 

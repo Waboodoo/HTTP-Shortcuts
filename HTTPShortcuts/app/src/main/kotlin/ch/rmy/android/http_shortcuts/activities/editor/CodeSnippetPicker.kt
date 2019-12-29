@@ -141,7 +141,7 @@ class CodeSnippetPicker(private val context: Context, private val variablePlaceh
     }
 
     companion object {
-        private const val CODE_HELP_URL = "http://waboodoo.ch/http-shortcuts/#code"
+        private const val CODE_HELP_URL = "https://http-shortcuts.rmy.ch/#code"
     }
 
 }
