@@ -46,7 +46,7 @@ Become a [Beta Tester](https://play.google.com/apps/testing/ch.rmy.android.http_
 
 ## FAQ
 
-Check out the [FAQ](http://waboodoo.ch/http-shortcuts/#faq) page.
+Check out the [FAQ](https://http-shortcuts.rmy.ch/#faq) page.
 
 ## Hints for Experts
 
