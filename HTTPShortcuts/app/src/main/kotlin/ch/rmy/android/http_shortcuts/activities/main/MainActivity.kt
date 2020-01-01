@@ -265,7 +265,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
             .message(if (showError) R.string.dialog_text_unlock_app_retry else R.string.dialog_text_unlock_app)
             .positive(R.string.button_unlock_app)
             .textInput(inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD) { input ->
-                unlockApp(input.toString())
+                unlockApp(input)
             }
             .negative(R.string.dialog_cancel)
             .showIfPossible()

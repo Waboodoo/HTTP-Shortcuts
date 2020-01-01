@@ -16,8 +16,8 @@ internal class NumberType : TextType() {
                     prefill = variable.value?.takeIf { variable.rememberValue } ?: "",
                     inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED
                 ) { input ->
-                    emitter.onSuccess(input.toString())
-                    Commons.setVariableValue(variable.id, input.toString()).subscribe()
+                    emitter.onSuccess(input)
+                    Commons.setVariableValue(variable.id, input).subscribe()
                 }
                 .showIfPossible()
         }

@@ -408,7 +408,7 @@ class ExecuteActivity : BaseActivity() {
                 when (type) {
                     ShortcutResponse.TYPE_HTML -> {
                         responseWebView.visible = true
-                        responseWebView.loadFromString(output, url);
+                        responseWebView.loadFromString(output, url)
                     }
                     ShortcutResponse.TYPE_JSON -> {
                         formattedResponseText.setCode(GsonUtil.prettyPrint(output), "json")

@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.actions.types
 
 import android.content.Context
-import ch.rmy.android.http_shortcuts.actions.ActionDTO
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import com.android.volley.VolleyError
@@ -13,11 +12,6 @@ abstract class BaseAction(
 ) {
 
     protected val internalData = data.toMutableMap()
-
-    fun toDTO() = ActionDTO(
-        type = actionType.type,
-        data = internalData
-    )
 
     open fun perform(context: Context, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Completable {
         performBlocking(context, shortcutId, variableManager, response, volleyError, recursionDepth)

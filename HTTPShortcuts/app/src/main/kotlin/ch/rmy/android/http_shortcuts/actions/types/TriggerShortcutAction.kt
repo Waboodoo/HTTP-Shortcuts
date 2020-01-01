@@ -23,9 +23,6 @@ class TriggerShortcutAction(
             internalData[KEY_SHORTCUT_NAME_OR_ID] = value
         }
 
-    val shortcutName: String?
-        get() = DataSource.getShortcutByNameOrId(shortcutNameOrId)?.name
-
     override fun perform(context: Context, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Completable {
         if (recursionDepth >= MAX_RECURSION_DEPTH) {
             return Completable.fromAction {
@@ -34,12 +31,10 @@ class TriggerShortcutAction(
                 .subscribeOn(AndroidSchedulers.mainThread())
         }
         val shortcut = DataSource.getShortcutByNameOrId(shortcutNameOrId)
-        if (shortcut == null) {
-            return Completable.fromAction {
+            ?: return Completable.fromAction {
                 context.showToast(String.format(context.getString(R.string.error_shortcut_not_found_for_triggering), shortcutNameOrId), long = true)
             }
                 .subscribeOn(AndroidSchedulers.mainThread())
-        }
         return Commons.createPendingExecution(
             shortcutId = shortcut.id,
             tryNumber = 0,

@@ -59,7 +59,6 @@ class CurlCommand private constructor() : Serializable {
     companion object {
 
         const val METHOD_GET = "GET"
-        const val METHOD_POST = "POST"
 
     }
 

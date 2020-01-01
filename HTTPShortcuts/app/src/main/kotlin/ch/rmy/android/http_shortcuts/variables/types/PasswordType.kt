@@ -16,7 +16,7 @@ class PasswordType : TextType() {
                     prefill = variable.value?.takeIf { variable.rememberValue } ?: "",
                     inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
                 ) { input ->
-                    emitter.onSuccess(input.toString())
+                    emitter.onSuccess(input)
                 }
                 .showIfPossible()
         }

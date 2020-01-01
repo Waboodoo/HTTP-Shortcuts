@@ -192,6 +192,7 @@
     </plurals>
     <!-- Message shown in progress dialog while shortcuts are being imported -->
     <string name="import_in_progress">Importing…</string>
+    <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
     <string name="label_timeout">Timeout</string>
     <!-- Used in various places to indicate a number of seconds, e.g. for a delay. %s is a placeholder for the actual number. -->
     <plurals name="seconds">
@@ -216,12 +217,19 @@
     <string name="settings_changelog">Changelog</string>
     <!-- Subtitle/summary of "Changelog" option in settings, showing the current app version number -->
     <string name="settings_changelog_summary">Version %1$s</string>
+    <!-- Button title, for option to contact the app developer (via email) -->
     <string name="settings_mail">Contact Developer</string>
+    <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
     <string name="settings_mail_summary">Questions, feature requests, feedback, …</string>
+    <!-- Button title, for option to open the app's Github page in a browser -->
     <string name="settings_github">View on Github</string>
+    <!-- Button subtitle for "View on Github" button -->
     <string name="settings_github_summary">That\'s right, this app is open-source</string>
+    <!-- Dialog title, for changelog, shown when a new version of the app is released -->
     <string name="changelog_title_whats_new">What\'s new?</string>
+    <!-- Dialog title, for changelog, showing what's new in a release -->
     <string name="changelog_title">Changelog</string>
+    <!-- Checkbox label, shown on Changelog dialog, allowing user to enable that the dialog shows when the app is started -->
     <string name="changelog_checkbox_show_at_startup">Show at startup</string>
     <!-- Message displayed when the shortcut cannot be executed because there is no internet connection. %1$s is a placeholder for the shortcut name. -->
     <string name="execution_delayed">%1$s will execute once a connection to the internet is available.</string>
@@ -299,23 +307,41 @@
     <string name="variable_type_number">Number Input</string>
     <!-- Type of variable: Slider, i.e. a horizontal bar that allows to pick a number by sliding a knob left or right -->
     <string name="variable_type_slider">Number Slider</string>
+    <!-- Type of variable: Password Input, i.e., a dialog that asks user to enter a password -->
     <string name="variable_type_password">Password Input</string>
+    <!-- Type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
     <string name="variable_type_select">Selection</string>
+    <!-- Type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
     <string name="variable_type_toggle">Toggle</string>
+    <!-- Type of variable: Date Input, i.e., a dialog that asks user to pick a date in a calendar -->
     <string name="variable_type_date">Date Input</string>
+    <!-- Type of variable: Time Input, i.e., a dialog that asks user to pick a time in a clock -->
     <string name="variable_type_time">Time Input</string>
+    <!-- Type of variable: Color Input, i.e., a dialog that asks user to pick a color in a color picker -->
     <string name="variable_type_color">Color Input</string>
+    <!-- Error message, information user that the variable name they entered is not valid -->
     <string name="warning_invalid_variable_key">Variable keys may only contain underscores, digits and letters from the English alphabet.</string>
+    <!-- Dialog message, asking user to confirm the deletion of a variable -->
     <string name="confirm_delete_variable_message">Delete this variable?</string>
+    <!-- Message, shown in snackbar, confirming to user that a variable was deleted. %1$s is a placeholder for the variable name -->
     <string name="variable_deleted">\"%1$s\" deleted.</string>
+    <!-- Checkbox label, for option to enable URL encoding of a variable -->
     <string name="label_url_encode">URL encode</string>
+    <!-- Checkbox label, for option to enable JSON encoding of a variable -->
     <string name="label_json_encode">JSON encode</string>
+    <!-- Section title, for section containing basic settings for a shortcut -->
     <string name="section_basic_variable_settings">Basic Settings</string>
+    <!-- Error message, informing user that the entered variable key is empty -->
     <string name="validation_key_non_empty">Variable key must not be empty.</string>
+    <!-- Error message, informing user that the entered variable key already exists -->
     <string name="validation_key_already_exists">Another variable with this key already exists.</string>
+    <!-- Dialog title, to add another value to the list of values in a variable of Toggle type -->
     <string name="title_add_toggle_option">Add Value</string>
+    <!-- Button, to edit an existing value in the list of values in a variable of Toggle type -->
     <string name="title_edit_toggle_option">Edit Value</string>
+    <!-- Button, to add another value to the list of values in a variable of Toggle type -->
     <string name="button_add_toggle_option">Add value</string>
+    <!-- Section title, for section that lists all values of a variable of Toggle type -->
     <string name="section_toggle_options">Toggle Values</string>
     <string name="title_add_select_option">Add Option</string>
     <string name="title_edit_select_option">Edit Option</string>
@@ -323,7 +349,9 @@
     <string name="section_select_options">Selectable Options</string>
     <string name="label_select_label">Label</string>
     <string name="label_select_value">Value</string>
+    <!-- Button, for opening help article page -->
     <string name="button_show_help">Show Help</string>
+    <!-- Page/dialog title, for help article about variables -->
     <string name="help_title_variables">Variables</string>
     <!-- Instructions shown in dialog when user clicks the variables button in the shortcut editor but doesn't have any variables configured yet -->
     <string name="help_text_variable_button">This button allows you to include placeholders for variables, i.e., dynamic values, into your shortcut.\n\nYou don\'t have any variables configured yet. You can do so by clicking the CREATE button below.</string>
@@ -337,37 +365,61 @@
     <string name="button_create_first_variable">Create</string>
     <!-- Title of dialog that allows users to pick a variable from a list to insert its placeholder somewhere -->
     <string name="dialog_title_variable_selection">Variables</string>
-    <!-- Title of dialog that allows users to pick a constant variable from a list to insert its placeholder somewhere -->
-    <string name="dialog_title_variable_selection_constants_only">Variables (Constants Only)</string>
     <!-- Option shown on variable selection dialog, clicking it opens variable editor -->
     <string name="label_edit_variables">Edit variables</string>
+    <!-- Error message, shown in variable editor when the user didn't add enough options -->
     <string name="error_not_enough_toggle_values">Please add at least two values.</string>
+    <!-- Error message, shown in variable editor when the user didn't add enough options -->
     <string name="error_not_enough_select_values">Please add at least one selectable option.</string>
+    <!-- Error message, shown in variable editor when an invalid date format is entered -->
     <string name="error_invalid_date_format">The date format is not valid.</string>
+    <!-- Error message, shown in variable editor when an invalid time format is entered -->
     <string name="error_invalid_time_format">The time format is not valid.</string>
+    <!-- Dialog button, allowing the user to share a text snippet with other apps -->
     <string name="share_button">Share</string>
+    <!-- Title on Share dialog -->
     <string name="share_title">Share…</string>
+    <!-- Message shown in progress dialog while an action is being performed. %1$s is a placeholder for the action, e.g. "Importing", or "Saving" -->
     <string name="progress_dialog_message">%1$s…</string>
+    <!-- Section title, for section in variable editor containing options specific to the variable type -->
     <string name="section_input_options">Input Options</string>
+    <!-- Checkbox value, shown in variable editor, allows to enable a variable to remember its previous value -->
     <string name="label_remember_value">Remember value</string>
+    <!-- Action, allows the user to cancel a pending shortcut execution -->
     <string name="action_cancel_pending">Cancel pending execution</string>
+    <!-- Message, shown in snackbar to confirm when the user cancelled a pending shortcut execution (%1$s is a placeholder for the shortcut name) -->
     <string name="pending_shortcut_execution_cancelled">%1$s cancelled.</string>
+    <!-- Feature label for sharing text into the app, to be used in a specific variable for a configured shortcut -->
     <string name="action_send_to">Send to…</string>
+    <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
     <string name="error_not_suitable_shortcuts">No suitable shortcuts found.\n\nTo use this feature you need to have at least one shortcut that uses a variable that allows \'Share …\'.\n\nSee the documentation in the variable section for more information.</string>
-    <string name="error_sharing_feature_not_available_yet">Sorry, but sharing text files into shortcuts is not yet supported. It will probably be added sometime in the future.\nYou can, however, share text snippets already. See the documentation in the variable section for more information.\n\nThank you for your understanding.</string>
+    <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">Allow \'Share …\'</string>
+    <!-- App color theme option Blue -->
     <string name="theme_blue">Blue</string>
+    <!-- App color theme option Green -->
     <string name="theme_green">Green</string>
+    <!-- App color theme option Red -->
     <string name="theme_red">Red</string>
+    <!-- App color theme option Grey -->
     <string name="theme_grey">Grey</string>
+    <!-- App color theme option Orange -->
     <string name="theme_orange">Orange</string>
+    <!-- App color theme option Purple -->
     <string name="theme_purple">Purple</string>
+    <!-- App color theme option Indigo -->
     <string name="theme_indigo">Indigo</string>
+    <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
     <string name="title_export">Export to…</string>
+    <!-- Dialog option on Export dialog, for exporting by storing in a file on local storage -->
     <string name="button_export_to_filesystem">Local Storage</string>
+    <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
     <string name="button_export_send_to">Other app</string>
+    <!-- Dialog title, for dialog with options allowing user to pick where to import shortcuts from -->
     <string name="title_import">Import from…</string>
+    <!-- Dialog option on Import dialog, for importing shortcuts from a file on local storage -->
     <string name="button_import_from_filesystem">Local Storage</string>
+    <!-- Dialog option on Import dialog, for importing shortcuts from a file picked via the system's document browser -->
     <string name="button_import_from_general">Documents</string>
     <!-- Dialog title when creating a new shortcut, shows options below -->
     <string name="title_create_new_shortcut_options_dialog">Create New Shortcut</string>

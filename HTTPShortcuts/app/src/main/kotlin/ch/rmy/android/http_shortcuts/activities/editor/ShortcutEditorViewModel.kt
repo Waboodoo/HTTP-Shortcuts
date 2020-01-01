@@ -77,7 +77,7 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
 
     fun trySave(): Single<SaveResult> {
         val id = shortcutId ?: newUUID()
-        var name: String = ""
+        var name = ""
         var iconName: String? = null
         val nameOrIconChanged = hasNameOrIconChanges()
         return Transactions.commit { realm ->

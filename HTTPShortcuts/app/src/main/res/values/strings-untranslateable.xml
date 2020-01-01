@@ -14,4 +14,6 @@
     <string name="email_subject_translate" translatable="false">Translate HTTP Shortcuts</string>
     <string name="email_text_translate" translatable="false">Hey Roland,\n\nI would like to help translate your app into \"%1$s\". Please give me access to the translation tool.</string>
     <string name="email_text_translate_github_optional" translatable="false">\n\nMy Github username is \"%1$s\", and I would like to be credited as a contributor.</string>
+    <!-- Error message, for information the user that sharing text files into the app is not supported -->
+    <string name="error_sharing_feature_not_available_yet" translatable="false">Sorry, but sharing text files into shortcuts is not yet supported. It will probably be added sometime in the future.\nYou can, however, share text snippets already. See the documentation in the variable section for more information.\n\nThank you for your understanding.</string>
 </resources>

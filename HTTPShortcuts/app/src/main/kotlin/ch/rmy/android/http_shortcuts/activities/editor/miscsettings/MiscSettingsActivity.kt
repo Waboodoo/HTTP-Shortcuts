@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.widget.CheckBox
 import android.widget.SeekBar
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
@@ -14,6 +15,7 @@ import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.observeChecked
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
+import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.SimpleOnSeekBarChangeListener
 import ch.rmy.android.http_shortcuts.views.PanelButton
 import kotterknife.bindView
@@ -66,6 +68,7 @@ class MiscSettingsActivity : BaseActivity() {
     private fun updateShortcutViews() {
         val shortcut = shortcutData.value ?: return
         requireConfirmationCheckBox.isChecked = shortcut.requireConfirmation
+        launcherShortcutCheckBox.isVisible = LauncherShortcutManager.supportsLauncherShortcuts()
         launcherShortcutCheckBox.isChecked = shortcut.launcherShortcut
         delayView.subtitle = viewModel.getDelaySubtitle(shortcut)
     }

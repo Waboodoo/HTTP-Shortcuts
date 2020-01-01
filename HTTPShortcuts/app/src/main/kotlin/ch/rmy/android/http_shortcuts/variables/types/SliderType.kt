@@ -40,7 +40,7 @@ internal class SliderType : BaseVariableType(), AsyncVariableType {
             })
             label.text = findValue(slider, variable)
 
-            BaseVariableType.createDialogBuilder(context, variable, emitter)
+            createDialogBuilder(context, variable, emitter)
                 .view(view)
                 .positive(R.string.dialog_ok) {
                     if (variable.isValid) {

@@ -14,7 +14,7 @@ open class TextType : BaseVariableType(), AsyncVariableType {
         Single.create<String> { emitter ->
             createDialogBuilder(context, variable, emitter)
                 .textInput(variable.value?.takeIf { variable.rememberValue } ?: "") { input ->
-                    emitter.onSuccess(input.toString())
+                    emitter.onSuccess(input)
                 }
                 .showIfPossible()
         }

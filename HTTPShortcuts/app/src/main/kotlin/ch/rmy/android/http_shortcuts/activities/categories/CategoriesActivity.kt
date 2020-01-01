@@ -70,10 +70,9 @@ class CategoriesActivity : BaseActivity() {
             .textInput(
                 hint = getString(R.string.placeholder_category_name),
                 allowEmpty = false,
-                maxLength = NAME_MAX_LENGTH
-            ) { input ->
-                createCategory(input.toString())
-            }
+                maxLength = NAME_MAX_LENGTH,
+                callback = ::createCategory
+            )
             .showIfPossible()
     }
 
@@ -116,7 +115,7 @@ class CategoriesActivity : BaseActivity() {
                 allowEmpty = false,
                 maxLength = NAME_MAX_LENGTH
             ) { input ->
-                renameCategory(categoryData, input.toString())
+                renameCategory(categoryData, input)
             }
             .showIfPossible()
     }

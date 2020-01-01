@@ -25,21 +25,21 @@ internal object CommandParser {
             previousToken = currentToken
             currentToken = tokenizer.nextToken()
             when (state) {
-                CommandParser.State.SINGLE_QUOTE -> {
+                State.SINGLE_QUOTE -> {
                     if (currentToken == "\'" && previousToken != "\\") {
                         state = State.INIT
                         flush = true
                         continue@loop
                     }
                 }
-                CommandParser.State.DOUBLE_QUOTE -> {
+                State.DOUBLE_QUOTE -> {
                     if (currentToken == "\"" && previousToken != "\\") {
                         state = State.INIT
                         flush = true
                         continue@loop
                     }
                 }
-                CommandParser.State.INIT -> {
+                State.INIT -> {
                     when (currentToken) {
                         "\'" -> {
                             state = State.SINGLE_QUOTE

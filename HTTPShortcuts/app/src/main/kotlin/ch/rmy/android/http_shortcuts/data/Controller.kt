@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.data
 
 import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.PendingExecution
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.detachFromRealm
 import ch.rmy.android.http_shortcuts.utils.Destroyable
@@ -28,8 +27,6 @@ class Controller : Destroyable, Closeable {
     fun getVariables(): RealmList<Variable> = getBase().variables
 
     fun getShortcutById(id: String) = Repository.getShortcutById(realm, id)
-
-    fun getShortcutByName(shortcutName: String): Shortcut? = Repository.getShortcutByName(realm, shortcutName)
 
     fun getShortcutsPendingExecution(): RealmResults<PendingExecution> = Repository.getShortcutsPendingExecution(realm)
 

@@ -12,7 +12,7 @@ import io.realm.RealmConfiguration
 import io.realm.RealmList
 import java.io.File
 
-internal class RealmFactory() {
+internal class RealmFactory {
 
     fun createRealm(): Realm {
         migrateRealmFiles()

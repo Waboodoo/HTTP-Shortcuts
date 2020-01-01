@@ -37,12 +37,10 @@ class RenameShortcutAction(
             return Completable.complete()
         }
         val shortcut = DataSource.getShortcutByNameOrId(shortcutNameOrId)
-        if (shortcut == null) {
-            return Completable.fromAction {
+            ?: return Completable.fromAction {
                 context.showToast(String.format(context.getString(R.string.error_shortcut_not_found_for_renaming), shortcutNameOrId), long = true)
             }
                 .subscribeOn(AndroidSchedulers.mainThread())
-        }
         return renameShortcut(shortcut.id, newName)
             .andThen(Completable.fromAction {
                 if (LauncherShortcutManager.supportsPinning(context)) {

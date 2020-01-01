@@ -37,7 +37,6 @@ import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
-import ch.rmy.android.http_shortcuts.utils.ThemeHelper
 import com.google.gson.JsonParseException
 import com.google.gson.JsonSyntaxException
 import com.nononsenseapps.filepicker.FilePickerActivity
@@ -66,9 +65,6 @@ class SettingsActivity : BaseActivity() {
 
         private val viewModel: SettingsViewModel
             get() = (activity as SettingsActivity).viewModel
-
-        private val themeHelper: ThemeHelper
-            get() = (activity as SettingsActivity).themeHelper
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.preferences, rootKey)
