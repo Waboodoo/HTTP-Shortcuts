@@ -19,7 +19,7 @@ class Importer {
             val inputStream = context.contentResolver.openInputStream(uri)
                 ?: throw IOException("Failed to open input stream")
             BufferedReader(InputStreamReader(inputStream)).use { reader ->
-                val importData = JsonParser().parse(reader)
+                val importData = JsonParser.parseReader(reader)
                 val migratedImportData = ImportMigrator.migrate(importData)
                 val newBase = GsonUtil.importData(migratedImportData)
                 Controller().use { controller ->
