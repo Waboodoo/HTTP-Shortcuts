@@ -244,6 +244,16 @@
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
 
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="ch.rmy.android.http_shortcuts.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/nnf_provider_paths" />
+        </provider>
+
     </application>
 
 </manifest>

@@ -40,6 +40,7 @@ import ch.rmy.android.http_shortcuts.utils.Settings
 import com.google.gson.JsonParseException
 import com.google.gson.JsonSyntaxException
 import com.nononsenseapps.filepicker.FilePickerActivity
+import com.nononsenseapps.filepicker.Utils
 import io.reactivex.android.schedulers.AndroidSchedulers
 import java.io.File
 import java.io.FileNotFoundException
@@ -340,13 +341,15 @@ class SettingsActivity : BaseActivity() {
             }
             when (requestCode) {
                 REQUEST_PICK_DIR_FOR_EXPORT -> {
-                    val uri = intent.data ?: return
+                    val rawUri = intent.data ?: return
+                    val uri = Uri.fromFile(Utils.getFileForUri(rawUri))
                     val directoryPath = uri.path ?: return
                     persistPath(directoryPath)
                     startExport(directoryPath)
                 }
                 REQUEST_PICK_FILE_FOR_IMPORT -> {
-                    val uri = intent.data ?: return
+                    val rawUri = intent.data ?: return
+                    val uri = Uri.fromFile(Utils.getFileForUri(rawUri))
                     val filePath = uri.path
                     val directoryPath = File(filePath).parent
                     persistPath(directoryPath)
