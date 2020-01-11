@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.graphics.Typeface.ITALIC
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -391,40 +392,51 @@ class ExecuteActivity : BaseActivity() {
     private fun displayOutput(output: String, type: String, url: String?) {
         when (shortcut.feedback) {
             Shortcut.FEEDBACK_TOAST_SIMPLE, Shortcut.FEEDBACK_TOAST_SIMPLE_ERRORS -> {
-                showToast(output)
+                showToast(output.ifBlank { getString(R.string.message_blank_response) })
             }
             Shortcut.FEEDBACK_TOAST, Shortcut.FEEDBACK_TOAST_ERRORS -> {
-                showToast(output.truncate(maxLength = TOAST_MAX_LENGTH), long = true)
+                showToast(
+                    output
+                        .truncate(maxLength = TOAST_MAX_LENGTH)
+                        .ifBlank { getString(R.string.message_blank_response) },
+                    long = true
+                )
             }
             Shortcut.FEEDBACK_DIALOG -> {
                 DialogBuilder(context)
                     .title(shortcutName)
-                    .message(HTMLUtil.format(output))
+                    .message(HTMLUtil.format(output.ifBlank { getString(R.string.message_blank_response) }))
                     .positive(R.string.dialog_ok)
                     .dismissListener { finishWithoutAnimation() }
                     .show()
             }
             Shortcut.FEEDBACK_ACTIVITY -> {
-                when (type) {
-                    ShortcutResponse.TYPE_HTML -> {
-                        responseWebView.visible = true
-                        responseWebView.loadFromString(output, url)
-                    }
-                    ShortcutResponse.TYPE_JSON -> {
-                        formattedResponseText.setCode(GsonUtil.prettyPrint(output), "json")
-                        formattedResponseText.visible = true
-                    }
-                    ShortcutResponse.TYPE_XML -> {
-                        formattedResponseText.setCode(output, "xml")
-                        formattedResponseText.visible = true
-                    }
-                    ShortcutResponse.TYPE_YAML, ShortcutResponse.TYPE_YAML_ALT -> {
-                        formattedResponseText.setCode(output, "yaml")
-                        formattedResponseText.visible = true
-                    }
-                    else -> {
-                        responseText.text = output
-                        responseTextContainer.visible = true
+                if (output.isBlank()) {
+                    responseText.setTypeface(null, ITALIC)
+                    responseText.setText(R.string.message_blank_response)
+                    responseTextContainer.visible = true
+                } else {
+                    when (type) {
+                        ShortcutResponse.TYPE_HTML -> {
+                            responseWebView.visible = true
+                            responseWebView.loadFromString(output, url)
+                        }
+                        ShortcutResponse.TYPE_JSON -> {
+                            formattedResponseText.setCode(GsonUtil.prettyPrint(output), "json")
+                            formattedResponseText.visible = true
+                        }
+                        ShortcutResponse.TYPE_XML -> {
+                            formattedResponseText.setCode(output, "xml")
+                            formattedResponseText.visible = true
+                        }
+                        ShortcutResponse.TYPE_YAML, ShortcutResponse.TYPE_YAML_ALT -> {
+                            formattedResponseText.setCode(output, "yaml")
+                            formattedResponseText.visible = true
+                        }
+                        else -> {
+                            responseText.text = output
+                            responseTextContainer.visible = true
+                        }
                     }
                 }
             }
