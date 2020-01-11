@@ -6,7 +6,7 @@
  Locale: pl, Polish
  Status: Translated
  Exported by: Roland Meyer
- Exported at: Fri, 08 Nov 2019 14:25:39 +0100
+ Exported at: Sat, 11 Jan 2020 09:12:00 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- The name of the app -->
@@ -153,36 +153,63 @@
     <string name="export_in_progress">Eksportuję...</string>
     <!-- Message shown in progress dialog while shortcuts are being imported -->
     <string name="import_in_progress">Importuję ...</string>
+    <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
     <string name="label_timeout">Upłynął czas</string>
     <!-- Section title in app settings -->
     <string name="settings_about">O tej aplikacji</string>
+    <!-- Button title, for option to contact the app developer (via email) -->
     <string name="settings_mail">Kontakt z twórcą</string>
+    <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
     <string name="settings_mail_summary">Pytania, prośba o nowe opcje, opinie, ...</string>
+    <!-- Button title, for option to open the app's Github page in a browser -->
     <string name="settings_github">Zobacz na Github</string>
+    <!-- Button subtitle for "View on Github" button -->
     <string name="settings_github_summary">Tak, to jest aplikacja z otwartym kodem źródłowym</string>
+    <!-- Dialog title, for changelog, shown when a new version of the app is released -->
     <string name="changelog_title_whats_new">Co nowego?</string>
+    <!-- Dialog title, for changelog, showing what's new in a release -->
     <string name="changelog_title">Zmiany</string>
+    <!-- Checkbox label, shown on Changelog dialog, allowing user to enable that the dialog shows when the app is started -->
     <string name="changelog_checkbox_show_at_startup">Pokazuj przy starcie</string>
+    <!-- Button, shown on Settings page, to allow opening the app's Play Store page -->
     <string name="settings_play_store">Zobacz w Play Store</string>
+    <!-- Button subtitle for "View in Play Store" button -->
     <string name="settings_play_store_summary">Dziękujemy za oceny i opinie</string>
+    <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_duplicated">\"%1$s\" zdublowany.</string>
+    <!-- Message, shown in snackbar, confirming to user that a shortcut was moved. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_moved">\"%1$s\" przeniesiony.</string>
+    <!-- Message, shown in snackbar, confirming to user that a shortcut was deleted. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_deleted">\"%1$s\" usunięty.</string>
+    <!-- Message, shown in snackbar, confirming to user that a shortcut was placed on the phone's home screen. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_placed">\"%1$s\" umieszczony na ekranie głównym.</string>
     <!-- Generic 'Delete' option, used in various dialogs, e.g., to confirm the deletion of a shortcut -->
     <string name="dialog_delete">Usuń</string>
+    <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
     <string name="section_basic_request">Podstawowe ustawienia requestów</string>
+    <!-- Section title, shown in shortcut editor, for section containing advanced settings -->
     <string name="section_advanced_settings">Ustawienia zaawansowane</string>
+    <!-- Section title, shown in shortcut editor, for section containing authentication settings -->
     <string name="section_authentication">Autentykacja</string>
+    <!-- Label, for dropdown picker, allowing to select the authentication method (i.e., how to authenticate) of a shortcut -->
     <string name="label_authentication_method">Metody autentykacji</string>
+    <!-- Type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
     <string name="variable_type_select">Wybór</string>
+    <!-- Dialog message, asking user to confirm the deletion of a variable -->
     <string name="confirm_delete_variable_message">Usunąć tą zmienną?</string>
+    <!-- Checkbox label, for option to enable URL encoding of a variable -->
     <string name="label_url_encode">Kodowanie URL</string>
+    <!-- Checkbox label, for option to enable JSON encoding of a variable -->
     <string name="label_json_encode">Kodowanie JSON\'a</string>
+    <!-- Section title, for section containing basic settings for a shortcut -->
     <string name="section_basic_variable_settings">Ustawienia podstawowe</string>
+    <!-- Error message, informing user that the entered variable key is empty -->
     <string name="validation_key_non_empty">Zmienny klucz nie może być pusty.</string>
+    <!-- Error message, informing user that the entered variable key already exists -->
     <string name="validation_key_already_exists">Już istnieje inna zmienna z tym kluczem.</string>
+    <!-- Dialog title, to add another value to the list of values in a variable of Toggle type -->
     <string name="title_add_toggle_option">Dodaj wartość</string>
+    <!-- Button, to add another value to the list of values in a variable of Toggle type -->
     <string name="button_add_toggle_option">Dodaj wartość</string>
     <!-- Text on button to start shortcut import from a cURL command -->
     <string name="curl_import_button">Importuj</string>
@@ -198,9 +225,13 @@
         <item quantity="few">%d minuty</item>
         <item quantity="other">%d minut</item>
     </plurals>
+    <!-- Label: Shown on button that allows to enable execution delay of a shortcut -->
     <string name="label_delay_execution">Opóźnij uruchomienie</string>
+    <!-- label, shown in variable editor for Time Input variable, to allow the user to specify a time format -->
     <string name="label_variable_time_format">Format czasu</string>
+    <!-- Type of variable: Time Input, i.e., a dialog that asks user to pick a time in a clock -->
     <string name="variable_type_time">Wprowadzanie czasu</string>
+    <!-- Error message, shown in variable editor when an invalid time format is entered -->
     <string name="error_invalid_time_format">Format czasu nieprawidłowy.</string>
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
     <string name="error_not_supported">Ta opcja nie jest wspierana przez to urządzenie.</string>
@@ -232,7 +263,9 @@
     <string name="settings_changelog">Opis zmian</string>
     <!-- Subtitle/summary of "Changelog" option in settings, showing the current app version number -->
     <string name="settings_changelog_summary">Wersja %1$s</string>
+    <!-- Button, to edit an existing value in the list of values in a variable of Toggle type -->
     <string name="title_edit_toggle_option">Edytuj wartość</string>
+    <!-- Title, for dialog that allows user to edit an existing option of a Selection variable -->
     <string name="title_edit_select_option">Edytuj opcję</string>
     <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
     <string name="button_create_first_variable">Utwórz</string>
@@ -242,10 +275,6 @@
     <string name="label_edit_variables">Edytuj zmienne</string>
     <!-- Dialog title when creating a new shortcut, shows options below -->
     <string name="title_create_new_shortcut_options_dialog">Utwórz nowy skrót</string>
-    <!-- Button text: translate app (prompt to help & become a translator) -->
-    <string name="settings_help_translate">Przetłumacz apkę</string>
-    <!-- Summary/subtitle of section in settings that prompts user to help translate the app -->
-    <string name="settings_help_translate_summary">Pomóż mi ulepszyć apkę</string>
     <!-- Blurb/short description of plugin action (for Tasker integration), where %1$s is a placeholder for the shortcut name. -->
     <string name="plugin_blurb_execute_task">Uruchom skrót \"%1$s\"</string>
     <!-- Label of dropdown to select the request body type in shortcut editor -->
@@ -262,8 +291,6 @@
     <string name="button_copy_curl_export">Kopia</string>
     <!-- Title of dialog that allows user to pick an icon from the built-in icons -->
     <string name="title_choose_icon">Wybierz wbudowaną ikonę</string>
-    <!-- Title of dialog that allows users to pick a constant variable from a list to insert its placeholder somewhere -->
-    <string name="dialog_title_variable_selection_constants_only">Zmienne (tylko stałe)</string>
     <!-- Shown as a placeholder for the title field of an action of unknown type. This should never happen. -->
     <string name="action_type_unknown_title">Nieznana akcja</string>
     <!-- Shortcut Action Title: Show Toast (small popup message) -->

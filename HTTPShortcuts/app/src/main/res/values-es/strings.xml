@@ -6,7 +6,7 @@
  Locale: es, Spanish
  Status: Translated
  Exported by: Roland Meyer
- Exported at: Fri, 08 Nov 2019 14:25:39 +0100
+ Exported at: Sat, 11 Jan 2020 09:12:00 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- The name of the app -->
@@ -167,119 +167,214 @@
     <string name="import_failed">Fallo importando accesos directos.</string>
     <!-- Message shown in progress dialog while shortcuts are being imported -->
     <string name="import_in_progress">Importando…</string>
+    <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
     <string name="label_timeout">Se acabó el tiempo</string>
     <!-- Section title in app settings -->
     <string name="settings_about">Sobre esta aplicación</string>
+    <!-- Button title, for option to contact the app developer (via email) -->
     <string name="settings_mail">Contacte al desarrollador</string>
+    <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
     <string name="settings_mail_summary">Preguntas, solicitudes de funciones, comentarios, …</string>
+    <!-- Button title, for option to open the app's Github page in a browser -->
     <string name="settings_github">Ver en Gitghub</string>
+    <!-- Button subtitle for "View on Github" button -->
     <string name="settings_github_summary">Eso es! esta aplicación es código abierto</string>
+    <!-- Dialog title, for changelog, shown when a new version of the app is released -->
     <string name="changelog_title_whats_new">Qué hay de nuevo?</string>
+    <!-- Dialog title, for changelog, showing what's new in a release -->
     <string name="changelog_title">Cambios</string>
+    <!-- Checkbox label, shown on Changelog dialog, allowing user to enable that the dialog shows when the app is started -->
     <string name="changelog_checkbox_show_at_startup">Mostrar al empezar</string>
     <!-- Message displayed when the shortcut cannot be executed because there is no internet connection. %1$s is a placeholder for the shortcut name. -->
     <string name="execution_delayed">%1$s se ejecutará una vez que esté disponible la conexión a internet.</string>
+    <!-- Button, shown on Settings page, to allow opening the app's Play Store page -->
     <string name="settings_play_store">Ver en Play Store</string>
+    <!-- Button subtitle for "View in Play Store" button -->
     <string name="settings_play_store_summary">Gracias por su calificación y comentarios</string>
+    <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_duplicated">\"%1$s\" duplicados</string>
+    <!-- Message, shown in snackbar, confirming to user that a shortcut was moved. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_moved">\"%1$s\" movidos.</string>
+    <!-- Message, shown in snackbar, confirming to user that a shortcut was deleted. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_deleted">\"%1$s\" eliminados</string>
+    <!-- Message, shown in snackbar, confirming to user that a shortcut was placed on the phone's home screen. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_placed">\"%1$s\" colocado en pantalla de inicio</string>
     <!-- Generic 'Delete' option, used in various dialogs, e.g., to confirm the deletion of a shortcut -->
     <string name="dialog_delete">Eliminar</string>
+    <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
     <string name="section_basic_request">Configuración de solicitud básica</string>
+    <!-- Section title, shown in shortcut editor, for section containing advanced settings -->
     <string name="section_advanced_settings">Configuración avanzada</string>
+    <!-- Section title, shown in shortcut editor, for section containing authentication settings -->
     <string name="section_authentication">Autentificación</string>
+    <!-- Label, for dropdown picker, allowing to select the authentication method (i.e., how to authenticate) of a shortcut -->
     <string name="label_authentication_method">Método de autentificación</string>
+    <!-- Warning, shown in dialog when user changes the name or icon of a shortcut, to inform them that the changes don't apply automatically -->
     <string name="warning_icon_or_name_change">Tenga en cuenta que los cambios en el nombre o el icono no se aplican automáticamente a los accesos directos que ya están agregados a la pantalla de inicio. Deberá agregarlos nuevamente para que los cambios surtan efecto. Todos los demás cambios se aplican automáticamente.</string>
+    <!-- Checkbox label, used in varies dialogs, to allow user to hide the dialog forever -->
     <string name="dialog_checkbox_do_not_show_again">No mostrar de nuevo</string>
     <!-- checkbox label in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
     <string name="label_accept_all_certificates">Aceptar cualquier certificado (sé lo que estoy haciendo)</string>
+    <!-- Page title, for page listing all the libraries and 3rd party assets used in the app -->
     <string name="title_licenses">Reconocimientos</string>
+    <!-- Button, for opening page listing all the libraries and 3rd party assets used in the app -->
     <string name="settings_licenses">Reconocimientos</string>
+    <!-- Button subtitle, for "Acknowledgements" button -->
     <string name="settings_licenses_summary">Bibliotecas y recursos utilizados</string>
+    <!-- Page title, for page showing all configured categories -->
     <string name="title_categories">Categorias</string>
+    <!-- Generic action, shown on dialog, to rename things -->
     <string name="action_rename">Renombrar</string>
+    <!-- Action, shown on dropdown when editing a category, for allowing to change the category's layout type -->
     <string name="action_change_category_layout_type">Cambiar tipo de diseño</string>
+    <!-- Message, shown in snackbar to confirm to the user that the layout type of a category was changed -->
     <string name="message_layout_type_changed">Tipo de diseño cambiado</string>
     <!-- One of two options when picking the layout for a category: Show shortcuts in a list -->
     <string name="layout_type_linear_list">Lista</string>
     <!-- One of two options when picking the layout for a category: Show shortcuts in a grid -->
     <string name="layout_type_grid">Grilla</string>
+    <!-- Option to allow renaming a category -->
     <string name="title_rename_category">Renombrar categoría</string>
+    <!-- Dialog prompt/placeholder in input field, asking user to enter a name for a category -->
     <string name="placeholder_category_name">Entrar nombre de categoría</string>
+    <!-- Placeholder in input field, asking user to enter a value. Used in varies places -->
     <string name="placeholder_value">Valor</string>
+    <!-- Dialog title, shown in editor when creating a new category -->
     <string name="title_create_category">Crear categoría</string>
+    <!-- Message, shown in dialog, to ask the user to confirm the deletion of a category and all shortcuts within -->
     <string name="confirm_delete_category_message">Eliminar esta categoría? Todos los accesos directos contenidos dentro serán eliminados.</string>
+    <!-- Message, shown in snackbar, to confirm to the user that a category was renamed -->
     <string name="message_category_renamed">Categoría renombrada</string>
+    <!-- Message, shown in snackbar, to confirm to the user that a category was created -->
     <string name="message_category_created">Categoría creada</string>
+    <!-- Message, shown in snackbar, to confirm to the user that a category was deleted -->
     <string name="message_category_deleted">Categoróa eliminada</string>
     <plurals name="shortcut_count">
+        <!-- Shows numerical count of shortcuts, used to show how many shortcuts are in a given category -->
         <item quantity="one">%d acceso directo</item>
         <item quantity="other">%d accesos directos</item>
     </plurals>
+    <!-- Dialog title/button, for feature to move a shortcut to a different category -->
     <string name="title_move_to_category">Mover a categoría</string>
     <!-- Name/title to describe what the plugin action does, used by external plugins, e.g. Tasker -->
     <string name="plugin_name">Ejecutar acceso directo HTTP</string>
+    <!-- Button/page title, for viewing list of variables -->
     <string name="title_variables">Variables</string>
+    <!-- Button, to edit a variable -->
     <string name="edit_variable">Editar variable</string>
+    <!-- Button, to create a new variable -->
     <string name="create_variable">Crear variable</string>
+    <!-- label, to allow user to pick the variable type (using a dropdown) in the variable editor -->
     <string name="label_variable_type">Tipo</string>
+    <!-- label, to allow the user to enter the key/name for a variable -->
     <string name="label_variable_key">Llave</string>
+    <!-- label, shown in variable editor, to allow the user to enter a dialog title that will be shown then the variable is evaluated -->
     <string name="label_variable_title">Título del diálogo (opcional)</string>
+    <!-- label, shown in variable editor for Date Input variable, to allow the user to specify a date format -->
     <string name="label_variable_date_format">Formato de fecha</string>
+    <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
     <string name="variable_type_constant">Constante</string>
+    <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
     <string name="variable_type_text">Texto de entrada</string>
+    <!-- Type of variable: Number Input, i.e., a dialog that asks user to enter a number -->
     <string name="variable_type_number">Número de entrada</string>
+    <!-- Type of variable: Password Input, i.e., a dialog that asks user to enter a password -->
     <string name="variable_type_password">Introducción de contraseña</string>
+    <!-- Type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
     <string name="variable_type_select">Selección</string>
+    <!-- Type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
     <string name="variable_type_toggle">Alternar</string>
+    <!-- Type of variable: Date Input, i.e., a dialog that asks user to pick a date in a calendar -->
     <string name="variable_type_date">Fecha de entrada</string>
+    <!-- Type of variable: Color Input, i.e., a dialog that asks user to pick a color in a color picker -->
     <string name="variable_type_color">Selector de color</string>
+    <!-- Error message, information user that the variable name they entered is not valid -->
     <string name="warning_invalid_variable_key">Las claves de variable sólo pueden contener dígitos y letras del alfabeto inglés.</string>
+    <!-- Dialog message, asking user to confirm the deletion of a variable -->
     <string name="confirm_delete_variable_message">¿Eliminar esta variable?</string>
+    <!-- Message, shown in snackbar, confirming to user that a variable was deleted. %1$s is a placeholder for the variable name -->
     <string name="variable_deleted">\"%1$s\" eliminado.</string>
+    <!-- Checkbox label, for option to enable URL encoding of a variable -->
     <string name="label_url_encode">Codificar URL</string>
+    <!-- Checkbox label, for option to enable JSON encoding of a variable -->
     <string name="label_json_encode">Codificar JSON</string>
+    <!-- Section title, for section containing basic settings for a shortcut -->
     <string name="section_basic_variable_settings">Configuración básica</string>
+    <!-- Error message, informing user that the entered variable key is empty -->
     <string name="validation_key_non_empty">La clave de variable no puede estar vacía.</string>
+    <!-- Error message, informing user that the entered variable key already exists -->
     <string name="validation_key_already_exists">Ya existe otra variable con esta clave.</string>
+    <!-- Dialog title, to add another value to the list of values in a variable of Toggle type -->
     <string name="title_add_toggle_option">Agregar valor</string>
+    <!-- Button, to add another value to the list of values in a variable of Toggle type -->
     <string name="button_add_toggle_option">Agregar valor</string>
+    <!-- Section title, for section that lists all values of a variable of Toggle type -->
     <string name="section_toggle_options">Alternar valores</string>
+    <!-- Title, for dialog that allows user to add an option to a Selection variable -->
     <string name="title_add_select_option">Agregar Opción</string>
+    <!-- Button, to allow a user to add an option to a Selection variable -->
     <string name="button_add_select_option">Agregar opción</string>
+    <!-- Section title, for section that lists all selectable options of a Selection variable -->
     <string name="section_select_options">Opciones seleccionables</string>
+    <!-- Label, for dialog that allows adding/editing an option for a Selection variable, for specifying the option's "Label" -->
     <string name="label_select_label">Título</string>
+    <!-- Label, for dialog that allows adding/editing an option for a Selection variable, for specifying the option's "Value" -->
     <string name="label_select_value">Valor</string>
+    <!-- Button, for opening help article page -->
     <string name="button_show_help">Mostrar ayuda</string>
+    <!-- Page/dialog title, for help article about variables -->
     <string name="help_title_variables">Variables</string>
+    <!-- Error message, shown in variable editor when the user didn't add enough options -->
     <string name="error_not_enough_toggle_values">Por favor agregar al menos dos valores</string>
+    <!-- Error message, shown in variable editor when the user didn't add enough options -->
     <string name="error_not_enough_select_values">Por favor agregar al menos una opción seleccionable</string>
+    <!-- Error message, shown in variable editor when an invalid date format is entered -->
     <string name="error_invalid_date_format">El formato de fecha no es válido.</string>
+    <!-- Dialog button, allowing the user to share a text snippet with other apps -->
     <string name="share_button">Compartir</string>
+    <!-- Title on Share dialog -->
     <string name="share_title">Compartir...</string>
+    <!-- Message shown in progress dialog while an action is being performed. %1$s is a placeholder for the action, e.g. "Importing", or "Saving" -->
     <string name="progress_dialog_message">%1$s…</string>
+    <!-- Section title, for section in variable editor containing options specific to the variable type -->
     <string name="section_input_options">Opciones de entrada</string>
+    <!-- Checkbox value, shown in variable editor, allows to enable a variable to remember its previous value -->
     <string name="label_remember_value">Recordar valor</string>
+    <!-- Action, allows the user to cancel a pending shortcut execution -->
     <string name="action_cancel_pending">Cancelar ejecuciones pendientes</string>
+    <!-- Message, shown in snackbar to confirm when the user cancelled a pending shortcut execution (%1$s is a placeholder for the shortcut name) -->
     <string name="pending_shortcut_execution_cancelled">%1$s canceladas.</string>
+    <!-- Feature label for sharing text into the app, to be used in a specific variable for a configured shortcut -->
     <string name="action_send_to">Enviar a…</string>
+    <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
     <string name="error_not_suitable_shortcuts">No se encontraron accesos directos adecuados.\n\nPara usar esta función, debe tener al menos un acceso directo que use una variable que permita \'Compartir ...\'.\n\nConsulte la documentación en la sección de variables para más información.</string>
-    <string name="error_sharing_feature_not_available_yet">Lo sentimos, pero aún no es posible compartir archivos de texto en accesos directos. Probablemente se agregará en algún momento en el futuro.\nSin embargo, puede compartir fragmentos de texto. Consulte la documentación en la sección de variables para más información.</string>
+    <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">Permitir \'Compartir…\'</string>
+    <!-- App color theme option Blue -->
     <string name="theme_blue">Azul</string>
+    <!-- App color theme option Green -->
     <string name="theme_green">Verde</string>
+    <!-- App color theme option Red -->
     <string name="theme_red">Rojo</string>
+    <!-- App color theme option Grey -->
     <string name="theme_grey">Gris</string>
+    <!-- App color theme option Orange -->
     <string name="theme_orange">Naranja</string>
+    <!-- App color theme option Purple -->
     <string name="theme_purple">Morado</string>
+    <!-- App color theme option Indigo -->
     <string name="theme_indigo">Índigo</string>
+    <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
     <string name="title_export">Exportar a…</string>
+    <!-- Dialog option on Export dialog, for exporting by storing in a file on local storage -->
     <string name="button_export_to_filesystem">Almacenamiento interno</string>
+    <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
     <string name="button_export_send_to">Otra aplicación</string>
+    <!-- Dialog title, for dialog with options allowing user to pick where to import shortcuts from -->
     <string name="title_import">Importar desde…</string>
+    <!-- Dialog option on Import dialog, for importing shortcuts from a file on local storage -->
     <string name="button_import_from_filesystem">Almacenamiento interno</string>
+    <!-- Dialog option on Import dialog, for importing shortcuts from a file picked via the system's document browser -->
     <string name="button_import_from_general">Documentos</string>
     <!-- Option 1 in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
     <string name="button_create_new">Desde cero</string>
@@ -311,9 +406,13 @@
         <item quantity="one">%d minuto</item>
         <item quantity="other">%d minutos</item>
     </plurals>
+    <!-- Label: Shown on button that allows to enable execution delay of a shortcut -->
     <string name="label_delay_execution">Retrasar la ejecución</string>
+    <!-- label, shown in variable editor for Time Input variable, to allow the user to specify a time format -->
     <string name="label_variable_time_format">Formato de hora</string>
+    <!-- Type of variable: Time Input, i.e., a dialog that asks user to pick a time in a clock -->
     <string name="variable_type_time">Tiempo de entrada</string>
+    <!-- Error message, shown in variable editor when an invalid time format is entered -->
     <string name="error_invalid_time_format">El formato de tiempo no es válido.</string>
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
     <string name="error_not_supported">Esta característica no es compatible con tu dispositivo</string>
@@ -347,7 +446,9 @@
     <string name="settings_changelog">Cambiar registro</string>
     <!-- Subtitle/summary of "Changelog" option in settings, showing the current app version number -->
     <string name="settings_changelog_summary">Versión %1$s</string>
+    <!-- Button, to edit an existing value in the list of values in a variable of Toggle type -->
     <string name="title_edit_toggle_option">Editar valor</string>
+    <!-- Title, for dialog that allows user to edit an existing option of a Selection variable -->
     <string name="title_edit_select_option">Editar opción</string>
     <!-- Instructions shown in dialog when user clicks the variables button in the shortcut editor but doesn't have any variables configured yet -->
     <string name="help_text_variable_button">Este botón le permite incluir marcadores de posición para variables, es decir, valores dinámicos, en su acceso directo.\n\nNo tienes ninguna variable configurada todavía. Puede hacerlo haciendo clic en el botón CREAR a continuación.</string>
@@ -361,10 +462,6 @@
     <string name="label_edit_variables">Editar variables</string>
     <!-- Dialog title when creating a new shortcut, shows options below -->
     <string name="title_create_new_shortcut_options_dialog">Crear nuevo acceso directo</string>
-    <!-- Button text: translate app (prompt to help & become a translator) -->
-    <string name="settings_help_translate">Traducir aplicación</string>
-    <!-- Summary/subtitle of section in settings that prompts user to help translate the app -->
-    <string name="settings_help_translate_summary">Ayúdame a mejorar esta aplicación</string>
     <!-- Blurb/short description of plugin action (for Tasker integration), where %1$s is a placeholder for the shortcut name. -->
     <string name="plugin_blurb_execute_task">Ejecutar acceso directo \"%1$s\"</string>
     <!-- Label of dropdown to select the request body type in shortcut editor -->
@@ -381,8 +478,6 @@
     <string name="button_copy_curl_export">Copiar</string>
     <!-- Title of dialog that allows user to pick an icon from the built-in icons -->
     <string name="title_choose_icon">Escoger icono pre-instalado</string>
-    <!-- Title of dialog that allows users to pick a constant variable from a list to insert its placeholder somewhere -->
-    <string name="dialog_title_variable_selection_constants_only">Variables (solo constantes)</string>
     <!-- Shown as a placeholder for the title field of an action of unknown type. This should never happen. -->
     <string name="action_type_unknown_title">Acción desconocida</string>
     <!-- Shortcut Action Title: Show Toast (small popup message) -->

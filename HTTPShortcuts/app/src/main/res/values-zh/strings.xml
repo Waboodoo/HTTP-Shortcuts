@@ -6,7 +6,7 @@
  Locale: zh, Chinese
  Status: Translated
  Exported by: Roland Meyer
- Exported at: Fri, 08 Nov 2019 14:25:39 +0100
+ Exported at: Sat, 11 Jan 2020 09:12:00 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- The name of the app -->
@@ -165,104 +165,191 @@
     <string name="import_failed">导入快捷方式失败</string>
     <!-- Message shown in progress dialog while shortcuts are being imported -->
     <string name="import_in_progress">正在导出快捷方式……</string>
+    <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
     <string name="label_timeout">超时时间</string>
     <!-- Section title in app settings -->
     <string name="settings_about">关于应用</string>
+    <!-- Button title, for option to contact the app developer (via email) -->
     <string name="settings_mail">联系开发者</string>
+    <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
     <string name="settings_mail_summary">提问题，请求新特性，其它……</string>
+    <!-- Button title, for option to open the app's Github page in a browser -->
     <string name="settings_github">在 Github 查看</string>
+    <!-- Button subtitle for "View on Github" button -->
     <string name="settings_github_summary">是的，这款应用程序是开源的</string>
+    <!-- Dialog title, for changelog, shown when a new version of the app is released -->
     <string name="changelog_title_whats_new">有哪些更新？</string>
+    <!-- Dialog title, for changelog, showing what's new in a release -->
     <string name="changelog_title">更新日志</string>
+    <!-- Checkbox label, shown on Changelog dialog, allowing user to enable that the dialog shows when the app is started -->
     <string name="changelog_checkbox_show_at_startup">在启动时显示</string>
     <!-- Message displayed when the shortcut cannot be executed because there is no internet connection. %1$s is a placeholder for the shortcut name. -->
     <string name="execution_delayed">当网络连接可用时 %1$s 将会被执行</string>
+    <!-- Button, shown on Settings page, to allow opening the app's Play Store page -->
     <string name="settings_play_store">在 Play 商店查看</string>
+    <!-- Button subtitle for "View in Play Store" button -->
     <string name="settings_play_store_summary">非常感谢您的评分和评价</string>
+    <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_duplicated">%1$s 已生成副本</string>
+    <!-- Message, shown in snackbar, confirming to user that a shortcut was moved. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_moved">%1$s 已移动</string>
+    <!-- Message, shown in snackbar, confirming to user that a shortcut was deleted. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_deleted">%1$s 已删除</string>
+    <!-- Message, shown in snackbar, confirming to user that a shortcut was placed on the phone's home screen. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_placed">%1$s 已发送到主屏幕</string>
     <!-- Generic 'Delete' option, used in various dialogs, e.g., to confirm the deletion of a shortcut -->
     <string name="dialog_delete">删除</string>
+    <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
     <string name="section_basic_request">基本设置</string>
+    <!-- Section title, shown in shortcut editor, for section containing advanced settings -->
     <string name="section_advanced_settings">高级设置</string>
+    <!-- Section title, shown in shortcut editor, for section containing authentication settings -->
     <string name="section_authentication">身份认证</string>
+    <!-- Warning, shown in dialog when user changes the name or icon of a shortcut, to inform them that the changes don't apply automatically -->
     <string name="warning_icon_or_name_change">请注意，在修改快捷方式的名称和图标后，主屏幕上对应的名称和图标并不会同步改变。你必须再次将其添加到主屏幕，随后这些修改才会生效。</string>
+    <!-- Checkbox label, used in varies dialogs, to allow user to hide the dialog forever -->
     <string name="dialog_checkbox_do_not_show_again">不要再提示</string>
     <!-- checkbox label in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
     <string name="label_accept_all_certificates">接受所有证书</string>
+    <!-- Page title, for page listing all the libraries and 3rd party assets used in the app -->
     <string name="title_licenses">鸣谢</string>
+    <!-- Button, for opening page listing all the libraries and 3rd party assets used in the app -->
     <string name="settings_licenses">鸣谢</string>
+    <!-- Button subtitle, for "Acknowledgements" button -->
     <string name="settings_licenses_summary">使用到的库和资源</string>
+    <!-- Page title, for page showing all configured categories -->
     <string name="title_categories">分类</string>
+    <!-- Generic action, shown on dialog, to rename things -->
     <string name="action_rename">重命名</string>
+    <!-- Option to allow renaming a category -->
     <string name="title_rename_category">重命名分类</string>
+    <!-- Dialog prompt/placeholder in input field, asking user to enter a name for a category -->
     <string name="placeholder_category_name">输入分类名称…</string>
+    <!-- Placeholder in input field, asking user to enter a value. Used in varies places -->
     <string name="placeholder_value">值</string>
+    <!-- Dialog title, shown in editor when creating a new category -->
     <string name="title_create_category">新建分类</string>
+    <!-- Message, shown in dialog, to ask the user to confirm the deletion of a category and all shortcuts within -->
     <string name="confirm_delete_category_message">确定删除这个分类？该分类下的所有快捷方式也将被删除。</string>
+    <!-- Message, shown in snackbar, to confirm to the user that a category was renamed -->
     <string name="message_category_renamed">分类已重命名</string>
+    <!-- Message, shown in snackbar, to confirm to the user that a category was created -->
     <string name="message_category_created">分类已创建</string>
+    <!-- Message, shown in snackbar, to confirm to the user that a category was deleted -->
     <string name="message_category_deleted">分类已删除</string>
+    <!-- Dialog title/button, for feature to move a shortcut to a different category -->
     <string name="title_move_to_category">移动到分类</string>
     <!-- Name/title to describe what the plugin action does, used by external plugins, e.g. Tasker -->
     <string name="plugin_name">执行 HTTP 快捷方式</string>
+    <!-- Button/page title, for viewing list of variables -->
     <string name="title_variables">变量</string>
+    <!-- Button, to edit a variable -->
     <string name="edit_variable">编辑变量</string>
+    <!-- Button, to create a new variable -->
     <string name="create_variable">新建变量</string>
+    <!-- label, to allow user to pick the variable type (using a dropdown) in the variable editor -->
     <string name="label_variable_type">类型</string>
+    <!-- label, to allow the user to enter the key/name for a variable -->
     <string name="label_variable_key">键</string>
+    <!-- label, shown in variable editor, to allow the user to enter a dialog title that will be shown then the variable is evaluated -->
     <string name="label_variable_title">对话框标题（可选）</string>
+    <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
     <string name="variable_type_constant">常量</string>
+    <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
     <string name="variable_type_text">输入文本</string>
+    <!-- Type of variable: Number Input, i.e., a dialog that asks user to enter a number -->
     <string name="variable_type_number">输入数字</string>
+    <!-- Type of variable: Password Input, i.e., a dialog that asks user to enter a password -->
     <string name="variable_type_password">输入密码</string>
+    <!-- Type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
     <string name="variable_type_select">选项</string>
+    <!-- Type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
     <string name="variable_type_toggle">切换</string>
+    <!-- Type of variable: Color Input, i.e., a dialog that asks user to pick a color in a color picker -->
     <string name="variable_type_color">输入色值</string>
+    <!-- Error message, information user that the variable name they entered is not valid -->
     <string name="warning_invalid_variable_key">变量的键名只能包含字母和数字</string>
+    <!-- Dialog message, asking user to confirm the deletion of a variable -->
     <string name="confirm_delete_variable_message">确定删除这个变量？</string>
+    <!-- Message, shown in snackbar, confirming to user that a variable was deleted. %1$s is a placeholder for the variable name -->
     <string name="variable_deleted">%1$s 已删除</string>
+    <!-- Checkbox label, for option to enable URL encoding of a variable -->
     <string name="label_url_encode">URL 编码</string>
+    <!-- Checkbox label, for option to enable JSON encoding of a variable -->
     <string name="label_json_encode">JSON 编码</string>
+    <!-- Section title, for section containing basic settings for a shortcut -->
     <string name="section_basic_variable_settings">基本设置</string>
+    <!-- Error message, informing user that the entered variable key is empty -->
     <string name="validation_key_non_empty">变量的键名不能为空</string>
+    <!-- Error message, informing user that the entered variable key already exists -->
     <string name="validation_key_already_exists">已经有一个键名相同的变量了</string>
+    <!-- Dialog title, to add another value to the list of values in a variable of Toggle type -->
     <string name="title_add_toggle_option">添加值</string>
+    <!-- Button, to add another value to the list of values in a variable of Toggle type -->
     <string name="button_add_toggle_option">添加值</string>
+    <!-- Section title, for section that lists all values of a variable of Toggle type -->
     <string name="section_toggle_options">切换值</string>
+    <!-- Title, for dialog that allows user to add an option to a Selection variable -->
     <string name="title_add_select_option">添加选项</string>
+    <!-- Button, to allow a user to add an option to a Selection variable -->
     <string name="button_add_select_option">添加选项</string>
+    <!-- Section title, for section that lists all selectable options of a Selection variable -->
     <string name="section_select_options">可选项</string>
+    <!-- Label, for dialog that allows adding/editing an option for a Selection variable, for specifying the option's "Label" -->
     <string name="label_select_label">标签</string>
+    <!-- Label, for dialog that allows adding/editing an option for a Selection variable, for specifying the option's "Value" -->
     <string name="label_select_value">值</string>
+    <!-- Button, for opening help article page -->
     <string name="button_show_help">帮助信息</string>
+    <!-- Page/dialog title, for help article about variables -->
     <string name="help_title_variables">变量</string>
+    <!-- Error message, shown in variable editor when the user didn't add enough options -->
     <string name="error_not_enough_toggle_values">请至少添加两个值</string>
+    <!-- Dialog button, allowing the user to share a text snippet with other apps -->
     <string name="share_button">分享</string>
+    <!-- Title on Share dialog -->
     <string name="share_title">分享…</string>
+    <!-- Message shown in progress dialog while an action is being performed. %1$s is a placeholder for the action, e.g. "Importing", or "Saving" -->
     <string name="progress_dialog_message">%1$s…</string>
+    <!-- Section title, for section in variable editor containing options specific to the variable type -->
     <string name="section_input_options">输入选项</string>
+    <!-- Checkbox value, shown in variable editor, allows to enable a variable to remember its previous value -->
     <string name="label_remember_value">保存值</string>
+    <!-- Action, allows the user to cancel a pending shortcut execution -->
     <string name="action_cancel_pending">取消正在处理的请求</string>
+    <!-- Message, shown in snackbar to confirm when the user cancelled a pending shortcut execution (%1$s is a placeholder for the shortcut name) -->
     <string name="pending_shortcut_execution_cancelled">%1$s 已取消</string>
+    <!-- Feature label for sharing text into the app, to be used in a specific variable for a configured shortcut -->
     <string name="action_send_to">发送到…</string>
+    <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
     <string name="error_not_suitable_shortcuts">没有找到合适的快捷方式，要使用这个特性。你必须至少要有一个使用了共享变量的快捷方式。查阅文档中关于变量部分以获取更多信息。</string>
-    <string name="error_sharing_feature_not_available_yet">很抱歉，目前还不支持在快捷方式中共享文本文件，后续可能会添加上，现阶段您可以共享文本。查阅文档中关于变量部分以获取更多信息。感谢您的理解。</string>
+    <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">允许“共享”</string>
+    <!-- App color theme option Blue -->
     <string name="theme_blue">蓝色</string>
+    <!-- App color theme option Green -->
     <string name="theme_green">绿色</string>
+    <!-- App color theme option Red -->
     <string name="theme_red">红色</string>
+    <!-- App color theme option Grey -->
     <string name="theme_grey">灰色</string>
+    <!-- App color theme option Orange -->
     <string name="theme_orange">橙色</string>
+    <!-- App color theme option Purple -->
     <string name="theme_purple">紫色</string>
+    <!-- App color theme option Indigo -->
     <string name="theme_indigo">靛蓝色</string>
+    <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
     <string name="title_export">导出……</string>
+    <!-- Dialog option on Export dialog, for exporting by storing in a file on local storage -->
     <string name="button_export_to_filesystem">本地存储</string>
+    <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
     <string name="button_export_send_to">其他应用</string>
+    <!-- Dialog title, for dialog with options allowing user to pick where to import shortcuts from -->
     <string name="title_import">导入……</string>
+    <!-- Dialog option on Import dialog, for importing shortcuts from a file on local storage -->
     <string name="button_import_from_filesystem">本地存储</string>
+    <!-- Dialog option on Import dialog, for importing shortcuts from a file picked via the system's document browser -->
     <string name="button_import_from_general">文档</string>
     <!-- Option 1 in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
     <string name="button_create_new">新建快捷方式</string>

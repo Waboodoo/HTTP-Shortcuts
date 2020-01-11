@@ -6,7 +6,7 @@
  Locale: nb-NO, Bokmål (Norway)
  Status: Translated
  Exported by: Roland Meyer
- Exported at: Fri, 08 Nov 2019 14:25:39 +0100
+ Exported at: Sat, 11 Jan 2020 09:12:00 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- The name of the app -->
@@ -167,119 +167,214 @@
     <string name="import_failed">Importering av snarveier mislyktes.</string>
     <!-- Message shown in progress dialog while shortcuts are being imported -->
     <string name="import_in_progress">Importerer…</string>
+    <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
     <string name="label_timeout">Tidsutløp</string>
     <!-- Section title in app settings -->
     <string name="settings_about">Om denne appen</string>
+    <!-- Button title, for option to contact the app developer (via email) -->
     <string name="settings_mail">Kontakt utvikleren</string>
+    <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
     <string name="settings_mail_summary">Spørsmål, egenskapsforespørsler, tilbakemeldinger, …</string>
+    <!-- Button title, for option to open the app's Github page in a browser -->
     <string name="settings_github">Vis på GitHub</string>
+    <!-- Button subtitle for "View on Github" button -->
     <string name="settings_github_summary">Det stemmer, denne appen er åpen-kildet</string>
+    <!-- Dialog title, for changelog, shown when a new version of the app is released -->
     <string name="changelog_title_whats_new">Hva er nytt?</string>
+    <!-- Dialog title, for changelog, showing what's new in a release -->
     <string name="changelog_title">Endringslogg</string>
+    <!-- Checkbox label, shown on Changelog dialog, allowing user to enable that the dialog shows when the app is started -->
     <string name="changelog_checkbox_show_at_startup">Vis ved oppstart</string>
     <!-- Message displayed when the shortcut cannot be executed because there is no internet connection. %1$s is a placeholder for the shortcut name. -->
     <string name="execution_delayed">%1$s vil bli iverksatt så fort en internettilkobling er tilgjengelig.</string>
+    <!-- Button, shown on Settings page, to allow opening the app's Play Store page -->
     <string name="settings_play_store">Vis i Play Store</string>
+    <!-- Button subtitle for "View in Play Store" button -->
     <string name="settings_play_store_summary">Takk for dine vurderinger og anmeldelser</string>
+    <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_duplicated">\"%1$s\" er duplisert.</string>
+    <!-- Message, shown in snackbar, confirming to user that a shortcut was moved. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_moved">\"%1$s\" er flyttet.</string>
+    <!-- Message, shown in snackbar, confirming to user that a shortcut was deleted. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_deleted">\"%1$s\" er slettet.</string>
+    <!-- Message, shown in snackbar, confirming to user that a shortcut was placed on the phone's home screen. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_placed">\"%1$s\" er plassert på startskjermen.</string>
     <!-- Generic 'Delete' option, used in various dialogs, e.g., to confirm the deletion of a shortcut -->
     <string name="dialog_delete">Slett</string>
+    <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
     <string name="section_basic_request">Enkle forespørselsinnstillinger</string>
+    <!-- Section title, shown in shortcut editor, for section containing advanced settings -->
     <string name="section_advanced_settings">Avanserte innstillinger</string>
+    <!-- Section title, shown in shortcut editor, for section containing authentication settings -->
     <string name="section_authentication">Autentisering</string>
+    <!-- Label, for dropdown picker, allowing to select the authentication method (i.e., how to authenticate) of a shortcut -->
     <string name="label_authentication_method">Autentiseringsmetode</string>
+    <!-- Warning, shown in dialog when user changes the name or icon of a shortcut, to inform them that the changes don't apply automatically -->
     <string name="warning_icon_or_name_change">Bemerk at endringene til navnet eller ikonet ikke blir automatisk brukt på snarveier som allerede er lagt til på startskjermen. Du vil måtte legge dem til på nytt for at endringene skal bli tatt i bruk. Alle andre endringer blir automatisk brukt.</string>
+    <!-- Checkbox label, used in varies dialogs, to allow user to hide the dialog forever -->
     <string name="dialog_checkbox_do_not_show_again">Ikke vis igjen</string>
     <!-- checkbox label in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
     <string name="label_accept_all_certificates">Aksepter ethvert sertifikat (Jeg vet hva jeg gjør)</string>
+    <!-- Page title, for page listing all the libraries and 3rd party assets used in the app -->
     <string name="title_licenses">Vedkjennelser</string>
+    <!-- Button, for opening page listing all the libraries and 3rd party assets used in the app -->
     <string name="settings_licenses">Vedkjennelser</string>
+    <!-- Button subtitle, for "Acknowledgements" button -->
     <string name="settings_licenses_summary">Biblioteker og ressurser som er brukt</string>
+    <!-- Page title, for page showing all configured categories -->
     <string name="title_categories">Kategorier</string>
+    <!-- Generic action, shown on dialog, to rename things -->
     <string name="action_rename">Gi nytt navn</string>
+    <!-- Action, shown on dropdown when editing a category, for allowing to change the category's layout type -->
     <string name="action_change_category_layout_type">Endre oppsettstype</string>
+    <!-- Message, shown in snackbar to confirm to the user that the layout type of a category was changed -->
     <string name="message_layout_type_changed">Oppsettstypen er blitt endret</string>
     <!-- One of two options when picking the layout for a category: Show shortcuts in a list -->
     <string name="layout_type_linear_list">Liste</string>
     <!-- One of two options when picking the layout for a category: Show shortcuts in a grid -->
     <string name="layout_type_grid">Rutenett</string>
+    <!-- Option to allow renaming a category -->
     <string name="title_rename_category">Gi kategorien nytt navn</string>
+    <!-- Dialog prompt/placeholder in input field, asking user to enter a name for a category -->
     <string name="placeholder_category_name">Skriv inn et kategorinavn…</string>
+    <!-- Placeholder in input field, asking user to enter a value. Used in varies places -->
     <string name="placeholder_value">Verdi</string>
+    <!-- Dialog title, shown in editor when creating a new category -->
     <string name="title_create_category">Lag en kategori</string>
+    <!-- Message, shown in dialog, to ask the user to confirm the deletion of a category and all shortcuts within -->
     <string name="confirm_delete_category_message">Vil du slette denne kategorien?\n\nAlle snarveier i den vil bli slettet.</string>
+    <!-- Message, shown in snackbar, to confirm to the user that a category was renamed -->
     <string name="message_category_renamed">Kategorien fikk et nytt navn.</string>
+    <!-- Message, shown in snackbar, to confirm to the user that a category was created -->
     <string name="message_category_created">Kategorien ble laget.</string>
+    <!-- Message, shown in snackbar, to confirm to the user that a category was deleted -->
     <string name="message_category_deleted">Kategorien ble slettet.</string>
     <plurals name="shortcut_count">
+        <!-- Shows numerical count of shortcuts, used to show how many shortcuts are in a given category -->
         <item quantity="one">%d snarvei</item>
         <item quantity="other">%d snarveier</item>
     </plurals>
+    <!-- Dialog title/button, for feature to move a shortcut to a different category -->
     <string name="title_move_to_category">Flytt til kategori</string>
     <!-- Name/title to describe what the plugin action does, used by external plugins, e.g. Tasker -->
     <string name="plugin_name">Iverksett \'HTTP-snarveier\'</string>
+    <!-- Button/page title, for viewing list of variables -->
     <string name="title_variables">Variabler</string>
+    <!-- Button, to edit a variable -->
     <string name="edit_variable">Redgier variablen</string>
+    <!-- Button, to create a new variable -->
     <string name="create_variable">Lag en variabel</string>
+    <!-- label, to allow user to pick the variable type (using a dropdown) in the variable editor -->
     <string name="label_variable_type">Type</string>
+    <!-- label, to allow the user to enter the key/name for a variable -->
     <string name="label_variable_key">Nøkkel</string>
+    <!-- label, shown in variable editor, to allow the user to enter a dialog title that will be shown then the variable is evaluated -->
     <string name="label_variable_title">Dialogtittel (valgfritt)</string>
+    <!-- label, shown in variable editor for Date Input variable, to allow the user to specify a date format -->
     <string name="label_variable_date_format">Datoformat</string>
+    <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
     <string name="variable_type_constant">Konstant</string>
+    <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
     <string name="variable_type_text">Tekstinndata</string>
+    <!-- Type of variable: Number Input, i.e., a dialog that asks user to enter a number -->
     <string name="variable_type_number">Nummerinndata</string>
+    <!-- Type of variable: Password Input, i.e., a dialog that asks user to enter a password -->
     <string name="variable_type_password">Passordinndata</string>
+    <!-- Type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
     <string name="variable_type_select">Utvalg</string>
+    <!-- Type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
     <string name="variable_type_toggle">Skru av/på</string>
+    <!-- Type of variable: Date Input, i.e., a dialog that asks user to pick a date in a calendar -->
     <string name="variable_type_date">Datoinndata</string>
+    <!-- Type of variable: Color Input, i.e., a dialog that asks user to pick a color in a color picker -->
     <string name="variable_type_color">Fargeinndata</string>
+    <!-- Error message, information user that the variable name they entered is not valid -->
     <string name="warning_invalid_variable_key">Variabelnøkler kan kun inneholder tall og bokstaver fra det engelske alfabetet.</string>
+    <!-- Dialog message, asking user to confirm the deletion of a variable -->
     <string name="confirm_delete_variable_message">Vil du slette denne variablen?</string>
+    <!-- Message, shown in snackbar, confirming to user that a variable was deleted. %1$s is a placeholder for the variable name -->
     <string name="variable_deleted">\"%1$s\" ble slettet.</string>
+    <!-- Checkbox label, for option to enable URL encoding of a variable -->
     <string name="label_url_encode">URL-koding</string>
+    <!-- Checkbox label, for option to enable JSON encoding of a variable -->
     <string name="label_json_encode">JSON-koding</string>
+    <!-- Section title, for section containing basic settings for a shortcut -->
     <string name="section_basic_variable_settings">Enkle innstillinger</string>
+    <!-- Error message, informing user that the entered variable key is empty -->
     <string name="validation_key_non_empty">Variabelnøkkelen kan ikke være tom.</string>
+    <!-- Error message, informing user that the entered variable key already exists -->
     <string name="validation_key_already_exists">En annen variabel med denne nøkkelen finnes allerede.</string>
+    <!-- Dialog title, to add another value to the list of values in a variable of Toggle type -->
     <string name="title_add_toggle_option">Legg til en verdi</string>
+    <!-- Button, to add another value to the list of values in a variable of Toggle type -->
     <string name="button_add_toggle_option">Legg til en verdi</string>
+    <!-- Section title, for section that lists all values of a variable of Toggle type -->
     <string name="section_toggle_options">Skru av/på verdier</string>
+    <!-- Title, for dialog that allows user to add an option to a Selection variable -->
     <string name="title_add_select_option">Legg til innstilling</string>
+    <!-- Button, to allow a user to add an option to a Selection variable -->
     <string name="button_add_select_option">Legg til innstilling</string>
+    <!-- Section title, for section that lists all selectable options of a Selection variable -->
     <string name="section_select_options">Velgbare innstillinger</string>
+    <!-- Label, for dialog that allows adding/editing an option for a Selection variable, for specifying the option's "Label" -->
     <string name="label_select_label">Merke</string>
+    <!-- Label, for dialog that allows adding/editing an option for a Selection variable, for specifying the option's "Value" -->
     <string name="label_select_value">Verdi</string>
+    <!-- Button, for opening help article page -->
     <string name="button_show_help">Vis hjelp</string>
+    <!-- Page/dialog title, for help article about variables -->
     <string name="help_title_variables">Variabler</string>
+    <!-- Error message, shown in variable editor when the user didn't add enough options -->
     <string name="error_not_enough_toggle_values">Vennligst legg til minst to verdier.</string>
+    <!-- Error message, shown in variable editor when the user didn't add enough options -->
     <string name="error_not_enough_select_values">Vennligst legg til minst én velgbar innstilling.</string>
+    <!-- Error message, shown in variable editor when an invalid date format is entered -->
     <string name="error_invalid_date_format">Datoformatet er ikke gyldig.</string>
+    <!-- Dialog button, allowing the user to share a text snippet with other apps -->
     <string name="share_button">Del</string>
+    <!-- Title on Share dialog -->
     <string name="share_title">Del…</string>
+    <!-- Message shown in progress dialog while an action is being performed. %1$s is a placeholder for the action, e.g. "Importing", or "Saving" -->
     <string name="progress_dialog_message">%1$s…</string>
+    <!-- Section title, for section in variable editor containing options specific to the variable type -->
     <string name="section_input_options">Inndatainnstillinger</string>
+    <!-- Checkbox value, shown in variable editor, allows to enable a variable to remember its previous value -->
     <string name="label_remember_value">Husk verdien</string>
+    <!-- Action, allows the user to cancel a pending shortcut execution -->
     <string name="action_cancel_pending">Avbryt den ventende iverksettelsen</string>
+    <!-- Message, shown in snackbar to confirm when the user cancelled a pending shortcut execution (%1$s is a placeholder for the shortcut name) -->
     <string name="pending_shortcut_execution_cancelled">%1$s ble avbrutt.</string>
+    <!-- Feature label for sharing text into the app, to be used in a specific variable for a configured shortcut -->
     <string name="action_send_to">Send til…</string>
+    <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
     <string name="error_not_suitable_shortcuts">Ingen egnede snarveier ble funnet.\n\nFor å bruke denne egenskapen, trenger du minst én snarvei som bruker en variabel som tillater \'Del …\'.\n\nSe dokumentasjonen i variabelseksjonen for mere informasjon.</string>
-    <string name="error_sharing_feature_not_available_yet">Beklager, men å dele tekstfiler inn i snarveier er ikke støttet ennå. Det vil sannsynligvis bli lagt til en gang i fremtiden.\nDu kan derimot dele tekstutdrag allerede. Se dokumentasjonen i variabelseksjonen for mere informasjon.\n\nTakk for din forståelse.</string>
+    <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">Tillat \'Del…</string>
+    <!-- App color theme option Blue -->
     <string name="theme_blue">Blå</string>
+    <!-- App color theme option Green -->
     <string name="theme_green">Grønn</string>
+    <!-- App color theme option Red -->
     <string name="theme_red">Rød</string>
+    <!-- App color theme option Grey -->
     <string name="theme_grey">Grå</string>
+    <!-- App color theme option Orange -->
     <string name="theme_orange">Oransje</string>
+    <!-- App color theme option Purple -->
     <string name="theme_purple">Lilla</string>
+    <!-- App color theme option Indigo -->
     <string name="theme_indigo">Indigo</string>
+    <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
     <string name="title_export">Eksporter til…</string>
+    <!-- Dialog option on Export dialog, for exporting by storing in a file on local storage -->
     <string name="button_export_to_filesystem">Lokal lagringsplass</string>
+    <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
     <string name="button_export_send_to">En annen app</string>
+    <!-- Dialog title, for dialog with options allowing user to pick where to import shortcuts from -->
     <string name="title_import">Importer fra…</string>
+    <!-- Dialog option on Import dialog, for importing shortcuts from a file on local storage -->
     <string name="button_import_from_filesystem">Lokal lagringsplass</string>
+    <!-- Dialog option on Import dialog, for importing shortcuts from a file picked via the system's document browser -->
     <string name="button_import_from_general">Dokumenter</string>
     <!-- Option 1 in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
     <string name="button_create_new">Fra bar bakke</string>
@@ -311,9 +406,13 @@
         <item quantity="one">%d minutt</item>
         <item quantity="other">%d minutter</item>
     </plurals>
+    <!-- Label: Shown on button that allows to enable execution delay of a shortcut -->
     <string name="label_delay_execution">Forsink iverksettelsen</string>
+    <!-- label, shown in variable editor for Time Input variable, to allow the user to specify a time format -->
     <string name="label_variable_time_format">Tidsformat</string>
+    <!-- Type of variable: Time Input, i.e., a dialog that asks user to pick a time in a clock -->
     <string name="variable_type_time">Tidsinndata</string>
+    <!-- Error message, shown in variable editor when an invalid time format is entered -->
     <string name="error_invalid_time_format">Tidsformatet er ikke gyldig.</string>
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
     <string name="error_not_supported">Denne egenskapen støttes ikke på enheten din.</string>
@@ -347,7 +446,9 @@
     <string name="settings_changelog">Endringslogg</string>
     <!-- Subtitle/summary of "Changelog" option in settings, showing the current app version number -->
     <string name="settings_changelog_summary">Versjon %1$s</string>
+    <!-- Button, to edit an existing value in the list of values in a variable of Toggle type -->
     <string name="title_edit_toggle_option">Rediger verdi</string>
+    <!-- Title, for dialog that allows user to edit an existing option of a Selection variable -->
     <string name="title_edit_select_option">Rediger innstillingen</string>
     <!-- Instructions shown in dialog when user clicks the variables button in the shortcut editor but doesn't have any variables configured yet -->
     <string name="help_text_variable_button">Denne knappen tillater deg å inkludere plassholdere for variabler, f.eks. dynamiske verdier, i din snarvei.\n\nDu har ikke konfigurert noen variabler ennå. Du kan gjøre det ved å klikk på Lag-knappen nedenfor.</string>
@@ -361,10 +462,6 @@
     <string name="label_edit_variables">Rediger variablene</string>
     <!-- Dialog title when creating a new shortcut, shows options below -->
     <string name="title_create_new_shortcut_options_dialog">Lag en ny snarvei</string>
-    <!-- Button text: translate app (prompt to help & become a translator) -->
-    <string name="settings_help_translate">Oversett appen</string>
-    <!-- Summary/subtitle of section in settings that prompts user to help translate the app -->
-    <string name="settings_help_translate_summary">Hjelp meg å gjøre denne appen bedre!</string>
     <!-- Blurb/short description of plugin action (for Tasker integration), where %1$s is a placeholder for the shortcut name. -->
     <string name="plugin_blurb_execute_task">Iverksett snarveien \"%1$s\"</string>
     <!-- Label of dropdown to select the request body type in shortcut editor -->
@@ -381,8 +478,6 @@
     <string name="button_copy_curl_export">Kopier</string>
     <!-- Title of dialog that allows user to pick an icon from the built-in icons -->
     <string name="title_choose_icon">Velg innebygd ikon</string>
-    <!-- Title of dialog that allows users to pick a constant variable from a list to insert its placeholder somewhere -->
-    <string name="dialog_title_variable_selection_constants_only">Variabler (Kun konstante)</string>
     <!-- Shown as a placeholder for the title field of an action of unknown type. This should never happen. -->
     <string name="action_type_unknown_title">Ukjent handling</string>
     <!-- Shortcut Action Title: Show Toast (small popup message) -->
