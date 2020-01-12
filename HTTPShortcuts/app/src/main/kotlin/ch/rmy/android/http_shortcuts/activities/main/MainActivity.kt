@@ -154,7 +154,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
                 openEditorWithCurlCommand(curlCommand)
             }
             REQUEST_CREATE_SHORTCUT -> {
-                val shortcutId = intent.getStringExtra(ShortcutEditorActivity.RESULT_SHORTCUT_ID)
+                val shortcutId = intent.getStringExtra(ShortcutEditorActivity.RESULT_SHORTCUT_ID)!!
                 selectShortcut(shortcutId)
             }
             REQUEST_SETTINGS -> {

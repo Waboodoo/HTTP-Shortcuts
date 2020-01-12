@@ -13,9 +13,9 @@ class VariableEditText : AppCompatAutoCompleteTextView {
 
     var variablePlaceholderProvider: VariablePlaceholderProvider? = null
 
-    constructor(context: Context?) : super(context)
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
-    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+    constructor(context: Context) : super(context)
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     private val placeholderColor by lazy {
         color(context, R.color.variable)

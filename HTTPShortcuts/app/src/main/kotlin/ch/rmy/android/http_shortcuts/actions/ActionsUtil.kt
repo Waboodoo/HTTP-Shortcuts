@@ -30,7 +30,7 @@ object ActionsUtil {
 
         val replacements = LinkedList<Replacement>()
         while (matcher.find()) {
-            val actionType = matcher.group(1)
+            val actionType = matcher.group(1)!!
             val payload = GsonUtil.fromJsonObject<String>(matcher.group(2))
             val actionDTO = ActionDTO(actionType, payload)
             replacements.add(Replacement(matcher.start(), matcher.end(), actionDTO))

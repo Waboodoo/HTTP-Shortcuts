@@ -38,7 +38,7 @@ object Variables {
         var previousEnd = 0
         while (matcher.find()) {
             builder.append(string.substring(previousEnd, matcher.start()))
-            val variableId = matcher.group(1)
+            val variableId = matcher.group(1)!!
             builder.append(variables[variableId] ?: matcher.group(0))
             previousEnd = matcher.end()
         }
@@ -53,7 +53,7 @@ object Variables {
         val discoveredVariables = mutableSetOf<String>()
         val matcher = match(string)
         while (matcher.find()) {
-            discoveredVariables.add(matcher.group(1))
+            discoveredVariables.add(matcher.group(1)!!)
         }
         return discoveredVariables
     }
@@ -66,7 +66,7 @@ object Variables {
 
         val replacements = LinkedList<Replacement>()
         while (matcher.find()) {
-            val variableId = matcher.group(1)
+            val variableId = matcher.group(1)!!
             val placeholder = variablePlaceholderProvider.findPlaceholderById(variableId)
             if (placeholder != null) {
                 replacements.add(Replacement(matcher.start(), matcher.end(), placeholder))
@@ -107,7 +107,7 @@ object Variables {
             }
         val matcher = JS_PATTERN.matcher(text)
         while (matcher.find()) {
-            val variableId = matcher.group(1)
+            val variableId = matcher.group(1)!!
             val placeholder = variablePlaceholderProvider.findPlaceholderById(variableId)
             val variableKey = placeholder?.variableKey ?: "???"
             text.setSpan(JSVariableSpan(color, variableKey), matcher.start(), matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -121,7 +121,7 @@ object Variables {
         val discoveredVariables = mutableSetOf<String>()
         val matcher = JS_PATTERN.matcher(string)
         while (matcher.find()) {
-            discoveredVariables.add(matcher.group(1))
+            discoveredVariables.add(matcher.group(1)!!)
         }
         return discoveredVariables
     }
@@ -130,7 +130,7 @@ object Variables {
         val discoveredVariables = mutableSetOf<String>()
         val matcher = JS_PATTERN2.matcher(string)
         while (matcher.find()) {
-            discoveredVariables.add(matcher.group(1))
+            discoveredVariables.add(matcher.group(1)!!)
         }
         return discoveredVariables
     }

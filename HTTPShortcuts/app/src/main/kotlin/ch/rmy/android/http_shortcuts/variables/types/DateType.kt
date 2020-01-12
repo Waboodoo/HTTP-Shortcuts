@@ -58,7 +58,7 @@ internal class DateType : BaseVariableType(), AsyncVariableType {
         val calendar = Calendar.getInstance()
         if (previousValue != null) {
             try {
-                calendar.time = DATE_FORMAT.parse(previousValue)
+                calendar.time = DATE_FORMAT.parse(previousValue)!!
             } catch (e: ParseException) {
             }
         }

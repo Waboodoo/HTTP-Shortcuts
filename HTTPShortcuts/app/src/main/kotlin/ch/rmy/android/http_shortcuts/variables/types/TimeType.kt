@@ -51,7 +51,7 @@ internal class TimeType : BaseVariableType(), AsyncVariableType {
             .also {
                 if (previousValue != null) {
                     try {
-                        it.time = DATE_FORMAT.parse(previousValue)
+                        it.time = DATE_FORMAT.parse(previousValue)!!
                     } catch (e: ParseException) {
                     }
                 }
