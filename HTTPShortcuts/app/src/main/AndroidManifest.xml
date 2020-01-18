@@ -168,6 +168,10 @@
             android:label="@string/title_translate" />
 
         <activity
+            android:name=".activities.settings.ContactActivity"
+            android:label="@string/title_contact" />
+
+        <activity
             android:name=".activities.misc.ShareActivity"
             android:configChanges="orientation|screenSize"
             android:excludeFromRecents="true"

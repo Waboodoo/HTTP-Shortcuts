@@ -139,7 +139,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
                 NetworkRestrictionWarningDialog(context)
                     .showIfNeeded()
             )
-            .subscribe()
+            .subscribe({}, {})
             .attachTo(destroyer)
     }
 

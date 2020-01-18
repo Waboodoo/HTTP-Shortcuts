@@ -25,7 +25,6 @@ import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.logException
-import ch.rmy.android.http_shortcuts.extensions.sendMail
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
@@ -108,7 +107,9 @@ class SettingsActivity : BaseActivity() {
             initPreference("changelog") {
                 ChangeLogDialog(context!!, false)
                     .show()
-                    .subscribe()
+                    .subscribe({}, {
+                        showSnackbar(R.string.error_generic)
+                    })
                     .attachTo(destroyer)
             }
                 .summary = getString(R.string.settings_changelog_summary, versionName)
@@ -294,12 +295,9 @@ class SettingsActivity : BaseActivity() {
         }
 
         private fun contactDeveloper() {
-            activity!!.sendMail(
-                getString(R.string.developer_email_address),
-                getString(R.string.email_subject_contact),
-                getString(R.string.email_text_contact),
-                getString(R.string.settings_mail)
-            )
+            ContactActivity.IntentBuilder(context!!)
+                .build()
+                .startActivity(this)
         }
 
         private fun openFAQPage() {

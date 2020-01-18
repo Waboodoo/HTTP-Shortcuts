@@ -66,7 +66,7 @@ class ChangeLogDialog(private val context: Context, private val whatsNew: Boolea
             }
         } catch (e: Exception) {
             logException(e)
-            return Completable.complete()
+            return Completable.error(e)
         }
     }
 
