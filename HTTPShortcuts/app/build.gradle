@@ -57,10 +57,6 @@ repositories {
         url 'https://jitpack.io'
     }
     google()
-    maven {
-        // Temporarily needed for androidx.appcompat:appcompat:1.2.0-SNAPSHOT
-        url 'https://ci.android.com/builds/submitted/6052626/androidx_snapshot/latest/repository/'
-    }
 }
 
 dependencies {
@@ -68,7 +64,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
     /* Support libraries */
-    implementation 'androidx.appcompat:appcompat:1.2.0-SNAPSHOT'
+    implementation 'androidx.appcompat:appcompat:1.2.0-alpha01'
     implementation 'com.google.android.material:material:1.2.0-alpha03'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.annotation:annotation:1.0.2'
