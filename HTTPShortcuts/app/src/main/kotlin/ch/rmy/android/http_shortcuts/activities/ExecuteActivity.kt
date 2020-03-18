@@ -22,6 +22,7 @@ import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.cancel
 import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.detachFromRealm
+import ch.rmy.android.http_shortcuts.extensions.finishWithoutAnimation
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
@@ -207,8 +208,8 @@ class ExecuteActivity : BaseActivity() {
 
     private fun executeWithActions(variableManager: VariableManager): Completable =
         Completable.fromAction {
-            showProgress()
-        }
+                showProgress()
+            }
             .subscribeOn(AndroidSchedulers.mainThread())
             .concatWith(
                 if (tryNumber == 0 || (tryNumber == 1 && shortcut.delay > 0)) {
@@ -229,14 +230,15 @@ class ExecuteActivity : BaseActivity() {
                             hideProgress()
                         }
                         .flatMapCompletable { response ->
-                            scriptExecutor.execute(
-                                context = context,
-                                script = shortcut.codeOnSuccess,
-                                shortcut = shortcut,
-                                variableManager = variableManager,
-                                response = response,
-                                recursionDepth = recursionDepth
-                            )
+                            scriptExecutor
+                                .execute(
+                                    context = context,
+                                    script = shortcut.codeOnSuccess,
+                                    shortcut = shortcut,
+                                    variableManager = variableManager,
+                                    response = response,
+                                    recursionDepth = recursionDepth
+                                )
                                 .subscribeOn(Schedulers.computation())
                                 .observeOn(AndroidSchedulers.mainThread())
                         }
@@ -245,14 +247,15 @@ class ExecuteActivity : BaseActivity() {
                                 // TODO: Find a better way to differenciate network exceptions from JS exceptions
                                 Completable.error(error)
                             } else {
-                                scriptExecutor.execute(
-                                    context = context,
-                                    script = shortcut.codeOnFailure,
-                                    shortcut = shortcut,
-                                    variableManager = variableManager,
-                                    volleyError = error as? VolleyError?,
-                                    recursionDepth = recursionDepth
-                                )
+                                scriptExecutor
+                                    .execute(
+                                        context = context,
+                                        script = shortcut.codeOnFailure,
+                                        shortcut = shortcut,
+                                        variableManager = variableManager,
+                                        volleyError = error as? VolleyError?,
+                                        recursionDepth = recursionDepth
+                                    )
                                     .subscribeOn(Schedulers.computation())
                                     .observeOn(AndroidSchedulers.mainThread())
                             }
@@ -310,13 +313,14 @@ class ExecuteActivity : BaseActivity() {
     private fun rescheduleExecution(variableManager: VariableManager) {
         if (tryNumber < MAX_RETRY) {
             val waitUntil = DateUtil.calculateDate(calculateDelay())
-            Commons.createPendingExecution(
-                shortcut.id,
-                variableManager.getVariableValuesByKeys(),
-                tryNumber,
-                waitUntil,
-                shortcut.isWaitForNetwork
-            )
+            Commons
+                .createPendingExecution(
+                    shortcut.id,
+                    variableManager.getVariableValuesByKeys(),
+                    tryNumber,
+                    waitUntil,
+                    shortcut.isWaitForNetwork
+                )
                 .subscribe {
                     ExecutionScheduler.schedule(context)
                 }

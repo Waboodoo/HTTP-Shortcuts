@@ -6,7 +6,13 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.utils.SelectionMode
 
-class CategoryPagerAdapter(private val fragmentManager: FragmentManager, private val selectionMode: SelectionMode) : FragmentPagerAdapter(fragmentManager) {
+class CategoryPagerAdapter(
+    private val fragmentManager: FragmentManager,
+    private val selectionMode: SelectionMode
+) : FragmentPagerAdapter(
+    fragmentManager,
+    FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
+) {
 
     private var fragments: List<Pair<String, ListFragment>> = emptyList()
 
@@ -17,7 +23,6 @@ class CategoryPagerAdapter(private val fragmentManager: FragmentManager, private
                     ?.let { it as? ListFragment }
                     ?.takeIf { it.categoryId == category.id }
                     ?: ListFragment.create(category.id, selectionMode)
-
                 category.name to fragment
             }
         notifyDataSetChanged()

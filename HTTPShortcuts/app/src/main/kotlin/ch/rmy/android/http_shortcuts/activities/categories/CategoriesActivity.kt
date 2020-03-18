@@ -1,8 +1,11 @@
 package ch.rmy.android.http_shortcuts.activities.categories
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
@@ -34,6 +37,12 @@ class CategoriesActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_categories)
         initViews()
+
+        viewModel.hasChanges.observe(this, Observer {
+            setResult(Activity.RESULT_OK, Intent().apply {
+                putExtra(EXTRA_CATEGORIES_CHANGED, it)
+            })
+        })
     }
 
     private fun initViews() {
@@ -216,6 +225,8 @@ class CategoriesActivity : BaseActivity() {
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, CategoriesActivity::class.java)
 
     companion object {
+
+        const val EXTRA_CATEGORIES_CHANGED = "categories_changed"
 
         private const val NAME_MAX_LENGTH = 20
 

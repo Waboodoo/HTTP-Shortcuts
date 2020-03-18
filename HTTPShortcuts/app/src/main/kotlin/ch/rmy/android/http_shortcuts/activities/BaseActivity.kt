@@ -80,12 +80,6 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    protected open fun finishWithoutAnimation() {
-        overridePendingTransition(0, 0)
-        finish()
-        overridePendingTransition(0, 0)
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         destroyer.destroy()

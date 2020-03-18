@@ -42,3 +42,16 @@ fun Activity.sendMail(address: String, subject: String, text: String, title: Str
         showToast(R.string.error_not_supported)
     }
 }
+
+fun Activity.finishWithoutAnimation() {
+    overridePendingTransition(0, 0)
+    finish()
+    overridePendingTransition(0, 0)
+}
+
+fun Activity.restartWithoutAnimation() {
+    overridePendingTransition(0, 0)
+    finish()
+    startActivity(Intent(this, this::class.java))
+    overridePendingTransition(0, 0)
+}

@@ -25,6 +25,7 @@ import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.http_shortcuts.extensions.restartWithoutAnimation
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.extensions.visible
@@ -61,7 +62,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        if (categories.size <= 1) {
+        if (categories.count { !it.hidden } <= 1) {
             (toolbar?.layoutParams as? AppBarLayout.LayoutParams?)?.scrollFlags = 0
         }
 
@@ -166,6 +167,14 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
                 } else if (intent.getBooleanExtra(SettingsActivity.EXTRA_APP_LOCKED, false)) {
                     showSnackbar(R.string.message_app_locked)
                 }
+                if (intent.getBooleanExtra(SettingsActivity.EXTRA_CATEGORIES_CHANGED, false)) {
+                    restartWithoutAnimation()
+                }
+            }
+            REQUEST_CATEGORIES -> {
+                if (intent.getBooleanExtra(CategoriesActivity.EXTRA_CATEGORIES_CHANGED, false)) {
+                    restartWithoutAnimation()
+                }
             }
         }
     }
@@ -251,7 +260,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     private fun openCategoriesEditor() {
         CategoriesActivity.IntentBuilder(context)
             .build()
-            .startActivity(this)
+            .startActivity(this, REQUEST_CATEGORIES)
     }
 
     private fun openVariablesEditor() {
@@ -316,6 +325,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
         private const val REQUEST_CREATE_SHORTCUT = 1
         private const val REQUEST_CREATE_SHORTCUT_FROM_CURL = 2
         private const val REQUEST_SETTINGS = 3
+        private const val REQUEST_CATEGORIES = 4
 
     }
 }

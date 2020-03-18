@@ -411,6 +411,9 @@ class SettingsActivity : BaseActivity() {
                         status.importedShortcuts,
                         status.importedShortcuts
                     ))
+                    activity!!.setResult(Activity.RESULT_OK, Intent().apply {
+                        putExtra(EXTRA_CATEGORIES_CHANGED, true)
+                    })
                 }, { e ->
                     if (e is JsonParseException || e is JsonSyntaxException) {
                         showSnackbar(getString(R.string.import_failed_with_reason, getString(R.string.import_failure_reason_invalid_json)), long = true)
@@ -445,6 +448,7 @@ class SettingsActivity : BaseActivity() {
 
         const val EXTRA_THEME_CHANGED = "theme_changed"
         const val EXTRA_APP_LOCKED = "app_locked"
+        const val EXTRA_CATEGORIES_CHANGED = "categories_changed"
 
         private const val FAQ_PAGE_URL = "https://http-shortcuts.rmy.ch/#faq"
         private const val PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts"
