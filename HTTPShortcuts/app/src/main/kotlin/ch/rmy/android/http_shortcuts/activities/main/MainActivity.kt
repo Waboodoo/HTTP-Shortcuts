@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
+import androidx.core.view.children
 import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
 import ch.rmy.android.http_shortcuts.R
@@ -79,6 +81,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     private fun initViews() {
         createButton.setOnClickListener { showCreateOptions() }
         setupViewPager()
+        setupTitleBar()
         tabLayout.applyTheme(themeHelper)
         createButton.applyTheme(themeHelper)
         bindViewsToViewModel()
@@ -132,6 +135,34 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
         viewModel.getCategories().observe(this, Observer { categories ->
             adapter.setCategories(categories.filter { !it.hidden })
         })
+    }
+
+    private fun setupTitleBar() {
+        viewModel.getLiveToolbarTitle().observe(this, Observer { title ->
+            setTitle(title.ifEmpty { context.getString(R.string.app_name) })
+        })
+        if (!viewModel.isAppLocked()) {
+            toolbar!!.children.firstOrNull { it is TextView }?.setOnClickListener {
+                showToolbarTitleChangeDialog()
+            }
+        }
+    }
+
+    private fun showToolbarTitleChangeDialog() {
+        DialogBuilder(context)
+            .title(R.string.title_set_title)
+            .textInput(
+                prefill = viewModel.getToolbarTitle() ?: "?",
+                allowEmpty = true,
+                maxLength = TITLE_MAX_LENGTH
+            ) { input ->
+                viewModel.setToolbarTitle(input)
+                    .subscribe {
+                        showSnackbar(R.string.message_title_changed)
+                    }
+                    .attachTo(destroyer)
+            }
+            .showIfPossible()
     }
 
     private fun showStartupDialogs() {
@@ -326,6 +357,8 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
         private const val REQUEST_CREATE_SHORTCUT_FROM_CURL = 2
         private const val REQUEST_SETTINGS = 3
         private const val REQUEST_CATEGORIES = 4
+
+        private const val TITLE_MAX_LENGTH = 50
 
     }
 }

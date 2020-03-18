@@ -700,4 +700,8 @@
     <string name="settings_dark_theme">Dark Mode</string>
     <!-- Message: Shown as a placeholder when the HTTP response has no content that could be displayed -->
     <string name="message_blank_response">empty response</string>
+    <!-- Message shown in snackbar when the title on the main title bar was changed. -->
+    <string name="message_title_changed">Title changed.</string>
+    <!-- Dialog title: Shown in dialog title when changing the title of the main screen of the app -->
+    <string name="title_set_title">Change Title</string>
 </resources>

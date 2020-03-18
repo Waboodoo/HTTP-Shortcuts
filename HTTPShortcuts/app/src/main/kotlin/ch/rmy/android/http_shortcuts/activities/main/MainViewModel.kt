@@ -47,4 +47,18 @@ open class MainViewModel(application: Application) : RealmViewModel(application)
             Repository.moveShortcut(realm, shortcutId, targetPosition, targetCategoryId)
         }
 
+    fun getToolbarTitle() = Repository.getBase(persistedRealm)!!.title
+
+    fun getLiveToolbarTitle(): LiveData<String> =
+        Transformations.map(Repository.getBase(persistedRealm)!!.toLiveData(), { base ->
+            base?.title
+                ?.takeUnless { it.isBlank() }
+                ?: ""
+        })
+
+    fun setToolbarTitle(title: String) =
+        Transactions.commit { realm ->
+            Repository.getBase(realm)?.title = title.trim()
+        }
+
 }
