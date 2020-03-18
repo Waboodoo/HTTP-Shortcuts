@@ -90,8 +90,9 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
         })
 
         viewModel.getCategories().observe(this, Observer { categories ->
-            tabLayout.visible = categories.size > 1
-            if (viewPager.currentItem >= categories.size) {
+            val visibleCategoryCount = categories.count { !it.hidden }
+            tabLayout.visible = visibleCategoryCount > 1
+            if (viewPager.currentItem >= visibleCategoryCount) {
                 viewPager.currentItem = 0
             }
         })
@@ -128,7 +129,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
         viewPager.adapter = adapter
         tabLayout.setupWithViewPager(viewPager)
         viewModel.getCategories().observe(this, Observer { categories ->
-            adapter.setCategories(categories)
+            adapter.setCategories(categories.filter { !it.hidden })
         })
     }
 

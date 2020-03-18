@@ -283,6 +283,10 @@
     <string name="action_rename">Rename</string>
     <!-- Action, shown on dropdown when editing a category, for allowing to change the category's layout type -->
     <string name="action_change_category_layout_type">Change Layout Type</string>
+    <!-- Action, shown on dropdown when editing a category, for allowing to hide a category -->
+    <string name="action_hide_category">Hide</string>
+    <!-- Action, shown on dropdown when editing a category, for allowing to show a hidden category -->
+    <string name="action_show_category">Show</string>
     <!-- Message, shown in snackbar to confirm to the user that the layout type of a category was changed -->
     <string name="message_layout_type_changed">Layout type changed.</string>
     <!-- Option in context menu for category, allows user to change the background of a category -->
@@ -311,6 +315,10 @@
     <string name="confirm_delete_category_message">Delete this category?\n\nAll shortcuts contained within will be deleted.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category was renamed -->
     <string name="message_category_renamed">Category renamed.</string>
+    <!-- Message, shown in snackbar, to confirm to the user that a category was hidden -->
+    <string name="message_category_hidden">Category hidden.</string>
+    <!-- Message, shown in snackbar, to confirm to the user that a category is no longer hidden and visible again -->
+    <string name="message_category_visible">Category no longer hidden.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category was created -->
     <string name="message_category_created">Category created.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category was deleted -->
@@ -320,6 +328,8 @@
         <item quantity="one">%d shortcut</item>
         <item quantity="other">%d shortcuts</item>
     </plurals>
+    <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
+    <string name="label_category_hidden">%s (hidden)</string>
     <!-- Dialog title/button, for feature to move a shortcut to a different category -->
     <string name="title_move_to_category">Move to Category</string>
     <!-- Name/title to describe what the plugin action does, used by external plugins, e.g. Tasker -->

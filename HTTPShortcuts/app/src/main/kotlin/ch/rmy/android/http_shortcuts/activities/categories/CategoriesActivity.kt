@@ -91,6 +91,16 @@ class CategoriesActivity : BaseActivity() {
             .item(R.string.action_rename) {
                 showRenameDialog(categoryData)
             }
+            .mapIf(category.hidden) {
+                it.item(R.string.action_show_category) {
+                    toggleCategoryHidden(categoryData, hidden = false)
+                }
+            }
+            .mapIf(!category.hidden && categories.count { !it.hidden } > 1) {
+                it.item(R.string.action_hide_category) {
+                    toggleCategoryHidden(categoryData, hidden = true)
+                }
+            }
             .item(R.string.action_change_category_layout_type) {
                 showLayoutTypeDialog(categoryData)
             }
@@ -144,6 +154,15 @@ class CategoriesActivity : BaseActivity() {
                 changeBackgroundType(categoryData, Category.BACKGROUND_TYPE_WALLPAPER)
             }
             .showIfPossible()
+    }
+
+    private fun toggleCategoryHidden(categoryData: LiveData<Category?>, hidden: Boolean) {
+        val category = categoryData.value ?: return
+        viewModel.toggleCategoryHidden(category.id, hidden)
+            .subscribe {
+                showSnackbar(if (hidden) R.string.message_category_hidden else R.string.message_category_visible)
+            }
+            .attachTo(destroyer)
     }
 
     private fun renameCategory(categoryData: LiveData<Category?>, newName: String) {

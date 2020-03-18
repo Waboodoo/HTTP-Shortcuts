@@ -16,6 +16,7 @@ open class Category : RealmObject(), HasId {
     var layoutType: String = LAYOUT_LINEAR_LIST
 
     var background: String = BACKGROUND_TYPE_WHITE
+    var hidden: Boolean = false
 
     companion object {
 

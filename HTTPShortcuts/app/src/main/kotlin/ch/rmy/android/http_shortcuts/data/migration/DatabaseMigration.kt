@@ -249,6 +249,10 @@ class DatabaseMigration : RealmMigration {
                 schema.get("PendingExecution")!!
                     .addField("recursionDepth", Int::class.javaPrimitiveType)
             }
+            29L -> { // 1.27.0
+                schema.get("Category")!!
+                    .addField("hidden", Boolean::class.javaPrimitiveType)
+            }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -274,7 +278,7 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 28L
+        const val VERSION = 29L
 
     }
 

@@ -30,6 +30,11 @@ class CategoriesViewModel(application: Application) : RealmViewModel(application
             Repository.getCategoryById(realm, categoryId)?.name = newName
         }
 
+    fun toggleCategoryHidden(categoryId: String, hidden: Boolean) =
+        Transactions.commit { realm ->
+            Repository.getCategoryById(realm, categoryId)?.hidden = hidden
+        }
+
     fun setLayoutType(categoryId: String, layoutType: String) =
         Transactions.commit { realm ->
             Repository.getCategoryById(realm, categoryId)?.layoutType = layoutType

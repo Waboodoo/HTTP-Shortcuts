@@ -30,12 +30,18 @@ class CategoryAdapter(context: Context, categories: ListLiveData<Category>) : Ba
         private val layoutTypeIcon: ImageView by bindView(R.id.layout_type_icon)
 
         override fun updateViews(item: Category) {
-            name.text = item.name
+            name.text = getName(item)
             val count = item.shortcuts.size
             description.text = context.resources.getQuantityString(R.plurals.shortcut_count, count, count)
 
             updateIcons(item.shortcuts)
             updateLayoutTypeIcon(item.layoutType)
+        }
+
+        private fun getName(category: Category): String = if (category.hidden) {
+            context.getString(R.string.label_category_hidden, category.name)
+        } else {
+            category.name
         }
 
         private fun updateIcons(shortcuts: List<Shortcut>) {
