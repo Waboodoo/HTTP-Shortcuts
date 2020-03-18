@@ -169,8 +169,10 @@ class SettingsActivity : BaseActivity() {
             val preference = findPreference<ListPreference>(key)!!
             preference.applyTheme()
             preference.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, newValue ->
-                updateSummary(preference, newValue)
-                action(newValue)
+                if (isAdded) {
+                    updateSummary(preference, newValue)
+                    action(newValue)
+                }
                 true
             }
             updateSummary(preference, null)
