@@ -96,11 +96,10 @@ dependencies {
 
     /* HTTP & Network */
     implementation 'com.android.volley:volley:1.1.1'
-    implementation 'com.squareup.okhttp3:okhttp:3.12.1'
-    implementation 'com.facebook.stetho:stetho:1.5.0'
-    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
-    implementation 'com.burgstaller:okhttp-digest:1.12'
-    implementation 'org.apache.httpcomponents:httpcore:4.4.11'
+    implementation 'com.squareup.okhttp3:okhttp:4.4.1'
+    implementation 'com.facebook.stetho:stetho:1.5.1'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
+    implementation 'com.burgstaller:okhttp-digest:2.1'
 
     /* Tasker integration */
     implementation 'com.twofortyfouram:android-plugin-client-sdk-for-locale:4.0.3'

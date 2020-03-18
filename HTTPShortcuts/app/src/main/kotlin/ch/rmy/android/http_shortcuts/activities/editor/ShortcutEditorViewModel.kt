@@ -9,6 +9,7 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Shortcut.Companion.TEMPORARY_ID
 import ch.rmy.android.http_shortcuts.extensions.getQuantityString
 import ch.rmy.android.http_shortcuts.extensions.getString
+import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.icons.Icons
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.utils.Validation
@@ -16,7 +17,6 @@ import ch.rmy.curlcommand.CurlCommand
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.realm.Realm
-import org.apache.http.HttpHeaders
 
 class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorViewModel(application) {
 

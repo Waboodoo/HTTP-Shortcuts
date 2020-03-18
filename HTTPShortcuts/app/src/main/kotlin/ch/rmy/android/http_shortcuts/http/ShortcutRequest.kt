@@ -9,7 +9,6 @@ import com.android.volley.Request
 import com.android.volley.Response
 import io.reactivex.SingleEmitter
 import okhttp3.Credentials
-import org.apache.http.HttpHeaders
 
 internal class ShortcutRequest private constructor(
     method: Int,
