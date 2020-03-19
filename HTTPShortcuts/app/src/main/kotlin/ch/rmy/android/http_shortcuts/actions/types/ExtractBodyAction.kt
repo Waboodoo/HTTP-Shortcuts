@@ -2,13 +2,11 @@ package ch.rmy.android.http_shortcuts.actions.types
 
 import android.content.Context
 import ch.rmy.android.http_shortcuts.data.Commons
+import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.variables.VariableManager
-import com.android.volley.VolleyError
-import com.android.volley.toolbox.HttpHeaderParser
 import io.reactivex.Completable
-import java.nio.charset.Charset
 
 @Deprecated("Will be removed eventually")
 class ExtractBodyAction(
@@ -46,10 +44,9 @@ class ExtractBodyAction(
             internalData[KEY_JSON_PATH] = value
         }
 
-    override fun perform(context: Context, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Completable {
+    override fun perform(context: Context, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse?, responseError: ErrorResponse?, recursionDepth: Int): Completable {
         val body = when {
             response != null -> response.bodyAsString
-            volleyError?.networkResponse?.data != null -> volleyError.networkResponse.data.toString(Charset.forName(HttpHeaderParser.parseCharset(volleyError.networkResponse.headers, "UTF-8")))
             else -> return Completable.complete()
         }
 

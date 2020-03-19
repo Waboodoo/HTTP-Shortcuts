@@ -7,13 +7,20 @@ import com.burgstaller.okhttp.digest.DigestAuthenticator
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import okhttp3.OkHttpClient
 import java.security.cert.CertificateException
+import java.util.concurrent.TimeUnit
 import javax.net.ssl.HostnameVerifier
 import javax.net.ssl.SSLContext
 import javax.net.ssl.X509TrustManager
 
 internal object HttpClients {
 
-    fun getClient(acceptAllCertificates: Boolean, username: String?, password: String?, followRedirects: Boolean): OkHttpClient =
+    fun getClient(
+        acceptAllCertificates: Boolean,
+        username: String?,
+        password: String?,
+        followRedirects: Boolean,
+        timeout: Long
+    ): OkHttpClient =
         (if (acceptAllCertificates) createUnsafeOkHttpClientBuilder() else createDefaultOkHttpClientBuilder())
             .mapIf(username != null && password != null) {
                 val authenticator = DigestAuthenticator(Credentials(username, password))
@@ -21,6 +28,9 @@ internal object HttpClients {
             }
             .followRedirects(followRedirects)
             .followSslRedirects(followRedirects)
+            .connectTimeout(timeout, TimeUnit.MILLISECONDS)
+            .readTimeout(timeout, TimeUnit.MILLISECONDS)
+            .writeTimeout(timeout, TimeUnit.MILLISECONDS)
             .addNetworkInterceptor(StethoInterceptor())
             .build()
 

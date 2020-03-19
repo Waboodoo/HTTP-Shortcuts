@@ -2,10 +2,10 @@ package ch.rmy.android.http_shortcuts.actions.types
 
 import android.content.Context
 import ch.rmy.android.http_shortcuts.extensions.showToast
+import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.Variables
-import com.android.volley.VolleyError
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 
@@ -20,12 +20,13 @@ class ToastAction(
             internalData[KEY_TEXT] = value
         }
 
-    override fun perform(context: Context, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Completable {
+    override fun perform(context: Context, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse?, responseError: ErrorResponse?, recursionDepth: Int): Completable {
         val finalMessage = Variables.rawPlaceholdersToResolvedValues(message, variableManager.getVariableValuesByIds())
         return if (finalMessage.isNotEmpty()) {
-            Completable.fromAction {
-                context.showToast(finalMessage, long = true)
-            }
+            Completable
+                .fromAction {
+                    context.showToast(finalMessage, long = true)
+                }
                 .subscribeOn(AndroidSchedulers.mainThread())
         } else {
             Completable.complete()

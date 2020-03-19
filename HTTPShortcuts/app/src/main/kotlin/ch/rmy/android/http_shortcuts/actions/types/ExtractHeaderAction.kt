@@ -2,9 +2,9 @@ package ch.rmy.android.http_shortcuts.actions.types
 
 import android.content.Context
 import ch.rmy.android.http_shortcuts.data.Commons
+import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.variables.VariableManager
-import com.android.volley.VolleyError
 import io.reactivex.Completable
 
 @Deprecated("Will be removed eventually")
@@ -25,9 +25,8 @@ class ExtractHeaderAction(
             internalData[KEY_VARIABLE_ID] = value
         }
 
-    override fun perform(context: Context, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Completable {
+    override fun perform(context: Context, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse?, responseError: ErrorResponse?, recursionDepth: Int): Completable {
         val headerValue = response?.headers?.get(headerKey)
-            ?: volleyError?.networkResponse?.headers?.get(headerKey)
             ?: return Completable.complete()
 
         variableManager.setVariableValueById(variableId, headerValue)

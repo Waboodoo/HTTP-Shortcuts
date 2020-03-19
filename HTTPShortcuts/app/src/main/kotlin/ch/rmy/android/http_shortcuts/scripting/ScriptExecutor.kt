@@ -6,10 +6,9 @@ import ch.rmy.android.http_shortcuts.actions.types.ActionFactory
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.Repository
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.extensions.getShortcutResponse
+import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.variables.VariableManager
-import com.android.volley.VolleyError
 import io.reactivex.Completable
 import org.liquidplayer.javascript.JSContext
 import org.liquidplayer.javascript.JSFunction
@@ -20,7 +19,7 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
     private val jsContext = JSContext()
 
     private var responseData: ShortcutResponse? = null
-    private var volleyErrorData: VolleyError? = null
+    private var responseErrorData: Exception? = null
 
     init {
         registerActionAliases(actionFactory.getAliases())
@@ -38,7 +37,7 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
         }
     }
 
-    fun execute(context: Context, script: String, shortcut: Shortcut, variableManager: VariableManager, response: ShortcutResponse? = null, volleyError: VolleyError? = null, recursionDepth: Int = 0): Completable =
+    fun execute(context: Context, script: String, shortcut: Shortcut, variableManager: VariableManager, response: ShortcutResponse? = null, error: Exception? = null, recursionDepth: Int = 0): Completable =
         if (script.isEmpty()) {
             Completable.complete()
         } else {
@@ -50,11 +49,11 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
                 }
 
                 registerShortcut(shortcut)
-                registerResponse(response, volleyError)
+                registerResponse(response, error)
                 registerVariables(variableManager)
 
                 this.responseData = response
-                this.volleyErrorData = volleyError
+                this.responseErrorData = error
                 registerActions(context, shortcut.id, variableManager, recursionDepth)
 
                 jsContext.evaluateScript(script)
@@ -70,8 +69,8 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
         ))
     }
 
-    private fun registerResponse(response: ShortcutResponse?, volleyError: VolleyError?) {
-        val responseObject = (response ?: volleyError?.getShortcutResponse())
+    private fun registerResponse(response: ShortcutResponse?, error: Exception?) {
+        val responseObject = (response ?: (error as? ErrorResponse)?.shortcutResponse)
         jsContext.property("response", responseObject?.let {
             mapOf(
                 "body" to it.bodyAsString,
@@ -80,7 +79,7 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
                 "cookies" to it.cookies
             )
         })
-        jsContext.property("networkError", volleyError?.message)
+        jsContext.property("networkError", error?.message)
     }
 
     private fun registerVariables(variableManager: VariableManager) {
@@ -119,7 +118,7 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
                     shortcutId = shortcutId,
                     variableManager = variableManager,
                     response = responseData,
-                    volleyError = volleyErrorData,
+                    responseError = responseErrorData as? ErrorResponse,
                     recursionDepth = recursionDepth
                 )
                     .blockingAwait()

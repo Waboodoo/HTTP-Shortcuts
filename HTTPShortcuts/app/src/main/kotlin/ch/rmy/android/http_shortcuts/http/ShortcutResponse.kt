@@ -1,66 +1,44 @@
 package ch.rmy.android.http_shortcuts.http
 
-import com.android.volley.toolbox.HttpHeaderParser
+import ch.rmy.android.http_shortcuts.extensions.getCaseInsensitive
+import ch.rmy.android.http_shortcuts.utils.SizeLimitedReader
 import java.io.BufferedReader
-import java.io.ByteArrayInputStream
+import java.io.InputStream
 import java.io.InputStreamReader
-import java.nio.charset.Charset
 import java.util.zip.GZIPInputStream
 
 
-class ShortcutResponse internal constructor(val url: String?, val headers: Map<String, String>, val statusCode: Int, private val data: ByteArray) {
+class ShortcutResponse internal constructor(
+    val url: String?,
+    val headers: Map<String, String>,
+    val statusCode: Int,
+    private val contentLength: Int?,
+    private val content: InputStream?
+) {
 
-    val bodyAsString: String
-        get() = try {
+    val bodyAsString: String =
+        content?.let { content ->
             if (isGzipped()) {
-                parseGzippedByteArray()
+                parseGzippedToString(content)
             } else {
-                parseByteArray()
+                parseToString(content)
             }
-        } catch (e: Exception) {
-            String(data)
-        }
+        } ?: ""
 
-    private fun isGzipped(): Boolean = headers["Content-Encoding"] == "gzip"
-
-    private fun parseByteArray(): String =
-        data.toString(Charset.forName(HttpHeaderParser.parseCharset(headers, "UTF-8")))
-
-    private fun parseGzippedByteArray(): String {
-        val output = StringBuilder()
-        GZIPInputStream(ByteArrayInputStream(data)).use { gzipStream ->
-            InputStreamReader(gzipStream).use { reader ->
-                BufferedReader(reader, GZIP_BUFFER_SIZE).use { inStream ->
-                    while (true) {
-                        val line = inStream.readLine() ?: break
-                        output.append(line).append("\n")
-                    }
-                }
-            }
-        }
-        return output.toString()
-    }
+    private fun isGzipped(): Boolean = headers.getCaseInsensitive(HttpHeaders.CONTENT_ENCODING) == "gzip"
 
     val contentType: String
-        get() = if (headers.containsKey(HEADER_CONTENT_TYPE)) {
-            headers[HEADER_CONTENT_TYPE]!!.split(';', limit = 2)[0].toLowerCase()
-        } else {
-            TYPE_TEXT
+        get() = headers.getCaseInsensitive(HttpHeaders.CONTENT_TYPE)?.let { contentType ->
+            contentType.split(';', limit = 2)[0].toLowerCase()
         }
+            ?: TYPE_TEXT
 
     val cookies: Map<String, String>
-        get() = getHeaderValue(HEADER_COOKIE)
+        get() = headers.getCaseInsensitive(HttpHeaders.SET_COOKIE)
             ?.split(';')
             ?.map { it.split('=') }
             ?.associate { it.first() to (it.getOrNull(1) ?: "") }
             ?: emptyMap()
-
-    private fun getHeaderValue(headerName: String) =
-        headers.entries
-            .firstOrNull {
-                it.key.equals(headerName, ignoreCase = true)
-            }
-            ?.value
 
     companion object {
 
@@ -73,8 +51,19 @@ class ShortcutResponse internal constructor(val url: String?, val headers: Map<S
 
         private const val GZIP_BUFFER_SIZE = 16384
 
-        private const val HEADER_CONTENT_TYPE = "Content-Type"
-        private const val HEADER_COOKIE = "Set-Cookie"
+        private const val CONTENT_SIZE_LIMIT = 2 * 1000L * 1000L
+
+        private fun parseGzippedToString(content: InputStream): String =
+            GZIPInputStream(content).use { gzipStream ->
+                parseToString(gzipStream)
+            }
+
+        private fun parseToString(content: InputStream): String =
+            InputStreamReader(content).use { reader ->
+                BufferedReader(SizeLimitedReader(reader, CONTENT_SIZE_LIMIT), GZIP_BUFFER_SIZE)
+                    .use(BufferedReader::readText)
+            }
+
     }
 
 }

@@ -29,12 +29,14 @@ import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.extensions.truncate
 import ch.rmy.android.http_shortcuts.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.extensions.visible
+import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.http.HttpRequester
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.scripting.ScriptExecutor
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.DateUtil
+import ch.rmy.android.http_shortcuts.utils.ErrorFormatter
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
@@ -45,7 +47,6 @@ import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.android.http_shortcuts.views.ResponseWebView
 import ch.rmy.android.http_shortcuts.views.SyntaxHighlightView
-import com.android.volley.VolleyError
 import fr.castorflex.android.circularprogressbar.CircularProgressBar
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -253,7 +254,7 @@ class ExecuteActivity : BaseActivity() {
                                         script = shortcut.codeOnFailure,
                                         shortcut = shortcut,
                                         variableManager = variableManager,
-                                        volleyError = error as? VolleyError?,
+                                        error = error as? Exception,
                                         recursionDepth = recursionDepth
                                     )
                                     .subscribeOn(Schedulers.computation())
@@ -285,7 +286,8 @@ class ExecuteActivity : BaseActivity() {
     }
 
     private fun executeShortcut(variableManager: VariableManager): Single<ShortcutResponse> =
-        HttpRequester.executeShortcut(context, shortcut, variableManager)
+        HttpRequester.executeShortcut(shortcut, variableManager)
+            .observeOn(AndroidSchedulers.mainThread())
             .doOnSuccess { response ->
                 setLastResponse(response)
                 if (shortcut.isFeedbackErrorsOnly()) {
@@ -297,7 +299,7 @@ class ExecuteActivity : BaseActivity() {
                 }
             }
             .doOnError { error ->
-                if (!shortcut.isFeedbackUsingUI && shortcut.isWaitForNetwork && (error as? VolleyError)?.networkResponse == null) {
+                if (!shortcut.isFeedbackUsingUI && shortcut.isWaitForNetwork && error !is ErrorResponse) {
                     rescheduleExecution(variableManager)
                     if (shortcut.feedback != Shortcut.FEEDBACK_NONE && tryNumber == 0) {
                         showToast(String.format(context.getString(R.string.execution_delayed), shortcutName), long = true)
@@ -332,29 +334,8 @@ class ExecuteActivity : BaseActivity() {
 
     private fun generateOutputFromResponse(response: ShortcutResponse) = response.bodyAsString
 
-    private fun generateOutputFromError(error: Throwable, simple: Boolean): String {
-        if (error is VolleyError && error.networkResponse != null) {
-            val builder = StringBuilder()
-            builder.append(String.format(getString(R.string.error_http), shortcutName, error.networkResponse.statusCode))
-
-            if (!simple && error.networkResponse.data != null) {
-                try {
-                    builder.append("\n\n")
-                    builder.append(String(error.networkResponse.data))
-                } catch (e: Exception) {
-                    logException(e)
-                }
-            }
-
-            return builder.toString()
-        } else {
-            return when {
-                error.cause?.message != null -> String.format(getString(R.string.error_other), shortcutName, error.cause!!.message)
-                error.message != null -> String.format(getString(R.string.error_other), shortcutName, error.message)
-                else -> String.format(getString(R.string.error_other), shortcutName, error.javaClass.simpleName)
-            }
-        }
-    }
+    private fun generateOutputFromError(error: Throwable, simple: Boolean) =
+        ErrorFormatter(context).getPrettyError(error, shortcutName, includeBody = !simple)
 
     private fun showProgress() {
         when {

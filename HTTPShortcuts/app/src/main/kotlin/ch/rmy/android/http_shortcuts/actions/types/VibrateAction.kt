@@ -5,15 +5,15 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import ch.rmy.android.http_shortcuts.extensions.mapIf
+import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.variables.VariableManager
-import com.android.volley.VolleyError
 import io.reactivex.Completable
 import java.util.concurrent.TimeUnit
 
 class VibrateAction(actionType: VibrateActionType, data: Map<String, String>) : BaseAction(actionType, data) {
 
-    override fun perform(context: Context, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse?, volleyError: VolleyError?, recursionDepth: Int): Completable {
+    override fun perform(context: Context, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse?, responseError: ErrorResponse?, recursionDepth: Int): Completable {
         val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         if (!vibrator.hasVibrator()) {
             return Completable.complete()

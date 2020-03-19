@@ -6,7 +6,11 @@ object HttpHeaders {
 
     const val CONNECTION = "Connection"
 
+    const val CONTENT_ENCODING = "Content-Encoding"
+
     const val CONTENT_TYPE = "Content-Type"
+
+    const val SET_COOKIE = "Set-Cookie"
 
     const val USER_AGENT = "User-Agent"
 

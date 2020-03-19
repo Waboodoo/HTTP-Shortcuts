@@ -56,3 +56,6 @@ fun Disposable.toDestroyable() = object : Destroyable {
 fun Disposable.attachTo(destroyer: Destroyer) {
     destroyer.own { dispose() }
 }
+
+fun <T> Map<String, T>.getCaseInsensitive(key: String): T? =
+    entries.firstOrNull { it.key.equals(key, ignoreCase = true) }?.value

@@ -40,7 +40,6 @@ class LicensesActivity : BaseActivity() {
             "okhttp",
             "recyclerview_v7",
             "realm",
-            "volley",
             "flaticons",
             "bitsies",
             "filepicker",

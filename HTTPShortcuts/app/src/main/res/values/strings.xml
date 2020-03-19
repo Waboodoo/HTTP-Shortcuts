@@ -92,6 +92,8 @@
     <string name="error_http">%1$s failed with status code %2$d.</string>
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
     <string name="error_other">%1$s failed: %2$s</string>
+    <!-- Error shown when the HTTP response is too large to be loaded into memory. %s is a placeholder for the size limit, e.g. "1 MB") -->
+    <string name="error_response_too_large">Response too large (limit is %s)</string>
     <!-- Error shown when a selected image cannot be used as an icon -->
     <string name="error_set_image">Failed to use image as icon.</string>
     <!-- Name template for a duplicated shortcut. %1$s is a placeholder for the name of the original shortcut -->

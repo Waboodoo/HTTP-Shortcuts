@@ -15,6 +15,7 @@ class ActionSpan(private val color: Int, var actionDTO: ActionDTO) : Replacement
     override fun draw(canvas: Canvas, text: CharSequence, start: Int, end: Int, x: Float, top: Int, y: Int, bottom: Int, paint: Paint) {
         paint.color = color
         paint.typeface = typeface
+        paint.isStrikeThruText = true
         canvas.drawText(text, start, end, x, y.toFloat(), paint)
     }
 
