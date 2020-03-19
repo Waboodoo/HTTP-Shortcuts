@@ -14,6 +14,7 @@ import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.observeChecked
+import ch.rmy.android.http_shortcuts.tiles.QuickSettingsTileManager
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.SimpleOnSeekBarChangeListener
@@ -29,6 +30,7 @@ class MiscSettingsActivity : BaseActivity() {
 
     private val requireConfirmationCheckBox: CheckBox by bindView(R.id.input_require_confirmation)
     private val launcherShortcutCheckBox: CheckBox by bindView(R.id.input_launcher_shortcut)
+    private val quickSettingsTileCheckBox: CheckBox by bindView(R.id.input_quick_tile_shortcut)
     private val delayView: PanelButton by bindView(R.id.input_delay)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,6 +56,13 @@ class MiscSettingsActivity : BaseActivity() {
             }
             .subscribe()
             .attachTo(destroyer)
+        quickSettingsTileCheckBox
+            .observeChecked()
+            .concatMapCompletable { isChecked ->
+                viewModel.setQuickSettingsTileShortcut(isChecked)
+            }
+            .subscribe()
+            .attachTo(destroyer)
         delayView.setOnClickListener {
             showDelayDialog()
         }
@@ -70,6 +79,8 @@ class MiscSettingsActivity : BaseActivity() {
         requireConfirmationCheckBox.isChecked = shortcut.requireConfirmation
         launcherShortcutCheckBox.isVisible = LauncherShortcutManager.supportsLauncherShortcuts()
         launcherShortcutCheckBox.isChecked = shortcut.launcherShortcut
+        quickSettingsTileCheckBox.isVisible = QuickSettingsTileManager.supportsQuickSettingsTiles()
+        quickSettingsTileCheckBox.isChecked = shortcut.quickSettingsTileShortcut
         delayView.subtitle = viewModel.getDelaySubtitle(shortcut)
     }
 

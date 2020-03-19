@@ -28,6 +28,15 @@
                 android:text="@string/label_launcher_shortcut" />
 
             <CheckBox
+                android:id="@+id/input_quick_tile_shortcut"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/label_quick_tile_shortcut" />
+
+            <CheckBox
                 android:id="@+id/input_require_confirmation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

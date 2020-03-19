@@ -34,6 +34,7 @@ open class Shortcut : RealmObject(), HasId {
     var acceptAllCertificates: Boolean = false
     var authentication: String? = AUTHENTICATION_NONE
     var launcherShortcut: Boolean = false
+    var quickSettingsTileShortcut: Boolean = false
     var delay: Int = 0
     @Required
     var requestBodyType: String = REQUEST_BODY_TYPE_CUSTOM_TEXT

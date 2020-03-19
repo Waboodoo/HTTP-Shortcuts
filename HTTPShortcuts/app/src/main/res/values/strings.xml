@@ -506,6 +506,8 @@
     <string name="authentication_digest">Digest Authentication</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu, i.e., when long-pressing the app icon on the home screen -->
     <string name="label_launcher_shortcut">Show as app shortcut on launcher</string>
+    <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
+    <string name="label_quick_tile_shortcut">Allow triggering via Quick Settings Tile</string>
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
     <string name="error_share_failed">An error occurred while sharing.</string>
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
@@ -716,4 +718,8 @@
     <string name="hint_import_from_url">https://</string>
     <!-- Error: Shown when user tries to import shortcuts from an invalid URL -->
     <string name="error_can_only_import_from_http_url">Can only import from http(s) URL</string>
+    <!-- Action Label: Shown on Quick Settings Title that allows the user to quickly trigger a shortcut without opening the app -->
+    <string name="action_quick_settings_tile_trigger">Trigger shortcut</string>
+    <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
+    <string name="instructions_quick_settings_tile">You do not yet have any shortcuts that can be triggered via the Quick Settings tile.\n\nYou can enable this feature by editing a shortcut and selecting the checkbox \"%1$s\" found in \"%2$s\".</string>
 </resources>

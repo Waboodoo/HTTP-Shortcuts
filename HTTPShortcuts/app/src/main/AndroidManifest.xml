@@ -29,6 +29,9 @@
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".activities.editor.ShortcutEditorActivity"
@@ -210,6 +213,19 @@
             android:name=".http.ExecutionService"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <service
+            android:name=".tiles.QuickTileService"
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/action_quick_settings_tile_trigger"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.service.quicksettings.ACTIVE_TILE"
+                android:value="true" />
+        </service>
 
         <activity
             android:name=".plugin.PluginEditActivity"

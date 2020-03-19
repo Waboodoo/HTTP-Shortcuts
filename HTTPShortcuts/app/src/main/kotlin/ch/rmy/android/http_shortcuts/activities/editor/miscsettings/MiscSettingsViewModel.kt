@@ -20,6 +20,11 @@ class MiscSettingsViewModel(application: Application) : BasicShortcutEditorViewM
             getShortcut(realm)?.launcherShortcut = launcherShortcut
         }
 
+    fun setQuickSettingsTileShortcut(quickSettingsTileShortcut: Boolean): Completable =
+        Transactions.commit { realm ->
+            getShortcut(realm)?.quickSettingsTileShortcut = quickSettingsTileShortcut
+        }
+
     fun setDelay(delay: Int): Completable =
         Transactions.commit { realm ->
             getShortcut(realm)?.delay = delay
