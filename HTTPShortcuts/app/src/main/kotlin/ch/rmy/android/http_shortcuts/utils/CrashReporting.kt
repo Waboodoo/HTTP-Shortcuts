@@ -35,6 +35,7 @@ object CrashReporting {
             Bugsnag.notify(e)
         } else {
             Log.e("CrashReporting", "An error occurred", e)
+            e.printStackTrace()
         }
     }
 

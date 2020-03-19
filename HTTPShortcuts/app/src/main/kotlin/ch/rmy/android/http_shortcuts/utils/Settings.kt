@@ -23,6 +23,12 @@ class Settings(context: Context) {
             }
         }
 
+    var importUrl: String
+        get() = preferences.getString(KEY_IMPORT_URL, "") ?: ""
+        set(url) {
+            preferences.edit().putString(KEY_IMPORT_URL, url).apply()
+        }
+
     var isChangeLogPermanentlyHidden: Boolean
         get() = preferences.getBoolean(KEY_CHANGE_LOG_PERMANENTLY_HIDDEN, false)
         set(hidden) = preferences.edit().putBoolean(KEY_CHANGE_LOG_PERMANENTLY_HIDDEN, hidden).apply()
@@ -75,6 +81,7 @@ class Settings(context: Context) {
         private const val KEY_CLICK_BEHAVIOR = "click_behavior"
         private const val KEY_CRASH_REPORTING = "crash_reporting"
         private const val KEY_IMPORT_EXPORT_DIR = "import_export_dir"
+        private const val KEY_IMPORT_URL = "import_url"
         private const val KEY_CHANGE_LOG_PERMANENTLY_HIDDEN = "change_log_permanently_hidden"
         private const val KEY_CHANGE_LOG_LAST_VERSION = "change_log_last_version"
         private const val KEY_ICON_NAME_CHANGE_PERMANENTLY_HIDDEN = "icon_name_change_permanently_hidden"

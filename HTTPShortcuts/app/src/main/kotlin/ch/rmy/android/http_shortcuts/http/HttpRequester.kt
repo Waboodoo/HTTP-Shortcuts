@@ -68,14 +68,13 @@ object HttpRequester {
                 val call = client.newCall(request)
 
                 try {
-                    val okHttpResponse = call.execute()
-                    val shortcutResponse = prepareResponse(url, okHttpResponse)
-                    okHttpResponse.close()
-
-                    if (okHttpResponse.isSuccessful) {
-                        emitter.onSuccess(shortcutResponse)
-                    } else {
-                        emitter.onError(ErrorResponse(shortcutResponse))
+                    call.execute().use { okHttpResponse ->
+                        val shortcutResponse = prepareResponse(url, okHttpResponse)
+                        if (okHttpResponse.isSuccessful) {
+                            emitter.onSuccess(shortcutResponse)
+                        } else {
+                            emitter.onError(ErrorResponse(shortcutResponse))
+                        }
                     }
                 } catch (e: Exception) {
                     emitter.onError(e)

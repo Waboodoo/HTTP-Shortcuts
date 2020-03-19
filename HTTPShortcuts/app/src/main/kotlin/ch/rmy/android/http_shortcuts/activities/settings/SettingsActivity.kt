@@ -24,6 +24,7 @@ import ch.rmy.android.http_shortcuts.dialogs.HelpDialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
+import ch.rmy.android.http_shortcuts.extensions.isWebUrl
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.showToast
@@ -43,6 +44,7 @@ import com.nononsenseapps.filepicker.Utils
 import io.reactivex.android.schedulers.AndroidSchedulers
 import java.io.File
 import java.io.FileNotFoundException
+import java.net.UnknownHostException
 
 
 class SettingsActivity : BaseActivity() {
@@ -248,6 +250,7 @@ class SettingsActivity : BaseActivity() {
                 .title(R.string.title_import)
                 .item(R.string.button_import_from_filesystem, ::showImportInstructions)
                 .item(R.string.button_import_from_general, ::openGeneralPickerForImport)
+                .item(R.string.button_import_from_url, ::openImportUrlDialog)
                 .showIfPossible()
         }
 
@@ -293,6 +296,28 @@ class SettingsActivity : BaseActivity() {
                     .startActivity(this, REQUEST_IMPORT_FROM_DOCUMENTS)
             } catch (e: ActivityNotFoundException) {
                 activity!!.showToast(R.string.error_not_supported)
+            }
+        }
+
+        private fun openImportUrlDialog() {
+            DialogBuilder(context!!)
+                .title(R.string.dialog_title_import_from_url)
+                .textInput(
+                    hint = getString(R.string.hint_import_from_url),
+                    prefill = Settings(context!!).importUrl,
+                    allowEmpty = false,
+                    callback = ::startImportFromURL
+                )
+                .showIfPossible()
+        }
+
+        private fun startImportFromURL(url: String) {
+            val uri = Uri.parse(url)
+            persistImportUrl(url)
+            if (uri.isWebUrl) {
+                startImport(uri)
+            } else {
+                showSnackbar(getString(R.string.import_failed_with_reason, getString(R.string.error_can_only_import_from_http_url)), long = true)
             }
         }
 
@@ -366,6 +391,10 @@ class SettingsActivity : BaseActivity() {
             Settings(context!!).importExportDirectory = path
         }
 
+        private fun persistImportUrl(url: String) {
+            Settings(context!!).importUrl = url
+        }
+
         private fun startExport(directoryPath: String) {
             // TODO: Replace progress dialog with something better
             val progressDialog = ProgressDialog(activity).apply {
@@ -373,7 +402,7 @@ class SettingsActivity : BaseActivity() {
             }
             Exporter()
                 .export(directoryPath)
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {
                     progressDialog.show()
                 }
@@ -386,9 +415,14 @@ class SettingsActivity : BaseActivity() {
                         status.exportedShortcuts,
                         status.exportedShortcuts
                     ))
-                }, {
+                }, { e ->
                     // TODO: Show more meaningful error message
-                    showSnackbar(R.string.export_failed)
+                    if (e is FileNotFoundException) {
+                        showSnackbar(getString(R.string.export_failed_with_reason, e.message), long = true)
+                    } else {
+                        showSnackbar(R.string.export_failed)
+                        logException(e)
+                    }
                 })
                 .attachTo(destroyer)
         }
@@ -400,7 +434,7 @@ class SettingsActivity : BaseActivity() {
             }
             Importer()
                 .import(context!!.applicationContext, uri)
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {
                     progressDialog.show()
                 }
@@ -419,7 +453,7 @@ class SettingsActivity : BaseActivity() {
                 }, { e ->
                     if (e is JsonParseException || e is JsonSyntaxException) {
                         showSnackbar(getString(R.string.import_failed_with_reason, getString(R.string.import_failure_reason_invalid_json)), long = true)
-                    } else if (e is IllegalArgumentException || e is IllegalStateException || e is FileNotFoundException) {
+                    } else if (e is IllegalArgumentException || e is IllegalStateException || e is FileNotFoundException || e is UnknownHostException) {
                         showSnackbar(getString(R.string.import_failed_with_reason, e.message), long = true)
                     } else {
                         showSnackbar(R.string.import_failed)

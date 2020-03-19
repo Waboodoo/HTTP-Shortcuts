@@ -39,6 +39,8 @@ class Controller : Destroyable, Closeable {
     fun importBaseSynchronously(base: Base) {
         val oldBase = getBase()
         realm.executeTransaction { realm ->
+            oldBase.title = base.title
+
             if (oldBase.categories.singleOrNull()?.shortcuts?.isEmpty() == true) {
                 oldBase.categories.clear()
             }

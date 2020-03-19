@@ -11,20 +11,21 @@ import java.io.FileWriter
 class Exporter {
 
     fun export(path: String): Single<ExportStatus> =
-        Single.create<ExportStatus> { emitter ->
-            val base = Controller().use { controller ->
-                controller.exportBase()
-            }
+        Single
+            .create<ExportStatus> { emitter ->
+                val base = Controller().use { controller ->
+                    controller.exportBase()
+                }
 
-            val file = getFile(path)
-            BufferedWriter(FileWriter(file)).use {
-                GsonUtil.exportData(base, it)
+                val file = getFile(path)
+                BufferedWriter(FileWriter(file)).use {
+                    GsonUtil.exportData(base, it)
+                }
+                emitter.onSuccess(ExportStatus(
+                    exportedShortcuts = base.shortcuts.size
+                ))
             }
-            emitter.onSuccess(ExportStatus(
-                exportedShortcuts = base.shortcuts.size
-            ))
-        }
-            .observeOn(Schedulers.io())
+            .subscribeOn(Schedulers.io())
 
     private fun getFile(directoryPath: String): File {
         val directory = File(directoryPath)

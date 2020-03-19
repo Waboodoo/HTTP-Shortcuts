@@ -185,6 +185,8 @@
     <string name="import_failed">Importing shortcuts failed.</string>
     <!-- Error message: Shown in snackbar when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="import_failed_with_reason">Importing shortcuts failed: %s</string>
+    <!-- Error message: Shown in snackbar when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
+    <string name="export_failed_with_reason">Exporting shortcuts failed: %s</string>
     <!-- Error message: Import failed due to invalid JSON syntax in the import file -->
     <string name="import_failure_reason_invalid_json">Invalid JSON</string>
     <!-- Success message, shown in snackbar when import of shortcuts is successful -->
@@ -480,6 +482,8 @@
     <string name="button_import_from_filesystem">Local Storage</string>
     <!-- Dialog option on Import dialog, for importing shortcuts from a file picked via the system's document browser -->
     <string name="button_import_from_general">Documents</string>
+    <!-- Dialog option on Import dialog, for importing shortcuts from a URL -->
+    <string name="button_import_from_url">URL</string>
     <!-- Dialog title when creating a new shortcut, shows options below -->
     <string name="title_create_new_shortcut_options_dialog">Create New Shortcut</string>
     <!-- Option 1 in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
@@ -706,4 +710,10 @@
     <string name="message_title_changed">Title changed.</string>
     <!-- Dialog title: Shown in dialog title when changing the title of the main screen of the app -->
     <string name="title_set_title">Change Title</string>
+    <!-- Dialog title: Shown in dialog title when entering the URL to import shortcuts from -->
+    <string name="dialog_title_import_from_url">Import from URL</string>
+    <!-- Dialog input hint: Shown in "Import from URL" dialog to give user a hint what to enter -->
+    <string name="hint_import_from_url">https://</string>
+    <!-- Error: Shown when user tries to import shortcuts from an invalid URL -->
+    <string name="error_can_only_import_from_http_url">Can only import from http(s) URL</string>
 </resources>
