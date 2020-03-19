@@ -6,6 +6,7 @@ import ch.rmy.android.http_shortcuts.actions.types.ActionFactory
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.Repository
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.exceptions.CanceledByUserException
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.variables.VariableManager
@@ -20,21 +21,25 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
 
     private var responseData: ShortcutResponse? = null
     private var responseErrorData: Exception? = null
+    private var abort: Boolean = false
 
     init {
         registerActionAliases(actionFactory.getAliases())
     }
 
     private fun registerActionAliases(aliases: Map<String, ActionAlias>) {
-        aliases.forEach { (actionName, alias) ->
-            jsContext.evaluateScript("""
-            const ${alias.functionName} = (${alias.parameters.joinToString()}) => {
-                _runAction("$actionName", {
-                    ${alias.parameters.joinToString { parameter -> "\"$parameter\": $parameter" }}
-                });
-            };
-        """.trimIndent())
-        }
+        aliases
+            .forEach { (actionName, alias) ->
+                jsContext.evaluateScript(
+                    """
+                    const ${alias.functionName} = (${alias.parameters.joinToString()}) => {
+                        _runAction("$actionName", {
+                            ${alias.parameters.joinToString { parameter -> "\"$parameter\": $parameter" }}
+                        });
+                    };
+                    """.trimIndent()
+                )
+            }
     }
 
     fun execute(context: Context, script: String, shortcut: Shortcut, variableManager: VariableManager, response: ShortcutResponse? = null, error: Exception? = null, recursionDepth: Int = 0): Completable =
@@ -44,13 +49,14 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
             Completable.create { emitter ->
                 jsContext.setExceptionHandler { exception ->
                     if (!emitter.isDisposed) {
-                        emitter.onError(exception)
+                        emitter.onError(if (abort) CanceledByUserException() else exception)
                     }
                 }
 
                 registerShortcut(shortcut)
                 registerResponse(response, error)
                 registerVariables(variableManager)
+                registerAbort()
 
                 this.responseData = response
                 this.responseErrorData = error
@@ -104,6 +110,23 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
         })
     }
 
+    private fun registerAbort() {
+        jsContext.evaluateScript(
+            """
+            function abort() {
+                _abort();
+                throw "Abort";
+            }
+            """.trimIndent()
+        )
+        jsContext.property("_abort", object : JSFunction(jsContext, "run") {
+            fun run() {
+                abort = true
+                throw Exception()
+            }
+        }, JSContext.JSPropertyAttributeReadOnly or JSContext.JSPropertyAttributeDontDelete)
+    }
+
     private fun registerActions(context: Context, shortcutId: String, variableManager: VariableManager, recursionDepth: Int) {
         jsContext.property("_runAction", object : JSFunction(jsContext, "run") {
             fun run(actionType: String, data: Map<String, JSValue>) {
@@ -113,14 +136,15 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
                     data = sanitizeData(data)
                 ))
 
-                action.perform(
-                    context = context,
-                    shortcutId = shortcutId,
-                    variableManager = variableManager,
-                    response = responseData,
-                    responseError = responseErrorData as? ErrorResponse,
-                    recursionDepth = recursionDepth
-                )
+                action
+                    .perform(
+                        context = context,
+                        shortcutId = shortcutId,
+                        variableManager = variableManager,
+                        response = responseData,
+                        responseError = responseErrorData as? ErrorResponse,
+                        recursionDepth = recursionDepth
+                    )
                     .blockingAwait()
             }
         }, JSContext.JSPropertyAttributeReadOnly or JSContext.JSPropertyAttributeDontDelete)

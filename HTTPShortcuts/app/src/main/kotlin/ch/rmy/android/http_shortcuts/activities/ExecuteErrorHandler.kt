@@ -3,8 +3,8 @@ package ch.rmy.android.http_shortcuts.activities
 import android.content.Context
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
+import ch.rmy.android.http_shortcuts.exceptions.CanceledByUserException
 import ch.rmy.android.http_shortcuts.extensions.logException
-import ch.rmy.android.http_shortcuts.utils.CanceledByUserException
 import io.reactivex.Completable
 import org.liquidplayer.javascript.JSException
 

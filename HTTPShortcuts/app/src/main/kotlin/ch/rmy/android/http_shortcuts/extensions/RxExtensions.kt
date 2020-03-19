@@ -1,6 +1,6 @@
 package ch.rmy.android.http_shortcuts.extensions
 
-import ch.rmy.android.http_shortcuts.utils.CanceledByUserException
+import ch.rmy.android.http_shortcuts.exceptions.CanceledByUserException
 import io.reactivex.CompletableEmitter
 import io.reactivex.SingleEmitter
 
