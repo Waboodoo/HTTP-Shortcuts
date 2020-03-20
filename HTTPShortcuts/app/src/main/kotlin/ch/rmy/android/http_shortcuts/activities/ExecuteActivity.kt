@@ -118,6 +118,8 @@ class ExecuteActivity : BaseActivity() {
             finishWithoutAnimation()
             return
         }
+        setTheme(themeHelper.transparentTheme)
+
         if (shortcut.isFeedbackUsingUI) {
             title = shortcutName
             destroyer.own(::hideProgress)

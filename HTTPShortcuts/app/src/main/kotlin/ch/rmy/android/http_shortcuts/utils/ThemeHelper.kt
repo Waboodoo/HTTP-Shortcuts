@@ -10,6 +10,7 @@ class ThemeHelper(context: Context) {
 
     val isDarkThemeEnabled: Boolean
     val theme: Int
+    val transparentTheme: Int
     val statusBarColor: Int
 
     init {
@@ -24,6 +25,15 @@ class ThemeHelper(context: Context) {
             Settings.THEME_ORANGE -> R.style.LightThemeAlt5
             Settings.THEME_INDIGO -> R.style.LightThemeAlt6
             else -> R.style.LightThemeAlt0
+        }
+        transparentTheme = when (themeId) {
+            Settings.THEME_GREEN -> R.style.LightThemeTransparentAlt1
+            Settings.THEME_RED -> R.style.LightThemeTransparentAlt2
+            Settings.THEME_PURPLE -> R.style.LightThemeTransparentAlt3
+            Settings.THEME_GREY -> R.style.LightThemeTransparentAlt4
+            Settings.THEME_ORANGE -> R.style.LightThemeTransparentAlt5
+            Settings.THEME_INDIGO -> R.style.LightThemeTransparentAlt6
+            else -> R.style.LightThemeTransparentAlt0
         }
         statusBarColor = if (isDarkThemeEnabled) {
             Color.BLACK
