@@ -137,6 +137,9 @@ class CodeSnippetPicker(private val context: Context, private val variablePlaceh
                     insertText("renameShortcut(\"shortcut name or ID\", \"new name", "\");")
                 }
             }
+            .item(R.string.action_type_abort_execution) {
+                insertText("abort();", "")
+            }
             .showIfPossible()
     }
 
