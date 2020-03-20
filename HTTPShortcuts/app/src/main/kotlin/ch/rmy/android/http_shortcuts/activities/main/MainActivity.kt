@@ -141,8 +141,8 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
         viewModel.getLiveToolbarTitle().observe(this, Observer { title ->
             setTitle(title.ifEmpty { context.getString(R.string.app_name) })
         })
-        if (!viewModel.isAppLocked()) {
-            toolbar!!.children.firstOrNull { it is TextView }?.setOnClickListener {
+        toolbar!!.children.firstOrNull { it is TextView }?.setOnClickListener {
+            if (!viewModel.isAppLocked()) {
                 showToolbarTitleChangeDialog()
             }
         }
@@ -152,7 +152,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
         DialogBuilder(context)
             .title(R.string.title_set_title)
             .textInput(
-                prefill = viewModel.getToolbarTitle() ?: "?",
+                prefill = viewModel.getToolbarTitle() ?: "",
                 allowEmpty = true,
                 maxLength = TITLE_MAX_LENGTH
             ) { input ->
