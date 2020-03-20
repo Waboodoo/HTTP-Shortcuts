@@ -1,7 +1,7 @@
 # HTTP Shortcuts for Android
 <img src="./HTTPShortcuts/app/src/main/res/drawable-xxxhdpi/ic_launcher.png" align="right" style="margin-left: 1em;"/>
 
-![Version](https://img.shields.io/badge/version-1.26.0-green.svg)
+![Version](https://img.shields.io/badge/version-1.27.0-green.svg)
 
 A simple Android app that allows you to create shortcuts that can be placed on your home screen. Each shortcut, when clicked, triggers an HTTP request.
 
@@ -19,7 +19,7 @@ Become a [Beta Tester](https://play.google.com/apps/testing/ch.rmy.android.http_
 ## Features
 - HTTP and HTTPS
 - GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS and TRACE
-- Basic Authentication & Digest Authentication
+- Basic Authentication, Digest Authentication & Bearer Authentication
 - Custom request headers
 - Custom request body (text only)
 - Option to accept all certificates (if you know what you're doing)
@@ -46,7 +46,7 @@ Become a [Beta Tester](https://play.google.com/apps/testing/ch.rmy.android.http_
 
 ## FAQ
 
-Check out the [FAQ](https://http-shortcuts.rmy.ch/#faq) page.
+Check out the [FAQ](https://http-shortcuts.rmy.ch/#faq) page, or go to the official [forum](https://http-shortcuts.rmy.ch/forum).
 
 ## Hints for Experts
 
