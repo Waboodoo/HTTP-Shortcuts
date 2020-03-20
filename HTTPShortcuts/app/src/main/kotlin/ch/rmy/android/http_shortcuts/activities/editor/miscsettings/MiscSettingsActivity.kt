@@ -92,7 +92,7 @@ class MiscSettingsActivity : BaseActivity() {
         val slider = view.findViewById<SeekBar>(R.id.slider)
         val label = view.findViewById<TextView>(R.id.slider_value)
 
-        slider.max = DELAY_MAX
+        slider.max = DELAY_OPTIONS.lastIndex
 
         slider.setOnSeekBarChangeListener(object : SimpleOnSeekBarChangeListener() {
             override fun onProgressChanged(slider: SeekBar, progress: Int, fromUser: Boolean) {
@@ -117,11 +117,36 @@ class MiscSettingsActivity : BaseActivity() {
 
     companion object {
 
-        private const val DELAY_MAX = 10 * 60
+        private val DELAY_OPTIONS = arrayOf(
+            0,
+            500,
+            1000,
+            2000,
+            3000,
+            5000,
+            8000,
+            10000,
+            15000,
+            20000,
+            25000,
+            30000,
+            45000,
+            60000,
+            90000,
+            120000,
+            180000,
+            300000,
+            450000,
+            600000
+        )
 
-        private fun delayToProgress(delay: Int) = delay / 1000
+        private fun delayToProgress(delay: Int) = DELAY_OPTIONS.indexOfFirst {
+                it >= delay
+            }
+            .takeUnless { it == -1 }
+            ?: DELAY_OPTIONS.lastIndex
 
-        private fun progressToDelay(progress: Int) = progress * 1000
+        private fun progressToDelay(progress: Int) = DELAY_OPTIONS[progress]
 
     }
 
