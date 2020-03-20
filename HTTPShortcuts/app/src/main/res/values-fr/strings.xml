@@ -6,7 +6,7 @@
  Locale: fr, French
  Status: Translated
  Exported by: Roland Meyer
- Exported at: Sat, 11 Jan 2020 09:12:00 +0100
+ Exported at: Fri, 20 Mar 2020 20:32:59 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- The name of the app -->
@@ -90,7 +90,7 @@
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
     <string name="validation_url_invalid">Veuillez entrer une url HTTP(S).</string>
     <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
-    <string name="error_http">%1$s échoué avec le code d\'état %2$d</string>
+    <string name="error_http">%1$s échoué avec le code d\'état %2$d (%3$s)</string>
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
     <string name="error_other">%1$s échoué: %2$s</string>
     <!-- Error shown when a selected image cannot be used as an icon -->

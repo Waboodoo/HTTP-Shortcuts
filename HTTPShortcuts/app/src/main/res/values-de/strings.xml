@@ -6,7 +6,7 @@
  Locale: de, German
  Status: Translated
  Exported by: Roland Meyer
- Exported at: Sat, 11 Jan 2020 09:12:00 +0100
+ Exported at: Fri, 20 Mar 2020 20:32:59 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- The name of the app -->
@@ -90,7 +90,7 @@
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
     <string name="validation_url_invalid">Bitte gib eine HTTP(S)-URL ein.</string>
     <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
-    <string name="error_http">%1$s ist mit status code %2$d fehlgeschlagen.</string>
+    <string name="error_http">%1$s ist mit Status-Code %2$d (%3$s) fehlgeschlagen.</string>
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
     <string name="error_other">%1$s fehlgeschlagen: %2$s</string>
     <!-- Error shown when a selected image cannot be used as an icon -->
@@ -697,4 +697,50 @@
         <item quantity="one">%d Millisekunde</item>
         <item quantity="other">%d Millisekunden</item>
     </plurals>
+    <!-- Error shown when the HTTP response is too large to be loaded into memory. %s is a placeholder for the size limit, e.g. "1 MB") -->
+    <string name="error_response_too_large">Response zu gross (maximal %s)</string>
+    <!-- Action, shown on dropdown when editing a category, for allowing to hide a category -->
+    <string name="action_hide_category">Verbergen</string>
+    <!-- Action, shown on dropdown when editing a category, for allowing to show a hidden category -->
+    <string name="action_show_category">Zeigen</string>
+    <!-- Message, shown in snackbar, to confirm to the user that a category was hidden -->
+    <string name="message_category_hidden">Kategorie verborgen.</string>
+    <!-- Message, shown in snackbar, to confirm to the user that a category is no longer hidden and visible again -->
+    <string name="message_category_visible">Kategorie wieder sichtbar.</string>
+    <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
+    <string name="label_category_hidden">%s (verborgen)</string>
+    <!-- Message: Shown as a placeholder when the HTTP response has no content that could be displayed -->
+    <string name="message_blank_response">Leere Response</string>
+    <!-- Message shown in snackbar when the title on the main title bar was changed. -->
+    <string name="message_title_changed">Titel geändert.</string>
+    <!-- Dialog title: Shown in dialog title when changing the title of the main screen of the app -->
+    <string name="title_set_title">Titel ändern</string>
+    <!-- Label above input field in editor, for shortcut authentication token -->
+    <string name="label_auth_token">Token</string>
+    <!-- Error message: Shown in snackbar when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
+    <string name="export_failed_with_reason">Export fehlgeschlagen: %s</string>
+    <!-- Dialog option on Import dialog, for importing shortcuts from a URL -->
+    <string name="button_import_from_url">URL</string>
+    <!-- Dropdown option for "Authentication" of a shortcut: "Bearer Authentication", aka. BearerAuth (token) -->
+    <string name="authentication_bearer">Bearer Authentication</string>
+    <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
+    <string name="label_quick_tile_shortcut">Auslösen via Quick Settings Tile erlauben</string>
+    <!-- Section subtitle, shown in shortcut editor when Bearer Authentication is enabled -->
+    <string name="subtitle_authentication_bearer">Bearer Authentication mit Token</string>
+    <!-- Dialog title: Shown in dialog title when entering the URL to import shortcuts from -->
+    <string name="dialog_title_import_from_url">Importieren von URL</string>
+    <!-- Dialog input hint: Shown in "Import from URL" dialog to give user a hint what to enter -->
+    <string name="hint_import_from_url">https://</string>
+    <!-- Error: Shown when user tries to import shortcuts from an invalid URL -->
+    <string name="error_can_only_import_from_http_url">Kann nur von http(s) URL importieren</string>
+    <!-- Action Label: Shown on Quick Settings Title that allows the user to quickly trigger a shortcut without opening the app -->
+    <string name="action_quick_settings_tile_trigger">Shortcut auslösen</string>
+    <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
+    <string name="instructions_quick_settings_tile">Du hast noch keine Shortcuts eingerichtet welche via diesem Quick Settings Tile ausgelöst werden können.\n\nDu kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die Checkbox \"%1$s\" in \"%2$s\" aktivierst.</string>
+    <!-- Shortcut Action Title: Change Shortcut Icon -->
+    <string name="action_type_change_icon_title">Shortcut-Symbol ändern</string>
+    <!-- Shortcut Action Title: Abort the execution of the shortcut -->
+    <string name="action_type_abort_execution">Ausführung abbrechen</string>
+    <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
+    <string name="error_shortcut_not_found_for_changing_icon">Shortcut \"%1$s\" konnte nicht ausgeführt werden, da er nicht existiert.</string>
 </resources>

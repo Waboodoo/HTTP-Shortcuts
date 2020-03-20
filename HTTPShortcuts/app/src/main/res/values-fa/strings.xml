@@ -6,7 +6,7 @@
  Locale: fa, Persian
  Status: Translated
  Exported by: Roland Meyer
- Exported at: Sat, 11 Jan 2020 09:12:00 +0100
+ Exported at: Fri, 20 Mar 2020 20:32:59 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- The name of the app -->
@@ -195,4 +195,16 @@
     <string name="message_app_unlocked">قفل برنامه باز شد.</string>
     <!-- Subtitle of option in settings screen: FAQ (frequently asked questions), links the user to an external documentation page -->
     <string name="settings_faq_summary">سوالات متداول</string>
+    <!-- Settings option for dark mode: when selected the app will always use Dark Mode -->
+    <string name="settings_dark_theme_options_on">همیشه تاریک\n</string>
+    <!-- Settings option for dark mode: when selected the app will never use Dark Mode -->
+    <string name="settings_dark_theme_options_off">همیشه روشن</string>
+    <!-- Settings option for dark mode: when selected the app will use Dark Mode according to the system settings (i.e., automatically switch) -->
+    <string name="settings_dark_theme_options_auto">تنظیمات سیستم را دنبال کنید</string>
+    <!-- Title of dark mode theme settings (which allows user to pick how/when the app should use dark mode) -->
+    <string name="settings_dark_theme">تاریک</string>
+    <plurals name="milliseconds">
+        <!-- Used in various places to indicate a number of milliseconds, e.g. for a delay. %s is a placeholder for the actual number. -->
+        <item quantity="other">\u0020میلی ثانیه</item>
+    </plurals>
 </resources>
