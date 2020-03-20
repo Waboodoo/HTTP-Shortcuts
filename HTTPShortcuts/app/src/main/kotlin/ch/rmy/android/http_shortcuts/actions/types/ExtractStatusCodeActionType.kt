@@ -8,8 +8,6 @@ class ExtractStatusCodeActionType(context: Context) : BaseActionType(context) {
 
     override val type = TYPE
 
-    override val title: String = "Extract Status Code"
-
     override fun fromDTO(actionDTO: ActionDTO) = ExtractStatusCodeAction(this, actionDTO.data)
 
     companion object {

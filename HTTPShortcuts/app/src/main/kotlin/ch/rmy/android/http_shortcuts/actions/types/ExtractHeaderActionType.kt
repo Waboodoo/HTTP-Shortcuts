@@ -8,8 +8,6 @@ class ExtractHeaderActionType(context: Context) : BaseActionType(context) {
 
     override val type = TYPE
 
-    override val title: String = "Extract Header"
-
     override fun fromDTO(actionDTO: ActionDTO) = ExtractHeaderAction(this, actionDTO.data)
 
     companion object {

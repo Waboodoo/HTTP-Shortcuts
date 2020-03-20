@@ -8,8 +8,6 @@ class ExtractCookieActionType(context: Context) : BaseActionType(context) {
 
     override val type = TYPE
 
-    override val title: String = "Extract Cookie"
-
     override fun fromDTO(actionDTO: ActionDTO) = ExtractCookieAction(this, actionDTO.data)
 
     companion object {

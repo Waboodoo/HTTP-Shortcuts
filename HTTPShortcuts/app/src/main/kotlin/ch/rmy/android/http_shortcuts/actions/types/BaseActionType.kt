@@ -8,8 +8,6 @@ abstract class BaseActionType(protected val context: Context) {
 
     abstract val type: String
 
-    abstract val title: CharSequence
-
     abstract fun fromDTO(actionDTO: ActionDTO): BaseAction
 
     open fun getAlias(): ActionAlias? = null

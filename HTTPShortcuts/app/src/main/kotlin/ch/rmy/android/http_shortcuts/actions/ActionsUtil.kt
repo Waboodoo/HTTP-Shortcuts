@@ -21,7 +21,7 @@ object ActionsUtil {
     private fun actionToJS(actionDTO: ActionDTO): String =
         "_runAction(\"${actionDTO.type}\", ${GsonUtil.toJson(actionDTO.data)}); /* built-in */"
 
-
+    // TODO: Remove the legacy actions
     fun addSpans(context: Context, script: CharSequence, actionFactory: ActionFactory): Spannable {
         val color = color(context, R.color.action)
 
@@ -44,7 +44,7 @@ object ActionsUtil {
             val placeholderText = SpannableStringBuilder()
                 .apply {
                     append("action(\"")
-                    append(action.actionType.title)
+                    append(action.actionType::class.java.name.removeSuffix("ActionType"))
                     append("\", ...);")
 
                 }

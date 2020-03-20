@@ -8,8 +8,6 @@ class SetVariableActionType(context: Context) : BaseActionType(context) {
 
     override val type = TYPE
 
-    override val title: String = "Set Variable"
-
     override fun fromDTO(actionDTO: ActionDTO) = SetVariableAction(this, actionDTO.data)
 
     companion object {

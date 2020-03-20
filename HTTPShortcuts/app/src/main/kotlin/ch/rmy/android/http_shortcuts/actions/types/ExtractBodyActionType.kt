@@ -8,8 +8,6 @@ class ExtractBodyActionType(context: Context) : BaseActionType(context) {
 
     override val type = TYPE
 
-    override val title: String = "Extract from Body"
-
     override fun fromDTO(actionDTO: ActionDTO) = ExtractBodyAction(this, actionDTO.data)
 
     companion object {
