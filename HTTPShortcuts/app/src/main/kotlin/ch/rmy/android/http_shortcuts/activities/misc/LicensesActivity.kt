@@ -42,6 +42,7 @@ class LicensesActivity : BaseActivity() {
             "realm",
             "flaticons",
             "bitsies",
+            "freepik",
             "filepicker",
             "rxjava",
             "vintagechroma",
