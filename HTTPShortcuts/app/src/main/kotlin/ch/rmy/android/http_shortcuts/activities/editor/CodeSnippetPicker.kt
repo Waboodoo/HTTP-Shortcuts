@@ -5,14 +5,20 @@ import android.os.Vibrator
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
+import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.extensions.openURL
 import ch.rmy.android.http_shortcuts.extensions.startActivity
+import ch.rmy.android.http_shortcuts.icons.IconSelector
+import ch.rmy.android.http_shortcuts.utils.Destroyable
+import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 
-class CodeSnippetPicker(private val context: Context, private val variablePlaceholderProvider: VariablePlaceholderProvider) {
+class CodeSnippetPicker(private val context: Context, private val variablePlaceholderProvider: VariablePlaceholderProvider) : Destroyable {
+
+    private val destroyer = Destroyer()
 
     fun showCodeSnippetPicker(insertText: (before: String, after: String) -> Unit, includeResponseOptions: Boolean = true, includeNetworkErrorOption: Boolean = false) {
         DialogBuilder(context)
@@ -137,10 +143,22 @@ class CodeSnippetPicker(private val context: Context, private val variablePlaceh
                     insertText("renameShortcut(\"shortcut name or ID\", \"new name", "\");")
                 }
             }
+            .item(R.string.action_type_change_icon_title) {
+                IconSelector(context)
+                    .show()
+                    .subscribe { iconName ->
+                        insertText("changeIcon(\"shortcut name or ID", "\", \"$iconName\");")
+                    }
+                    .attachTo(destroyer)
+            }
             .item(R.string.action_type_abort_execution) {
                 insertText("abort();", "")
             }
             .showIfPossible()
+    }
+
+    override fun destroy() {
+        destroyer.destroy()
     }
 
     companion object {

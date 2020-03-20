@@ -11,6 +11,7 @@ class ActionFactory(private val context: Context) {
             CopyToClipboardActionType(context),
             DialogActionType(context),
             RenameShortcutActionType(context),
+            ChangeIconActionType(context),
             TriggerShortcutActionType(context),
             ToastActionType(context),
             VibrateActionType(context),

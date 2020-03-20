@@ -44,7 +44,7 @@ class PostRequestActivity : BaseActivity() {
         ActionFactory(context)
     }
     private val codeSnippetPicker by lazy {
-        CodeSnippetPicker(context, variablePlaceholderProvider)
+        destroyer.own(CodeSnippetPicker(context, variablePlaceholderProvider))
     }
     private val variablePlaceholderColor by lazy {
         color(context, R.color.variable)

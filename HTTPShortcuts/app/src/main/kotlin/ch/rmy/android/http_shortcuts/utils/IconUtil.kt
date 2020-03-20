@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory
 import android.graphics.drawable.Icon
 import android.net.Uri
 import android.os.Build
+import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import ch.rmy.android.http_shortcuts.R
 
@@ -16,7 +17,7 @@ object IconUtil {
         iconName.startsWith("android.resource://") -> Uri.parse(iconName)
         iconName.endsWith(".png") -> Uri.fromFile(context.getFileStreamPath(iconName))
         else -> {
-            val identifier = context.resources.getIdentifier(iconName, "drawable", context.packageName)
+            val identifier = getDrawableIdentifier(context, iconName)
             Uri.parse("android.resource://${context.packageName}/$identifier")
         }
     }
@@ -36,13 +37,19 @@ object IconUtil {
                 Icon.createWithBitmap(bitmap)
             }
             else -> {
-                val identifier = context.resources.getIdentifier(iconName, "drawable", context.packageName)
+                val identifier = getDrawableIdentifier(context, iconName)
                 Icon.createWithResource(context.packageName, identifier)
             }
         }
     } catch (e: Exception) {
         null
     }
+
+    @DrawableRes
+    private fun getDrawableIdentifier(context: Context, iconName: String): Int =
+        context.resources.getIdentifier(iconName, "drawable", context.packageName)
+            .takeUnless { it == 0 }
+            ?: DEFAULT_ICON
 
     val DEFAULT_ICON = R.drawable.ic_launcher
 
