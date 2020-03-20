@@ -28,19 +28,21 @@ object ExecutionScheduler {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun scheduleService(context: Context) {
         Controller().use { controller ->
-            val pendingExecutions = controller.getShortcutsPendingExecution()
-            pendingExecutions.forEach { pendingExecution ->
-                val delay = calculateDelay(pendingExecution.waitUntil)
-                val jobId = UUIDUtils.toLong(pendingExecution.shortcutId).toInt()
-                val jobInfo = JobInfo.Builder(jobId, ComponentName(context, ExecutionService::class.java))
-                    .setExtras(PersistableBundle().apply { putString(ExecutionService.PARAM_SHORTCUT_ID, pendingExecution.shortcutId) })
-                    .setMinimumLatency(delay)
-                    .mapIf(pendingExecution.waitForNetwork) {
-                        it.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                    }
-                    .build()
-                (context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler).schedule(jobInfo)
-            }
+            controller.getShortcutsPendingExecution()
+                .sortedBy { it.waitUntil }
+                .firstOrNull()
+                ?.let { pendingExecution ->
+                    val delay = calculateDelay(pendingExecution.waitUntil)
+                    val jobId = UUIDUtils.toLong(pendingExecution.shortcutId).toInt()
+                    val jobInfo = JobInfo.Builder(jobId, ComponentName(context, ExecutionService::class.java))
+                        .setExtras(PersistableBundle().apply { putString(ExecutionService.PARAM_SHORTCUT_ID, pendingExecution.shortcutId) })
+                        .setMinimumLatency(delay)
+                        .mapIf(pendingExecution.waitForNetwork) {
+                            it.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                        }
+                        .build()
+                    (context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler).schedule(jobInfo)
+                }
         }
     }
 
