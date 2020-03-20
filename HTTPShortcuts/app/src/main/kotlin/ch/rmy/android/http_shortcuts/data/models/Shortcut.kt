@@ -19,6 +19,8 @@ open class Shortcut : RealmObject(), HasId {
     var username: String = ""
     @Required
     var password: String = ""
+    @Required
+    var authToken: String = ""
     var iconName: String? = null
     @Required
     var feedback: String = ""
@@ -67,7 +69,7 @@ open class Shortcut : RealmObject(), HasId {
 
     fun usesDigestAuthentication() = authentication == AUTHENTICATION_DIGEST
 
-    fun usesAuthentication() = usesBasicAuthentication() || usesDigestAuthentication()
+    fun usesBearerAuthentication() = authentication == AUTHENTICATION_BEARER
 
     fun usesRequestParameters() = allowsBody() && (requestBodyType == REQUEST_BODY_TYPE_FORM_DATA || requestBodyType == REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE)
 
@@ -81,12 +83,14 @@ open class Shortcut : RealmObject(), HasId {
             other.iconName != iconName ||
             other.method != method ||
             other.password != password ||
+            other.authToken != authToken ||
             other.retryPolicy != retryPolicy ||
             other.timeout != timeout ||
             other.url != url ||
             other.username != username ||
             other.authentication != authentication ||
             other.launcherShortcut != launcherShortcut ||
+            other.quickSettingsTileShortcut != quickSettingsTileShortcut ||
             other.acceptAllCertificates != acceptAllCertificates ||
             other.delay != delay ||
             other.parameters.size != parameters.size ||
@@ -163,6 +167,7 @@ open class Shortcut : RealmObject(), HasId {
         const val AUTHENTICATION_NONE = "none"
         const val AUTHENTICATION_BASIC = "basic"
         const val AUTHENTICATION_DIGEST = "digest"
+        const val AUTHENTICATION_BEARER = "bearer"
 
         const val DEFAULT_CONTENT_TYPE = "text/plain"
 
@@ -173,6 +178,7 @@ open class Shortcut : RealmObject(), HasId {
             description = ""
             username = ""
             password = ""
+            authToken = ""
             bodyContent = ""
             method = METHOD_GET
             url = "http://"

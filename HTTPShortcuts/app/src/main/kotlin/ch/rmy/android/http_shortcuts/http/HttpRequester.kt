@@ -15,17 +15,18 @@ import okhttp3.Response
 
 object HttpRequester {
 
-    fun executeShortcut(detachedShortcut: Shortcut, variableManager: VariableManager): Single<ShortcutResponse> =
+    fun executeShortcut(shortcut: Shortcut, variableManager: VariableManager): Single<ShortcutResponse> =
         Single
             .create<ShortcutResponse> { emitter ->
                 val variables = variableManager.getVariableValuesByIds()
 
-                val url = Variables.rawPlaceholdersToResolvedValues(detachedShortcut.url, variables)
-                val username = Variables.rawPlaceholdersToResolvedValues(detachedShortcut.username, variables)
-                val password = Variables.rawPlaceholdersToResolvedValues(detachedShortcut.password, variables)
-                val body = Variables.rawPlaceholdersToResolvedValues(detachedShortcut.bodyContent, variables)
-                val acceptAllCertificates = detachedShortcut.acceptAllCertificates
-                val followRedirects = detachedShortcut.followRedirects
+                val url = Variables.rawPlaceholdersToResolvedValues(shortcut.url, variables)
+                val username = Variables.rawPlaceholdersToResolvedValues(shortcut.username, variables)
+                val password = Variables.rawPlaceholdersToResolvedValues(shortcut.password, variables)
+                val authToken = Variables.rawPlaceholdersToResolvedValues(shortcut.authToken, variables)
+                val body = Variables.rawPlaceholdersToResolvedValues(shortcut.bodyContent, variables)
+                val acceptAllCertificates = shortcut.acceptAllCertificates
+                val followRedirects = shortcut.followRedirects
 
                 if (!Validation.isValidUrl(Uri.parse(url))) {
                     emitter.onError(InvalidUrlException())
@@ -34,35 +35,38 @@ object HttpRequester {
 
                 val client = HttpClients.getClient(
                     acceptAllCertificates,
-                    username.takeIf { detachedShortcut.usesDigestAuthentication() },
-                    password.takeIf { detachedShortcut.usesDigestAuthentication() },
+                    username.takeIf { shortcut.usesDigestAuthentication() },
+                    password.takeIf { shortcut.usesDigestAuthentication() },
                     followRedirects,
-                    detachedShortcut.timeout.toLong()
+                    shortcut.timeout.toLong()
                 )
 
-                val request = RequestBuilder(detachedShortcut.method, url)
+                val request = RequestBuilder(shortcut.method, url)
                     .header(HttpHeaders.CONNECTION, "close")
                     .header(HttpHeaders.USER_AGENT, UserAgentUtil.userAgent)
-                    .mapIf(detachedShortcut.usesCustomBody()) {
-                        it.contentType(determineContentType(detachedShortcut))
+                    .mapIf(shortcut.usesCustomBody()) {
+                        it.contentType(determineContentType(shortcut))
                         it.body(body)
                     }
-                    .mapIf(detachedShortcut.usesRequestParameters()) {
-                        it.mapFor(detachedShortcut.parameters) { builder, parameter ->
+                    .mapIf(shortcut.usesRequestParameters()) {
+                        it.mapFor(shortcut.parameters) { builder, parameter ->
                             builder.parameter(
                                 Variables.rawPlaceholdersToResolvedValues(parameter.key, variables),
                                 Variables.rawPlaceholdersToResolvedValues(parameter.value, variables)
                             )
                         }
                     }
-                    .mapFor(detachedShortcut.headers) { builder, header ->
+                    .mapFor(shortcut.headers) { builder, header ->
                         builder.header(
                             Variables.rawPlaceholdersToResolvedValues(header.key, variables),
                             Variables.rawPlaceholdersToResolvedValues(header.value, variables)
                         )
                     }
-                    .mapIf(detachedShortcut.usesBasicAuthentication()) {
+                    .mapIf(shortcut.usesBasicAuthentication()) {
                         it.basicAuth(username, password)
+                    }
+                    .mapIf(shortcut.usesBearerAuthentication()) {
+                        it.bearerAuth(authToken)
                     }
                     .build()
                 val call = client.newCall(request)

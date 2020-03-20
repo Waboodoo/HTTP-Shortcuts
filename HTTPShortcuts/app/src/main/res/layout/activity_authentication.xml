@@ -82,6 +82,35 @@
                     android:layout_alignParentRight="true" />
             </RelativeLayout>
 
+            <RelativeLayout
+                android:id="@+id/container_token"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/label_token"
+                    style="@style/Label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_auth_token" />
+
+                <ch.rmy.android.http_shortcuts.variables.VariableEditText
+                    android:id="@+id/input_token"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/label_token"
+                    android:inputType="textNoSuggestions"
+                    android:lines="1"
+                    android:paddingRight="@dimen/variable_button_spacing" />
+
+                <ch.rmy.android.http_shortcuts.variables.VariableButton
+                    android:id="@+id/variable_button_token"
+                    style="@style/VariableButton"
+                    android:layout_below="@+id/label_token"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true" />
+            </RelativeLayout>
+
 
         </LinearLayout>
 

@@ -20,6 +20,10 @@ class RequestBuilder(private val method: String, url: String) {
         requestBuilder.addHeader(HttpHeaders.AUTHORIZATION, Credentials.basic(username, password))
     }
 
+    fun bearerAuth(authToken: String) = also {
+        requestBuilder.addHeader(HttpHeaders.AUTHORIZATION, "Bearer $authToken")
+    }
+
     fun body(body: String) = also {
         this.body = body
     }

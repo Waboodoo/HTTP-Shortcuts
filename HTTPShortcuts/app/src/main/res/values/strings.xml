@@ -28,6 +28,8 @@
     <string name="label_username">Username</string>
     <!-- Label above input field in editor, for shortcut authentication password -->
     <string name="label_password">Password</string>
+    <!-- Label above input field in editor, for shortcut authentication token -->
+    <string name="label_auth_token">Token</string>
     <!-- Label above input field in editor, for shortcut response type dropdown -->
     <string name="label_feedback">Response Type</string>
     <!-- Option in dropdown, for shortcut response type: ignore response -->
@@ -504,6 +506,8 @@
     <string name="authentication_basic">Basic Authentication</string>
     <!-- Dropdown option for "Authentication" of a shortcut: "Digest Authentication", aka. DigestAuth (username & password) -->
     <string name="authentication_digest">Digest Authentication</string>
+    <!-- Dropdown option for "Authentication" of a shortcut: "Bearer Authentication", aka. BearerAuth (token) -->
+    <string name="authentication_bearer">Bearer Authentication</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu, i.e., when long-pressing the app icon on the home screen -->
     <string name="label_launcher_shortcut">Show as app shortcut on launcher</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
@@ -635,6 +639,8 @@
     <string name="subtitle_authentication_basic">Basic authentication with username and password</string>
     <!-- Section subtitle, shown in shortcut editor when Digest Authentication is enabled -->
     <string name="subtitle_authentication_digest">Digest authentication with username and password</string>
+    <!-- Section subtitle, shown in shortcut editor when Bearer Authentication is enabled -->
+    <string name="subtitle_authentication_bearer">Bearer authentication with token</string>
     <!-- Section subtitle, shown in shortcut editor when no (POST) parameters are set -->
     <string name="subtitle_request_body_params_none">No parameters set</string>
     <!-- Section subtitle, shown in shortcut editor when one or more (POST) parameters are set -->

@@ -112,8 +112,13 @@ class VariableResolver(private val context: Context) {
         fun extractVariableIds(shortcut: Shortcut, variableLookup: VariableLookup): Set<String> =
             mutableSetOf<String>().apply {
                 addAll(Variables.extractVariableIds(shortcut.url))
-                addAll(Variables.extractVariableIds(shortcut.username))
-                addAll(Variables.extractVariableIds(shortcut.password))
+                if (shortcut.usesBasicAuthentication() || shortcut.usesDigestAuthentication()) {
+                    addAll(Variables.extractVariableIds(shortcut.username))
+                    addAll(Variables.extractVariableIds(shortcut.password))
+                }
+                if (shortcut.usesBearerAuthentication()) {
+                    addAll(Variables.extractVariableIds(shortcut.authToken))
+                }
                 if (shortcut.usesCustomBody()) {
                     addAll(Variables.extractVariableIds(shortcut.bodyContent))
                 }

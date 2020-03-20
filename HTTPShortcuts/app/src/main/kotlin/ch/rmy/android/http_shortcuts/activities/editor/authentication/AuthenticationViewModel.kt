@@ -12,11 +12,12 @@ class AuthenticationViewModel(application: Application) : BasicShortcutEditorVie
             getShortcut(realm)?.authentication = authenticationMethod
         }
 
-    fun setCredentials(username: String, password: String): Completable =
+    fun setCredentials(username: String, password: String, token: String): Completable =
         Transactions.commit { realm ->
             getShortcut(realm)?.let { shortcut ->
                 shortcut.username = username
                 shortcut.password = password
+                shortcut.authToken = token
             }
         }
 

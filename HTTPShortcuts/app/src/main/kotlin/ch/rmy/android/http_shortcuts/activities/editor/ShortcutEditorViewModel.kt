@@ -7,6 +7,7 @@ import ch.rmy.android.http_shortcuts.data.Transactions
 import ch.rmy.android.http_shortcuts.data.models.Header
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Shortcut.Companion.TEMPORARY_ID
+import ch.rmy.android.http_shortcuts.extensions.getCaseInsensitive
 import ch.rmy.android.http_shortcuts.extensions.getQuantityString
 import ch.rmy.android.http_shortcuts.extensions.getString
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
@@ -172,6 +173,7 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
         when (shortcut.authentication) {
             Shortcut.AUTHENTICATION_BASIC -> getString(R.string.subtitle_authentication_basic)
             Shortcut.AUTHENTICATION_DIGEST -> getString(R.string.subtitle_authentication_digest)
+            Shortcut.AUTHENTICATION_BEARER -> getString(R.string.subtitle_authentication_bearer)
             else -> getString(R.string.subtitle_authentication_none)
         }
 
@@ -193,10 +195,9 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
             shortcut.timeout = curlCommand.timeout
             shortcut.bodyContent = curlCommand.data
             shortcut.requestBodyType = Shortcut.REQUEST_BODY_TYPE_CUSTOM_TEXT
-            curlCommand.headers.entries
-                .find { it.key.equals(HttpHeaders.CONTENT_TYPE, ignoreCase = true) }
+            curlCommand.headers.getCaseInsensitive(HttpHeaders.CONTENT_TYPE)
                 ?.let {
-                    shortcut.contentType = it.value
+                    shortcut.contentType = it
                 }
             curlCommand.headers.forEach { (key, value) ->
                 if (!key.equals(HttpHeaders.CONTENT_TYPE, ignoreCase = true)) {

@@ -260,6 +260,11 @@ class DatabaseMigration : RealmMigration {
             31L -> { // 1.27.0
                 schema.get("Shortcut")!!.addField("quickSettingsTileShortcut", Boolean::class.javaPrimitiveType)
             }
+            32L -> { // 1.27.0
+                schema.get("Shortcut")!!
+                    .addField("authToken", String::class.java)
+                    .setRequired("authToken", true)
+            }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -285,7 +290,7 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 31L
+        const val VERSION = 32L
 
     }
 
