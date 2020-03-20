@@ -183,7 +183,7 @@ open class Shortcut : RealmObject(), HasId {
             method = METHOD_GET
             url = "http://"
             timeout = 10000
-            feedback = FEEDBACK_TOAST_SIMPLE
+            feedback = FEEDBACK_TOAST
             retryPolicy = RETRY_POLICY_NONE
             authentication = AUTHENTICATION_NONE
             delay = 0
