@@ -7,6 +7,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.InvalidUrlException
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
+import ch.rmy.android.http_shortcuts.http.HttpStatus
 
 class ErrorFormatter(private val context: Context) {
 
@@ -19,7 +20,12 @@ class ErrorFormatter(private val context: Context) {
 
     private fun getHttpErrorMessage(error: ErrorResponse, shortcutName: String, includeBody: Boolean): String {
         val builder = StringBuilder()
-        builder.append(String.format(getString(R.string.error_http), shortcutName, error.shortcutResponse.statusCode))
+        builder.append(String.format(
+            getString(R.string.error_http),
+            shortcutName,
+            error.shortcutResponse.statusCode,
+            HttpStatus.getMessage(error.shortcutResponse.statusCode)
+        ))
 
         if (includeBody && error.shortcutResponse.bodyAsString.isNotEmpty()) {
             try {

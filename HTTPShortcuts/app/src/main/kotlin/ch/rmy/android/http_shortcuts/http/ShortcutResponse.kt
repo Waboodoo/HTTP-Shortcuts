@@ -12,7 +12,6 @@ class ShortcutResponse internal constructor(
     val url: String?,
     val headers: Map<String, String>,
     val statusCode: Int,
-    private val contentLength: Int?,
     private val content: InputStream?
 ) {
 

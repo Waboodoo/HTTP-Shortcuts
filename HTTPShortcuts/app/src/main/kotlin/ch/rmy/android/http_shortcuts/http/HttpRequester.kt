@@ -94,7 +94,6 @@ object HttpRequester {
             url = url,
             headers = responseHeaders,
             statusCode = response.code,
-            contentLength = responseBody?.contentLength()?.toInt(),
             content = responseBody?.byteStream()
         )
     }
