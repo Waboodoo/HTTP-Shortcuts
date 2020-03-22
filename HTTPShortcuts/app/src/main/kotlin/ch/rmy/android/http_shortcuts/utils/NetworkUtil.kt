@@ -9,6 +9,11 @@ import android.os.PowerManager
 
 object NetworkUtil {
 
+    fun isNetworkConnected(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        return connectivityManager.activeNetworkInfo?.isConnected == true
+    }
+
     fun isNetworkPerformanceRestricted(context: Context) =
         isDataSaveModeEnabled(context) || isBatterySaveModeEnabled(context)
 

@@ -54,6 +54,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotterknife.bindView
 import org.liquidplayer.javascript.JSException
+import java.net.UnknownHostException
 import java.util.*
 import kotlin.math.pow
 
@@ -301,7 +302,7 @@ class ExecuteActivity : BaseActivity() {
                 }
             }
             .doOnError { error ->
-                if (!shortcut.isFeedbackUsingUI && shortcut.isWaitForNetwork && error !is ErrorResponse) {
+                if (shortcut.isWaitForNetwork && error !is ErrorResponse && (error is UnknownHostException || !NetworkUtil.isNetworkConnected(context))) {
                     rescheduleExecution(variableManager)
                     if (shortcut.feedback != Shortcut.FEEDBACK_NONE && tryNumber == 0) {
                         showToast(String.format(context.getString(R.string.execution_delayed), shortcutName), long = true)
