@@ -216,7 +216,7 @@
 
         <service
             android:name=".tiles.QuickTileService"
-            android:icon="@drawable/ic_launcher"
+            android:icon="@drawable/ic_quick_settings_tile"
             android:label="@string/action_quick_settings_tile_trigger"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
