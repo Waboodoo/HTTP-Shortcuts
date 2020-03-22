@@ -22,6 +22,7 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.dialogs.NetworkRestrictionWarningDialog
+import ch.rmy.android.http_shortcuts.dialogs.SpecialWarnings
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
@@ -166,6 +167,9 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     }
 
     private fun showStartupDialogs() {
+        if (SpecialWarnings.showIfNeeded(context)) {
+            return
+        }
         ChangeLogDialog(context, whatsNew = true)
             .showIfNeeded()
             .andThen(
