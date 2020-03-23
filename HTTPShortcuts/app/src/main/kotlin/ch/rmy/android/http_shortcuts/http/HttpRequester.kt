@@ -49,6 +49,7 @@ object HttpRequester {
                         it.body(body)
                     }
                     .mapIf(shortcut.usesRequestParameters()) {
+                        it.contentType(determineContentType(shortcut))
                         it.mapFor(shortcut.parameters) { builder, parameter ->
                             builder.parameter(
                                 Variables.rawPlaceholdersToResolvedValues(parameter.key, variables),
