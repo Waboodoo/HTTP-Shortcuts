@@ -88,13 +88,13 @@ object HttpRequester {
             .subscribeOn(Schedulers.io())
 
     private fun prepareResponse(url: String, response: Response): ShortcutResponse {
-        val responseHeaders = response.headers.toMap()
-        val responseBody = response.body
+        val responseHeaders = response.headers().toMultimap().mapValues { it.value.first() }
+        val responseBody = response.body()
 
         return ShortcutResponse(
             url = url,
             headers = responseHeaders,
-            statusCode = response.code,
+            statusCode = response.code(),
             content = responseBody?.byteStream()
         )
     }

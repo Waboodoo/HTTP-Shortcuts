@@ -1,9 +1,9 @@
 package ch.rmy.android.http_shortcuts.http
 
 import okhttp3.Credentials
-import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType
 import okhttp3.Request
-import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.RequestBody
 import okhttp3.internal.http.HttpMethod
 import java.net.URLEncoder
 
@@ -46,7 +46,7 @@ class RequestBuilder(private val method: String, url: String) {
     fun build(): Request = requestBuilder
         .also {
             it.method(method, if (HttpMethod.permitsRequestBody(method)) {
-                getBody().toRequestBody((contentType ?: DEFAULT_CONTENT_TYPE).toMediaType())
+                getBody()?.let { body -> RequestBody.create(MediaType.get(contentType ?: DEFAULT_CONTENT_TYPE), body) }
             } else {
                 null
             })

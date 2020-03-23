@@ -95,10 +95,10 @@ dependencies {
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
 
     /* HTTP & Network */
-    implementation 'com.squareup.okhttp3:okhttp:4.4.1'
-    implementation 'com.facebook.stetho:stetho:1.5.1'
-    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
-    implementation 'com.burgstaller:okhttp-digest:2.1'
+    implementation 'com.squareup.okhttp3:okhttp:3.12.1' // TODO: Use version 4 once dropping support for Kitkat and below
+    implementation 'com.facebook.stetho:stetho:1.5.0'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
+    implementation 'com.burgstaller:okhttp-digest:1.12' // Can't update to latest version because that depends on okhttp v4
 
     /* Tasker integration */
     implementation 'com.twofortyfouram:android-plugin-client-sdk-for-locale:4.0.3'
