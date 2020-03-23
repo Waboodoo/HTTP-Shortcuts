@@ -73,16 +73,10 @@ class RequestBuilder(private val method: String, url: String) {
             .toString()
 
     private fun constructFormUrlEncodedBody(): String =
-        StringBuilder()
-            .apply {
-                parameters.entries.forEach { (key, value) ->
-                    append(URLEncoder.encode(key, PARAMETER_ENCODING))
-                    append('=')
-                    append(URLEncoder.encode(value, PARAMETER_ENCODING))
-                    append('&')
-                }
+        parameters.entries
+            .joinToString(separator = "&") { (key, value) ->
+                URLEncoder.encode(key, PARAMETER_ENCODING) + '=' + URLEncoder.encode(value, PARAMETER_ENCODING)
             }
-            .toString()
 
     companion object {
         const val FORM_MULTIPART_BOUNDARY = "----53014704754052338"
