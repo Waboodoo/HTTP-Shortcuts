@@ -33,7 +33,6 @@ import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.curlcommand.CurlCommand
 import ch.rmy.curlcommand.CurlConstructor
 import kotterknife.bindView
-import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
 
 class ListFragment : BaseFragment() {
@@ -346,21 +345,20 @@ class ListFragment : BaseFragment() {
             .mapFor(shortcut.headers) { builder, header ->
                 builder.header(header.key, header.value)
             }
+            .mapIf(shortcut.usesRequestParameters()) { builder ->
+                // TODO: This currently assumes x-www-form-urlencoded and doesn't handle form-data
+                builder.data(
+                    shortcut.parameters
+                        .joinToString(separator = "&") { parameter ->
+                            URLEncoder.encode(parameter.key, "UTF-8") + "=" + URLEncoder.encode(parameter.value, "UTF-8")
+                        }
+                )
+            }
             .mapIf(shortcut.usesCustomBody()) { builder ->
-                builder.header(HttpHeaders.CONTENT_TYPE, shortcut.contentType.ifEmpty { Shortcut.DEFAULT_CONTENT_TYPE })
+                builder
+                    .header(HttpHeaders.CONTENT_TYPE, shortcut.contentType.ifEmpty { Shortcut.DEFAULT_CONTENT_TYPE })
+                    .data(shortcut.bodyContent)
             }
-            .mapFor(shortcut.parameters) { builder, parameter ->
-                try {
-                    builder.data(URLEncoder.encode(parameter.key, "UTF-8")
-                        + "="
-                        + URLEncoder.encode(parameter.value, "UTF-8")
-                        + "&"
-                    )
-                } catch (e: UnsupportedEncodingException) {
-                    builder
-                }
-            }
-            .data(shortcut.bodyContent)
             .build()
 
         CurlExportDialog(
