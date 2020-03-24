@@ -10,6 +10,7 @@ import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.context
 import ch.rmy.android.http_shortcuts.extensions.detachFromRealm
 import ch.rmy.android.http_shortcuts.extensions.mapFor
+import ch.rmy.android.http_shortcuts.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.utils.ThemeHelper
 
 class QuickTileService : TileService() {
@@ -47,7 +48,9 @@ class QuickTileService : TileService() {
             ))
             .positive(R.string.dialog_ok)
             .build()
-        showDialog(dialog)
+        tryOrLog {
+            showDialog(dialog)
+        }
     }
 
     private fun showPickerDialog(shortcuts: List<Shortcut>) {
@@ -59,7 +62,9 @@ class QuickTileService : TileService() {
                 }
             }
             .build()
-        showDialog(dialog)
+        tryOrLog {
+            showDialog(dialog)
+        }
     }
 
     private fun applyTheme() {
