@@ -38,7 +38,7 @@ class CommandLineBuilder(private val command: String) {
             if (needsEscaping(string)) escape(string) else string
 
         private fun needsEscaping(string: String): Boolean =
-            string.contains("\"") || string.contains(" ")
+            string.contains("\"") || string.contains(" ") || string.contains("<") || string.contains(">")
 
 
         private fun escape(string: String): String =
