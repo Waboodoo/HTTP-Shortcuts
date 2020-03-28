@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.core.view.children
 import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
+import ch.rmy.android.http_shortcuts.Application
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.categories.CategoriesActivity
@@ -61,9 +62,16 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     private val viewPager: ViewPager by bindView(R.id.view_pager)
     private val tabLayout: TabLayout by bindView(R.id.tabs)
 
+    private val isRealmAvailable: Boolean
+        get() = (application as Application).isRealmAvailable
+
     @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (!isRealmAvailable) {
+            showRealmError()
+            return
+        }
         setContentView(R.layout.activity_main)
         if (categories.count { !it.hidden } <= 1) {
             (toolbar?.layoutParams as? AppBarLayout.LayoutParams?)?.scrollFlags = 0
@@ -77,6 +85,17 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
 
         ExecutionScheduler.schedule(context)
         updateLauncherShortcuts()
+    }
+
+    private fun showRealmError() {
+        DialogBuilder(context)
+            .title(R.string.dialog_title_error)
+            .message(R.string.error_realm_unavailable, isHtml = true)
+            .positive(R.string.dialog_ok)
+            .dismissListener {
+                finish()
+            }
+            .showIfPossible()
     }
 
     private fun initViews() {
@@ -271,10 +290,12 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     override val navigateUpIcon = 0
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        if (viewModel.isAppLocked()) {
-            menuInflater.inflate(R.menu.locked_main_activity_menu, menu)
-        } else {
-            menuInflater.inflate(R.menu.main_activity_menu, menu)
+        if (isRealmAvailable) {
+            if (viewModel.isAppLocked()) {
+                menuInflater.inflate(R.menu.locked_main_activity_menu, menu)
+            } else {
+                menuInflater.inflate(R.menu.main_activity_menu, menu)
+            }
         }
         return super.onCreateOptionsMenu(menu)
     }

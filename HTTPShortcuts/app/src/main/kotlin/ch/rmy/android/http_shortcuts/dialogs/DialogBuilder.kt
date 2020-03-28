@@ -36,11 +36,15 @@ open class DialogBuilder(val context: Context) {
         actions.add(action)
     }
 
-    open fun message(@StringRes text: Int) =
-        message(context.getString(text))
+    open fun message(@StringRes text: Int, isHtml: Boolean = false) =
+        message(context.getString(text), isHtml)
 
-    open fun message(text: CharSequence) = also {
-        dialog.message(text = text)
+    open fun message(text: CharSequence, isHtml: Boolean = false) = also {
+        dialog.message(text = text) {
+            if (isHtml) {
+                html()
+            }
+        }
     }
 
     fun view(@LayoutRes view: Int) = also {

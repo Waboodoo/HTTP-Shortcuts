@@ -19,7 +19,7 @@ class HelpDialogBuilder(context: Context) : DialogBuilder(context) {
         positive(android.R.string.ok)
     }
 
-    override fun message(text: CharSequence): DialogBuilder = also {
+    override fun message(text: CharSequence, isHtml: Boolean): DialogBuilder = also {
         val textView = view.findViewById<TextView>(R.id.help_text)
         textView.text = HTMLUtil.getHTML(text.toString())
         textView.movementMethod = LinkMovementMethod.getInstance()

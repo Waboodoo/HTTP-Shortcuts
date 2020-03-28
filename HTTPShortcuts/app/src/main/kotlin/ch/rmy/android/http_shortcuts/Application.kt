@@ -12,6 +12,9 @@ import io.reactivex.plugins.RxJavaPlugins
 
 class Application : android.app.Application() {
 
+    var isRealmAvailable: Boolean = false
+        private set
+
     override fun onCreate() {
         super.onCreate()
 
@@ -26,7 +29,12 @@ class Application : android.app.Application() {
             logException(error)
         }
 
-        RealmFactory.init(applicationContext)
+        try {
+            RealmFactory.init(applicationContext)
+            isRealmAvailable = true
+        } catch (e: RealmFactory.RealmNotFoundException) {
+            logException(e)
+        }
 
         DarkThemeHelper.applyDarkThemeSettings(settings.darkThemeSetting)
     }

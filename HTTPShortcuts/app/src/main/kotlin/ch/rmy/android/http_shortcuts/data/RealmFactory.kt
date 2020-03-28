@@ -42,6 +42,8 @@ internal class RealmFactory {
         }
     }
 
+    class RealmNotFoundException(e: Throwable) : Exception(e)
+
     companion object {
 
         private const val DB_NAME = "shortcuts_db_v2"
@@ -53,15 +55,19 @@ internal class RealmFactory {
                 return
             }
 
-            Realm.init(context)
-            instance = RealmFactory()
-                .apply {
-                    createRealm().use { realm ->
-                        if (Repository.getBase(realm) == null) {
-                            setupBase(context, realm)
+            try {
+                Realm.init(context)
+                instance = RealmFactory()
+                    .apply {
+                        createRealm().use { realm ->
+                            if (Repository.getBase(realm) == null) {
+                                setupBase(context, realm)
+                            }
                         }
                     }
-                }
+            } catch (e: Exception) {
+                throw RealmNotFoundException(e)
+            }
         }
 
         fun getInstance(): RealmFactory = instance!!
