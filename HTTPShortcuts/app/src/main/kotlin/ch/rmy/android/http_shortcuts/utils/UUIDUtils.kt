@@ -18,4 +18,12 @@ object UUIDUtils {
             }
         }
 
+    fun isUUID(input: String): Boolean =
+        try {
+            UUID.fromString(input)
+            true
+        } catch (e: IllegalArgumentException) {
+            false
+        }
+
 }

@@ -2,10 +2,13 @@ package ch.rmy.android.http_shortcuts.import_export
 
 import android.content.Context
 import android.net.Uri
+import androidx.core.text.isDigitsOnly
 import ch.rmy.android.http_shortcuts.data.Controller
 import ch.rmy.android.http_shortcuts.data.migration.ImportMigrator
+import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.extensions.isWebUrl
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
+import ch.rmy.android.http_shortcuts.utils.UUIDUtils
 import com.google.gson.JsonParser
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
@@ -25,6 +28,7 @@ class Importer {
                     val importData = JsonParser.parseReader(reader)
                     val migratedImportData = ImportMigrator.migrate(importData)
                     val newBase = GsonUtil.importData(migratedImportData)
+                    validate(newBase)
                     Controller().use { controller ->
                         controller.importBaseSynchronously(newBase)
                     }
@@ -34,6 +38,12 @@ class Importer {
                 }
             }
             .subscribeOn(Schedulers.io())
+
+    private fun validate(base: Base) {
+        if (base.categories.any { !UUIDUtils.isUUID(it.id) && !it.id.isDigitsOnly() }) {
+            throw IllegalArgumentException("Invalid category ID found, must be UUID")
+        }
+    }
 
     private fun getStream(context: Context, uri: Uri): InputStream =
         if (uri.isWebUrl) {
