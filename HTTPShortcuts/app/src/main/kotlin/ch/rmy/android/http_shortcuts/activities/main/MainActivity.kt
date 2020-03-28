@@ -76,7 +76,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
         }
 
         ExecutionScheduler.schedule(context)
-        LauncherShortcutManager.updateAppShortcuts(context, categories)
+        updateLauncherShortcuts()
     }
 
     private fun initViews() {
@@ -191,6 +191,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
                 openEditorWithCurlCommand(curlCommand)
             }
             REQUEST_CREATE_SHORTCUT -> {
+                updateLauncherShortcuts()
                 val shortcutId = intent.getStringExtra(ShortcutEditorActivity.RESULT_SHORTCUT_ID)!!
                 selectShortcut(shortcutId)
             }
@@ -351,6 +352,10 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     }
 
     override fun isAppLocked() = viewModel.isAppLocked()
+
+    override fun updateLauncherShortcuts() {
+        LauncherShortcutManager.updateAppShortcuts(context, categories)
+    }
 
     companion object {
 

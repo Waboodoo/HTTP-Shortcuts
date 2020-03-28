@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.main
 
 import android.app.WallpaperManager
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.widget.ImageView
@@ -386,6 +387,13 @@ class ListFragment : BaseFragment() {
             .attachTo(destroyer)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_EDIT_SHORTCUT) {
+            tabHost?.updateLauncherShortcuts()
+        }
+    }
+
     private val tabHost: TabHost?
         get() = activity as? TabHost
 
@@ -398,6 +406,8 @@ class ListFragment : BaseFragment() {
         fun removeShortcutFromHomeScreen(shortcut: Shortcut)
 
         fun isAppLocked(): Boolean
+
+        fun updateLauncherShortcuts()
 
     }
 
