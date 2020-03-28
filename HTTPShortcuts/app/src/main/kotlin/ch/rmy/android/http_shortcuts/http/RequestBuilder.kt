@@ -46,7 +46,7 @@ class RequestBuilder(private val method: String, url: String) {
     fun build(): Request = requestBuilder
         .also {
             it.method(method, if (HttpMethod.permitsRequestBody(method)) {
-                getBody()?.let { body -> RequestBody.create(MediaType.get(contentType ?: DEFAULT_CONTENT_TYPE), body) }
+                getBody().let { body -> RequestBody.create(MediaType.get(contentType ?: DEFAULT_CONTENT_TYPE), body.toByteArray()) }
             } else {
                 null
             })
