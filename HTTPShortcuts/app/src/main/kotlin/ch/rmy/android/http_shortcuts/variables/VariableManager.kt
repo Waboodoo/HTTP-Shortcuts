@@ -42,20 +42,6 @@ class VariableManager(variables: List<Variable>) : VariableLookup {
                 getVariableValueById(variableId)
             }
 
-    fun setVariableValueByKey(variableKey: String, value: String) {
-        getVariableByKey(variableKey)
-            ?.let { variable ->
-                setVariableValue(variable, value)
-            }
-    }
-
-    fun setVariableValueById(variableId: String, value: String) {
-        getVariableById(variableId)
-            ?.let { variable ->
-                setVariableValue(variable, value)
-            }
-    }
-
     fun setVariableValue(variable: Variable, value: String) {
         variableValuesById[variable.id] = encodeValue(variable, value)
     }

@@ -43,8 +43,6 @@ object GsonUtil {
 
     fun toJson(item: Map<String, Any>): String = gson.toJson(item)
 
-    fun parseString(jsonString: String): JsonElement = JsonParser().parse(jsonString)
-
     private val gson: Gson by lazy {
         GsonBuilder()
             .addSerializationExclusionStrategy(RealmExclusionStrategy())

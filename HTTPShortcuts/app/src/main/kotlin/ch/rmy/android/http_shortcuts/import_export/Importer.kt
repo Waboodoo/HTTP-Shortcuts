@@ -37,7 +37,7 @@ class Importer {
 
     private fun getStream(context: Context, uri: Uri): InputStream =
         if (uri.isWebUrl) {
-            URL(uri.toString()).openStream();
+            URL(uri.toString()).openStream()
         } else {
             context.contentResolver.openInputStream(uri)
                 ?: throw IOException("Failed to open input stream")

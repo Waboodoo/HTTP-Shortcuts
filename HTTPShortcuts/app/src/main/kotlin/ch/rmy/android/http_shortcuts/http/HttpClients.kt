@@ -8,7 +8,6 @@ import com.facebook.stetho.okhttp3.StethoInterceptor
 import okhttp3.OkHttpClient
 import java.security.cert.CertificateException
 import java.util.concurrent.TimeUnit
-import javax.net.ssl.HostnameVerifier
 import javax.net.ssl.SSLContext
 import javax.net.ssl.X509TrustManager
 
@@ -55,7 +54,7 @@ internal object HttpClients {
 
         return OkHttpClient.Builder()
             .sslSocketFactory(sslSocketFactory, trustAllCerts[0])
-            .hostnameVerifier(HostnameVerifier { _, _ -> true })
+            .hostnameVerifier({ _, _ -> true })
     }
 
 }

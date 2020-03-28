@@ -54,8 +54,6 @@ class VibrateAction(actionType: VibrateActionType, data: Map<String, String>) : 
         const val KEY_PATTERN = "pattern"
         const val KEY_WAIT_FOR_COMPLETION = "wait"
 
-        private const val PATTERN_COUNT = 3
-
         private fun findPattern(patternId: Int): VibrationPattern =
             when (patternId) {
                 1 -> object : VibrationPattern {

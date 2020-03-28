@@ -72,7 +72,7 @@ class RemoveLegacyActionsMigration : BaseMigration {
         return when (extractionType) {
             "full_body" -> "setVariable(\"$variableId\", response.body);"
             "substring" -> {
-                var substringStart = payload.get("substringStart").asString
+                val substringStart = payload.get("substringStart").asString
                 val substringEnd = payload.get("substringEnd").asString
 
                 """

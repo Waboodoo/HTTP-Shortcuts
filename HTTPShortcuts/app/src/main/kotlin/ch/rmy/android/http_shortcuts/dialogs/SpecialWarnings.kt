@@ -30,7 +30,7 @@ object SpecialWarnings {
     }
 
     private fun shouldShow(): Boolean =
-        Locale.getDefault().getLanguage() == "ru"
+        Locale.getDefault().language == "ru"
 
     private const val PREF_NAME = "special_warnings"
     private const val PREF_WARNED_CONFUSED_RUSSIAN_USERS = "confused_russian_users"

@@ -10,6 +10,7 @@ import ch.rmy.android.http_shortcuts.data.livedata.ListLiveData
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.extensions.toLiveData
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
+import io.reactivex.Completable
 
 class CategoriesViewModel(application: Application) : RealmViewModel(application) {
 
@@ -22,7 +23,7 @@ class CategoriesViewModel(application: Application) : RealmViewModel(application
             .categories
             .toLiveData()
 
-    fun createCategory(name: String) =
+    fun createCategory(name: String): Completable =
         Transactions
             .commit { realm ->
                 val base = Repository.getBase(realm) ?: return@commit
@@ -35,7 +36,7 @@ class CategoriesViewModel(application: Application) : RealmViewModel(application
                 categoriesChanged.value = true
             }
 
-    fun renameCategory(categoryId: String, newName: String) =
+    fun renameCategory(categoryId: String, newName: String): Completable =
         Transactions
             .commit { realm ->
                 Repository.getCategoryById(realm, categoryId)?.name = newName
@@ -44,7 +45,7 @@ class CategoriesViewModel(application: Application) : RealmViewModel(application
                 categoriesChanged.value = true
             }
 
-    fun toggleCategoryHidden(categoryId: String, hidden: Boolean) =
+    fun toggleCategoryHidden(categoryId: String, hidden: Boolean): Completable =
         Transactions
             .commit { realm ->
                 Repository.getCategoryById(realm, categoryId)?.hidden = hidden
@@ -53,7 +54,7 @@ class CategoriesViewModel(application: Application) : RealmViewModel(application
                 categoriesChanged.value = true
             }
 
-    fun setLayoutType(categoryId: String, layoutType: String) =
+    fun setLayoutType(categoryId: String, layoutType: String): Completable =
         Transactions
             .commit { realm ->
                 Repository.getCategoryById(realm, categoryId)?.layoutType = layoutType
@@ -62,7 +63,7 @@ class CategoriesViewModel(application: Application) : RealmViewModel(application
                 categoriesChanged.value = true
             }
 
-    fun moveCategory(categoryId: String, position: Int) =
+    fun moveCategory(categoryId: String, position: Int): Completable =
         Transactions
             .commit { realm ->
                 val base = Repository.getBase(realm) ?: return@commit
@@ -75,7 +76,7 @@ class CategoriesViewModel(application: Application) : RealmViewModel(application
                 categoriesChanged.value = true
             }
 
-    fun deleteCategory(categoryId: String) =
+    fun deleteCategory(categoryId: String): Completable =
         Transactions
             .commit { realm ->
                 val category = Repository.getCategoryById(realm, categoryId) ?: return@commit
@@ -90,7 +91,7 @@ class CategoriesViewModel(application: Application) : RealmViewModel(application
                 categoriesChanged.value = true
             }
 
-    fun setBackground(categoryId: String, background: String) =
+    fun setBackground(categoryId: String, background: String): Completable =
         Transactions
             .commit { realm ->
                 Repository.getCategoryById(realm, categoryId)?.background = background

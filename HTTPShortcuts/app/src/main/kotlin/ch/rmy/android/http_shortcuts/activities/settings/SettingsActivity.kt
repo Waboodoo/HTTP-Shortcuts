@@ -10,7 +10,6 @@ import android.content.pm.PackageManager.NameNotFoundException
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import androidx.annotation.StringRes
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -462,10 +461,6 @@ class SettingsActivity : BaseActivity() {
                     }
                 })
                 .attachTo(destroyer)
-        }
-
-        private fun showSnackbar(@StringRes message: Int) {
-            activity?.showSnackbar(message)
         }
 
         private fun showSnackbar(message: CharSequence) {

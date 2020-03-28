@@ -45,12 +45,6 @@ object Repository {
             .equalTo(HasId.FIELD_ID, shortcutId)
             .findFirst()
 
-    internal fun getShortcutByName(realm: Realm, shortcutName: String): Shortcut? =
-        realm
-            .where<Shortcut>()
-            .equalTo(Shortcut.FIELD_NAME, shortcutName, Case.INSENSITIVE)
-            .findFirst()
-
     fun getShortcutByNameOrId(realm: Realm, shortcutNameOrId: String): Shortcut? =
         realm
             .where<Shortcut>()

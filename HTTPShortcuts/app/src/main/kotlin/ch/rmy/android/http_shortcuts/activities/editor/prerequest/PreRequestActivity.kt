@@ -8,7 +8,6 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.lifecycle.Observer
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.actions.types.ActionFactory
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.editor.CodeSnippetPicker
 import ch.rmy.android.http_shortcuts.extensions.attachTo
@@ -36,9 +35,6 @@ class PreRequestActivity : BaseActivity() {
     }
     private val variablePlaceholderProvider by lazy {
         VariablePlaceholderProvider(variablesData)
-    }
-    private val actionFactory by lazy {
-        ActionFactory(context)
     }
     private val codeSnippetPicker by lazy {
         destroyer.own(CodeSnippetPicker(context, variablePlaceholderProvider))

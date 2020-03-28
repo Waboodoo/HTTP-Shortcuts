@@ -11,7 +11,7 @@ class CategoryPagerAdapter(
     private val selectionMode: SelectionMode
 ) : FragmentPagerAdapter(
     fragmentManager,
-    FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
+    BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
 ) {
 
     private var fragments: List<Pair<String, ListFragment>> = emptyList()

@@ -44,7 +44,7 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun setContentView(layoutResID: Int) {
         super.setContentView(layoutResID)
         baseView?.setBackgroundColor(color(context, R.color.activity_background))
-        toolbar = findViewById<Toolbar?>(R.id.toolbar) ?: return
+        toolbar = findViewById(R.id.toolbar) ?: return
         updateStatusBarColor()
         setSupportActionBar(toolbar)
         if (navigateUpIcon != 0) {
