@@ -75,7 +75,7 @@ The app has very basic voice support, though only experimental at this point. Tr
 
 ### Translations
 - Brazilian Portuguese: [Eduardo Folly](https://github.com/edufolly)
-- Chinese: [Kevin Mao](https://github.com/yuanrunmao), [Jack Anosen](https://github.com/cjkzwe)
+- Chinese: [Kevin Mao](https://github.com/yuanrunmao), [Chu Jinkai](https://github.com/cjkzwe)
 - French: [Flavien](https://github.com/Flavien06)
 - German: [Roland Meyer](https://github.com/Waboodoo)
 - Italian: [Flavio Barisi](https://github.com/flavio20002), [Roberto Bellingeri](https://github.com/bellingeri)
