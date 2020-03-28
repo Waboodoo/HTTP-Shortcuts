@@ -14,12 +14,7 @@ class ActionFactory(private val context: Context) {
             ChangeIconActionType(context),
             TriggerShortcutActionType(context),
             ToastActionType(context),
-            VibrateActionType(context),
-            ExtractBodyActionType(context),
-            ExtractStatusCodeActionType(context),
-            ExtractHeaderActionType(context),
-            ExtractCookieActionType(context),
-            SetVariableActionType(context)
+            VibrateActionType(context)
         )
     }
 

@@ -2,13 +2,12 @@ package ch.rmy.android.http_shortcuts.activities.editor.prerequest
 
 import android.content.Context
 import android.os.Bundle
-import android.text.Spannable
+import android.text.SpannableStringBuilder
 import android.text.method.LinkMovementMethod
 import android.widget.Button
 import android.widget.EditText
 import androidx.lifecycle.Observer
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.actions.ActionsUtil
 import ch.rmy.android.http_shortcuts.actions.types.ActionFactory
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.editor.CodeSnippetPicker
@@ -81,9 +80,6 @@ class PreRequestActivity : BaseActivity() {
         textView.observeTextChanges()
             .debounce(300, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
-            .map {
-                ActionsUtil.removeSpans(it as Spannable)
-            }
             .filter { it != currentValueProvider.invoke() }
             .concatMapCompletable { updateViewModelFromViews() }
             .subscribe()
@@ -92,7 +88,7 @@ class PreRequestActivity : BaseActivity() {
 
     private fun updateViewModelFromViews(): Completable =
         viewModel.setCodeOnPrepare(
-            code = ActionsUtil.removeSpans(prepareCodeInput.text)
+            code = prepareCodeInput.text.toString()
         )
 
     private fun updateShortcutViews() {
@@ -101,12 +97,12 @@ class PreRequestActivity : BaseActivity() {
     }
 
     private fun processTextForView(input: String): CharSequence {
-        val text = ActionsUtil.addSpans(
-            context,
-            input,
-            actionFactory
+        val text = SpannableStringBuilder(input)
+        Variables.applyVariableFormattingToJS(
+            text,
+            variablePlaceholderProvider,
+            variablePlaceholderColor
         )
-        Variables.applyVariableFormattingToJS(text, variablePlaceholderProvider, variablePlaceholderColor)
         return text
     }
 

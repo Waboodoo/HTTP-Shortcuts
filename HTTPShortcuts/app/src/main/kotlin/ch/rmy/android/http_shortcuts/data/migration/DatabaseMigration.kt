@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.data.migration
 
+import ch.rmy.android.http_shortcuts.data.migration.migrations.RemoveLegacyActionsMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceActionsWithScriptsMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceVariableKeysWithIdsMigration
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
@@ -265,6 +266,9 @@ class DatabaseMigration : RealmMigration {
                     .addField("authToken", String::class.java)
                     .setRequired("authToken", true)
             }
+            33L -> { // 1.28.0
+                RemoveLegacyActionsMigration().migrateRealm(realm)
+            }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -290,7 +294,7 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 32L
+        const val VERSION = 33L
 
     }
 

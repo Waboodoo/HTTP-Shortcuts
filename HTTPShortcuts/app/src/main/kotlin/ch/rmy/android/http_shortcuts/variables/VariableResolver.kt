@@ -135,6 +135,10 @@ class VariableResolver(private val context: Context) {
                 addAll(extractVariableIdsFromJS(shortcut.codeOnPrepare, variableLookup))
                 addAll(extractVariableIdsFromJS(shortcut.codeOnSuccess, variableLookup))
                 addAll(extractVariableIdsFromJS(shortcut.codeOnFailure, variableLookup))
+
+                addAll(Variables.extractVariableIds(shortcut.codeOnPrepare))
+                addAll(Variables.extractVariableIds(shortcut.codeOnSuccess))
+                addAll(Variables.extractVariableIds(shortcut.codeOnFailure))
             }
 
         private fun extractVariableIdsFromJS(code: String, variableLookup: VariableLookup): Set<String> =
