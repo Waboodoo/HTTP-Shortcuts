@@ -23,6 +23,13 @@ fun Fragment.showMessageDialog(@StringRes stringRes: Int) {
         .showIfPossible()
 }
 
+fun Fragment.showMessageDialog(string: String) {
+    DialogBuilder(context!!)
+        .message(string)
+        .positive(R.string.dialog_ok)
+        .showIfPossible()
+}
+
 @ColorInt
 fun color(context: Context, @ColorRes colorRes: Int): Int = ContextCompat.getColor(context, colorRes)
 

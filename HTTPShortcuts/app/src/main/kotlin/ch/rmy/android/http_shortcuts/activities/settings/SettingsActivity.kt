@@ -26,6 +26,7 @@ import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.isWebUrl
 import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.http_shortcuts.extensions.showMessageDialog
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
@@ -110,7 +111,7 @@ class SettingsActivity : BaseActivity() {
                 ChangeLogDialog(context!!, false)
                     .show()
                     .subscribe({}, {
-                        showSnackbar(R.string.error_generic)
+                        showSnackbar(R.string.error_generic, long = true)
                     })
                     .attachTo(destroyer)
             }
@@ -317,7 +318,7 @@ class SettingsActivity : BaseActivity() {
             if (uri.isWebUrl) {
                 startImport(uri)
             } else {
-                showSnackbar(getString(R.string.import_failed_with_reason, getString(R.string.error_can_only_import_from_http_url)), long = true)
+                showMessageDialog(getString(R.string.import_failed_with_reason, getString(R.string.error_can_only_import_from_http_url)))
             }
         }
 
@@ -418,9 +419,9 @@ class SettingsActivity : BaseActivity() {
                 }, { e ->
                     // TODO: Show more meaningful error message
                     if (e is FileNotFoundException) {
-                        showSnackbar(getString(R.string.export_failed_with_reason, e.message), long = true)
+                        showMessageDialog(getString(R.string.export_failed_with_reason, e.message))
                     } else {
-                        showSnackbar(R.string.export_failed)
+                        showMessageDialog(R.string.export_failed)
                         logException(e)
                     }
                 })
@@ -452,23 +453,23 @@ class SettingsActivity : BaseActivity() {
                     })
                 }, { e ->
                     if (e is JsonParseException || e is JsonSyntaxException) {
-                        showSnackbar(getString(R.string.import_failed_with_reason, getString(R.string.import_failure_reason_invalid_json)), long = true)
+                        showMessageDialog(getString(R.string.import_failed_with_reason, getString(R.string.import_failure_reason_invalid_json)))
                     } else if (e is IllegalArgumentException || e is IllegalStateException || e is FileNotFoundException || e is UnknownHostException) {
-                        showSnackbar(getString(R.string.import_failed_with_reason, e.message), long = true)
+                        showMessageDialog(getString(R.string.import_failed_with_reason, e.message))
                     } else {
-                        showSnackbar(R.string.import_failed)
+                        showMessageDialog(R.string.import_failed)
                         logException(e)
                     }
                 })
                 .attachTo(destroyer)
         }
 
-        private fun showSnackbar(@StringRes message: Int, long: Boolean = false) {
-            activity?.showSnackbar(message, long)
+        private fun showSnackbar(@StringRes message: Int) {
+            activity?.showSnackbar(message)
         }
 
-        private fun showSnackbar(message: CharSequence, long: Boolean = false) {
-            activity?.showSnackbar(message, long)
+        private fun showSnackbar(message: CharSequence) {
+            activity?.showSnackbar(message)
         }
 
         override fun onDestroy() {
