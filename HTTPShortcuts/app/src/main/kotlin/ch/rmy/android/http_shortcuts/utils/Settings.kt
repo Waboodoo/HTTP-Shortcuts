@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.utils
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.os.Environment
 import android.preference.PreferenceManager
 
 class Settings(context: Context) {
@@ -16,7 +15,7 @@ class Settings(context: Context) {
         get() = preferences.getString(KEY_CRASH_REPORTING, "true") != "false"
 
     var importExportDirectory: String?
-        get() = preferences.getString(KEY_IMPORT_EXPORT_DIR, Environment.getExternalStorageDirectory().path)
+        get() = preferences.getString(KEY_IMPORT_EXPORT_DIR, null)
         set(path) {
             if (path != null) {
                 preferences.edit().putString(KEY_IMPORT_EXPORT_DIR, path).apply()
