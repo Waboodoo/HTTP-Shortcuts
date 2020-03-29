@@ -6,7 +6,7 @@
  Locale: ru, Russian
  Status: Translated
  Exported by: Roland Meyer
- Exported at: Fri, 20 Mar 2020 20:32:59 +0100
+ Exported at: Sun, 29 Mar 2020 15:50:31 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- The name of the app -->
@@ -481,8 +481,6 @@
     <string name="button_copy_curl_export">Копировать</string>
     <!-- Title of dialog that allows user to pick an icon from the built-in icons -->
     <string name="title_choose_icon">Выбрать встроенный значок</string>
-    <!-- Shown as a placeholder for the title field of an action of unknown type. This should never happen. -->
-    <string name="action_type_unknown_title">Неизвестное действие</string>
     <!-- Shortcut Action Title: Show Toast (small popup message) -->
     <string name="action_type_toast_title">Показать уведомление</string>
     <!-- Shortcut Action Title: Vibrate -->
@@ -569,10 +567,6 @@
     <string name="category_background_type_wallpaper">Обои</string>
     <!-- error message displayed when "Step Size" is not a positive number for "slider" variable type -->
     <string name="error_slider_step_size_must_be_positive">Размер шага должен быть положительным числом.</string>
-    <!-- Section title in shortcut editor: "Before actions", i.e., shown above list of actions that execute before the shortcut -->
-    <string name="label_actions_pre_request">Действия перед запросом</string>
-    <!-- Section title in shortcut editor: "Post-Request Actions", allows to configure what should happen when an HTTP request succeeds or fails -->
-    <string name="label_actions_post_request">Действия после запроса</string>
     <!-- Section title in shortcut editor, groups together miscellaneous settings -->
     <string name="label_misc_settings">Другие настройки</string>
     <!-- Section subtitle, shown underneath "Misc Settings", gives brief summary of what the section is about -->
@@ -627,10 +621,6 @@
     <string name="label_wait_for_connection">Подождать соединения, находясь в автономном режиме</string>
     <!-- Option 3 in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_create_browser_shortcut">Ярлык браузера</string>
-    <!-- Section subtitle in shortcut editor: "Before actions", i.e., shown above list of actions that execute before the shortcut -->
-    <string name="label_actions_pre_request_subtitle">Определите, что делать перед запросом</string>
-    <!-- Section subtitle in shortcut editor: "Post-Request Actions", allows to configure what should happen when an HTTP request succeeds or fails -->
-    <string name="label_actions_post_request_subtitle">Определите, как обрабатывать ответ</string>
     <!-- Shortcut Action Title: Show Dialog -->
     <string name="action_type_dialog_title">Показать диалог</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
@@ -685,8 +675,6 @@
     <string name="help_text_code_snippet_set_variable_no_variable">У вас еще нет переменных типа Константа, которые могут быть заданы этим действием. Нажмите кнопку СОЗДАТЬ ниже, чтобы начать.</string>
     <!-- Shortcut Action Title: Action that allows to copy strings to the device's clipboard -->
     <string name="action_copy_to_clipboard_title">Копировать в буфер обмена</string>
-    <!-- Dialog option: shown in code snippet picker at bottom, will open the browser to show a help page with infos about JS code execution -->
-    <string name="dialog_code_snippet_learn_more">Узнать больше…</string>
     <!-- Error message: Shown in toast when "Trigger Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_triggering">Не удалось запустить ярлык \"%1$s\", поскольку его не существует.</string>
     <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->

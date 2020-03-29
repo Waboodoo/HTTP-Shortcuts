@@ -6,7 +6,7 @@
  Locale: de, German
  Status: Translated
  Exported by: Roland Meyer
- Exported at: Fri, 20 Mar 2020 20:32:59 +0100
+ Exported at: Sun, 29 Mar 2020 15:50:31 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- The name of the app -->
@@ -478,8 +478,6 @@
     <string name="button_copy_curl_export">Kopieren</string>
     <!-- Title of dialog that allows user to pick an icon from the built-in icons -->
     <string name="title_choose_icon">Vordefiniertes Symbol wählen</string>
-    <!-- Shown as a placeholder for the title field of an action of unknown type. This should never happen. -->
-    <string name="action_type_unknown_title">Unbekannte Aktion</string>
     <!-- Shortcut Action Title: Show Toast (small popup message) -->
     <string name="action_type_toast_title">Toast anzeigen</string>
     <!-- Shortcut Action Title: Vibrate -->
@@ -564,10 +562,6 @@
     <string name="category_background_type_wallpaper">Hintergrundbild</string>
     <!-- error message displayed when "Step Size" is not a positive number for "slider" variable type -->
     <string name="error_slider_step_size_must_be_positive">Die Schrittgrösse muss grösser als 0 sein.</string>
-    <!-- Section title in shortcut editor: "Before actions", i.e., shown above list of actions that execute before the shortcut -->
-    <string name="label_actions_pre_request">Aktionen vor Request-Ausführung</string>
-    <!-- Section title in shortcut editor: "Post-Request Actions", allows to configure what should happen when an HTTP request succeeds or fails -->
-    <string name="label_actions_post_request">Aktionen nach Request-Ausführung</string>
     <!-- Section title in shortcut editor, groups together miscellaneous settings -->
     <string name="label_misc_settings">Weitere Einstellungen</string>
     <!-- Section subtitle, shown underneath "Misc Settings", gives brief summary of what the section is about -->
@@ -620,10 +614,6 @@
     <string name="label_wait_for_connection">Auf Verbindung warten wenn offline</string>
     <!-- Option 3 in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_create_browser_shortcut">Browsershortcut</string>
-    <!-- Section subtitle in shortcut editor: "Before actions", i.e., shown above list of actions that execute before the shortcut -->
-    <string name="label_actions_pre_request_subtitle">Was soll vor Ausführung des Shortcuts passieren?</string>
-    <!-- Section subtitle in shortcut editor: "Post-Request Actions", allows to configure what should happen when an HTTP request succeeds or fails -->
-    <string name="label_actions_post_request_subtitle">Wie soll die Response verwendet werden?</string>
     <!-- Shortcut Action Title: Show Dialog -->
     <string name="action_type_dialog_title">Dialog anzeigen</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
@@ -678,8 +668,6 @@
     <string name="help_text_code_snippet_set_variable_no_variable">Du hast noch keine Variablen vom Typen \"Konstante\" erstellt dessen Wert verändert werden könnte. Klicke den ERSTELLEN-Button um loszulegen.</string>
     <!-- Shortcut Action Title: Action that allows to copy strings to the device's clipboard -->
     <string name="action_copy_to_clipboard_title">In Zwischenablage kopieren</string>
-    <!-- Dialog option: shown in code snippet picker at bottom, will open the browser to show a help page with infos about JS code execution -->
-    <string name="dialog_code_snippet_learn_more">Mehr erfahren…</string>
     <!-- Error message: Shown in toast when "Trigger Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_triggering">Shortcut \"%1$s\" konnte nicht ausgeführt werden, da er nicht existiert.</string>
     <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
@@ -743,4 +731,14 @@
     <string name="action_type_abort_execution">Ausführung abbrechen</string>
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_changing_icon">Shortcut \"%1$s\" konnte nicht ausgeführt werden, da er nicht existiert.</string>
+    <!-- Section title in shortcut editor: "Response handling", contains settings for controlling how the shortcut response should be handled -->
+    <string name="label_response_handling">Response-Einstellungen</string>
+    <!-- Section subtitle in shortcut editor: "Response handling", contains settings for controlling how the shortcut response should be handled -->
+    <string name="label_response_handling_subtitle">Wie soll die Response angezeigt werden?</string>
+    <!-- Section title in shortcut editor: "Scripting", allows to write scripts for advanced workflows -->
+    <string name="label_scripting">Scripting</string>
+    <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before or after shortcut execution -->
+    <string name="label_scripting_subtitle">JavaScript-Code ausführen vor oder nach Request</string>
+    <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before shortcut execution -->
+    <string name="label_scripting_browser_shortcuts_subtitle">JavaScript-Code ausführen vor Request</string>
 </resources>

@@ -6,7 +6,7 @@
  Locale: tr, Turkish
  Status: Translated
  Exported by: Roland Meyer
- Exported at: Fri, 20 Mar 2020 20:32:59 +0100
+ Exported at: Sun, 29 Mar 2020 15:50:31 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- The name of the app -->
@@ -478,8 +478,6 @@
     <string name="button_copy_curl_export">Kopyala</string>
     <!-- Title of dialog that allows user to pick an icon from the built-in icons -->
     <string name="title_choose_icon">Yerleşik Simge Seçin\n</string>
-    <!-- Shown as a placeholder for the title field of an action of unknown type. This should never happen. -->
-    <string name="action_type_unknown_title">Bilinmeyen işlem</string>
     <!-- Shortcut Action Title: Show Toast (small popup message) -->
     <string name="action_type_toast_title">Mesaj Göster</string>
     <!-- Shortcut Action Title: Vibrate -->
