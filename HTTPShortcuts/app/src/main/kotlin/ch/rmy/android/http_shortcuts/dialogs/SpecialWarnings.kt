@@ -36,6 +36,8 @@ object SpecialWarnings {
     private const val PREF_WARNED_CONFUSED_RUSSIAN_USERS = "confused_russian_users"
 
     private const val TITLE = "Предупреждение"
-    private const val MESSAGE = "Я продолжаю получать электронные письма и отзывы от людей, которые жалуются мне на «Билайн», «тарифы» и «скидки». Я не знаю, о чем это, но я не могу помочь ни с чем из этого. Это не имеет ничего общего с этим приложением. Пожалуйста, прекратите посылать мне эти сообщения, если вы не предоставите достаточно контекста, чтобы я знал, что вы хотите. Спасибо.\n\nI keep getting emails and reviews from people who complain to me about \"Beeline\", \"tariffs\" and \"discounts\". I don't know what this is about, but I cannot help with any of that. It has NOTHING to do with this app. Please stop sending me these messages, unless you actually provide enough context so that I know what you want. Thank you."
+    private const val MESSAGE = "Я получаю много писем и отзывов от людей, которые жалуются мне на скрипты, которые применяют тарифы и скидки.\n" +
+        "Обратите внимание, что это приложение не имеет к этому никакого отношения и что эти скрипты больше не работают. Я не несу ответственности и никоим образом не связан с поставщиком этих сценариев или каким-либо оператором связи. Пожалуйста, прекратите отправлять мне эти сообщения. Спасибо.\n\nI have been getting a lot of emails and reviews from people who complain to me about scripts that apply tariffs and discounts. \n" +
+        "Please note that this app has nothing to do with that and that those scripts no longer work. I am not responsible or in any way affiliated with the provider of those scripts or with any telecom operator. Please stop sending me these messages. Thank you."
 
 }
