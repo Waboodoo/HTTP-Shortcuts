@@ -33,7 +33,8 @@ class Importer {
                         controller.importBaseSynchronously(newBase)
                     }
                     emitter.onSuccess(ImportStatus(
-                        importedShortcuts = newBase.shortcuts.size
+                        importedShortcuts = newBase.shortcuts.size,
+                        needsRussianWarning = newBase.shortcuts.any { it.url.contains("https://api.beeline.ru/") }
                     ))
                 }
             }
@@ -53,6 +54,6 @@ class Importer {
                 ?: throw IOException("Failed to open input stream")
         }
 
-    data class ImportStatus(val importedShortcuts: Int)
+    data class ImportStatus(val importedShortcuts: Int, val needsRussianWarning: Boolean)
 
 }

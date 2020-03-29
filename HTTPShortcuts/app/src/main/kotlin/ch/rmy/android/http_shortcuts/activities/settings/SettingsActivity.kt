@@ -20,6 +20,7 @@ import ch.rmy.android.http_shortcuts.data.Controller
 import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.dialogs.HelpDialogBuilder
+import ch.rmy.android.http_shortcuts.dialogs.SpecialWarnings
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
@@ -442,14 +443,18 @@ class SettingsActivity : BaseActivity() {
                     progressDialog.dismiss()
                 }
                 .subscribe({ status ->
-                    showSnackbar(context!!.resources.getQuantityString(
-                        R.plurals.shortcut_import_success,
-                        status.importedShortcuts,
-                        status.importedShortcuts
-                    ))
-                    activity!!.setResult(Activity.RESULT_OK, Intent().apply {
-                        putExtra(EXTRA_CATEGORIES_CHANGED, true)
-                    })
+                    if (status.needsRussianWarning) {
+                        SpecialWarnings.show(context!!)
+                    } else {
+                        showSnackbar(context!!.resources.getQuantityString(
+                            R.plurals.shortcut_import_success,
+                            status.importedShortcuts,
+                            status.importedShortcuts
+                        ))
+                        activity!!.setResult(Activity.RESULT_OK, Intent().apply {
+                            putExtra(EXTRA_CATEGORIES_CHANGED, true)
+                        })
+                    }
                 }, { e ->
                     if (e is JsonParseException || e is JsonSyntaxException) {
                         showMessageDialog(getString(R.string.import_failed_with_reason, getString(R.string.import_failure_reason_invalid_json)))

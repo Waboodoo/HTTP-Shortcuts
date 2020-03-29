@@ -19,14 +19,18 @@ object SpecialWarnings {
         val preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
         if (!preferences.getBoolean(PREF_WARNED_CONFUSED_RUSSIAN_USERS, false)) {
             preferences.edit().putBoolean(PREF_WARNED_CONFUSED_RUSSIAN_USERS, true).apply()
-            DialogBuilder(context)
-                .title(TITLE)
-                .message(MESSAGE)
-                .positive(R.string.dialog_ok)
-                .showIfPossible()
+            show(context)
             return true
         }
         return false
+    }
+
+    fun show(context: Context) {
+        DialogBuilder(context)
+            .title(TITLE)
+            .message(MESSAGE)
+            .positive(R.string.dialog_ok)
+            .showIfPossible()
     }
 
     private fun shouldShow(): Boolean =
