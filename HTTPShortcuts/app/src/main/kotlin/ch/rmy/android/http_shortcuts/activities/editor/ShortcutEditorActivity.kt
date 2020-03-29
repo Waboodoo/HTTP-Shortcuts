@@ -21,8 +21,8 @@ import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.BasicReques
 import ch.rmy.android.http_shortcuts.activities.editor.body.RequestBodyActivity
 import ch.rmy.android.http_shortcuts.activities.editor.headers.RequestHeadersActivity
 import ch.rmy.android.http_shortcuts.activities.editor.miscsettings.MiscSettingsActivity
-import ch.rmy.android.http_shortcuts.activities.editor.postrequest.PostRequestActivity
-import ch.rmy.android.http_shortcuts.activities.editor.prerequest.PreRequestActivity
+import ch.rmy.android.http_shortcuts.activities.editor.response.ResponseActivity
+import ch.rmy.android.http_shortcuts.activities.editor.scripting.ScriptingActivity
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.dialogs.IconNameChangeDialog
@@ -93,14 +93,13 @@ class ShortcutEditorActivity : BaseActivity() {
     private val headersButton: PanelButton by bindView(R.id.button_headers)
     private val requestBodyButton: PanelButton by bindView(R.id.button_request_body)
     private val authenticationButton: PanelButton by bindView(R.id.button_authentication)
-    private val preRequestActionsButton: PanelButton by bindView(R.id.button_pre_request_actions)
-    private val postRequestActionsButton: PanelButton by bindView(R.id.button_post_request_actions)
+    private val responseHandlingButton: PanelButton by bindView(R.id.button_response_handling)
+    private val scriptingButton: PanelButton by bindView(R.id.button_scripting)
     private val miscSettingsButton: PanelButton by bindView(R.id.button_misc_settings)
     private val advancedTechnicalSettingsButton: PanelButton by bindView(R.id.button_advanced_technical_settings)
     private val dividerBelowHeaders: View by bindView(R.id.divider_below_headers)
     private val dividerBelowRequestBody: View by bindView(R.id.divider_below_request_body)
     private val dividerBelowAuthentication: View by bindView(R.id.divider_below_authentication)
-    private val dividerBelowPostActions: View by bindView(R.id.divider_below_post_request_actions)
 
     private val variablePlaceholderColor by lazy {
         color(context, R.color.variable)
@@ -159,8 +158,7 @@ class ShortcutEditorActivity : BaseActivity() {
         dividerBelowRequestBody.visible = !isBrowserShortcut
         authenticationButton.visible = !isBrowserShortcut
         dividerBelowAuthentication.visible = !isBrowserShortcut
-        postRequestActionsButton.visible = !isBrowserShortcut
-        dividerBelowPostActions.visible = !isBrowserShortcut
+        responseHandlingButton.visible = !isBrowserShortcut
         advancedTechnicalSettingsButton.visible = !isBrowserShortcut
 
         basicRequestSettingsButton.subtitle = viewModel.getBasicSettingsSubtitle(shortcut)
@@ -179,6 +177,7 @@ class ShortcutEditorActivity : BaseActivity() {
 
             requestBodyButton.isEnabled = shortcut.allowsBody()
         }
+        scriptingButton.subtitle = viewModel.getScriptingSubtitle(shortcut)
     }
 
     private fun bindClickListeners() {
@@ -205,13 +204,13 @@ class ShortcutEditorActivity : BaseActivity() {
                 .build()
                 .startActivity(this)
         }
-        preRequestActionsButton.setOnClickListener {
-            PreRequestActivity.IntentBuilder(context)
+        responseHandlingButton.setOnClickListener {
+            ResponseActivity.IntentBuilder(context)
                 .build()
                 .startActivity(this)
         }
-        postRequestActionsButton.setOnClickListener {
-            PostRequestActivity.IntentBuilder(context)
+        scriptingButton.setOnClickListener {
+            ScriptingActivity.IntentBuilder(context)
                 .build()
                 .startActivity(this)
         }

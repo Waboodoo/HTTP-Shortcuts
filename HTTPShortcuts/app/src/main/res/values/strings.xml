@@ -554,14 +554,16 @@
     <string name="label_content_type">Content-Type</string>
     <!-- Button to copy the cURL export of a shortcut to the clipboard -->
     <string name="button_copy_curl_export">Copy</string>
-    <!-- Section title in shortcut editor: "Before actions", i.e., shown above list of actions that execute before the shortcut -->
-    <string name="label_actions_pre_request">Pre-Request Actions</string>
-    <!-- Section subtitle in shortcut editor: "Before actions", i.e., shown above list of actions that execute before the shortcut -->
-    <string name="label_actions_pre_request_subtitle">Define what to do before the request</string>
-    <!-- Section title in shortcut editor: "Post-Request Actions", allows to configure what should happen when an HTTP request succeeds or fails -->
-    <string name="label_actions_post_request">Post-Request Actions</string>
-    <!-- Section subtitle in shortcut editor: "Post-Request Actions", allows to configure what should happen when an HTTP request succeeds or fails -->
-    <string name="label_actions_post_request_subtitle">Define how to handle the response</string>
+    <!-- Section title in shortcut editor: "Response handling", contains settings for controlling how the shortcut response should be handled -->
+    <string name="label_response_handling">Response Handling</string>
+    <!-- Section subtitle in shortcut editor: "Response handling", contains settings for controlling how the shortcut response should be handled -->
+    <string name="label_response_handling_subtitle">Define how to handle the response</string>
+    <!-- Section title in shortcut editor: "Scripting", allows to write scripts for advanced workflows -->
+    <string name="label_scripting">Scripting</string>
+    <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before or after shortcut execution -->
+    <string name="label_scripting_subtitle">Run JavaScript code before or after execution</string>
+    <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before shortcut execution -->
+    <string name="label_scripting_browser_shortcuts_subtitle">Run JavaScript code before execution</string>
     <!-- Section title in shortcut editor, groups together miscellaneous settings -->
     <string name="label_misc_settings">Misc Settings</string>
     <!-- Section subtitle, shown underneath "Misc Settings", gives brief summary of what the section is about -->
@@ -686,8 +688,6 @@
     <string name="dialog_code_snippet_variables">Variables</string>
     <!-- Dialog option: shown in code snippet picker, shows options to run certain actions (e.g. to show a toast, vibrate, ...) -->
     <string name="dialog_code_snippet_actions">Actions</string>
-    <!-- Dialog option: shown in code snippet picker at bottom, will open the browser to show a help page with infos about JS code execution -->
-    <string name="dialog_code_snippet_learn_more">Learn More…</string>
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a string -->
     <string name="dialog_code_snippet_response_body">Get Reponse Body</string>
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response headers -->

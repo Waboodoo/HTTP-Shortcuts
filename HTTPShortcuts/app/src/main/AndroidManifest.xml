@@ -76,16 +76,16 @@
                 android:value=".activities.editor.ShortcutEditorActivity" />
         </activity>
         <activity
-            android:name=".activities.editor.prerequest.PreRequestActivity"
-            android:label="@string/label_actions_pre_request"
+            android:name=".activities.editor.response.ResponseActivity"
+            android:label="@string/label_response_handling"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.editor.ShortcutEditorActivity" />
         </activity>
         <activity
-            android:name=".activities.editor.postrequest.PostRequestActivity"
-            android:label="@string/label_actions_post_request"
+            android:name=".activities.editor.scripting.ScriptingActivity"
+            android:label="@string/label_scripting"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

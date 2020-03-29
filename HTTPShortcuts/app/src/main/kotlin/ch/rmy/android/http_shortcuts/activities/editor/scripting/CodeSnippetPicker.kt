@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.activities.editor
+package ch.rmy.android.http_shortcuts.activities.editor.scripting
 
 import android.content.Context
 import android.os.Vibrator
@@ -8,7 +8,6 @@ import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.mapIf
-import ch.rmy.android.http_shortcuts.extensions.openURL
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.icons.IconSelector
 import ch.rmy.android.http_shortcuts.utils.Destroyable
@@ -33,9 +32,6 @@ class CodeSnippetPicker(private val context: Context, private val variablePlaceh
             }
             .item(R.string.dialog_code_snippet_actions) {
                 showActionsPicker(insertText)
-            }
-            .item(R.string.dialog_code_snippet_learn_more) {
-                context.openURL(CODE_HELP_URL)
             }
             .showIfPossible()
     }
@@ -159,10 +155,6 @@ class CodeSnippetPicker(private val context: Context, private val variablePlaceh
 
     override fun destroy() {
         destroyer.destroy()
-    }
-
-    companion object {
-        private const val CODE_HELP_URL = "https://http-shortcuts.rmy.ch/#code"
     }
 
 }

@@ -1,24 +1,19 @@
-package ch.rmy.android.http_shortcuts.activities.editor.postrequest
+package ch.rmy.android.http_shortcuts.activities.editor.scripting
 
 import android.app.Application
 import ch.rmy.android.http_shortcuts.activities.editor.BasicShortcutEditorViewModel
 import ch.rmy.android.http_shortcuts.data.Transactions
 import io.reactivex.Completable
 
-class PostRequestViewModel(application: Application) : BasicShortcutEditorViewModel(application) {
+class ScriptingViewModel(application: Application) : BasicShortcutEditorViewModel(application) {
 
-    fun setCode(successCode: String, failureCode: String): Completable =
+    fun setCode(prepareCode: String, successCode: String, failureCode: String): Completable =
         Transactions.commit { realm ->
             getShortcut(realm)?.let { shortcut ->
+                shortcut.codeOnPrepare = prepareCode
                 shortcut.codeOnSuccess = successCode
                 shortcut.codeOnFailure = failureCode
             }
-        }
-
-    fun setFeedbackType(type: String): Completable =
-        Transactions.commit { realm ->
-            getShortcut(realm)?.feedback = type
-
         }
 
 }

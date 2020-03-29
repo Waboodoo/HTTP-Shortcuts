@@ -127,27 +127,26 @@
                 android:layout_height="@dimen/divider_height" />
 
             <ch.rmy.android.http_shortcuts.views.PanelButton
-                android:id="@+id/button_pre_request_actions"
+                android:id="@+id/button_response_handling"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
-                android:text="@string/label_actions_pre_request"
-                app:subtitle="@string/label_actions_pre_request_subtitle" />
+                android:text="@string/label_response_handling"
+                app:subtitle="@string/label_response_handling_subtitle" />
 
             <include layout="@layout/divider_line" />
 
             <ch.rmy.android.http_shortcuts.views.PanelButton
-                android:id="@+id/button_post_request_actions"
+                android:id="@+id/button_scripting"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
-                android:text="@string/label_actions_post_request"
-                app:subtitle="@string/label_actions_post_request_subtitle" />
+                android:text="@string/label_scripting"
+                app:subtitle="@string/label_scripting_subtitle" />
 
             <include
-                android:id="@+id/divider_below_post_request_actions"
                 layout="@layout/divider_line"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/divider_height" />
