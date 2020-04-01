@@ -14,6 +14,7 @@ import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.extensions.color
 import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.drawable
+import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.ThemeHelper
 
@@ -38,7 +39,11 @@ abstract class BaseActivity : AppCompatActivity() {
             setTheme(themeHelper.theme)
         }
         super.onCreate(savedInstanceState)
-        RealmFactory.init(applicationContext)
+        try {
+            RealmFactory.init(applicationContext)
+        } catch (e: RealmFactory.RealmNotFoundException) {
+            logException(e)
+        }
     }
 
     override fun setContentView(layoutResID: Int) {
