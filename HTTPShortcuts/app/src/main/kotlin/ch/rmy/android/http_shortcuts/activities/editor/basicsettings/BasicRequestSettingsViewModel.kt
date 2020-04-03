@@ -14,7 +14,7 @@ class BasicRequestSettingsViewModel(application: Application) : BasicShortcutEdi
 
     fun setUrl(url: String): Completable =
         Transactions.commit { realm ->
-            getShortcut(realm)?.url = url
+            getShortcut(realm)?.url = url.trim()
         }
 
 }
