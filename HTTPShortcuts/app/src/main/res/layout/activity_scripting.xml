@@ -30,7 +30,7 @@
                 android:fontFamily="monospace"
                 android:gravity="top"
                 android:hint=""
-                android:inputType="textMultiLine"
+                android:inputType="textMultiLine|textNoSuggestions"
                 android:minLines="6"
                 android:textSize="@dimen/js_font_size" />
 
@@ -59,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="monospace"
                     android:gravity="top"
-                    android:inputType="textMultiLine"
+                    android:inputType="textMultiLine|textNoSuggestions"
                     android:minLines="6"
                     android:textSize="@dimen/js_font_size" />
 
@@ -82,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="monospace"
                     android:gravity="top"
-                    android:inputType="textMultiLine"
+                    android:inputType="textMultiLine|textNoSuggestions"
                     android:minLines="6"
                     android:textSize="@dimen/js_font_size" />
 
