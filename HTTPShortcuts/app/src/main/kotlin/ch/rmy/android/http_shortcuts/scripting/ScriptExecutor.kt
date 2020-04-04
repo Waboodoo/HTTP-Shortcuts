@@ -1,16 +1,20 @@
 package ch.rmy.android.http_shortcuts.scripting
 
 import android.content.Context
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.actions.ActionDTO
 import ch.rmy.android.http_shortcuts.actions.types.ActionFactory
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.Repository
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.exceptions.CanceledByUserException
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import io.reactivex.Completable
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import org.liquidplayer.javascript.JSContext
 import org.liquidplayer.javascript.JSFunction
 import org.liquidplayer.javascript.JSValue
@@ -57,6 +61,7 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
                 registerResponse(response, error)
                 registerVariables(variableManager)
                 registerAbort()
+                registerUserInteractions(context)
 
                 this.responseData = response
                 this.responseErrorData = error
@@ -148,6 +153,55 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
                     .blockingAwait()
             }
         }, JSContext.JSPropertyAttributeReadOnly or JSContext.JSPropertyAttributeDontDelete)
+    }
+
+    private fun registerUserInteractions(context: Context) {
+        jsContext.property("alert", object : JSFunction(jsContext, "run") {
+            fun run(message: String) {
+                Completable.create { emitter ->
+                    DialogBuilder(context)
+                        .message(message)
+                        .positive(R.string.dialog_ok)
+                        .dismissListener { emitter.onComplete() }
+                        .show()
+                }
+                    .subscribeOn(AndroidSchedulers.mainThread())
+                    .blockingAwait()
+            }
+        })
+        jsContext.property("confirm", object : JSFunction(jsContext, "run") {
+            fun run(message: String?): Boolean =
+                Single.create<Boolean> { emitter ->
+                    DialogBuilder(context)
+                        .message(message ?: "")
+                        .positive(R.string.dialog_ok) {
+                            emitter.onSuccess(true)
+                        }
+                        .negative(R.string.dialog_cancel) {
+                            emitter.onSuccess(false)
+                        }
+                        .dismissListener { emitter.onSuccess(false) }
+                        .show()
+                }
+                    .subscribeOn(AndroidSchedulers.mainThread())
+                    .blockingGet()
+        })
+        jsContext.property("prompt", object : JSFunction(jsContext, "run") {
+            fun run(message: String?, default: String?): String? =
+                Single.create<String> { emitter ->
+                    DialogBuilder(context)
+                        .message(message ?: "")
+                        .textInput(prefill = default ?: "") { input ->
+                            emitter.onSuccess("-" + input)
+                        }
+                        .dismissListener { emitter.onSuccess("") }
+                        .show()
+                }
+                    .subscribeOn(AndroidSchedulers.mainThread())
+                    .blockingGet()
+                    .takeUnless { it.isEmpty() }
+                    ?.removePrefix("-")
+        })
     }
 
     companion object {
