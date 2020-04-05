@@ -41,6 +41,9 @@ class Importer {
             .subscribeOn(Schedulers.io())
 
     private fun validate(base: Base) {
+        if (base.categories.any { it.shortcuts.any { !UUIDUtils.isUUID(it.id) && !it.id.isDigitsOnly() } }) {
+            throw IllegalArgumentException("Invalid shortcut ID found, must be UUID")
+        }
         if (base.categories.any { !UUIDUtils.isUUID(it.id) && !it.id.isDigitsOnly() }) {
             throw IllegalArgumentException("Invalid category ID found, must be UUID")
         }
