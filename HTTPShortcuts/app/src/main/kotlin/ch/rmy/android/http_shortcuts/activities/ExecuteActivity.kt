@@ -1,17 +1,11 @@
 package ch.rmy.android.http_shortcuts.activities
 
-import android.app.ProgressDialog
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.graphics.Typeface.ITALIC
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.actions.types.ActionFactory
 import ch.rmy.android.http_shortcuts.data.Commons
@@ -20,15 +14,12 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.cancel
-import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.detachFromRealm
 import ch.rmy.android.http_shortcuts.extensions.finishWithoutAnimation
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.extensions.truncate
-import ch.rmy.android.http_shortcuts.extensions.tryOrLog
-import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.http.HttpRequester
@@ -37,7 +28,6 @@ import ch.rmy.android.http_shortcuts.scripting.ScriptExecutor
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.DateUtil
 import ch.rmy.android.http_shortcuts.utils.ErrorFormatter
-import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.NetworkUtil
@@ -45,17 +35,13 @@ import ch.rmy.android.http_shortcuts.utils.Validation
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import ch.rmy.android.http_shortcuts.variables.Variables
-import ch.rmy.android.http_shortcuts.views.ResponseWebView
-import ch.rmy.android.http_shortcuts.views.SyntaxHighlightView
-import fr.castorflex.android.circularprogressbar.CircularProgressBar
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotterknife.bindView
 import org.liquidplayer.javascript.JSException
 import java.net.UnknownHostException
-import java.util.*
+import java.util.HashMap
 import kotlin.math.pow
 
 class ExecuteActivity : BaseActivity() {
@@ -69,22 +55,13 @@ class ExecuteActivity : BaseActivity() {
     private lateinit var shortcut: Shortcut
     private var lastResponse: ShortcutResponse? = null
 
+    private var layoutLoaded = false
     private val showProgressRunnable = Runnable {
-        if (progressDialog == null) {
-            if ((context as? BaseActivity)?.isFinishing == false) {
-                tryOrLog {
-                    progressDialog = ProgressDialog.show(context, null, String.format(getString(R.string.progress_dialog_message), shortcutName))
-                }
-            }
+        if (!layoutLoaded) {
+            layoutLoaded = true
+            setContentView(R.layout.activity_execute_loading)
         }
     }
-    private var progressDialog: ProgressDialog? = null
-
-    private val responseText: TextView by bindView(R.id.response_text)
-    private val responseTextContainer: View by bindView(R.id.response_text_container)
-    private val formattedResponseText: SyntaxHighlightView by bindView(R.id.formatted_response_text)
-    private val responseWebView: ResponseWebView by bindView(R.id.response_web_view)
-    private val progressSpinner: CircularProgressBar by bindView(R.id.progress_spinner)
 
     private val handler = Handler()
 
@@ -120,15 +97,6 @@ class ExecuteActivity : BaseActivity() {
             return
         }
         setTheme(themeHelper.transparentTheme)
-
-        if (shortcut.isFeedbackUsingUI) {
-            title = shortcutName
-            destroyer.own(::hideProgress)
-            if (shortcut.isFeedbackInWindow) {
-                setTheme(themeHelper.theme)
-                setContentView(R.layout.activity_execute)
-            }
-        }
 
         destroyer.own {
             ExecutionScheduler.schedule(context)
@@ -211,7 +179,8 @@ class ExecuteActivity : BaseActivity() {
             }
 
     private fun executeWithActions(variableManager: VariableManager): Completable =
-        Completable.fromAction {
+        Completable
+            .fromAction {
                 showProgress()
             }
             .subscribeOn(AndroidSchedulers.mainThread())
@@ -230,9 +199,6 @@ class ExecuteActivity : BaseActivity() {
                     Completable.complete()
                 } else {
                     executeShortcut(variableManager)
-                        .doOnEvent { _, _ ->
-                            hideProgress()
-                        }
                         .flatMapCompletable { response ->
                             scriptExecutor
                                 .execute(
@@ -266,9 +232,6 @@ class ExecuteActivity : BaseActivity() {
                         }
                 }
             )
-            .doOnTerminate {
-                hideProgress()
-            }
 
     private fun openShortcutInBrowser(variableManager: VariableManager) {
         val url = Variables.rawPlaceholdersToResolvedValues(shortcut.url, variableManager.getVariableValuesByIds())
@@ -292,7 +255,6 @@ class ExecuteActivity : BaseActivity() {
         HttpRequester.executeShortcut(shortcut, variableManager)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSuccess { response ->
-                setLastResponse(response)
                 if (shortcut.isFeedbackErrorsOnly()) {
                     finishWithoutAnimation()
                 } else {
@@ -309,9 +271,8 @@ class ExecuteActivity : BaseActivity() {
                     }
                     finishWithoutAnimation()
                 } else {
-                    setLastResponse(null)
                     val simple = shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE_ERRORS || shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE
-                    displayOutput(generateOutputFromError(error, simple), ShortcutResponse.TYPE_TEXT, null)
+                    displayOutput(generateOutputFromError(error, simple))
                 }
             }
 
@@ -342,42 +303,17 @@ class ExecuteActivity : BaseActivity() {
 
     private fun showProgress() {
         when {
-            shortcut.isFeedbackInDialog -> {
-                if (progressDialog == null && !isFinishing) {
-                    progressDialog = ProgressDialog.show(context, null, String.format(getString(R.string.progress_dialog_message), shortcutName))
-                }
-            }
-            shortcut.isFeedbackInWindow -> {
-                progressSpinner.visible = true
-                responseTextContainer.visible = false
-                formattedResponseText.visible = false
-                responseWebView.visible = false
+            shortcut.isFeedbackInDialog || shortcut.isFeedbackInWindow -> {
+                handler.post(showProgressRunnable)
             }
             else -> {
                 handler.removeCallbacks(showProgressRunnable)
-                handler.postDelayed(showProgressRunnable, 1000)
+                handler.postDelayed(showProgressRunnable, INVISIBLE_PROGRESS_THRESHOLD)
             }
         }
     }
 
-    private fun hideProgress() {
-        when {
-            shortcut.isFeedbackInDialog -> {
-                progressDialog?.dismiss()
-                progressDialog = null
-            }
-            shortcut.isFeedbackInWindow -> {
-                progressSpinner.visible = false
-            }
-            else -> {
-                handler.removeCallbacks(showProgressRunnable)
-                progressDialog?.dismiss()
-                progressDialog = null
-            }
-        }
-    }
-
-    private fun displayOutput(output: String, type: String, url: String?) {
+    private fun displayOutput(output: String, type: String? = null, url: String? = null) {
         when (shortcut.feedback) {
             Shortcut.FEEDBACK_TOAST_SIMPLE, Shortcut.FEEDBACK_TOAST_SIMPLE_ERRORS -> {
                 showToast(output.ifBlank { getString(R.string.message_blank_response) })
@@ -399,76 +335,21 @@ class ExecuteActivity : BaseActivity() {
                     .show()
             }
             Shortcut.FEEDBACK_ACTIVITY -> {
-                if (output.isBlank()) {
-                    responseText.setTypeface(null, ITALIC)
-                    responseText.setText(R.string.message_blank_response)
-                    responseTextContainer.visible = true
-                } else {
-                    when (type) {
-                        ShortcutResponse.TYPE_HTML -> {
-                            responseWebView.visible = true
-                            responseWebView.loadFromString(output, url)
-                        }
-                        ShortcutResponse.TYPE_JSON -> {
-                            formattedResponseText.setCode(GsonUtil.prettyPrint(output), "json")
-                            formattedResponseText.visible = true
-                        }
-                        ShortcutResponse.TYPE_XML -> {
-                            formattedResponseText.setCode(output, "xml")
-                            formattedResponseText.visible = true
-                        }
-                        ShortcutResponse.TYPE_YAML, ShortcutResponse.TYPE_YAML_ALT -> {
-                            formattedResponseText.setCode(output, "yaml")
-                            formattedResponseText.visible = true
-                        }
-                        else -> {
-                            responseText.text = output
-                            responseTextContainer.visible = true
-                        }
-                    }
-                }
+                DisplayResponseActivity.IntentBuilder(context, shortcutId)
+                    .name(shortcutName)
+                    .type(type)
+                    .text(output)
+                    .url(url)
+                    .build()
+                    .startActivity(this)
+                finishWithoutAnimation()
             }
         }
     }
 
-    private fun setLastResponse(response: ShortcutResponse?) {
-        this.lastResponse = response
-        invalidateOptionsMenu()
+    override fun onBackPressed() {
+
     }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.execute_activity_menu, menu)
-        menu.findItem(R.id.action_share_response).isVisible = canShareResponse()
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    private fun canShareResponse() =
-        lastResponse != null && lastResponse!!.bodyAsString.length < MAX_SHARE_LENGTH
-
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.action_share_response -> consume { shareLastResponse() }
-        else -> super.onOptionsItemSelected(item)
-    }
-
-    private fun shareLastResponse() {
-        if (!canShareResponse()) {
-            return
-        }
-        try {
-            Intent(Intent.ACTION_SEND)
-                .setType(ShortcutResponse.TYPE_TEXT)
-                .putExtra(Intent.EXTRA_TEXT, lastResponse!!.bodyAsString)
-                .let {
-                    Intent.createChooser(it, getString(R.string.share_title))
-                        .startActivity(this)
-                }
-        } catch (e: Exception) {
-            showToast(getString(R.string.error_share_failed), long = true)
-            logException(e)
-        }
-    }
-
-    override val navigateUpIcon = R.drawable.ic_clear
 
     class IntentBuilder(context: Context, shortcutId: String) : BaseIntentBuilder(context, ExecuteActivity::class.java) {
 
@@ -511,7 +392,7 @@ class ExecuteActivity : BaseActivity() {
 
         private const val TOAST_MAX_LENGTH = 400
 
-        private const val MAX_SHARE_LENGTH = 500000
+        private const val INVISIBLE_PROGRESS_THRESHOLD = 1000L
 
     }
 

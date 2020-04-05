@@ -1,13 +1,11 @@
 package ch.rmy.android.http_shortcuts.dialogs
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.extensions.startActivity
-import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.utils.ClipboardUtil
+import ch.rmy.android.http_shortcuts.utils.ShareUtil
 
 class CurlExportDialog(private val context: Context, private val title: String, private val curlCommand: String) {
 
@@ -27,13 +25,7 @@ class CurlExportDialog(private val context: Context, private val title: String, 
     }
 
     private fun shareCurlExport() {
-        Intent(Intent.ACTION_SEND)
-            .setType(ShortcutResponse.TYPE_TEXT)
-            .putExtra(Intent.EXTRA_TEXT, curlCommand)
-            .let {
-                Intent.createChooser(it, context.getString(R.string.share_title))
-                    .startActivity(context)
-            }
+        ShareUtil.shareText(context, curlCommand)
     }
 
     private fun copyCurlExport() {

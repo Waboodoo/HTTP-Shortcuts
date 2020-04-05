@@ -26,11 +26,10 @@ class ShortcutResponse internal constructor(
 
     private fun isGzipped(): Boolean = headers.getCaseInsensitive(HttpHeaders.CONTENT_ENCODING) == "gzip"
 
-    val contentType: String
+    val contentType: String?
         get() = headers.getCaseInsensitive(HttpHeaders.CONTENT_TYPE)?.let { contentType ->
             contentType.split(';', limit = 2)[0].toLowerCase()
         }
-            ?: TYPE_TEXT
 
     val cookies: Map<String, String>
         get() = headers.getCaseInsensitive(HttpHeaders.SET_COOKIE)
@@ -40,13 +39,6 @@ class ShortcutResponse internal constructor(
             ?: emptyMap()
 
     companion object {
-
-        const val TYPE_TEXT = "text/plain"
-        const val TYPE_XML = "text/xml"
-        const val TYPE_JSON = "application/json"
-        const val TYPE_HTML = "text/html"
-        const val TYPE_YAML = "text/yaml"
-        const val TYPE_YAML_ALT = "application/x-yaml"
 
         private const val GZIP_BUFFER_SIZE = 16384
 

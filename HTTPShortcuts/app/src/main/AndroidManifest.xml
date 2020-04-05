@@ -163,6 +163,8 @@
                 <action android:name="ch.rmy.android.http_shortcuts.execute" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.DisplayResponseActivity">
+        </activity>
         <activity
             android:name=".activities.misc.LicensesActivity"
             android:label="@string/title_licenses" />

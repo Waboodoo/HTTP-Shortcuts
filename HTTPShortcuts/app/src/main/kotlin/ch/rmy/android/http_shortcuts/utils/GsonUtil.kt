@@ -13,16 +13,14 @@ import io.realm.RealmObject
 
 object GsonUtil {
 
-    fun prettyPrint(jsonString: String): String {
-        return try {
-            val parser = JsonParser()
-            val json = parser.parse(jsonString)
+    fun prettyPrint(jsonString: String): String =
+        try {
+            val json = JsonParser.parseString(jsonString)
             val gson = GsonBuilder().setPrettyPrinting().create()
             gson.toJson(json)
         } catch (e: JsonParseException) {
             jsonString
         }
-    }
 
     fun exportData(base: Base, writer: Appendable) {
         getPrettyGson().toJson(base, writer)
