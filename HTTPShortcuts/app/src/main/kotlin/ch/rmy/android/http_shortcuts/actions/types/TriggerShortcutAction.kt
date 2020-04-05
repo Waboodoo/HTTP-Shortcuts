@@ -40,7 +40,7 @@ class TriggerShortcutAction(
         return Commons.createPendingExecution(
             shortcutId = shortcut.id,
             tryNumber = 0,
-            waitUntil = DateUtil.calculateDate(EXECUTION_DELAY),
+            waitUntil = DateUtil.calculateDate(shortcut.delay),
             requiresNetwork = shortcut.isWaitForNetwork,
             recursionDepth = recursionDepth + 1
         )
@@ -51,8 +51,6 @@ class TriggerShortcutAction(
         const val KEY_SHORTCUT_NAME_OR_ID = "shortcutId"
 
         private const val MAX_RECURSION_DEPTH = 5
-
-        private const val EXECUTION_DELAY = 300
 
     }
 
