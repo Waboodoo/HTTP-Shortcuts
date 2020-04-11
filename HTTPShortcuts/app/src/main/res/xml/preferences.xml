@@ -7,7 +7,7 @@
             app:defaultValue="run"
             app:entries="@array/click_behaviors"
             app:entryValues="@array/click_behaviors_values"
-            app:icon="@drawable/settings_click"
+            app:icon="@drawable/ic_tap"
             app:key="click_behavior"
             app:persistent="true"
             app:title="@string/settings_click_behavior"/>
@@ -42,11 +42,11 @@
         app:title="@string/settings_title_import_export">
 
         <Preference
-            app:icon="@drawable/settings_import"
+            app:icon="@drawable/ic_import"
             app:key="import"
             app:title="@string/settings_import"/>
         <Preference
-            app:icon="@drawable/settings_export"
+            app:icon="@drawable/ic_export"
             app:key="export"
             app:title="@string/settings_export"/>
 
