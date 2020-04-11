@@ -169,18 +169,21 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     }
 
     private fun showToolbarTitleChangeDialog() {
+        val oldTitle = viewModel.getToolbarTitle() ?: ""
         DialogBuilder(context)
             .title(R.string.title_set_title)
             .textInput(
-                prefill = viewModel.getToolbarTitle() ?: "",
+                prefill = oldTitle,
                 allowEmpty = true,
                 maxLength = TITLE_MAX_LENGTH
-            ) { input ->
-                viewModel.setToolbarTitle(input)
-                    .subscribe {
-                        showSnackbar(R.string.message_title_changed)
-                    }
-                    .attachTo(destroyer)
+            ) { newTitle ->
+                if (newTitle != oldTitle) {
+                    viewModel.setToolbarTitle(newTitle)
+                        .subscribe {
+                            showSnackbar(R.string.message_title_changed)
+                        }
+                        .attachTo(destroyer)
+                }
             }
             .showIfPossible()
     }
