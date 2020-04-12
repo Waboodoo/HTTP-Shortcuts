@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.Handler
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.actions.types.ActionFactory
+import ch.rmy.android.http_shortcuts.activities.response.DisplayResponseActivity
 import ch.rmy.android.http_shortcuts.data.Commons
 import ch.rmy.android.http_shortcuts.data.Controller
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
@@ -17,6 +18,7 @@ import ch.rmy.android.http_shortcuts.extensions.cancel
 import ch.rmy.android.http_shortcuts.extensions.detachFromRealm
 import ch.rmy.android.http_shortcuts.extensions.finishWithoutAnimation
 import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.extensions.truncate
@@ -260,7 +262,7 @@ class ExecuteActivity : BaseActivity() {
                 } else {
                     val simple = shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE
                     val output = if (simple) String.format(getString(R.string.executed), shortcutName) else generateOutputFromResponse(response)
-                    displayOutput(output, response.contentType, response.url)
+                    displayOutput(output, response)
                 }
             }
             .doOnError { error ->
@@ -272,7 +274,7 @@ class ExecuteActivity : BaseActivity() {
                     finishWithoutAnimation()
                 } else {
                     val simple = shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE_ERRORS || shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE
-                    displayOutput(generateOutputFromError(error, simple))
+                    displayOutput(generateOutputFromError(error, simple), response = (error as? ErrorResponse)?.shortcutResponse)
                 }
             }
 
@@ -313,7 +315,7 @@ class ExecuteActivity : BaseActivity() {
         }
     }
 
-    private fun displayOutput(output: String, type: String? = null, url: String? = null) {
+    private fun displayOutput(output: String, response: ShortcutResponse? = null) {
         when (shortcut.feedback) {
             Shortcut.FEEDBACK_TOAST_SIMPLE, Shortcut.FEEDBACK_TOAST_SIMPLE_ERRORS -> {
                 showToast(output.ifBlank { getString(R.string.message_blank_response) })
@@ -334,12 +336,18 @@ class ExecuteActivity : BaseActivity() {
                     .dismissListener { finishWithoutAnimation() }
                     .show()
             }
-            Shortcut.FEEDBACK_ACTIVITY -> {
+            Shortcut.FEEDBACK_ACTIVITY, Shortcut.FEEDBACK_DEBUG -> {
                 DisplayResponseActivity.IntentBuilder(context, shortcutId)
                     .name(shortcutName)
-                    .type(type)
+                    .type(response?.contentType)
                     .text(output)
-                    .url(url)
+                    .url(response?.url)
+                    .mapIf(shortcut.feedback == Shortcut.FEEDBACK_DEBUG) {
+                        it.showDetails(true)
+                            .timing(response?.timing)
+                            .headers(response?.headers)
+                            .statusCode(response?.statusCode)
+                    }
                     .build()
                     .startActivity(this)
                 finishWithoutAnimation()

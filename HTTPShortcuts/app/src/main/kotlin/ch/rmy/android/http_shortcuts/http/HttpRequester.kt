@@ -70,34 +70,32 @@ object HttpRequester {
                         it.bearerAuth(authToken)
                     }
                     .build()
-                val call = client.newCall(request)
-
                 try {
-                    call.execute().use { okHttpResponse ->
-                        val shortcutResponse = prepareResponse(url, okHttpResponse)
-                        if (okHttpResponse.isSuccessful) {
-                            emitter.onSuccess(shortcutResponse)
-                        } else {
-                            emitter.onError(ErrorResponse(shortcutResponse))
+                    client
+                        .newCall(request)
+                        .execute()
+                        .use { okHttpResponse ->
+                            val shortcutResponse = prepareResponse(url, okHttpResponse)
+                            if (okHttpResponse.isSuccessful) {
+                                emitter.onSuccess(shortcutResponse)
+                            } else {
+                                emitter.onError(ErrorResponse(shortcutResponse))
+                            }
                         }
-                    }
                 } catch (e: Exception) {
                     emitter.onError(e)
                 }
             }
             .subscribeOn(Schedulers.io())
 
-    private fun prepareResponse(url: String, response: Response): ShortcutResponse {
-        val responseHeaders = response.headers().toMultimap().mapValues { it.value.first() }
-        val responseBody = response.body()
-
-        return ShortcutResponse(
+    private fun prepareResponse(url: String, response: Response) =
+        ShortcutResponse(
             url = url,
-            headers = responseHeaders,
+            headers = HttpHeaders.parse(response.headers()),
             statusCode = response.code(),
-            content = responseBody?.byteStream()
+            content = response.body()?.byteStream(),
+            timing = response.receivedResponseAtMillis() - response.sentRequestAtMillis()
         )
-    }
 
     private fun determineContentType(shortcut: Shortcut): String? = when {
         shortcut.requestBodyType == Shortcut.REQUEST_BODY_TYPE_FORM_DATA -> "multipart/form-data; boundary=${RequestBuilder.FORM_MULTIPART_BOUNDARY}"

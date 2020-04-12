@@ -46,6 +46,8 @@
     <string name="feedback_dialog">Response in Dialog</string>
     <!-- Option in dropdown, for shortcut response type: Show complete response in a fullscreen window -->
     <string name="feedback_activity">Response in Window</string>
+    <!-- Option in dropdown, for shortcut response type: Show complete response in a fullscreen window, and include meta info (headers, status code, ...) for debug purposes -->
+    <string name="feedback_debug">Response in Window (debug)</string>
     <!-- Shortcut dropdown option: Place shortcut on home screen -->
     <string name="action_place">Place on home screen</string>
     <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
@@ -732,4 +734,14 @@
     <string name="action_quick_settings_tile_trigger">Trigger shortcut</string>
     <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
     <string name="instructions_quick_settings_tile">You do not yet have any shortcuts that can be triggered via the Quick Settings tile.\n\nYou can enable this feature by editing a shortcut and selecting the checkbox \"%1$s\" found in \"%2$s\".</string>
+    <!-- Label: Status code, shows the HTTP status code of the response -->
+    <string name="label_status_code">Status Code</string>
+    <!-- Label: URL, shows the HTTP request's URL alongside the response -->
+    <string name="label_response_url">URL</string>
+    <!-- Label: Response time, shows how long the HTTP request took -->
+    <string name="label_response_timing">Response Time</string>
+    <!-- Label: Shown above section that lists general information about the HTTP response, e.g. status code -->
+    <string name="label_general_response_info">General</string>
+    <!-- Label: Shown above section that lists HTTP response headers -->
+    <string name="label_response_headers">Headers</string>
 </resources>

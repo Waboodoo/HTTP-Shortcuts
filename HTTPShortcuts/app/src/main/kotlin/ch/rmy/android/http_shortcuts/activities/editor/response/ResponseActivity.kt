@@ -62,7 +62,8 @@ class ResponseActivity : BaseActivity() {
             Shortcut.FEEDBACK_TOAST_ERRORS to R.string.feedback_response_toast_error,
             Shortcut.FEEDBACK_TOAST to R.string.feedback_response_toast,
             Shortcut.FEEDBACK_DIALOG to R.string.feedback_dialog,
-            Shortcut.FEEDBACK_ACTIVITY to R.string.feedback_activity
+            Shortcut.FEEDBACK_ACTIVITY to R.string.feedback_activity,
+            Shortcut.FEEDBACK_DEBUG to R.string.feedback_debug
         )
 
     }

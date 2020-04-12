@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.views
+package ch.rmy.android.http_shortcuts.activities.response
 
 import android.content.Context
 import android.util.AttributeSet

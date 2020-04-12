@@ -117,7 +117,7 @@ open class Shortcut : RealmObject(), HasId {
         get() = isFeedbackInWindow || isFeedbackInDialog
 
     val isFeedbackInWindow
-        get() = feedback == FEEDBACK_ACTIVITY && !isBrowserShortcut
+        get() = (feedback == FEEDBACK_ACTIVITY || feedback == FEEDBACK_DEBUG) && !isBrowserShortcut
 
     val isFeedbackInDialog
         get() = feedback == FEEDBACK_DIALOG && !isBrowserShortcut
@@ -153,6 +153,7 @@ open class Shortcut : RealmObject(), HasId {
         const val FEEDBACK_TOAST_ERRORS = "errors_only"
         const val FEEDBACK_DIALOG = "dialog"
         const val FEEDBACK_ACTIVITY = "activity"
+        const val FEEDBACK_DEBUG = "debug"
 
         private const val RETRY_POLICY_NONE = "none"
         private const val RETRY_POLICY_WAIT_FOR_INTERNET = "wait_for_internet"

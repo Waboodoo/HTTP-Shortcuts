@@ -1,17 +1,34 @@
 package ch.rmy.android.http_shortcuts.http
 
-object HttpHeaders {
+import ch.rmy.android.http_shortcuts.extensions.getCaseInsensitive
+import okhttp3.Headers
 
-    const val AUTHORIZATION = "Authorization"
+class HttpHeaders private constructor(private val headers: Map<String, List<String>>) {
 
-    const val CONNECTION = "Connection"
+    fun getLast(name: String): String? =
+        headers.getCaseInsensitive(name)
+            ?.lastOrNull()
 
-    const val CONTENT_ENCODING = "Content-Encoding"
+    fun toMultiMap(): Map<String, List<String>> = headers
 
-    const val CONTENT_TYPE = "Content-Type"
+    companion object {
 
-    const val SET_COOKIE = "Set-Cookie"
+        fun parse(headers: Headers) =
+            HttpHeaders(headers.names()
+                .associateWith { name -> headers.values(name) })
 
-    const val USER_AGENT = "User-Agent"
+        const val AUTHORIZATION = "Authorization"
+
+        const val CONNECTION = "Connection"
+
+        const val CONTENT_ENCODING = "Content-Encoding"
+
+        const val CONTENT_TYPE = "Content-Type"
+
+        const val SET_COOKIE = "Set-Cookie"
+
+        const val USER_AGENT = "User-Agent"
+
+    }
 
 }

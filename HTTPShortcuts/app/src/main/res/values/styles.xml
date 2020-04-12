@@ -44,4 +44,13 @@
         <item name="android:background">?selectableItemBackgroundBorderless</item>
     </style>
 
+    <style name="ResponseInfo_Header">
+        <item name="android:layout_marginBottom">4dp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="ResponseInfo_Values">
+        <item name="android:textSize">14sp</item>
+    </style>
+
 </resources>

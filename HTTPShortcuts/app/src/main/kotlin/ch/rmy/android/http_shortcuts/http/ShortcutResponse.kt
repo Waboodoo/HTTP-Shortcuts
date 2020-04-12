@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.http
 
-import ch.rmy.android.http_shortcuts.extensions.getCaseInsensitive
 import ch.rmy.android.http_shortcuts.utils.SizeLimitedReader
 import java.io.BufferedReader
 import java.io.InputStream
@@ -10,9 +9,10 @@ import java.util.zip.GZIPInputStream
 
 class ShortcutResponse internal constructor(
     val url: String?,
-    val headers: Map<String, String>,
+    val headers: HttpHeaders,
     val statusCode: Int,
-    content: InputStream?
+    content: InputStream?,
+    val timing: Long
 ) {
 
     val bodyAsString: String =
@@ -24,15 +24,15 @@ class ShortcutResponse internal constructor(
             }
         } ?: ""
 
-    private fun isGzipped(): Boolean = headers.getCaseInsensitive(HttpHeaders.CONTENT_ENCODING) == "gzip"
+    private fun isGzipped(): Boolean = headers.getLast(HttpHeaders.CONTENT_ENCODING) == "gzip"
 
     val contentType: String?
-        get() = headers.getCaseInsensitive(HttpHeaders.CONTENT_TYPE)?.let { contentType ->
+        get() = headers.getLast(HttpHeaders.CONTENT_TYPE)?.let { contentType ->
             contentType.split(';', limit = 2)[0].toLowerCase()
         }
 
     val cookies: Map<String, String>
-        get() = headers.getCaseInsensitive(HttpHeaders.SET_COOKIE)
+        get() = headers.getLast(HttpHeaders.SET_COOKIE)
             ?.split(';')
             ?.map { it.split('=') }
             ?.associate { it.first() to (it.getOrNull(1) ?: "") }

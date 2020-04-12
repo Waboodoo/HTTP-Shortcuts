@@ -1,19 +1,22 @@
-package ch.rmy.android.http_shortcuts.activities
+package ch.rmy.android.http_shortcuts.activities.response
 
 import android.content.Context
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.ViewGroup
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.http_shortcuts.http.HttpHeaders
+import ch.rmy.android.http_shortcuts.http.HttpStatus
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.ShareUtil
-import ch.rmy.android.http_shortcuts.views.ResponseWebView
-import ch.rmy.android.http_shortcuts.views.SyntaxHighlightView
+import ch.rmy.android.http_shortcuts.utils.StringUtils
 import kotterknife.bindView
 
 class DisplayResponseActivity : BaseActivity() {
@@ -30,10 +33,23 @@ class DisplayResponseActivity : BaseActivity() {
     private val url: String? by lazy {
         intent?.extras?.getString(EXTRA_URL)
     }
+    private val statusCode: Int? by lazy {
+        intent?.extras?.getInt(EXTRA_STATUS_CODE)?.takeUnless { it == 0 }
+    }
+    private val headers: Map<String, List<String>> by lazy {
+        (intent?.extras?.getSerializable(EXTRA_HEADERS) as? Map<String, List<String>>) ?: emptyMap()
+    }
+    private val timing: Long? by lazy {
+        intent?.extras?.getLong(EXTRA_TIMING)?.takeUnless { it == 0L }
+    }
+    private val showDetails: Boolean by lazy {
+        intent?.extras?.getBoolean(EXTRA_DETAILS, false) ?: false
+    }
 
     private val responseText: TextView by bindView(R.id.response_text)
     private val formattedResponseText: SyntaxHighlightView by bindView(R.id.formatted_response_text)
     private val responseWebView: ResponseWebView by bindView(R.id.response_web_view)
+    private val metaInfoContainer: ViewGroup by bindView(R.id.meta_info_container)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +58,42 @@ class DisplayResponseActivity : BaseActivity() {
     }
 
     private fun updateViews() {
+        displayBody()
+        if (showDetails) {
+            displayMetaInfo()
+        }
+    }
+
+    private fun displayMetaInfo() {
+        val processedGeneralData = mutableListOf<Pair<String, String>>()
+            .apply {
+                if (statusCode != null) {
+                    add(context.getString(R.string.label_status_code) to "$statusCode (${HttpStatus.getMessage(statusCode!!)})")
+                }
+                if (url != null) {
+                    add(context.getString(R.string.label_response_url) to url!!)
+                }
+                if (timing != null) {
+                    add(context.getString(R.string.label_response_timing) to StringUtils.getDurationText(context, timing!!.toInt()).toString())
+                }
+            }
+
+        val processedHeaders = headers.entries
+            .flatMap { entry ->
+                entry.value.map { value ->
+                    entry.key to value
+                }
+            }
+
+        if (processedGeneralData.isNotEmpty() || processedHeaders.isNotEmpty()) {
+            val view = MetaInfoView(context)
+            metaInfoContainer.addView(view)
+            view.showGeneralInfo(processedGeneralData)
+            view.showHeaders(processedHeaders)
+        }
+    }
+
+    private fun displayBody() {
         if (text.isBlank()) {
             displayAsPlainText(getString(R.string.message_blank_response), italic = true)
         } else {
@@ -138,6 +190,28 @@ class DisplayResponseActivity : BaseActivity() {
             intent.putExtra(EXTRA_URL, url)
         }
 
+        fun showDetails(showDetails: Boolean) = also {
+            intent.putExtra(EXTRA_DETAILS, showDetails)
+        }
+
+        fun headers(headers: HttpHeaders?) = also {
+            intent.putExtra(EXTRA_HEADERS, headers?.toMultiMap()?.let {
+                HashMap<String, ArrayList<String>>().apply {
+                    it.forEach { (name, values) ->
+                        put(name, ArrayList<String>().also { it.addAll(values) })
+                    }
+                }
+            })
+        }
+
+        fun statusCode(statusCode: Int?) = also {
+            intent.putExtra(EXTRA_STATUS_CODE, statusCode ?: return@also)
+        }
+
+        fun timing(timing: Long?) = also {
+            intent.putExtra(EXTRA_TIMING, timing ?: return@also)
+        }
+
     }
 
     companion object {
@@ -146,6 +220,10 @@ class DisplayResponseActivity : BaseActivity() {
         private const val EXTRA_TYPE = "type"
         private const val EXTRA_TEXT = "text"
         private const val EXTRA_URL = "url"
+        private const val EXTRA_HEADERS = "headers"
+        private const val EXTRA_STATUS_CODE = "status_code"
+        private const val EXTRA_TIMING = "timing"
+        private const val EXTRA_DETAILS = "details"
 
         private const val MAX_SHARE_LENGTH = 500000
 
