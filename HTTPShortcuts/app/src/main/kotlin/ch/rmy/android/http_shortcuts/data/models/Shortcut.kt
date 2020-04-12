@@ -9,26 +9,36 @@ open class Shortcut : RealmObject(), HasId {
 
     @PrimaryKey
     override var id: String = ""
+
     @Required
     var name: String = ""
+
     @Required
     var method = METHOD_GET
+
     @Required
     var url: String = ""
+
     @Required
     var username: String = ""
+
     @Required
     var password: String = ""
+
     @Required
     var authToken: String = ""
     var iconName: String? = null
+
     @Required
     var feedback: String = ""
+
     @Required
     var description: String = ""
+
     @Required
     var bodyContent: String = ""
     var timeout: Int = 0
+
     @Required
     var retryPolicy: String = ""
     var headers: RealmList<Header> = RealmList()
@@ -38,8 +48,10 @@ open class Shortcut : RealmObject(), HasId {
     var launcherShortcut: Boolean = false
     var quickSettingsTileShortcut: Boolean = false
     var delay: Int = 0
+
     @Required
     var requestBodyType: String = REQUEST_BODY_TYPE_CUSTOM_TEXT
+
     @Required
     var contentType: String = ""
     var executionType: String? = ""
@@ -130,6 +142,11 @@ open class Shortcut : RealmObject(), HasId {
         set(value) {
             retryPolicy = if (value) RETRY_POLICY_WAIT_FOR_INTERNET else RETRY_POLICY_NONE
         }
+
+    val usesResponseBody: Boolean
+        get() = !isBrowserShortcut
+            && feedback != FEEDBACK_TOAST_SIMPLE
+            && feedback != FEEDBACK_NONE
 
     companion object {
 

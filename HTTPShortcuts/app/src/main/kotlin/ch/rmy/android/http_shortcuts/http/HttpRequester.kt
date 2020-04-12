@@ -75,7 +75,7 @@ object HttpRequester {
                         .newCall(request)
                         .execute()
                         .use { okHttpResponse ->
-                            val shortcutResponse = prepareResponse(url, okHttpResponse)
+                            val shortcutResponse = prepareResponse(url, okHttpResponse, ignoreBody = !shortcut.usesResponseBody)
                             if (okHttpResponse.isSuccessful) {
                                 emitter.onSuccess(shortcutResponse)
                             } else {
@@ -88,12 +88,12 @@ object HttpRequester {
             }
             .subscribeOn(Schedulers.io())
 
-    private fun prepareResponse(url: String, response: Response) =
+    private fun prepareResponse(url: String, response: Response, ignoreBody: Boolean) =
         ShortcutResponse(
             url = url,
             headers = HttpHeaders.parse(response.headers()),
             statusCode = response.code(),
-            content = response.body()?.byteStream(),
+            content = response.takeUnless { ignoreBody }?.body()?.byteStream(),
             timing = response.receivedResponseAtMillis() - response.sentRequestAtMillis()
         )
 
