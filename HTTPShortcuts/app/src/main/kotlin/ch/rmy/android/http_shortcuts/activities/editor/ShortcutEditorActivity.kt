@@ -25,7 +25,6 @@ import ch.rmy.android.http_shortcuts.activities.editor.response.ResponseActivity
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.ScriptingActivity
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
-import ch.rmy.android.http_shortcuts.dialogs.IconNameChangeDialog
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.color
@@ -325,7 +324,7 @@ class ShortcutEditorActivity : BaseActivity() {
             .subscribe({ saveResult ->
                 LauncherShortcutManager.updatePinnedShortcut(context, saveResult.id, saveResult.name, saveResult.iconName)
                 setResult(RESULT_OK, Intent().putExtra(RESULT_SHORTCUT_ID, saveResult.id))
-                onSaveComplete(saveResult.nameOrIconChanged)
+                finish()
             }, { e ->
                 if (e is ShortcutValidationError) {
                     when (e.type) {
@@ -343,19 +342,6 @@ class ShortcutEditorActivity : BaseActivity() {
                 }
             })
             .attachTo(destroyer)
-    }
-
-    private fun onSaveComplete(nameOrIconChanged: Boolean) {
-        if (nameOrIconChanged) {
-            IconNameChangeDialog(context)
-                .showIfNeeded()
-                .subscribe {
-                    finish()
-                }
-                .attachTo(destroyer)
-        } else {
-            finish()
-        }
     }
 
     private fun testShortcut() {

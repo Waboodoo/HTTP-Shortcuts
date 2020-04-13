@@ -247,17 +247,9 @@ class SettingsActivity : BaseActivity() {
         private fun showImportOptions() {
             DialogBuilder(context!!)
                 .title(R.string.title_import)
-                .item(R.string.button_import_from_filesystem, ::showImportInstructions)
+                .item(R.string.button_import_from_filesystem, ::openLocalFilePickerForImport)
                 .item(R.string.button_import_from_general, ::openGeneralPickerForImport)
                 .item(R.string.button_import_from_url, ::openImportUrlDialog)
-                .showIfPossible()
-        }
-
-        private fun showImportInstructions() {
-            DialogBuilder(context!!)
-                .positive(R.string.dialog_ok) { openLocalFilePickerForImport() }
-                .negative(R.string.dialog_cancel)
-                .message(R.string.import_instructions)
                 .showIfPossible()
         }
 

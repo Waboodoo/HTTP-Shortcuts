@@ -189,8 +189,6 @@
     <string name="export_failed">Exporting shortcuts failed.</string>
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
     <string name="export_in_progress">Exporting…</string>
-    <!-- Instructions shown on dialog before exporting of shortcuts & variable begins -->
-    <string name="import_instructions">Select the file to import shortcuts from.\n\nPlease note that your current shortcuts might be overwritten.</string>
     <!-- Error message: Shown in snackbar when import of shortcuts & variables failed -->
     <string name="import_failed">Importing shortcuts failed.</string>
     <!-- Error message: Shown in snackbar when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
@@ -277,8 +275,6 @@
     <string name="section_authentication">Authentication</string>
     <!-- Label, for dropdown picker, allowing to select the authentication method (i.e., how to authenticate) of a shortcut -->
     <string name="label_authentication_method">Authentication Method</string>
-    <!-- Warning, shown in dialog when user changes the name or icon of a shortcut, to inform them that the changes don't apply automatically -->
-    <string name="warning_icon_or_name_change">Please note that changes to the name or icon are not automatically applied to shortcuts that are already added to the home screen. You will have to add them again for the changes to take effect. All other changes are automatically applied.</string>
     <!-- Checkbox label, used in varies dialogs, to allow user to hide the dialog forever -->
     <string name="dialog_checkbox_do_not_show_again">Don\'t show again</string>
     <!-- checkbox label in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->

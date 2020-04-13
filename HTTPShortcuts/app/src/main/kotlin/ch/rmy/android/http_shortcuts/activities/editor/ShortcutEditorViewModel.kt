@@ -81,7 +81,6 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
         val id = shortcutId ?: newUUID()
         var name = ""
         var iconName: String? = null
-        val nameOrIconChanged = hasNameOrIconChanges()
         return Transactions
             .commit { realm ->
                 val shortcut = Repository.getShortcutById(realm, TEMPORARY_ID)!!
@@ -102,18 +101,9 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
                 it.onSuccess(SaveResult(
                     id = id,
                     name = name,
-                    iconName = iconName,
-                    nameOrIconChanged = nameOrIconChanged
+                    iconName = iconName
                 ))
             })
-    }
-
-    private fun hasNameOrIconChanges(): Boolean {
-        val oldShortcut = shortcutId
-            ?.let { Repository.getShortcutById(persistedRealm, it)!! }
-            ?: return false
-        val newShortcut = getShortcut(persistedRealm) ?: return false
-        return oldShortcut.name != newShortcut.name || oldShortcut.iconName != newShortcut.iconName
     }
 
     private fun validateShortcut(shortcut: Shortcut) {
@@ -186,7 +176,7 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
             getString(R.string.label_scripting_subtitle)
         }
 
-    data class SaveResult(val id: String, val name: String, val iconName: String?, val nameOrIconChanged: Boolean)
+    data class SaveResult(val id: String, val name: String, val iconName: String?)
 
     companion object {
 

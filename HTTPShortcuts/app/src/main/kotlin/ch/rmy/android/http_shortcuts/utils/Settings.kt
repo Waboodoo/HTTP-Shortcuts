@@ -48,10 +48,6 @@ class Settings(context: Context) {
         }
         set(version) = preferences.edit().putLong(KEY_CHANGE_LOG_LAST_VERSION, version).apply()
 
-    var isIconNameWarningPermanentlyHidden: Boolean
-        get() = preferences.getBoolean(KEY_ICON_NAME_CHANGE_PERMANENTLY_HIDDEN, false)
-        set(hidden) = preferences.edit().putBoolean(KEY_ICON_NAME_CHANGE_PERMANENTLY_HIDDEN, hidden).apply()
-
     var theme: String
         get() = preferences.getString(KEY_THEME, THEME_BLUE)!!
         set(theme) = preferences.edit().putString(KEY_THEME, theme).apply()
@@ -83,7 +79,6 @@ class Settings(context: Context) {
         private const val KEY_IMPORT_URL = "import_url"
         private const val KEY_CHANGE_LOG_PERMANENTLY_HIDDEN = "change_log_permanently_hidden"
         private const val KEY_CHANGE_LOG_LAST_VERSION = "change_log_last_version"
-        private const val KEY_ICON_NAME_CHANGE_PERMANENTLY_HIDDEN = "icon_name_change_permanently_hidden"
         private const val KEY_NETWORK_RESTRICTION_PERMANENTLY_HIDDEN = "network_restriction_permanently_hidden"
         private const val KEY_THEME = "theme"
         private const val KEY_VARIABLE_INTRO_SHOWN = "variable_intro_shown"
