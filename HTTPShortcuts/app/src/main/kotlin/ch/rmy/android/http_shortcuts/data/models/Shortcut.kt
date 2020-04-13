@@ -27,6 +27,7 @@ open class Shortcut : RealmObject(), HasId {
 
     @Required
     var authToken: String = ""
+
     var iconName: String? = null
 
     @Required
@@ -37,16 +38,24 @@ open class Shortcut : RealmObject(), HasId {
 
     @Required
     var bodyContent: String = ""
+
     var timeout: Int = 0
 
     @Required
     var retryPolicy: String = ""
+
     var headers: RealmList<Header> = RealmList()
+
     var parameters: RealmList<Parameter> = RealmList()
+
     var acceptAllCertificates: Boolean = false
+
     var authentication: String? = AUTHENTICATION_NONE
+
     var launcherShortcut: Boolean = false
+
     var quickSettingsTileShortcut: Boolean = false
+
     var delay: Int = 0
 
     @Required
@@ -54,9 +63,16 @@ open class Shortcut : RealmObject(), HasId {
 
     @Required
     var contentType: String = ""
+
     var executionType: String? = ""
+
     var requireConfirmation: Boolean = false
+
     var followRedirects: Boolean = true
+
+    var proxyHost: String? = null
+
+    var proxyPort: Int? = null
 
     @Required
     var codeOnPrepare: String = ""
@@ -112,7 +128,9 @@ open class Shortcut : RealmObject(), HasId {
             other.codeOnPrepare != codeOnPrepare ||
             other.codeOnSuccess != codeOnSuccess ||
             other.codeOnFailure != codeOnFailure ||
-            other.followRedirects != followRedirects
+            other.followRedirects != followRedirects ||
+            other.proxyHost != proxyHost ||
+            other.proxyPort != proxyPort
         ) {
             return false
         }

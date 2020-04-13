@@ -136,6 +136,10 @@ class VariableResolver(private val context: Context) {
                 addAll(extractVariableIdsFromJS(shortcut.codeOnSuccess, variableLookup))
                 addAll(extractVariableIdsFromJS(shortcut.codeOnFailure, variableLookup))
 
+                if (shortcut.proxyHost != null) {
+                    addAll(Variables.extractVariableIds(shortcut.proxyHost!!))
+                }
+
                 addAll(Variables.extractVariableIds(shortcut.codeOnPrepare))
                 addAll(Variables.extractVariableIds(shortcut.codeOnSuccess))
                 addAll(Variables.extractVariableIds(shortcut.codeOnFailure))

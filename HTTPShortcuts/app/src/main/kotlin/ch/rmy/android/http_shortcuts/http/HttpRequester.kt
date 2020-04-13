@@ -25,6 +25,9 @@ object HttpRequester {
                 val password = Variables.rawPlaceholdersToResolvedValues(shortcut.password, variables)
                 val authToken = Variables.rawPlaceholdersToResolvedValues(shortcut.authToken, variables)
                 val body = Variables.rawPlaceholdersToResolvedValues(shortcut.bodyContent, variables)
+                val proxyHost = shortcut.proxyHost?.let {
+                    Variables.rawPlaceholdersToResolvedValues(it, variables)
+                }
 
                 if (!Validation.isValidUrl(Uri.parse(url))) {
                     emitter.onError(InvalidUrlException())
@@ -36,7 +39,9 @@ object HttpRequester {
                     username = username.takeIf { shortcut.usesDigestAuthentication() },
                     password = password.takeIf { shortcut.usesDigestAuthentication() },
                     followRedirects = shortcut.followRedirects,
-                    timeout = shortcut.timeout.toLong()
+                    timeout = shortcut.timeout.toLong(),
+                    proxyHost = proxyHost,
+                    proxyPort = shortcut.proxyPort
                 )
 
                 val request = RequestBuilder(shortcut.method, url)

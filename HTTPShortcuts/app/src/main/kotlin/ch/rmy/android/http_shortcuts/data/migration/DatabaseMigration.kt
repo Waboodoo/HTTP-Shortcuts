@@ -273,6 +273,12 @@ class DatabaseMigration : RealmMigration {
             34L -> { // 1.29.0
                 ParameterTypeMigration().migrateRealm(realm)
             }
+            35L -> { // 1.29.0
+                schema.get("Shortcut")!!
+                    .addField("proxyHost", String::class.java)
+                    .addField("proxyPort", Integer::class.java)
+
+            }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -298,7 +304,7 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 34L
+        const val VERSION = 35L
 
     }
 

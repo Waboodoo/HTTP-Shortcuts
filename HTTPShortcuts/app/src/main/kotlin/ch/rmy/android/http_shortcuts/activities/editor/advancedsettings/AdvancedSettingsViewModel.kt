@@ -30,6 +30,14 @@ class AdvancedSettingsViewModel(application: Application) : BasicShortcutEditorV
             getShortcut(realm)?.timeout = timeout
         }
 
+    fun setProxy(host: String, port: Int?): Completable =
+        Transactions.commit { realm ->
+            getShortcut(realm)?.let { shortcut ->
+                shortcut.proxyHost = host.takeUnless { it.isEmpty() }
+                shortcut.proxyPort = port
+            }
+        }
+
     fun getTimeoutSubtitle(shortcut: Shortcut): CharSequence =
         getTimeoutText(shortcut.timeout)
 

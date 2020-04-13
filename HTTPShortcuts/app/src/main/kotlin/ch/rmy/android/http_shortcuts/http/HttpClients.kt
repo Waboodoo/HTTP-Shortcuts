@@ -6,6 +6,8 @@ import com.burgstaller.okhttp.digest.Credentials
 import com.burgstaller.okhttp.digest.DigestAuthenticator
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import okhttp3.OkHttpClient
+import java.net.InetSocketAddress
+import java.net.Proxy
 import java.security.cert.CertificateException
 import java.util.concurrent.TimeUnit
 import javax.net.ssl.SSLContext
@@ -18,7 +20,9 @@ internal object HttpClients {
         username: String?,
         password: String?,
         followRedirects: Boolean,
-        timeout: Long
+        timeout: Long,
+        proxyHost: String?,
+        proxyPort: Int?
     ): OkHttpClient =
         (if (acceptAllCertificates) createUnsafeOkHttpClientBuilder() else createDefaultOkHttpClientBuilder())
             .mapIf(username != null && password != null) {
@@ -30,6 +34,9 @@ internal object HttpClients {
             .connectTimeout(timeout, TimeUnit.MILLISECONDS)
             .readTimeout(timeout, TimeUnit.MILLISECONDS)
             .writeTimeout(timeout, TimeUnit.MILLISECONDS)
+            .mapIf(proxyHost != null && proxyPort != null) {
+                it.proxy(Proxy(Proxy.Type.HTTP, InetSocketAddress(proxyHost!!, proxyPort!!)))
+            }
             .addNetworkInterceptor(StethoInterceptor())
             .build()
 
