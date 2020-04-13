@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -66,6 +67,7 @@ class ExecuteActivity : BaseActivity() {
         if (!layoutLoaded) {
             layoutLoaded = true
             setContentView(R.layout.activity_execute_loading)
+            baseView?.setBackgroundColor(Color.TRANSPARENT)
         }
     }
 

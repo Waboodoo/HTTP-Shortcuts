@@ -36,4 +36,5 @@
 
     <item name="textarea_background" type="color">#FFDFDFDF</item>
     <item name="icon_background" type="color">#99000000</item>
+    <item name="loading_spinner_background" type="color">#FAFAFA</item>
 </resources>

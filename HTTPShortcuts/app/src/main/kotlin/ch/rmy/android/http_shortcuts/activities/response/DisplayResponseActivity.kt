@@ -14,7 +14,6 @@ import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.http.HttpStatus
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
-import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.ShareUtil
 import ch.rmy.android.http_shortcuts.utils.StringUtils
 import kotterknife.bindView
@@ -102,13 +101,13 @@ class DisplayResponseActivity : BaseActivity() {
                     displayInWebView(text, url)
                 }
                 TYPE_JSON -> {
-                    displayWithSyntaxHighlighting(GsonUtil.prettyPrint(text), "json")
+                    displayWithSyntaxHighlighting(text, SyntaxHighlightView.Language.JSON)
                 }
                 TYPE_XML -> {
-                    displayWithSyntaxHighlighting(text, "xml")
+                    displayWithSyntaxHighlighting(text, SyntaxHighlightView.Language.XML)
                 }
                 TYPE_YAML, TYPE_YAML_ALT -> {
-                    displayWithSyntaxHighlighting(text, "yaml")
+                    displayWithSyntaxHighlighting(text, SyntaxHighlightView.Language.YAML)
                 }
                 else -> {
                     displayAsPlainText(text)
@@ -135,7 +134,7 @@ class DisplayResponseActivity : BaseActivity() {
         }
     }
 
-    private fun displayWithSyntaxHighlighting(text: String, language: String) {
+    private fun displayWithSyntaxHighlighting(text: String, language: SyntaxHighlightView.Language) {
         try {
             setContentView(R.layout.activity_display_response_syntax_highlighting)
             formattedResponseText.setCode(text, language)
