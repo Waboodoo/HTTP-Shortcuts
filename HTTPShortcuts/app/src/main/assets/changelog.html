@@ -23,6 +23,42 @@
 </head>
 <body>
 <article>
+    <h2>Version 1.29.0</h2>
+    <h3>File Parameters</h3>
+    <p>
+        You can now add file parameters to your shortcuts, which allows to send one or multiple
+        files as part of a request. Triggering a shortcut with a file parameter will open a file
+        picker to select which file to send. Alternatively you can share a file from another app
+        to trigger a shortcut, similar to how it was already possible to share text values from
+        other apps to be used as a value for a variable.
+    </p>
+    <h3>Response Debugging</h3>
+    <p>
+        There is now an additional option for how to display the response of an HTTP request, which
+        displays the response body in a fullscreen window but also displays additional meta information
+        such as response headers, status code and the response time. This should make it easier to
+        set up or debug shortcuts.
+    </p>
+    <h3>User Interaction in Scripting</h3>
+    <p>
+        You can now use <i>alert()</i>, <i>prompt()</i> and <i>confirm()</i> as part of the scripting
+        feature to create flows that require user interaction. These 3 functions work the same way
+        as you'd expect from a browser.
+    </p>
+    <h3>Miscellaneous</h3>
+    <ul>
+        <li>Triggering another shortcut when using scripting is now more reliable and much faster</li>
+        <li>HTTP response is ignored if it's not needed, for better performance</li>
+        <li>More meaningful error messages are displayed when importing fails</li>
+    </ul>
+    <h3>Bugfixes</h3>
+    <ul>
+        <li>Import and export now work as expected on Android 10 and no longer require Storage permission</li>
+        <li>URLs are trimmed to avoid leading and trailing whitespace characters</li>
+        <li>Duplicating shortcuts generates correct names</li>
+    </ul>
+</article>
+<article>
     <h2>Version 1.28.0</h2>
     <h3>Miscellaneous</h3>
     <ul>
@@ -34,10 +70,6 @@
     <ul>
         <li>Content-Type header no longer includes a charset unless explicitly specified</li>
         <li>Shortcuts on launcher icon are kept up-to-date more reliably</li>
-    </ul>
-    <h3>Known Issues</h3>
-    <ul>
-        <li>Import & Export to/from files doesn't work on Android 10. I have yet to fix this...</li>
     </ul>
 </article>
 <article>
