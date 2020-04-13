@@ -116,10 +116,16 @@
     <string name="title_choose_icon">Choose Built-in Icon</string>
     <!-- Title of dialog to edit a parameter on a shortcut -->
     <string name="title_post_param_edit">Edit Parameter</string>
+    <!-- Title of dialog to edit a file parameter on a shortcut -->
+    <string name="title_post_param_edit_file">Edit File Parameter</string>
     <!-- Title of dialog to add a new parameter to a shortcut -->
     <string name="title_post_param_add">Add Parameter</string>
+    <!-- Title of dialog to add a new file parameter to a shortcut -->
+    <string name="title_post_param_add_file">Add File Parameter</string>
     <!-- Label of input field to provide the name/key of a parameter of a shortcut -->
     <string name="label_post_param_key">Parameter</string>
+    <!-- Label of input field to provide the file name for a file parameter of a shortcut -->
+    <string name="label_post_param_file_name">File Name (optional)</string>
     <!-- Label of input field to provide the value of a parameter of a shortcut -->
     <string name="label_post_param_value">Value</string>
     <!-- Generic dialog button: OK -->
@@ -457,7 +463,7 @@
     <!-- Feature label for sharing text into the app, to be used in a specific variable for a configured shortcut -->
     <string name="action_send_to">Send to…</string>
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
-    <string name="error_not_suitable_shortcuts">No suitable shortcuts found.\n\nTo use this feature you need to have at least one shortcut that uses a variable that allows \'Share …\'.\n\nSee the documentation in the variable section for more information.</string>
+    <string name="error_not_suitable_shortcuts">No suitable shortcuts found.\n\nTo use this feature you need to have at least one shortcut that uses a variable that allows \'Share …\', or a shortcut that has a file parameter.\n\nSee the documentation in the variable section for more information.</string>
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">Allow \'Share …\'</string>
     <!-- App color theme option Blue -->
@@ -744,4 +750,16 @@
     <string name="label_general_response_info">General</string>
     <!-- Label: Shown above section that lists HTTP response headers -->
     <string name="label_response_headers">Headers</string>
+    <!-- Dialog title: Shown in dialog when adding a new request parameter and user has to pick its type -->
+    <string name="dialog_title_parameter_type">Parameter Type</string>
+    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for string parameter -->
+    <string name="option_parameter_type_string">String (default)</string>
+    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for file parameter -->
+    <string name="option_parameter_type_file">Single File</string>
+    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for files parameter -->
+    <string name="option_parameter_type_files">Multiple Files</string>
+    <!-- Subtitle: Shown in request parameter editor underneath every file parameter to indicate their type -->
+    <string name="subtitle_parameter_value_file">File</string>
+    <!-- Subtitle: Shown in request parameter editor underneath every files parameter to indicate their type -->
+    <string name="subtitle_parameter_value_files">Files</string>
 </resources>

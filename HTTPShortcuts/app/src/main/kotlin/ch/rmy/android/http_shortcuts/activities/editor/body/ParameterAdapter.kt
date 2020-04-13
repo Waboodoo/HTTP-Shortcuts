@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.activities.editor.authentication
+package ch.rmy.android.http_shortcuts.activities.editor.body
 
 import android.content.Context
 import android.view.ViewGroup
@@ -37,12 +37,23 @@ class ParameterAdapter(context: Context, parameters: ListLiveData<Parameter>, va
                 variablePlaceholderProvider,
                 variablePlaceholderColor
             )
-            parameterValue.text = Variables.rawPlaceholdersToVariableSpans(
-                item.value,
-                variablePlaceholderProvider,
-                variablePlaceholderColor
-            )
+            parameterValue.text = getParameterValue(item)
         }
+
+        private fun getParameterValue(parameter: Parameter): CharSequence =
+            when {
+                parameter.isFileParameter -> {
+                    context.getString(R.string.subtitle_parameter_value_file)
+                }
+                parameter.isFilesParameter -> {
+                    context.getString(R.string.subtitle_parameter_value_files)
+                }
+                else -> Variables.rawPlaceholdersToVariableSpans(
+                    parameter.value,
+                    variablePlaceholderProvider,
+                    variablePlaceholderColor
+                )
+            }
 
     }
 

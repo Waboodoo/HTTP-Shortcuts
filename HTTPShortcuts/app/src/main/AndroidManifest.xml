@@ -157,7 +157,6 @@
             android:excludeFromRecents="true"
             android:label="@string/title_activity_execute"
             android:launchMode="singleInstance"
-            android:noHistory="true"
             android:theme="@style/Theme.Transparent">
             <intent-filter>
                 <action android:name="ch.rmy.android.http_shortcuts.execute" />
@@ -188,7 +187,12 @@
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="text/plain" />
+                <data android:mimeType="*/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="*/*" />
             </intent-filter>
         </activity>
 

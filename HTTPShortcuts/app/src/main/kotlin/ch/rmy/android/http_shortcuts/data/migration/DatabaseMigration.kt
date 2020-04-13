@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.data.migration
 
+import ch.rmy.android.http_shortcuts.data.migration.migrations.ParameterTypeMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.RemoveLegacyActionsMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceActionsWithScriptsMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceVariableKeysWithIdsMigration
@@ -8,7 +9,7 @@ import io.realm.DynamicRealm
 import io.realm.DynamicRealmObject
 import io.realm.RealmList
 import io.realm.RealmMigration
-import java.util.*
+import java.util.Date
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class DatabaseMigration : RealmMigration {
@@ -269,6 +270,9 @@ class DatabaseMigration : RealmMigration {
             33L -> { // 1.28.0
                 RemoveLegacyActionsMigration().migrateRealm(realm)
             }
+            34L -> { // 1.29.0
+                ParameterTypeMigration().migrateRealm(realm)
+            }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -294,7 +298,7 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 33L
+        const val VERSION = 34L
 
     }
 

@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.data.migration
 
 
+import ch.rmy.android.http_shortcuts.data.migration.migrations.ParameterTypeMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.RemoveLegacyActionsMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceActionsWithScriptsMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceVariableKeysWithIdsMigration
@@ -118,6 +119,9 @@ internal object ImportMigrator {
             }
             33L -> { // 1.28.0
                 RemoveLegacyActionsMigration().migrateImport(base)
+            }
+            34L -> { // 1.29.0
+                ParameterTypeMigration().migrateImport(base)
             }
         }
     }

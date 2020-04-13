@@ -5,6 +5,9 @@ import okhttp3.MediaType
 import okhttp3.Request
 import okhttp3.RequestBody
 import okhttp3.internal.http.HttpMethod
+import okio.BufferedSink
+import okio.Okio
+import java.io.InputStream
 import java.net.URLEncoder
 
 class RequestBuilder(private val method: String, url: String) {
@@ -14,7 +17,7 @@ class RequestBuilder(private val method: String, url: String) {
 
     private var body: String? = null
     private var contentType: String? = null
-    private val parameters = mutableMapOf<String, String>()
+    private val parameters = mutableListOf<Parameter>()
 
     fun basicAuth(username: String, password: String) = also {
         requestBuilder.addHeader(HttpHeaders.AUTHORIZATION, Credentials.basic(username, password))
@@ -29,7 +32,11 @@ class RequestBuilder(private val method: String, url: String) {
     }
 
     fun parameter(name: String, value: String) = also {
-        parameters[name] = value
+        parameters.add(Parameter.StringParameter(name, value))
+    }
+
+    fun fileParameter(name: String, fileName: String, type: String, data: InputStream) = also {
+        parameters.add(Parameter.FileParameter(name, fileName, type, data))
     }
 
     fun header(name: String, value: String) = also {
@@ -46,42 +53,74 @@ class RequestBuilder(private val method: String, url: String) {
     fun build(): Request = requestBuilder
         .also {
             it.method(method, if (HttpMethod.permitsRequestBody(method)) {
-                getBody().let { body -> RequestBody.create(MediaType.get(contentType ?: DEFAULT_CONTENT_TYPE), body.toByteArray()) }
+                getBody()
             } else {
                 null
             })
         }
         .build()
 
-    private fun getBody(): String = when {
-        contentType?.startsWith("multipart/form-data") == true -> constructFormDataBody()
-        contentType?.startsWith("application/x-www-form-urlencoded") == true -> constructFormUrlEncodedBody()
-        else -> body
-    } ?: ""
+    sealed class Parameter(val name: String) {
+        class StringParameter(name: String, val value: String) : Parameter(name)
+        class FileParameter(name: String, val fileName: String, val type: String, val data: InputStream) : Parameter(name)
+    }
 
-    private fun constructFormDataBody(): String =
-        StringBuilder("\r\n")
-            .apply {
-                parameters.entries.forEach { (key, value) ->
-                    append("\r\n--$FORM_MULTIPART_BOUNDARY\n")
-                    append("Content-Disposition: form-data; name=\"$key\"")
-                    append("\r\n\r\n")
-                    append(value)
+    private fun getBody(): RequestBody = when {
+        contentType?.startsWith("multipart/form-data") == true -> constructFormDataBody()
+        contentType?.startsWith("application/x-www-form-urlencoded") == true -> constructBodyFromString(constructFormUrlEncodedBody())
+        else -> constructBodyFromString(body ?: "")
+    }
+
+    private fun constructBodyFromString(string: String): RequestBody =
+        RequestBody.create(MediaType.get(contentType ?: DEFAULT_CONTENT_TYPE), string.toByteArray())
+
+    private fun constructFormDataBody(): RequestBody =
+        object : RequestBody() {
+            override fun contentType(): MediaType? =
+                MediaType.get(contentType ?: DEFAULT_CONTENT_TYPE)
+
+            override fun writeTo(sink: BufferedSink) {
+                sink.apply {
+                    writeUtf8("\r\n")
+                    parameters.forEach { parameter ->
+                        writeUtf8("\r\n--$FORM_MULTIPART_BOUNDARY\n")
+                        when (parameter) {
+                            is Parameter.StringParameter -> {
+                                writeUtf8("Content-Disposition: form-data; name=\"${sanitize(parameter.name)}\"")
+                                writeUtf8("\r\n\r\n")
+                                writeUtf8(parameter.value)
+                            }
+                            is Parameter.FileParameter -> {
+                                writeUtf8("Content-Disposition: form-data; name=\"${sanitize(parameter.name)}\"; filename=\"${sanitize(parameter.fileName)}\"")
+                                writeUtf8("\r\n")
+                                writeUtf8("Content-Type: ${parameter.type}")
+                                writeUtf8("\r\n\r\n")
+                                writeAll(Okio.source(parameter.data))
+                            }
+                        }
+                    }
+                    writeUtf8("\n--$FORM_MULTIPART_BOUNDARY--\n")
                 }
-                append("\n--$FORM_MULTIPART_BOUNDARY--\n")
             }
-            .toString()
+        }
 
     private fun constructFormUrlEncodedBody(): String =
-        parameters.entries
-            .joinToString(separator = "&") { (key, value) ->
-                URLEncoder.encode(key, PARAMETER_ENCODING) + '=' + URLEncoder.encode(value, PARAMETER_ENCODING)
+        parameters
+            .filterIsInstance<Parameter.StringParameter>()
+            .joinToString(separator = "&") { parameter ->
+                encode(parameter.name) + '=' + encode(parameter.value)
             }
 
     companion object {
         const val FORM_MULTIPART_BOUNDARY = "----53014704754052338"
         private const val DEFAULT_CONTENT_TYPE = "text/plain"
         private const val PARAMETER_ENCODING = "UTF-8"
+
+        private fun encode(text: String): String =
+            URLEncoder.encode(text, PARAMETER_ENCODING)
+
+        private fun sanitize(text: String): String =
+            text.replace("\"", "")
     }
 
 }

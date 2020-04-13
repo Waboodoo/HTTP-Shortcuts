@@ -15,7 +15,7 @@ import okhttp3.Response
 
 object HttpRequester {
 
-    fun executeShortcut(shortcut: Shortcut, variableManager: VariableManager): Single<ShortcutResponse> =
+    fun executeShortcut(shortcut: Shortcut, variableManager: VariableManager, fileUploadManager: FileUploadManager? = null): Single<ShortcutResponse> =
         Single
             .create<ShortcutResponse> { emitter ->
                 val variables = variableManager.getVariableValuesByIds()
@@ -25,8 +25,6 @@ object HttpRequester {
                 val password = Variables.rawPlaceholdersToResolvedValues(shortcut.password, variables)
                 val authToken = Variables.rawPlaceholdersToResolvedValues(shortcut.authToken, variables)
                 val body = Variables.rawPlaceholdersToResolvedValues(shortcut.bodyContent, variables)
-                val acceptAllCertificates = shortcut.acceptAllCertificates
-                val followRedirects = shortcut.followRedirects
 
                 if (!Validation.isValidUrl(Uri.parse(url))) {
                     emitter.onError(InvalidUrlException())
@@ -34,11 +32,11 @@ object HttpRequester {
                 }
 
                 val client = HttpClients.getClient(
-                    acceptAllCertificates,
-                    username.takeIf { shortcut.usesDigestAuthentication() },
-                    password.takeIf { shortcut.usesDigestAuthentication() },
-                    followRedirects,
-                    shortcut.timeout.toLong()
+                    acceptAllCertificates = shortcut.acceptAllCertificates,
+                    username = username.takeIf { shortcut.usesDigestAuthentication() },
+                    password = password.takeIf { shortcut.usesDigestAuthentication() },
+                    followRedirects = shortcut.followRedirects,
+                    timeout = shortcut.timeout.toLong()
                 )
 
                 val request = RequestBuilder(shortcut.method, url)
@@ -50,12 +48,7 @@ object HttpRequester {
                     }
                     .mapIf(shortcut.usesRequestParameters()) {
                         it.contentType(determineContentType(shortcut))
-                        it.mapFor(shortcut.parameters) { builder, parameter ->
-                            builder.parameter(
-                                Variables.rawPlaceholdersToResolvedValues(parameter.key, variables),
-                                Variables.rawPlaceholdersToResolvedValues(parameter.value, variables)
-                            )
-                        }
+                        attachParameters(it, shortcut, variables, fileUploadManager)
                     }
                     .mapFor(shortcut.headers) { builder, header ->
                         builder.header(
@@ -87,6 +80,45 @@ object HttpRequester {
                 }
             }
             .subscribeOn(Schedulers.io())
+
+    private fun attachParameters(requestBuilder: RequestBuilder, shortcut: Shortcut, variables: Map<String, String>, fileUploadManager: FileUploadManager?): RequestBuilder {
+        var fileIndex = -1
+        return requestBuilder.mapFor(shortcut.parameters) { builder, parameter ->
+            val parameterName = Variables.rawPlaceholdersToResolvedValues(parameter.key, variables)
+            if (parameter.isFilesParameter) {
+                builder.mapIf(fileUploadManager != null) { builder2 ->
+                    fileIndex++
+                    val files = fileUploadManager!!.getFiles(fileIndex)
+                    builder2.mapFor(files) { builder3, file ->
+                        builder3.fileParameter(
+                            name = parameterName + "[]",
+                            fileName = parameter.fileName.ifEmpty { file.fileName },
+                            type = file.mimeType,
+                            data = file.data
+                        )
+                    }
+                }
+            } else if (parameter.isFileParameter) {
+                builder.mapIf(fileUploadManager != null) { builder2 ->
+                    fileIndex++
+                    val file = fileUploadManager!!.getFile(fileIndex)
+                    builder2.mapIf(file != null) { builder3 ->
+                        builder3.fileParameter(
+                            name = parameterName,
+                            fileName = parameter.fileName.ifEmpty { file!!.fileName },
+                            type = file!!.mimeType,
+                            data = file.data
+                        )
+                    }
+                }
+            } else {
+                builder.parameter(
+                    name = parameterName,
+                    value = Variables.rawPlaceholdersToResolvedValues(parameter.value, variables)
+                )
+            }
+        }
+    }
 
     private fun prepareResponse(url: String, response: Response, ignoreBody: Boolean) =
         ShortcutResponse(

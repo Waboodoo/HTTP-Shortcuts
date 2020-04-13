@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities
 
+import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -13,23 +14,27 @@ import ch.rmy.android.http_shortcuts.data.Commons
 import ch.rmy.android.http_shortcuts.data.Controller
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
+import ch.rmy.android.http_shortcuts.exceptions.ResumeLaterException
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.cancel
 import ch.rmy.android.http_shortcuts.extensions.detachFromRealm
 import ch.rmy.android.http_shortcuts.extensions.finishWithoutAnimation
 import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.extensions.truncate
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
+import ch.rmy.android.http_shortcuts.http.FileUploadManager
 import ch.rmy.android.http_shortcuts.http.HttpRequester
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.scripting.ScriptExecutor
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.DateUtil
 import ch.rmy.android.http_shortcuts.utils.ErrorFormatter
+import ch.rmy.android.http_shortcuts.utils.FilePickerUtil
 import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.NetworkUtil
@@ -55,7 +60,6 @@ class ExecuteActivity : BaseActivity() {
         destroyer.own(Controller())
     }
     private lateinit var shortcut: Shortcut
-    private var lastResponse: ShortcutResponse? = null
 
     private var layoutLoaded = false
     private val showProgressRunnable = Runnable {
@@ -74,6 +78,7 @@ class ExecuteActivity : BaseActivity() {
         ScriptExecutor(actionFactory)
     }
 
+    /* Execution Parameters */
     private val shortcutId: String by lazy {
         IntentUtil.getShortcutId(intent)
     }
@@ -86,12 +91,22 @@ class ExecuteActivity : BaseActivity() {
     private val recursionDepth by lazy {
         intent?.extras?.getInt(EXTRA_RECURSION_DEPTH) ?: 0
     }
+    private val fileUris: List<Uri> by lazy {
+        intent?.extras?.getParcelableArrayList<Uri>(EXTRA_FILES) ?: emptyList<Uri>()
+    }
     private val shortcutName by lazy {
         shortcut.name.ifEmpty { getString(R.string.shortcut_safe_name) }
     }
 
+    /* Caches / State */
+    private var fileUploadManager: FileUploadManager? = null
+    private var variableManager: VariableManager? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (!isRealmAvailable) {
+            return
+        }
 
         shortcut = controller.getShortcutById(shortcutId)?.detachFromRealm() ?: run {
             showToast(getString(R.string.shortcut_not_found), long = true)
@@ -104,14 +119,24 @@ class ExecuteActivity : BaseActivity() {
             ExecutionScheduler.schedule(context)
         }
 
-        if (requiresConfirmation()) {
-            promptForConfirmation()
-        } else {
-            Completable.complete()
-        }
-            .concatWith(resolveVariablesAndExecute(variableValues))
+        subscribeAndFinishAfterIfNeeded(
+            if (requiresConfirmation()) {
+                promptForConfirmation()
+            } else {
+                Completable.complete()
+            }
+                .concatWith(resolveVariablesAndExecute(variableValues))
+        )
+    }
+
+    private fun subscribeAndFinishAfterIfNeeded(completable: Completable) {
+        completable
             .onErrorResumeNext { error ->
-                ExecuteErrorHandler(context).handleError(error)
+                if (error is ResumeLaterException) {
+                    Completable.error(error)
+                } else {
+                    ExecuteErrorHandler(context).handleError(error)
+                }
             }
             .subscribe(
                 {
@@ -119,8 +144,10 @@ class ExecuteActivity : BaseActivity() {
                         finishWithoutAnimation()
                     }
                 },
-                {
-                    finishWithoutAnimation()
+                { error ->
+                    if (error !is ResumeLaterException) {
+                        finishWithoutAnimation()
+                    }
                 }
             )
     }
@@ -173,16 +200,61 @@ class ExecuteActivity : BaseActivity() {
                         requiresNetwork = shortcut.isWaitForNetwork
                     )
                 } else {
-                    if (shouldFinishImmediately()) {
-                        finishWithoutAnimation()
-                    }
-                    executeWithActions(variableManager)
+                    executeWithFileRequests(variableManager)
                 }
             }
 
-    private fun executeWithActions(variableManager: VariableManager): Completable =
+    private fun getFileUploadManager(): FileUploadManager? {
+        if (!shortcut.usesRequestParameters()) {
+            return null
+        }
+        if (fileUploadManager == null) {
+            fileUploadManager = FileUploadManager.Builder(contentResolver)
+                .withSharedFiles(fileUris)
+                .mapFor(shortcut.parameters) { builder, parameter ->
+                    when {
+                        parameter.isFilesParameter -> {
+                            builder.addFileRequest(multiple = true)
+                        }
+                        parameter.isFileParameter -> {
+                            builder.addFileRequest(multiple = false)
+                        }
+                        else -> builder
+                    }
+                }
+                .build()
+        }
+        return fileUploadManager
+    }
+
+    private fun executeWithFileRequests(variableManager: VariableManager): Completable {
+        val fileUploadManager = getFileUploadManager()
+        val fileRequest = fileUploadManager?.getNextFileRequest()
+        return if (fileRequest == null) {
+            executeWithActions(variableManager, fileUploadManager)
+        } else {
+            this.variableManager = variableManager
+            openFilePickerForFileParameter(multiple = fileRequest.multiple)
+            Completable.error(ResumeLaterException())
+        }
+    }
+
+    private fun openFilePickerForFileParameter(multiple: Boolean) {
+        try {
+            FilePickerUtil.createIntent(multiple)
+                .startActivity(this, REQUEST_PICK_FILES)
+        } catch (e: ActivityNotFoundException) {
+            showToast(R.string.error_not_supported)
+            finishWithoutAnimation()
+        }
+    }
+
+    private fun executeWithActions(variableManager: VariableManager, fileUploadManager: FileUploadManager? = null): Completable =
         Completable
             .fromAction {
+                if (shouldFinishImmediately()) {
+                    finishWithoutAnimation()
+                }
                 showProgress()
             }
             .subscribeOn(AndroidSchedulers.mainThread())
@@ -200,7 +272,7 @@ class ExecuteActivity : BaseActivity() {
                     openShortcutInBrowser(variableManager)
                     Completable.complete()
                 } else {
-                    executeShortcut(variableManager)
+                    executeShortcut(variableManager, fileUploadManager)
                         .flatMapCompletable { response ->
                             scriptExecutor
                                 .execute(
@@ -253,8 +325,8 @@ class ExecuteActivity : BaseActivity() {
         }
     }
 
-    private fun executeShortcut(variableManager: VariableManager): Single<ShortcutResponse> =
-        HttpRequester.executeShortcut(shortcut, variableManager)
+    private fun executeShortcut(variableManager: VariableManager, fileUploadManager: FileUploadManager? = null): Single<ShortcutResponse> =
+        HttpRequester.executeShortcut(shortcut, variableManager, fileUploadManager)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSuccess { response ->
                 if (shortcut.isFeedbackErrorsOnly()) {
@@ -273,6 +345,7 @@ class ExecuteActivity : BaseActivity() {
                     }
                     finishWithoutAnimation()
                 } else {
+                    logException(error)
                     val simple = shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE_ERRORS || shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE
                     displayOutput(generateOutputFromError(error, simple), response = (error as? ErrorResponse)?.shortcutResponse)
                 }
@@ -355,8 +428,34 @@ class ExecuteActivity : BaseActivity() {
         }
     }
 
-    override fun onBackPressed() {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            REQUEST_PICK_FILES -> {
+                if (resultCode != Activity.RESULT_OK || data == null) {
+                    finishWithoutAnimation()
+                    return
+                }
+                val fileUris = FilePickerUtil.extractUris(data)
+                getFileUploadManager()?.fulfilFileRequest(fileUris ?: emptyList())
+                resumeAfterFileRequest()
+            }
+        }
+    }
 
+    private fun resumeAfterFileRequest() {
+        if (variableManager == null || fileUploadManager == null) {
+            // TODO: Handle edge case where variableManager is no longer set because activity was recreated
+            logException(RuntimeException("Failed to resume after file sharing: variableManager=${variableManager != null}, fileUploadManger=${fileUploadManager != null}"))
+            showToast(R.string.error_generic, long = true)
+            finishWithoutAnimation()
+            return
+        }
+        subscribeAndFinishAfterIfNeeded(executeWithFileRequests(variableManager!!))
+    }
+
+    override fun onBackPressed() {
+        // Prevent cancelling. Not optimal, but will have to do for now
     }
 
     class IntentBuilder(context: Context, shortcutId: String) : BaseIntentBuilder(context, ExecuteActivity::class.java) {
@@ -385,15 +484,23 @@ class ExecuteActivity : BaseActivity() {
             intent.putExtra(EXTRA_RECURSION_DEPTH, recursionDepth)
         }
 
+        fun files(files: List<Uri>) = also {
+            intent.putParcelableArrayListExtra(EXTRA_FILES, ArrayList<Uri>().apply { addAll(files) })
+        }
+
     }
 
     companion object {
 
         const val ACTION_EXECUTE_SHORTCUT = "ch.rmy.android.http_shortcuts.resolveVariablesAndExecute"
+
         const val EXTRA_SHORTCUT_ID = "id"
         const val EXTRA_VARIABLE_VALUES = "variable_values"
         const val EXTRA_TRY_NUMBER = "try_number"
         const val EXTRA_RECURSION_DEPTH = "recursion_depth"
+        const val EXTRA_FILES = "files"
+
+        private const val REQUEST_PICK_FILES = 1
 
         private const val MAX_RETRY = 5
         private const val RETRY_BACKOFF = 2.4

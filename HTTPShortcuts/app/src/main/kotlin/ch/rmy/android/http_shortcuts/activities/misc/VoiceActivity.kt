@@ -14,6 +14,9 @@ class VoiceActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (!isRealmAvailable) {
+            return
+        }
 
         val shortcutName = intent.getStringExtra(SearchManager.QUERY) ?: return
 

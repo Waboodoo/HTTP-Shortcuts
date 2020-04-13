@@ -83,9 +83,12 @@ class RequestHeadersActivity : BaseActivity() {
             .show(context)
             .flatMapCompletable { event ->
                 when (event) {
-                    is KeyValueDialog.DataChangedEvent -> viewModel.updateHeader(headerId, event.data.first, event.data.second)
-                    is KeyValueDialog.DataRemovedEvent -> viewModel.removeHeader(headerId)
-                    else -> Completable.complete()
+                    is KeyValueDialog.Event.DataChangedEvent -> {
+                        viewModel.updateHeader(headerId, event.data.first, event.data.second)
+                    }
+                    is KeyValueDialog.Event.DataRemovedEvent -> {
+                        viewModel.removeHeader(headerId)
+                    }
                 }
             }
             .subscribe()
@@ -103,7 +106,9 @@ class RequestHeadersActivity : BaseActivity() {
             .show(context)
             .flatMapCompletable { event ->
                 when (event) {
-                    is KeyValueDialog.DataChangedEvent -> viewModel.addHeader(event.data.first, event.data.second)
+                    is KeyValueDialog.Event.DataChangedEvent -> {
+                        viewModel.addHeader(event.data.first, event.data.second)
+                    }
                     else -> Completable.complete()
                 }
             }

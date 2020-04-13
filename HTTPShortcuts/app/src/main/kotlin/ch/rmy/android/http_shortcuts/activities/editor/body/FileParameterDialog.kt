@@ -1,15 +1,16 @@
-package ch.rmy.android.http_shortcuts.dialogs
+package ch.rmy.android.http_shortcuts.activities.editor.body
 
 import android.content.Context
-import android.text.InputType
-import android.widget.ArrayAdapter
-import android.widget.TextView
+import android.view.View
+import android.widget.EditText
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
 import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.extensions.showSoftKeyboard
+import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
@@ -20,14 +21,13 @@ import com.afollestad.materialdialogs.actions.getActionButton
 import io.reactivex.Maybe
 import io.reactivex.subjects.MaybeSubject
 
-class KeyValueDialog(
+class FileParameterDialog(
     private val variablePlaceholderProvider: VariablePlaceholderProvider,
     private val title: String,
-    private val data: Pair<String, String>? = null,
-    private val keyLabel: CharSequence? = null,
-    private val valueLabel: CharSequence? = null,
-    private val isMultiLine: Boolean = false,
-    private val suggestions: Array<String>? = null
+    private val showRemoveOption: Boolean = false,
+    private val showFileNameOption: Boolean = false,
+    private val keyName: String = "",
+    private val fileName: String = ""
 ) {
 
     fun show(context: Context): Maybe<Event> {
@@ -35,18 +35,17 @@ class KeyValueDialog(
 
         val destroyer = Destroyer()
         DialogBuilder(context)
-            .view(R.layout.dialog_key_value_editor)
+            .view(R.layout.dialog_file_parameter_editor)
             .title(title)
             .canceledOnTouchOutside(false)
             .positive(R.string.dialog_ok) { dialog ->
                 val keyField = dialog.findViewById(R.id.key_value_key) as VariableEditText
-                val valueField = dialog.findViewById(R.id.key_value_value) as VariableEditText
+                val fileNameField = dialog.findViewById(R.id.key_file_name) as EditText
 
                 val keyText = keyField.rawString
-                val valueText = valueField.rawString
-                subject.onSuccess(Event.DataChangedEvent(keyText to valueText))
+                subject.onSuccess(Event.DataChangedEvent(keyName = keyText, fileName = fileNameField.text.toString()))
             }
-            .mapIf(data != null) {
+            .mapIf(showRemoveOption) {
                 it.neutral(R.string.dialog_remove) {
                     subject.onSuccess(Event.DataRemovedEvent())
                 }
@@ -59,31 +58,16 @@ class KeyValueDialog(
             .build()
             .also { dialog ->
                 val keyInput = dialog.findViewById(R.id.key_value_key) as VariableEditText
-                val valueInput = dialog.findViewById(R.id.key_value_value) as VariableEditText
+                val fileNameInput = dialog.findViewById(R.id.key_file_name) as EditText
                 val keyVariableButton = dialog.findViewById(R.id.variable_button_key) as VariableButton
-                val valueVariableButton = dialog.findViewById(R.id.variable_button_value) as VariableButton
 
                 VariableViewUtils.bindVariableViews(keyInput, keyVariableButton, variablePlaceholderProvider)
                     .attachTo(destroyer)
-                VariableViewUtils.bindVariableViews(valueInput, valueVariableButton, variablePlaceholderProvider)
-                    .attachTo(destroyer)
 
-                valueInput.inputType = (if (isMultiLine) InputType.TYPE_TEXT_FLAG_MULTI_LINE else 0) or InputType.TYPE_CLASS_TEXT
-                if (isMultiLine) {
-                    valueInput.maxLines = MAX_LINES
-                }
+                keyInput.rawString = keyName
+                fileNameInput.setText(fileName)
 
-                (dialog.findViewById(R.id.label_key_value) as TextView).text = keyLabel
-                (dialog.findViewById(R.id.label_value_value) as TextView).text = valueLabel
-
-                if (data != null) {
-                    keyInput.rawString = data.first
-                    valueInput.rawString = data.second
-                }
-
-                if (suggestions != null) {
-                    keyInput.setAdapter(ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, suggestions))
-                }
+                dialog.findViewById<View>(R.id.file_name_input_container).visible = showFileNameOption
 
                 dialog.setOnShowListener {
                     keyInput.showSoftKeyboard()
@@ -106,15 +90,9 @@ class KeyValueDialog(
 
     sealed class Event {
 
-        class DataChangedEvent(val data: Pair<String, String>) : Event()
+        class DataChangedEvent(val keyName: String, val fileName: String) : Event()
 
         class DataRemovedEvent : Event()
-
-    }
-
-    companion object {
-
-        private const val MAX_LINES = 5
 
     }
 

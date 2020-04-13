@@ -12,9 +12,29 @@ open class Parameter(
     @Required
     var key: String = "",
     @Required
-    var value: String = ""
+    var value: String = "",
+    var type: String = TYPE_STRING,
+    var fileName: String = ""
 ) : RealmObject(), HasId {
 
-    fun isSameAs(other: Parameter) = other.key == key && other.value == value
+    fun isSameAs(other: Parameter) =
+        other.key == key
+            && other.value == value
+            && other.type == type
+            && other.fileName == fileName
+
+    val isFileParameter: Boolean
+        get() = type == TYPE_FILE
+
+    val isFilesParameter: Boolean
+        get() = type == TYPE_FILES
+
+    companion object {
+
+        const val TYPE_STRING = "string"
+        const val TYPE_FILE = "file"
+        const val TYPE_FILES = "files"
+
+    }
 
 }

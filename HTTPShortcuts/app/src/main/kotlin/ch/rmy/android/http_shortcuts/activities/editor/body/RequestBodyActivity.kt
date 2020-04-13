@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
-import ch.rmy.android.http_shortcuts.activities.editor.authentication.ParameterAdapter
 import ch.rmy.android.http_shortcuts.data.models.Parameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.dialogs.KeyValueDialog
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.extensions.attachTo
@@ -84,7 +84,11 @@ class RequestBodyActivity : BaseActivity() {
         adapter.clickListener = { it.value?.let { parameter -> showEditDialog(parameter) } }
         addButton.applyTheme(themeHelper)
         addButton.setOnClickListener {
-            showAddDialog()
+            if (shortcutData.value?.requestBodyType == Shortcut.REQUEST_BODY_TYPE_FORM_DATA) {
+                showParameterTypeDialog()
+            } else {
+                showAddDialogForStringParameter()
+            }
         }
 
         VariableViewUtils.bindVariableViews(bodyContentView, bodyContentVariableButton, variablePlaceholderProvider)
@@ -152,6 +156,15 @@ class RequestBodyActivity : BaseActivity() {
     }
 
     private fun showEditDialog(parameter: Parameter) {
+        if (parameter.isFileParameter || parameter.isFilesParameter) {
+            showEditDialogForFileParameter(parameter)
+        }
+        else {
+            showEditDialogForStringParameter(parameter)
+        }
+    }
+
+    private fun showEditDialogForStringParameter(parameter: Parameter) {
         val parameterId = parameter.id
         KeyValueDialog(
             variablePlaceholderProvider = variablePlaceholderProvider,
@@ -164,16 +177,59 @@ class RequestBodyActivity : BaseActivity() {
             .show(context)
             .flatMapCompletable { event ->
                 when (event) {
-                    is KeyValueDialog.DataChangedEvent -> viewModel.updateParameter(parameterId, event.data.first, event.data.second)
-                    is KeyValueDialog.DataRemovedEvent -> viewModel.removeParameter(parameterId)
-                    else -> Completable.complete()
+                    is KeyValueDialog.Event.DataChangedEvent -> {
+                        viewModel.updateParameter(parameterId, event.data.first, value=event.data.second)
+                    }
+                    is KeyValueDialog.Event.DataRemovedEvent -> {
+                        viewModel.removeParameter(parameterId)
+                    }
                 }
             }
             .subscribe()
             .attachTo(destroyer)
     }
 
-    private fun showAddDialog() {
+    private fun showEditDialogForFileParameter(parameter: Parameter) {
+        val parameterId = parameter.id
+        FileParameterDialog(
+            variablePlaceholderProvider = variablePlaceholderProvider,
+            title = getString(R.string.title_post_param_edit_file),
+            showRemoveOption = true,
+            showFileNameOption = parameter.isFileParameter,
+            keyName = parameter.key,
+            fileName = parameter.fileName
+        )
+            .show(context)
+            .flatMapCompletable { event ->
+                when (event) {
+                    is FileParameterDialog.Event.DataChangedEvent -> {
+                        viewModel.updateParameter(parameterId, event.keyName, fileName = event.fileName)
+                    }
+                    is FileParameterDialog.Event.DataRemovedEvent -> {
+                        viewModel.removeParameter(parameterId)
+                    }
+                }
+            }
+            .subscribe()
+            .attachTo(destroyer)
+    }
+
+    private fun showParameterTypeDialog() {
+        DialogBuilder(context)
+            .title(R.string.dialog_title_parameter_type)
+            .item(R.string.option_parameter_type_string) {
+                showAddDialogForStringParameter()
+            }
+            .item(R.string.option_parameter_type_file) {
+                showAddDialogForFileParameter(multiple = false)
+            }
+            .item(R.string.option_parameter_type_files) {
+                showAddDialogForFileParameter(multiple = true)
+            }
+            .showIfPossible()
+    }
+
+    private fun showAddDialogForStringParameter() {
         KeyValueDialog(
             variablePlaceholderProvider = variablePlaceholderProvider,
             title = getString(R.string.title_post_param_add),
@@ -184,7 +240,24 @@ class RequestBodyActivity : BaseActivity() {
             .show(context)
             .flatMapCompletable { event ->
                 when (event) {
-                    is KeyValueDialog.DataChangedEvent -> viewModel.addParameter(event.data.first, event.data.second)
+                    is KeyValueDialog.Event.DataChangedEvent -> viewModel.addStringParameter(event.data.first, event.data.second)
+                    else -> Completable.complete()
+                }
+            }
+            .subscribe()
+            .attachTo(destroyer)
+    }
+
+    private fun showAddDialogForFileParameter(multiple: Boolean) {
+        FileParameterDialog(
+            variablePlaceholderProvider = variablePlaceholderProvider,
+            title = getString(R.string.title_post_param_add_file),
+            showFileNameOption = !multiple
+        )
+            .show(context)
+            .flatMapCompletable { event ->
+                when (event) {
+                    is FileParameterDialog.Event.DataChangedEvent -> viewModel.addFileParameter(event.keyName, event.fileName, multiple)
                     else -> Completable.complete()
                 }
             }
