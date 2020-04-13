@@ -1,6 +1,8 @@
 package ch.rmy.curlcommand
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class CurlParserTest {
@@ -15,7 +17,7 @@ class CurlParserTest {
         assertEquals("Cookie", command.headers["Authorization"])
         assertEquals("application/json", command.headers["Accept"])
         assertEquals(2, command.headers.size)
-        assertEquals("This is my \"data\"", command.data)
+        assertEquals(listOf("This is my \"data\""), command.data)
         assertEquals("foo", command.username)
         assertEquals("bar", command.password)
     }
@@ -24,14 +26,32 @@ class CurlParserTest {
     fun testUrlEncodedData() {
         val target = "curl --data-urlencode \"Hä&?4\""
         val command = CurlParser.parse(target)
-        assertEquals("H%C3%A4%26%3F4", command.data)
+        assertEquals(listOf("H%C3%A4%26%3F4"), command.data)
+        assertFalse(command.isFormData)
     }
 
     @Test
     fun testUrlEncodedData2() {
         val target = "curl --data-urlencode \"föö=Hä&?4\""
         val command = CurlParser.parse(target)
-        assertEquals("föö=H%C3%A4%26%3F4", command.data)
+        assertEquals(listOf("föö=H%C3%A4%26%3F4"), command.data)
+        assertFalse(command.isFormData)
+    }
+
+    @Test
+    fun testFormData() {
+        val target = "curl -F foo=bar"
+        val command = CurlParser.parse(target)
+        assertEquals(listOf("foo=bar"), command.data)
+        assertTrue(command.isFormData)
+    }
+
+    @Test
+    fun testMultipleFormData() {
+        val target = "curl -F foo=bar --form file=@somefile.txt"
+        val command = CurlParser.parse(target)
+        assertEquals(listOf("foo=bar", "file=@somefile.txt"), command.data)
+        assertTrue(command.isFormData)
     }
 
     @Test
@@ -49,7 +69,7 @@ class CurlParserTest {
         val target = "curl --data Hello -d \" world\""
         val command = CurlParser.parse(target)
 
-        assertEquals("Hello world", command.data)
+        assertEquals(listOf("Hello", " world"), command.data)
     }
 
     @Test
@@ -59,7 +79,7 @@ class CurlParserTest {
 
         assertEquals("PUT", command.method)
         assertEquals("https://foo?bar", command.url)
-        assertEquals("{}", command.data)
+        assertEquals(listOf("{}"), command.data)
     }
 
     @Test

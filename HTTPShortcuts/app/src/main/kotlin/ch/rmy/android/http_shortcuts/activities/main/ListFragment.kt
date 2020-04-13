@@ -34,7 +34,6 @@ import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.curlcommand.CurlCommand
 import ch.rmy.curlcommand.CurlConstructor
 import kotterknife.bindView
-import java.net.URLEncoder
 
 class ListFragment : BaseFragment() {
 
@@ -347,13 +346,21 @@ class ListFragment : BaseFragment() {
                 builder.header(header.key, header.value)
             }
             .mapIf(shortcut.usesRequestParameters()) { builder ->
-                // TODO: This currently assumes x-www-form-urlencoded and doesn't handle form-data
-                builder.data(
-                    shortcut.parameters
-                        .joinToString(separator = "&") { parameter ->
-                            URLEncoder.encode(parameter.key, "UTF-8") + "=" + URLEncoder.encode(parameter.value, "UTF-8")
+                if (shortcut.requestBodyType == Shortcut.REQUEST_BODY_TYPE_FORM_DATA) {
+                    builder
+                        .isFormData()
+                        .mapFor(shortcut.parameters) { builder2, parameter ->
+                            if (parameter.isFileParameter || parameter.isFilesParameter) {
+                                builder2.addFileParameter(parameter.key)
+                            } else {
+                                builder2.addParameter(parameter.key, parameter.value)
+                            }
                         }
-                )
+                } else {
+                    builder.mapFor(shortcut.parameters) { builder2, parameter ->
+                        builder2.addParameter(parameter.key, parameter.value)
+                    }
+                }
             }
             .mapIf(shortcut.usesCustomBody()) { builder ->
                 builder
@@ -372,7 +379,9 @@ class ListFragment : BaseFragment() {
     private fun showDeleteDialog(shortcutData: LiveData<Shortcut?>) {
         DialogBuilder(context!!)
             .message(R.string.confirm_delete_shortcut_message)
-            .positive(R.string.dialog_delete) { deleteShortcut(shortcutData.value ?: return@positive) }
+            .positive(R.string.dialog_delete) {
+                deleteShortcut(shortcutData.value ?: return@positive)
+            }
             .negative(R.string.dialog_cancel)
             .showIfPossible()
     }

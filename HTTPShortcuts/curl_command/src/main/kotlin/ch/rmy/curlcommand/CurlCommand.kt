@@ -1,6 +1,7 @@
 package ch.rmy.curlcommand
 
 import java.io.Serializable
+import java.net.URLEncoder
 
 class CurlCommand private constructor() : Serializable {
 
@@ -10,14 +11,17 @@ class CurlCommand private constructor() : Serializable {
         private set
     val headers: Map<String, String>
         get() = headersInternal
-    private var headersInternal = mutableMapOf<String, String>()
-    var data = ""
-        private set
+    private val headersInternal = mutableMapOf<String, String>()
+    val data: List<String>
+        get() = dataInternal
+    private val dataInternal = mutableListOf<String>()
     var timeout = 0
         private set
     var username = ""
         private set
     var password = ""
+        private set
+    var isFormData: Boolean = false
         private set
 
     class Builder {
@@ -33,7 +37,22 @@ class CurlCommand private constructor() : Serializable {
         }
 
         fun data(data: String) = also {
-            curlCommand.data = curlCommand.data + data
+            if (data.isNotEmpty()) {
+                curlCommand.dataInternal.add(data)
+            }
+        }
+
+        fun isFormData() = also {
+            curlCommand.isFormData = true
+        }
+
+        fun addParameter(key: String, value: String) = also {
+            curlCommand.dataInternal.add(encode(key) + "=" + encode(value))
+        }
+
+        fun addFileParameter(key: String) = also {
+            curlCommand.isFormData = true
+            curlCommand.dataInternal.add(encode(key) + "=@file")
         }
 
         fun timeout(timeout: Int) = also {
@@ -58,7 +77,12 @@ class CurlCommand private constructor() : Serializable {
 
     companion object {
 
+        private const val PARAMETER_ENCODING = "UTF-8"
+
         const val METHOD_GET = "GET"
+
+        private fun encode(text: String): String =
+            URLEncoder.encode(text, PARAMETER_ENCODING)
 
     }
 

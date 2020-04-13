@@ -5,6 +5,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.Repository
 import ch.rmy.android.http_shortcuts.data.Transactions
 import ch.rmy.android.http_shortcuts.data.models.Header
+import ch.rmy.android.http_shortcuts.data.models.Parameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Shortcut.Companion.TEMPORARY_ID
 import ch.rmy.android.http_shortcuts.extensions.getCaseInsensitive
@@ -18,6 +19,7 @@ import ch.rmy.curlcommand.CurlCommand
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.realm.Realm
+import java.net.URLDecoder
 
 class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorViewModel(application) {
 
@@ -192,8 +194,18 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
                 shortcut.authentication = Shortcut.AUTHENTICATION_BASIC
             }
             shortcut.timeout = curlCommand.timeout
-            shortcut.bodyContent = curlCommand.data
-            shortcut.requestBodyType = Shortcut.REQUEST_BODY_TYPE_CUSTOM_TEXT
+
+            if (curlCommand.isFormData || curlCommand.data.all { it.count { it == '=' } == 1 }) {
+                shortcut.requestBodyType = if (curlCommand.isFormData) {
+                    Shortcut.REQUEST_BODY_TYPE_FORM_DATA
+                } else {
+                    Shortcut.REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE
+                }
+                prepareParameters(realm, curlCommand, shortcut)
+            } else {
+                shortcut.bodyContent = curlCommand.data.joinToString(separator = "&")
+                shortcut.requestBodyType = Shortcut.REQUEST_BODY_TYPE_CUSTOM_TEXT
+            }
             curlCommand.headers.getCaseInsensitive(HttpHeaders.CONTENT_TYPE)
                 ?.let {
                     shortcut.contentType = it
@@ -204,6 +216,32 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
                 }
             }
         }
+
+        private fun prepareParameters(realm: Realm, curlCommand: CurlCommand, shortcut: Shortcut) {
+            curlCommand.data.forEach { potentialParameter ->
+                potentialParameter.split("=")
+                    .takeIf { it.size == 2 }
+                    ?.let { parameterParts ->
+                        val key = parameterParts.get(0)
+                        val value = parameterParts.get(1)
+                        val parameter = if (value.startsWith("@") && curlCommand.isFormData) {
+                            Parameter(
+                                key = decode(key),
+                                type = Parameter.TYPE_FILE
+                            )
+                        } else {
+                            Parameter(
+                                key = decode(key),
+                                value = decode(value)
+                            )
+                        }
+                        shortcut.parameters.add(realm.copyToRealm(parameter))
+                    }
+            }
+        }
+
+        private fun decode(text: String): String =
+            URLDecoder.decode(text, "utf-8")
 
     }
 

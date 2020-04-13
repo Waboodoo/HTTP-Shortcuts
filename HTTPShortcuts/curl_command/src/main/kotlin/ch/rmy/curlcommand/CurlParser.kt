@@ -1,6 +1,5 @@
 package ch.rmy.curlcommand
 
-import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
 
 class CurlParser private constructor(arguments: List<String>) {
@@ -34,7 +33,7 @@ class CurlParser private constructor(arguments: List<String>) {
                         continue@loop
                     }
                     "-H", "--header" -> {
-                        val header = iterator.next().split(": ".toRegex(), 2)
+                        val header = iterator.next().split(": ", limit=2)
                         if (header.size == 2) {
                             builder.header(header[0], header[1])
                         }
@@ -43,30 +42,33 @@ class CurlParser private constructor(arguments: List<String>) {
                     "-d", "--data", "--data-binary", "--data-urlencode" -> {
                         var data = iterator.next()
                         if (argument == "--data-urlencode") {
-                            try {
-                                data = if (data.contains("=")) {
-                                    val parts = data.split("=".toRegex(), 2)
-                                    parts[0] + "=" + URLEncoder.encode(parts[1], "utf-8")
-                                } else {
-                                    URLEncoder.encode(data, "utf-8")
-                                }
-                            } catch (e: UnsupportedEncodingException) {
+                            data = if (data.contains("=")) {
+                                val parts = data.split("=", limit=2)
+                                parts[0] + "=" + URLEncoder.encode(parts[1], "utf-8")
+                            } else {
+                                URLEncoder.encode(data, "utf-8")
                             }
 
                         }
                         builder.data(data)
                         continue@loop
                     }
+                    "-F", "--form" -> {
+                        var data = iterator.next()
+                        builder.isFormData()
+                        builder.data(data)
+                        continue@loop
+                    }
                     "-m", "--max-time", "--connect-timeout" -> {
-                        try {
-                            builder.timeout(Integer.parseInt(iterator.next()))
-                        } catch (e: NumberFormatException) {
-                        }
-
+                        iterator.next()
+                            .toIntOrNull()
+                            ?.let {
+                                builder.timeout(it)
+                            }
                         continue@loop
                     }
                     "-u", "--user" -> {
-                        val credentials = iterator.next().split(":".toRegex(), 2)
+                        val credentials = iterator.next().split(":", limit=2)
                         builder.username(credentials[0])
                         if (credentials.size > 1) {
                             builder.password(credentials[1])

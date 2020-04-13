@@ -23,8 +23,12 @@ object CurlConstructor {
             builder.option("-H", "$key: $value")
         }
 
-        if (curlCommand.data.isNotEmpty()) {
-            builder.option("-d", curlCommand.data)
+        curlCommand.data.forEach { data ->
+            if (curlCommand.isFormData) {
+                builder.option("-F", data)
+            } else {
+                builder.option("-d", data)
+            }
         }
 
         return builder.build()
