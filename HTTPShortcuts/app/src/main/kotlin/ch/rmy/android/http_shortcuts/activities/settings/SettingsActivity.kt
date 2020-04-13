@@ -8,7 +8,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager.NameNotFoundException
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -37,6 +36,7 @@ import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.CrashReporting
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
 import ch.rmy.android.http_shortcuts.utils.Destroyer
+import ch.rmy.android.http_shortcuts.utils.FilePickerUtil
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
 import com.nononsenseapps.filepicker.FilePickerActivity
@@ -280,18 +280,8 @@ class SettingsActivity : BaseActivity() {
         }
 
         private fun openGeneralPickerForImport() {
-            val pickerIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                Intent(Intent.ACTION_OPEN_DOCUMENT)
-            } else {
-                Intent(Intent.ACTION_GET_CONTENT)
-            }
-                .apply {
-                    type = "*/*"
-                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                    addCategory(Intent.CATEGORY_OPENABLE)
-                }
             try {
-                pickerIntent
+                FilePickerUtil.createIntent()
                     .startActivity(this, REQUEST_IMPORT_FROM_DOCUMENTS)
             } catch (e: ActivityNotFoundException) {
                 activity!!.showToast(R.string.error_not_supported)
@@ -380,7 +370,7 @@ class SettingsActivity : BaseActivity() {
                     startImport(uri)
                 }
                 REQUEST_IMPORT_FROM_DOCUMENTS -> {
-                    val uri = intent.data ?: return
+                    val uri = FilePickerUtil.extractUris(intent)?.firstOrNull() ?: return
                     startImport(uri)
                 }
             }
