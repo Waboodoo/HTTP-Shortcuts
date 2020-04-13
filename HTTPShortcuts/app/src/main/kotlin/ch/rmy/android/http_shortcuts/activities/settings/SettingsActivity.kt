@@ -31,6 +31,7 @@ import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.import_export.Exporter
+import ch.rmy.android.http_shortcuts.import_export.ImportException
 import ch.rmy.android.http_shortcuts.import_export.Importer
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.CrashReporting
@@ -38,14 +39,11 @@ import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
-import com.google.gson.JsonParseException
-import com.google.gson.JsonSyntaxException
 import com.nononsenseapps.filepicker.FilePickerActivity
 import com.nononsenseapps.filepicker.Utils
 import io.reactivex.android.schedulers.AndroidSchedulers
 import java.io.File
 import java.io.FileNotFoundException
-import java.net.UnknownHostException
 
 
 class SettingsActivity : BaseActivity() {
@@ -433,8 +431,8 @@ class SettingsActivity : BaseActivity() {
             val progressDialog = ProgressDialog(activity).apply {
                 setMessage(getString(R.string.import_in_progress))
             }
-            Importer()
-                .import(context!!.applicationContext, uri)
+            Importer(context!!.applicationContext)
+                .import(uri)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {
                     progressDialog.show()
@@ -456,13 +454,11 @@ class SettingsActivity : BaseActivity() {
                         })
                     }
                 }, { e ->
-                    if (e is JsonParseException || e is JsonSyntaxException) {
-                        showMessageDialog(getString(R.string.import_failed_with_reason, getString(R.string.import_failure_reason_invalid_json)))
-                    } else if (e is IllegalArgumentException || e is IllegalStateException || e is FileNotFoundException || e is UnknownHostException) {
+                    if (e is ImportException) {
                         showMessageDialog(getString(R.string.import_failed_with_reason, e.message))
                     } else {
-                        showMessageDialog(R.string.import_failed)
                         logException(e)
+                        showMessageDialog(R.string.import_failed)
                     }
                 })
                 .attachTo(destroyer)

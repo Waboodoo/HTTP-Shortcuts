@@ -188,7 +188,7 @@
     <!-- Error message: Shown in snackbar when import of shortcuts & variables failed -->
     <string name="import_failed">Importing shortcuts failed.</string>
     <!-- Error message: Shown in snackbar when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
-    <string name="import_failed_with_reason">Importing shortcuts failed: %s</string>
+    <string name="import_failed_with_reason">Importing shortcuts failed:\n%s</string>
     <!-- Error message: Shown in snackbar when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="export_failed_with_reason">Exporting shortcuts failed: %s</string>
     <!-- Error message: Import failed due to invalid JSON syntax in the import file -->
@@ -729,7 +729,7 @@
     <!-- Dialog input hint: Shown in "Import from URL" dialog to give user a hint what to enter -->
     <string name="hint_import_from_url">https://</string>
     <!-- Error: Shown when user tries to import shortcuts from an invalid URL -->
-    <string name="error_can_only_import_from_http_url">Can only import from http(s) URL</string>
+    <string name="error_can_only_import_from_http_url">Can only import from valid http(s) URL</string>
     <!-- Action Label: Shown on Quick Settings Title that allows the user to quickly trigger a shortcut without opening the app -->
     <string name="action_quick_settings_tile_trigger">Trigger shortcut</string>
     <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
