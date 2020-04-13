@@ -178,22 +178,18 @@
     <string name="settings_import">Import Shortcuts</string>
     <!-- Button in settings page to start export of shortcuts -->
     <string name="settings_export">Export Shortcuts</string>
-    <!-- Instructions shown before shortcut export is started -->
-    <string name="export_instructions">Select the directory into which to export your shortcuts.\n\nPlease note that custom icons can not be exported.</string>
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
     <plurals name="shortcut_export_success">
         <item quantity="one">1 shortcut exported.</item>
         <item quantity="other">%d shortcuts exported.</item>
     </plurals>
-    <!-- Error message after shortcuts failed to be exported -->
-    <string name="export_failed">Exporting shortcuts failed.</string>
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
     <string name="export_in_progress">Exporting…</string>
     <!-- Error message: Shown in snackbar when import of shortcuts & variables failed -->
     <string name="import_failed">Importing shortcuts failed.</string>
-    <!-- Error message: Shown in snackbar when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
+    <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="import_failed_with_reason">Importing shortcuts failed:\n%s</string>
-    <!-- Error message: Shown in snackbar when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
+    <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="export_failed_with_reason">Exporting shortcuts failed: %s</string>
     <!-- Error message: Import failed due to invalid JSON syntax in the import file -->
     <string name="import_failure_reason_invalid_json">Invalid JSON</string>
@@ -478,14 +474,12 @@
     <string name="theme_indigo">Indigo</string>
     <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
     <string name="title_export">Export to…</string>
-    <!-- Dialog option on Export dialog, for exporting by storing in a file on local storage -->
-    <string name="button_export_to_filesystem">Local Storage</string>
+    <!-- Dialog option on Export dialog, for exporting by storing in a file -->
+    <string name="button_export_to_general">Documents</string>
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
     <string name="button_export_send_to">Other app</string>
     <!-- Dialog title, for dialog with options allowing user to pick where to import shortcuts from -->
     <string name="title_import">Import from…</string>
-    <!-- Dialog option on Import dialog, for importing shortcuts from a file on local storage -->
-    <string name="button_import_from_filesystem">Local Storage</string>
     <!-- Dialog option on Import dialog, for importing shortcuts from a file picked via the system's document browser -->
     <string name="button_import_from_general">Documents</string>
     <!-- Dialog option on Import dialog, for importing shortcuts from a URL -->

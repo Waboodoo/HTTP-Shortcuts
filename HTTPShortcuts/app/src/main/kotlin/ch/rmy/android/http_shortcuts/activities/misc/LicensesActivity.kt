@@ -43,7 +43,6 @@ class LicensesActivity : BaseActivity() {
             "flaticons",
             "bitsies",
             "freepik",
-            "filepicker",
             "rxjava",
             "vintagechroma",
             "highlightjs",

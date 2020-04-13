@@ -39,11 +39,7 @@ import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.FilePickerUtil
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
-import com.nononsenseapps.filepicker.FilePickerActivity
-import com.nononsenseapps.filepicker.Utils
 import io.reactivex.android.schedulers.AndroidSchedulers
-import java.io.File
-import java.io.FileNotFoundException
 
 
 class SettingsActivity : BaseActivity() {
@@ -217,25 +213,18 @@ class SettingsActivity : BaseActivity() {
         private fun showExportOptions() {
             DialogBuilder(context!!)
                 .title(R.string.title_export)
-                .item(R.string.button_export_to_filesystem, ::showExportInstructions)
+                .item(R.string.button_export_to_general, ::openFilePickerForExport)
                 .item(R.string.button_export_send_to, ::sendExport)
                 .showIfPossible()
         }
 
-        private fun showExportInstructions() {
-            DialogBuilder(context!!)
-                .positive(R.string.dialog_ok) { openFilePickerForExport() }
-                .negative(R.string.dialog_cancel)
-                .message(R.string.export_instructions)
-                .showIfPossible()
-        }
-
         private fun sendExport() {
+            // TODO: Check size, if too large, export as file instead of string
             Controller().use { controller ->
                 val base = controller.exportBase()
                 val data = GsonUtil.exportData(base)
                 Intent(Intent.ACTION_SEND)
-                    .setType(IMPORT_EXPORT_FILE_TYPE)
+                    .setType(EXPORT_FILE_TYPE_FOR_SHARING)
                     .putExtra(Intent.EXTRA_TEXT, data)
                     .let {
                         Intent.createChooser(it, getString(R.string.title_export))
@@ -247,28 +236,17 @@ class SettingsActivity : BaseActivity() {
         private fun showImportOptions() {
             DialogBuilder(context!!)
                 .title(R.string.title_import)
-                .item(R.string.button_import_from_filesystem, ::openLocalFilePickerForImport)
                 .item(R.string.button_import_from_general, ::openGeneralPickerForImport)
                 .item(R.string.button_import_from_url, ::openImportUrlDialog)
                 .showIfPossible()
         }
 
         private fun openFilePickerForExport() {
-            Intent(context!!, FilePickerActivity::class.java)
-                .putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false)
-                .putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, true)
-                .putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_DIR)
-                .putExtra(FilePickerActivity.EXTRA_START_PATH, Settings(context!!).importExportDirectory)
-                .startActivity(this, REQUEST_PICK_DIR_FOR_EXPORT)
-        }
-
-        private fun openLocalFilePickerForImport() {
-            Intent(context!!, FilePickerActivity::class.java)
-                .putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false)
-                .putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, false)
-                .putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_FILE)
-                .putExtra(FilePickerActivity.EXTRA_START_PATH, Settings(context!!).importExportDirectory)
-                .startActivity(this, REQUEST_PICK_FILE_FOR_IMPORT)
+            Intent(Intent.ACTION_CREATE_DOCUMENT)
+                .addCategory(Intent.CATEGORY_OPENABLE)
+                .setType(EXPORT_FILE_TYPE_FOR_CREATING_FILE)
+                .putExtra(Intent.EXTRA_TITLE, EXPORT_FILE_NAME)
+                .startActivity(this, REQUEST_EXPORT_TO_DOCUMENTS)
         }
 
         private fun openGeneralPickerForImport() {
@@ -346,43 +324,26 @@ class SettingsActivity : BaseActivity() {
                 return
             }
             when (requestCode) {
-                REQUEST_PICK_DIR_FOR_EXPORT -> {
-                    val rawUri = intent.data ?: return
-                    val uri = Uri.fromFile(Utils.getFileForUri(rawUri))
-                    val directoryPath = uri.path ?: return
-                    persistPath(directoryPath)
-                    startExport(directoryPath)
-                }
-                REQUEST_PICK_FILE_FOR_IMPORT -> {
-                    val rawUri = intent.data ?: return
-                    val uri = Uri.fromFile(Utils.getFileForUri(rawUri))
-                    val filePath = uri.path
-                    val directoryPath = File(filePath).parent
-                    persistPath(directoryPath)
-                    startImport(uri)
+                REQUEST_EXPORT_TO_DOCUMENTS -> {
+                    startExport(intent.data ?: return)
                 }
                 REQUEST_IMPORT_FROM_DOCUMENTS -> {
-                    val uri = FilePickerUtil.extractUris(intent)?.firstOrNull() ?: return
-                    startImport(uri)
+                    startImport(intent.data ?: return)
                 }
             }
-        }
-
-        private fun persistPath(path: String) {
-            Settings(context!!).importExportDirectory = path
         }
 
         private fun persistImportUrl(url: String) {
             Settings(context!!).importUrl = url
         }
 
-        private fun startExport(directoryPath: String) {
+        private fun startExport(uri: Uri) {
             // TODO: Replace progress dialog with something better
             val progressDialog = ProgressDialog(activity).apply {
                 setMessage(getString(R.string.export_in_progress))
             }
-            Exporter()
-                .export(directoryPath)
+            Exporter(context!!.applicationContext)
+                .export(uri)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {
                     progressDialog.show()
@@ -397,13 +358,8 @@ class SettingsActivity : BaseActivity() {
                         status.exportedShortcuts
                     ))
                 }, { e ->
-                    // TODO: Show more meaningful error message
-                    if (e is FileNotFoundException) {
-                        showMessageDialog(getString(R.string.export_failed_with_reason, e.message))
-                    } else {
-                        showMessageDialog(R.string.export_failed)
-                        logException(e)
-                    }
+                    showMessageDialog(getString(R.string.export_failed_with_reason, e.message))
+                    logException(e)
                 })
                 .attachTo(destroyer)
         }
@@ -469,11 +425,12 @@ class SettingsActivity : BaseActivity() {
         private const val PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts"
         private const val GITHUB_URL = "https://github.com/Waboodoo/HTTP-Shortcuts"
 
-        private const val REQUEST_PICK_DIR_FOR_EXPORT = 1
-        private const val REQUEST_PICK_FILE_FOR_IMPORT = 2
+        private const val REQUEST_EXPORT_TO_DOCUMENTS = 2
         private const val REQUEST_IMPORT_FROM_DOCUMENTS = 3
 
-        private const val IMPORT_EXPORT_FILE_TYPE = "text/plain"
+        private const val EXPORT_FILE_TYPE_FOR_SHARING = "text/plain"
+        private const val EXPORT_FILE_TYPE_FOR_CREATING_FILE = "application/json"
+        private const val EXPORT_FILE_NAME = "shortcuts.json"
     }
 
 }

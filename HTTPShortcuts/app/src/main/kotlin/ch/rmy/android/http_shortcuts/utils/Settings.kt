@@ -14,14 +14,6 @@ class Settings(context: Context) {
     val isCrashReportingAllowed: Boolean
         get() = preferences.getString(KEY_CRASH_REPORTING, "true") != "false"
 
-    var importExportDirectory: String?
-        get() = preferences.getString(KEY_IMPORT_EXPORT_DIR, null)
-        set(path) {
-            if (path != null) {
-                preferences.edit().putString(KEY_IMPORT_EXPORT_DIR, path).apply()
-            }
-        }
-
     var importUrl: String
         get() = preferences.getString(KEY_IMPORT_URL, "") ?: ""
         set(url) {
@@ -75,7 +67,6 @@ class Settings(context: Context) {
 
         private const val KEY_CLICK_BEHAVIOR = "click_behavior"
         private const val KEY_CRASH_REPORTING = "crash_reporting"
-        private const val KEY_IMPORT_EXPORT_DIR = "import_export_dir"
         private const val KEY_IMPORT_URL = "import_url"
         private const val KEY_CHANGE_LOG_PERMANENTLY_HIDDEN = "change_log_permanently_hidden"
         private const val KEY_CHANGE_LOG_LAST_VERSION = "change_log_last_version"
