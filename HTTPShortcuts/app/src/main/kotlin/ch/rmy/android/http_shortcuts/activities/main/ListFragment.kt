@@ -313,7 +313,7 @@ class ListFragment : BaseFragment() {
 
     private fun duplicateShortcut(shortcut: Shortcut) {
         val name = shortcut.name
-        val newName = String.format(getString(R.string.copy), shortcut.name)
+        val newName = String.format(getString(R.string.template_shortcut_name_copy), shortcut.name)
         val categoryId = categoryData.value?.id ?: return
         val newPosition = categoryData.value
             ?.shortcuts
