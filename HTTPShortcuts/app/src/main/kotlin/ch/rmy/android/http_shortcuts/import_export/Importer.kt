@@ -38,7 +38,7 @@ class Importer(private val context: Context) {
                     }
                     emitter.onSuccess(ImportStatus(
                         importedShortcuts = newBase.shortcuts.size,
-                        needsRussianWarning = newBase.shortcuts.any { it.url.contains("api.beeline.ru") }
+                        needsRussianWarning = newBase.shortcuts.any { it.url.contains(".beeline.ru") }
                     ))
                 }
             }
