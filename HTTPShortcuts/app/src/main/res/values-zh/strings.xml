@@ -6,7 +6,7 @@
  Locale: zh, Chinese
  Status: Translated
  Exported by: Roland Meyer
- Exported at: Tue, 31 Mar 2020 19:25:54 +0200
+ Exported at: Tue, 14 Apr 2020 19:25:43 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- The name of the app -->
@@ -96,7 +96,7 @@
     <!-- Error shown when a selected image cannot be used as an icon -->
     <string name="error_set_image">无法使用该图片作为快捷方式的图标</string>
     <!-- Name template for a duplicated shortcut. %1$s is a placeholder for the name of the original shortcut -->
-    <string name="copy">%1$s (副本)</string>
+    <string name="template_shortcut_name_copy">%1$s (副本)</string>
     <!-- Option in "Change Icon" dialog, allows user to pick an icon from an ipack app (i.e., a special icon provider app) -->
     <string name="choose_ipack">从 Ipack 选择图标</string>
     <!-- Title of "Change Icon" dialog, where user can pick source/type of new icon for shortcut -->
@@ -155,14 +155,8 @@
     <string name="settings_import">导入快捷方式</string>
     <!-- Button in settings page to start export of shortcuts -->
     <string name="settings_export">导出快捷方式</string>
-    <!-- Instructions shown before shortcut export is started -->
-    <string name="export_instructions">请选择快捷方式的导出目录。请注意！自定义图标将无法导出。</string>
-    <!-- Error message after shortcuts failed to be exported -->
-    <string name="export_failed">导出快捷方式失败</string>
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
     <string name="export_in_progress">正在导出快捷方式……</string>
-    <!-- Instructions shown on dialog before exporting of shortcuts & variable begins -->
-    <string name="import_instructions">请选择快捷方式的导入文件。请注意！您当前的快捷方式将可能会被覆盖。</string>
     <!-- Error message: Shown in snackbar when import of shortcuts & variables failed -->
     <string name="import_failed">导入快捷方式失败</string>
     <!-- Message shown in progress dialog while shortcuts are being imported -->
@@ -209,8 +203,6 @@
     <string name="section_authentication">认证</string>
     <!-- Label, for dropdown picker, allowing to select the authentication method (i.e., how to authenticate) of a shortcut -->
     <string name="label_authentication_method">认证方式</string>
-    <!-- Warning, shown in dialog when user changes the name or icon of a shortcut, to inform them that the changes don't apply automatically -->
-    <string name="warning_icon_or_name_change">请注意，在修改快捷方式的名称和图标后，主屏幕上对应的名称和图标并不会同步改变。你必须再次将其添加到主屏幕，随后这些修改才会生效。</string>
     <!-- Checkbox label, used in varies dialogs, to allow user to hide the dialog forever -->
     <string name="dialog_checkbox_do_not_show_again">不再显示</string>
     <!-- checkbox label in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
@@ -365,14 +357,10 @@
     <string name="theme_indigo">靛蓝色</string>
     <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
     <string name="title_export">导出……</string>
-    <!-- Dialog option on Export dialog, for exporting by storing in a file on local storage -->
-    <string name="button_export_to_filesystem">本地存储</string>
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
     <string name="button_export_send_to">其他应用</string>
     <!-- Dialog title, for dialog with options allowing user to pick where to import shortcuts from -->
     <string name="title_import">导入……</string>
-    <!-- Dialog option on Import dialog, for importing shortcuts from a file on local storage -->
-    <string name="button_import_from_filesystem">本地存储</string>
     <!-- Dialog option on Import dialog, for importing shortcuts from a file picked via the system's document browser -->
     <string name="button_import_from_general">文档</string>
     <!-- Option 1 in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
@@ -597,8 +585,8 @@
     <string name="subtitle_request_body_custom">已设置自定义请求正文(%s)</string>
     <!-- Section subtitle, shown for "Custom Request Body" option when it is not available because the selected HTTP method (%1$s) does not support a request body -->
     <string name="subtitle_request_body_not_available">不支持设定 %1$s</string>
-    <!-- Error message: Shown in snackbar when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
-    <string name="import_failed_with_reason">导入快捷方式失败:%s</string>
+    <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
+    <string name="import_failed_with_reason">导入快捷方式失败:\n%s</string>
     <!-- Error message: Import failed due to invalid JSON syntax in the import file -->
     <string name="import_failure_reason_invalid_json">错误的 JSON 文件</string>
     <!-- Pattern: Combines an indication of minutes (first %s) with an indication of seconds (second %s), e.g. 1 minute, 24 seconds -->
@@ -697,7 +685,7 @@
     <string name="title_set_title">更改标签名</string>
     <!-- Label above input field in editor, for shortcut authentication token -->
     <string name="label_auth_token">Token</string>
-    <!-- Error message: Shown in snackbar when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
+    <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="export_failed_with_reason">导入快捷方式失败:%s</string>
     <!-- Dialog option on Import dialog, for importing shortcuts from a URL -->
     <string name="button_import_from_url">URL</string>

@@ -6,7 +6,7 @@
  Locale: de, German
  Status: Translated
  Exported by: Roland Meyer
- Exported at: Tue, 31 Mar 2020 19:25:54 +0200
+ Exported at: Tue, 14 Apr 2020 19:25:43 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- The name of the app -->
@@ -96,7 +96,7 @@
     <!-- Error shown when a selected image cannot be used as an icon -->
     <string name="error_set_image">Bild konnte nicht geladen werden.</string>
     <!-- Name template for a duplicated shortcut. %1$s is a placeholder for the name of the original shortcut -->
-    <string name="copy">%1$s (Kopie)</string>
+    <string name="template_shortcut_name_copy">%1$s (Kopie)</string>
     <!-- Option in "Change Icon" dialog, allows user to pick an icon from an ipack app (i.e., a special icon provider app) -->
     <string name="choose_ipack">Ipack wählen</string>
     <!-- Title of "Change Icon" dialog, where user can pick source/type of new icon for shortcut -->
@@ -155,14 +155,8 @@
     <string name="settings_import">Shortcuts importieren</string>
     <!-- Button in settings page to start export of shortcuts -->
     <string name="settings_export">Shortcuts exportieren</string>
-    <!-- Instructions shown before shortcut export is started -->
-    <string name="export_instructions">Wähle das Verzeichnis in welches deine Shortcuts exportiert werden sollen.\n\nAchtung: eigene Shortcut-Symbole können nicht exportiert werden.</string>
-    <!-- Error message after shortcuts failed to be exported -->
-    <string name="export_failed">Export fehlgeschlagen</string>
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
     <string name="export_in_progress">Exportiere…</string>
-    <!-- Instructions shown on dialog before exporting of shortcuts & variable begins -->
-    <string name="import_instructions">Wähle die Datei aus welcher du Shortcuts importieren möchtest.\n\nAchtung: bestehende Shortcuts können überschrieben werden.</string>
     <!-- Error message: Shown in snackbar when import of shortcuts & variables failed -->
     <string name="import_failed">Import fehlgeschlagen.</string>
     <!-- Message shown in progress dialog while shortcuts are being imported -->
@@ -209,8 +203,6 @@
     <string name="section_authentication">Authentifizierung</string>
     <!-- Label, for dropdown picker, allowing to select the authentication method (i.e., how to authenticate) of a shortcut -->
     <string name="label_authentication_method">Authentifizierungsart</string>
-    <!-- Warning, shown in dialog when user changes the name or icon of a shortcut, to inform them that the changes don't apply automatically -->
-    <string name="warning_icon_or_name_change">Bitte beachte, dass Änderungen des Namens oder Symbols nicht automatisch angewendet werden auf Shortcuts, die bereits dem Homescreen hinzugefügt wurden. Um die Änderungen zu übernehmen musst du sie erneut platzieren.</string>
     <!-- Checkbox label, used in varies dialogs, to allow user to hide the dialog forever -->
     <string name="dialog_checkbox_do_not_show_again">Nicht erneut anzeigen</string>
     <!-- checkbox label in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
@@ -366,14 +358,10 @@
     <string name="theme_indigo">Indigo</string>
     <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
     <string name="title_export">Exportieren</string>
-    <!-- Dialog option on Export dialog, for exporting by storing in a file on local storage -->
-    <string name="button_export_to_filesystem">Lokales Dateisystem</string>
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
     <string name="button_export_send_to">Andere App</string>
     <!-- Dialog title, for dialog with options allowing user to pick where to import shortcuts from -->
     <string name="title_import">Importieren</string>
-    <!-- Dialog option on Import dialog, for importing shortcuts from a file on local storage -->
-    <string name="button_import_from_filesystem">Lokales Dateisystem</string>
     <!-- Dialog option on Import dialog, for importing shortcuts from a file picked via the system's document browser -->
     <string name="button_import_from_general">Dokumente</string>
     <!-- Option 1 in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
@@ -604,8 +592,8 @@
     <string name="subtitle_request_body_custom">Request-Body gesetzt (%s)</string>
     <!-- Section subtitle, shown for "Custom Request Body" option when it is not available because the selected HTTP method (%1$s) does not support a request body -->
     <string name="subtitle_request_body_not_available">Nicht anwendbar bei %1$s</string>
-    <!-- Error message: Shown in snackbar when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
-    <string name="import_failed_with_reason">Importieren fehlgeschlagen: %s</string>
+    <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
+    <string name="import_failed_with_reason">Importieren fehlgeschlagen:\n%s</string>
     <!-- Error message: Import failed due to invalid JSON syntax in the import file -->
     <string name="import_failure_reason_invalid_json">Ungültiges JSON</string>
     <!-- Pattern: Combines an indication of minutes (first %s) with an indication of seconds (second %s), e.g. 1 minute, 24 seconds -->
@@ -705,7 +693,7 @@
     <string name="title_set_title">Titel ändern</string>
     <!-- Label above input field in editor, for shortcut authentication token -->
     <string name="label_auth_token">Token</string>
-    <!-- Error message: Shown in snackbar when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
+    <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="export_failed_with_reason">Export fehlgeschlagen: %s</string>
     <!-- Dialog option on Import dialog, for importing shortcuts from a URL -->
     <string name="button_import_from_url">URL</string>
@@ -720,7 +708,7 @@
     <!-- Dialog input hint: Shown in "Import from URL" dialog to give user a hint what to enter -->
     <string name="hint_import_from_url">https://</string>
     <!-- Error: Shown when user tries to import shortcuts from an invalid URL -->
-    <string name="error_can_only_import_from_http_url">Kann nur von http(s) URL importieren</string>
+    <string name="error_can_only_import_from_http_url">Kann nur von gültigen http(s) URL importieren</string>
     <!-- Action Label: Shown on Quick Settings Title that allows the user to quickly trigger a shortcut without opening the app -->
     <string name="action_quick_settings_tile_trigger">Shortcut auslösen</string>
     <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
@@ -741,4 +729,40 @@
     <string name="label_scripting_subtitle">JavaScript-Code ausführen vor oder nach Request</string>
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before shortcut execution -->
     <string name="label_scripting_browser_shortcuts_subtitle">JavaScript-Code ausführen vor Request</string>
+    <!-- Option in dropdown, for shortcut response type: Show complete response in a fullscreen window, and include meta info (headers, status code, ...) for debug purposes -->
+    <string name="feedback_debug">Response in Fenster (Debug)</string>
+    <!-- Title of dialog to edit a file parameter on a shortcut -->
+    <string name="title_post_param_edit_file">Datei-Parameter bearbeiten</string>
+    <!-- Title of dialog to add a new file parameter to a shortcut -->
+    <string name="title_post_param_add_file">Datei-Parameter hinzufügen</string>
+    <!-- Label of input field to provide the file name for a file parameter of a shortcut -->
+    <string name="label_post_param_file_name">Dateiname (optional)</string>
+    <!-- Dialog option on Export dialog, for exporting by storing in a file -->
+    <string name="button_export_to_general">Dokumente</string>
+    <!-- Label: Status code, shows the HTTP status code of the response -->
+    <string name="label_status_code">Status-Code</string>
+    <!-- Label: URL, shows the HTTP request's URL alongside the response -->
+    <string name="label_response_url">URL</string>
+    <!-- Label: Response time, shows how long the HTTP request took -->
+    <string name="label_response_timing">Dauer</string>
+    <!-- Label: Shown above section that lists general information about the HTTP response, e.g. status code -->
+    <string name="label_general_response_info">Allgemein</string>
+    <!-- Label: Shown above section that lists HTTP response headers -->
+    <string name="label_response_headers">Headers</string>
+    <!-- Dialog title: Shown in dialog when adding a new request parameter and user has to pick its type -->
+    <string name="dialog_title_parameter_type">Parametertyp</string>
+    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for string parameter -->
+    <string name="option_parameter_type_string">String (standard)</string>
+    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for file parameter -->
+    <string name="option_parameter_type_file">Einzelne Datei</string>
+    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for files parameter -->
+    <string name="option_parameter_type_files">Mehrere Dateien</string>
+    <!-- Subtitle: Shown in request parameter editor underneath every file parameter to indicate their type -->
+    <string name="subtitle_parameter_value_file">Datei</string>
+    <!-- Subtitle: Shown in request parameter editor underneath every files parameter to indicate their type -->
+    <string name="subtitle_parameter_value_files">Dateien</string>
+    <!-- Label, for option to set the proxy hostname for a shortcut -->
+    <string name="label_proxy_host">Proxy-Hostname / -IP-Adresse</string>
+    <!-- Label, for option to set the proxy port for a shortcut -->
+    <string name="label_proxy_port">Proxy-Port</string>
 </resources>

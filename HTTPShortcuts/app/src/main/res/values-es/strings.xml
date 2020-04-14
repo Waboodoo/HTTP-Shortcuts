@@ -6,7 +6,7 @@
  Locale: es, Spanish
  Status: Translated
  Exported by: Roland Meyer
- Exported at: Tue, 31 Mar 2020 19:25:54 +0200
+ Exported at: Tue, 14 Apr 2020 19:25:43 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- The name of the app -->
@@ -96,7 +96,7 @@
     <!-- Error shown when a selected image cannot be used as an icon -->
     <string name="error_set_image">No se pudo usar la imagen como icono</string>
     <!-- Name template for a duplicated shortcut. %1$s is a placeholder for the name of the original shortcut -->
-    <string name="copy">%1$s (copiar)</string>
+    <string name="template_shortcut_name_copy">%1$s (copiar)</string>
     <!-- Option in "Change Icon" dialog, allows user to pick an icon from an ipack app (i.e., a special icon provider app) -->
     <string name="choose_ipack">Elegir un Ipack</string>
     <!-- Title of "Change Icon" dialog, where user can pick source/type of new icon for shortcut -->
@@ -155,14 +155,8 @@
     <string name="settings_import">Importar accesos directos</string>
     <!-- Button in settings page to start export of shortcuts -->
     <string name="settings_export">Exportar accesos directos</string>
-    <!-- Instructions shown before shortcut export is started -->
-    <string name="export_instructions">Seleccionar el directorio al que se exportarán sus accesos directos. Los iconos personalizados no se exportarán.</string>
-    <!-- Error message after shortcuts failed to be exported -->
-    <string name="export_failed">Fallo al exportar accesos directos</string>
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
     <string name="export_in_progress">Exportando…</string>
-    <!-- Instructions shown on dialog before exporting of shortcuts & variable begins -->
-    <string name="import_instructions">Seleccione el archivo para importar accesos directos desde.\n\nTenga en cuenta que sus accesos directos actuales pueden sobrescribirse.</string>
     <!-- Error message: Shown in snackbar when import of shortcuts & variables failed -->
     <string name="import_failed">Fallo importando accesos directos.</string>
     <!-- Message shown in progress dialog while shortcuts are being imported -->
@@ -209,8 +203,6 @@
     <string name="section_authentication">Autentificación</string>
     <!-- Label, for dropdown picker, allowing to select the authentication method (i.e., how to authenticate) of a shortcut -->
     <string name="label_authentication_method">Método de autentificación</string>
-    <!-- Warning, shown in dialog when user changes the name or icon of a shortcut, to inform them that the changes don't apply automatically -->
-    <string name="warning_icon_or_name_change">Tenga en cuenta que los cambios en el nombre o el icono no se aplican automáticamente a los accesos directos que ya están agregados a la pantalla de inicio. Deberá agregarlos nuevamente para que los cambios surtan efecto. Todos los demás cambios se aplican automáticamente.</string>
     <!-- Checkbox label, used in varies dialogs, to allow user to hide the dialog forever -->
     <string name="dialog_checkbox_do_not_show_again">No mostrar de nuevo</string>
     <!-- checkbox label in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
@@ -366,14 +358,10 @@
     <string name="theme_indigo">Índigo</string>
     <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
     <string name="title_export">Exportar a…</string>
-    <!-- Dialog option on Export dialog, for exporting by storing in a file on local storage -->
-    <string name="button_export_to_filesystem">Almacenamiento interno</string>
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
     <string name="button_export_send_to">Otra aplicación</string>
     <!-- Dialog title, for dialog with options allowing user to pick where to import shortcuts from -->
     <string name="title_import">Importar desde…</string>
-    <!-- Dialog option on Import dialog, for importing shortcuts from a file on local storage -->
-    <string name="button_import_from_filesystem">Almacenamiento interno</string>
     <!-- Dialog option on Import dialog, for importing shortcuts from a file picked via the system's document browser -->
     <string name="button_import_from_general">Documentos</string>
     <!-- Option 1 in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
