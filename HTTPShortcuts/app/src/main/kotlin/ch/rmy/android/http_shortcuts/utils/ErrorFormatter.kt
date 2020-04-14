@@ -6,6 +6,7 @@ import androidx.annotation.StringRes
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.InvalidUrlException
 import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.HttpStatus
 
@@ -38,15 +39,21 @@ class ErrorFormatter(private val context: Context) {
         return builder.toString()
     }
 
-    private fun getErrorMessage(error: Throwable): String =
+    private fun getErrorMessage(error: Throwable, recursionDepth: Int = 0): String =
         when {
             error is InvalidUrlException -> getString(R.string.error_invalid_url)
             error is SizeLimitedReader.LimitReachedException -> context.getString(R.string.error_response_too_large, Formatter.formatShortFileSize(context, error.limit))
-            error.cause?.message != null -> error.cause!!.message!!
             error.message != null -> error.message!!
             else -> error.javaClass.simpleName
         }
+            .mapIf(error.cause != null && recursionDepth < MAX_RECURSION_DEPTH) {
+                it.plus("\n" + getErrorMessage(error.cause!!, recursionDepth + 1))
+            }
 
     private fun getString(@StringRes stringRes: Int): String = context.getString(stringRes)
+
+    companion object {
+        private const val MAX_RECURSION_DEPTH = 2
+    }
 
 }
