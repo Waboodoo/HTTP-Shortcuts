@@ -16,7 +16,6 @@ import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.color
 import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.drawable
-import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.ThemeHelper
 
@@ -47,7 +46,6 @@ abstract class BaseActivity : AppCompatActivity() {
         try {
             RealmFactory.init(applicationContext)
         } catch (e: RealmFactory.RealmNotFoundException) {
-            logException(e)
             showRealmError()
         }
     }

@@ -33,7 +33,7 @@ class Application : android.app.Application() {
             RealmFactory.init(applicationContext)
             isRealmAvailable = true
         } catch (e: RealmFactory.RealmNotFoundException) {
-            logException(e)
+            // Nothing to do here...
         }
 
         DarkThemeHelper.applyDarkThemeSettings(settings.darkThemeSetting)

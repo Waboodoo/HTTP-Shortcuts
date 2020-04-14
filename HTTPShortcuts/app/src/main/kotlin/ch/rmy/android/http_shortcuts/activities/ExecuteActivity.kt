@@ -48,6 +48,7 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.liquidplayer.javascript.JSException
+import java.io.IOException
 import java.net.UnknownHostException
 import java.util.HashMap
 import kotlin.math.pow
@@ -347,11 +348,17 @@ class ExecuteActivity : BaseActivity() {
                     }
                     finishWithoutAnimation()
                 } else {
-                    logException(error)
+                    logIfUnexpected(error)
                     val simple = shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE_ERRORS || shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE
                     displayOutput(generateOutputFromError(error, simple), response = (error as? ErrorResponse)?.shortcutResponse)
                 }
             }
+
+    private fun logIfUnexpected(error: Throwable) {
+        if (error !is ErrorResponse && error !is IOException) {
+            logException(error)
+        }
+    }
 
     private fun rescheduleExecution(variableManager: VariableManager) {
         if (tryNumber < MAX_RETRY) {

@@ -7,6 +7,7 @@ import ch.rmy.android.http_shortcuts.data.migration.DatabaseMigration
 import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
+import com.getkeepsafe.relinker.MissingLibraryException
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.RealmList
@@ -65,7 +66,7 @@ internal class RealmFactory {
                             }
                         }
                     }
-            } catch (e: Exception) {
+            } catch (e: MissingLibraryException) {
                 throw RealmNotFoundException(e)
             }
         }

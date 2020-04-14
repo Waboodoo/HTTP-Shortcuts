@@ -68,21 +68,18 @@ object HttpRequester {
                         it.bearerAuth(authToken)
                     }
                     .build()
-                try {
-                    client
-                        .newCall(request)
-                        .execute()
-                        .use { okHttpResponse ->
-                            val shortcutResponse = prepareResponse(url, okHttpResponse, ignoreBody = !shortcut.usesResponseBody)
-                            if (okHttpResponse.isSuccessful) {
-                                emitter.onSuccess(shortcutResponse)
-                            } else {
-                                emitter.onError(ErrorResponse(shortcutResponse))
-                            }
+
+                client
+                    .newCall(request)
+                    .execute()
+                    .use { okHttpResponse ->
+                        val shortcutResponse = prepareResponse(url, okHttpResponse, ignoreBody = !shortcut.usesResponseBody)
+                        if (okHttpResponse.isSuccessful) {
+                            emitter.onSuccess(shortcutResponse)
+                        } else {
+                            emitter.onError(ErrorResponse(shortcutResponse))
                         }
-                } catch (e: Exception) {
-                    emitter.onError(e)
-                }
+                    }
             }
             .subscribeOn(Schedulers.io())
 
