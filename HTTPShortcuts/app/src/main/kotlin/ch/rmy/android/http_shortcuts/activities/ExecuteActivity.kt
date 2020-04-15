@@ -48,7 +48,6 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.liquidplayer.javascript.JSException
-import java.io.IOException
 import java.net.UnknownHostException
 import java.util.HashMap
 import kotlin.math.pow
@@ -276,23 +275,9 @@ class ExecuteActivity : BaseActivity() {
                     Completable.complete()
                 } else {
                     executeShortcut(variableManager, fileUploadManager)
-                        .flatMapCompletable { response ->
-                            scriptExecutor
-                                .execute(
-                                    context = context,
-                                    script = shortcut.codeOnSuccess,
-                                    shortcut = shortcut,
-                                    variableManager = variableManager,
-                                    response = response,
-                                    recursionDepth = recursionDepth
-                                )
-                                .subscribeOn(Schedulers.computation())
-                                .observeOn(AndroidSchedulers.mainThread())
-                        }
                         .onErrorResumeNext { error ->
                             if (error is JSException) {
-                                // TODO: Find a better way to differenciate network exceptions from JS exceptions
-                                Completable.error(error)
+                                Single.error(error)
                             } else {
                                 scriptExecutor
                                     .execute(
@@ -305,8 +290,45 @@ class ExecuteActivity : BaseActivity() {
                                     )
                                     .subscribeOn(Schedulers.computation())
                                     .observeOn(AndroidSchedulers.mainThread())
+                                    .andThen(Single.error(error))
                             }
                         }
+                        .flatMap { response ->
+                            scriptExecutor
+                                .execute(
+                                    context = context,
+                                    script = shortcut.codeOnSuccess,
+                                    shortcut = shortcut,
+                                    variableManager = variableManager,
+                                    response = response,
+                                    recursionDepth = recursionDepth
+                                )
+                                .subscribeOn(Schedulers.computation())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .toSingle { response }
+                        }
+                        .doOnSuccess { response ->
+                            if (shortcut.isFeedbackErrorsOnly()) {
+                                finishWithoutAnimation()
+                            } else {
+                                val simple = shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE
+                                val output = if (simple) String.format(getString(R.string.executed), shortcutName) else generateOutputFromResponse(response)
+                                displayOutput(output, response)
+                            }
+                        }
+                        .doOnError { error ->
+                            if (shortcut.isWaitForNetwork && error !is ErrorResponse && (error is UnknownHostException || !NetworkUtil.isNetworkConnected(context))) {
+                                rescheduleExecution(variableManager)
+                                if (shortcut.feedback != Shortcut.FEEDBACK_NONE && tryNumber == 0) {
+                                    showToast(String.format(context.getString(R.string.execution_delayed), shortcutName), long = true)
+                                }
+                                finishWithoutAnimation()
+                            } else if (error !is JSException) {
+                                val simple = shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE_ERRORS || shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE
+                                displayOutput(generateOutputFromError(error, simple), response = (error as? ErrorResponse)?.shortcutResponse)
+                            }
+                        }
+                        .ignoreElement()
                 }
             )
 
@@ -331,34 +353,6 @@ class ExecuteActivity : BaseActivity() {
     private fun executeShortcut(variableManager: VariableManager, fileUploadManager: FileUploadManager? = null): Single<ShortcutResponse> =
         HttpRequester.executeShortcut(shortcut, variableManager, fileUploadManager)
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSuccess { response ->
-                if (shortcut.isFeedbackErrorsOnly()) {
-                    finishWithoutAnimation()
-                } else {
-                    val simple = shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE
-                    val output = if (simple) String.format(getString(R.string.executed), shortcutName) else generateOutputFromResponse(response)
-                    displayOutput(output, response)
-                }
-            }
-            .doOnError { error ->
-                if (shortcut.isWaitForNetwork && error !is ErrorResponse && (error is UnknownHostException || !NetworkUtil.isNetworkConnected(context))) {
-                    rescheduleExecution(variableManager)
-                    if (shortcut.feedback != Shortcut.FEEDBACK_NONE && tryNumber == 0) {
-                        showToast(String.format(context.getString(R.string.execution_delayed), shortcutName), long = true)
-                    }
-                    finishWithoutAnimation()
-                } else {
-                    logIfUnexpected(error)
-                    val simple = shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE_ERRORS || shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE
-                    displayOutput(generateOutputFromError(error, simple), response = (error as? ErrorResponse)?.shortcutResponse)
-                }
-            }
-
-    private fun logIfUnexpected(error: Throwable) {
-        if (error !is ErrorResponse && error !is IOException) {
-            logException(error)
-        }
-    }
 
     private fun rescheduleExecution(variableManager: VariableManager) {
         if (tryNumber < MAX_RETRY) {

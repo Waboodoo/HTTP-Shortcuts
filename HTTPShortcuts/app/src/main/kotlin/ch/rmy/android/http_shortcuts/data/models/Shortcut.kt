@@ -163,8 +163,10 @@ open class Shortcut : RealmObject(), HasId {
 
     val usesResponseBody: Boolean
         get() = !isBrowserShortcut
-            && feedback != FEEDBACK_TOAST_SIMPLE
-            && feedback != FEEDBACK_NONE
+            && (
+            (feedback != FEEDBACK_TOAST_SIMPLE && feedback != FEEDBACK_NONE)
+                || codeOnSuccess.isNotEmpty() || codeOnFailure.isNotEmpty()
+            )
 
     companion object {
 

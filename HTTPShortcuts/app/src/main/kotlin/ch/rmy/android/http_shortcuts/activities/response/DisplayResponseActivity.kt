@@ -15,7 +15,6 @@ import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.http.HttpStatus
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.ShareUtil
-import ch.rmy.android.http_shortcuts.utils.StringUtils
 import kotterknife.bindView
 
 class DisplayResponseActivity : BaseActivity() {
@@ -73,7 +72,12 @@ class DisplayResponseActivity : BaseActivity() {
                     add(context.getString(R.string.label_response_url) to url!!)
                 }
                 if (timing != null) {
-                    add(context.getString(R.string.label_response_timing) to StringUtils.getDurationText(context, timing!!.toInt()).toString())
+                    val milliseconds = timing!!.toInt()
+                    add(context.getString(R.string.label_response_timing) to context.resources.getQuantityString(
+                        R.plurals.milliseconds,
+                        milliseconds,
+                        milliseconds
+                    ))
                 }
             }
 
