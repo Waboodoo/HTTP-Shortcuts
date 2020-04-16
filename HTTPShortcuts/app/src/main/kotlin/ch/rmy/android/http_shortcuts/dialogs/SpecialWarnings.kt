@@ -2,7 +2,7 @@ package ch.rmy.android.http_shortcuts.dialogs
 
 import android.content.Context
 import ch.rmy.android.http_shortcuts.R
-import java.util.*
+import java.util.Locale
 
 /**
  * This class deals with showing a warning message to Russian users of the app. I know
@@ -40,8 +40,8 @@ object SpecialWarnings {
     private const val PREF_WARNED_CONFUSED_RUSSIAN_USERS = "confused_russian_users"
 
     private const val TITLE = "Предупреждение"
-    private const val MESSAGE = "Я получаю много писем и отзывов от людей, которые жалуются мне на скрипты, которые применяют тарифы и скидки.\n" +
-        "Обратите внимание, что это приложение не имеет к этому никакого отношения и что эти скрипты больше не работают. Я не несу ответственности и никоим образом не связан с поставщиком этих сценариев или каким-либо оператором связи. Пожалуйста, прекратите отправлять мне эти сообщения. Спасибо.\n\nI have been getting a lot of emails and reviews from people who complain to me about scripts that apply tariffs and discounts. \n" +
+    private const val MESSAGE = "Я получаю много писем и отзывов от людей, которые жалуются мне на скрипты, которые применяют тарифы и скидки, или на ошибку 403.\n" +
+        "Обратите внимание, что это приложение не имеет к этому никакого отношения и что эти скрипты больше не работают. Я не несу ответственности и никоим образом не связан с поставщиком этих сценариев или каким-либо оператором связи. Пожалуйста, прекратите отправлять мне эти сообщения. Спасибо.\n\nI have been getting a lot of emails and reviews from people who complain to me about scripts that apply tariffs and discounts, or about error 403. \n" +
         "Please note that this app has nothing to do with that and that those scripts no longer work. I am not responsible or in any way affiliated with the provider of those scripts or with any telecom operator. Please stop sending me these messages. Thank you."
 
 }
