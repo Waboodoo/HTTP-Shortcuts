@@ -8,6 +8,7 @@ import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import io.reactivex.Completable
 import org.liquidplayer.javascript.JSException
+import java.io.IOException
 
 class ExecuteErrorHandler(private val context: Context) {
 
@@ -16,8 +17,8 @@ class ExecuteErrorHandler(private val context: Context) {
             showUserError(error)
                 .andThen(Completable.error(error))
         } else {
-            if (error !is CanceledByUserException && error !is ErrorResponse) {
-                logException(error) // TODO: This needs to be removed
+            if (error !is CanceledByUserException && error !is ErrorResponse && error !is IOException) {
+                logException(error)
             }
             Completable.error(error)
         }
