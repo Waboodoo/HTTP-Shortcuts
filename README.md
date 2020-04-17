@@ -11,10 +11,11 @@ A simple Android app that allows you to create shortcuts that can be placed on y
 
 Get it on the [Play Store](https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts) or [download the latest APK](https://github.com/Waboodoo/HTTP-Shortcuts/releases) directly.
 
-
 Help me translate this app! Feel free to open a pull request to add new languages or to fix translation mistakes. Or contact me and I can grant you access to the translation tool.
 
 Become a [Beta Tester](https://play.google.com/apps/testing/ch.rmy.android.http_shortcuts)!
+
+Find more information and documentation on the [official website](https://http-shortcuts.rmy.ch/).
 
 ## Features
 - HTTP and HTTPS
@@ -22,7 +23,9 @@ Become a [Beta Tester](https://play.google.com/apps/testing/ch.rmy.android.http_
 - Basic Authentication, Digest Authentication & Bearer Authentication
 - Custom request headers
 - Custom request body (text only)
+- Upload files as form-data
 - Option to accept all certificates (if you know what you're doing)
+- Support for HTTP proxies
 - Built-in icons, support for Ipack icons and custom icons
 - Display response as a toast, window or dialog, or run silently
 - Grouping into categories through tabs
@@ -32,40 +35,21 @@ Become a [Beta Tester](https://play.google.com/apps/testing/ch.rmy.android.http_
 - 3rd party integration (e.g. Tasker)
 - Themes (with Dark Mode support)
 
-
 ## Screenshots
 
-![Image](/Screenshots/1.png)
-![Image](/Screenshots/2.png)
-![Image](/Screenshots/3.png)
-![Image](/Screenshots/4.png)
-![Image](/Screenshots/5.png)
-![Image](/Screenshots/6.png)
-![Image](/Screenshots/7.png)
-![Image](/Screenshots/8.png)
-
-## FAQ
-
-Check out the [FAQ](https://http-shortcuts.rmy.ch/#faq) page, or go to the official [forum](https://http-shortcuts.rmy.ch/forum).
-
-## Hints for Experts
-
-### Inspect Network Requests
-This app uses [Stetho](https://github.com/facebook/stetho), which means you can debug the internal state and the network requests that are sent:
-1. Connect your phone to a PC with a USB cable
-2. Open the app on the phone
-3. Open Chrome on the PC
-4. Go to chrome://inspect
-5. Click the *inspect* button below "HTTP Shortcuts (powered by Stetho)"
-
-### Bulk Creation / Modifying of Shortcuts
-If you want to add or edit a lot of shortcuts at once it can be very cumbersome to do so through the app's UI. An easy solution is to go to the apps settings and use the export feature. It provides you with a JSON file that you can easily modify with any tool you want. Once you are done you can import it again and voila: you have all your changes in the app.
-
-### Customize look-and-feel of shortcuts
-As opposed to Android's home screen widgets, home screen shortcuts are very limitted in how they can be customized, i.e. only icon and label can be specified. If you wish to change the look-and-feel of your shortcuts beyond that, I recommend you have a look at some third-party apps that allow you to create custom widgets. I recommend [Elixir 2 - Widgets](https://play.google.com/store/apps/details?id=com.bartat.android.elixir.widget&hl=en), which I personally use to combine multiple shortcuts into a nice looking widget.
-
-### Voice Support
-The app has very basic voice support, though only experimental at this point. Try "Ok Google, search \[Name of Shortcut\] in HTTP Shortcuts".
+![Image](/Screenshots/01.jpg)
+![Image](/Screenshots/02.jpg)
+![Image](/Screenshots/03.jpg)
+![Image](/Screenshots/04.jpg)
+![Image](/Screenshots/05.jpg)
+![Image](/Screenshots/06.jpg)
+![Image](/Screenshots/07.jpg)
+![Image](/Screenshots/08.jpg)
+![Image](/Screenshots/09.jpg)
+![Image](/Screenshots/10.jpg)
+![Image](/Screenshots/11.jpg)
+![Image](/Screenshots/12.jpg)
+![Image](/Screenshots/13.jpg)
 
 ## Acknowledgments
 
