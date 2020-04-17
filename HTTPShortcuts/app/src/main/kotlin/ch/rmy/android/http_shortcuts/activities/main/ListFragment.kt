@@ -126,12 +126,12 @@ class ListFragment : BaseFragment() {
         }
 
         categoryData.value?.background?.let {
-            updateBackground(it)
             adapter?.textColor = if (it == Category.BACKGROUND_TYPE_WHITE) {
                 BaseShortcutAdapter.TextColor.DARK
             } else {
                 BaseShortcutAdapter.TextColor.BRIGHT
             }
+            updateBackground(it)
         }
     }
 
@@ -150,6 +150,7 @@ class ListFragment : BaseFragment() {
                         ?: run {
                             setImageDrawable(null)
                             setBackgroundColor(color(context!!, R.color.activity_background))
+                            adapter?.textColor = BaseShortcutAdapter.TextColor.DARK
                         }
                 }
                 else -> {
