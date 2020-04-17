@@ -66,6 +66,10 @@ class SettingsActivity : BaseActivity() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.preferences, rootKey)
 
+            initListPreference("language") {
+                restartToApplyThemeChanges()
+            }
+
             initListPreference("click_behavior")
 
             initListPreference("theme") {

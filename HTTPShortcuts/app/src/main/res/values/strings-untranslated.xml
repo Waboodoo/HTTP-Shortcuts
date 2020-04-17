@@ -79,4 +79,16 @@
             The app uses the third-party library Bugsnag to collect crash reports. This serves the purpose of discovering and fixing bugs in the app. The collected data contains basic information about the device and the type of crash. No personal information such as usernames, email addresses or IP addresses is collected.<br><br>The user has the option to opt-out of the sending of these crash reports.
         </p>
     ]]></string>
+    <string name="language_english">English</string>
+    <string name="language_catalan">Català</string>
+    <string name="language_german">Deutsch</string>
+    <string name="language_spanish">Español</string>
+    <string name="language_french">Français</string>
+    <string name="language_italian">Italiano</string>
+    <string name="language_norwegian_bokmal">Norsk</string>
+    <string name="language_polish">Polski</string>
+    <string name="language_brazilian_portuguese">Português (Brasil)</string>
+    <string name="language_russian">Русский язык</string>
+    <string name="language_turkish">Türkçe</string>
+    <string name="language_chinese">简体中文</string>
 </resources>

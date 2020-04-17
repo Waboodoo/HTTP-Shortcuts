@@ -8,6 +8,9 @@ class Settings(context: Context) {
 
     private val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
+    val language: String?
+        get() = preferences.getString(KEY_LANGUAGE, LANGUAGE_DEFAULT)?.takeUnless { it == LANGUAGE_DEFAULT }
+
     val clickBehavior: String
         get() = preferences.getString(KEY_CLICK_BEHAVIOR, CLICK_BEHAVIOR_RUN)!!
 
@@ -49,6 +52,8 @@ class Settings(context: Context) {
 
     companion object {
 
+        const val LANGUAGE_DEFAULT = "default"
+
         const val CLICK_BEHAVIOR_RUN = "run"
         const val CLICK_BEHAVIOR_EDIT = "edit"
         const val CLICK_BEHAVIOR_MENU = "menu"
@@ -65,6 +70,7 @@ class Settings(context: Context) {
         const val DARK_THEME_OFF = "off"
         const val DARK_THEME_AUTO = "auto"
 
+        private const val KEY_LANGUAGE = "language"
         private const val KEY_CLICK_BEHAVIOR = "click_behavior"
         private const val KEY_CRASH_REPORTING = "crash_reporting"
         private const val KEY_IMPORT_URL = "import_url"

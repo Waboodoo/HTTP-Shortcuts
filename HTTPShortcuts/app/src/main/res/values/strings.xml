@@ -158,6 +158,8 @@
     <string name="settings_title_basic">Basic Settings</string>
     <!-- Name of setting that allows the user to pick what should happen when a shortcut is clicked -->
     <string name="settings_click_behavior">Shortcut Click Action</string>
+    <!-- Name of setting that allows the user to change the app's language -->
+    <string name="settings_language">Language</string>
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: execute the shortcut (i.e., send request) -->
     <string name="settings_click_behavior_run">Execute the Shortcut</string>
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: edit the shortcut -->
@@ -754,4 +756,6 @@
     <string name="subtitle_parameter_value_file">File</string>
     <!-- Subtitle: Shown in request parameter editor underneath every files parameter to indicate their type -->
     <string name="subtitle_parameter_value_files">Files</string>
+    <!-- Settings option: Used in language picker to allow user to pick the default language, i.e., the system language -->
+    <string name="language_default">System Default</string>
 </resources>

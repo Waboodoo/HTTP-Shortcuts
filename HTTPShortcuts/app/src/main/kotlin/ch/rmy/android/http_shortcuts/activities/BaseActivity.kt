@@ -17,7 +17,9 @@ import ch.rmy.android.http_shortcuts.extensions.color
 import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.drawable
 import ch.rmy.android.http_shortcuts.utils.Destroyer
+import ch.rmy.android.http_shortcuts.utils.LocaleHelper
 import ch.rmy.android.http_shortcuts.utils.ThemeHelper
+
 
 abstract class BaseActivity : AppCompatActivity() {
 
@@ -48,6 +50,10 @@ abstract class BaseActivity : AppCompatActivity() {
         } catch (e: RealmFactory.RealmNotFoundException) {
             showRealmError()
         }
+    }
+
+    override fun attachBaseContext(base: Context) {
+        super.attachBaseContext(LocaleHelper.applyLocale(base))
     }
 
     private fun showRealmError() {
