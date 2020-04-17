@@ -95,10 +95,12 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
 
     private fun registerVariables(variableManager: VariableManager) {
         jsContext.property("getVariable", object : JSFunction(jsContext, "run") {
+            @Suppress("unused")
             fun run(variableKeyOrId: String): String? =
                 variableManager.getVariableValueByKeyOrId(variableKeyOrId)
         })
         jsContext.property("setVariable", object : JSFunction(jsContext, "run") {
+            @Suppress("unused")
             fun run(variableKeyOrId: String, rawValue: JSValue?) {
                 val value = sanitizeData(rawValue)
                 variableManager.setVariableValueByKeyOrId(variableKeyOrId, value)
@@ -125,6 +127,7 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
             """.trimIndent()
         )
         jsContext.property("_abort", object : JSFunction(jsContext, "run") {
+            @Suppress("unused")
             fun run() {
                 abort = true
                 throw Exception()
@@ -134,6 +137,7 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
 
     private fun registerActions(context: Context, shortcutId: String, variableManager: VariableManager, recursionDepth: Int) {
         jsContext.property("_runAction", object : JSFunction(jsContext, "run") {
+            @Suppress("unused")
             fun run(actionType: String, data: Map<String, JSValue>) {
 
                 val action = actionFactory.fromDTO(ActionDTO(
@@ -142,7 +146,7 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
                 ))
 
                 action
-                    .perform(
+                    ?.perform(
                         context = context,
                         shortcutId = shortcutId,
                         variableManager = variableManager,
@@ -150,13 +154,14 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
                         responseError = responseErrorData as? ErrorResponse,
                         recursionDepth = recursionDepth
                     )
-                    .blockingAwait()
+                    ?.blockingAwait()
             }
         }, JSContext.JSPropertyAttributeReadOnly or JSContext.JSPropertyAttributeDontDelete)
     }
 
     private fun registerUserInteractions(context: Context) {
         jsContext.property("alert", object : JSFunction(jsContext, "run") {
+            @Suppress("unused")
             fun run(message: String) {
                 Completable.create { emitter ->
                     DialogBuilder(context)
@@ -170,6 +175,7 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
             }
         })
         jsContext.property("confirm", object : JSFunction(jsContext, "run") {
+            @Suppress("unused")
             fun run(message: String?): Boolean =
                 Single.create<Boolean> { emitter ->
                     DialogBuilder(context)
@@ -187,12 +193,13 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
                     .blockingGet()
         })
         jsContext.property("prompt", object : JSFunction(jsContext, "run") {
+            @Suppress("unused")
             fun run(message: String?, default: String?): String? =
                 Single.create<String> { emitter ->
                     DialogBuilder(context)
                         .message(message ?: "")
                         .textInput(prefill = default ?: "") { input ->
-                            emitter.onSuccess("-" + input)
+                            emitter.onSuccess("-$input")
                         }
                         .dismissListener { emitter.onSuccess("") }
                         .show()

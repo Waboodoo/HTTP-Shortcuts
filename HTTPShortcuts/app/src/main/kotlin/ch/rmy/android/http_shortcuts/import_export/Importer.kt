@@ -48,10 +48,16 @@ class Importer(private val context: Context) {
             .subscribeOn(Schedulers.io())
 
     private fun validate(base: Base) {
-        if (base.categories.any { it.shortcuts.any { !UUIDUtils.isUUID(it.id) && !it.id.isDigitsOnly() } }) {
+        if (base.categories.any { category ->
+                category.shortcuts.any { shortcut ->
+                    !UUIDUtils.isUUID(shortcut.id) && !shortcut.id.isDigitsOnly()
+                }
+            }) {
             throw IllegalArgumentException("Invalid shortcut ID found, must be UUID")
         }
-        if (base.categories.any { !UUIDUtils.isUUID(it.id) && !it.id.isDigitsOnly() }) {
+        if (base.categories.any { category ->
+                !UUIDUtils.isUUID(category.id) && !category.id.isDigitsOnly()
+            }) {
             throw IllegalArgumentException("Invalid category ID found, must be UUID")
         }
     }

@@ -47,7 +47,7 @@ class FileParameterDialog(
             }
             .mapIf(showRemoveOption) {
                 it.neutral(R.string.dialog_remove) {
-                    subject.onSuccess(Event.DataRemovedEvent())
+                    subject.onSuccess(Event.DataRemovedEvent)
                 }
             }
             .negative(R.string.dialog_cancel)
@@ -92,7 +92,7 @@ class FileParameterDialog(
 
         class DataChangedEvent(val keyName: String, val fileName: String) : Event()
 
-        class DataRemovedEvent : Event()
+        object DataRemovedEvent : Event()
 
     }
 

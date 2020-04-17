@@ -11,13 +11,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 class CopyToClipboardAction(
     actionType: CopyToClipboardActionType,
     data: Map<String, String>
-) : BaseAction(actionType, data) {
+) : BaseAction(actionType) {
 
-    var text: String
-        get() = internalData[KEY_TEXT] ?: ""
-        set(value) {
-            internalData[KEY_TEXT] = value
-        }
+    private val text: String = data[KEY_TEXT] ?: ""
 
     override fun perform(context: Context, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse?, responseError: ErrorResponse?, recursionDepth: Int): Completable =
         Completable

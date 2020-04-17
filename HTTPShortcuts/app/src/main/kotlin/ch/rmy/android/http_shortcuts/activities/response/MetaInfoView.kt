@@ -29,12 +29,12 @@ class MetaInfoView @JvmOverloads constructor(
 
     fun showGeneralInfo(data: List<Pair<String, String>>) {
         generalInfoContainer.visible = true
-        generalView.setText(toStyledSpan(data))
+        generalView.text = toStyledSpan(data)
     }
 
     fun showHeaders(headers: List<Pair<String, String>>) {
         headersContainer.visible = true
-        headersView.setText(toStyledSpan(headers))
+        headersView.text = toStyledSpan(headers)
     }
 
     companion object {
@@ -47,7 +47,7 @@ class MetaInfoView @JvmOverloads constructor(
                     builder.append("\n")
                     offset++
                 }
-                val line = name + ": " + value
+                val line = "$name: $value"
                 builder.append(line)
                 builder.setSpan(TypefaceSpan(Typeface.DEFAULT_BOLD), offset, offset + name.length + 1, 0)
                 offset += line.length

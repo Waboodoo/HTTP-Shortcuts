@@ -15,13 +15,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 class TriggerShortcutAction(
     actionType: TriggerShortcutActionType,
     data: Map<String, String>
-) : BaseAction(actionType, data) {
+) : BaseAction(actionType) {
 
-    var shortcutNameOrId: String
-        get() = internalData[KEY_SHORTCUT_NAME_OR_ID] ?: ""
-        set(value) {
-            internalData[KEY_SHORTCUT_NAME_OR_ID] = value
-        }
+    private val shortcutNameOrId: String = data[KEY_SHORTCUT_NAME_OR_ID] ?: ""
 
     override fun perform(context: Context, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse?, responseError: ErrorResponse?, recursionDepth: Int): Completable {
         if (recursionDepth >= MAX_RECURSION_DEPTH) {

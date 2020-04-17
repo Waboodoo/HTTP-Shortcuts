@@ -40,8 +40,7 @@ object ExecutionScheduler {
     private fun getNextPendingExecution(): PendingExecution? =
         Controller().use { controller ->
             controller.getShortcutsPendingExecution()
-                .sortedBy { it.waitUntil }
-                .firstOrNull()
+                .minBy { it.waitUntil ?: Date(0) }
                 ?.detachFromRealm()
         }
 

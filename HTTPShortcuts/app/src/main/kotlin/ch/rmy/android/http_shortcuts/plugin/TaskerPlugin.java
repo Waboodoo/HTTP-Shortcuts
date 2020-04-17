@@ -14,6 +14,7 @@ import java.net.URISyntaxException;
 import java.security.SecureRandom;
 import java.util.regex.Pattern;
 
+@SuppressWarnings("ALL")
 public class TaskerPlugin {
 
     private final static String TAG = "TaskerPlugin";

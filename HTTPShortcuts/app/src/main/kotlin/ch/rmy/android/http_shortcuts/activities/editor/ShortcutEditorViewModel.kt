@@ -195,7 +195,7 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
             }
             shortcut.timeout = curlCommand.timeout
 
-            if (curlCommand.isFormData || curlCommand.data.all { it.count { it == '=' } == 1 }) {
+            if (curlCommand.isFormData || curlCommand.data.all { data -> data.count { it == '=' } == 1 }) {
                 shortcut.requestBodyType = if (curlCommand.isFormData) {
                     Shortcut.REQUEST_BODY_TYPE_FORM_DATA
                 } else {
@@ -222,8 +222,8 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
                 potentialParameter.split("=")
                     .takeIf { it.size == 2 }
                     ?.let { parameterParts ->
-                        val key = parameterParts.get(0)
-                        val value = parameterParts.get(1)
+                        val key = parameterParts[0]
+                        val value = parameterParts[1]
                         val parameter = if (value.startsWith("@") && curlCommand.isFormData) {
                             Parameter(
                                 key = decode(key),

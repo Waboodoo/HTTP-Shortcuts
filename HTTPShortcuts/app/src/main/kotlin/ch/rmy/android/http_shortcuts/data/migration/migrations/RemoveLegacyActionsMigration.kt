@@ -44,7 +44,7 @@ class RemoveLegacyActionsMigration : BaseMigration {
         shortcut.setString(fieldName, migrateScript(script))
     }
 
-    fun migrateScript(script: String): String {
+    private fun migrateScript(script: String): String {
         var index = 99
         return pattern.toRegex().replace(script) { matchResult ->
             try {
@@ -68,8 +68,7 @@ class RemoveLegacyActionsMigration : BaseMigration {
 
     private fun migrateExtractBody(payload: JsonObject, i: Int): String {
         val variableId = payload.get("variableId").asString
-        val extractionType = payload.get("extractionType").asString
-        return when (extractionType) {
+        return when (payload.get("extractionType").asString) {
             "full_body" -> "setVariable(\"$variableId\", response.body);"
             "substring" -> {
                 val substringStart = payload.get("substringStart").asString

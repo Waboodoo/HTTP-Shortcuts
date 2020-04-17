@@ -27,7 +27,7 @@ abstract class BaseVariableType {
 
         internal fun createDialogBuilder(context: Context, variable: Variable, emitter: SingleEmitter<String>) =
             DialogBuilder(context)
-                .mapIf(!variable.title.isEmpty()) {
+                .mapIf(variable.title.isNotEmpty()) {
                     it.title(variable.title)
                 }
                 .dismissListener {

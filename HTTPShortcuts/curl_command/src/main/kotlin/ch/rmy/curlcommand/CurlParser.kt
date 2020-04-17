@@ -54,7 +54,7 @@ class CurlParser private constructor(arguments: List<String>) {
                         continue@loop
                     }
                     "-F", "--form" -> {
-                        var data = iterator.next()
+                        val data = iterator.next()
                         builder.isFormData()
                         builder.data(data)
                         continue@loop

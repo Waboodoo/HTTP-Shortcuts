@@ -446,8 +446,6 @@
     <string name="share_button">Share</string>
     <!-- Title on Share dialog -->
     <string name="share_title">Share…</string>
-    <!-- Message shown in progress dialog while an action is being performed. %1$s is a placeholder for the action, e.g. "Importing", or "Saving" -->
-    <string name="progress_dialog_message">%1$s…</string>
     <!-- Section title, for section in variable editor containing options specific to the variable type -->
     <string name="section_input_options">Input Options</string>
     <!-- Checkbox value, shown in variable editor, allows to enable a variable to remember its previous value -->

@@ -18,15 +18,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 class RenameShortcutAction(
     actionType: RenameShortcutActionType,
     data: Map<String, String>
-) : BaseAction(actionType, data) {
+) : BaseAction(actionType) {
 
-    var name
-        get() = internalData[KEY_NAME] ?: ""
-        set(value) {
-            internalData[KEY_NAME] = value
-        }
+    private val name: String = data[KEY_NAME] ?: ""
 
-    val shortcutNameOrId = data[KEY_SHORTCUT_NAME_OR_ID]
+    private val shortcutNameOrId = data[KEY_SHORTCUT_NAME_OR_ID]?.takeUnless { it.isEmpty() }
 
     override fun perform(context: Context, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse?, responseError: ErrorResponse?, recursionDepth: Int): Completable =
         renameShortcut(context, this.shortcutNameOrId ?: shortcutId, variableManager)

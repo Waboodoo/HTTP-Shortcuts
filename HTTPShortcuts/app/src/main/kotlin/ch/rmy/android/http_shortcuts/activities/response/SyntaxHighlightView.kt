@@ -50,7 +50,7 @@ class SyntaxHighlightView @JvmOverloads constructor(context: Context, attrs: Att
                 </head>
                 <body>
                     <pre>
-                        <code class="${language}">${htmlEncode(content)}</code>
+                        <code class="$language">${htmlEncode(content)}</code>
                     </pre>
                 </body>
             </html>
@@ -58,7 +58,7 @@ class SyntaxHighlightView @JvmOverloads constructor(context: Context, attrs: Att
         loadDataWithBaseURL("file:///android_asset/", html, "text/html", "UTF-8", "")
     }
 
-    fun getStyle() = if (context.isDarkThemeEnabled()) {
+    private fun getStyle() = if (context.isDarkThemeEnabled()) {
         "darcula"
     } else {
         "default"

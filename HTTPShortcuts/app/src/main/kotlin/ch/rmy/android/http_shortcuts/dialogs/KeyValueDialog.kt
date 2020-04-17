@@ -48,7 +48,7 @@ class KeyValueDialog(
             }
             .mapIf(data != null) {
                 it.neutral(R.string.dialog_remove) {
-                    subject.onSuccess(Event.DataRemovedEvent())
+                    subject.onSuccess(Event.DataRemovedEvent)
                 }
             }
             .negative(R.string.dialog_cancel)
@@ -108,7 +108,7 @@ class KeyValueDialog(
 
         class DataChangedEvent(val data: Pair<String, String>) : Event()
 
-        class DataRemovedEvent : Event()
+        object DataRemovedEvent : Event()
 
     }
 

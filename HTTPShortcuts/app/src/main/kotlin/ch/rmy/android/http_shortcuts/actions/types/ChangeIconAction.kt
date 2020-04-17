@@ -16,15 +16,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 class ChangeIconAction(
     actionType: ChangeIconActionType,
     data: Map<String, String>
-) : BaseAction(actionType, data) {
+) : BaseAction(actionType) {
 
-    var icon
-        get() = internalData[KEY_ICON] ?: ""
-        set(value) {
-            internalData[KEY_ICON] = value
-        }
+    private val icon = data[KEY_ICON] ?: ""
 
-    val shortcutNameOrId = data[KEY_SHORTCUT_NAME_OR_ID]
+    private val shortcutNameOrId = data[KEY_SHORTCUT_NAME_OR_ID]?.takeUnless { it.isEmpty() }
 
     override fun perform(context: Context, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse?, responseError: ErrorResponse?, recursionDepth: Int): Completable =
         changeIcon(context, this.shortcutNameOrId ?: shortcutId)

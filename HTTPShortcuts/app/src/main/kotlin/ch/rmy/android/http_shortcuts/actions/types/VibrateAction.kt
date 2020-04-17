@@ -11,7 +11,14 @@ import ch.rmy.android.http_shortcuts.variables.VariableManager
 import io.reactivex.Completable
 import java.util.concurrent.TimeUnit
 
-class VibrateAction(actionType: VibrateActionType, data: Map<String, String>) : BaseAction(actionType, data) {
+class VibrateAction(actionType: VibrateActionType, data: Map<String, String>) : BaseAction(actionType) {
+
+    private val patternId = data[KEY_PATTERN]?.toIntOrNull() ?: 0
+
+    private val waitForCompletion = data[KEY_WAIT_FOR_COMPLETION]?.toBoolean() ?: false
+
+    private val pattern: VibrationPattern
+        get() = findPattern(patternId)
 
     override fun perform(context: Context, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse?, responseError: ErrorResponse?, recursionDepth: Int): Completable {
         val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
@@ -25,21 +32,6 @@ class VibrateAction(actionType: VibrateActionType, data: Map<String, String>) : 
                 it.delay(pattern.duration, TimeUnit.MILLISECONDS)
             }
     }
-
-    var patternId
-        get() = (internalData[KEY_PATTERN]?.toIntOrNull()) ?: 0
-        set(value) {
-            internalData[KEY_PATTERN] = value.toString()
-        }
-
-    var waitForCompletion
-        get() = (internalData[KEY_WAIT_FOR_COMPLETION]?.toBoolean()) ?: false
-        set(value) {
-            internalData[KEY_WAIT_FOR_COMPLETION] = value.toString()
-        }
-
-    private val pattern: VibrationPattern
-        get() = findPattern(patternId)
 
     interface VibrationPattern {
 

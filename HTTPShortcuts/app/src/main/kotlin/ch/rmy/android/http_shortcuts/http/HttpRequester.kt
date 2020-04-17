@@ -87,37 +87,41 @@ object HttpRequester {
         var fileIndex = -1
         return requestBuilder.mapFor(shortcut.parameters) { builder, parameter ->
             val parameterName = Variables.rawPlaceholdersToResolvedValues(parameter.key, variables)
-            if (parameter.isFilesParameter) {
-                builder.mapIf(fileUploadManager != null) { builder2 ->
-                    fileIndex++
-                    val files = fileUploadManager!!.getFiles(fileIndex)
-                    builder2.mapFor(files) { builder3, file ->
-                        builder3.fileParameter(
-                            name = parameterName + "[]",
-                            fileName = parameter.fileName.ifEmpty { file.fileName },
-                            type = file.mimeType,
-                            data = file.data
-                        )
+            when {
+                parameter.isFilesParameter -> {
+                    builder.mapIf(fileUploadManager != null) { builder2 ->
+                        fileIndex++
+                        val files = fileUploadManager!!.getFiles(fileIndex)
+                        builder2.mapFor(files) { builder3, file ->
+                            builder3.fileParameter(
+                                name = parameterName + "[]",
+                                fileName = parameter.fileName.ifEmpty { file.fileName },
+                                type = file.mimeType,
+                                data = file.data
+                            )
+                        }
                     }
                 }
-            } else if (parameter.isFileParameter) {
-                builder.mapIf(fileUploadManager != null) { builder2 ->
-                    fileIndex++
-                    val file = fileUploadManager!!.getFile(fileIndex)
-                    builder2.mapIf(file != null) { builder3 ->
-                        builder3.fileParameter(
-                            name = parameterName,
-                            fileName = parameter.fileName.ifEmpty { file!!.fileName },
-                            type = file!!.mimeType,
-                            data = file.data
-                        )
+                parameter.isFileParameter -> {
+                    builder.mapIf(fileUploadManager != null) { builder2 ->
+                        fileIndex++
+                        val file = fileUploadManager!!.getFile(fileIndex)
+                        builder2.mapIf(file != null) { builder3 ->
+                            builder3.fileParameter(
+                                name = parameterName,
+                                fileName = parameter.fileName.ifEmpty { file!!.fileName },
+                                type = file!!.mimeType,
+                                data = file.data
+                            )
+                        }
                     }
                 }
-            } else {
-                builder.parameter(
-                    name = parameterName,
-                    value = Variables.rawPlaceholdersToResolvedValues(parameter.value, variables)
-                )
+                else -> {
+                    builder.parameter(
+                        name = parameterName,
+                        value = Variables.rawPlaceholdersToResolvedValues(parameter.value, variables)
+                    )
+                }
             }
         }
     }

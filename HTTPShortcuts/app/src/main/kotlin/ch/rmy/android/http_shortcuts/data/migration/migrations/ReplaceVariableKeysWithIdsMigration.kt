@@ -4,6 +4,7 @@ import com.google.gson.JsonObject
 import io.realm.DynamicRealm
 import io.realm.DynamicRealmObject
 
+@Suppress("ALL")
 class ReplaceVariableKeysWithIdsMigration : BaseMigration {
 
     override val version = 25

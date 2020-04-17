@@ -18,11 +18,12 @@ class ActionFactory(private val context: Context) {
         )
     }
 
-    fun fromDTO(actionDTO: ActionDTO): BaseAction = getType(actionDTO.type).fromDTO(actionDTO)
+    fun fromDTO(actionDTO: ActionDTO): BaseAction? =
+        getType(actionDTO.type)
+            ?.fromDTO(actionDTO)
 
-    private fun getType(actionType: String): BaseActionType =
+    private fun getType(actionType: String): BaseActionType? =
         types.firstOrNull { it.type == actionType }
-            ?: UnknownActionType(context)
 
     fun getAliases(): Map<String, ActionAlias> =
         types

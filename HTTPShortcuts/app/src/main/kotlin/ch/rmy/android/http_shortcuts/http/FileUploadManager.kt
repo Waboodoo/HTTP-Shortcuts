@@ -80,7 +80,7 @@ class FileUploadManager private constructor(
             val potentialFileName = file.lastPathSegment ?: DEFAULT_FILE_NAME
             val expectedExtension = MimeTypeMap.getSingleton().getExtensionFromMimeType(type)
             if (expectedExtension != null && !potentialFileName.endsWith(".$expectedExtension", ignoreCase = true)) {
-                return potentialFileName + "." + expectedExtension
+                return "$potentialFileName.$expectedExtension"
             }
             return potentialFileName
         }

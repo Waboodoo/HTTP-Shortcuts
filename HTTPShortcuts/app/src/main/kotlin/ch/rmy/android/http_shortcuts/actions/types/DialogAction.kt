@@ -15,19 +15,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 class DialogAction(
     actionType: DialogActionType,
     data: Map<String, String>
-) : BaseAction(actionType, data) {
+) : BaseAction(actionType) {
 
-    var message: String
-        get() = internalData[KEY_TEXT] ?: ""
-        set(value) {
-            internalData[KEY_TEXT] = value
-        }
+    private val message: String = data[KEY_TEXT] ?: ""
 
-    var title: String
-        get() = internalData[KEY_TITLE] ?: ""
-        set(value) {
-            internalData[KEY_TITLE] = value
-        }
+    private val title: String = data[KEY_TITLE] ?: ""
 
     override fun perform(context: Context, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse?, responseError: ErrorResponse?, recursionDepth: Int): Completable {
         val finalMessage = Variables.rawPlaceholdersToResolvedValues(message, variableManager.getVariableValuesByIds())
