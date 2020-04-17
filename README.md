@@ -37,19 +37,19 @@ Find more information and documentation on the [official website](https://http-s
 
 ## Screenshots
 
-![Image](/Screenshots/01.jpg)
-![Image](/Screenshots/02.jpg)
-![Image](/Screenshots/03.jpg)
-![Image](/Screenshots/04.jpg)
-![Image](/Screenshots/05.jpg)
-![Image](/Screenshots/06.jpg)
-![Image](/Screenshots/07.jpg)
-![Image](/Screenshots/08.jpg)
-![Image](/Screenshots/09.jpg)
-![Image](/Screenshots/10.jpg)
-![Image](/Screenshots/11.jpg)
-![Image](/Screenshots/12.jpg)
-![Image](/Screenshots/13.jpg)
+![Image](/Screenshots/01.png)
+![Image](/Screenshots/02.png)
+![Image](/Screenshots/03.png)
+![Image](/Screenshots/04.png)
+![Image](/Screenshots/05.png)
+![Image](/Screenshots/06.png)
+![Image](/Screenshots/07.png)
+![Image](/Screenshots/08.png)
+![Image](/Screenshots/09.png)
+![Image](/Screenshots/10.png)
+![Image](/Screenshots/11.png)
+![Image](/Screenshots/12.png)
+![Image](/Screenshots/13.png)
 
 ## Acknowledgments
 
