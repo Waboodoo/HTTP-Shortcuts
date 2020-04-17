@@ -239,4 +239,5 @@
     <string name="error_generic">Noe gikk galt…</string>
     <string name="action_type_trigger_shortcut_title">Iverksett en snarvei</string>
     <string name="action_type_trigger_shortcut_error_recursion_depth_reached">Den maksimale rekursjonsdybden har blitt nådd. Snarveien vil ikke bli iverksatt.</string>
+    <string name="settings_language">Språk</string>
 </resources>

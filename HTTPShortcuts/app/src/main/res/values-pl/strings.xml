@@ -210,4 +210,5 @@
         <item quantity="few"></item>
         <item quantity="other"></item>
     </plurals>
+    <string name="settings_language">Język</string>
 </resources>

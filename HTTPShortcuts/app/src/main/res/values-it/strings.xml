@@ -390,4 +390,5 @@
     <string name="subtitle_parameter_value_files">File</string>
     <string name="label_proxy_host">Nome host Proxy / indirizzo IP</string>
     <string name="label_proxy_port">Porta Proxy</string>
+    <string name="settings_language">Lingua</string>
 </resources>

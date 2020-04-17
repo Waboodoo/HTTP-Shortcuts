@@ -216,4 +216,5 @@
     <string name="error_slider_max_not_greater_than_min">Le maximum doit être supérieur au minimum.</string>
     <string name="button_apply_icon">Appliquer</string>
     <string name="button_copy_curl_export">Copier</string>
+    <string name="settings_language">Langue</string>
 </resources>

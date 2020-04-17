@@ -244,4 +244,5 @@
     <string name="description_select_placement_method">Seleccione el método para colocar el...</string>
     <string name="label_placement_method_default">Por defecto</string>
     <string name="label_placement_method_legacy">Legado</string>
+    <string name="settings_language">Idioma</string>
 </resources>
