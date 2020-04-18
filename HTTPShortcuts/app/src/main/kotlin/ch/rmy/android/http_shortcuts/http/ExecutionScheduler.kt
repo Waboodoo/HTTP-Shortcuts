@@ -76,7 +76,7 @@ object ExecutionScheduler {
 
     fun processPendingExecution(context: Context, pendingExecution: PendingExecution, callback: () -> Unit = {}) {
         val shortcutId = pendingExecution.shortcutId
-        val tryNumber = pendingExecution.tryNumber + 1
+        val tryNumber = pendingExecution.tryNumber
         val variableValues = pendingExecution.resolvedVariables
             .associate { variable -> variable.key to variable.value }
         val recursionDepth = pendingExecution.recursionDepth

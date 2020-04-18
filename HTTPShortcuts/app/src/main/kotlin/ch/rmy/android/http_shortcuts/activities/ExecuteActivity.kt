@@ -48,6 +48,7 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.liquidplayer.javascript.JSException
+import java.io.IOException
 import java.net.UnknownHostException
 import java.util.HashMap
 import kotlin.math.pow
@@ -197,8 +198,8 @@ class ExecuteActivity : BaseActivity() {
                     Commons.createPendingExecution(
                         shortcutId = shortcut.id,
                         resolvedVariables = variableManager.getVariableValuesByKeys(),
-                        tryNumber = tryNumber,
                         waitUntil = waitUntil,
+                        recursionDepth = recursionDepth,
                         requiresNetwork = shortcut.isWaitForNetwork
                     )
                 } else {
@@ -262,7 +263,13 @@ class ExecuteActivity : BaseActivity() {
             .subscribeOn(AndroidSchedulers.mainThread())
             .concatWith(
                 if (tryNumber == 0 || (tryNumber == 1 && shortcut.delay > 0)) {
-                    scriptExecutor.execute(context, shortcut.codeOnPrepare, shortcut, variableManager)
+                    scriptExecutor.execute(
+                        context = context,
+                        script = shortcut.codeOnPrepare,
+                        shortcut = shortcut,
+                        variableManager = variableManager,
+                        recursionDepth = recursionDepth
+                    )
                         .subscribeOn(Schedulers.computation())
                         .observeOn(AndroidSchedulers.mainThread())
                 } else {
@@ -276,9 +283,7 @@ class ExecuteActivity : BaseActivity() {
                 } else {
                     executeShortcut(variableManager, fileUploadManager)
                         .onErrorResumeNext { error ->
-                            if (error is JSException) {
-                                Single.error(error)
-                            } else {
+                            if (error is ErrorResponse || error is IOException) {
                                 scriptExecutor
                                     .execute(
                                         context = context,
@@ -291,6 +296,8 @@ class ExecuteActivity : BaseActivity() {
                                     .subscribeOn(Schedulers.computation())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .andThen(Single.error(error))
+                            } else {
+                                Single.error(error)
                             }
                         }
                         .flatMap { response ->
@@ -359,11 +366,12 @@ class ExecuteActivity : BaseActivity() {
             val waitUntil = DateUtil.calculateDate(calculateDelay())
             Commons
                 .createPendingExecution(
-                    shortcut.id,
-                    variableManager.getVariableValuesByKeys(),
-                    tryNumber,
-                    waitUntil,
-                    shortcut.isWaitForNetwork
+                    shortcutId = shortcut.id,
+                    resolvedVariables = variableManager.getVariableValuesByKeys(),
+                    tryNumber = tryNumber + 1,
+                    waitUntil = waitUntil,
+                    recursionDepth = recursionDepth,
+                    requiresNetwork = shortcut.isWaitForNetwork
                 )
                 .subscribe {
                     ExecutionScheduler.schedule(context)

@@ -3,7 +3,7 @@ package ch.rmy.android.http_shortcuts.activities
 import android.content.Context
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
-import ch.rmy.android.http_shortcuts.exceptions.CanceledByUserException
+import ch.rmy.android.http_shortcuts.exceptions.UserException
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import io.reactivex.Completable
@@ -17,7 +17,7 @@ class ExecuteErrorHandler(private val context: Context) {
             showUserError(error)
                 .andThen(Completable.error(error))
         } else {
-            if (error !is CanceledByUserException && error !is ErrorResponse && error !is IOException) {
+            if (error !is UserException && error !is ErrorResponse && error !is IOException) {
                 logException(error)
             }
             Completable.error(error)

@@ -9,6 +9,7 @@ import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.HttpStatus
+import java.net.ConnectException
 
 class ErrorFormatter(private val context: Context) {
 
@@ -39,16 +40,31 @@ class ErrorFormatter(private val context: Context) {
         return builder.toString()
     }
 
-    private fun getErrorMessage(error: Throwable, recursionDepth: Int = 0): String =
+    private fun getErrorMessage(error: Throwable): String =
+        when (error) {
+            is InvalidUrlException -> getString(R.string.error_invalid_url)
+            is SizeLimitedReader.LimitReachedException -> context.getString(R.string.error_response_too_large, Formatter.formatShortFileSize(context, error.limit))
+            is ConnectException -> error.message!!
+            else -> getUnknownErrorMessage(error)
+        }
+
+    private fun getUnknownErrorMessage(error: Throwable): String =
+        getCauseChain(error)
+            .map(::getSingleErrorMessage)
+            .distinct()
+            .joinToString(separator = "\n")
+
+    private fun getCauseChain(error: Throwable, recursionDepth: Int = 0): List<Throwable> =
+        listOf(error)
+            .mapIf(error.cause != null && recursionDepth < MAX_RECURSION_DEPTH) {
+                it.plus(getCauseChain(error.cause!!, recursionDepth + 1))
+            }
+
+    private fun getSingleErrorMessage(error: Throwable): String =
         when {
-            error is InvalidUrlException -> getString(R.string.error_invalid_url)
-            error is SizeLimitedReader.LimitReachedException -> context.getString(R.string.error_response_too_large, Formatter.formatShortFileSize(context, error.limit))
             error.message != null -> error.message!!
             else -> error.javaClass.simpleName
         }
-            .mapIf(error.cause != null && recursionDepth < MAX_RECURSION_DEPTH) {
-                it.plus("\n" + getErrorMessage(error.cause!!, recursionDepth + 1))
-            }
 
     private fun getString(@StringRes stringRes: Int): String = context.getString(stringRes)
 
