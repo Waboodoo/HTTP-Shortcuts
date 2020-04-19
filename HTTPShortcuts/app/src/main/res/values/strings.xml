@@ -758,4 +758,6 @@
     <string name="subtitle_parameter_value_files">Files</string>
     <!-- Settings option: Used in language picker to allow user to pick the default language, i.e., the system language -->
     <string name="language_default">System Default</string>
+    <!-- Error: Shown in toast when user tries to add a variable placeholder to a text beyond its maximum size -->
+    <string name="error_text_too_long_for_variable">Text exceeds %d character limit. Cannot insert variable placeholder.</string>
 </resources>

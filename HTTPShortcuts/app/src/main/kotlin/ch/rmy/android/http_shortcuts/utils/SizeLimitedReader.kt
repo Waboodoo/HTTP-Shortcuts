@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.utils
 
+import java.io.IOException
 import java.io.Reader
 
 class SizeLimitedReader(private val reader: Reader, private val maxBytes: Long) : Reader() {
@@ -22,6 +23,6 @@ class SizeLimitedReader(private val reader: Reader, private val maxBytes: Long) 
         }
     }
 
-    class LimitReachedException(val limit: Long) : Exception()
+    class LimitReachedException(val limit: Long) : IOException()
 
 }
