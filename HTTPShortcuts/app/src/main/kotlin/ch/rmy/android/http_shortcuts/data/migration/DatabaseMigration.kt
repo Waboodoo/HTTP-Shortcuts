@@ -279,6 +279,18 @@ class DatabaseMigration : RealmMigration {
                     .addField("proxyPort", Integer::class.java)
 
             }
+            36L -> { // 1.30.0
+                schema.createWithPrimaryKeyField("Widget", "widgetId", Int::class.javaPrimitiveType)
+                    .addRealmObjectField("shortcut", schema.get("Shortcut")!!)
+            }
+            37L -> { // 1.30.0
+                schema.get("Widget")!!
+                    .addField("labelColor", String::class.java)
+                    .addField("showLabel", Boolean::class.javaPrimitiveType)
+                realm.where("Widget").findAll().forEach { shortcut ->
+                    shortcut.setBoolean("showLabel", true)
+                }
+            }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -304,7 +316,7 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 35L
+        const val VERSION = 37L
 
     }
 

@@ -14,7 +14,6 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.extensions.dimen
 import ch.rmy.android.http_shortcuts.icons.IconView
-import ch.rmy.android.http_shortcuts.utils.IconUtil
 import kotterknife.bindView
 import kotlin.math.min
 
@@ -50,7 +49,7 @@ class CategoryAdapter(context: Context, categories: ListLiveData<Category>) : Ba
                 .take(MAX_ICONS)
                 .forEachIndexed { index, shortcut ->
                     val icon = smallIconContainer.getChildAt(index) as IconView
-                    icon.setImageURI(IconUtil.getIconURI(context, shortcut.iconName), shortcut.iconName)
+                    icon.setIcon(shortcut.iconName)
                 }
         }
 

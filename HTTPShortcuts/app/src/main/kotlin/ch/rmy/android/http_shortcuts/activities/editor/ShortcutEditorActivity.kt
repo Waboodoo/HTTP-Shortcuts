@@ -41,7 +41,6 @@ import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.icons.IconSelector
 import ch.rmy.android.http_shortcuts.icons.IconView
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
-import ch.rmy.android.http_shortcuts.utils.IconUtil
 import ch.rmy.android.http_shortcuts.utils.IpackUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
@@ -49,6 +48,7 @@ import ch.rmy.android.http_shortcuts.utils.Validation
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.android.http_shortcuts.views.PanelButton
+import ch.rmy.android.http_shortcuts.widget.WidgetManager
 import ch.rmy.curlcommand.CurlCommand
 import com.theartofdev.edmodo.cropper.CropImage
 import io.reactivex.Completable
@@ -146,7 +146,7 @@ class ShortcutEditorActivity : BaseActivity() {
 
     private fun updateShortcutViews() {
         val shortcut = shortcutData.value ?: return
-        iconView.setImageURI(IconUtil.getIconURI(context, shortcut.iconName), shortcut.iconName, animated = true)
+        iconView.setIcon(shortcut.iconName, animated = true)
         nameView.setTextSafely(shortcut.name)
         descriptionView.setTextSafely(shortcut.description)
 
@@ -323,6 +323,7 @@ class ShortcutEditorActivity : BaseActivity() {
             .observeOn(mainThread())
             .subscribe({ saveResult ->
                 LauncherShortcutManager.updatePinnedShortcut(context, saveResult.id, saveResult.name, saveResult.iconName)
+                WidgetManager.updateWidgets(context, saveResult.id)
                 setResult(RESULT_OK, Intent().putExtra(RESULT_SHORTCUT_ID, saveResult.id))
                 finish()
             }, { e ->

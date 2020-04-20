@@ -32,6 +32,9 @@
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".activities.editor.ShortcutEditorActivity"
@@ -161,8 +164,7 @@
                 <action android:name="ch.rmy.android.http_shortcuts.execute" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.response.DisplayResponseActivity">
-        </activity>
+        <activity android:name=".activities.response.DisplayResponseActivity"></activity>
         <activity
             android:name=".activities.misc.LicensesActivity"
             android:label="@string/title_licenses" />
@@ -194,6 +196,10 @@
                 <data android:mimeType="*/*" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".activities.widget.WidgetSettingsActivity"
+            android:label="@string/title_configure_widget"></activity>
 
         <!-- EXPERIMENTAL -->
         <activity
@@ -264,6 +270,17 @@
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
+
+        <receiver
+            android:name=".widget.WidgetProvider"
+            android:label="@string/label_widget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info" />
+        </receiver>
 
     </application>
 

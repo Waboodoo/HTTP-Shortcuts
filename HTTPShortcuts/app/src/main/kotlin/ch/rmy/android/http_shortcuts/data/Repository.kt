@@ -7,6 +7,7 @@ import ch.rmy.android.http_shortcuts.data.models.HasId
 import ch.rmy.android.http_shortcuts.data.models.PendingExecution
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.models.Widget
 import ch.rmy.android.http_shortcuts.extensions.detachFromRealm
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import io.realm.Case
@@ -131,5 +132,23 @@ object Repository {
             targetCategory.shortcuts.add(shortcut)
         }
     }
+
+    fun getWidgetsByIds(realm: Realm, widgetIds: Array<Int>): RealmResults<Widget> =
+        realm
+            .where<Widget>()
+            .`in`(Widget.FIELD_WIDGET_ID, widgetIds)
+            .findAll()
+
+    fun getDeadWidgets(realm: Realm): RealmResults<Widget> =
+        realm
+            .where<Widget>()
+            .isNull(Widget.FIELD_SHORTCUT)
+            .findAll()
+
+    fun getWidgetsForShortcut(realm: Realm, shortcutId: String): RealmResults<Widget> =
+        realm
+            .where<Widget>()
+            .equalTo("${Widget.FIELD_SHORTCUT}.${HasId.FIELD_ID}", shortcutId)
+            .findAll()
 
 }

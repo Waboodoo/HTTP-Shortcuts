@@ -760,4 +760,16 @@
     <string name="language_default">System Default</string>
     <!-- Error: Shown in toast when user tries to add a variable placeholder to a text beyond its maximum size -->
     <string name="error_text_too_long_for_variable">Text exceeds %d character limit. Cannot insert variable placeholder.</string>
+    <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->
+    <string name="instructions_select_shortcut_for_home_screen">Select or create a shortcut to place it on the home screen.</string>
+    <!-- Label: Shown when user selects a widget to place on the home screen, shown for the customizable widget (as opposite to the generic shortcut) -->
+    <string name="label_widget">Customizable Widget</string>
+    <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
+    <string name="label_show_widget_label">Show Label</string>
+    <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
+    <string name="action_create_widget">Create Widget</string>
+    <!-- Title: Configure Widget, shown when creating a widget and the user has some options to configure it -->
+    <string name="title_configure_widget">Configure Widget</string>
+    <!-- Label: Shown in widget configuration screen, clicking it allows the user to pick a color for the widget label -->
+    <string name="label_widget_label_color">Label Color</string>
 </resources>

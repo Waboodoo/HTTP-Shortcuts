@@ -7,6 +7,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.extensions.isDarkThemeEnabled
 import ch.rmy.android.http_shortcuts.utils.Animations
+import ch.rmy.android.http_shortcuts.utils.IconUtil
 
 class IconView : AppCompatImageView {
 
@@ -37,6 +38,10 @@ class IconView : AppCompatImageView {
         iconName?.startsWith("black_") ?: false
     } else {
         iconName?.startsWith("white_") ?: false
+    }
+
+    fun setIcon(iconName: String?, animated: Boolean = false) {
+        setImageURI(IconUtil.getIconURI(context, iconName), iconName, animated)
     }
 
     fun setImageURI(uri: Uri, iconName: String?, animated: Boolean = false) {

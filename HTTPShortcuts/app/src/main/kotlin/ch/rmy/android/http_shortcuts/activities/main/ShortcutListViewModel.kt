@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.main
 
 import android.app.Application
 import androidx.lifecycle.LiveData
+import ch.rmy.android.http_shortcuts.data.Repository
 import ch.rmy.android.http_shortcuts.data.Repository.copyShortcut
 import ch.rmy.android.http_shortcuts.data.Repository.getBase
 import ch.rmy.android.http_shortcuts.data.Repository.getCategoryByIdAsync
@@ -44,6 +45,9 @@ class ShortcutListViewModel(application: Application) : MainViewModel(applicatio
             shortcut.headers.deleteAllFromRealm()
             shortcut.parameters.deleteAllFromRealm()
             shortcut.deleteFromRealm()
+            Repository.getDeadWidgets(realm).forEach { widget ->
+                widget.deleteFromRealm()
+            }
         }
 
     fun removePendingExecution(shortcutId: String) =

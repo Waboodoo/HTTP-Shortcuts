@@ -55,4 +55,10 @@ class Controller : Destroyable, Closeable {
         }
     }
 
+    fun getWidgetsByIds(widgetIds: Array<Int>) =
+        Repository.getWidgetsByIds(realm, widgetIds)
+
+    fun getWidgetsForShortcut(shortcutId: String) =
+        Repository.getWidgetsForShortcut(realm, shortcutId)
+
 }

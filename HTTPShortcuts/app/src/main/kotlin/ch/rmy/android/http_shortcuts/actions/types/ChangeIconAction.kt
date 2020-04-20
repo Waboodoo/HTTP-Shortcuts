@@ -10,6 +10,7 @@ import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.variables.VariableManager
+import ch.rmy.android.http_shortcuts.widget.WidgetManager
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 
@@ -42,6 +43,7 @@ class ChangeIconAction(
                         shortcutIcon = newIcon
                     )
                 }
+                WidgetManager.updateWidgets(context, shortcut.id)
             })
     }
 

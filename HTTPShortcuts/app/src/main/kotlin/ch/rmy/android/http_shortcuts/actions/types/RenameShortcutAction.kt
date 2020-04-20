@@ -12,6 +12,7 @@ import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.Variables
+import ch.rmy.android.http_shortcuts.widget.WidgetManager
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 
@@ -47,6 +48,7 @@ class RenameShortcutAction(
                         shortcutIcon = shortcut.iconName
                     )
                 }
+                WidgetManager.updateWidgets(context, shortcut.id)
             })
     }
 

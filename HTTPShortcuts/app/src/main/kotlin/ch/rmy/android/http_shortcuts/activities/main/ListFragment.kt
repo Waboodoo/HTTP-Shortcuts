@@ -168,7 +168,9 @@ class ListFragment : BaseFragment() {
     private fun onItemClicked(shortcutData: LiveData<Shortcut?>) {
         val shortcut = shortcutData.value ?: return
         when (selectionMode) {
-            SelectionMode.HOME_SCREEN, SelectionMode.PLUGIN -> tabHost?.selectShortcut(shortcut)
+            SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT,
+            SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT,
+            SelectionMode.PLUGIN -> tabHost?.selectShortcut(shortcut)
             else -> {
                 if (tabHost?.isAppLocked() == true) {
                     executeShortcut(shortcut)
