@@ -27,7 +27,9 @@ class KeyValueDialog(
     private val keyLabel: CharSequence? = null,
     private val valueLabel: CharSequence? = null,
     private val isMultiLine: Boolean = false,
-    private val suggestions: Array<String>? = null
+    private val suggestions: Array<String>? = null,
+    private val keyValidator: (CharSequence) -> String? = { _ -> null },
+    private val valueValidator: (CharSequence) -> String? = { _ -> null }
 ) {
 
     fun show(context: Context): Maybe<Event> {
@@ -93,7 +95,14 @@ class KeyValueDialog(
                 okButton.isEnabled = keyInput.text.isNotEmpty()
                 keyInput.observeTextChanges()
                     .subscribe { text ->
-                        okButton.isEnabled = text.isNotEmpty()
+                        keyInput.error = keyValidator.invoke(text)
+                        okButton.isEnabled = text.isNotEmpty() && keyInput.error == null && valueInput.error == null
+                    }
+                    .attachTo(destroyer)
+                valueInput.observeTextChanges()
+                    .subscribe { text ->
+                        valueInput.error = valueValidator.invoke(text)
+                        okButton.isEnabled = text.isNotEmpty() && keyInput.error == null && valueInput.error == null
                     }
                     .attachTo(destroyer)
             }

@@ -4,3 +4,4 @@ local.properties
 build/
 *.iml
 *.aab
+app/release

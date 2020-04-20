@@ -78,7 +78,9 @@ class RequestHeadersActivity : BaseActivity() {
             keyLabel = getString(R.string.label_custom_header_key),
             valueLabel = getString(R.string.label_custom_header_value),
             data = header.key to header.value,
-            suggestions = SUGGESTED_KEYS
+            suggestions = SUGGESTED_KEYS,
+            keyValidator = { validateHeaderName(context, it) },
+            valueValidator = { validateHeaderValue(context, it) }
         )
             .show(context)
             .flatMapCompletable { event ->
@@ -101,7 +103,9 @@ class RequestHeadersActivity : BaseActivity() {
             title = getString(R.string.title_custom_header_add),
             keyLabel = getString(R.string.label_custom_header_key),
             valueLabel = getString(R.string.label_custom_header_value),
-            suggestions = SUGGESTED_KEYS
+            suggestions = SUGGESTED_KEYS,
+            keyValidator = { validateHeaderName(context, it) },
+            valueValidator = { validateHeaderValue(context, it) }
         )
             .show(context)
             .flatMapCompletable { event ->
@@ -159,6 +163,24 @@ class RequestHeadersActivity : BaseActivity() {
             "Via",
             "Warning"
         )
+
+        private fun validateHeaderName(context: Context, name: CharSequence): String? =
+            name
+                .firstOrNull { c ->
+                    c <= '\u0020' || c >= '\u007f'
+                }
+                ?.let { invalidChar ->
+                    context.getString(R.string.error_invalid_character, invalidChar)
+                }
+
+        private fun validateHeaderValue(context: Context, value: CharSequence): String? =
+            value
+                .firstOrNull { c ->
+                    (c <= '\u001f' && c != '\t') || c >= '\u007f'
+                }
+                ?.let { invalidChar ->
+                    context.getString(R.string.error_invalid_character, invalidChar)
+                }
 
     }
 

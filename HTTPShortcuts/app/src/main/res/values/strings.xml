@@ -772,4 +772,6 @@
     <string name="title_configure_widget">Configure Widget</string>
     <!-- Label: Shown in widget configuration screen, clicking it allows the user to pick a color for the widget label -->
     <string name="label_widget_label_color">Label Color</string>
+    <!-- Error: Generic error shown when the user enters an invalid character, e.g. for an HTTP header. %s is the placeholder for the character -->
+    <string name="error_invalid_character">Invalid character: %s</string>
 </resources>
