@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.extensions.visible
 import kotterknife.bindView
 
@@ -49,7 +50,9 @@ class MetaInfoView @JvmOverloads constructor(
                 }
                 val line = "$name: $value"
                 builder.append(line)
-                builder.setSpan(TypefaceSpan(Typeface.DEFAULT_BOLD), offset, offset + name.length + 1, 0)
+                tryOrLog {
+                    builder.setSpan(TypefaceSpan(Typeface.create(Typeface.DEFAULT, Typeface.BOLD)), offset, offset + name.length + 1, 0)
+                }
                 offset += line.length
             }
             return builder
