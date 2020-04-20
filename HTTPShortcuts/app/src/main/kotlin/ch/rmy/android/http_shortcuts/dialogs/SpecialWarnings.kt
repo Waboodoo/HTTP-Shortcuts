@@ -40,8 +40,6 @@ object SpecialWarnings {
     private const val PREF_WARNED_CONFUSED_RUSSIAN_USERS = "confused_russian_users"
 
     private const val TITLE = "Предупреждение"
-    private const val MESSAGE = "Я получаю много писем и отзывов от людей, которые жалуются мне на скрипты, которые применяют тарифы и скидки, или на ошибку 403.\n" +
-        "Обратите внимание, что это приложение не имеет к этому никакого отношения и что эти скрипты больше не работают. Я не несу ответственности и никоим образом не связан с поставщиком этих сценариев или каким-либо оператором связи. Пожалуйста, прекратите отправлять мне эти сообщения. Спасибо.\n\nI have been getting a lot of emails and reviews from people who complain to me about scripts that apply tariffs and discounts, or about error 403. \n" +
-        "Please note that this app has nothing to do with that and that those scripts no longer work. I am not responsible or in any way affiliated with the provider of those scripts or with any telecom operator. Please stop sending me these messages. Thank you."
+    private const val MESSAGE = "Я получаю множество писем и отзывов от людей, которые жалуются мне на Beeline, скрипты, тарифы и скидки, или на ошибку 403. Пожалуйста, поймите, что я не могу вам помочь с этим. Я не несу ответственности за то, что эти скрипты больше не работают. Пожалуйста, не присылайте мне жалобы на это. Спасибо.\n\nI get a lot of emails and reviews from people who complain to me about Beeline, scripts, tariffs and discounts, or about error 403. Please understand that I cannot help you with that. I am not responsible for the fact that those scripts do not work anymore. Please don't send me complaints about that. Thank you."
 
 }
