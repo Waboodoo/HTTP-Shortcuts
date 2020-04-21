@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager.NameNotFoundException
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -86,7 +87,11 @@ class SettingsActivity : BaseActivity() {
             }
 
             initPreference("export") {
-                showExportOptions()
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    showExportOptions()
+                } else {
+                    sendExport()
+                }
             }
 
             initPreference("import") {
