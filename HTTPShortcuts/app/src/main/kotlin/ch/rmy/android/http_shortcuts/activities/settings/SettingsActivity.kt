@@ -41,6 +41,7 @@ import ch.rmy.android.http_shortcuts.utils.FilePickerUtil
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
 import io.reactivex.android.schedulers.AndroidSchedulers
+import java.util.Locale
 
 
 class SettingsActivity : BaseActivity() {
@@ -136,14 +137,21 @@ class SettingsActivity : BaseActivity() {
                 gotoGithub()
             }
 
-            initPreference("translate") {
-                helpTranslate()
+            if (shouldShowTranslateButton()) {
+                initPreference("translate") {
+                    helpTranslate()
+                }
+            } else {
+                findPreference<Preference>("translate")!!.isVisible = false
             }
 
             initPreference("licenses") {
                 showLicenses()
             }
         }
+
+        private fun shouldShowTranslateButton(): Boolean =
+            Locale.getDefault().language !in FULLY_TRANSLATED_LANGUAGES
 
         private fun restartToApplyThemeChanges() {
             val returnIntent = Intent().apply {
@@ -440,6 +448,9 @@ class SettingsActivity : BaseActivity() {
         private const val EXPORT_FILE_TYPE_FOR_SHARING = "text/plain"
         private const val EXPORT_FILE_TYPE_FOR_CREATING_FILE = "application/json"
         private const val EXPORT_FILE_NAME = "shortcuts.json"
+
+        private val FULLY_TRANSLATED_LANGUAGES = setOf("de", "ru", "it")
+
     }
 
 }
