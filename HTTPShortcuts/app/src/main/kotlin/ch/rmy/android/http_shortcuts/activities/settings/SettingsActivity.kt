@@ -10,13 +10,13 @@ import android.content.pm.PackageManager.NameNotFoundException
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import androidx.core.content.FileProvider
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.misc.LicensesActivity
-import ch.rmy.android.http_shortcuts.data.Controller
 import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.dialogs.HelpDialogBuilder
@@ -38,9 +38,9 @@ import ch.rmy.android.http_shortcuts.utils.CrashReporting
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.FilePickerUtil
-import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
 import io.reactivex.android.schedulers.AndroidSchedulers
+import java.io.File
 import java.util.Locale
 
 
@@ -236,18 +236,45 @@ class SettingsActivity : BaseActivity() {
         }
 
         private fun sendExport() {
-            // TODO: Check size, if too large, export as file instead of string
-            Controller().use { controller ->
-                val base = controller.exportBase()
-                val data = GsonUtil.exportData(base)
-                Intent(Intent.ACTION_SEND)
-                    .setType(EXPORT_FILE_TYPE_FOR_SHARING)
-                    .putExtra(Intent.EXTRA_TEXT, data)
-                    .let {
-                        Intent.createChooser(it, getString(R.string.title_export))
-                    }
-                    .startActivity(activity!!)
+            val cacheDir = File(context!!.cacheDir, EXPORT_DIR_NAME)
+            cacheDir.mkdirs()
+            val cacheFile = File(cacheDir, EXPORT_FILE_NAME)
+
+            // TODO: Replace progress dialog with something better
+            val progressDialog = ProgressDialog(activity).apply {
+                setMessage(getString(R.string.export_in_progress))
             }
+            Exporter(context!!.applicationContext)
+                .export(Uri.fromFile(cacheFile))
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe {
+                    progressDialog.show()
+                }
+                .doOnEvent { _, _ ->
+                    progressDialog.dismiss()
+                }
+                .subscribe(
+                    {
+                        val uri = FileProvider.getUriForFile(
+                            context!!,
+                            "${context!!.packageName}.provider",
+                            cacheFile
+                        )
+                        Intent(Intent.ACTION_SEND)
+                            .setType(EXPORT_FILE_TYPE_FOR_SHARING)
+                            .putExtra(Intent.EXTRA_STREAM, uri)
+                            .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                            .let {
+                                Intent.createChooser(it, getString(R.string.title_export))
+                            }
+                            .startActivity(activity!!)
+                    },
+                    { error ->
+                        logException(error)
+                        showSnackbar(R.string.error_generic)
+                    }
+                )
+                .attachTo(destroyer)
         }
 
         private fun showImportOptions() {
@@ -398,16 +425,15 @@ class SettingsActivity : BaseActivity() {
                 .subscribe({ status ->
                     if (status.needsRussianWarning) {
                         SpecialWarnings.show(context!!)
-                    } else {
-                        showSnackbar(context!!.resources.getQuantityString(
-                            R.plurals.shortcut_import_success,
-                            status.importedShortcuts,
-                            status.importedShortcuts
-                        ))
-                        activity!!.setResult(Activity.RESULT_OK, Intent().apply {
-                            putExtra(EXTRA_CATEGORIES_CHANGED, true)
-                        })
                     }
+                    showSnackbar(context!!.resources.getQuantityString(
+                        R.plurals.shortcut_import_success,
+                        status.importedShortcuts,
+                        status.importedShortcuts
+                    ))
+                    activity!!.setResult(Activity.RESULT_OK, Intent().apply {
+                        putExtra(EXTRA_CATEGORIES_CHANGED, true)
+                    })
                 }, { e ->
                     if (e is ImportException) {
                         showMessageDialog(getString(R.string.import_failed_with_reason, e.message))
@@ -448,6 +474,7 @@ class SettingsActivity : BaseActivity() {
         private const val EXPORT_FILE_TYPE_FOR_SHARING = "text/plain"
         private const val EXPORT_FILE_TYPE_FOR_CREATING_FILE = "application/json"
         private const val EXPORT_FILE_NAME = "shortcuts.json"
+        private const val EXPORT_DIR_NAME = "export"
 
         private val FULLY_TRANSLATED_LANGUAGES = setOf("de", "ru", "it")
 
