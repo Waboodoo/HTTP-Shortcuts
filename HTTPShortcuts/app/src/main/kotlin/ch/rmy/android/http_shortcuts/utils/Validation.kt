@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.utils
 
 import android.net.Uri
 import ch.rmy.android.http_shortcuts.variables.Variables.VARIABLE_ID_REGEX
+import okhttp3.HttpUrl
 
 object Validation {
 
@@ -9,9 +10,10 @@ object Validation {
         url.matches("^(http(s?)://.+)|((h(t(t(p(s)?)?)?)?)?\\{\\{$VARIABLE_ID_REGEX\\}\\}.*)".toRegex(RegexOption.IGNORE_CASE))
 
     fun isValidUrl(uri: Uri) =
-        uri.scheme?.let { scheme ->
+        (uri.scheme?.let { scheme ->
             scheme.equals("http", ignoreCase = true)
                 || scheme.equals("https", ignoreCase = true)
-        } ?: false
+        } ?: false)
+            && HttpUrl.parse(uri.toString()) != null
 
 }

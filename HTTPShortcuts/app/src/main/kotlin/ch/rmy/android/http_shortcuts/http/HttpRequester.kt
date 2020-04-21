@@ -30,7 +30,7 @@ object HttpRequester {
                 }
 
                 if (!Validation.isValidUrl(Uri.parse(url))) {
-                    emitter.onError(InvalidUrlException())
+                    emitter.onError(InvalidUrlException(url))
                     return@create
                 }
 

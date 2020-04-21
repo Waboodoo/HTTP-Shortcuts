@@ -42,7 +42,7 @@ class ErrorFormatter(private val context: Context) {
 
     private fun getErrorMessage(error: Throwable): String =
         when (error) {
-            is InvalidUrlException -> getString(R.string.error_invalid_url)
+            is InvalidUrlException -> context.getString(R.string.error_invalid_url, error.url)
             is SizeLimitedReader.LimitReachedException -> context.getString(R.string.error_response_too_large, Formatter.formatShortFileSize(context, error.limit))
             is ConnectException -> error.message!!
             else -> getUnknownErrorMessage(error)
