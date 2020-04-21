@@ -774,4 +774,9 @@
     <string name="label_widget_label_color">Label Color</string>
     <!-- Error: Generic error shown when the user enters an invalid character, e.g. for an HTTP header. %s is the placeholder for the character -->
     <string name="error_invalid_character">Invalid character: %s</string>
+    <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
+    <plurals name="warning_variable_still_in_use_in_shortcuts">
+        <item quantity="one">This variable is still in use in 1 shortcut: %1$s</item>
+        <item quantity="other">This variable is still in use in %2$d shortcuts: %1$s</item>
+    </plurals>
 </resources>

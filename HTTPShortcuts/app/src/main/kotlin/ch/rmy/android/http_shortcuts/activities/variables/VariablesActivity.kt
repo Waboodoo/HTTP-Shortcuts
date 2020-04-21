@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.data.Controller
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.dialogs.HelpDialogBuilder
@@ -16,11 +17,18 @@ import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.consume
+import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
+import ch.rmy.android.http_shortcuts.variables.VariableManager
+import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotterknife.bindView
 
 class VariablesActivity : BaseActivity() {
@@ -82,7 +90,7 @@ class VariablesActivity : BaseActivity() {
                 duplicateVariable(variable)
             }
             .item(R.string.action_delete) {
-                showDeleteDialog(variableData)
+                beginDeletion(variableData.value ?: return@item)
             }
             .showIfPossible()
     }
@@ -105,19 +113,61 @@ class VariablesActivity : BaseActivity() {
             .attachTo(destroyer)
     }
 
-    private fun showDeleteDialog(variableData: LiveData<Variable?>) {
-        DialogBuilder(context)
-            .message(R.string.confirm_delete_variable_message)
-            .positive(R.string.dialog_delete) { deleteVariable(variableData.value ?: return@positive) }
-            .negative(R.string.dialog_cancel)
-            .showIfPossible()
+    private fun beginDeletion(variable: Variable) {
+        val variableId = variable.id
+        val variableKey = variable.key
+
+        getShortcutNamesWhereVariableIsInUse(variableId)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { shortcutNames ->
+                    val message = getString(R.string.confirm_delete_variable_message)
+                        .mapIf(shortcutNames.isNotEmpty()) {
+                            it.plus("\n\n")
+                                .plus(context.resources.getQuantityString(
+                                    R.plurals.warning_variable_still_in_use_in_shortcuts,
+                                    shortcutNames.size,
+                                    shortcutNames.joinToString(),
+                                    shortcutNames.size
+                                ))
+                        }
+                    DialogBuilder(context)
+                        .message(message)
+                        .positive(R.string.dialog_delete) {
+                            deleteVariable(variableId, variableKey)
+                        }
+                        .negative(R.string.dialog_cancel)
+                        .showIfPossible()
+                },
+                { error ->
+                    logException(error)
+                    showSnackbar(R.string.error_generic)
+                }
+            )
+            .attachTo(destroyer)
     }
 
-    private fun deleteVariable(variable: Variable) {
-        val key = variable.key
-        viewModel.deleteVariable(variable.id)
+    // TODO: Also check if the variable is used inside another variable
+    private fun getShortcutNamesWhereVariableIsInUse(variableId: String): Single<List<String>> =
+        Single.fromCallable {
+            Controller().use { controller ->
+                val variableLookup = VariableManager(controller.getVariables())
+                controller.getShortcuts().filter { shortcut ->
+                    VariableResolver.extractVariableIds(shortcut, variableLookup)
+                        .contains(variableId)
+                }
+                    .map {
+                        it.name
+                    }
+                    .distinct()
+            }
+        }
+            .subscribeOn(Schedulers.computation())
+
+    private fun deleteVariable(variableId: String, variableKey: String) {
+        viewModel.deleteVariable(variableId)
             .subscribe {
-                showSnackbar(String.format(getString(R.string.variable_deleted), key))
+                showSnackbar(String.format(getString(R.string.variable_deleted), variableKey))
             }
             .attachTo(destroyer)
     }
