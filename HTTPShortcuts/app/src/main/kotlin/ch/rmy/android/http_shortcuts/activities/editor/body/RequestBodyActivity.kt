@@ -158,8 +158,7 @@ class RequestBodyActivity : BaseActivity() {
     private fun showEditDialog(parameter: Parameter) {
         if (parameter.isFileParameter || parameter.isFilesParameter) {
             showEditDialogForFileParameter(parameter)
-        }
-        else {
+        } else {
             showEditDialogForStringParameter(parameter)
         }
     }
@@ -178,7 +177,7 @@ class RequestBodyActivity : BaseActivity() {
             .flatMapCompletable { event ->
                 when (event) {
                     is KeyValueDialog.Event.DataChangedEvent -> {
-                        viewModel.updateParameter(parameterId, event.data.first, value=event.data.second)
+                        viewModel.updateParameter(parameterId, event.data.first, value = event.data.second)
                     }
                     is KeyValueDialog.Event.DataRemovedEvent -> {
                         viewModel.removeParameter(parameterId)

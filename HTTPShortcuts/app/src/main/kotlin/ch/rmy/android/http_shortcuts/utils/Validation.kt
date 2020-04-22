@@ -1,8 +1,10 @@
 package ch.rmy.android.http_shortcuts.utils
 
 import android.net.Uri
+import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.variables.Variables.VARIABLE_ID_REGEX
-import okhttp3.HttpUrl
+import java.net.URI
+import java.net.URISyntaxException
 
 object Validation {
 
@@ -14,6 +16,10 @@ object Validation {
             scheme.equals("http", ignoreCase = true)
                 || scheme.equals("https", ignoreCase = true)
         } ?: false)
-            && HttpUrl.parse(uri.toString()) != null
+            && try {
+            consume { URI(uri.toString()) }
+        } catch (e: URISyntaxException) {
+            false
+        }
 
 }

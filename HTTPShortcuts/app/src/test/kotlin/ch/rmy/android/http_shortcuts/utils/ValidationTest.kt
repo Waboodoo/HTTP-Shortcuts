@@ -96,4 +96,9 @@ class ValidationTest {
         assertThat(isValidUrl(Uri.parse("HTTPS://example.com")), equalTo(true))
     }
 
+    @Test
+    fun testNotValidWithInvalidCharacters() {
+        assertThat(isValidUrl(Uri.parse("http://{{1234⁻5678}}")), equalTo(false))
+    }
+
 }
