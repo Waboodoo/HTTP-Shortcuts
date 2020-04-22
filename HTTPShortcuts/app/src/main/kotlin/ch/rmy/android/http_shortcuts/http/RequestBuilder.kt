@@ -1,5 +1,7 @@
 package ch.rmy.android.http_shortcuts.http
 
+import ch.rmy.android.http_shortcuts.exceptions.InvalidContentTypeException
+import ch.rmy.android.http_shortcuts.exceptions.InvalidHeaderException
 import okhttp3.Credentials
 import okhttp3.MediaType
 import okhttp3.Request
@@ -40,7 +42,11 @@ class RequestBuilder(private val method: String, url: String) {
     }
 
     fun header(name: String, value: String) = also {
-        requestBuilder.addHeader(name, value)
+        try {
+            requestBuilder.addHeader(name, value)
+        } catch (e: IllegalArgumentException) {
+            throw InvalidHeaderException("$name: $value")
+        }
         if (name.equals(HttpHeaders.CONTENT_TYPE, ignoreCase = true)) {
             contentType = value
         }
@@ -72,12 +78,12 @@ class RequestBuilder(private val method: String, url: String) {
     }
 
     private fun constructBodyFromString(string: String): RequestBody =
-        RequestBody.create(MediaType.get(contentType ?: DEFAULT_CONTENT_TYPE), string.toByteArray())
+        RequestBody.create(getMediaType(contentType), string.toByteArray())
 
     private fun constructFormDataBody(): RequestBody =
         object : RequestBody() {
             override fun contentType(): MediaType? =
-                MediaType.get(contentType ?: DEFAULT_CONTENT_TYPE)
+                getMediaType(contentType)
 
             override fun writeTo(sink: BufferedSink) {
                 sink.apply {
@@ -121,6 +127,13 @@ class RequestBuilder(private val method: String, url: String) {
 
         private fun sanitize(text: String): String =
             text.replace("\"", "")
+
+        private fun getMediaType(contentType: String?) =
+            try {
+                MediaType.get(contentType ?: DEFAULT_CONTENT_TYPE)
+            } catch (e: IllegalArgumentException) {
+                throw InvalidContentTypeException(contentType!!)
+            }
     }
 
 }

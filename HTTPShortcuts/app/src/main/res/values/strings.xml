@@ -594,6 +594,10 @@
     <string name="action_type_trigger_shortcut_error_recursion_depth_reached">Maximum recursion depth reached. Shortcut will not be triggered.</string>
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid URL -->
     <string name="error_invalid_url">Invalid URL (%s). Must be HTTP(S).</string>
+    <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid content type -->
+    <string name="error_invalid_content_type">Invalid Content Type (%s).</string>
+    <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid header -->
+    <string name="error_invalid_header">Invalid Header (%s).</string>
     <!-- Title: Dialog title when selecting how to place a shortcut on the homescreen -->
     <string name="title_select_placement_method">Placement Method</string>
     <!-- Description: Dialog text when selecting how to place a shortcut on the homescreen -->

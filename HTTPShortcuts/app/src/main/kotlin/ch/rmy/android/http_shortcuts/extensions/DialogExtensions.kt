@@ -9,14 +9,18 @@ fun AlertDialog.Builder.showIfPossible(): AlertDialog? {
     if ((context as? Activity)?.isFinishing == true) {
         return null
     }
-    return show()
+    return tryOrLog {
+        show()
+    }
 }
 
 fun Dialog.showIfPossible(): Dialog? {
     if ((context as? Activity)?.isFinishing == true) {
         return null
     }
-    this.show()
+    tryOrLog {
+        this.show()
+    }
     return this
 }
 
@@ -24,6 +28,8 @@ fun MaterialDialog.showIfPossible(): Dialog? {
     if ((context as? Activity)?.isFinishing == true) {
         return null
     }
-    this.show()
+    tryOrLog {
+        this.show()
+    }
     return this
 }

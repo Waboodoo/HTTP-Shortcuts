@@ -11,10 +11,10 @@ fun Any.logException(e: Throwable) {
     }
 }
 
-fun Any.tryOrLog(block: () -> Unit) {
+fun <T> Any.tryOrLog(block: () -> T): T? =
     try {
         block()
     } catch (e: Throwable) {
         logException(e)
+        null
     }
-}

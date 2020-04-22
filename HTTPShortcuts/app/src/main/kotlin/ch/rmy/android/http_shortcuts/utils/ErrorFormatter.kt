@@ -4,6 +4,8 @@ import android.content.Context
 import android.text.format.Formatter
 import androidx.annotation.StringRes
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.exceptions.InvalidContentTypeException
+import ch.rmy.android.http_shortcuts.exceptions.InvalidHeaderException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidUrlException
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.mapIf
@@ -45,6 +47,8 @@ class ErrorFormatter(private val context: Context) {
         when (error) {
             is CompositeException -> error.exceptions.joinToString(separator = "\n") { getErrorMessage(it) }
             is InvalidUrlException -> context.getString(R.string.error_invalid_url, error.url)
+            is InvalidHeaderException -> context.getString(R.string.error_invalid_header, error.header)
+            is InvalidContentTypeException -> context.getString(R.string.error_invalid_content_type, error.contentType)
             is SizeLimitedReader.LimitReachedException -> context.getString(R.string.error_response_too_large, Formatter.formatShortFileSize(context, error.limit))
             is ConnectException -> error.message!!
             else -> getUnknownErrorMessage(error)
