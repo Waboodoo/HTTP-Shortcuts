@@ -9,6 +9,7 @@ import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.HttpStatus
+import io.reactivex.exceptions.CompositeException
 import java.net.ConnectException
 
 class ErrorFormatter(private val context: Context) {
@@ -42,6 +43,7 @@ class ErrorFormatter(private val context: Context) {
 
     private fun getErrorMessage(error: Throwable): String =
         when (error) {
+            is CompositeException -> error.exceptions.joinToString(separator = "\n") { getErrorMessage(it) }
             is InvalidUrlException -> context.getString(R.string.error_invalid_url, error.url)
             is SizeLimitedReader.LimitReachedException -> context.getString(R.string.error_response_too_large, Formatter.formatShortFileSize(context, error.limit))
             is ConnectException -> error.message!!

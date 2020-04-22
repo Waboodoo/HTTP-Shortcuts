@@ -20,14 +20,16 @@ object HttpRequester {
             .create<ShortcutResponse> { emitter ->
                 val variables = variableManager.getVariableValuesByIds()
 
-                val url = Variables.rawPlaceholdersToResolvedValues(shortcut.url, variables)
+                val url = Variables.rawPlaceholdersToResolvedValues(shortcut.url, variables).trim()
                 val username = Variables.rawPlaceholdersToResolvedValues(shortcut.username, variables)
                 val password = Variables.rawPlaceholdersToResolvedValues(shortcut.password, variables)
                 val authToken = Variables.rawPlaceholdersToResolvedValues(shortcut.authToken, variables)
                 val body = Variables.rawPlaceholdersToResolvedValues(shortcut.bodyContent, variables)
-                val proxyHost = shortcut.proxyHost?.let {
-                    Variables.rawPlaceholdersToResolvedValues(it, variables)
-                }
+                val proxyHost = shortcut.proxyHost
+                    ?.let {
+                        Variables.rawPlaceholdersToResolvedValues(it, variables)
+                    }
+                    ?.trim()
 
                 if (!Validation.isValidUrl(Uri.parse(url))) {
                     emitter.onError(InvalidUrlException(url))
