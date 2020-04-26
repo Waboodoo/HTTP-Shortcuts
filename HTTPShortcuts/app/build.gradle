@@ -47,6 +47,17 @@ android {
             universalApk true
         }
     }
+    bundle {
+        language {
+            enableSplit = false
+        }
+        density {
+            enableSplit = true
+        }
+        abi {
+            enableSplit = true
+        }
+    }
 }
 
 project.configure(project.android, {
