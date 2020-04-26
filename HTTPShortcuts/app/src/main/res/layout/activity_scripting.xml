@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/label_pre_request_script" />
 
-            <EditText
+            <ch.rmy.android.http_shortcuts.views.ResilientEditText
                 android:id="@+id/input_code_prepare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
                     android:layout_marginTop="32dp"
                     android:text="@string/label_post_request_success_script" />
 
-                <EditText
+                <ch.rmy.android.http_shortcuts.views.ResilientEditText
                     android:id="@+id/input_code_success"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
                     android:layout_marginTop="32dp"
                     android:text="@string/label_post_request_failure_script" />
 
-                <EditText
+                <ch.rmy.android.http_shortcuts.views.ResilientEditText
                     android:id="@+id/input_code_failure"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
