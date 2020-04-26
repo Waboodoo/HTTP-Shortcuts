@@ -11,6 +11,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.input.input
 import com.afollestad.materialdialogs.list.listItems
+import io.reactivex.Completable
 
 open class DialogBuilder(val context: Context) {
 
@@ -119,5 +120,17 @@ open class DialogBuilder(val context: Context) {
     fun show() = build().showIfPossible()
 
     fun showIfPossible() = show()
+
+    fun showAsCompletable(): Completable =
+        Completable.create { emitter ->
+            dismissListener {
+                emitter.onComplete()
+            }
+                .showIfPossible()
+                ?: let {
+                    emitter.onComplete()
+                }
+        }
+
 
 }

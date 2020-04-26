@@ -9,6 +9,7 @@ import ch.rmy.android.http_shortcuts.data.Repository
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.exceptions.CanceledByUserException
+import ch.rmy.android.http_shortcuts.exceptions.JavaScriptException
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.variables.VariableManager
@@ -16,6 +17,7 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import org.liquidplayer.javascript.JSContext
+import org.liquidplayer.javascript.JSException
 import org.liquidplayer.javascript.JSFunction
 import org.liquidplayer.javascript.JSValue
 
@@ -70,6 +72,11 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
                 jsContext.evaluateScript(script)
                 emitter.onComplete()
             }
+                .onErrorResumeNext { e ->
+                    Completable.error(
+                        if (e is JSException) JavaScriptException(e) else e
+                    )
+                }
         }
 
     private fun registerShortcut(shortcut: Shortcut) {

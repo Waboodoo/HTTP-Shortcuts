@@ -7,18 +7,24 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.InvalidContentTypeException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidHeaderException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidUrlException
-import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.http_shortcuts.exceptions.JavaScriptException
+import ch.rmy.android.http_shortcuts.exceptions.UnsupportedFeatureException
+import ch.rmy.android.http_shortcuts.exceptions.UserException
 import ch.rmy.android.http_shortcuts.extensions.mapIf
+import ch.rmy.android.http_shortcuts.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.HttpStatus
 import io.reactivex.exceptions.CompositeException
 import java.net.ConnectException
+import java.net.UnknownHostException
 
 class ErrorFormatter(private val context: Context) {
 
     fun getPrettyError(error: Throwable, shortcutName: String, includeBody: Boolean): String =
         if (error is ErrorResponse) {
             getHttpErrorMessage(error, shortcutName, includeBody)
+        } else if (error is UserException) {
+            getErrorMessage(error)
         } else {
             String.format(getString(R.string.error_other), shortcutName, getErrorMessage(error))
         }
@@ -33,11 +39,9 @@ class ErrorFormatter(private val context: Context) {
         ))
 
         if (includeBody && error.shortcutResponse.bodyAsString.isNotEmpty()) {
-            try {
+            tryOrLog {
                 builder.append("\n\n")
                 builder.append(error.shortcutResponse.bodyAsString)
-            } catch (e: Exception) {
-                logException(e)
             }
         }
         return builder.toString()
@@ -50,7 +54,10 @@ class ErrorFormatter(private val context: Context) {
             is InvalidHeaderException -> context.getString(R.string.error_invalid_header, error.header)
             is InvalidContentTypeException -> context.getString(R.string.error_invalid_content_type, error.contentType)
             is SizeLimitedReader.LimitReachedException -> context.getString(R.string.error_response_too_large, Formatter.formatShortFileSize(context, error.limit))
-            is ConnectException -> error.message!!
+            is JavaScriptException -> context.getString(R.string.error_js_pattern, error.message)
+            is UnsupportedFeatureException -> context.getString(R.string.error_not_supported)
+            is ConnectException,
+            is UnknownHostException -> error.message!!
             else -> getUnknownErrorMessage(error)
         }
 
@@ -69,7 +76,7 @@ class ErrorFormatter(private val context: Context) {
     private fun getSingleErrorMessage(error: Throwable): String =
         when {
             error.message != null -> error.message!!
-            else -> error.javaClass.simpleName
+            else -> context.getString(R.string.error_generic)
         }
 
     private fun getString(@StringRes stringRes: Int): String = context.getString(stringRes)

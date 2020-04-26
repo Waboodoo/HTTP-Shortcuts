@@ -4,19 +4,21 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.actions.types.ActionFactory
+import ch.rmy.android.http_shortcuts.activities.execute.ProgressIndicator
 import ch.rmy.android.http_shortcuts.activities.response.DisplayResponseActivity
 import ch.rmy.android.http_shortcuts.data.Commons
 import ch.rmy.android.http_shortcuts.data.Controller
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
+import ch.rmy.android.http_shortcuts.exceptions.CanceledByUserException
+import ch.rmy.android.http_shortcuts.exceptions.InvalidUrlException
 import ch.rmy.android.http_shortcuts.exceptions.ResumeLaterException
-import ch.rmy.android.http_shortcuts.extensions.attachTo
+import ch.rmy.android.http_shortcuts.exceptions.UnsupportedFeatureException
+import ch.rmy.android.http_shortcuts.exceptions.UserException
 import ch.rmy.android.http_shortcuts.extensions.cancel
 import ch.rmy.android.http_shortcuts.extensions.detachFromRealm
 import ch.rmy.android.http_shortcuts.extensions.finishWithoutAnimation
@@ -47,7 +49,6 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import org.liquidplayer.javascript.JSException
 import java.io.IOException
 import java.net.UnknownHostException
 import java.util.HashMap
@@ -63,22 +64,12 @@ class ExecuteActivity : BaseActivity() {
     }
     private lateinit var shortcut: Shortcut
 
-    private var layoutLoaded = false
-    private val showProgressRunnable = Runnable {
-        if (!layoutLoaded) {
-            layoutLoaded = true
-            setContentView(R.layout.activity_execute_loading)
-            baseView?.setBackgroundColor(Color.TRANSPARENT)
-        }
+    private val progressIndicator: ProgressIndicator by lazy {
+        ProgressIndicator(this)
     }
 
-    private val handler = Handler()
-
-    private val actionFactory by lazy {
-        ActionFactory(context)
-    }
     private val scriptExecutor: ScriptExecutor by lazy {
-        ScriptExecutor(actionFactory)
+        ScriptExecutor(ActionFactory(context))
     }
 
     /* Execution Parameters */
@@ -103,7 +94,7 @@ class ExecuteActivity : BaseActivity() {
 
     /* Caches / State */
     private var fileUploadManager: FileUploadManager? = null
-    private var variableManager: VariableManager? = null
+    private lateinit var variableManager: VariableManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -123,32 +114,55 @@ class ExecuteActivity : BaseActivity() {
         }
 
         subscribeAndFinishAfterIfNeeded(
-            if (requiresConfirmation()) {
-                promptForConfirmation()
-            } else {
-                Completable.complete()
-            }
+            promptForConfirmationIfNeeded()
                 .concatWith(resolveVariablesAndExecute(variableValues))
         )
     }
 
     private fun subscribeAndFinishAfterIfNeeded(completable: Completable) {
         completable
+            .doOnError { error ->
+                if (error !is ErrorResponse && error !is IOException && error !is UserException) {
+                    logException(error)
+                }
+            }
             .onErrorResumeNext { error ->
-                if (error is ResumeLaterException) {
-                    Completable.error(error)
-                } else {
-                    ExecuteErrorHandler(context).handleError(error)
+                when (error) {
+                    is ResumeLaterException -> {
+                        Completable.error(error)
+                    }
+                    is CanceledByUserException -> {
+                        Completable.complete()
+                    }
+                    is UserException -> {
+                        displayError(error)
+                    }
+                    else -> {
+                        if (shouldReschedule(error)) {
+                            if (shortcut.feedback != Shortcut.FEEDBACK_NONE && tryNumber == 0) {
+                                showToast(String.format(context.getString(R.string.execution_delayed), shortcutName), long = true)
+                            }
+                            rescheduleExecution()
+                                .doOnComplete {
+                                    ExecutionScheduler.schedule(context)
+                                }
+                        } else {
+                            val simple = shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE_ERRORS || shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE
+                            displayOutput(
+                                generateOutputFromError(error, simple),
+                                response = (error as? ErrorResponse)?.shortcutResponse
+                            )
+                        }
+                    }
                 }
             }
             .subscribe(
                 {
-                    if (shouldFinishAfterExecution()) {
-                        finishWithoutAnimation()
-                    }
+                    finishWithoutAnimation()
                 },
                 { error ->
                     if (error !is ResumeLaterException) {
+                        logException(error)
                         finishWithoutAnimation()
                     }
                 }
@@ -164,12 +178,24 @@ class ExecuteActivity : BaseActivity() {
     private fun shouldDelayExecution() =
         shortcut.delay > 0 && tryNumber == 0
 
+    private fun shouldReschedule(error: Throwable): Boolean =
+        shortcut.isWaitForNetwork
+            && error !is ErrorResponse
+            && (error is UnknownHostException || !NetworkUtil.isNetworkConnected(context))
+
     private fun shouldFinishImmediately() =
         shouldFinishAfterExecution()
             && shortcut.codeOnPrepare.isEmpty()
             && shortcut.codeOnSuccess.isEmpty()
             && shortcut.codeOnFailure.isEmpty()
             && !NetworkUtil.isNetworkPerformanceRestricted(context)
+
+    private fun promptForConfirmationIfNeeded(): Completable =
+        if (requiresConfirmation()) {
+            promptForConfirmation()
+        } else {
+            Completable.complete()
+        }
 
     private fun promptForConfirmation(): Completable =
         Completable.create { emitter ->
@@ -189,21 +215,38 @@ class ExecuteActivity : BaseActivity() {
                 }
         }
 
+    private fun displayError(error: Throwable): Completable =
+        generateOutputFromError(error)
+            .let { message ->
+                if (isFinishing) {
+                    showToast(message, long = true)
+                    Completable.complete()
+                } else {
+                    DialogBuilder(context)
+                        .title(R.string.dialog_title_error)
+                        .message(message)
+                        .positive(R.string.dialog_ok)
+                        .showAsCompletable()
+                }
+            }
+
     private fun resolveVariablesAndExecute(variableValues: Map<String, String>): Completable =
         VariableResolver(context)
             .resolve(controller.getVariables().detachFromRealm(), shortcut, variableValues)
             .flatMapCompletable { variableManager ->
+                this.variableManager = variableManager
                 if (shouldDelayExecution()) {
                     val waitUntil = DateUtil.calculateDate(shortcut.delay)
                     Commons.createPendingExecution(
                         shortcutId = shortcut.id,
                         resolvedVariables = variableManager.getVariableValuesByKeys(),
                         waitUntil = waitUntil,
+                        tryNumber = 1,
                         recursionDepth = recursionDepth,
                         requiresNetwork = shortcut.isWaitForNetwork
                     )
                 } else {
-                    executeWithFileRequests(variableManager)
+                    executeWithFileRequests()
                 }
             }
 
@@ -230,29 +273,26 @@ class ExecuteActivity : BaseActivity() {
         return fileUploadManager
     }
 
-    private fun executeWithFileRequests(variableManager: VariableManager): Completable {
+    private fun executeWithFileRequests(): Completable {
         val fileUploadManager = getFileUploadManager()
         val fileRequest = fileUploadManager?.getNextFileRequest()
         return if (fileRequest == null) {
-            executeWithActions(variableManager, fileUploadManager)
+            executeWithActions(fileUploadManager)
         } else {
-            this.variableManager = variableManager
             openFilePickerForFileParameter(multiple = fileRequest.multiple)
-            Completable.error(ResumeLaterException())
         }
     }
 
-    private fun openFilePickerForFileParameter(multiple: Boolean) {
+    private fun openFilePickerForFileParameter(multiple: Boolean): Completable =
         try {
             FilePickerUtil.createIntent(multiple)
                 .startActivity(this, REQUEST_PICK_FILES)
+            Completable.error(ResumeLaterException())
         } catch (e: ActivityNotFoundException) {
-            showToast(R.string.error_not_supported)
-            finishWithoutAnimation()
+            Completable.error(UnsupportedFeatureException())
         }
-    }
 
-    private fun executeWithActions(variableManager: VariableManager, fileUploadManager: FileUploadManager? = null): Completable =
+    private fun executeWithActions(fileUploadManager: FileUploadManager? = null): Completable =
         Completable
             .fromAction {
                 if (shouldFinishImmediately()) {
@@ -278,10 +318,9 @@ class ExecuteActivity : BaseActivity() {
             )
             .concatWith(
                 if (shortcut.isBrowserShortcut) {
-                    openShortcutInBrowser(variableManager)
-                    Completable.complete()
+                    openShortcutInBrowser()
                 } else {
-                    executeShortcut(variableManager, fileUploadManager)
+                    executeShortcut(fileUploadManager)
                         .onErrorResumeNext { error ->
                             if (error is ErrorResponse || error is IOException) {
                                 scriptExecutor
@@ -314,54 +353,41 @@ class ExecuteActivity : BaseActivity() {
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .toSingle { response }
                         }
-                        .doOnSuccess { response ->
+                        .flatMapCompletable { response ->
                             if (shortcut.isFeedbackErrorsOnly()) {
-                                finishWithoutAnimation()
+                                Completable.complete()
                             } else {
                                 val simple = shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE
-                                val output = if (simple) String.format(getString(R.string.executed), shortcutName) else generateOutputFromResponse(response)
+                                val output = if (simple) {
+                                    String.format(getString(R.string.executed), shortcutName)
+                                } else {
+                                    generateOutputFromResponse(response)
+                                }
                                 displayOutput(output, response)
                             }
                         }
-                        .doOnError { error ->
-                            if (shortcut.isWaitForNetwork && error !is ErrorResponse && (error is UnknownHostException || !NetworkUtil.isNetworkConnected(context))) {
-                                rescheduleExecution(variableManager)
-                                if (shortcut.feedback != Shortcut.FEEDBACK_NONE && tryNumber == 0) {
-                                    showToast(String.format(context.getString(R.string.execution_delayed), shortcutName), long = true)
-                                }
-                                finishWithoutAnimation()
-                            } else if (error !is JSException) {
-                                val simple = shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE_ERRORS || shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE
-                                displayOutput(generateOutputFromError(error, simple), response = (error as? ErrorResponse)?.shortcutResponse)
-                            }
-                        }
-                        .ignoreElement()
                 }
             )
 
-    private fun openShortcutInBrowser(variableManager: VariableManager) {
+    private fun openShortcutInBrowser(): Completable = Completable.fromAction {
         val url = Variables.rawPlaceholdersToResolvedValues(shortcut.url, variableManager.getVariableValuesByIds())
         try {
             val uri = Uri.parse(url)
             if (!Validation.isValidUrl(uri)) {
-                showToast(R.string.error_invalid_url)
-                return
+                throw InvalidUrlException(url)
             }
             Intent(Intent.ACTION_VIEW, uri)
                 .startActivity(this)
         } catch (e: ActivityNotFoundException) {
-            showToast(R.string.error_not_supported)
-        } catch (e: Exception) {
-            logException(e)
-            showToast(R.string.error_generic)
+            throw UnsupportedFeatureException()
         }
     }
 
-    private fun executeShortcut(variableManager: VariableManager, fileUploadManager: FileUploadManager? = null): Single<ShortcutResponse> =
+    private fun executeShortcut(fileUploadManager: FileUploadManager? = null): Single<ShortcutResponse> =
         HttpRequester.executeShortcut(shortcut, variableManager, fileUploadManager)
             .observeOn(AndroidSchedulers.mainThread())
 
-    private fun rescheduleExecution(variableManager: VariableManager) {
+    private fun rescheduleExecution(): Completable =
         if (tryNumber < MAX_RETRY) {
             val waitUntil = DateUtil.calculateDate(calculateDelay())
             Commons
@@ -373,36 +399,30 @@ class ExecuteActivity : BaseActivity() {
                     recursionDepth = recursionDepth,
                     requiresNetwork = shortcut.isWaitForNetwork
                 )
-                .subscribe {
-                    ExecutionScheduler.schedule(context)
-                }
-                .attachTo(destroyer)
+        } else {
+            Completable.complete()
         }
-    }
 
     private fun calculateDelay() = RETRY_BACKOFF.pow(tryNumber.toDouble()).toInt() * 1000
 
     private fun generateOutputFromResponse(response: ShortcutResponse) = response.bodyAsString
 
-    private fun generateOutputFromError(error: Throwable, simple: Boolean) =
+    private fun generateOutputFromError(error: Throwable, simple: Boolean = false) =
         ErrorFormatter(context).getPrettyError(error, shortcutName, includeBody = !simple)
 
     private fun showProgress() {
-        when {
-            shortcut.isFeedbackInDialog || shortcut.isFeedbackInWindow -> {
-                handler.post(showProgressRunnable)
-            }
-            else -> {
-                handler.removeCallbacks(showProgressRunnable)
-                handler.postDelayed(showProgressRunnable, INVISIBLE_PROGRESS_THRESHOLD)
-            }
+        if (shortcut.isFeedbackInDialog || shortcut.isFeedbackInWindow) {
+            progressIndicator.showProgress()
+        } else {
+            progressIndicator.showProgressDelayed(INVISIBLE_PROGRESS_THRESHOLD)
         }
     }
 
-    private fun displayOutput(output: String, response: ShortcutResponse? = null) {
+    private fun displayOutput(output: String, response: ShortcutResponse? = null): Completable =
         when (shortcut.feedback) {
             Shortcut.FEEDBACK_TOAST_SIMPLE, Shortcut.FEEDBACK_TOAST_SIMPLE_ERRORS -> {
                 showToast(output.ifBlank { getString(R.string.message_blank_response) })
+                Completable.complete()
             }
             Shortcut.FEEDBACK_TOAST, Shortcut.FEEDBACK_TOAST_ERRORS -> {
                 showToast(
@@ -411,14 +431,14 @@ class ExecuteActivity : BaseActivity() {
                         .ifBlank { getString(R.string.message_blank_response) },
                     long = true
                 )
+                Completable.complete()
             }
             Shortcut.FEEDBACK_DIALOG -> {
                 DialogBuilder(context)
                     .title(shortcutName)
                     .message(HTMLUtil.format(output.ifBlank { getString(R.string.message_blank_response) }))
                     .positive(R.string.dialog_ok)
-                    .dismissListener { finishWithoutAnimation() }
-                    .show()
+                    .showAsCompletable()
             }
             Shortcut.FEEDBACK_ACTIVITY, Shortcut.FEEDBACK_DEBUG -> {
                 DisplayResponseActivity.IntentBuilder(context, shortcutId)
@@ -434,10 +454,10 @@ class ExecuteActivity : BaseActivity() {
                     }
                     .build()
                     .startActivity(this)
-                finishWithoutAnimation()
+                Completable.complete()
             }
+            else -> Completable.complete()
         }
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -455,14 +475,14 @@ class ExecuteActivity : BaseActivity() {
     }
 
     private fun resumeAfterFileRequest() {
-        if (variableManager == null || fileUploadManager == null) {
+        if (fileUploadManager == null) {
             // TODO: Handle edge case where variableManager is no longer set because activity was recreated
-            logException(RuntimeException("Failed to resume after file sharing: variableManager=${variableManager != null}, fileUploadManger=${fileUploadManager != null}"))
+            logException(RuntimeException("Failed to resume after file sharing"))
             showToast(R.string.error_generic, long = true)
             finishWithoutAnimation()
             return
         }
-        subscribeAndFinishAfterIfNeeded(executeWithFileRequests(variableManager!!))
+        subscribeAndFinishAfterIfNeeded(executeWithFileRequests())
     }
 
     override fun onBackPressed() {
