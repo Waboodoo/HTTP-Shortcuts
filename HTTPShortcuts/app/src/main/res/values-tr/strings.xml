@@ -41,7 +41,7 @@
     <string name="validation_name_not_empty">Lütfen bir isim giriniz</string>
     <string name="validation_url_invalid">Lütfen bir HTTP(S) URL\'si girin.</string>
     <string name="error_http">%1$s, %2$d (%3$s) durum koduyla başarısız oldu.</string>
-    <string name="error_other">%1$ başarısız oldu: %2$s</string>
+    <string name="error_other">%1$s başarısız oldu: %2$s</string>
     <string name="error_set_image">Resim simge olarak kullanılamadı.</string>
     <string name="template_shortcut_name_copy">%1$s (kopya)</string>
     <string name="choose_ipack">Bir Ipack seçin</string>
@@ -239,7 +239,7 @@
     <string name="error_generic">Bir şeyler yanlış gitti…</string>
     <string name="action_type_trigger_shortcut_title">Kısayolu Tetikle</string>
     <string name="action_type_trigger_shortcut_error_recursion_depth_reached">Maksimum tekrarlama derinliğine ulaşıldı. Kısayol tetiklenmeyecek.</string>
-    <string name="error_invalid_url">Geçersiz URL. HTTP(S) olmalı.</string>
+    <string name="error_invalid_url">Geçersiz URL (%s). HTTP(S) olmalı.</string>
     <string name="title_select_placement_method">Yerleşim Yöntemi</string>
     <string name="description_select_placement_method">Kısayolu yerleştirmek için kullanılacak yöntemi seçin. \"Varsayılan\" yöntemiyle ilgili bir sorunla karşılaşırsanız, bunun yerine \"Katılım\" yöntemini deneyebilirsiniz. Lütfen bazı özelliklerin (örneğin, kısayol adının değiştirilmesi) Katılım yönteminde mevcut olmadığını unutmayın.</string>
     <string name="label_placement_method_default">Varsayılan</string>

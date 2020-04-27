@@ -150,7 +150,7 @@
     <string name="error_generic">Coś poszło nie tak...</string>
     <string name="action_type_trigger_shortcut_title">Wyzwalacz skrótu</string>
     <string name="action_type_trigger_shortcut_error_recursion_depth_reached">Osiągnięto maksymalną ilość powtórzeń. Skrót nie będzie wywołany.</string>
-    <string name="error_invalid_url">Nieprawidłowy URL. Musi być HTTP(S).</string>
+    <string name="error_invalid_url">Nieprawidłowy URL (%s). Musi być HTTP(S).</string>
     <string name="title_select_placement_method">Sposób umieszczenia</string>
     <string name="description_select_placement_method">Wybierz sposób w jaki będzie umieszczony skrót. Jeśli pojawią się problemy z metodą \"Domyślną\" powinieneś spróbować metodę \"Legacy\". Zauważ proszę, że niektóre opcje (np zmiana nazwy skrótu) są niedostępne w tym trybie.</string>
     <string name="label_placement_method_default">Domyśly</string>

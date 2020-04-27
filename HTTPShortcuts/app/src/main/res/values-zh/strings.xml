@@ -236,7 +236,7 @@
     <string name="error_generic">出错了...</string>
     <string name="action_type_trigger_shortcut_title">启动此快捷方式</string>
     <string name="action_type_trigger_shortcut_error_recursion_depth_reached">已达到最大递归深度，快捷方式无法启动</string>
-    <string name="error_invalid_url">URL无效，必须是HTTP(S)URL</string>
+    <string name="error_invalid_url">URL无效 (%s)，必须是HTTP(S)URL</string>
     <string name="title_select_placement_method">替换方式</string>
     <string name="description_select_placement_method">请选择用于放置快捷方式的方法。 如果您在使用“默认”方法时遇到问题，则可以尝试使用“传统”方法。\u0020</string>
     <string name="label_placement_method_default">默认</string>
