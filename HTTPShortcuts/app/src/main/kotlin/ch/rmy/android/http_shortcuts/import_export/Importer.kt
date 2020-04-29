@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.import_export
 
 import android.content.Context
 import android.net.Uri
-import androidx.core.text.isDigitsOnly
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.Controller
 import ch.rmy.android.http_shortcuts.data.migration.ImportMigrator
@@ -50,13 +49,13 @@ class Importer(private val context: Context) {
     private fun validate(base: Base) {
         if (base.categories.any { category ->
                 category.shortcuts.any { shortcut ->
-                    !UUIDUtils.isUUID(shortcut.id) && !shortcut.id.isDigitsOnly()
+                    !UUIDUtils.isUUID(shortcut.id) && shortcut.id.toIntOrNull() == null
                 }
             }) {
             throw IllegalArgumentException("Invalid shortcut ID found, must be UUID")
         }
         if (base.categories.any { category ->
-                !UUIDUtils.isUUID(category.id) && !category.id.isDigitsOnly()
+                !UUIDUtils.isUUID(category.id) && category.id.toIntOrNull() == null
             }) {
             throw IllegalArgumentException("Invalid category ID found, must be UUID")
         }

@@ -7,8 +7,6 @@ import android.os.Bundle
 import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.TextView
-import androidx.core.view.children
 import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
 import ch.rmy.android.http_shortcuts.R
@@ -33,6 +31,7 @@ import ch.rmy.android.http_shortcuts.extensions.restartWithoutAnimation
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
+import ch.rmy.android.http_shortcuts.extensions.titleView
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
@@ -90,7 +89,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
                 setResult(Activity.RESULT_CANCELED, WidgetManager.getIntent(widgetId))
             }
             if ((selectionMode == SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT
-                || selectionMode == SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT) && savedInstanceState == null) {
+                    || selectionMode == SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT) && savedInstanceState == null) {
                 showToast(R.string.instructions_select_shortcut_for_home_screen, long = true)
             }
         }
@@ -163,7 +162,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
             setTitle(title.ifEmpty { context.getString(R.string.app_name) })
         })
         if (selectionMode === SelectionMode.NORMAL) {
-            toolbar!!.children.firstOrNull { it is TextView }?.setOnClickListener {
+            toolbar!!.titleView?.setOnClickListener {
                 if (!viewModel.isAppLocked()) {
                     showToolbarTitleChangeDialog()
                 }

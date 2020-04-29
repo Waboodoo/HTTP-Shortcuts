@@ -29,9 +29,17 @@ android {
     }
 
     buildTypes {
+        debug {
+            minifyEnabled true
+            shrinkResources true
+
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            minifyEnabled true
+            shrinkResources true
+
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -111,8 +119,9 @@ dependencies {
     implementation 'com.afollestad.material-dialogs:input:3.1.1'
     implementation 'me.priyesh:chroma:1.0.2'
 
-    /* Acknowledgments */
-    implementation 'com.mikepenz:aboutlibraries:7.1.0'
+    /* Animated progress bar */
+    implementation 'com.github.castorflex.smoothprogressbar:library:1.1.0'
+    implementation 'com.github.castorflex.smoothprogressbar:library-circular:1.1.0'
 
     /* Image selection */
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'

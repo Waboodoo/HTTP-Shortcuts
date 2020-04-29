@@ -7,7 +7,9 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.EditText
+import android.widget.TextView
 import androidx.annotation.LayoutRes
+import androidx.appcompat.widget.Toolbar
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.utils.SimpleTextWatcher
 import io.reactivex.Observable
@@ -111,3 +113,14 @@ fun EditText.setTextSafely(text: CharSequence) {
         setSelection(min(start, length), min(end, length))
     }
 }
+
+val Toolbar.titleView: TextView?
+    get() {
+        for (i in 0 until childCount) {
+            val child = getChildAt(i) as? TextView
+            if (child != null) {
+                return child
+            }
+        }
+        return null
+    }

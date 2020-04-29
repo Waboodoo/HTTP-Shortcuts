@@ -114,8 +114,8 @@
             app:summary="@string/settings_help_translate_summary"
             app:title="@string/settings_help_translate"/>
         <Preference
-            app:icon="@drawable/ic_licenses"
-            app:key="licenses"
+            app:icon="@drawable/ic_acknowledgments"
+            app:key="acknowledgments"
             app:summary="@string/settings_licenses_summary"
             app:title="@string/settings_licenses"/>
 

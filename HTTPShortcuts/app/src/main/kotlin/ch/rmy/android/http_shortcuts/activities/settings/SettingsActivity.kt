@@ -16,7 +16,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
-import ch.rmy.android.http_shortcuts.activities.misc.LicensesActivity
+import ch.rmy.android.http_shortcuts.activities.misc.AcknowledgmentActivity
 import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.dialogs.HelpDialogBuilder
@@ -145,8 +145,8 @@ class SettingsActivity : BaseActivity() {
                 findPreference<Preference>("translate")!!.isVisible = false
             }
 
-            initPreference("licenses") {
-                showLicenses()
+            initPreference("acknowledgments") {
+                showAcknowledgments()
             }
         }
 
@@ -357,8 +357,8 @@ class SettingsActivity : BaseActivity() {
                 .startActivity(this)
         }
 
-        private fun showLicenses() {
-            LicensesActivity.IntentBuilder(context!!)
+        private fun showAcknowledgments() {
+            AcknowledgmentActivity.IntentBuilder(context!!)
                 .build()
                 .startActivity(this)
         }

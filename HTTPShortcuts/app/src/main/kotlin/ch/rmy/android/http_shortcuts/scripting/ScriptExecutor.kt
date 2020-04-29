@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.scripting
 
 import android.content.Context
+import androidx.annotation.Keep
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.actions.ActionDTO
 import ch.rmy.android.http_shortcuts.actions.types.ActionFactory
@@ -23,30 +24,16 @@ import org.liquidplayer.javascript.JSValue
 
 class ScriptExecutor(private val actionFactory: ActionFactory) {
 
-    private val jsContext = JSContext()
+    private val jsContext by lazy {
+        JSContext()
+            .also {
+                registerActionAliases(it, actionFactory.getAliases())
+            }
+    }
 
     private var responseData: ShortcutResponse? = null
     private var responseErrorData: Exception? = null
     private var abort: Boolean = false
-
-    init {
-        registerActionAliases(actionFactory.getAliases())
-    }
-
-    private fun registerActionAliases(aliases: Map<String, ActionAlias>) {
-        aliases
-            .forEach { (actionName, alias) ->
-                jsContext.evaluateScript(
-                    """
-                    const ${alias.functionName} = (${alias.parameters.joinToString()}) => {
-                        _runAction("$actionName", {
-                            ${alias.parameters.joinToString { parameter -> "\"$parameter\": $parameter" }}
-                        });
-                    };
-                    """.trimIndent()
-                )
-            }
-    }
 
     fun execute(context: Context, script: String, shortcut: Shortcut, variableManager: VariableManager, response: ShortcutResponse? = null, error: Exception? = null, recursionDepth: Int = 0): Completable =
         if (script.isEmpty()) {
@@ -103,11 +90,13 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
     private fun registerVariables(variableManager: VariableManager) {
         jsContext.property("getVariable", object : JSFunction(jsContext, "run") {
             @Suppress("unused")
+            @Keep
             fun run(variableKeyOrId: String): String? =
                 variableManager.getVariableValueByKeyOrId(variableKeyOrId)
         })
         jsContext.property("setVariable", object : JSFunction(jsContext, "run") {
             @Suppress("unused")
+            @Keep
             fun run(variableKeyOrId: String, rawValue: JSValue?) {
                 val value = sanitizeData(rawValue)
                 variableManager.setVariableValueByKeyOrId(variableKeyOrId, value)
@@ -135,6 +124,7 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
         )
         jsContext.property("_abort", object : JSFunction(jsContext, "run") {
             @Suppress("unused")
+            @Keep
             fun run() {
                 abort = true
                 throw Exception()
@@ -145,8 +135,8 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
     private fun registerActions(context: Context, shortcutId: String, variableManager: VariableManager, recursionDepth: Int) {
         jsContext.property("_runAction", object : JSFunction(jsContext, "run") {
             @Suppress("unused")
+            @Keep
             fun run(actionType: String, data: Map<String, JSValue>) {
-
                 val action = actionFactory.fromDTO(ActionDTO(
                     type = actionType,
                     data = sanitizeData(data)
@@ -169,6 +159,7 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
     private fun registerUserInteractions(context: Context) {
         jsContext.property("alert", object : JSFunction(jsContext, "run") {
             @Suppress("unused")
+            @Keep
             fun run(message: String) {
                 Completable.create { emitter ->
                     DialogBuilder(context)
@@ -183,6 +174,7 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
         })
         jsContext.property("confirm", object : JSFunction(jsContext, "run") {
             @Suppress("unused")
+            @Keep
             fun run(message: String?): Boolean =
                 Single.create<Boolean> { emitter ->
                     DialogBuilder(context)
@@ -201,6 +193,7 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
         })
         jsContext.property("prompt", object : JSFunction(jsContext, "run") {
             @Suppress("unused")
+            @Keep
             fun run(message: String?, default: String?): String? =
                 Single.create<String> { emitter ->
                     DialogBuilder(context)
@@ -219,6 +212,21 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
     }
 
     companion object {
+
+        private fun registerActionAliases(jsContext: JSContext, aliases: Map<String, ActionAlias>) {
+            aliases
+                .forEach { (actionName, alias) ->
+                    jsContext.evaluateScript(
+                        """
+                    const ${alias.functionName} = (${alias.parameters.joinToString()}) => {
+                        _runAction("$actionName", {
+                            ${alias.parameters.joinToString { parameter -> "\"$parameter\": $parameter" }}
+                        });
+                    };
+                    """.trimIndent()
+                    )
+                }
+        }
 
         private fun sanitizeData(data: Map<String, JSValue?>): Map<String, String> =
             data.mapValues { sanitizeData(it.value) }

@@ -166,7 +166,7 @@
         </activity>
         <activity android:name=".activities.response.DisplayResponseActivity"></activity>
         <activity
-            android:name=".activities.misc.LicensesActivity"
+            android:name=".activities.misc.AcknowledgmentActivity"
             android:label="@string/title_licenses" />
 
         <activity
