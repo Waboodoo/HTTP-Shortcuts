@@ -16,6 +16,7 @@ object Validation {
             scheme.equals("http", ignoreCase = true)
                 || scheme.equals("https", ignoreCase = true)
         } ?: false)
+            && uri.host?.isNotEmpty() == true
             && try {
             consume { URI(uri.toString()) }
         } catch (e: URISyntaxException) {

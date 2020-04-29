@@ -77,6 +77,17 @@ class ValidationTest {
     }
 
     @Test
+    fun testEmptyUrlNotValid() {
+        assertThat(isValidUrl(Uri.parse("http://")), equalTo(false))
+        assertThat(isValidUrl(Uri.parse("https://")), equalTo(false))
+        assertThat(isValidUrl(Uri.parse("https:")), equalTo(false))
+        assertThat(isValidUrl(Uri.parse("https")), equalTo(false))
+        assertThat(isValidUrl(Uri.parse("https:/")), equalTo(false))
+        assertThat(isValidUrl(Uri.parse("https:///")), equalTo(false))
+        assertThat(isValidUrl(Uri.parse("https://:")), equalTo(false))
+    }
+
+    @Test
     fun testHttpSchemeValid() {
         assertThat(isValidUrl(Uri.parse("http://example.com")), equalTo(true))
     }
