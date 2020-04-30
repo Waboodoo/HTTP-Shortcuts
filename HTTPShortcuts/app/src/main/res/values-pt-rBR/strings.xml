@@ -239,7 +239,7 @@
     <string name="error_generic">Algo deu errado…</string>
     <string name="action_type_trigger_shortcut_title">Acionar Atalho</string>
     <string name="action_type_trigger_shortcut_error_recursion_depth_reached">Profundidade máxima de recursão atingida. Atalho não será acionado.</string>
-    <string name="error_invalid_url">URL inválida (%s). Deve ser HTTP(S).</string>
+    <string name="error_invalid_url">URL inválida (%s).</string>
     <string name="title_select_placement_method">Método de Substituição</string>
     <string name="description_select_placement_method">Selecione o método para colocar o atalho. Se você encontrar problemas com o método \"Padrão\", você deve tentar o método \"Legado\". Por favor, note que algumas características (ex.: mudar nome do atalho) não estão disponíveis no método Legado.</string>
     <string name="label_placement_method_default">Padrão</string>

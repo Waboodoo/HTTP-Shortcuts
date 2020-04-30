@@ -239,7 +239,7 @@
     <string name="error_generic">Qualcosa è andato storto…</string>
     <string name="action_type_trigger_shortcut_title">Attiva Scorciatoia</string>
     <string name="action_type_trigger_shortcut_error_recursion_depth_reached">Massima profondità di ricorsione raggiunta. La scorciatoia non verrà attivata.</string>
-    <string name="error_invalid_url">URL non valido (%s). Deve essere HTTP(S).</string>
+    <string name="error_invalid_url">URL non valido (%s).</string>
     <string name="title_select_placement_method">Metodo di posizionamento</string>
     <string name="description_select_placement_method">Seleziona il metodo da utilizzare per posizionare il collegamento. Se incontri problemi con il metodo \"Default\", puoi provare invece il metodo \"Legacy\". Tieni presente che alcune funzioni (ad esempio la modifica del nome di scelta rapida) non sono disponibili con il metodo Legacy.</string>
     <string name="label_placement_method_default">Default</string>

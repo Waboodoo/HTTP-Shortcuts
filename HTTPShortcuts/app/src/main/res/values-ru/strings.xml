@@ -242,7 +242,7 @@
     <string name="error_generic">Что-то пошло не так…</string>
     <string name="action_type_trigger_shortcut_title">Запустить ярлык</string>
     <string name="action_type_trigger_shortcut_error_recursion_depth_reached">Достигнута максимальная глубина рекурсии. Ярлык не будет запущен.</string>
-    <string name="error_invalid_url">Неверный URL (%s). Должно быть HTTP(S).</string>
+    <string name="error_invalid_url">Неверный URL (%s).</string>
     <string name="title_select_placement_method">Метод размещения</string>
     <string name="description_select_placement_method">Выберите метод размещения ярлыка. Если у вас возникли проблемы с методом «По умолчанию», вы можете попробовать метод «Старые версии». Обратите внимание, что некоторые функции (например, изменение имени ярлыка) недоступны при использовании метода «Старые версии».</string>
     <string name="label_placement_method_default">По умолчанию</string>

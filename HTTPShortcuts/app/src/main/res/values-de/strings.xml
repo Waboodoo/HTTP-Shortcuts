@@ -239,7 +239,7 @@
     <string name="error_generic">Ein unbekannter Fehler ist aufgetreten…</string>
     <string name="action_type_trigger_shortcut_title">Shortcut auslösen</string>
     <string name="action_type_trigger_shortcut_error_recursion_depth_reached">Maximale Rekursionstiefe erreicht. Shortcut wird nicht ausgelöst.</string>
-    <string name="error_invalid_url">Ungültige URL (%s). Muss HTTP(S) sein.</string>
+    <string name="error_invalid_url">Ungültige URL (%s).</string>
     <string name="title_select_placement_method">Platzierungsmethode</string>
     <string name="description_select_placement_method">Wähle die Methode zur Platzierung des Shortcuts aus. Falls du Probleme mit der \"Standard\"-Methode feststellst kannst du stattdessen die \"Legacy\"-Methode verwenden. Bitte beachte dass einige Funktionen (z.B. Ändern des Shortcut-Namens) nicht verfügbar sind mit der \"Legacy\"-Methode.</string>
     <string name="label_placement_method_default">Standard</string>
@@ -400,4 +400,10 @@
     <string name="title_configure_widget">Widget konfigurieren</string>
     <string name="label_widget_label_color">Namenfarbe</string>
     <string name="error_invalid_character">Ungültiges Zeichen: %s</string>
+    <string name="error_invalid_content_type">Ungültiger Content-Type (%s).</string>
+    <string name="error_invalid_header">Ungültiger Header (%s).</string>
+    <plurals name="warning_variable_still_in_use_in_shortcuts">
+        <item quantity="one">Diese Variable wird noch von einem Shortcut verwendet: %1$s</item>
+        <item quantity="other">Diese Variable wird noch von %2$d Shortcuts verwendet: %1$s</item>
+    </plurals>
 </resources>

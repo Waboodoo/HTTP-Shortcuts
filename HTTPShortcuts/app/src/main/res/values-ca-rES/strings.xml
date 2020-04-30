@@ -239,7 +239,7 @@
     <string name="error_generic">Alguna cosa ha anat malament...</string>
     <string name="action_type_trigger_shortcut_title">Drecera d\'execució</string>
     <string name="action_type_trigger_shortcut_error_recursion_depth_reached">S\'ha assolit la profunditat màxima del recurs. La drecera no serà executada.</string>
-    <string name="error_invalid_url">L\'URL és incorrecte (%s). Ha de ser HTTP(S).</string>
+    <string name="error_invalid_url">L\'URL és incorrecte (%s).</string>
     <string name="title_select_placement_method">Mode d\'ubicació</string>
     <string name="description_select_placement_method">Selecciona el mode a utilitzar per col·locar la drecera. Si tens problemes amb el mode \"per defecte\", podeu provar el mode \"antic\". Tingueu en compte que algunes funcions (p. ex. Canviar el nom de la drecera), no es troben disponibles en el mode antic.</string>
     <string name="label_placement_method_default">Per defecte</string>

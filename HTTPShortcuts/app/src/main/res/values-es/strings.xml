@@ -239,7 +239,7 @@
     <string name="error_generic">Algo fue mal…</string>
     <string name="action_type_trigger_shortcut_title">Ejecutar acceso directo</string>
     <string name="action_type_trigger_shortcut_error_recursion_depth_reached">Profundidad máxima de recursión alcanzada. El acceso directo no se activará.</string>
-    <string name="error_invalid_url">URL no válida (%s), tiene que ser HTTP(S).</string>
+    <string name="error_invalid_url">URL no válida (%s).</string>
     <string name="title_select_placement_method">Método de colocación</string>
     <string name="description_select_placement_method">Seleccione el método para colocar el...</string>
     <string name="label_placement_method_default">Por defecto</string>
