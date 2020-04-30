@@ -27,11 +27,10 @@ import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
-import ch.rmy.android.http_shortcuts.http.HttpHeaders
+import ch.rmy.android.http_shortcuts.import_export.CurlExporter
 import ch.rmy.android.http_shortcuts.utils.GridLayoutManager
 import ch.rmy.android.http_shortcuts.utils.SelectionMode
 import ch.rmy.android.http_shortcuts.utils.Settings
-import ch.rmy.curlcommand.CurlCommand
 import ch.rmy.curlcommand.CurlConstructor
 import kotterknife.bindView
 
@@ -339,39 +338,7 @@ class ListFragment : BaseFragment() {
     }
 
     private fun showCurlExportDialog(shortcut: Shortcut) {
-        val command = CurlCommand.Builder()
-            .url(shortcut.url)
-            .username(shortcut.username)
-            .password(shortcut.password)
-            .method(shortcut.method)
-            .timeout(shortcut.timeout)
-            .mapFor(shortcut.headers) { builder, header ->
-                builder.header(header.key, header.value)
-            }
-            .mapIf(shortcut.usesRequestParameters()) { builder ->
-                if (shortcut.requestBodyType == Shortcut.REQUEST_BODY_TYPE_FORM_DATA) {
-                    builder
-                        .isFormData()
-                        .mapFor(shortcut.parameters) { builder2, parameter ->
-                            if (parameter.isFileParameter || parameter.isFilesParameter) {
-                                builder2.addFileParameter(parameter.key)
-                            } else {
-                                builder2.addParameter(parameter.key, parameter.value)
-                            }
-                        }
-                } else {
-                    builder.mapFor(shortcut.parameters) { builder2, parameter ->
-                        builder2.addParameter(parameter.key, parameter.value)
-                    }
-                }
-            }
-            .mapIf(shortcut.usesCustomBody()) { builder ->
-                builder
-                    .header(HttpHeaders.CONTENT_TYPE, shortcut.contentType.ifEmpty { Shortcut.DEFAULT_CONTENT_TYPE })
-                    .data(shortcut.bodyContent)
-            }
-            .build()
-
+        val command = CurlExporter.generateCommand(shortcut, viewModel.getConstantVariableValues())
         CurlExportDialog(
             context!!,
             shortcut.name,

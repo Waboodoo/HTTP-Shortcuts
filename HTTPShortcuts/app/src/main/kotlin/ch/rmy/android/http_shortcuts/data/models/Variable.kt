@@ -72,6 +72,7 @@ open class Variable(
     companion object {
 
         const val FIELD_KEY = "key"
+        const val FIELD_TYPE = "type"
 
         const val TYPE_CONSTANT = "constant"
         const val TYPE_TEXT = "text"
