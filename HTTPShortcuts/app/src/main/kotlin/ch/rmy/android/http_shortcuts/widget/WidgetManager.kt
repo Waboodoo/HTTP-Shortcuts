@@ -19,7 +19,7 @@ object WidgetManager {
 
     fun createWidget(widgetId: Int, shortcutId: String, showLabel: Boolean, labelColor: String?) =
         Transactions.commit { realm ->
-            realm.copyToRealm(Widget(
+            realm.copyToRealmOrUpdate(Widget(
                 widgetId = widgetId,
                 shortcut = Repository.getShortcutById(realm, shortcutId),
                 showLabel = showLabel,
