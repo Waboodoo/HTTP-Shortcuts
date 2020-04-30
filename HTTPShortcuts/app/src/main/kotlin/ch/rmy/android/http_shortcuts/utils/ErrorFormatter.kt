@@ -50,7 +50,7 @@ class ErrorFormatter(private val context: Context) {
     private fun getErrorMessage(error: Throwable): String =
         when (error) {
             is CompositeException -> error.exceptions.joinToString(separator = "\n") { getErrorMessage(it) }
-            is InvalidUrlException -> context.getString(R.string.error_invalid_url, error.url)
+            is InvalidUrlException -> context.getString(R.string.error_invalid_url, error.detail ?: error.url)
             is InvalidHeaderException -> context.getString(R.string.error_invalid_header, error.header)
             is InvalidContentTypeException -> context.getString(R.string.error_invalid_content_type, error.contentType)
             is SizeLimitedReader.LimitReachedException -> context.getString(R.string.error_response_too_large, Formatter.formatShortFileSize(context, error.limit))

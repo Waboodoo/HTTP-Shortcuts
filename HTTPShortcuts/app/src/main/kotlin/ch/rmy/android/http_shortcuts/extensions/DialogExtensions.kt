@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.extensions
 
 import android.app.Activity
 import android.app.Dialog
+import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import com.afollestad.materialdialogs.MaterialDialog
 
@@ -10,7 +11,11 @@ fun AlertDialog.Builder.showIfPossible(): AlertDialog? {
         return null
     }
     return tryOrLog {
-        show()
+        try {
+            show()
+        } catch (e: WindowManager.BadTokenException) {
+            null
+        }
     }
 }
 
@@ -18,18 +23,26 @@ fun Dialog.showIfPossible(): Dialog? {
     if ((context as? Activity)?.isFinishing == true) {
         return null
     }
-    tryOrLog {
-        this.show()
+    return tryOrLog {
+        try {
+            show()
+            this
+        } catch (e: WindowManager.BadTokenException) {
+            null
+        }
     }
-    return this
 }
 
 fun MaterialDialog.showIfPossible(): Dialog? {
     if ((context as? Activity)?.isFinishing == true) {
         return null
     }
-    tryOrLog {
-        this.show()
+    return tryOrLog {
+        try {
+            show()
+            this
+        } catch (e: WindowManager.BadTokenException) {
+            null
+        }
     }
-    return this
 }

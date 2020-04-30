@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.http
 
 import ch.rmy.android.http_shortcuts.exceptions.InvalidContentTypeException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidHeaderException
+import ch.rmy.android.http_shortcuts.exceptions.InvalidUrlException
 import okhttp3.Credentials
 import okhttp3.MediaType
 import okhttp3.Request
@@ -10,12 +11,21 @@ import okhttp3.internal.http.HttpMethod
 import okio.BufferedSink
 import okio.Okio
 import java.io.InputStream
+import java.net.URISyntaxException
 import java.net.URLEncoder
 
 class RequestBuilder(private val method: String, url: String) {
 
     private val requestBuilder = Request.Builder()
-        .url(url)
+        .also {
+            try {
+                it.url(url)
+            } catch (e: IllegalArgumentException) {
+                throw InvalidUrlException(url, e.message)
+            } catch (e: URISyntaxException) {
+                throw InvalidUrlException(url)
+            }
+        }
 
     private var body: String? = null
     private var contentType: String? = null

@@ -110,6 +110,13 @@ class ValidationTest {
     @Test
     fun testNotValidWithInvalidCharacters() {
         assertThat(isValidUrl(Uri.parse("http://{{1234⁻5678}}")), equalTo(false))
+        assertThat(isValidUrl(Uri.parse("https://\"+document.domain+\"/")), equalTo(false))
+        assertThat(isValidUrl(Uri.parse("http://a</")), equalTo(false))
+    }
+
+    @Test
+    fun testUrlWithWhitespacesIsValid() {
+        assertThat(isValidUrl(Uri.parse("http://example.com/?cmd=Hello World")), equalTo(true))
     }
 
 }
