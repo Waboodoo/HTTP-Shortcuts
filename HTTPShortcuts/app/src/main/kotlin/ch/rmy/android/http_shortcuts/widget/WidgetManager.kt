@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.os.Build
 import android.view.View
 import android.widget.RemoteViews
 import ch.rmy.android.http_shortcuts.R
@@ -63,7 +64,11 @@ object WidgetManager {
             } else {
                 views.setViewVisibility(R.id.widget_label, View.GONE)
             }
-            views.setImageViewUri(R.id.widget_icon, IconUtil.getIconURI(context, shortcut.iconName))
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                views.setImageViewIcon(R.id.widget_icon, IconUtil.getIcon(context, shortcut.iconName))
+            } else {
+                views.setImageViewUri(R.id.widget_icon, IconUtil.getIconURI(context, shortcut.iconName))
+            }
 
             AppWidgetManager.getInstance(context)
                 .updateAppWidget(widget.widgetId, views)
