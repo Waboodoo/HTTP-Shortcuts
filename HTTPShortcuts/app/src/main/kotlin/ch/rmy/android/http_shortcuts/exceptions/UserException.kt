@@ -1,3 +1,9 @@
 package ch.rmy.android.http_shortcuts.exceptions
 
-abstract class UserException : Exception()
+import android.content.Context
+
+abstract class UserException : Exception() {
+
+    abstract fun getLocalizedMessage(context: Context): String
+
+}

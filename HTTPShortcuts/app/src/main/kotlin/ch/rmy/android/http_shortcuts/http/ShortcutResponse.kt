@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.http
 
+import ch.rmy.android.http_shortcuts.exceptions.ResponseTooLargeException
 import ch.rmy.android.http_shortcuts.utils.SizeLimitedReader
 import java.io.BufferedReader
 import java.io.InputStream
@@ -51,8 +52,12 @@ class ShortcutResponse internal constructor(
 
         private fun parseToString(content: InputStream): String =
             InputStreamReader(content).use { reader ->
-                BufferedReader(SizeLimitedReader(reader, CONTENT_SIZE_LIMIT), GZIP_BUFFER_SIZE)
-                    .use(BufferedReader::readText)
+                try {
+                    BufferedReader(SizeLimitedReader(reader, CONTENT_SIZE_LIMIT), GZIP_BUFFER_SIZE)
+                        .use(BufferedReader::readText)
+                } catch (e: SizeLimitedReader.LimitReachedException) {
+                    throw ResponseTooLargeException(e.limit)
+                }
             }
 
     }

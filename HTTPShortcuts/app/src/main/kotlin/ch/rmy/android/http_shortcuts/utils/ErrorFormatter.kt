@@ -1,14 +1,8 @@
 package ch.rmy.android.http_shortcuts.utils
 
 import android.content.Context
-import android.text.format.Formatter
 import androidx.annotation.StringRes
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.exceptions.InvalidContentTypeException
-import ch.rmy.android.http_shortcuts.exceptions.InvalidHeaderException
-import ch.rmy.android.http_shortcuts.exceptions.InvalidUrlException
-import ch.rmy.android.http_shortcuts.exceptions.JavaScriptException
-import ch.rmy.android.http_shortcuts.exceptions.UnsupportedFeatureException
 import ch.rmy.android.http_shortcuts.exceptions.UserException
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.extensions.tryOrLog
@@ -50,12 +44,7 @@ class ErrorFormatter(private val context: Context) {
     private fun getErrorMessage(error: Throwable): String =
         when (error) {
             is CompositeException -> error.exceptions.joinToString(separator = "\n") { getErrorMessage(it) }
-            is InvalidUrlException -> context.getString(R.string.error_invalid_url, error.detail ?: error.url)
-            is InvalidHeaderException -> context.getString(R.string.error_invalid_header, error.header)
-            is InvalidContentTypeException -> context.getString(R.string.error_invalid_content_type, error.contentType)
-            is SizeLimitedReader.LimitReachedException -> context.getString(R.string.error_response_too_large, Formatter.formatShortFileSize(context, error.limit))
-            is JavaScriptException -> context.getString(R.string.error_js_pattern, error.message)
-            is UnsupportedFeatureException -> context.getString(R.string.error_not_supported)
+            is UserException -> error.getLocalizedMessage(context)
             is ConnectException,
             is UnknownHostException -> error.message!!
             else -> getUnknownErrorMessage(error)

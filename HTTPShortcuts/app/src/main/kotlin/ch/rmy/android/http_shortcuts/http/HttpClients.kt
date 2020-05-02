@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.http
 
 
+import ch.rmy.android.http_shortcuts.exceptions.InvalidProxyException
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import com.burgstaller.okhttp.digest.Credentials
 import com.burgstaller.okhttp.digest.DigestAuthenticator
@@ -35,7 +36,11 @@ internal object HttpClients {
             .readTimeout(timeout, TimeUnit.MILLISECONDS)
             .writeTimeout(timeout, TimeUnit.MILLISECONDS)
             .mapIf(proxyHost != null && proxyPort != null) {
-                it.proxy(Proxy(Proxy.Type.HTTP, InetSocketAddress(proxyHost!!, proxyPort!!)))
+                try {
+                    it.proxy(Proxy(Proxy.Type.HTTP, InetSocketAddress(proxyHost!!, proxyPort!!)))
+                } catch (e: IllegalArgumentException) {
+                    throw InvalidProxyException(e.message!!)
+                }
             }
             .addNetworkInterceptor(StethoInterceptor())
             .build()

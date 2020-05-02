@@ -122,7 +122,7 @@ class ExecuteActivity : BaseActivity() {
     private fun subscribeAndFinishAfterIfNeeded(completable: Completable) {
         completable
             .doOnError { error ->
-                if (error !is ErrorResponse && error !is IOException && error !is UserException) {
+                if (!isExpected(error)) {
                     logException(error)
                 }
             }
@@ -539,6 +539,13 @@ class ExecuteActivity : BaseActivity() {
         private const val TOAST_MAX_LENGTH = 400
 
         private const val INVISIBLE_PROGRESS_THRESHOLD = 1000L
+
+        private fun isExpected(throwable: Throwable?) =
+            throwable is ErrorResponse
+                || throwable is IOException
+                || throwable is UserException
+                || throwable is CanceledByUserException
+                || throwable is ResumeLaterException
 
     }
 
