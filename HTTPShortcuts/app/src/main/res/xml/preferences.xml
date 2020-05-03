@@ -109,6 +109,11 @@
             app:summary="@string/settings_github_summary"
             app:title="@string/settings_github"/>
         <Preference
+            app:icon="@drawable/ic_support"
+            app:key="support"
+            app:summary="@string/settings_support_summary"
+            app:title="@string/settings_support"/>
+        <Preference
             app:icon="@drawable/ic_translate"
             app:key="translate"
             app:summary="@string/settings_help_translate_summary"

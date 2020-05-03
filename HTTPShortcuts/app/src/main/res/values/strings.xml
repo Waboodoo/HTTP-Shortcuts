@@ -237,6 +237,10 @@
     <string name="settings_mail_summary">Questions, feature requests, feedback, …</string>
     <!-- Button title, for option to open the app's Github page in a browser -->
     <string name="settings_github">View on Github</string>
+    <!-- Button title, for option to go to "Support this App" page -->
+    <string name="settings_support">Support this App</string>
+    <!-- Button subtitle, for option to go to "Support this App" page -->
+    <string name="settings_support_summary">If you like it, consider helping me make it better</string>
     <!-- Button subtitle for "View on Github" button -->
     <string name="settings_github_summary">That\'s right, this app is open-source</string>
     <!-- Dialog title, for changelog, shown when a new version of the app is released -->

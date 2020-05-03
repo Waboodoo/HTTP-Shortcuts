@@ -100,7 +100,7 @@ class SettingsActivity : BaseActivity() {
             }
 
             initPreference("privacy_policy") {
-                HelpDialogBuilder(context!!)
+                HelpDialogBuilder(requireContext())
                     .title(R.string.title_privacy_policy)
                     .message(R.string.privacy_policy)
                     .build()
@@ -112,7 +112,7 @@ class SettingsActivity : BaseActivity() {
             }
 
             initPreference("changelog") {
-                ChangeLogDialog(context!!, false)
+                ChangeLogDialog(requireContext(), false)
                     .show()
                     .subscribe({}, {
                         showSnackbar(R.string.error_generic, long = true)
@@ -134,7 +134,11 @@ class SettingsActivity : BaseActivity() {
             }
 
             initPreference("github") {
-                gotoGithub()
+                goToGithub()
+            }
+
+            initPreference("support") {
+                openSupportPage()
             }
 
             if (shouldShowTranslateButton()) {
@@ -157,14 +161,14 @@ class SettingsActivity : BaseActivity() {
             val returnIntent = Intent().apply {
                 putExtra(EXTRA_THEME_CHANGED, true)
             }
-            activity!!.setResult(Activity.RESULT_OK, returnIntent)
-            activity!!.finish()
-            activity!!.overridePendingTransition(0, 0)
+            requireActivity().setResult(Activity.RESULT_OK, returnIntent)
+            requireActivity().finish()
+            requireActivity().overridePendingTransition(0, 0)
         }
 
         private val versionName: String
             get() = try {
-                context!!.packageManager.getPackageInfo(context!!.packageName, 0).versionName
+                requireContext().packageManager.getPackageInfo(requireContext().packageName, 0).versionName
             } catch (e: NameNotFoundException) {
                 "???"
             }
@@ -200,7 +204,7 @@ class SettingsActivity : BaseActivity() {
         }
 
         private fun showAppLockDialog() {
-            DialogBuilder(context!!)
+            DialogBuilder(requireContext())
                 .title(R.string.dialog_title_lock_app)
                 .message(R.string.dialog_text_lock_app)
                 .positive(R.string.button_lock_app)
@@ -217,8 +221,8 @@ class SettingsActivity : BaseActivity() {
                     val returnIntent = Intent().apply {
                         putExtra(EXTRA_APP_LOCKED, true)
                     }
-                    activity!!.setResult(Activity.RESULT_OK, returnIntent)
-                    activity!!.finish()
+                    requireActivity().setResult(Activity.RESULT_OK, returnIntent)
+                    requireActivity().finish()
                 },
                     { e ->
                         activity?.showSnackbar(R.string.error_generic, long = true)
@@ -228,7 +232,7 @@ class SettingsActivity : BaseActivity() {
         }
 
         private fun showExportOptions() {
-            DialogBuilder(context!!)
+            DialogBuilder(requireContext())
                 .title(R.string.title_export)
                 .item(R.string.button_export_to_general, ::openFilePickerForExport)
                 .item(R.string.button_export_send_to, ::sendExport)
@@ -236,7 +240,7 @@ class SettingsActivity : BaseActivity() {
         }
 
         private fun sendExport() {
-            val cacheDir = File(context!!.cacheDir, EXPORT_DIR_NAME)
+            val cacheDir = File(requireContext().cacheDir, EXPORT_DIR_NAME)
             cacheDir.mkdirs()
             val cacheFile = File(cacheDir, EXPORT_FILE_NAME)
 
@@ -244,7 +248,7 @@ class SettingsActivity : BaseActivity() {
             val progressDialog = ProgressDialog(activity).apply {
                 setMessage(getString(R.string.export_in_progress))
             }
-            Exporter(context!!.applicationContext)
+            Exporter(requireContext().applicationContext)
                 .export(Uri.fromFile(cacheFile))
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {
@@ -256,8 +260,8 @@ class SettingsActivity : BaseActivity() {
                 .subscribe(
                     {
                         val uri = FileProvider.getUriForFile(
-                            context!!,
-                            "${context!!.packageName}.provider",
+                            requireContext(),
+                            "${requireContext().packageName}.provider",
                             cacheFile
                         )
                         Intent(Intent.ACTION_SEND)
@@ -267,7 +271,7 @@ class SettingsActivity : BaseActivity() {
                             .let {
                                 Intent.createChooser(it, getString(R.string.title_export))
                             }
-                            .startActivity(activity!!)
+                            .startActivity(requireActivity())
                     },
                     { error ->
                         logException(error)
@@ -278,7 +282,7 @@ class SettingsActivity : BaseActivity() {
         }
 
         private fun showImportOptions() {
-            DialogBuilder(context!!)
+            DialogBuilder(requireContext())
                 .title(R.string.title_import)
                 .item(R.string.button_import_from_general, ::openGeneralPickerForImport)
                 .item(R.string.button_import_from_url, ::openImportUrlDialog)
@@ -298,16 +302,16 @@ class SettingsActivity : BaseActivity() {
                 FilePickerUtil.createIntent()
                     .startActivity(this, REQUEST_IMPORT_FROM_DOCUMENTS)
             } catch (e: ActivityNotFoundException) {
-                activity!!.showToast(R.string.error_not_supported)
+                requireActivity().showToast(R.string.error_not_supported)
             }
         }
 
         private fun openImportUrlDialog() {
-            DialogBuilder(context!!)
+            DialogBuilder(requireContext())
                 .title(R.string.dialog_title_import_from_url)
                 .textInput(
                     hint = getString(R.string.hint_import_from_url),
-                    prefill = Settings(context!!).importUrl,
+                    prefill = Settings(requireContext()).importUrl,
                     allowEmpty = false,
                     callback = ::startImportFromURL
                 )
@@ -325,7 +329,7 @@ class SettingsActivity : BaseActivity() {
         }
 
         private fun contactDeveloper() {
-            ContactActivity.IntentBuilder(context!!)
+            ContactActivity.IntentBuilder(requireContext())
                 .build()
                 .startActivity(this)
         }
@@ -338,7 +342,11 @@ class SettingsActivity : BaseActivity() {
             openURL(PLAY_STORE_URL)
         }
 
-        private fun gotoGithub() {
+        private fun openSupportPage() {
+            openURL(SUPPORT_PAGE_URL)
+        }
+
+        private fun goToGithub() {
             openURL(GITHUB_URL)
         }
 
@@ -347,18 +355,18 @@ class SettingsActivity : BaseActivity() {
                 Intent(Intent.ACTION_VIEW, Uri.parse(url))
                     .startActivity(this)
             } catch (e: ActivityNotFoundException) {
-                activity!!.showToast(R.string.error_not_supported)
+                requireActivity().showToast(R.string.error_not_supported)
             }
         }
 
         private fun helpTranslate() {
-            TranslateActivity.IntentBuilder(context!!)
+            TranslateActivity.IntentBuilder(requireContext())
                 .build()
                 .startActivity(this)
         }
 
         private fun showAcknowledgments() {
-            AcknowledgmentActivity.IntentBuilder(context!!)
+            AcknowledgmentActivity.IntentBuilder(requireContext())
                 .build()
                 .startActivity(this)
         }
@@ -378,7 +386,7 @@ class SettingsActivity : BaseActivity() {
         }
 
         private fun persistImportUrl(url: String) {
-            Settings(context!!).importUrl = url
+            Settings(requireContext()).importUrl = url
         }
 
         private fun startExport(uri: Uri) {
@@ -386,7 +394,7 @@ class SettingsActivity : BaseActivity() {
             val progressDialog = ProgressDialog(activity).apply {
                 setMessage(getString(R.string.export_in_progress))
             }
-            Exporter(context!!.applicationContext)
+            Exporter(requireContext().applicationContext)
                 .export(uri)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {
@@ -396,7 +404,7 @@ class SettingsActivity : BaseActivity() {
                     progressDialog.dismiss()
                 }
                 .subscribe({ status ->
-                    showSnackbar(context!!.resources.getQuantityString(
+                    showSnackbar(requireContext().resources.getQuantityString(
                         R.plurals.shortcut_export_success,
                         status.exportedShortcuts,
                         status.exportedShortcuts
@@ -413,7 +421,7 @@ class SettingsActivity : BaseActivity() {
             val progressDialog = ProgressDialog(activity).apply {
                 setMessage(getString(R.string.import_in_progress))
             }
-            Importer(context!!.applicationContext)
+            Importer(requireContext().applicationContext)
                 .import(uri)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {
@@ -424,14 +432,14 @@ class SettingsActivity : BaseActivity() {
                 }
                 .subscribe({ status ->
                     if (status.needsRussianWarning) {
-                        SpecialWarnings.show(context!!)
+                        SpecialWarnings.show(requireContext())
                     }
-                    showSnackbar(context!!.resources.getQuantityString(
+                    showSnackbar(requireContext().resources.getQuantityString(
                         R.plurals.shortcut_import_success,
                         status.importedShortcuts,
                         status.importedShortcuts
                     ))
-                    activity!!.setResult(Activity.RESULT_OK, Intent().apply {
+                    requireActivity().setResult(Activity.RESULT_OK, Intent().apply {
                         putExtra(EXTRA_CATEGORIES_CHANGED, true)
                     })
                 }, { e ->
@@ -465,6 +473,7 @@ class SettingsActivity : BaseActivity() {
         const val EXTRA_CATEGORIES_CHANGED = "categories_changed"
 
         private const val FAQ_PAGE_URL = "https://http-shortcuts.rmy.ch/#faq"
+        private const val SUPPORT_PAGE_URL = "https://http-shortcuts.rmy.ch/support-me"
         private const val PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts"
         private const val GITHUB_URL = "https://github.com/Waboodoo/HTTP-Shortcuts"
 
