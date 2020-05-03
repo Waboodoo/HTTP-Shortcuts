@@ -10,7 +10,7 @@ import android.net.Uri
 import android.os.Build
 import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.graphics.drawable.DrawableCompat
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.extensions.mapFor
@@ -86,7 +86,7 @@ object IconUtil {
         Uri.parse("android.resource://${context.packageName}/$identifier")
 
     @DrawableRes
-    private fun getDrawableIdentifier(context: Context, iconName: String): Int =
+    fun getDrawableIdentifier(context: Context, iconName: String): Int =
         context.resources.getIdentifier(
             normalizeIconName(iconName),
             "drawable",
@@ -116,7 +116,7 @@ object IconUtil {
     }
 
     private fun getBitmapFromVectorDrawable(context: Context, drawableId: Int, tint: Int?): Bitmap {
-        val drawable = ContextCompat.getDrawable(context, drawableId)!!
+        val drawable = AppCompatResources.getDrawable(context, drawableId)!!
             .mapIf(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                 DrawableCompat.wrap(it).mutate()
             }

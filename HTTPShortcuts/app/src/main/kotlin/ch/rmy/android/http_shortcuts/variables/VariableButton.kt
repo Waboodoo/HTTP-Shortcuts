@@ -31,6 +31,7 @@ open class VariableButton : AppCompatImageButton {
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     init {
+        setImageResource(R.drawable.ic_variables)
         setOnClickListener {
             if (hasVariables()) {
                 openVariableSelectionDialog()

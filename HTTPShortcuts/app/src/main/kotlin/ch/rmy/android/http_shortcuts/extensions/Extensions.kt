@@ -8,6 +8,7 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import ch.rmy.android.http_shortcuts.R
@@ -33,7 +34,8 @@ fun Fragment.showMessageDialog(string: String) {
 @ColorInt
 fun color(context: Context, @ColorRes colorRes: Int): Int = ContextCompat.getColor(context, colorRes)
 
-fun drawable(context: Context, @DrawableRes drawableRes: Int): Drawable? = ContextCompat.getDrawable(context, drawableRes)
+fun drawable(context: Context, @DrawableRes drawableRes: Int): Drawable? =
+    AppCompatResources.getDrawable(context, drawableRes)
 
 fun Activity.dimen(@DimenRes dimenRes: Int) = dimen(this, dimenRes)
 fun dimen(context: Context, @DimenRes dimenRes: Int) = context.resources.getDimensionPixelSize(dimenRes)

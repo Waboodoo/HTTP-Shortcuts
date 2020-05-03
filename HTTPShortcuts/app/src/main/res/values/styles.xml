@@ -37,7 +37,6 @@
     <style name="VariableButton">
         <item name="android:layout_width">36dp</item>
         <item name="android:layout_height">36dp</item>
-        <item name="android:src">@drawable/ic_variables</item>
         <item name="android:tint">#000</item>
         <item name="android:padding">6dp</item>
         <item name="android:layout_marginBottom">4dp</item>
