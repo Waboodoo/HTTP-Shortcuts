@@ -114,8 +114,6 @@ dependencies {
 
     /* UI */
     implementation 'com.satsuware.lib:usefulviews:2.3.1'
-    implementation 'com.github.castorflex.smoothprogressbar:library:1.1.0'
-    implementation 'com.github.castorflex.smoothprogressbar:library-circular:1.1.0'
 
     /* Dialogs / Activities */
     implementation('com.afollestad.material-dialogs:core:3.1.1') {
@@ -159,13 +157,12 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.4'
 
-    // Testing
+    /* Testing */
     testImplementation "org.hamcrest:hamcrest-library:$hamcrestVersion"
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
     testImplementation "org.robolectric:shadows-multidex:$robolectricVersion"
     testImplementation 'androidx.test:monitor:1.1.1'
-
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test:rules:1.1.1'
     androidTestImplementation "org.hamcrest:hamcrest-library:$hamcrestVersion"
