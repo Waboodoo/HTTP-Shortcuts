@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="128dp"
+    android:height="128dp"
+    android:viewportWidth="128"
+    android:viewportHeight="128">
+
+    <path
+        android:fillColor="#546E7A"
+        android:fillType="evenOdd"
+        android:pathData="M88,0H16C7.164,0,0,7.164,0,16v72c0,8.836,7.164,16,16,16h33.168 l8-4l-8.004-4H16c-4.412,0-8-3.586-8-8V16c0-4.414,3.588-8,8-8h72c4.414,0,8,3.586,8,8v64.578l0.32-0.156 c0.914-5.031,3.754-9.367,7.68-12.336V16C104,7.164,96.836,0,88,0z" />
+    <path
+        android:fillColor="#F44336"
+        android:fillType="evenOdd"
+        android:pathData="M116,96c-6.629,0-12-5.375-12-12c0-6.629,5.371-12,12-12 c6.625,0,12,5.371,12,12C128,90.625,122.625,96,116,96z M116,80c-2.211,0-4,1.789-4,4c0,2.207,1.789,4,4,4s4-1.793,4-4 C120,81.789,118.211,80,116,80z" />
+    <path
+        android:fillColor="#F44336"
+        android:fillType="evenOdd"
+        android:pathData="M116,128c-6.629,0-12-5.375-12-12c0-6.629,5.371-12,12-12 c6.625,0,12,5.371,12,12C128,122.625,122.625,128,116,128z M116,112c-2.211,0-4,1.789-4,4s1.789,4,4,4s4-1.789,4-4 S118.211,112,116,112z" />
+    <path
+        android:fillColor="#B0BEC5"
+        android:pathData="M24,32h56v-8H24V32z" />
+    <path
+        android:fillColor="#B0BEC5"
+        android:pathData="M24,48h56v-8H24V48z" />
+    <path
+        android:fillColor="#B0BEC5"
+        android:pathData="M24,64h56v-8H24V64z" />
+    <path
+        android:fillColor="#B0BEC5"
+        android:pathData="M24,80h16v-8H24V80z" />
+    <path
+        android:fillColor="#B0BEC5"
+        android:fillType="evenOdd"
+        android:pathData="M100.371,96.285L92.945,100l7.426,3.715 c-1.656,2.082-2.918,4.48-3.637,7.117l-12.73-6.363l-30.215,15.109c-0.574,0.289-1.184,0.422-1.785,0.422 c-1.469,0-2.879-0.813-3.582-2.211c-0.988-1.977-0.188-4.375,1.789-5.367L75.059,100L50.211,87.578 c-1.977-0.992-2.777-3.391-1.789-5.367s3.391-2.781,5.367-1.789L84,95.531l12.73-6.367C97.445,91.805,98.711,94.199,100.371,96.285z" />
+</vector>
