@@ -33,7 +33,7 @@ object IntentUtil {
             .putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcut.name)
             .putExtra(EXTRA_SHORTCUT_DUPLICATE, true)
         if (shortcut.iconName != null) {
-            val iconUri = IconUtil.getIconURI(context, shortcut.iconName)
+            val iconUri = IconUtil.getIconURI(context, shortcut.iconName, external = true)
             try {
                 val icon = MediaStore.Images.Media.getBitmap(context.contentResolver, iconUri)
                 addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON, icon)

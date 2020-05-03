@@ -6,6 +6,7 @@ import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.utils.CrashReporting
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
+import ch.rmy.android.http_shortcuts.utils.IconMigration
 import ch.rmy.android.http_shortcuts.utils.Settings
 import com.facebook.stetho.Stetho
 import io.reactivex.plugins.RxJavaPlugins
@@ -35,6 +36,8 @@ class Application : android.app.Application() {
         } catch (e: RealmFactory.RealmNotFoundException) {
             // Nothing to do here...
         }
+
+        IconMigration.migrateIfNeeded(context)
 
         DarkThemeHelper.applyDarkThemeSettings(settings.darkThemeSetting)
     }

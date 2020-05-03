@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.editor
 
 import android.app.Activity
-import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -29,7 +28,6 @@ import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.color
 import ch.rmy.android.http_shortcuts.extensions.consume
-import ch.rmy.android.http_shortcuts.extensions.dimen
 import ch.rmy.android.http_shortcuts.extensions.focus
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
@@ -41,6 +39,7 @@ import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.icons.IconSelector
 import ch.rmy.android.http_shortcuts.icons.IconView
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
+import ch.rmy.android.http_shortcuts.utils.IconUtil
 import ch.rmy.android.http_shortcuts.utils.IpackUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
@@ -55,7 +54,6 @@ import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import kotterknife.bindView
 import java.util.concurrent.TimeUnit
-import kotlin.math.max
 
 class ShortcutEditorActivity : BaseActivity() {
 
@@ -260,6 +258,7 @@ class ShortcutEditorActivity : BaseActivity() {
     }
 
     private fun openImagePicker() {
+        val iconSize = IconUtil.getIconSize(context)
         CropImage.activity()
             .setCropMenuCropButtonIcon(R.drawable.ic_save)
             .setCropMenuCropButtonTitle(getString(R.string.button_apply_icon))
@@ -404,13 +403,6 @@ class ShortcutEditorActivity : BaseActivity() {
     override fun onBackPressed() {
         onCloseEditor()
     }
-
-    private val iconSize by lazy {
-        max(dimen(android.R.dimen.app_icon_size), launcherLargeIconSize)
-    }
-
-    private val launcherLargeIconSize: Int
-        get() = (getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager).launcherLargeIconSize
 
     private fun handleUnknownError(e: Throwable) {
         logException(e)

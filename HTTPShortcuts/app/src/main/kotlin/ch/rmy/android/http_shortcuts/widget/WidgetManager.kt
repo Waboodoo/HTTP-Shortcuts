@@ -65,9 +65,9 @@ object WidgetManager {
                 views.setViewVisibility(R.id.widget_label, View.GONE)
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                views.setImageViewIcon(R.id.widget_icon, IconUtil.getIcon(context, shortcut.iconName))
+                views.setImageViewIcon(R.id.widget_icon, IconUtil.getIcon(context, shortcut.iconName, external = true))
             } else {
-                views.setImageViewUri(R.id.widget_icon, IconUtil.getIconURI(context, shortcut.iconName))
+                views.setImageViewUri(R.id.widget_icon, IconUtil.getIconURI(context, shortcut.iconName, external = true))
             }
 
             AppWidgetManager.getInstance(context)
