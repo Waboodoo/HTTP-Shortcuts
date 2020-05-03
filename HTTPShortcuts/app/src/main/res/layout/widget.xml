@@ -12,8 +12,8 @@
 
         <ImageView
             android:id="@+id/widget_icon"
-            android:layout_width="48dip"
-            android:layout_height="48dip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center" />
 
         <TextView
@@ -21,6 +21,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18sp"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:textAlignment="center" />
     </LinearLayout>
 
