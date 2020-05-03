@@ -1,0 +1,36 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="85.333336dp"
+    android:height="85.333336dp"
+    android:viewportWidth="85.333336"
+    android:viewportHeight="85.333336">
+  <path
+      android:pathData="M85.3333,42.6667C85.3333,66.2307 66.2307,85.3333 42.6667,85.3333 19.1027,85.3333 0,66.2307 0,42.6667 0,19.1027 19.1027,0 42.6667,0 66.2307,0 85.3333,19.1027 85.3333,42.6667"
+      android:fillColor="#c84755"
+      android:strokeColor="#00000000"
+      android:fillType="nonZero"
+      android:fillAlpha="1"/>
+  <path
+      android:pathData="M62.7281,66.6667L22.6052,66.6667c-5.8667,-0 -8.2667,-4.1568 -5.3333,-9.2375L37.3333,22.6823c1.4667,-2.5407 3.4,-3.8109 5.3333,-3.8109 1.9333,-0 3.8667,1.2703 5.3333,3.8109L68.0615,57.4292c2.9333,5.0807 0.5333,9.2375 -5.3333,9.2375"
+      android:fillColor="#a43f4a"
+      android:strokeColor="#00000000"
+      android:fillType="nonZero"
+      android:fillAlpha="1"/>
+  <path
+      android:pathData="m22.6052,64c-5.8667,-0 -8.2667,-4.1568 -5.3333,-9.2375L37.3333,20.0156c2.9333,-5.0807 7.7333,-5.0807 10.6667,-0L68.0615,54.7625c2.9333,5.0807 0.5333,9.2375 -5.3333,9.2375L22.6052,64"
+      android:fillColor="#f3cc70"
+      android:strokeColor="#00000000"
+      android:fillType="nonZero"
+      android:fillAlpha="1"/>
+  <path
+      android:pathData="m45.3333,42.6667c0,1.4729 -1.1937,2.6667 -2.6667,2.6667 -1.4729,-0 -2.6667,-1.1937 -2.6667,-2.6667l0,-10.6667c0,-1.4729 1.1937,-2.6667 2.6667,-2.6667 1.4729,-0 2.6667,1.1937 2.6667,2.6667l0,10.6667"
+      android:fillColor="#495672"
+      android:strokeColor="#00000000"
+      android:fillType="nonZero"
+      android:fillAlpha="1"/>
+  <path
+      android:pathData="m45.3333,53.3333c0,1.4729 -1.1937,2.6667 -2.6667,2.6667 -1.4729,-0 -2.6667,-1.1937 -2.6667,-2.6667 0,-1.4729 1.1937,-2.6667 2.6667,-2.6667 1.4729,-0 2.6667,1.1937 2.6667,2.6667"
+      android:fillColor="#495672"
+      android:strokeColor="#00000000"
+      android:fillType="nonZero"
+      android:fillAlpha="1"/>
+</vector>
