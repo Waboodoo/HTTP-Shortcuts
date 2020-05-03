@@ -17,8 +17,8 @@ class IconViewHolder(context: Context, parent: ViewGroup, listener: (String) -> 
         }
     }
 
-    fun setIcon(iconResource: Int) {
-        iconView.setImageResource(iconResource)
+    fun setIcon(iconName: String) {
+        iconView.setIcon(iconName)
     }
 
 }
