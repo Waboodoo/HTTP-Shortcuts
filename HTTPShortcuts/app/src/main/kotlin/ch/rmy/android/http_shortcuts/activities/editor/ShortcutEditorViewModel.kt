@@ -32,7 +32,7 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
         return Transactions
             .commit { realm ->
                 val shortcut = if (shortcutId == null) {
-                    realm.copyToRealmOrUpdate(Shortcut.createNew(
+                    realm.copyToRealmOrUpdate(Shortcut(
                         id = TEMPORARY_ID,
                         iconName = Icons.getDefaultIcon(getApplication()),
                         browserShortcut = createBrowserShortcut
@@ -59,7 +59,7 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
     fun hasChanges(): Boolean {
         val oldShortcut = shortcutId
             ?.let { Repository.getShortcutById(persistedRealm, it)!! }
-            ?: Shortcut.createNew(iconName = Icons.getDefaultIcon(getApplication()))
+            ?: Shortcut(iconName = Icons.getDefaultIcon(getApplication()))
         val newShortcut = getShortcut(persistedRealm) ?: return false
         return !newShortcut.isSameAs(oldShortcut)
     }

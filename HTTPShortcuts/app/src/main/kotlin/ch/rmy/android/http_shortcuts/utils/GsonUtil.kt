@@ -47,12 +47,6 @@ object GsonUtil {
             .create()
     }
 
-    private fun getPrettyGson() =
-        GsonBuilder()
-            .addSerializationExclusionStrategy(RealmExclusionStrategy())
-            .setPrettyPrinting()
-            .create()
-
     private class RealmExclusionStrategy : ExclusionStrategy {
 
         override fun shouldSkipField(f: FieldAttributes) = f.declaringClass == RealmObject::class.java

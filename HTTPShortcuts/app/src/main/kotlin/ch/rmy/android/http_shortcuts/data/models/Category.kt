@@ -5,12 +5,13 @@ import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.Required
 
-open class Category : RealmObject(), HasId {
+open class Category(
+    @Required
+    var name: String = ""
+) : RealmObject(), HasId {
 
     @PrimaryKey
     override var id: String = ""
-    @Required
-    var name: String = ""
     var shortcuts: RealmList<Shortcut> = RealmList()
     @Required
     var layoutType: String = LAYOUT_LINEAR_LIST
@@ -27,15 +28,6 @@ open class Category : RealmObject(), HasId {
         const val BACKGROUND_TYPE_BLACK = "black"
         const val BACKGROUND_TYPE_WALLPAPER = "wallpaper"
 
-        fun createNew(name: String): Category {
-            val category = Category()
-            category.id = ""
-            category.name = name
-            category.shortcuts = RealmList()
-            category.layoutType = LAYOUT_LINEAR_LIST
-            category.background = BACKGROUND_TYPE_WHITE
-            return category
-        }
     }
 
 }

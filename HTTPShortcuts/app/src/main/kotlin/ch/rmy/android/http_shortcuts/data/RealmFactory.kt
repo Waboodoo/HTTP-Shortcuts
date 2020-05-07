@@ -76,7 +76,7 @@ internal class RealmFactory {
         private fun setupBase(context: Context, realm: Realm) {
             val defaultCategoryName = context.getString(R.string.shortcuts)
             realm.executeTransaction {
-                val defaultCategory = Category.createNew(defaultCategoryName)
+                val defaultCategory = Category(defaultCategoryName)
                 defaultCategory.id = newUUID()
 
                 val newBase = Base().apply {

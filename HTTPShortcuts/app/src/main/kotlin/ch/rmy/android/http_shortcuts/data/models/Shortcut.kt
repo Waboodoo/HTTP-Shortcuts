@@ -5,10 +5,18 @@ import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.Required
 
-open class Shortcut : RealmObject(), HasId {
-
+open class Shortcut(
     @PrimaryKey
-    override var id: String = ""
+    override var id: String = "",
+    var iconName: String? = null,
+    browserShortcut: Boolean = false
+) : RealmObject(), HasId {
+
+    var executionType: String? = EXECUTION_TYPE_APP
+
+    init {
+        executionType = if (browserShortcut) EXECUTION_TYPE_BROWSER else EXECUTION_TYPE_APP
+    }
 
     @Required
     var name: String = ""
@@ -17,7 +25,7 @@ open class Shortcut : RealmObject(), HasId {
     var method = METHOD_GET
 
     @Required
-    var url: String = ""
+    var url: String = "http://"
 
     @Required
     var username: String = ""
@@ -28,10 +36,8 @@ open class Shortcut : RealmObject(), HasId {
     @Required
     var authToken: String = ""
 
-    var iconName: String? = null
-
     @Required
-    var feedback: String = ""
+    var feedback: String = FEEDBACK_TOAST
 
     @Required
     var description: String = ""
@@ -39,10 +45,10 @@ open class Shortcut : RealmObject(), HasId {
     @Required
     var bodyContent: String = ""
 
-    var timeout: Int = 0
+    var timeout: Int = 10000
 
     @Required
-    var retryPolicy: String = ""
+    var retryPolicy: String = RETRY_POLICY_NONE
 
     var headers: RealmList<Header> = RealmList()
 
@@ -63,8 +69,6 @@ open class Shortcut : RealmObject(), HasId {
 
     @Required
     var contentType: String = ""
-
-    var executionType: String? = ""
 
     var requireConfirmation: Boolean = false
 
@@ -208,33 +212,6 @@ open class Shortcut : RealmObject(), HasId {
         const val AUTHENTICATION_BEARER = "bearer"
 
         const val DEFAULT_CONTENT_TYPE = "text/plain"
-
-        fun createNew(id: String = "", iconName: String? = null, browserShortcut: Boolean = false) = Shortcut().apply {
-            this.id = id
-            this.iconName = iconName
-            name = ""
-            description = ""
-            username = ""
-            password = ""
-            authToken = ""
-            bodyContent = ""
-            method = METHOD_GET
-            url = "http://"
-            timeout = 10000
-            feedback = FEEDBACK_TOAST
-            retryPolicy = RETRY_POLICY_NONE
-            authentication = AUTHENTICATION_NONE
-            delay = 0
-            parameters = RealmList()
-            headers = RealmList()
-            requestBodyType = REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE
-            contentType = DEFAULT_CONTENT_TYPE
-            codeOnPrepare = ""
-            codeOnSuccess = ""
-            codeOnFailure = ""
-            followRedirects = true
-            executionType = if (browserShortcut) EXECUTION_TYPE_BROWSER else EXECUTION_TYPE_APP
-        }
     }
 
 }

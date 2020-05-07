@@ -151,14 +151,14 @@ class VariableResolverTest {
     companion object {
 
         private fun withContent(content: String) =
-            Shortcut.createNew().apply {
+            Shortcut().apply {
                 method = Shortcut.METHOD_POST
                 requestBodyType = Shortcut.REQUEST_BODY_TYPE_CUSTOM_TEXT
                 bodyContent = content
             }
 
         private fun withJSContent(content: String) =
-            Shortcut.createNew().apply {
+            Shortcut().apply {
                 codeOnSuccess = content
             }
 

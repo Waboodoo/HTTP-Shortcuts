@@ -28,7 +28,7 @@ class CategoriesViewModel(application: Application) : RealmViewModel(application
             .commit { realm ->
                 val base = Repository.getBase(realm) ?: return@commit
                 val categories = base.categories
-                val category = Category.createNew(name)
+                val category = Category(name)
                 category.id = newUUID()
                 categories.add(realm.copyToRealm(category))
             }
