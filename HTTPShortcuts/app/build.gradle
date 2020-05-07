@@ -20,6 +20,7 @@ android {
         versionCode rootProject.ext.versionCode
         buildConfigField 'String', 'BUGSNAG_API_KEY', "\"${rootProject.ext.bugsnagAPIKey}\""
         buildConfigField 'String', 'REALM_ENCRYPTION_KEY', "\"${rootProject.ext.realmEncryptionKey}\""
+        buildConfigField 'String', 'BUILD_TIMESTAMP', "\"${rootProject.ext.buildTimestamp}\""
         multiDexEnabled true
 
         testInstrumentationRunnerArguments = [package: "ch.rmy.android.http_shortcuts"]

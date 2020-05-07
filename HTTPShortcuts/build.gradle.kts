@@ -25,6 +25,7 @@ ext {
     } else {
         "ZX06poC7a96dL9,FR_9|Ww<2%]?4Ij(3wR3DmyNj0[{(,8g%jX2{03P45_p`N6|2"
     })
+    set("buildTimestamp", java.util.Date().time.toString())
 }
 
 allprojects {
