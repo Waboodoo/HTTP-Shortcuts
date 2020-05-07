@@ -4,7 +4,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:3.5.2")
+        classpath("com.android.tools.build:gradle:3.6.0")
         classpath("io.realm:realm-gradle-plugin:6.1.0")
         classpath("com.bugsnag:bugsnag-android-gradle-plugin:4.+")
         classpath(kotlin("gradle-plugin", "1.3.61"))
