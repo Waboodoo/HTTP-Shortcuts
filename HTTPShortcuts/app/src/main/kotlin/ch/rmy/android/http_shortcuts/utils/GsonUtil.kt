@@ -22,12 +22,6 @@ object GsonUtil {
             jsonString
         }
 
-    fun exportData(base: Base, writer: Appendable) {
-        getPrettyGson().toJson(base, writer)
-    }
-
-    fun exportData(base: Base): String = getPrettyGson().toJson(base)
-
     fun importData(data: JsonElement): Base = gson.fromJson(data, Base::class.java)
 
     fun <T> fromJsonObject(jsonObject: String?): Map<String, T> {
@@ -41,7 +35,7 @@ object GsonUtil {
 
     fun toJson(item: Map<String, Any>): String = gson.toJson(item)
 
-    private val gson: Gson by lazy {
+    val gson: Gson by lazy {
         GsonBuilder()
             .addSerializationExclusionStrategy(RealmExclusionStrategy())
             .create()
