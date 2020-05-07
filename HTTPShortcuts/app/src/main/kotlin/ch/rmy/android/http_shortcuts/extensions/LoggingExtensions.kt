@@ -18,3 +18,13 @@ fun <T> Any.tryOrLog(block: () -> T): T? =
         logException(e)
         null
     }
+
+fun <T> Any.tryOrIgnore(block: () -> T): T? =
+    try {
+        block()
+    } catch (e: Throwable) {
+        if (!CrashReporting.enabled) {
+            Log.e(this.javaClass.simpleName, "An error occurred", e)
+        }
+        null
+    }
