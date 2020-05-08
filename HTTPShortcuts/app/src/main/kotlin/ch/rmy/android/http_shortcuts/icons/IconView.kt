@@ -51,7 +51,7 @@ class IconView : AppCompatImageView {
     }
 
     private fun updateTint(tint: Int?) {
-        ImageViewCompat.setImageTintList(this, tint?.let { ColorStateList.valueOf(it) });
+        ImageViewCompat.setImageTintList(this, tint?.let { ColorStateList.valueOf(it) })
     }
 
     private fun updateBackground(tint: Int?) {

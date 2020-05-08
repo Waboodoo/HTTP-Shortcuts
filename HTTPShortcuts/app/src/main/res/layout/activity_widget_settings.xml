@@ -20,7 +20,6 @@
 
             <LinearLayout
                 android:background="@drawable/widget_preview_background"
-                android:id="@+id/widget_preview"
                 android:layout_width="wrap_content"
                 android:layout_height="108dp"
                 android:layout_marginTop="8dp"

@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.lifecycle.Observer
@@ -36,7 +35,6 @@ class WidgetSettingsActivity : BaseActivity() {
         intent.getStringExtra(EXTRA_SHORTCUT_ICON)
     }
 
-    private val previewView: View by bindView(R.id.widget_preview)
     private val iconView: IconView by bindView(R.id.widget_icon)
     private val labelView: TextView by bindView(R.id.widget_label)
     private val showLabelCheckbox: CheckBox by bindView(R.id.input_show_label)
@@ -53,7 +51,7 @@ class WidgetSettingsActivity : BaseActivity() {
 
     private fun initViews() {
         iconView.setIcon(shortcutIcon)
-        labelView.setText(shortcutName)
+        labelView.text = shortcutName
         updateLabelColor()
         labelColorView.setOnClickListener {
             showColorPicker()

@@ -96,7 +96,7 @@ object HttpRequester {
                         val files = fileUploadManager!!.getFiles(fileIndex)
                         builder2.mapFor(files) { builder3, file ->
                             builder3.fileParameter(
-                                name = parameterName + "[]",
+                                name = "$parameterName[]",
                                 fileName = parameter.fileName.ifEmpty { file.fileName },
                                 type = file.mimeType,
                                 data = file.data

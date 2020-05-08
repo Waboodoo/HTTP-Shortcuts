@@ -7,8 +7,8 @@ import androidx.lifecycle.MutableLiveData
 
 class WidgetSettingsViewModel(application: Application) : AndroidViewModel(application) {
 
-    val showLabel = MutableLiveData<Boolean>(true)
-    val labelColor = MutableLiveData<Int>(Color.WHITE)
+    val showLabel = MutableLiveData(true)
+    val labelColor = MutableLiveData(Color.WHITE)
 
     val labelColorFormatted: String
         get() = String.format("#%06x", labelColor.value!! and 0xffffff)

@@ -15,12 +15,16 @@ import java.net.UnknownHostException
 class ErrorFormatter(private val context: Context) {
 
     fun getPrettyError(error: Throwable, shortcutName: String, includeBody: Boolean): String =
-        if (error is ErrorResponse) {
-            getHttpErrorMessage(error, shortcutName, includeBody)
-        } else if (error is UserException) {
-            getErrorMessage(error)
-        } else {
-            String.format(getString(R.string.error_other), shortcutName, getErrorMessage(error))
+        when (error) {
+            is ErrorResponse -> {
+                getHttpErrorMessage(error, shortcutName, includeBody)
+            }
+            is UserException -> {
+                getErrorMessage(error)
+            }
+            else -> {
+                String.format(getString(R.string.error_other), shortcutName, getErrorMessage(error))
+            }
         }
 
     private fun getHttpErrorMessage(error: ErrorResponse, shortcutName: String, includeBody: Boolean): String {

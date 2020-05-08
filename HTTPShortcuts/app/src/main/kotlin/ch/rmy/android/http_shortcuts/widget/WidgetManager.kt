@@ -35,7 +35,7 @@ object WidgetManager {
         Controller().use { controller ->
             controller.getWidgetsByIds(widgetIds)
                 .forEach { widget ->
-                    WidgetManager.updateWidget(context, widget)
+                    updateWidget(context, widget)
                 }
         }
     }

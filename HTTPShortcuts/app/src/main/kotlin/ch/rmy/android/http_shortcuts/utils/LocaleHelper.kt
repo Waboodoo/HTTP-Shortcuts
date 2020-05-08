@@ -14,7 +14,7 @@ object LocaleHelper {
     private fun getPersistedLocale(context: Context): String? =
         Settings(context).language
 
-    fun setLocale(context: Context, localeSpec: String): Context {
+    private fun setLocale(context: Context, localeSpec: String): Context {
         val localeParts = localeSpec.split('-')
         val language = localeParts[0]
         val country = localeParts.getOrNull(1)

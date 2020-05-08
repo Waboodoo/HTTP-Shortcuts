@@ -169,14 +169,10 @@
                 <action android:name="ch.rmy.android.http_shortcuts.execute" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.response.DisplayResponseActivity"></activity>
+        <activity android:name=".activities.response.DisplayResponseActivity" />
         <activity
             android:name=".activities.misc.AcknowledgmentActivity"
             android:label="@string/title_licenses" />
-
-        <activity
-            android:name=".activities.settings.TranslateActivity"
-            android:label="@string/title_translate" />
 
         <activity
             android:name=".activities.settings.ContactActivity"
@@ -204,7 +200,7 @@
 
         <activity
             android:name=".activities.widget.WidgetSettingsActivity"
-            android:label="@string/title_configure_widget"></activity>
+            android:label="@string/title_configure_widget" />
 
         <!-- EXPERIMENTAL -->
         <activity

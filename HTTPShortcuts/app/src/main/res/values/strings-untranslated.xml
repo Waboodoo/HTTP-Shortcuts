@@ -4,7 +4,6 @@
     <string name="settings_help_translate" translatable="false">Translate App</string>
     <!-- Summary/subtitle of section in settings that prompts user to help translate the app -->
     <string name="settings_help_translate_summary" translatable="false">Help me make this app better!</string>
-    <string name="title_translate" translatable="false">Translate App</string>
     <string name="developer_email_address" translatable="false">android@rmy.ch</string>
     <string name="email_subject_contact" translatable="false">HTTP Shortcuts</string>
     <string name="email_text_contact" translatable="false">Hey Roland,\n\n</string>
