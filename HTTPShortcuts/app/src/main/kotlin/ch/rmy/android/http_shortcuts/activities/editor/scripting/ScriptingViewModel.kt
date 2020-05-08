@@ -10,9 +10,9 @@ class ScriptingViewModel(application: Application) : BasicShortcutEditorViewMode
     fun setCode(prepareCode: String, successCode: String, failureCode: String): Completable =
         Transactions.commit { realm ->
             getShortcut(realm)?.let { shortcut ->
-                shortcut.codeOnPrepare = prepareCode
-                shortcut.codeOnSuccess = successCode
-                shortcut.codeOnFailure = failureCode
+                shortcut.codeOnPrepare = prepareCode.trim()
+                shortcut.codeOnSuccess = successCode.trim()
+                shortcut.codeOnFailure = failureCode.trim()
             }
         }
 

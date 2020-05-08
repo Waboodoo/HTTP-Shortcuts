@@ -43,7 +43,7 @@ class RequestBodyViewModel(application: Application) : BasicShortcutEditorViewMo
             val parameters = shortcut.parameters
             parameters.add(Parameter(
                 type = Parameter.TYPE_STRING,
-                key = key,
+                key = key.trim(),
                 value = value
             ))
         }
@@ -54,7 +54,7 @@ class RequestBodyViewModel(application: Application) : BasicShortcutEditorViewMo
             val parameters = shortcut.parameters
             parameters.add(Parameter(
                 type = if (multiple) Parameter.TYPE_FILES else Parameter.TYPE_FILE,
-                key = key,
+                key = key.trim(),
                 fileName = fileName
             ))
         }
@@ -63,7 +63,7 @@ class RequestBodyViewModel(application: Application) : BasicShortcutEditorViewMo
         Transactions.commit { realm ->
             val shortcut = getShortcut(realm) ?: return@commit
             val parameter = shortcut.parameters.find { it.id == parameterId } ?: return@commit
-            parameter.key = key
+            parameter.key = key.trim()
             parameter.value = value
             parameter.fileName = fileName
         }
@@ -78,7 +78,7 @@ class RequestBodyViewModel(application: Application) : BasicShortcutEditorViewMo
     fun setRequestBody(contentType: String, bodyContent: String): Completable =
         Transactions.commit { realm ->
             getShortcut(realm)?.let { shortcut ->
-                shortcut.contentType = contentType
+                shortcut.contentType = contentType.trim()
                 shortcut.bodyContent = bodyContent
             }
         }

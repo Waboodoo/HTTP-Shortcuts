@@ -26,7 +26,7 @@ class RequestHeadersViewModel(application: Application) : BasicShortcutEditorVie
             val shortcut = getShortcut(realm) ?: return@commit
             val headers = shortcut.headers
             headers.add(Header(
-                key = key,
+                key = key.trim(),
                 value = value
             ))
         }
@@ -35,7 +35,7 @@ class RequestHeadersViewModel(application: Application) : BasicShortcutEditorVie
         Transactions.commit { realm ->
             val shortcut = getShortcut(realm) ?: return@commit
             val header = shortcut.headers.find { it.id == headerId } ?: return@commit
-            header.key = key
+            header.key = key.trim()
             header.value = value
         }
 

@@ -33,7 +33,7 @@ class AdvancedSettingsViewModel(application: Application) : BasicShortcutEditorV
     fun setProxy(host: String, port: Int?): Completable =
         Transactions.commit { realm ->
             getShortcut(realm)?.let { shortcut ->
-                shortcut.proxyHost = host.takeUnless { it.isEmpty() }
+                shortcut.proxyHost = host.trim().takeUnless { it.isEmpty() }
                 shortcut.proxyPort = port
             }
         }
