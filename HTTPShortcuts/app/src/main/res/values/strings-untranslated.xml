@@ -8,13 +8,6 @@
     <string name="developer_email_address" translatable="false">android@rmy.ch</string>
     <string name="email_subject_contact" translatable="false">HTTP Shortcuts</string>
     <string name="email_text_contact" translatable="false">Hey Roland,\n\n</string>
-    <string name="label_translate_target_language">Language (required)</string>
-    <string name="label_translate_github_profile">Github Profile (optional)</string>
-    <string name="translate_instructions">If you would like to help me translate this app into your language, please send me an email using the form below. Please provide your Github profile if you would like to be credited.\n\nThank you for your help in making this app better.</string>
-    <string name="email_subject_translate" translatable="false">Translate HTTP Shortcuts</string>
-    <string name="email_text_translate" translatable="false">Hey Roland,\n\nI would like to help translate your app into \"%1$s\". Please give me access to the translation tool.</string>
-    <string name="email_text_translate_github_optional" translatable="false">\n\nMy Github username is \"%1$s\", and I would like to be credited as a contributor.</string>
-
     <string name="title_contact">Contact Developer</string>
     <string name="contact_instructions">If you find any bugs, have questions, problems or feature requests, feel free to send me an e-mail. I\'m happy to help.\n\nBefore you contact me though, please note that:\n\n• I am just one person.\n• I develop this app in my spare time.\n• I only speak English and German.\n• I don\'t respond to e-mails quickly. Sometimes it takes weeks, so please be patient.\n\nWhen reporting a bug, please make sure to include as much information as possible, such as the version of Android that you are using.\n\nTo continue, please type \"%1$s\" into the text field below and then click the checkmark button at the top.</string>
     <string name="error_realm_unavailable">The app could not find one of its binaries. This usually happens when the app is side-loaded or run on an unsupported device.&lt;br&gt;&lt;br&gt;Please try installing the app directly from the Play Store or download an APK from &lt;a href="https://github.com/Waboodoo/HTTP-Shortcuts/releases"&gt;https://github.com/Waboodoo/HTTP-Shortcuts/releases&lt;/a&gt;</string>

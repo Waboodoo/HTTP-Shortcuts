@@ -360,9 +360,7 @@ class SettingsActivity : BaseActivity() {
         }
 
         private fun helpTranslate() {
-            TranslateActivity.IntentBuilder(requireContext())
-                .build()
-                .startActivity(this)
+            openURL(TRANSLATION_URL)
         }
 
         private fun showAcknowledgments() {
@@ -476,6 +474,7 @@ class SettingsActivity : BaseActivity() {
         private const val SUPPORT_PAGE_URL = "https://http-shortcuts.rmy.ch/support-me"
         private const val PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts"
         private const val GITHUB_URL = "https://github.com/Waboodoo/HTTP-Shortcuts"
+        private const val TRANSLATION_URL = "https://poeditor.com/join/project/8tHhwOTzVZ"
 
         private const val REQUEST_EXPORT_TO_DOCUMENTS = 2
         private const val REQUEST_IMPORT_FROM_DOCUMENTS = 3
