@@ -310,7 +310,7 @@ class SettingsActivity : BaseActivity() {
             DialogBuilder(requireContext())
                 .title(R.string.dialog_title_import_from_url)
                 .textInput(
-                    hint = getString(R.string.hint_import_from_url),
+                    hint = "https://",
                     prefill = Settings(requireContext()).importUrl,
                     allowEmpty = false,
                     callback = ::startImportFromURL
