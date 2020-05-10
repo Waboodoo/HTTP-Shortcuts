@@ -104,11 +104,11 @@ class ListFragment : BaseFragment() {
             adapter?.destroy()
 
             val adapter = when (layoutType) {
-                Category.LAYOUT_GRID -> ShortcutGridAdapter(context!!, shortcuts)
-                else -> ShortcutListAdapter(context!!, shortcuts)
+                Category.LAYOUT_GRID -> ShortcutGridAdapter(requireContext(), shortcuts)
+                else -> ShortcutListAdapter(requireContext(), shortcuts)
             }
             val manager = when (layoutType) {
-                Category.LAYOUT_GRID -> GridLayoutManager(context!!)
+                Category.LAYOUT_GRID -> GridLayoutManager(requireContext())
                 else -> LinearLayoutManager(context)
             }
             this.adapter = destroyer.own(adapter)
@@ -139,7 +139,7 @@ class ListFragment : BaseFragment() {
             when (background) {
                 Category.BACKGROUND_TYPE_BLACK -> {
                     setImageDrawable(null)
-                    setBackgroundColor(color(context!!, R.color.activity_background_dark))
+                    setBackgroundColor(color(requireContext(), R.color.activity_background_dark))
                 }
                 Category.BACKGROUND_TYPE_WALLPAPER -> {
                     wallpaper
@@ -148,13 +148,13 @@ class ListFragment : BaseFragment() {
                         }
                         ?: run {
                             setImageDrawable(null)
-                            setBackgroundColor(color(context!!, R.color.activity_background))
+                            setBackgroundColor(color(requireContext(), R.color.activity_background))
                             adapter?.textColor = BaseShortcutAdapter.TextColor.DARK
                         }
                 }
                 else -> {
                     setImageDrawable(null)
-                    setBackgroundColor(color(context!!, R.color.activity_background))
+                    setBackgroundColor(color(requireContext(), R.color.activity_background))
                 }
             }
         }
@@ -175,7 +175,7 @@ class ListFragment : BaseFragment() {
                     executeShortcut(shortcut)
                     return
                 }
-                when (Settings(context!!).clickBehavior) {
+                when (Settings(requireContext()).clickBehavior) {
                     Settings.CLICK_BEHAVIOR_RUN -> executeShortcut(shortcut)
                     Settings.CLICK_BEHAVIOR_EDIT -> editShortcut(shortcut)
                     Settings.CLICK_BEHAVIOR_MENU -> showContextMenu(shortcutData)
@@ -194,7 +194,7 @@ class ListFragment : BaseFragment() {
 
     private fun showContextMenu(shortcutData: LiveData<Shortcut?>) {
         val shortcut = shortcutData.value ?: return
-        DialogBuilder(context!!)
+        DialogBuilder(requireContext())
             .title(shortcut.name)
             .item(R.string.action_place) {
                 tabHost?.placeShortcutOnHomeScreen(shortcutData.value ?: return@item)
@@ -231,13 +231,13 @@ class ListFragment : BaseFragment() {
         pendingShortcuts.any { it.shortcutId == shortcut.id }
 
     private fun executeShortcut(shortcut: Shortcut) {
-        ExecuteActivity.IntentBuilder(context!!, shortcut.id)
+        ExecuteActivity.IntentBuilder(requireContext(), shortcut.id)
             .build()
             .startActivity(this)
     }
 
     private fun editShortcut(shortcut: Shortcut) {
-        ShortcutEditorActivity.IntentBuilder(context!!)
+        ShortcutEditorActivity.IntentBuilder(requireContext())
             .categoryId(categoryId)
             .shortcutId(shortcut.id)
             .build()
@@ -254,7 +254,7 @@ class ListFragment : BaseFragment() {
 
     private fun openMoveDialog(shortcutData: LiveData<Shortcut?>) {
         val shortcut = shortcutData.value ?: return
-        DialogBuilder(context!!)
+        DialogBuilder(requireContext())
             .mapIf(canMoveShortcut(shortcut, -1)) {
                 it.item(R.string.action_move_up) {
                     moveShortcut(shortcut, -1)
@@ -291,7 +291,7 @@ class ListFragment : BaseFragment() {
 
     private fun showMoveToCategoryDialog(shortcutData: LiveData<Shortcut?>) {
         categoryData.value?.let { currentCategory ->
-            DialogBuilder(context!!)
+            DialogBuilder(requireContext())
                 .title(R.string.title_move_to_category)
                 .mapFor(categories.filter { it.id != currentCategory.id }) { builder, category ->
                     val categoryId = category.id
@@ -332,7 +332,7 @@ class ListFragment : BaseFragment() {
         viewModel.removePendingExecution(shortcut.id)
             .subscribe {
                 showSnackbar(String.format(getString(R.string.pending_shortcut_execution_cancelled), shortcut.name))
-                ExecutionScheduler.schedule(context!!)
+                ExecutionScheduler.schedule(requireContext())
             }
             .attachTo(destroyer)
     }
@@ -340,14 +340,14 @@ class ListFragment : BaseFragment() {
     private fun showCurlExportDialog(shortcut: Shortcut) {
         val command = CurlExporter.generateCommand(shortcut, viewModel.getConstantVariableValues())
         CurlExportDialog(
-            context!!,
+            requireContext(),
             shortcut.name,
             CurlConstructor.toCurlCommandString(command)
         ).show()
     }
 
     private fun showDeleteDialog(shortcutData: LiveData<Shortcut?>) {
-        DialogBuilder(context!!)
+        DialogBuilder(requireContext())
             .message(R.string.confirm_delete_shortcut_message)
             .positive(R.string.dialog_delete) {
                 deleteShortcut(shortcutData.value ?: return@positive)
@@ -361,7 +361,7 @@ class ListFragment : BaseFragment() {
         tabHost?.removeShortcutFromHomeScreen(shortcut)
         viewModel.deleteShortcut(shortcut.id)
             .subscribe {
-                ExecutionScheduler.schedule(context!!)
+                ExecutionScheduler.schedule(requireContext())
             }
             .attachTo(destroyer)
     }
