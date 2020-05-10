@@ -43,9 +43,6 @@
     <!-- Label above input field in editor, for shortcut authentication password -->
     <string name="label_password">"Пароль"</string>
 
-    <!-- Label above input field in editor, for shortcut authentication token -->
-    <string name="label_auth_token"></string>
-
     <!-- Label above input field in editor, for shortcut response type dropdown -->
     <string name="label_feedback">"Тип ответа"</string>
 
@@ -69,9 +66,6 @@
 
     <!-- Option in dropdown, for shortcut response type: Show complete response in a fullscreen window -->
     <string name="feedback_activity">"Ответ в окне"</string>
-
-    <!-- Option in dropdown, for shortcut response type: Show complete response in a fullscreen window, and include meta info (headers, status code, ...) for debug purposes -->
-    <string name="feedback_debug"></string>
 
     <!-- Shortcut dropdown option: Place shortcut on home screen -->
     <string name="action_place">"Разместить на главном экране"</string>
@@ -145,9 +139,6 @@
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
     <string name="error_other">"Ошибка %1$s: %2$s"</string>
 
-    <!-- Error shown when the HTTP response is too large to be loaded into memory. %s is a placeholder for the size limit, e.g. "1 MB") -->
-    <string name="error_response_too_large"></string>
-
     <!-- Error shown when a selected image cannot be used as an icon -->
     <string name="error_set_image">"Не удалось использовать изображение в качестве значка."</string>
 
@@ -175,20 +166,11 @@
     <!-- Title of dialog to edit a parameter on a shortcut -->
     <string name="title_post_param_edit">"Изменить параметр"</string>
 
-    <!-- Title of dialog to edit a file parameter on a shortcut -->
-    <string name="title_post_param_edit_file"></string>
-
     <!-- Title of dialog to add a new parameter to a shortcut -->
     <string name="title_post_param_add">"Добавить параметр"</string>
 
-    <!-- Title of dialog to add a new file parameter to a shortcut -->
-    <string name="title_post_param_add_file"></string>
-
     <!-- Label of input field to provide the name/key of a parameter of a shortcut -->
     <string name="label_post_param_key">"Параметр"</string>
-
-    <!-- Label of input field to provide the file name for a file parameter of a shortcut -->
-    <string name="label_post_param_file_name"></string>
 
     <!-- Label of input field to provide the value of a parameter of a shortcut -->
     <string name="label_post_param_value">"Значение"</string>
@@ -271,14 +253,6 @@
     <!-- Button in settings page to start export of shortcuts -->
     <string name="settings_export">"Экспорт ярлыков"</string>
 
-    <!-- Success message, shown in snackbar when export of shortcuts is successful -->
-    <plurals name="shortcut_export_success">
-        <item quantity="one">"Экспортирован 1 ярлык."</item>
-        <item quantity="few">"Экспортировано %d ярлыка."</item>
-        <item quantity="many">"Экспортирован 1 ярлык."</item>
-        <item quantity="other">"Экспортировано %d ярлыков."</item>
-    </plurals>
-
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
     <string name="export_in_progress">"Выполняется экспорт..."</string>
 
@@ -289,55 +263,14 @@
     <string name="import_failed_with_reason">"Не удалось импортировать ярлыки:
 %s"</string>
 
-    <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
-    <string name="export_failed_with_reason"></string>
-
     <!-- Error message: Import failed due to invalid JSON syntax in the import file -->
     <string name="import_failure_reason_invalid_json">"Неверный JSON"</string>
-
-    <!-- Success message, shown in snackbar when import of shortcuts is successful -->
-    <plurals name="shortcut_import_success">
-        <item quantity="one">"Импортирован 1 ярлык."</item>
-        <item quantity="few">"Импортировано %d ярлыка."</item>
-        <item quantity="many">"Импортирован 1 ярлык."</item>
-        <item quantity="other">"Импортировано %d ярлыков."</item>
-    </plurals>
 
     <!-- Message shown in progress dialog while shortcuts are being imported -->
     <string name="import_in_progress">"Выполняется импорт..."</string>
 
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
     <string name="label_timeout">"Тайм-аут"</string>
-
-    <!-- Label, for option to set the proxy hostname for a shortcut -->
-    <string name="label_proxy_host"></string>
-
-    <!-- Label, for option to set the proxy port for a shortcut -->
-    <string name="label_proxy_port"></string>
-
-    <!-- Used in various places to indicate a number of seconds, e.g. for a delay. %s is a placeholder for the actual number. -->
-    <plurals name="seconds">
-        <item quantity="one">"%d секунда"</item>
-        <item quantity="few">"%d секунды"</item>
-        <item quantity="many">"%d секунда"</item>
-        <item quantity="other">"%d секунд"</item>
-    </plurals>
-
-    <!-- Used in various places to indicate a number of milliseconds, e.g. for a delay. %s is a placeholder for the actual number. -->
-    <plurals name="milliseconds">
-        <item quantity="one">"%d миллисекунда"</item>
-        <item quantity="few">"%d миллисекунды"</item>
-        <item quantity="many">"%d миллисекунда"</item>
-        <item quantity="other">"%d миллисекунд"</item>
-    </plurals>
-
-    <!-- Used in various places to indicate a number of minutes, e.g. for a delay. %s is a placeholder for the actual number. -->
-    <plurals name="minutes">
-        <item quantity="one">"%d минута"</item>
-        <item quantity="few">"%d минуты"</item>
-        <item quantity="many">"%d минута"</item>
-        <item quantity="other">"%d минут"</item>
-    </plurals>
 
     <!-- Pattern: Combines an indication of minutes (first %s) with an indication of seconds (second %s), e.g. 1 minute, 24 seconds -->
     <string name="pattern_minutes_seconds">"%s, %s"</string>
@@ -359,12 +292,6 @@
 
     <!-- Button title, for option to open the app's Github page in a browser -->
     <string name="settings_github">"Посмотреть на Github"</string>
-
-    <!-- Button title, for option to go to "Support this App" page -->
-    <string name="settings_support"></string>
-
-    <!-- Button subtitle, for option to go to "Support this App" page -->
-    <string name="settings_support_summary"></string>
 
     <!-- Button subtitle for "View on Github" button -->
     <string name="settings_github_summary">"Да, всё верно: это приложение с открытым исходным кодом"</string>
@@ -453,12 +380,6 @@
     <!-- Action, shown on dropdown when editing a category, for allowing to change the category's layout type -->
     <string name="action_change_category_layout_type">"Изменить тип макета"</string>
 
-    <!-- Action, shown on dropdown when editing a category, for allowing to hide a category -->
-    <string name="action_hide_category"></string>
-
-    <!-- Action, shown on dropdown when editing a category, for allowing to show a hidden category -->
-    <string name="action_show_category"></string>
-
     <!-- Message, shown in snackbar to confirm to the user that the layout type of a category was changed -->
     <string name="message_layout_type_changed">"Тип макета изменен."</string>
 
@@ -503,28 +424,11 @@
     <!-- Message, shown in snackbar, to confirm to the user that a category was renamed -->
     <string name="message_category_renamed">"Категория переименована."</string>
 
-    <!-- Message, shown in snackbar, to confirm to the user that a category was hidden -->
-    <string name="message_category_hidden"></string>
-
-    <!-- Message, shown in snackbar, to confirm to the user that a category is no longer hidden and visible again -->
-    <string name="message_category_visible"></string>
-
     <!-- Message, shown in snackbar, to confirm to the user that a category was created -->
     <string name="message_category_created">"Категория создана."</string>
 
     <!-- Message, shown in snackbar, to confirm to the user that a category was deleted -->
     <string name="message_category_deleted">"Категория удалена."</string>
-
-    <!-- Shows numerical count of shortcuts, used to show how many shortcuts are in a given category -->
-    <plurals name="shortcut_count">
-        <item quantity="one">"%d ярлык"</item>
-        <item quantity="few">"%d ярлыка"</item>
-        <item quantity="many">"%d ярлык"</item>
-        <item quantity="other">"%d ярлыков"</item>
-    </plurals>
-
-    <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
-    <string name="label_category_hidden"></string>
 
     <!-- Dialog title/button, for feature to move a shortcut to a different category -->
     <string name="title_move_to_category">"Переместить в категорию"</string>
@@ -749,9 +653,6 @@
     <!-- Dialog option on Import dialog, for importing shortcuts from a file picked via the system's document browser -->
     <string name="button_import_from_general">"Документы"</string>
 
-    <!-- Dialog option on Import dialog, for importing shortcuts from a URL -->
-    <string name="button_import_from_url"></string>
-
     <!-- Dialog title when creating a new shortcut, shows options below -->
     <string name="title_create_new_shortcut_options_dialog">"Создать новый ярлык"</string>
 
@@ -782,14 +683,8 @@
     <!-- Dropdown option for "Authentication" of a shortcut: "Digest Authentication", aka. DigestAuth (username & password) -->
     <string name="authentication_digest">"Дайджест-аутентификация"</string>
 
-    <!-- Dropdown option for "Authentication" of a shortcut: "Bearer Authentication", aka. BearerAuth (token) -->
-    <string name="authentication_bearer"></string>
-
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu, i.e., when long-pressing the app icon on the home screen -->
     <string name="label_launcher_shortcut">"Показать как ярлык приложения на панели запуска"</string>
-
-    <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
-    <string name="label_quick_tile_shortcut"></string>
 
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
     <string name="error_share_failed">"Произошла ошибка при обмене."</string>
@@ -854,20 +749,8 @@
     <!-- Button to copy the cURL export of a shortcut to the clipboard -->
     <string name="button_copy_curl_export">"Копировать"</string>
 
-    <!-- Section title in shortcut editor: "Response handling", contains settings for controlling how the shortcut response should be handled -->
-    <string name="label_response_handling"></string>
-
-    <!-- Section subtitle in shortcut editor: "Response handling", contains settings for controlling how the shortcut response should be handled -->
-    <string name="label_response_handling_subtitle"></string>
-
     <!-- Section title in shortcut editor: "Scripting", allows to write scripts for advanced workflows -->
     <string name="label_scripting">"писать сценарии"</string>
-
-    <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before or after shortcut execution -->
-    <string name="label_scripting_subtitle"></string>
-
-    <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before shortcut execution -->
-    <string name="label_scripting_browser_shortcuts_subtitle"></string>
 
     <!-- Section title in shortcut editor, groups together miscellaneous settings -->
     <string name="label_misc_settings">"Другие настройки"</string>
@@ -896,29 +779,14 @@
     <!-- Shortcut Action Title: Change Shortcut Name -->
     <string name="action_type_rename_shortcut_title">"Переименовать ярлык"</string>
 
-    <!-- Shortcut Action Title: Change Shortcut Icon -->
-    <string name="action_type_change_icon_title"></string>
-
     <!-- Shortcut Action Title: Trigger a shortcut, i.e., execute it -->
     <string name="action_type_trigger_shortcut_title">"Запустить ярлык"</string>
-
-    <!-- Shortcut Action Title: Abort the execution of the shortcut -->
-    <string name="action_type_abort_execution"></string>
 
     <!-- Shortcut error message: Maximum recursion depth reached, i.e., a potential infinite loop was detected and stopped -->
     <string name="action_type_trigger_shortcut_error_recursion_depth_reached">"Достигнута максимальная глубина рекурсии. Ярлык не будет запущен."</string>
 
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid URL -->
     <string name="error_invalid_url">"Неверный URL (%s)."</string>
-
-    <!-- error message: Shown in toast when the user tries to execute a shortcut with invalid proxy settings -->
-    <string name="error_invalid_proxy"></string>
-
-    <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid content type -->
-    <string name="error_invalid_content_type"></string>
-
-    <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid header -->
-    <string name="error_invalid_header"></string>
 
     <!-- Title: Dialog title when selecting how to place a shortcut on the homescreen -->
     <string name="title_select_placement_method">"Метод размещения"</string>
@@ -980,14 +848,6 @@
     <!-- Section subtitle, shown in shortcut editor when the shortcut has no custom HTTP headers -->
     <string name="subtitle_request_headers_none">"Заголовки не установлены"</string>
 
-    <!-- Section subtitle, shown in shortcut editor when the shortcut has one or more custom HTTP headers -->
-    <plurals name="subtitle_request_headers_pattern">
-        <item quantity="one">"Установлен 1 заголовок"</item>
-        <item quantity="few">"Установлено %d заголовка"</item>
-        <item quantity="many">"Установлен 1 заголовок"</item>
-        <item quantity="other">"Установлено %d заголовков"</item>
-    </plurals>
-
     <!-- Section subtitle, shown in shortcut editor when no authentication behavior is defined -->
     <string name="subtitle_authentication_none">"Без аутентификации"</string>
 
@@ -997,19 +857,8 @@
     <!-- Section subtitle, shown in shortcut editor when Digest Authentication is enabled -->
     <string name="subtitle_authentication_digest">"Дайджест-аутентификация с именем пользователя и паролем"</string>
 
-    <!-- Section subtitle, shown in shortcut editor when Bearer Authentication is enabled -->
-    <string name="subtitle_authentication_bearer"></string>
-
     <!-- Section subtitle, shown in shortcut editor when no (POST) parameters are set -->
     <string name="subtitle_request_body_params_none">"Параметры не заданы"</string>
-
-    <!-- Section subtitle, shown in shortcut editor when one or more (POST) parameters are set -->
-    <plurals name="subtitle_request_body_params_pattern">
-        <item quantity="one">"Задан 1 параметр"</item>
-        <item quantity="few">"Задано %d параметра"</item>
-        <item quantity="many">"Задан 1 параметр"</item>
-        <item quantity="other">"Задано %d параметров"</item>
-    </plurals>
 
     <!-- Section subtitle, shown in shortcut editor when no custom request body is set -->
     <string name="subtitle_request_body_none">"Тело запроса не установлено"</string>
@@ -1093,9 +942,6 @@
     <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_renaming">"Не удалось переименовать ярлык \"%1$s\", так как его не существует."</string>
 
-    <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
-    <string name="error_shortcut_not_found_for_changing_icon"></string>
-
     <!-- Settings option for dark mode: when selected the app will always use Dark Mode -->
     <string name="settings_dark_theme_options_on">"Всегда темный"</string>
 
@@ -1111,92 +957,12 @@
     <!-- Message: Shown as a placeholder when the HTTP response has no content that could be displayed -->
     <string name="message_blank_response">"пустой ответ"</string>
 
-    <!-- Message shown in snackbar when the title on the main title bar was changed. -->
-    <string name="message_title_changed"></string>
-
-    <!-- Dialog title: Shown in dialog title when changing the title of the main screen of the app -->
-    <string name="title_set_title"></string>
-
-    <!-- Dialog title: Shown in dialog title when entering the URL to import shortcuts from -->
-    <string name="dialog_title_import_from_url"></string>
-
-    <!-- Dialog input hint: Shown in "Import from URL" dialog to give user a hint what to enter -->
-    <string name="hint_import_from_url"></string>
-
-    <!-- Error: Shown when user tries to import shortcuts from an invalid URL -->
-    <string name="error_can_only_import_from_http_url"></string>
-
-    <!-- Action Label: Shown on Quick Settings Title that allows the user to quickly trigger a shortcut without opening the app -->
-    <string name="action_quick_settings_tile_trigger"></string>
-
-    <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
-    <string name="instructions_quick_settings_tile"></string>
-
-    <!-- Label: Status code, shows the HTTP status code of the response -->
-    <string name="label_status_code"></string>
-
     <!-- Label: URL, shows the HTTP request's URL alongside the response -->
     <string name="label_response_url">"URL"</string>
-
-    <!-- Label: Response time, shows how long the HTTP request took -->
-    <string name="label_response_timing"></string>
-
-    <!-- Label: Shown above section that lists general information about the HTTP response, e.g. status code -->
-    <string name="label_general_response_info"></string>
 
     <!-- Label: Shown above section that lists HTTP response headers -->
     <string name="label_response_headers">"Заголовки"</string>
 
-    <!-- Dialog title: Shown in dialog when adding a new request parameter and user has to pick its type -->
-    <string name="dialog_title_parameter_type"></string>
-
-    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for string parameter -->
-    <string name="option_parameter_type_string"></string>
-
-    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for file parameter -->
-    <string name="option_parameter_type_file"></string>
-
-    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for files parameter -->
-    <string name="option_parameter_type_files"></string>
-
-    <!-- Subtitle: Shown in request parameter editor underneath every file parameter to indicate their type -->
-    <string name="subtitle_parameter_value_file"></string>
-
-    <!-- Subtitle: Shown in request parameter editor underneath every files parameter to indicate their type -->
-    <string name="subtitle_parameter_value_files"></string>
-
-    <!-- Settings option: Used in language picker to allow user to pick the default language, i.e., the system language -->
-    <string name="language_default"></string>
-
-    <!-- Error: Shown in toast when user tries to add a variable placeholder to a text beyond its maximum size -->
-    <string name="error_text_too_long_for_variable"></string>
-
-    <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->
-    <string name="instructions_select_shortcut_for_home_screen"></string>
-
-    <!-- Label: Shown when user selects a widget to place on the home screen, shown for the customizable widget (as opposite to the generic shortcut) -->
-    <string name="label_widget"></string>
-
-    <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
-    <string name="label_show_widget_label"></string>
-
-    <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
-    <string name="action_create_widget"></string>
-
-    <!-- Title: Configure Widget, shown when creating a widget and the user has some options to configure it -->
-    <string name="title_configure_widget"></string>
-
-    <!-- Label: Shown in widget configuration screen, clicking it allows the user to pick a color for the widget label -->
-    <string name="label_widget_label_color"></string>
-
     <!-- Error: Generic error shown when the user enters an invalid character, e.g. for an HTTP header. %s is the placeholder for the character -->
     <string name="error_invalid_character">"Неправильный символ: %s"</string>
-
-    <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
-    <plurals name="warning_variable_still_in_use_in_shortcuts">
-        <item quantity="one"></item>
-        <item quantity="few"></item>
-        <item quantity="many"></item>
-        <item quantity="other"></item>
-    </plurals>
 </resources>

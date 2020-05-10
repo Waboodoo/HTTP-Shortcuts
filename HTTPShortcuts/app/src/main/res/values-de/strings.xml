@@ -350,12 +350,6 @@
     <!-- Button title, for option to open the app's Github page in a browser -->
     <string name="settings_github">"Auf Github ansehen"</string>
 
-    <!-- Button title, for option to go to "Support this App" page -->
-    <string name="settings_support"></string>
-
-    <!-- Button subtitle, for option to go to "Support this App" page -->
-    <string name="settings_support_summary"></string>
-
     <!-- Button subtitle for "View on Github" button -->
     <string name="settings_github_summary">"Jap, diese App ist Open Source."</string>
 
@@ -899,9 +893,6 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
 
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid URL -->
     <string name="error_invalid_url">"Ungültige URL (%s)."</string>
-
-    <!-- error message: Shown in toast when the user tries to execute a shortcut with invalid proxy settings -->
-    <string name="error_invalid_proxy"></string>
 
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid content type -->
     <string name="error_invalid_content_type">"Ungültiger Content-Type (%s)."</string>

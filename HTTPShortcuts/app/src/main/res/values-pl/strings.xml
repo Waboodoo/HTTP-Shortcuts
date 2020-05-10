@@ -43,9 +43,6 @@
     <!-- Label above input field in editor, for shortcut authentication password -->
     <string name="label_password">"Hasło"</string>
 
-    <!-- Label above input field in editor, for shortcut authentication token -->
-    <string name="label_auth_token"></string>
-
     <!-- Label above input field in editor, for shortcut response type dropdown -->
     <string name="label_feedback">"Typ odpowiedzi"</string>
 
@@ -69,9 +66,6 @@
 
     <!-- Option in dropdown, for shortcut response type: Show complete response in a fullscreen window -->
     <string name="feedback_activity">"Odpowiedź w oknie"</string>
-
-    <!-- Option in dropdown, for shortcut response type: Show complete response in a fullscreen window, and include meta info (headers, status code, ...) for debug purposes -->
-    <string name="feedback_debug"></string>
 
     <!-- Shortcut dropdown option: Place shortcut on home screen -->
     <string name="action_place">"Umieść na głównym ekranie"</string>
@@ -139,18 +133,6 @@
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
     <string name="validation_url_invalid">"Proszę podać link HTTP(s)."</string>
 
-    <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
-    <string name="error_http"></string>
-
-    <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
-    <string name="error_other"></string>
-
-    <!-- Error shown when the HTTP response is too large to be loaded into memory. %s is a placeholder for the size limit, e.g. "1 MB") -->
-    <string name="error_response_too_large"></string>
-
-    <!-- Error shown when a selected image cannot be used as an icon -->
-    <string name="error_set_image"></string>
-
     <!-- Name template for a duplicated shortcut. %1$s is a placeholder for the name of the original shortcut -->
     <string name="template_shortcut_name_copy">"%1$s (kopia)"</string>
 
@@ -175,20 +157,11 @@
     <!-- Title of dialog to edit a parameter on a shortcut -->
     <string name="title_post_param_edit">"Edytuj parametr"</string>
 
-    <!-- Title of dialog to edit a file parameter on a shortcut -->
-    <string name="title_post_param_edit_file"></string>
-
     <!-- Title of dialog to add a new parameter to a shortcut -->
     <string name="title_post_param_add">"Dodaj Parametr"</string>
 
-    <!-- Title of dialog to add a new file parameter to a shortcut -->
-    <string name="title_post_param_add_file"></string>
-
     <!-- Label of input field to provide the name/key of a parameter of a shortcut -->
     <string name="label_post_param_key">"Parametr"</string>
-
-    <!-- Label of input field to provide the file name for a file parameter of a shortcut -->
-    <string name="label_post_param_file_name"></string>
 
     <!-- Label of input field to provide the value of a parameter of a shortcut -->
     <string name="label_post_param_value">"Wartość"</string>
@@ -235,9 +208,6 @@
     <!-- Title of section in "Settings" screen: Basic settings -->
     <string name="settings_title_basic">"Ustawienia podstawowe"</string>
 
-    <!-- Name of setting that allows the user to pick what should happen when a shortcut is clicked -->
-    <string name="settings_click_behavior"></string>
-
     <!-- Name of setting that allows the user to change the app's language -->
     <string name="settings_language">"Język"</string>
 
@@ -271,75 +241,14 @@
     <!-- Button in settings page to start export of shortcuts -->
     <string name="settings_export">"Eksportuj skróty"</string>
 
-    <!-- Success message, shown in snackbar when export of shortcuts is successful -->
-    <plurals name="shortcut_export_success">
-        <item quantity="one">"Wyeksportowano 1 skrót."</item>
-        <item quantity="few">"Wyeksportowano 1 skrót."</item>
-        <item quantity="many">"Wyeksportowano 1 skrót."</item>
-        <item quantity="other">"Wyeksportowano 1 skrót."</item>
-    </plurals>
-
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
     <string name="export_in_progress">"Eksportuję..."</string>
-
-    <!-- Error message: Shown in snackbar when import of shortcuts & variables failed -->
-    <string name="import_failed"></string>
-
-    <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
-    <string name="import_failed_with_reason"></string>
-
-    <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
-    <string name="export_failed_with_reason"></string>
-
-    <!-- Error message: Import failed due to invalid JSON syntax in the import file -->
-    <string name="import_failure_reason_invalid_json"></string>
-
-    <!-- Success message, shown in snackbar when import of shortcuts is successful -->
-    <plurals name="shortcut_import_success">
-        <item quantity="one">"1 skrót zaimportowany."</item>
-        <item quantity="few">"1 skrót zaimportowany."</item>
-        <item quantity="many">"1 skrót zaimportowany."</item>
-        <item quantity="other">"1 skrót zaimportowany."</item>
-    </plurals>
 
     <!-- Message shown in progress dialog while shortcuts are being imported -->
     <string name="import_in_progress">"Importuję ..."</string>
 
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
     <string name="label_timeout">"Upłynął czas"</string>
-
-    <!-- Label, for option to set the proxy hostname for a shortcut -->
-    <string name="label_proxy_host"></string>
-
-    <!-- Label, for option to set the proxy port for a shortcut -->
-    <string name="label_proxy_port"></string>
-
-    <!-- Used in various places to indicate a number of seconds, e.g. for a delay. %s is a placeholder for the actual number. -->
-    <plurals name="seconds">
-        <item quantity="one">"%d sekunda"</item>
-        <item quantity="few">"%d sekundy"</item>
-        <item quantity="many">"%d sekunda"</item>
-        <item quantity="other">"%d sekund"</item>
-    </plurals>
-
-    <!-- Used in various places to indicate a number of milliseconds, e.g. for a delay. %s is a placeholder for the actual number. -->
-    <plurals name="milliseconds">
-        <item quantity="one"></item>
-        <item quantity="few"></item>
-        <item quantity="many"></item>
-        <item quantity="other"></item>
-    </plurals>
-
-    <!-- Used in various places to indicate a number of minutes, e.g. for a delay. %s is a placeholder for the actual number. -->
-    <plurals name="minutes">
-        <item quantity="one">"%d minuta"</item>
-        <item quantity="few">"%d minuty"</item>
-        <item quantity="many">"%d minuta"</item>
-        <item quantity="other">"%d minut"</item>
-    </plurals>
-
-    <!-- Pattern: Combines an indication of minutes (first %s) with an indication of seconds (second %s), e.g. 1 minute, 24 seconds -->
-    <string name="pattern_minutes_seconds"></string>
 
     <!-- Section title in app settings -->
     <string name="settings_about">"O tej aplikacji"</string>
@@ -359,12 +268,6 @@
     <!-- Button title, for option to open the app's Github page in a browser -->
     <string name="settings_github">"Zobacz na Github"</string>
 
-    <!-- Button title, for option to go to "Support this App" page -->
-    <string name="settings_support"></string>
-
-    <!-- Button subtitle, for option to go to "Support this App" page -->
-    <string name="settings_support_summary"></string>
-
     <!-- Button subtitle for "View on Github" button -->
     <string name="settings_github_summary">"Tak, to jest aplikacja z otwartym kodem źródłowym"</string>
 
@@ -376,12 +279,6 @@
 
     <!-- Checkbox label, shown on Changelog dialog, allowing user to enable that the dialog shows when the app is started -->
     <string name="changelog_checkbox_show_at_startup">"Pokazuj przy starcie"</string>
-
-    <!-- Message displayed when the shortcut cannot be executed because there is no internet connection. %1$s is a placeholder for the shortcut name. -->
-    <string name="execution_delayed"></string>
-
-    <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor -->
-    <string name="label_wait_for_connection"></string>
 
     <!-- Label: Shown on button that allows to enable execution delay of a shortcut -->
     <string name="label_delay_execution">"Opóźnij uruchomienie"</string>
@@ -425,53 +322,14 @@
     <!-- Label, for dropdown picker, allowing to select the authentication method (i.e., how to authenticate) of a shortcut -->
     <string name="label_authentication_method">"Metody autentykacji"</string>
 
-    <!-- Checkbox label, used in varies dialogs, to allow user to hide the dialog forever -->
-    <string name="dialog_checkbox_do_not_show_again"></string>
-
-    <!-- checkbox label in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
-    <string name="label_accept_all_certificates"></string>
-
     <!-- Checkbox label in editor, if enabled user will be prompted to confirm before a shortcut is executed -->
     <string name="label_require_execution_confirmation">"Wymaga potwierdzenia przed uruchomieniem"</string>
-
-    <!-- Page title, for page listing all the libraries and 3rd party assets used in the app -->
-    <string name="title_licenses"></string>
-
-    <!-- Button, for opening page listing all the libraries and 3rd party assets used in the app -->
-    <string name="settings_licenses"></string>
-
-    <!-- Button subtitle, for "Acknowledgements" button -->
-    <string name="settings_licenses_summary"></string>
-
-    <!-- Page title, for page showing all configured categories -->
-    <string name="title_categories"></string>
-
-    <!-- Generic action, shown on dialog, to rename things -->
-    <string name="action_rename"></string>
-
-    <!-- Action, shown on dropdown when editing a category, for allowing to change the category's layout type -->
-    <string name="action_change_category_layout_type"></string>
-
-    <!-- Action, shown on dropdown when editing a category, for allowing to hide a category -->
-    <string name="action_hide_category"></string>
-
-    <!-- Action, shown on dropdown when editing a category, for allowing to show a hidden category -->
-    <string name="action_show_category"></string>
-
-    <!-- Message, shown in snackbar to confirm to the user that the layout type of a category was changed -->
-    <string name="message_layout_type_changed"></string>
 
     <!-- Option in context menu for category, allows user to change the background of a category -->
     <string name="action_change_category_background">"Zmień tło"</string>
 
     <!-- Success message after background of a category was changed. Shown in snackbar. -->
     <string name="message_background_type_changed">"Zmieniono tło."</string>
-
-    <!-- One of two options when picking the layout for a category: Show shortcuts in a list -->
-    <string name="layout_type_linear_list"></string>
-
-    <!-- One of two options when picking the layout for a category: Show shortcuts in a grid -->
-    <string name="layout_type_grid"></string>
 
     <!-- Option to choose from when selecting the background of a category: Plain white -->
     <string name="category_background_type_white">"Biały"</string>
@@ -482,115 +340,17 @@
     <!-- Option to choose from when selecting the background of a category: Use phone's wallpaper -->
     <string name="category_background_type_wallpaper">"Tapeta"</string>
 
-    <!-- Option to allow renaming a category -->
-    <string name="title_rename_category"></string>
-
-    <!-- Dialog prompt/placeholder in input field, asking user to enter a name for a category -->
-    <string name="placeholder_category_name"></string>
-
-    <!-- Placeholder in input field, asking user to enter a value. Used in varies places -->
-    <string name="placeholder_value"></string>
-
-    <!-- Dialog title, shown in editor when creating a new category -->
-    <string name="title_create_category"></string>
-
-    <!-- Message, shown in dialog, to ask the user to confirm the deletion of a category and all shortcuts within -->
-    <string name="confirm_delete_category_message"></string>
-
-    <!-- Message, shown in snackbar, to confirm to the user that a category was renamed -->
-    <string name="message_category_renamed"></string>
-
-    <!-- Message, shown in snackbar, to confirm to the user that a category was hidden -->
-    <string name="message_category_hidden"></string>
-
-    <!-- Message, shown in snackbar, to confirm to the user that a category is no longer hidden and visible again -->
-    <string name="message_category_visible"></string>
-
-    <!-- Message, shown in snackbar, to confirm to the user that a category was created -->
-    <string name="message_category_created"></string>
-
-    <!-- Message, shown in snackbar, to confirm to the user that a category was deleted -->
-    <string name="message_category_deleted"></string>
-
-    <!-- Shows numerical count of shortcuts, used to show how many shortcuts are in a given category -->
-    <plurals name="shortcut_count">
-        <item quantity="one"></item>
-        <item quantity="few"></item>
-        <item quantity="many"></item>
-        <item quantity="other"></item>
-    </plurals>
-
-    <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
-    <string name="label_category_hidden"></string>
-
-    <!-- Dialog title/button, for feature to move a shortcut to a different category -->
-    <string name="title_move_to_category"></string>
-
-    <!-- Name/title to describe what the plugin action does, used by external plugins, e.g. Tasker -->
-    <string name="plugin_name"></string>
-
-    <!-- Button/page title, for viewing list of variables -->
-    <string name="title_variables"></string>
-
-    <!-- Button, to edit a variable -->
-    <string name="edit_variable"></string>
-
-    <!-- Button, to create a new variable -->
-    <string name="create_variable"></string>
-
-    <!-- label, to allow user to pick the variable type (using a dropdown) in the variable editor -->
-    <string name="label_variable_type"></string>
-
-    <!-- label, to allow the user to enter the key/name for a variable -->
-    <string name="label_variable_key"></string>
-
-    <!-- label, shown in variable editor, to allow the user to enter a dialog title that will be shown then the variable is evaluated -->
-    <string name="label_variable_title"></string>
-
-    <!-- label, shown in variable editor for Date Input variable, to allow the user to specify a date format -->
-    <string name="label_variable_date_format"></string>
-
     <!-- label, shown in variable editor for Time Input variable, to allow the user to specify a time format -->
     <string name="label_variable_time_format">"Format czasu"</string>
-
-    <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
-    <string name="variable_type_constant"></string>
-
-    <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
-    <string name="variable_type_text"></string>
-
-    <!-- Type of variable: Number Input, i.e., a dialog that asks user to enter a number -->
-    <string name="variable_type_number"></string>
-
-    <!-- Type of variable: Slider, i.e. a horizontal bar that allows to pick a number by sliding a knob left or right -->
-    <string name="variable_type_slider"></string>
-
-    <!-- Type of variable: Password Input, i.e., a dialog that asks user to enter a password -->
-    <string name="variable_type_password"></string>
 
     <!-- Type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
     <string name="variable_type_select">"Wybór"</string>
 
-    <!-- Type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
-    <string name="variable_type_toggle"></string>
-
-    <!-- Type of variable: Date Input, i.e., a dialog that asks user to pick a date in a calendar -->
-    <string name="variable_type_date"></string>
-
     <!-- Type of variable: Time Input, i.e., a dialog that asks user to pick a time in a clock -->
     <string name="variable_type_time">"Wprowadzanie czasu"</string>
 
-    <!-- Type of variable: Color Input, i.e., a dialog that asks user to pick a color in a color picker -->
-    <string name="variable_type_color"></string>
-
-    <!-- Error message, information user that the variable name they entered is not valid -->
-    <string name="warning_invalid_variable_key"></string>
-
     <!-- Dialog message, asking user to confirm the deletion of a variable -->
     <string name="confirm_delete_variable_message">"Usunąć tą zmienną?"</string>
-
-    <!-- Message, shown in snackbar, confirming to user that a variable was deleted. %1$s is a placeholder for the variable name -->
-    <string name="variable_deleted"></string>
 
     <!-- Checkbox label, for option to enable URL encoding of a variable -->
     <string name="label_url_encode">"Kodowanie URL"</string>
@@ -616,44 +376,8 @@
     <!-- Button, to add another value to the list of values in a variable of Toggle type -->
     <string name="button_add_toggle_option">"Dodaj wartość"</string>
 
-    <!-- Section title, for section that lists all values of a variable of Toggle type -->
-    <string name="section_toggle_options"></string>
-
-    <!-- Title, for dialog that allows user to add an option to a Selection variable -->
-    <string name="title_add_select_option"></string>
-
     <!-- Title, for dialog that allows user to edit an existing option of a Selection variable -->
     <string name="title_edit_select_option">"Edytuj opcję"</string>
-
-    <!-- Button, to allow a user to add an option to a Selection variable -->
-    <string name="button_add_select_option"></string>
-
-    <!-- Section title, for section that lists all selectable options of a Selection variable -->
-    <string name="section_select_options"></string>
-
-    <!-- Label, for dialog that allows adding/editing an option for a Selection variable, for specifying the option's "Label" -->
-    <string name="label_select_label"></string>
-
-    <!-- Label, for dialog that allows adding/editing an option for a Selection variable, for specifying the option's "Value" -->
-    <string name="label_select_value"></string>
-
-    <!-- Button, for opening help article page -->
-    <string name="button_show_help"></string>
-
-    <!-- Page/dialog title, for help article about variables -->
-    <string name="help_title_variables"></string>
-
-    <!-- Instructions shown in dialog when user clicks the variables button in the shortcut editor but doesn't have any variables configured yet -->
-    <string name="help_text_variable_button"></string>
-
-    <!-- Instructions shown in dialog when user clicks the variables button in the variable editor but doesn't have any variables configured yet -->
-    <string name="help_text_variable_button_for_variables"></string>
-
-    <!-- Instructions shown in code snippet picker when the user selects the "Get Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_get_variable_no_variable"></string>
-
-    <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_set_variable_no_variable"></string>
 
     <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
     <string name="button_create_first_variable">"Utwórz"</string>
@@ -664,125 +388,14 @@
     <!-- Option shown on variable selection dialog, clicking it opens variable editor -->
     <string name="label_edit_variables">"Edytuj zmienne"</string>
 
-    <!-- Error message, shown in variable editor when the user didn't add enough options -->
-    <string name="error_not_enough_toggle_values"></string>
-
-    <!-- Error message, shown in variable editor when the user didn't add enough options -->
-    <string name="error_not_enough_select_values"></string>
-
-    <!-- Error message, shown in variable editor when an invalid date format is entered -->
-    <string name="error_invalid_date_format"></string>
-
     <!-- Error message, shown in variable editor when an invalid time format is entered -->
     <string name="error_invalid_time_format">"Format czasu nieprawidłowy."</string>
-
-    <!-- Dialog button, allowing the user to share a text snippet with other apps -->
-    <string name="share_button"></string>
-
-    <!-- Title on Share dialog -->
-    <string name="share_title"></string>
-
-    <!-- Section title, for section in variable editor containing options specific to the variable type -->
-    <string name="section_input_options"></string>
-
-    <!-- Checkbox value, shown in variable editor, allows to enable a variable to remember its previous value -->
-    <string name="label_remember_value"></string>
-
-    <!-- Action, allows the user to cancel a pending shortcut execution -->
-    <string name="action_cancel_pending"></string>
-
-    <!-- Message, shown in snackbar to confirm when the user cancelled a pending shortcut execution (%1$s is a placeholder for the shortcut name) -->
-    <string name="pending_shortcut_execution_cancelled"></string>
-
-    <!-- Feature label for sharing text into the app, to be used in a specific variable for a configured shortcut -->
-    <string name="action_send_to"></string>
-
-    <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
-    <string name="error_not_suitable_shortcuts"></string>
-
-    <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
-    <string name="label_allow_share_into"></string>
-
-    <!-- App color theme option Blue -->
-    <string name="theme_blue"></string>
-
-    <!-- App color theme option Green -->
-    <string name="theme_green"></string>
-
-    <!-- App color theme option Red -->
-    <string name="theme_red"></string>
-
-    <!-- App color theme option Grey -->
-    <string name="theme_grey"></string>
-
-    <!-- App color theme option Orange -->
-    <string name="theme_orange"></string>
-
-    <!-- App color theme option Purple -->
-    <string name="theme_purple"></string>
-
-    <!-- App color theme option Indigo -->
-    <string name="theme_indigo"></string>
-
-    <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
-    <string name="title_export"></string>
-
-    <!-- Dialog option on Export dialog, for exporting by storing in a file -->
-    <string name="button_export_to_general"></string>
-
-    <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
-    <string name="button_export_send_to"></string>
-
-    <!-- Dialog title, for dialog with options allowing user to pick where to import shortcuts from -->
-    <string name="title_import"></string>
-
-    <!-- Dialog option on Import dialog, for importing shortcuts from a file picked via the system's document browser -->
-    <string name="button_import_from_general"></string>
-
-    <!-- Dialog option on Import dialog, for importing shortcuts from a URL -->
-    <string name="button_import_from_url"></string>
 
     <!-- Dialog title when creating a new shortcut, shows options below -->
     <string name="title_create_new_shortcut_options_dialog">"Utwórz nowy skrót"</string>
 
-    <!-- Option 1 in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
-    <string name="button_create_new"></string>
-
-    <!-- Option 2 in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
-    <string name="button_curl_import"></string>
-
-    <!-- Option 3 in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
-    <string name="button_create_browser_shortcut"></string>
-
-    <!-- Window title for cURL import -->
-    <string name="title_curl_import"></string>
-
-    <!-- Instruction text for shortcut import from cURL format -->
-    <string name="instructions_curl_import"></string>
-
     <!-- Text on button to start shortcut import from a cURL command -->
     <string name="curl_import_button">"Importuj"</string>
-
-    <!-- Dropdown option for "Authentication" of a shortcut: no authentication -->
-    <string name="authentication_none"></string>
-
-    <!-- Dropdown option for "Authentication" of a shortcut: "Basic Authentication", aka. BasicAuth (username & password) -->
-    <string name="authentication_basic"></string>
-
-    <!-- Dropdown option for "Authentication" of a shortcut: "Digest Authentication", aka. DigestAuth (username & password) -->
-    <string name="authentication_digest"></string>
-
-    <!-- Dropdown option for "Authentication" of a shortcut: "Bearer Authentication", aka. BearerAuth (token) -->
-    <string name="authentication_bearer"></string>
-
-    <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu, i.e., when long-pressing the app icon on the home screen -->
-    <string name="label_launcher_shortcut"></string>
-
-    <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
-    <string name="label_quick_tile_shortcut"></string>
-
-    <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
-    <string name="error_share_failed"></string>
 
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
     <string name="error_not_supported">"Ta opcja nie jest wspierana przez to urządzenie."</string>
@@ -844,21 +457,6 @@
     <!-- Button to copy the cURL export of a shortcut to the clipboard -->
     <string name="button_copy_curl_export">"Kopia"</string>
 
-    <!-- Section title in shortcut editor: "Response handling", contains settings for controlling how the shortcut response should be handled -->
-    <string name="label_response_handling"></string>
-
-    <!-- Section subtitle in shortcut editor: "Response handling", contains settings for controlling how the shortcut response should be handled -->
-    <string name="label_response_handling_subtitle"></string>
-
-    <!-- Section title in shortcut editor: "Scripting", allows to write scripts for advanced workflows -->
-    <string name="label_scripting"></string>
-
-    <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before or after shortcut execution -->
-    <string name="label_scripting_subtitle"></string>
-
-    <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before shortcut execution -->
-    <string name="label_scripting_browser_shortcuts_subtitle"></string>
-
     <!-- Section title in shortcut editor, groups together miscellaneous settings -->
     <string name="label_misc_settings">"Inne ustawienia"</string>
 
@@ -874,41 +472,20 @@
     <!-- Shortcut Action Title: Show Toast (small popup message) -->
     <string name="action_type_toast_title">"Pokaż Toast"</string>
 
-    <!-- Shortcut Action Title: Show Dialog -->
-    <string name="action_type_dialog_title"></string>
-
-    <!-- Shortcut Action Title: Action that allows to copy strings to the device's clipboard -->
-    <string name="action_copy_to_clipboard_title"></string>
-
     <!-- Shortcut Action Title: Vibrate -->
     <string name="action_type_vibrate_title">"Wibruj"</string>
 
     <!-- Shortcut Action Title: Change Shortcut Name -->
     <string name="action_type_rename_shortcut_title">"Zmień nazwę skrótu"</string>
 
-    <!-- Shortcut Action Title: Change Shortcut Icon -->
-    <string name="action_type_change_icon_title"></string>
-
     <!-- Shortcut Action Title: Trigger a shortcut, i.e., execute it -->
     <string name="action_type_trigger_shortcut_title">"Wyzwalacz skrótu"</string>
-
-    <!-- Shortcut Action Title: Abort the execution of the shortcut -->
-    <string name="action_type_abort_execution"></string>
 
     <!-- Shortcut error message: Maximum recursion depth reached, i.e., a potential infinite loop was detected and stopped -->
     <string name="action_type_trigger_shortcut_error_recursion_depth_reached">"Osiągnięto maksymalną ilość powtórzeń. Skrót nie będzie wywołany."</string>
 
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid URL -->
     <string name="error_invalid_url">"Nieprawidłowy URL (%s)."</string>
-
-    <!-- error message: Shown in toast when the user tries to execute a shortcut with invalid proxy settings -->
-    <string name="error_invalid_proxy"></string>
-
-    <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid content type -->
-    <string name="error_invalid_content_type"></string>
-
-    <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid header -->
-    <string name="error_invalid_header"></string>
 
     <!-- Title: Dialog title when selecting how to place a shortcut on the homescreen -->
     <string name="title_select_placement_method">"Sposób umieszczenia"</string>
@@ -952,31 +529,11 @@
     <!-- Snackbar message: App was unlocked (settings can be changed again) -->
     <string name="message_app_unlocked">"Aplikacja odblokowana"</string>
 
-    <!-- Warning dialog: Shown to user on startup to inform them that Android's "Data Saver" and/or "Battery Saver" modes may cause problems. -->
-    <string name="warning_data_saver_battery_saver_enabled"></string>
-
     <!-- Message: Shown as a snackbar popup when a variable was duplicated. -->
     <string name="message_variable_duplicated">"\"%1$s\" zduplikowany."</string>
 
-    <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
-    <string name="subtitle_basic_request_settings_prompt"></string>
-
-    <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
-    <string name="subtitle_basic_request_settings_url_only_prompt"></string>
-
-    <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings". Pattern for Method and URL -->
-    <string name="subtitle_basic_request_settings_pattern"></string>
-
     <!-- Section subtitle, shown in shortcut editor when the shortcut has no custom HTTP headers -->
     <string name="subtitle_request_headers_none">"Nie ustawiono własnych nagłówków"</string>
-
-    <!-- Section subtitle, shown in shortcut editor when the shortcut has one or more custom HTTP headers -->
-    <plurals name="subtitle_request_headers_pattern">
-        <item quantity="one">"Ustawiono 1 własny nagłówek"</item>
-        <item quantity="few">"Ustawiono 1 własny nagłówek"</item>
-        <item quantity="many">"Ustawiono 1 własny nagłówek"</item>
-        <item quantity="other">"Ustawiono 1 własny nagłówek"</item>
-    </plurals>
 
     <!-- Section subtitle, shown in shortcut editor when no authentication behavior is defined -->
     <string name="subtitle_authentication_none">"Brak autentykacji"</string>
@@ -984,208 +541,6 @@
     <!-- Section subtitle, shown in shortcut editor when no Basic Authentication is enabled -->
     <string name="subtitle_authentication_basic">"Podstawowa autentykacja na użytkownika i hasło"</string>
 
-    <!-- Section subtitle, shown in shortcut editor when Digest Authentication is enabled -->
-    <string name="subtitle_authentication_digest"></string>
-
-    <!-- Section subtitle, shown in shortcut editor when Bearer Authentication is enabled -->
-    <string name="subtitle_authentication_bearer"></string>
-
     <!-- Section subtitle, shown in shortcut editor when no (POST) parameters are set -->
     <string name="subtitle_request_body_params_none">"Brak ustawionych parametrów"</string>
-
-    <!-- Section subtitle, shown in shortcut editor when one or more (POST) parameters are set -->
-    <plurals name="subtitle_request_body_params_pattern">
-        <item quantity="one">"Ustawiony 1 parametr"</item>
-        <item quantity="few">"Ustawiony 1 parametr"</item>
-        <item quantity="many">"Ustawiony 1 parametr"</item>
-        <item quantity="other">"Ustawiony 1 parametr"</item>
-    </plurals>
-
-    <!-- Section subtitle, shown in shortcut editor when no custom request body is set -->
-    <string name="subtitle_request_body_none"></string>
-
-    <!-- Section subtitle, shown in shortcut editor when a custom request body is set. %s is a placeholder for the data type, e.g. application/json -->
-    <string name="subtitle_request_body_custom"></string>
-
-    <!-- Section subtitle, shown for "Custom Request Body" option when it is not available because the selected HTTP method (%1$s) does not support a request body -->
-    <string name="subtitle_request_body_not_available"></string>
-
-    <!-- Empty state, shown in list when there are no custom request headers yet -->
-    <string name="empty_state_request_headers"></string>
-
-    <!-- Empty state instructions, shown in list when there are no custom request headers yet -->
-    <string name="empty_state_request_headers_instructions"></string>
-
-    <!-- Empty state, shown in list when there are no request parameters yet -->
-    <string name="empty_state_request_parameters"></string>
-
-    <!-- Empty state instructions, shown in list when there are no parameters yet -->
-    <string name="empty_state_request_parameters_instructions"></string>
-
-    <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor. -->
-    <string name="label_follow_redirects"></string>
-
-    <!-- Label: shown above input box that lets user define JS code to be executed before shortcut -->
-    <string name="label_pre_request_script"></string>
-
-    <!-- Label: shown above input box that lets user define JS code to be executed after shortcut succeeds -->
-    <string name="label_post_request_success_script"></string>
-
-    <!-- Label: shown above input box that lets user define JS code to be executed after shortcut fails -->
-    <string name="label_post_request_failure_script"></string>
-
-    <!-- Dialog title: Shown on dialog that shows an error message when something goes wrong while executing a shortcut (e.g. JS exception) -->
-    <string name="dialog_title_error"></string>
-
-    <!-- Error message: Shown when a JS error occurs. %s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern"></string>
-
-    <!-- Button: Shown below JavaScript editor (for pre-request and post-request actions), allows to add snippets of JS code -->
-    <string name="button_add_code_snippet"></string>
-
-    <!-- Title: Shown on menu dialog (for pre-request and post-request actions), allows to add snippets of JS code -->
-    <string name="title_add_code_snippet"></string>
-
-    <!-- Dialog option: shown in code snippet picker, shows options to get information about the HTTP response -->
-    <string name="dialog_code_snippet_handle_response"></string>
-
-    <!-- Dialog option: shown in code snippet picker, shows options to get or set variables -->
-    <string name="dialog_code_snippet_variables"></string>
-
-    <!-- Dialog option: shown in code snippet picker, shows options to run certain actions (e.g. to show a toast, vibrate, ...) -->
-    <string name="dialog_code_snippet_actions"></string>
-
-    <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a string -->
-    <string name="dialog_code_snippet_response_body"></string>
-
-    <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response headers -->
-    <string name="dialog_code_snippet_response_headers"></string>
-
-    <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response status code -->
-    <string name="dialog_code_snippet_response_status_code"></string>
-
-    <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response cookies -->
-    <string name="dialog_code_snippet_response_cookies"></string>
-
-    <!-- Dialog option: shown in code snippet picker, option allows to get the network error message (if any) -->
-    <string name="dialog_code_snippet_response_network_error"></string>
-
-    <!-- Dialog option: shown in code snippet picker, option allows to get the value of a variable -->
-    <string name="dialog_code_snippet_get_variable"></string>
-
-    <!-- Dialog option: shown in code snippet picker, option allows to set the value of a variable -->
-    <string name="dialog_code_snippet_set_variable"></string>
-
-    <!-- Error message: Shown in toast when "Trigger Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
-    <string name="error_shortcut_not_found_for_triggering"></string>
-
-    <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
-    <string name="error_shortcut_not_found_for_renaming"></string>
-
-    <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
-    <string name="error_shortcut_not_found_for_changing_icon"></string>
-
-    <!-- Settings option for dark mode: when selected the app will always use Dark Mode -->
-    <string name="settings_dark_theme_options_on"></string>
-
-    <!-- Settings option for dark mode: when selected the app will never use Dark Mode -->
-    <string name="settings_dark_theme_options_off"></string>
-
-    <!-- Settings option for dark mode: when selected the app will use Dark Mode according to the system settings (i.e., automatically switch) -->
-    <string name="settings_dark_theme_options_auto"></string>
-
-    <!-- Title of dark mode theme settings (which allows user to pick how/when the app should use dark mode) -->
-    <string name="settings_dark_theme"></string>
-
-    <!-- Message: Shown as a placeholder when the HTTP response has no content that could be displayed -->
-    <string name="message_blank_response"></string>
-
-    <!-- Message shown in snackbar when the title on the main title bar was changed. -->
-    <string name="message_title_changed"></string>
-
-    <!-- Dialog title: Shown in dialog title when changing the title of the main screen of the app -->
-    <string name="title_set_title"></string>
-
-    <!-- Dialog title: Shown in dialog title when entering the URL to import shortcuts from -->
-    <string name="dialog_title_import_from_url"></string>
-
-    <!-- Dialog input hint: Shown in "Import from URL" dialog to give user a hint what to enter -->
-    <string name="hint_import_from_url"></string>
-
-    <!-- Error: Shown when user tries to import shortcuts from an invalid URL -->
-    <string name="error_can_only_import_from_http_url"></string>
-
-    <!-- Action Label: Shown on Quick Settings Title that allows the user to quickly trigger a shortcut without opening the app -->
-    <string name="action_quick_settings_tile_trigger"></string>
-
-    <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
-    <string name="instructions_quick_settings_tile"></string>
-
-    <!-- Label: Status code, shows the HTTP status code of the response -->
-    <string name="label_status_code"></string>
-
-    <!-- Label: URL, shows the HTTP request's URL alongside the response -->
-    <string name="label_response_url"></string>
-
-    <!-- Label: Response time, shows how long the HTTP request took -->
-    <string name="label_response_timing"></string>
-
-    <!-- Label: Shown above section that lists general information about the HTTP response, e.g. status code -->
-    <string name="label_general_response_info"></string>
-
-    <!-- Label: Shown above section that lists HTTP response headers -->
-    <string name="label_response_headers"></string>
-
-    <!-- Dialog title: Shown in dialog when adding a new request parameter and user has to pick its type -->
-    <string name="dialog_title_parameter_type"></string>
-
-    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for string parameter -->
-    <string name="option_parameter_type_string"></string>
-
-    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for file parameter -->
-    <string name="option_parameter_type_file"></string>
-
-    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for files parameter -->
-    <string name="option_parameter_type_files"></string>
-
-    <!-- Subtitle: Shown in request parameter editor underneath every file parameter to indicate their type -->
-    <string name="subtitle_parameter_value_file"></string>
-
-    <!-- Subtitle: Shown in request parameter editor underneath every files parameter to indicate their type -->
-    <string name="subtitle_parameter_value_files"></string>
-
-    <!-- Settings option: Used in language picker to allow user to pick the default language, i.e., the system language -->
-    <string name="language_default"></string>
-
-    <!-- Error: Shown in toast when user tries to add a variable placeholder to a text beyond its maximum size -->
-    <string name="error_text_too_long_for_variable"></string>
-
-    <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->
-    <string name="instructions_select_shortcut_for_home_screen"></string>
-
-    <!-- Label: Shown when user selects a widget to place on the home screen, shown for the customizable widget (as opposite to the generic shortcut) -->
-    <string name="label_widget"></string>
-
-    <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
-    <string name="label_show_widget_label"></string>
-
-    <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
-    <string name="action_create_widget"></string>
-
-    <!-- Title: Configure Widget, shown when creating a widget and the user has some options to configure it -->
-    <string name="title_configure_widget"></string>
-
-    <!-- Label: Shown in widget configuration screen, clicking it allows the user to pick a color for the widget label -->
-    <string name="label_widget_label_color"></string>
-
-    <!-- Error: Generic error shown when the user enters an invalid character, e.g. for an HTTP header. %s is the placeholder for the character -->
-    <string name="error_invalid_character"></string>
-
-    <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
-    <plurals name="warning_variable_still_in_use_in_shortcuts">
-        <item quantity="one"></item>
-        <item quantity="few"></item>
-        <item quantity="many"></item>
-        <item quantity="other"></item>
-    </plurals>
 </resources>

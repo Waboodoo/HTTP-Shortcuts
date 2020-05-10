@@ -350,12 +350,6 @@
     <!-- Button title, for option to open the app's Github page in a browser -->
     <string name="settings_github">"Guarda su Github"</string>
 
-    <!-- Button title, for option to go to "Support this App" page -->
-    <string name="settings_support"></string>
-
-    <!-- Button subtitle, for option to go to "Support this App" page -->
-    <string name="settings_support_summary"></string>
-
     <!-- Button subtitle for "View on Github" button -->
     <string name="settings_github_summary">"Esatto, quesa app è open-source"</string>
 
@@ -901,15 +895,6 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni."</st
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid URL -->
     <string name="error_invalid_url">"URL non valido (%s)."</string>
 
-    <!-- error message: Shown in toast when the user tries to execute a shortcut with invalid proxy settings -->
-    <string name="error_invalid_proxy"></string>
-
-    <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid content type -->
-    <string name="error_invalid_content_type"></string>
-
-    <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid header -->
-    <string name="error_invalid_header"></string>
-
     <!-- Title: Dialog title when selecting how to place a shortcut on the homescreen -->
     <string name="title_select_placement_method">"Metodo di posizionamento"</string>
 
@@ -1152,37 +1137,4 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
 
     <!-- Subtitle: Shown in request parameter editor underneath every files parameter to indicate their type -->
     <string name="subtitle_parameter_value_files">"File"</string>
-
-    <!-- Settings option: Used in language picker to allow user to pick the default language, i.e., the system language -->
-    <string name="language_default"></string>
-
-    <!-- Error: Shown in toast when user tries to add a variable placeholder to a text beyond its maximum size -->
-    <string name="error_text_too_long_for_variable"></string>
-
-    <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->
-    <string name="instructions_select_shortcut_for_home_screen"></string>
-
-    <!-- Label: Shown when user selects a widget to place on the home screen, shown for the customizable widget (as opposite to the generic shortcut) -->
-    <string name="label_widget"></string>
-
-    <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
-    <string name="label_show_widget_label"></string>
-
-    <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
-    <string name="action_create_widget"></string>
-
-    <!-- Title: Configure Widget, shown when creating a widget and the user has some options to configure it -->
-    <string name="title_configure_widget"></string>
-
-    <!-- Label: Shown in widget configuration screen, clicking it allows the user to pick a color for the widget label -->
-    <string name="label_widget_label_color"></string>
-
-    <!-- Error: Generic error shown when the user enters an invalid character, e.g. for an HTTP header. %s is the placeholder for the character -->
-    <string name="error_invalid_character"></string>
-
-    <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
-    <plurals name="warning_variable_still_in_use_in_shortcuts">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
-    </plurals>
 </resources>
