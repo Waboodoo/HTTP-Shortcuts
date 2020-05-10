@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.extensions
 
 import android.content.Context
+import android.text.InputFilter
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -36,6 +37,10 @@ fun EditText.focus() {
     } catch (e: Exception) {
         logException(e)
     }
+}
+
+fun EditText.setMaxLength(maxLength: Int) {
+    filters = arrayOf(*filters, InputFilter.LengthFilter(maxLength))
 }
 
 fun EditText.insertAroundCursor(before: String, after: String = "") {

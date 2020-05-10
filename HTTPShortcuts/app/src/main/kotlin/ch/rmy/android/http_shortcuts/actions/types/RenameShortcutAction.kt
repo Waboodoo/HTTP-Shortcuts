@@ -5,6 +5,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.DataSource
 import ch.rmy.android.http_shortcuts.data.Repository
 import ch.rmy.android.http_shortcuts.data.Transactions
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.truncate
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
@@ -30,6 +31,7 @@ class RenameShortcutAction(
 
     private fun renameShortcut(context: Context, shortcutNameOrId: String, variableManager: VariableManager): Completable {
         val newName = Variables.rawPlaceholdersToResolvedValues(name, variableManager.getVariableValuesByIds())
+            .truncate(Shortcut.NAME_MAX_LENGTH)
         if (newName.isEmpty()) {
             return Completable.complete()
         }

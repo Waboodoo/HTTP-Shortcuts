@@ -31,6 +31,7 @@ import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.focus
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
+import ch.rmy.android.http_shortcuts.extensions.setMaxLength
 import ch.rmy.android.http_shortcuts.extensions.setTextSafely
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.showToast
@@ -126,6 +127,7 @@ class ShortcutEditorActivity : BaseActivity() {
 
     private fun initViews() {
         setContentView(R.layout.activity_shortcut_editor_overview)
+        nameView.setMaxLength(Shortcut.NAME_MAX_LENGTH)
         invalidateOptionsMenu()
         bindViewsToViewModel()
         bindClickListeners()

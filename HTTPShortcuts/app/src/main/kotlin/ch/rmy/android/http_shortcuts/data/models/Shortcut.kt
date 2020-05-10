@@ -175,6 +175,7 @@ open class Shortcut(
     companion object {
 
         const val TEMPORARY_ID: String = "0"
+        const val NAME_MAX_LENGTH = 50
 
         const val FIELD_NAME = "name"
 

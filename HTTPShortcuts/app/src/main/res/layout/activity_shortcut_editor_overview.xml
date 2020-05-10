@@ -50,7 +50,6 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:inputType="text"
-                android:maxLength="40"
                 android:maxLines="1" />
 
             <TextView
