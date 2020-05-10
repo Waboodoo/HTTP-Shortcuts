@@ -18,6 +18,7 @@ import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.startActivity
@@ -73,9 +74,17 @@ class VariablesActivity : BaseActivity() {
     }
 
     private fun openEditorForCreation() {
-        VariableEditorActivity.IntentBuilder(context)
-            .build()
-            .startActivity(this)
+        DialogBuilder(context)
+            .title(R.string.title_select_variable_type)
+            .mapFor(VariableTypes.TYPES) { builder, (type, stringRes) ->
+                builder.item(stringRes) {
+                    VariableEditorActivity.IntentBuilder(context)
+                        .variableType(type)
+                        .build()
+                        .startActivity(this)
+                }
+            }
+            .showIfPossible()
     }
 
 

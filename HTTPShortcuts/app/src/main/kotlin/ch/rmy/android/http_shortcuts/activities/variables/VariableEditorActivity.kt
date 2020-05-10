@@ -23,10 +23,16 @@ import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.android.http_shortcuts.variables.types.AsyncVariableType
 import ch.rmy.android.http_shortcuts.variables.types.VariableEditorFragment
 import ch.rmy.android.http_shortcuts.variables.types.VariableTypeFactory
-import ch.rmy.android.http_shortcuts.views.LabelledSpinner
 import kotterknife.bindView
 
 class VariableEditorActivity : BaseActivity() {
+
+    private val variableId: String? by lazy {
+        intent.getStringExtra(EXTRA_VARIABLE_ID)
+    }
+    private val preferredType: String? by lazy {
+        intent.getStringExtra(EXTRA_VARIABLE_TYPE)
+    }
 
     private val viewModel: VariableEditorViewModel by bindViewModel()
 
@@ -35,7 +41,6 @@ class VariableEditorActivity : BaseActivity() {
     }
 
     // Views
-    private val typeSpinner: LabelledSpinner by bindView(R.id.input_variable_type)
     private val keyView: EditText by bindView(R.id.input_variable_key)
     private val titleView: EditText by bindView(R.id.input_variable_title)
     private val titleViewContainer: View by bindView(R.id.dialog_title_container)
@@ -52,12 +57,13 @@ class VariableEditorActivity : BaseActivity() {
     }
 
     private fun initViewModel() {
-        viewModel.variableId = intent.getStringExtra(EXTRA_VARIABLE_ID)
+        viewModel.variableType = preferredType ?: Variable.TYPE_CONSTANT
+        viewModel.variableId = variableId
     }
 
     private fun initViews() {
         setContentView(R.layout.activity_variable_editor)
-
+        toolbar!!.setSubtitle(VariableTypes.getTypeName(variable.type))
         keyView.setText(variable.key)
         titleView.setText(variable.title)
         val defaultColor = keyView.textColors
@@ -74,16 +80,6 @@ class VariableEditorActivity : BaseActivity() {
             }
             .attachTo(destroyer)
 
-        typeSpinner.setItemsFromPairs(VARIABLE_TYPES.map {
-            it.first to getString(it.second)
-        })
-        typeSpinner.selectedItem = variable.type
-        typeSpinner.selectionChanges
-            .subscribe {
-                updateTypeEditor()
-            }
-            .attachTo(destroyer)
-
         urlEncode.isChecked = variable.urlEncode
         jsonEncode.isChecked = variable.jsonEncode
         allowShare.isChecked = variable.isShareText
@@ -95,14 +91,14 @@ class VariableEditorActivity : BaseActivity() {
 
     private fun updateTypeEditor() {
         compileVariable()
-        val variableType = VariableTypeFactory.getType(typeSpinner.selectedItem)
-        val fragmentManager = supportFragmentManager
-        fragment = variableType.getEditorFragment(fragmentManager)
+        val variableType = VariableTypeFactory.getType(variable.type)
+
+        fragment = variableType.getEditorFragment(supportFragmentManager)
 
         titleViewContainer.visible = (variableType as? AsyncVariableType)?.hasTitle == true
 
         fragment?.let { fragment ->
-            fragmentManager
+            supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.variable_type_fragment_container, fragment, variableType.tag)
                 .commitAllowingStateLoss()
@@ -158,7 +154,6 @@ class VariableEditorActivity : BaseActivity() {
         fragment?.compileIntoVariable(variable)
         variable.title = titleView.text.toString().trim { it <= ' ' }
         variable.key = keyView.text.toString()
-        variable.type = typeSpinner.selectedItem
         variable.urlEncode = urlEncode.isChecked
         variable.jsonEncode = jsonEncode.isChecked
         variable.isShareText = allowShare.isChecked
@@ -185,6 +180,10 @@ class VariableEditorActivity : BaseActivity() {
 
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, VariableEditorActivity::class.java) {
 
+        fun variableType(type: String) = also {
+            intent.putExtra(EXTRA_VARIABLE_TYPE, type)
+        }
+
         fun variableId(variableId: String) = also {
             intent.putExtra(EXTRA_VARIABLE_ID, variableId)
         }
@@ -194,19 +193,7 @@ class VariableEditorActivity : BaseActivity() {
     companion object {
 
         private const val EXTRA_VARIABLE_ID = "ch.rmy.android.http_shortcuts.activities.variables.VariableEditorActivity.variable_id"
-
-        val VARIABLE_TYPES = listOf(
-            Variable.TYPE_CONSTANT to R.string.variable_type_constant,
-            Variable.TYPE_TEXT to R.string.variable_type_text,
-            Variable.TYPE_NUMBER to R.string.variable_type_number,
-            Variable.TYPE_PASSWORD to R.string.variable_type_password,
-            Variable.TYPE_DATE to R.string.variable_type_date,
-            Variable.TYPE_TIME to R.string.variable_type_time,
-            Variable.TYPE_COLOR to R.string.variable_type_color,
-            Variable.TYPE_SELECT to R.string.variable_type_select,
-            Variable.TYPE_TOGGLE to R.string.variable_type_toggle,
-            Variable.TYPE_SLIDER to R.string.variable_type_slider
-        )
+        private const val EXTRA_VARIABLE_TYPE = "ch.rmy.android.http_shortcuts.activities.variables.VariableEditorActivity.variable_type"
 
     }
 

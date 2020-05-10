@@ -13,11 +13,12 @@ import io.reactivex.Completable
 
 class VariableEditorViewModel(application: Application) : RealmViewModel(application) {
 
+    var variableType: String = Variable.TYPE_CONSTANT
+
     var variableId: String? = null
         set(value) {
             field = value
             variable = getDetachedVariable(value)
-
         }
 
     private lateinit var variable: Variable
@@ -26,7 +27,7 @@ class VariableEditorViewModel(application: Application) : RealmViewModel(applica
         if (variableId != null) {
             getVariableById(persistedRealm, variableId)!!.detachFromRealm()
         } else {
-            Variable()
+            Variable(type = variableType)
         }
 
     fun getVariable(): Variable = variable

@@ -356,7 +356,9 @@
     <string name="edit_variable">Edit Variable</string>
     <!-- Button, to create a new variable -->
     <string name="create_variable">Create Variable</string>
-    <!-- label, to allow user to pick the variable type (using a dropdown) in the variable editor -->
+    <!-- dialog title, shown when creating new variable and user is prompted to select the type of the variable -->
+    <string name="title_select_variable_type">Select Variable Type</string>
+    <!-- label, to show the type of a variable in the variable editor -->
     <string name="label_variable_type">Type</string>
     <!-- label, to allow the user to enter the key/name for a variable -->
     <string name="label_variable_key">Key</string>
@@ -367,7 +369,7 @@
     <!-- label, shown in variable editor for Time Input variable, to allow the user to specify a time format -->
     <string name="label_variable_time_format">Time Format</string>
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
-    <string name="variable_type_constant">Constant</string>
+    <string name="variable_type_constant">Static Variable (Constant)</string>
     <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
     <string name="variable_type_text">Text Input</string>
     <!-- Type of variable: Number Input, i.e., a dialog that asks user to enter a number -->
@@ -377,7 +379,7 @@
     <!-- Type of variable: Password Input, i.e., a dialog that asks user to enter a password -->
     <string name="variable_type_password">Password Input</string>
     <!-- Type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
-    <string name="variable_type_select">Selection</string>
+    <string name="variable_type_select">Multiple Choice Selection</string>
     <!-- Type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
     <string name="variable_type_toggle">Toggle</string>
     <!-- Type of variable: Date Input, i.e., a dialog that asks user to pick a date in a calendar -->

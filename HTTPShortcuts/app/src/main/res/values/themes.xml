@@ -118,6 +118,7 @@
 
     <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
         <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
         <item name="android:itemTextAppearance">@style/BlackMenuText</item>
         <item name="selectableItemBackground">?android:selectableItemBackground</item>
     </style>
