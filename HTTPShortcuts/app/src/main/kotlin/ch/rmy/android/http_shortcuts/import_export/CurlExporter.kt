@@ -1,15 +1,34 @@
 package ch.rmy.android.http_shortcuts.import_export
 
+import android.content.Context
+import ch.rmy.android.http_shortcuts.data.Controller
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.extensions.detachFromRealm
 import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
+import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import ch.rmy.android.http_shortcuts.variables.Variables.rawPlaceholdersToResolvedValues
 import ch.rmy.curlcommand.CurlCommand
+import io.reactivex.Single
 
 object CurlExporter {
 
-    fun generateCommand(shortcut: Shortcut, variableValues: Map<String, String>): CurlCommand =
+    fun generateCommand(context: Context, shortcut: Shortcut): Single<CurlCommand> {
+        val detachedShortcut = shortcut.detachFromRealm()
+        return resolveVariables(context, detachedShortcut)
+            .map { variableManager ->
+                generateCommand(detachedShortcut, variableManager.getVariableValuesByIds())
+            }
+    }
+
+    private fun resolveVariables(context: Context, shortcut: Shortcut) =
+        Controller().use { controller ->
+            VariableResolver(context)
+                .resolve(controller.getVariables().detachFromRealm(), shortcut)
+        }
+
+    private fun generateCommand(shortcut: Shortcut, variableValues: Map<String, String>): CurlCommand =
         CurlCommand.Builder()
             .url(rawPlaceholdersToResolvedValues(shortcut.url, variableValues))
             .username(rawPlaceholdersToResolvedValues(shortcut.username, variableValues))

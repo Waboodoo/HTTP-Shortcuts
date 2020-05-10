@@ -22,9 +22,11 @@ import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.color
+import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
+import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.import_export.CurlExporter
@@ -338,12 +340,22 @@ class ListFragment : BaseFragment() {
     }
 
     private fun showCurlExportDialog(shortcut: Shortcut) {
-        val command = CurlExporter.generateCommand(shortcut, viewModel.getConstantVariableValues())
-        CurlExportDialog(
-            requireContext(),
-            shortcut.name,
-            CurlConstructor.toCurlCommandString(command)
-        ).show()
+        CurlExporter.generateCommand(requireContext(), shortcut)
+            .subscribe(
+                { command ->
+                    CurlExportDialog(
+                        requireContext(),
+                        shortcut.name,
+                        CurlConstructor.toCurlCommandString(command)
+                    )
+                        .show()
+                },
+                { e ->
+                    activity?.showToast(R.string.error_generic)
+                    logException(e)
+                }
+            )
+            .attachTo(destroyer)
     }
 
     private fun showDeleteDialog(shortcutData: LiveData<Shortcut?>) {

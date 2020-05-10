@@ -15,7 +15,6 @@ import ch.rmy.android.http_shortcuts.data.livedata.ListLiveData
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.PendingExecution
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.toLiveData
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 
@@ -63,12 +62,5 @@ class ShortcutListViewModel(application: Application) : MainViewModel(applicatio
             newShortcut.name = newName
             moveShortcut(realm, newShortcut.id, newPosition, categoryId)
         }
-
-    fun getConstantVariableValues(): Map<String, String> =
-        Repository.getVariablesByType(persistedRealm, Variable.TYPE_CONSTANT)
-            .associate {
-                it.id to (it.value ?: "")
-            }
-
 
 }
