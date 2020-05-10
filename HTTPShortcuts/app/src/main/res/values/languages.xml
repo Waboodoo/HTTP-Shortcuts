@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="language_english" translatable="false">English</string>
+    <string name="language_catalan" translatable="false">Català</string>
+    <string name="language_german" translatable="false">Deutsch</string>
+    <string name="language_spanish" translatable="false">Español</string>
+    <string name="language_french" translatable="false">Français</string>
+    <string name="language_italian" translatable="false">Italiano</string>
+    <string name="language_norwegian_bokmal" translatable="false">Norsk</string>
+    <string name="language_polish" translatable="false">Polski</string>
+    <string name="language_brazilian_portuguese" translatable="false">Português (Brasil)</string>
+    <string name="language_russian" translatable="false">Русский язык</string>
+    <string name="language_turkish" translatable="false">Türkçe</string>
+    <string name="language_chinese" translatable="false">简体中文</string>
+
+    <string-array name="language_options" translatable="false">
+        <item>@string/language_default</item>
+        <item>@string/language_english</item>
+        <item>@string/language_catalan</item>
+        <item>@string/language_german</item>
+        <item>@string/language_spanish</item>
+        <item>@string/language_french</item>
+        <item>@string/language_italian</item>
+        <item>@string/language_norwegian_bokmal</item>
+        <item>@string/language_polish</item>
+        <item>@string/language_brazilian_portuguese</item>
+        <item>@string/language_russian</item>
+        <item>@string/language_turkish</item>
+        <item>@string/language_chinese</item>
+    </string-array>
+
+    <string-array name="language_values" translatable="false">
+        <item>default</item>
+        <item>en</item>
+        <item>ca-rES</item>
+        <item>de</item>
+        <item>es</item>
+        <item>fr</item>
+        <item>it</item>
+        <item>nb</item>
+        <item>pl</item>
+        <item>pt-rBR</item>
+        <item>ru</item>
+        <item>tr</item>
+        <item>zh-rCN</item>
+    </string-array>
+</resources>

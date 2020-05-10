@@ -50,36 +50,4 @@
         <item>off</item>
         <item>auto</item>
     </string-array>
-
-    <string-array name="language_options" translatable="false">
-        <item>@string/language_default</item>
-        <item>@string/language_english</item>
-        <item>@string/language_catalan</item>
-        <item>@string/language_german</item>
-        <item>@string/language_spanish</item>
-        <item>@string/language_french</item>
-        <item>@string/language_italian</item>
-        <item>@string/language_norwegian_bokmal</item>
-        <item>@string/language_polish</item>
-        <item>@string/language_brazilian_portuguese</item>
-        <item>@string/language_russian</item>
-        <item>@string/language_turkish</item>
-        <item>@string/language_chinese</item>
-    </string-array>
-
-    <string-array name="language_values" translatable="false">
-        <item>default</item>
-        <item>en</item>
-        <item>ca-rES</item>
-        <item>de</item>
-        <item>es</item>
-        <item>fr</item>
-        <item>it</item>
-        <item>nb-rNO</item>
-        <item>pl</item>
-        <item>pt-rBR</item>
-        <item>ru</item>
-        <item>tr</item>
-        <item>zh</item>
-    </string-array>
 </resources>
