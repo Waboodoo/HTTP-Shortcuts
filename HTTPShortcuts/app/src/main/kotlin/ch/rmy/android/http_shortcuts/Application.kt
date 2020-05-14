@@ -10,6 +10,7 @@ import ch.rmy.android.http_shortcuts.utils.IconMigration
 import ch.rmy.android.http_shortcuts.utils.Settings
 import com.facebook.stetho.Stetho
 import io.reactivex.plugins.RxJavaPlugins
+import java.io.IOException
 
 class Application : android.app.Application() {
 
@@ -27,7 +28,9 @@ class Application : android.app.Application() {
         Stetho.initializeWithDefaults(context)
 
         RxJavaPlugins.setErrorHandler { error ->
-            logException(error)
+            if (error.cause !is IOException) {
+                logException(error)
+            }
         }
 
         try {
