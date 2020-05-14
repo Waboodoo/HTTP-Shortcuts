@@ -115,7 +115,7 @@ class ExecuteActivity : BaseActivity() {
 
         subscribeAndFinishAfterIfNeeded(
             promptForConfirmationIfNeeded()
-                .concatWith(resolveVariablesAndExecute(variableValues))
+                .concatWith(resolveVariablesAndExecute())
         )
     }
 
@@ -230,7 +230,7 @@ class ExecuteActivity : BaseActivity() {
                 }
             }
 
-    private fun resolveVariablesAndExecute(variableValues: Map<String, String>): Completable =
+    private fun resolveVariablesAndExecute(): Completable =
         VariableResolver(context)
             .resolve(controller.getVariables().detachFromRealm(), shortcut, variableValues)
             .flatMapCompletable { variableManager ->

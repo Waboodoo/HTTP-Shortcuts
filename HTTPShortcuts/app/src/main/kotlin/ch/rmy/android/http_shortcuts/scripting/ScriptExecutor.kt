@@ -232,7 +232,11 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
             data.mapValues { sanitizeData(it.value) }
 
         private fun sanitizeData(data: JSValue?): String =
-            data?.toString() ?: ""
+            when {
+                data == null || data.isNull || data.isUndefined -> ""
+                data.isObject || data.isArray -> data.toJSON()
+                else -> data.toString()
+            }
 
     }
 

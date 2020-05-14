@@ -8,6 +8,7 @@ import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.utils.DateUtil
+import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -18,6 +19,7 @@ class TriggerShortcutAction(
 ) : BaseAction(actionType) {
 
     private val shortcutNameOrId: String = data[KEY_SHORTCUT_NAME_OR_ID] ?: ""
+    private val variableValuesJson: String = data[KEY_VARIABLE_VALUES] ?: ""
 
     override fun perform(context: Context, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse?, responseError: ErrorResponse?, recursionDepth: Int): Completable {
         if (recursionDepth >= MAX_RECURSION_DEPTH) {
@@ -33,8 +35,10 @@ class TriggerShortcutAction(
                     context.showToast(String.format(context.getString(R.string.error_shortcut_not_found_for_triggering), shortcutNameOrId), long = true)
                 }
                 .subscribeOn(AndroidSchedulers.mainThread())
+
         return Commons.createPendingExecution(
             shortcutId = shortcut.id,
+            resolvedVariables = getVariableValues(variableValuesJson),
             tryNumber = 0,
             waitUntil = DateUtil.calculateDate(shortcut.delay),
             requiresNetwork = shortcut.isWaitForNetwork,
@@ -45,8 +49,17 @@ class TriggerShortcutAction(
     companion object {
 
         const val KEY_SHORTCUT_NAME_OR_ID = "shortcutId"
+        const val KEY_VARIABLE_VALUES = "variables"
 
         private const val MAX_RECURSION_DEPTH = 5
+
+        private fun getVariableValues(json: String): Map<String, String> =
+            try {
+                GsonUtil.fromJsonObject<Any?>(json)
+                    .mapValues { it.value?.toString() ?: "" }
+            } catch (e: Exception) {
+                emptyMap<String, String>()
+            }
 
     }
 

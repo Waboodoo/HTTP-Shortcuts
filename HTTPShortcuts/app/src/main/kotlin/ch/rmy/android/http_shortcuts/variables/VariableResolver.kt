@@ -18,7 +18,7 @@ class VariableResolver(private val context: Context) {
         val preResolvedVariables = mutableMapOf<Variable, String>()
         preResolvedValues
             .forEach { (variableKey, value) ->
-                variableManager.getVariableByKey(variableKey)?.let { variable ->
+                variableManager.getVariableByKeyOrId(variableKey)?.let { variable ->
                     preResolvedVariables[variable] = value
                 }
             }

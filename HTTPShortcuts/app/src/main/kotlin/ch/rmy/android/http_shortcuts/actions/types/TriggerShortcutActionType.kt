@@ -12,7 +12,10 @@ class TriggerShortcutActionType(context: Context) : BaseActionType(context) {
 
     override fun getAlias() = ActionAlias(
         functionName = "triggerShortcut",
-        parameters = listOf(TriggerShortcutAction.KEY_SHORTCUT_NAME_OR_ID)
+        parameters = listOf(
+            TriggerShortcutAction.KEY_SHORTCUT_NAME_OR_ID,
+            TriggerShortcutAction.KEY_VARIABLE_VALUES
+        )
     )
 
     companion object {
