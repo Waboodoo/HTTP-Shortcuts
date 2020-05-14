@@ -2,7 +2,11 @@ package ch.rmy.android.http_shortcuts.variables.types
 
 import android.content.Context
 import android.graphics.Color
+import androidx.annotation.Keep
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import ch.rmy.android.http_shortcuts.data.Commons
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.cancel
@@ -20,7 +24,7 @@ internal class ColorType : BaseVariableType(), AsyncVariableType {
         Single.create<String> { emitter ->
             val dialog = ChromaDialog.Builder()
                 .initialColor(getInitialColor(variable))
-                .colorMode(ColorMode.RGB)
+                .colorMode(getColorMode(variable))
                 .onColorSelected(object : ColorSelectListener {
                     override fun onColorSelected(color: Int) {
                         if (variable.isValid) {
@@ -34,9 +38,13 @@ internal class ColorType : BaseVariableType(), AsyncVariableType {
             dialog.show((context as AppCompatActivity).supportFragmentManager, "ChromaDialog")
 
             // The following hack is needed because the ChromaDialog library does not have a method to register a dismiss listener
-            dialog.dialog?.setOnDismissListener {
-                emitter.cancel()
-            }
+            dialog.lifecycle.addObserver(object : LifecycleObserver {
+                @Keep
+                @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+                fun onDestroy() {
+                    emitter.cancel()
+                }
+            })
         }
             .mapIf(variable.rememberValue) {
                 it.flatMap { variableValue ->
@@ -53,6 +61,22 @@ internal class ColorType : BaseVariableType(), AsyncVariableType {
         return Color.BLACK
     }
 
-    override fun createEditorFragment() = TextEditorFragment()
+    private fun getColorMode(variable: Variable): ColorMode =
+        if (variable.dataForType[KEY_INPUT_TYPE] == TYPE_HSV) {
+            ColorMode.HSV
+        } else {
+            ColorMode.RGB
+        }
+
+    override fun createEditorFragment() = ColorEditorFragment()
+
+    companion object {
+
+        const val KEY_INPUT_TYPE = "input_type"
+
+        const val TYPE_RGB = "RGB"
+        const val TYPE_HSV = "HSV"
+
+    }
 
 }

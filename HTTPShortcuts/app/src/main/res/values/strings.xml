@@ -368,6 +368,8 @@
     <string name="label_variable_date_format">Date Format</string>
     <!-- label, shown in variable editor for Time Input variable, to allow the user to specify a time format -->
     <string name="label_variable_time_format">Time Format</string>
+    <!-- label, shown in variable editor for Color variable, to allow the user to pick which type of color picker they want (RGB or HSV) -->
+    <string name="label_variable_color_input_type">Color Picker Type</string>
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
     <string name="variable_type_constant">Static Variable (Constant)</string>
     <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
