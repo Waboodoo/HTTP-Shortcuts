@@ -606,6 +606,8 @@
     <string name="error_invalid_content_type">Invalid Content Type (%s).</string>
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid header -->
     <string name="error_invalid_header">Invalid Header (%s).</string>
+    <!-- Error message: Shown when a request that uses Digest Authentication fails. %s is a placeholder for the detailed error message. -->
+    <string name="error_digest_auth_failed">Digest Authentication failed: %s</string>
     <!-- Title: Dialog title when selecting how to place a shortcut on the homescreen -->
     <string name="title_select_placement_method">Placement Method</string>
     <!-- Description: Dialog text when selecting how to place a shortcut on the homescreen -->
