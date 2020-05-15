@@ -11,11 +11,9 @@ A simple Android app that allows you to create shortcuts that can be placed on y
 
 Get it on the [Play Store](https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts) or [download the latest APK](https://github.com/Waboodoo/HTTP-Shortcuts/releases) directly.
 
-Help me translate this app! Feel free to open a pull request to add new languages or to fix translation mistakes. Or contact me and I can grant you access to the translation tool.
-
-Become a [Beta Tester](https://play.google.com/apps/testing/ch.rmy.android.http_shortcuts)!
-
 Find more information and documentation on the [official website](https://http-shortcuts.rmy.ch/).
+
+[Support this app](https://http-shortcuts.rmy.ch/support-me) by helping me [translate it](https://poeditor.com/join/project/8tHhwOTzVZ) or by becoming a [Beta Tester](https://play.google.com/apps/testing/ch.rmy.android.http_shortcuts)!
 
 ## Features
 - HTTP and HTTPS
