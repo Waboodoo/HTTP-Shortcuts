@@ -19,6 +19,10 @@ object CurlConstructor {
             builder.option("-u", curlCommand.username + if (curlCommand.password.isNotEmpty()) ":" + curlCommand.password else "")
         }
 
+        if (curlCommand.proxyHost.isNotEmpty()) {
+            builder.option("-x", "${curlCommand.proxyHost}:${curlCommand.proxyPort}")
+        }
+
         for ((key, value) in curlCommand.headers) {
             builder.option("-H", "$key: $value")
         }

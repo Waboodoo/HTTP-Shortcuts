@@ -14,10 +14,11 @@ class CurlConstructorTest {
             .password("password123")
             .timeout(42)
             .header("Key", "Value")
+            .proxy("192.168.1.42", 1337)
             .url("http://example.com")
             .build()
 
-        val expected = "curl http://example.com -X POST -m 42 -u user:password123 -H \"Key: Value\" -d \"Hello World\""
+        val expected = "curl http://example.com -X POST -m 42 -u user:password123 -x 192.168.1.42:1337 -H \"Key: Value\" -d \"Hello World\""
         val actual = CurlConstructor.toCurlCommandString(curlCommand)
         assertEquals(expected, actual)
     }
@@ -32,6 +33,7 @@ class CurlConstructorTest {
             .timeout(42)
             .header("Key", "Value")
             .header("Key2", "Value2")
+            .proxy("192.168.1.42", 1337)
             .url("http://example.com")
             .build()
 
@@ -46,6 +48,8 @@ class CurlConstructorTest {
         assertEquals(originalCommand.password, parsedCommand.password)
         assertEquals(originalCommand.data, parsedCommand.data)
         assertEquals(originalCommand.headers, parsedCommand.headers)
+        assertEquals(originalCommand.proxyHost, parsedCommand.proxyHost)
+        assertEquals(originalCommand.proxyPort, parsedCommand.proxyPort)
     }
 
 }

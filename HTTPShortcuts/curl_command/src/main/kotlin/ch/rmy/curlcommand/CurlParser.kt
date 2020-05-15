@@ -32,8 +32,13 @@ class CurlParser private constructor(arguments: List<String>) {
                         builder.method(iterator.next())
                         continue@loop
                     }
+                    "-x", "--proxy" -> {
+                        val parts = iterator.next().split(":")
+                        builder.proxy(parts[0], parts.getOrNull(1)?.toInt() ?: 3128)
+                        continue@loop
+                    }
                     "-H", "--header" -> {
-                        val header = iterator.next().split(": ", limit=2)
+                        val header = iterator.next().split(": ", limit = 2)
                         if (header.size == 2) {
                             builder.header(header[0], header[1])
                         }
@@ -43,7 +48,7 @@ class CurlParser private constructor(arguments: List<String>) {
                         var data = iterator.next()
                         if (argument == "--data-urlencode") {
                             data = if (data.contains("=")) {
-                                val parts = data.split("=", limit=2)
+                                val parts = data.split("=", limit = 2)
                                 parts[0] + "=" + URLEncoder.encode(parts[1], "utf-8")
                             } else {
                                 URLEncoder.encode(data, "utf-8")
@@ -68,7 +73,7 @@ class CurlParser private constructor(arguments: List<String>) {
                         continue@loop
                     }
                     "-u", "--user" -> {
-                        val credentials = iterator.next().split(":", limit=2)
+                        val credentials = iterator.next().split(":", limit = 2)
                         builder.username(credentials[0])
                         if (credentials.size > 1) {
                             builder.password(credentials[1])

@@ -23,6 +23,10 @@ class CurlCommand private constructor() : Serializable {
         private set
     var isFormData: Boolean = false
         private set
+    var proxyHost: String = ""
+        private set
+    var proxyPort: Int = 0
+        private set
 
     class Builder {
 
@@ -69,6 +73,11 @@ class CurlCommand private constructor() : Serializable {
 
         fun header(key: String, value: String) = also {
             curlCommand.headersInternal[key] = value
+        }
+
+        fun proxy(host: String, port: Int) = also {
+            curlCommand.proxyHost = host
+            curlCommand.proxyPort = port
         }
 
         fun build() = curlCommand

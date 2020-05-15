@@ -31,8 +31,16 @@ object CurlExporter {
     private fun generateCommand(shortcut: Shortcut, variableValues: Map<String, String>): CurlCommand =
         CurlCommand.Builder()
             .url(rawPlaceholdersToResolvedValues(shortcut.url, variableValues))
-            .username(rawPlaceholdersToResolvedValues(shortcut.username, variableValues))
-            .password(rawPlaceholdersToResolvedValues(shortcut.password, variableValues))
+            .mapIf(shortcut.usesBasicAuthentication() || shortcut.usesDigestAuthentication()) {
+                it.username(rawPlaceholdersToResolvedValues(shortcut.username, variableValues))
+                    .password(rawPlaceholdersToResolvedValues(shortcut.password, variableValues))
+            }
+            .mapIf(shortcut.usesBearerAuthentication()) {
+                it.header(HttpHeaders.AUTHORIZATION, "Bearer ${shortcut.authToken}")
+            }
+            .mapIf(!shortcut.proxyHost.isNullOrEmpty() && shortcut.proxyPort != null) {
+                it.proxy(shortcut.proxyHost!!, shortcut.proxyPort!!)
+            }
             .method(shortcut.method)
             .timeout(shortcut.timeout)
             .mapFor(shortcut.headers) { builder, header ->
