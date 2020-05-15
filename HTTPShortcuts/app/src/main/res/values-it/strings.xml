@@ -350,6 +350,12 @@
     <!-- Button title, for option to open the app's Github page in a browser -->
     <string name="settings_github">"Guarda su Github"</string>
 
+    <!-- Button title, for option to go to "Support this App" page -->
+    <string name="settings_support">"Supporta questa App"</string>
+
+    <!-- Button subtitle, for option to go to "Support this App" page -->
+    <string name="settings_support_summary">"Se ti piace, considera di aiutarmi a migliorarlo"</string>
+
     <!-- Button subtitle for "View on Github" button -->
     <string name="settings_github_summary">"Esatto, quesa app è open-source"</string>
 
@@ -629,12 +635,12 @@ Tutte le scorciatoie contenute all'interno verranno eliminate."</string>
     <string name="help_title_variables">"Variabili"</string>
 
     <!-- Instructions shown in dialog when user clicks the variables button in the shortcut editor but doesn't have any variables configured yet -->
-    <string name="help_text_variable_button">"Questo bottone ti permette di includere placeholder per le variabili, ad esempio, valori dinamici, dentro lo tua scorciatoia.
+    <string name="help_text_variable_button">"Questo bottone ti permette di includere segnaposti per le variabili, ad esempio, valori dinamici, dentro lo tua scorciatoia.
 
-Non hai variabili configurate . Le puoi aggiungere premendo sul bottone CREA."</string>
+Non hai variabili configurate. Le puoi aggiungere premendo sul bottone CREA."</string>
 
     <!-- Instructions shown in dialog when user clicks the variables button in the variable editor but doesn't have any variables configured yet -->
-    <string name="help_text_variable_button_for_variables">"Questo bottone ti permette di includere placeholder per i valori di altre variabili.
+    <string name="help_text_variable_button_for_variables">"Questo bottone ti permette di includere segnaposti per i valori di altre variabili.
 
 Non hai nessuna variabile configurata."</string>
 
@@ -895,6 +901,15 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni."</st
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid URL -->
     <string name="error_invalid_url">"URL non valido (%s)."</string>
 
+    <!-- error message: Shown in toast when the user tries to execute a shortcut with invalid proxy settings -->
+    <string name="error_invalid_proxy">"Proxy non valido (%s)"</string>
+
+    <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid content type -->
+    <string name="error_invalid_content_type">"Tipo di contenuto non valido (%s)."</string>
+
+    <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid header -->
+    <string name="error_invalid_header">"Intestazione non valida (%s)."</string>
+
     <!-- Title: Dialog title when selecting how to place a shortcut on the homescreen -->
     <string name="title_select_placement_method">"Metodo di posizionamento"</string>
 
@@ -1091,9 +1106,6 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni."</st
     <!-- Dialog title: Shown in dialog title when entering the URL to import shortcuts from -->
     <string name="dialog_title_import_from_url">"Importa da URL"</string>
 
-    <!-- Dialog input hint: Shown in "Import from URL" dialog to give user a hint what to enter -->
-    <string name="hint_import_from_url">"https://"</string>
-
     <!-- Error: Shown when user tries to import shortcuts from an invalid URL -->
     <string name="error_can_only_import_from_http_url">"Puoi importare solo da URL http(s)"</string>
 
@@ -1137,4 +1149,37 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
 
     <!-- Subtitle: Shown in request parameter editor underneath every files parameter to indicate their type -->
     <string name="subtitle_parameter_value_files">"File"</string>
+
+    <!-- Settings option: Used in language picker to allow user to pick the default language, i.e., the system language -->
+    <string name="language_default">"Predefinita di sistema"</string>
+
+    <!-- Error: Shown in toast when user tries to add a variable placeholder to a text beyond its maximum size -->
+    <string name="error_text_too_long_for_variable">"Il testo supera il limite di %d caratteri. Impossibile inserire il segnaposto variabile."</string>
+
+    <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->
+    <string name="instructions_select_shortcut_for_home_screen">"Seleziona o crea un collegamento per posizionarlo nella schermata principale."</string>
+
+    <!-- Label: Shown when user selects a widget to place on the home screen, shown for the customizable widget (as opposite to the generic shortcut) -->
+    <string name="label_widget">"Widget personalizzabile"</string>
+
+    <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
+    <string name="label_show_widget_label">"Mostra etichetta"</string>
+
+    <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
+    <string name="action_create_widget">"Crea Widget"</string>
+
+    <!-- Title: Configure Widget, shown when creating a widget and the user has some options to configure it -->
+    <string name="title_configure_widget">"Configura Widget"</string>
+
+    <!-- Label: Shown in widget configuration screen, clicking it allows the user to pick a color for the widget label -->
+    <string name="label_widget_label_color">"Colore etichetta"</string>
+
+    <!-- Error: Generic error shown when the user enters an invalid character, e.g. for an HTTP header. %s is the placeholder for the character -->
+    <string name="error_invalid_character">"I carattere non valido: %s"</string>
+
+    <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
+    <plurals name="warning_variable_still_in_use_in_shortcuts">
+        <item quantity="one">"Questa variabile è ancora in uso in 1 scorciatoia: %1$s"</item>
+        <item quantity="other">"Questa variabile è ancora in uso in %2$d scorciatoie: %1$s"</item>
+    </plurals>
 </resources>

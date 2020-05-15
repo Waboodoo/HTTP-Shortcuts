@@ -350,6 +350,12 @@
     <!-- Button title, for option to open the app's Github page in a browser -->
     <string name="settings_github">"Auf Github ansehen"</string>
 
+    <!-- Button title, for option to go to "Support this App" page -->
+    <string name="settings_support">"App unterstützen"</string>
+
+    <!-- Button subtitle, for option to go to "Support this App" page -->
+    <string name="settings_support_summary">"Wenn dir diese App gefällt, hilf mir sie zu verbessern"</string>
+
     <!-- Button subtitle for "View on Github" button -->
     <string name="settings_github_summary">"Jap, diese App ist Open Source."</string>
 
@@ -894,6 +900,9 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid URL -->
     <string name="error_invalid_url">"Ungültige URL (%s)."</string>
 
+    <!-- error message: Shown in toast when the user tries to execute a shortcut with invalid proxy settings -->
+    <string name="error_invalid_proxy">"Ungültige Proxy (%s)"</string>
+
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid content type -->
     <string name="error_invalid_content_type">"Ungültiger Content-Type (%s)."</string>
 
@@ -1095,9 +1104,6 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
     <!-- Dialog title: Shown in dialog title when entering the URL to import shortcuts from -->
     <string name="dialog_title_import_from_url">"Importieren von URL"</string>
 
-    <!-- Dialog input hint: Shown in "Import from URL" dialog to give user a hint what to enter -->
-    <string name="hint_import_from_url">"https://"</string>
-
     <!-- Error: Shown when user tries to import shortcuts from an invalid URL -->
     <string name="error_can_only_import_from_http_url">"Kann nur von gültigen http(s) URL importieren"</string>
 
@@ -1174,4 +1180,13 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
         <item quantity="one">"Diese Variable wird noch von einem Shortcut verwendet: %1$s"</item>
         <item quantity="other">"Diese Variable wird noch von %2$d Shortcuts verwendet: %1$s"</item>
     </plurals>
+
+    <!-- dialog title, shown when creating new variable and user is prompted to select the type of the variable -->
+    <string name="title_select_variable_type">"Variablentyp wählen"</string>
+
+    <!-- label, shown in variable editor for Color variable, to allow the user to pick which type of color picker they want (RGB or HSV) -->
+    <string name="label_variable_color_input_type">"Farbwähler-Typ"</string>
+
+    <!-- Error message: Shown when a request that uses Digest Authentication fails. %s is a placeholder for the detailed error message. -->
+    <string name="error_digest_auth_failed">"Digest Authentication fehlgeschlagen: %s"</string>
 </resources>

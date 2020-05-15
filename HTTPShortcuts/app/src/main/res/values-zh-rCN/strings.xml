@@ -1032,9 +1032,6 @@
     <!-- Dialog title: Shown in dialog title when entering the URL to import shortcuts from -->
     <string name="dialog_title_import_from_url">"从URL导入"</string>
 
-    <!-- Dialog input hint: Shown in "Import from URL" dialog to give user a hint what to enter -->
-    <string name="hint_import_from_url">"https://"</string>
-
     <!-- Error: Shown when user tries to import shortcuts from an invalid URL -->
     <string name="error_can_only_import_from_http_url">"只能通过 http(s) URL导入"</string>
 
