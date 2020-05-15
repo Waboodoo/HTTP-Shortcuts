@@ -27,9 +27,21 @@
 <body>
 <article>
     <h2>Version 1.31.0</h2>
-    <p>
-        WIP
-    </p>
+    <h3>Miscellaneous</h3>
+    <ul>
+        <li>Improved quality of most built-in icons. This also allows them to be displayed larger when used in a widget.</li>
+        <li>Added 10 new built-in icons to choose from</li>
+        <li>When exporting, unnecessary and redundant fields are excluded from the export to make it smaller in size and easier to read</li>
+        <li>Variable types can no longer be changed after creation</li>
+        <li>cURL import/export now supports Bearer authentication and proxy settings</li>
+        <li>The color picker for "Color" variables now supports HSV mode in addition to RGB mode</li>
+        <li>When using the 'triggerShortcut' action you can now pass along a set of variable values to the triggered shortcut. See documentation for more information.</li>
+    </ul>
+    <h3>Bugfixes</h3>
+    <ul>
+        <li>Fixed widget creation on Android 10 which would previously result in a crash</li>
+        <li>Variable placeholders are now replaced with their respective values when using cURL export</li>
+    </ul>
 </article>
 <article>
     <h2>Version 1.30.0</h2>
