@@ -242,7 +242,11 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
         }
 
         private fun decode(text: String): String =
-            URLDecoder.decode(text, "utf-8")
+            try {
+                URLDecoder.decode(text, "utf-8")
+            } catch (e: IllegalArgumentException) {
+                text
+            }
 
     }
 
