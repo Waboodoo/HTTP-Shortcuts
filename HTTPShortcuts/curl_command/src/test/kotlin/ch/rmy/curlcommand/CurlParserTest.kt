@@ -25,6 +25,13 @@ class CurlParserTest {
     }
 
     @Test
+    fun testNoScheme() {
+        val target = "curl httpbla.com"
+        val command = CurlParser.parse(target)
+        assertEquals("http://httpbla.com", command.url)
+    }
+
+    @Test
     fun testUrlEncodedData() {
         val target = "curl --data-urlencode \"Hä&?4\""
         val command = CurlParser.parse(target)

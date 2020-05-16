@@ -85,12 +85,7 @@ class CurlParser private constructor(arguments: List<String>) {
                         continue@loop
                     }
                     "--url" -> {
-                        val url = iterator.next()
-                        if (url.startsWith("http", ignoreCase = true)) {
-                            builder.url(url)
-                        } else {
-                            builder.url("http://$url")
-                        }
+                        builder.url(iterator.next())
                         continue@loop
                     }
                     "-e", "--referer" -> {
@@ -108,12 +103,12 @@ class CurlParser private constructor(arguments: List<String>) {
                 }
             }
 
-            if (argument.startsWith("http", ignoreCase = true)) {
+            if (argument.startsWith("http:", ignoreCase = true) || argument.startsWith("https:", ignoreCase = true)) {
                 urlFound = true
                 builder.url(argument)
             } else if (!argument.startsWith("-") && !urlFound) {
                 urlFound = true
-                builder.url("http://$argument")
+                builder.url(argument)
             }
         }
     }

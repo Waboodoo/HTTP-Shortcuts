@@ -33,11 +33,15 @@ class CurlCommand private constructor() : Serializable {
         private val curlCommand = CurlCommand()
 
         fun url(url: String) = also {
-            curlCommand.url = url
+            curlCommand.url = if (url.startsWith("http:", ignoreCase = true) || url.startsWith("https:", ignoreCase = true)) {
+                url
+            } else {
+                "http://$url"
+            }
         }
 
         fun method(method: String) = also {
-            curlCommand.method = method
+            curlCommand.method = method.toUpperCase()
         }
 
         fun data(data: String) = also {
