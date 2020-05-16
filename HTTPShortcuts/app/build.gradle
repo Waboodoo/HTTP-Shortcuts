@@ -23,6 +23,8 @@ android {
         buildConfigField 'String', 'BUILD_TIMESTAMP', "\"${rootProject.ext.buildTimestamp}\""
         multiDexEnabled true
 
+        manifestPlaceholders = [bugsnagAPIKey:rootProject.ext.bugsnagAPIKey]
+
         testInstrumentationRunnerArguments = [package: "ch.rmy.android.http_shortcuts"]
 
         vectorDrawables.useSupportLibrary = true
@@ -72,8 +74,10 @@ android {
     }
 }
 
-bugsnag {
-    autoUpload false
+if (!rootProject.ext.bugsnagAPIKey) {
+    bugsnag {
+        autoUpload false
+    }
 }
 
 project.configure(project.android, {
