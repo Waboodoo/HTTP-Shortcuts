@@ -10,7 +10,6 @@ import android.content.pm.PackageManager.NameNotFoundException
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import androidx.core.content.FileProvider
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -38,9 +37,9 @@ import ch.rmy.android.http_shortcuts.utils.CrashReporting
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.FilePickerUtil
+import ch.rmy.android.http_shortcuts.utils.FileUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
 import io.reactivex.android.schedulers.AndroidSchedulers
-import java.io.File
 
 
 class SettingsActivity : BaseActivity() {
@@ -232,16 +231,15 @@ class SettingsActivity : BaseActivity() {
         }
 
         private fun sendExport() {
-            val cacheDir = File(requireContext().cacheDir, EXPORT_DIR_NAME)
-            cacheDir.mkdirs()
-            val cacheFile = File(cacheDir, EXPORT_FILE_NAME)
+            val cacheFile = FileUtil.createCacheFile(requireContext(), EXPORT_FILE_NAME)
 
             // TODO: Replace progress dialog with something better
             val progressDialog = ProgressDialog(activity).apply {
                 setMessage(getString(R.string.export_in_progress))
+                setCanceledOnTouchOutside(false)
             }
             Exporter(requireContext().applicationContext)
-                .export(Uri.fromFile(cacheFile))
+                .export(cacheFile)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {
                     progressDialog.show()
@@ -251,14 +249,9 @@ class SettingsActivity : BaseActivity() {
                 }
                 .subscribe(
                     {
-                        val uri = FileProvider.getUriForFile(
-                            requireContext(),
-                            "${requireContext().packageName}.provider",
-                            cacheFile
-                        )
                         Intent(Intent.ACTION_SEND)
                             .setType(EXPORT_FILE_TYPE_FOR_SHARING)
-                            .putExtra(Intent.EXTRA_STREAM, uri)
+                            .putExtra(Intent.EXTRA_STREAM, cacheFile)
                             .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                             .let {
                                 Intent.createChooser(it, getString(R.string.title_export))
@@ -476,7 +469,6 @@ class SettingsActivity : BaseActivity() {
         private const val EXPORT_FILE_TYPE_FOR_SHARING = "text/plain"
         private const val EXPORT_FILE_TYPE_FOR_CREATING_FILE = "application/json"
         private const val EXPORT_FILE_NAME = "shortcuts.json"
-        private const val EXPORT_DIR_NAME = "export"
 
     }
 

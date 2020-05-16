@@ -2,6 +2,8 @@ package ch.rmy.android.http_shortcuts.activities.settings
 
 
 import android.content.Context
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -11,10 +13,16 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.consume
+import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
 import ch.rmy.android.http_shortcuts.extensions.sendMail
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
+import ch.rmy.android.http_shortcuts.utils.FileUtil
+import ch.rmy.android.http_shortcuts.utils.GsonUtil
+import ch.rmy.android.http_shortcuts.utils.Settings
 import kotterknife.bindView
+import java.io.IOException
+import java.util.Locale
 
 class ContactActivity : BaseActivity() {
 
@@ -61,14 +69,40 @@ class ContactActivity : BaseActivity() {
             getString(R.string.developer_email_address),
             getString(R.string.email_subject_contact),
             getString(R.string.email_text_contact),
-            getString(R.string.settings_mail)
+            getString(R.string.settings_mail),
+            attachment = createMetaDataFile()
         )
     }
+
+    private fun createMetaDataFile(): Uri? =
+        try {
+            FileUtil.createCacheFile(context, META_DATA_FILE)
+                .also { uri ->
+                    FileUtil.getWriter(context, uri).use {
+                        GsonUtil.gson.toJson(collectMetaData(), it)
+                    }
+                }
+        } catch (e: Exception) {
+            if (e !is IOException) {
+                logException(e)
+            }
+            null
+        }
+
+    private fun collectMetaData() =
+        MetaData(
+            androidSdkVersion = Build.VERSION.SDK_INT,
+            appVersion = packageManager.getPackageInfo(packageName, 0).versionName,
+            device = "${Build.MANUFACTURER} ${Build.MODEL}",
+            language = Locale.getDefault().language,
+            userId = Settings(context).userId
+        )
 
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, ContactActivity::class.java)
 
     companion object {
         private const val CAPTCHA_CODE = "HTTP Shortcuts"
+        private const val META_DATA_FILE = "app-details.json"
     }
 
 }

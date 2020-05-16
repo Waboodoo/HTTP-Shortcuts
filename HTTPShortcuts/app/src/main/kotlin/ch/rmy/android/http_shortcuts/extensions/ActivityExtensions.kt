@@ -27,13 +27,18 @@ fun Fragment.showSnackbar(message: CharSequence, long: Boolean = false) {
     activity?.showSnackbar(message, long)
 }
 
-fun Activity.sendMail(address: String, subject: String, text: String, title: String) {
+fun Activity.sendMail(address: String, subject: String, text: String, title: String, attachment: Uri? = null) {
     try {
-        Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:$address"))
+        Intent(Intent.ACTION_SEND, Uri.parse("mailto:$address"))
+            .setType("message/rfc822")
             .putExtra(Intent.EXTRA_EMAIL, arrayOf(address))
             .putExtra(Intent.EXTRA_SUBJECT, subject)
             .putExtra(Intent.EXTRA_TEXT, text)
             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            .mapIf(attachment != null) {
+                it.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                it.putExtra(Intent.EXTRA_STREAM, attachment!!)
+            }
             .let {
                 Intent.createChooser(it, title)
             }

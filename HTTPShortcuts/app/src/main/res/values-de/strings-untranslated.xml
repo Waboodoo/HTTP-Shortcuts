@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="title_contact">Entwickler kontaktieren</string>
-    <string name="contact_instructions">Wenn du Bugs findest, Fragen, Probleme oder Feature-Wünsche hast kannst du mich via E-Mail kontaktieren. Gerne helfe ich dir weiter.\n\nBitte beachte jedoch:\n\n• Ich bin nur eine Person.\n• Ich entwickle diese App ausschliesslich in meiner Freizeit.\n• Ich spreche nur Deutsch und Englisch.\n• Ich antworte nicht besonders schnell auf E-Mails. Manchmal dauert es Wochen, bitte hab Geduld.\n\nIm Falle eines Bugreports stelle bitte sicher dass du den Bug so ausfüehrlich wie möglich beschreibst und wichtige Information wie z.B. deine Android-Version angibst.\n\nBitte tippe \"%1$s\" in das Textfeld unten um fortzufahren.</string>
+    <string name="contact_instructions">Wenn du Bugs findest, Fragen, Probleme oder Feature-Wünsche hast kannst du mich via E-Mail kontaktieren. Gerne helfe ich dir weiter.\n\nBitte beachte jedoch:\n\n• Ich bin nur eine Person.\n• Ich entwickle diese App ausschliesslich in meiner Freizeit.\n• Ich spreche nur Deutsch und Englisch.\n• Ich antworte manchmal nicht besonders schnell auf E-Mails, bitte hab Geduld.\n\nBitte tippe \"%1$s\" in das Textfeld unten um fortzufahren.</string>
 </resources>

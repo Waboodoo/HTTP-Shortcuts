@@ -21,8 +21,8 @@ object CrashReporting {
         if (BuildConfig.BUGSNAG_API_KEY.isEmpty() || BuildConfig.DEBUG || isAppOutdated) {
             return
         }
-
         Bugsnag.init(context, BuildConfig.BUGSNAG_API_KEY)
+        Bugsnag.setUserId(Settings(context).userId)
         Bugsnag.beforeNotify { error ->
             consume {
                 error.addToTab("app", "installedFromStore", InstallUtil.isAppInstalledFromStore(context))

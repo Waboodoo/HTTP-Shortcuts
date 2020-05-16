@@ -11,12 +11,11 @@ import ch.rmy.android.http_shortcuts.data.models.Parameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.http_shortcuts.utils.FileUtil
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.RxUtils
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
-import java.io.BufferedWriter
-import java.io.OutputStreamWriter
 
 class Exporter(private val context: Context) {
 
@@ -26,9 +25,7 @@ class Exporter(private val context: Context) {
                 val base = Controller().use { controller ->
                     controller.exportBase()
                 }
-                BufferedWriter(
-                    OutputStreamWriter(context.contentResolver.openOutputStream(uri, "w")!!)
-                ).use {
+                FileUtil.getWriter(context, uri).use {
                     exportData(base, it)
                 }
                 ExportStatus(exportedShortcuts = base.shortcuts.size)
