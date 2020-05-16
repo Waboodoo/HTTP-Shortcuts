@@ -49,19 +49,3 @@ Find more information and documentation on the [official website](https://http-s
 ![Image](/Screenshots/12.png)
 ![Image](/Screenshots/13.png)
 
-## Acknowledgments
-
-### Features
-- Adding basic voice command support: [Adrián López](https://github.com/adrianlzt)
-- Improving quality of generated icons: [idmadj](https://github.com/idmadj)
-
-### Translations
-- Brazilian Portuguese: [Eduardo Folly](https://github.com/edufolly)
-- Chinese: [Kevin Mao](https://github.com/yuanrunmao), [Chu Jinkai](https://github.com/cjkzwe)
-- French: [Flavien](https://github.com/Flavien06)
-- German: [Roland Meyer](https://github.com/Waboodoo)
-- Italian: [Flavio Barisi](https://github.com/flavio20002), [Roberto Bellingeri](https://github.com/bellingeri)
-- Norwegian (Bokmål): [Imre Kristoffer Eilertsen](https://github.com/DandelionSprout)
-- Persian: [Amir Motahari](https://github.com/a-motahari)
-- Spanish: [iprockbyte](https://github.com/iprockbyte)
-- Turkish: [Bilal Bayrak](https://github.com/bayrakbilal)
