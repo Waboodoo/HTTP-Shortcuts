@@ -36,11 +36,10 @@ class Application : android.app.Application() {
         try {
             RealmFactory.init(applicationContext)
             isRealmAvailable = true
+            IconMigration.migrateIfNeeded(context)
         } catch (e: RealmFactory.RealmNotFoundException) {
             // Nothing to do here...
         }
-
-        IconMigration.migrateIfNeeded(context)
 
         DarkThemeHelper.applyDarkThemeSettings(settings.darkThemeSetting)
     }
