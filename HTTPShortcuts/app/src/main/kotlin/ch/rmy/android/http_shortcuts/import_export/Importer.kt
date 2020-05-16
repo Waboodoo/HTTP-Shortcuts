@@ -8,6 +8,7 @@ import ch.rmy.android.http_shortcuts.data.migration.ImportMigrator
 import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.extensions.isWebUrl
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
+import ch.rmy.android.http_shortcuts.utils.RxUtils
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils
 import com.google.gson.JsonParseException
 import com.google.gson.JsonParser
@@ -24,8 +25,8 @@ import java.net.URL
 class Importer(private val context: Context) {
 
     fun import(uri: Uri): Single<ImportStatus> =
-        Single
-            .create<ImportStatus> { emitter ->
+        RxUtils
+            .single<ImportStatus> {
                 val inputStream = getStream(context, uri)
                 BufferedReader(InputStreamReader(inputStream)).use { reader ->
                     val importData = JsonParser.parseReader(reader)
@@ -35,10 +36,10 @@ class Importer(private val context: Context) {
                     Controller().use { controller ->
                         controller.importBaseSynchronously(newBase)
                     }
-                    emitter.onSuccess(ImportStatus(
+                    ImportStatus(
                         importedShortcuts = newBase.shortcuts.size,
                         needsRussianWarning = newBase.shortcuts.any { it.url.contains(".beeline.ru") }
-                    ))
+                    )
                 }
             }
             .onErrorResumeNext { error ->

@@ -383,6 +383,7 @@ class SettingsActivity : BaseActivity() {
             // TODO: Replace progress dialog with something better
             val progressDialog = ProgressDialog(activity).apply {
                 setMessage(getString(R.string.export_in_progress))
+                setCanceledOnTouchOutside(false)
             }
             Exporter(requireContext().applicationContext)
                 .export(uri)
@@ -410,6 +411,7 @@ class SettingsActivity : BaseActivity() {
             // TODO: Replace progress dialog with something better
             val progressDialog = ProgressDialog(activity).apply {
                 setMessage(getString(R.string.import_in_progress))
+                setCanceledOnTouchOutside(false)
             }
             Importer(requireContext().applicationContext)
                 .import(uri)

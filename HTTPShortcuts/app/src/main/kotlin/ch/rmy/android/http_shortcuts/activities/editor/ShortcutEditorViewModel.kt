@@ -13,6 +13,7 @@ import ch.rmy.android.http_shortcuts.extensions.getQuantityString
 import ch.rmy.android.http_shortcuts.extensions.getString
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.icons.Icons
+import ch.rmy.android.http_shortcuts.utils.RxUtils
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.utils.Validation
 import ch.rmy.curlcommand.CurlCommand
@@ -99,12 +100,12 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
 
                 Repository.deleteShortcut(realm, TEMPORARY_ID)
             }
-            .andThen(Single.create {
-                it.onSuccess(SaveResult(
+            .andThen(RxUtils.single {
+                SaveResult(
                     id = id,
                     name = name,
                     iconName = iconName
-                ))
+                )
             })
     }
 
