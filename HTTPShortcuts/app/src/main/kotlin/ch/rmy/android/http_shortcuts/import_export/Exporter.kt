@@ -48,7 +48,9 @@ class Exporter(private val context: Context) {
                 .create()
                 .toJson(base, writer)
         } catch (e: Throwable) {
-            logException(e)
+            if (e !is NoClassDefFoundError) {
+                logException(e)
+            }
             GsonUtil.gson
                 .newBuilder()
                 .setPrettyPrinting()
