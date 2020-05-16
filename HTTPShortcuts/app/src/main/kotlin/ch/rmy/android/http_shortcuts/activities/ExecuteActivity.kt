@@ -74,7 +74,7 @@ class ExecuteActivity : BaseActivity() {
 
     /* Execution Parameters */
     private val shortcutId: String by lazy {
-        IntentUtil.getShortcutId(intent)
+        intent.getStringExtra(EXTRA_SHORTCUT_ID) ?: intent.data?.lastPathSegment ?: ""
     }
     private val variableValues by lazy {
         IntentUtil.getVariableValues(intent)
@@ -489,12 +489,18 @@ class ExecuteActivity : BaseActivity() {
         // Prevent cancelling. Not optimal, but will have to do for now
     }
 
-    class IntentBuilder(context: Context, shortcutId: String) : BaseIntentBuilder(context, ExecuteActivity::class.java) {
+    class IntentBuilder(context: Context, shortcutId: String? = null) : BaseIntentBuilder(context, ExecuteActivity::class.java) {
 
         init {
-            intent.putExtra(EXTRA_SHORTCUT_ID, shortcutId)
             intent.action = ACTION_EXECUTE_SHORTCUT
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NO_ANIMATION
+            if (shortcutId != null) {
+                shortcut(shortcutId)
+            }
+        }
+
+        fun shortcut(shortcutId: String) = also {
+            intent.putExtra(EXTRA_SHORTCUT_ID, shortcutId)
             intent.data = Uri.fromParts("content", context.packageName, null)
                 .buildUpon()
                 .appendPath(shortcutId)
