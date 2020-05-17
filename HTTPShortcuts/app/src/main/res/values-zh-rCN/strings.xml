@@ -70,6 +70,9 @@
     <!-- Option in dropdown, for shortcut response type: Show complete response in a fullscreen window -->
     <string name="feedback_activity">"在窗口中显示响应"</string>
 
+    <!-- Option in dropdown, for shortcut response type: Show complete response in a fullscreen window, and include meta info (headers, status code, ...) for debug purposes -->
+    <string name="feedback_debug">"窗口中响应（调试）"</string>
+
     <!-- Shortcut dropdown option: Place shortcut on home screen -->
     <string name="action_place">"发送到主屏幕"</string>
 
@@ -172,11 +175,20 @@
     <!-- Title of dialog to edit a parameter on a shortcut -->
     <string name="title_post_param_edit">"编辑参数"</string>
 
+    <!-- Title of dialog to edit a file parameter on a shortcut -->
+    <string name="title_post_param_edit_file">"编辑文件参数"</string>
+
     <!-- Title of dialog to add a new parameter to a shortcut -->
     <string name="title_post_param_add">"添加参数"</string>
 
+    <!-- Title of dialog to add a new file parameter to a shortcut -->
+    <string name="title_post_param_add_file">"添加文件参数"</string>
+
     <!-- Label of input field to provide the name/key of a parameter of a shortcut -->
     <string name="label_post_param_key">"参数"</string>
+
+    <!-- Label of input field to provide the file name for a file parameter of a shortcut -->
+    <string name="label_post_param_file_name">"文件名（可选）"</string>
 
     <!-- Label of input field to provide the value of a parameter of a shortcut -->
     <string name="label_post_param_value">"值"</string>
@@ -191,7 +203,7 @@
     <string name="dialog_remove">"移除"</string>
 
     <!-- Section title in shortcut editor, for section that contains options to specify the headers of the HTTP request -->
-    <string name="section_request_headers">"头部"</string>
+    <string name="section_request_headers">"请求头部"</string>
 
     <!-- Section title in shortcut editor, for section that contains options to specify the body of the HTTP request -->
     <string name="section_request_body">"响应体/响应参数"</string>
@@ -225,6 +237,9 @@
 
     <!-- Name of setting that allows the user to pick what should happen when a shortcut is clicked -->
     <string name="settings_click_behavior">"点击快捷方式的操作"</string>
+
+    <!-- Name of setting that allows the user to change the app's language -->
+    <string name="settings_language">"界面语言"</string>
 
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: execute the shortcut (i.e., send request) -->
     <string name="settings_click_behavior_run">"执行快捷方式"</string>
@@ -288,6 +303,12 @@
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
     <string name="label_timeout">"创建超时"</string>
 
+    <!-- Label, for option to set the proxy hostname for a shortcut -->
+    <string name="label_proxy_host">"代理服务器主机名 / IP地址"</string>
+
+    <!-- Label, for option to set the proxy port for a shortcut -->
+    <string name="label_proxy_port">"代理服务器端口"</string>
+
     <!-- Used in various places to indicate a number of seconds, e.g. for a delay. %s is a placeholder for the actual number. -->
     <plurals name="seconds">
         <item quantity="other">"%d秒"</item>
@@ -323,6 +344,12 @@
 
     <!-- Button title, for option to open the app's Github page in a browser -->
     <string name="settings_github">"在 Github 查看"</string>
+
+    <!-- Button title, for option to go to "Support this App" page -->
+    <string name="settings_support">"支持该应用"</string>
+
+    <!-- Button subtitle, for option to go to "Support this App" page -->
+    <string name="settings_support_summary">"如果您喜欢，可以帮助我做得更好"</string>
 
     <!-- Button subtitle for "View on Github" button -->
     <string name="settings_github_summary">"是的，这款应用是开源的"</string>
@@ -683,6 +710,9 @@
     <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
     <string name="title_export">"导出……"</string>
 
+    <!-- Dialog option on Export dialog, for exporting by storing in a file -->
+    <string name="button_export_to_general">"文档"</string>
+
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
     <string name="button_export_send_to">"其他应用"</string>
 
@@ -797,6 +827,21 @@
     <!-- Button to copy the cURL export of a shortcut to the clipboard -->
     <string name="button_copy_curl_export">"复制"</string>
 
+    <!-- Section title in shortcut editor: "Response handling", contains settings for controlling how the shortcut response should be handled -->
+    <string name="label_response_handling">"响应处理"</string>
+
+    <!-- Section subtitle in shortcut editor: "Response handling", contains settings for controlling how the shortcut response should be handled -->
+    <string name="label_response_handling_subtitle">"定义如何处理响应"</string>
+
+    <!-- Section title in shortcut editor: "Scripting", allows to write scripts for advanced workflows -->
+    <string name="label_scripting">"脚本"</string>
+
+    <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before or after shortcut execution -->
+    <string name="label_scripting_subtitle">"在执行前/后运行JavaScript"</string>
+
+    <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before shortcut execution -->
+    <string name="label_scripting_browser_shortcuts_subtitle">"在执行签运行JavaScript代码"</string>
+
     <!-- Section title in shortcut editor, groups together miscellaneous settings -->
     <string name="label_misc_settings">"杂项设置"</string>
 
@@ -838,6 +883,15 @@
 
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid URL -->
     <string name="error_invalid_url">"URL无效 (%s)，必须是HTTP(S)URL"</string>
+
+    <!-- error message: Shown in toast when the user tries to execute a shortcut with invalid proxy settings -->
+    <string name="error_invalid_proxy">"无效的代理（%s）"</string>
+
+    <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid content type -->
+    <string name="error_invalid_content_type">"无效的内容类型（%s）"</string>
+
+    <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid header -->
+    <string name="error_invalid_header">"无效的头部（%s）"</string>
 
     <!-- Title: Dialog title when selecting how to place a shortcut on the homescreen -->
     <string name="title_select_placement_method">"替换方式"</string>
@@ -1042,4 +1096,78 @@
     <string name="instructions_quick_settings_tile">"你还无法通过快捷工具栏启动快捷方式。
 
 可以通过在编辑快捷方式时选中在\"%2$s\"中的\"%1$s\"复选框来启用此功能。"</string>
+
+    <!-- Label: Status code, shows the HTTP status code of the response -->
+    <string name="label_status_code">"状态码"</string>
+
+    <!-- Label: URL, shows the HTTP request's URL alongside the response -->
+    <string name="label_response_url">"URL"</string>
+
+    <!-- Label: Response time, shows how long the HTTP request took -->
+    <string name="label_response_timing">"响应时间"</string>
+
+    <!-- Label: Shown above section that lists general information about the HTTP response, e.g. status code -->
+    <string name="label_general_response_info">"常规"</string>
+
+    <!-- Label: Shown above section that lists HTTP response headers -->
+    <string name="label_response_headers">"头部"</string>
+
+    <!-- Dialog title: Shown in dialog when adding a new request parameter and user has to pick its type -->
+    <string name="dialog_title_parameter_type">"参数类型"</string>
+
+    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for string parameter -->
+    <string name="option_parameter_type_string">"字符串（默认）"</string>
+
+    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for file parameter -->
+    <string name="option_parameter_type_file">"单个文件"</string>
+
+    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for files parameter -->
+    <string name="option_parameter_type_files">"多个文件"</string>
+
+    <!-- Subtitle: Shown in request parameter editor underneath every file parameter to indicate their type -->
+    <string name="subtitle_parameter_value_file">"文件"</string>
+
+    <!-- Subtitle: Shown in request parameter editor underneath every files parameter to indicate their type -->
+    <string name="subtitle_parameter_value_files">"文件"</string>
+
+    <!-- Settings option: Used in language picker to allow user to pick the default language, i.e., the system language -->
+    <string name="language_default">"系统默认"</string>
+
+    <!-- Error: Shown in toast when user tries to add a variable placeholder to a text beyond its maximum size -->
+    <string name="error_text_too_long_for_variable">"字符长度超出了上限的 %d 个，无法插入变量占位符"</string>
+
+    <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->
+    <string name="instructions_select_shortcut_for_home_screen">"选择或创建快捷方式以将其放置于主屏幕上"</string>
+
+    <!-- Label: Shown when user selects a widget to place on the home screen, shown for the customizable widget (as opposite to the generic shortcut) -->
+    <string name="label_widget">"可制定的小部件"</string>
+
+    <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
+    <string name="label_show_widget_label">"显示标签"</string>
+
+    <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
+    <string name="action_create_widget">"创建小部件"</string>
+
+    <!-- Title: Configure Widget, shown when creating a widget and the user has some options to configure it -->
+    <string name="title_configure_widget">"配置小部件"</string>
+
+    <!-- Label: Shown in widget configuration screen, clicking it allows the user to pick a color for the widget label -->
+    <string name="label_widget_label_color">"标签颜色"</string>
+
+    <!-- Error: Generic error shown when the user enters an invalid character, e.g. for an HTTP header. %s is the placeholder for the character -->
+    <string name="error_invalid_character">"非法字符：%s"</string>
+
+    <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
+    <plurals name="warning_variable_still_in_use_in_shortcuts">
+        <item quantity="other">"该变量仍被1个快捷方式调用：%1$s"</item>
+    </plurals>
+
+    <!-- dialog title, shown when creating new variable and user is prompted to select the type of the variable -->
+    <string name="title_select_variable_type">"选择变量类型"</string>
+
+    <!-- label, shown in variable editor for Color variable, to allow the user to pick which type of color picker they want (RGB or HSV) -->
+    <string name="label_variable_color_input_type">"拾色器类型"</string>
+
+    <!-- Error message: Shown when a request that uses Digest Authentication fails. %s is a placeholder for the detailed error message. -->
+    <string name="error_digest_auth_failed">"摘要式身份认证失败：%s"</string>
 </resources>
