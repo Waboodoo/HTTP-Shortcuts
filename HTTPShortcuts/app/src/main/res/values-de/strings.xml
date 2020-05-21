@@ -350,12 +350,6 @@
     <!-- Button title, for option to open the app's Github page in a browser -->
     <string name="settings_github">"Auf Github ansehen"</string>
 
-    <!-- Button title, for option to go to "Support this App" page -->
-    <string name="settings_support">"App unterstützen"</string>
-
-    <!-- Button subtitle, for option to go to "Support this App" page -->
-    <string name="settings_support_summary">"Wenn dir diese App gefällt, hilf mir sie zu verbessern"</string>
-
     <!-- Button subtitle for "View on Github" button -->
     <string name="settings_github_summary">"Jap, diese App ist Open Source."</string>
 

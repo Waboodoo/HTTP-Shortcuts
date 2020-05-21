@@ -135,10 +135,6 @@ class SettingsActivity : BaseActivity() {
                 goToGithub()
             }
 
-            initPreference("support") {
-                openSupportPage()
-            }
-
             initPreference("translate") {
                 helpTranslate()
             }
@@ -327,10 +323,6 @@ class SettingsActivity : BaseActivity() {
             openURL(PLAY_STORE_URL)
         }
 
-        private fun openSupportPage() {
-            openURL(SUPPORT_PAGE_URL)
-        }
-
         private fun goToGithub() {
             openURL(GITHUB_URL)
         }
@@ -458,7 +450,6 @@ class SettingsActivity : BaseActivity() {
         const val EXTRA_CATEGORIES_CHANGED = "categories_changed"
 
         private const val FAQ_PAGE_URL = "https://http-shortcuts.rmy.ch/faq"
-        private const val SUPPORT_PAGE_URL = "https://http-shortcuts.rmy.ch/support-me"
         private const val PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts"
         private const val GITHUB_URL = "https://github.com/Waboodoo/HTTP-Shortcuts"
         private const val TRANSLATION_URL = "https://poeditor.com/join/project/8tHhwOTzVZ"

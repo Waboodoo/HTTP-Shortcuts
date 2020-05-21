@@ -345,12 +345,6 @@
     <!-- Button title, for option to open the app's Github page in a browser -->
     <string name="settings_github">"在 Github 查看"</string>
 
-    <!-- Button title, for option to go to "Support this App" page -->
-    <string name="settings_support">"支持该应用"</string>
-
-    <!-- Button subtitle, for option to go to "Support this App" page -->
-    <string name="settings_support_summary">"如果您喜欢，可以帮助我做得更好"</string>
-
     <!-- Button subtitle for "View on Github" button -->
     <string name="settings_github_summary">"是的，这款应用是开源的"</string>
 
