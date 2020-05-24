@@ -149,7 +149,7 @@
     <!-- Label of input field to provide request body of a shortcut -->
     <string name="label_custom_body">Request Body</string>
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
-    <string name="settings">Settings</string>
+    <string name="title_settings">Settings</string>
     <!-- Name of toolbar action: Unlock all settings (will prompt user to enter passcode) -->
     <string name="menu_action_unlock_app">Unlock settings</string>
     <!-- Title of theme settings -->

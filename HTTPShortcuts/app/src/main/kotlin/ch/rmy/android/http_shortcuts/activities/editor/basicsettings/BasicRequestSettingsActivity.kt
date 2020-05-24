@@ -42,6 +42,7 @@ class BasicRequestSettingsActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_basic_request_settings)
+        setTitle(R.string.section_basic_request)
 
         initViews()
         bindViewsToViewModel()

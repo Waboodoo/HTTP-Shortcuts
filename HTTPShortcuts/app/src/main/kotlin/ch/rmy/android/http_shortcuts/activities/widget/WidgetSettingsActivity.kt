@@ -45,6 +45,7 @@ class WidgetSettingsActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_widget_settings)
+        setTitle(R.string.title_configure_widget)
         initViews()
         bindViewsToViewModel()
     }

@@ -40,6 +40,7 @@ class ContactActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contact)
+        setTitle(R.string.title_contact)
 
         instructions.text = getString(R.string.contact_instructions, CAPTCHA_CODE)
 

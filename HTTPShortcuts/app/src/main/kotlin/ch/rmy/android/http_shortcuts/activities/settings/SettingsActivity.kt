@@ -50,6 +50,7 @@ class SettingsActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
+        setTitle(R.string.title_settings)
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.settings_view, SettingsFragment())

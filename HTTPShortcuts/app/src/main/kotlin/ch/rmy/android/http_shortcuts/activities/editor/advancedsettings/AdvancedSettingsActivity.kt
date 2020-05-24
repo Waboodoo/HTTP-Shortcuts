@@ -52,6 +52,7 @@ class AdvancedSettingsActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_advanced_settings)
+        setTitle(R.string.label_advanced_technical_settings)
 
         initViews()
         bindViewsToViewModel()

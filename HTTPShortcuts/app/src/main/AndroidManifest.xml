@@ -152,7 +152,7 @@
         </activity>
         <activity
             android:name=".activities.settings.SettingsActivity"
-            android:label="@string/settings"
+            android:label="@string/title_settings"
             android:parentActivityName=".activities.main.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

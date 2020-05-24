@@ -36,6 +36,7 @@ class CategoriesActivity : BaseActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_categories)
+        setTitle(R.string.title_categories)
         initViews()
 
         viewModel.hasChanges.observe(this, Observer {

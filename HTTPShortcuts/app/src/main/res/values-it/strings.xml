@@ -224,7 +224,7 @@
     <string name="label_custom_body">"Body della Richiesta"</string>
 
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
-    <string name="settings">"Impostazioni"</string>
+    <string name="title_settings">"Impostazioni"</string>
 
     <!-- Name of toolbar action: Unlock all settings (will prompt user to enter passcode) -->
     <string name="menu_action_unlock_app">"Sblocca impostazioni"</string>

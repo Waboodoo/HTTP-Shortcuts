@@ -36,6 +36,7 @@ class MiscSettingsActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_misc_settings)
+        setTitle(R.string.label_misc_settings)
 
         initViews()
         bindViewsToViewModel()

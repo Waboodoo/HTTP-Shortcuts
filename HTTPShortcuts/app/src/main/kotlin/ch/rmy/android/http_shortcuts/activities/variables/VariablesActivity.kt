@@ -45,6 +45,7 @@ class VariablesActivity : BaseActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_variables)
+        setTitle(R.string.title_variables)
 
         val adapter = destroyer.own(VariableAdapter(context, variables))
         adapter.clickListener = ::showContextMenu

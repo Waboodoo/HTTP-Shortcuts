@@ -18,6 +18,7 @@ class AcknowledgmentActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         tryOrLog {
             setContentView(R.layout.activity_acknowledgments)
+            setTitle(R.string.title_licenses)
             webView.loadUrl(ACKNOWLEDGMENTS_ASSET_URL)
         } ?: run {
             showToast(R.string.error_generic)

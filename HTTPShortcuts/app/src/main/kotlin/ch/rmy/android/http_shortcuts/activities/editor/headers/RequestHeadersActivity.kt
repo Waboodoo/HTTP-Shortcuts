@@ -37,6 +37,7 @@ class RequestHeadersActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_request_headers)
+        setTitle(R.string.section_request_headers)
 
         initViews()
         bindViewsToViewModel()

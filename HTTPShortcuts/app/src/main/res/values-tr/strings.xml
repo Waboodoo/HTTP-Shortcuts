@@ -195,7 +195,7 @@
     <string name="label_custom_body">"İstek Gövdesi"</string>
 
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
-    <string name="settings">"Ayarlar"</string>
+    <string name="title_settings">"Ayarlar"</string>
 
     <!-- Name of toolbar action: Unlock all settings (will prompt user to enter passcode) -->
     <string name="menu_action_unlock_app">"Ayarların kilidini aç"</string>

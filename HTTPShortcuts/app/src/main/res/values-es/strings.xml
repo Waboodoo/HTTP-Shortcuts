@@ -194,7 +194,7 @@
     <string name="label_custom_body">"Cuerpo de solicitud"</string>
 
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
-    <string name="settings">"Configuración"</string>
+    <string name="title_settings">"Configuración"</string>
 
     <!-- Title of theme settings -->
     <string name="settings_theme">"Tema"</string>

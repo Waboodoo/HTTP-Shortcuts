@@ -194,7 +194,7 @@
     <string name="label_custom_body">"Forespør innholdet"</string>
 
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
-    <string name="settings">"Innstillinger"</string>
+    <string name="title_settings">"Innstillinger"</string>
 
     <!-- Title of theme settings -->
     <string name="settings_theme">"Tema"</string>

@@ -50,6 +50,7 @@ class AuthenticationActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_authentication)
+        setTitle(R.string.section_authentication)
 
         initViews()
         bindViewsToViewModel()

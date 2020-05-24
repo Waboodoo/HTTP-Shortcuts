@@ -31,6 +31,7 @@ class CurlImportActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_curl_import)
+        setTitle(R.string.title_curl_import)
 
         curlCommand.observeTextChanges()
             .subscribe { text ->

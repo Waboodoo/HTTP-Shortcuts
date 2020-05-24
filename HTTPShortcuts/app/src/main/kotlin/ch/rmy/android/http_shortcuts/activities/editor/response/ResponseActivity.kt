@@ -24,6 +24,7 @@ class ResponseActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_response)
+        setTitle(R.string.label_response_handling)
 
         initViews()
         bindViewsToViewModel()

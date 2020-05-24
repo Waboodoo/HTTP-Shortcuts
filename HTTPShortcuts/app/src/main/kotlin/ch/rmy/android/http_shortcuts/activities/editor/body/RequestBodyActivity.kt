@@ -62,6 +62,7 @@ class RequestBodyActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_request_body)
+        setTitle(R.string.section_request_body)
 
         initViews()
         bindViewsToViewModel()

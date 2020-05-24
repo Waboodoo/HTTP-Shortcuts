@@ -206,7 +206,7 @@
     <string name="label_custom_body">"Тело запроса"</string>
 
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
-    <string name="settings">"Настройки"</string>
+    <string name="title_settings">"Настройки"</string>
 
     <!-- Name of toolbar action: Unlock all settings (will prompt user to enter passcode) -->
     <string name="menu_action_unlock_app">"Разблокировать настройки"</string>

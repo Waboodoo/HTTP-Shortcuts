@@ -194,7 +194,7 @@
     <string name="label_custom_body">"Corpo da Requisição"</string>
 
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
-    <string name="settings">"Configurações"</string>
+    <string name="title_settings">"Configurações"</string>
 
     <!-- Name of toolbar action: Unlock all settings (will prompt user to enter passcode) -->
     <string name="menu_action_unlock_app">"Desbloquear configurações"</string>
