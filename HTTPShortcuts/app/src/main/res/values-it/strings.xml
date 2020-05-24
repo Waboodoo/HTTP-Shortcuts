@@ -798,9 +798,6 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni."</st
     <!-- Summary/subtitle of section in settings that allows user to lock all settings with a passcode. -->
     <string name="settings_lock_app_summary">"Impedisci le modifiche alle scorciatoie e alle impostazioni"</string>
 
-    <!-- Title of dialog that shows the privacy policy -->
-    <string name="title_privacy_policy">"Politica sulla riservatezza"</string>
-
     <!-- Label above input box, for minimum (numeric) value of a horizontal slider -->
     <string name="label_variable_slider_min">"Minimo"</string>
 

@@ -709,9 +709,6 @@
     <!-- Summary/subtitle of section in settings that allows user to lock all settings with a passcode. -->
     <string name="settings_lock_app_summary">"Запретить изменения в ярлыках и настройках"</string>
 
-    <!-- Title of dialog that shows the privacy policy -->
-    <string name="title_privacy_policy">"Политика конфиденциальности"</string>
-
     <!-- Label above input box, for minimum (numeric) value of a horizontal slider -->
     <string name="label_variable_slider_min">"Минимум"</string>
 

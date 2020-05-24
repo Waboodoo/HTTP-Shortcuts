@@ -658,9 +658,6 @@ Se dokumentasjonen i variabelseksjonen for mere informasjon."</string>
     <!-- Summary/subtitle of section in settings that allows user to click to open privacy policy dialog -->
     <string name="settings_privacy_policy_summary">"Niks, vi stjeler ikke dataene dine."</string>
 
-    <!-- Title of dialog that shows the privacy policy -->
-    <string name="title_privacy_policy">"Privatlivsretningslinjer"</string>
-
     <!-- Label above input box, for minimum (numeric) value of a horizontal slider -->
     <string name="label_variable_slider_min">"Minimum"</string>
 

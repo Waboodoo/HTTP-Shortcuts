@@ -18,7 +18,6 @@ import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.misc.AcknowledgmentActivity
 import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
-import ch.rmy.android.http_shortcuts.dialogs.HelpDialogBuilder
 import ch.rmy.android.http_shortcuts.dialogs.SpecialWarnings
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.extensions.attachTo
@@ -99,11 +98,7 @@ class SettingsActivity : BaseActivity() {
             }
 
             initPreference("privacy_policy") {
-                HelpDialogBuilder(requireContext())
-                    .title(R.string.title_privacy_policy)
-                    .message(R.string.privacy_policy)
-                    .build()
-                    .show()
+                openURL(ExternalURLs.PRIVACY_POLICY)
             }
 
             initListPreference("crash_reporting") { newValue ->
@@ -125,19 +120,19 @@ class SettingsActivity : BaseActivity() {
             }
 
             initPreference("faq") {
-                openFAQPage()
+                openURL(ExternalURLs.FAQ_PAGE)
             }
 
             initPreference("play_store") {
-                openPlayStore()
+                openURL(ExternalURLs.PLAY_STORE)
             }
 
             initPreference("github") {
-                goToGithub()
+                openURL(ExternalURLs.GITHUB)
             }
 
             initPreference("translate") {
-                helpTranslate()
+                openURL(ExternalURLs.TRANSLATION)
             }
 
             initPreference("acknowledgments") {
@@ -316,18 +311,6 @@ class SettingsActivity : BaseActivity() {
                 .startActivity(this)
         }
 
-        private fun openFAQPage() {
-            openURL(FAQ_PAGE_URL)
-        }
-
-        private fun openPlayStore() {
-            openURL(PLAY_STORE_URL)
-        }
-
-        private fun goToGithub() {
-            openURL(GITHUB_URL)
-        }
-
         private fun openURL(url: String) {
             try {
                 Intent(Intent.ACTION_VIEW, Uri.parse(url))
@@ -335,10 +318,6 @@ class SettingsActivity : BaseActivity() {
             } catch (e: ActivityNotFoundException) {
                 requireActivity().showToast(R.string.error_not_supported)
             }
-        }
-
-        private fun helpTranslate() {
-            openURL(TRANSLATION_URL)
         }
 
         private fun showAcknowledgments() {
@@ -450,17 +429,22 @@ class SettingsActivity : BaseActivity() {
         const val EXTRA_APP_LOCKED = "app_locked"
         const val EXTRA_CATEGORIES_CHANGED = "categories_changed"
 
-        private const val FAQ_PAGE_URL = "https://http-shortcuts.rmy.ch/faq"
-        private const val PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts"
-        private const val GITHUB_URL = "https://github.com/Waboodoo/HTTP-Shortcuts"
-        private const val TRANSLATION_URL = "https://poeditor.com/join/project/8tHhwOTzVZ"
-
         private const val REQUEST_EXPORT_TO_DOCUMENTS = 2
         private const val REQUEST_IMPORT_FROM_DOCUMENTS = 3
 
         private const val EXPORT_FILE_TYPE_FOR_SHARING = "text/plain"
         private const val EXPORT_FILE_TYPE_FOR_CREATING_FILE = "application/json"
         private const val EXPORT_FILE_NAME = "shortcuts.json"
+
+    }
+
+    object ExternalURLs {
+
+        const val PRIVACY_POLICY = "https://http-shortcuts.rmy.ch/privacy-policy"
+        const val FAQ_PAGE = "https://http-shortcuts.rmy.ch/faq"
+        const val PLAY_STORE = "https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts"
+        const val GITHUB = "https://github.com/Waboodoo/HTTP-Shortcuts"
+        const val TRANSLATION = "https://poeditor.com/join/project/8tHhwOTzVZ"
 
     }
 

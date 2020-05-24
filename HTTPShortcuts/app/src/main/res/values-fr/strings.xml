@@ -744,9 +744,6 @@ Voir la documentation dans la section variable pour plus d'informations."</strin
     <!-- Title of section in settings that allows user to lock all settings with a passcode. -->
     <string name="settings_lock_app_title">"Verrouiller les paramètres"</string>
 
-    <!-- Title of dialog that shows the privacy policy -->
-    <string name="title_privacy_policy">"Politique de Confidentialité"</string>
-
     <!-- Label above input box, for minimum (numeric) value of a horizontal slider -->
     <string name="label_variable_slider_min">"Minimum"</string>
 

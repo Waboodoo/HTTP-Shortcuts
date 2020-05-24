@@ -62,13 +62,4 @@
             In the advanced settings section of a variable you can mark it as <i>Allow \'Share …\'</i>. This makes it possible to provide the value of this variable through Android\'s <i>Share</i>-dialog, e.g. by sharing a URL or text snippet from another app. The variable will then assume the shared value during execution.
         </p>
     ]]></string>
-    <string name="privacy_policy" translatable="false"><![CDATA[
-        <p>
-            <b>General</b><br>
-            All data entered into the app is only ever sent to the domains specified by the user through the use of shortcuts. No data about the user, their behavior or device is ever collected or sent to the developer or any other third-party as part of this app.<br><br>The only exception to this is crash reporting (see below).
-        </p>
-        <p><b>Crash Reporting</b><br>
-            The app uses the third-party library Bugsnag to collect crash reports. This serves the purpose of discovering and fixing bugs in the app. The collected data contains basic information about the device and the type of crash. No personal information such as usernames, email addresses or IP addresses is collected.<br><br>The user has the option to opt-out of the sending of these crash reports.
-        </p>
-    ]]></string>
 </resources>

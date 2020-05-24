@@ -673,9 +673,6 @@ Consulte a documentação na seção variável para obter mais informações."</
     <!-- Summary/subtitle of section in settings that allows user to lock all settings with a passcode. -->
     <string name="settings_lock_app_summary">"Evitar alterações em atalhos e configurações."</string>
 
-    <!-- Title of dialog that shows the privacy policy -->
-    <string name="title_privacy_policy">"Política de Privacidade"</string>
-
     <!-- Label above input box, for minimum (numeric) value of a horizontal slider -->
     <string name="label_variable_slider_min">"Mínimo"</string>
 

@@ -656,9 +656,6 @@ Consulte la documentación en la sección de variables para más información."<
     <!-- Summary/subtitle of section in settings that allows user to click to open privacy policy dialog -->
     <string name="settings_privacy_policy_summary">"Claro que no, no robamos tus datos"</string>
 
-    <!-- Title of dialog that shows the privacy policy -->
-    <string name="title_privacy_policy">"Política de privacidad"</string>
-
     <!-- Label above input box, for minimum (numeric) value of a horizontal slider -->
     <string name="label_variable_slider_min">"Mínimo"</string>
 
