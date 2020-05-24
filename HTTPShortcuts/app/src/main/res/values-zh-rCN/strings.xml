@@ -531,6 +531,7 @@
     <string name="label_variable_time_format">"时间格式"</string>
 
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
+    <!-- Fuzzy -->
     <string name="variable_type_constant">"常量"</string>
 
     <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
@@ -546,6 +547,7 @@
     <string name="variable_type_password">"输入密码"</string>
 
     <!-- Type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
+    <!-- Fuzzy -->
     <string name="variable_type_select">"选项"</string>
 
     <!-- Type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
@@ -765,7 +767,7 @@
     <string name="error_not_supported">"您的设备不支持此功能"</string>
 
     <!-- Generic error shown when something went wrong and there is no better error message available -->
-    <string name="error_generic">"出错了..."</string>
+    <string name="error_generic">"出错了…"</string>
 
     <!-- Title of section in settings that allows user to click to open privacy policy dialog -->
     <string name="settings_privacy_policy">"隐私政策"</string>

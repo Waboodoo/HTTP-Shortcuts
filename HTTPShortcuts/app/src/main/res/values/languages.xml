@@ -32,7 +32,7 @@
     <string-array name="language_values" translatable="false">
         <item>default</item>
         <item>en</item>
-        <item>ca-rES</item>
+        <item>ca</item>
         <item>de</item>
         <item>es</item>
         <item>fr</item>

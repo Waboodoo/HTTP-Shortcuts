@@ -95,7 +95,7 @@
     <string name="action_move_down">"Aşağı taşı"</string>
 
     <!-- Shortcut dropdown option: Move the shortcut to a different category -->
-    <string name="action_move_to_category">"Kategoriye taşı..."</string>
+    <string name="action_move_to_category">"Kategoriye taşı…"</string>
 
     <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
     <string name="confirm_delete_shortcut_message">"Bu kısayolu silinsin mi?"</string>
@@ -240,13 +240,13 @@
     <string name="settings_export">"Kısayolları Dışa Aktar"</string>
 
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
-    <string name="export_in_progress">"Kısayollar dışa aktarılıyor..."</string>
+    <string name="export_in_progress">"Kısayollar dışa aktarılıyor…"</string>
 
     <!-- Error message: Shown in snackbar when import of shortcuts & variables failed -->
     <string name="import_failed">"Kısayolları içe aktarma işlemi başarısız oldu."</string>
 
     <!-- Message shown in progress dialog while shortcuts are being imported -->
-    <string name="import_in_progress">"Kısayollar içe aktarılıyor..."</string>
+    <string name="import_in_progress">"Kısayollar içe aktarılıyor…"</string>
 
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
     <string name="label_timeout">"Zaman aşımı"</string>
@@ -441,6 +441,7 @@
     <string name="label_variable_time_format">"Zaman formatı"</string>
 
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
+    <!-- Fuzzy -->
     <string name="variable_type_constant">"Sabit"</string>
 
     <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
@@ -456,6 +457,7 @@
     <string name="variable_type_password">"Şifre Girişi"</string>
 
     <!-- Type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
+    <!-- Fuzzy -->
     <string name="variable_type_select">"Seçim"</string>
 
     <!-- Type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
@@ -561,7 +563,7 @@
     <string name="share_button">"Paylaş"</string>
 
     <!-- Title on Share dialog -->
-    <string name="share_title">"Paylaş..."</string>
+    <string name="share_title">"Paylaş…"</string>
 
     <!-- Section title, for section in variable editor containing options specific to the variable type -->
     <string name="section_input_options">"Giriş Seçenekleri"</string>
@@ -576,7 +578,7 @@
     <string name="pending_shortcut_execution_cancelled">"%1$s iptal edildi."</string>
 
     <!-- Feature label for sharing text into the app, to be used in a specific variable for a configured shortcut -->
-    <string name="action_send_to">"Gönder..."</string>
+    <string name="action_send_to">"Gönder…"</string>
 
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
     <string name="error_not_suitable_shortcuts">"Uygun bir kısayol bulunamadı.
@@ -610,13 +612,13 @@ Daha fazla bilgi için değişken bölümdeki belgelere bakın."</string>
     <string name="theme_indigo">"Çivit Mavisi"</string>
 
     <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
-    <string name="title_export">"Dışarı aktar..."</string>
+    <string name="title_export">"Dışarı aktar…"</string>
 
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
     <string name="button_export_send_to">"Başka uygulama"</string>
 
     <!-- Dialog title, for dialog with options allowing user to pick where to import shortcuts from -->
-    <string name="title_import">"İçeri aktar..."</string>
+    <string name="title_import">"İçeri aktar…"</string>
 
     <!-- Dialog option on Import dialog, for importing shortcuts from a file picked via the system's document browser -->
     <string name="button_import_from_general">"Dökümanlar"</string>

@@ -242,10 +242,10 @@
     <string name="settings_export">"Eksportuj skróty"</string>
 
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
-    <string name="export_in_progress">"Eksportuję..."</string>
+    <string name="export_in_progress">"Eksportuję…"</string>
 
     <!-- Message shown in progress dialog while shortcuts are being imported -->
-    <string name="import_in_progress">"Importuję ..."</string>
+    <string name="import_in_progress">"Importuję…"</string>
 
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
     <string name="label_timeout">"Upłynął czas"</string>
@@ -263,7 +263,7 @@
     <string name="settings_mail">"Kontakt z twórcą"</string>
 
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
-    <string name="settings_mail_summary">"Pytania, prośba o nowe opcje, opinie, ..."</string>
+    <string name="settings_mail_summary">"Pytania, prośba o nowe opcje, opinie, …"</string>
 
     <!-- Button title, for option to open the app's Github page in a browser -->
     <string name="settings_github">"Zobacz na Github"</string>
@@ -344,6 +344,7 @@
     <string name="label_variable_time_format">"Format czasu"</string>
 
     <!-- Type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
+    <!-- Fuzzy -->
     <string name="variable_type_select">"Wybór"</string>
 
     <!-- Type of variable: Time Input, i.e., a dialog that asks user to pick a time in a clock -->
@@ -401,7 +402,7 @@
     <string name="error_not_supported">"Ta opcja nie jest wspierana przez to urządzenie."</string>
 
     <!-- Generic error shown when something went wrong and there is no better error message available -->
-    <string name="error_generic">"Coś poszło nie tak..."</string>
+    <string name="error_generic">"Coś poszło nie tak…"</string>
 
     <!-- Title of section in settings that allows user to click to open privacy policy dialog -->
     <string name="settings_privacy_policy">"Polityka prywatności"</string>

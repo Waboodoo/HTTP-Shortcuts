@@ -43,6 +43,9 @@
     <!-- Label above input field in editor, for shortcut authentication password -->
     <string name="label_password">"Mot de passe"</string>
 
+    <!-- Label above input field in editor, for shortcut authentication token -->
+    <string name="label_auth_token">"Jeton"</string>
+
     <!-- Label above input field in editor, for shortcut response type dropdown -->
     <string name="label_feedback">"Type de réponse"</string>
 
@@ -66,6 +69,9 @@
 
     <!-- Option in dropdown, for shortcut response type: Show complete response in a fullscreen window -->
     <string name="feedback_activity">"Réponse dans une fenêtre"</string>
+
+    <!-- Option in dropdown, for shortcut response type: Show complete response in a fullscreen window, and include meta info (headers, status code, ...) for debug purposes -->
+    <string name="feedback_debug">"Réponse dans une fenêtre (debug)"</string>
 
     <!-- Shortcut dropdown option: Place shortcut on home screen -->
     <string name="action_place">"Placer sur l'écran d'accueil"</string>
@@ -97,14 +103,23 @@
     <!-- Shortcut dropdown option: Move the shortcut to a different category -->
     <string name="action_move_to_category">"Déplacer vers la catégorie …"</string>
 
+    <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
+    <string name="empty_state_shortcuts_instructions">"Cliquer sur le bouton + pour commencer"</string>
+
+    <!-- Empty state, shown in list when there are no variables yet -->
+    <string name="empty_state_variables">"Pas encore de variable"</string>
+
+    <!-- Empty state instructions, shown in list when there are no variables yet -->
+    <string name="empty_state_variables_instructions">"Cliquer sur + pour ajouter une variable"</string>
+
     <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
     <string name="confirm_delete_shortcut_message">"Supprimer ce raccourci?"</string>
 
     <!-- Dialog prompt to ask user if unsaved changes should be discarded. -->
-    <string name="confirm_discard_changes_message">"Vous avez des modifications non enregistrées. Supprimer les modifications?"</string>
+    <string name="confirm_discard_changes_message">"Vous avez des modifications non enregistrées. Annuler les modifications?"</string>
 
     <!-- Dialog option: Discard (unsaved changes) -->
-    <string name="dialog_discard">"Supprimer"</string>
+    <string name="dialog_discard">"Annuler"</string>
 
     <!-- Title of fullscreen window when shortcut is executed/run -->
     <string name="title_activity_execute">"Exécuter un raccourci"</string>
@@ -127,6 +142,9 @@
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
     <string name="error_other">"%1$s échoué: %2$s"</string>
 
+    <!-- Error shown when the HTTP response is too large to be loaded into memory. %s is a placeholder for the size limit, e.g. "1 MB") -->
+    <string name="error_response_too_large">"Réponse trop importante (limité à %s)"</string>
+
     <!-- Error shown when a selected image cannot be used as an icon -->
     <string name="error_set_image">"Impossible d'utiliser l'image comme icône."</string>
 
@@ -148,14 +166,26 @@
     <!-- Option in "Change Icon" dialog, allows user to select one of the built-in icons to use as a shortcut icon -->
     <string name="choose_icon">"Choisir un icône intégrée"</string>
 
+    <!-- Title of dialog that allows user to pick an icon from the built-in icons -->
+    <string name="title_choose_icon">"Choisir un icône intégrée"</string>
+
     <!-- Title of dialog to edit a parameter on a shortcut -->
     <string name="title_post_param_edit">"Modifier le paramètre"</string>
+
+    <!-- Title of dialog to edit a file parameter on a shortcut -->
+    <string name="title_post_param_edit_file">"Modifier le fichier de paramètre"</string>
 
     <!-- Title of dialog to add a new parameter to a shortcut -->
     <string name="title_post_param_add">"Ajouter un paramètre"</string>
 
+    <!-- Title of dialog to add a new file parameter to a shortcut -->
+    <string name="title_post_param_add_file">"Ajouter un fichier de paramètre"</string>
+
     <!-- Label of input field to provide the name/key of a parameter of a shortcut -->
     <string name="label_post_param_key">"Paramètre"</string>
+
+    <!-- Label of input field to provide the file name for a file parameter of a shortcut -->
+    <string name="label_post_param_file_name">"Nom du fichier (optionnel)"</string>
 
     <!-- Label of input field to provide the value of a parameter of a shortcut -->
     <string name="label_post_param_value">"Valeur"</string>
@@ -192,6 +222,9 @@
 
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
     <string name="settings">"Réglages"</string>
+
+    <!-- Name of toolbar action: Unlock all settings (will prompt user to enter passcode) -->
+    <string name="menu_action_unlock_app">"Débloquer réglages"</string>
 
     <!-- Title of theme settings -->
     <string name="settings_theme">"Thème"</string>
@@ -235,11 +268,32 @@
     <!-- Button in settings page to start export of shortcuts -->
     <string name="settings_export">"Exporter les raccourcis"</string>
 
+    <!-- Success message, shown in snackbar when export of shortcuts is successful -->
+    <plurals name="shortcut_export_success">
+        <item quantity="one">"1 raccourci exporté."</item>
+        <item quantity="other">"%d raccourcis exportés."</item>
+    </plurals>
+
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
     <string name="export_in_progress">"Exportation …"</string>
 
     <!-- Error message: Shown in snackbar when import of shortcuts & variables failed -->
     <string name="import_failed">"L'importation des raccourcis a échoué."</string>
+
+    <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
+    <string name="import_failed_with_reason">"L'importation des raccourcis a échoué : %s"</string>
+
+    <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
+    <string name="export_failed_with_reason">"l'exportation des raccourcis a échoué : %s"</string>
+
+    <!-- Error message: Import failed due to invalid JSON syntax in the import file -->
+    <string name="import_failure_reason_invalid_json">"JSON invalide"</string>
+
+    <!-- Success message, shown in snackbar when import of shortcuts is successful -->
+    <plurals name="shortcut_import_success">
+        <item quantity="one">"1 raccourci importé."</item>
+        <item quantity="other">"%d raccourcis importés."</item>
+    </plurals>
 
     <!-- Message shown in progress dialog while shortcuts are being imported -->
     <string name="import_in_progress">"Importation …"</string>
@@ -247,10 +301,22 @@
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
     <string name="label_timeout">"Timeout"</string>
 
+    <!-- Label, for option to set the proxy hostname for a shortcut -->
+    <string name="label_proxy_host">"Proxy Host / IP Adresse"</string>
+
+    <!-- Label, for option to set the proxy port for a shortcut -->
+    <string name="label_proxy_port">"Port Proxy"</string>
+
     <!-- Used in various places to indicate a number of seconds, e.g. for a delay. %s is a placeholder for the actual number. -->
     <plurals name="seconds">
         <item quantity="one">"%d seconde"</item>
         <item quantity="other">"%d secondes"</item>
+    </plurals>
+
+    <!-- Used in various places to indicate a number of milliseconds, e.g. for a delay. %s is a placeholder for the actual number. -->
+    <plurals name="milliseconds">
+        <item quantity="one">"%d milliseconde"</item>
+        <item quantity="other">"%d millisecondes"</item>
     </plurals>
 
     <!-- Used in various places to indicate a number of minutes, e.g. for a delay. %s is a placeholder for the actual number. -->
@@ -261,6 +327,9 @@
 
     <!-- Section title in app settings -->
     <string name="settings_about">"A propos de cette application"</string>
+
+    <!-- Subtitle/summary of "Changelog" option in settings, showing the current app version number -->
+    <string name="settings_changelog_summary">"Version %1$s"</string>
 
     <!-- Button title, for option to contact the app developer (via email) -->
     <string name="settings_mail">"Contacter le développeur"</string>
@@ -295,6 +364,12 @@
     <!-- Button subtitle for "View in Play Store" button -->
     <string name="settings_play_store_summary">"Merci pour vos évaluations et commentaires"</string>
 
+    <!-- Title of option in settings screen: FAQ (frequently asked questions), links the user to an external documentation page -->
+    <string name="settings_faq">"FAQ"</string>
+
+    <!-- Subtitle of option in settings screen: FAQ (frequently asked questions), links the user to an external documentation page -->
+    <string name="settings_faq_summary">"Questions souvent posées"</string>
+
     <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_duplicated">"%1$s dupliqué."</string>
 
@@ -328,6 +403,9 @@
     <!-- checkbox label in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
     <string name="label_accept_all_certificates">"Acceptez tous les certificats (je sais ce que je fais)"</string>
 
+    <!-- Checkbox label in editor, if enabled user will be prompted to confirm before a shortcut is executed -->
+    <string name="label_require_execution_confirmation">"Demander confirmation avant exécution"</string>
+
     <!-- Page title, for page listing all the libraries and 3rd party assets used in the app -->
     <string name="title_licenses">"Remerciements"</string>
 
@@ -346,14 +424,35 @@
     <!-- Action, shown on dropdown when editing a category, for allowing to change the category's layout type -->
     <string name="action_change_category_layout_type">"Modifier la disposition"</string>
 
+    <!-- Action, shown on dropdown when editing a category, for allowing to hide a category -->
+    <string name="action_hide_category">"Cacher"</string>
+
+    <!-- Action, shown on dropdown when editing a category, for allowing to show a hidden category -->
+    <string name="action_show_category">"Afficher"</string>
+
     <!-- Message, shown in snackbar to confirm to the user that the layout type of a category was changed -->
     <string name="message_layout_type_changed">"La disposition à été modifiée"</string>
+
+    <!-- Option in context menu for category, allows user to change the background of a category -->
+    <string name="action_change_category_background">"Changer l'arrière plan"</string>
+
+    <!-- Success message after background of a category was changed. Shown in snackbar. -->
+    <string name="message_background_type_changed">"Arrière plan changé."</string>
 
     <!-- One of two options when picking the layout for a category: Show shortcuts in a list -->
     <string name="layout_type_linear_list">"Liste"</string>
 
     <!-- One of two options when picking the layout for a category: Show shortcuts in a grid -->
     <string name="layout_type_grid">"Grille"</string>
+
+    <!-- Option to choose from when selecting the background of a category: Plain white -->
+    <string name="category_background_type_white">"Blanc"</string>
+
+    <!-- Option to choose from when selecting the background of a category: Plain black -->
+    <string name="category_background_type_black">"Noir"</string>
+
+    <!-- Option to choose from when selecting the background of a category: Use phone's wallpaper -->
+    <string name="category_background_type_wallpaper">"Fond d'écran"</string>
 
     <!-- Option to allow renaming a category -->
     <string name="title_rename_category">"Renommer la catégorie"</string>
@@ -375,6 +474,12 @@ Tous les raccourcis contenus dans cette catégorie seront supprimés."</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category was renamed -->
     <string name="message_category_renamed">"Catégorie renommée."</string>
 
+    <!-- Message, shown in snackbar, to confirm to the user that a category was hidden -->
+    <string name="message_category_hidden">"Catégorie cachée."</string>
+
+    <!-- Message, shown in snackbar, to confirm to the user that a category is no longer hidden and visible again -->
+    <string name="message_category_visible">"La catégorie n'est plus cachée."</string>
+
     <!-- Message, shown in snackbar, to confirm to the user that a category was created -->
     <string name="message_category_created">"Catégorie créée."</string>
 
@@ -386,6 +491,9 @@ Tous les raccourcis contenus dans cette catégorie seront supprimés."</string>
         <item quantity="one">"%d raccourci"</item>
         <item quantity="other">"%d raccourcis"</item>
     </plurals>
+
+    <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
+    <string name="label_category_hidden">"%s (caché)"</string>
 
     <!-- Dialog title/button, for feature to move a shortcut to a different category -->
     <string name="title_move_to_category">"Déplacer dans la catégorie"</string>
@@ -418,6 +526,7 @@ Tous les raccourcis contenus dans cette catégorie seront supprimés."</string>
     <string name="label_variable_time_format">"Format de l'heure"</string>
 
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
+    <!-- Fuzzy -->
     <string name="variable_type_constant">"Constante"</string>
 
     <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
@@ -433,6 +542,7 @@ Tous les raccourcis contenus dans cette catégorie seront supprimés."</string>
     <string name="variable_type_password">"Saisie du mot de passe"</string>
 
     <!-- Type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
+    <!-- Fuzzy -->
     <string name="variable_type_select">"Sélection"</string>
 
     <!-- Type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
@@ -474,6 +584,9 @@ Tous les raccourcis contenus dans cette catégorie seront supprimés."</string>
     <!-- Dialog title, to add another value to the list of values in a variable of Toggle type -->
     <string name="title_add_toggle_option">"Ajout d'une valeur"</string>
 
+    <!-- Button, to edit an existing value in the list of values in a variable of Toggle type -->
+    <string name="title_edit_toggle_option">"Modifier une valeur"</string>
+
     <!-- Button, to add another value to the list of values in a variable of Toggle type -->
     <string name="button_add_toggle_option">"Ajouter une valeur"</string>
 
@@ -482,6 +595,9 @@ Tous les raccourcis contenus dans cette catégorie seront supprimés."</string>
 
     <!-- Title, for dialog that allows user to add an option to a Selection variable -->
     <string name="title_add_select_option">"Ajout d'une option"</string>
+
+    <!-- Title, for dialog that allows user to edit an existing option of a Selection variable -->
+    <string name="title_edit_select_option">"Modifier une option"</string>
 
     <!-- Button, to allow a user to add an option to a Selection variable -->
     <string name="button_add_select_option">"Ajouter une option"</string>
@@ -568,6 +684,9 @@ Voir la documentation dans la section variable pour plus d'informations."</strin
     <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
     <string name="title_export">"Exporter vers …"</string>
 
+    <!-- Dialog option on Export dialog, for exporting by storing in a file -->
+    <string name="button_export_to_general">"Documents"</string>
+
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
     <string name="button_export_send_to">"Autre application"</string>
 
@@ -576,6 +695,12 @@ Voir la documentation dans la section variable pour plus d'informations."</strin
 
     <!-- Dialog option on Import dialog, for importing shortcuts from a file picked via the system's document browser -->
     <string name="button_import_from_general">"Documents"</string>
+
+    <!-- Dialog option on Import dialog, for importing shortcuts from a URL -->
+    <string name="button_import_from_url">"URL"</string>
+
+    <!-- Dialog title when creating a new shortcut, shows options below -->
+    <string name="title_create_new_shortcut_options_dialog">"Créer un nouveau raccourci"</string>
 
     <!-- Option 1 in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
     <string name="button_create_new">"Créer un nouveau raccourci"</string>
@@ -616,6 +741,9 @@ Voir la documentation dans la section variable pour plus d'informations."</strin
     <!-- Summary/subtitle of section in settings that allows user to click to open privacy policy dialog -->
     <string name="settings_privacy_policy_summary">"Non, nous ne volons pas vos données !"</string>
 
+    <!-- Title of section in settings that allows user to lock all settings with a passcode. -->
+    <string name="settings_lock_app_title">"Verrouiller les paramètres"</string>
+
     <!-- Title of dialog that shows the privacy policy -->
     <string name="title_privacy_policy">"Politique de Confidentialité"</string>
 
@@ -631,9 +759,81 @@ Voir la documentation dans la section variable pour plus d'informations."</strin
     <!-- error message displayed when "Maximum" is lesser than or equal to "Minimum" for "slider" variable type -->
     <string name="error_slider_max_not_greater_than_min">"Le maximum doit être supérieur au minimum."</string>
 
+    <!-- error message displayed when "Step Size" is not a positive number for "slider" variable type -->
+    <string name="error_slider_step_size_must_be_positive">"La taille doit être une nombre positif."</string>
+
     <!-- Button text: Set image as icon (after selecting and editing) -->
     <string name="button_apply_icon">"Appliquer"</string>
 
+    <!-- Blurb/short description of plugin action (for Tasker integration), where %1$s is a placeholder for the shortcut name. -->
+    <string name="plugin_blurb_execute_task">"Exécuter le raccourci \"%1$s\""</string>
+
+    <!-- Dropdown option for request body: custom text (i.e. enter a custom Content-Type and a request body as text) -->
+    <string name="request_body_option_custom_text">"Texte personnalisé"</string>
+
     <!-- Button to copy the cURL export of a shortcut to the clipboard -->
     <string name="button_copy_curl_export">"Copier"</string>
+
+    <!-- Section title in shortcut editor, groups together miscellaneous settings -->
+    <string name="label_misc_settings">"Autres paramètres"</string>
+
+    <!-- Shortcut Action Title: Action that allows to copy strings to the device's clipboard -->
+    <string name="action_copy_to_clipboard_title">"Copier dans le presse-papier"</string>
+
+    <!-- Shortcut Action Title: Vibrate -->
+    <string name="action_type_vibrate_title">"Vibration"</string>
+
+    <!-- Shortcut Action Title: Change Shortcut Name -->
+    <string name="action_type_rename_shortcut_title">"Renommer Raccourci"</string>
+
+    <!-- Shortcut Action Title: Change Shortcut Icon -->
+    <string name="action_type_change_icon_title">"Changer Icone Raccourci"</string>
+
+    <!-- Shortcut Action Title: Trigger a shortcut, i.e., execute it -->
+    <string name="action_type_trigger_shortcut_title">"Déclencher Raccourci"</string>
+
+    <!-- Shortcut Action Title: Abort the execution of the shortcut -->
+    <string name="action_type_abort_execution">"Stopper Execution"</string>
+
+    <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid URL -->
+    <string name="error_invalid_url">"URL invalide (%s)."</string>
+
+    <!-- error message: Shown in toast when the user tries to execute a shortcut with invalid proxy settings -->
+    <string name="error_invalid_proxy">"Proxy invalide (%s)"</string>
+
+    <!-- Label: Preferred option in dialog for selecting how to place the shortcut on the homescreen: Default (method) -->
+    <string name="label_placement_method_default">"Defaut"</string>
+
+    <!-- Dialog message to prompt user to confirm execution of shortcut -->
+    <string name="dialog_message_confirm_shortcut_execution">"Executer ce raccourci?"</string>
+
+    <!-- Dialog title: Unlock the app (after it was locked. user is required to enter a password) -->
+    <string name="dialog_title_unlock_app">"Dévérrouiller l'application"</string>
+
+    <!-- Dialog button: Unlock the app (after entering a password) -->
+    <string name="button_unlock_app">"Déverrouiller"</string>
+
+    <!-- Dialog text: Asks user to enter a password to unlock the app's settings -->
+    <string name="dialog_text_unlock_app">"Entrer votre mot de passe pour déverrouiller les paramètres de l'application."</string>
+
+    <!-- Dialog text: Asks user to enter the password to unlock the app's settings again, after an incorrect try -->
+    <string name="dialog_text_unlock_app_retry">"Mot de passe incorrect. Essayer à nouveau."</string>
+
+    <!-- Dialog title: Asks user to enter a password to lock the app's settings -->
+    <string name="dialog_title_lock_app">"Application vérouillé"</string>
+
+    <!-- Dialog button: Lock the app (by entering a password) -->
+    <string name="button_lock_app">"Vérouiller"</string>
+
+    <!-- Snackbar message: App was locked (settings can no longer be changed) -->
+    <string name="message_app_locked">"Application verrouillé."</string>
+
+    <!-- Snackbar message: App was unlocked (settings can be changed again) -->
+    <string name="message_app_unlocked">"Application déverrouillé."</string>
+
+    <!-- Message: Shown as a snackbar popup when a variable was duplicated. -->
+    <string name="message_variable_duplicated">"\"%1$s\" dupliqué."</string>
+
+    <!-- Settings option: Used in language picker to allow user to pick the default language, i.e., the system language -->
+    <string name="language_default">"Valeur Système"</string>
 </resources>

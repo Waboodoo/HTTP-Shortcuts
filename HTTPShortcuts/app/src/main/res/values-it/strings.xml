@@ -471,7 +471,7 @@
     <string name="title_rename_category">"Rinomina Categoria"</string>
 
     <!-- Dialog prompt/placeholder in input field, asking user to enter a name for a category -->
-    <string name="placeholder_category_name">"Inserisci il nome della categoria ..."</string>
+    <string name="placeholder_category_name">"Inserisci il nome della categoria …"</string>
 
     <!-- Placeholder in input field, asking user to enter a value. Used in varies places -->
     <string name="placeholder_value">"Valore"</string>
@@ -539,6 +539,7 @@ Tutte le scorciatoie contenute all'interno verranno eliminate."</string>
     <string name="label_variable_time_format">"Formato ora"</string>
 
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
+    <!-- Fuzzy -->
     <string name="variable_type_constant">"Costante"</string>
 
     <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
@@ -554,6 +555,7 @@ Tutte le scorciatoie contenute all'interno verranno eliminate."</string>
     <string name="variable_type_password">"Inserimento Password"</string>
 
     <!-- Type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
+    <!-- Fuzzy -->
     <string name="variable_type_select">"Selezione"</string>
 
     <!-- Type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
@@ -669,7 +671,7 @@ Non hai nessuna variabile configurata."</string>
     <string name="share_button">"Condividi"</string>
 
     <!-- Title on Share dialog -->
-    <string name="share_title">"Condividi..."</string>
+    <string name="share_title">"Condividi…"</string>
 
     <!-- Section title, for section in variable editor containing options specific to the variable type -->
     <string name="section_input_options">"Opzioni di Inserimento"</string>
@@ -690,12 +692,12 @@ Annulla l'esecuzione in sospeso"</string>
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
     <string name="error_not_suitable_shortcuts">"Nessuna scorciatoia adatta trovata.
 
-Per utilizzare questa funzione è necessario avere almeno una scorciatoia che utilizza una variabile che consenta \"Condividi ...\".
+Per utilizzare questa funzione è necessario avere almeno una scorciatoia che utilizza una variabile che consenta \"Condividi …\".
 
 Vedere la documentazione nella sezione variabile per maggiori informazioni."</string>
 
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
-    <string name="label_allow_share_into">"Consenti 'Condividi...'"</string>
+    <string name="label_allow_share_into">"Consenti 'Condividi…'"</string>
 
     <!-- App color theme option Blue -->
     <string name="theme_blue">"Blu"</string>
@@ -728,7 +730,7 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni."</st
     <string name="button_export_send_to">"Altra app"</string>
 
     <!-- Dialog title, for dialog with options allowing user to pick where to import shortcuts from -->
-    <string name="title_import">"Importa da..."</string>
+    <string name="title_import">"Importa da…"</string>
 
     <!-- Dialog option on Import dialog, for importing shortcuts from a file picked via the system's document browser -->
     <string name="button_import_from_general">"Documenti"</string>

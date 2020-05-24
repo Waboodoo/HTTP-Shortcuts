@@ -436,6 +436,7 @@ Todos os atalhos contidos nela serão excluídos."</string>
     <string name="label_variable_time_format">"Formato de Hora"</string>
 
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
+    <!-- Fuzzy -->
     <string name="variable_type_constant">"Constante"</string>
 
     <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
@@ -451,6 +452,7 @@ Todos os atalhos contidos nela serão excluídos."</string>
     <string name="variable_type_password">"Campo de Senha"</string>
 
     <!-- Type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
+    <!-- Fuzzy -->
     <string name="variable_type_select">"Seleção"</string>
 
     <!-- Type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->

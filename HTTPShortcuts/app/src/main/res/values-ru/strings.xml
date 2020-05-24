@@ -95,7 +95,7 @@
     <string name="action_move_down">"Вниз"</string>
 
     <!-- Shortcut dropdown option: Move the shortcut to a different category -->
-    <string name="action_move_to_category">"Переместить в категорию..."</string>
+    <string name="action_move_to_category">"Переместить в категорию…"</string>
 
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">"Ярлыков пока нет"</string>
@@ -254,7 +254,7 @@
     <string name="settings_export">"Экспорт ярлыков"</string>
 
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
-    <string name="export_in_progress">"Выполняется экспорт..."</string>
+    <string name="export_in_progress">"Выполняется экспорт…"</string>
 
     <!-- Error message: Shown in snackbar when import of shortcuts & variables failed -->
     <string name="import_failed">"Не удалось импортировать ярлыки."</string>
@@ -267,7 +267,7 @@
     <string name="import_failure_reason_invalid_json">"Неверный JSON"</string>
 
     <!-- Message shown in progress dialog while shortcuts are being imported -->
-    <string name="import_in_progress">"Выполняется импорт..."</string>
+    <string name="import_in_progress">"Выполняется импорт…"</string>
 
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
     <string name="label_timeout">"Тайм-аут"</string>
@@ -408,7 +408,7 @@
     <string name="title_rename_category">"Переименовать категорию"</string>
 
     <!-- Dialog prompt/placeholder in input field, asking user to enter a name for a category -->
-    <string name="placeholder_category_name">"Введите название категории..."</string>
+    <string name="placeholder_category_name">"Введите название категории…"</string>
 
     <!-- Placeholder in input field, asking user to enter a value. Used in varies places -->
     <string name="placeholder_value">"Значение"</string>
@@ -461,6 +461,7 @@
     <string name="label_variable_time_format">"Формат времени"</string>
 
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
+    <!-- Fuzzy -->
     <string name="variable_type_constant">"Константа"</string>
 
     <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
@@ -476,6 +477,7 @@
     <string name="variable_type_password">"Ввод пароля"</string>
 
     <!-- Type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
+    <!-- Fuzzy -->
     <string name="variable_type_select">"Выбор"</string>
 
     <!-- Type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
@@ -591,7 +593,7 @@
     <string name="share_button">"Поделиться"</string>
 
     <!-- Title on Share dialog -->
-    <string name="share_title">"Поделиться..."</string>
+    <string name="share_title">"Поделиться…"</string>
 
     <!-- Section title, for section in variable editor containing options specific to the variable type -->
     <string name="section_input_options">"Варианты ввода"</string>
@@ -615,7 +617,7 @@
 Для получения дополнительной информации см. раздел переменных в Документации."</string>
 
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
-    <string name="label_allow_share_into">"Разрешить \"Делиться...\""</string>
+    <string name="label_allow_share_into">"Разрешить \"Делиться…\""</string>
 
     <!-- App color theme option Blue -->
     <string name="theme_blue">"Синий"</string>

@@ -46,7 +46,7 @@
     <string name="feedback_dialog">Response in Dialog</string>
     <!-- Option in dropdown, for shortcut response type: Show complete response in a fullscreen window -->
     <string name="feedback_activity">Response in Window</string>
-    <!-- Option in dropdown, for shortcut response type: Show complete response in a fullscreen window, and include meta info (headers, status code, ...) for debug purposes -->
+    <!-- Option in dropdown, for shortcut response type: Show complete response in a fullscreen window, and include meta info (headers, status code, …) for debug purposes -->
     <string name="feedback_debug">Response in Window (debug)</string>
     <!-- Shortcut dropdown option: Place shortcut on home screen -->
     <string name="action_place">Place on home screen</string>
@@ -700,7 +700,7 @@
     <string name="dialog_code_snippet_handle_response">Handle Response</string>
     <!-- Dialog option: shown in code snippet picker, shows options to get or set variables -->
     <string name="dialog_code_snippet_variables">Variables</string>
-    <!-- Dialog option: shown in code snippet picker, shows options to run certain actions (e.g. to show a toast, vibrate, ...) -->
+    <!-- Dialog option: shown in code snippet picker, shows options to run certain actions (e.g. to show a toast, vibrate, …) -->
     <string name="dialog_code_snippet_actions">Actions</string>
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a string -->
     <string name="dialog_code_snippet_response_body">Get Reponse Body</string>

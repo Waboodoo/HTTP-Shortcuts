@@ -425,6 +425,7 @@
     <string name="label_variable_time_format">"Formato de hora"</string>
 
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
+    <!-- Fuzzy -->
     <string name="variable_type_constant">"Constante"</string>
 
     <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
@@ -440,6 +441,7 @@
     <string name="variable_type_password">"Introducción de contraseña"</string>
 
     <!-- Type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
+    <!-- Fuzzy -->
     <string name="variable_type_select">"Selección"</string>
 
     <!-- Type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
@@ -549,7 +551,7 @@ Sin embargo, todavía no tiene ninguna variable configurada."</string>
     <string name="share_button">"Compartir"</string>
 
     <!-- Title on Share dialog -->
-    <string name="share_title">"Compartir..."</string>
+    <string name="share_title">"Compartir…"</string>
 
     <!-- Section title, for section in variable editor containing options specific to the variable type -->
     <string name="section_input_options">"Opciones de entrada"</string>
@@ -569,7 +571,7 @@ Sin embargo, todavía no tiene ninguna variable configurada."</string>
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
     <string name="error_not_suitable_shortcuts">"No se encontraron accesos directos adecuados.
 
-Para usar esta función, debe tener al menos un acceso directo que use una variable que permita 'Compartir ...'.
+Para usar esta función, debe tener al menos un acceso directo que use una variable que permita 'Compartir …'.
 
 Consulte la documentación en la sección de variables para más información."</string>
 
@@ -715,7 +717,7 @@ Consulte la documentación en la sección de variables para más información."<
     <string name="title_select_placement_method">"Método de colocación"</string>
 
     <!-- Description: Dialog text when selecting how to place a shortcut on the homescreen -->
-    <string name="description_select_placement_method">"Seleccione el método para colocar el..."</string>
+    <string name="description_select_placement_method">"Seleccione el método para colocar el…"</string>
 
     <!-- Label: Preferred option in dialog for selecting how to place the shortcut on the homescreen: Default (method) -->
     <string name="label_placement_method_default">"Por defecto"</string>

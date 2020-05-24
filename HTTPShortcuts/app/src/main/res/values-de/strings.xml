@@ -539,7 +539,8 @@ Alle darin enthaltenen Shortcuts werden gelöscht."</string>
     <string name="label_variable_time_format">"Zeitformat"</string>
 
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
-    <string name="variable_type_constant">"Konstante"</string>
+    <!-- Fuzzy -->
+    <string name="variable_type_constant">"Statische Variable (Konstante)"</string>
 
     <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
     <string name="variable_type_text">"Texteingabe"</string>
@@ -554,7 +555,8 @@ Alle darin enthaltenen Shortcuts werden gelöscht."</string>
     <string name="variable_type_password">"Passworteingabe"</string>
 
     <!-- Type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
-    <string name="variable_type_select">"Auswahl"</string>
+    <!-- Fuzzy -->
+    <string name="variable_type_select">"Multiple-Choice Auswahl"</string>
 
     <!-- Type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
     <string name="variable_type_toggle">"Toggle"</string>
