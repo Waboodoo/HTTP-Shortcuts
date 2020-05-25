@@ -6,6 +6,7 @@
     <string name="language_spanish" translatable="false">Español</string>
     <string name="language_french" translatable="false">Français</string>
     <string name="language_italian" translatable="false">Italiano</string>
+    <string name="language_hungarian" translatable="false">Magyar</string>
     <string name="language_norwegian_bokmal" translatable="false">Norsk</string>
     <string name="language_polish" translatable="false">Polski</string>
     <string name="language_brazilian_portuguese" translatable="false">Português (Brasil)</string>
@@ -21,6 +22,7 @@
         <item>@string/language_spanish</item>
         <item>@string/language_french</item>
         <item>@string/language_italian</item>
+        <item>@string/language_hungarian</item>
         <item>@string/language_norwegian_bokmal</item>
         <item>@string/language_polish</item>
         <item>@string/language_brazilian_portuguese</item>
@@ -37,6 +39,7 @@
         <item>es</item>
         <item>fr</item>
         <item>it</item>
+        <item>hu</item>
         <item>nb</item>
         <item>pl</item>
         <item>pt-rBR</item>
