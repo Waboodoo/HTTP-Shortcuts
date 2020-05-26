@@ -24,6 +24,8 @@ import java.net.URLDecoder
 
 class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorViewModel(application) {
 
+    private var initialIcon: String? = null
+
     fun init(categoryId: String?, shortcutId: String?, curlCommand: CurlCommand?, createBrowserShortcut: Boolean): Completable {
         if (isInitialized) {
             return Completable.complete()
@@ -33,9 +35,10 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
         return Transactions
             .commit { realm ->
                 val shortcut = if (shortcutId == null) {
+                    initialIcon = Icons.getRandomInitialIcon(getApplication())
                     realm.copyToRealmOrUpdate(Shortcut(
                         id = TEMPORARY_ID,
-                        iconName = Icons.getDefaultIcon(getApplication()),
+                        iconName = initialIcon,
                         browserShortcut = createBrowserShortcut
                     ))
                 } else {
@@ -60,7 +63,7 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
     fun hasChanges(): Boolean {
         val oldShortcut = shortcutId
             ?.let { Repository.getShortcutById(persistedRealm, it)!! }
-            ?: Shortcut(iconName = Icons.getDefaultIcon(getApplication()))
+            ?: Shortcut(iconName = initialIcon)
         val newShortcut = getShortcut(persistedRealm) ?: return false
         return !newShortcut.isSameAs(oldShortcut)
     }

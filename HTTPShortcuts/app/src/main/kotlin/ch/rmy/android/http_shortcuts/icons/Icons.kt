@@ -6,8 +6,19 @@ import ch.rmy.android.http_shortcuts.R
 
 object Icons {
 
-    fun getDefaultIcon(context: Context): String =
-        context.resources.getResourceEntryName(R.drawable.flat_color_lightbulb)
+    fun getRandomInitialIcon(context: Context): String =
+        context.resources.getResourceEntryName(INITIAL_ICONS.random())
+
+    private val INITIAL_ICONS = intArrayOf(
+        R.drawable.flat_color_play,
+        R.drawable.flat_color_lightbulb,
+        R.drawable.flat_color_star,
+        R.drawable.flat_color_computer,
+        R.drawable.flat_color_bolt,
+        R.drawable.flat_color_plugin,
+        R.drawable.flat_color_cursor,
+        R.drawable.flat_color_brightness
+    )
 
     internal val ICONS = intArrayOf(
         R.drawable.circle_blue,
