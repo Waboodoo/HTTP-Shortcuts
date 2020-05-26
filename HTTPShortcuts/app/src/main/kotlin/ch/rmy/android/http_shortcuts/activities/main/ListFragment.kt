@@ -19,6 +19,7 @@ import ch.rmy.android.http_shortcuts.data.models.PendingExecution
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.dialogs.CurlExportDialog
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
+import ch.rmy.android.http_shortcuts.exceptions.CanceledByUserException
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.color
@@ -351,8 +352,10 @@ class ListFragment : BaseFragment() {
                         .show()
                 },
                 { e ->
-                    activity?.showToast(R.string.error_generic)
-                    logException(e)
+                    if (e !is CanceledByUserException) {
+                        activity?.showToast(R.string.error_generic)
+                        logException(e)
+                    }
                 }
             )
             .attachTo(destroyer)
