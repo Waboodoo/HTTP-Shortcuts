@@ -284,10 +284,15 @@ class ShortcutEditorActivity : BaseActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         if (viewModel.isInitialized) {
             menuInflater.inflate(R.menu.editor_activity_menu, menu)
-            menu.findItem(R.id.action_test_shortcut).isVisible = shortcutData.value?.url?.let { Validation.isAcceptableUrl(it) } == true
+            menu.findItem(R.id.action_test_shortcut).isVisible = canExecute()
         }
         return super.onCreateOptionsMenu(menu)
     }
+
+    private fun canExecute(): Boolean =
+        shortcutData.value
+            ?.let { it.isScriptingShortcut || Validation.isAcceptableUrl(it.url) }
+            ?: false
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         android.R.id.home -> consume { onCloseEditor() }
