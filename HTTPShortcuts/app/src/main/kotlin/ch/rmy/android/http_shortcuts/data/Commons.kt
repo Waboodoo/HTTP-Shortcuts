@@ -3,7 +3,7 @@ package ch.rmy.android.http_shortcuts.data
 import androidx.annotation.CheckResult
 import ch.rmy.android.http_shortcuts.data.models.PendingExecution
 import io.reactivex.Completable
-import java.util.*
+import java.util.Date
 
 object Commons { // TODO: Find better name
 
@@ -20,21 +20,18 @@ object Commons { // TODO: Find better name
         resolvedVariables: Map<String, String> = emptyMap(),
         tryNumber: Int = 0,
         waitUntil: Date? = null,
-        requiresNetwork: Boolean,
+        requiresNetwork: Boolean = false,
         recursionDepth: Int = 0
     ) =
         Transactions.commit { realm ->
-            val alreadyPending = Repository.getShortcutPendingExecution(realm, shortcutId) != null
-            if (!alreadyPending) {
-                realm.copyToRealm(PendingExecution.createNew(
-                    shortcutId,
-                    resolvedVariables,
-                    tryNumber,
-                    waitUntil,
-                    requiresNetwork,
-                    recursionDepth
-                ))
-            }
+            realm.copyToRealm(PendingExecution.createNew(
+                shortcutId,
+                resolvedVariables,
+                tryNumber,
+                waitUntil,
+                requiresNetwork,
+                recursionDepth
+            ))
         }
 
     @CheckResult

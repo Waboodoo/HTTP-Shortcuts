@@ -74,7 +74,7 @@ class ExecuteActivity : BaseActivity() {
 
     /* Execution Parameters */
     private val shortcutId: String by lazy {
-        intent.getStringExtra(EXTRA_SHORTCUT_ID) ?: intent.data?.lastPathSegment ?: ""
+        IntentUtil.getShortcutId(intent)
     }
     private val variableValues by lazy {
         IntentUtil.getVariableValues(intent)
@@ -95,6 +95,18 @@ class ExecuteActivity : BaseActivity() {
     /* Caches / State */
     private var fileUploadManager: FileUploadManager? = null
     private lateinit var variableManager: VariableManager
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+
+        Commons
+            .createPendingExecution(
+                shortcutId = IntentUtil.getShortcutId(intent),
+                resolvedVariables = IntentUtil.getVariableValues(intent),
+                tryNumber = 0
+            )
+            .subscribe()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

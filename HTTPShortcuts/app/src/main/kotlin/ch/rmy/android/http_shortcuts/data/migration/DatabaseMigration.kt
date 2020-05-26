@@ -291,6 +291,15 @@ class DatabaseMigration : RealmMigration {
                     shortcut.setBoolean("showLabel", true)
                 }
             }
+            38L -> { // 1.31.0
+                realm.where("PendingExecution").findAll().deleteAllFromRealm()
+                schema.get("PendingExecution")!!
+                    .removePrimaryKey()
+                    .addField("id", String::class.java)
+                    .setRequired("id", true)
+                    .addPrimaryKey("id")
+
+            }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -316,7 +325,7 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 37L
+        const val VERSION = 38L
 
     }
 

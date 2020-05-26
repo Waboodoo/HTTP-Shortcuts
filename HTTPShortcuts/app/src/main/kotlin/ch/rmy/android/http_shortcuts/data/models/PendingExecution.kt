@@ -1,27 +1,26 @@
 package ch.rmy.android.http_shortcuts.data.models
 
+import ch.rmy.android.http_shortcuts.utils.UUIDUtils
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.Index
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.Required
-import java.util.*
+import java.util.Date
 
-open class PendingExecution : RealmObject() {
-
+open class PendingExecution(
     @PrimaryKey
-    var shortcutId: String = ""
+    var id: String = "",
+    var shortcutId: String = "",
     @Index
     @Required
-    var enqueuedAt: Date = Date()
-
-    var tryNumber: Int = 0
-    var waitUntil: Date? = null
-    var waitForNetwork: Boolean = false
-
-    var recursionDepth: Int = 0
-
+    var enqueuedAt: Date = Date(),
+    var tryNumber: Int = 0,
+    var waitUntil: Date? = null,
+    var waitForNetwork: Boolean = false,
+    var recursionDepth: Int = 0,
     var resolvedVariables: RealmList<ResolvedVariable> = RealmList()
+) : RealmObject() {
 
     companion object {
 
@@ -36,21 +35,21 @@ open class PendingExecution : RealmObject() {
             waitForNetwork: Boolean = false,
             recursionDepth: Int = 0
         ): PendingExecution {
-            val pendingExecution = PendingExecution()
-
             val resolvedVariableList = RealmList<ResolvedVariable>()
             resolvedVariables.mapTo(resolvedVariableList) {
                 ResolvedVariable.createNew(it.key, it.value)
             }
 
-            pendingExecution.resolvedVariables = resolvedVariableList
-            pendingExecution.shortcutId = shortcutId
-            pendingExecution.tryNumber = tryNumber
-            pendingExecution.waitUntil = waitUntil
-            pendingExecution.enqueuedAt = Date()
-            pendingExecution.waitForNetwork = waitForNetwork
-            pendingExecution.recursionDepth = recursionDepth
-            return pendingExecution
+            return PendingExecution(
+                id = UUIDUtils.newUUID(),
+                resolvedVariables = resolvedVariableList,
+                shortcutId = shortcutId,
+                tryNumber = tryNumber,
+                waitUntil = waitUntil,
+                enqueuedAt = Date(),
+                waitForNetwork = waitForNetwork,
+                recursionDepth = recursionDepth
+            )
         }
     }
 
