@@ -334,6 +334,8 @@ class ExecuteActivity : BaseActivity() {
             .concatWith(
                 if (shortcut.isBrowserShortcut) {
                     openShortcutInBrowser()
+                } else if (shortcut.isScriptingShortcut) {
+                    Completable.complete()
                 } else {
                     executeShortcut(fileUploadManager)
                         .onErrorResumeNext { error ->

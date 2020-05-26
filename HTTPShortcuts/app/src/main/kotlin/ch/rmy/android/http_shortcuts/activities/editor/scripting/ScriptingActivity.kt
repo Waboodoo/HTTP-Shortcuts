@@ -49,6 +49,7 @@ class ScriptingActivity : BaseActivity() {
         color(context, R.color.variable)
     }
 
+    private val labelPrepareCode: View by bindView(R.id.label_code_prepare)
     private val prepareCodeInput: EditText by bindView(R.id.input_code_prepare)
     private val prepareSnippetButton: Button by bindView(R.id.button_add_code_snippet_pre)
     private val successCodeInput: EditText by bindView(R.id.input_code_success)
@@ -121,7 +122,8 @@ class ScriptingActivity : BaseActivity() {
         )
 
     private fun updateShortcutViews(shortcut: Shortcut) {
-        postRequestContainer.visible = !shortcut.isBrowserShortcut
+        labelPrepareCode.visible = !shortcut.isScriptingShortcut
+        postRequestContainer.visible = !shortcut.isBrowserShortcut && !shortcut.isScriptingShortcut
         successCodeInput.setTextSafely(processTextForView(shortcut.codeOnSuccess))
         failureCodeInput.setTextSafely(processTextForView(shortcut.codeOnFailure))
         prepareCodeInput.setTextSafely(processTextForView(shortcut.codeOnPrepare))

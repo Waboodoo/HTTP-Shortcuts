@@ -81,7 +81,11 @@
                 android:layout_marginBottom="4dp"
                 android:text="@string/section_basic_request" />
 
-            <include layout="@layout/divider_line" />
+            <include
+                android:id="@+id/divider_below_basic_request_settings"
+                layout="@layout/divider_line"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divider_height" />
 
             <ch.rmy.android.http_shortcuts.views.PanelButton
                 android:id="@+id/button_headers"

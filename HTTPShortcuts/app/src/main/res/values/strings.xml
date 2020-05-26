@@ -500,6 +500,8 @@
     <string name="button_curl_import">From cURL Command</string>
     <!-- Option 3 in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_create_browser_shortcut">Browser Shortcut</string>
+    <!-- Option 4 in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
+    <string name="button_create_scripting_shortcut">Scripting Shortcut</string>
     <!-- Window title for cURL import -->
     <string name="title_curl_import">cURL Import</string>
     <!-- Instruction text for shortcut import from cURL format -->
@@ -570,6 +572,8 @@
     <string name="label_scripting_subtitle">Run JavaScript code before or after execution</string>
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before shortcut execution -->
     <string name="label_scripting_browser_shortcuts_subtitle">Run JavaScript code before execution</string>
+    <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. -->
+    <string name="label_scripting_scripting_shortcuts_subtitle">Run JavaScript code</string>
     <!-- Section title in shortcut editor, groups together miscellaneous settings -->
     <string name="label_misc_settings">Misc Settings</string>
     <!-- Section subtitle, shown underneath "Misc Settings", gives brief summary of what the section is about -->

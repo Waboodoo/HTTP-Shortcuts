@@ -24,14 +24,21 @@ import java.net.URLDecoder
 
 class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorViewModel(application) {
 
-    private var initialIcon: String? = null
+    var isInitialized: Boolean = false
+        private set
 
-    fun init(categoryId: String?, shortcutId: String?, curlCommand: CurlCommand?, createBrowserShortcut: Boolean): Completable {
+    private var categoryId: String? = null
+    private var shortcutId: String? = null
+    private var initialIcon: String? = null
+    private var executionType: String? = null
+
+    fun init(categoryId: String?, shortcutId: String?, curlCommand: CurlCommand?, executionType: String): Completable {
         if (isInitialized) {
             return Completable.complete()
         }
         this.categoryId = categoryId
         this.shortcutId = shortcutId
+        this.executionType = executionType
         return Transactions
             .commit { realm ->
                 val shortcut = if (shortcutId == null) {
@@ -39,7 +46,7 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
                     realm.copyToRealmOrUpdate(Shortcut(
                         id = TEMPORARY_ID,
                         iconName = initialIcon,
-                        browserShortcut = createBrowserShortcut
+                        executionType = executionType
                     ))
                 } else {
                     Repository.copyShortcut(realm, Repository.getShortcutById(realm, shortcutId)!!, TEMPORARY_ID)
@@ -54,16 +61,10 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
             }
     }
 
-    var isInitialized: Boolean = false
-        private set
-
-    private var categoryId: String? = null
-    private var shortcutId: String? = null
-
     fun hasChanges(): Boolean {
         val oldShortcut = shortcutId
             ?.let { Repository.getShortcutById(persistedRealm, it)!! }
-            ?: Shortcut(iconName = initialIcon)
+            ?: Shortcut(iconName = initialIcon, executionType = executionType)
         val newShortcut = getShortcut(persistedRealm) ?: return false
         return !newShortcut.isSameAs(oldShortcut)
     }
@@ -113,11 +114,13 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
     }
 
     private fun validateShortcut(shortcut: Shortcut) {
-        if (shortcut.name.isBlank()) {
-            throw ShortcutValidationError(VALIDATION_ERROR_EMPTY_NAME)
-        }
-        if (!Validation.isAcceptableUrl(shortcut.url)) {
-            throw ShortcutValidationError(VALIDATION_ERROR_INVALID_URL)
+        if (!shortcut.isScriptingShortcut) {
+            if (shortcut.name.isBlank()) {
+                throw ShortcutValidationError(VALIDATION_ERROR_EMPTY_NAME)
+            }
+            if (!Validation.isAcceptableUrl(shortcut.url)) {
+                throw ShortcutValidationError(VALIDATION_ERROR_INVALID_URL)
+            }
         }
     }
 
@@ -177,11 +180,11 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
         }
 
     fun getScriptingSubtitle(shortcut: Shortcut): CharSequence =
-        if (shortcut.isBrowserShortcut) {
-            getString(R.string.label_scripting_browser_shortcuts_subtitle)
-        } else {
-            getString(R.string.label_scripting_subtitle)
-        }
+        getString(when {
+            shortcut.isScriptingShortcut -> R.string.label_scripting_scripting_shortcuts_subtitle
+            shortcut.isBrowserShortcut -> R.string.label_scripting_browser_shortcuts_subtitle
+            else -> R.string.label_scripting_subtitle
+        })
 
     data class SaveResult(val id: String, val name: String, val iconName: String?)
 

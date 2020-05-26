@@ -19,6 +19,7 @@
 
             <TextView
                 style="@style/Label"
+                android:id="@+id/label_code_prepare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/label_pre_request_script" />

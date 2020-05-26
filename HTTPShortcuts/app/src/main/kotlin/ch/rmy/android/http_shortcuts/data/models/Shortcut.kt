@@ -9,14 +9,8 @@ open class Shortcut(
     @PrimaryKey
     override var id: String = "",
     var iconName: String? = null,
-    browserShortcut: Boolean = false
-) : RealmObject(), HasId {
-
     var executionType: String? = EXECUTION_TYPE_APP
-
-    init {
-        executionType = if (browserShortcut) EXECUTION_TYPE_BROWSER else EXECUTION_TYPE_APP
-    }
+) : RealmObject(), HasId {
 
     @Required
     var name: String = ""
@@ -161,6 +155,9 @@ open class Shortcut(
     val isBrowserShortcut
         get() = executionType == EXECUTION_TYPE_BROWSER
 
+    val isScriptingShortcut
+        get() = executionType == EXECUTION_TYPE_SCRIPTING
+
     var isWaitForNetwork
         get() = retryPolicy == RETRY_POLICY_WAIT_FOR_INTERNET
         set(value) {
@@ -207,8 +204,9 @@ open class Shortcut(
         const val REQUEST_BODY_TYPE_CUSTOM_TEXT = "custom_text"
         const val REQUEST_BODY_TYPE_FILE = "file"
 
-        private const val EXECUTION_TYPE_APP = "app"
-        private const val EXECUTION_TYPE_BROWSER = "browser"
+        const val EXECUTION_TYPE_APP = "app"
+        const val EXECUTION_TYPE_BROWSER = "browser"
+        const val EXECUTION_TYPE_SCRIPTING = "scripting"
 
         const val AUTHENTICATION_NONE = "none"
         const val AUTHENTICATION_BASIC = "basic"

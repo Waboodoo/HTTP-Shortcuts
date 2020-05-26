@@ -67,8 +67,8 @@ class ShortcutEditorActivity : BaseActivity() {
     private val curlCommand by lazy {
         intent.getSerializableExtra(EXTRA_CURL_COMMAND) as CurlCommand?
     }
-    private val createBrowserShortcut: Boolean by lazy {
-        intent.getBooleanExtra(EXTRA_BROWSER_SHORTCUT, false)
+    private val executionType: String by lazy {
+        intent.getStringExtra(EXTRA_EXECUTION_TYPE) ?: Shortcut.EXECUTION_TYPE_APP
     }
 
     private val viewModel: ShortcutEditorViewModel by bindViewModel()
@@ -95,6 +95,7 @@ class ShortcutEditorActivity : BaseActivity() {
     private val scriptingButton: PanelButton by bindView(R.id.button_scripting)
     private val miscSettingsButton: PanelButton by bindView(R.id.button_misc_settings)
     private val advancedTechnicalSettingsButton: PanelButton by bindView(R.id.button_advanced_technical_settings)
+    private val dividerBelowBasicSettings: View by bindView(R.id.divider_below_basic_request_settings)
     private val dividerBelowHeaders: View by bindView(R.id.divider_below_headers)
     private val dividerBelowRequestBody: View by bindView(R.id.divider_below_request_body)
     private val dividerBelowAuthentication: View by bindView(R.id.divider_below_authentication)
@@ -115,7 +116,7 @@ class ShortcutEditorActivity : BaseActivity() {
     }
 
     private fun initViewModel() {
-        viewModel.init(categoryId, shortcutId, curlCommand, createBrowserShortcut)
+        viewModel.init(categoryId, shortcutId, curlCommand, executionType)
             .subscribe({
                 initViews()
             }, { e ->
@@ -150,15 +151,17 @@ class ShortcutEditorActivity : BaseActivity() {
         nameView.setTextSafely(shortcut.name)
         descriptionView.setTextSafely(shortcut.description)
 
-        val isBrowserShortcut = shortcut.isBrowserShortcut
-        headersButton.visible = !isBrowserShortcut
-        dividerBelowHeaders.visible = !isBrowserShortcut
-        requestBodyButton.visible = !isBrowserShortcut
-        dividerBelowRequestBody.visible = !isBrowserShortcut
-        authenticationButton.visible = !isBrowserShortcut
-        dividerBelowAuthentication.visible = !isBrowserShortcut
-        responseHandlingButton.visible = !isBrowserShortcut
-        advancedTechnicalSettingsButton.visible = !isBrowserShortcut
+        val isRegularShortcut = !shortcut.isBrowserShortcut && !shortcut.isScriptingShortcut
+        basicRequestSettingsButton.visible = !shortcut.isScriptingShortcut
+        dividerBelowBasicSettings.visible = !shortcut.isScriptingShortcut
+        headersButton.visible = isRegularShortcut
+        dividerBelowHeaders.visible = isRegularShortcut
+        requestBodyButton.visible = isRegularShortcut
+        dividerBelowRequestBody.visible = isRegularShortcut
+        authenticationButton.visible = isRegularShortcut
+        dividerBelowAuthentication.visible = isRegularShortcut
+        responseHandlingButton.visible = isRegularShortcut
+        advancedTechnicalSettingsButton.visible = isRegularShortcut
 
         basicRequestSettingsButton.subtitle = viewModel.getBasicSettingsSubtitle(shortcut)
             .let { subtitle ->
@@ -169,7 +172,7 @@ class ShortcutEditorActivity : BaseActivity() {
                 )
             }
 
-        if (!isBrowserShortcut) {
+        if (isRegularShortcut) {
             headersButton.subtitle = viewModel.getHeadersSettingsSubtitle(shortcut)
             requestBodyButton.subtitle = viewModel.getRequestBodySettingsSubtitle(shortcut)
             authenticationButton.subtitle = viewModel.getAuthenticationSettingsSubtitle(shortcut)
@@ -425,8 +428,8 @@ class ShortcutEditorActivity : BaseActivity() {
             intent.putExtra(EXTRA_CURL_COMMAND, command)
         }
 
-        fun browserShortcut(browserShortcut: Boolean) = also {
-            intent.putExtra(EXTRA_BROWSER_SHORTCUT, browserShortcut)
+        fun executionType(executionType: String) = also {
+            intent.putExtra(EXTRA_EXECUTION_TYPE, executionType)
         }
 
     }
@@ -436,7 +439,7 @@ class ShortcutEditorActivity : BaseActivity() {
         private const val EXTRA_SHORTCUT_ID = "shortcutId"
         private const val EXTRA_CATEGORY_ID = "categoryId"
         private const val EXTRA_CURL_COMMAND = "curlCommand"
-        private const val EXTRA_BROWSER_SHORTCUT = "browserShortcut"
+        private const val EXTRA_EXECUTION_TYPE = "executionType"
 
         private const val REQUEST_SELECT_IPACK_ICON = 3
 
