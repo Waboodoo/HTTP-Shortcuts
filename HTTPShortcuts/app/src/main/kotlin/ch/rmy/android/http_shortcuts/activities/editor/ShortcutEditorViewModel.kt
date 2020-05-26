@@ -157,6 +157,7 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
                     R.string.subtitle_request_body_params_none,
                     R.plurals.subtitle_request_body_params_pattern
                 )
+                Shortcut.REQUEST_BODY_TYPE_FILE -> getString(R.string.subtitle_request_body_file)
                 else -> if (shortcut.bodyContent.isBlank()) {
                     getString(R.string.subtitle_request_body_none)
                 } else {
@@ -199,7 +200,9 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
             }
             shortcut.timeout = curlCommand.timeout
 
-            if (curlCommand.isFormData || curlCommand.data.all { data -> data.count { it == '=' } == 1 }) {
+            if (curlCommand.usesBinaryData) {
+                shortcut.requestBodyType = Shortcut.REQUEST_BODY_TYPE_FILE
+            } else if (curlCommand.isFormData || curlCommand.data.all { data -> data.count { it == '=' } == 1 }) {
                 shortcut.requestBodyType = if (curlCommand.isFormData) {
                     Shortcut.REQUEST_BODY_TYPE_FORM_DATA
                 } else {

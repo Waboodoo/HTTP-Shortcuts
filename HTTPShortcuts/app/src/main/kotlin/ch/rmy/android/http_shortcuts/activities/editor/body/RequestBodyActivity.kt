@@ -280,7 +280,8 @@ class RequestBodyActivity : BaseActivity() {
         private val REQUEST_BODY_TYPES = listOf(
             Shortcut.REQUEST_BODY_TYPE_FORM_DATA to R.string.request_body_option_form_data,
             Shortcut.REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE to R.string.request_body_option_x_www_form_urlencoded,
-            Shortcut.REQUEST_BODY_TYPE_CUSTOM_TEXT to R.string.request_body_option_custom_text
+            Shortcut.REQUEST_BODY_TYPE_CUSTOM_TEXT to R.string.request_body_option_custom_text,
+            Shortcut.REQUEST_BODY_TYPE_FILE to R.string.request_body_option_file
         )
 
         private val CONTENT_TYPE_SUGGESTIONS = listOf(

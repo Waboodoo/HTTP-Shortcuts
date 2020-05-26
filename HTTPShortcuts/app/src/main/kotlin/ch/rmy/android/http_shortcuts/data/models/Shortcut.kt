@@ -107,6 +107,8 @@ open class Shortcut(
 
     fun usesCustomBody() = allowsBody() && requestBodyType == REQUEST_BODY_TYPE_CUSTOM_TEXT
 
+    fun usesFileBody() = allowsBody() && requestBodyType == REQUEST_BODY_TYPE_FILE
+
     fun isSameAs(other: Shortcut): Boolean {
         if (other.name != name ||
             other.bodyContent != bodyContent ||
@@ -203,6 +205,7 @@ open class Shortcut(
         const val REQUEST_BODY_TYPE_FORM_DATA = "form_data"
         const val REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE = "x_www_form_urlencode"
         const val REQUEST_BODY_TYPE_CUSTOM_TEXT = "custom_text"
+        const val REQUEST_BODY_TYPE_FILE = "file"
 
         private const val EXECUTION_TYPE_APP = "app"
         private const val EXECUTION_TYPE_BROWSER = "browser"

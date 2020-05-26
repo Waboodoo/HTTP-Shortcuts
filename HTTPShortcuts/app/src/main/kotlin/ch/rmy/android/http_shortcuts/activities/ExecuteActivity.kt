@@ -263,12 +263,15 @@ class ExecuteActivity : BaseActivity() {
             }
 
     private fun getFileUploadManager(): FileUploadManager? {
-        if (!shortcut.usesRequestParameters()) {
+        if (!shortcut.usesRequestParameters() && !shortcut.usesFileBody()) {
             return null
         }
         if (fileUploadManager == null) {
             fileUploadManager = FileUploadManager.Builder(contentResolver)
                 .withSharedFiles(fileUris)
+                .mapIf(shortcut.usesFileBody()) {
+                    it.addFileRequest()
+                }
                 .mapFor(shortcut.parameters) { builder, parameter ->
                     when {
                         parameter.isFilesParameter -> {

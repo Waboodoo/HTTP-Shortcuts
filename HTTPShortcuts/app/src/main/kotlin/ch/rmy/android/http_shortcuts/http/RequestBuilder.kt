@@ -1,8 +1,11 @@
 package ch.rmy.android.http_shortcuts.http
 
-import ch.rmy.android.http_shortcuts.exceptions.InvalidContentTypeException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidHeaderException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidUrlException
+import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_MULTIPART_BOUNDARY
+import ch.rmy.android.http_shortcuts.http.RequestUtil.encode
+import ch.rmy.android.http_shortcuts.http.RequestUtil.getMediaType
+import ch.rmy.android.http_shortcuts.http.RequestUtil.sanitize
 import okhttp3.Credentials
 import okhttp3.MediaType
 import okhttp3.Request
@@ -12,7 +15,6 @@ import okio.BufferedSink
 import okio.Okio
 import java.io.InputStream
 import java.net.URISyntaxException
-import java.net.URLEncoder
 
 class RequestBuilder(private val method: String, url: String) {
 
@@ -28,6 +30,7 @@ class RequestBuilder(private val method: String, url: String) {
         }
 
     private var body: String? = null
+    private var bodyStream: InputStream? = null
     private var contentType: String? = null
     private val parameters = mutableListOf<Parameter>()
 
@@ -41,6 +44,10 @@ class RequestBuilder(private val method: String, url: String) {
 
     fun body(body: String) = also {
         this.body = body
+    }
+
+    fun body(inputStream: InputStream) = also {
+        this.bodyStream = inputStream
     }
 
     fun parameter(name: String, value: String) = also {
@@ -84,11 +91,15 @@ class RequestBuilder(private val method: String, url: String) {
     private fun getBody(): RequestBody = when {
         contentType?.startsWith("multipart/form-data") == true -> constructFormDataBody()
         contentType?.startsWith("application/x-www-form-urlencoded") == true -> constructBodyFromString(constructFormUrlEncodedBody())
+        bodyStream != null -> constructBodyFromStream(bodyStream!!)
         else -> constructBodyFromString(body ?: "")
     }
 
     private fun constructBodyFromString(string: String): RequestBody =
         RequestBody.create(getMediaType(contentType), string.toByteArray())
+
+    private fun constructBodyFromStream(stream: InputStream): RequestBody =
+        StreamRequestBody(contentType, stream)
 
     private fun constructFormDataBody(): RequestBody =
         object : RequestBody() {
@@ -126,24 +137,5 @@ class RequestBuilder(private val method: String, url: String) {
             .joinToString(separator = "&") { parameter ->
                 encode(parameter.name) + '=' + encode(parameter.value)
             }
-
-    companion object {
-        const val FORM_MULTIPART_BOUNDARY = "----53014704754052338"
-        private const val DEFAULT_CONTENT_TYPE = "text/plain"
-        private const val PARAMETER_ENCODING = "UTF-8"
-
-        private fun encode(text: String): String =
-            URLEncoder.encode(text, PARAMETER_ENCODING)
-
-        private fun sanitize(text: String): String =
-            text.replace("\"", "")
-
-        private fun getMediaType(contentType: String?) =
-            try {
-                MediaType.get(contentType ?: DEFAULT_CONTENT_TYPE)
-            } catch (e: IllegalArgumentException) {
-                throw InvalidContentTypeException(contentType!!)
-            }
-    }
 
 }

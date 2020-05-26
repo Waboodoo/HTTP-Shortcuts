@@ -14,6 +14,8 @@ class CurlCommand private constructor() : Serializable {
     private val headersInternal = mutableMapOf<String, String>()
     val data: List<String>
         get() = dataInternal
+    var usesBinaryData: Boolean = false
+        private set
     private val dataInternal = mutableListOf<String>()
     var timeout = 0
         private set
@@ -52,6 +54,10 @@ class CurlCommand private constructor() : Serializable {
 
         fun isFormData() = also {
             curlCommand.isFormData = true
+        }
+
+        fun usesBinaryData() = also {
+            curlCommand.usesBinaryData = true
         }
 
         fun addParameter(key: String, value: String) = also {

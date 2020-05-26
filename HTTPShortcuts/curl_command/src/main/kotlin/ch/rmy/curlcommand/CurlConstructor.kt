@@ -35,6 +35,10 @@ object CurlConstructor {
             }
         }
 
+        if (curlCommand.usesBinaryData) {
+            builder.option("--data-binary", "@file")
+        }
+
         return builder.build()
     }
 

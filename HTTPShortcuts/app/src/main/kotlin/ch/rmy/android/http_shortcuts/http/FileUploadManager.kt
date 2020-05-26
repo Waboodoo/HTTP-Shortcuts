@@ -59,7 +59,7 @@ class FileUploadManager private constructor(
             this.sharedFiles = fileUris
         }
 
-        fun addFileRequest(multiple: Boolean) = also {
+        fun addFileRequest(multiple: Boolean = false) = also {
             fileRequests.add(FileRequest(multiple))
         }
 

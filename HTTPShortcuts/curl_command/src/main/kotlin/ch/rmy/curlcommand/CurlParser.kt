@@ -55,7 +55,11 @@ class CurlParser private constructor(arguments: List<String>) {
                             }
 
                         }
-                        builder.data(data)
+                        if (argument == "--data-binary" && data.startsWith("@")) {
+                            builder.usesBinaryData()
+                        } else {
+                            builder.data(data)
+                        }
                         continue@loop
                     }
                     "-F", "--form" -> {

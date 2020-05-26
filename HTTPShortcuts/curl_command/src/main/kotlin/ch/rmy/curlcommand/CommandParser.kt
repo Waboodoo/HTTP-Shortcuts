@@ -1,6 +1,6 @@
 package ch.rmy.curlcommand
 
-import java.util.*
+import java.util.StringTokenizer
 
 
 internal object CommandParser {

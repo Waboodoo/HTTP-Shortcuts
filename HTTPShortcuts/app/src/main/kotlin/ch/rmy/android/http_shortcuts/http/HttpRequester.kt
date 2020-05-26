@@ -5,6 +5,7 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.exceptions.InvalidUrlException
 import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.mapIf
+import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_MULTIPART_BOUNDARY
 import ch.rmy.android.http_shortcuts.utils.UserAgentUtil
 import ch.rmy.android.http_shortcuts.utils.Validation
 import ch.rmy.android.http_shortcuts.variables.VariableManager
@@ -52,6 +53,13 @@ object HttpRequester {
                     .mapIf(shortcut.usesCustomBody()) {
                         it.contentType(determineContentType(shortcut))
                         it.body(body)
+                    }
+                    .mapIf(shortcut.usesFileBody()) {
+                        val file = fileUploadManager?.getFile(0)
+                        it.mapIf(file != null) {
+                            it.contentType(determineContentType(shortcut) ?: file!!.mimeType)
+                            it.body(file!!.data)
+                        }
                     }
                     .mapIf(shortcut.usesRequestParameters()) {
                         it.contentType(determineContentType(shortcut))
@@ -138,7 +146,7 @@ object HttpRequester {
         )
 
     private fun determineContentType(shortcut: Shortcut): String? = when {
-        shortcut.requestBodyType == Shortcut.REQUEST_BODY_TYPE_FORM_DATA -> "multipart/form-data; boundary=${RequestBuilder.FORM_MULTIPART_BOUNDARY}"
+        shortcut.requestBodyType == Shortcut.REQUEST_BODY_TYPE_FORM_DATA -> "multipart/form-data; boundary=${FORM_MULTIPART_BOUNDARY}"
         shortcut.requestBodyType == Shortcut.REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE -> "application/x-www-form-urlencoded; charset=UTF-8"
         shortcut.contentType.isNotEmpty() -> shortcut.contentType
         else -> null

@@ -49,6 +49,9 @@ object CurlExporter {
                     rawPlaceholdersToResolvedValues(header.value, variableValues)
                 )
             }
+            .mapIf(shortcut.usesFileBody()) {
+                it.usesBinaryData()
+            }
             .mapIf(shortcut.usesRequestParameters()) { builder ->
                 if (shortcut.requestBodyType == Shortcut.REQUEST_BODY_TYPE_FORM_DATA) {
                     builder

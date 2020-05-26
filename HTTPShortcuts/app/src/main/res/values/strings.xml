@@ -554,6 +554,8 @@
     <string name="request_body_option_x_www_form_urlencoded">Parameters (x-www-form-urlencoded)</string>
     <!-- Dropdown option for request body: custom text (i.e. enter a custom Content-Type and a request body as text) -->
     <string name="request_body_option_custom_text">Custom Text</string>
+    <!-- Dropdown option for request body: file (i.e., user gets to pick a file which is used as the request body) -->
+    <string name="request_body_option_file">File (Picker)</string>
     <!-- Label above input box for Request Content-Type -->
     <string name="label_content_type">Content-Type</string>
     <!-- Button to copy the cURL export of a shortcut to the clipboard -->
@@ -666,6 +668,8 @@
     </plurals>
     <!-- Section subtitle, shown in shortcut editor when no custom request body is set -->
     <string name="subtitle_request_body_none">No request body set</string>
+    <!-- Section subtitle, shown in shortcut editor when request body is set to 'File' -->
+    <string name="subtitle_request_body_file">File request body set</string>
     <!-- Section subtitle, shown in shortcut editor when a custom request body is set. %s is a placeholder for the data type, e.g. application/json -->
     <string name="subtitle_request_body_custom">Custom request body set (%s)</string>
     <!-- Section subtitle, shown for "Custom Request Body" option when it is not available because the selected HTTP method (%1$s) does not support a request body -->
