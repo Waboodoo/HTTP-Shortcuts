@@ -4,6 +4,11 @@
     <style name="BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
     </style>
 
+    <style name="LoaderTheme" parent="BaseTheme">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+        <item name="colorPrimaryDark">@color/brand_icon_dark</item>
+    </style>
+
     <style name="LightThemeAlt0" parent="BaseTheme">
         <item name="colorPrimary">@color/primary_alt0</item>
         <item name="colorPrimaryDark">@color/primary_dark_alt0</item>

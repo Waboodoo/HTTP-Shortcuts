@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <item name="brand_icon" type="color">#1985cc</item>
+    <item name="brand_icon_dark" type="color">#487092</item>
+
     <item name="primary_alt0" type="color">#FF03A9F4</item>
     <item name="primary_dark_alt0" type="color">#FF0277BD</item>
 
