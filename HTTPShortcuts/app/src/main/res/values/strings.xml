@@ -288,7 +288,7 @@
     <!-- Button, for opening page listing all the libraries and 3rd party assets used in the app -->
     <string name="settings_licenses">Acknowledgements</string>
     <!-- Button subtitle, for "Acknowledgements" button -->
-    <string name="settings_licenses_summary"><![CDATA[Libraries & resources used]]></string>
+    <string name="settings_licenses_summary">Libraries &amp; resources used</string>
     <!-- Page title, for page showing all configured categories -->
     <string name="title_categories">Categories</string>
     <!-- Generic action, shown on dialog, to rename things -->

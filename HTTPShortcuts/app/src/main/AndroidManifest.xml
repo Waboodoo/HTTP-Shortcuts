@@ -17,7 +17,6 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
-        android:roundIcon="@drawable/ic_launcher"
         tools:ignore="GoogleAppIndexingWarning">
 
         <meta-data
@@ -238,7 +237,7 @@
         <activity
             android:name=".plugin.PluginEditActivity"
             android:exported="true"
-            android:icon="@drawable/ic_plugin"
+            android:icon="@drawable/ic_launcher"
             android:label="@string/plugin_name">
             <intent-filter>
                 <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />

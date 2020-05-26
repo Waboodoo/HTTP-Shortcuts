@@ -1,5 +1,5 @@
 # HTTP Shortcuts for Android
-<img src="./HTTPShortcuts/app/src/main/res/drawable-xxxhdpi/ic_launcher.png" align="right" style="margin-left: 1em;"/>
+<img src="/Assets/logo.png" align="right" style="margin-left: 1em;"/>
 
 ![Version](https://img.shields.io/badge/version-1.32.0-green.svg)
 
@@ -35,17 +35,17 @@ Find more information and documentation on the [official website](https://http-s
 
 ## Screenshots
 
-![Image](/Screenshots/01.png)
-![Image](/Screenshots/02.png)
-![Image](/Screenshots/03.png)
-![Image](/Screenshots/04.png)
-![Image](/Screenshots/05.png)
-![Image](/Screenshots/06.png)
-![Image](/Screenshots/07.png)
-![Image](/Screenshots/08.png)
-![Image](/Screenshots/09.png)
-![Image](/Screenshots/10.png)
-![Image](/Screenshots/11.png)
-![Image](/Screenshots/12.png)
-![Image](/Screenshots/13.png)
+![Image](/Assets/Screenshots/01.png)
+![Image](/Assets/Screenshots/02.png)
+![Image](/Assets/Screenshots/03.png)
+![Image](/Assets/Screenshots/04.png)
+![Image](/Assets/Screenshots/05.png)
+![Image](/Assets/Screenshots/06.png)
+![Image](/Assets/Screenshots/07.png)
+![Image](/Assets/Screenshots/08.png)
+![Image](/Assets/Screenshots/09.png)
+![Image](/Assets/Screenshots/10.png)
+![Image](/Assets/Screenshots/11.png)
+![Image](/Assets/Screenshots/12.png)
+![Image](/Assets/Screenshots/13.png)
 
