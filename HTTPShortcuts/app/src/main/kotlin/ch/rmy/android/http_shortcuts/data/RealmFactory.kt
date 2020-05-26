@@ -15,33 +15,7 @@ import java.io.File
 
 internal class RealmFactory {
 
-    fun createRealm(): Realm {
-        migrateRealmFiles()
-        return Realm.getInstance(configuration)
-    }
-
-    private fun migrateRealmFiles() {
-        val realmFile = File(configuration.realmDirectory, configuration.realmFileName)
-        if (realmFile.exists()) {
-            return
-        }
-
-        val encryptedLegacyRealmFile = File(encryptedLegacyConfiguration.realmDirectory, encryptedLegacyConfiguration.realmFileName)
-        if (encryptedLegacyRealmFile.exists()) {
-            Realm.getInstance(encryptedLegacyConfiguration).use {
-                it.writeCopyTo(realmFile)
-            }
-            return
-        }
-
-        val unencryptedLegacyRealmFile = File(unencryptedLegacyConfiguration.realmDirectory, unencryptedLegacyConfiguration.realmFileName)
-        if (unencryptedLegacyRealmFile.exists()) {
-            Realm.getInstance(unencryptedLegacyConfiguration).use {
-                it.writeCopyTo(realmFile)
-            }
-            return
-        }
-    }
+    fun createRealm(): Realm = Realm.getInstance(configuration)
 
     class RealmNotFoundException(e: Throwable) : Exception(e)
 
@@ -58,6 +32,7 @@ internal class RealmFactory {
 
             try {
                 Realm.init(context)
+                migrateRealmFiles()
                 instance = RealmFactory()
                     .apply {
                         createRealm().use { realm ->
@@ -111,6 +86,29 @@ internal class RealmFactory {
                 .schemaVersion(DatabaseMigration.VERSION)
                 .migration(DatabaseMigration())
                 .build()
+        }
+
+        private fun migrateRealmFiles() {
+            val realmFile = File(configuration.realmDirectory, configuration.realmFileName)
+            if (realmFile.exists()) {
+                return
+            }
+
+            val encryptedLegacyRealmFile = File(encryptedLegacyConfiguration.realmDirectory, encryptedLegacyConfiguration.realmFileName)
+            if (encryptedLegacyRealmFile.exists()) {
+                Realm.getInstance(encryptedLegacyConfiguration).use {
+                    it.writeCopyTo(realmFile)
+                }
+                return
+            }
+
+            val unencryptedLegacyRealmFile = File(unencryptedLegacyConfiguration.realmDirectory, unencryptedLegacyConfiguration.realmFileName)
+            if (unencryptedLegacyRealmFile.exists()) {
+                Realm.getInstance(unencryptedLegacyConfiguration).use {
+                    it.writeCopyTo(realmFile)
+                }
+                return
+            }
         }
 
     }
