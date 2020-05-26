@@ -1,5 +1,7 @@
 # HTTP Shortcuts for Android
+<a href="https://http-shortcuts.rmy.ch/">
 <img src="/Assets/logo.png" align="right" style="margin-left: 1em;"/>
+</a>
 
 ![Version](https://img.shields.io/badge/version-1.32.0-green.svg)
 
@@ -20,7 +22,7 @@ Find more information and documentation on the [official website](https://http-s
 - GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS and TRACE
 - Basic Authentication, Digest Authentication & Bearer Authentication
 - Custom request headers
-- Custom request body (text only)
+- Custom request body (text or from file)
 - Upload files as form-data
 - Option to accept all certificates (if you know what you're doing)
 - Support for HTTP proxies
@@ -28,7 +30,7 @@ Find more information and documentation on the [official website](https://http-s
 - Display response as a toast, window or dialog, or run silently
 - Grouping into categories through tabs
 - Value injection through variables (e.g., text, numbers, passwords, selections, colors, dates, …)
-- Run arbitrary JavaScript before & after execution, including special actions (e.g., vibrate, show toast, parse and process response…), 
+- Run arbitrary [JavaScript](https://http-shortcuts.rmy.ch/scripting) before & after execution, including special actions (e.g., vibrate, show toast, parse and process response…), 
 - Import & Export in JSON or cURL format
 - 3rd party integration (e.g. Tasker)
 - Themes (with Dark Mode support)
