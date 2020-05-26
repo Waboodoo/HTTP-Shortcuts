@@ -221,8 +221,10 @@ class ListFragment : BaseFragment() {
                     cancelPendingExecution(shortcutData.value ?: return@item)
                 }
             }
-            .item(R.string.action_curl_export) {
-                showCurlExportDialog(shortcutData.value ?: return@item)
+            .mapIf(!shortcut.isScriptingShortcut) {
+                it.item(R.string.action_curl_export) {
+                    showCurlExportDialog(shortcutData.value ?: return@item)
+                }
             }
             .item(R.string.action_delete) {
                 showDeleteDialog(shortcutData)
