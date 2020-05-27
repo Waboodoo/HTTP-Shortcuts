@@ -6,7 +6,7 @@ import android.util.AttributeSet
 import android.webkit.WebView
 import androidx.core.text.TextUtilsCompat.htmlEncode
 import ch.rmy.android.http_shortcuts.extensions.isDarkThemeEnabled
-import ch.rmy.android.http_shortcuts.utils.CrashReporting.logException
+import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers

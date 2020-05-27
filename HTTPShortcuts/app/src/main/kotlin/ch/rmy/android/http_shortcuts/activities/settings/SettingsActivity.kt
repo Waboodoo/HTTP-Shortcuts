@@ -102,7 +102,9 @@ class SettingsActivity : BaseActivity() {
             }
 
             initListPreference("crash_reporting") { newValue ->
-                CrashReporting.enabled = newValue != "false"
+                if (newValue == "false") {
+                    CrashReporting.disable()
+                }
             }
 
             initPreference("changelog") {

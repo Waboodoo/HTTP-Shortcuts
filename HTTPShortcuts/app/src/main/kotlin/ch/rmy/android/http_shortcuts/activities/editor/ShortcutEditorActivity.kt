@@ -30,6 +30,7 @@ import ch.rmy.android.http_shortcuts.extensions.color
 import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.focus
 import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.http_shortcuts.extensions.logInfo
 import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
 import ch.rmy.android.http_shortcuts.extensions.setMaxLength
 import ch.rmy.android.http_shortcuts.extensions.setTextSafely
@@ -296,8 +297,14 @@ class ShortcutEditorActivity : BaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         android.R.id.home -> consume { onCloseEditor() }
-        R.id.action_save_shortcut -> consume { trySaveShortcut() }
-        R.id.action_test_shortcut -> consume { testShortcut() }
+        R.id.action_save_shortcut -> consume {
+            logInfo("Clicked Save button in shortcut editor")
+            trySaveShortcut()
+        }
+        R.id.action_test_shortcut -> consume {
+            logInfo("Clicked Test button in shortcut editor")
+            testShortcut()
+        }
         else -> super.onOptionsItemSelected(item)
     }
 
@@ -331,11 +338,13 @@ class ShortcutEditorActivity : BaseActivity() {
             .andThen(viewModel.trySave())
             .observeOn(mainThread())
             .subscribe({ saveResult ->
+                logInfo("Saving shortcut successful")
                 LauncherShortcutManager.updatePinnedShortcut(context, saveResult.id, saveResult.name, saveResult.iconName)
                 WidgetManager.updateWidgets(context, saveResult.id)
                 setResult(RESULT_OK, Intent().putExtra(RESULT_SHORTCUT_ID, saveResult.id))
                 finish()
             }, { e ->
+                logInfo("Saving shortcut failed: $e")
                 if (e is ShortcutValidationError) {
                     when (e.type) {
                         ShortcutEditorViewModel.VALIDATION_ERROR_EMPTY_NAME -> {

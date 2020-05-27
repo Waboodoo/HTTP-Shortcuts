@@ -6,7 +6,6 @@ import ch.rmy.android.http_shortcuts.BuildConfig
 import ch.rmy.android.http_shortcuts.extensions.consume
 import com.bugsnag.android.Bugsnag
 import java.util.Date
-import kotlin.properties.Delegates
 
 object CrashReporting {
 
@@ -34,22 +33,26 @@ object CrashReporting {
     private val isAppOutdated
         get() = Date().time - BuildConfig.BUILD_TIMESTAMP.toLong() > MAX_APP_AGE
 
-    var enabled: Boolean by Delegates.observable(true) { _, old, new ->
-        if (initialized && old != new) {
-            if (new) {
-                Bugsnag.enableExceptionHandler()
-            } else {
-                Bugsnag.disableExceptionHandler()
-            }
+    fun disable() {
+        if (initialized) {
+            Bugsnag.disableExceptionHandler()
         }
     }
 
-    fun logException(e: Throwable) {
+    fun logException(origin: String, e: Throwable) {
         if (initialized) {
             Bugsnag.notify(e)
-        } else {
-            Log.e("CrashReporting", "An error occurred", e)
+        } else if (BuildConfig.DEBUG) {
+            Log.e(origin, "An error occurred", e)
             e.printStackTrace()
+        }
+    }
+
+    fun logInfo(origin: String, message: String) {
+        if (initialized) {
+            Bugsnag.leaveBreadcrumb(message)
+        } else if (BuildConfig.DEBUG) {
+            Log.i(origin, message)
         }
     }
 

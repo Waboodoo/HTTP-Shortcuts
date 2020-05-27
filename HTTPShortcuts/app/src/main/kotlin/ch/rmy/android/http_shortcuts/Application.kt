@@ -22,8 +22,9 @@ class Application : android.app.Application() {
 
         val settings = Settings(context)
 
-        CrashReporting.init(context)
-        CrashReporting.enabled = settings.isCrashReportingAllowed
+        if (settings.isCrashReportingAllowed) {
+            CrashReporting.init(context)
+        }
 
         Stetho.initializeWithDefaults(context)
 
