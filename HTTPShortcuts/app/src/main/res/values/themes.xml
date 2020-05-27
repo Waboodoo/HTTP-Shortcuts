@@ -6,7 +6,7 @@
 
     <style name="LoaderTheme" parent="BaseTheme">
         <item name="android:windowBackground">@drawable/splash_screen</item>
-        <item name="colorPrimaryDark">@color/brand_icon_dark</item>
+        <item name="colorPrimaryDark">@color/splash_status_bar</item>
     </style>
 
     <style name="LightThemeAlt0" parent="BaseTheme">

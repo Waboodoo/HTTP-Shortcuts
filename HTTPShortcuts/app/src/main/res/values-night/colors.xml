@@ -36,4 +36,7 @@
     <item name="textarea_background" type="color">#FF1F1F1F</item>
     <item name="icon_background" type="color">#99FFFFFF</item>
     <item name="loading_spinner_background" type="color">#000000</item>
+
+    <item name="splash_background" type="color">#1F1F1F</item>
+    <item name="splash_status_bar" type="color">#000000</item>
 </resources>

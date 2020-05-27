@@ -4,7 +4,7 @@
 
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="@color/brand_icon" />
+            <solid android:color="@color/splash_background" />
         </shape>
     </item>
 
