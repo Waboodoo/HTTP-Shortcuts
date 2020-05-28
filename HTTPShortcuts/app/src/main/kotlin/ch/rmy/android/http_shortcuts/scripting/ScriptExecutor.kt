@@ -71,7 +71,7 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
             "id" to shortcut.id,
             "name" to shortcut.name,
             "description" to shortcut.description
-        ))
+        ), READ_ONLY)
     }
 
     private fun registerResponse(response: ShortcutResponse?, error: Exception?) {
@@ -83,8 +83,8 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
                 "statusCode" to it.statusCode,
                 "cookies" to it.cookies
             )
-        })
-        jsContext.property("networkError", error?.message)
+        }, READ_ONLY)
+        jsContext.property("networkError", error?.message, READ_ONLY)
     }
 
     private fun registerVariables(variableManager: VariableManager) {
@@ -93,7 +93,7 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
             @Keep
             fun run(variableKeyOrId: String): String? =
                 variableManager.getVariableValueByKeyOrId(variableKeyOrId)
-        })
+        }, READ_ONLY)
         jsContext.property("setVariable", object : JSFunction(jsContext, "run") {
             @Suppress("unused")
             @Keep
@@ -110,7 +110,7 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
                     }
                 }
             }
-        })
+        }, READ_ONLY)
     }
 
     private fun registerAbort() {
@@ -128,7 +128,7 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
             fun run() {
                 lastException = CanceledByUserException()
             }
-        }, JSContext.JSPropertyAttributeReadOnly or JSContext.JSPropertyAttributeDontDelete)
+        }, READ_ONLY)
     }
 
     private fun registerActions(context: Context, shortcutId: String, variableManager: VariableManager, recursionDepth: Int) {
@@ -158,7 +158,7 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
                     false
                 }
             }
-        }, JSContext.JSPropertyAttributeReadOnly or JSContext.JSPropertyAttributeDontDelete)
+        }, READ_ONLY)
     }
 
     private fun registerUserInteractions(context: Context) {
@@ -176,7 +176,7 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
                     .subscribeOn(AndroidSchedulers.mainThread())
                     .blockingAwait()
             }
-        })
+        }, READ_ONLY)
         jsContext.property("confirm", object : JSFunction(jsContext, "run") {
             @Suppress("unused")
             @Keep
@@ -195,7 +195,7 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
                 }
                     .subscribeOn(AndroidSchedulers.mainThread())
                     .blockingGet()
-        })
+        }, READ_ONLY)
         jsContext.property("prompt", object : JSFunction(jsContext, "run") {
             @Suppress("unused")
             @Keep
@@ -213,10 +213,13 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
                     .blockingGet()
                     .takeUnless { it.isEmpty() }
                     ?.removePrefix("-")
-        })
+        }, READ_ONLY)
     }
 
     companion object {
+
+        private const val READ_ONLY =
+            JSContext.JSPropertyAttributeReadOnly or JSContext.JSPropertyAttributeDontDelete
 
         private fun registerActionAliases(jsContext: JSContext, aliases: Map<String, ActionAlias>) {
             aliases
