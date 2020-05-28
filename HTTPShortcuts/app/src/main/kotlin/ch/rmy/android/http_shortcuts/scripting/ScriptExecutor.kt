@@ -33,7 +33,7 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
 
     private var responseData: ShortcutResponse? = null
     private var responseErrorData: Exception? = null
-    private var abort: Boolean = false
+    private var lastException: Throwable? = null
 
     fun execute(context: Context, script: String, shortcut: Shortcut, variableManager: VariableManager, response: ShortcutResponse? = null, error: Exception? = null, recursionDepth: Int = 0): Completable =
         if (script.isEmpty()) {
@@ -42,7 +42,7 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
             Completable.create { emitter ->
                 jsContext.setExceptionHandler { exception ->
                     if (!emitter.isDisposed) {
-                        emitter.onError(if (abort) CanceledByUserException() else exception)
+                        emitter.onError(lastException ?: exception)
                     }
                 }
 
@@ -126,8 +126,7 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
             @Suppress("unused")
             @Keep
             fun run() {
-                abort = true
-                throw Exception()
+                lastException = CanceledByUserException()
             }
         }, JSContext.JSPropertyAttributeReadOnly or JSContext.JSPropertyAttributeDontDelete)
     }
@@ -136,22 +135,28 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
         jsContext.property("_runAction", object : JSFunction(jsContext, "run") {
             @Suppress("unused")
             @Keep
-            fun run(actionType: String, data: Map<String, JSValue>) {
+            fun run(actionType: String, data: Map<String, JSValue>): Boolean {
                 val action = actionFactory.fromDTO(ActionDTO(
                     type = actionType,
                     data = sanitizeData(data)
                 ))
 
-                action
-                    ?.perform(
-                        context = context,
-                        shortcutId = shortcutId,
-                        variableManager = variableManager,
-                        response = responseData,
-                        responseError = responseErrorData as? ErrorResponse,
-                        recursionDepth = recursionDepth
-                    )
-                    ?.blockingAwait()
+                return try {
+                    action
+                        ?.perform(
+                            context = context,
+                            shortcutId = shortcutId,
+                            variableManager = variableManager,
+                            response = responseData,
+                            responseError = responseErrorData as? ErrorResponse,
+                            recursionDepth = recursionDepth
+                        )
+                        ?.blockingAwait()
+                    true
+                } catch (e: Throwable) {
+                    lastException = if (e is RuntimeException && e.cause != null) e.cause else e
+                    false
+                }
             }
         }, JSContext.JSPropertyAttributeReadOnly or JSContext.JSPropertyAttributeDontDelete)
     }
@@ -218,12 +223,15 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
                 .forEach { (actionName, alias) ->
                     jsContext.evaluateScript(
                         """
-                    const ${alias.functionName} = (${alias.parameters.joinToString()}) => {
-                        _runAction("$actionName", {
-                            ${alias.parameters.joinToString { parameter -> "\"$parameter\": $parameter" }}
-                        });
-                    };
-                    """.trimIndent()
+                        const ${alias.functionName} = (${alias.parameters.joinToString()}) => {
+                            const actionSuccess = _runAction("$actionName", {
+                                ${alias.parameters.joinToString { parameter -> "\"$parameter\": $parameter" }}
+                            });
+                            if (!actionSuccess) {
+                                throw "Error";
+                            }
+                        };
+                        """.trimIndent()
                     )
                 }
         }

@@ -6,7 +6,7 @@ import ch.rmy.android.http_shortcuts.data.DataSource
 import ch.rmy.android.http_shortcuts.data.Repository
 import ch.rmy.android.http_shortcuts.data.Transactions
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.extensions.showToast
+import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.extensions.truncate
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
@@ -15,7 +15,6 @@ import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
 import io.reactivex.Completable
-import io.reactivex.android.schedulers.AndroidSchedulers
 
 class RenameShortcutAction(
     actionType: RenameShortcutActionType,
@@ -36,10 +35,10 @@ class RenameShortcutAction(
             return Completable.complete()
         }
         val shortcut = DataSource.getShortcutByNameOrId(shortcutNameOrId)
-            ?: return Completable.fromAction {
-                    context.showToast(String.format(context.getString(R.string.error_shortcut_not_found_for_renaming), shortcutNameOrId), long = true)
-                }
-                .subscribeOn(AndroidSchedulers.mainThread())
+            ?: return Completable
+                .error(ActionException {
+                    it.getString(R.string.error_shortcut_not_found_for_renaming, shortcutNameOrId)
+                })
         return renameShortcut(shortcut.id, newName)
             .andThen(Completable.fromAction {
                 if (LauncherShortcutManager.supportsPinning(context)) {

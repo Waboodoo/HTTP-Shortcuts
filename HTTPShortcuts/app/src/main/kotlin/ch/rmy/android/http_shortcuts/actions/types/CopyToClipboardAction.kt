@@ -18,10 +18,11 @@ class CopyToClipboardAction(
     override fun perform(context: Context, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse?, responseError: ErrorResponse?, recursionDepth: Int): Completable =
         Completable
             .fromAction {
-                val text = text
-                if (text.isNotEmpty()) {
-                    ClipboardUtil.copyToClipboard(context, text)
-                }
+                text
+                    .takeIf { it.isNotEmpty() }
+                    ?.let {
+                        ClipboardUtil.copyToClipboard(context, it)
+                    }
             }
             .subscribeOn(AndroidSchedulers.mainThread())
 
