@@ -3,8 +3,6 @@ package ch.rmy.android.http_shortcuts.scripting
 import android.content.Context
 import androidx.annotation.Keep
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.actions.ActionDTO
-import ch.rmy.android.http_shortcuts.actions.types.ActionFactory
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.Repository
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
@@ -14,6 +12,8 @@ import ch.rmy.android.http_shortcuts.exceptions.JavaScriptException
 import ch.rmy.android.http_shortcuts.extensions.logInfo
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
+import ch.rmy.android.http_shortcuts.scripting.actions.ActionDTO
+import ch.rmy.android.http_shortcuts.scripting.actions.types.ActionFactory
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import io.reactivex.Completable
 import io.reactivex.Single

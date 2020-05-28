@@ -1,8 +1,8 @@
-package ch.rmy.android.http_shortcuts.actions.types
+package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import android.content.Context
-import ch.rmy.android.http_shortcuts.actions.ActionDTO
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
+import ch.rmy.android.http_shortcuts.scripting.actions.ActionDTO
 
 class RenameShortcutActionType(context: Context) : BaseActionType(context) {
 

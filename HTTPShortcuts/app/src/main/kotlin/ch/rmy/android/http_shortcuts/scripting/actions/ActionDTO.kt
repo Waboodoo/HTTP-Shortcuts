@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.actions
+package ch.rmy.android.http_shortcuts.scripting.actions
 
 data class ActionDTO(
     val type: String,
