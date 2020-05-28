@@ -111,11 +111,14 @@ class CategoriesActivity : BaseActivity() {
                     toggleCategoryHidden(categoryData, hidden = true)
                 }
             }
-            .item(R.string.action_change_category_layout_type) {
-                showLayoutTypeDialog(categoryData)
-            }
-            .item(R.string.action_change_category_background) {
-                showBackgroundChangeDialog(categoryData)
+            .mapIf(!category.hidden) {
+                it
+                    .item(R.string.action_change_category_layout_type) {
+                        showLayoutTypeDialog(categoryData)
+                    }
+                    .item(R.string.action_change_category_background) {
+                        showBackgroundChangeDialog(categoryData)
+                    }
             }
             .mapIf(categories.size > 1) {
                 it.item(R.string.action_delete) {

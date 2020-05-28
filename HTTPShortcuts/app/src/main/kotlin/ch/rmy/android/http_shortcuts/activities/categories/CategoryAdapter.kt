@@ -13,6 +13,7 @@ import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.extensions.dimen
+import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.icons.IconView
 import kotterknife.bindView
 import kotlin.math.min
@@ -34,7 +35,7 @@ class CategoryAdapter(context: Context, categories: ListLiveData<Category>) : Ba
             description.text = context.resources.getQuantityString(R.plurals.shortcut_count, count, count)
 
             updateIcons(item.shortcuts)
-            updateLayoutTypeIcon(item.layoutType)
+            updateLayoutTypeIcon(item.layoutType.takeUnless { item.hidden })
         }
 
         private fun getName(category: Category): String = if (category.hidden) {
@@ -65,12 +66,17 @@ class CategoryAdapter(context: Context, categories: ListLiveData<Category>) : Ba
             }
         }
 
-        private fun updateLayoutTypeIcon(layoutType: String) {
-            layoutTypeIcon.setImageResource(when (layoutType) {
-                Category.LAYOUT_GRID -> R.drawable.ic_grid
-                else -> R.drawable.ic_list
-            })
-            layoutTypeIcon.applyTheme()
+        private fun updateLayoutTypeIcon(layoutType: String?) {
+            if (layoutType == null) {
+                layoutTypeIcon.visible = false
+            } else {
+                layoutTypeIcon.visible = true
+                layoutTypeIcon.setImageResource(when (layoutType) {
+                    Category.LAYOUT_GRID -> R.drawable.ic_grid
+                    else -> R.drawable.ic_list
+                })
+                layoutTypeIcon.applyTheme()
+            }
         }
 
     }
