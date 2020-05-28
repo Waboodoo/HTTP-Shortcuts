@@ -126,6 +126,9 @@ class CodeSnippetPicker(private val context: Context, private val variablePlaceh
             .item(R.string.action_copy_to_clipboard_title) {
                 insertText("copyToClipboard(\"", "\");")
             }
+            .item(R.string.action_tts) {
+                insertText("speak(\"", "\");")
+            }
             .mapIf((context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator).hasVibrator()) {
                 it.item(R.string.action_type_vibrate_title) {
                     insertText("vibrate();", "")

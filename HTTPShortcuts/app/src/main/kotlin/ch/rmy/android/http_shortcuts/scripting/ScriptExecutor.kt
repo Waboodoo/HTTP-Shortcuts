@@ -11,6 +11,7 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.exceptions.CanceledByUserException
 import ch.rmy.android.http_shortcuts.exceptions.JavaScriptException
+import ch.rmy.android.http_shortcuts.extensions.logInfo
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.variables.VariableManager
@@ -136,6 +137,7 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
             @Suppress("unused")
             @Keep
             fun run(actionType: String, data: Map<String, JSValue>): Boolean {
+                logInfo("Running action of type: $actionType")
                 val action = actionFactory.fromDTO(ActionDTO(
                     type = actionType,
                     data = sanitizeData(data)

@@ -14,7 +14,8 @@ class ActionFactory(private val context: Context) {
             ChangeIconActionType(context),
             TriggerShortcutActionType(context),
             ToastActionType(context),
-            VibrateActionType(context)
+            VibrateActionType(context),
+            TextToSpeechActionType(context)
         )
     }
 
