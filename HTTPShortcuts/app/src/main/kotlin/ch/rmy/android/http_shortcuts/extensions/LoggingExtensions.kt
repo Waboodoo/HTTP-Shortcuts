@@ -2,14 +2,14 @@ package ch.rmy.android.http_shortcuts.extensions
 
 import android.util.Log
 import ch.rmy.android.http_shortcuts.BuildConfig
-import ch.rmy.android.http_shortcuts.utils.CrashReporting
+import ch.rmy.android.http_shortcuts.logging.Logging
 
 fun Any.logException(e: Throwable) {
-    CrashReporting.logException(this.javaClass.simpleName, e)
+    Logging.logException(this.javaClass.simpleName, e)
 }
 
 fun Any.logInfo(message: String) {
-    CrashReporting.logInfo(this.javaClass.simpleName, message)
+    Logging.logInfo(this.javaClass.simpleName, message)
 }
 
 fun <T> Any.tryOrLog(block: () -> T): T? =

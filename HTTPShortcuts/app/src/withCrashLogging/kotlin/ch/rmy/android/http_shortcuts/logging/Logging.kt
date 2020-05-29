@@ -1,13 +1,15 @@
-package ch.rmy.android.http_shortcuts.utils
+package ch.rmy.android.http_shortcuts.logging
 
 import android.content.Context
 import android.util.Log
 import ch.rmy.android.http_shortcuts.BuildConfig
 import ch.rmy.android.http_shortcuts.extensions.consume
+import ch.rmy.android.http_shortcuts.utils.InstallUtil
+import ch.rmy.android.http_shortcuts.utils.Settings
 import com.bugsnag.android.Bugsnag
 import java.util.Date
 
-object CrashReporting {
+object Logging {
 
     /**
      * Disable crash logging after 3 months to prevent old bugs from spamming
@@ -16,10 +18,15 @@ object CrashReporting {
 
     private var initialized = false
 
-    fun init(context: Context) {
-        if (BuildConfig.BUGSNAG_API_KEY.isEmpty() || BuildConfig.DEBUG || isAppOutdated) {
+    fun initCrashReporting(context: Context) {
+        if (isAppOutdated || !Settings(context).isCrashReportingAllowed) {
             return
         }
+
+        if (BuildConfig.BUGSNAG_API_KEY.isEmpty()) {
+            throw IllegalStateException("Bugsnag API key not set")
+        }
+
         Bugsnag.init(context, BuildConfig.BUGSNAG_API_KEY)
         Bugsnag.setUserId(Settings(context).userId)
         Bugsnag.beforeNotify { error ->
@@ -33,7 +40,9 @@ object CrashReporting {
     private val isAppOutdated
         get() = Date().time - BuildConfig.BUILD_TIMESTAMP.toLong() > MAX_APP_AGE
 
-    fun disable() {
+    val supportsCrashReporting: Boolean = true
+
+    fun disableCrashReporting() {
         if (initialized) {
             Bugsnag.disableExceptionHandler()
         }
@@ -42,17 +51,12 @@ object CrashReporting {
     fun logException(origin: String, e: Throwable) {
         if (initialized) {
             Bugsnag.notify(e)
-        } else if (BuildConfig.DEBUG) {
-            Log.e(origin, "An error occurred", e)
-            e.printStackTrace()
         }
     }
 
     fun logInfo(origin: String, message: String) {
         if (initialized) {
             Bugsnag.leaveBreadcrumb(message)
-        } else if (BuildConfig.DEBUG) {
-            Log.i(origin, message)
         }
     }
 

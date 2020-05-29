@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.multidex.MultiDex
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.extensions.logException
-import ch.rmy.android.http_shortcuts.utils.CrashReporting
+import ch.rmy.android.http_shortcuts.logging.Logging
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
 import ch.rmy.android.http_shortcuts.utils.IconMigration
 import ch.rmy.android.http_shortcuts.utils.Settings
@@ -20,11 +20,7 @@ class Application : android.app.Application() {
     override fun onCreate() {
         super.onCreate()
 
-        val settings = Settings(context)
-
-        if (settings.isCrashReportingAllowed) {
-            CrashReporting.init(context)
-        }
+        Logging.initCrashReporting(context)
 
         Stetho.initializeWithDefaults(context)
 
@@ -42,7 +38,7 @@ class Application : android.app.Application() {
             // Nothing to do here...
         }
 
-        DarkThemeHelper.applyDarkThemeSettings(settings.darkThemeSetting)
+        DarkThemeHelper.applyDarkThemeSettings(Settings(context).darkThemeSetting)
     }
 
     public override fun attachBaseContext(base: Context) {

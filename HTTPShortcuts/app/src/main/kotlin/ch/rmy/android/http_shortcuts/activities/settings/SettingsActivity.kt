@@ -31,8 +31,8 @@ import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.import_export.Exporter
 import ch.rmy.android.http_shortcuts.import_export.ImportException
 import ch.rmy.android.http_shortcuts.import_export.Importer
+import ch.rmy.android.http_shortcuts.logging.Logging
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
-import ch.rmy.android.http_shortcuts.utils.CrashReporting
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.FilePickerUtil
@@ -101,10 +101,14 @@ class SettingsActivity : BaseActivity() {
                 openURL(ExternalURLs.PRIVACY_POLICY)
             }
 
-            initListPreference("crash_reporting") { newValue ->
-                if (newValue == "false") {
-                    CrashReporting.disable()
+            if (Logging.supportsCrashReporting) {
+                initListPreference("crash_reporting") { newValue ->
+                    if (newValue == "false") {
+                        Logging.disableCrashReporting()
+                    }
                 }
+            } else {
+                findPreference<Preference>("crash_reporting")!!.isVisible = false
             }
 
             initPreference("changelog") {

@@ -5,3 +5,4 @@ build/
 *.iml
 *.aab
 app/release
+app/releaseWithCrashLogging

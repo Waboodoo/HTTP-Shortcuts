@@ -47,6 +47,12 @@ android {
 
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        releaseWithCrashLogging {
+            minifyEnabled true
+            shrinkResources true
+
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
     }
 
     dexOptions {
@@ -85,6 +91,9 @@ project.configure(project.android, {
         main.java.srcDirs += 'src/main/kotlin'
         test.java.srcDirs += 'src/test/kotlin'
         androidTest.java.srcDirs += 'src/androidTest/kotlin'
+        debug.java.srcDirs += 'src/withoutCrashLogging/kotlin'
+        release.java.srcDirs += 'src/withoutCrashLogging/kotlin'
+        releaseWithCrashLogging.java.srcDirs += 'src/withCrashLogging/kotlin'
     }
 })
 
@@ -152,7 +161,7 @@ dependencies {
     implementation 'org.mindrot:jbcrypt:0.4'
 
     /* Crash Reporting */
-    implementation 'com.bugsnag:bugsnag-android:4.21.1'
+    releaseWithCrashLoggingImplementation 'com.bugsnag:bugsnag-android:4.21.1'
 
     /* cURL import & export */
     implementation project(path: ':curl_command')
