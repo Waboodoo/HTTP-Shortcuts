@@ -644,6 +644,10 @@
     <string name="warning_data_saver_battery_saver_enabled">Data Saver and/or Battery Saver modes are enabled on your device. If you encounter problems with shortcuts not working, please try disabling these.</string>
     <!-- Message: Shown as a snackbar popup when a variable was duplicated. -->
     <string name="message_variable_duplicated">\"%1$s\" duplicated.</string>
+    <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Browser Shortcut", i.e., one that only opens the browser without making an HTTP request of its own -->
+    <string name="subtitle_editor_toolbar_browser_shortcut">Browser Shortcut</string>
+    <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Scripting Shortcut", i.e., one that only allows JavaScript for execution and doesn't actually make an HTTP request -->
+    <string name="subtitle_editor_toolbar_scripting_shortcut">Scripting Shortcut</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
     <string name="subtitle_basic_request_settings_prompt">Set the shortcut\'s URL and HTTP method</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->

@@ -152,6 +152,8 @@ class ShortcutEditorActivity : BaseActivity() {
         nameView.setTextSafely(shortcut.name)
         descriptionView.setTextSafely(shortcut.description)
 
+        toolbar?.subtitle = viewModel.getToolbarSubtitle(shortcut)
+
         val isRegularShortcut = !shortcut.isBrowserShortcut && !shortcut.isScriptingShortcut
         basicRequestSettingsButton.visible = !shortcut.isScriptingShortcut
         dividerBelowBasicSettings.visible = !shortcut.isScriptingShortcut

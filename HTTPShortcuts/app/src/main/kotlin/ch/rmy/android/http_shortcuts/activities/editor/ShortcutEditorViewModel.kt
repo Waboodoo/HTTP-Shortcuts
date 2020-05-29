@@ -124,7 +124,19 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
         }
     }
 
-    // TODO: Find a way to not having to pass in 'shortcut'
+    fun getToolbarSubtitle(shortcut: Shortcut): CharSequence? =
+        when {
+            shortcut.isBrowserShortcut -> {
+                getString(R.string.subtitle_editor_toolbar_browser_shortcut)
+            }
+            shortcut.isScriptingShortcut -> {
+                getString(R.string.subtitle_editor_toolbar_scripting_shortcut)
+            }
+            else -> {
+                null
+            }
+        }
+
     fun getBasicSettingsSubtitle(shortcut: Shortcut): CharSequence =
         if (shortcut.isBrowserShortcut) {
             if (shortcut.url.isEmpty() || shortcut.url == "http://") {
