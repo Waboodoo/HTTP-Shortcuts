@@ -356,8 +356,8 @@
     <string name="title_select_variable_type">Select Variable Type</string>
     <!-- label, to show the type of a variable in the variable editor -->
     <string name="label_variable_type">Type</string>
-    <!-- label, to allow the user to enter the key/name for a variable -->
-    <string name="label_variable_key">Key</string>
+    <!-- label, to allow the user to enter the name for a variable -->
+    <string name="label_variable_name">Name</string>
     <!-- label, shown in variable editor, to allow the user to enter a dialog title that will be shown then the variable is evaluated -->
     <string name="label_variable_title">Dialog Title (optional)</string>
     <!-- label, shown in variable editor for Date Input variable, to allow the user to specify a date format -->
@@ -387,7 +387,7 @@
     <!-- Type of variable: Color Input, i.e., a dialog that asks user to pick a color in a color picker -->
     <string name="variable_type_color">Color Input</string>
     <!-- Error message, information user that the variable name they entered is not valid -->
-    <string name="warning_invalid_variable_key">Variable keys may only contain underscores, digits and letters from the English alphabet.</string>
+    <string name="warning_invalid_variable_key">Variable names may only contain underscores, digits and letters from the English alphabet.</string>
     <!-- Dialog message, asking user to confirm the deletion of a variable -->
     <string name="confirm_delete_variable_message">Delete this variable?</string>
     <!-- Message, shown in snackbar, confirming to user that a variable was deleted. %1$s is a placeholder for the variable name -->
@@ -398,10 +398,10 @@
     <string name="label_json_encode">JSON encode</string>
     <!-- Section title, for section containing basic settings for a shortcut -->
     <string name="section_basic_variable_settings">Basic Settings</string>
-    <!-- Error message, informing user that the entered variable key is empty -->
-    <string name="validation_key_non_empty">Variable key must not be empty.</string>
-    <!-- Error message, informing user that the entered variable key already exists -->
-    <string name="validation_key_already_exists">Another variable with this key already exists.</string>
+    <!-- Error message, informing user that the entered variable name is empty -->
+    <string name="validation_key_non_empty">Variable name must not be empty.</string>
+    <!-- Error message, informing user that the entered variable name already exists -->
+    <string name="validation_key_already_exists">Another variable with this name already exists.</string>
     <!-- Dialog title, to add another value to the list of values in a variable of Toggle type -->
     <string name="title_add_toggle_option">Add Value</string>
     <!-- Button, to edit an existing value in the list of values in a variable of Toggle type -->
