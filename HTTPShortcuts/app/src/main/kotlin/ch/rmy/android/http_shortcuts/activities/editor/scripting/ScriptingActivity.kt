@@ -23,6 +23,7 @@ import ch.rmy.android.http_shortcuts.extensions.openURL
 import ch.rmy.android.http_shortcuts.extensions.setTextSafely
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholderProvider
+import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutSpanManager
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
@@ -64,6 +65,9 @@ class ScriptingActivity : BaseActivity() {
     private val variablePlaceholderColor by lazy {
         color(context, R.color.variable)
     }
+    private val shortcutPlaceholderColor by lazy {
+        color(context, R.color.shortcut)
+    }
 
     private val labelPrepareCode: View by bindView(R.id.label_code_prepare)
     private val prepareCodeInput: EditText by bindView(R.id.input_code_prepare)
@@ -92,6 +96,7 @@ class ScriptingActivity : BaseActivity() {
             codeSnippetPicker.showCodeSnippetPicker({ before, after ->
                 prepareCodeInput.insertAroundCursor(before, after)
                 Variables.applyVariableFormattingToJS(prepareCodeInput.text, variablePlaceholderProvider, variablePlaceholderColor)
+                ShortcutSpanManager.applyShortcutFormattingToJS(prepareCodeInput.text, shortcutPlaceholderProvider, shortcutPlaceholderColor)
             }, includeResponseOptions = false)
         }
 
@@ -99,12 +104,14 @@ class ScriptingActivity : BaseActivity() {
             codeSnippetPicker.showCodeSnippetPicker({ before, after ->
                 successCodeInput.insertAroundCursor(before, after)
                 Variables.applyVariableFormattingToJS(successCodeInput.text, variablePlaceholderProvider, variablePlaceholderColor)
+                ShortcutSpanManager.applyShortcutFormattingToJS(successCodeInput.text, shortcutPlaceholderProvider, shortcutPlaceholderColor)
             })
         }
         failureSnippetButton.setOnClickListener {
             codeSnippetPicker.showCodeSnippetPicker({ before, after ->
                 failureCodeInput.insertAroundCursor(before, after)
                 Variables.applyVariableFormattingToJS(failureCodeInput.text, variablePlaceholderProvider, variablePlaceholderColor)
+                ShortcutSpanManager.applyShortcutFormattingToJS(failureCodeInput.text, shortcutPlaceholderProvider, shortcutPlaceholderColor)
             }, includeNetworkErrorOption = true)
         }
     }
@@ -153,6 +160,11 @@ class ScriptingActivity : BaseActivity() {
             text,
             variablePlaceholderProvider,
             variablePlaceholderColor
+        )
+        ShortcutSpanManager.applyShortcutFormattingToJS(
+            text,
+            shortcutPlaceholderProvider,
+            shortcutPlaceholderColor
         )
         return text
     }

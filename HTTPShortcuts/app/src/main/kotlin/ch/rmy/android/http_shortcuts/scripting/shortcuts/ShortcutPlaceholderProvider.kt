@@ -5,6 +5,11 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 
 class ShortcutPlaceholderProvider(private val shortcuts: ListLiveData<Shortcut>) {
 
+    fun findPlaceholderById(shortcutId: String): ShortcutPlaceholder? =
+        shortcuts
+            .firstOrNull { it.id == shortcutId }
+            ?.let(::toPlaceholder)
+
     val placeholders
         get() = shortcuts.map(::toPlaceholder)
 
