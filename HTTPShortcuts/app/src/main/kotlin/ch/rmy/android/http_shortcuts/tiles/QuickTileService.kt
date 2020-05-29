@@ -57,7 +57,7 @@ class QuickTileService : TileService() {
         applyTheme()
         val dialog = DialogBuilder(context)
             .mapFor(shortcuts) { builder, shortcut ->
-                builder.item(shortcut.name) {
+                builder.item(shortcut.name, shortcut.iconName) {
                     executeShortcut(shortcut.id)
                 }
             }

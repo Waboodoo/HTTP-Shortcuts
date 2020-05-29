@@ -1,23 +1,30 @@
 package ch.rmy.android.http_shortcuts.dialogs
 
+import android.app.Dialog
 import android.content.Context
 import android.text.InputType
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.ListView
+import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.extensions.showIfPossible
+import ch.rmy.android.http_shortcuts.extensions.visible
+import ch.rmy.android.http_shortcuts.icons.IconView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.input.input
-import com.afollestad.materialdialogs.list.listItems
 import io.reactivex.Completable
 
 open class DialogBuilder(val context: Context) {
 
     private val dialog = MaterialDialog(context)
-    private val names = mutableListOf<CharSequence>()
-    private val actions = mutableListOf<() -> Unit>()
+    private val entries = mutableListOf<Entry>()
 
     fun title(@StringRes title: Int) = also {
         dialog.title(res = title)
@@ -33,8 +40,11 @@ open class DialogBuilder(val context: Context) {
         item(context.getString(name), action)
 
     fun item(name: CharSequence, action: () -> Unit) = also {
-        names.add(name)
-        actions.add(action)
+        item(name, null, action)
+    }
+
+    fun item(name: CharSequence, iconName: String?, action: () -> Unit) = also {
+        entries.add(Entry(name, iconName, action))
     }
 
     open fun message(@StringRes text: Int, isHtml: Boolean = false) =
@@ -106,15 +116,14 @@ open class DialogBuilder(val context: Context) {
     }
 
     fun build(): MaterialDialog =
-        dialog.mapIf(names.isNotEmpty()) {
-            dialog
-                .listItems(
-                    items = names,
-                    selection = { dialog, index, _ ->
-                        actions[index]()
-                        dialog.dismiss()
-                    }
-                )
+        dialog.mapIf(entries.isNotEmpty()) {
+            val listView = (LayoutInflater.from(context).inflate(R.layout.menu_dialog, null, false) as ListView)
+                .apply {
+                    adapter = MenuListAdapter(context, entries, dialog)
+                    divider = null
+                }
+
+            it.customView(view = listView)
         }
 
     fun show() = build().showIfPossible()
@@ -132,5 +141,42 @@ open class DialogBuilder(val context: Context) {
                 }
         }
 
+    private inner class Entry(
+        val label: CharSequence,
+        val iconName: String?,
+        val action: (() -> Unit)?
+    )
+
+    private inner class MenuListAdapter(
+        context: Context,
+        objects: List<Entry>,
+        private val dialog: Dialog
+    ) : ArrayAdapter<Entry>(context, 0, objects) {
+
+        private val layoutInflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+            val view: ViewGroup = convertView as? ViewGroup
+                ?: layoutInflater.inflate(R.layout.menu_dialog_item, parent, false) as ViewGroup
+
+            val labelView: TextView = view.findViewById(R.id.menu_item_label)
+            val iconView: IconView = view.findViewById(R.id.menu_item_icon)
+
+            val item = getItem(position)!!
+            labelView.text = item.label
+            if (item.iconName != null) {
+                iconView.setIcon(item.iconName)
+                iconView.visible = true
+            } else {
+                iconView.visible = false
+            }
+            view.setOnClickListener {
+                item.action?.invoke()
+                dialog.dismiss()
+            }
+
+            return view
+        }
+    }
 
 }
