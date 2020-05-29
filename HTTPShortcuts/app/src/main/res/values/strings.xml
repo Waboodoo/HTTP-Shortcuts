@@ -695,11 +695,11 @@
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor.-->
     <string name="label_follow_redirects">Follow redirects</string>
     <!-- Label: shown above input box that lets user define JS code to be executed before shortcut -->
-    <string name="label_pre_request_script">Run before Execution (JavaScript)</string>
+    <string name="label_pre_request_script">Run before Execution</string>
     <!-- Label: shown above input box that lets user define JS code to be executed after shortcut succeeds -->
-    <string name="label_post_request_success_script">Run on Success (JavaScript)</string>
+    <string name="label_post_request_success_script">Run on Success</string>
     <!-- Label: shown above input box that lets user define JS code to be executed after shortcut fails -->
-    <string name="label_post_request_failure_script">Run on Failure (JavaScript)</string>
+    <string name="label_post_request_failure_script">Run on Failure</string>
     <!-- Dialog title: Shown on dialog that shows an error message when something goes wrong while executing a shortcut (e.g. JS exception) -->
     <string name="dialog_title_error">Error</string>
     <!-- Error message: Shown when a JS error occurs. %s is a placeholder for the more detailed error message. -->
@@ -805,4 +805,12 @@
     <string name="error_tts_failed">Failed to speak text</string>
     <!-- Label: Option shown in Code Snippet Picker when inserting an action that targets a shortcut, allows to target the current shortcut -->
     <string name="label_insert_action_code_for_current_shortcut">Current Shortcut</string>
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code -->
+    <string name="placeholder_javascript_code_generic">Add JavaScript code here</string>
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the shortcut -->
+    <string name="placeholder_javascript_code_before">Add JavaScript code here to run before the shortcut is executed, e.g., to prepare some variables.</string>
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs after the shortcut on success -->
+    <string name="placeholder_javascript_code_success">Add JavaScript code here to run after the shortcut is executed, e.g., to process the response.</string>
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs when execution fails -->
+    <string name="placeholder_javascript_code_failure">Add JavaScript code here to run in case the request fails.</string>
 </resources>

@@ -138,6 +138,8 @@ class ScriptingActivity : BaseActivity() {
         )
 
     private fun updateShortcutViews(shortcut: Shortcut) {
+        prepareCodeInput.minLines = getMinLinesForCode(shortcut.isScriptingShortcut)
+        prepareCodeInput.setHint(getHintText(shortcut.isScriptingShortcut))
         labelPrepareCode.visible = !shortcut.isScriptingShortcut
         postRequestContainer.visible = !shortcut.isBrowserShortcut && !shortcut.isScriptingShortcut
         successCodeInput.setTextSafely(processTextForView(shortcut.codeOnSuccess))
@@ -177,18 +179,30 @@ class ScriptingActivity : BaseActivity() {
         context.openURL(CODE_HELP_URL)
     }
 
-    companion object {
-        private const val EXTRA_SHORTCUT_ID = "shortcutId"
-
-        private const val CODE_HELP_URL = "https://http-shortcuts.rmy.ch/scripting"
-    }
-
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, ScriptingActivity::class.java) {
 
         fun shortcutId(shortcutId: String?) = also {
             intent.putExtra(EXTRA_SHORTCUT_ID, shortcutId)
         }
 
+    }
+
+    companion object {
+        private const val EXTRA_SHORTCUT_ID = "shortcutId"
+
+        private const val CODE_HELP_URL = "https://http-shortcuts.rmy.ch/scripting"
+
+        private fun getMinLinesForCode(isScriptingShortcut: Boolean) = if (isScriptingShortcut) {
+            18
+        } else {
+            6
+        }
+
+        private fun getHintText(isScriptingShortcut: Boolean) = if (isScriptingShortcut) {
+            R.string.placeholder_javascript_code_generic
+        } else {
+            R.string.placeholder_javascript_code_before
+        }
     }
 
 }

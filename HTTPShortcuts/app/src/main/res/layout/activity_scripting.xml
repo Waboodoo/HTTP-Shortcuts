@@ -18,8 +18,8 @@
             android:padding="16dp">
 
             <TextView
-                style="@style/Label"
                 android:id="@+id/label_code_prepare"
+                style="@style/Label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/label_pre_request_script" />
@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="monospace"
                 android:gravity="top"
-                android:hint=""
+                android:hint="@string/placeholder_javascript_code_before"
                 android:inputType="textMultiLine|textNoSuggestions"
                 android:minLines="6"
                 android:textSize="@dimen/js_font_size" />
@@ -60,6 +60,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="monospace"
                     android:gravity="top"
+                    android:hint="@string/placeholder_javascript_code_success"
                     android:inputType="textMultiLine|textNoSuggestions"
                     android:minLines="6"
                     android:textSize="@dimen/js_font_size" />
@@ -83,6 +84,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="monospace"
                     android:gravity="top"
+                    android:hint="@string/placeholder_javascript_code_failure"
                     android:inputType="textMultiLine|textNoSuggestions"
                     android:minLines="6"
                     android:textSize="@dimen/js_font_size" />

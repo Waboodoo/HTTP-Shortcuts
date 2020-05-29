@@ -82,7 +82,7 @@ class CodeSnippetPicker(
                         DialogBuilder(context)
                             .mapFor(variablePlaceholderProvider.constantsPlaceholders) { builder, variable ->
                                 builder.item(variable.variableKey) {
-                                    insertText("setVariable(/*[variable]*/\"${variable.variableId}\"/*[/variable]*/, \"", "\");")
+                                    insertText("setVariable(/*[variable]*/\"${variable.variableId}\"/*[/variable]*/, \"", "\");\n")
                                 }
                             }
                             .showIfPossible()
@@ -125,31 +125,31 @@ class CodeSnippetPicker(
         // -> move action declaration to actions themselves
         DialogBuilder(context)
             .item(R.string.action_type_toast_title) {
-                insertText("showToast(\"", "\");")
+                insertText("showToast(\"", "\");\n")
             }
             .item(R.string.action_type_dialog_title) {
-                insertText("showDialog(\"Message\"", ", \"Title\");")
+                insertText("showDialog(\"Message\"", ", \"Title\");\n")
             }
             .item(R.string.action_copy_to_clipboard_title) {
-                insertText("copyToClipboard(\"", "\");")
+                insertText("copyToClipboard(\"", "\");\n")
             }
             .item(R.string.action_tts) {
-                insertText("speak(\"", "\");")
+                insertText("speak(\"", "\");\n")
             }
             .mapIf((context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator).hasVibrator()) {
                 it.item(R.string.action_type_vibrate_title) {
-                    insertText("vibrate();", "")
+                    insertText("vibrate();\n", "")
                 }
             }
             .item(R.string.action_type_trigger_shortcut_title) {
                 actionWithShortcut(R.string.action_type_trigger_shortcut_title) { shortcutPlaceholder ->
-                    insertText("triggerShortcut($shortcutPlaceholder);", "")
+                    insertText("triggerShortcut($shortcutPlaceholder);\n", "")
                 }
             }
             .mapIf(LauncherShortcutManager.supportsPinning(context)) {
                 it.item(R.string.action_type_rename_shortcut_title) {
                     actionWithShortcut(R.string.action_type_rename_shortcut_title) { shortcutPlaceholder ->
-                        insertText("renameShortcut($shortcutPlaceholder, \"new name", "\");")
+                        insertText("renameShortcut($shortcutPlaceholder, \"new name", "\");\n")
                     }
                 }
             }
@@ -158,13 +158,13 @@ class CodeSnippetPicker(
                     IconSelector(context)
                         .show()
                         .subscribe { iconName ->
-                            insertText("changeIcon($shortcutPlaceholder, \"$iconName\");", "")
+                            insertText("changeIcon($shortcutPlaceholder, \"$iconName\");\n", "")
                         }
                         .attachTo(destroyer)
                 }
             }
             .item(R.string.action_type_abort_execution) {
-                insertText("abort();", "")
+                insertText("abort();\n", "")
             }
             .showIfPossible()
     }
