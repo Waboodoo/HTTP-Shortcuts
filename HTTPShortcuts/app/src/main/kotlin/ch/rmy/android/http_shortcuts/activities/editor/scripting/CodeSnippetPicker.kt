@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.editor.scripting
 
 import android.content.Context
 import android.os.Vibrator
+import androidx.annotation.StringRes
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
@@ -10,12 +11,18 @@ import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.icons.IconSelector
+import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholderProvider
 import ch.rmy.android.http_shortcuts.utils.Destroyable
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 
-class CodeSnippetPicker(private val context: Context, private val variablePlaceholderProvider: VariablePlaceholderProvider) : Destroyable {
+class CodeSnippetPicker(
+    private val context: Context,
+    private val currentShortcutId: String?,
+    private val variablePlaceholderProvider: VariablePlaceholderProvider,
+    private val shortcutPlaceholderProvider: ShortcutPlaceholderProvider
+) : Destroyable {
 
     private val destroyer = Destroyer()
 
@@ -135,23 +142,45 @@ class CodeSnippetPicker(private val context: Context, private val variablePlaceh
                 }
             }
             .item(R.string.action_type_trigger_shortcut_title) {
-                insertText("triggerShortcut(\"shortcut name or ID", "\");")
+                actionWithShortcut(R.string.action_type_trigger_shortcut_title) { shortcutPlaceholder ->
+                    insertText("triggerShortcut($shortcutPlaceholder);", "")
+                }
             }
             .mapIf(LauncherShortcutManager.supportsPinning(context)) {
                 it.item(R.string.action_type_rename_shortcut_title) {
-                    insertText("renameShortcut(\"shortcut name or ID\", \"new name", "\");")
+                    actionWithShortcut(R.string.action_type_rename_shortcut_title) { shortcutPlaceholder ->
+                        insertText("renameShortcut($shortcutPlaceholder, \"new name", "\");")
+                    }
                 }
             }
             .item(R.string.action_type_change_icon_title) {
-                IconSelector(context)
-                    .show()
-                    .subscribe { iconName ->
-                        insertText("changeIcon(\"shortcut name or ID", "\", \"$iconName\");")
-                    }
-                    .attachTo(destroyer)
+                actionWithShortcut(R.string.action_type_change_icon_title) { shortcutPlaceholder ->
+                    IconSelector(context)
+                        .show()
+                        .subscribe { iconName ->
+                            insertText("changeIcon($shortcutPlaceholder, \"$iconName\");", "")
+                        }
+                        .attachTo(destroyer)
+                }
             }
             .item(R.string.action_type_abort_execution) {
                 insertText("abort();", "")
+            }
+            .showIfPossible()
+    }
+
+    private fun actionWithShortcut(@StringRes title: Int, callback: (String) -> Unit) {
+        DialogBuilder(context)
+            .title(title)
+            .item(R.string.label_insert_action_code_for_current_shortcut) {
+                callback("\"\"")
+            }
+            .mapFor(shortcutPlaceholderProvider.placeholders) { builder, shortcut ->
+                builder.mapIf(shortcut.id != currentShortcutId) {
+                    it.item(shortcut.name, shortcut.iconName) {
+                        callback("/*[shortcut]*/\"${shortcut.id}\"/*[/shortcut]*/")
+                    }
+                }
             }
             .showIfPossible()
     }

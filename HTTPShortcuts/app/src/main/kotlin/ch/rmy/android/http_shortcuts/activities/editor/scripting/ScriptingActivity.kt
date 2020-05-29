@@ -22,6 +22,7 @@ import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
 import ch.rmy.android.http_shortcuts.extensions.openURL
 import ch.rmy.android.http_shortcuts.extensions.setTextSafely
 import ch.rmy.android.http_shortcuts.extensions.visible
+import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholderProvider
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
@@ -31,6 +32,10 @@ import kotterknife.bindView
 import java.util.concurrent.TimeUnit
 
 class ScriptingActivity : BaseActivity() {
+
+    private val currentShortcutId: String? by lazy {
+        intent.getStringExtra(EXTRA_SHORTCUT_ID)
+    }
 
     private val viewModel: ScriptingViewModel by bindViewModel()
     private val shortcutData by lazy {
@@ -42,8 +47,19 @@ class ScriptingActivity : BaseActivity() {
     private val variablePlaceholderProvider by lazy {
         VariablePlaceholderProvider(variablesData)
     }
+    private val shortcutsData by lazy {
+        viewModel.shortcuts
+    }
+    private val shortcutPlaceholderProvider by lazy {
+        ShortcutPlaceholderProvider(shortcutsData)
+    }
     private val codeSnippetPicker by lazy {
-        destroyer.own(CodeSnippetPicker(context, variablePlaceholderProvider))
+        destroyer.own(CodeSnippetPicker(
+            context,
+            currentShortcutId,
+            variablePlaceholderProvider,
+            shortcutPlaceholderProvider
+        ))
     }
     private val variablePlaceholderColor by lazy {
         color(context, R.color.variable)
@@ -162,9 +178,17 @@ class ScriptingActivity : BaseActivity() {
     }
 
     companion object {
+        private const val EXTRA_SHORTCUT_ID = "shortcutId"
+
         private const val CODE_HELP_URL = "https://http-shortcuts.rmy.ch/scripting"
     }
 
-    class IntentBuilder(context: Context) : BaseIntentBuilder(context, ScriptingActivity::class.java)
+    class IntentBuilder(context: Context) : BaseIntentBuilder(context, ScriptingActivity::class.java) {
+
+        fun shortcutId(shortcutId: String?) = also {
+            intent.putExtra(EXTRA_SHORTCUT_ID, shortcutId)
+        }
+
+    }
 
 }

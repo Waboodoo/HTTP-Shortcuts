@@ -216,6 +216,7 @@ class ShortcutEditorActivity : BaseActivity() {
         }
         scriptingButton.setOnClickListener {
             ScriptingActivity.IntentBuilder(context)
+                .shortcutId(shortcutId)
                 .build()
                 .startActivity(this)
         }
