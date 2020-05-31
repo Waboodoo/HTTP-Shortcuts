@@ -77,13 +77,16 @@ class VariablesActivity : BaseActivity() {
     private fun openEditorForCreation() {
         DialogBuilder(context)
             .title(R.string.title_select_variable_type)
-            .mapFor(VariableTypes.TYPES) { builder, (type, stringRes) ->
-                builder.item(stringRes) {
+            .mapFor(VariableTypes.TYPES) { builder, variableType ->
+                builder.item(variableType.name) {
                     VariableEditorActivity.IntentBuilder(context)
-                        .variableType(type)
+                        .variableType(variableType.type)
                         .build()
                         .startActivity(this)
                 }
+                    .mapIf(variableType.type == Variable.TYPE_CONSTANT) {
+                        it.separator()
+                    }
             }
             .showIfPossible()
     }

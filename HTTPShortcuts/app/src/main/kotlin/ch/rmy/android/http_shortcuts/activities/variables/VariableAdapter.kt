@@ -26,11 +26,7 @@ class VariableAdapter(context: Context, variables: ListLiveData<Variable>) : Bas
 
         override fun updateViews(item: Variable) {
             name.text = item.key
-            type.text = VariableTypes.TYPES
-                .find { it.first == item.type }
-                ?.second
-                ?.let { context.getString(it) }
-                ?: ""
+            type.setText(VariableTypes.getTypeName(item.type))
         }
 
     }
