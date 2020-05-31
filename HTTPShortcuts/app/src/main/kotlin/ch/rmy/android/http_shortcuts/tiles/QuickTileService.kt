@@ -1,7 +1,9 @@
 package ch.rmy.android.http_shortcuts.tiles
 
+import android.app.Dialog
 import android.content.Intent
 import android.service.quicksettings.TileService
+import android.view.WindowManager
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.data.Controller
@@ -9,8 +11,8 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.context
 import ch.rmy.android.http_shortcuts.extensions.detachFromRealm
+import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.mapFor
-import ch.rmy.android.http_shortcuts.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.utils.ThemeHelper
 
 class QuickTileService : TileService() {
@@ -48,9 +50,7 @@ class QuickTileService : TileService() {
             ))
             .positive(R.string.dialog_ok)
             .build()
-        tryOrLog {
-            showDialog(dialog)
-        }
+        show(dialog)
     }
 
     private fun showPickerDialog(shortcuts: List<Shortcut>) {
@@ -62,8 +62,16 @@ class QuickTileService : TileService() {
                 }
             }
             .build()
-        tryOrLog {
+        show(dialog)
+    }
+
+    private fun show(dialog: Dialog) {
+        try {
             showDialog(dialog)
+        } catch (e: WindowManager.BadTokenException) {
+            // Ignore
+        } catch (e: Throwable) {
+            logException(e)
         }
     }
 
