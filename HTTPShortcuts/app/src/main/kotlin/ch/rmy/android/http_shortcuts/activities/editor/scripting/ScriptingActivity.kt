@@ -12,6 +12,7 @@ import android.widget.EditText
 import androidx.lifecycle.Observer
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
@@ -21,6 +22,7 @@ import ch.rmy.android.http_shortcuts.extensions.insertAroundCursor
 import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
 import ch.rmy.android.http_shortcuts.extensions.openURL
 import ch.rmy.android.http_shortcuts.extensions.setTextSafely
+import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholderProvider
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutSpanManager
@@ -145,10 +147,11 @@ class ScriptingActivity : BaseActivity() {
         )
 
     private fun updateShortcutViews(shortcut: Shortcut) {
-        prepareCodeInput.minLines = getMinLinesForCode(shortcut.isScriptingShortcut)
-        prepareCodeInput.setHint(getHintText(shortcut.isScriptingShortcut))
-        labelPrepareCode.visible = !shortcut.isScriptingShortcut
-        postRequestContainer.visible = !shortcut.isBrowserShortcut && !shortcut.isScriptingShortcut
+        val type = shortcut.type
+        prepareCodeInput.minLines = getMinLinesForCode(type)
+        prepareCodeInput.setHint(getHintText(type))
+        labelPrepareCode.visible = type != ShortcutExecutionType.SCRIPTING
+        postRequestContainer.visible = type.usesResponse
         successCodeInput.setTextSafely(processTextForView(shortcut.codeOnSuccess))
         failureCodeInput.setTextSafely(processTextForView(shortcut.codeOnFailure))
         prepareCodeInput.setTextSafely(processTextForView(shortcut.codeOnPrepare))
@@ -204,13 +207,13 @@ class ScriptingActivity : BaseActivity() {
 
         private const val CODE_HELP_URL = "https://http-shortcuts.rmy.ch/scripting"
 
-        private fun getMinLinesForCode(isScriptingShortcut: Boolean) = if (isScriptingShortcut) {
+        private fun getMinLinesForCode(type: ShortcutExecutionType) = if (type == ShortcutExecutionType.SCRIPTING) {
             18
         } else {
             6
         }
 
-        private fun getHintText(isScriptingShortcut: Boolean) = if (isScriptingShortcut) {
+        private fun getHintText(type: ShortcutExecutionType) = if (type == ShortcutExecutionType.SCRIPTING) {
             R.string.placeholder_javascript_code_generic
         } else {
             R.string.placeholder_javascript_code_before

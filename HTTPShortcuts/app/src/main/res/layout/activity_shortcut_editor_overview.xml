@@ -150,6 +150,7 @@
                 app:subtitle="@string/label_scripting_subtitle" />
 
             <include
+                android:id="@+id/divider_below_scripting"
                 layout="@layout/divider_line"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/divider_height" />

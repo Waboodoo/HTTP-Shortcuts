@@ -17,6 +17,7 @@ import ch.rmy.android.http_shortcuts.activities.misc.CurlImportActivity
 import ch.rmy.android.http_shortcuts.activities.settings.SettingsActivity
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.activities.widget.WidgetSettingsActivity
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
@@ -125,30 +126,48 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     private fun showCreateOptions() {
         DialogBuilder(context)
             .title(R.string.title_create_new_shortcut_options_dialog)
-            .item(R.string.button_create_new, ::openEditorForCreation)
-            .item(R.string.button_create_browser_shortcut, ::openEditorForBrowserShortcutCreation)
-            .item(R.string.button_create_scripting_shortcut, ::openEditorForScriptingShortcutCreation)
-            .item(R.string.button_curl_import, ::openCurlImport)
+            .item(R.string.button_create_new, action = ::openEditorForCreation)
+            .item(R.string.button_curl_import, action = ::openCurlImport)
+            .separator()
+            .item(
+                nameRes = R.string.button_create_trigger_shortcut,
+                descriptionRes = R.string.button_description_create_trigger_shortcut,
+                action = ::openEditorForTriggerShortcutCreation
+            )
+            .item(
+                nameRes = R.string.button_create_browser_shortcut,
+                descriptionRes = R.string.button_description_create_browser_shortcut,
+                action = ::openEditorForBrowserShortcutCreation
+            )
+            .item(
+                nameRes = R.string.button_create_scripting_shortcut,
+                descriptionRes = R.string.button_description_create_scripting_shortcut,
+                action = ::openEditorForScriptingShortcutCreation
+            )
             .showIfPossible()
     }
 
     private fun openEditorForCreation() {
-        openEditorForShortcutCreation(Shortcut.EXECUTION_TYPE_APP)
+        openEditorForShortcutCreation(ShortcutExecutionType.APP)
     }
 
     private fun openEditorForBrowserShortcutCreation() {
-        openEditorForShortcutCreation(Shortcut.EXECUTION_TYPE_BROWSER)
+        openEditorForShortcutCreation(ShortcutExecutionType.BROWSER)
+    }
+
+    private fun openEditorForTriggerShortcutCreation() {
+        openEditorForShortcutCreation(ShortcutExecutionType.TRIGGER)
     }
 
     private fun openEditorForScriptingShortcutCreation() {
-        openEditorForShortcutCreation(Shortcut.EXECUTION_TYPE_SCRIPTING)
+        openEditorForShortcutCreation(ShortcutExecutionType.SCRIPTING)
     }
 
-    private fun openEditorForShortcutCreation(executionType: String) {
+    private fun openEditorForShortcutCreation(type: ShortcutExecutionType) {
         val categoryId = adapter.getItem(viewPager.currentItem).categoryId
         ShortcutEditorActivity.IntentBuilder(context)
             .categoryId(categoryId)
-            .executionType(executionType)
+            .executionType(type)
             .build()
             .startActivity(this, REQUEST_CREATE_SHORTCUT)
     }

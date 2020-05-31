@@ -68,7 +68,7 @@ open class VariableButton : AppCompatImageButton {
         DialogBuilder(context)
             .title(getTitle())
             .mapFor(getVariables()) { builder, placeholder ->
-                builder.item(placeholder.variableKey) {
+                builder.item(name = placeholder.variableKey) {
                     variableSubject.onNext(placeholder)
                 }
             }

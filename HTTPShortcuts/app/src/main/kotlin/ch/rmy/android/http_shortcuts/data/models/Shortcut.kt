@@ -1,5 +1,7 @@
 package ch.rmy.android.http_shortcuts.data.models
 
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
+import ch.rmy.android.http_shortcuts.extensions.type
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
@@ -9,7 +11,7 @@ open class Shortcut(
     @PrimaryKey
     override var id: String = "",
     var iconName: String? = null,
-    var executionType: String? = EXECUTION_TYPE_APP
+    var executionType: String? = ShortcutExecutionType.APP.type
 ) : RealmObject(), HasId {
 
     @Required
@@ -147,16 +149,10 @@ open class Shortcut(
         get() = isFeedbackInWindow || isFeedbackInDialog
 
     val isFeedbackInWindow
-        get() = (feedback == FEEDBACK_ACTIVITY || feedback == FEEDBACK_DEBUG) && !isBrowserShortcut
+        get() = type.usesResponse && (feedback == FEEDBACK_ACTIVITY || feedback == FEEDBACK_DEBUG)
 
     val isFeedbackInDialog
-        get() = feedback == FEEDBACK_DIALOG && !isBrowserShortcut
-
-    val isBrowserShortcut
-        get() = executionType == EXECUTION_TYPE_BROWSER
-
-    val isScriptingShortcut
-        get() = executionType == EXECUTION_TYPE_SCRIPTING
+        get() = type.usesResponse && feedback == FEEDBACK_DIALOG
 
     var isWaitForNetwork
         get() = retryPolicy == RETRY_POLICY_WAIT_FOR_INTERNET
@@ -165,7 +161,7 @@ open class Shortcut(
         }
 
     val usesResponseBody: Boolean
-        get() = !isBrowserShortcut
+        get() = type.usesResponse
             && (
             (feedback != FEEDBACK_TOAST_SIMPLE && feedback != FEEDBACK_NONE)
                 || codeOnSuccess.isNotEmpty() || codeOnFailure.isNotEmpty()
@@ -203,10 +199,6 @@ open class Shortcut(
         const val REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE = "x_www_form_urlencode"
         const val REQUEST_BODY_TYPE_CUSTOM_TEXT = "custom_text"
         const val REQUEST_BODY_TYPE_FILE = "file"
-
-        const val EXECUTION_TYPE_APP = "app"
-        const val EXECUTION_TYPE_BROWSER = "browser"
-        const val EXECUTION_TYPE_SCRIPTING = "scripting"
 
         const val AUTHENTICATION_NONE = "none"
         const val AUTHENTICATION_BASIC = "basic"

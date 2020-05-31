@@ -22,6 +22,7 @@ import ch.rmy.android.http_shortcuts.activities.editor.headers.RequestHeadersAct
 import ch.rmy.android.http_shortcuts.activities.editor.miscsettings.MiscSettingsActivity
 import ch.rmy.android.http_shortcuts.activities.editor.response.ResponseActivity
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.ScriptingActivity
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
@@ -37,6 +38,7 @@ import ch.rmy.android.http_shortcuts.extensions.setTextSafely
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
+import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.icons.IconSelector
 import ch.rmy.android.http_shortcuts.icons.IconView
@@ -69,7 +71,7 @@ class ShortcutEditorActivity : BaseActivity() {
         intent.getSerializableExtra(EXTRA_CURL_COMMAND) as CurlCommand?
     }
     private val executionType: String by lazy {
-        intent.getStringExtra(EXTRA_EXECUTION_TYPE) ?: Shortcut.EXECUTION_TYPE_APP
+        intent.getStringExtra(EXTRA_EXECUTION_TYPE) ?: ShortcutExecutionType.APP.type
     }
 
     private val viewModel: ShortcutEditorViewModel by bindViewModel()
@@ -100,6 +102,7 @@ class ShortcutEditorActivity : BaseActivity() {
     private val dividerBelowHeaders: View by bindView(R.id.divider_below_headers)
     private val dividerBelowRequestBody: View by bindView(R.id.divider_below_request_body)
     private val dividerBelowAuthentication: View by bindView(R.id.divider_below_authentication)
+    private val dividerBelowScripting: View by bindView(R.id.divider_below_scripting)
 
     private val variablePlaceholderColor by lazy {
         color(context, R.color.variable)
@@ -154,17 +157,19 @@ class ShortcutEditorActivity : BaseActivity() {
 
         toolbar?.subtitle = viewModel.getToolbarSubtitle(shortcut)
 
-        val isRegularShortcut = !shortcut.isBrowserShortcut && !shortcut.isScriptingShortcut
-        basicRequestSettingsButton.visible = !shortcut.isScriptingShortcut
-        dividerBelowBasicSettings.visible = !shortcut.isScriptingShortcut
-        headersButton.visible = isRegularShortcut
-        dividerBelowHeaders.visible = isRegularShortcut
-        requestBodyButton.visible = isRegularShortcut
-        dividerBelowRequestBody.visible = isRegularShortcut
-        authenticationButton.visible = isRegularShortcut
-        dividerBelowAuthentication.visible = isRegularShortcut
-        responseHandlingButton.visible = isRegularShortcut
-        advancedTechnicalSettingsButton.visible = isRegularShortcut
+        val type = shortcut.type
+        basicRequestSettingsButton.visible = type.usesUrl
+        dividerBelowBasicSettings.visible = type.usesUrl
+        headersButton.visible = type.usesRequestOptions
+        dividerBelowHeaders.visible = type.usesRequestOptions
+        requestBodyButton.visible = type.usesRequestOptions
+        dividerBelowRequestBody.visible = type.usesRequestOptions
+        authenticationButton.visible = type.usesRequestOptions
+        dividerBelowAuthentication.visible = type.usesRequestOptions
+        responseHandlingButton.visible = type.usesResponse
+        advancedTechnicalSettingsButton.visible = type.usesRequestOptions
+        scriptingButton.visible = type.usesScriptingEditor
+        dividerBelowScripting.visible = type.usesScriptingEditor
 
         basicRequestSettingsButton.subtitle = viewModel.getBasicSettingsSubtitle(shortcut)
             .let { subtitle ->
@@ -175,7 +180,7 @@ class ShortcutEditorActivity : BaseActivity() {
                 )
             }
 
-        if (isRegularShortcut) {
+        if (type.usesRequestOptions) {
             headersButton.subtitle = viewModel.getHeadersSettingsSubtitle(shortcut)
             requestBodyButton.subtitle = viewModel.getRequestBodySettingsSubtitle(shortcut)
             authenticationButton.subtitle = viewModel.getAuthenticationSettingsSubtitle(shortcut)
@@ -250,9 +255,9 @@ class ShortcutEditorActivity : BaseActivity() {
     private fun openIconSelectionDialog() {
         DialogBuilder(context)
             .title(R.string.change_icon)
-            .item(R.string.choose_icon, ::openBuiltInIconSelectionDialog)
-            .item(R.string.choose_image, ::openImagePicker)
-            .item(R.string.choose_ipack_icon, ::openIpackPicker)
+            .item(R.string.choose_icon, action = ::openBuiltInIconSelectionDialog)
+            .item(R.string.choose_image, action = ::openImagePicker)
+            .item(R.string.choose_ipack_icon, action = ::openIpackPicker)
             .showIfPossible()
     }
 
@@ -295,7 +300,7 @@ class ShortcutEditorActivity : BaseActivity() {
 
     private fun canExecute(): Boolean =
         shortcutData.value
-            ?.let { it.isScriptingShortcut || Validation.isAcceptableUrl(it.url) }
+            ?.let { !it.type.usesUrl || Validation.isAcceptableUrl(it.url) }
             ?: false
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
@@ -445,8 +450,8 @@ class ShortcutEditorActivity : BaseActivity() {
             intent.putExtra(EXTRA_CURL_COMMAND, command)
         }
 
-        fun executionType(executionType: String) = also {
-            intent.putExtra(EXTRA_EXECUTION_TYPE, executionType)
+        fun executionType(type: ShortcutExecutionType) = also {
+            intent.putExtra(EXTRA_EXECUTION_TYPE, type.type)
         }
 
     }

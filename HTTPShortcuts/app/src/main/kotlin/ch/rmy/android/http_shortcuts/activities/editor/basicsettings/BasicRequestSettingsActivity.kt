@@ -6,10 +6,12 @@ import android.widget.EditText
 import androidx.lifecycle.Observer
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
+import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.variables.VariableButton
@@ -87,7 +89,7 @@ class BasicRequestSettingsActivity : BaseActivity() {
     private fun updateShortcutViews() {
         val shortcut = shortcutData.value ?: return
 
-        methodSpinner.visible = !shortcut.isBrowserShortcut
+        methodSpinner.visible = shortcut.type == ShortcutExecutionType.APP
         methodSpinner.selectedItem = shortcut.method
         urlView.rawString = shortcut.url
     }

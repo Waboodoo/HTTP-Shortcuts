@@ -24,7 +24,7 @@ import io.reactivex.Completable
 open class DialogBuilder(val context: Context) {
 
     private val dialog = MaterialDialog(context)
-    private val entries = mutableListOf<Entry>()
+    private val items = mutableListOf<MenuItem>()
 
     fun title(@StringRes title: Int) = also {
         dialog.title(res = title)
@@ -36,15 +36,24 @@ open class DialogBuilder(val context: Context) {
         }
     }
 
-    fun item(@StringRes name: Int, action: () -> Unit) =
-        item(context.getString(name), action)
-
-    fun item(name: CharSequence, action: () -> Unit) = also {
-        item(name, null, action)
+    fun item(
+        @StringRes nameRes: Int? = null,
+        name: CharSequence? = null,
+        @StringRes descriptionRes: Int? = null,
+        description: CharSequence? = null,
+        iconName: String? = null,
+        action: () -> Unit = {}
+    ) = also {
+        items.add(MenuItem.ClickableItem(
+            name ?: context.getString(nameRes!!),
+            description ?: (descriptionRes?.let { context.getString(it) }),
+            iconName,
+            action
+        ))
     }
 
-    fun item(name: CharSequence, iconName: String?, action: () -> Unit) = also {
-        entries.add(Entry(name, iconName, action))
+    fun separator() = also {
+        items.add(MenuItem.Separator)
     }
 
     open fun message(@StringRes text: Int, isHtml: Boolean = false) =
@@ -116,10 +125,10 @@ open class DialogBuilder(val context: Context) {
     }
 
     fun build(): MaterialDialog =
-        dialog.mapIf(entries.isNotEmpty()) {
+        dialog.mapIf(items.isNotEmpty()) {
             val listView = (LayoutInflater.from(context).inflate(R.layout.menu_dialog, null, false) as ListView)
                 .apply {
-                    adapter = MenuListAdapter(context, entries, dialog)
+                    adapter = MenuListAdapter(context, items, dialog)
                     divider = null
                 }
 
@@ -141,29 +150,54 @@ open class DialogBuilder(val context: Context) {
                 }
         }
 
-    private inner class Entry(
-        val label: CharSequence,
-        val iconName: String?,
-        val action: (() -> Unit)?
-    )
+    private sealed class MenuItem {
+
+        object Separator : MenuItem()
+
+        class ClickableItem(
+            val name: CharSequence,
+            val description: CharSequence?,
+            val iconName: String?,
+            val action: (() -> Unit)?
+        ) : MenuItem()
+
+    }
 
     private inner class MenuListAdapter(
         context: Context,
-        objects: List<Entry>,
+        items: List<MenuItem>,
         private val dialog: Dialog
-    ) : ArrayAdapter<Entry>(context, 0, objects) {
+    ) : ArrayAdapter<MenuItem>(context, 0, items) {
 
         private val layoutInflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
+        override fun getItemViewType(position: Int): Int =
+            when (getItem(position)!!) {
+                is MenuItem.ClickableItem -> TYPE_CLICKABLE_ITEM
+                else -> TYPE_SEPARATOR
+            }
+
+        override fun getViewTypeCount(): Int = 2
+
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+            val item = getItem(position)!!
+            return when (item) {
+                is MenuItem.ClickableItem -> getClickableItemView(item, convertView, parent)
+                is MenuItem.Separator -> getSeparatorView(convertView, parent)
+            }
+        }
+
+        private fun getClickableItemView(item: MenuItem.ClickableItem, convertView: View?, parent: ViewGroup): View {
             val view: ViewGroup = convertView as? ViewGroup
                 ?: layoutInflater.inflate(R.layout.menu_dialog_item, parent, false) as ViewGroup
 
             val labelView: TextView = view.findViewById(R.id.menu_item_label)
+            val descriptionView: TextView = view.findViewById(R.id.menu_item_description)
             val iconView: IconView = view.findViewById(R.id.menu_item_icon)
 
-            val item = getItem(position)!!
-            labelView.text = item.label
+            labelView.text = item.name
+            descriptionView.visible = item.description != null
+            descriptionView.text = item.description
             if (item.iconName != null) {
                 iconView.setIcon(item.iconName)
                 iconView.visible = true
@@ -177,6 +211,17 @@ open class DialogBuilder(val context: Context) {
 
             return view
         }
+
+        private fun getSeparatorView(convertView: View?, parent: ViewGroup): View =
+            convertView ?: layoutInflater.inflate(R.layout.menu_dialog_separator, parent, false)
+
+    }
+
+    companion object {
+
+        private const val TYPE_CLICKABLE_ITEM = 0
+        private const val TYPE_SEPARATOR = 1
+
     }
 
 }

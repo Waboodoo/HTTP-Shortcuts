@@ -29,6 +29,7 @@ import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
+import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.import_export.CurlExporter
 import ch.rmy.android.http_shortcuts.utils.GridLayoutManager
@@ -221,7 +222,7 @@ class ListFragment : BaseFragment() {
                     cancelPendingExecution(shortcutData.value ?: return@item)
                 }
             }
-            .mapIf(!shortcut.isScriptingShortcut) {
+            .mapIf(shortcut.type.usesUrl) {
                 it.item(R.string.action_curl_export) {
                     showCurlExportDialog(shortcutData.value ?: return@item)
                 }
@@ -300,7 +301,7 @@ class ListFragment : BaseFragment() {
                 .title(R.string.title_move_to_category)
                 .mapFor(categories.filter { it.id != currentCategory.id }) { builder, category ->
                     val categoryId = category.id
-                    builder.item(category.name) {
+                    builder.item(name = category.name) {
                         moveShortcut(shortcutData.value ?: return@item, categoryId)
                     }
                 }

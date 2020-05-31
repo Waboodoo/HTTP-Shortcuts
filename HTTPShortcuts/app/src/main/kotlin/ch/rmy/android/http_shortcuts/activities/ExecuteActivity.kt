@@ -11,6 +11,7 @@ import ch.rmy.android.http_shortcuts.activities.execute.ProgressIndicator
 import ch.rmy.android.http_shortcuts.activities.response.DisplayResponseActivity
 import ch.rmy.android.http_shortcuts.data.Commons
 import ch.rmy.android.http_shortcuts.data.Controller
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.exceptions.CanceledByUserException
@@ -27,6 +28,7 @@ import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.extensions.truncate
+import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.http.FileUploadManager
@@ -262,37 +264,34 @@ class ExecuteActivity : BaseActivity() {
                 }
             }
 
-    private fun getFileUploadManager(): FileUploadManager? {
-        if (!shortcut.usesRequestParameters() && !shortcut.usesFileBody()) {
-            return null
+    private fun createFileUploadManagerIfNeeded() {
+        if (fileUploadManager != null || (!shortcut.usesRequestParameters() && !shortcut.usesFileBody())) {
+            return
         }
-        if (fileUploadManager == null) {
-            fileUploadManager = FileUploadManager.Builder(contentResolver)
-                .withSharedFiles(fileUris)
-                .mapIf(shortcut.usesFileBody()) {
-                    it.addFileRequest()
-                }
-                .mapFor(shortcut.parameters) { builder, parameter ->
-                    when {
-                        parameter.isFilesParameter -> {
-                            builder.addFileRequest(multiple = true)
-                        }
-                        parameter.isFileParameter -> {
-                            builder.addFileRequest(multiple = false)
-                        }
-                        else -> builder
+        fileUploadManager = FileUploadManager.Builder(contentResolver)
+            .withSharedFiles(fileUris)
+            .mapIf(shortcut.usesFileBody()) {
+                it.addFileRequest()
+            }
+            .mapFor(shortcut.parameters) { builder, parameter ->
+                when {
+                    parameter.isFilesParameter -> {
+                        builder.addFileRequest(multiple = true)
                     }
+                    parameter.isFileParameter -> {
+                        builder.addFileRequest(multiple = false)
+                    }
+                    else -> builder
                 }
-                .build()
-        }
-        return fileUploadManager
+            }
+            .build()
     }
 
     private fun executeWithFileRequests(): Completable {
-        val fileUploadManager = getFileUploadManager()
+        createFileUploadManagerIfNeeded()
         val fileRequest = fileUploadManager?.getNextFileRequest()
         return if (fileRequest == null) {
-            executeWithActions(fileUploadManager)
+            executeWithActions()
         } else {
             openFilePickerForFileParameter(multiple = fileRequest.multiple)
         }
@@ -307,7 +306,7 @@ class ExecuteActivity : BaseActivity() {
             Completable.error(UnsupportedFeatureException())
         }
 
-    private fun executeWithActions(fileUploadManager: FileUploadManager? = null): Completable =
+    private fun executeWithActions(): Completable =
         Completable
             .fromAction {
                 if (shouldFinishImmediately()) {
@@ -332,57 +331,10 @@ class ExecuteActivity : BaseActivity() {
                 }
             )
             .concatWith(
-                if (shortcut.isBrowserShortcut) {
-                    openShortcutInBrowser()
-                } else if (shortcut.isScriptingShortcut) {
-                    Completable.complete()
-                } else {
-                    executeShortcut(fileUploadManager)
-                        .onErrorResumeNext { error ->
-                            if (error is ErrorResponse || error is IOException) {
-                                scriptExecutor
-                                    .execute(
-                                        context = context,
-                                        script = shortcut.codeOnFailure,
-                                        shortcut = shortcut,
-                                        variableManager = variableManager,
-                                        error = error as? Exception,
-                                        recursionDepth = recursionDepth
-                                    )
-                                    .subscribeOn(Schedulers.computation())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .andThen(Single.error(error))
-                            } else {
-                                Single.error(error)
-                            }
-                        }
-                        .flatMap { response ->
-                            scriptExecutor
-                                .execute(
-                                    context = context,
-                                    script = shortcut.codeOnSuccess,
-                                    shortcut = shortcut,
-                                    variableManager = variableManager,
-                                    response = response,
-                                    recursionDepth = recursionDepth
-                                )
-                                .subscribeOn(Schedulers.computation())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .toSingle { response }
-                        }
-                        .flatMapCompletable { response ->
-                            if (shortcut.isFeedbackErrorsOnly()) {
-                                Completable.complete()
-                            } else {
-                                val simple = shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE
-                                val output = if (simple) {
-                                    String.format(getString(R.string.executed), shortcutName)
-                                } else {
-                                    generateOutputFromResponse(response)
-                                }
-                                displayOutput(output, response)
-                            }
-                        }
+                when (shortcut.type) {
+                    ShortcutExecutionType.APP -> executeShortcut()
+                    ShortcutExecutionType.BROWSER -> openShortcutInBrowser()
+                    else -> Completable.complete()
                 }
             )
 
@@ -400,9 +352,54 @@ class ExecuteActivity : BaseActivity() {
         }
     }
 
-    private fun executeShortcut(fileUploadManager: FileUploadManager? = null): Single<ShortcutResponse> =
+    private fun executeShortcut(fileUploadManager: FileUploadManager? = null): Completable =
         HttpRequester.executeShortcut(shortcut, variableManager, fileUploadManager)
             .observeOn(AndroidSchedulers.mainThread())
+            .onErrorResumeNext { error ->
+                if (error is ErrorResponse || error is IOException) {
+                    scriptExecutor
+                        .execute(
+                            context = context,
+                            script = shortcut.codeOnFailure,
+                            shortcut = shortcut,
+                            variableManager = variableManager,
+                            error = error as? Exception,
+                            recursionDepth = recursionDepth
+                        )
+                        .subscribeOn(Schedulers.computation())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .andThen(Single.error(error))
+                } else {
+                    Single.error(error)
+                }
+            }
+            .flatMap { response ->
+                scriptExecutor
+                    .execute(
+                        context = context,
+                        script = shortcut.codeOnSuccess,
+                        shortcut = shortcut,
+                        variableManager = variableManager,
+                        response = response,
+                        recursionDepth = recursionDepth
+                    )
+                    .subscribeOn(Schedulers.computation())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .toSingle { response }
+            }
+            .flatMapCompletable { response ->
+                if (shortcut.isFeedbackErrorsOnly()) {
+                    Completable.complete()
+                } else {
+                    val simple = shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE
+                    val output = if (simple) {
+                        String.format(getString(R.string.executed), shortcutName)
+                    } else {
+                        generateOutputFromResponse(response)
+                    }
+                    displayOutput(output, response)
+                }
+            }
 
     private fun rescheduleExecution(): Completable =
         if (tryNumber < MAX_RETRY) {
@@ -484,14 +481,12 @@ class ExecuteActivity : BaseActivity() {
                     finishWithoutAnimation()
                     return
                 }
-                val fileUris = FilePickerUtil.extractUris(data)
-                getFileUploadManager()?.fulfilFileRequest(fileUris ?: emptyList())
-                resumeAfterFileRequest()
+                resumeAfterFileRequest(fileUris = FilePickerUtil.extractUris(data))
             }
         }
     }
 
-    private fun resumeAfterFileRequest() {
+    private fun resumeAfterFileRequest(fileUris: List<Uri>?) {
         if (fileUploadManager == null) {
             // TODO: Handle edge case where variableManager is no longer set because activity was recreated
             logException(RuntimeException("Failed to resume after file sharing"))
@@ -499,6 +494,7 @@ class ExecuteActivity : BaseActivity() {
             finishWithoutAnimation()
             return
         }
+        fileUploadManager!!.fulfilFileRequest(fileUris ?: emptyList())
         subscribeAndFinishAfterIfNeeded(executeWithFileRequests())
     }
 

@@ -4,6 +4,7 @@ import android.app.Application
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.Repository
 import ch.rmy.android.http_shortcuts.data.Transactions
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.Header
 import ch.rmy.android.http_shortcuts.data.models.Parameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
@@ -11,6 +12,7 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut.Companion.TEMPORARY_ID
 import ch.rmy.android.http_shortcuts.extensions.getCaseInsensitive
 import ch.rmy.android.http_shortcuts.extensions.getQuantityString
 import ch.rmy.android.http_shortcuts.extensions.getString
+import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.icons.Icons
 import ch.rmy.android.http_shortcuts.utils.RxUtils
@@ -114,31 +116,24 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
     }
 
     private fun validateShortcut(shortcut: Shortcut) {
-        if (!shortcut.isScriptingShortcut) {
-            if (shortcut.name.isBlank()) {
-                throw ShortcutValidationError(VALIDATION_ERROR_EMPTY_NAME)
-            }
-            if (!Validation.isAcceptableUrl(shortcut.url)) {
-                throw ShortcutValidationError(VALIDATION_ERROR_INVALID_URL)
-            }
+        if (shortcut.name.isBlank()) {
+            throw ShortcutValidationError(VALIDATION_ERROR_EMPTY_NAME)
+        }
+        if (shortcut.type.usesUrl && !Validation.isAcceptableUrl(shortcut.url)) {
+            throw ShortcutValidationError(VALIDATION_ERROR_INVALID_URL)
         }
     }
 
     fun getToolbarSubtitle(shortcut: Shortcut): CharSequence? =
-        when {
-            shortcut.isBrowserShortcut -> {
-                getString(R.string.subtitle_editor_toolbar_browser_shortcut)
-            }
-            shortcut.isScriptingShortcut -> {
-                getString(R.string.subtitle_editor_toolbar_scripting_shortcut)
-            }
-            else -> {
-                null
-            }
+        when (shortcut.type) {
+            ShortcutExecutionType.BROWSER -> getString(R.string.subtitle_editor_toolbar_browser_shortcut)
+            ShortcutExecutionType.SCRIPTING -> getString(R.string.subtitle_editor_toolbar_scripting_shortcut)
+            ShortcutExecutionType.TRIGGER -> getString(R.string.subtitle_editor_toolbar_trigger_shortcut)
+            else -> null
         }
 
     fun getBasicSettingsSubtitle(shortcut: Shortcut): CharSequence =
-        if (shortcut.isBrowserShortcut) {
+        if (shortcut.type == ShortcutExecutionType.BROWSER) {
             if (shortcut.url.isEmpty() || shortcut.url == "http://") {
                 getString(R.string.subtitle_basic_request_settings_url_only_prompt)
             } else {
@@ -192,9 +187,9 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
         }
 
     fun getScriptingSubtitle(shortcut: Shortcut): CharSequence =
-        getString(when {
-            shortcut.isScriptingShortcut -> R.string.label_scripting_scripting_shortcuts_subtitle
-            shortcut.isBrowserShortcut -> R.string.label_scripting_browser_shortcuts_subtitle
+        getString(when (shortcut.type) {
+            ShortcutExecutionType.SCRIPTING -> R.string.label_scripting_scripting_shortcuts_subtitle
+            ShortcutExecutionType.BROWSER -> R.string.label_scripting_browser_shortcuts_subtitle
             else -> R.string.label_scripting_subtitle
         })
 

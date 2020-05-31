@@ -6,3 +6,4 @@ build/
 *.aab
 app/release
 app/releaseWithCrashLogging
+/captures/

@@ -223,8 +223,8 @@ class SettingsActivity : BaseActivity() {
         private fun showExportOptions() {
             DialogBuilder(requireContext())
                 .title(R.string.title_export)
-                .item(R.string.button_export_to_general, ::openFilePickerForExport)
-                .item(R.string.button_export_send_to, ::sendExport)
+                .item(R.string.button_export_to_general, action = ::openFilePickerForExport)
+                .item(R.string.button_export_send_to, action = ::sendExport)
                 .showIfPossible()
         }
 
@@ -267,8 +267,8 @@ class SettingsActivity : BaseActivity() {
         private fun showImportOptions() {
             DialogBuilder(requireContext())
                 .title(R.string.title_import)
-                .item(R.string.button_import_from_general, ::openGeneralPickerForImport)
-                .item(R.string.button_import_from_url, ::openImportUrlDialog)
+                .item(R.string.button_import_from_general, action = ::openGeneralPickerForImport)
+                .item(R.string.button_import_from_url, action = ::openImportUrlDialog)
                 .showIfPossible()
         }
 

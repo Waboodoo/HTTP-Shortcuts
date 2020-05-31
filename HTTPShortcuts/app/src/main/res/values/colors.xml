@@ -29,6 +29,7 @@
 
     <item name="transparent" type="color">#00000000</item>
     <item name="divider" type="color">#44606060</item>
+    <item name="menu_dialog_separator" type="color">#44303030</item>
     <item name="variable" type="color">#FF3F51B5</item>
     <item name="shortcut" type="color">#FF51B53F</item>
     <item name="activity_background" type="color">#FAFAFA</item>

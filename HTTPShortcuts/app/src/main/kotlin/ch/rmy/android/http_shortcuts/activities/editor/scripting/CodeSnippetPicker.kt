@@ -71,7 +71,7 @@ class CodeSnippetPicker(
                 .item(R.string.dialog_code_snippet_get_variable) {
                     DialogBuilder(context)
                         .mapFor(variablePlaceholderProvider.placeholders) { builder, variable ->
-                            builder.item(variable.variableKey) {
+                            builder.item(name = variable.variableKey) {
                                 insertText("getVariable(/*[variable]*/\"${variable.variableId}\"/*[/variable]*/)", "")
                             }
                         }
@@ -81,7 +81,7 @@ class CodeSnippetPicker(
                     if (variablePlaceholderProvider.hasConstants) {
                         DialogBuilder(context)
                             .mapFor(variablePlaceholderProvider.constantsPlaceholders) { builder, variable ->
-                                builder.item(variable.variableKey) {
+                                builder.item(name = variable.variableKey) {
                                     insertText("setVariable(/*[variable]*/\"${variable.variableId}\"/*[/variable]*/, \"", "\");\n")
                                 }
                             }
@@ -177,7 +177,7 @@ class CodeSnippetPicker(
             }
             .mapFor(shortcutPlaceholderProvider.placeholders) { builder, shortcut ->
                 builder.mapIf(shortcut.id != currentShortcutId) {
-                    it.item(shortcut.name, shortcut.iconName) {
+                    it.item(name = shortcut.name, iconName = shortcut.iconName) {
                         callback("/*[shortcut]*/\"${shortcut.id}\"/*[/shortcut]*/")
                     }
                 }

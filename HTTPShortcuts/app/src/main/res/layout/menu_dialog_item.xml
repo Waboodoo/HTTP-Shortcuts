@@ -23,6 +23,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
         android:layout_toEndOf="@+id/menu_item_icon"
         android:layout_toRightOf="@+id/menu_item_icon"
         android:gravity="center_vertical"
@@ -36,5 +38,16 @@
             android:gravity="center_vertical"
             android:lines="1"
             android:textAppearance="?android:attr/textAppearanceListItemSmall" />
+
+        <TextView
+            android:id="@+id/menu_item_description"
+            style="@style/DialogItemDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:gravity="center_vertical"
+            android:maxLines="3"
+            android:textAppearance="?android:attr/textAppearanceListItemSecondary"
+            android:textSize="14sp" />
     </LinearLayout>
 </RelativeLayout>
