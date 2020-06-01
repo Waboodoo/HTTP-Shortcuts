@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.http
 
+import android.content.ContentResolver
 import android.net.Uri
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.exceptions.InvalidUrlException
@@ -14,7 +15,7 @@ import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import okhttp3.Response
 
-object HttpRequester {
+class HttpRequester(private val contentResolver: ContentResolver) {
 
     fun executeShortcut(shortcut: Shortcut, variableManager: VariableManager, fileUploadManager: FileUploadManager? = null): Single<ShortcutResponse> =
         Single
@@ -58,7 +59,7 @@ object HttpRequester {
                         val file = fileUploadManager?.getFile(0)
                         it.mapIf(file != null) {
                             it.contentType(determineContentType(shortcut) ?: file!!.mimeType)
-                            it.body(file!!.data)
+                            it.body(contentResolver.openInputStream(file!!.data)!!)
                         }
                     }
                     .mapIf(shortcut.usesRequestParameters()) {
@@ -107,7 +108,7 @@ object HttpRequester {
                                 name = "$parameterName[]",
                                 fileName = parameter.fileName.ifEmpty { file.fileName },
                                 type = file.mimeType,
-                                data = file.data
+                                data = contentResolver.openInputStream(file.data)!!
                             )
                         }
                     }
@@ -121,7 +122,7 @@ object HttpRequester {
                                 name = parameterName,
                                 fileName = parameter.fileName.ifEmpty { file!!.fileName },
                                 type = file!!.mimeType,
-                                data = file.data
+                                data = contentResolver.openInputStream(file.data)!!
                             )
                         }
                     }
@@ -136,20 +137,24 @@ object HttpRequester {
         }
     }
 
-    private fun prepareResponse(url: String, response: Response, ignoreBody: Boolean) =
-        ShortcutResponse(
-            url = url,
-            headers = HttpHeaders.parse(response.headers()),
-            statusCode = response.code(),
-            content = response.takeUnless { ignoreBody }?.body()?.byteStream(),
-            timing = response.receivedResponseAtMillis() - response.sentRequestAtMillis()
-        )
+    companion object {
 
-    private fun determineContentType(shortcut: Shortcut): String? = when {
-        shortcut.requestBodyType == Shortcut.REQUEST_BODY_TYPE_FORM_DATA -> "multipart/form-data; boundary=${FORM_MULTIPART_BOUNDARY}"
-        shortcut.requestBodyType == Shortcut.REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE -> "application/x-www-form-urlencoded; charset=UTF-8"
-        shortcut.contentType.isNotEmpty() -> shortcut.contentType
-        else -> null
+        private fun prepareResponse(url: String, response: Response, ignoreBody: Boolean) =
+            ShortcutResponse(
+                url = url,
+                headers = HttpHeaders.parse(response.headers()),
+                statusCode = response.code(),
+                content = response.takeUnless { ignoreBody }?.body()?.byteStream(),
+                timing = response.receivedResponseAtMillis() - response.sentRequestAtMillis()
+            )
+
+        private fun determineContentType(shortcut: Shortcut): String? = when {
+            shortcut.requestBodyType == Shortcut.REQUEST_BODY_TYPE_FORM_DATA -> "multipart/form-data; boundary=${FORM_MULTIPART_BOUNDARY}"
+            shortcut.requestBodyType == Shortcut.REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE -> "application/x-www-form-urlencoded; charset=UTF-8"
+            shortcut.contentType.isNotEmpty() -> shortcut.contentType
+            else -> null
+        }
+
     }
 
 }

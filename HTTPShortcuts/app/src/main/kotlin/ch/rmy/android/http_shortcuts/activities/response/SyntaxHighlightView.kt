@@ -32,7 +32,6 @@ class SyntaxHighlightView @JvmOverloads constructor(context: Context, attrs: Att
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ prettyJson ->
                     apply(prettyJson, language.language)
-
                 }, ::logException)
         } else {
             apply(content, language.language)

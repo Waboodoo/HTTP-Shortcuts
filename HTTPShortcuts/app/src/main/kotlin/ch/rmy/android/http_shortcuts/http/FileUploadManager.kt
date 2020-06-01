@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts.http
 import android.content.ContentResolver
 import android.net.Uri
 import android.webkit.MimeTypeMap
-import java.io.InputStream
 
 class FileUploadManager private constructor(
     private val contentResolver: ContentResolver,
@@ -43,10 +42,10 @@ class FileUploadManager private constructor(
 
     private fun uriToFile(uri: Uri): File =
         getType(uri).let { type ->
-            File(mimeType = type, fileName = getFileName(uri, type), data = contentResolver.openInputStream(uri)!!)
+            File(mimeType = type, fileName = getFileName(uri, type), data = uri)
         }
 
-    data class File(val mimeType: String, val fileName: String, val data: InputStream)
+    data class File(val mimeType: String, val fileName: String, val data: Uri)
 
     class FileRequest(val multiple: Boolean)
 

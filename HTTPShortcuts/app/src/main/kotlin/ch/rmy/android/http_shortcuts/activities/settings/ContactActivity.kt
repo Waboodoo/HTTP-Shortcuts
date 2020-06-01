@@ -13,15 +13,14 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.consume
-import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
 import ch.rmy.android.http_shortcuts.extensions.sendMail
+import ch.rmy.android.http_shortcuts.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.FileUtil
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
 import kotterknife.bindView
-import java.io.IOException
 import java.util.Locale
 
 class ContactActivity : BaseActivity() {
@@ -76,18 +75,13 @@ class ContactActivity : BaseActivity() {
     }
 
     private fun createMetaDataFile(): Uri? =
-        try {
+        tryOrLog {
             FileUtil.createCacheFile(context, META_DATA_FILE)
                 .also { uri ->
                     FileUtil.getWriter(context, uri).use {
                         GsonUtil.gson.toJson(collectMetaData(), it)
                     }
                 }
-        } catch (e: Exception) {
-            if (e !is IOException) {
-                logException(e)
-            }
-            null
         }
 
     private fun collectMetaData() =

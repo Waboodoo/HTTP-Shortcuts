@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.misc
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -10,12 +11,20 @@ import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.data.Controller
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
+import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.finishWithoutAnimation
+import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.mapFor
+import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
+import ch.rmy.android.http_shortcuts.utils.FileUtil
+import ch.rmy.android.http_shortcuts.utils.UUIDUtils
 import ch.rmy.android.http_shortcuts.variables.VariableLookup
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 class ShareActivity : BaseActivity() {
 
@@ -80,12 +89,36 @@ class ShareActivity : BaseActivity() {
     private fun getTargetableShortcutsForFileSharing(): List<Shortcut> =
         controller
             .getShortcuts()
-            .filter { hasFileParameter(it) }
+            .filter { hasFileParameter(it) || it.usesFileBody() }
 
     private fun handleFileSharing(fileUris: List<Uri>) {
         val shortcuts = getTargetableShortcutsForFileSharing()
+        if (shortcuts.isEmpty()) {
+            showInstructions(R.string.error_not_suitable_shortcuts)
+            return
+        }
+
+        val context = applicationContext
+        Single.fromCallable<List<Uri>> {
+            cacheSharedFiles(context, fileUris)
+        }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    proceedWithCachedShareFiles(shortcuts, it)
+                },
+                { e ->
+                    showToast(R.string.error_generic)
+                    logException(e)
+                    finishWithoutAnimation()
+                }
+            )
+            .attachTo(destroyer)
+    }
+
+    private fun proceedWithCachedShareFiles(shortcuts: List<Shortcut>, fileUris: List<Uri>) {
         when (shortcuts.size) {
-            0 -> showInstructions(R.string.error_not_suitable_shortcuts)
             1 -> {
                 executeShortcut(shortcuts[0], files = fileUris)
                 finishWithoutAnimation()
@@ -132,6 +165,19 @@ class ShareActivity : BaseActivity() {
 
         private fun hasFileParameter(shortcut: Shortcut): Boolean =
             shortcut.parameters.any { it.isFileParameter || it.isFilesParameter }
+
+        private fun cacheSharedFiles(context: Context, fileUris: List<Uri>) =
+            fileUris
+                .map {
+                    context.contentResolver.openInputStream(it)!!
+                        .use {
+                            val file = FileUtil.createCacheFile(context, createCacheFileName())
+                            it.copyTo(context.contentResolver.openOutputStream(file)!!)
+                            file
+                        }
+                }
+
+        private fun createCacheFileName() = "shared_${UUIDUtils.newUUID()}"
 
     }
 

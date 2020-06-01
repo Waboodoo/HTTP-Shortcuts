@@ -40,6 +40,7 @@ import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.DateUtil
 import ch.rmy.android.http_shortcuts.utils.ErrorFormatter
 import ch.rmy.android.http_shortcuts.utils.FilePickerUtil
+import ch.rmy.android.http_shortcuts.utils.FileUtil
 import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.NetworkUtil
@@ -124,6 +125,9 @@ class ExecuteActivity : BaseActivity() {
         setTheme(themeHelper.transparentTheme)
 
         destroyer.own {
+            if (fileUploadManager != null) {
+                FileUtil.deleteOldCacheFiles(context)
+            }
             ExecutionScheduler.schedule(context)
         }
 
@@ -352,8 +356,9 @@ class ExecuteActivity : BaseActivity() {
         }
     }
 
-    private fun executeShortcut(fileUploadManager: FileUploadManager? = null): Completable =
-        HttpRequester.executeShortcut(shortcut, variableManager, fileUploadManager)
+    private fun executeShortcut(): Completable =
+        HttpRequester(contentResolver)
+            .executeShortcut(shortcut, variableManager, fileUploadManager)
             .observeOn(AndroidSchedulers.mainThread())
             .onErrorResumeNext { error ->
                 if (error is ErrorResponse || error is IOException) {

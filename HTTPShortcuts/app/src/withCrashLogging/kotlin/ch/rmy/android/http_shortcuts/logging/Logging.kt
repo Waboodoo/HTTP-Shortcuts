@@ -7,6 +7,7 @@ import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.utils.InstallUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
 import com.bugsnag.android.Bugsnag
+import java.io.IOException
 import java.util.Date
 
 object Logging {
@@ -49,7 +50,7 @@ object Logging {
     }
 
     fun logException(origin: String, e: Throwable) {
-        if (initialized) {
+        if (initialized && e !is IOException && e.cause !is IOException) {
             Bugsnag.notify(e)
         }
     }
