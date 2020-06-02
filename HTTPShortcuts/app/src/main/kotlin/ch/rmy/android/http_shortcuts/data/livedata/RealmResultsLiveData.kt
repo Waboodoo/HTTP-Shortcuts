@@ -18,10 +18,6 @@ class RealmResultsLiveData<T>(private val data: RealmResults<T>) : ListLiveData<
         onChange()
     }
 
-    private fun onChange() {
-        value = value
-    }
-
     override fun onInactive() {
         if (data.isValid) {
             data.removeChangeListener(listener)

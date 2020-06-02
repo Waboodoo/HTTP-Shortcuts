@@ -578,6 +578,14 @@
     <string name="label_scripting">Scripting</string>
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before or after shortcut execution -->
     <string name="label_scripting_subtitle">Run JavaScript code before or after execution</string>
+    <!-- Section title in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger -->
+    <string name="label_trigger_shortcuts">Trigger Shortcuts</string>
+    <!-- Section subtitle in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger. No shortcuts set. -->
+    <string name="label_trigger_shortcuts_subtitle_none">No shortcuts selected yet</string>
+    <plurals name="label_trigger_shortcuts_subtitle">
+        <item quantity="one">%d shortcut selected</item>
+        <item quantity="other">%d shortcuts selected</item>
+    </plurals>
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before shortcut execution -->
     <string name="label_scripting_browser_shortcuts_subtitle">Run JavaScript code before execution</string>
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. -->
@@ -823,4 +831,10 @@
     <string name="placeholder_javascript_code_success">Add JavaScript code here to run after the shortcut is executed, e.g., to process the response.</string>
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs when execution fails -->
     <string name="placeholder_javascript_code_failure">Add JavaScript code here to run in case the request fails.</string>
+    <!-- Dialog title: Shown in dialog when picking a shortcut to be added to the list of shortcuts that are triggered when a multi-shortcut is executed -->
+    <string name="title_add_trigger_shortcut">Add Shortcut</string>
+    <!-- Dialog title: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
+    <string name="title_remove_trigger_shortcut">Remove Shortcut</string>
+    <!-- Dialog message: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
+    <string name="message_remove_trigger_shortcut">Remove shortcut "%s" from the list of triggered shortcuts?</string>
 </resources>

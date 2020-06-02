@@ -149,6 +149,14 @@
                 android:text="@string/label_scripting"
                 app:subtitle="@string/label_scripting_subtitle" />
 
+            <ch.rmy.android.http_shortcuts.views.PanelButton
+                android:id="@+id/button_trigger_shortcuts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:text="@string/label_trigger_shortcuts" />
+
             <include
                 android:id="@+id/divider_below_scripting"
                 layout="@layout/divider_line"

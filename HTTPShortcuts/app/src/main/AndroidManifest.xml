@@ -99,6 +99,14 @@
                 android:value=".activities.editor.ShortcutEditorActivity" />
         </activity>
         <activity
+            android:name=".activities.editor.shortcuts.TriggerShortcutsActivity"
+            android:label="@string/label_trigger_shortcuts"
+            android:windowSoftInputMode="adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.editor.ShortcutEditorActivity" />
+        </activity>
+        <activity
             android:name=".activities.editor.miscsettings.MiscSettingsActivity"
             android:label="@string/label_misc_settings"
             android:windowSoftInputMode="adjustResize">

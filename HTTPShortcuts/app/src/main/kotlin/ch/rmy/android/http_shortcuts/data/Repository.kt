@@ -22,6 +22,11 @@ object Repository {
             .where<Base>()
             .findFirst()
 
+    internal fun getBaseAsync(realm: Realm): Base? =
+        realm
+            .where<Base>()
+            .findFirstAsync()
+
     internal fun getShortcuts(realm: Realm): Collection<Shortcut> =
         realm
             .where<Shortcut>()

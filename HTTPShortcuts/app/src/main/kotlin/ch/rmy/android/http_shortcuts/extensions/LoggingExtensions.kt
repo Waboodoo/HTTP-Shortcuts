@@ -5,11 +5,11 @@ import ch.rmy.android.http_shortcuts.BuildConfig
 import ch.rmy.android.http_shortcuts.logging.Logging
 
 fun Any.logException(e: Throwable) {
-    Logging.logException(this.javaClass.simpleName, e)
+    Logging.logException(this.javaClass.simpleName.ifEmpty { "anonymous" }, e)
 }
 
 fun Any.logInfo(message: String) {
-    Logging.logInfo(this.javaClass.simpleName, message)
+    Logging.logInfo(this.javaClass.simpleName.ifEmpty { "anonymous" }, message)
 }
 
 fun <T> Any.tryOrLog(block: () -> T): T? =

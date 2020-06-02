@@ -8,11 +8,10 @@ import io.realm.Realm
 object Transactions {
 
     fun commit(transaction: (Realm) -> Unit): Completable =
-        Completable.create { emitter ->
+        Completable.fromAction {
             RealmFactory.getInstance().createRealm().use { realm ->
                 realm.executeTransaction(transaction)
             }
-            emitter.onComplete()
         }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

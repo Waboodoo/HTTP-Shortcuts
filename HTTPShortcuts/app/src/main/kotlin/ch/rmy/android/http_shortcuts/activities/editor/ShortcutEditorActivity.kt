@@ -22,6 +22,7 @@ import ch.rmy.android.http_shortcuts.activities.editor.headers.RequestHeadersAct
 import ch.rmy.android.http_shortcuts.activities.editor.miscsettings.MiscSettingsActivity
 import ch.rmy.android.http_shortcuts.activities.editor.response.ResponseActivity
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.ScriptingActivity
+import ch.rmy.android.http_shortcuts.activities.editor.shortcuts.TriggerShortcutsActivity
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
@@ -96,6 +97,7 @@ class ShortcutEditorActivity : BaseActivity() {
     private val authenticationButton: PanelButton by bindView(R.id.button_authentication)
     private val responseHandlingButton: PanelButton by bindView(R.id.button_response_handling)
     private val scriptingButton: PanelButton by bindView(R.id.button_scripting)
+    private val triggerShortcutsButton: PanelButton by bindView(R.id.button_trigger_shortcuts)
     private val miscSettingsButton: PanelButton by bindView(R.id.button_misc_settings)
     private val advancedTechnicalSettingsButton: PanelButton by bindView(R.id.button_advanced_technical_settings)
     private val dividerBelowBasicSettings: View by bindView(R.id.divider_below_basic_request_settings)
@@ -169,7 +171,8 @@ class ShortcutEditorActivity : BaseActivity() {
         responseHandlingButton.visible = type.usesResponse
         advancedTechnicalSettingsButton.visible = type.usesRequestOptions
         scriptingButton.visible = type.usesScriptingEditor
-        dividerBelowScripting.visible = type.usesScriptingEditor
+        triggerShortcutsButton.visible = type == ShortcutExecutionType.TRIGGER
+        dividerBelowScripting.visible = type.usesScriptingEditor || type == ShortcutExecutionType.TRIGGER
 
         basicRequestSettingsButton.subtitle = viewModel.getBasicSettingsSubtitle(shortcut)
             .let { subtitle ->
@@ -188,6 +191,10 @@ class ShortcutEditorActivity : BaseActivity() {
             requestBodyButton.isEnabled = shortcut.allowsBody()
         }
         scriptingButton.subtitle = viewModel.getScriptingSubtitle(shortcut)
+
+        if (type == ShortcutExecutionType.TRIGGER) {
+            triggerShortcutsButton.subtitle = viewModel.getTriggerShortcutsSubtitle(shortcut)
+        }
     }
 
     private fun bindClickListeners() {
@@ -221,6 +228,12 @@ class ShortcutEditorActivity : BaseActivity() {
         }
         scriptingButton.setOnClickListener {
             ScriptingActivity.IntentBuilder(context)
+                .shortcutId(shortcutId)
+                .build()
+                .startActivity(this)
+        }
+        triggerShortcutsButton.setOnClickListener {
+            TriggerShortcutsActivity.IntentBuilder(context)
                 .shortcutId(shortcutId)
                 .build()
                 .startActivity(this)

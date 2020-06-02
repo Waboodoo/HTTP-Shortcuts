@@ -15,6 +15,7 @@ import ch.rmy.android.http_shortcuts.extensions.getString
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.icons.Icons
+import ch.rmy.android.http_shortcuts.scripting.shortcuts.TriggerShortcutManager
 import ch.rmy.android.http_shortcuts.utils.RxUtils
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.utils.Validation
@@ -192,6 +193,15 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
             ShortcutExecutionType.BROWSER -> R.string.label_scripting_browser_shortcuts_subtitle
             else -> R.string.label_scripting_subtitle
         })
+
+    fun getTriggerShortcutsSubtitle(shortcut: Shortcut): CharSequence {
+        val count = TriggerShortcutManager.getTriggeredShortcutsFromCode(shortcut.codeOnPrepare).size
+        return getQuantityString(
+            count,
+            R.string.label_trigger_shortcuts_subtitle_none,
+            R.plurals.label_trigger_shortcuts_subtitle
+        )
+    }
 
     data class SaveResult(val id: String, val name: String, val iconName: String?)
 
