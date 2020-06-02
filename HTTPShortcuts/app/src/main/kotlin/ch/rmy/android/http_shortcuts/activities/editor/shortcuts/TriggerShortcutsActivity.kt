@@ -6,13 +6,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.mapFor
-import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholderProvider
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
@@ -76,18 +74,23 @@ class TriggerShortcutsActivity : BaseActivity() {
 
     private fun openShortcutPickerForAdding() {
         val shortcutIdsInUse = viewModel.triggerShortcuts.value?.map { it.id } ?: emptyList()
+        val placeholders = shortcutPlaceholderProvider.placeholders
+            .filter { it.id != currentShortcutId && it.id !in shortcutIdsInUse }
+
+        if (placeholders.isEmpty()) {
+            DialogBuilder(context)
+                .title(R.string.title_add_trigger_shortcut)
+                .message(R.string.error_add_trigger_shortcut_no_shortcuts)
+                .positive(R.string.dialog_ok)
+                .showIfPossible()
+            return
+        }
+
         DialogBuilder(context)
             .title(R.string.title_add_trigger_shortcut)
-            .mapIf("" !in shortcutIdsInUse) {
-                it.item(R.string.label_insert_action_code_for_current_shortcut) {
-                    addShortcut("")
-                }
-            }
-            .mapFor(shortcutPlaceholderProvider.placeholders) { builder, shortcut ->
-                builder.mapIf(shortcut.id != currentShortcutId && shortcut.id !in shortcutIdsInUse) {
-                    it.item(name = shortcut.name, iconName = shortcut.iconName) {
-                        addShortcut(shortcut.id)
-                    }
+            .mapFor(placeholders) { builder, shortcut ->
+                builder.item(name = shortcut.name, iconName = shortcut.iconName) {
+                    addShortcut(shortcut.id)
                 }
             }
             .showIfPossible()
@@ -111,7 +114,7 @@ class TriggerShortcutsActivity : BaseActivity() {
     }
 
     private fun removeShortcut(shortcutId: String) {
-        viewModel.removeShortcut(shortcutId.takeUnless { it == Shortcut.TEMPORARY_ID } ?: "")
+        viewModel.removeShortcut(shortcutId)
             .subscribe()
             .attachTo(destroyer)
     }

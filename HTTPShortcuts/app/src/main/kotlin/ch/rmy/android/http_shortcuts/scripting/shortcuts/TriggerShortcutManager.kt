@@ -4,7 +4,7 @@ import java.util.regex.Pattern
 
 object TriggerShortcutManager {
 
-    private const val REGEX = """triggerShortcut\((?:(?:/\*\[shortcut]\*/"([^"]+)"/\*\[/shortcut]\*/)|"")\);"""
+    private const val REGEX = """triggerShortcut\(/\*\[shortcut]\*/"([^"]+)"/\*\[/shortcut]\*/\);"""
     private val PATTERN = Pattern.compile(REGEX)
 
     fun getTriggeredShortcutsFromCode(code: String): List<TriggeredShortcut> {
@@ -19,12 +19,7 @@ object TriggerShortcutManager {
 
     fun getCodeFromTriggeredShortcuts(shortcuts: List<TriggeredShortcut>): String =
         shortcuts.joinToString("\n") {
-            val placeholder = if (it.shortcutId.isEmpty()) {
-                """"""""
-            } else {
-                """/*[shortcut]*/"${it.shortcutId}"/*[/shortcut]*/"""
-            }
-            """triggerShortcut($placeholder);"""
+            """triggerShortcut(/*[shortcut]*/"${it.shortcutId}"/*[/shortcut]*/);"""
         }
 
     class TriggeredShortcut(val shortcutId: String)

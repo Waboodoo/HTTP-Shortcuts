@@ -23,27 +23,14 @@ class TriggerShortcutManagerTest {
     }
 
     @Test
-    fun testParseTriggerShortcutsCodeWithEmptyString() {
-        val target = """
-            triggerShortcut("");
-        """.trimIndent()
-
-        val actual = TriggerShortcutManager.getTriggeredShortcutsFromCode(target)
-        assertThat(actual.size, equalTo(1))
-        assertThat(actual[0].shortcutId, equalTo(""))
-    }
-
-    @Test
     fun testGeneratTriggerShortcutsCode() {
         val target = listOf(
             TriggerShortcutManager.TriggeredShortcut("1234"),
-            TriggerShortcutManager.TriggeredShortcut("5678"),
-            TriggerShortcutManager.TriggeredShortcut("")
+            TriggerShortcutManager.TriggeredShortcut("5678")
         )
         val expected = """
             triggerShortcut(/*[shortcut]*/"1234"/*[/shortcut]*/);
             triggerShortcut(/*[shortcut]*/"5678"/*[/shortcut]*/);
-            triggerShortcut("");
         """.trimIndent()
         val actual = TriggerShortcutManager.getCodeFromTriggeredShortcuts(target)
         assertThat(actual, equalTo(expected))

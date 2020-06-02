@@ -54,7 +54,7 @@ class ShortcutsAdapter(private val lifecycleOwner: LifecycleOwner, private val s
 
         fun setItem(shortcut: ShortcutPlaceholder) {
             this.item = shortcut
-            name.setText(shortcut.name.ifBlank { "-" })
+            name.setText(shortcut.name)
             icon.setIcon(shortcut.iconName)
         }
 

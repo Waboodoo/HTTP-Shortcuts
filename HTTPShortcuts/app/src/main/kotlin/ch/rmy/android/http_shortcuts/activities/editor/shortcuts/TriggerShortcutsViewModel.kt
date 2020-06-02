@@ -34,13 +34,7 @@ class TriggerShortcutsViewModel(application: Application) : BasicShortcutEditorV
         override fun getValue(): List<ShortcutPlaceholder>? =
             getTriggeredShortcuts()
                 .mapNotNull {
-                    if (it.shortcutId.isEmpty()) {
-                        shortcut.value
-                    } else {
-                        shortcuts.firstOrNull { shortcut ->
-                            shortcut.id == it.shortcutId
-                        }
-                    }
+                    shortcuts.firstOrNull { shortcut -> shortcut.id == it.shortcutId }
                         ?.let { ShortcutPlaceholder.fromShortcut(it) }
                 }
 

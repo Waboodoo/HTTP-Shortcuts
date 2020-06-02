@@ -833,8 +833,10 @@
     <string name="placeholder_javascript_code_failure">Add JavaScript code here to run in case the request fails.</string>
     <!-- Dialog title: Shown in dialog when picking a shortcut to be added to the list of shortcuts that are triggered when a multi-shortcut is executed -->
     <string name="title_add_trigger_shortcut">Add Shortcut</string>
+    <!-- Dialog error message: Shown in dialog when picking a shortcut to be added to the list of shortcuts that are triggered when a multi-shortcut is executed but the user doesn't have any shortcuts yet -->
+    <string name="error_add_trigger_shortcut_no_shortcuts">There are no shortcuts that can be added. You need to create some additional shortcuts first before you can select them here.</string>
     <!-- Dialog title: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
     <string name="title_remove_trigger_shortcut">Remove Shortcut</string>
     <!-- Dialog message: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
-    <string name="message_remove_trigger_shortcut">Remove shortcut "%s" from the list of triggered shortcuts?</string>
+    <string name="message_remove_trigger_shortcut">Remove shortcut \"%s\" from the list of triggered shortcuts?</string>
 </resources>
