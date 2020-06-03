@@ -413,6 +413,7 @@
     <string name="settings_licenses">"Remerciements"</string>
 
     <!-- Button subtitle, for "Acknowledgements" button -->
+    <!-- Fuzzy -->
     <string name="settings_licenses_summary">"Bibliothèques et ressources utilisées"</string>
 
     <!-- Page title, for page showing all configured categories -->
@@ -513,9 +514,6 @@ Tous les raccourcis contenus dans cette catégorie seront supprimés."</string>
     <!-- label, to allow user to pick the variable type (using a dropdown) in the variable editor -->
     <string name="label_variable_type">"Type"</string>
 
-    <!-- label, to allow the user to enter the key/name for a variable -->
-    <string name="label_variable_key">"Variable"</string>
-
     <!-- label, shown in variable editor, to allow the user to enter a dialog title that will be shown then the variable is evaluated -->
     <string name="label_variable_title">"Titre de la boite de dialogue (facultatif)"</string>
 
@@ -558,6 +556,7 @@ Tous les raccourcis contenus dans cette catégorie seront supprimés."</string>
     <string name="variable_type_color">"Entrée de couleur"</string>
 
     <!-- Error message, information user that the variable name they entered is not valid -->
+    <!-- Fuzzy -->
     <string name="warning_invalid_variable_key">"Les variables ne peuvent contenir que des lettres et des chiffres."</string>
 
     <!-- Dialog message, asking user to confirm the deletion of a variable -->
@@ -576,9 +575,11 @@ Tous les raccourcis contenus dans cette catégorie seront supprimés."</string>
     <string name="section_basic_variable_settings">"Paramètres de base"</string>
 
     <!-- Error message, informing user that the entered variable key is empty -->
+    <!-- Fuzzy -->
     <string name="validation_key_non_empty">"La variable ne doit pas être vide."</string>
 
     <!-- Error message, informing user that the entered variable key already exists -->
+    <!-- Fuzzy -->
     <string name="validation_key_already_exists">"Une autre variable avec le même nom existe déjà."</string>
 
     <!-- Dialog title, to add another value to the list of values in a variable of Toggle type -->
@@ -703,9 +704,11 @@ Voir la documentation dans la section variable pour plus d'informations."</strin
     <string name="title_create_new_shortcut_options_dialog">"Créer un nouveau raccourci"</string>
 
     <!-- Option 1 in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
+    <!-- Fuzzy -->
     <string name="button_create_new">"Créer un nouveau raccourci"</string>
 
     <!-- Option 2 in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
+    <!-- Fuzzy -->
     <string name="button_curl_import">"Depuis la commande cURL"</string>
 
     <!-- Window title for cURL import -->

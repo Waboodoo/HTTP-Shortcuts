@@ -355,6 +355,7 @@
     <string name="settings_licenses">"Teşekkürler"</string>
 
     <!-- Button subtitle, for "Acknowledgements" button -->
+    <!-- Fuzzy -->
     <string name="settings_licenses_summary">"Kütüphaneler ve kullanılan kaynaklar"</string>
 
     <!-- Page title, for page showing all configured categories -->
@@ -428,9 +429,6 @@
     <!-- label, to allow user to pick the variable type (using a dropdown) in the variable editor -->
     <string name="label_variable_type">"Tür"</string>
 
-    <!-- label, to allow the user to enter the key/name for a variable -->
-    <string name="label_variable_key">"Anahtar"</string>
-
     <!-- label, shown in variable editor, to allow the user to enter a dialog title that will be shown then the variable is evaluated -->
     <string name="label_variable_title">"İletişim Başlığı (isteğe bağlı)"</string>
 
@@ -473,6 +471,7 @@
     <string name="variable_type_color">"Renk Girişi"</string>
 
     <!-- Error message, information user that the variable name they entered is not valid -->
+    <!-- Fuzzy -->
     <string name="warning_invalid_variable_key">"Değişken anahtarları sadece İngilizce karakterler ve rakam içerebilir."</string>
 
     <!-- Dialog message, asking user to confirm the deletion of a variable -->
@@ -491,9 +490,11 @@
     <string name="section_basic_variable_settings">"Temel ayarlar"</string>
 
     <!-- Error message, informing user that the entered variable key is empty -->
+    <!-- Fuzzy -->
     <string name="validation_key_non_empty">"Değişken anahtarı boş olmamalıdır."</string>
 
     <!-- Error message, informing user that the entered variable key already exists -->
+    <!-- Fuzzy -->
     <string name="validation_key_already_exists">"Bu anahtarla başka bir değişken zaten var."</string>
 
     <!-- Dialog title, to add another value to the list of values in a variable of Toggle type -->
@@ -627,9 +628,11 @@ Daha fazla bilgi için değişken bölümdeki belgelere bakın."</string>
     <string name="title_create_new_shortcut_options_dialog">"Yeni Kısayol Oluştur"</string>
 
     <!-- Option 1 in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
+    <!-- Fuzzy -->
     <string name="button_create_new">"Sıfırdan"</string>
 
     <!-- Option 2 in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
+    <!-- Fuzzy -->
     <string name="button_curl_import">"cURL komutundan
 "</string>
 

@@ -2,7 +2,7 @@
 <resources>
 
     <!-- The name of the app -->
-    <string name="app_name">"Programas HTTP"</string>
+    <string name="app_name">"Atajos HTTP"</string>
 
     <!-- The name of the default category -->
     <string name="shortcuts">"Programas"</string>
@@ -42,6 +42,9 @@
 
     <!-- Label above input field in editor, for shortcut authentication password -->
     <string name="label_password">"Contraseña"</string>
+
+    <!-- Label above input field in editor, for shortcut authentication token -->
+    <string name="label_auth_token">"Token"</string>
 
     <!-- Label above input field in editor, for shortcut response type dropdown -->
     <string name="label_feedback">"Tipo de respuesta"</string>
@@ -127,6 +130,9 @@
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
     <string name="error_other">"%1$s ha fallado: %2$s"</string>
 
+    <!-- Error shown when the HTTP response is too large to be loaded into memory. %s is a placeholder for the size limit, e.g. "1 MB") -->
+    <string name="error_response_too_large">"Respuesta muy larga (el límite es %s)"</string>
+
     <!-- Error shown when a selected image cannot be used as an icon -->
     <string name="error_set_image">"No se pudo usar la imagen como icono"</string>
 
@@ -154,11 +160,20 @@
     <!-- Title of dialog to edit a parameter on a shortcut -->
     <string name="title_post_param_edit">"Editar parámetro"</string>
 
+    <!-- Title of dialog to edit a file parameter on a shortcut -->
+    <string name="title_post_param_edit_file">"Editar parámetro de archivo"</string>
+
     <!-- Title of dialog to add a new parameter to a shortcut -->
     <string name="title_post_param_add">"Agregar parámetro"</string>
 
+    <!-- Title of dialog to add a new file parameter to a shortcut -->
+    <string name="title_post_param_add_file">"Añadir parámetro de archivo"</string>
+
     <!-- Label of input field to provide the name/key of a parameter of a shortcut -->
     <string name="label_post_param_key">"Parámetro"</string>
+
+    <!-- Label of input field to provide the file name for a file parameter of a shortcut -->
+    <string name="label_post_param_file_name">"Nombre de archivo (opcional)"</string>
 
     <!-- Label of input field to provide the value of a parameter of a shortcut -->
     <string name="label_post_param_value">"Valor"</string>
@@ -195,6 +210,9 @@
 
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
     <string name="title_settings">"Configuración"</string>
+
+    <!-- Name of toolbar action: Unlock all settings (will prompt user to enter passcode) -->
+    <string name="menu_action_unlock_app">"Desbloquear configuraciones"</string>
 
     <!-- Title of theme settings -->
     <string name="settings_theme">"Tema"</string>
@@ -238,11 +256,33 @@
     <!-- Button in settings page to start export of shortcuts -->
     <string name="settings_export">"Exportar accesos directos"</string>
 
+    <!-- Success message, shown in snackbar when export of shortcuts is successful -->
+    <plurals name="shortcut_export_success">
+        <item quantity="one">"1 atajo exportado."</item>
+        <item quantity="other">"%d atajos exportados."</item>
+    </plurals>
+
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
     <string name="export_in_progress">"Exportando…"</string>
 
     <!-- Error message: Shown in snackbar when import of shortcuts & variables failed -->
     <string name="import_failed">"Fallo importando accesos directos."</string>
+
+    <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
+    <string name="import_failed_with_reason">"La importación de accesos directos falló:
+%s"</string>
+
+    <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
+    <string name="export_failed_with_reason">"Error al exportar accesos directos: % s"</string>
+
+    <!-- Error message: Import failed due to invalid JSON syntax in the import file -->
+    <string name="import_failure_reason_invalid_json">"JSON inválido"</string>
+
+    <!-- Success message, shown in snackbar when import of shortcuts is successful -->
+    <plurals name="shortcut_import_success">
+        <item quantity="one">"1 acceso directo importado."</item>
+        <item quantity="other">"%d accesos directos importados."</item>
+    </plurals>
 
     <!-- Message shown in progress dialog while shortcuts are being imported -->
     <string name="import_in_progress">"Importando…"</string>
@@ -250,10 +290,22 @@
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
     <string name="label_timeout">"Se acabó el tiempo"</string>
 
+    <!-- Label, for option to set the proxy hostname for a shortcut -->
+    <string name="label_proxy_host">"Proxy Hostname / Dirección IP"</string>
+
+    <!-- Label, for option to set the proxy port for a shortcut -->
+    <string name="label_proxy_port">"Puerto Proxy"</string>
+
     <!-- Used in various places to indicate a number of seconds, e.g. for a delay. %s is a placeholder for the actual number. -->
     <plurals name="seconds">
         <item quantity="one">"%d segundo"</item>
         <item quantity="other">"%d segundos"</item>
+    </plurals>
+
+    <!-- Used in various places to indicate a number of milliseconds, e.g. for a delay. %s is a placeholder for the actual number. -->
+    <plurals name="milliseconds">
+        <item quantity="one">"%d milisegundos"</item>
+        <item quantity="other">"%d milisegundos"</item>
     </plurals>
 
     <!-- Used in various places to indicate a number of minutes, e.g. for a delay. %s is a placeholder for the actual number. -->
@@ -261,6 +313,9 @@
         <item quantity="one">"%d minuto"</item>
         <item quantity="other">"%d minutos"</item>
     </plurals>
+
+    <!-- Pattern: Combines an indication of minutes (first %s) with an indication of seconds (second %s), e.g. 1 minute, 24 seconds -->
+    <string name="pattern_minutes_seconds">"%s, %s"</string>
 
     <!-- Section title in app settings -->
     <string name="settings_about">"Sobre esta aplicación"</string>
@@ -295,6 +350,9 @@
     <!-- Message displayed when the shortcut cannot be executed because there is no internet connection. %1$s is a placeholder for the shortcut name. -->
     <string name="execution_delayed">"%1$s se ejecutará una vez que esté disponible la conexión a internet."</string>
 
+    <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor -->
+    <string name="label_wait_for_connection">"Espere la conexión cuando esté desconectado"</string>
+
     <!-- Label: Shown on button that allows to enable execution delay of a shortcut -->
     <string name="label_delay_execution">"Retrasar la ejecución"</string>
 
@@ -303,6 +361,12 @@
 
     <!-- Button subtitle for "View in Play Store" button -->
     <string name="settings_play_store_summary">"Gracias por su calificación y comentarios"</string>
+
+    <!-- Title of option in settings screen: FAQ (frequently asked questions), links the user to an external documentation page -->
+    <string name="settings_faq">"FAQ"</string>
+
+    <!-- Subtitle of option in settings screen: FAQ (frequently asked questions), links the user to an external documentation page -->
+    <string name="settings_faq_summary">"Preguntas más frecuentes"</string>
 
     <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_duplicated">"\"%1$s\" duplicados"</string>
@@ -337,6 +401,9 @@
     <!-- checkbox label in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
     <string name="label_accept_all_certificates">"Aceptar cualquier certificado (sé lo que estoy haciendo)"</string>
 
+    <!-- Checkbox label in editor, if enabled user will be prompted to confirm before a shortcut is executed -->
+    <string name="label_require_execution_confirmation">"Requiere confirmación antes de la ejecución"</string>
+
     <!-- Page title, for page listing all the libraries and 3rd party assets used in the app -->
     <string name="title_licenses">"Reconocimientos"</string>
 
@@ -344,6 +411,7 @@
     <string name="settings_licenses">"Reconocimientos"</string>
 
     <!-- Button subtitle, for "Acknowledgements" button -->
+    <!-- Fuzzy -->
     <string name="settings_licenses_summary">"Bibliotecas y recursos utilizados"</string>
 
     <!-- Page title, for page showing all configured categories -->
@@ -355,14 +423,35 @@
     <!-- Action, shown on dropdown when editing a category, for allowing to change the category's layout type -->
     <string name="action_change_category_layout_type">"Cambiar tipo de diseño"</string>
 
+    <!-- Action, shown on dropdown when editing a category, for allowing to hide a category -->
+    <string name="action_hide_category">"Ocultar"</string>
+
+    <!-- Action, shown on dropdown when editing a category, for allowing to show a hidden category -->
+    <string name="action_show_category">"Mostrar"</string>
+
     <!-- Message, shown in snackbar to confirm to the user that the layout type of a category was changed -->
     <string name="message_layout_type_changed">"Tipo de diseño cambiado"</string>
+
+    <!-- Option in context menu for category, allows user to change the background of a category -->
+    <string name="action_change_category_background">"Cambiar el fondo"</string>
+
+    <!-- Success message after background of a category was changed. Shown in snackbar. -->
+    <string name="message_background_type_changed">"Fondo cambiado."</string>
 
     <!-- One of two options when picking the layout for a category: Show shortcuts in a list -->
     <string name="layout_type_linear_list">"Lista"</string>
 
     <!-- One of two options when picking the layout for a category: Show shortcuts in a grid -->
     <string name="layout_type_grid">"Grilla"</string>
+
+    <!-- Option to choose from when selecting the background of a category: Plain white -->
+    <string name="category_background_type_white">"Blanco"</string>
+
+    <!-- Option to choose from when selecting the background of a category: Plain black -->
+    <string name="category_background_type_black">"Negro"</string>
+
+    <!-- Option to choose from when selecting the background of a category: Use phone's wallpaper -->
+    <string name="category_background_type_wallpaper">"Fondo de pantalla"</string>
 
     <!-- Option to allow renaming a category -->
     <string name="title_rename_category">"Renombrar categoría"</string>
@@ -382,6 +471,12 @@
     <!-- Message, shown in snackbar, to confirm to the user that a category was renamed -->
     <string name="message_category_renamed">"Categoría renombrada"</string>
 
+    <!-- Message, shown in snackbar, to confirm to the user that a category was hidden -->
+    <string name="message_category_hidden">"Categoría oculta."</string>
+
+    <!-- Message, shown in snackbar, to confirm to the user that a category is no longer hidden and visible again -->
+    <string name="message_category_visible">"La categoria ya no está oculta."</string>
+
     <!-- Message, shown in snackbar, to confirm to the user that a category was created -->
     <string name="message_category_created">"Categoría creada"</string>
 
@@ -393,6 +488,9 @@
         <item quantity="one">"%d acceso directo"</item>
         <item quantity="other">"%d accesos directos"</item>
     </plurals>
+
+    <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
+    <string name="label_category_hidden">"%s (oculta)"</string>
 
     <!-- Dialog title/button, for feature to move a shortcut to a different category -->
     <string name="title_move_to_category">"Mover a categoría"</string>
@@ -412,9 +510,6 @@
     <!-- label, to allow user to pick the variable type (using a dropdown) in the variable editor -->
     <string name="label_variable_type">"Tipo"</string>
 
-    <!-- label, to allow the user to enter the key/name for a variable -->
-    <string name="label_variable_key">"Llave"</string>
-
     <!-- label, shown in variable editor, to allow the user to enter a dialog title that will be shown then the variable is evaluated -->
     <string name="label_variable_title">"Título del diálogo (opcional)"</string>
 
@@ -425,8 +520,7 @@
     <string name="label_variable_time_format">"Formato de hora"</string>
 
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
-    <!-- Fuzzy -->
-    <string name="variable_type_constant">"Constante"</string>
+    <string name="variable_type_constant">"Variable estática (constante)"</string>
 
     <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
     <string name="variable_type_text">"Texto de entrada"</string>
@@ -441,8 +535,7 @@
     <string name="variable_type_password">"Introducción de contraseña"</string>
 
     <!-- Type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
-    <!-- Fuzzy -->
-    <string name="variable_type_select">"Selección"</string>
+    <string name="variable_type_select">"Selección de opción múltiple"</string>
 
     <!-- Type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
     <string name="variable_type_toggle">"Alternar"</string>
@@ -457,6 +550,7 @@
     <string name="variable_type_color">"Selector de color"</string>
 
     <!-- Error message, information user that the variable name they entered is not valid -->
+    <!-- Fuzzy -->
     <string name="warning_invalid_variable_key">"Las claves de variable sólo pueden contener dígitos y letras del alfabeto inglés."</string>
 
     <!-- Dialog message, asking user to confirm the deletion of a variable -->
@@ -475,9 +569,11 @@
     <string name="section_basic_variable_settings">"Configuración básica"</string>
 
     <!-- Error message, informing user that the entered variable key is empty -->
+    <!-- Fuzzy -->
     <string name="validation_key_non_empty">"La clave de variable no puede estar vacía."</string>
 
     <!-- Error message, informing user that the entered variable key already exists -->
+    <!-- Fuzzy -->
     <string name="validation_key_already_exists">"Ya existe otra variable con esta clave."</string>
 
     <!-- Dialog title, to add another value to the list of values in a variable of Toggle type -->
@@ -525,6 +621,12 @@ No tienes ninguna variable configurada todavía. Puede hacerlo haciendo clic en 
     <string name="help_text_variable_button_for_variables">"Este botón le permite incluir marcadores de posición para los valores de otras variables en este.
 
 Sin embargo, todavía no tiene ninguna variable configurada."</string>
+
+    <!-- Instructions shown in code snippet picker when the user selects the "Get Variable" option and there are no variables yet -->
+    <string name="help_text_code_snippet_get_variable_no_variable">"Si no tienen ninguna variable más"</string>
+
+    <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
+    <string name="help_text_code_snippet_set_variable_no_variable">"Aún no tienes ninguna variable. Haga clic en el botón CREAR a continuación para comenzar."</string>
 
     <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
     <string name="button_create_first_variable">"Crear"</string>
@@ -602,6 +704,9 @@ Consulte la documentación en la sección de variables para más información."<
     <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
     <string name="title_export">"Exportar a…"</string>
 
+    <!-- Dialog option on Export dialog, for exporting by storing in a file -->
+    <string name="button_export_to_general">"Documentos"</string>
+
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
     <string name="button_export_send_to">"Otra aplicación"</string>
 
@@ -611,14 +716,22 @@ Consulte la documentación en la sección de variables para más información."<
     <!-- Dialog option on Import dialog, for importing shortcuts from a file picked via the system's document browser -->
     <string name="button_import_from_general">"Documentos"</string>
 
+    <!-- Dialog option on Import dialog, for importing shortcuts from a URL -->
+    <string name="button_import_from_url">"URL"</string>
+
     <!-- Dialog title when creating a new shortcut, shows options below -->
     <string name="title_create_new_shortcut_options_dialog">"Crear nuevo acceso directo"</string>
 
     <!-- Option 1 in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
+    <!-- Fuzzy -->
     <string name="button_create_new">"Desde cero"</string>
 
     <!-- Option 2 in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
+    <!-- Fuzzy -->
     <string name="button_curl_import">"Desde comando cURL"</string>
+
+    <!-- Option 3 in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
+    <string name="button_create_browser_shortcut">"Atajo navegador"</string>
 
     <!-- Window title for cURL import -->
     <string name="title_curl_import">"Importar cURL"</string>
@@ -638,8 +751,14 @@ Consulte la documentación en la sección de variables para más información."<
     <!-- Dropdown option for "Authentication" of a shortcut: "Digest Authentication", aka. DigestAuth (username & password) -->
     <string name="authentication_digest">"Autenticación resumida"</string>
 
+    <!-- Dropdown option for "Authentication" of a shortcut: "Bearer Authentication", aka. BearerAuth (token) -->
+    <string name="authentication_bearer">"Autenticación Bearer"</string>
+
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu, i.e., when long-pressing the app icon on the home screen -->
     <string name="label_launcher_shortcut">"Mostrar como acceso directo a aplicación en el launcher"</string>
+
+    <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
+    <string name="label_quick_tile_shortcut">"Permitir la activación a través de configuración rápida"</string>
 
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
     <string name="error_share_failed">"Ocurrió un error al compartir."</string>
@@ -656,6 +775,12 @@ Consulte la documentación en la sección de variables para más información."<
     <!-- Summary/subtitle of section in settings that allows user to click to open privacy policy dialog -->
     <string name="settings_privacy_policy_summary">"Claro que no, no robamos tus datos"</string>
 
+    <!-- Title of section in settings that allows user to lock all settings with a passcode. -->
+    <string name="settings_lock_app_title">"Configuración de bloqueo"</string>
+
+    <!-- Summary/subtitle of section in settings that allows user to lock all settings with a passcode. -->
+    <string name="settings_lock_app_summary">"Prevenir cambios de los accesos directos y configuraciones"</string>
+
     <!-- Label above input box, for minimum (numeric) value of a horizontal slider -->
     <string name="label_variable_slider_min">"Mínimo"</string>
 
@@ -667,6 +792,9 @@ Consulte la documentación en la sección de variables para más información."<
 
     <!-- error message displayed when "Maximum" is lesser than or equal to "Minimum" for "slider" variable type -->
     <string name="error_slider_max_not_greater_than_min">"El máximo debe ser mayor al mínimo."</string>
+
+    <!-- error message displayed when "Step Size" is not a positive number for "slider" variable type -->
+    <string name="error_slider_step_size_must_be_positive">"El valor debe ser un número positivo."</string>
 
     <!-- Button text: Set image as icon (after selecting and editing) -->
     <string name="button_apply_icon">"Aplicar icono"</string>
@@ -692,8 +820,41 @@ Consulte la documentación en la sección de variables para más información."<
     <!-- Button to copy the cURL export of a shortcut to the clipboard -->
     <string name="button_copy_curl_export">"Copiar"</string>
 
+    <!-- Section title in shortcut editor: "Response handling", contains settings for controlling how the shortcut response should be handled -->
+    <string name="label_response_handling">"Manejo de respuesta"</string>
+
+    <!-- Section subtitle in shortcut editor: "Response handling", contains settings for controlling how the shortcut response should be handled -->
+    <string name="label_response_handling_subtitle">"Definir como manejar la respuesta"</string>
+
+    <!-- Section title in shortcut editor: "Scripting", allows to write scripts for advanced workflows -->
+    <string name="label_scripting">"Scripting"</string>
+
+    <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before or after shortcut execution -->
+    <string name="label_scripting_subtitle">"Ejecutar código JavaScript ante o después de la ejecución"</string>
+
+    <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before shortcut execution -->
+    <string name="label_scripting_browser_shortcuts_subtitle">"Ejecutar código JavaScript  antes de la ejecución"</string>
+
+    <!-- Section title in shortcut editor, groups together miscellaneous settings -->
+    <string name="label_misc_settings">"Configuraciones varias"</string>
+
+    <!-- Section subtitle, shown underneath "Misc Settings", gives brief summary of what the section is about -->
+    <string name="label_misc_settings_subtitle">"Varias opciones adicionales"</string>
+
+    <!-- Section title in shortcut editor, groups together technical settings -->
+    <string name="label_advanced_technical_settings">"Configuraciones técnicas avanzadas"</string>
+
+    <!-- Section subtitle in shortcut editor, shown below "Advanced Technical Settings" -->
+    <string name="label_advanced_technical_settings_subtitle">"Solo para gente que sabe lo que está haciendo"</string>
+
     <!-- Shortcut Action Title: Show Toast (small popup message) -->
     <string name="action_type_toast_title">"Mensaje emergente"</string>
+
+    <!-- Shortcut Action Title: Show Dialog -->
+    <string name="action_type_dialog_title">"Mostrar diálogo"</string>
+
+    <!-- Shortcut Action Title: Action that allows to copy strings to the device's clipboard -->
+    <string name="action_copy_to_clipboard_title">"Copiar al portapapeles"</string>
 
     <!-- Shortcut Action Title: Vibrate -->
     <string name="action_type_vibrate_title">"Vibrar"</string>
@@ -701,8 +862,14 @@ Consulte la documentación en la sección de variables para más información."<
     <!-- Shortcut Action Title: Change Shortcut Name -->
     <string name="action_type_rename_shortcut_title">"Renombrar acceso directo"</string>
 
+    <!-- Shortcut Action Title: Change Shortcut Icon -->
+    <string name="action_type_change_icon_title">"Cambiar ícono del acceso directo"</string>
+
     <!-- Shortcut Action Title: Trigger a shortcut, i.e., execute it -->
     <string name="action_type_trigger_shortcut_title">"Ejecutar acceso directo"</string>
+
+    <!-- Shortcut Action Title: Abort the execution of the shortcut -->
+    <string name="action_type_abort_execution">"Abortar ejecución"</string>
 
     <!-- Shortcut error message: Maximum recursion depth reached, i.e., a potential infinite loop was detected and stopped -->
     <string name="action_type_trigger_shortcut_error_recursion_depth_reached">"Profundidad máxima de recursión alcanzada. El acceso directo no se activará."</string>
@@ -710,15 +877,54 @@ Consulte la documentación en la sección de variables para más información."<
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid URL -->
     <string name="error_invalid_url">"URL no válida (%s)."</string>
 
+    <!-- error message: Shown in toast when the user tries to execute a shortcut with invalid proxy settings -->
+    <string name="error_invalid_proxy">"Proxy inválido (%s)"</string>
+
+    <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid content type -->
+    <string name="error_invalid_content_type">"Tipo de contenido no válido (%s)."</string>
+
+    <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid header -->
+    <string name="error_invalid_header">"Cabecera inválida (%s)."</string>
+
     <!-- Title: Dialog title when selecting how to place a shortcut on the homescreen -->
     <string name="title_select_placement_method">"Método de colocación"</string>
 
     <!-- Description: Dialog text when selecting how to place a shortcut on the homescreen -->
-    <string name="description_select_placement_method">"Seleccione el método para colocar el…"</string>
+    <string name="description_select_placement_method">"Seleccione el método a utilizar para colocar el acceso directo. Si encuentra problemas con el método \"Predeterminado\" o \"Default\", puede probar el método \"Legado\" o \"Legacy\". Tenga en cuenta que algunas funciones (por ejemplo, cambiar el nombre del acceso directo) no están disponibles con el método Legado o Legacy."</string>
 
     <!-- Label: Preferred option in dialog for selecting how to place the shortcut on the homescreen: Default (method) -->
     <string name="label_placement_method_default">"Por defecto"</string>
 
     <!-- Label: Alternative option in dialog for selecting how to place the shortcut on the homescreen: Legacy (method) -->
     <string name="label_placement_method_legacy">"Legado"</string>
+
+    <!-- Dialog message to prompt user to confirm execution of shortcut -->
+    <string name="dialog_message_confirm_shortcut_execution">"¿Ejecutar este acceso directo?"</string>
+
+    <!-- Dialog title: Unlock the app (after it was locked. user is required to enter a password) -->
+    <string name="dialog_title_unlock_app">"Desbloquear aplicación"</string>
+
+    <!-- Dialog button: Unlock the app (after entering a password) -->
+    <string name="button_unlock_app">"Desbloquear"</string>
+
+    <!-- Dialog text: Asks user to enter a password to unlock the app's settings -->
+    <string name="dialog_text_unlock_app">"Ingrese la contraseña para desbloquear la configuración de esta aplicación."</string>
+
+    <!-- Dialog text: Asks user to enter the password to unlock the app's settings again, after an incorrect try -->
+    <string name="dialog_text_unlock_app_retry">"Contraseña errónea, intentelo nuevamente."</string>
+
+    <!-- Dialog title: Asks user to enter a password to lock the app's settings -->
+    <string name="dialog_title_lock_app">"Bloquear aplicación."</string>
+
+    <!-- Dialog text: Asks user to enter a password to lock the app's settings -->
+    <string name="dialog_text_lock_app">"Ingrese una contraseña para bloquear la configuración de la aplicación y prevenir cambios de los accesos directos."</string>
+
+    <!-- Dialog button: Lock the app (by entering a password) -->
+    <string name="button_lock_app">"Bloquear."</string>
+
+    <!-- Snackbar message: App was locked (settings can no longer be changed) -->
+    <string name="message_app_locked">"Aplicación bloqueada."</string>
+
+    <!-- Snackbar message: App was unlocked (settings can be changed again) -->
+    <string name="message_app_unlocked">"Aplicación desbloqueada."</string>
 </resources>

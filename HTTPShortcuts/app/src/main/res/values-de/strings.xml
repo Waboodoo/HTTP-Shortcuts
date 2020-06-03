@@ -426,6 +426,7 @@
     <string name="settings_licenses">"Anerkennungen"</string>
 
     <!-- Button subtitle, for "Acknowledgements" button -->
+    <!-- Fuzzy -->
     <string name="settings_licenses_summary">"Verwendete Libraries &amp; Ressourcen"</string>
 
     <!-- Page title, for page showing all configured categories -->
@@ -526,9 +527,6 @@ Alle darin enthaltenen Shortcuts werden gelöscht."</string>
     <!-- label, to allow user to pick the variable type (using a dropdown) in the variable editor -->
     <string name="label_variable_type">"Typ"</string>
 
-    <!-- label, to allow the user to enter the key/name for a variable -->
-    <string name="label_variable_key">"Schlüssel"</string>
-
     <!-- label, shown in variable editor, to allow the user to enter a dialog title that will be shown then the variable is evaluated -->
     <string name="label_variable_title">"Dialog-Titel (optional)"</string>
 
@@ -571,6 +569,7 @@ Alle darin enthaltenen Shortcuts werden gelöscht."</string>
     <string name="variable_type_color">"Farbeingabe"</string>
 
     <!-- Error message, information user that the variable name they entered is not valid -->
+    <!-- Fuzzy -->
     <string name="warning_invalid_variable_key">"Schlüssel darf nur Zahlen und Buchstaben enthalten."</string>
 
     <!-- Dialog message, asking user to confirm the deletion of a variable -->
@@ -589,9 +588,11 @@ Alle darin enthaltenen Shortcuts werden gelöscht."</string>
     <string name="section_basic_variable_settings">"Allgemeine Einstellungen"</string>
 
     <!-- Error message, informing user that the entered variable key is empty -->
+    <!-- Fuzzy -->
     <string name="validation_key_non_empty">"Schlüssel darf nicht leer sein."</string>
 
     <!-- Error message, informing user that the entered variable key already exists -->
+    <!-- Fuzzy -->
     <string name="validation_key_already_exists">"Es existiert bereits eine Variable mit diesem Schlüssel."</string>
 
     <!-- Dialog title, to add another value to the list of values in a variable of Toggle type -->
@@ -741,9 +742,11 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
     <string name="title_create_new_shortcut_options_dialog">"Neuen Shortcut erstellen"</string>
 
     <!-- Option 1 in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
+    <!-- Fuzzy -->
     <string name="button_create_new">"Neuen Shortcut"</string>
 
     <!-- Option 2 in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
+    <!-- Fuzzy -->
     <string name="button_curl_import">"Aus cURL-Befehl erstellen"</string>
 
     <!-- Option 3 in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
@@ -1014,12 +1017,15 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
     <string name="label_follow_redirects">"Weiterleitungen folgen"</string>
 
     <!-- Label: shown above input box that lets user define JS code to be executed before shortcut -->
+    <!-- Fuzzy -->
     <string name="label_pre_request_script">"Vor Request ausführen (JavaScript)"</string>
 
     <!-- Label: shown above input box that lets user define JS code to be executed after shortcut succeeds -->
+    <!-- Fuzzy -->
     <string name="label_post_request_success_script">"Im Erfolgsfall ausführen (JavaScript)"</string>
 
     <!-- Label: shown above input box that lets user define JS code to be executed after shortcut fails -->
+    <!-- Fuzzy -->
     <string name="label_post_request_failure_script">"Im Fehlerfall ausführen (JavaScript)"</string>
 
     <!-- Dialog title: Shown on dialog that shows an error message when something goes wrong while executing a shortcut (e.g. JS exception) -->
@@ -1182,4 +1188,83 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
 
     <!-- Error message: Shown when a request that uses Digest Authentication fails. %s is a placeholder for the detailed error message. -->
     <string name="error_digest_auth_failed">"Digest Authentication fehlgeschlagen: %s"</string>
+
+    <!-- label, to allow the user to enter the name for a variable -->
+    <string name="label_variable_name">"Name"</string>
+
+    <!-- Description for option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
+    <string name="button_description_create_browser_shortcut">"URL im Browser öffnen"</string>
+
+    <!-- Option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
+    <string name="button_create_scripting_shortcut">"Scripting-Shortcut"</string>
+
+    <!-- Description for option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
+    <string name="button_description_create_scripting_shortcut">"Erstelle fortgeschrittene Workflows mit JavaScript"</string>
+
+    <!-- Option in dialog to create new shortcut: create a multi shortcut, i.e., a shortcut that will trigger one or more other shortcuts -->
+    <string name="button_create_trigger_shortcut">"Multi-Shortcut"</string>
+
+    <!-- Description for option in dialog to create new shortcut: create a multi shortcut, i.e., a shortcut that will trigger one or more other shortcuts -->
+    <string name="button_description_create_trigger_shortcut">"Löse mehrere Shortcuts gleichzeitig aus"</string>
+
+    <!-- Dropdown option for request body: file (i.e., user gets to pick a file which is used as the request body) -->
+    <string name="request_body_option_file">"Datei (Picker)"</string>
+
+    <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. -->
+    <string name="label_scripting_scripting_shortcuts_subtitle">"JavaScript-Code ausführen"</string>
+
+    <!-- Shortcut Action Title: Action that allows to read a snippet of text out load (text-to-speech) -->
+    <string name="action_tts">"Sprechen (Text-to-Speech)"</string>
+
+    <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Browser Shortcut", i.e., one that only opens the browser without making an HTTP request of its own -->
+    <string name="subtitle_editor_toolbar_browser_shortcut">"Browser-Shortcut"</string>
+
+    <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Scripting Shortcut", i.e., one that only allows JavaScript for execution and doesn't actually make an HTTP request -->
+    <string name="subtitle_editor_toolbar_scripting_shortcut">"Scripting-Shortcut"</string>
+
+    <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Multi-Shortcut", i.e., one that only allows triggering one or more other shortcuts -->
+    <string name="subtitle_editor_toolbar_trigger_shortcut">"Multi-Shortcut"</string>
+
+    <!-- Section subtitle, shown in shortcut editor when request body is set to 'File' -->
+    <string name="subtitle_request_body_file">"Request-Body aus Datei"</string>
+
+    <!-- Error: Shown when the text-to-speech action fails to speak a piece of text -->
+    <string name="error_tts_failed">"Text-to-speech fehlgeschlagen"</string>
+
+    <!-- Label: Option shown in Code Snippet Picker when inserting an action that targets a shortcut, allows to target the current shortcut -->
+    <string name="label_insert_action_code_for_current_shortcut">"Aktueller Shortcut"</string>
+
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code -->
+    <string name="placeholder_javascript_code_generic">"Füge JavaScript-Code hier ein"</string>
+
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the shortcut -->
+    <string name="placeholder_javascript_code_before">"Füge JavaScript-Code hier ein welcher vor dem Shortcut ausgeführt wird, z.B. um Variablen vorzubereiten."</string>
+
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs after the shortcut on success -->
+    <string name="placeholder_javascript_code_success">"Füge JavaScript-Code hier ein welcher nach dem Shortcut ausgeführt wird, z.B. um die Response zu verarbeiten."</string>
+
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs when execution fails -->
+    <string name="placeholder_javascript_code_failure">"Füge JavaScript-Code hier ein welcher ausgeführt wird wenn der Request fehlschlägt."</string>
+
+    <!-- Section title in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger -->
+    <string name="label_trigger_shortcuts">"Shortcuts auslösen"</string>
+
+    <!-- Section subtitle in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger. No shortcuts set. -->
+    <string name="label_trigger_shortcuts_subtitle_none">"Keine Shortcuts ausgewählt"</string>
+    <plurals name="label_trigger_shortcuts_subtitle">
+        <item quantity="one">"%d Shortcut ausgewählt"</item>
+        <item quantity="other">"%d Shortcuts ausgewählt"</item>
+    </plurals>
+
+    <!-- Dialog title: Shown in dialog when picking a shortcut to be added to the list of shortcuts that are triggered when a multi-shortcut is executed -->
+    <string name="title_add_trigger_shortcut">"Shortcut hinzufügen"</string>
+
+    <!-- Dialog error message: Shown in dialog when picking a shortcut to be added to the list of shortcuts that are triggered when a multi-shortcut is executed but the user doesn't have any shortcuts yet -->
+    <string name="error_add_trigger_shortcut_no_shortcuts">"Es sind keine Shortcuts vorhanden die hinzugefügt werden können. Du musst erst Shortcuts erstellen bevor du sie hier hinzufügen kannst."</string>
+
+    <!-- Dialog title: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
+    <string name="title_remove_trigger_shortcut">"Shortcut entfernen"</string>
+
+    <!-- Dialog message: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
+    <string name="message_remove_trigger_shortcut">"Shortcut \"%s\" aus Liste der auszulösenden Shortcuts entfernen?"</string>
 </resources>

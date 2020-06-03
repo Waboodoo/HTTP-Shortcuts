@@ -363,9 +363,11 @@
     <string name="section_basic_variable_settings">"Ustawienia podstawowe"</string>
 
     <!-- Error message, informing user that the entered variable key is empty -->
+    <!-- Fuzzy -->
     <string name="validation_key_non_empty">"Zmienny klucz nie może być pusty."</string>
 
     <!-- Error message, informing user that the entered variable key already exists -->
+    <!-- Fuzzy -->
     <string name="validation_key_already_exists">"Już istnieje inna zmienna z tym kluczem."</string>
 
     <!-- Dialog title, to add another value to the list of values in a variable of Toggle type -->

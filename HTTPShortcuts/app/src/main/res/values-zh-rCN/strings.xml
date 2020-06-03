@@ -421,6 +421,7 @@
     <string name="settings_licenses">"鸣谢"</string>
 
     <!-- Button subtitle, for "Acknowledgements" button -->
+    <!-- Fuzzy -->
     <string name="settings_licenses_summary">"使用到的库和资源"</string>
 
     <!-- Page title, for page showing all configured categories -->
@@ -518,9 +519,6 @@
     <!-- label, to allow user to pick the variable type (using a dropdown) in the variable editor -->
     <string name="label_variable_type">"类型"</string>
 
-    <!-- label, to allow the user to enter the key/name for a variable -->
-    <string name="label_variable_key">"键值"</string>
-
     <!-- label, shown in variable editor, to allow the user to enter a dialog title that will be shown then the variable is evaluated -->
     <string name="label_variable_title">"对话框标题（可选）"</string>
 
@@ -563,6 +561,7 @@
     <string name="variable_type_color">"输入色值"</string>
 
     <!-- Error message, information user that the variable name they entered is not valid -->
+    <!-- Fuzzy -->
     <string name="warning_invalid_variable_key">"变量的键名只能包含字母和数字"</string>
 
     <!-- Dialog message, asking user to confirm the deletion of a variable -->
@@ -581,9 +580,11 @@
     <string name="section_basic_variable_settings">"基本设置"</string>
 
     <!-- Error message, informing user that the entered variable key is empty -->
+    <!-- Fuzzy -->
     <string name="validation_key_non_empty">"变量的键名不能为空"</string>
 
     <!-- Error message, informing user that the entered variable key already exists -->
+    <!-- Fuzzy -->
     <string name="validation_key_already_exists">"变量键名重复"</string>
 
     <!-- Dialog title, to add another value to the list of values in a variable of Toggle type -->
@@ -725,9 +726,11 @@
     <string name="title_create_new_shortcut_options_dialog">"新建快捷方式"</string>
 
     <!-- Option 1 in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
+    <!-- Fuzzy -->
     <string name="button_create_new">"新建快捷方式"</string>
 
     <!-- Option 2 in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
+    <!-- Fuzzy -->
     <string name="button_curl_import">"从 cURL 命令创建"</string>
 
     <!-- Option 3 in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
@@ -996,12 +999,15 @@
     <string name="label_follow_redirects">"跟随重定向请求"</string>
 
     <!-- Label: shown above input box that lets user define JS code to be executed before shortcut -->
+    <!-- Fuzzy -->
     <string name="label_pre_request_script">"在执行前运行(JavaScripts)"</string>
 
     <!-- Label: shown above input box that lets user define JS code to be executed after shortcut succeeds -->
+    <!-- Fuzzy -->
     <string name="label_post_request_success_script">"执行成功(JavaScripts)"</string>
 
     <!-- Label: shown above input box that lets user define JS code to be executed after shortcut fails -->
+    <!-- Fuzzy -->
     <string name="label_post_request_failure_script">"执行出错(JavaScripts)"</string>
 
     <!-- Dialog title: Shown on dialog that shows an error message when something goes wrong while executing a shortcut (e.g. JS exception) -->
