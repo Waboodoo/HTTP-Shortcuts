@@ -1,0 +1,1 @@
+Verschicke HTTP-Requests via Shortcuts von deinem Home Screen aus.

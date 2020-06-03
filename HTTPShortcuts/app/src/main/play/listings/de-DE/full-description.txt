@@ -1,0 +1,13 @@
+Platziere Shortcuts auf deinem Home Screen um HTTP-Requests an deine Lieblings-REST-APIs und Webservices zu verschicken.
+
+- Eingebaute oder eigene Icons für Shortcuts
+- HTTP und HTTPS
+- GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS und TRACE
+- Basic & Digest Authentication
+- Benutzerdefinierte Request-Header und -Body
+- Optional die Server Response als Toast, Dialog oder in neuem Fenster anzeigen
+- Einfügen dynamischer Werte durch Variablen
+- Import aus und Export als cURL-Befehl (experimentell)
+- Plugin für Tasker und andere Automatisierungs-Apps
+
+Diese App ist open source auf Github: https://github.com/Waboodoo/HTTP-Shortcuts
