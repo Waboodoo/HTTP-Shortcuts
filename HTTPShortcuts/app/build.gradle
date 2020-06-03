@@ -78,6 +78,15 @@ android {
             enableSplit = true
         }
     }
+    buildFeatures {
+        buildConfig = true
+        viewBinding = false
+        dataBinding = false
+        aidl = false
+        renderScript = false
+        resValues = false
+        shaders = false
+    }
 }
 
 if (!rootProject.ext.bugsnagAPIKey) {
