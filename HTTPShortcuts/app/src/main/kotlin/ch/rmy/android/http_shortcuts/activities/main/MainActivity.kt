@@ -22,7 +22,6 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.dialogs.NetworkRestrictionWarningDialog
-import ch.rmy.android.http_shortcuts.dialogs.SpecialWarnings
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
@@ -84,7 +83,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
         initViews()
 
         if (selectionMode === SelectionMode.NORMAL) {
-            showStartupDialogs()
+            showChangeLogIfNeeded()
         } else {
             if (selectionMode == SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT) {
                 setResult(Activity.RESULT_CANCELED, WidgetManager.getIntent(widgetId))
@@ -214,10 +213,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
             .showIfPossible()
     }
 
-    private fun showStartupDialogs() {
-        if (SpecialWarnings.showIfNeeded(context)) {
-            return
-        }
+    private fun showChangeLogIfNeeded() {
         ChangeLogDialog(context, whatsNew = true)
             .showIfNeeded()
             .andThen(
