@@ -206,7 +206,7 @@
     <string name="section_request_headers">"Intestazione della Richiesta"</string>
 
     <!-- Section title in shortcut editor, for section that contains options to specify the body of the HTTP request -->
-    <string name="section_request_body">"Body della Richiesta"</string>
+    <string name="section_request_body">"Corpo della Richiesta / Parametri"</string>
 
     <!-- Title of dialog to edit a custom header of a shortcut -->
     <string name="title_custom_header_edit">"Modifica Intestazione"</string>
@@ -221,7 +221,7 @@
     <string name="label_custom_header_value">"Valore"</string>
 
     <!-- Label of input field to provide request body of a shortcut -->
-    <string name="label_custom_body">"Body della Richiesta"</string>
+    <string name="label_custom_body">"Corpo della Richiesta"</string>
 
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
     <string name="title_settings">"Impostazioni"</string>
@@ -399,7 +399,7 @@
     <string name="dialog_delete">"Cancella"</string>
 
     <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
-    <string name="section_basic_request">"Impostazioni richieste di base"</string>
+    <string name="section_basic_request">"Impostazioni di base della Richiesta"</string>
 
     <!-- Section title, shown in shortcut editor, for section containing advanced settings -->
     <string name="section_advanced_settings">"Impostazioni avanzate"</string>
@@ -426,7 +426,6 @@
     <string name="settings_licenses">"Riconoscimenti"</string>
 
     <!-- Button subtitle, for "Acknowledgements" button -->
-    <!-- Fuzzy -->
     <string name="settings_licenses_summary">"Librerie e risorse utilizzate"</string>
 
     <!-- Page title, for page showing all configured categories -->
@@ -537,8 +536,7 @@ Tutte le scorciatoie contenute all'interno verranno eliminate."</string>
     <string name="label_variable_time_format">"Formato ora"</string>
 
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
-    <!-- Fuzzy -->
-    <string name="variable_type_constant">"Costante"</string>
+    <string name="variable_type_constant">"Variabile Statica (Costante)"</string>
 
     <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
     <string name="variable_type_text">"Inserimento Testo"</string>
@@ -553,8 +551,7 @@ Tutte le scorciatoie contenute all'interno verranno eliminate."</string>
     <string name="variable_type_password">"Inserimento Password"</string>
 
     <!-- Type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
-    <!-- Fuzzy -->
-    <string name="variable_type_select">"Selezione"</string>
+    <string name="variable_type_select">"Selezione a Scelta Multipla"</string>
 
     <!-- Type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
     <string name="variable_type_toggle">"Cambio"</string>
@@ -569,8 +566,7 @@ Tutte le scorciatoie contenute all'interno verranno eliminate."</string>
     <string name="variable_type_color">"Inserimento Colore"</string>
 
     <!-- Error message, information user that the variable name they entered is not valid -->
-    <!-- Fuzzy -->
-    <string name="warning_invalid_variable_key">"Le chiavi delle variabili possono contenere solo il carattere di sottolineatura, cifre e lettere dell'alfabeto inglese."</string>
+    <string name="warning_invalid_variable_key">"I nomi delle variabili possono contenere solo caratteri di sottolineatura, cifre e lettere dell'alfabeto inglese."</string>
 
     <!-- Dialog message, asking user to confirm the deletion of a variable -->
     <string name="confirm_delete_variable_message">"Elimina questa variabile?"</string>
@@ -588,12 +584,10 @@ Tutte le scorciatoie contenute all'interno verranno eliminate."</string>
     <string name="section_basic_variable_settings">"Impostazioni di base"</string>
 
     <!-- Error message, informing user that the entered variable key is empty -->
-    <!-- Fuzzy -->
-    <string name="validation_key_non_empty">"La chiave della variabile non deve essere vuota."</string>
+    <string name="validation_key_non_empty">"Il nome della variabile non deve essere vuoto."</string>
 
     <!-- Error message, informing user that the entered variable key already exists -->
-    <!-- Fuzzy -->
-    <string name="validation_key_already_exists">"Esiste già un'altra variabile con questa chiave."</string>
+    <string name="validation_key_already_exists">"Esiste già un'altra variabile con questa nome."</string>
 
     <!-- Dialog title, to add another value to the list of values in a variable of Toggle type -->
     <string name="title_add_toggle_option">"Aggiungi Valore"</string>
@@ -743,12 +737,10 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni."</st
     <string name="title_create_new_shortcut_options_dialog">"Crea una scorciatoia"</string>
 
     <!-- Option 1 in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
-    <!-- Fuzzy -->
-    <string name="button_create_new">"Da zero"</string>
+    <string name="button_create_new">"Scorciatoia HTTP regolare"</string>
 
     <!-- Option 2 in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
-    <!-- Fuzzy -->
-    <string name="button_curl_import">"Da comando cURL"</string>
+    <string name="button_curl_import">"Importa da Comando cURL"</string>
 
     <!-- Option 3 in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_create_browser_shortcut">"Collegamento al Browser"</string>
@@ -823,7 +815,7 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni."</st
     <string name="plugin_blurb_execute_task">"Esegui scorciatoia \"%1$s\""</string>
 
     <!-- Label of dropdown to select the request body type in shortcut editor -->
-    <string name="label_request_body_type">"Tipo di Request Body"</string>
+    <string name="label_request_body_type">"Tipo di Corpo della Richiesta"</string>
 
     <!-- Dropdown option for request body: form-data (i.e. list of parameters) -->
     <string name="request_body_option_form_data">"Parametri (form-data)"</string>
@@ -1018,16 +1010,13 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni."</st
     <string name="label_follow_redirects">"Segui i reindirizzamenti"</string>
 
     <!-- Label: shown above input box that lets user define JS code to be executed before shortcut -->
-    <!-- Fuzzy -->
-    <string name="label_pre_request_script">"Esegui prima dell'Esecuzione (JavaScript)"</string>
+    <string name="label_pre_request_script">"Esegui prima dell'Esecuzione"</string>
 
     <!-- Label: shown above input box that lets user define JS code to be executed after shortcut succeeds -->
-    <!-- Fuzzy -->
-    <string name="label_post_request_success_script">"Esegui in caso di Successo (JavaScript)"</string>
+    <string name="label_post_request_success_script">"Esegui in caso di Successo"</string>
 
     <!-- Label: shown above input box that lets user define JS code to be executed after shortcut fails -->
-    <!-- Fuzzy -->
-    <string name="label_post_request_failure_script">"Esegui in caso di Errore (JavaScript)"</string>
+    <string name="label_post_request_failure_script">"Esegui in caso di Errore"</string>
 
     <!-- Dialog title: Shown on dialog that shows an error message when something goes wrong while executing a shortcut (e.g. JS exception) -->
     <string name="dialog_title_error">"Errore"</string>
@@ -1181,4 +1170,92 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
         <item quantity="one">"Questa variabile è ancora in uso in 1 scorciatoia: %1$s"</item>
         <item quantity="other">"Questa variabile è ancora in uso in %2$d scorciatoie: %1$s"</item>
     </plurals>
+
+    <!-- dialog title, shown when creating new variable and user is prompted to select the type of the variable -->
+    <string name="title_select_variable_type">"Seleziona il Tipo di Variabile"</string>
+
+    <!-- label, shown in variable editor for Color variable, to allow the user to pick which type of color picker they want (RGB or HSV) -->
+    <string name="label_variable_color_input_type">"Tipo di Selezione Colore"</string>
+
+    <!-- Error message: Shown when a request that uses Digest Authentication fails. %s is a placeholder for the detailed error message. -->
+    <string name="error_digest_auth_failed">"Autenticazione Digest non riuscita: %s"</string>
+
+    <!-- label, to allow the user to enter the name for a variable -->
+    <string name="label_variable_name">"Nome"</string>
+
+    <!-- Description for option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
+    <string name="button_description_create_browser_shortcut">"Apri l'URL nel browser"</string>
+
+    <!-- Option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
+    <string name="button_create_scripting_shortcut">"Scorciatoia di Scripting"</string>
+
+    <!-- Description for option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
+    <string name="button_description_create_scripting_shortcut">"Scrivi codice JavaScript per flussi di lavoro avanzati"</string>
+
+    <!-- Option in dialog to create new shortcut: create a multi shortcut, i.e., a shortcut that will trigger one or more other shortcuts -->
+    <string name="button_create_trigger_shortcut">"Scorciatoia multipla"</string>
+
+    <!-- Description for option in dialog to create new shortcut: create a multi shortcut, i.e., a shortcut that will trigger one or more other shortcuts -->
+    <string name="button_description_create_trigger_shortcut">"Attiva più scorciatoie contemporaneamente"</string>
+
+    <!-- Dropdown option for request body: file (i.e., user gets to pick a file which is used as the request body) -->
+    <string name="request_body_option_file">"File (Selettore)"</string>
+
+    <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. -->
+    <string name="label_scripting_scripting_shortcuts_subtitle">"Esegui codice JavaScript"</string>
+
+    <!-- Shortcut Action Title: Action that allows to read a snippet of text out load (text-to-speech) -->
+    <string name="action_tts">"Parla (sintesi vocale)"</string>
+
+    <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Browser Shortcut", i.e., one that only opens the browser without making an HTTP request of its own -->
+    <string name="subtitle_editor_toolbar_browser_shortcut">"Scorciatoia del Browser"</string>
+
+    <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Scripting Shortcut", i.e., one that only allows JavaScript for execution and doesn't actually make an HTTP request -->
+    <string name="subtitle_editor_toolbar_scripting_shortcut">"Scorciatoia di Scripting"</string>
+
+    <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Multi-Shortcut", i.e., one that only allows triggering one or more other shortcuts -->
+    <string name="subtitle_editor_toolbar_trigger_shortcut">"Scorciatoia multipla"</string>
+
+    <!-- Section subtitle, shown in shortcut editor when request body is set to 'File' -->
+    <string name="subtitle_request_body_file">"File del Corpo della Richiesta"</string>
+
+    <!-- Error: Shown when the text-to-speech action fails to speak a piece of text -->
+    <string name="error_tts_failed">"Impossibile pronunciare il testo"</string>
+
+    <!-- Label: Option shown in Code Snippet Picker when inserting an action that targets a shortcut, allows to target the current shortcut -->
+    <string name="label_insert_action_code_for_current_shortcut">"Scorciatoia corrente"</string>
+
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code -->
+    <string name="placeholder_javascript_code_generic">"Aggiungi qui il codice JavaScript"</string>
+
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the shortcut -->
+    <string name="placeholder_javascript_code_before">"Aggiungi qui il codice JavaScript da eseguire prima dell'esecuzione della scorciatoia, ad es. per preparare alcune variabili."</string>
+
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs after the shortcut on success -->
+    <string name="placeholder_javascript_code_success">"Aggiungi qui il codice JavaScript da eseguire dopo dell'esecuzione della scorciatoia, ad es. per elaborare la risposta."</string>
+
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs when execution fails -->
+    <string name="placeholder_javascript_code_failure">"Aggiungi qui il codice JavaScript da eseguire nel caso in cui la richiesta fallisca."</string>
+
+    <!-- Section title in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger -->
+    <string name="label_trigger_shortcuts">"Attiva Scorciatoie"</string>
+
+    <!-- Section subtitle in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger. No shortcuts set. -->
+    <string name="label_trigger_shortcuts_subtitle_none">"Nessuna scorciatoia ancora selezionata"</string>
+    <plurals name="label_trigger_shortcuts_subtitle">
+        <item quantity="one">"%d scorciatoia selezionata"</item>
+        <item quantity="other">"%d scorciatoie selezionate"</item>
+    </plurals>
+
+    <!-- Dialog title: Shown in dialog when picking a shortcut to be added to the list of shortcuts that are triggered when a multi-shortcut is executed -->
+    <string name="title_add_trigger_shortcut">"Aggiungi scorciatoia"</string>
+
+    <!-- Dialog error message: Shown in dialog when picking a shortcut to be added to the list of shortcuts that are triggered when a multi-shortcut is executed but the user doesn't have any shortcuts yet -->
+    <string name="error_add_trigger_shortcut_no_shortcuts">"Non ci sono scorciatoie che possono essere aggiunte. È necessario creare alcune scorciatoie aggiuntive prima di poterle selezionare qui."</string>
+
+    <!-- Dialog title: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
+    <string name="title_remove_trigger_shortcut">"Rimuovi Scorciatoia"</string>
+
+    <!-- Dialog message: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
+    <string name="message_remove_trigger_shortcut">"Rimuovere la scorciatoia \"%s\" dall'elenco dei collegamenti attivati?"</string>
 </resources>

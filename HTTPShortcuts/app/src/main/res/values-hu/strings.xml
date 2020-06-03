@@ -382,6 +382,9 @@
     <!-- Message, shown in snackbar, confirming to user that a shortcut was deleted. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_deleted">"\"%1$s\" törölve."</string>
 
+    <!-- Message, shown in snackbar, confirming to user that a shortcut was placed on the phone's home screen. %1$s is a placeholder for the shortcut's name -->
+    <string name="shortcut_placed">"\"%1$s\" elhelyezve a kezdőképernyőn"</string>
+
     <!-- Generic 'Delete' option, used in various dialogs, e.g., to confirm the deletion of a shortcut -->
     <string name="dialog_delete">"Törlés"</string>
 
@@ -408,6 +411,9 @@
 
     <!-- Button, for opening page listing all the libraries and 3rd party assets used in the app -->
     <string name="settings_licenses">"Köszönetnyilvánítás"</string>
+
+    <!-- Button subtitle, for "Acknowledgements" button -->
+    <string name="settings_licenses_summary">"Használt könyvtárak és források"</string>
 
     <!-- Page title, for page showing all configured categories -->
     <string name="title_categories">"Kategóriák"</string>
@@ -540,6 +546,9 @@ Az összes benne található parancsikon törlődik."</string>
     <!-- Type of variable: Color Input, i.e., a dialog that asks user to pick a color in a color picker -->
     <string name="variable_type_color">"Szín bevitele"</string>
 
+    <!-- Error message, information user that the variable name they entered is not valid -->
+    <string name="warning_invalid_variable_key">"A változó neve csak az angol abc betűit,számokat és aláhúzást tartalmazhat."</string>
+
     <!-- Dialog message, asking user to confirm the deletion of a variable -->
     <string name="confirm_delete_variable_message">"Biztosan törlöd a változót?"</string>
 
@@ -551,6 +560,9 @@ Az összes benne található parancsikon törlődik."</string>
 
     <!-- Checkbox label, for option to enable JSON encoding of a variable -->
     <string name="label_json_encode">"JSON kódolás"</string>
+
+    <!-- Section title, for section containing basic settings for a shortcut -->
+    <string name="section_basic_variable_settings">"Alapbeállítások"</string>
 
     <!-- Error message, informing user that the entered variable key is empty -->
     <!-- Fuzzy -->
@@ -641,6 +653,13 @@ Az összes benne található parancsikon törlődik."</string>
     <!-- Feature label for sharing text into the app, to be used in a specific variable for a configured shortcut -->
     <string name="action_send_to">"Küldés…"</string>
 
+    <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
+    <string name="error_not_suitable_shortcuts">"Nem található megfelelő hivatkozás.
+
+Ennek a szolgáltatásnak a használatához rendelkezned kell legalább egy parancsikonnal, amely egy olyan változót használ, amely lehetővé teszi a „Megosztás…”, vagy egy parancsikonnal, amely rendelkezik fájlparaméterrel.
+
+További információt a változó dokumentációjában találsz."</string>
+
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">"Engedélyezze a „Megosztás…”"</string>
 
@@ -686,6 +705,9 @@ Az összes benne található parancsikon törlődik."</string>
     <!-- Dialog title when creating a new shortcut, shows options below -->
     <string name="title_create_new_shortcut_options_dialog">"Parancsikon létrehozása"</string>
 
+    <!-- Option 2 in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
+    <string name="button_curl_import">"cURL parancs importálása"</string>
+
     <!-- Option 3 in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_create_browser_shortcut">"Böngésző parancsikon"</string>
 
@@ -709,6 +731,9 @@ Az összes benne található parancsikon törlődik."</string>
 
     <!-- Dropdown option for "Authentication" of a shortcut: "Bearer Authentication", aka. BearerAuth (token) -->
     <string name="authentication_bearer">"Bearer hitelesítés"</string>
+
+    <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu, i.e., when long-pressing the app icon on the home screen -->
+    <string name="label_launcher_shortcut">"Megjelenítés alkalmazás parancsikonként az indítón"</string>
 
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
     <string name="error_share_failed">"Hiba történt a megosztás során."</string>
@@ -900,6 +925,9 @@ Az összes benne található parancsikon törlődik."</string>
     <string name="subtitle_request_body_not_available">"Nem vonatkozik a következőre %1$s
 "</string>
 
+    <!-- Empty state, shown in list when there are no custom request headers yet -->
+    <string name="empty_state_request_headers">"nincs fejléc beállítva"</string>
+
     <!-- Empty state instructions, shown in list when there are no custom request headers yet -->
     <string name="empty_state_request_headers_instructions">"Kattints a + gombra a kérés fejlécének hozzáadásához."</string>
 
@@ -1058,4 +1086,47 @@ Ezt a funkciót engedélyezheted egy parancsikon szerkesztésével és a \"%1$s\
 
     <!-- Error message: Shown when a request that uses Digest Authentication fails. %s is a placeholder for the detailed error message. -->
     <string name="error_digest_auth_failed">"Digest hitelesítés sikertelen: %s"</string>
+
+    <!-- label, to allow the user to enter the name for a variable -->
+    <string name="label_variable_name">"Név"</string>
+
+    <!-- Description for option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
+    <string name="button_description_create_browser_shortcut">"URL megnyitása böngészőben"</string>
+
+    <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. -->
+    <string name="label_scripting_scripting_shortcuts_subtitle">"JavaScript kód futtatása"</string>
+
+    <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Browser Shortcut", i.e., one that only opens the browser without making an HTTP request of its own -->
+    <string name="subtitle_editor_toolbar_browser_shortcut">"Parancsikon böngésző"</string>
+
+    <!-- Label: Option shown in Code Snippet Picker when inserting an action that targets a shortcut, allows to target the current shortcut -->
+    <string name="label_insert_action_code_for_current_shortcut">"Jelenlegi parancsikon"</string>
+
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code -->
+    <string name="placeholder_javascript_code_generic">"JavaScript kód hozzáadása"</string>
+
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the shortcut -->
+    <string name="placeholder_javascript_code_before">"JavaScript kód hozzáadása, parancsikon futtatása előtt. pl.: változó előkészítéséhez."</string>
+
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs after the shortcut on success -->
+    <string name="placeholder_javascript_code_success">"JavaScript kód hozzáadása, parancsikon futtatása után. pl.: a válasz feldolgozására."</string>
+
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs when execution fails -->
+    <string name="placeholder_javascript_code_failure">"JavaScript kód hozzáadása sikertelen futtatás esetén."</string>
+
+    <!-- Section subtitle in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger. No shortcuts set. -->
+    <string name="label_trigger_shortcuts_subtitle_none">"Még nincs kiválasztva parancsikon"</string>
+    <plurals name="label_trigger_shortcuts_subtitle">
+        <item quantity="one">"%d parancsikon kiválasztva"</item>
+        <item quantity="other">"%d parancsikonok kiválasztva"</item>
+    </plurals>
+
+    <!-- Dialog title: Shown in dialog when picking a shortcut to be added to the list of shortcuts that are triggered when a multi-shortcut is executed -->
+    <string name="title_add_trigger_shortcut">"Parancsikon hozzáadása"</string>
+
+    <!-- Dialog error message: Shown in dialog when picking a shortcut to be added to the list of shortcuts that are triggered when a multi-shortcut is executed but the user doesn't have any shortcuts yet -->
+    <string name="error_add_trigger_shortcut_no_shortcuts">"Nincsenek hozzáadható parancsikonok. Előbb létre kell hoznod néhány további parancsikont, mielőtt itt kiválasztod őket."</string>
+
+    <!-- Dialog title: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
+    <string name="title_remove_trigger_shortcut">"Parancsikon eltávolítása"</string>
 </resources>
