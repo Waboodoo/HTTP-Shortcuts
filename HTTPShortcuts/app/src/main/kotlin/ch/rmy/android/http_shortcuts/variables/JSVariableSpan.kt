@@ -4,6 +4,6 @@ import ch.rmy.android.http_shortcuts.utils.ColoredSpan
 
 class JSVariableSpan(color: Int, val variableKey: String) : ColoredSpan(color) {
 
-    protected override val displayedText = "\"$variableKey\""
+    override val displayedText = "\"$variableKey\""
 
 }

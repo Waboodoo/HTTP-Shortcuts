@@ -36,7 +36,7 @@ fun Activity.sendMail(address: String, subject: String, text: String, title: Str
             .putExtra(Intent.EXTRA_TEXT, text)
             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             .mapIf(attachment != null) {
-                it.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                it.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 it.putExtra(Intent.EXTRA_STREAM, attachment!!)
             }
             .let {

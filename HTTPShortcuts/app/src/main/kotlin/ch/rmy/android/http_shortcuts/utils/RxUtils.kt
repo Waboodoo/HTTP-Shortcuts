@@ -7,7 +7,7 @@ object RxUtils {
 
     @CheckResult
     fun <T> single(action: () -> T): Single<T> =
-        Single.create<T> { emitter ->
+        Single.create { emitter ->
             try {
                 val result = action.invoke()
                 if (!emitter.isDisposed) {

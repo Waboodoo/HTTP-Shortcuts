@@ -55,7 +55,7 @@ class TriggerShortcutAction(
                 GsonUtil.fromJsonObject<Any?>(json)
                     .mapValues { it.value?.toString() ?: "" }
             } catch (e: Exception) {
-                emptyMap<String, String>()
+                emptyMap()
             }
 
     }

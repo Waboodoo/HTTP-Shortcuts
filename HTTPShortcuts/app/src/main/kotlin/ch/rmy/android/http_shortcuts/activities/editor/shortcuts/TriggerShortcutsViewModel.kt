@@ -17,11 +17,7 @@ class TriggerShortcutsViewModel(application: Application) : BasicShortcutEditorV
 
         private val shortcuts = Repository.getShortcuts(persistedRealm)
 
-        private val observer = object : Observer<Shortcut?> {
-            override fun onChanged(t: Shortcut?) {
-                onChange()
-            }
-        }
+        private val observer = Observer<Shortcut?> { onChange() }
 
         override fun onActive() {
             shortcut.observeForever(observer)

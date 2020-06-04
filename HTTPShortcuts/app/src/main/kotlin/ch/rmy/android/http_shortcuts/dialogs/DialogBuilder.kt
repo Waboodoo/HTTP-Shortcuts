@@ -179,13 +179,11 @@ open class DialogBuilder(val context: Context) {
 
         override fun getViewTypeCount(): Int = 2
 
-        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-            val item = getItem(position)!!
-            return when (item) {
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View =
+            when (val item = getItem(position)!!) {
                 is MenuItem.ClickableItem -> getClickableItemView(item, convertView, parent)
                 is MenuItem.Separator -> getSeparatorView(convertView, parent)
             }
-        }
 
         private fun getClickableItemView(item: MenuItem.ClickableItem, convertView: View?, parent: ViewGroup): View {
             val view: ViewGroup = convertView as? ViewGroup

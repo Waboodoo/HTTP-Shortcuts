@@ -28,11 +28,7 @@ abstract class BasicShortcutEditorViewModel(application: Application) : RealmVie
 
         private val base: Base = Repository.getBaseAsync(persistedRealm)!!
 
-        private val changeListener = object : RealmChangeListener<Base> {
-            override fun onChange(t: Base) {
-                onChange()
-            }
-        }
+        private val changeListener = RealmChangeListener<Base> { onChange() }
 
         override fun onActive() {
             base.addChangeListener(changeListener)

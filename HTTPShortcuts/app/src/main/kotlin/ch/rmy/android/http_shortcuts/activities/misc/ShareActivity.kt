@@ -99,7 +99,7 @@ class ShareActivity : BaseActivity() {
         }
 
         val context = applicationContext
-        Single.fromCallable<List<Uri>> {
+        Single.fromCallable {
             cacheSharedFiles(context, fileUris)
         }
             .subscribeOn(Schedulers.io())

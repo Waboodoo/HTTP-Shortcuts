@@ -26,7 +26,7 @@ class Importer(private val context: Context) {
 
     fun import(uri: Uri): Single<ImportStatus> =
         RxUtils
-            .single<ImportStatus> {
+            .single {
                 val inputStream = getStream(context, uri)
                 BufferedReader(InputStreamReader(inputStream)).use { reader ->
                     val importData = JsonParser.parseReader(reader)

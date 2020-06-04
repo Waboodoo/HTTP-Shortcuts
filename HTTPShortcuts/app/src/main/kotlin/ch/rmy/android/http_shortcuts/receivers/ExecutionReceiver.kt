@@ -12,8 +12,8 @@ class ExecutionReceiver : BroadcastReceiver() {
         ExecuteActivity.IntentBuilder(context)
             .build()
             .apply {
-                setAction(intent.action)
-                setData(intent.data)
+                action = intent.action
+                data = intent.data
                 intent.extras?.let { extras ->
                     putExtras(extras)
                 }

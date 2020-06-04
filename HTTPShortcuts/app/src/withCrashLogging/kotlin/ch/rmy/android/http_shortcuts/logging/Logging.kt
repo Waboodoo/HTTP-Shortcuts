@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.Log
 import ch.rmy.android.http_shortcuts.BuildConfig
 import ch.rmy.android.http_shortcuts.extensions.consume
-import ch.rmy.android.http_shortcuts.utils.InstallUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
 import com.bugsnag.android.Bugsnag
 import java.io.IOException
@@ -32,7 +31,7 @@ object Logging {
         Bugsnag.setUserId(Settings(context).userId)
         Bugsnag.beforeNotify { error ->
             consume {
-                error.addToTab("app", "installedFromStore", InstallUtil.isAppInstalledFromStore(context))
+                error.addToTab("app", "installedFromStore", isAppInstalledFromStore(context))
             }
         }
         initialized = true
@@ -60,5 +59,13 @@ object Logging {
             Bugsnag.leaveBreadcrumb(message)
         }
     }
+
+    private fun isAppInstalledFromStore(context: Context): Boolean =
+        (context.packageManager.getInstallerPackageName(context.packageName) ?: "") in STORE_PACKAGES
+
+    private val STORE_PACKAGES = setOf(
+        "com.android.vending",
+        "com.google.android.feedback"
+    )
 
 }

@@ -16,7 +16,7 @@ object RequestUtil {
     fun sanitize(text: String): String =
         text.replace("\"", "")
 
-    fun getMediaType(contentType: String?) =
+    fun getMediaType(contentType: String?): MediaType =
         try {
             MediaType.get(contentType ?: DEFAULT_CONTENT_TYPE)
         } catch (e: IllegalArgumentException) {
