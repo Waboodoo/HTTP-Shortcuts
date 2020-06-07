@@ -10,7 +10,9 @@ import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
+import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.mapFor
+import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholderProvider
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
@@ -68,7 +70,13 @@ class TriggerShortcutsActivity : BaseActivity() {
             .concatMapCompletable { (oldPosition, newPosition) ->
                 viewModel.changeShortcutPosition(oldPosition, newPosition)
             }
-            .subscribe()
+            .subscribe(
+                {},
+                { e ->
+                    logException(e)
+                    showSnackbar(R.string.error_generic)
+                }
+            )
             .attachTo(destroyer)
     }
 
@@ -98,7 +106,13 @@ class TriggerShortcutsActivity : BaseActivity() {
 
     private fun addShortcut(shortcutId: String) {
         viewModel.addShortcut(shortcutId)
-            .subscribe()
+            .subscribe(
+                {},
+                { e ->
+                    logException(e)
+                    showSnackbar(R.string.error_generic)
+                }
+            )
             .attachTo(destroyer)
     }
 
@@ -115,7 +129,13 @@ class TriggerShortcutsActivity : BaseActivity() {
 
     private fun removeShortcut(shortcutId: String) {
         viewModel.removeShortcut(shortcutId)
-            .subscribe()
+            .subscribe(
+                {},
+                { e ->
+                    logException(e)
+                    showSnackbar(R.string.error_generic)
+                }
+            )
             .attachTo(destroyer)
     }
 
