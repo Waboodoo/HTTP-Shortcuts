@@ -43,7 +43,7 @@ class ShortcutResponse internal constructor(
 
         private const val GZIP_BUFFER_SIZE = 16384
 
-        private const val CONTENT_SIZE_LIMIT = 2 * 1000L * 1000L
+        private const val CONTENT_SIZE_LIMIT = 1 * 1000L * 1000L
 
         private fun parseGzippedToString(content: InputStream): String =
             GZIPInputStream(content).use { gzipStream ->
