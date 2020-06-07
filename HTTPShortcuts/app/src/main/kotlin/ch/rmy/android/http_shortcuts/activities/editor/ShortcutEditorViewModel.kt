@@ -30,6 +30,8 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
     var isInitialized: Boolean = false
         private set
 
+    var isSaving: Boolean = false
+
     private var categoryId: String? = null
     private var shortcutId: String? = null
     private var initialIcon: String? = null

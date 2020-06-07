@@ -355,6 +355,11 @@ class ShortcutEditorActivity : BaseActivity() {
     }
 
     private fun trySaveShortcut() {
+        if (viewModel.isSaving) {
+            logInfo("Saving already in progress")
+            return
+        }
+        viewModel.isSaving = true
         updateViewModelFromViews()
             .andThen(viewModel.trySave())
             .observeOn(mainThread())
@@ -365,7 +370,8 @@ class ShortcutEditorActivity : BaseActivity() {
                 setResult(RESULT_OK, Intent().putExtra(RESULT_SHORTCUT_ID, saveResult.id))
                 finish()
             }, { e ->
-                logInfo("Saving shortcut failed: $e")
+                viewModel.isSaving = false
+                logInfo("Saving shortcut failed: ${e.message}")
                 if (e is ShortcutValidationError) {
                     when (e.type) {
                         ShortcutEditorViewModel.VALIDATION_ERROR_EMPTY_NAME -> {
