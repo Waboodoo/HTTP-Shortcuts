@@ -11,14 +11,7 @@ buildscript {
     }
 }
 
-val versionMajor: String by project
-val versionMinor: String by project
-val versionPatch: String by project
-val versionBuild: String by project
-
 ext {
-    set("versionName", "$versionMajor.$versionMinor.$versionPatch")
-    set("versionCode", ((((versionMajor.toInt()) * 1000 + versionMinor.toInt()) * 1000 + versionPatch.toInt()) * 1000) + versionBuild.toInt())
     set("bugsnagAPIKey", System.getenv("BUGSNAG_API_KEY") ?: "")
     set("buildTimestamp", java.util.Date().time.toString())
 

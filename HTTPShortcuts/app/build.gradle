@@ -16,8 +16,8 @@ android {
         applicationId 'ch.rmy.android.http_shortcuts'
         minSdkVersion 16
         targetSdkVersion 29
-        versionName rootProject.ext.versionName
-        versionCode rootProject.ext.versionCode
+        versionName '1.32.1'
+        versionCode 1032001000
         buildConfigField 'String', 'BUGSNAG_API_KEY', "\"${rootProject.ext.bugsnagAPIKey}\""
         buildConfigField 'String', 'REALM_ENCRYPTION_KEY', "\"${rootProject.ext.realmEncryptionKey}\""
         buildConfigField 'String', 'BUILD_TIMESTAMP', "\"${rootProject.ext.buildTimestamp}\""
