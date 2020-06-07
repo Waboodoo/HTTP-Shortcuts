@@ -5,11 +5,9 @@ import android.net.Uri
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.Controller
 import ch.rmy.android.http_shortcuts.data.migration.ImportMigrator
-import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.extensions.isWebUrl
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.RxUtils
-import ch.rmy.android.http_shortcuts.utils.UUIDUtils
 import com.google.gson.JsonParseException
 import com.google.gson.JsonParser
 import com.google.gson.JsonSyntaxException
@@ -32,7 +30,7 @@ class Importer(private val context: Context) {
                     val importData = JsonParser.parseReader(reader)
                     val migratedImportData = ImportMigrator.migrate(importData)
                     val newBase = GsonUtil.importData(migratedImportData)
-                    validate(newBase)
+                    newBase.validate()
                     Controller().use { controller ->
                         controller.importBaseSynchronously(newBase)
                     }
@@ -46,21 +44,6 @@ class Importer(private val context: Context) {
                 Single.error(handleError(error))
             }
             .subscribeOn(Schedulers.io())
-
-    private fun validate(base: Base) {
-        if (base.categories.any { category ->
-                category.shortcuts.any { shortcut ->
-                    !UUIDUtils.isUUID(shortcut.id) && shortcut.id.toIntOrNull() == null
-                }
-            }) {
-            throw IllegalArgumentException("Invalid shortcut ID found, must be UUID")
-        }
-        if (base.categories.any { category ->
-                !UUIDUtils.isUUID(category.id) && category.id.toIntOrNull() == null
-            }) {
-            throw IllegalArgumentException("Invalid category ID found, must be UUID")
-        }
-    }
 
     private fun getStream(context: Context, uri: Uri): InputStream =
         if (uri.isWebUrl) {

@@ -29,6 +29,12 @@ open class Parameter(
     val isFilesParameter: Boolean
         get() = type == TYPE_FILES
 
+    fun validate() {
+        if (type !in setOf(TYPE_STRING, TYPE_FILE, TYPE_FILES)) {
+            throw IllegalArgumentException("Invalid parameter type: $type")
+        }
+    }
+
     companion object {
 
         const val TYPE_STRING = "string"

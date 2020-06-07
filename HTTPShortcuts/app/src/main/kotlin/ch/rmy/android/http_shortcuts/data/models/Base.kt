@@ -13,4 +13,9 @@ open class Base : RealmObject() {
     val shortcuts: List<Shortcut>
         get() = categories.flatMap { it.shortcuts }
 
+    fun validate() {
+        categories.forEach(Category::validate)
+        variables.forEach(Variable::validate)
+    }
+
 }

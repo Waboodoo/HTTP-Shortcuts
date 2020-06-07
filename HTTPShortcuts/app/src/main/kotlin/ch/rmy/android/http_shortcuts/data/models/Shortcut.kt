@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.data.models
 
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.extensions.type
+import ch.rmy.android.http_shortcuts.utils.UUIDUtils
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
@@ -166,6 +167,50 @@ open class Shortcut(
             (feedback != FEEDBACK_TOAST_SIMPLE && feedback != FEEDBACK_NONE)
                 || codeOnSuccess.isNotEmpty() || codeOnFailure.isNotEmpty()
             )
+
+    fun validate() {
+        if (!UUIDUtils.isUUID(id) && id.toIntOrNull() == null) {
+            throw IllegalArgumentException("Invalid shortcut ID found, must be UUID: $id")
+        }
+
+        if (name.length > NAME_MAX_LENGTH) {
+            throw IllegalArgumentException("Shortcut name too long: $name")
+        }
+
+        if (method !in setOf(METHOD_GET, METHOD_POST, METHOD_PUT, METHOD_PATCH, METHOD_DELETE, METHOD_HEAD, METHOD_OPTIONS, METHOD_TRACE)) {
+            throw IllegalArgumentException("Invalid method: $method")
+        }
+
+        if (ShortcutExecutionType.values().none { it.type == executionType }) {
+            throw IllegalArgumentException("Invalid shortcut executionType: $executionType")
+        }
+
+        if (feedback !in setOf(FEEDBACK_NONE, FEEDBACK_TOAST, FEEDBACK_TOAST_SIMPLE, FEEDBACK_TOAST_ERRORS, FEEDBACK_TOAST_SIMPLE_ERRORS, FEEDBACK_DIALOG, FEEDBACK_ACTIVITY, FEEDBACK_DEBUG)) {
+            throw IllegalArgumentException("Invalid shortcut feedback type: $feedback")
+        }
+
+        if (retryPolicy !in setOf(RETRY_POLICY_NONE, RETRY_POLICY_WAIT_FOR_INTERNET)) {
+            throw IllegalArgumentException("Invalid retry policy: $retryPolicy")
+        }
+
+        if (requestBodyType !in setOf(REQUEST_BODY_TYPE_FORM_DATA, REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE, REQUEST_BODY_TYPE_CUSTOM_TEXT, REQUEST_BODY_TYPE_FILE)) {
+            throw IllegalArgumentException("Invalid request body type: $requestBodyType")
+        }
+
+        if (authentication !in setOf(AUTHENTICATION_NONE, AUTHENTICATION_BASIC, AUTHENTICATION_DIGEST, AUTHENTICATION_BEARER)) {
+            throw IllegalArgumentException("Invalid authentication: $authentication")
+        }
+
+        if (timeout < 0) {
+            throw IllegalArgumentException("Invalid timeout: $timeout")
+        }
+
+        if (delay < 0) {
+            throw IllegalArgumentException("Invalid delay: $delay")
+        }
+
+        parameters.forEach(Parameter::validate)
+    }
 
     companion object {
 

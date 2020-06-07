@@ -300,6 +300,14 @@ class DatabaseMigration : RealmMigration {
                     .addPrimaryKey("id")
 
             }
+            39L -> { // 1.32.1
+                realm.where("Shortcut").findAll().forEach { shortcut ->
+                    val executionType = shortcut.getString("executionType")
+                    if (executionType != "app" && executionType != "browser" && executionType != "scripting" && executionType != "trigger") {
+                        shortcut.setString("executionType", "app")
+                    }
+                }
+            }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -325,7 +333,7 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 38L
+        const val VERSION = 39L
 
     }
 

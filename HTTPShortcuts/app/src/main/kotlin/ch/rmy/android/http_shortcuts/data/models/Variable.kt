@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.data.models
 
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
+import ch.rmy.android.http_shortcuts.utils.UUIDUtils
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
@@ -68,6 +69,16 @@ open class Variable(
         get() = type == TYPE_CONSTANT
 
     override fun toString() = "Variable($type, $key, $id)"
+
+    fun validate() {
+        if (!UUIDUtils.isUUID(id) && id.toIntOrNull() == null) {
+            throw IllegalArgumentException("Invalid variable ID found, must be UUID: $id")
+        }
+
+        if (type !in setOf(TYPE_CONSTANT, TYPE_TEXT, TYPE_NUMBER, TYPE_PASSWORD, TYPE_SELECT, TYPE_TOGGLE, TYPE_COLOR, TYPE_DATE, TYPE_TIME, TYPE_SLIDER)) {
+            throw IllegalArgumentException("Invalid variable type: $type")
+        }
+    }
 
     companion object {
 
