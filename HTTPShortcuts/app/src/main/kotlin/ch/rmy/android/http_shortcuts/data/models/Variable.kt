@@ -94,6 +94,7 @@ open class Variable(
         const val TYPE_DATE = "date"
         const val TYPE_TIME = "time"
         const val TYPE_SLIDER = "slider"
+        const val TYPE_WIFI_IP = "wifi ip"
 
         private const val FLAG_SHARE_TEXT = 0x1
 
