@@ -311,11 +311,11 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
                     )
                 }
                 .negative(R.string.label_placement_method_legacy) {
-                    finishWithPlacement(IntentUtil.getShortcutPlacementIntent(context, shortcut, true))
+                    finishWithPlacement(IntentUtil.getLegacyShortcutPlacementIntent(context, shortcut, true))
                 }
                 .showIfPossible()
         } else {
-            finishWithPlacement(IntentUtil.getShortcutPlacementIntent(context, shortcut, true))
+            finishWithPlacement(IntentUtil.getLegacyShortcutPlacementIntent(context, shortcut, true))
         }
     }
 
@@ -418,13 +418,13 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
         if (LauncherShortcutManager.supportsPinning(context)) {
             LauncherShortcutManager.pinShortcut(context, shortcut)
         } else {
-            sendBroadcast(IntentUtil.getShortcutPlacementIntent(context, shortcut, true))
+            sendBroadcast(IntentUtil.getLegacyShortcutPlacementIntent(context, shortcut, true))
             showSnackbar(String.format(getString(R.string.shortcut_placed), shortcut.name))
         }
     }
 
     override fun removeShortcutFromHomeScreen(shortcut: Shortcut) {
-        sendBroadcast(IntentUtil.getShortcutPlacementIntent(context, shortcut, false))
+        sendBroadcast(IntentUtil.getLegacyShortcutPlacementIntent(context, shortcut, false))
     }
 
     override fun isAppLocked() = viewModel.isAppLocked()

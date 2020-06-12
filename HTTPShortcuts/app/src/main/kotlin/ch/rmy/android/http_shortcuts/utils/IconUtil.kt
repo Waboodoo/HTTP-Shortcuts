@@ -131,14 +131,18 @@ object IconUtil {
         return bitmap
     }
 
-    fun getIconSize(context: Context): Int {
+    fun getIconSize(context: Context, scaled: Boolean = true): Int {
         if (iconSizeCached == null) {
             iconSizeCached = max(
                 context.resources.getDimensionPixelSize(android.R.dimen.app_icon_size),
                 (context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager).launcherLargeIconSize
-            ) * ICON_SCALING_FACTOR
+            )
         }
-        return iconSizeCached!!
+        return if (scaled) {
+            iconSizeCached!! * ICON_SCALING_FACTOR
+        } else {
+            iconSizeCached!!
+        }
     }
 
     private var iconSizeCached: Int? = null

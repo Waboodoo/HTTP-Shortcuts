@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.utils
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.provider.MediaStore
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
@@ -27,7 +28,7 @@ object IntentUtil {
     }
 
     @Suppress("DEPRECATION")
-    fun getShortcutPlacementIntent(context: Context, shortcut: Shortcut, install: Boolean): Intent {
+    fun getLegacyShortcutPlacementIntent(context: Context, shortcut: Shortcut, install: Boolean): Intent {
         val shortcutIntent = ExecuteActivity.IntentBuilder(context, shortcut.id)
             .build()
         val addIntent = Intent()
@@ -37,8 +38,10 @@ object IntentUtil {
         if (shortcut.iconName != null) {
             val iconUri = IconUtil.getIconURI(context, shortcut.iconName, external = true)
             try {
-                val icon = MediaStore.Images.Media.getBitmap(context.contentResolver, iconUri)
-                addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON, icon)
+                val scaledIcon = MediaStore.Images.Media.getBitmap(context.contentResolver, iconUri)
+                val size = IconUtil.getIconSize(context, scaled = false)
+                val unscaledIcon = Bitmap.createScaledBitmap(scaledIcon, size, size, false)
+                addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON, unscaledIcon)
             } catch (e: Exception) {
                 addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(context.applicationContext, IconUtil.DEFAULT_ICON))
             }
