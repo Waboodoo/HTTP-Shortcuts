@@ -161,6 +161,7 @@
         <activity
             android:name=".activities.settings.SettingsActivity"
             android:label="@string/title_settings"
+            android:windowSoftInputMode="adjustResize"
             android:parentActivityName=".activities.main.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -180,10 +181,12 @@
         <activity android:name=".activities.response.DisplayResponseActivity" />
         <activity
             android:name=".activities.misc.AcknowledgmentActivity"
+            android:windowSoftInputMode="adjustResize"
             android:label="@string/title_licenses" />
 
         <activity
             android:name=".activities.settings.ContactActivity"
+            android:windowSoftInputMode="adjustResize"
             android:label="@string/title_contact" />
 
         <activity
@@ -208,6 +211,7 @@
 
         <activity
             android:name=".activities.widget.WidgetSettingsActivity"
+            android:windowSoftInputMode="adjustResize"
             android:label="@string/title_configure_widget" />
 
         <!-- EXPERIMENTAL -->
