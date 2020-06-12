@@ -14,6 +14,7 @@ object VariableTypeFactory {
         Variable.TYPE_DATE -> DateType()
         Variable.TYPE_TIME -> TimeType()
         Variable.TYPE_SLIDER -> SliderType()
+        Variable.TYPE_WIFI_IP -> WIFIIPType()
         else -> ConstantType()
     }
 
