@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.editor.scripting
 
 import android.content.Context
+import android.os.Build
 import android.os.Vibrator
 import androidx.annotation.StringRes
 import ch.rmy.android.http_shortcuts.R
@@ -133,8 +134,10 @@ class CodeSnippetPicker(
             .item(R.string.action_copy_to_clipboard_title) {
                 insertText("copyToClipboard(\"", "\");\n")
             }
-            .item(R.string.action_tts) {
-                insertText("speak(\"", "\");\n")
+            .mapIf(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                it.item(R.string.action_tts) {
+                    insertText("speak(\"", "\");\n")
+                }
             }
             .mapIf((context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator).hasVibrator()) {
                 it.item(R.string.action_type_vibrate_title) {
