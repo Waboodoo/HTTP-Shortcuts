@@ -72,10 +72,10 @@ class ChangeLogDialog(private val context: Context, private val whatsNew: Boolea
 
     private val version: Long
         get() = try {
-            PackageInfoCompat.getLongVersionCode(
+            (PackageInfoCompat.getLongVersionCode(
                 context.packageManager
                     .getPackageInfo(context.packageName, 0)
-            ) / 1000000
+            ) / 10000) - 110000
         } catch (e: NameNotFoundException) {
             0L
         }
