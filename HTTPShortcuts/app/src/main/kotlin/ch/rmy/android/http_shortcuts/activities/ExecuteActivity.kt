@@ -72,7 +72,7 @@ class ExecuteActivity : BaseActivity() {
     }
 
     private val scriptExecutor: ScriptExecutor by lazy {
-        ScriptExecutor(ActionFactory(context))
+        ScriptExecutor(context, ActionFactory(context))
     }
 
     /* Execution Parameters */
@@ -322,7 +322,6 @@ class ExecuteActivity : BaseActivity() {
             .concatWith(
                 if (tryNumber == 0 || (tryNumber == 1 && shortcut.delay > 0)) {
                     scriptExecutor.execute(
-                        context = context,
                         script = shortcut.codeOnPrepare,
                         shortcut = shortcut,
                         variableManager = variableManager,
@@ -364,7 +363,6 @@ class ExecuteActivity : BaseActivity() {
                 if (error is ErrorResponse || error is IOException) {
                     scriptExecutor
                         .execute(
-                            context = context,
                             script = shortcut.codeOnFailure,
                             shortcut = shortcut,
                             variableManager = variableManager,
@@ -381,7 +379,6 @@ class ExecuteActivity : BaseActivity() {
             .flatMap { response ->
                 scriptExecutor
                     .execute(
-                        context = context,
                         script = shortcut.codeOnSuccess,
                         shortcut = shortcut,
                         variableManager = variableManager,

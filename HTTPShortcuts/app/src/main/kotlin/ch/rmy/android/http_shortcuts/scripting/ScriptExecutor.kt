@@ -23,12 +23,14 @@ import org.liquidplayer.javascript.JSException
 import org.liquidplayer.javascript.JSFunction
 import org.liquidplayer.javascript.JSValue
 
-class ScriptExecutor(private val actionFactory: ActionFactory) {
+class ScriptExecutor(private val context: Context, private val actionFactory: ActionFactory) {
 
     private val jsContext by lazy {
         JSContext()
             .also {
                 registerActionAliases(it, actionFactory.getAliases())
+                registerAbort(it)
+                registerUserInteractions(it, context)
             }
     }
 
@@ -36,7 +38,7 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
     private var responseErrorData: Exception? = null
     private var lastException: Throwable? = null
 
-    fun execute(context: Context, script: String, shortcut: Shortcut, variableManager: VariableManager, response: ShortcutResponse? = null, error: Exception? = null, recursionDepth: Int = 0): Completable =
+    fun execute(script: String, shortcut: Shortcut, variableManager: VariableManager, response: ShortcutResponse? = null, error: Exception? = null, recursionDepth: Int = 0): Completable =
         if (script.isEmpty()) {
             Completable.complete()
         } else {
@@ -50,8 +52,6 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
                 registerShortcut(shortcut)
                 registerResponse(response, error)
                 registerVariables(variableManager)
-                registerAbort()
-                registerUserInteractions(context)
 
                 this.responseData = response
                 this.responseErrorData = error
@@ -76,6 +76,9 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
     }
 
     private fun registerResponse(response: ShortcutResponse?, error: Exception?) {
+        if (response == null && error == null) {
+            return
+        }
         val responseObject = (response ?: (error as? ErrorResponse)?.shortcutResponse)
         jsContext.property("response", responseObject?.let {
             mapOf(
@@ -114,7 +117,7 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
         }, READ_ONLY)
     }
 
-    private fun registerAbort() {
+    private fun registerAbort(jsContext: JSContext) {
         jsContext.evaluateScript(
             """
             function abort() {
@@ -163,7 +166,7 @@ class ScriptExecutor(private val actionFactory: ActionFactory) {
         }, READ_ONLY)
     }
 
-    private fun registerUserInteractions(context: Context) {
+    private fun registerUserInteractions(jsContext: JSContext, context: Context) {
         jsContext.property("alert", object : JSFunction(jsContext, "run") {
             @Suppress("unused")
             @Keep
