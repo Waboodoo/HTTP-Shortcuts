@@ -386,7 +386,6 @@
     <string name="variable_type_time">Time Input</string>
     <!-- Type of variable: Color Input, i.e., a dialog that asks user to pick a color in a color picker -->
     <string name="variable_type_color">Color Input</string>
-    <string name="variable_type_wifi_ip">WI-FI IP</string>
     <!-- Error message, information user that the variable name they entered is not valid -->
     <string name="warning_invalid_variable_key">Variable names may only contain underscores, digits and letters from the English alphabet.</string>
     <!-- Dialog message, asking user to confirm the deletion of a variable -->
@@ -734,13 +733,13 @@
     <!-- Dialog option: shown in code snippet picker, shows options to run certain actions (e.g. to show a toast, vibrate, …) -->
     <string name="dialog_code_snippet_actions">Actions</string>
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a string -->
-    <string name="dialog_code_snippet_response_body">Get Response Body</string>
+    <string name="dialog_code_snippet_response_body">Get Reponse Body</string>
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response headers -->
-    <string name="dialog_code_snippet_response_headers">Get Response Headers</string>
+    <string name="dialog_code_snippet_response_headers">Get Reponse Headers</string>
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response status code -->
-    <string name="dialog_code_snippet_response_status_code">Get Response Status Code</string>
+    <string name="dialog_code_snippet_response_status_code">Get Reponse Status Code</string>
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response cookies -->
-    <string name="dialog_code_snippet_response_cookies">Get Response Cookies</string>
+    <string name="dialog_code_snippet_response_cookies">Get Reponse Cookies</string>
     <!-- Dialog option: shown in code snippet picker, option allows to get the network error message (if any) -->
     <string name="dialog_code_snippet_response_network_error">Get Network Error</string>
     <!-- Dialog option: shown in code snippet picker, option allows to get the value of a variable -->
