@@ -75,7 +75,7 @@ open class Variable(
             throw IllegalArgumentException("Invalid variable ID found, must be UUID: $id")
         }
 
-        if (type !in setOf(TYPE_CONSTANT, TYPE_TEXT, TYPE_NUMBER, TYPE_PASSWORD, TYPE_SELECT, TYPE_TOGGLE, TYPE_COLOR, TYPE_DATE, TYPE_TIME, TYPE_SLIDER, TYPE_WIFI_IP)) {
+        if (type !in setOf(TYPE_CONSTANT, TYPE_TEXT, TYPE_NUMBER, TYPE_PASSWORD, TYPE_SELECT, TYPE_TOGGLE, TYPE_COLOR, TYPE_DATE, TYPE_TIME, TYPE_SLIDER)) {
             throw IllegalArgumentException("Invalid variable type: $type")
         }
     }
@@ -94,7 +94,6 @@ open class Variable(
         const val TYPE_DATE = "date"
         const val TYPE_TIME = "time"
         const val TYPE_SLIDER = "slider"
-        const val TYPE_WIFI_IP = "wifi IP"
 
         private const val FLAG_SHARE_TEXT = 0x1
 
