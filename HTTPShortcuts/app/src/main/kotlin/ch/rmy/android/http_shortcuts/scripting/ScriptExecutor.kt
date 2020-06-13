@@ -139,7 +139,7 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
         jsContext.property("_runAction", object : JSFunction(jsContext, "run") {
             @Suppress("unused")
             @Keep
-            fun run(actionType: String, data: Map<String, JSValue>): Boolean {
+            fun run(actionType: String, data: Map<String, JSValue>): String? {
                 logInfo("Running action of type: $actionType")
                 val action = actionFactory.fromDTO(ActionDTO(
                     type = actionType,
@@ -148,19 +148,18 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
 
                 return try {
                     action
-                        ?.perform(
+                        ?.executeForValue(ExecutionContext(
                             context = context,
                             shortcutId = shortcutId,
                             variableManager = variableManager,
                             response = responseData,
                             responseError = responseErrorData as? ErrorResponse,
                             recursionDepth = recursionDepth
-                        )
-                        ?.blockingAwait()
-                    true
+                        ))
+                        ?.blockingGet()
                 } catch (e: Throwable) {
                     lastException = if (e is RuntimeException && e.cause != null) e.cause else e
-                    false
+                    null
                 }
             }
         }, READ_ONLY)
@@ -232,11 +231,13 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
                     jsContext.evaluateScript(
                         """
                         const ${alias.functionName} = (${alias.parameters.joinToString()}) => {
-                            const actionSuccess = _runAction("$actionName", {
+                            const result = _runAction("$actionName", {
                                 ${alias.parameters.joinToString { parameter -> "\"$parameter\": $parameter" }}
                             });
-                            if (!actionSuccess) {
+                            if (result === null) {
                                 throw "Error";
+                            } else {
+                                return result;
                             }
                         };
                         """.trimIndent()

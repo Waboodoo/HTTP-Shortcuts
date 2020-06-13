@@ -19,8 +19,7 @@ object VariableTypes {
         VariableType(Variable.TYPE_DATE, R.string.variable_type_date),
         VariableType(Variable.TYPE_TIME, R.string.variable_type_time),
         VariableType(Variable.TYPE_COLOR, R.string.variable_type_color),
-        VariableType(Variable.TYPE_TOGGLE, R.string.variable_type_toggle),
-        VariableType(Variable.TYPE_WIFI_IP,R.string.variable_type_wifi_ip)
+        VariableType(Variable.TYPE_TOGGLE, R.string.variable_type_toggle)
     )
 
     class VariableType(val type: String, @StringRes val name: Int)

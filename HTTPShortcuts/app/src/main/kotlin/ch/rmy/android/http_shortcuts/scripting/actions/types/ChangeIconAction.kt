@@ -6,24 +6,19 @@ import ch.rmy.android.http_shortcuts.data.DataSource
 import ch.rmy.android.http_shortcuts.data.Repository
 import ch.rmy.android.http_shortcuts.data.Transactions
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
-import ch.rmy.android.http_shortcuts.http.ErrorResponse
-import ch.rmy.android.http_shortcuts.http.ShortcutResponse
+import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
-import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
 import io.reactivex.Completable
 
-class ChangeIconAction(
-    actionType: ChangeIconActionType,
-    data: Map<String, String>
-) : BaseAction(actionType) {
+class ChangeIconAction(data: Map<String, String>) : BaseAction() {
 
     private val icon = data[KEY_ICON] ?: ""
 
     private val shortcutNameOrId = data[KEY_SHORTCUT_NAME_OR_ID]?.takeUnless { it.isEmpty() }
 
-    override fun perform(context: Context, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse?, responseError: ErrorResponse?, recursionDepth: Int): Completable =
-        changeIcon(context, this.shortcutNameOrId ?: shortcutId)
+    override fun execute(executionContext: ExecutionContext): Completable =
+        changeIcon(executionContext.context, this.shortcutNameOrId ?: executionContext.shortcutId)
 
     private fun changeIcon(context: Context, shortcutNameOrId: String): Completable {
         val newIcon = icon

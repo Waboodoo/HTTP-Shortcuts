@@ -386,7 +386,6 @@
     <string name="variable_type_time">Time Input</string>
     <!-- Type of variable: Color Input, i.e., a dialog that asks user to pick a color in a color picker -->
     <string name="variable_type_color">Color Input</string>
-    <string name="variable_type_wifi_ip">WI-FI IP</string>
     <!-- Error message, information user that the variable name they entered is not valid -->
     <string name="warning_invalid_variable_key">Variable names may only contain underscores, digits and letters from the English alphabet.</string>
     <!-- Dialog message, asking user to confirm the deletion of a variable -->

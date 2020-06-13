@@ -1,23 +1,23 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
-import android.content.Context
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionDTO
 
-class CopyToClipboardActionType(context: Context) : BaseActionType(context) {
+class CopyToClipboardActionType : BaseActionType() {
 
     override val type = TYPE
 
-    override fun fromDTO(actionDTO: ActionDTO) = CopyToClipboardAction(this, actionDTO.data)
+    override fun fromDTO(actionDTO: ActionDTO) = CopyToClipboardAction(actionDTO.data)
 
     override fun getAlias() = ActionAlias(
-        functionName = "copyToClipboard",
+        functionName = FUNCTION_NAME,
         parameters = listOf(CopyToClipboardAction.KEY_TEXT)
     )
 
     companion object {
 
         const val TYPE = "copy_to_clipboard"
+        const val FUNCTION_NAME = "copyToClipboard"
 
     }
 

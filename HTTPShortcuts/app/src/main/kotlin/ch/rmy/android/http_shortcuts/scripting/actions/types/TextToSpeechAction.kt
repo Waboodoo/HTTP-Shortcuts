@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
-import android.content.Context
 import android.os.Build
 import android.os.Handler
 import android.speech.tts.TextToSpeech
@@ -9,29 +8,24 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.extensions.truncate
 import ch.rmy.android.http_shortcuts.extensions.tryOrIgnore
-import ch.rmy.android.http_shortcuts.http.ErrorResponse
-import ch.rmy.android.http_shortcuts.http.ShortcutResponse
+import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
-import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.Variables
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import java.util.Locale
 
-class TextToSpeechAction(
-    actionType: TextToSpeechActionType,
-    data: Map<String, String>
-) : BaseAction(actionType) {
+class TextToSpeechAction(data: Map<String, String>) : BaseAction() {
 
     private val message: String = data[KEY_TEXT] ?: ""
     private val language: String = data[KEY_LANGUAGE] ?: ""
 
-    override fun perform(context: Context, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse?, responseError: ErrorResponse?, recursionDepth: Int): Completable {
+    override fun execute(executionContext: ExecutionContext): Completable {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             return Completable.error(ActionException { it.getString(R.string.error_not_supported) })
         }
 
-        val finalMessage = Variables.rawPlaceholdersToResolvedValues(message, variableManager.getVariableValuesByIds())
+        val finalMessage = Variables.rawPlaceholdersToResolvedValues(message, executionContext.variableManager.getVariableValuesByIds())
             .truncate(MAX_TEXT_LENGTH)
         return if (finalMessage.isNotEmpty()) {
             var tts: TextToSpeech? = null
@@ -40,7 +34,7 @@ class TextToSpeechAction(
                     val id = newUUID()
                     val handler = Handler()
 
-                    tts = TextToSpeech(context) { code ->
+                    tts = TextToSpeech(executionContext.context) { code ->
                         if (code != TextToSpeech.SUCCESS) {
                             emitter.onError(ActionException { it.getString(R.string.error_tts_failed) })
                             return@TextToSpeech

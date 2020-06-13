@@ -8,25 +8,25 @@ import ch.rmy.android.http_shortcuts.data.Transactions
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.extensions.truncate
-import ch.rmy.android.http_shortcuts.http.ErrorResponse
-import ch.rmy.android.http_shortcuts.http.ShortcutResponse
+import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
 import io.reactivex.Completable
 
-class RenameShortcutAction(
-    actionType: RenameShortcutActionType,
-    data: Map<String, String>
-) : BaseAction(actionType) {
+class RenameShortcutAction(data: Map<String, String>) : BaseAction() {
 
     private val name: String = data[KEY_NAME] ?: ""
 
     private val shortcutNameOrId = data[KEY_SHORTCUT_NAME_OR_ID]?.takeUnless { it.isEmpty() }
 
-    override fun perform(context: Context, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse?, responseError: ErrorResponse?, recursionDepth: Int): Completable =
-        renameShortcut(context, this.shortcutNameOrId ?: shortcutId, variableManager)
+    override fun execute(executionContext: ExecutionContext): Completable =
+        renameShortcut(
+            executionContext.context,
+            this.shortcutNameOrId ?: executionContext.shortcutId,
+            executionContext.variableManager
+        )
 
     private fun renameShortcut(context: Context, shortcutNameOrId: String, variableManager: VariableManager): Completable {
         val newName = Variables.rawPlaceholdersToResolvedValues(name, variableManager.getVariableValuesByIds())

@@ -1,23 +1,9 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
-import android.content.Context
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionDTO
 
-class ActionFactory(private val context: Context) {
-
-    private val types by lazy {
-        listOf(
-            CopyToClipboardActionType(context),
-            DialogActionType(context),
-            RenameShortcutActionType(context),
-            ChangeIconActionType(context),
-            TriggerShortcutActionType(context),
-            ToastActionType(context),
-            VibrateActionType(context),
-            TextToSpeechActionType(context)
-        )
-    }
+class ActionFactory {
 
     fun fromDTO(actionDTO: ActionDTO): BaseAction? =
         getType(actionDTO.type)
@@ -31,5 +17,21 @@ class ActionFactory(private val context: Context) {
             .map { it.type to it.getAlias() }
             .filter { it.second != null }
             .associate { it.first to it.second!! }
+
+    companion object {
+        private val types by lazy {
+            listOf(
+                CopyToClipboardActionType(),
+                DialogActionType(),
+                RenameShortcutActionType(),
+                ChangeIconActionType(),
+                TriggerShortcutActionType(),
+                ToastActionType(),
+                VibrateActionType(),
+                TextToSpeechActionType(),
+                WifiIPActionType()
+            )
+        }
+    }
 
 }

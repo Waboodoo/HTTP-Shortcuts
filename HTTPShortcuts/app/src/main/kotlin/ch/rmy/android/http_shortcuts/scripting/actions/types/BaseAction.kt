@@ -1,20 +1,15 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
-import android.content.Context
-import ch.rmy.android.http_shortcuts.http.ErrorResponse
-import ch.rmy.android.http_shortcuts.http.ShortcutResponse
-import ch.rmy.android.http_shortcuts.variables.VariableManager
+import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import io.reactivex.Completable
+import io.reactivex.Single
 
-abstract class BaseAction(val actionType: BaseActionType) {
+abstract class BaseAction {
 
-    open fun perform(context: Context, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse?, responseError: ErrorResponse?, recursionDepth: Int): Completable {
-        performBlocking(context, shortcutId, variableManager, response, responseError, recursionDepth)
-        return Completable.complete()
-    }
+    open fun execute(executionContext: ExecutionContext): Completable =
+        Completable.complete()
 
-    protected open fun performBlocking(context: Context, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse?, responseError: ErrorResponse?, recursionDepth: Int) {
-
-    }
+    open fun executeForValue(executionContext: ExecutionContext): Single<String> =
+        execute(executionContext).toSingleDefault("")
 
 }

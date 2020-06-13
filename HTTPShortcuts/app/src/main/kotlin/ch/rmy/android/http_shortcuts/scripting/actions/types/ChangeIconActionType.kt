@@ -1,23 +1,23 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
-import android.content.Context
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionDTO
 
-class ChangeIconActionType(context: Context) : BaseActionType(context) {
+class ChangeIconActionType : BaseActionType() {
 
     override val type = TYPE
 
-    override fun fromDTO(actionDTO: ActionDTO) = ChangeIconAction(this, actionDTO.data)
+    override fun fromDTO(actionDTO: ActionDTO) = ChangeIconAction(actionDTO.data)
 
     override fun getAlias() = ActionAlias(
-        functionName = "changeIcon",
+        functionName = FUNCTION_NAME,
         parameters = listOf(ChangeIconAction.KEY_SHORTCUT_NAME_OR_ID, ChangeIconAction.KEY_ICON)
     )
 
     companion object {
 
         const val TYPE = "change_icon"
+        const val FUNCTION_NAME = "changeIcon"
 
     }
 

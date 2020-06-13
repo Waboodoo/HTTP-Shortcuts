@@ -72,7 +72,7 @@ class ExecuteActivity : BaseActivity() {
     }
 
     private val scriptExecutor: ScriptExecutor by lazy {
-        ScriptExecutor(context, ActionFactory(context))
+        ScriptExecutor(context, ActionFactory())
     }
 
     /* Execution Parameters */

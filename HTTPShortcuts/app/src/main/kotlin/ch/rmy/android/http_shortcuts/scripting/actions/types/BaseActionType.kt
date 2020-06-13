@@ -1,10 +1,9 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
-import android.content.Context
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionDTO
 
-abstract class BaseActionType(protected val context: Context) {
+abstract class BaseActionType {
 
     abstract val type: String
 

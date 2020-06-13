@@ -1,27 +1,21 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
-import android.content.Context
-import ch.rmy.android.http_shortcuts.http.ErrorResponse
-import ch.rmy.android.http_shortcuts.http.ShortcutResponse
+import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.ClipboardUtil
-import ch.rmy.android.http_shortcuts.variables.VariableManager
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 
-class CopyToClipboardAction(
-    actionType: CopyToClipboardActionType,
-    data: Map<String, String>
-) : BaseAction(actionType) {
+class CopyToClipboardAction(data: Map<String, String>) : BaseAction() {
 
     private val text: String = data[KEY_TEXT] ?: ""
 
-    override fun perform(context: Context, shortcutId: String, variableManager: VariableManager, response: ShortcutResponse?, responseError: ErrorResponse?, recursionDepth: Int): Completable =
+    override fun execute(executionContext: ExecutionContext): Completable =
         Completable
             .fromAction {
                 text
                     .takeIf { it.isNotEmpty() }
                     ?.let {
-                        ClipboardUtil.copyToClipboard(context, it)
+                        ClipboardUtil.copyToClipboard(executionContext.context, it)
                     }
             }
             .subscribeOn(AndroidSchedulers.mainThread())
