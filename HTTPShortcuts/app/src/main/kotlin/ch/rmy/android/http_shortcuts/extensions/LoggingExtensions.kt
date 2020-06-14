@@ -12,7 +12,7 @@ fun Any.logInfo(message: String) {
     Logging.logInfo(this.javaClass.simpleName.ifEmpty { "anonymous" }, message)
 }
 
-fun <T> Any.tryOrLog(block: () -> T): T? =
+inline fun <T> Any.tryOrLog(block: () -> T): T? =
     try {
         block()
     } catch (e: Throwable) {
@@ -20,7 +20,7 @@ fun <T> Any.tryOrLog(block: () -> T): T? =
         null
     }
 
-fun <T> Any.tryOrIgnore(block: () -> T): T? =
+inline fun <T> Any.tryOrIgnore(block: () -> T): T? =
     try {
         block()
     } catch (e: Throwable) {
