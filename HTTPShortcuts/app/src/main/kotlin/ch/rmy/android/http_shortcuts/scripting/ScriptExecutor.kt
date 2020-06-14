@@ -2,11 +2,9 @@ package ch.rmy.android.http_shortcuts.scripting
 
 import android.content.Context
 import androidx.annotation.Keep
-import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.Repository
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.exceptions.CanceledByUserException
 import ch.rmy.android.http_shortcuts.exceptions.JavaScriptException
 import ch.rmy.android.http_shortcuts.extensions.logInfo
@@ -17,8 +15,6 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.ActionFactory
 import ch.rmy.android.http_shortcuts.scripting.actions.types.BaseAction
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import io.reactivex.Completable
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
 import org.liquidplayer.javascript.JSContext
 import org.liquidplayer.javascript.JSException
 import org.liquidplayer.javascript.JSFunction
@@ -31,7 +27,6 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
             .also {
                 registerActionAliases(it, actionFactory.getAliases())
                 registerAbort(it)
-                registerUserInteractions(it, context)
             }
     }
 
@@ -166,34 +161,27 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
         }, READ_ONLY)
     }
 
-    private fun registerUserInteractions(jsContext: JSContext, context: Context) {
-        jsContext.property("confirm", object : JSFunction(jsContext, "run") {
-            @Suppress("unused")
-            @Keep
-            fun run(message: String?): Boolean =
-                Single.create<Boolean> { emitter ->
-                    DialogBuilder(context)
-                        .message(message ?: "")
-                        .positive(R.string.dialog_ok) {
-                            emitter.onSuccess(true)
-                        }
-                        .negative(R.string.dialog_cancel) {
-                            emitter.onSuccess(false)
-                        }
-                        .dismissListener { emitter.onSuccess(false) }
-                        .show()
-                }
-                    .subscribeOn(AndroidSchedulers.mainThread())
-                    .blockingGet()
-        }, READ_ONLY)
-    }
-
     companion object {
 
         private const val READ_ONLY =
             JSContext.JSPropertyAttributeReadOnly or JSContext.JSPropertyAttributeDontDelete
 
         private fun registerActionAliases(jsContext: JSContext, aliases: Map<String, ActionAlias>) {
+            jsContext.evaluateScript(
+                """
+                const _convertResult = (result, returnType) => {
+                    if (result === null) {
+                        throw "Error";
+                    } else if (result === "${BaseAction.NO_RESULT}") {
+                        return null;
+                    } else if (returnType === "${ActionAlias.ReturnType.BOOLEAN}") {
+                        return result === "${true.toString()}";    
+                    } else {
+                        return result;
+                    }
+                };
+                """.trimIndent()
+            )
             aliases
                 .forEach { (actionName, alias) ->
                     jsContext.evaluateScript(
@@ -202,13 +190,7 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
                             const result = _runAction("$actionName", {
                                 ${alias.parameters.joinToString { parameter -> "\"$parameter\": $parameter" }}
                             });
-                            if (result === null) {
-                                throw "Error";
-                            } else if (result === "${BaseAction.NO_RESULT}") {
-                                return null;
-                            } else {
-                                return result;
-                            }
+                            return _convertResult(result, "${alias.returnType.name}");
                         };
                         """.trimIndent()
                     )

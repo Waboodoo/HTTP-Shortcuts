@@ -22,6 +22,7 @@ class ActionFactory {
         private val types by lazy {
             listOf(
                 ChangeIconActionType(),
+                ConfirmActionType(),
                 CopyToClipboardActionType(),
                 DialogActionType(),
                 PromptActionType(),
