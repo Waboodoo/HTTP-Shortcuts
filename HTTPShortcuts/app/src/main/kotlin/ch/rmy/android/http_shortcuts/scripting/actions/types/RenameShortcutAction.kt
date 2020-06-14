@@ -15,11 +15,7 @@ import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
 import io.reactivex.Completable
 
-class RenameShortcutAction(data: Map<String, String>) : BaseAction() {
-
-    private val name: String = data[KEY_NAME] ?: ""
-
-    private val shortcutNameOrId = data[KEY_SHORTCUT_NAME_OR_ID]?.takeUnless { it.isEmpty() }
+class RenameShortcutAction(private val name: String, private val shortcutNameOrId: String?) : BaseAction() {
 
     override fun execute(executionContext: ExecutionContext): Completable =
         renameShortcut(
@@ -54,9 +50,6 @@ class RenameShortcutAction(data: Map<String, String>) : BaseAction() {
     }
 
     companion object {
-
-        const val KEY_NAME = "name"
-        const val KEY_SHORTCUT_NAME_OR_ID = "shortcut_id"
 
         private fun renameShortcut(shortcutId: String, newName: String) =
             Transactions.commit { realm ->

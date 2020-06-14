@@ -7,11 +7,13 @@ class ConfirmActionType : BaseActionType() {
 
     override val type = TYPE
 
-    override fun fromDTO(actionDTO: ActionDTO) = ConfirmAction(actionDTO.data)
+    override fun fromDTO(actionDTO: ActionDTO) = ConfirmAction(
+        message = actionDTO[KEY_MESSAGE] ?: ""
+    )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
-        parameters = listOf(ConfirmAction.KEY_MESSAGE),
+        parameters = listOf(KEY_MESSAGE),
         returnType = ActionAlias.ReturnType.BOOLEAN
     )
 
@@ -19,6 +21,8 @@ class ConfirmActionType : BaseActionType() {
 
         const val TYPE = "confirm"
         const val FUNCTION_NAME = "confirm"
+
+        const val KEY_MESSAGE = "message"
 
     }
 

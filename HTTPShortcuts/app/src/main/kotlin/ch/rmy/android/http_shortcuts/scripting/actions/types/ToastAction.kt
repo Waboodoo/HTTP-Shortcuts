@@ -6,9 +6,7 @@ import ch.rmy.android.http_shortcuts.variables.Variables
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 
-class ToastAction(data: Map<String, String>) : BaseAction() {
-
-    private val message: String = data[KEY_TEXT] ?: ""
+class ToastAction(private val message: String) : BaseAction() {
 
     override fun execute(executionContext: ExecutionContext): Completable {
         val finalMessage = Variables.rawPlaceholdersToResolvedValues(
@@ -24,12 +22,6 @@ class ToastAction(data: Map<String, String>) : BaseAction() {
         } else {
             Completable.complete()
         }
-    }
-
-    companion object {
-
-        const val KEY_TEXT = "text"
-
     }
 
 }

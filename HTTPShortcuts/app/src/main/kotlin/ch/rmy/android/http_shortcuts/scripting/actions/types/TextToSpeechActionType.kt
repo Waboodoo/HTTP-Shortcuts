@@ -7,17 +7,23 @@ class TextToSpeechActionType : BaseActionType() {
 
     override val type = TYPE
 
-    override fun fromDTO(actionDTO: ActionDTO) = TextToSpeechAction(actionDTO.data)
+    override fun fromDTO(actionDTO: ActionDTO) = TextToSpeechAction(
+        message = actionDTO[KEY_TEXT] ?: "",
+        language = actionDTO[KEY_LANGUAGE] ?: ""
+    )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
-        parameters = listOf(TextToSpeechAction.KEY_TEXT, TextToSpeechAction.KEY_LANGUAGE)
+        parameters = listOf(KEY_TEXT, KEY_LANGUAGE)
     )
 
     companion object {
 
         const val TYPE = "text_to_speech"
         const val FUNCTION_NAME = "speak"
+
+        const val KEY_TEXT = "text"
+        const val KEY_LANGUAGE = "language"
 
     }
 

@@ -9,11 +9,7 @@ import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import io.reactivex.Completable
 import java.util.concurrent.TimeUnit
 
-class VibrateAction(data: Map<String, String>) : BaseAction() {
-
-    private val patternId = data[KEY_PATTERN]?.toIntOrNull() ?: 0
-
-    private val waitForCompletion = data[KEY_WAIT_FOR_COMPLETION]?.toBoolean() ?: false
+class VibrateAction(private val patternId: Int, private val waitForCompletion: Boolean) : BaseAction() {
 
     private val pattern: VibrationPattern
         get() = findPattern(patternId)
@@ -40,9 +36,6 @@ class VibrateAction(data: Map<String, String>) : BaseAction() {
     }
 
     companion object {
-
-        const val KEY_PATTERN = "pattern"
-        const val KEY_WAIT_FOR_COMPLETION = "wait"
 
         private fun findPattern(patternId: Int): VibrationPattern =
             when (patternId) {

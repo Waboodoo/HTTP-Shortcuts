@@ -11,11 +11,7 @@ import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
 import io.reactivex.Completable
 
-class ChangeIconAction(data: Map<String, String>) : BaseAction() {
-
-    private val icon = data[KEY_ICON] ?: ""
-
-    private val shortcutNameOrId = data[KEY_SHORTCUT_NAME_OR_ID]?.takeUnless { it.isEmpty() }
+class ChangeIconAction(private val icon: String, private val shortcutNameOrId: String?) : BaseAction() {
 
     override fun execute(executionContext: ExecutionContext): Completable =
         changeIcon(executionContext.context, this.shortcutNameOrId ?: executionContext.shortcutId)
@@ -42,9 +38,6 @@ class ChangeIconAction(data: Map<String, String>) : BaseAction() {
     }
 
     companion object {
-
-        const val KEY_ICON = "icon"
-        const val KEY_SHORTCUT_NAME_OR_ID = "shortcut_id"
 
         private fun changeIcon(shortcutId: String, newIcon: String) =
             Transactions.commit { realm ->

@@ -7,12 +7,14 @@ class WaitActionType : BaseActionType() {
 
     override val type = TYPE
 
-    override fun fromDTO(actionDTO: ActionDTO) = WaitAction(actionDTO.data)
+    override fun fromDTO(actionDTO: ActionDTO) = WaitAction(
+        duration = actionDTO[KEY_DURATION]?.toLongOrNull() ?: 0
+    )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
         functionNameAliases = setOf(FUNCTION_NAME_ALIAS),
-        parameters = listOf(WaitAction.KEY_DURATION)
+        parameters = listOf(KEY_DURATION)
     )
 
     companion object {
@@ -20,6 +22,8 @@ class WaitActionType : BaseActionType() {
         const val TYPE = "wait"
         const val FUNCTION_NAME = "wait"
         const val FUNCTION_NAME_ALIAS = "sleep"
+
+        const val KEY_DURATION = "duration"
 
     }
 

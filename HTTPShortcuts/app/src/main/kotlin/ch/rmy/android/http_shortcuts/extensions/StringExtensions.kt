@@ -7,3 +7,6 @@ fun String.replacePrefix(oldPrefix: String, newPrefix: String) =
     mapIf(startsWith(oldPrefix)) {
         "$newPrefix${removePrefix(oldPrefix)}"
     }
+
+fun String.takeUnlessEmpty() =
+    takeUnless { it.isEmpty() }

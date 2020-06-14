@@ -7,9 +7,7 @@ import ch.rmy.android.http_shortcuts.variables.Variables
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 
-class ConfirmAction(data: Map<String, String>) : BaseAction() {
-
-    private val message: String = data[KEY_MESSAGE] ?: ""
+class ConfirmAction(private val message: String) : BaseAction() {
 
     override fun executeForValue(executionContext: ExecutionContext): Single<String> {
         val finalMessage = Variables.rawPlaceholdersToResolvedValues(
@@ -34,12 +32,6 @@ class ConfirmAction(data: Map<String, String>) : BaseAction() {
         } else {
             Single.just(NO_RESULT)
         }
-    }
-
-    companion object {
-
-        const val KEY_MESSAGE = "message"
-
     }
 
 }

@@ -7,12 +7,15 @@ class DialogActionType : BaseActionType() {
 
     override val type = TYPE
 
-    override fun fromDTO(actionDTO: ActionDTO) = DialogAction(actionDTO.data)
+    override fun fromDTO(actionDTO: ActionDTO) = DialogAction(
+        message = actionDTO[KEY_TEXT] ?: "",
+        title = actionDTO[KEY_TITLE] ?: ""
+    )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
         functionNameAliases = setOf(FUNCTION_NAME_ALIAS),
-        parameters = listOf(DialogAction.KEY_TEXT, DialogAction.KEY_TITLE)
+        parameters = listOf(KEY_TEXT, KEY_TITLE)
     )
 
     companion object {
@@ -20,6 +23,9 @@ class DialogActionType : BaseActionType() {
         const val TYPE = "show_dialog"
         const val FUNCTION_NAME = "showDialog"
         const val FUNCTION_NAME_ALIAS = "alert"
+
+        const val KEY_TEXT = "text"
+        const val KEY_TITLE = "title"
 
     }
 

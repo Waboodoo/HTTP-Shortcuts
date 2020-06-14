@@ -7,17 +7,23 @@ class PromptActionType : BaseActionType() {
 
     override val type = TYPE
 
-    override fun fromDTO(actionDTO: ActionDTO) = PromptAction(actionDTO.data)
+    override fun fromDTO(actionDTO: ActionDTO) = PromptAction(
+        message = actionDTO[KEY_MESSAGE] ?: "",
+        prefill = actionDTO[KEY_PREFILL] ?: ""
+    )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
-        parameters = listOf(PromptAction.KEY_MESSAGE, PromptAction.KEY_PREFILL)
+        parameters = listOf(KEY_MESSAGE, KEY_PREFILL)
     )
 
     companion object {
 
         const val TYPE = "prompt"
         const val FUNCTION_NAME = "prompt"
+
+        const val KEY_MESSAGE = "message"
+        const val KEY_PREFILL = "prefill"
 
     }
 

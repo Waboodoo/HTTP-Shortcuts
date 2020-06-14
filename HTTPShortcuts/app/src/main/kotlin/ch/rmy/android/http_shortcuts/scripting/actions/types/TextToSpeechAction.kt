@@ -15,10 +15,7 @@ import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import java.util.Locale
 
-class TextToSpeechAction(data: Map<String, String>) : BaseAction() {
-
-    private val message: String = data[KEY_TEXT] ?: ""
-    private val language: String = data[KEY_LANGUAGE] ?: ""
+class TextToSpeechAction(private val message: String, private val language: String) : BaseAction() {
 
     override fun execute(executionContext: ExecutionContext): Completable {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
@@ -76,9 +73,6 @@ class TextToSpeechAction(data: Map<String, String>) : BaseAction() {
     }
 
     companion object {
-
-        const val KEY_TEXT = "text"
-        const val KEY_LANGUAGE = "language"
 
         private const val MAX_TEXT_LENGTH = 400
 

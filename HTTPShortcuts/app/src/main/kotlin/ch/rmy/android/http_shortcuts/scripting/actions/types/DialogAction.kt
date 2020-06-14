@@ -8,11 +8,7 @@ import ch.rmy.android.http_shortcuts.variables.Variables
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 
-class DialogAction(data: Map<String, String>) : BaseAction() {
-
-    private val message: String = data[KEY_TEXT] ?: ""
-
-    private val title: String = data[KEY_TITLE] ?: ""
+class DialogAction(private val message: String, private val title: String) : BaseAction() {
 
     override fun execute(executionContext: ExecutionContext): Completable {
         val finalMessage = Variables.rawPlaceholdersToResolvedValues(
@@ -33,13 +29,6 @@ class DialogAction(data: Map<String, String>) : BaseAction() {
         } else {
             Completable.complete()
         }
-    }
-
-    companion object {
-
-        const val KEY_TEXT = "text"
-        const val KEY_TITLE = "title"
-
     }
 
 }

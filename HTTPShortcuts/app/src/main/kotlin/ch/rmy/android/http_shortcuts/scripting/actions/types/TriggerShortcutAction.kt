@@ -9,10 +9,10 @@ import ch.rmy.android.http_shortcuts.utils.DateUtil
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import io.reactivex.Completable
 
-class TriggerShortcutAction(data: Map<String, String>) : BaseAction() {
-
-    private val shortcutNameOrId: String = data[KEY_SHORTCUT_NAME_OR_ID] ?: ""
-    private val variableValuesJson: String = data[KEY_VARIABLE_VALUES] ?: ""
+class TriggerShortcutAction(
+    private val shortcutNameOrId: String,
+    private val variableValuesJson: String
+) : BaseAction() {
 
     override fun execute(executionContext: ExecutionContext): Completable {
         if (executionContext.recursionDepth >= MAX_RECURSION_DEPTH) {
@@ -38,9 +38,6 @@ class TriggerShortcutAction(data: Map<String, String>) : BaseAction() {
     }
 
     companion object {
-
-        const val KEY_SHORTCUT_NAME_OR_ID = "shortcutId"
-        const val KEY_VARIABLE_VALUES = "variables"
 
         private const val MAX_RECURSION_DEPTH = 5
 
