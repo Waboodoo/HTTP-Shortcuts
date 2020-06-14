@@ -25,9 +25,16 @@
         a {
             color: #487092;
         }
+        .dark {
+            background-color: #333333;
+        }
+        .dark * {
+            color: #FFFFFF;
+        }
+
     </style>
 </head>
-<body>
+<body id="root">
 <article>
     <h2>Version 1.33.0</h2>
     <h3>Scripting Improvements</h3>
@@ -598,6 +605,10 @@
         <li>Bugfixes</li>
     </ul>
 </article>
-
+<script>
+if (location.search === '?dark') {
+    document.getElementById('root').className = 'dark';
+}
+</script>
 </body>
 </html>

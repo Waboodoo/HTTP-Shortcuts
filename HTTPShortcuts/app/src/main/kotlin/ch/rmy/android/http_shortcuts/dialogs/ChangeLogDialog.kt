@@ -5,10 +5,13 @@ import android.content.Context
 import android.content.pm.PackageManager.NameNotFoundException
 import android.view.LayoutInflater
 import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.CheckBox
 import androidx.core.content.pm.PackageInfoCompat
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.extensions.isDarkThemeEnabled
 import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.utils.Settings
 import io.reactivex.Completable
 import io.reactivex.subjects.CompletableSubject
@@ -39,6 +42,14 @@ class ChangeLogDialog(private val context: Context, private val whatsNew: Boolea
             val webView = view.findViewById<WebView>(R.id.changelog_webview)
             val showAtStartupCheckbox = view.findViewById<CheckBox>(R.id.checkbox_show_at_startup)
 
+            webView.settings.javaScriptEnabled = true
+            webView.webViewClient = object : WebViewClient() {
+                override fun onPageFinished(view: WebView?, url: String?) {
+                    super.onPageFinished(view, url)
+                    webView.visible = true
+                }
+            }
+
             val completable = CompletableSubject.create()
 
             val dialog = DialogBuilder(context)
@@ -51,7 +62,11 @@ class ChangeLogDialog(private val context: Context, private val whatsNew: Boolea
                 .showIfPossible()
 
             return if (dialog != null) {
-                webView.loadUrl(CHANGELOG_ASSET_URL)
+                webView.loadUrl(if (context.isDarkThemeEnabled()) {
+                    CHANGELOG_ASSET_URL_DARK_MODE
+                } else {
+                    CHANGELOG_ASSET_URL
+                })
 
                 showAtStartupCheckbox.isChecked = !isPermanentlyHidden
                 showAtStartupCheckbox.setOnCheckedChangeListener { _, isChecked ->
@@ -83,6 +98,7 @@ class ChangeLogDialog(private val context: Context, private val whatsNew: Boolea
     companion object {
 
         private const val CHANGELOG_ASSET_URL = "file:///android_asset/changelog.html"
+        private const val CHANGELOG_ASSET_URL_DARK_MODE = CHANGELOG_ASSET_URL + "?dark"
 
     }
 

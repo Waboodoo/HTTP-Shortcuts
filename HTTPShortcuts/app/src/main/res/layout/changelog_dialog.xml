@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
 
     <WebView
         android:id="@+id/changelog_webview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" android:layout_above="@+id/checkbox_show_at_startup">
-    </WebView>
+        android:layout_height="match_parent"
+        android:layout_above="@+id/checkbox_show_at_startup"
+        android:visibility="invisible" />
 
     <CheckBox
         android:id="@+id/checkbox_show_at_startup"
@@ -17,6 +18,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="@string/changelog_checkbox_show_at_startup"/>
+        android:text="@string/changelog_checkbox_show_at_startup" />
 
 </RelativeLayout>
