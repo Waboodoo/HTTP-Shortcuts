@@ -125,6 +125,7 @@ repositories {
     maven {
         url 'https://jitpack.io'
     }
+    jcenter()
     google()
 }
 
@@ -157,6 +158,9 @@ dependencies {
     /* Animated progress bar */
     implementation 'com.github.castorflex.smoothprogressbar:library:1.1.0'
     implementation 'com.github.castorflex.smoothprogressbar:library-circular:1.1.0'
+
+    /* Onboarding Balloons */
+    implementation 'com.github.skydoves:balloon:1.1.8-alpha02'
 
     /* Image selection */
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'

@@ -3,10 +3,12 @@ package ch.rmy.android.http_shortcuts.activities.main
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
 import ch.rmy.android.http_shortcuts.R
@@ -34,6 +36,7 @@ import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.extensions.titleView
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
+import ch.rmy.android.http_shortcuts.onboarding.BalloonFactory
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.SelectionMode
@@ -83,7 +86,10 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
         initViews()
 
         if (selectionMode === SelectionMode.NORMAL) {
-            showChangeLogIfNeeded()
+            val onboardingShowing = showOnboardingBalloonsIfNeeded()
+            if (!onboardingShowing) {
+                showChangeLogIfNeeded()
+            }
         } else {
             if (selectionMode == SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT) {
                 setResult(Activity.RESULT_CANCELED, WidgetManager.getIntent(widgetId))
@@ -431,6 +437,34 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
 
     override fun updateLauncherShortcuts() {
         LauncherShortcutManager.updateAppShortcuts(context, categories)
+    }
+
+    private fun showOnboardingBalloonsIfNeeded(): Boolean {
+        with(BalloonFactory(context, this)) {
+            if (!shouldShowBalloons()) {
+                return false
+            }
+            marskAsShown()
+
+            val welcomeBalloon = createWelcomeBalloon()
+            val menuBalloon = createMenuBalloon()
+            val fabBalloon = createFABBalloon()
+
+            welcomeBalloon.setOnBalloonDismissListener {
+                if (!isFinishing) {
+                    fabBalloon.showAlignTop(createButton)
+                }
+            }
+            fabBalloon.setOnBalloonDismissListener {
+                if (!isFinishing) {
+                    toolbar!!.findViewById<View>(R.id.action_variables).setBackgroundColor(Color.RED)
+                    menuBalloon.showAlignBottom(toolbar!!.findViewById<View>(R.id.action_variables))
+                }
+            }
+
+            welcomeBalloon.show(baseView!!)
+        }
+        return true
     }
 
     companion object {

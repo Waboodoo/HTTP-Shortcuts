@@ -42,6 +42,10 @@ class Settings(context: Context) {
         get() = preferences.getBoolean(KEY_VARIABLE_INTRO_SHOWN, false)
         set(shown) = putBoolean(KEY_VARIABLE_INTRO_SHOWN, shown)
 
+    var wereOnboardingBalloonsShown: Boolean
+        get() = preferences.getBoolean(KEY_ONBOARDING_BALLOONS_SHOWN, false)
+        set(shown) = putBoolean(KEY_ONBOARDING_BALLOONS_SHOWN, shown)
+
     var changeLogLastVersion: Long
         get() = try {
             preferences.getLong(KEY_CHANGE_LOG_LAST_VERSION, 0L)
@@ -99,6 +103,7 @@ class Settings(context: Context) {
         private const val KEY_NETWORK_RESTRICTION_PERMANENTLY_HIDDEN = "network_restriction_permanently_hidden"
         private const val KEY_THEME = "theme"
         private const val KEY_VARIABLE_INTRO_SHOWN = "variable_intro_shown"
+        private const val KEY_ONBOARDING_BALLOONS_SHOWN = "onboarding_balloons_shown"
         private const val KEY_DARK_THEME = "dark_theme"
 
     }
