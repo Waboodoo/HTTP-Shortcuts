@@ -22,9 +22,27 @@
             padding-left: 1em;
             margin-top: 0.5em;
         }
+        a {
+            color: #487092;
+        }
     </style>
 </head>
 <body>
+<article>
+    <h2>Version 1.33.0</h2>
+    <h3>Scripting Improvements</h3>
+    <ul>
+        <li>Redesigned the code snippet picker to make it easier to navigate</li>
+        <li>Added <i>getWifiIPAddress()</i> helper function (thanks <a href="https://github.com/2219160052">@wahaha</a>)</li>
+        <li>Added <i>wait()</i> helper function</li>
+    </ul>
+    <h3>Bugfixes</h3>
+    <ul>
+        <li>Fixed bug where the response was not available for scripting when code was executed before the request</li>
+        <li>Fixed bug where shortcuts couldn't be placed on the home screen using the "Legacy" placement method</li>
+        <li>Don't show Text-to-speech option when device does not support it</li>
+    </ul>
+</article>
 <article>
     <h2>Version 1.32.0</h2>
     <h3>Multi-Shortcuts</h3>
