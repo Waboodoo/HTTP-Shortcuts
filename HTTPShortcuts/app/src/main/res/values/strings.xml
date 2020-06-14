@@ -602,6 +602,10 @@
     <string name="action_type_toast_title">Show Toast</string>
     <!-- Shortcut Action Title: Show Dialog -->
     <string name="action_type_dialog_title">Show Dialog</string>
+    <!-- Shortcut Action Title: Show Dialog that asks the user to input text -->
+    <string name="action_type_prompt_title">Prompt for Text</string>
+    <!-- Shortcut Action Title: Show Dialog that asks the user to confirm something -->
+    <string name="action_type_confirm_title">Ask for Confirmation</string>
     <!-- Shortcut Action Title: Action that allows to copy strings to the device's clipboard -->
     <string name="action_copy_to_clipboard_title">Copy to Clipboard</string>
     <!-- Shortcut Action Title: Action that allows to read a snippet of text out load (text-to-speech) -->
@@ -616,6 +620,10 @@
     <string name="action_type_trigger_shortcut_title">Trigger Shortcut</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
     <string name="action_type_abort_execution">Abort Execution</string>
+    <!-- Shortcut Action Title: Wait for a number of milliseconds before continuing with the script execution -->
+    <string name="action_type_wait">Wait</string>
+    <!-- Shortcut Action Title: Get the IP Address of the current WiFi -->
+    <string name="action_type_get_wifi_ip_address">Get IP Address on WiFi</string>
     <!-- Shortcut error message: Maximum recursion depth reached, i.e., a potential infinite loop was detected and stopped -->
     <string name="action_type_trigger_shortcut_error_recursion_depth_reached">Maximum recursion depth reached. Shortcut will not be triggered.</string>
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid URL -->
@@ -726,14 +734,30 @@
     <string name="button_add_code_snippet">Add Code Snippet</string>
     <!-- Title: Shown on menu dialog (for pre-request and post-request actions), allows to add snippets of JS code -->
     <string name="title_add_code_snippet">Add Code Snippet</string>
+    <!-- Dialog option: shown in code snippet picker, shows options to get information about the current shortcut itself -->
+    <string name="dialog_code_snippet_shortcut_info">Shortcut Info</string>
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the HTTP response -->
     <string name="dialog_code_snippet_handle_response">Handle Response</string>
     <!-- Dialog option: shown in code snippet picker, shows options to get or set variables -->
     <string name="dialog_code_snippet_variables">Variables</string>
-    <!-- Dialog option: shown in code snippet picker, shows options to run certain actions (e.g. to show a toast, vibrate, …) -->
-    <string name="dialog_code_snippet_actions">Actions</string>
+    <!-- Dialog option: shown in code snippet picker, shows options to interact with the user (show dialog, prompt for input, ...) -->
+    <string name="dialog_code_snippet_user_interaction">User Interaction</string>
+    <!-- Dialog option: shown in code snippet picker, shows options to modify shortcuts -->
+    <string name="dialog_code_snippet_modify_shortcuts">Modify Shortcuts</string>
+    <!-- Dialog option: shown in code snippet picker, shows options to control the flow of the script (abort, if-else, ...) -->
+    <string name="dialog_code_snippet_control_flow">Control Flow</string>
+    <!-- Dialog option: shown in code snippet picker, shows options to don't belong in any of the other categories -->
+    <string name="dialog_code_snippet_misc">Miscellaneous</string>
+    <!-- Dialog option: shown in code snippet picker, option to get the ID of the current shortcut -->
+    <string name="dialog_code_snippet_get_shortcut_id">Get Shortcut ID</string>
+    <!-- Dialog option: shown in code snippet picker, option to get the name of the current shortcut -->
+    <string name="dialog_code_snippet_get_shortcut_name">Get Shortcut Name</string>
+    <!-- Dialog option: shown in code snippet picker, option to get the description of the current shortcut -->
+    <string name="dialog_code_snippet_get_shortcut_description">Get Shortcut Description</string>
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a string -->
     <string name="dialog_code_snippet_response_body">Get Response Body</string>
+    <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a json object -->
+    <string name="dialog_code_snippet_response_body_json">Get Response Body as JSON</string>
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response headers -->
     <string name="dialog_code_snippet_response_headers">Get Response Headers</string>
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response status code -->

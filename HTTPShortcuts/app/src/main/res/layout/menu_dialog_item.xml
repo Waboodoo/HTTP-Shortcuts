@@ -7,15 +7,29 @@
     android:paddingLeft="@dimen/abc_dialog_padding_material"
     android:paddingRight="@dimen/abc_dialog_padding_material">
 
-    <ch.rmy.android.http_shortcuts.icons.IconView
-        android:id="@+id/menu_item_icon"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+    <FrameLayout
+        android:id="@+id/menu_item_icon_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginTop="2dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="2dp" />
+        android:layout_marginBottom="2dp">
+
+        <ch.rmy.android.http_shortcuts.icons.IconView
+            android:id="@+id/menu_item_shortcut_icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp" />
+
+        <ImageView
+            android:id="@+id/menu_item_regular_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp" />
+
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,8 +39,8 @@
         android:layout_centerVertical="true"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
-        android:layout_toEndOf="@+id/menu_item_icon"
-        android:layout_toRightOf="@+id/menu_item_icon"
+        android:layout_toEndOf="@+id/menu_item_icon_container"
+        android:layout_toRightOf="@+id/menu_item_icon_container"
         android:gravity="center_vertical"
         android:orientation="vertical">
 

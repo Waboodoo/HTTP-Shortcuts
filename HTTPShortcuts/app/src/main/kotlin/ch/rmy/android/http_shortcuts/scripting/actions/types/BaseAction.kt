@@ -10,6 +10,12 @@ abstract class BaseAction {
         Completable.complete()
 
     open fun executeForValue(executionContext: ExecutionContext): Single<String> =
-        execute(executionContext).toSingleDefault("")
+        execute(executionContext).toSingleDefault(NO_RESULT)
+
+    companion object {
+
+        const val NO_RESULT = "[[[no result]]]"
+
+    }
 
 }

@@ -14,6 +14,7 @@ import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionDTO
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ActionFactory
+import ch.rmy.android.http_shortcuts.scripting.actions.types.BaseAction
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -166,21 +167,6 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
     }
 
     private fun registerUserInteractions(jsContext: JSContext, context: Context) {
-        jsContext.property("alert", object : JSFunction(jsContext, "run") {
-            @Suppress("unused")
-            @Keep
-            fun run(message: String) {
-                Completable.create { emitter ->
-                    DialogBuilder(context)
-                        .message(message)
-                        .positive(R.string.dialog_ok)
-                        .dismissListener { emitter.onComplete() }
-                        .show()
-                }
-                    .subscribeOn(AndroidSchedulers.mainThread())
-                    .blockingAwait()
-            }
-        }, READ_ONLY)
         jsContext.property("confirm", object : JSFunction(jsContext, "run") {
             @Suppress("unused")
             @Keep
@@ -200,24 +186,6 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
                     .subscribeOn(AndroidSchedulers.mainThread())
                     .blockingGet()
         }, READ_ONLY)
-        jsContext.property("prompt", object : JSFunction(jsContext, "run") {
-            @Suppress("unused")
-            @Keep
-            fun run(message: String?, default: String?): String? =
-                Single.create<String> { emitter ->
-                    DialogBuilder(context)
-                        .message(message ?: "")
-                        .textInput(prefill = default ?: "") { input ->
-                            emitter.onSuccess("-$input")
-                        }
-                        .dismissListener { emitter.onSuccess("") }
-                        .show()
-                }
-                    .subscribeOn(AndroidSchedulers.mainThread())
-                    .blockingGet()
-                    .takeUnless { it.isEmpty() }
-                    ?.removePrefix("-")
-        }, READ_ONLY)
     }
 
     companion object {
@@ -236,12 +204,21 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
                             });
                             if (result === null) {
                                 throw "Error";
+                            } else if (result === "${BaseAction.NO_RESULT}") {
+                                return null;
                             } else {
                                 return result;
                             }
                         };
                         """.trimIndent()
                     )
+                    alias.functionNameAliases.forEach {
+                        jsContext.evaluateScript(
+                            """
+                            const ${it} = ${alias.functionName};
+                            """.trimIndent()
+                        )
+                    }
                 }
         }
 

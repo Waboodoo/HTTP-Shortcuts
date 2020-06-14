@@ -20,7 +20,7 @@ class WifiIPAction : BaseAction() {
             ?.let { ipAddress ->
                 formatIPAddress(ipAddress)
             }
-            ?: ""
+            ?: NO_RESULT
 
     companion object {
         private fun formatIPAddress(ip: Int): String =

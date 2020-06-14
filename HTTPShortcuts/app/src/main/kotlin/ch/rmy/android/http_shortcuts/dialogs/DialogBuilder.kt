@@ -2,16 +2,21 @@ package ch.rmy.android.http_shortcuts.dialogs
 
 import android.app.Dialog
 import android.content.Context
+import android.content.res.ColorStateList
 import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
+import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
+import androidx.core.widget.ImageViewCompat
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.extensions.color
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.extensions.visible
@@ -42,12 +47,14 @@ open class DialogBuilder(val context: Context) {
         @StringRes descriptionRes: Int? = null,
         description: CharSequence? = null,
         iconName: String? = null,
+        @DrawableRes iconRes: Int? = null,
         action: () -> Unit = {}
     ) = also {
         items.add(MenuItem.ClickableItem(
             name ?: context.getString(nameRes!!),
             description ?: (descriptionRes?.let { context.getString(it) }),
             iconName,
+            iconRes,
             action
         ))
     }
@@ -158,6 +165,7 @@ open class DialogBuilder(val context: Context) {
             val name: CharSequence,
             val description: CharSequence?,
             val iconName: String?,
+            val iconRes: Int?,
             val action: (() -> Unit)?
         ) : MenuItem()
 
@@ -191,17 +199,30 @@ open class DialogBuilder(val context: Context) {
 
             val labelView: TextView = view.findViewById(R.id.menu_item_label)
             val descriptionView: TextView = view.findViewById(R.id.menu_item_description)
-            val iconView: IconView = view.findViewById(R.id.menu_item_icon)
+            val iconContainer: View = view.findViewById(R.id.menu_item_icon_container)
+            val shortcutIconView: IconView = view.findViewById(R.id.menu_item_shortcut_icon)
+            val regularIconView: ImageView = view.findViewById(R.id.menu_item_regular_icon)
 
             labelView.text = item.name
             descriptionView.visible = item.description != null
             descriptionView.text = item.description
             if (item.iconName != null) {
-                iconView.setIcon(item.iconName)
-                iconView.visible = true
+                shortcutIconView.setIcon(item.iconName)
+                shortcutIconView.visible = true
+                regularIconView.visible = false
+                iconContainer.visible = true
+            } else if (item.iconRes != null) {
+                shortcutIconView.visible = false
+                regularIconView.visible = true
+                iconContainer.visible = true
+                regularIconView.setImageResource(item.iconRes)
+                ImageViewCompat.setImageTintList(regularIconView, ColorStateList.valueOf(color(context, R.color.dialog_icon)))
             } else {
-                iconView.visible = false
+                shortcutIconView.visible = false
+                regularIconView.visible = false
+                iconContainer.visible = false
             }
+
             view.setOnClickListener {
                 item.action?.invoke()
                 dialog.dismiss()

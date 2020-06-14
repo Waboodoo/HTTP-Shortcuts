@@ -21,14 +21,16 @@ class ActionFactory {
     companion object {
         private val types by lazy {
             listOf(
+                ChangeIconActionType(),
                 CopyToClipboardActionType(),
                 DialogActionType(),
+                PromptActionType(),
                 RenameShortcutActionType(),
-                ChangeIconActionType(),
-                TriggerShortcutActionType(),
-                ToastActionType(),
-                VibrateActionType(),
                 TextToSpeechActionType(),
+                ToastActionType(),
+                TriggerShortcutActionType(),
+                VibrateActionType(),
+                WaitActionType(),
                 WifiIPActionType()
             )
         }

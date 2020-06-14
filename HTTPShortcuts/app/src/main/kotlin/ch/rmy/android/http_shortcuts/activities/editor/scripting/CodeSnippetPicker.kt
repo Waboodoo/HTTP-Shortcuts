@@ -15,7 +15,6 @@ import ch.rmy.android.http_shortcuts.icons.IconSelector
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholderProvider
 import ch.rmy.android.http_shortcuts.utils.Destroyable
 import ch.rmy.android.http_shortcuts.utils.Destroyer
-import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 
 class CodeSnippetPicker(
@@ -31,15 +30,41 @@ class CodeSnippetPicker(
         DialogBuilder(context)
             .title(R.string.title_add_code_snippet)
             .mapIf(includeResponseOptions) {
-                it.item(R.string.dialog_code_snippet_handle_response) {
+                it.item(R.string.dialog_code_snippet_handle_response, iconRes = R.drawable.ic_handle_response) {
                     showResponseOptionsPicker(insertText, includeNetworkErrorOption)
                 }
             }
-            .item(R.string.dialog_code_snippet_variables) {
+            .item(R.string.dialog_code_snippet_variables, iconRes = R.drawable.ic_variables) {
                 showVariablesOptionsPicker(insertText)
             }
-            .item(R.string.dialog_code_snippet_actions) {
-                showActionsPicker(insertText)
+            .item(R.string.dialog_code_snippet_shortcut_info, iconRes = R.drawable.ic_shortcut_info) {
+                showShortcutInfoPicker(insertText)
+            }
+            .item(R.string.dialog_code_snippet_user_interaction, iconRes = R.drawable.ic_user_interaction) {
+                showUserInteractionPicker(insertText)
+            }
+            .item(R.string.dialog_code_snippet_modify_shortcuts, iconRes = R.drawable.ic_modify_shortcuts) {
+                showModifyShortcutPicker(insertText)
+            }
+            .item(R.string.dialog_code_snippet_control_flow, iconRes = R.drawable.ic_control_flow) {
+                showControlFlowPicker(insertText)
+            }
+            .item(R.string.dialog_code_snippet_misc, iconRes = R.drawable.ic_misc) {
+                showMiscPicker(insertText)
+            }
+            .showIfPossible()
+    }
+
+    private fun showShortcutInfoPicker(insertText: (before: String, after: String) -> Unit) {
+        DialogBuilder(context)
+            .item(R.string.dialog_code_snippet_get_shortcut_id) {
+                insertText("shortcut.id", "")
+            }
+            .item(R.string.dialog_code_snippet_get_shortcut_name) {
+                insertText("shortcut.name", "")
+            }
+            .item(R.string.dialog_code_snippet_get_shortcut_description) {
+                insertText("shortcut.description", "")
             }
             .showIfPossible()
     }
@@ -48,6 +73,9 @@ class CodeSnippetPicker(
         DialogBuilder(context)
             .item(R.string.dialog_code_snippet_response_body) {
                 insertText("response.body", "")
+            }
+            .item(R.string.dialog_code_snippet_response_body_json) {
+                insertText("JSON.parse(response.body)", "")
             }
             .item(R.string.dialog_code_snippet_response_headers) {
                 insertText("response.headers", "")
@@ -61,6 +89,53 @@ class CodeSnippetPicker(
             .mapIf(includeNetworkErrorOption) {
                 it.item(R.string.dialog_code_snippet_response_network_error) {
                     insertText("networkError", "")
+                }
+            }
+            .showIfPossible()
+    }
+
+    private fun showUserInteractionPicker(insertText: (before: String, after: String) -> Unit) {
+        DialogBuilder(context)
+            .item(R.string.action_type_toast_title) {
+                insertText("showToast(\"", "\");\n")
+            }
+            .item(R.string.action_type_dialog_title) {
+                insertText("showDialog(\"Message\"", ", \"Title\");\n")
+            }
+            .item(R.string.action_type_prompt_title) {
+                insertText("prompt(\"Message", "\");\n")
+            }
+            .item(R.string.action_type_confirm_title) {
+                insertText("confirm(\"Message", "\");\n")
+            }
+            .mapIf(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                it.item(R.string.action_tts) {
+                    insertText("speak(\"", "\");\n")
+                }
+            }
+            .mapIf((context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator).hasVibrator()) {
+                it.item(R.string.action_type_vibrate_title) {
+                    insertText("vibrate();\n", "")
+                }
+            }
+            .showIfPossible()
+    }
+
+    private fun showModifyShortcutPicker(insertText: (before: String, after: String) -> Unit) {
+        DialogBuilder(context)
+            .item(R.string.action_type_rename_shortcut_title) {
+                actionWithShortcut(R.string.action_type_rename_shortcut_title) { shortcutPlaceholder ->
+                    insertText("renameShortcut($shortcutPlaceholder, \"new name", "\");\n")
+                }
+            }
+            .item(R.string.action_type_change_icon_title) {
+                actionWithShortcut(R.string.action_type_change_icon_title) { shortcutPlaceholder ->
+                    IconSelector(context)
+                        .show()
+                        .subscribe { iconName ->
+                            insertText("changeIcon($shortcutPlaceholder, \"$iconName\");\n", "")
+                        }
+                        .attachTo(destroyer)
                 }
             }
             .showIfPossible()
@@ -121,53 +196,29 @@ class CodeSnippetPicker(
             .show()
     }
 
-    private fun showActionsPicker(insertText: (before: String, after: String) -> Unit) {
-        // TODO: Avoid duplicate code and decouple code snippet picker from action declarion
-        // -> move action declaration to actions themselves
+    private fun showControlFlowPicker(insertText: (before: String, after: String) -> Unit) {
         DialogBuilder(context)
-            .item(R.string.action_type_toast_title) {
-                insertText("showToast(\"", "\");\n")
+            .item(R.string.action_type_wait) {
+                insertText("wait(1000 /* milliseconds */", ");\n")
             }
-            .item(R.string.action_type_dialog_title) {
-                insertText("showDialog(\"Message\"", ", \"Title\");\n")
+            .item(R.string.action_type_abort_execution) {
+                insertText("abort();\n", "")
             }
-            .item(R.string.action_copy_to_clipboard_title) {
-                insertText("copyToClipboard(\"", "\");\n")
-            }
-            .mapIf(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                it.item(R.string.action_tts) {
-                    insertText("speak(\"", "\");\n")
-                }
-            }
-            .mapIf((context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator).hasVibrator()) {
-                it.item(R.string.action_type_vibrate_title) {
-                    insertText("vibrate();\n", "")
-                }
-            }
+            .showIfPossible()
+    }
+
+    private fun showMiscPicker(insertText: (before: String, after: String) -> Unit) {
+        DialogBuilder(context)
             .item(R.string.action_type_trigger_shortcut_title) {
                 actionWithShortcut(R.string.action_type_trigger_shortcut_title) { shortcutPlaceholder ->
                     insertText("triggerShortcut($shortcutPlaceholder);\n", "")
                 }
             }
-            .mapIf(LauncherShortcutManager.supportsPinning(context)) {
-                it.item(R.string.action_type_rename_shortcut_title) {
-                    actionWithShortcut(R.string.action_type_rename_shortcut_title) { shortcutPlaceholder ->
-                        insertText("renameShortcut($shortcutPlaceholder, \"new name", "\");\n")
-                    }
-                }
+            .item(R.string.action_copy_to_clipboard_title) {
+                insertText("copyToClipboard(\"", "\");\n")
             }
-            .item(R.string.action_type_change_icon_title) {
-                actionWithShortcut(R.string.action_type_change_icon_title) { shortcutPlaceholder ->
-                    IconSelector(context)
-                        .show()
-                        .subscribe { iconName ->
-                            insertText("changeIcon($shortcutPlaceholder, \"$iconName\");\n", "")
-                        }
-                        .attachTo(destroyer)
-                }
-            }
-            .item(R.string.action_type_abort_execution) {
-                insertText("abort();\n", "")
+            .item(R.string.action_type_get_wifi_ip_address) {
+                insertText("getWifiIPAddress();\n", "")
             }
             .showIfPossible()
     }
