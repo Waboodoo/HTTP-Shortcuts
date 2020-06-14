@@ -426,7 +426,6 @@
     <string name="settings_licenses">"Anerkennungen"</string>
 
     <!-- Button subtitle, for "Acknowledgements" button -->
-    <!-- Fuzzy -->
     <string name="settings_licenses_summary">"Verwendete Libraries &amp; Ressourcen"</string>
 
     <!-- Page title, for page showing all configured categories -->
@@ -537,7 +536,6 @@ Alle darin enthaltenen Shortcuts werden gelöscht."</string>
     <string name="label_variable_time_format">"Zeitformat"</string>
 
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
-    <!-- Fuzzy -->
     <string name="variable_type_constant">"Statische Variable (Konstante)"</string>
 
     <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
@@ -553,7 +551,6 @@ Alle darin enthaltenen Shortcuts werden gelöscht."</string>
     <string name="variable_type_password">"Passworteingabe"</string>
 
     <!-- Type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
-    <!-- Fuzzy -->
     <string name="variable_type_select">"Multiple-Choice Auswahl"</string>
 
     <!-- Type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
@@ -569,8 +566,7 @@ Alle darin enthaltenen Shortcuts werden gelöscht."</string>
     <string name="variable_type_color">"Farbeingabe"</string>
 
     <!-- Error message, information user that the variable name they entered is not valid -->
-    <!-- Fuzzy -->
-    <string name="warning_invalid_variable_key">"Schlüssel darf nur Zahlen und Buchstaben enthalten."</string>
+    <string name="warning_invalid_variable_key">"Variablenamen darf nur Zahlen und Buchstaben enthalten."</string>
 
     <!-- Dialog message, asking user to confirm the deletion of a variable -->
     <string name="confirm_delete_variable_message">"Diese Variable wirklich löschen?"</string>
@@ -588,12 +584,10 @@ Alle darin enthaltenen Shortcuts werden gelöscht."</string>
     <string name="section_basic_variable_settings">"Allgemeine Einstellungen"</string>
 
     <!-- Error message, informing user that the entered variable key is empty -->
-    <!-- Fuzzy -->
-    <string name="validation_key_non_empty">"Schlüssel darf nicht leer sein."</string>
+    <string name="validation_key_non_empty">"Name darf nicht leer sein."</string>
 
     <!-- Error message, informing user that the entered variable key already exists -->
-    <!-- Fuzzy -->
-    <string name="validation_key_already_exists">"Es existiert bereits eine Variable mit diesem Schlüssel."</string>
+    <string name="validation_key_already_exists">"Es existiert bereits eine Variable mit diesem Namen."</string>
 
     <!-- Dialog title, to add another value to the list of values in a variable of Toggle type -->
     <string name="title_add_toggle_option">"Wert hinzufügen"</string>
@@ -742,11 +736,9 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
     <string name="title_create_new_shortcut_options_dialog">"Neuen Shortcut erstellen"</string>
 
     <!-- Option 1 in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
-    <!-- Fuzzy -->
-    <string name="button_create_new">"Neuen Shortcut"</string>
+    <string name="button_create_new">"Normaler HTTP Shortcut"</string>
 
     <!-- Option 2 in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
-    <!-- Fuzzy -->
     <string name="button_curl_import">"Aus cURL-Befehl erstellen"</string>
 
     <!-- Option 3 in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
@@ -1017,16 +1009,13 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
     <string name="label_follow_redirects">"Weiterleitungen folgen"</string>
 
     <!-- Label: shown above input box that lets user define JS code to be executed before shortcut -->
-    <!-- Fuzzy -->
-    <string name="label_pre_request_script">"Vor Request ausführen (JavaScript)"</string>
+    <string name="label_pre_request_script">"Vor Request ausführen"</string>
 
     <!-- Label: shown above input box that lets user define JS code to be executed after shortcut succeeds -->
-    <!-- Fuzzy -->
-    <string name="label_post_request_success_script">"Im Erfolgsfall ausführen (JavaScript)"</string>
+    <string name="label_post_request_success_script">"Im Erfolgsfall ausführen"</string>
 
     <!-- Label: shown above input box that lets user define JS code to be executed after shortcut fails -->
-    <!-- Fuzzy -->
-    <string name="label_post_request_failure_script">"Im Fehlerfall ausführen (JavaScript)"</string>
+    <string name="label_post_request_failure_script">"Im Fehlerfall ausführen"</string>
 
     <!-- Dialog title: Shown on dialog that shows an error message when something goes wrong while executing a shortcut (e.g. JS exception) -->
     <string name="dialog_title_error">"Fehler"</string>
@@ -1045,9 +1034,6 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
 
     <!-- Dialog option: shown in code snippet picker, shows options to get or set variables -->
     <string name="dialog_code_snippet_variables">"Variablen"</string>
-
-    <!-- Dialog option: shown in code snippet picker, shows options to run certain actions (e.g. to show a toast, vibrate, ...) -->
-    <string name="dialog_code_snippet_actions">"Aktionen"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a string -->
     <string name="dialog_code_snippet_response_body">"Reponse-Body auslesen"</string>
@@ -1267,4 +1253,43 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
 
     <!-- Dialog message: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
     <string name="message_remove_trigger_shortcut">"Shortcut \"%s\" aus Liste der auszulösenden Shortcuts entfernen?"</string>
+
+    <!-- Shortcut Action Title: Show Dialog that asks the user to input text -->
+    <string name="action_type_prompt_title">"Aufforderung zur Texteingabe"</string>
+
+    <!-- Shortcut Action Title: Show Dialog that asks the user to confirm something -->
+    <string name="action_type_confirm_title">"Bestätigung anfordern"</string>
+
+    <!-- Shortcut Action Title: Wait for a number of milliseconds before continuing with the script execution -->
+    <string name="action_type_wait">"Warten"</string>
+
+    <!-- Shortcut Action Title: Get the IP Address of the current WiFi -->
+    <string name="action_type_get_wifi_ip_address">"WiFi-IP-Adresse abrufen"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options to get information about the current shortcut itself -->
+    <string name="dialog_code_snippet_shortcut_info">"Shortcut-Info"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options to interact with the user (show dialog, prompt for input, ...) -->
+    <string name="dialog_code_snippet_user_interaction">"Benutzerinteraktion"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options to modify shortcuts -->
+    <string name="dialog_code_snippet_modify_shortcuts">"Shortcuts modifizieren"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options to control the flow of the script (abort, if-else, ...) -->
+    <string name="dialog_code_snippet_control_flow">"Programmfluss"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options to don't belong in any of the other categories -->
+    <string name="dialog_code_snippet_misc">"Diverses"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the ID of the current shortcut -->
+    <string name="dialog_code_snippet_get_shortcut_id">"Shortcut-ID abrufen"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the name of the current shortcut -->
+    <string name="dialog_code_snippet_get_shortcut_name">"Shortcut-Name abrufen"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the description of the current shortcut -->
+    <string name="dialog_code_snippet_get_shortcut_description">"Shortcut-Beschreibung abrufen"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a json object -->
+    <string name="dialog_code_snippet_response_body_json">"Response-Body als JSON auslesen"</string>
 </resources>

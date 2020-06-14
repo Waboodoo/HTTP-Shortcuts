@@ -999,16 +999,13 @@
     <string name="label_follow_redirects">"跟随重定向请求"</string>
 
     <!-- Label: shown above input box that lets user define JS code to be executed before shortcut -->
-    <!-- Fuzzy -->
-    <string name="label_pre_request_script">"在执行前运行(JavaScripts)"</string>
+    <string name="label_pre_request_script">"在执行前运行"</string>
 
     <!-- Label: shown above input box that lets user define JS code to be executed after shortcut succeeds -->
-    <!-- Fuzzy -->
-    <string name="label_post_request_success_script">"执行成功(JavaScripts)"</string>
+    <string name="label_post_request_success_script">"执行成功"</string>
 
     <!-- Label: shown above input box that lets user define JS code to be executed after shortcut fails -->
-    <!-- Fuzzy -->
-    <string name="label_post_request_failure_script">"执行出错(JavaScripts)"</string>
+    <string name="label_post_request_failure_script">"执行出错"</string>
 
     <!-- Dialog title: Shown on dialog that shows an error message when something goes wrong while executing a shortcut (e.g. JS exception) -->
     <string name="dialog_title_error">"发生错误"</string>
@@ -1028,19 +1025,20 @@
     <!-- Dialog option: shown in code snippet picker, shows options to get or set variables -->
     <string name="dialog_code_snippet_variables">"变量"</string>
 
-    <!-- Dialog option: shown in code snippet picker, shows options to run certain actions (e.g. to show a toast, vibrate, ...) -->
-    <string name="dialog_code_snippet_actions">"动作"</string>
-
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a string -->
+    <!-- Fuzzy -->
     <string name="dialog_code_snippet_response_body">"获取返回体"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response headers -->
+    <!-- Fuzzy -->
     <string name="dialog_code_snippet_response_headers">"获取返回头部"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response status code -->
+    <!-- Fuzzy -->
     <string name="dialog_code_snippet_response_status_code">"获取返回状态码"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response cookies -->
+    <!-- Fuzzy -->
     <string name="dialog_code_snippet_response_cookies">"获取返回的Cookies"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get the network error message (if any) -->

@@ -941,16 +941,13 @@ További információt a változó dokumentációjában találsz."</string>
     <string name="label_follow_redirects">"Átirányítások követése"</string>
 
     <!-- Label: shown above input box that lets user define JS code to be executed before shortcut -->
-    <!-- Fuzzy -->
-    <string name="label_pre_request_script">"Futtatás végrehajtás előtt (JavaScript)"</string>
+    <string name="label_pre_request_script">"Futtatás végrehajtás előtt"</string>
 
     <!-- Label: shown above input box that lets user define JS code to be executed after shortcut succeeds -->
-    <!-- Fuzzy -->
-    <string name="label_post_request_success_script">"Futtatás sikeres végrehajtáskor (JavaScript)"</string>
+    <string name="label_post_request_success_script">"Futtatás sikeres végrehajtáskor"</string>
 
     <!-- Label: shown above input box that lets user define JS code to be executed after shortcut fails -->
-    <!-- Fuzzy -->
-    <string name="label_post_request_failure_script">"Futtatás ha hiba van (JavaScript)"</string>
+    <string name="label_post_request_failure_script">"Futtatás ha hiba van"</string>
 
     <!-- Dialog title: Shown on dialog that shows an error message when something goes wrong while executing a shortcut (e.g. JS exception) -->
     <string name="dialog_title_error">"Hiba"</string>
@@ -967,9 +964,6 @@ További információt a változó dokumentációjában találsz."</string>
 
     <!-- Dialog option: shown in code snippet picker, shows options to get or set variables -->
     <string name="dialog_code_snippet_variables">"Változók"</string>
-
-    <!-- Dialog option: shown in code snippet picker, shows options to run certain actions (e.g. to show a toast, vibrate, ...) -->
-    <string name="dialog_code_snippet_actions">"Művelet"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to set the value of a variable -->
     <string name="dialog_code_snippet_set_variable">"Változó beállítása (állandó)"</string>
@@ -1074,8 +1068,8 @@ Ezt a funkciót engedélyezheted egy parancsikon szerkesztésével és a \"%1$s\
 
     <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
     <plurals name="warning_variable_still_in_use_in_shortcuts">
-        <item quantity="one">"Ez a változó még mindig használatban van egy parancsikonban:% 1 $ s"</item>
-        <item quantity="other">"Ez a változó még mindig használatban van több parancsikonban:% 1 $ s"</item>
+        <item quantity="one">"Ez a változó még mindig használatban van egy parancsikonban:%1$s"</item>
+        <item quantity="other">"Ez a változó még mindig használatban van több parancsikonban:%1$s"</item>
     </plurals>
 
     <!-- dialog title, shown when creating new variable and user is prompted to select the type of the variable -->

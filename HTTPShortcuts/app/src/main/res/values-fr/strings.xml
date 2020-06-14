@@ -413,7 +413,6 @@
     <string name="settings_licenses">"Remerciements"</string>
 
     <!-- Button subtitle, for "Acknowledgements" button -->
-    <!-- Fuzzy -->
     <string name="settings_licenses_summary">"Bibliothèques et ressources utilisées"</string>
 
     <!-- Page title, for page showing all configured categories -->

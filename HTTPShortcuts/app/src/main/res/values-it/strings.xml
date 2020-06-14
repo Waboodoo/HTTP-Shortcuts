@@ -1037,9 +1037,6 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni."</st
     <!-- Dialog option: shown in code snippet picker, shows options to get or set variables -->
     <string name="dialog_code_snippet_variables">"Variabili"</string>
 
-    <!-- Dialog option: shown in code snippet picker, shows options to run certain actions (e.g. to show a toast, vibrate, ...) -->
-    <string name="dialog_code_snippet_actions">"Azioni"</string>
-
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a string -->
     <string name="dialog_code_snippet_response_body">"Ottieni Corpo della Risposta"</string>
 
