@@ -13,7 +13,7 @@ import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils
 import kotterknife.bindView
 
-class ShortcutsAdapter(private val lifecycleOwner: LifecycleOwner, private val shortcuts: ListLiveData<ShortcutPlaceholder>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ShortcutsAdapter(lifecycleOwner: LifecycleOwner, private val shortcuts: ListLiveData<ShortcutPlaceholder>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     init {
         shortcuts.observe(lifecycleOwner, Observer {

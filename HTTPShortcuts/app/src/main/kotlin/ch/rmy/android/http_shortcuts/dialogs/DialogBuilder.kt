@@ -206,21 +206,25 @@ open class DialogBuilder(val context: Context) {
             labelView.text = item.name
             descriptionView.visible = item.description != null
             descriptionView.text = item.description
-            if (item.iconName != null) {
-                shortcutIconView.setIcon(item.iconName)
-                shortcutIconView.visible = true
-                regularIconView.visible = false
-                iconContainer.visible = true
-            } else if (item.iconRes != null) {
-                shortcutIconView.visible = false
-                regularIconView.visible = true
-                iconContainer.visible = true
-                regularIconView.setImageResource(item.iconRes)
-                ImageViewCompat.setImageTintList(regularIconView, ColorStateList.valueOf(color(context, R.color.dialog_icon)))
-            } else {
-                shortcutIconView.visible = false
-                regularIconView.visible = false
-                iconContainer.visible = false
+            when {
+                item.iconName != null -> {
+                    shortcutIconView.setIcon(item.iconName)
+                    shortcutIconView.visible = true
+                    regularIconView.visible = false
+                    iconContainer.visible = true
+                }
+                item.iconRes != null -> {
+                    shortcutIconView.visible = false
+                    regularIconView.visible = true
+                    iconContainer.visible = true
+                    regularIconView.setImageResource(item.iconRes)
+                    ImageViewCompat.setImageTintList(regularIconView, ColorStateList.valueOf(color(context, R.color.dialog_icon)))
+                }
+                else -> {
+                    shortcutIconView.visible = false
+                    regularIconView.visible = false
+                    iconContainer.visible = false
+                }
             }
 
             view.setOnClickListener {

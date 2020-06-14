@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="16dp"
+    android:layout_marginTop="10dp"
     android:layout_marginRight="16dp"
     android:layout_marginBottom="2dp"
-    android:layout_marginTop="10dp"
     android:background="?attr/selectableItemBackgroundBorderless">
 
     <ch.rmy.android.http_shortcuts.icons.IconView
@@ -14,8 +14,7 @@
         android:layout_width="44dp"
         android:layout_height="44dp"
         android:layout_centerHorizontal="true"
-        android:contentDescription="@string/icon_description"
-        tools:src="@mimmap/ic_launcher"/>
+        android:contentDescription="@string/icon_description" />
 
     <TextView
         android:id="@+id/name"
@@ -28,6 +27,6 @@
         android:gravity="center_horizontal"
         android:maxLines="2"
         android:textAppearance="@style/GridName"
-        tools:text="Name"/>
+        tools:text="Name" />
 
 </RelativeLayout>

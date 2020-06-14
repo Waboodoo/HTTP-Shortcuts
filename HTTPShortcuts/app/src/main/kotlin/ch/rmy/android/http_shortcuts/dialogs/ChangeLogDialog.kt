@@ -98,7 +98,7 @@ class ChangeLogDialog(private val context: Context, private val whatsNew: Boolea
     companion object {
 
         private const val CHANGELOG_ASSET_URL = "file:///android_asset/changelog.html"
-        private const val CHANGELOG_ASSET_URL_DARK_MODE = CHANGELOG_ASSET_URL + "?dark"
+        private const val CHANGELOG_ASSET_URL_DARK_MODE = "$CHANGELOG_ASSET_URL?dark"
 
     }
 

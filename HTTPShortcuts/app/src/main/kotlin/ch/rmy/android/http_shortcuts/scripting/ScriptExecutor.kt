@@ -30,8 +30,6 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
             }
     }
 
-    private var responseData: ShortcutResponse? = null
-    private var responseErrorData: Exception? = null
     private var lastException: Throwable? = null
 
     fun execute(script: String, shortcut: Shortcut, variableManager: VariableManager, response: ShortcutResponse? = null, error: Exception? = null, recursionDepth: Int = 0): Completable =
@@ -49,8 +47,6 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
                 registerResponse(response, error)
                 registerVariables(variableManager)
 
-                this.responseData = response
-                this.responseErrorData = error
                 registerActions(context, shortcut.id, variableManager, recursionDepth)
 
                 jsContext.evaluateScript(script)
@@ -148,8 +144,6 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
                             context = context,
                             shortcutId = shortcutId,
                             variableManager = variableManager,
-                            response = responseData,
-                            responseError = responseErrorData as? ErrorResponse,
                             recursionDepth = recursionDepth
                         ))
                         ?.blockingGet()
@@ -175,7 +169,7 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
                     } else if (result === "${BaseAction.NO_RESULT}") {
                         return null;
                     } else if (returnType === "${ActionAlias.ReturnType.BOOLEAN}") {
-                        return result === "${true.toString()}";    
+                        return result === "${true}";    
                     } else {
                         return result;
                     }
@@ -197,7 +191,7 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
                     alias.functionNameAliases.forEach {
                         jsContext.evaluateScript(
                             """
-                            const ${it} = ${alias.functionName};
+                            const $it = ${alias.functionName};
                             """.trimIndent()
                         )
                     }
