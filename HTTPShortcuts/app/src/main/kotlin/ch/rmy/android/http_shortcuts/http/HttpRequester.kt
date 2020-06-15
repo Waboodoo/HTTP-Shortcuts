@@ -6,7 +6,9 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.exceptions.InvalidUrlException
 import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.mapIf
-import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_MULTIPART_BOUNDARY
+import ch.rmy.android.http_shortcuts.extensions.takeUnlessEmpty
+import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_MULTIPART_CONTENT_TYPE
+import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_URLENCODE_CONTENT_TYPE
 import ch.rmy.android.http_shortcuts.utils.UserAgentUtil
 import ch.rmy.android.http_shortcuts.utils.Validation
 import ch.rmy.android.http_shortcuts.variables.VariableManager
@@ -59,7 +61,7 @@ class HttpRequester(private val contentResolver: ContentResolver) {
                         val file = fileUploadManager?.getFile(0)
                         it.mapIf(file != null) {
                             it.contentType(determineContentType(shortcut) ?: file!!.mimeType)
-                            it.body(contentResolver.openInputStream(file!!.data)!!)
+                            it.body(contentResolver.openInputStream(file!!.data)!!, length = file.fileSize)
                         }
                     }
                     .mapIf(shortcut.usesRequestParameters()) {
@@ -108,7 +110,8 @@ class HttpRequester(private val contentResolver: ContentResolver) {
                                 name = "$parameterName[]",
                                 fileName = parameter.fileName.ifEmpty { file.fileName },
                                 type = file.mimeType,
-                                data = contentResolver.openInputStream(file.data)!!
+                                data = contentResolver.openInputStream(file.data)!!,
+                                length = file.fileSize
                             )
                         }
                     }
@@ -122,7 +125,8 @@ class HttpRequester(private val contentResolver: ContentResolver) {
                                 name = parameterName,
                                 fileName = parameter.fileName.ifEmpty { file!!.fileName },
                                 type = file!!.mimeType,
-                                data = contentResolver.openInputStream(file.data)!!
+                                data = contentResolver.openInputStream(file.data)!!,
+                                length = file.fileSize
                             )
                         }
                     }
@@ -149,10 +153,9 @@ class HttpRequester(private val contentResolver: ContentResolver) {
             )
 
         private fun determineContentType(shortcut: Shortcut): String? = when {
-            shortcut.requestBodyType == Shortcut.REQUEST_BODY_TYPE_FORM_DATA -> "multipart/form-data; boundary=${FORM_MULTIPART_BOUNDARY}"
-            shortcut.requestBodyType == Shortcut.REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE -> "application/x-www-form-urlencoded; charset=UTF-8"
-            shortcut.contentType.isNotEmpty() -> shortcut.contentType
-            else -> null
+            shortcut.requestBodyType == Shortcut.REQUEST_BODY_TYPE_FORM_DATA -> FORM_MULTIPART_CONTENT_TYPE
+            shortcut.requestBodyType == Shortcut.REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE -> FORM_URLENCODE_CONTENT_TYPE
+            else -> shortcut.contentType.takeUnlessEmpty()
         }
 
     }

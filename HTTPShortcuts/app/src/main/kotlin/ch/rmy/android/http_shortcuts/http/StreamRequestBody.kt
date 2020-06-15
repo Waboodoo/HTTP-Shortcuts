@@ -7,7 +7,15 @@ import okio.BufferedSink
 import okio.Okio
 import java.io.InputStream
 
-class StreamRequestBody(private val contentType: String?, private val stream: InputStream) : RequestBody() {
+class StreamRequestBody(
+    private val contentType: String?,
+    private val stream: InputStream,
+    private val length: Long? = null
+) : RequestBody() {
+
+    override fun contentLength(): Long =
+        length ?: -1
+
     override fun contentType(): MediaType? =
         getMediaType(contentType)
 

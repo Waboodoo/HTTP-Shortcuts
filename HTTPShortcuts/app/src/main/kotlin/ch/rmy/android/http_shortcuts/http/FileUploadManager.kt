@@ -1,8 +1,10 @@
 package ch.rmy.android.http_shortcuts.http
 
 import android.content.ContentResolver
+import android.content.res.AssetFileDescriptor
 import android.net.Uri
 import android.webkit.MimeTypeMap
+import java.io.FileNotFoundException
 
 class FileUploadManager private constructor(
     private val contentResolver: ContentResolver,
@@ -42,10 +44,24 @@ class FileUploadManager private constructor(
 
     private fun uriToFile(uri: Uri): File =
         getType(uri).let { type ->
-            File(mimeType = type, fileName = getFileName(uri, type), data = uri)
+            File(
+                mimeType = type,
+                fileName = getFileName(uri, type),
+                data = uri,
+                fileSize = getFileSize(uri)
+            )
         }
 
-    data class File(val mimeType: String, val fileName: String, val data: Uri)
+    private fun getFileSize(file: Uri): Long? =
+        try {
+            contentResolver.openAssetFileDescriptor(file, "r")
+                ?.length
+                ?.takeUnless { it == AssetFileDescriptor.UNKNOWN_LENGTH }
+        } catch (e: FileNotFoundException) {
+            null
+        }
+
+    data class File(val mimeType: String, val fileName: String, val data: Uri, val fileSize: Long?)
 
     class FileRequest(val multiple: Boolean)
 
