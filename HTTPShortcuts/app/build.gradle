@@ -18,7 +18,7 @@ android {
         targetSdkVersion 29
         versionName '1.33.0'
         // 11,(2 digits major),(2 digits minor),(2 digits patch),(2 digits build)
-        versionCode 1101330001
+        versionCode 1101330002
         buildConfigField 'String', 'BUGSNAG_API_KEY', "\"${rootProject.ext.bugsnagAPIKey}\""
         buildConfigField 'String', 'REALM_ENCRYPTION_KEY', "\"${rootProject.ext.realmEncryptionKey}\""
         buildConfigField 'String', 'BUILD_TIMESTAMP', "\"${rootProject.ext.buildTimestamp}\""
