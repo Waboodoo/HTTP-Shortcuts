@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.http
 
+import ch.rmy.android.http_shortcuts.exceptions.InvalidBearerAuthException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidHeaderException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidUrlException
 import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_MULTIPART_CONTENT_TYPE
@@ -37,7 +38,11 @@ class RequestBuilder(private val method: String, url: String) {
     }
 
     fun bearerAuth(authToken: String) = also {
-        requestBuilder.addHeader(HttpHeaders.AUTHORIZATION, "Bearer $authToken")
+        try {
+            requestBuilder.addHeader(HttpHeaders.AUTHORIZATION, "Bearer $authToken")
+        } catch (e: IllegalArgumentException) {
+            throw InvalidBearerAuthException(authToken)
+        }
     }
 
     fun body(body: String) = also {
