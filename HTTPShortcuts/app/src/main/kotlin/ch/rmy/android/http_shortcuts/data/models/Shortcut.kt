@@ -177,6 +177,10 @@ open class Shortcut(
             throw IllegalArgumentException("Shortcut name too long: $name")
         }
 
+        if (name.isEmpty()) {
+            throw IllegalArgumentException("Shortcut must have a name")
+        }
+
         if (method !in setOf(METHOD_GET, METHOD_POST, METHOD_PUT, METHOD_PATCH, METHOD_DELETE, METHOD_HEAD, METHOD_OPTIONS, METHOD_TRACE)) {
             throw IllegalArgumentException("Invalid method: $method")
         }

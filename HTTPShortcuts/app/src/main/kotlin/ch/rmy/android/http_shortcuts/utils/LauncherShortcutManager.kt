@@ -69,14 +69,22 @@ object LauncherShortcutManager {
         return launcherShortcuts
     }
 
-    private fun createShortcutInfo(context: Context, shortcut: Shortcut) = createShortcutInfo(context, shortcut.id, shortcut.name, shortcut.iconName)
+    private fun createShortcutInfo(context: Context, shortcut: Shortcut) =
+        createShortcutInfo(context, shortcut.id, shortcut.name, shortcut.iconName)
 
     @RequiresApi(Build.VERSION_CODES.N_MR1)
-    private fun createShortcutInfo(context: Context, shortcutId: String, shortcutName: String, shortcutIcon: String?, rank: Int = 0): ShortcutInfo {
+    private fun createShortcutInfo(
+        context: Context,
+        shortcutId: String,
+        shortcutName: String,
+        shortcutIcon: String?,
+        rank: Int = 0
+    ): ShortcutInfo {
         val icon = IconUtil.getIcon(context, shortcutIcon)
+        val label = shortcutName.ifEmpty { "-" }
         return ShortcutInfo.Builder(context, ID_PREFIX + shortcutId)
-            .setShortLabel(shortcutName)
-            .setLongLabel(shortcutName)
+            .setShortLabel(label)
+            .setLongLabel(label)
             .setRank(rank)
             .setIntent(
                 ExecuteActivity.IntentBuilder(context, shortcutId)
@@ -90,7 +98,7 @@ object LauncherShortcutManager {
 
     fun supportsPinning(context: Context): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val shortcutManager = context.getSystemService(ShortcutManager::class.java) !!
+            val shortcutManager = context.getSystemService(ShortcutManager::class.java)!!
             if (shortcutManager.isRequestPinShortcutSupported) {
                 return true
             }
