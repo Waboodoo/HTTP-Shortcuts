@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts.activities.editor.scripting
 import android.content.Context
 import android.os.Bundle
 import android.text.SpannableStringBuilder
-import android.text.method.LinkMovementMethod
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -90,10 +89,6 @@ class ScriptingActivity : BaseActivity() {
     }
 
     private fun initViews() {
-        prepareCodeInput.movementMethod = LinkMovementMethod.getInstance()
-        successCodeInput.movementMethod = LinkMovementMethod.getInstance()
-        failureCodeInput.movementMethod = LinkMovementMethod.getInstance()
-
         prepareSnippetButton.setOnClickListener {
             codeSnippetPicker.showCodeSnippetPicker({ before, after ->
                 prepareCodeInput.insertAroundCursor(before, after)
