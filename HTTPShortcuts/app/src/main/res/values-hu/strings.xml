@@ -1120,4 +1120,34 @@ Ezt a funkciót engedélyezheted egy parancsikon szerkesztésével és a \"%1$s\
 
     <!-- Dialog title: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
     <string name="title_remove_trigger_shortcut">"Parancsikon eltávolítása"</string>
+
+    <!-- Shortcut Action Title: Show Dialog that asks the user to input text -->
+    <string name="action_type_prompt_title">"Szöveg kérése"</string>
+
+    <!-- Shortcut Action Title: Show Dialog that asks the user to confirm something -->
+    <string name="action_type_confirm_title">"Megerősítés végrehajtás előtt"</string>
+
+    <!-- Shortcut Action Title: Wait for a number of milliseconds before continuing with the script execution -->
+    <string name="action_type_wait">"Várakozás"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options to get information about the current shortcut itself -->
+    <string name="dialog_code_snippet_shortcut_info">"Parancsikon információ"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options to interact with the user (show dialog, prompt for input, ...) -->
+    <string name="dialog_code_snippet_user_interaction">"Felhasználói interakció"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options to modify shortcuts -->
+    <string name="dialog_code_snippet_modify_shortcuts">"Parancsikonok módosítása"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the ID of the current shortcut -->
+    <string name="dialog_code_snippet_get_shortcut_id">"Parancsikon ID"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the name of the current shortcut -->
+    <string name="dialog_code_snippet_get_shortcut_name">"Parancsikon neve"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the description of the current shortcut -->
+    <string name="dialog_code_snippet_get_shortcut_description">"Parancsikon leírása"</string>
+
+    <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid bearer auth token configured -->
+    <string name="error_invalid_bearer_auth">"Érvénytelen Bearer hitelesítő token (%s)."</string>
 </resources>

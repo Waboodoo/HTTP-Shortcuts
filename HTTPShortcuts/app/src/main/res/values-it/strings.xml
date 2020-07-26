@@ -1252,4 +1252,46 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
 
     <!-- Dialog message: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
     <string name="message_remove_trigger_shortcut">"Rimuovere la scorciatoia \"%s\" dall'elenco dei collegamenti attivati?"</string>
+
+    <!-- Shortcut Action Title: Show Dialog that asks the user to input text -->
+    <string name="action_type_prompt_title">"Richiedi Testo"</string>
+
+    <!-- Shortcut Action Title: Show Dialog that asks the user to confirm something -->
+    <string name="action_type_confirm_title">"Richiedi Conferma"</string>
+
+    <!-- Shortcut Action Title: Wait for a number of milliseconds before continuing with the script execution -->
+    <string name="action_type_wait">"Aspetta"</string>
+
+    <!-- Shortcut Action Title: Get the IP Address of the current WiFi -->
+    <string name="action_type_get_wifi_ip_address">"Ottieni indirizzo IP del WiFi"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options to get information about the current shortcut itself -->
+    <string name="dialog_code_snippet_shortcut_info">"Informazioni sulla Scorciatoia"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options to interact with the user (show dialog, prompt for input, ...) -->
+    <string name="dialog_code_snippet_user_interaction">"Interazione utente"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options to modify shortcuts -->
+    <string name="dialog_code_snippet_modify_shortcuts">"Modifica Scorciatoie"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options to control the flow of the script (abort, if-else, ...) -->
+    <string name="dialog_code_snippet_control_flow">"Flusso di controllo"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options to don't belong in any of the other categories -->
+    <string name="dialog_code_snippet_misc">"Miscellanea"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the ID of the current shortcut -->
+    <string name="dialog_code_snippet_get_shortcut_id">"Ottieni ID Scorciatoia"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the name of the current shortcut -->
+    <string name="dialog_code_snippet_get_shortcut_name">"Ottieni Nome Scorciatoia"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the description of the current shortcut -->
+    <string name="dialog_code_snippet_get_shortcut_description">"Ottieni Descrizione Scorciatoia"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a json object -->
+    <string name="dialog_code_snippet_response_body_json">"Ottieni il corpo di risposta come JSON"</string>
+
+    <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid bearer auth token configured -->
+    <string name="error_invalid_bearer_auth">"Token di Autenticazione Bearer non valido (%s)."</string>
 </resources>
