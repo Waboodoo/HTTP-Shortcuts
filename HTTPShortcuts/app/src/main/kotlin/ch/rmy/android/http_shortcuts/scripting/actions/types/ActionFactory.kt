@@ -27,6 +27,7 @@ class ActionFactory {
                 DialogActionType(),
                 PromptActionType(),
                 RenameShortcutActionType(),
+                SendIntentActionType(),
                 TextToSpeechActionType(),
                 ToastActionType(),
                 TriggerShortcutActionType(),

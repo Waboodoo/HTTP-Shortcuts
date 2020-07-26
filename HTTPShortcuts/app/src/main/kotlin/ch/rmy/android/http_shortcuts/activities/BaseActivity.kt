@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities
 
 import android.content.Context
-import android.graphics.PorterDuff
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
@@ -16,6 +16,7 @@ import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.color
 import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.drawable
+import ch.rmy.android.http_shortcuts.extensions.setTintCompat
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.LocaleHelper
 import ch.rmy.android.http_shortcuts.utils.ThemeHelper
@@ -87,7 +88,7 @@ abstract class BaseActivity : AppCompatActivity() {
         val actionBar = supportActionBar ?: return
         actionBar.setDisplayHomeAsUpEnabled(true)
         val upArrow = drawable(context, iconResource) ?: return
-        upArrow.setColorFilter(color(context, android.R.color.white), PorterDuff.Mode.SRC_ATOP)
+        upArrow.setTintCompat(Color.WHITE)
         actionBar.setHomeAsUpIndicator(upArrow)
     }
 

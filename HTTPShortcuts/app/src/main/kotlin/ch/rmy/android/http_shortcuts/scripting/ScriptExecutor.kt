@@ -164,7 +164,7 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
             jsContext.evaluateScript(
                 """
                 const _convertResult = (result, returnType) => {
-                    if (result === null) {
+                    if (result === null || result === undefined) {
                         throw "Error";
                     } else if (result === "${BaseAction.NO_RESULT}") {
                         return null;

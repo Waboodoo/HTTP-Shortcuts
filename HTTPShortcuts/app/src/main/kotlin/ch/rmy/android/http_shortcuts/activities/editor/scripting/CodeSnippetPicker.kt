@@ -227,6 +227,9 @@ class CodeSnippetPicker(
             .item(R.string.action_type_get_wifi_ip_address) {
                 insertText("getWifiIPAddress();\n", "")
             }
+            .item(R.string.action_type_send_intent_title) {
+                insertText("sendIntent({", "});\n")
+            }
             .mapIf(TriggerTaskerTaskActionType.isTaskerAvailable(context)) {
                 it.item(R.string.action_type_trigger_tasker_title) {
                     try {

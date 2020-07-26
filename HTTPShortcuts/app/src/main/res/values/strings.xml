@@ -616,6 +616,10 @@
     <string name="action_type_change_icon_title">Change Shortcut Icon</string>
     <!-- Shortcut Action Title: Trigger a shortcut, i.e., execute it -->
     <string name="action_type_trigger_shortcut_title">Trigger Shortcut</string>
+    <!-- Shortcut Action Title: Send an Android Intent, e.g. to trigger or invoke some action in another app -->
+    <string name="action_type_send_intent_title">Send Intent</string>
+    <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
+    <string name="error_action_type_send_intent_failed">Failed to send intent</string>
     <!-- Shortcut Action Title: Trigger a task in Tasker -->
     <string name="action_type_trigger_tasker_title">Trigger Tasker Task</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->

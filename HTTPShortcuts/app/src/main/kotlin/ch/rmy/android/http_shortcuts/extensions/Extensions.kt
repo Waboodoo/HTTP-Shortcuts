@@ -68,3 +68,10 @@ fun Disposable.attachTo(destroyer: Destroyer) {
 
 fun <T> Map<String, T>.getCaseInsensitive(key: String): T? =
     entries.firstOrNull { it.key.equals(key, ignoreCase = true) }?.value
+
+inline fun <T> Boolean.ifTrue(block: () -> T): T? =
+    if (this) {
+        block.invoke()
+    } else {
+        null
+    }
