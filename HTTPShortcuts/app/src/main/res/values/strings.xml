@@ -616,6 +616,8 @@
     <string name="action_type_change_icon_title">Change Shortcut Icon</string>
     <!-- Shortcut Action Title: Trigger a shortcut, i.e., execute it -->
     <string name="action_type_trigger_shortcut_title">Trigger Shortcut</string>
+    <!-- Shortcut Action Title: Trigger a task in Tasker -->
+    <string name="action_type_trigger_tasker_title">Trigger Tasker Task</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
     <string name="action_type_abort_execution">Abort Execution</string>
     <!-- Shortcut Action Title: Wait for a number of milliseconds before continuing with the script execution -->

@@ -30,6 +30,7 @@ class ActionFactory {
                 TextToSpeechActionType(),
                 ToastActionType(),
                 TriggerShortcutActionType(),
+                TriggerTaskerTaskActionType(),
                 VibrateActionType(),
                 WaitActionType(),
                 WifiIPActionType()

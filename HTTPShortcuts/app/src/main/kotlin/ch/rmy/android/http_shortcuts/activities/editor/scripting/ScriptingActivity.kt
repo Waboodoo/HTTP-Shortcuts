@@ -1,6 +1,8 @@
 package ch.rmy.android.http_shortcuts.activities.editor.scripting
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.view.Menu
@@ -79,6 +81,8 @@ class ScriptingActivity : BaseActivity() {
     private val failureSnippetButton: Button by bindView(R.id.button_add_code_snippet_failure)
     private val postRequestContainer: View by bindView(R.id.container_post_request_scripting)
 
+    private var lastActiveCodeInput: EditText? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scripting)
@@ -90,28 +94,25 @@ class ScriptingActivity : BaseActivity() {
 
     private fun initViews() {
         prepareSnippetButton.setOnClickListener {
-            codeSnippetPicker.showCodeSnippetPicker({ before, after ->
-                prepareCodeInput.insertAroundCursor(before, after)
-                Variables.applyVariableFormattingToJS(prepareCodeInput.text, variablePlaceholderProvider, variablePlaceholderColor)
-                ShortcutSpanManager.applyShortcutFormattingToJS(prepareCodeInput.text, shortcutPlaceholderProvider, shortcutPlaceholderColor)
-            }, includeResponseOptions = false)
+            lastActiveCodeInput = prepareCodeInput
+            codeSnippetPicker.showCodeSnippetPicker(getCodeInsertion(prepareCodeInput), includeResponseOptions = false)
         }
-
         successSnippetButton.setOnClickListener {
-            codeSnippetPicker.showCodeSnippetPicker({ before, after ->
-                successCodeInput.insertAroundCursor(before, after)
-                Variables.applyVariableFormattingToJS(successCodeInput.text, variablePlaceholderProvider, variablePlaceholderColor)
-                ShortcutSpanManager.applyShortcutFormattingToJS(successCodeInput.text, shortcutPlaceholderProvider, shortcutPlaceholderColor)
-            })
+            lastActiveCodeInput = successCodeInput
+            codeSnippetPicker.showCodeSnippetPicker(getCodeInsertion(successCodeInput))
         }
         failureSnippetButton.setOnClickListener {
-            codeSnippetPicker.showCodeSnippetPicker({ before, after ->
-                failureCodeInput.insertAroundCursor(before, after)
-                Variables.applyVariableFormattingToJS(failureCodeInput.text, variablePlaceholderProvider, variablePlaceholderColor)
-                ShortcutSpanManager.applyShortcutFormattingToJS(failureCodeInput.text, shortcutPlaceholderProvider, shortcutPlaceholderColor)
-            }, includeNetworkErrorOption = true)
+            lastActiveCodeInput = failureCodeInput
+            codeSnippetPicker.showCodeSnippetPicker(getCodeInsertion(failureCodeInput), includeNetworkErrorOption = true)
         }
     }
+
+    private fun getCodeInsertion(codeInput: EditText): (String, String) -> Unit =
+        { before, after ->
+            codeInput.insertAroundCursor(before, after)
+            Variables.applyVariableFormattingToJS(codeInput.text, variablePlaceholderProvider, variablePlaceholderColor)
+            ShortcutSpanManager.applyShortcutFormattingToJS(codeInput.text, shortcutPlaceholderProvider, shortcutPlaceholderColor)
+        }
 
     private fun bindViewsToViewModel() {
         shortcutData.observe(this, Observer {
@@ -187,6 +188,16 @@ class ScriptingActivity : BaseActivity() {
 
     private fun showHelp() {
         context.openURL(CODE_HELP_URL)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (resultCode == Activity.RESULT_OK) {
+            codeSnippetPicker.handleRequestResult(
+                getCodeInsertion(lastActiveCodeInput ?: return),
+                requestCode,
+                data
+            )
+        }
     }
 
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, ScriptingActivity::class.java) {

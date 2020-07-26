@@ -1,6 +1,8 @@
 package ch.rmy.android.http_shortcuts.activities.editor.scripting
 
+import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Vibrator
 import androidx.annotation.StringRes
@@ -8,10 +10,15 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
+import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.mapIf
+import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.icons.IconSelector
+import ch.rmy.android.http_shortcuts.plugin.TaskerIntent
+import ch.rmy.android.http_shortcuts.scripting.actions.types.TriggerTaskerTaskActionType
+import ch.rmy.android.http_shortcuts.scripting.actions.types.TriggerTaskerTaskActionType.Companion.REQUEST_CODE_SELECT_TASK
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholderProvider
 import ch.rmy.android.http_shortcuts.utils.Destroyable
 import ch.rmy.android.http_shortcuts.utils.Destroyer
@@ -220,6 +227,17 @@ class CodeSnippetPicker(
             .item(R.string.action_type_get_wifi_ip_address) {
                 insertText("getWifiIPAddress();\n", "")
             }
+            .mapIf(TriggerTaskerTaskActionType.isTaskerAvailable(context)) {
+                it.item(R.string.action_type_trigger_tasker_title) {
+                    try {
+                        TaskerIntent.getTaskSelectIntent()
+                            .startActivity(context, REQUEST_CODE_SELECT_TASK)
+                    } catch (e: ActivityNotFoundException) {
+                        logException(e)
+                        context.showToast(R.string.error_generic)
+                    }
+                }
+            }
             .showIfPossible()
     }
 
@@ -239,8 +257,24 @@ class CodeSnippetPicker(
             .showIfPossible()
     }
 
+    fun handleRequestResult(insertText: (before: String, after: String) -> Unit, requestCode: Int, data: Intent?) {
+        when (requestCode) {
+            REQUEST_CODE_SELECT_TASK -> {
+                val taskName = data?.dataString ?: return
+                insertText.invoke("${TriggerTaskerTaskActionType.FUNCTION_NAME}(\"${escape(taskName)}\");", "")
+            }
+        }
+    }
+
     override fun destroy() {
         destroyer.destroy()
+    }
+
+    companion object {
+
+        private fun escape(input: String) =
+            input.replace("\"", "\\\"")
+
     }
 
 }
