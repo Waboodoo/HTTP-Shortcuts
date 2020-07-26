@@ -102,7 +102,7 @@ class CurlParser private constructor(arguments: List<String>) {
             // arguments with 0 parameters
             when (argument) {
                 "-G", "--get" -> {
-                    builder.method(CurlCommand.METHOD_GET)
+                    builder.forceGet()
                     continue@loop
                 }
             }

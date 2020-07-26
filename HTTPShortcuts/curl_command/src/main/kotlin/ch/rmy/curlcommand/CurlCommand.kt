@@ -33,6 +33,7 @@ class CurlCommand private constructor() : Serializable {
     class Builder {
 
         private val curlCommand = CurlCommand()
+        private var forceGet = false
 
         fun url(url: String) = also {
             curlCommand.url = if (url.startsWith("http:", ignoreCase = true) || url.startsWith("https:", ignoreCase = true)) {
@@ -90,7 +91,25 @@ class CurlCommand private constructor() : Serializable {
             curlCommand.proxyPort = port
         }
 
-        fun build() = curlCommand
+        fun forceGet() {
+            method(CurlCommand.METHOD_GET)
+            forceGet = true
+        }
+
+        fun build(): CurlCommand {
+            if (forceGet) {
+                // TODO: This is a naive implementation, which is not generally correct
+                val queryString = curlCommand.dataInternal.joinToString("&")
+                curlCommand.dataInternal.clear()
+                curlCommand.url += if (curlCommand.url.contains("?")) {
+                    "&"
+                } else {
+                    "?"
+                } + queryString
+            }
+
+            return curlCommand
+        }
 
     }
 

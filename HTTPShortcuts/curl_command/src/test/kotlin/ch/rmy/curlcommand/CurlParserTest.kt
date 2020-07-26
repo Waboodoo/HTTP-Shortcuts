@@ -132,4 +132,20 @@ class CurlParserTest {
         assertEquals(42, command.proxyPort)
     }
 
+    @Test
+    fun testGetParametersIntoUrl() {
+        val target = "curl foo -G --data-urlencode \"username=myuser\""
+        val command = CurlParser.parse(target)
+
+        assertEquals("http://foo?username=myuser", command.url)
+    }
+
+    @Test
+    fun testGetParametersIntoUrlWhichAlreadyHasAQuery() {
+        val target = "curl foo?test=lol --get --data-urlencode \"username=myuser\""
+        val command = CurlParser.parse(target)
+
+        assertEquals("http://foo?test=lol&username=myuser", command.url)
+    }
+
 }
