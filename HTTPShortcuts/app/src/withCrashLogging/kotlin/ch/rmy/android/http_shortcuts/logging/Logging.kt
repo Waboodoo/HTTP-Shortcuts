@@ -1,12 +1,14 @@
 package ch.rmy.android.http_shortcuts.logging
 
 import android.content.Context
+import android.view.InflateException
 import android.util.Log
 import ch.rmy.android.http_shortcuts.BuildConfig
 import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.utils.Settings
 import com.bugsnag.android.Bugsnag
 import java.io.IOException
+import java.lang.RuntimeException
 import java.util.Date
 
 object Logging {
@@ -49,10 +51,16 @@ object Logging {
     }
 
     fun logException(origin: String, e: Throwable) {
-        if (initialized && e !is IOException && e.cause !is IOException) {
+        if (initialized && !shouldIgnore(e)) {
             Bugsnag.notify(e)
         }
     }
+
+    private fun shouldIgnore(e: Throwable) =
+        e is IOException
+            || e.cause is IOException
+            || e is InflateException
+            || (e is RuntimeException && e.message == "File is not a picture")
 
     fun logInfo(origin: String, message: String) {
         if (initialized) {
