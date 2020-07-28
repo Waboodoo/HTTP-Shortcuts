@@ -160,6 +160,10 @@
     <string name="settings_click_behavior">Shortcut Click Action</string>
     <!-- Name of setting that allows the user to change the app's language -->
     <string name="settings_language">Language</string>
+    <!-- Name of setting that allows the user to enable running all HTTP requests in the foreground. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
+    <string name="settings_force_foreground">Run Requests in Foreground</string>
+    <!-- Subtitle of setting that allows the user to enable running all HTTP requests in the foreground. This is the description of a troubleshooting option, to prevent requests from failing when the app is in the background -->
+    <string name="settings_force_foreground_summary">Enable if shortcuts are not working from outside the app</string>
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: execute the shortcut (i.e., send request) -->
     <string name="settings_click_behavior_run">Execute the Shortcut</string>
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: edit the shortcut -->
@@ -227,6 +231,8 @@
     <string name="pattern_minutes_seconds">%s, %s</string>
     <!-- Section title in app settings -->
     <string name="settings_about">About this App</string>
+    <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
+    <string name="settings_troubleshooting">Troubleshooting</string>
     <!-- Title of option in settings to show change changelog of current and past versions -->
     <string name="settings_changelog">Changelog</string>
     <!-- Subtitle/summary of "Changelog" option in settings, showing the current app version number -->

@@ -44,6 +44,7 @@ import ch.rmy.android.http_shortcuts.utils.FileUtil
 import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.NetworkUtil
+import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.Validation
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
@@ -207,6 +208,7 @@ class ExecuteActivity : BaseActivity() {
             && shortcut.codeOnSuccess.isEmpty()
             && shortcut.codeOnFailure.isEmpty()
             && !NetworkUtil.isNetworkPerformanceRestricted(context)
+            && !Settings(context).isForceForegroundEnabled
 
     private fun promptForConfirmationIfNeeded(): Completable =
         if (requiresConfirmation()) {

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
-    <PreferenceCategory
-        app:title="@string/settings_title_basic">
+    <PreferenceCategory app:title="@string/settings_title_basic">
 
         <ListPreference
             app:defaultValue="default"
@@ -10,7 +9,7 @@
             app:icon="@drawable/ic_language"
             app:key="language"
             app:persistent="true"
-            app:title="@string/settings_language"/>
+            app:title="@string/settings_language" />
 
         <ListPreference
             app:defaultValue="blue"
@@ -19,7 +18,7 @@
             app:icon="@drawable/ic_theme"
             app:key="theme"
             app:persistent="true"
-            app:title="@string/settings_theme"/>
+            app:title="@string/settings_theme" />
 
         <ListPreference
             app:defaultValue="auto"
@@ -28,7 +27,7 @@
             app:icon="@drawable/ic_dark_theme"
             app:key="dark_theme"
             app:persistent="true"
-            app:title="@string/settings_dark_theme"/>
+            app:title="@string/settings_dark_theme" />
 
         <ListPreference
             app:defaultValue="run"
@@ -37,38 +36,36 @@
             app:icon="@drawable/ic_tap"
             app:key="click_behavior"
             app:persistent="true"
-            app:title="@string/settings_click_behavior"/>
+            app:title="@string/settings_click_behavior" />
 
         <Preference
             app:icon="@drawable/ic_lock_black"
             app:key="lock_settings"
             app:summary="@string/settings_lock_app_summary"
-            app:title="@string/settings_lock_app_title"/>
+            app:title="@string/settings_lock_app_title" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        app:title="@string/settings_title_import_export">
+    <PreferenceCategory app:title="@string/settings_title_import_export">
 
         <Preference
             app:icon="@drawable/ic_import"
             app:key="import"
-            app:title="@string/settings_import"/>
+            app:title="@string/settings_import" />
         <Preference
             app:icon="@drawable/ic_export"
             app:key="export"
-            app:title="@string/settings_export"/>
+            app:title="@string/settings_export" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        app:title="@string/settings_title_privacy">
+    <PreferenceCategory app:title="@string/settings_title_privacy">
 
         <Preference
             app:icon="@drawable/ic_privacy_policy"
             app:key="privacy_policy"
             app:summary="@string/settings_privacy_policy_summary"
-            app:title="@string/settings_privacy_policy"/>
+            app:title="@string/settings_privacy_policy" />
 
         <ListPreference
             app:defaultValue="true"
@@ -77,47 +74,54 @@
             app:icon="@drawable/ic_crash_reporting"
             app:key="crash_reporting"
             app:persistent="true"
-            app:title="@string/settings_crash_reporting"/>
+            app:title="@string/settings_crash_reporting" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        app:title="@string/settings_about">
+    <PreferenceCategory app:title="@string/settings_troubleshooting">
+        <CheckBoxPreference
+            app:key="force_foreground"
+            app:persistent="true"
+            app:summary="@string/settings_force_foreground_summary"
+            app:title="@string/settings_force_foreground" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/settings_about">
 
         <Preference
             app:icon="@drawable/ic_version"
             app:key="changelog"
-            app:title="@string/settings_changelog"/>
+            app:title="@string/settings_changelog" />
         <Preference
             app:icon="@drawable/ic_email_outline"
             app:key="mail"
             app:summary="@string/settings_mail_summary"
-            app:title="@string/settings_mail"/>
+            app:title="@string/settings_mail" />
         <Preference
             app:icon="@drawable/ic_faq"
             app:key="faq"
             app:summary="@string/settings_faq_summary"
-            app:title="@string/settings_faq"/>
+            app:title="@string/settings_faq" />
         <Preference
             app:icon="@drawable/ic_google_play"
             app:key="play_store"
             app:summary="@string/settings_play_store_summary"
-            app:title="@string/settings_play_store"/>
+            app:title="@string/settings_play_store" />
         <Preference
             app:icon="@drawable/ic_github_circle"
             app:key="github"
             app:summary="@string/settings_github_summary"
-            app:title="@string/settings_github"/>
+            app:title="@string/settings_github" />
         <Preference
             app:icon="@drawable/ic_translate"
             app:key="translate"
             app:summary="@string/settings_help_translate_summary"
-            app:title="@string/settings_help_translate"/>
+            app:title="@string/settings_help_translate" />
         <Preference
             app:icon="@drawable/ic_acknowledgments"
             app:key="acknowledgments"
             app:summary="@string/settings_licenses_summary"
-            app:title="@string/settings_licenses"/>
+            app:title="@string/settings_licenses" />
 
     </PreferenceCategory>
 

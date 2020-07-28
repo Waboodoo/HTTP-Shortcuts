@@ -57,6 +57,10 @@ class Settings(context: Context) {
     val darkThemeSetting: String
         get() = preferences.getString(KEY_DARK_THEME, DARK_THEME_AUTO)!!
 
+    var isForceForegroundEnabled: Boolean
+        get() = preferences.getBoolean(KEY_FORCE_FOREGROUND, false)
+        set(value) = putBoolean(KEY_FORCE_FOREGROUND, value)
+
     private fun putString(key: String, value: String) {
         preferences.edit().putString(key, value).apply()
     }
@@ -100,6 +104,7 @@ class Settings(context: Context) {
         private const val KEY_THEME = "theme"
         private const val KEY_VARIABLE_INTRO_SHOWN = "variable_intro_shown"
         private const val KEY_DARK_THEME = "dark_theme"
+        private const val KEY_FORCE_FOREGROUND = "force_foreground"
 
     }
 
