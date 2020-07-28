@@ -1292,4 +1292,22 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
 
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid bearer auth token configured -->
     <string name="error_invalid_bearer_auth">"Ungültiges Bearer-Auth-Token (%s)"</string>
+
+    <!-- Shortcut Action Title: Trigger a task in Tasker -->
+    <string name="action_type_trigger_tasker_title">"Task in Tasker auslösen"</string>
+
+    <!-- Shortcut Action Title: Send an Android Intent, e.g. to trigger or invoke some action in another app -->
+    <string name="action_type_send_intent_title">"Intent senden"</string>
+
+    <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
+    <string name="error_action_type_send_intent_failed">"Senden von Intent fehlgeschlagen"</string>
+
+    <!-- Name of setting that allows the user to enable running all HTTP requests in the foreground. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
+    <string name="settings_force_foreground">"Requests im Vordergrund ausführen"</string>
+
+    <!-- Subtitle of setting that allows the user to enable running all HTTP requests in the foreground. This is the description of a troubleshooting option, to prevent requests from failing when the app is in the background -->
+    <string name="settings_force_foreground_summary">"Hilft falls Shortcuts ausserhalb der App nicht funktionieren"</string>
+
+    <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
+    <string name="settings_troubleshooting">"Problembehebung"</string>
 </resources>

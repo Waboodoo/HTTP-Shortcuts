@@ -2,7 +2,6 @@
 <resources>
 
     <!-- The name of the app -->
-    <!-- Fuzzy -->
     <string name="app_name">"HTTP Shortcuts"</string>
 
     <!-- The name of the default category -->
