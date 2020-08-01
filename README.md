@@ -3,7 +3,7 @@
 <img src="/Assets/logo.png" align="right" style="margin-left: 1em;"/>
 </a>
 
-![Version](https://img.shields.io/badge/version-1.33.0-green.svg)
+![Version](https://img.shields.io/badge/version-1.34.0-green.svg)
 
 A simple Android app that allows you to create shortcuts that can be placed on your home screen. Each shortcut, when clicked, triggers an HTTP request.
 
