@@ -2,1308 +2,1294 @@
 <resources>
 
     <!-- The name of the app -->
-    <string name="app_name">"HTTP Shortcuts"</string>
+    <string name="app_name">"HTTP 바로가기"</string>
 
     <!-- The name of the default category -->
-    <string name="shortcuts">"Scorciatoie"</string>
+    <string name="shortcuts">"바로가기"</string>
 
     <!-- The name used as a fallback for shortcuts without a name -->
-    <string name="shortcut_safe_name">"Scorciatoia"</string>
+    <string name="shortcut_safe_name">"바로가기"</string>
 
     <!-- Title in editor when editing a shortcut -->
-    <string name="edit_shortcut">"Modifica Scorciatoia"</string>
+    <string name="edit_shortcut">"바로가기 편집"</string>
 
     <!-- Title in editor when creating a new shortcut -->
-    <string name="create_shortcut">"Crea Scorciatoia"</string>
+    <string name="create_shortcut">"바로가기 만들기"</string>
 
     <!-- Content description of icon image, accessibility information -->
-    <string name="icon_description">"Icona"</string>
+    <string name="icon_description">"아이콘"</string>
 
     <!-- Label above input field in editor, for shortcut name -->
-    <string name="label_name">"Nome della Scorciatoia"</string>
+    <string name="label_name">"바로가기 이름"</string>
 
     <!-- Label above input field in editor, for shortcut description -->
-    <string name="label_description">"Descrizione"</string>
+    <string name="label_description">"설명"</string>
 
     <!-- Label above input field in editor, for shortcut URL -->
     <string name="label_url">"URL"</string>
 
     <!-- Button to save changes made to shortcut/variable -->
-    <string name="save_button">"Salva"</string>
+    <string name="save_button">"저장"</string>
 
     <!-- Button to test changes made to shortcut -->
-    <string name="test_button">"Test"</string>
+    <string name="test_button">"테스트"</string>
 
     <!-- Label above input field in editor, for shortcut HTTP method (GET, POST, PUT, …) -->
-    <string name="label_method">"Metodo"</string>
+    <string name="label_method">"방법"</string>
 
     <!-- Label above input field in editor, for shortcut authentication username -->
-    <string name="label_username">"Nome utente"</string>
+    <string name="label_username">"사용자 이름"</string>
 
     <!-- Label above input field in editor, for shortcut authentication password -->
-    <string name="label_password">"Password"</string>
+    <string name="label_password">"암호"</string>
 
     <!-- Label above input field in editor, for shortcut authentication token -->
-    <string name="label_auth_token">"Token"</string>
+    <string name="label_auth_token">"토큰"</string>
 
     <!-- Label above input field in editor, for shortcut response type dropdown -->
-    <string name="label_feedback">"Tipo di risposta"</string>
+    <string name="label_feedback">"응답 유형"</string>
 
     <!-- Option in dropdown, for shortcut response type: ignore response -->
-    <string name="feedback_none">"Ignora la risposta (esegui silenziosamente)"</string>
+    <string name="feedback_none">"응답 무시 (묵음 실행)"</string>
 
     <!-- Option in dropdown, for shortcut response type: show simple Toast (Android notification) -->
-    <string name="feedback_simple_toast">"Notifica Semplice"</string>
+    <string name="feedback_simple_toast">"심플 Toast"</string>
 
     <!-- Option in dropdown, for shortcut response type: show simple Toast but only for errors (Android notification) -->
-    <string name="feedback_simple_toast_error">"Notifica Semplice (solo errori)"</string>
+    <string name="feedback_simple_toast_error">"심플 Toast (오류 전용)"</string>
 
     <!-- Option in dropdown, for shortcut response type: show complete response in Toast (Android notification) -->
-    <string name="feedback_response_toast">"Risposta nella Notifica"</string>
+    <string name="feedback_response_toast">"Toast에서의 응답"</string>
 
     <!-- Option in dropdown, for shortcut response type: show complete response in Toast for errors (Android notification) -->
-    <string name="feedback_response_toast_error">"Risposta nella Notifica (solo errori)"</string>
+    <string name="feedback_response_toast_error">"Toast에서의 응답 (오류 전용)"</string>
 
     <!-- Option in dropdown, for shortcut response type: Show complete response in a dialog -->
-    <string name="feedback_dialog">"Risposta in Dialogo"</string>
+    <string name="feedback_dialog">"대화 상자에서의 응답"</string>
 
     <!-- Option in dropdown, for shortcut response type: Show complete response in a fullscreen window -->
-    <string name="feedback_activity">"Risposta in Finestra"</string>
+    <string name="feedback_activity">"창에서의 응답"</string>
 
     <!-- Option in dropdown, for shortcut response type: Show complete response in a fullscreen window, and include meta info (headers, status code, ...) for debug purposes -->
-    <string name="feedback_debug">"Risposta in Finestra (debug)"</string>
+    <string name="feedback_debug">"창에서의 응답 (디버그)"</string>
 
     <!-- Shortcut dropdown option: Place shortcut on home screen -->
-    <string name="action_place">"Aggiungi alla schermata iniziale"</string>
+    <string name="action_place">"홈 화면에 배치"</string>
 
     <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
-    <string name="action_run">"Esegui"</string>
+    <string name="action_run">"실행"</string>
 
     <!-- Shortcut dropdown option: Edit the shortcut -->
-    <string name="action_edit">"Modifica"</string>
+    <string name="action_edit">"편집"</string>
 
     <!-- Shortcut dropdown option: Duplicate the shortcut/variable -->
-    <string name="action_duplicate">"Duplica"</string>
+    <string name="action_duplicate">"복제"</string>
 
     <!-- Shortcut dropdown option: Delete the shortcut/variable -->
-    <string name="action_delete">"Cancella"</string>
+    <string name="action_delete">"삭제"</string>
 
     <!-- Shortcut dropdown option: export the shortcut in cURL format -->
-    <string name="action_curl_export">"Esporta cURL"</string>
+    <string name="action_curl_export">"cURL 내보내기"</string>
 
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
-    <string name="action_move">"Muovi"</string>
+    <string name="action_move">"이동"</string>
 
     <!-- Shortcut dropdown option: Move the shortcut upwards -->
-    <string name="action_move_up">"Muovi su"</string>
+    <string name="action_move_up">"위로 이동"</string>
 
     <!-- Shortcut dropdown option: Move the shortcut downwards -->
-    <string name="action_move_down">"Muovi giù"</string>
+    <string name="action_move_down">"아래로 이동"</string>
 
     <!-- Shortcut dropdown option: Move the shortcut to a different category -->
-    <string name="action_move_to_category">"Muovi alla categoria…"</string>
+    <string name="action_move_to_category">"카테고리로 이동…"</string>
 
     <!-- Empty state, shown in list when there are no shortcuts yet -->
-    <string name="empty_state_shortcuts">"ancora nessuna scorciatoia"</string>
+    <string name="empty_state_shortcuts">"아직 바로가기가 없습니다"</string>
 
     <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
-    <string name="empty_state_shortcuts_instructions">"Fai clic sul pulsante + per iniziare."</string>
+    <string name="empty_state_shortcuts_instructions">"시작하려면 + 버튼을 클릭하세요."</string>
 
     <!-- Empty state, shown in list when there are no variables yet -->
-    <string name="empty_state_variables">"ancora nessuna variabile"</string>
+    <string name="empty_state_variables">"아직 변수가 없습니다"</string>
 
     <!-- Empty state instructions, shown in list when there are no variables yet -->
-    <string name="empty_state_variables_instructions">"Fai clic sul pulsante + per aggiungere una variabile."</string>
+    <string name="empty_state_variables_instructions">"+ 버튼을 클릭하여 변수를 추가하세요."</string>
 
     <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
-    <string name="confirm_delete_shortcut_message">"Vuoi cancellare questa scorciatoia?"</string>
+    <string name="confirm_delete_shortcut_message">"이 바로가기를 삭제하시겠습니까?"</string>
 
     <!-- Dialog prompt to ask user if unsaved changes should be discarded. -->
-    <string name="confirm_discard_changes_message">"Hai delle modifiche non salvate. Vuoi abbandonarle?"</string>
+    <string name="confirm_discard_changes_message">"저장되지 않은 변경 사항이 있습니다. 변경 사항을 취소하시겠습니까?"</string>
 
     <!-- Dialog option: Discard (unsaved changes) -->
-    <string name="dialog_discard">"Abbandona"</string>
+    <string name="dialog_discard">"취소"</string>
 
     <!-- Title of fullscreen window when shortcut is executed/run -->
-    <string name="title_activity_execute">"Esegui Scorciatoia"</string>
+    <string name="title_activity_execute">"바로가기 실행"</string>
 
     <!-- Confirmation message shown in Toast when a shortcut was executed. %s is a placeholder for the shortcut's name -->
-    <string name="executed">"%s eseguita."</string>
+    <string name="executed">"%s이(가) 실행되었습니다."</string>
 
     <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
-    <string name="shortcut_not_found">"Scorciatoia non trovata. Dovresti ri-aggiungerla alla schermata iniziale."</string>
+    <string name="shortcut_not_found">"바로가기를 찾을 수 없습니다. 홈 화면에 다시 추가해야 할 수도 있습니다."</string>
 
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
-    <string name="validation_name_not_empty">"Inserisci un nome."</string>
+    <string name="validation_name_not_empty">"이름을 입력하세요."</string>
 
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
-    <string name="validation_url_invalid">"Inserisci un url HTTP(S)."</string>
+    <string name="validation_url_invalid">"HTTP(S) URL을 입력하세요."</string>
 
     <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
-    <string name="error_http">"%1$s è fallita con status code %2$d (%3$s)."</string>
+    <string name="error_http">"상태 코드 %2$d (%3$s)에 따라 %1$s이(가) 실패했습니다."</string>
 
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
-    <string name="error_other">"%1$s fallita: %2$s"</string>
+    <string name="error_other">"%1$s 실패: %2$s"</string>
 
     <!-- Error shown when the HTTP response is too large to be loaded into memory. %s is a placeholder for the size limit, e.g. "1 MB") -->
-    <string name="error_response_too_large">"Risposta troppo grande (il limite è %s)"</string>
+    <string name="error_response_too_large">"응답이 너무 큽니다 (한도는 %s입니다)"</string>
 
     <!-- Error shown when a selected image cannot be used as an icon -->
-    <string name="error_set_image">"Impossibile usare l'immagine come icona."</string>
+    <string name="error_set_image">"이미지를 아이콘으로 사용하지 못했습니다."</string>
 
     <!-- Name template for a duplicated shortcut. %1$s is a placeholder for the name of the original shortcut -->
-    <string name="template_shortcut_name_copy">"%1$s (copia)"</string>
+    <string name="template_shortcut_name_copy">"%1$s (사본)"</string>
 
     <!-- Option in "Change Icon" dialog, allows user to pick an icon from an ipack app (i.e., a special icon provider app) -->
-    <string name="choose_ipack">"Seleziona un Ipack"</string>
+    <string name="choose_ipack">"Ipack을 선택하세요"</string>
 
     <!-- Title of "Change Icon" dialog, where user can pick source/type of new icon for shortcut -->
-    <string name="change_icon">"Cambia Icona"</string>
+    <string name="change_icon">"아이콘 변경"</string>
 
     <!-- Option in "Change Icon" dialog, allows user to select a custom image to use as a shortcut icon -->
-    <string name="choose_image">"Seleziona immagine personalizzata"</string>
+    <string name="choose_image">"맞춤 이미지 선택"</string>
 
     <!-- Option in "Change Icon" dialog, allows user to select an icon from an Ipack icon set (from a third-party icon app) -->
-    <string name="choose_ipack_icon">"Seleziona un icona dell'Ipack"</string>
+    <string name="choose_ipack_icon">"Ipack 아이콘을 선택하세요"</string>
 
     <!-- Option in "Change Icon" dialog, allows user to select one of the built-in icons to use as a shortcut icon -->
-    <string name="choose_icon">"Seleziona un'icona standard"</string>
+    <string name="choose_icon">"빌트인 아이콘을 선택하세요"</string>
 
     <!-- Title of dialog that allows user to pick an icon from the built-in icons -->
-    <string name="title_choose_icon">"Scegli icona built-in"</string>
+    <string name="title_choose_icon">"빌트인 아이콘을 선택하세요"</string>
 
     <!-- Title of dialog to edit a parameter on a shortcut -->
-    <string name="title_post_param_edit">"Modifica Parametro"</string>
+    <string name="title_post_param_edit">"매개변수 편집"</string>
 
     <!-- Title of dialog to edit a file parameter on a shortcut -->
-    <string name="title_post_param_edit_file">"Modifica parametro file"</string>
+    <string name="title_post_param_edit_file">"파일 매개변수 편집"</string>
 
     <!-- Title of dialog to add a new parameter to a shortcut -->
-    <string name="title_post_param_add">"Aggiungi Parametro"</string>
+    <string name="title_post_param_add">"매개변수 추가"</string>
 
     <!-- Title of dialog to add a new file parameter to a shortcut -->
-    <string name="title_post_param_add_file">"Aggiungi parametro file"</string>
+    <string name="title_post_param_add_file">"파일 매개변수 추가"</string>
 
     <!-- Label of input field to provide the name/key of a parameter of a shortcut -->
-    <string name="label_post_param_key">"Parametro"</string>
+    <string name="label_post_param_key">"매개변수"</string>
 
     <!-- Label of input field to provide the file name for a file parameter of a shortcut -->
-    <string name="label_post_param_file_name">"Nome file (opzionale)"</string>
+    <string name="label_post_param_file_name">"파일 이름 (선택 사항)"</string>
 
     <!-- Label of input field to provide the value of a parameter of a shortcut -->
-    <string name="label_post_param_value">"Valore"</string>
+    <string name="label_post_param_value">"값"</string>
 
     <!-- Generic dialog button: OK -->
-    <string name="dialog_ok">"Ok"</string>
+    <string name="dialog_ok">"확인"</string>
 
     <!-- Generic button: Cancel -->
-    <string name="dialog_cancel">"Annulla"</string>
+    <string name="dialog_cancel">"취소"</string>
 
     <!-- Generic button: remove -->
-    <string name="dialog_remove">"Rimuovi"</string>
+    <string name="dialog_remove">"제거"</string>
 
     <!-- Section title in shortcut editor, for section that contains options to specify the headers of the HTTP request -->
-    <string name="section_request_headers">"Intestazione della Richiesta"</string>
+    <string name="section_request_headers">"요청 헤더"</string>
 
     <!-- Section title in shortcut editor, for section that contains options to specify the body of the HTTP request -->
-    <string name="section_request_body">"Corpo della Richiesta / Parametri"</string>
+    <string name="section_request_body">"요청 본문/매개변수"</string>
 
     <!-- Title of dialog to edit a custom header of a shortcut -->
-    <string name="title_custom_header_edit">"Modifica Intestazione"</string>
+    <string name="title_custom_header_edit">"헤더 편집"</string>
 
     <!-- Title of dialog to add a custom header to a shortcut -->
-    <string name="title_custom_header_add">"Aggiungi Intestazione"</string>
+    <string name="title_custom_header_add">"헤더 추가"</string>
 
     <!-- Label of input field to provide name of custom header -->
-    <string name="label_custom_header_key">"Header"</string>
+    <string name="label_custom_header_key">"헤더"</string>
 
     <!-- Label of input field to provide value of custom header -->
-    <string name="label_custom_header_value">"Valore"</string>
+    <string name="label_custom_header_value">"값"</string>
 
     <!-- Label of input field to provide request body of a shortcut -->
-    <string name="label_custom_body">"Corpo della Richiesta"</string>
+    <string name="label_custom_body">"요청 본문"</string>
 
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
-    <string name="title_settings">"Impostazioni"</string>
+    <string name="title_settings">"설정"</string>
 
     <!-- Name of toolbar action: Unlock all settings (will prompt user to enter passcode) -->
-    <string name="menu_action_unlock_app">"Sblocca impostazioni"</string>
+    <string name="menu_action_unlock_app">"설정 잠금 해제"</string>
 
     <!-- Title of theme settings -->
-    <string name="settings_theme">"Tema"</string>
+    <string name="settings_theme">"테마"</string>
 
     <!-- Title of section in "Settings" screen: Basic settings -->
-    <string name="settings_title_basic">"Impostazioni di base"</string>
+    <string name="settings_title_basic">"기본 설정"</string>
 
     <!-- Name of setting that allows the user to pick what should happen when a shortcut is clicked -->
-    <string name="settings_click_behavior">"Azione del Click"</string>
+    <string name="settings_click_behavior">"바로가기 클릭 동작"</string>
 
     <!-- Name of setting that allows the user to change the app's language -->
-    <string name="settings_language">"Lingua"</string>
+    <string name="settings_language">"언어"</string>
 
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: execute the shortcut (i.e., send request) -->
-    <string name="settings_click_behavior_run">"Esegui la scorciatoia"</string>
+    <string name="settings_click_behavior_run">"바로가기 실행"</string>
 
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: edit the shortcut -->
-    <string name="settings_click_behavior_edit">"Modifica la scorciatoia"</string>
+    <string name="settings_click_behavior_edit">"바로가기 편집"</string>
 
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: show options / context menu -->
-    <string name="settings_click_behavior_menu">"Mostra il menù delle opzioni"</string>
+    <string name="settings_click_behavior_menu">"옵션 메뉴 표시"</string>
 
     <!-- Title of section in settings page, section contains opens for importing and exporting shortcuts -->
-    <string name="settings_title_import_export">"Importa / Esporta"</string>
+    <string name="settings_title_import_export">"가져오기/내보내기"</string>
 
     <!-- Section title on settings screen for privacy related settings -->
-    <string name="settings_title_privacy">"Privacy"</string>
+    <string name="settings_title_privacy">"개인정보보호"</string>
 
     <!-- Setting title for crash reporting settings, as part of privacy settings (opt-in/opt-out) -->
-    <string name="settings_crash_reporting">"Arresti anomali"</string>
+    <string name="settings_crash_reporting">"충돌 보고"</string>
 
     <!-- Option for crash reporting opt in -->
-    <string name="settings_crash_reporting_allow">"Invia gli arresti anomali per aiutare a migliorare l'App"</string>
+    <string name="settings_crash_reporting_allow">"앱 개선을 위해 충돌 보고서 보내기"</string>
 
     <!-- Option for crash reporting opt out -->
-    <string name="settings_crash_reporting_disallow">"Non inviare gli arresti anomali"</string>
+    <string name="settings_crash_reporting_disallow">"충돌 보고서를 보내지 않음"</string>
 
     <!-- Button in settings page to start import of shortcuts -->
-    <string name="settings_import">"Importa scorciatoie"</string>
+    <string name="settings_import">"가져오기 바로가기"</string>
 
     <!-- Button in settings page to start export of shortcuts -->
-    <string name="settings_export">"Esporta scorciatoie"</string>
+    <string name="settings_export">"내보내기 바로가기"</string>
 
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
     <plurals name="shortcut_export_success">
-        <item quantity="one">"1 scorciatoia esportata."</item>
-        <item quantity="other">"%d scorciatoie esportate."</item>
+        <item quantity="other">"%d 바로가기 내보냄."</item>
     </plurals>
 
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
-    <string name="export_in_progress">"Esportazione in corso…"</string>
+    <string name="export_in_progress">"내보내는 중…"</string>
 
     <!-- Error message: Shown in snackbar when import of shortcuts & variables failed -->
-    <string name="import_failed">"Importazione delle scorciatoie fallita."</string>
+    <string name="import_failed">"바로가기를 가져 오지 못했습니다."</string>
 
     <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
-    <string name="import_failed_with_reason">"Importazione delle scorciatoie non riuscita:
-%s"</string>
+    <string name="import_failed_with_reason">"바로가기 가져오기 실패:
+%s"</string>
 
     <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
-    <string name="export_failed_with_reason">"Esportazione delle scorciatoie non riuscita: %s"</string>
+    <string name="export_failed_with_reason">"바로가기 내보내기 실패: %s"</string>
 
     <!-- Error message: Import failed due to invalid JSON syntax in the import file -->
-    <string name="import_failure_reason_invalid_json">"JSON non valido"</string>
+    <string name="import_failure_reason_invalid_json">"잘못된 JSON"</string>
 
     <!-- Success message, shown in snackbar when import of shortcuts is successful -->
     <plurals name="shortcut_import_success">
-        <item quantity="one">"1 scorciatoia importata."</item>
-        <item quantity="other">"%d scorciatoie importate."</item>
+        <item quantity="other">"%d 바로가기 가져옴."</item>
     </plurals>
 
     <!-- Message shown in progress dialog while shortcuts are being imported -->
-    <string name="import_in_progress">"Importazione in corso…"</string>
+    <string name="import_in_progress">"가져 오는 중…"</string>
 
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
-    <string name="label_timeout">"Timeout"</string>
+    <string name="label_timeout">"시간 초과"</string>
 
     <!-- Label, for option to set the proxy hostname for a shortcut -->
-    <string name="label_proxy_host">"Nome host Proxy / indirizzo IP"</string>
+    <string name="label_proxy_host">"프록시 호스트 이름/IP 주소"</string>
 
     <!-- Label, for option to set the proxy port for a shortcut -->
-    <string name="label_proxy_port">"Porta Proxy"</string>
+    <string name="label_proxy_port">"프록시 포트"</string>
 
     <!-- Used in various places to indicate a number of seconds, e.g. for a delay. %s is a placeholder for the actual number. -->
     <plurals name="seconds">
-        <item quantity="one">"%d secondo"</item>
-        <item quantity="other">"%d secondi"</item>
+        <item quantity="other">"%d초"</item>
     </plurals>
 
     <!-- Used in various places to indicate a number of milliseconds, e.g. for a delay. %s is a placeholder for the actual number. -->
     <plurals name="milliseconds">
-        <item quantity="one">"%d millisecondo"</item>
-        <item quantity="other">"%d millisecondi"</item>
+        <item quantity="other">"%d밀리초"</item>
     </plurals>
 
     <!-- Used in various places to indicate a number of minutes, e.g. for a delay. %s is a placeholder for the actual number. -->
     <plurals name="minutes">
-        <item quantity="one">"%d minuto"</item>
-        <item quantity="other">"%d minuti"</item>
+        <item quantity="other">"%d분"</item>
     </plurals>
 
     <!-- Pattern: Combines an indication of minutes (first %s) with an indication of seconds (second %s), e.g. 1 minute, 24 seconds -->
     <string name="pattern_minutes_seconds">"%s, %s"</string>
 
     <!-- Section title in app settings -->
-    <string name="settings_about">"Informazioni sull'App"</string>
+    <string name="settings_about">"앱 소개"</string>
 
     <!-- Title of option in settings to show change changelog of current and past versions -->
-    <string name="settings_changelog">"Changelog"</string>
+    <string name="settings_changelog">"변경 로그"</string>
 
     <!-- Subtitle/summary of "Changelog" option in settings, showing the current app version number -->
-    <string name="settings_changelog_summary">"Versione %1$s"</string>
+    <string name="settings_changelog_summary">"버전 %1$s"</string>
 
     <!-- Button title, for option to contact the app developer (via email) -->
-    <string name="settings_mail">"Contatta lo Sviluppatorre"</string>
+    <string name="settings_mail">"개발자에게 문의"</string>
 
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
-    <string name="settings_mail_summary">"Domande, richiesta di nuove funzionalità, feedback, …"</string>
+    <string name="settings_mail_summary">"질문, 기능 요청, 피드백 등"</string>
 
     <!-- Button title, for option to open the app's Github page in a browser -->
-    <string name="settings_github">"Guarda su Github"</string>
+    <string name="settings_github">"Github에서 보기"</string>
 
     <!-- Button subtitle for "View on Github" button -->
-    <string name="settings_github_summary">"Esatto, quesa app è open-source"</string>
+    <string name="settings_github_summary">"그렇습니다, 이 앱은 오픈 소스입니다"</string>
 
     <!-- Dialog title, for changelog, shown when a new version of the app is released -->
-    <string name="changelog_title_whats_new">"Novità"</string>
+    <string name="changelog_title_whats_new">"새로운 소식?"</string>
 
     <!-- Dialog title, for changelog, showing what's new in a release -->
-    <string name="changelog_title">"Registro delle modifiche"</string>
+    <string name="changelog_title">"변경 로그"</string>
 
     <!-- Checkbox label, shown on Changelog dialog, allowing user to enable that the dialog shows when the app is started -->
-    <string name="changelog_checkbox_show_at_startup">"Mostra all'avvio"</string>
+    <string name="changelog_checkbox_show_at_startup">"시작할 때 표시"</string>
 
     <!-- Message displayed when the shortcut cannot be executed because there is no internet connection. %1$s is a placeholder for the shortcut name. -->
-    <string name="execution_delayed">"%1$s verrà eseguito quando sarà disponibile una connessione a Internet."</string>
+    <string name="execution_delayed">"인터넷에 연결되면 %1$s이(가) 실행됩니다."</string>
 
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor -->
-    <string name="label_wait_for_connection">"Attendi la connessione quando sei offline"</string>
+    <string name="label_wait_for_connection">"오프라인일 때 연결 대기"</string>
 
     <!-- Label: Shown on button that allows to enable execution delay of a shortcut -->
-    <string name="label_delay_execution">"Ritardo nell'esecuzione"</string>
+    <string name="label_delay_execution">"실행 지연"</string>
 
     <!-- Button, shown on Settings page, to allow opening the app's Play Store page -->
-    <string name="settings_play_store">"Guarda nel Play Store"</string>
+    <string name="settings_play_store">"Play Store에서 보기"</string>
 
     <!-- Button subtitle for "View in Play Store" button -->
-    <string name="settings_play_store_summary">"Grazie per la tua valutazione e recensione"</string>
+    <string name="settings_play_store_summary">"평가 및 리뷰 감사합니다"</string>
 
     <!-- Title of option in settings screen: FAQ (frequently asked questions), links the user to an external documentation page -->
-    <string name="settings_faq">"FAQ"</string>
+    <string name="settings_faq">"자주 묻는 질문"</string>
 
     <!-- Subtitle of option in settings screen: FAQ (frequently asked questions), links the user to an external documentation page -->
-    <string name="settings_faq_summary">"Domande frequenti"</string>
+    <string name="settings_faq_summary">"자주 묻는 질문"</string>
 
     <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_duplicated">"\"%1$s\" duplicata."</string>
+    <string name="shortcut_duplicated">"\"%1$s\"이(가) 중복되었습니다."</string>
 
     <!-- Message, shown in snackbar, confirming to user that a shortcut was moved. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_moved">"\"%1$s\"\u0020\u0020spostata."</string>
+    <string name="shortcut_moved">"\"%1$s\"이(가) 이동되었습니다."</string>
 
     <!-- Message, shown in snackbar, confirming to user that a shortcut was deleted. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_deleted">"\"%1$s\" cancellato."</string>
+    <string name="shortcut_deleted">"\"%1$s\"이(가) 삭제되었습니다."</string>
 
     <!-- Message, shown in snackbar, confirming to user that a shortcut was placed on the phone's home screen. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_placed">"\"%1$s\" inserito nella schermata iniziale."</string>
+    <string name="shortcut_placed">"홈 화면에 \"%1$s\"이(가) 있습니다."</string>
 
     <!-- Generic 'Delete' option, used in various dialogs, e.g., to confirm the deletion of a shortcut -->
-    <string name="dialog_delete">"Cancella"</string>
+    <string name="dialog_delete">"삭제"</string>
 
     <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
-    <string name="section_basic_request">"Impostazioni di base della Richiesta"</string>
+    <string name="section_basic_request">"기본 요청 설정"</string>
 
     <!-- Section title, shown in shortcut editor, for section containing advanced settings -->
-    <string name="section_advanced_settings">"Impostazioni avanzate"</string>
+    <string name="section_advanced_settings">"고급 설정"</string>
 
     <!-- Section title, shown in shortcut editor, for section containing authentication settings -->
-    <string name="section_authentication">"Autenticazione"</string>
+    <string name="section_authentication">"인증"</string>
 
     <!-- Label, for dropdown picker, allowing to select the authentication method (i.e., how to authenticate) of a shortcut -->
-    <string name="label_authentication_method">"Metodo di autenticazione"</string>
+    <string name="label_authentication_method">"인증 방법"</string>
 
     <!-- Checkbox label, used in varies dialogs, to allow user to hide the dialog forever -->
-    <string name="dialog_checkbox_do_not_show_again">"Non mostrare più"</string>
+    <string name="dialog_checkbox_do_not_show_again">"다시 표시하지 않습니다"</string>
 
     <!-- checkbox label in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
-    <string name="label_accept_all_certificates">"Accetta qualsiasi certificato (so cosa sto facendo)"</string>
+    <string name="label_accept_all_certificates">"모든 인증서 수락 (내가 하는 일을 알고 있음)"</string>
 
     <!-- Checkbox label in editor, if enabled user will be prompted to confirm before a shortcut is executed -->
-    <string name="label_require_execution_confirmation">"Richiedi conferma prima dell'esecuzione"</string>
+    <string name="label_require_execution_confirmation">"실행 전에 확인 필요"</string>
 
     <!-- Page title, for page listing all the libraries and 3rd party assets used in the app -->
-    <string name="title_licenses">"Riconoscimenti"</string>
+    <string name="title_licenses">"감사의 말"</string>
 
     <!-- Button, for opening page listing all the libraries and 3rd party assets used in the app -->
-    <string name="settings_licenses">"Riconoscimenti"</string>
+    <string name="settings_licenses">"감사의 말"</string>
 
     <!-- Button subtitle, for "Acknowledgements" button -->
-    <string name="settings_licenses_summary">"Librerie e risorse utilizzate"</string>
+    <string name="settings_licenses_summary">"사용 된 라이브러리 및 리소스"</string>
 
     <!-- Page title, for page showing all configured categories -->
-    <string name="title_categories">"Categorie"</string>
+    <string name="title_categories">"카테고리"</string>
 
     <!-- Generic action, shown on dialog, to rename things -->
-    <string name="action_rename">"Rinomina"</string>
+    <string name="action_rename">"이름 바꾸기"</string>
 
     <!-- Action, shown on dropdown when editing a category, for allowing to change the category's layout type -->
-    <string name="action_change_category_layout_type">"Cambia il tipo di layout"</string>
+    <string name="action_change_category_layout_type">"레이아웃 유형 변경"</string>
 
     <!-- Action, shown on dropdown when editing a category, for allowing to hide a category -->
-    <string name="action_hide_category">"Nascondi"</string>
+    <string name="action_hide_category">"숨기기"</string>
 
     <!-- Action, shown on dropdown when editing a category, for allowing to show a hidden category -->
-    <string name="action_show_category">"Mostra"</string>
+    <string name="action_show_category">"표시"</string>
 
     <!-- Message, shown in snackbar to confirm to the user that the layout type of a category was changed -->
-    <string name="message_layout_type_changed">"Tipo di layout modificato."</string>
+    <string name="message_layout_type_changed">"레이아웃 유형이 변경되었습니다."</string>
 
     <!-- Option in context menu for category, allows user to change the background of a category -->
-    <string name="action_change_category_background">"Cambia Sfondo"</string>
+    <string name="action_change_category_background">"배경 변경"</string>
 
     <!-- Success message after background of a category was changed. Shown in snackbar. -->
-    <string name="message_background_type_changed">"Sfondo cambiato."</string>
+    <string name="message_background_type_changed">"배경 변경됨."</string>
 
     <!-- One of two options when picking the layout for a category: Show shortcuts in a list -->
-    <string name="layout_type_linear_list">"Elenco"</string>
+    <string name="layout_type_linear_list">"목록"</string>
 
     <!-- One of two options when picking the layout for a category: Show shortcuts in a grid -->
-    <string name="layout_type_grid">"Griglia"</string>
+    <string name="layout_type_grid">"그리드"</string>
 
     <!-- Option to choose from when selecting the background of a category: Plain white -->
-    <string name="category_background_type_white">"Bianco"</string>
+    <string name="category_background_type_white">"흰색"</string>
 
     <!-- Option to choose from when selecting the background of a category: Plain black -->
-    <string name="category_background_type_black">"Nero"</string>
+    <string name="category_background_type_black">"검정색"</string>
 
     <!-- Option to choose from when selecting the background of a category: Use phone's wallpaper -->
-    <string name="category_background_type_wallpaper">"Sfondo"</string>
+    <string name="category_background_type_wallpaper">"배경화면"</string>
 
     <!-- Option to allow renaming a category -->
-    <string name="title_rename_category">"Rinomina Categoria"</string>
+    <string name="title_rename_category">"카테고리 이름 바꾸기"</string>
 
     <!-- Dialog prompt/placeholder in input field, asking user to enter a name for a category -->
-    <string name="placeholder_category_name">"Inserisci il nome della categoria …"</string>
+    <string name="placeholder_category_name">"카테고리 이름을 입력하세요…"</string>
 
     <!-- Placeholder in input field, asking user to enter a value. Used in varies places -->
-    <string name="placeholder_value">"Valore"</string>
+    <string name="placeholder_value">"값"</string>
 
     <!-- Dialog title, shown in editor when creating a new category -->
-    <string name="title_create_category">"Crea Categoria"</string>
+    <string name="title_create_category">"카테고리 만들기"</string>
 
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of a category and all shortcuts within -->
-    <string name="confirm_delete_category_message">"Elimina questa categoria?
+    <string name="confirm_delete_category_message">"이 카테고리를 삭제하시겠습니까?
 
-Tutte le scorciatoie contenute all'interno verranno eliminate."</string>
+포함된 모든 바로가기가 삭제됩니다."</string>
 
     <!-- Message, shown in snackbar, to confirm to the user that a category was renamed -->
-    <string name="message_category_renamed">"Categoria rinominata."</string>
+    <string name="message_category_renamed">"카테고리 이름이 변경되었습니다."</string>
 
     <!-- Message, shown in snackbar, to confirm to the user that a category was hidden -->
-    <string name="message_category_hidden">"Categoria nascosta."</string>
+    <string name="message_category_hidden">"카테고리 숨김."</string>
 
     <!-- Message, shown in snackbar, to confirm to the user that a category is no longer hidden and visible again -->
-    <string name="message_category_visible">"Categoria non più nascosta."</string>
+    <string name="message_category_visible">"카테고리가 더 이상 숨겨지지 않습니다."</string>
 
     <!-- Message, shown in snackbar, to confirm to the user that a category was created -->
-    <string name="message_category_created">"Categoria creata."</string>
+    <string name="message_category_created">"카테고리가 생성되었습니다."</string>
 
     <!-- Message, shown in snackbar, to confirm to the user that a category was deleted -->
-    <string name="message_category_deleted">"Categoria cancellata."</string>
+    <string name="message_category_deleted">"카테고리가 삭제되었습니다."</string>
 
     <!-- Shows numerical count of shortcuts, used to show how many shortcuts are in a given category -->
     <plurals name="shortcut_count">
-        <item quantity="one">"%d scorciatoia"</item>
-        <item quantity="other">"%d scorciatoie"</item>
+        <item quantity="other">"%d 바로가기"</item>
     </plurals>
 
     <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
-    <string name="label_category_hidden">"%s (nascosto)"</string>
+    <string name="label_category_hidden">"%s (숨김)"</string>
 
     <!-- Dialog title/button, for feature to move a shortcut to a different category -->
-    <string name="title_move_to_category">"Sposta in Categoria"</string>
+    <string name="title_move_to_category">"카테고리로 이동"</string>
 
     <!-- Name/title to describe what the plugin action does, used by external plugins, e.g. Tasker -->
-    <string name="plugin_name">"Esegui HTTP Shortcut"</string>
+    <string name="plugin_name">"HTTP 바로가기 실행"</string>
 
     <!-- Button/page title, for viewing list of variables -->
-    <string name="title_variables">"Variabili"</string>
+    <string name="title_variables">"변수"</string>
 
     <!-- Button, to edit a variable -->
-    <string name="edit_variable">"Modifica Variabile"</string>
+    <string name="edit_variable">"변수 편집"</string>
 
     <!-- Button, to create a new variable -->
-    <string name="create_variable">"Crea variabile"</string>
+    <string name="create_variable">"변수 생성"</string>
 
     <!-- label, shown in variable editor, to allow the user to enter a dialog title that will be shown then the variable is evaluated -->
-    <string name="label_variable_title">"Titolo della finestra di dialogo (facoltativo)"</string>
+    <string name="label_variable_title">"대화 제목 (선택 사항)"</string>
 
     <!-- label, shown in variable editor for Date Input variable, to allow the user to specify a date format -->
-    <string name="label_variable_date_format">"Formato data"</string>
+    <string name="label_variable_date_format">"날짜 형식"</string>
 
     <!-- label, shown in variable editor for Time Input variable, to allow the user to specify a time format -->
-    <string name="label_variable_time_format">"Formato ora"</string>
+    <string name="label_variable_time_format">"시간 형식"</string>
 
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
-    <string name="variable_type_constant">"Variabile Statica (Costante)"</string>
+    <string name="variable_type_constant">"정적 변수 (일정)"</string>
 
     <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
-    <string name="variable_type_text">"Inserimento Testo"</string>
+    <string name="variable_type_text">"텍스트 입력"</string>
 
     <!-- Type of variable: Number Input, i.e., a dialog that asks user to enter a number -->
-    <string name="variable_type_number">"Inserimento Numero"</string>
+    <string name="variable_type_number">"숫자 입력"</string>
 
     <!-- Type of variable: Slider, i.e. a horizontal bar that allows to pick a number by sliding a knob left or right -->
-    <string name="variable_type_slider">"Cursore numerico"</string>
+    <string name="variable_type_slider">"숫자 슬라이더"</string>
 
     <!-- Type of variable: Password Input, i.e., a dialog that asks user to enter a password -->
-    <string name="variable_type_password">"Inserimento Password"</string>
+    <string name="variable_type_password">"암호 입력"</string>
 
     <!-- Type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
-    <string name="variable_type_select">"Selezione a Scelta Multipla"</string>
+    <string name="variable_type_select">"다수 선택"</string>
 
     <!-- Type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
-    <string name="variable_type_toggle">"Cambio"</string>
+    <string name="variable_type_toggle">"토글"</string>
 
     <!-- Type of variable: Date Input, i.e., a dialog that asks user to pick a date in a calendar -->
-    <string name="variable_type_date">"Inserimento Data"</string>
+    <string name="variable_type_date">"날짜 입력"</string>
 
     <!-- Type of variable: Time Input, i.e., a dialog that asks user to pick a time in a clock -->
-    <string name="variable_type_time">"Input ora"</string>
+    <string name="variable_type_time">"시간 입력"</string>
 
     <!-- Type of variable: Color Input, i.e., a dialog that asks user to pick a color in a color picker -->
-    <string name="variable_type_color">"Inserimento Colore"</string>
+    <string name="variable_type_color">"색상 입력"</string>
 
     <!-- Error message, information user that the variable name they entered is not valid -->
-    <string name="warning_invalid_variable_key">"I nomi delle variabili possono contenere solo caratteri di sottolineatura, cifre e lettere dell'alfabeto inglese."</string>
+    <string name="warning_invalid_variable_key">"변수 이름은 영어 알파벳의 밑줄, 숫자 및 문자만 포함할 수 있습니다."</string>
 
     <!-- Dialog message, asking user to confirm the deletion of a variable -->
-    <string name="confirm_delete_variable_message">"Elimina questa variabile?"</string>
+    <string name="confirm_delete_variable_message">"이 변수를 삭제하시겠습니까?"</string>
 
     <!-- Message, shown in snackbar, confirming to user that a variable was deleted. %1$s is a placeholder for the variable name -->
-    <string name="variable_deleted">"\"%1$s\" cancellato."</string>
+    <string name="variable_deleted">"\"%1$s\"이(가) 삭제되었습니다."</string>
 
     <!-- Checkbox label, for option to enable URL encoding of a variable -->
-    <string name="label_url_encode">"Codifica URL"</string>
+    <string name="label_url_encode">"URL 인코딩"</string>
 
     <!-- Checkbox label, for option to enable JSON encoding of a variable -->
-    <string name="label_json_encode">"Codifica JSON"</string>
+    <string name="label_json_encode">"JSON 인코딩"</string>
 
     <!-- Section title, for section containing basic settings for a shortcut -->
-    <string name="section_basic_variable_settings">"Impostazioni di base"</string>
+    <string name="section_basic_variable_settings">"기본 설정"</string>
 
     <!-- Error message, informing user that the entered variable key is empty -->
-    <string name="validation_key_non_empty">"Il nome della variabile non deve essere vuoto."</string>
+    <string name="validation_key_non_empty">"변수 이름은 비워둘 수 없습니다."</string>
 
     <!-- Error message, informing user that the entered variable key already exists -->
-    <string name="validation_key_already_exists">"Esiste già un'altra variabile con questa nome."</string>
+    <string name="validation_key_already_exists">"이 이름의 다른 변수가 이미 존재합니다."</string>
 
     <!-- Dialog title, to add another value to the list of values in a variable of Toggle type -->
-    <string name="title_add_toggle_option">"Aggiungi Valore"</string>
+    <string name="title_add_toggle_option">"값 추가"</string>
 
     <!-- Button, to edit an existing value in the list of values in a variable of Toggle type -->
-    <string name="title_edit_toggle_option">"Modifica il valore"</string>
+    <string name="title_edit_toggle_option">"값 편집"</string>
 
     <!-- Button, to add another value to the list of values in a variable of Toggle type -->
-    <string name="button_add_toggle_option">"Aggiungi valore"</string>
+    <string name="button_add_toggle_option">"값 추가"</string>
 
     <!-- Section title, for section that lists all values of a variable of Toggle type -->
-    <string name="section_toggle_options">"Valori di Cambio"</string>
+    <string name="section_toggle_options">"값 전환"</string>
 
     <!-- Title, for dialog that allows user to add an option to a Selection variable -->
-    <string name="title_add_select_option">"Aggiungi Opzione"</string>
+    <string name="title_add_select_option">"옵션 추가"</string>
 
     <!-- Title, for dialog that allows user to edit an existing option of a Selection variable -->
-    <string name="title_edit_select_option">"Modifica le opzioni"</string>
+    <string name="title_edit_select_option">"옵션 편집"</string>
 
     <!-- Button, to allow a user to add an option to a Selection variable -->
-    <string name="button_add_select_option">"Aggiungi opzione"</string>
+    <string name="button_add_select_option">"옵션 추가"</string>
 
     <!-- Section title, for section that lists all selectable options of a Selection variable -->
-    <string name="section_select_options">"Opzioni Selezionabili"</string>
+    <string name="section_select_options">"선택 가능한 옵션"</string>
 
     <!-- Label, for dialog that allows adding/editing an option for a Selection variable, for specifying the option's "Label" -->
-    <string name="label_select_label">"Etichetta"</string>
+    <string name="label_select_label">"라벨"</string>
 
     <!-- Label, for dialog that allows adding/editing an option for a Selection variable, for specifying the option's "Value" -->
-    <string name="label_select_value">"Valore"</string>
+    <string name="label_select_value">"값"</string>
 
     <!-- Button, for opening help article page -->
-    <string name="button_show_help">"Mostra aiuto"</string>
+    <string name="button_show_help">"도움말 표시"</string>
 
     <!-- Page/dialog title, for help article about variables -->
-    <string name="help_title_variables">"Variabili"</string>
+    <string name="help_title_variables">"변수"</string>
 
     <!-- Instructions shown in dialog when user clicks the variables button in the shortcut editor but doesn't have any variables configured yet -->
-    <string name="help_text_variable_button">"Questo bottone ti permette di includere segnaposti per le variabili, ad esempio, valori dinamici, dentro lo tua scorciatoia.
+    <string name="help_text_variable_button">"이 버튼을 사용하면 변수의 자리 표시자(예: 동적 값)를 바로가기에 포함시킬 수 있습니다.
 
-Non hai variabili configurate. Le puoi aggiungere premendo sul bottone CREA."</string>
+아직 변수를 구성하지 않았습니다. 아래의 CREATE 버튼을 클릭하여 할 수 있습니다."</string>
 
     <!-- Instructions shown in dialog when user clicks the variables button in the variable editor but doesn't have any variables configured yet -->
-    <string name="help_text_variable_button_for_variables">"Questo bottone ti permette di includere segnaposti per i valori di altre variabili.
+    <string name="help_text_variable_button_for_variables">"이 버튼을 사용하면 다른 변수 값에 대한 자리 표시자를 여기에 포함시킬 수 있습니다.
 
-Non hai nessuna variabile configurata."</string>
+그러나 아직 변수를 구성하지 않았습니다."</string>
 
     <!-- Instructions shown in code snippet picker when the user selects the "Get Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_get_variable_no_variable">"Non hai ancora variabili. Fai clic sul pulsante CREA qui sotto per iniziare."</string>
+    <string name="help_text_code_snippet_get_variable_no_variable">"아직 변수가 없습니다. 시작하려면 아래의 CREATE 버튼을 클릭하세요."</string>
 
     <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_set_variable_no_variable">"Non hai ancora variabili del tipo \"Costante\" che possono essere impostate da questa azione. Fai clic sul pulsante CREA qui sotto per iniziare."</string>
+    <string name="help_text_code_snippet_set_variable_no_variable">"이 작업으로 설정할 수있는 상수 유형의 변수가 아직 없습니다. 시작하려면 아래의 CREATE 버튼을 클릭하세요."</string>
 
     <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
-    <string name="button_create_first_variable">"Crea"</string>
+    <string name="button_create_first_variable">"생성"</string>
 
     <!-- Title of dialog that allows users to pick a variable from a list to insert its placeholder somewhere -->
-    <string name="dialog_title_variable_selection">"Variabili"</string>
+    <string name="dialog_title_variable_selection">"변수"</string>
 
     <!-- Option shown on variable selection dialog, clicking it opens variable editor -->
-    <string name="label_edit_variables">"Modifica le variabili"</string>
+    <string name="label_edit_variables">"변수 편집"</string>
 
     <!-- Error message, shown in variable editor when the user didn't add enough options -->
-    <string name="error_not_enough_toggle_values">"Aggiungi almeno due valori."</string>
+    <string name="error_not_enough_toggle_values">"두 개 이상의 값을 추가하세요."</string>
 
     <!-- Error message, shown in variable editor when the user didn't add enough options -->
-    <string name="error_not_enough_select_values">"Aggiungi almeno un'opzione selezionabile."</string>
+    <string name="error_not_enough_select_values">"선택 가능한 옵션을 하나 이상 추가하세요."</string>
 
     <!-- Error message, shown in variable editor when an invalid date format is entered -->
-    <string name="error_invalid_date_format">"Il formato della data non è valido."</string>
+    <string name="error_invalid_date_format">"날짜 형식이 유효하지 않습니다."</string>
 
     <!-- Error message, shown in variable editor when an invalid time format is entered -->
-    <string name="error_invalid_time_format">"Il formato orario non è valido."</string>
+    <string name="error_invalid_time_format">"시간 형식이 유효하지 않습니다."</string>
 
     <!-- Dialog button, allowing the user to share a text snippet with other apps -->
-    <string name="share_button">"Condividi"</string>
+    <string name="share_button">"공유"</string>
 
     <!-- Title on Share dialog -->
-    <string name="share_title">"Condividi…"</string>
+    <string name="share_title">"공유…"</string>
 
     <!-- Section title, for section in variable editor containing options specific to the variable type -->
-    <string name="section_input_options">"Opzioni di Inserimento"</string>
+    <string name="section_input_options">"입력 옵션"</string>
 
     <!-- Checkbox value, shown in variable editor, allows to enable a variable to remember its previous value -->
-    <string name="label_remember_value">"Ricorda il valore"</string>
+    <string name="label_remember_value">"값 기억"</string>
 
     <!-- Action, allows the user to cancel a pending shortcut execution -->
-    <string name="action_cancel_pending">"
-Annulla l'esecuzione in sospeso"</string>
+    <string name="action_cancel_pending">"보류중인 실행 취소"</string>
 
     <!-- Message, shown in snackbar to confirm when the user cancelled a pending shortcut execution (%1$s is a placeholder for the shortcut name) -->
-    <string name="pending_shortcut_execution_cancelled">"%1$s annullato."</string>
+    <string name="pending_shortcut_execution_cancelled">"%1$s이(가) 취소되었습니다."</string>
 
     <!-- Feature label for sharing text into the app, to be used in a specific variable for a configured shortcut -->
-    <string name="action_send_to">"Invia a…"</string>
+    <string name="action_send_to">"다음으로 보내기…"</string>
 
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
-    <string name="error_not_suitable_shortcuts">"Nessuna scorciatoia adatta trovata.
+    <string name="error_not_suitable_shortcuts">"적합한 바로가기가 없습니다.
 
-Per utilizzare questa funzione è necessario avere almeno una scorciatoia che utilizza una variabile che consenta \"Condividi …\".
+이 기능을 사용하려면 '공유…'를 허용하는 변수를 사용하는 바로가기 또는 파일 매개변수가 있는 바로가기가 하나 이상 있어야 합니다.
 
-Vedere la documentazione nella sezione variabile per maggiori informazioni."</string>
+자세한 내용은 변수 섹션의 설명서를 참조하세요."</string>
 
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
-    <string name="label_allow_share_into">"Consenti 'Condividi…'"</string>
+    <string name="label_allow_share_into">"'공유…' 허용"</string>
 
     <!-- App color theme option Blue -->
-    <string name="theme_blue">"Blu"</string>
+    <string name="theme_blue">"파란색"</string>
 
     <!-- App color theme option Green -->
-    <string name="theme_green">"Verde"</string>
+    <string name="theme_green">"초록색"</string>
 
     <!-- App color theme option Red -->
-    <string name="theme_red">"Rosso"</string>
+    <string name="theme_red">"빨간색"</string>
 
     <!-- App color theme option Grey -->
-    <string name="theme_grey">"Grigio"</string>
+    <string name="theme_grey">"회색"</string>
 
     <!-- App color theme option Orange -->
-    <string name="theme_orange">"Arancione"</string>
+    <string name="theme_orange">"주황색"</string>
 
     <!-- App color theme option Purple -->
-    <string name="theme_purple">"Viola"</string>
+    <string name="theme_purple">"보라색"</string>
 
     <!-- App color theme option Indigo -->
-    <string name="theme_indigo">"Indaco"</string>
+    <string name="theme_indigo">"남색"</string>
 
     <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
-    <string name="title_export">"Esporta in…"</string>
+    <string name="title_export">"다음으로 내보내기.."</string>
 
     <!-- Dialog option on Export dialog, for exporting by storing in a file -->
-    <string name="button_export_to_general">"Documenti"</string>
+    <string name="button_export_to_general">"서류"</string>
 
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
-    <string name="button_export_send_to">"Altra app"</string>
+    <string name="button_export_send_to">"다른 앱"</string>
 
     <!-- Dialog title, for dialog with options allowing user to pick where to import shortcuts from -->
-    <string name="title_import">"Importa da…"</string>
+    <string name="title_import">"다음에서 가져 오기…"</string>
 
     <!-- Dialog option on Import dialog, for importing shortcuts from a file picked via the system's document browser -->
-    <string name="button_import_from_general">"Documenti"</string>
+    <string name="button_import_from_general">"서류"</string>
 
     <!-- Dialog option on Import dialog, for importing shortcuts from a URL -->
     <string name="button_import_from_url">"URL"</string>
 
     <!-- Dialog title when creating a new shortcut, shows options below -->
-    <string name="title_create_new_shortcut_options_dialog">"Crea una scorciatoia"</string>
+    <string name="title_create_new_shortcut_options_dialog">"새로운 바로가기 만들기"</string>
 
     <!-- Option 1 in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
-    <string name="button_create_new">"Scorciatoia HTTP regolare"</string>
+    <string name="button_create_new">"일반 HTTP 바로가기"</string>
 
     <!-- Option 2 in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
-    <string name="button_curl_import">"Importa da Comando cURL"</string>
+    <string name="button_curl_import">"cURL 명령어에서 가져 오기"</string>
 
     <!-- Option 3 in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
-    <string name="button_create_browser_shortcut">"Collegamento al Browser"</string>
+    <string name="button_create_browser_shortcut">"브라우저 바로가기"</string>
 
     <!-- Window title for cURL import -->
-    <string name="title_curl_import">"Importa cURL"</string>
+    <string name="title_curl_import">"cURL 가져 오기"</string>
 
     <!-- Instruction text for shortcut import from cURL format -->
-    <string name="instructions_curl_import">"Digita o incolla un comando cURL in basso per creare un nuovo collegamento da esso."</string>
+    <string name="instructions_curl_import">"아래에 cURL 명령어를 입력하거나 붙여 넣어 새 바로가기를 만드세요."</string>
 
     <!-- Text on button to start shortcut import from a cURL command -->
-    <string name="curl_import_button">"Importa"</string>
+    <string name="curl_import_button">"가져오기"</string>
 
     <!-- Dropdown option for "Authentication" of a shortcut: no authentication -->
-    <string name="authentication_none">"Nessuna autenticazione"</string>
+    <string name="authentication_none">"인증 안함"</string>
 
     <!-- Dropdown option for "Authentication" of a shortcut: "Basic Authentication", aka. BasicAuth (username & password) -->
-    <string name="authentication_basic">"Autenticazione di base"</string>
+    <string name="authentication_basic">"기본 인증"</string>
 
     <!-- Dropdown option for "Authentication" of a shortcut: "Digest Authentication", aka. DigestAuth (username & password) -->
-    <string name="authentication_digest">"Autenticazione Digest"</string>
+    <string name="authentication_digest">"다이제스트 인증"</string>
 
     <!-- Dropdown option for "Authentication" of a shortcut: "Bearer Authentication", aka. BearerAuth (token) -->
-    <string name="authentication_bearer">"Bearer Authentication"</string>
+    <string name="authentication_bearer">"무기명 인증"</string>
 
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu, i.e., when long-pressing the app icon on the home screen -->
-    <string name="label_launcher_shortcut">"Mostra come app sul programma di avvio"</string>
+    <string name="label_launcher_shortcut">"런처에 앱 바로가기로 표시"</string>
 
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
-    <string name="label_quick_tile_shortcut">"Consenti attivazione tramite Impostazioni Rapide"</string>
+    <string name="label_quick_tile_shortcut">"빠른 설정 타일을 통한 트리거 허용"</string>
 
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
-    <string name="error_share_failed">"Si è verificato un errore durante la condivisione."</string>
+    <string name="error_share_failed">"공유하는 동안 오류가 발생했습니다."</string>
 
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
-    <string name="error_not_supported">"Questa funzionalità non è supportata dal tuo dispositivo."</string>
+    <string name="error_not_supported">"이 기능은 기기에서 지원되지 않습니다."</string>
 
     <!-- Generic error shown when something went wrong and there is no better error message available -->
-    <string name="error_generic">"Qualcosa è andato storto…"</string>
+    <string name="error_generic">"문제가 발생했습니다…"</string>
 
     <!-- Title of section in settings that allows user to click to open privacy policy dialog -->
-    <string name="settings_privacy_policy">"Politica sulla riservatezza"</string>
+    <string name="settings_privacy_policy">"개인정보 보호정책"</string>
 
     <!-- Summary/subtitle of section in settings that allows user to click to open privacy policy dialog -->
-    <string name="settings_privacy_policy_summary">"No, non rubiamo i tuoi dati."</string>
+    <string name="settings_privacy_policy_summary">"아니요, 데이터를 도용하지 않습니다"</string>
 
     <!-- Title of section in settings that allows user to lock all settings with a passcode. -->
-    <string name="settings_lock_app_title">"Blocca impostazioni"</string>
+    <string name="settings_lock_app_title">"잠금 설정"</string>
 
     <!-- Summary/subtitle of section in settings that allows user to lock all settings with a passcode. -->
-    <string name="settings_lock_app_summary">"Impedisci le modifiche alle scorciatoie e alle impostazioni"</string>
+    <string name="settings_lock_app_summary">"바로가기 및 설정 변경 방지"</string>
 
     <!-- Label above input box, for minimum (numeric) value of a horizontal slider -->
-    <string name="label_variable_slider_min">"Minimo"</string>
+    <string name="label_variable_slider_min">"최소"</string>
 
     <!-- Label above input box, for maximum (numeric) value of a horizontal slider -->
-    <string name="label_variable_slider_max">"Massimo"</string>
+    <string name="label_variable_slider_max">"최대"</string>
 
     <!-- Label above input box, for step size (numeric) value of a horizontal slider -->
-    <string name="label_variable_slider_step">"Dimensione del passo"</string>
+    <string name="label_variable_slider_step">"단계 크기"</string>
 
     <!-- error message displayed when "Maximum" is lesser than or equal to "Minimum" for "slider" variable type -->
-    <string name="error_slider_max_not_greater_than_min">"Il massimo dev'essere maggiore del minimo."</string>
+    <string name="error_slider_max_not_greater_than_min">"최대값은 최소값보다 커야합니다."</string>
 
     <!-- error message displayed when "Step Size" is not a positive number for "slider" variable type -->
-    <string name="error_slider_step_size_must_be_positive">"La dimensione del passo deve essere un numero positivo."</string>
+    <string name="error_slider_step_size_must_be_positive">"단계 크기는 양수이어야합니다."</string>
 
     <!-- Button text: Set image as icon (after selecting and editing) -->
-    <string name="button_apply_icon">"Imposta icona"</string>
+    <string name="button_apply_icon">"아이콘 적용"</string>
 
     <!-- Blurb/short description of plugin action (for Tasker integration), where %1$s is a placeholder for the shortcut name. -->
-    <string name="plugin_blurb_execute_task">"Esegui scorciatoia \"%1$s\""</string>
+    <string name="plugin_blurb_execute_task">"바로가기 \"%1$s\" 실행"</string>
 
     <!-- Label of dropdown to select the request body type in shortcut editor -->
-    <string name="label_request_body_type">"Tipo di Corpo della Richiesta"</string>
+    <string name="label_request_body_type">"요청 본문 유형"</string>
 
     <!-- Dropdown option for request body: form-data (i.e. list of parameters) -->
-    <string name="request_body_option_form_data">"Parametri (form-data)"</string>
+    <string name="request_body_option_form_data">"매개변수 (양식 데이터)"</string>
 
     <!-- Dropdown option for request body: x-www-form-urlencoded (i.e. list of parameters) -->
-    <string name="request_body_option_x_www_form_urlencoded">"Parametri (x-www-form-urlencoded)"</string>
+    <string name="request_body_option_x_www_form_urlencoded">"매개변수 (x-www-form-urlencoded)"</string>
 
     <!-- Dropdown option for request body: custom text (i.e. enter a custom Content-Type and a request body as text) -->
-    <string name="request_body_option_custom_text">"Testo personalizzato"</string>
+    <string name="request_body_option_custom_text">"맞춤 텍스트"</string>
 
     <!-- Label above input box for Request Content-Type -->
-    <string name="label_content_type">"Content-Type"</string>
+    <string name="label_content_type">"콘텐츠 타입"</string>
 
     <!-- Button to copy the cURL export of a shortcut to the clipboard -->
-    <string name="button_copy_curl_export">"Copia"</string>
+    <string name="button_copy_curl_export">"복사"</string>
 
     <!-- Section title in shortcut editor: "Response handling", contains settings for controlling how the shortcut response should be handled -->
-    <string name="label_response_handling">"Gestione della Risposta"</string>
+    <string name="label_response_handling">"응답 처리"</string>
 
     <!-- Section subtitle in shortcut editor: "Response handling", contains settings for controlling how the shortcut response should be handled -->
-    <string name="label_response_handling_subtitle">"Definisci come gestire la risposta"</string>
+    <string name="label_response_handling_subtitle">"응답 처리 방법 정의"</string>
 
     <!-- Section title in shortcut editor: "Scripting", allows to write scripts for advanced workflows -->
-    <string name="label_scripting">"Scripting"</string>
+    <string name="label_scripting">"스크립팅"</string>
 
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before or after shortcut execution -->
-    <string name="label_scripting_subtitle">"Esegui il codice JavaScript prima o dopo l'esecuzione"</string>
+    <string name="label_scripting_subtitle">"실행 전후에 JavaScript 코드 실행"</string>
 
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before shortcut execution -->
-    <string name="label_scripting_browser_shortcuts_subtitle">"Esegui il codice JavaScript prima dell'esecuzione"</string>
+    <string name="label_scripting_browser_shortcuts_subtitle">"실행하기 전에 JavaScript 코드를 실행하세요"</string>
 
     <!-- Section title in shortcut editor, groups together miscellaneous settings -->
-    <string name="label_misc_settings">"Impostazioni varie"</string>
+    <string name="label_misc_settings">"기타 설정"</string>
 
     <!-- Section subtitle, shown underneath "Misc Settings", gives brief summary of what the section is about -->
-    <string name="label_misc_settings_subtitle">"Varie opzioni aggiuntive"</string>
+    <string name="label_misc_settings_subtitle">"다양한 추가 옵션"</string>
 
     <!-- Section title in shortcut editor, groups together technical settings -->
-    <string name="label_advanced_technical_settings">"Impostazioni Tecniche Avanzate"</string>
+    <string name="label_advanced_technical_settings">"고급 기술 설정"</string>
 
     <!-- Section subtitle in shortcut editor, shown below "Advanced Technical Settings" -->
-    <string name="label_advanced_technical_settings_subtitle">"Per le persone che sanno cosa stanno facendo"</string>
+    <string name="label_advanced_technical_settings_subtitle">"전문가용"</string>
 
     <!-- Shortcut Action Title: Show Toast (small popup message) -->
-    <string name="action_type_toast_title">"Mostra Notifica"</string>
+    <string name="action_type_toast_title">"Toast 표시"</string>
 
     <!-- Shortcut Action Title: Show Dialog -->
-    <string name="action_type_dialog_title">"Mostra finestra di dialogo"</string>
+    <string name="action_type_dialog_title">"대화 상자 표시"</string>
 
     <!-- Shortcut Action Title: Action that allows to copy strings to the device's clipboard -->
-    <string name="action_copy_to_clipboard_title">"Copia negli Appunti"</string>
+    <string name="action_copy_to_clipboard_title">"클립 보드에 복사"</string>
 
     <!-- Shortcut Action Title: Vibrate -->
-    <string name="action_type_vibrate_title">"Vibra"</string>
+    <string name="action_type_vibrate_title">"진동"</string>
 
     <!-- Shortcut Action Title: Change Shortcut Name -->
-    <string name="action_type_rename_shortcut_title">"Rinomina Scorciatoia"</string>
+    <string name="action_type_rename_shortcut_title">"바로가기 이름 바꾸기"</string>
 
     <!-- Shortcut Action Title: Change Shortcut Icon -->
-    <string name="action_type_change_icon_title">"Cambia Icona Scorciatoia"</string>
+    <string name="action_type_change_icon_title">"바로가기 아이콘 변경"</string>
 
     <!-- Shortcut Action Title: Trigger a shortcut, i.e., execute it -->
-    <string name="action_type_trigger_shortcut_title">"Attiva Scorciatoia"</string>
+    <string name="action_type_trigger_shortcut_title">"바로가기 트리거"</string>
 
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
-    <string name="action_type_abort_execution">"Interrompi Esecuzione"</string>
+    <string name="action_type_abort_execution">"실행 중단"</string>
 
     <!-- Shortcut error message: Maximum recursion depth reached, i.e., a potential infinite loop was detected and stopped -->
-    <string name="action_type_trigger_shortcut_error_recursion_depth_reached">"Massima profondità di ricorsione raggiunta. La scorciatoia non verrà attivata."</string>
+    <string name="action_type_trigger_shortcut_error_recursion_depth_reached">"최대 recursion depth에 도달했습니다. 바로가기가 트리거되지 않습니다."</string>
 
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid URL -->
-    <string name="error_invalid_url">"URL non valido (%s)."</string>
+    <string name="error_invalid_url">"잘못된 URL (%s)"</string>
 
     <!-- error message: Shown in toast when the user tries to execute a shortcut with invalid proxy settings -->
-    <string name="error_invalid_proxy">"Proxy non valido (%s)"</string>
+    <string name="error_invalid_proxy">"잘못된 프록시 (%s)"</string>
 
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid content type -->
-    <string name="error_invalid_content_type">"Tipo di contenuto non valido (%s)."</string>
+    <string name="error_invalid_content_type">"잘못된 콘텐츠 유형 (%s)."</string>
 
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid header -->
-    <string name="error_invalid_header">"Intestazione non valida (%s)."</string>
+    <string name="error_invalid_header">"잘못된 헤더 (%s)."</string>
 
     <!-- Title: Dialog title when selecting how to place a shortcut on the homescreen -->
-    <string name="title_select_placement_method">"Metodo di posizionamento"</string>
+    <string name="title_select_placement_method">"배치 방법"</string>
 
     <!-- Description: Dialog text when selecting how to place a shortcut on the homescreen -->
-    <string name="description_select_placement_method">"Seleziona il metodo da utilizzare per posizionare il collegamento. Se incontri problemi con il metodo \"Default\", puoi provare invece il metodo \"Legacy\". Tieni presente che alcune funzioni (ad esempio la modifica del nome di scelta rapida) non sono disponibili con il metodo Legacy."</string>
+    <string name="description_select_placement_method">"바로가기를 배치하는 데 사용할 방법을 선택하세요. \"기본\"방법에 문제가 발생하면 대신 \"레거시\"방법을 사용해보세요. 레거시 방법으로는 일부 기능(예: 바로가기 이름 변경)을 사용할 수 없습니다."</string>
 
     <!-- Label: Preferred option in dialog for selecting how to place the shortcut on the homescreen: Default (method) -->
-    <string name="label_placement_method_default">"Default"</string>
+    <string name="label_placement_method_default">"기본"</string>
 
     <!-- Label: Alternative option in dialog for selecting how to place the shortcut on the homescreen: Legacy (method) -->
-    <string name="label_placement_method_legacy">"Legacy"</string>
+    <string name="label_placement_method_legacy">"레거시"</string>
 
     <!-- Dialog message to prompt user to confirm execution of shortcut -->
-    <string name="dialog_message_confirm_shortcut_execution">"Eseguire questa scorciatoia?"</string>
+    <string name="dialog_message_confirm_shortcut_execution">"이 바로가기를 실행하시겠습니까?"</string>
 
     <!-- Dialog title: Unlock the app (after it was locked. user is required to enter a password) -->
-    <string name="dialog_title_unlock_app">"Sblocca App"</string>
+    <string name="dialog_title_unlock_app">"앱 잠금 해제"</string>
 
     <!-- Dialog button: Unlock the app (after entering a password) -->
-    <string name="button_unlock_app">"Sblocca"</string>
+    <string name="button_unlock_app">"잠금 해제"</string>
 
     <!-- Dialog text: Asks user to enter a password to unlock the app's settings -->
-    <string name="dialog_text_unlock_app">"Inserisci la tua password per sbloccare la configurazione."</string>
+    <string name="dialog_text_unlock_app">"앱 설정을 잠금 해제하려면 암호를 입력하세요."</string>
 
     <!-- Dialog text: Asks user to enter the password to unlock the app's settings again, after an incorrect try -->
-    <string name="dialog_text_unlock_app_retry">"Password errata. Per favore riprova."</string>
+    <string name="dialog_text_unlock_app_retry">"잘못된 암호. 다시 시도하세요."</string>
 
     <!-- Dialog title: Asks user to enter a password to lock the app's settings -->
-    <string name="dialog_title_lock_app">"Blocca App"</string>
+    <string name="dialog_title_lock_app">"앱 잠금"</string>
 
     <!-- Dialog text: Asks user to enter a password to lock the app's settings -->
-    <string name="dialog_text_lock_app">"Inserisci una password per bloccare la configurazione e inibire la modifica degli shortcuts."</string>
+    <string name="dialog_text_lock_app">"암호를 입력하여 앱 설정을 잠그고 바로가기가 수정되지 않도록 하세요."</string>
 
     <!-- Dialog button: Lock the app (by entering a password) -->
-    <string name="button_lock_app">"Blocca"</string>
+    <string name="button_lock_app">"잠금"</string>
 
     <!-- Snackbar message: App was locked (settings can no longer be changed) -->
-    <string name="message_app_locked">"App bloccata."</string>
+    <string name="message_app_locked">"앱이 잠겨 있습니다."</string>
 
     <!-- Snackbar message: App was unlocked (settings can be changed again) -->
-    <string name="message_app_unlocked">"App sbloccata."</string>
+    <string name="message_app_unlocked">"앱 잠금이 해제되었습니다."</string>
 
     <!-- Warning dialog: Shown to user on startup to inform them that Android's "Data Saver" and/or "Battery Saver" modes may cause problems. -->
-    <string name="warning_data_saver_battery_saver_enabled">"Le modalità Risparmio Dati e/o Risparmio Batteria sono abilitate sul dispositivo. Se riscontri problemi con scorciatoie che non funzionano, prova a disabilitarle."</string>
+    <string name="warning_data_saver_battery_saver_enabled">"기기에서 데이터 세이버 및/또는 배터리 세이버 모드가 활성화되어 있습니다. 바로가기가 작동하지 않는 문제가 발생하면 이 모드를 비활성화하세요."</string>
 
     <!-- Message: Shown as a snackbar popup when a variable was duplicated. -->
-    <string name="message_variable_duplicated">"\"%1$s\" duplicata."</string>
+    <string name="message_variable_duplicated">"\"%1$s\"이(가) 중복되었습니다."</string>
 
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
-    <string name="subtitle_basic_request_settings_prompt">"Imposta l'URL e il metodo HTTP della scorciatoia"</string>
+    <string name="subtitle_basic_request_settings_prompt">"바로가기의 URL 및 HTTP 메소드 설정"</string>
 
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
-    <string name="subtitle_basic_request_settings_url_only_prompt">"Imposta l'URL della scorciatoia"</string>
+    <string name="subtitle_basic_request_settings_url_only_prompt">"바로가기 URL 설정"</string>
 
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings". Pattern for Method and URL -->
     <string name="subtitle_basic_request_settings_pattern">"%1$s %2$s"</string>
 
     <!-- Section subtitle, shown in shortcut editor when the shortcut has no custom HTTP headers -->
-    <string name="subtitle_request_headers_none">"Nessuna intestazione personalizzata impostata"</string>
+    <string name="subtitle_request_headers_none">"헤더가 설정되지 않았습니다"</string>
 
     <!-- Section subtitle, shown in shortcut editor when the shortcut has one or more custom HTTP headers -->
     <plurals name="subtitle_request_headers_pattern">
-        <item quantity="one">"1 intestazione personalizzata impostata"</item>
-        <item quantity="other">"%d intestazioni personalizzate impostate"</item>
+        <item quantity="other">"%d 헤더 세트"</item>
     </plurals>
 
     <!-- Section subtitle, shown in shortcut editor when no authentication behavior is defined -->
-    <string name="subtitle_authentication_none">"Nessuna autenticazione"</string>
+    <string name="subtitle_authentication_none">"인증 안함"</string>
 
     <!-- Section subtitle, shown in shortcut editor when no Basic Authentication is enabled -->
-    <string name="subtitle_authentication_basic">"Autenticazione di base con utente e password"</string>
+    <string name="subtitle_authentication_basic">"사용자 이름과 암호로 기본 인증"</string>
 
     <!-- Section subtitle, shown in shortcut editor when Digest Authentication is enabled -->
-    <string name="subtitle_authentication_digest">"Autenticazione Digest con nome utente e password"</string>
+    <string name="subtitle_authentication_digest">"사용자 이름과 암호로 요약 인증"</string>
 
     <!-- Section subtitle, shown in shortcut editor when Bearer Authentication is enabled -->
-    <string name="subtitle_authentication_bearer">"Bearer authentication con token"</string>
+    <string name="subtitle_authentication_bearer">"토큰으로 베어러 인증"</string>
 
     <!-- Section subtitle, shown in shortcut editor when no (POST) parameters are set -->
-    <string name="subtitle_request_body_params_none">"Nessun parametro impostato"</string>
+    <string name="subtitle_request_body_params_none">"매개변수가 설정되지 않았습니다"</string>
 
     <!-- Section subtitle, shown in shortcut editor when one or more (POST) parameters are set -->
     <plurals name="subtitle_request_body_params_pattern">
-        <item quantity="one">"1 parametro impostato"</item>
-        <item quantity="other">"%d parametri impostati"</item>
+        <item quantity="other">"%d 매개변수 세트"</item>
     </plurals>
 
     <!-- Section subtitle, shown in shortcut editor when no custom request body is set -->
-    <string name="subtitle_request_body_none">"Corpo della richiesta non impostato"</string>
+    <string name="subtitle_request_body_none">"요청 본문이 없습니다."</string>
 
     <!-- Section subtitle, shown in shortcut editor when a custom request body is set. %s is a placeholder for the data type, e.g. application/json -->
-    <string name="subtitle_request_body_custom">"Corpo della richiesta personalizzato impostato"</string>
+    <string name="subtitle_request_body_custom">"맞춤 요청 본문 세트 (%s)"</string>
 
     <!-- Section subtitle, shown for "Custom Request Body" option when it is not available because the selected HTTP method (%1$s) does not support a request body -->
-    <string name="subtitle_request_body_not_available">"Non applicabile a %1$s"</string>
+    <string name="subtitle_request_body_not_available">"%1$s에는 적용되지 않습니다"</string>
 
     <!-- Empty state, shown in list when there are no custom request headers yet -->
-    <string name="empty_state_request_headers">"nessuna intestazione impostata"</string>
+    <string name="empty_state_request_headers">"헤더가 설정되지 않았습니다"</string>
 
     <!-- Empty state instructions, shown in list when there are no custom request headers yet -->
-    <string name="empty_state_request_headers_instructions">"Fai clic sul pulsante + per aggiungere un'intestazione della richiesta."</string>
+    <string name="empty_state_request_headers_instructions">"+ 버튼을 클릭하여 요청 헤더를 추가하세요."</string>
 
     <!-- Empty state, shown in list when there are no request parameters yet -->
-    <string name="empty_state_request_parameters">"nessun parametro impostato"</string>
+    <string name="empty_state_request_parameters">"매개변수가 설정되지 않았습니다"</string>
 
     <!-- Empty state instructions, shown in list when there are no parameters yet -->
-    <string name="empty_state_request_parameters_instructions">"Fai clic sul pulsante + per aggiungere un parametro."</string>
+    <string name="empty_state_request_parameters_instructions">"+ 버튼을 클릭하여 매개변수를 추가하세요."</string>
 
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor. -->
-    <string name="label_follow_redirects">"Segui i reindirizzamenti"</string>
+    <string name="label_follow_redirects">"리디렉션 따르기"</string>
 
     <!-- Label: shown above input box that lets user define JS code to be executed before shortcut -->
-    <string name="label_pre_request_script">"Esegui prima dell'Esecuzione"</string>
+    <string name="label_pre_request_script">"실행하기 전에 실행"</string>
 
     <!-- Label: shown above input box that lets user define JS code to be executed after shortcut succeeds -->
-    <string name="label_post_request_success_script">"Esegui in caso di Successo"</string>
+    <string name="label_post_request_success_script">"성공 후 실행"</string>
 
     <!-- Label: shown above input box that lets user define JS code to be executed after shortcut fails -->
-    <string name="label_post_request_failure_script">"Esegui in caso di Errore"</string>
+    <string name="label_post_request_failure_script">"실패 후 실행"</string>
 
     <!-- Dialog title: Shown on dialog that shows an error message when something goes wrong while executing a shortcut (e.g. JS exception) -->
-    <string name="dialog_title_error">"Errore"</string>
+    <string name="dialog_title_error">"오류"</string>
 
     <!-- Error message: Shown when a JS error occurs. %s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern">"Errore JavaScript:
-%s"</string>
+    <string name="error_js_pattern">"JavaScript 오류:
+%s"</string>
 
     <!-- Button: Shown below JavaScript editor (for pre-request and post-request actions), allows to add snippets of JS code -->
-    <string name="button_add_code_snippet">"Aggiungi Frammento di Codice"</string>
+    <string name="button_add_code_snippet">"코드 스니펫 추가"</string>
 
     <!-- Title: Shown on menu dialog (for pre-request and post-request actions), allows to add snippets of JS code -->
-    <string name="title_add_code_snippet">"Aggiungi Frammento di Codice"</string>
+    <string name="title_add_code_snippet">"코드 스니펫 추가"</string>
 
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the HTTP response -->
-    <string name="dialog_code_snippet_handle_response">"Gestione della Risposta"</string>
+    <string name="dialog_code_snippet_handle_response">"응답 처리"</string>
 
     <!-- Dialog option: shown in code snippet picker, shows options to get or set variables -->
-    <string name="dialog_code_snippet_variables">"Variabili"</string>
+    <string name="dialog_code_snippet_variables">"변수"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a string -->
-    <string name="dialog_code_snippet_response_body">"Ottieni Corpo della Risposta"</string>
+    <string name="dialog_code_snippet_response_body">"응답 본문 받기"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response headers -->
-    <string name="dialog_code_snippet_response_headers">"Ottieni Intestazioni della Risposta"</string>
+    <string name="dialog_code_snippet_response_headers">"응답 헤더 받기"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response status code -->
-    <string name="dialog_code_snippet_response_status_code">"Ottieni Codice Stato della Risposta"</string>
+    <string name="dialog_code_snippet_response_status_code">"응답 상태 코드 받기"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response cookies -->
-    <string name="dialog_code_snippet_response_cookies">"Ottieni Cookie della Risposta"</string>
+    <string name="dialog_code_snippet_response_cookies">"응답 쿠키 받기"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get the network error message (if any) -->
-    <string name="dialog_code_snippet_response_network_error">"Ottieni Errore di Rete"</string>
+    <string name="dialog_code_snippet_response_network_error">"네트워크 오류 받기"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get the value of a variable -->
-    <string name="dialog_code_snippet_get_variable">"Ottieni Variabile"</string>
+    <string name="dialog_code_snippet_get_variable">"변수 받기"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to set the value of a variable -->
-    <string name="dialog_code_snippet_set_variable">"Imposta Variabile"</string>
+    <string name="dialog_code_snippet_set_variable">"변수 설정 (일정)"</string>
 
     <!-- Error message: Shown in toast when "Trigger Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
-    <string name="error_shortcut_not_found_for_triggering">"Impossibile attivare la scorciatoia \"%1$s\" perché non esiste."</string>
+    <string name="error_shortcut_not_found_for_triggering">"바로가기 \"%1$s\"이(가) 없기 때문에 트리거할 수 없습니다."</string>
 
     <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
-    <string name="error_shortcut_not_found_for_renaming">"Impossibile rinominare la scorciatoia \"%1$s\" perché non esiste."</string>
+    <string name="error_shortcut_not_found_for_renaming">"바로가기 \"%1$s\"이(가) 없기 때문에 이름을 바꿀 수 없습니다."</string>
 
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
-    <string name="error_shortcut_not_found_for_changing_icon">"Impossibile modificare l'icona della scorciatoia \"%1$s\" perché non esiste."</string>
+    <string name="error_shortcut_not_found_for_changing_icon">"바로가기 \"%1$s\" 아이콘이 없기 때문에 아이콘을 변경할 수 없습니다."</string>
 
     <!-- Settings option for dark mode: when selected the app will always use Dark Mode -->
-    <string name="settings_dark_theme_options_on">"Sempre Scura"</string>
+    <string name="settings_dark_theme_options_on">"항상 어두운"</string>
 
     <!-- Settings option for dark mode: when selected the app will never use Dark Mode -->
-    <string name="settings_dark_theme_options_off">"Sempre Chiara"</string>
+    <string name="settings_dark_theme_options_off">"항상 밝은"</string>
 
     <!-- Settings option for dark mode: when selected the app will use Dark Mode according to the system settings (i.e., automatically switch) -->
-    <string name="settings_dark_theme_options_auto">"Segui le Impostazioni di Sistema"</string>
+    <string name="settings_dark_theme_options_auto">"시스템 설정을 따르세요"</string>
 
     <!-- Title of dark mode theme settings (which allows user to pick how/when the app should use dark mode) -->
-    <string name="settings_dark_theme">"Modalità Scura"</string>
+    <string name="settings_dark_theme">"어두운 모드"</string>
 
     <!-- Message: Shown as a placeholder when the HTTP response has no content that could be displayed -->
-    <string name="message_blank_response">"risposta vuota"</string>
+    <string name="message_blank_response">"빈 응답"</string>
 
     <!-- Message shown in snackbar when the title on the main title bar was changed. -->
-    <string name="message_title_changed">"Titolo cambiato."</string>
+    <string name="message_title_changed">"제목이 변경되었습니다."</string>
 
     <!-- Dialog title: Shown in dialog title when changing the title of the main screen of the app -->
-    <string name="title_set_title">"Cambia Titolo"</string>
+    <string name="title_set_title">"제목 변경"</string>
 
     <!-- Dialog title: Shown in dialog title when entering the URL to import shortcuts from -->
-    <string name="dialog_title_import_from_url">"Importa da URL"</string>
+    <string name="dialog_title_import_from_url">"URL에서 가져 오기"</string>
 
     <!-- Error: Shown when user tries to import shortcuts from an invalid URL -->
-    <string name="error_can_only_import_from_http_url">"Puoi importare solo da URL http(s)"</string>
+    <string name="error_can_only_import_from_http_url">"유효한 http(s) URL에서만 가져올 수 있습니다"</string>
 
     <!-- Action Label: Shown on Quick Settings Title that allows the user to quickly trigger a shortcut without opening the app -->
-    <string name="action_quick_settings_tile_trigger">"Attiva scorciatoia"</string>
+    <string name="action_quick_settings_tile_trigger">"바로가기 트리거"</string>
 
     <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
-    <string name="instructions_quick_settings_tile">"Non hai ancora scorciatoie che possono essere attivate tramite le Impostazioni Rapide.
+    <string name="instructions_quick_settings_tile">"빠른 설정 타일을 통해 트리거할 수 있는 바로가기가 아직 없습니다.
 
-Puoi abilitare questa funzione modificando un collegamento e selezionando la casella di controllo \"%1$s\" presente in \"%2$s\"."</string>
+바로가기를 편집하고 \"%2$s\"에 있는 \"%1$s\"확인란을 선택하여 이 기능을 활성화할 수 있습니다."</string>
 
     <!-- Label: Status code, shows the HTTP status code of the response -->
-    <string name="label_status_code">"Codice di stato"</string>
+    <string name="label_status_code">"상태 코드"</string>
 
     <!-- Label: URL, shows the HTTP request's URL alongside the response -->
     <string name="label_response_url">"URL"</string>
 
     <!-- Label: Response time, shows how long the HTTP request took -->
-    <string name="label_response_timing">"Tempo di Risposta"</string>
+    <string name="label_response_timing">"응답 시간"</string>
 
     <!-- Label: Shown above section that lists general information about the HTTP response, e.g. status code -->
-    <string name="label_general_response_info">"Generale"</string>
+    <string name="label_general_response_info">"일반"</string>
 
     <!-- Label: Shown above section that lists HTTP response headers -->
-    <string name="label_response_headers">"Intestazioni"</string>
+    <string name="label_response_headers">"헤더"</string>
 
     <!-- Dialog title: Shown in dialog when adding a new request parameter and user has to pick its type -->
-    <string name="dialog_title_parameter_type">"Tipo di parametro"</string>
+    <string name="dialog_title_parameter_type">"매개변수 유형"</string>
 
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for string parameter -->
-    <string name="option_parameter_type_string">"Stringa (predefinito)"</string>
+    <string name="option_parameter_type_string">"문자열 (기본값)"</string>
 
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for file parameter -->
-    <string name="option_parameter_type_file">"File singolo"</string>
+    <string name="option_parameter_type_file">"단일 파일"</string>
 
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for files parameter -->
-    <string name="option_parameter_type_files">"File multipli"</string>
+    <string name="option_parameter_type_files">"여러 파일"</string>
 
     <!-- Subtitle: Shown in request parameter editor underneath every file parameter to indicate their type -->
-    <string name="subtitle_parameter_value_file">"File"</string>
+    <string name="subtitle_parameter_value_file">"파일"</string>
 
     <!-- Subtitle: Shown in request parameter editor underneath every files parameter to indicate their type -->
-    <string name="subtitle_parameter_value_files">"File"</string>
+    <string name="subtitle_parameter_value_files">"파일"</string>
 
     <!-- Settings option: Used in language picker to allow user to pick the default language, i.e., the system language -->
-    <string name="language_default">"Predefinita di sistema"</string>
+    <string name="language_default">"시스템 기본값"</string>
 
     <!-- Error: Shown in toast when user tries to add a variable placeholder to a text beyond its maximum size -->
-    <string name="error_text_too_long_for_variable">"Il testo supera il limite di %d caratteri. Impossibile inserire il segnaposto variabile."</string>
+    <string name="error_text_too_long_for_variable">"텍스트가 %d자를 초과했습니다. 변수 자리 표시자를 삽입할 수 없습니다."</string>
 
     <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->
-    <string name="instructions_select_shortcut_for_home_screen">"Seleziona o crea un collegamento per posizionarlo nella schermata principale."</string>
+    <string name="instructions_select_shortcut_for_home_screen">"홈 화면에 바로가기를 선택하거나 만듭니다."</string>
 
     <!-- Label: Shown when user selects a widget to place on the home screen, shown for the customizable widget (as opposite to the generic shortcut) -->
-    <string name="label_widget">"Widget personalizzabile"</string>
+    <string name="label_widget">"맞춤형 위젯"</string>
 
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
-    <string name="label_show_widget_label">"Mostra etichetta"</string>
+    <string name="label_show_widget_label">"라벨 표시"</string>
 
     <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
-    <string name="action_create_widget">"Crea Widget"</string>
+    <string name="action_create_widget">"위젯 생성"</string>
 
     <!-- Title: Configure Widget, shown when creating a widget and the user has some options to configure it -->
-    <string name="title_configure_widget">"Configura Widget"</string>
+    <string name="title_configure_widget">"위젯 구성"</string>
 
     <!-- Label: Shown in widget configuration screen, clicking it allows the user to pick a color for the widget label -->
-    <string name="label_widget_label_color">"Colore etichetta"</string>
+    <string name="label_widget_label_color">"라벨 색상"</string>
 
     <!-- Error: Generic error shown when the user enters an invalid character, e.g. for an HTTP header. %s is the placeholder for the character -->
-    <string name="error_invalid_character">"I carattere non valido: %s"</string>
+    <string name="error_invalid_character">"잘못된 문자: %s"</string>
 
     <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
     <plurals name="warning_variable_still_in_use_in_shortcuts">
-        <item quantity="one">"Questa variabile è ancora in uso in 1 scorciatoia: %1$s"</item>
-        <item quantity="other">"Questa variabile è ancora in uso in %2$d scorciatoie: %1$s"</item>
+        <item quantity="other">"이 변수는 여전히 %2$d 바로가기에서 사용 중입니다: %1$s"</item>
     </plurals>
 
     <!-- dialog title, shown when creating new variable and user is prompted to select the type of the variable -->
-    <string name="title_select_variable_type">"Seleziona il Tipo di Variabile"</string>
+    <string name="title_select_variable_type">"변수 유형 선택"</string>
 
     <!-- label, shown in variable editor for Color variable, to allow the user to pick which type of color picker they want (RGB or HSV) -->
-    <string name="label_variable_color_input_type">"Tipo di Selezione Colore"</string>
+    <string name="label_variable_color_input_type">"색상 선택기 유형"</string>
 
     <!-- Error message: Shown when a request that uses Digest Authentication fails. %s is a placeholder for the detailed error message. -->
-    <string name="error_digest_auth_failed">"Autenticazione Digest non riuscita: %s"</string>
+    <string name="error_digest_auth_failed">"다이제스트 인증 실패: %s"</string>
 
     <!-- label, to allow the user to enter the name for a variable -->
-    <string name="label_variable_name">"Nome"</string>
+    <string name="label_variable_name">"이름"</string>
 
     <!-- Description for option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
-    <string name="button_description_create_browser_shortcut">"Apri l'URL nel browser"</string>
+    <string name="button_description_create_browser_shortcut">"브라우저에서 URL을 여세요"</string>
 
     <!-- Option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
-    <string name="button_create_scripting_shortcut">"Scorciatoia di Scripting"</string>
+    <string name="button_create_scripting_shortcut">"스크립팅 바로가기"</string>
 
     <!-- Description for option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
-    <string name="button_description_create_scripting_shortcut">"Scrivi codice JavaScript per flussi di lavoro avanzati"</string>
+    <string name="button_description_create_scripting_shortcut">"고급 워크 플로우를위한 JavaScript 코드 작성"</string>
 
     <!-- Option in dialog to create new shortcut: create a multi shortcut, i.e., a shortcut that will trigger one or more other shortcuts -->
-    <string name="button_create_trigger_shortcut">"Scorciatoia multipla"</string>
+    <string name="button_create_trigger_shortcut">"멀티 바로가기"</string>
 
     <!-- Description for option in dialog to create new shortcut: create a multi shortcut, i.e., a shortcut that will trigger one or more other shortcuts -->
-    <string name="button_description_create_trigger_shortcut">"Attiva più scorciatoie contemporaneamente"</string>
+    <string name="button_description_create_trigger_shortcut">"멀티 바로가기를 한 번에 트리거"</string>
 
     <!-- Dropdown option for request body: file (i.e., user gets to pick a file which is used as the request body) -->
-    <string name="request_body_option_file">"File (Selettore)"</string>
+    <string name="request_body_option_file">"파일 (선택기)"</string>
 
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. -->
-    <string name="label_scripting_scripting_shortcuts_subtitle">"Esegui codice JavaScript"</string>
+    <string name="label_scripting_scripting_shortcuts_subtitle">"JavaScript 코드 실행"</string>
 
     <!-- Shortcut Action Title: Action that allows to read a snippet of text out load (text-to-speech) -->
-    <string name="action_tts">"Parla (sintesi vocale)"</string>
+    <string name="action_tts">"말하기 (텍스트 음성 변환)"</string>
 
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Browser Shortcut", i.e., one that only opens the browser without making an HTTP request of its own -->
-    <string name="subtitle_editor_toolbar_browser_shortcut">"Scorciatoia del Browser"</string>
+    <string name="subtitle_editor_toolbar_browser_shortcut">"브라우저 바로가기"</string>
 
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Scripting Shortcut", i.e., one that only allows JavaScript for execution and doesn't actually make an HTTP request -->
-    <string name="subtitle_editor_toolbar_scripting_shortcut">"Scorciatoia di Scripting"</string>
+    <string name="subtitle_editor_toolbar_scripting_shortcut">"스크립팅 바로가기"</string>
 
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Multi-Shortcut", i.e., one that only allows triggering one or more other shortcuts -->
-    <string name="subtitle_editor_toolbar_trigger_shortcut">"Scorciatoia multipla"</string>
+    <string name="subtitle_editor_toolbar_trigger_shortcut">"멀티 바로가기"</string>
 
     <!-- Section subtitle, shown in shortcut editor when request body is set to 'File' -->
-    <string name="subtitle_request_body_file">"File del Corpo della Richiesta"</string>
+    <string name="subtitle_request_body_file">"파일 요청 본문 세트"</string>
 
     <!-- Error: Shown when the text-to-speech action fails to speak a piece of text -->
-    <string name="error_tts_failed">"Impossibile pronunciare il testo"</string>
+    <string name="error_tts_failed">"텍스트를 말하지 못했습니다"</string>
 
     <!-- Label: Option shown in Code Snippet Picker when inserting an action that targets a shortcut, allows to target the current shortcut -->
-    <string name="label_insert_action_code_for_current_shortcut">"Scorciatoia corrente"</string>
+    <string name="label_insert_action_code_for_current_shortcut">"현재 바로가기"</string>
 
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code -->
-    <string name="placeholder_javascript_code_generic">"Aggiungi qui il codice JavaScript"</string>
+    <string name="placeholder_javascript_code_generic">"여기에 JavaScript 코드를 추가하세요"</string>
 
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the shortcut -->
-    <string name="placeholder_javascript_code_before">"Aggiungi qui il codice JavaScript da eseguire prima dell'esecuzione della scorciatoia, ad es. per preparare alcune variabili."</string>
+    <string name="placeholder_javascript_code_before">"바로가기를 실행하기 전에 (예: 일부 변수 준비) JavaScript 코드를 여기에 추가하세요."</string>
 
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs after the shortcut on success -->
-    <string name="placeholder_javascript_code_success">"Aggiungi qui il codice JavaScript da eseguire dopo dell'esecuzione della scorciatoia, ad es. per elaborare la risposta."</string>
+    <string name="placeholder_javascript_code_success">"응답을 처리하는 등, 바로가기가 실행된 후에 실행되도록 JavaScript 코드를 여기에 추가하세요."</string>
 
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs when execution fails -->
-    <string name="placeholder_javascript_code_failure">"Aggiungi qui il codice JavaScript da eseguire nel caso in cui la richiesta fallisca."</string>
+    <string name="placeholder_javascript_code_failure">"요청이 실패할 경우 실행할 JavaScript 코드를 여기에 추가하세요."</string>
 
     <!-- Section title in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger -->
-    <string name="label_trigger_shortcuts">"Attiva Scorciatoie"</string>
+    <string name="label_trigger_shortcuts">"트리거 바로가기"</string>
 
     <!-- Section subtitle in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger. No shortcuts set. -->
-    <string name="label_trigger_shortcuts_subtitle_none">"Nessuna scorciatoia ancora selezionata"</string>
+    <string name="label_trigger_shortcuts_subtitle_none">"아직 바로가기가 선택되지 않았습니다"</string>
     <plurals name="label_trigger_shortcuts_subtitle">
-        <item quantity="one">"%d scorciatoia selezionata"</item>
-        <item quantity="other">"%d scorciatoie selezionate"</item>
+        <item quantity="other">"%d 바로가기가 선택됨"</item>
     </plurals>
 
     <!-- Dialog title: Shown in dialog when picking a shortcut to be added to the list of shortcuts that are triggered when a multi-shortcut is executed -->
-    <string name="title_add_trigger_shortcut">"Aggiungi scorciatoia"</string>
+    <string name="title_add_trigger_shortcut">"바로가기 추가"</string>
 
     <!-- Dialog error message: Shown in dialog when picking a shortcut to be added to the list of shortcuts that are triggered when a multi-shortcut is executed but the user doesn't have any shortcuts yet -->
-    <string name="error_add_trigger_shortcut_no_shortcuts">"Non ci sono scorciatoie che possono essere aggiunte. È necessario creare alcune scorciatoie aggiuntive prima di poterle selezionare qui."</string>
+    <string name="error_add_trigger_shortcut_no_shortcuts">"추가할 수 있는 바로가기가 없습니다. 여기서 바로가기를 선택하기 전에 먼저 추가로 바로가기를 만들어야합니다."</string>
 
     <!-- Dialog title: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
-    <string name="title_remove_trigger_shortcut">"Rimuovi Scorciatoia"</string>
+    <string name="title_remove_trigger_shortcut">"바로가기 제거"</string>
 
     <!-- Dialog message: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
-    <string name="message_remove_trigger_shortcut">"Rimuovere la scorciatoia \"%s\" dall'elenco dei collegamenti attivati?"</string>
+    <string name="message_remove_trigger_shortcut">"트리거된 바로가기 목록에서 바로가기 \"%s\"을(를) 제거하시겠습니까?"</string>
 
     <!-- Shortcut Action Title: Show Dialog that asks the user to input text -->
-    <string name="action_type_prompt_title">"Richiedi Testo"</string>
+    <string name="action_type_prompt_title">"텍스트 프롬프트"</string>
 
     <!-- Shortcut Action Title: Show Dialog that asks the user to confirm something -->
-    <string name="action_type_confirm_title">"Richiedi Conferma"</string>
+    <string name="action_type_confirm_title">"확인 요청"</string>
 
     <!-- Shortcut Action Title: Wait for a number of milliseconds before continuing with the script execution -->
-    <string name="action_type_wait">"Aspetta"</string>
+    <string name="action_type_wait">"대기"</string>
 
     <!-- Shortcut Action Title: Get the IP Address of the current WiFi -->
-    <string name="action_type_get_wifi_ip_address">"Ottieni indirizzo IP del WiFi"</string>
+    <string name="action_type_get_wifi_ip_address">"WiFi에서 IP 주소 받기"</string>
 
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the current shortcut itself -->
-    <string name="dialog_code_snippet_shortcut_info">"Informazioni sulla Scorciatoia"</string>
+    <string name="dialog_code_snippet_shortcut_info">"바로가기 정보"</string>
 
     <!-- Dialog option: shown in code snippet picker, shows options to interact with the user (show dialog, prompt for input, ...) -->
-    <string name="dialog_code_snippet_user_interaction">"Interazione utente"</string>
+    <string name="dialog_code_snippet_user_interaction">"사용자 상호 작용"</string>
 
     <!-- Dialog option: shown in code snippet picker, shows options to modify shortcuts -->
-    <string name="dialog_code_snippet_modify_shortcuts">"Modifica Scorciatoie"</string>
+    <string name="dialog_code_snippet_modify_shortcuts">"바로가기 수정"</string>
 
     <!-- Dialog option: shown in code snippet picker, shows options to control the flow of the script (abort, if-else, ...) -->
-    <string name="dialog_code_snippet_control_flow">"Flusso di controllo"</string>
+    <string name="dialog_code_snippet_control_flow">"흐름 제어"</string>
 
     <!-- Dialog option: shown in code snippet picker, shows options to don't belong in any of the other categories -->
-    <string name="dialog_code_snippet_misc">"Miscellanea"</string>
+    <string name="dialog_code_snippet_misc">"기타"</string>
 
     <!-- Dialog option: shown in code snippet picker, option to get the ID of the current shortcut -->
-    <string name="dialog_code_snippet_get_shortcut_id">"Ottieni ID Scorciatoia"</string>
+    <string name="dialog_code_snippet_get_shortcut_id">"바로가기 ID 받기"</string>
 
     <!-- Dialog option: shown in code snippet picker, option to get the name of the current shortcut -->
-    <string name="dialog_code_snippet_get_shortcut_name">"Ottieni Nome Scorciatoia"</string>
+    <string name="dialog_code_snippet_get_shortcut_name">"바로가기 이름 가져 오기"</string>
 
     <!-- Dialog option: shown in code snippet picker, option to get the description of the current shortcut -->
-    <string name="dialog_code_snippet_get_shortcut_description">"Ottieni Descrizione Scorciatoia"</string>
+    <string name="dialog_code_snippet_get_shortcut_description">"바로가기 설명 받기"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a json object -->
-    <string name="dialog_code_snippet_response_body_json">"Ottieni il corpo di risposta come JSON"</string>
+    <string name="dialog_code_snippet_response_body_json">"응답 본문을 JSON으로 가져 오기"</string>
 
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid bearer auth token configured -->
-    <string name="error_invalid_bearer_auth">"Token di Autenticazione Bearer non valido (%s)."</string>
+    <string name="error_invalid_bearer_auth">"잘못된 무기명 인증 토큰 (%s)."</string>
 
     <!-- Shortcut Action Title: Trigger a task in Tasker -->
-    <string name="action_type_trigger_tasker_title">"Attiva attività Tasker"</string>
+    <string name="action_type_trigger_tasker_title">"Tasker 작업 트리거"</string>
 
-    <!-- Name of setting that allows the user to enable running all HTTP requests in the foreground. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
-    <string name="settings_force_foreground">"Esegui richieste in primo piano"</string>
+    <!-- Shortcut Action Title: Send an Android Intent, e.g. to trigger or invoke some action in another app -->
+    <string name="action_type_send_intent_title">"Intent 보내기"</string>
 
-    <!-- Subtitle of setting that allows the user to enable running all HTTP requests in the foreground. This is the description of a troubleshooting option, to prevent requests from failing when the app is in the background -->
-    <string name="settings_force_foreground_summary">"Abilitare se le scorciatoie non funzionano all'esterno dell'app"</string>
-
-    <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
-    <string name="settings_troubleshooting">"Risoluzione dei problemi"</string>
+    <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
+    <string name="error_action_type_send_intent_failed">"Intent를 보내지 못했습니다"</string>
 </resources>
