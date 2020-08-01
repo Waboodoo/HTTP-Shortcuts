@@ -7,6 +7,7 @@ import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.logging.Logging
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
 import ch.rmy.android.http_shortcuts.utils.IconMigration
+import ch.rmy.android.http_shortcuts.utils.LocaleHelper
 import ch.rmy.android.http_shortcuts.utils.Settings
 import com.facebook.stetho.Stetho
 import io.reactivex.plugins.RxJavaPlugins
@@ -38,7 +39,7 @@ class Application : android.app.Application() {
 
     public override fun attachBaseContext(base: Context) {
         MultiDex.install(base)
-        super.attachBaseContext(base)
+        super.attachBaseContext(LocaleHelper.applyLocale(base))
     }
 
     val context: Context
