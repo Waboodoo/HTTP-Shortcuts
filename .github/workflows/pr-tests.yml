@@ -1,4 +1,4 @@
-name: Android CI
+name: Run Tests
 on:
   pull_request:
     branches: [ develop ]
@@ -15,14 +15,17 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: set up JDK 1.8
+      - name: Set up JDK
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
 
-      - name: Unit Test
+      - name: Android Tests
         run: ./gradlew app:testDebugUnitTest
         continue-on-error: true
 
       - name: Android Test Report
         uses: asadmansr/android-test-report-action@v1.2.0
+
+      - name: cURL Tests
+        run: ./gradlew curl_command:test
