@@ -6,8 +6,15 @@ import android.text.Spanned
 
 object HTMLUtil {
 
-    @Suppress("DEPRECATION")
     fun getHTML(string: String): Spanned =
+        fromHTML(normalize(string))
+
+    private fun normalize(string: String): String =
+        string.replace("<pre>", "<tt>")
+            .replace("</pre>", "</tt>")
+
+    @Suppress("DEPRECATION")
+    private fun fromHTML(string: String): Spanned =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Html.fromHtml(string, 0)
         } else {
