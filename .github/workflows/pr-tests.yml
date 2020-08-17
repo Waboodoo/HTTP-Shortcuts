@@ -26,6 +26,3 @@ jobs:
 
       - name: Android Test Report
         uses: asadmansr/android-test-report-action@v1.2.0
-
-      - name: cURL Tests
-        run: ./gradlew curl_command:test
