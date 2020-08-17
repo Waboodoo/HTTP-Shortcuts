@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.content.res.ColorStateList
 import android.text.InputType
+import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -68,6 +69,7 @@ open class DialogBuilder(val context: Context) {
 
     open fun message(text: CharSequence, isHtml: Boolean = false) = also {
         dialog.message(text = text) {
+            messageTextView.movementMethod = LinkMovementMethod.getInstance()
             if (isHtml) {
                 html()
             }
