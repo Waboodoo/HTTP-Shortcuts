@@ -5,6 +5,7 @@
     <string name="app_name">"Skróty HTTP"</string>
 
     <!-- The name of the default category -->
+    <!-- Fuzzy -->
     <string name="shortcuts">"Skróty"</string>
 
     <!-- The name used as a fallback for shortcuts without a name -->
@@ -42,30 +43,6 @@
 
     <!-- Label above input field in editor, for shortcut authentication password -->
     <string name="label_password">"Hasło"</string>
-
-    <!-- Label above input field in editor, for shortcut response type dropdown -->
-    <string name="label_feedback">"Typ odpowiedzi"</string>
-
-    <!-- Option in dropdown, for shortcut response type: ignore response -->
-    <string name="feedback_none">"Pomiń odpowiedź"</string>
-
-    <!-- Option in dropdown, for shortcut response type: show simple Toast (Android notification) -->
-    <string name="feedback_simple_toast">"Simple Toast"</string>
-
-    <!-- Option in dropdown, for shortcut response type: show simple Toast but only for errors (Android notification) -->
-    <string name="feedback_simple_toast_error">"Simple Toast (tylko błędy)"</string>
-
-    <!-- Option in dropdown, for shortcut response type: show complete response in Toast (Android notification) -->
-    <string name="feedback_response_toast">"Odpowiedź w Toast"</string>
-
-    <!-- Option in dropdown, for shortcut response type: show complete response in Toast for errors (Android notification) -->
-    <string name="feedback_response_toast_error">"Odpowiedź w Toast (tylko błędy)"</string>
-
-    <!-- Option in dropdown, for shortcut response type: Show complete response in a dialog -->
-    <string name="feedback_dialog">"Odpowiedź w postaci dialogu"</string>
-
-    <!-- Option in dropdown, for shortcut response type: Show complete response in a fullscreen window -->
-    <string name="feedback_activity">"Odpowiedź w oknie"</string>
 
     <!-- Shortcut dropdown option: Place shortcut on home screen -->
     <string name="action_place">"Umieść na głównym ekranie"</string>

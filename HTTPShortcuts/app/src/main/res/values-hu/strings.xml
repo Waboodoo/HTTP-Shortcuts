@@ -46,33 +46,6 @@
     <!-- Label above input field in editor, for shortcut authentication token -->
     <string name="label_auth_token">"Token"</string>
 
-    <!-- Label above input field in editor, for shortcut response type dropdown -->
-    <string name="label_feedback">"Válasz típusa"</string>
-
-    <!-- Option in dropdown, for shortcut response type: ignore response -->
-    <string name="feedback_none">"Hagyja figyelmen kívül a választ (futtatás csendben)"</string>
-
-    <!-- Option in dropdown, for shortcut response type: show simple Toast (Android notification) -->
-    <string name="feedback_simple_toast">"Egyszerű Toast"</string>
-
-    <!-- Option in dropdown, for shortcut response type: show simple Toast but only for errors (Android notification) -->
-    <string name="feedback_simple_toast_error">"Egyszerű Toast (csak hibánál)"</string>
-
-    <!-- Option in dropdown, for shortcut response type: show complete response in Toast (Android notification) -->
-    <string name="feedback_response_toast">"Válasz Toast ablakban"</string>
-
-    <!-- Option in dropdown, for shortcut response type: show complete response in Toast for errors (Android notification) -->
-    <string name="feedback_response_toast_error">"Válasz Toast ablakban (csak hibánál)"</string>
-
-    <!-- Option in dropdown, for shortcut response type: Show complete response in a dialog -->
-    <string name="feedback_dialog">"Válasz a párbeszédablakban"</string>
-
-    <!-- Option in dropdown, for shortcut response type: Show complete response in a fullscreen window -->
-    <string name="feedback_activity">"Válasz ablakban"</string>
-
-    <!-- Option in dropdown, for shortcut response type: Show complete response in a fullscreen window, and include meta info (headers, status code, ...) for debug purposes -->
-    <string name="feedback_debug">"Válasz ablakban (hibakeresés)"</string>
-
     <!-- Shortcut dropdown option: Place shortcut on home screen -->
     <string name="action_place">"Kezdőképernyőre helyezés"</string>
 

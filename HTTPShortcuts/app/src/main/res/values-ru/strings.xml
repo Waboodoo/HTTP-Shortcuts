@@ -43,30 +43,6 @@
     <!-- Label above input field in editor, for shortcut authentication password -->
     <string name="label_password">"Пароль"</string>
 
-    <!-- Label above input field in editor, for shortcut response type dropdown -->
-    <string name="label_feedback">"Тип ответа"</string>
-
-    <!-- Option in dropdown, for shortcut response type: ignore response -->
-    <string name="feedback_none">"Игнорировать ответ (запуск без уведомлений)"</string>
-
-    <!-- Option in dropdown, for shortcut response type: show simple Toast (Android notification) -->
-    <string name="feedback_simple_toast">"Простое уведомление"</string>
-
-    <!-- Option in dropdown, for shortcut response type: show simple Toast but only for errors (Android notification) -->
-    <string name="feedback_simple_toast_error">"Простое уведомление (только ошибки)"</string>
-
-    <!-- Option in dropdown, for shortcut response type: show complete response in Toast (Android notification) -->
-    <string name="feedback_response_toast">"Ответ в уведомлении"</string>
-
-    <!-- Option in dropdown, for shortcut response type: show complete response in Toast for errors (Android notification) -->
-    <string name="feedback_response_toast_error">"Ответ в уведомлении (только ошибки)"</string>
-
-    <!-- Option in dropdown, for shortcut response type: Show complete response in a dialog -->
-    <string name="feedback_dialog">"Ответ в диалоге"</string>
-
-    <!-- Option in dropdown, for shortcut response type: Show complete response in a fullscreen window -->
-    <string name="feedback_activity">"Ответ в окне"</string>
-
     <!-- Shortcut dropdown option: Place shortcut on home screen -->
     <string name="action_place">"Разместить на главном экране"</string>
 

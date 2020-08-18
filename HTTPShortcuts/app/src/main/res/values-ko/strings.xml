@@ -46,33 +46,6 @@
     <!-- Label above input field in editor, for shortcut authentication token -->
     <string name="label_auth_token">"토큰"</string>
 
-    <!-- Label above input field in editor, for shortcut response type dropdown -->
-    <string name="label_feedback">"응답 유형"</string>
-
-    <!-- Option in dropdown, for shortcut response type: ignore response -->
-    <string name="feedback_none">"응답 무시 (묵음 실행)"</string>
-
-    <!-- Option in dropdown, for shortcut response type: show simple Toast (Android notification) -->
-    <string name="feedback_simple_toast">"심플 Toast"</string>
-
-    <!-- Option in dropdown, for shortcut response type: show simple Toast but only for errors (Android notification) -->
-    <string name="feedback_simple_toast_error">"심플 Toast (오류 전용)"</string>
-
-    <!-- Option in dropdown, for shortcut response type: show complete response in Toast (Android notification) -->
-    <string name="feedback_response_toast">"Toast에서의 응답"</string>
-
-    <!-- Option in dropdown, for shortcut response type: show complete response in Toast for errors (Android notification) -->
-    <string name="feedback_response_toast_error">"Toast에서의 응답 (오류 전용)"</string>
-
-    <!-- Option in dropdown, for shortcut response type: Show complete response in a dialog -->
-    <string name="feedback_dialog">"대화 상자에서의 응답"</string>
-
-    <!-- Option in dropdown, for shortcut response type: Show complete response in a fullscreen window -->
-    <string name="feedback_activity">"창에서의 응답"</string>
-
-    <!-- Option in dropdown, for shortcut response type: Show complete response in a fullscreen window, and include meta info (headers, status code, ...) for debug purposes -->
-    <string name="feedback_debug">"창에서의 응답 (디버그)"</string>
-
     <!-- Shortcut dropdown option: Place shortcut on home screen -->
     <string name="action_place">"홈 화면에 배치"</string>
 

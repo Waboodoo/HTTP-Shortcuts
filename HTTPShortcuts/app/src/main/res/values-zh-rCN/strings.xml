@@ -46,33 +46,6 @@
     <!-- Label above input field in editor, for shortcut authentication token -->
     <string name="label_auth_token">"Token"</string>
 
-    <!-- Label above input field in editor, for shortcut response type dropdown -->
-    <string name="label_feedback">"响应的类型"</string>
-
-    <!-- Option in dropdown, for shortcut response type: ignore response -->
-    <string name="feedback_none">"忽略响应（静默执行）"</string>
-
-    <!-- Option in dropdown, for shortcut response type: show simple Toast (Android notification) -->
-    <string name="feedback_simple_toast">"简明提示"</string>
-
-    <!-- Option in dropdown, for shortcut response type: show simple Toast but only for errors (Android notification) -->
-    <string name="feedback_simple_toast_error">"简明提示(仅在出错时提醒)"</string>
-
-    <!-- Option in dropdown, for shortcut response type: show complete response in Toast (Android notification) -->
-    <string name="feedback_response_toast">"在提示中显示响应内容"</string>
-
-    <!-- Option in dropdown, for shortcut response type: show complete response in Toast for errors (Android notification) -->
-    <string name="feedback_response_toast_error">"在提示中显示响应（仅出错时）"</string>
-
-    <!-- Option in dropdown, for shortcut response type: Show complete response in a dialog -->
-    <string name="feedback_dialog">"在对话框中显示响应"</string>
-
-    <!-- Option in dropdown, for shortcut response type: Show complete response in a fullscreen window -->
-    <string name="feedback_activity">"在窗口中显示响应"</string>
-
-    <!-- Option in dropdown, for shortcut response type: Show complete response in a fullscreen window, and include meta info (headers, status code, ...) for debug purposes -->
-    <string name="feedback_debug">"窗口中响应（调试）"</string>
-
     <!-- Shortcut dropdown option: Place shortcut on home screen -->
     <string name="action_place">"发送到主屏幕"</string>
 
@@ -1008,7 +981,7 @@
     <string name="dialog_title_error">"发生错误"</string>
 
     <!-- Error message: Shown when a JS error occurs. %s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern">"JavaScpripts脚本运行时出错:%s"</string>
+    <string name="error_js_pattern">"JavaScript脚本运行时出错:%s"</string>
 
     <!-- Button: Shown below JavaScript editor (for pre-request and post-request actions), allows to add snippets of JS code -->
     <string name="button_add_code_snippet">"添加代码片段"</string>

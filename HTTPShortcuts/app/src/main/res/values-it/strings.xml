@@ -46,33 +46,6 @@
     <!-- Label above input field in editor, for shortcut authentication token -->
     <string name="label_auth_token">"Token"</string>
 
-    <!-- Label above input field in editor, for shortcut response type dropdown -->
-    <string name="label_feedback">"Tipo di risposta"</string>
-
-    <!-- Option in dropdown, for shortcut response type: ignore response -->
-    <string name="feedback_none">"Ignora la risposta (esegui silenziosamente)"</string>
-
-    <!-- Option in dropdown, for shortcut response type: show simple Toast (Android notification) -->
-    <string name="feedback_simple_toast">"Notifica Semplice"</string>
-
-    <!-- Option in dropdown, for shortcut response type: show simple Toast but only for errors (Android notification) -->
-    <string name="feedback_simple_toast_error">"Notifica Semplice (solo errori)"</string>
-
-    <!-- Option in dropdown, for shortcut response type: show complete response in Toast (Android notification) -->
-    <string name="feedback_response_toast">"Risposta nella Notifica"</string>
-
-    <!-- Option in dropdown, for shortcut response type: show complete response in Toast for errors (Android notification) -->
-    <string name="feedback_response_toast_error">"Risposta nella Notifica (solo errori)"</string>
-
-    <!-- Option in dropdown, for shortcut response type: Show complete response in a dialog -->
-    <string name="feedback_dialog">"Risposta in Dialogo"</string>
-
-    <!-- Option in dropdown, for shortcut response type: Show complete response in a fullscreen window -->
-    <string name="feedback_activity">"Risposta in Finestra"</string>
-
-    <!-- Option in dropdown, for shortcut response type: Show complete response in a fullscreen window, and include meta info (headers, status code, ...) for debug purposes -->
-    <string name="feedback_debug">"Risposta in Finestra (debug)"</string>
-
     <!-- Shortcut dropdown option: Place shortcut on home screen -->
     <string name="action_place">"Aggiungi alla schermata iniziale"</string>
 
