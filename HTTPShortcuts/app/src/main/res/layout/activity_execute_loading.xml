@@ -18,7 +18,6 @@
             android:layout_height="wrap_content">
 
         <fr.castorflex.android.circularprogressbar.CircularProgressBar
-            android:id="@+id/progress_spinner"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:indeterminate="true"

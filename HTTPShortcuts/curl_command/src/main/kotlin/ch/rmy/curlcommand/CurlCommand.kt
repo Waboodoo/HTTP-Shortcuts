@@ -92,7 +92,7 @@ class CurlCommand private constructor() : Serializable {
         }
 
         fun forceGet() {
-            method(CurlCommand.METHOD_GET)
+            method(METHOD_GET)
             forceGet = true
         }
 

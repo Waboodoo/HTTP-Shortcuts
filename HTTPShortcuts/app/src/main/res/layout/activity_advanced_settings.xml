@@ -94,7 +94,6 @@
                 android:paddingRight="16dp">
 
                 <TextView
-                    android:id="@+id/label_proxy_port"
                     style="@style/Label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

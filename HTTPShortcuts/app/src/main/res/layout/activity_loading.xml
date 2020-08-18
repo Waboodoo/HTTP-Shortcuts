@@ -12,7 +12,6 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <fr.castorflex.android.circularprogressbar.CircularProgressBar
-            android:id="@+id/progress_spinner"
             android:layout_width="48dp"
             android:layout_centerInParent="true"
             android:layout_height="48dp"
