@@ -66,7 +66,8 @@ class Importer(private val context: Context) {
             is URISyntaxException,
             is IllegalArgumentException,
             is IllegalStateException,
-            is IOException -> {
+            is IOException,
+            -> {
                 e.message
             }
             else -> e.cause

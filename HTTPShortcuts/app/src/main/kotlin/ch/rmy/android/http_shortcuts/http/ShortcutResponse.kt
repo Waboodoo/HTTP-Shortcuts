@@ -13,7 +13,7 @@ class ShortcutResponse internal constructor(
     val headers: HttpHeaders,
     val statusCode: Int,
     content: InputStream?,
-    val timing: Long
+    val timing: Long,
 ) {
 
     val bodyAsString: String =

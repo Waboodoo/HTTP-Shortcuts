@@ -14,7 +14,7 @@ import ch.rmy.android.http_shortcuts.utils.ViewUtil.getAttributeValue
 class VariableEditText @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = androidx.appcompat.R.attr.autoCompleteTextViewStyle
+    defStyleAttr: Int = androidx.appcompat.R.attr.autoCompleteTextViewStyle,
 ) : AppCompatAutoCompleteTextView(context, attrs, defStyleAttr) {
 
     var variablePlaceholderProvider: VariablePlaceholderProvider? = null

@@ -27,7 +27,7 @@ class FileParameterDialog(
     private val showRemoveOption: Boolean = false,
     private val showFileNameOption: Boolean = false,
     private val keyName: String = "",
-    private val fileName: String = ""
+    private val fileName: String = "",
 ) {
 
     fun show(context: Context): Maybe<Event> {

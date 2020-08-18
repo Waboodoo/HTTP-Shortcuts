@@ -7,6 +7,10 @@ android {
     compileSdkVersion 29
     buildToolsVersion '29.0.2'
 
+    kotlinOptions {
+        languageVersion = '1.4'
+    }
+
     lintOptions {
         disable 'MissingTranslation'
         abortOnError false

@@ -173,7 +173,8 @@ class ListFragment : BaseFragment() {
         when (selectionMode) {
             SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT,
             SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT,
-            SelectionMode.PLUGIN -> tabHost?.selectShortcut(shortcut)
+            SelectionMode.PLUGIN,
+            -> tabHost?.selectShortcut(shortcut)
             else -> {
                 if (tabHost?.isAppLocked() == true) {
                     executeShortcut(shortcut)

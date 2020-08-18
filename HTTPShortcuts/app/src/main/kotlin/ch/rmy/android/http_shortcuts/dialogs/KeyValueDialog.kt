@@ -29,7 +29,7 @@ class KeyValueDialog(
     private val isMultiLine: Boolean = false,
     private val suggestions: Array<String>? = null,
     private val keyValidator: (CharSequence) -> String? = { _ -> null },
-    private val valueValidator: (CharSequence) -> String? = { _ -> null }
+    private val valueValidator: (CharSequence) -> String? = { _ -> null },
 ) {
 
     fun show(context: Context): Maybe<Event> {

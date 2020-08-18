@@ -12,8 +12,7 @@ open class Option(
     @Required
     var label: String = "",
     @Required
-    var value: String = ""
-
+    var value: String = "",
 ) : RealmObject() {
 
     val labelOrValue: String

@@ -12,7 +12,7 @@ import androidx.appcompat.widget.AppCompatEditText
 class ResilientEditText @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = R.attr.editTextStyle
+    defStyleAttr: Int = R.attr.editTextStyle,
 ) : AppCompatEditText(context, attrs, defStyleAttr) {
 
     override fun dispatchTouchEvent(event: MotionEvent?): Boolean =

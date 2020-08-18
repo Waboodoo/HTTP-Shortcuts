@@ -8,7 +8,7 @@ open class Widget(
     var widgetId: Int = 0,
     var shortcut: Shortcut? = null,
     var labelColor: String? = null,
-    var showLabel: Boolean = true
+    var showLabel: Boolean = true,
 ) : RealmObject() {
 
     companion object {

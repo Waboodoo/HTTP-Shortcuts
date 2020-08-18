@@ -29,7 +29,7 @@ open class Variable(
     var flags: Int = 0,
 
     @Required
-    var title: String = ""
+    var title: String = "",
 ) : RealmObject(), HasId {
 
     var isShareText: Boolean

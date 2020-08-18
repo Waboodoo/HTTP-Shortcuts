@@ -8,7 +8,7 @@ import io.realm.annotations.Required
 
 open class Category(
     @Required
-    var name: String = ""
+    var name: String = "",
 ) : RealmObject(), HasId {
 
     @PrimaryKey

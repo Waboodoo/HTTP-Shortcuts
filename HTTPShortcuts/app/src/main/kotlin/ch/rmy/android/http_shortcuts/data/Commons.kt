@@ -21,7 +21,7 @@ object Commons { // TODO: Find better name
         tryNumber: Int = 0,
         waitUntil: Date? = null,
         requiresNetwork: Boolean = false,
-        recursionDepth: Int = 0
+        recursionDepth: Int = 0,
     ) =
         Transactions.commit { realm ->
             realm.copyToRealm(PendingExecution.createNew(

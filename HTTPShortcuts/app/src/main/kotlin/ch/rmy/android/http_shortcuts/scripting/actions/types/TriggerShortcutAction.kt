@@ -11,7 +11,7 @@ import io.reactivex.Completable
 
 class TriggerShortcutAction(
     private val shortcutNameOrId: String,
-    private val variableValuesJson: String
+    private val variableValuesJson: String,
 ) : BaseAction() {
 
     override fun execute(executionContext: ExecutionContext): Completable {

@@ -63,7 +63,7 @@ class RequestBuilder(private val method: String, url: String) {
         fileName: String,
         type: String,
         data: InputStream,
-        length: Long?
+        length: Long?,
     ) = also {
         parameters.add(Parameter.FileParameter(
             name,
@@ -102,7 +102,7 @@ class RequestBuilder(private val method: String, url: String) {
     sealed class Parameter(val name: String) {
         class StringParameter(
             name: String,
-            val value: String
+            val value: String,
         ) : Parameter(name)
 
         class FileParameter(
@@ -110,7 +110,7 @@ class RequestBuilder(private val method: String, url: String) {
             val fileName: String,
             val type: String,
             val data: InputStream,
-            val length: Long?
+            val length: Long?,
         ) : Parameter(name)
     }
 

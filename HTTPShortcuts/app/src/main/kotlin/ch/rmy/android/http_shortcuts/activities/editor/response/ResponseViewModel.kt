@@ -12,7 +12,7 @@ class ResponseViewModel(application: Application) : BasicShortcutEditorViewModel
         successOutput: String,
         failureOutput: String,
         successMessage: String,
-        includeMetaInfo: Boolean
+        includeMetaInfo: Boolean,
     ): Completable =
         Transactions.commit { realm ->
             getShortcut(realm)

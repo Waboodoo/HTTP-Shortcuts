@@ -19,7 +19,7 @@ open class PendingExecution(
     var waitUntil: Date? = null,
     var waitForNetwork: Boolean = false,
     var recursionDepth: Int = 0,
-    var resolvedVariables: RealmList<ResolvedVariable> = RealmList()
+    var resolvedVariables: RealmList<ResolvedVariable> = RealmList(),
 ) : RealmObject() {
 
     companion object {
@@ -33,7 +33,7 @@ open class PendingExecution(
             tryNumber: Int = 0,
             waitUntil: Date? = null,
             waitForNetwork: Boolean = false,
-            recursionDepth: Int = 0
+            recursionDepth: Int = 0,
         ): PendingExecution {
             val resolvedVariableList = RealmList<ResolvedVariable>()
             resolvedVariables.mapTo(resolvedVariableList) {

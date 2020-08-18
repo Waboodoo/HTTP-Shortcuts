@@ -78,7 +78,7 @@ object LauncherShortcutManager {
         shortcutId: String,
         shortcutName: String,
         shortcutIcon: String?,
-        rank: Int = 0
+        rank: Int = 0,
     ): ShortcutInfo {
         val icon = IconUtil.getIcon(context, shortcutIcon)
         val label = shortcutName.ifEmpty { "-" }

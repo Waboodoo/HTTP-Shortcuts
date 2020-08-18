@@ -7,5 +7,5 @@ class ExecutionContext(
     val context: Context,
     val shortcutId: String,
     val variableManager: VariableManager,
-    val recursionDepth: Int
+    val recursionDepth: Int,
 )

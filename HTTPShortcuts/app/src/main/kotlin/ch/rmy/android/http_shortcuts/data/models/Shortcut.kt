@@ -13,7 +13,7 @@ open class Shortcut(
     override var id: String = "",
     var iconName: String? = null,
     var executionType: String? = ShortcutExecutionType.APP.type,
-    var responseHandling: ResponseHandling? = null
+    var responseHandling: ResponseHandling? = null,
 ) : RealmObject(), HasId {
 
     @Required

@@ -22,7 +22,7 @@ internal object HttpClients {
         followRedirects: Boolean,
         timeout: Long,
         proxyHost: String?,
-        proxyPort: Int?
+        proxyPort: Int?,
     ): OkHttpClient =
         (if (acceptAllCertificates) createUnsafeOkHttpClientBuilder() else createDefaultOkHttpClientBuilder())
             .mapIf(username != null && password != null) {

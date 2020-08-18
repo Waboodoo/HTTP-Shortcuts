@@ -10,7 +10,7 @@ import java.io.InputStream
 class StreamRequestBody(
     private val contentType: String?,
     private val stream: InputStream,
-    private val length: Long? = null
+    private val length: Long? = null,
 ) : RequestBody() {
 
     override fun contentLength(): Long =

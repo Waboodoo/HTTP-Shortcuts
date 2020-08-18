@@ -14,7 +14,7 @@ open class Parameter(
     @Required
     var value: String = "",
     var type: String = TYPE_STRING,
-    var fileName: String = ""
+    var fileName: String = "",
 ) : RealmObject(), HasId {
 
     fun isSameAs(other: Parameter) =

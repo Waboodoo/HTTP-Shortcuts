@@ -9,7 +9,7 @@ import java.io.FileNotFoundException
 class FileUploadManager private constructor(
     private val contentResolver: ContentResolver,
     private val sharedFileUris: List<Uri>,
-    private val fileRequests: Iterator<FileRequest>
+    private val fileRequests: Iterator<FileRequest>,
 ) {
 
     private val registeredFiles = mutableListOf<List<File>>()

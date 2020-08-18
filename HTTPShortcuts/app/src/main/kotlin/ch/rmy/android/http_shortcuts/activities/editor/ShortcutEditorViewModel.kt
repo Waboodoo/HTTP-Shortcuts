@@ -174,10 +174,11 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
         if (shortcut.allowsBody()) {
             when (shortcut.requestBodyType) {
                 Shortcut.REQUEST_BODY_TYPE_FORM_DATA,
-                Shortcut.REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE -> getQuantityString(
+                Shortcut.REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE,
+                -> getQuantityString(
                     shortcut.parameters.size,
                     R.string.subtitle_request_body_params_none,
-                    R.plurals.subtitle_request_body_params_pattern
+                    R.plurals.subtitle_request_body_params_pattern,
                 )
                 Shortcut.REQUEST_BODY_TYPE_FILE -> getString(R.string.subtitle_request_body_file)
                 else -> if (shortcut.bodyContent.isBlank()) {

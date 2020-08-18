@@ -16,7 +16,7 @@ import kotterknife.bindView
 class MetaInfoView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = 0,
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
     private val generalInfoContainer: View by bindView(R.id.general_container)

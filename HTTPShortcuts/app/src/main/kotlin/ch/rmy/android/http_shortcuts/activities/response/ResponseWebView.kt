@@ -11,7 +11,7 @@ import ch.rmy.android.http_shortcuts.extensions.openURL
 
 class ResponseWebView @JvmOverloads constructor(
     context: Context,
-    attrs: AttributeSet? = null
+    attrs: AttributeSet? = null,
 ) : WebView(context, attrs) {
 
     init {

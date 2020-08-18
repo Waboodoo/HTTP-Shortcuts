@@ -5,7 +5,7 @@ enum class ShortcutExecutionType(
     val usesUrl: Boolean = false,
     val usesRequestOptions: Boolean = false,
     val usesResponse: Boolean = false,
-    val usesScriptingEditor: Boolean = true
+    val usesScriptingEditor: Boolean = true,
 ) {
 
     APP(type = "app", usesUrl = true, usesRequestOptions = true, usesResponse = true),

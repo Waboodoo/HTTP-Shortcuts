@@ -28,7 +28,7 @@ class CodeSnippetPicker(
     private val context: Context,
     private val currentShortcutId: String?,
     private val variablePlaceholderProvider: VariablePlaceholderProvider,
-    private val shortcutPlaceholderProvider: ShortcutPlaceholderProvider
+    private val shortcutPlaceholderProvider: ShortcutPlaceholderProvider,
 ) : Destroyable {
 
     private val destroyer = Destroyer()

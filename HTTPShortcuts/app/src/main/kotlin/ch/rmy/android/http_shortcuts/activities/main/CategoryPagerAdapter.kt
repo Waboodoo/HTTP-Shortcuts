@@ -8,7 +8,7 @@ import ch.rmy.android.http_shortcuts.utils.SelectionMode
 
 class CategoryPagerAdapter(
     private val fragmentManager: FragmentManager,
-    private val selectionMode: SelectionMode
+    private val selectionMode: SelectionMode,
 ) : FragmentPagerAdapter(
     fragmentManager,
     BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT

@@ -13,7 +13,7 @@ open class ResponseHandling(
     var successOutput: String = SUCCESS_OUTPUT_RESPONSE,
     var failureOutput: String = FAILURE_OUTPUT_DETAILED,
     var successMessage: String = "",
-    var includeMetaInfo: Boolean = false
+    var includeMetaInfo: Boolean = false,
 ) : RealmObject(), HasId {
 
     fun validate() {

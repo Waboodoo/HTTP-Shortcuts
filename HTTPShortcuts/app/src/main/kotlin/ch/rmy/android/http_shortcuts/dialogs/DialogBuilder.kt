@@ -49,7 +49,7 @@ open class DialogBuilder(val context: Context) {
         description: CharSequence? = null,
         iconName: String? = null,
         @DrawableRes iconRes: Int? = null,
-        action: () -> Unit = {}
+        action: () -> Unit = {},
     ) = also {
         items.add(MenuItem.ClickableItem(
             name ?: context.getString(nameRes!!),
@@ -168,7 +168,7 @@ open class DialogBuilder(val context: Context) {
             val description: CharSequence?,
             val iconName: String?,
             val iconRes: Int?,
-            val action: (() -> Unit)?
+            val action: (() -> Unit)?,
         ) : MenuItem()
 
     }
@@ -176,7 +176,7 @@ open class DialogBuilder(val context: Context) {
     private inner class MenuListAdapter(
         context: Context,
         items: List<MenuItem>,
-        private val dialog: Dialog
+        private val dialog: Dialog,
     ) : ArrayAdapter<MenuItem>(context, 0, items) {
 
         private val layoutInflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater

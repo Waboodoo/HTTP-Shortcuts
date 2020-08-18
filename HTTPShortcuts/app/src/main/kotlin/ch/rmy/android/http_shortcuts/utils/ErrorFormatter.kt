@@ -50,7 +50,8 @@ class ErrorFormatter(private val context: Context) {
             is CompositeException -> error.exceptions.joinToString(separator = "\n") { getErrorMessage(it) }
             is UserException -> error.getLocalizedMessage(context)
             is ConnectException,
-            is UnknownHostException -> error.message!!
+            is UnknownHostException,
+            -> error.message!!
             else -> getUnknownErrorMessage(error)
         }
 

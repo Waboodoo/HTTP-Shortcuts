@@ -7,7 +7,7 @@ import io.reactivex.Completable
 
 class TriggerTaskerTaskAction(
     private val taskName: String,
-    private val variableValuesJson: String
+    private val variableValuesJson: String,
 ) : BaseAction() {
 
     override fun execute(executionContext: ExecutionContext): Completable =
