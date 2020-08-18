@@ -114,6 +114,7 @@ object Repository {
                 headers.forEach { header ->
                     header.id = newUUID()
                 }
+                responseHandling?.id = newUUID()
             }
             .let {
                 realm.copyToRealmOrUpdate(it)

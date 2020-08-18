@@ -30,8 +30,12 @@
     <string name="label_password">Password</string>
     <!-- Label above input field in editor, for shortcut authentication token -->
     <string name="label_auth_token">Token</string>
-    <!-- Label above input field in editor, for shortcut response type dropdown -->
-    <string name="label_feedback">Response Type</string>
+    <!-- Label above dropdown in editor, to select what should happen when the HTTP request succeeds -->
+    <string name="label_response_on_success">On Success</string>
+    <!-- Label above dropdown in editor, to select what should happen when the HTTP request fails -->
+    <string name="label_response_on_failure">On Failure</string>
+    <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
+    <string name="label_include_meta_information">Show Meta Information (e.g. Response Headers)</string>
     <!-- Option in dropdown, for shortcut response type: ignore response -->
     <string name="feedback_none">Ignore response (run silently)</string>
     <!-- Option in dropdown, for shortcut response type: show simple Toast (Android notification) -->
@@ -875,4 +879,26 @@
     <string name="title_remove_trigger_shortcut">Remove Shortcut</string>
     <!-- Dialog message: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
     <string name="message_remove_trigger_shortcut">Remove shortcut \"%s\" from the list of triggered shortcuts?</string>
+    <!-- Label for dropdown in shortcut editor, for picking how the response should be displayed -->
+    <string name="label_response_handling_type">Display Type</string>
+    <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Toast popup -->
+    <string name="option_response_handling_type_toast">Toast Popup</string>
+    <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->
+    <string name="option_response_handling_type_dialog">Dialog</string>
+    <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a fullscreen window -->
+    <string name="option_response_handling_type_window">Window</string>
+    <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show the (full) response -->
+    <string name="option_response_handling_success_output_response">Show response</string>
+    <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show a pre-defined message -->
+    <string name="option_response_handling_success_output_message">Show message</string>
+    <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show nothing -->
+    <string name="option_response_handling_success_output_none">Show nothing (run silently)</string>
+    <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request fails: show the full/detailed error message -->
+    <string name="option_response_handling_failure_output_detailed">Show detailed error message</string>
+    <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request fails: show a simplified error message -->
+    <string name="option_response_handling_failure_output_simple">Show simple error message</string>
+    <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request fails: show nothing -->
+    <string name="option_response_handling_failure_output_none">Show nothing (run silently)</string>
+    <!-- Label for text area in shortcut editor that allows to enter a custom message which should be displayed when the request succeeds -->
+    <string name="label_response_handling_success_message">Message</string>
 </resources>

@@ -18,11 +18,62 @@
             android:padding="16dp">
 
             <ch.rmy.android.http_shortcuts.views.LabelledSpinner
-                android:id="@+id/input_feedback_type"
+                android:id="@+id/input_response_success_output"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                app:labelText="@string/label_feedback" />
+                app:labelText="@string/label_response_on_success" />
+
+            <RelativeLayout
+                android:id="@+id/container_input_success_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/label_success_message"
+                    style="@style/Label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_response_handling_success_message" />
+
+                <ch.rmy.android.http_shortcuts.variables.VariableEditText
+                    android:id="@+id/input_success_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/label_success_message"
+                    android:importantForAutofill="no"
+                    android:inputType="textMultiLine"
+                    android:minLines="1"
+                    android:paddingRight="@dimen/variable_button_spacing" />
+
+                <ch.rmy.android.http_shortcuts.variables.VariableButton
+                    android:id="@+id/variable_button_success_message"
+                    style="@style/VariableButton"
+                    android:layout_below="@+id/label_success_message"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true" />
+
+            </RelativeLayout>
+
+            <ch.rmy.android.http_shortcuts.views.LabelledSpinner
+                android:id="@+id/input_response_failure_output"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:labelText="@string/label_response_on_failure" />
+
+            <ch.rmy.android.http_shortcuts.views.LabelledSpinner
+                android:id="@+id/input_response_ui_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                app:labelText="@string/label_response_handling_type" />
+
+            <CheckBox
+                android:id="@+id/input_include_meta_information"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_include_meta_information" />
 
         </LinearLayout>
 

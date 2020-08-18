@@ -7,6 +7,7 @@ import ch.rmy.android.http_shortcuts.data.Transactions
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.Header
 import ch.rmy.android.http_shortcuts.data.models.Parameter
+import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Shortcut.Companion.TEMPORARY_ID
 import ch.rmy.android.http_shortcuts.extensions.getCaseInsensitive
@@ -48,11 +49,7 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
             .commit { realm ->
                 val shortcut = if (shortcutId == null) {
                     initialIcon = Icons.getRandomInitialIcon(getApplication())
-                    realm.copyToRealmOrUpdate(Shortcut(
-                        id = TEMPORARY_ID,
-                        iconName = initialIcon,
-                        executionType = executionType
-                    ))
+                    realm.copyToRealmOrUpdate(createNewShortcut())
                 } else {
                     Repository.copyShortcut(realm, Repository.getShortcutById(realm, shortcutId)!!, TEMPORARY_ID)
                 }
@@ -66,10 +63,22 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
             }
     }
 
+    private fun createNewShortcut(): Shortcut =
+        Shortcut(
+            id = TEMPORARY_ID,
+            iconName = initialIcon,
+            executionType = executionType,
+            responseHandling = if (executionType == ShortcutExecutionType.APP.type) {
+                ResponseHandling()
+            } else {
+                null
+            }
+        )
+
     fun hasChanges(): Boolean {
         val oldShortcut = shortcutId
             ?.let { Repository.getShortcutById(persistedRealm, it)!! }
-            ?: Shortcut(iconName = initialIcon, executionType = executionType)
+            ?: createNewShortcut()
         val newShortcut = getShortcut(persistedRealm) ?: return false
         return !newShortcut.isSameAs(oldShortcut)
     }

@@ -5,6 +5,7 @@ import ch.rmy.android.http_shortcuts.data.migration.migrations.ParameterTypeMigr
 import ch.rmy.android.http_shortcuts.data.migration.migrations.RemoveLegacyActionsMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceActionsWithScriptsMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceVariableKeysWithIdsMigration
+import ch.rmy.android.http_shortcuts.data.migration.migrations.ResponseHandlingMigration
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
@@ -122,6 +123,9 @@ internal object ImportMigrator {
             }
             34L -> { // 1.29.0
                 ParameterTypeMigration().migrateImport(base)
+            }
+            40L -> { // 1.35.0
+                ResponseHandlingMigration().migrateImport(base)
             }
         }
     }

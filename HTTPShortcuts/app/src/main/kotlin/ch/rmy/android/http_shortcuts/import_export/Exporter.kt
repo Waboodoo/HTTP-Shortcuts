@@ -8,6 +8,7 @@ import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Header
 import ch.rmy.android.http_shortcuts.data.models.Option
 import ch.rmy.android.http_shortcuts.data.models.Parameter
+import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.logException
@@ -45,6 +46,7 @@ class Exporter(private val context: Context) {
                 .registerTypeAdapter(Option::class.java, serializer)
                 .registerTypeAdapter(Variable::class.java, serializer)
                 .registerTypeAdapter(Category::class.java, serializer)
+                .registerTypeAdapter(ResponseHandling::class.java, serializer)
                 .create()
                 .toJson(base, writer)
         } catch (e: Throwable) {

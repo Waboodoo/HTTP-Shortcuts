@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.variables
 
 import android.content.Context
+import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.variables.types.AsyncVariableType
@@ -143,6 +144,10 @@ class VariableResolver(private val context: Context) {
                 addAll(Variables.extractVariableIds(shortcut.codeOnPrepare))
                 addAll(Variables.extractVariableIds(shortcut.codeOnSuccess))
                 addAll(Variables.extractVariableIds(shortcut.codeOnFailure))
+
+                if (shortcut.responseHandling != null && shortcut.responseHandling!!.successOutput == ResponseHandling.SUCCESS_OUTPUT_MESSAGE) {
+                    addAll(Variables.extractVariableIds(shortcut.responseHandling!!.successMessage))
+                }
             }
 
         private fun extractVariableIdsFromJS(code: String, variableLookup: VariableLookup): Set<String> =

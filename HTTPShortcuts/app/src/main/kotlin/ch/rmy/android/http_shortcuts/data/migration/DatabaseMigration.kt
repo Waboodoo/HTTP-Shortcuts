@@ -4,6 +4,7 @@ import ch.rmy.android.http_shortcuts.data.migration.migrations.ParameterTypeMigr
 import ch.rmy.android.http_shortcuts.data.migration.migrations.RemoveLegacyActionsMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceActionsWithScriptsMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceVariableKeysWithIdsMigration
+import ch.rmy.android.http_shortcuts.data.migration.migrations.ResponseHandlingMigration
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import io.realm.DynamicRealm
 import io.realm.DynamicRealmObject
@@ -308,6 +309,9 @@ class DatabaseMigration : RealmMigration {
                     }
                 }
             }
+            40L -> { // 1.35.0
+                ResponseHandlingMigration().migrateRealm(realm)
+            }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -333,7 +337,7 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 39L
+        const val VERSION = 40L
 
     }
 

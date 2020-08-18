@@ -7,9 +7,23 @@ import io.reactivex.Completable
 
 class ResponseViewModel(application: Application) : BasicShortcutEditorViewModel(application) {
 
-    fun setFeedbackType(type: String): Completable =
+    fun setResponseHandling(
+        uiType: String,
+        successOutput: String,
+        failureOutput: String,
+        successMessage: String,
+        includeMetaInfo: Boolean
+    ): Completable =
         Transactions.commit { realm ->
-            getShortcut(realm)?.feedback = type
+            getShortcut(realm)
+                ?.responseHandling
+                ?.let { responseHandling ->
+                    responseHandling.uiType = uiType
+                    responseHandling.successOutput = successOutput
+                    responseHandling.failureOutput = failureOutput
+                    responseHandling.successMessage = successMessage
+                    responseHandling.includeMetaInfo = includeMetaInfo
+                }
         }
 
 }

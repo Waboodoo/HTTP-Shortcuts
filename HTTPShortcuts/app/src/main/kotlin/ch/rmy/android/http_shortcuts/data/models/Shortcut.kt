@@ -12,7 +12,8 @@ open class Shortcut(
     @PrimaryKey
     override var id: String = "",
     var iconName: String? = null,
-    var executionType: String? = ShortcutExecutionType.APP.type
+    var executionType: String? = ShortcutExecutionType.APP.type,
+    var responseHandling: ResponseHandling? = null
 ) : RealmObject(), HasId {
 
     @Required
@@ -32,9 +33,6 @@ open class Shortcut(
 
     @Required
     var authToken: String = ""
-
-    @Required
-    var feedback: String = FEEDBACK_TOAST
 
     @Required
     var description: String = ""
@@ -91,9 +89,6 @@ open class Shortcut(
             || METHOD_PATCH == method
             || METHOD_OPTIONS == method
 
-    fun isFeedbackErrorsOnly() =
-        feedback == FEEDBACK_TOAST_ERRORS || feedback == FEEDBACK_TOAST_SIMPLE_ERRORS
-
     fun usesBasicAuthentication() = authentication == AUTHENTICATION_BASIC
 
     fun usesDigestAuthentication() = authentication == AUTHENTICATION_DIGEST
@@ -110,7 +105,6 @@ open class Shortcut(
         if (other.name != name ||
             other.bodyContent != bodyContent ||
             other.description != description ||
-            other.feedback != feedback ||
             other.iconName != iconName ||
             other.method != method ||
             other.password != password ||
@@ -143,6 +137,12 @@ open class Shortcut(
         if (other.headers.indices.any { !headers[it]!!.isSameAs(other.headers[it]!!) }) {
             return false
         }
+        if ((other.responseHandling == null) != (responseHandling == null)) {
+            return false
+        }
+        if (other.responseHandling?.isSameAs(responseHandling!!) == false) {
+            return false
+        }
         return true
     }
 
@@ -150,10 +150,10 @@ open class Shortcut(
         get() = isFeedbackInWindow || isFeedbackInDialog
 
     val isFeedbackInWindow
-        get() = type.usesResponse && (feedback == FEEDBACK_ACTIVITY || feedback == FEEDBACK_DEBUG)
+        get() = type.usesResponse && responseHandling?.uiType == ResponseHandling.UI_TYPE_WINDOW
 
     val isFeedbackInDialog
-        get() = type.usesResponse && feedback == FEEDBACK_DIALOG
+        get() = type.usesResponse && responseHandling?.uiType == ResponseHandling.UI_TYPE_DIALOG
 
     var isWaitForNetwork
         get() = retryPolicy == RETRY_POLICY_WAIT_FOR_INTERNET
@@ -164,7 +164,8 @@ open class Shortcut(
     val usesResponseBody: Boolean
         get() = type.usesResponse
             && (
-            (feedback != FEEDBACK_TOAST_SIMPLE && feedback != FEEDBACK_NONE)
+            (responseHandling?.successOutput == ResponseHandling.SUCCESS_OUTPUT_RESPONSE
+                || responseHandling?.failureOutput == ResponseHandling.FAILURE_OUTPUT_DETAILED)
                 || codeOnSuccess.isNotEmpty() || codeOnFailure.isNotEmpty()
             )
 
@@ -189,10 +190,6 @@ open class Shortcut(
             throw IllegalArgumentException("Invalid shortcut executionType: $executionType")
         }
 
-        if (feedback !in setOf(FEEDBACK_NONE, FEEDBACK_TOAST, FEEDBACK_TOAST_SIMPLE, FEEDBACK_TOAST_ERRORS, FEEDBACK_TOAST_SIMPLE_ERRORS, FEEDBACK_DIALOG, FEEDBACK_ACTIVITY, FEEDBACK_DEBUG)) {
-            throw IllegalArgumentException("Invalid shortcut feedback type: $feedback")
-        }
-
         if (retryPolicy !in setOf(RETRY_POLICY_NONE, RETRY_POLICY_WAIT_FOR_INTERNET)) {
             throw IllegalArgumentException("Invalid retry policy: $retryPolicy")
         }
@@ -214,6 +211,7 @@ open class Shortcut(
         }
 
         parameters.forEach(Parameter::validate)
+        responseHandling?.validate()
     }
 
     companion object {
@@ -231,15 +229,6 @@ open class Shortcut(
         const val METHOD_HEAD = "HEAD"
         const val METHOD_OPTIONS = "OPTIONS"
         const val METHOD_TRACE = "TRACE"
-
-        const val FEEDBACK_NONE = "none"
-        const val FEEDBACK_TOAST_SIMPLE = "simple_response"
-        const val FEEDBACK_TOAST_SIMPLE_ERRORS = "simple_response_errors"
-        const val FEEDBACK_TOAST = "full_response"
-        const val FEEDBACK_TOAST_ERRORS = "errors_only"
-        const val FEEDBACK_DIALOG = "dialog"
-        const val FEEDBACK_ACTIVITY = "activity"
-        const val FEEDBACK_DEBUG = "debug"
 
         private const val RETRY_POLICY_NONE = "none"
         private const val RETRY_POLICY_WAIT_FOR_INTERNET = "wait_for_internet"

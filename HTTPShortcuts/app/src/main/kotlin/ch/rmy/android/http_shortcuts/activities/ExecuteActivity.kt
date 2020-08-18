@@ -12,6 +12,7 @@ import ch.rmy.android.http_shortcuts.activities.response.DisplayResponseActivity
 import ch.rmy.android.http_shortcuts.data.Commons
 import ch.rmy.android.http_shortcuts.data.Controller
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
+import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.exceptions.CanceledByUserException
@@ -27,6 +28,7 @@ import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
+import ch.rmy.android.http_shortcuts.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.extensions.truncate
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
@@ -158,7 +160,7 @@ class ExecuteActivity : BaseActivity() {
                     }
                     else -> {
                         if (shouldReschedule(error)) {
-                            if (shortcut.feedback != Shortcut.FEEDBACK_NONE && tryNumber == 0) {
+                            if (shortcut.responseHandling?.successOutput != ResponseHandling.SUCCESS_OUTPUT_NONE && tryNumber == 0) {
                                 showToast(String.format(context.getString(R.string.execution_delayed), shortcutName), long = true)
                             }
                             rescheduleExecution()
@@ -166,7 +168,7 @@ class ExecuteActivity : BaseActivity() {
                                     ExecutionScheduler.schedule(context)
                                 }
                         } else {
-                            val simple = shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE_ERRORS || shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE
+                            val simple = shortcut.responseHandling?.failureOutput == ResponseHandling.FAILURE_OUTPUT_SIMPLE
                             displayOutput(
                                 generateOutputFromError(error, simple),
                                 response = (error as? ErrorResponse)?.shortcutResponse
@@ -344,7 +346,7 @@ class ExecuteActivity : BaseActivity() {
             )
 
     private fun openShortcutInBrowser(): Completable = Completable.fromAction {
-        val url = Variables.rawPlaceholdersToResolvedValues(shortcut.url, variableManager.getVariableValuesByIds())
+        val url = injectVariables(shortcut.url)
         try {
             val uri = Uri.parse(url)
             if (!Validation.isValidUrl(uri)) {
@@ -356,6 +358,9 @@ class ExecuteActivity : BaseActivity() {
             throw UnsupportedFeatureException()
         }
     }
+
+    private fun injectVariables(string: String): String =
+        Variables.rawPlaceholdersToResolvedValues(string, variableManager.getVariableValuesByIds())
 
     private fun executeShortcut(): Completable =
         HttpRequester(contentResolver)
@@ -392,12 +397,16 @@ class ExecuteActivity : BaseActivity() {
                     .toSingle { response }
             }
             .flatMapCompletable { response ->
-                if (shortcut.isFeedbackErrorsOnly()) {
+                val outputType = shortcut.responseHandling?.successOutput
+                if (outputType == ResponseHandling.SUCCESS_OUTPUT_NONE) {
                     Completable.complete()
                 } else {
-                    val simple = shortcut.feedback == Shortcut.FEEDBACK_TOAST_SIMPLE
-                    val output = if (simple) {
-                        String.format(getString(R.string.executed), shortcutName)
+                    val output = if (outputType == ResponseHandling.SUCCESS_OUTPUT_MESSAGE) {
+                        shortcut.responseHandling
+                            ?.successMessage
+                            ?.takeUnlessEmpty()
+                            ?.let(::injectVariables)
+                            ?: String.format(getString(R.string.executed), shortcutName)
                     } else {
                         generateOutputFromResponse(response)
                     }
@@ -437,34 +446,30 @@ class ExecuteActivity : BaseActivity() {
     }
 
     private fun displayOutput(output: String, response: ShortcutResponse? = null): Completable =
-        when (shortcut.feedback) {
-            Shortcut.FEEDBACK_TOAST_SIMPLE, Shortcut.FEEDBACK_TOAST_SIMPLE_ERRORS -> {
-                showToast(output.ifBlank { getString(R.string.message_blank_response) })
-                Completable.complete()
-            }
-            Shortcut.FEEDBACK_TOAST, Shortcut.FEEDBACK_TOAST_ERRORS -> {
+        when (shortcut.responseHandling?.uiType) {
+            ResponseHandling.UI_TYPE_TOAST -> {
                 showToast(
                     output
                         .truncate(maxLength = TOAST_MAX_LENGTH)
                         .ifBlank { getString(R.string.message_blank_response) },
-                    long = true
+                    long = shortcut.responseHandling?.successOutput == ResponseHandling.SUCCESS_OUTPUT_RESPONSE
                 )
                 Completable.complete()
             }
-            Shortcut.FEEDBACK_DIALOG -> {
+            ResponseHandling.UI_TYPE_DIALOG -> {
                 DialogBuilder(context)
                     .title(shortcutName)
                     .message(HTMLUtil.format(output.ifBlank { getString(R.string.message_blank_response) }))
                     .positive(R.string.dialog_ok)
                     .showAsCompletable()
             }
-            Shortcut.FEEDBACK_ACTIVITY, Shortcut.FEEDBACK_DEBUG -> {
+            ResponseHandling.UI_TYPE_WINDOW -> {
                 DisplayResponseActivity.IntentBuilder(context, shortcutId)
                     .name(shortcutName)
                     .type(response?.contentType)
                     .text(output)
                     .url(response?.url)
-                    .mapIf(shortcut.feedback == Shortcut.FEEDBACK_DEBUG) {
+                    .mapIf(shortcut.responseHandling?.includeMetaInfo == true) {
                         it.showDetails(true)
                             .timing(response?.timing)
                             .headers(response?.headers)
