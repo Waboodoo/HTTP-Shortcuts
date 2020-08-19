@@ -1,7 +1,8 @@
 package ch.rmy.android.http_shortcuts.utils
 
 import android.content.Context
-import ch.rmy.android.http_shortcuts.data.Controller
+import ch.rmy.android.http_shortcuts.data.RealmFactory
+import ch.rmy.android.http_shortcuts.data.Repository
 import ch.rmy.android.http_shortcuts.extensions.tryOrLog
 
 object IconMigration {
@@ -15,10 +16,11 @@ object IconMigration {
             if (!preferences.getBoolean(PREF_ICON_MIGRATION, false)) {
                 preferences.edit().putBoolean(PREF_ICON_MIGRATION, true).apply()
 
-                Controller().use { controller ->
-                    controller.getShortcuts().forEach { shortcut ->
-                        IconUtil.getIconURI(context, shortcut.iconName, external = true)
-                    }
+                RealmFactory.withRealm { realm ->
+                    Repository.getShortcuts(realm)
+                        .forEach { shortcut ->
+                            IconUtil.getIconURI(context, shortcut.iconName, external = true)
+                        }
                 }
             }
         }

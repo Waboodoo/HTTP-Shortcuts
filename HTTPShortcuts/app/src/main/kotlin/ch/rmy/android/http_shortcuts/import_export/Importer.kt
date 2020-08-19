@@ -3,8 +3,12 @@ package ch.rmy.android.http_shortcuts.import_export
 import android.content.Context
 import android.net.Uri
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.data.Controller
+import ch.rmy.android.http_shortcuts.data.RealmFactory
+import ch.rmy.android.http_shortcuts.data.Repository
 import ch.rmy.android.http_shortcuts.data.migration.ImportMigrator
+import ch.rmy.android.http_shortcuts.data.models.Base
+import ch.rmy.android.http_shortcuts.data.models.Category
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.isWebUrl
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.RxUtils
@@ -13,6 +17,7 @@ import com.google.gson.JsonParser
 import com.google.gson.JsonSyntaxException
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
+import io.realm.Realm
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStream
@@ -31,9 +36,7 @@ class Importer(private val context: Context) {
                     val migratedImportData = ImportMigrator.migrate(importData)
                     val newBase = GsonUtil.importData(migratedImportData)
                     newBase.validate()
-                    Controller().use { controller ->
-                        controller.importBaseSynchronously(newBase)
-                    }
+                    importBase(newBase)
                     ImportStatus(
                         importedShortcuts = newBase.shortcuts.size,
                         needsRussianWarning = newBase.shortcuts.any { it.url.contains(".beeline.ru") }
@@ -52,6 +55,52 @@ class Importer(private val context: Context) {
             context.contentResolver.openInputStream(uri)
                 ?: throw IOException("Failed to open input stream")
         }
+
+    private fun importBase(base: Base) {
+        RealmFactory.withRealm { realm ->
+            realm.executeTransaction {
+                val oldBase = Repository.getBase(realm)!!
+                oldBase.title = base.title
+
+                if (oldBase.categories.singleOrNull()?.shortcuts?.isEmpty() == true) {
+                    oldBase.categories.clear()
+                }
+
+                base.categories.forEach { category ->
+                    importCategory(realm, oldBase, category)
+                }
+
+                val persistedVariables = realm.copyToRealmOrUpdate(base.variables)
+                oldBase.variables.removeAll(persistedVariables)
+                oldBase.variables.addAll(persistedVariables)
+            }
+        }
+    }
+
+
+    private fun importCategory(realm: Realm, base: Base, category: Category) {
+        val oldCategory = base.categories.find { it.id == category.id }
+        if (oldCategory == null) {
+            base.categories.add(realm.copyToRealmOrUpdate(category))
+        } else {
+            oldCategory.name = category.name
+            oldCategory.background = category.background
+            oldCategory.hidden = category.hidden
+            oldCategory.layoutType = category.layoutType
+            category.shortcuts.forEach { shortcut ->
+                importShortcut(realm, oldCategory, shortcut)
+            }
+        }
+    }
+
+    private fun importShortcut(realm: Realm, category: Category, shortcut: Shortcut) {
+        val oldShortcut = category.shortcuts.find { it.id == shortcut.id }
+        if (oldShortcut == null) {
+            category.shortcuts.add(realm.copyToRealmOrUpdate(shortcut))
+        } else {
+            realm.copyToRealmOrUpdate(shortcut)
+        }
+    }
 
     private fun handleError(error: Throwable): Throwable =
         getHumanReadableErrorMessage(error)

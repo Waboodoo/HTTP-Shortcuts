@@ -9,7 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
-import ch.rmy.android.http_shortcuts.data.Controller
+import ch.rmy.android.http_shortcuts.data.RealmFactory
+import ch.rmy.android.http_shortcuts.data.Repository
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.dialogs.HelpDialogBuilder
@@ -163,12 +164,13 @@ class VariablesActivity : BaseActivity() {
     // TODO: Also check if the variable is used inside another variable
     private fun getShortcutNamesWhereVariableIsInUse(variableId: String): Single<List<String>> =
         Single.fromCallable {
-            Controller().use { controller ->
-                val variableLookup = VariableManager(controller.getVariables())
-                controller.getShortcuts().filter { shortcut ->
-                    VariableResolver.extractVariableIds(shortcut, variableLookup)
-                        .contains(variableId)
-                }
+            RealmFactory.withRealm { realm ->
+                val variableLookup = VariableManager(Repository.getBase(realm)!!.variables)
+                Repository.getShortcuts(realm)
+                    .filter { shortcut ->
+                        VariableResolver.extractVariableIds(shortcut, variableLookup)
+                            .contains(variableId)
+                    }
                     .map {
                         it.name
                     }

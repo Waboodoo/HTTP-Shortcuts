@@ -8,7 +8,8 @@ import androidx.annotation.StringRes
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
-import ch.rmy.android.http_shortcuts.data.Controller
+import ch.rmy.android.http_shortcuts.data.RealmFactory
+import ch.rmy.android.http_shortcuts.data.Repository
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
@@ -28,8 +29,11 @@ import io.reactivex.schedulers.Schedulers
 
 class ShareActivity : BaseActivity() {
 
-    private val controller by lazy {
-        destroyer.own(Controller())
+    private val realm by lazy {
+        RealmFactory.getInstance().createRealm()
+            .also {
+                destroyer.own { it.close() }
+            }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,7 +63,7 @@ class ShareActivity : BaseActivity() {
         }
 
     private fun handleTextSharing(text: String) {
-        val variableLookup = VariableManager(controller.getVariables())
+        val variableLookup = VariableManager(Repository.getBase(realm)!!.variables)
         val variables = getTargetableVariablesForTextSharing()
         val variableIds = variables.map { it.id }.toSet()
         val shortcuts = getTargetableShortcutsForTextSharing(variableIds, variableLookup)
@@ -76,19 +80,16 @@ class ShareActivity : BaseActivity() {
     }
 
     private fun getTargetableVariablesForTextSharing() =
-        controller
-            .getVariables()
+        Repository.getBase(realm)!!.variables
             .filter { it.isShareText }
             .toSet()
 
     private fun getTargetableShortcutsForTextSharing(variableIds: Set<String>, variableLookup: VariableLookup): List<Shortcut> =
-        controller
-            .getShortcuts()
+        Repository.getShortcuts(realm)
             .filter { hasShareVariable(it, variableIds, variableLookup) }
 
     private fun getTargetableShortcutsForFileSharing(): List<Shortcut> =
-        controller
-            .getShortcuts()
+        Repository.getShortcuts(realm)
             .filter { hasFileParameter(it) || it.usesFileBody() }
 
     private fun handleFileSharing(fileUris: List<Uri>) {

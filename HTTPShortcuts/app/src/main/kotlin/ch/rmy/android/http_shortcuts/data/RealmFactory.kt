@@ -50,6 +50,9 @@ internal class RealmFactory {
 
         fun getInstance(): RealmFactory = instance!!
 
+        fun <T> withRealm(block: (realm: Realm) -> T): T =
+            getInstance().createRealm().use(block)
+
         private fun setupBase(context: Context, realm: Realm) {
             val defaultCategoryName = context.getString(R.string.shortcuts)
             realm.executeTransaction {

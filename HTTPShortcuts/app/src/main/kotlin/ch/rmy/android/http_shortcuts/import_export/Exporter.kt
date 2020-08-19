@@ -2,7 +2,8 @@ package ch.rmy.android.http_shortcuts.import_export
 
 import android.content.Context
 import android.net.Uri
-import ch.rmy.android.http_shortcuts.data.Controller
+import ch.rmy.android.http_shortcuts.data.RealmFactory
+import ch.rmy.android.http_shortcuts.data.Repository
 import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Header
@@ -11,6 +12,7 @@ import ch.rmy.android.http_shortcuts.data.models.Parameter
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.extensions.detachFromRealm
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.utils.FileUtil
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
@@ -23,15 +25,18 @@ class Exporter(private val context: Context) {
     fun export(uri: Uri): Single<ExportStatus> =
         RxUtils
             .single {
-                val base = Controller().use { controller ->
-                    controller.exportBase()
-                }
+                val base = getDetachedBase()
                 FileUtil.getWriter(context, uri).use {
                     exportData(base, it)
                 }
                 ExportStatus(exportedShortcuts = base.shortcuts.size)
             }
             .subscribeOn(Schedulers.io())
+
+    private fun getDetachedBase(): Base =
+        RealmFactory.withRealm { realm ->
+            Repository.getBase(realm)!!.detachFromRealm()
+        }
 
     private fun exportData(base: Base, writer: Appendable) {
         try {

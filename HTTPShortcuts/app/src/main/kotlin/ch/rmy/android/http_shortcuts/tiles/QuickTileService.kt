@@ -6,7 +6,8 @@ import android.service.quicksettings.TileService
 import android.view.WindowManager
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
-import ch.rmy.android.http_shortcuts.data.Controller
+import ch.rmy.android.http_shortcuts.data.RealmFactory
+import ch.rmy.android.http_shortcuts.data.Repository
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.context
@@ -34,8 +35,8 @@ class QuickTileService : TileService() {
     }
 
     private fun getShortcuts() =
-        Controller().use { controller ->
-            controller.getShortcuts()
+        RealmFactory.withRealm { realm ->
+            Repository.getShortcuts(realm)
                 .filter { it.quickSettingsTileShortcut }
                 .map { it.detachFromRealm() }
         }
