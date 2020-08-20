@@ -22,6 +22,8 @@ class ShortcutListViewModel(application: Application) : MainViewModel(applicatio
 
     var categoryId: String = ""
 
+    var exportedShortcutId: String? = null
+
     fun getCategory(): LiveData<Category?> =
         getCategoryByIdAsync(persistedRealm, categoryId)
             .toLiveData()

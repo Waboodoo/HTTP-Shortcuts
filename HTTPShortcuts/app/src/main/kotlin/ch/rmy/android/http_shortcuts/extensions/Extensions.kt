@@ -17,15 +17,29 @@ import ch.rmy.android.http_shortcuts.utils.Destroyable
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import io.reactivex.disposables.Disposable
 
+fun Context.showMessageDialog(@StringRes stringRes: Int) {
+    DialogBuilder(this)
+        .message(stringRes)
+        .positive(R.string.dialog_ok)
+        .showIfPossible()
+}
+
+fun Context.showMessageDialog(string: String) {
+    DialogBuilder(this)
+        .message(string)
+        .positive(R.string.dialog_ok)
+        .showIfPossible()
+}
+
 fun Fragment.showMessageDialog(@StringRes stringRes: Int) {
-    DialogBuilder(context!!)
+    DialogBuilder(requireContext())
         .message(stringRes)
         .positive(R.string.dialog_ok)
         .showIfPossible()
 }
 
 fun Fragment.showMessageDialog(string: String) {
-    DialogBuilder(context!!)
+    DialogBuilder(requireContext())
         .message(string)
         .positive(R.string.dialog_ok)
         .showIfPossible()

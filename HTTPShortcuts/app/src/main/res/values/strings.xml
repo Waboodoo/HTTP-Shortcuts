@@ -48,6 +48,8 @@
     <string name="action_delete">Delete</string>
     <!-- Shortcut dropdown option: export the shortcut in cURL format -->
     <string name="action_curl_export">cURL export</string>
+    <!-- Shortcut dropdown option: export the shortcut -->
+    <string name="action_export">Export</string>
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
     <string name="action_move">Move</string>
     <!-- Shortcut dropdown option: Move the shortcut upwards -->
@@ -56,6 +58,12 @@
     <string name="action_move_down">Move down</string>
     <!-- Shortcut dropdown option: Move the shortcut to a different category -->
     <string name="action_move_to_category">Move to category…</string>
+    <!-- Dialog title, for exporting a single shortcut. Dialog offers different export options (e.g. as JSON, as cURL)-->
+    <string name="title_export_shortcut_as">Export as…</string>
+    <!-- Dialog option, for exporting a single shortcut as cURL -->
+    <string name="action_export_as_curl">cURL</string>
+    <!-- Dialog option, for exporting a single shortcut as JSON -->
+    <string name="action_export_as_json">JSON</string>
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">no shortcuts yet</string>
     <!-- Empty state instructions, shown in list when there are no shortcuts yet -->

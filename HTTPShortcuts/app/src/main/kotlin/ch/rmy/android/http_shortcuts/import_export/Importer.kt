@@ -60,7 +60,9 @@ class Importer(private val context: Context) {
         RealmFactory.withRealm { realm ->
             realm.executeTransaction {
                 val oldBase = Repository.getBase(realm)!!
-                oldBase.title = base.title
+                if (base.title != null) {
+                    oldBase.title = base.title
+                }
 
                 if (oldBase.categories.singleOrNull()?.shortcuts?.isEmpty() == true) {
                     oldBase.categories.clear()

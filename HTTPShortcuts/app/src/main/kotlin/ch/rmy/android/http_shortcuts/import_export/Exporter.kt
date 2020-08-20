@@ -22,10 +22,10 @@ import io.reactivex.schedulers.Schedulers
 
 class Exporter(private val context: Context) {
 
-    fun export(uri: Uri): Single<ExportStatus> =
+    fun export(uri: Uri, shortcutId: String? = null, variableIds: Collection<String>? = null): Single<ExportStatus> =
         RxUtils
             .single {
-                val base = getDetachedBase()
+                val base = getDetachedBase(shortcutId, variableIds)
                 FileUtil.getWriter(context, uri).use {
                     exportData(base, it)
                 }
@@ -33,10 +33,22 @@ class Exporter(private val context: Context) {
             }
             .subscribeOn(Schedulers.io())
 
-    private fun getDetachedBase(): Base =
+    private fun getDetachedBase(shortcutId: String?, variableIds: Collection<String>?): Base =
         RealmFactory.withRealm { realm ->
             Repository.getBase(realm)!!.detachFromRealm()
         }
+            .also { base ->
+                if (shortcutId != null) {
+                    base.title = null
+                    base.categories.removeIf {
+                        it.shortcuts.none { it.id == shortcutId }
+                    }
+                    base.categories.firstOrNull()?.shortcuts?.removeIf { it.id != shortcutId }
+                }
+                if (variableIds != null) {
+                    base.variables.removeIf { !variableIds.contains(it.id) }
+                }
+            }
 
     private fun exportData(base: Base, writer: Appendable) {
         try {

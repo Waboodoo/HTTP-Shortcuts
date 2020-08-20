@@ -1,8 +1,10 @@
 package ch.rmy.android.http_shortcuts.activities.main
 
+import android.app.Activity.RESULT_OK
 import android.app.WallpaperManager
 import android.content.Intent
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.lifecycle.LiveData
@@ -13,6 +15,8 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseFragment
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
+import ch.rmy.android.http_shortcuts.data.RealmFactory
+import ch.rmy.android.http_shortcuts.data.Repository
 import ch.rmy.android.http_shortcuts.data.livedata.ListLiveData
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.PendingExecution
@@ -32,9 +36,12 @@ import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.import_export.CurlExporter
+import ch.rmy.android.http_shortcuts.import_export.ExportUI
 import ch.rmy.android.http_shortcuts.utils.GridLayoutManager
 import ch.rmy.android.http_shortcuts.utils.SelectionMode
 import ch.rmy.android.http_shortcuts.utils.Settings
+import ch.rmy.android.http_shortcuts.variables.VariableManager
+import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import ch.rmy.curlcommand.CurlConstructor
 import kotterknife.bindView
 
@@ -46,6 +53,10 @@ class ListFragment : BaseFragment() {
 
     private val selectionMode by lazy {
         args.getSerializable(ARG_SELECTION_MODE) as SelectionMode
+    }
+
+    private val exportUI by lazy {
+        ExportUI(requireActivity())
     }
 
     private val viewModel: ShortcutListViewModel by bindViewModel()
@@ -223,10 +234,8 @@ class ListFragment : BaseFragment() {
                     cancelPendingExecution(shortcutData.value ?: return@item)
                 }
             }
-            .mapIf(shortcut.type.usesUrl) {
-                it.item(R.string.action_curl_export) {
-                    showCurlExportDialog(shortcutData.value ?: return@item)
-                }
+            .item(R.string.action_export) {
+                showExportChoiceDialog(shortcutData)
             }
             .item(R.string.action_delete) {
                 showDeleteDialog(shortcutData)
@@ -344,13 +353,30 @@ class ListFragment : BaseFragment() {
             .attachTo(destroyer)
     }
 
-    private fun showCurlExportDialog(shortcut: Shortcut) {
-        CurlExporter.generateCommand(requireContext(), shortcut)
+    private fun showExportChoiceDialog(shortcutData: LiveData<Shortcut?>) {
+        val shortcut = shortcutData.value ?: return
+        if (shortcut.type.usesUrl) {
+            DialogBuilder(requireContext())
+                .title(R.string.title_export_shortcut_as)
+                .item(R.string.action_export_as_curl) {
+                    showCurlExportDialog(shortcutData)
+                }
+                .item(R.string.action_export_as_json) {
+                    showJsonExportDialog(shortcutData)
+                }
+                .showIfPossible()
+        } else {
+            showJsonExportDialog(shortcutData)
+        }
+    }
+
+    private fun showCurlExportDialog(shortcutData: LiveData<Shortcut?>) {
+        CurlExporter.generateCommand(requireContext(), shortcutData.value ?: return)
             .subscribe(
                 { command ->
                     CurlExportDialog(
                         requireContext(),
-                        shortcut.name,
+                        shortcutData.value?.name ?: return@subscribe,
                         CurlConstructor.toCurlCommandString(command)
                     )
                         .show()
@@ -363,6 +389,13 @@ class ListFragment : BaseFragment() {
                 }
             )
             .attachTo(destroyer)
+    }
+
+    private fun showJsonExportDialog(shortcutData: LiveData<Shortcut?>) {
+        exportUI.showExportOptions(single = true) { intent ->
+            viewModel.exportedShortcutId = shortcutData.value?.id ?: return@showExportOptions
+            intent.startActivity(this, REQUEST_EXPORT)
+        }
     }
 
     private fun showDeleteDialog(shortcutData: LiveData<Shortcut?>) {
@@ -385,11 +418,37 @@ class ListFragment : BaseFragment() {
             .attachTo(destroyer)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_EDIT_SHORTCUT) {
-            tabHost?.updateLauncherShortcuts()
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
+        super.onActivityResult(requestCode, resultCode, intent)
+        when (requestCode) {
+            REQUEST_EDIT_SHORTCUT -> {
+                tabHost?.updateLauncherShortcuts()
+            }
+            REQUEST_EXPORT -> {
+                if (resultCode == RESULT_OK) {
+                    startExport(intent?.data ?: return, viewModel.exportedShortcutId!!)
+                }
+            }
         }
+    }
+
+    private fun startExport(uri: Uri, shortcutId: String) {
+        val shortcut = shortcuts.value?.find { it.id == shortcutId } ?: return
+
+        val variableIds = RealmFactory.withRealm { realm ->
+            VariableResolver.extractVariableIds(
+                shortcut,
+                variableLookup = VariableManager(Repository.getBase(realm)!!.variables),
+            )
+        }
+
+        // TODO: Recursively collect variables referenced by other variables
+
+        exportUI.startExport(
+            uri,
+            shortcutId,
+            variableIds,
+        )
     }
 
     private val tabHost: TabHost?
@@ -422,6 +481,7 @@ class ListFragment : BaseFragment() {
                 }
 
         private const val REQUEST_EDIT_SHORTCUT = 2
+        private const val REQUEST_EXPORT = 3
 
         private const val ARG_CATEGORY_ID = "categoryId"
         private const val ARG_SELECTION_MODE = "selectionMode"

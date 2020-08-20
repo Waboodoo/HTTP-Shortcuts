@@ -8,7 +8,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager.NameNotFoundException
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -28,7 +27,7 @@ import ch.rmy.android.http_shortcuts.extensions.showMessageDialog
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
-import ch.rmy.android.http_shortcuts.import_export.Exporter
+import ch.rmy.android.http_shortcuts.import_export.ExportUI
 import ch.rmy.android.http_shortcuts.import_export.ImportException
 import ch.rmy.android.http_shortcuts.import_export.Importer
 import ch.rmy.android.http_shortcuts.logging.Logging
@@ -36,7 +35,6 @@ import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.FilePickerUtil
-import ch.rmy.android.http_shortcuts.utils.FileUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
 import io.reactivex.android.schedulers.AndroidSchedulers
 
@@ -63,6 +61,10 @@ class SettingsActivity : BaseActivity() {
         private val viewModel: SettingsViewModel
             get() = (activity as SettingsActivity).viewModel
 
+        private val exportUI by lazy {
+            ExportUI(requireActivity())
+        }
+
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.preferences, rootKey)
 
@@ -86,10 +88,8 @@ class SettingsActivity : BaseActivity() {
             }
 
             initPreference("export") {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    showExportOptions()
-                } else {
-                    sendExport()
+                exportUI.showExportOptions { intent ->
+                    intent.startActivity(this, REQUEST_EXPORT_TO_DOCUMENTS)
                 }
             }
 
@@ -220,64 +220,12 @@ class SettingsActivity : BaseActivity() {
                 .attachTo(destroyer)
         }
 
-        private fun showExportOptions() {
-            DialogBuilder(requireContext())
-                .title(R.string.title_export)
-                .item(R.string.button_export_to_general, action = ::openFilePickerForExport)
-                .item(R.string.button_export_send_to, action = ::sendExport)
-                .showIfPossible()
-        }
-
-        private fun sendExport() {
-            val cacheFile = FileUtil.createCacheFile(requireContext(), EXPORT_FILE_NAME)
-
-            // TODO: Replace progress dialog with something better
-            val progressDialog = ProgressDialog(activity).apply {
-                setMessage(getString(R.string.export_in_progress))
-                setCanceledOnTouchOutside(false)
-            }
-            Exporter(requireContext().applicationContext)
-                .export(cacheFile)
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe {
-                    progressDialog.show()
-                }
-                .doOnEvent { _, _ ->
-                    progressDialog.dismiss()
-                }
-                .subscribe(
-                    {
-                        Intent(Intent.ACTION_SEND)
-                            .setType(EXPORT_FILE_TYPE_FOR_SHARING)
-                            .putExtra(Intent.EXTRA_STREAM, cacheFile)
-                            .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                            .let {
-                                Intent.createChooser(it, getString(R.string.title_export))
-                            }
-                            .startActivity(requireActivity())
-                    },
-                    { error ->
-                        logException(error)
-                        showSnackbar(R.string.error_generic)
-                    }
-                )
-                .attachTo(destroyer)
-        }
-
         private fun showImportOptions() {
             DialogBuilder(requireContext())
                 .title(R.string.title_import)
                 .item(R.string.button_import_from_general, action = ::openGeneralPickerForImport)
                 .item(R.string.button_import_from_url, action = ::openImportUrlDialog)
                 .showIfPossible()
-        }
-
-        private fun openFilePickerForExport() {
-            Intent(Intent.ACTION_CREATE_DOCUMENT)
-                .addCategory(Intent.CATEGORY_OPENABLE)
-                .setType(EXPORT_FILE_TYPE_FOR_CREATING_FILE)
-                .putExtra(Intent.EXTRA_TITLE, EXPORT_FILE_NAME)
-                .startActivity(this, REQUEST_EXPORT_TO_DOCUMENTS)
         }
 
         private fun openGeneralPickerForImport() {
@@ -338,7 +286,7 @@ class SettingsActivity : BaseActivity() {
             }
             when (requestCode) {
                 REQUEST_EXPORT_TO_DOCUMENTS -> {
-                    startExport(intent.data ?: return)
+                    exportUI.startExport(intent.data ?: return)
                 }
                 REQUEST_IMPORT_FROM_DOCUMENTS -> {
                     startImport(intent.data ?: return)
@@ -350,33 +298,6 @@ class SettingsActivity : BaseActivity() {
             Settings(requireContext()).importUrl = url
         }
 
-        private fun startExport(uri: Uri) {
-            // TODO: Replace progress dialog with something better
-            val progressDialog = ProgressDialog(activity).apply {
-                setMessage(getString(R.string.export_in_progress))
-                setCanceledOnTouchOutside(false)
-            }
-            Exporter(requireContext().applicationContext)
-                .export(uri)
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe {
-                    progressDialog.show()
-                }
-                .doOnEvent { _, _ ->
-                    progressDialog.dismiss()
-                }
-                .subscribe({ status ->
-                    showSnackbar(requireContext().resources.getQuantityString(
-                        R.plurals.shortcut_export_success,
-                        status.exportedShortcuts,
-                        status.exportedShortcuts
-                    ))
-                }, { e ->
-                    showMessageDialog(getString(R.string.export_failed_with_reason, e.message))
-                    logException(e)
-                })
-                .attachTo(destroyer)
-        }
 
         private fun startImport(uri: Uri) {
             // TODO: Replace progress dialog with something better
@@ -437,10 +358,6 @@ class SettingsActivity : BaseActivity() {
 
         private const val REQUEST_EXPORT_TO_DOCUMENTS = 2
         private const val REQUEST_IMPORT_FROM_DOCUMENTS = 3
-
-        private const val EXPORT_FILE_TYPE_FOR_SHARING = "text/plain"
-        private const val EXPORT_FILE_TYPE_FOR_CREATING_FILE = "application/json"
-        private const val EXPORT_FILE_NAME = "shortcuts.json"
 
     }
 
