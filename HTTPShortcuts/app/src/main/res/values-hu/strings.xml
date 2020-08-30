@@ -747,6 +747,9 @@ További információt a változó dokumentációjában találsz."</string>
     <!-- Blurb/short description of plugin action (for Tasker integration), where %1$s is a placeholder for the shortcut name. -->
     <string name="plugin_blurb_execute_task">"Parancsikon futtatása \"%1$s\""</string>
 
+    <!-- Dropdown option for request body: form-data (i.e. list of parameters) -->
+    <string name="request_body_option_form_data">"Paraméterek (űrlapadatok)"</string>
+
     <!-- Dropdown option for request body: custom text (i.e. enter a custom Content-Type and a request body as text) -->
     <string name="request_body_option_custom_text">"Egyéni szöveg"</string>
 
@@ -1057,6 +1060,9 @@ Ezt a funkciót engedélyezheted egy parancsikon szerkesztésével és a \"%1$s\
     <!-- Description for option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_description_create_browser_shortcut">"URL megnyitása böngészőben"</string>
 
+    <!-- Dropdown option for request body: file (i.e., user gets to pick a file which is used as the request body) -->
+    <string name="request_body_option_file">"Fájl (tallózó)"</string>
+
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. -->
     <string name="label_scripting_scripting_shortcuts_subtitle">"JavaScript kód futtatása"</string>
 
@@ -1123,4 +1129,43 @@ Ezt a funkciót engedélyezheted egy parancsikon szerkesztésével és a \"%1$s\
 
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid bearer auth token configured -->
     <string name="error_invalid_bearer_auth">"Érvénytelen Bearer hitelesítő token (%s)."</string>
+
+    <!-- Name of setting that allows the user to enable running all HTTP requests in the foreground. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
+    <string name="settings_force_foreground">"Kérések futtatása előtérben"</string>
+
+    <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
+    <string name="settings_troubleshooting">"Hibaelhárítás"</string>
+
+    <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show the (full) response -->
+    <string name="option_response_handling_success_output_response">"Válsz mutatása"</string>
+
+    <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show a pre-defined message -->
+    <string name="option_response_handling_success_output_message">"Üzenet megjelenítése"</string>
+
+    <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show nothing -->
+    <string name="option_response_handling_success_output_none">"Ne mutass semmit (csendes futtatás)"</string>
+
+    <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request fails: show the full/detailed error message -->
+    <string name="option_response_handling_failure_output_detailed">"Részletes hibaüzenet megjelenítése"</string>
+
+    <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request fails: show a simplified error message -->
+    <string name="option_response_handling_failure_output_simple">"Egyszerű hibaüzenet megjelenítése"</string>
+
+    <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request fails: show nothing -->
+    <string name="option_response_handling_failure_output_none">"Ne mutass semmit (futtatás csendben)"</string>
+
+    <!-- Label for text area in shortcut editor that allows to enter a custom message which should be displayed when the request succeeds -->
+    <string name="label_response_handling_success_message">"Üzenet"</string>
+
+    <!-- Shortcut dropdown option: export the shortcut -->
+    <string name="action_export">"Exportálás"</string>
+
+    <!-- Dialog title, for exporting a single shortcut. Dialog offers different export options (e.g. as JSON, as cURL) -->
+    <string name="title_export_shortcut_as">"Exportálás mint..."</string>
+
+    <!-- Dialog option, for exporting a single shortcut as cURL -->
+    <string name="action_export_as_curl">"cURL"</string>
+
+    <!-- Dialog option, for exporting a single shortcut as JSON -->
+    <string name="action_export_as_json">"JSON"</string>
 </resources>

@@ -1325,4 +1325,16 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
 
     <!-- Label for text area in shortcut editor that allows to enter a custom message which should be displayed when the request succeeds -->
     <string name="label_response_handling_success_message">"Nachricht"</string>
+
+    <!-- Shortcut dropdown option: export the shortcut -->
+    <string name="action_export">"Exportieren"</string>
+
+    <!-- Dialog title, for exporting a single shortcut. Dialog offers different export options (e.g. as JSON, as cURL) -->
+    <string name="title_export_shortcut_as">"Exportieren als…"</string>
+
+    <!-- Dialog option, for exporting a single shortcut as cURL -->
+    <string name="action_export_as_curl">"cURL"</string>
+
+    <!-- Dialog option, for exporting a single shortcut as JSON -->
+    <string name="action_export_as_json">"JSON"</string>
 </resources>

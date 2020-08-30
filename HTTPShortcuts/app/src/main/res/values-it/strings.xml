@@ -113,10 +113,10 @@
     <string name="validation_url_invalid">"Inserisci un url HTTP(S)."</string>
 
     <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
-    <string name="error_http">"%1$s è fallita con status code %2$d (%3$s)."</string>
+    <string name="error_http">"%1$s non riustito con codice di stato %2$d (%3$s)."</string>
 
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
-    <string name="error_other">"%1$s fallita: %2$s"</string>
+    <string name="error_other">"%1$s non riuscito: %2$s"</string>
 
     <!-- Error shown when the HTTP response is too large to be loaded into memory. %s is a placeholder for the size limit, e.g. "1 MB") -->
     <string name="error_response_too_large">"Risposta troppo grande (il limite è %s)"</string>
@@ -254,7 +254,7 @@
     <string name="export_in_progress">"Esportazione in corso…"</string>
 
     <!-- Error message: Shown in snackbar when import of shortcuts & variables failed -->
-    <string name="import_failed">"Importazione delle scorciatoie fallita."</string>
+    <string name="import_failed">"Importazione delle scorciatoie non riuscita."</string>
 
     <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="import_failed_with_reason">"Importazione delle scorciatoie non riuscita:
@@ -1271,6 +1271,12 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
     <!-- Shortcut Action Title: Trigger a task in Tasker -->
     <string name="action_type_trigger_tasker_title">"Attiva attività Tasker"</string>
 
+    <!-- Shortcut Action Title: Send an Android Intent, e.g. to trigger or invoke some action in another app -->
+    <string name="action_type_send_intent_title">"Invia intento"</string>
+
+    <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
+    <string name="error_action_type_send_intent_failed">"Impossibile inviare l'intento"</string>
+
     <!-- Name of setting that allows the user to enable running all HTTP requests in the foreground. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
     <string name="settings_force_foreground">"Esegui richieste in primo piano"</string>
 
@@ -1279,4 +1285,58 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
 
     <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
     <string name="settings_troubleshooting">"Risoluzione dei problemi"</string>
+
+    <!-- Label above dropdown in editor, to select what should happen when the HTTP request succeeds -->
+    <string name="label_response_on_success">"In caso di Successo"</string>
+
+    <!-- Label above dropdown in editor, to select what should happen when the HTTP request fails -->
+    <string name="label_response_on_failure">"In caso di Errore"</string>
+
+    <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
+    <string name="label_include_meta_information">"Mostra Meta Informazioni (ad es. Intestazioni di risposta)"</string>
+
+    <!-- Label for dropdown in shortcut editor, for picking how the response should be displayed -->
+    <string name="label_response_handling_type">"Tipo di Visualizzazione"</string>
+
+    <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Toast popup -->
+    <string name="option_response_handling_type_toast">"Popup Toast"</string>
+
+    <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->
+    <string name="option_response_handling_type_dialog">"Dialogo"</string>
+
+    <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a fullscreen window -->
+    <string name="option_response_handling_type_window">"Finestra"</string>
+
+    <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show the (full) response -->
+    <string name="option_response_handling_success_output_response">"Mostra risposta"</string>
+
+    <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show a pre-defined message -->
+    <string name="option_response_handling_success_output_message">"Mostra messaggio"</string>
+
+    <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show nothing -->
+    <string name="option_response_handling_success_output_none">"Non mostrare niente (esegui silenziosamente)"</string>
+
+    <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request fails: show the full/detailed error message -->
+    <string name="option_response_handling_failure_output_detailed">"Mostra messaggio di errore dettagliato"</string>
+
+    <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request fails: show a simplified error message -->
+    <string name="option_response_handling_failure_output_simple">"Mostra messaggio di errore semplice"</string>
+
+    <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request fails: show nothing -->
+    <string name="option_response_handling_failure_output_none">"Non mostrare niente (esegui silenziosamente)"</string>
+
+    <!-- Label for text area in shortcut editor that allows to enter a custom message which should be displayed when the request succeeds -->
+    <string name="label_response_handling_success_message">"Messaggio"</string>
+
+    <!-- Shortcut dropdown option: export the shortcut -->
+    <string name="action_export">"Esporta"</string>
+
+    <!-- Dialog title, for exporting a single shortcut. Dialog offers different export options (e.g. as JSON, as cURL) -->
+    <string name="title_export_shortcut_as">"Esporta come..."</string>
+
+    <!-- Dialog option, for exporting a single shortcut as cURL -->
+    <string name="action_export_as_curl">"cURL"</string>
+
+    <!-- Dialog option, for exporting a single shortcut as JSON -->
+    <string name="action_export_as_json">"JSON"</string>
 </resources>
