@@ -105,7 +105,8 @@ class ResponseHandlingMigration : BaseMigration {
         for (category in base["categories"].asJsonArray) {
             for (shortcut in category.asJsonObject["shortcuts"].asJsonArray) {
                 val shortcutObject = shortcut.asJsonObject
-                if (shortcutObject.get("executionType").asString == "app") {
+                val executionType = shortcutObject.get("executionType")?.asString
+                if (executionType == "app" || executionType == null) {
                     JsonObject()
                         .apply {
                             addProperty("id", UUIDUtils.newUUID())

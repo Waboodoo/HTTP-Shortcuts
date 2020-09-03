@@ -327,12 +327,10 @@ class SettingsActivity : BaseActivity() {
                         putExtra(EXTRA_CATEGORIES_CHANGED, true)
                     })
                 }, { e ->
-                    if (e is ImportException) {
-                        showMessageDialog(getString(R.string.import_failed_with_reason, e.message))
-                    } else {
+                    if (e !is ImportException) {
                         logException(e)
-                        showMessageDialog(R.string.import_failed)
                     }
+                    showMessageDialog(getString(R.string.import_failed_with_reason, e.message))
                 })
                 .attachTo(destroyer)
         }
