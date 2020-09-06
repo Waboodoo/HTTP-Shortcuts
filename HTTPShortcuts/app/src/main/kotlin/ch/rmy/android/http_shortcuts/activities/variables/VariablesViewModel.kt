@@ -19,12 +19,6 @@ class VariablesViewModel(application: Application) : RealmViewModel(application)
 
     private val settings by lazy { Settings(application.applicationContext) }
 
-    var wasVariableIntroShown: Boolean
-        get() = settings.wasVariableIntroShown
-        set(value) {
-            settings.wasVariableIntroShown = value
-        }
-
     fun getVariables(): ListLiveData<Variable> =
         getBase(persistedRealm)!!
             .variables

@@ -34,6 +34,7 @@ import ch.rmy.android.http_shortcuts.logging.Logging
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
 import ch.rmy.android.http_shortcuts.utils.Destroyer
+import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.FilePickerUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -356,16 +357,6 @@ class SettingsActivity : BaseActivity() {
 
         private const val REQUEST_EXPORT_TO_DOCUMENTS = 2
         private const val REQUEST_IMPORT_FROM_DOCUMENTS = 3
-
-    }
-
-    object ExternalURLs {
-
-        const val PRIVACY_POLICY = "https://http-shortcuts.rmy.ch/privacy-policy"
-        const val FAQ_PAGE = "https://http-shortcuts.rmy.ch/faq"
-        const val PLAY_STORE = "https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts"
-        const val GITHUB = "https://github.com/Waboodoo/HTTP-Shortcuts"
-        const val TRANSLATION = "https://poeditor.com/join/project/8tHhwOTzVZ"
 
     }
 

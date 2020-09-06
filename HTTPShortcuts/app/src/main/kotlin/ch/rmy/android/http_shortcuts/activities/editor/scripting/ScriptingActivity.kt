@@ -28,6 +28,7 @@ import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholderProvider
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutSpanManager
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
+import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
 import io.reactivex.Completable
@@ -187,7 +188,7 @@ class ScriptingActivity : BaseActivity() {
     }
 
     private fun showHelp() {
-        context.openURL(CODE_HELP_URL)
+        openURL(ExternalURLs.SCRIPTING_DOCUMENTATION)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -210,8 +211,6 @@ class ScriptingActivity : BaseActivity() {
 
     companion object {
         private const val EXTRA_SHORTCUT_ID = "shortcutId"
-
-        private const val CODE_HELP_URL = "https://http-shortcuts.rmy.ch/scripting"
 
         private fun getMinLinesForCode(type: ShortcutExecutionType) = if (type == ShortcutExecutionType.SCRIPTING) {
             18

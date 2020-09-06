@@ -13,7 +13,6 @@ import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.Repository
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
-import ch.rmy.android.http_shortcuts.dialogs.HelpDialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
@@ -21,10 +20,12 @@ import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.mapIf
+import ch.rmy.android.http_shortcuts.extensions.openURL
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
+import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -198,23 +199,7 @@ class VariablesActivity : BaseActivity() {
     }
 
     private fun showHelp() {
-        HelpDialogBuilder(context)
-            .title(R.string.help_title_variables)
-            .message(R.string.help_variables)
-            .build()
-            .show()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        showHelpIfNeeded()
-    }
-
-    private fun showHelpIfNeeded() {
-        if (!viewModel.wasVariableIntroShown) {
-            showHelp()
-            viewModel.wasVariableIntroShown = true
-        }
+        openURL(ExternalURLs.VARIABLES_DOCUMENTATION)
     }
 
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, VariablesActivity::class.java)
