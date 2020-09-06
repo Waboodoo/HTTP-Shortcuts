@@ -253,9 +253,6 @@
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
     <string name="export_in_progress">"Exportiere…"</string>
 
-    <!-- Error message: Shown in snackbar when import of shortcuts & variables failed -->
-    <string name="import_failed">"Import fehlgeschlagen."</string>
-
     <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="import_failed_with_reason">"Importieren fehlgeschlagen:
 %s"</string>
@@ -1337,4 +1334,16 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
 
     <!-- Dialog option, for exporting a single shortcut as JSON -->
     <string name="action_export_as_json">"JSON"</string>
+
+    <!-- Name of button in settings screen that allows to clear all HTTP cookies -->
+    <string name="settings_clear_cookies">"Cookies löschen"</string>
+
+    <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor, to decide whether cookies should be stored for the HTTP request -->
+    <string name="label_accept_cookies">"Cookies speichern"</string>
+
+    <!-- Message, shown in dialog, to ask the user to confirm the deletion of all cookies -->
+    <string name="confirm_clear_cookies_message">"Alle gespeicherten Cookies löschen?"</string>
+
+    <!-- Message, shown in snackbar as confirmation to the user that cookies have been deleted -->
+    <string name="message_cookies_cleared">"Cookies gelöscht."</string>
 </resources>

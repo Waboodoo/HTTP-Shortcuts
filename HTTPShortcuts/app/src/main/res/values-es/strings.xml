@@ -241,9 +241,6 @@
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
     <string name="export_in_progress">"Exportando…"</string>
 
-    <!-- Error message: Shown in snackbar when import of shortcuts & variables failed -->
-    <string name="import_failed">"Fallo importando accesos directos."</string>
-
     <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="import_failed_with_reason">"La importación de accesos directos falló:
 %s"</string>

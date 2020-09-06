@@ -252,9 +252,6 @@
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
     <string name="export_in_progress">"正在导出快捷方式……"</string>
 
-    <!-- Error message: Shown in snackbar when import of shortcuts & variables failed -->
-    <string name="import_failed">"导入快捷方式失败"</string>
-
     <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="import_failed_with_reason">"导入快捷方式失败:
 %s"</string>
