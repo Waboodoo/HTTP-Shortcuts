@@ -312,6 +312,10 @@ class DatabaseMigration : RealmMigration {
             40L -> { // 1.35.0
                 ResponseHandlingMigration().migrateRealm(realm)
             }
+            41L -> { // 1.36.0
+                schema.get("Shortcut")!!
+                    .addField("acceptCookies", Boolean::class.javaPrimitiveType)
+            }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -337,7 +341,7 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 40L
+        const val VERSION = 41L
 
     }
 

@@ -5,6 +5,7 @@ import ch.rmy.android.http_shortcuts.exceptions.InvalidProxyException
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import com.burgstaller.okhttp.digest.Credentials
 import com.facebook.stetho.okhttp3.StethoInterceptor
+import okhttp3.CookieJar
 import okhttp3.OkHttpClient
 import java.net.InetSocketAddress
 import java.net.Proxy
@@ -23,6 +24,7 @@ internal object HttpClients {
         timeout: Long,
         proxyHost: String?,
         proxyPort: Int?,
+        cookieJar: CookieJar?,
     ): OkHttpClient =
         (if (acceptAllCertificates) createUnsafeOkHttpClientBuilder() else createDefaultOkHttpClientBuilder())
             .mapIf(username != null && password != null) {
@@ -34,6 +36,9 @@ internal object HttpClients {
             .connectTimeout(timeout, TimeUnit.MILLISECONDS)
             .readTimeout(timeout, TimeUnit.MILLISECONDS)
             .writeTimeout(timeout, TimeUnit.MILLISECONDS)
+            .mapIf(cookieJar != null) {
+                it.cookieJar(cookieJar!!)
+            }
             .mapIf(proxyHost != null && proxyPort != null) {
                 try {
                     it.proxy(Proxy(Proxy.Type.HTTP, InetSocketAddress(proxyHost!!, proxyPort!!)))

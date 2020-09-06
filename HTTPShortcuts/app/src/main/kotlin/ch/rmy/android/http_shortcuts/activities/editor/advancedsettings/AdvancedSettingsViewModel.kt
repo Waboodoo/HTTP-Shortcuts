@@ -25,6 +25,11 @@ class AdvancedSettingsViewModel(application: Application) : BasicShortcutEditorV
             getShortcut(realm)?.acceptAllCertificates = acceptAllCertificates
         }
 
+    fun setAcceptCookies(acceptCookies: Boolean): Completable =
+        Transactions.commit { realm ->
+            getShortcut(realm)?.acceptCookies = acceptCookies
+        }
+
     fun setTimeout(timeout: Int): Completable =
         Transactions.commit { realm ->
             getShortcut(realm)?.timeout = timeout

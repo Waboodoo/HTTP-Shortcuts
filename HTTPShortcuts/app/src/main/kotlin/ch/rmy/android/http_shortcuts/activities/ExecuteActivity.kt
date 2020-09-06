@@ -31,6 +31,7 @@ import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.extensions.truncate
 import ch.rmy.android.http_shortcuts.extensions.type
+import ch.rmy.android.http_shortcuts.http.CookieManager
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.http.FileUploadManager
@@ -55,6 +56,7 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import okhttp3.CookieJar
 import java.io.IOException
 import java.net.UnknownHostException
 import java.util.HashMap
@@ -101,6 +103,9 @@ class ExecuteActivity : BaseActivity() {
     /* Caches / State */
     private var fileUploadManager: FileUploadManager? = null
     private lateinit var variableManager: VariableManager
+    private val cookieJar: CookieJar by lazy {
+        CookieManager.getCookieJar(context)
+    }
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
@@ -364,7 +369,12 @@ class ExecuteActivity : BaseActivity() {
 
     private fun executeShortcut(): Completable =
         HttpRequester(contentResolver)
-            .executeShortcut(shortcut, variableManager, fileUploadManager)
+            .executeShortcut(
+                shortcut,
+                variableManager,
+                fileUploadManager,
+                if (shortcut.acceptCookies) cookieJar else null,
+            )
             .observeOn(AndroidSchedulers.mainThread())
             .onErrorResumeNext { error ->
                 if (error is ErrorResponse || error is IOException) {

@@ -69,6 +69,8 @@ open class Shortcut(
 
     var followRedirects: Boolean = true
 
+    var acceptCookies: Boolean = true
+
     var proxyHost: String? = null
 
     var proxyPort: Int? = null
@@ -126,6 +128,7 @@ open class Shortcut(
             other.codeOnSuccess != codeOnSuccess ||
             other.codeOnFailure != codeOnFailure ||
             other.followRedirects != followRedirects ||
+            other.acceptCookies != acceptCookies ||
             other.proxyHost != proxyHost ||
             other.proxyPort != proxyPort
         ) {

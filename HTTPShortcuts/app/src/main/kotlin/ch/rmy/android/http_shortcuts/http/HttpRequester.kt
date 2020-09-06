@@ -15,11 +15,17 @@ import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.Variables
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
+import okhttp3.CookieJar
 import okhttp3.Response
 
 class HttpRequester(private val contentResolver: ContentResolver) {
 
-    fun executeShortcut(shortcut: Shortcut, variableManager: VariableManager, fileUploadManager: FileUploadManager? = null): Single<ShortcutResponse> =
+    fun executeShortcut(
+        shortcut: Shortcut,
+        variableManager: VariableManager,
+        fileUploadManager: FileUploadManager? = null,
+        cookieJar: CookieJar? = null,
+    ): Single<ShortcutResponse> =
         Single
             .create<ShortcutResponse> { emitter ->
                 val variables = variableManager.getVariableValuesByIds()
@@ -47,7 +53,8 @@ class HttpRequester(private val contentResolver: ContentResolver) {
                     followRedirects = shortcut.followRedirects,
                     timeout = shortcut.timeout.toLong(),
                     proxyHost = proxyHost,
-                    proxyPort = shortcut.proxyPort
+                    proxyPort = shortcut.proxyPort,
+                    cookieJar = cookieJar,
                 )
 
                 val request = RequestBuilder(shortcut.method, url)
@@ -111,7 +118,7 @@ class HttpRequester(private val contentResolver: ContentResolver) {
                                 fileName = parameter.fileName.ifEmpty { file.fileName },
                                 type = file.mimeType,
                                 data = contentResolver.openInputStream(file.data)!!,
-                                length = file.fileSize
+                                length = file.fileSize,
                             )
                         }
                     }
@@ -126,7 +133,7 @@ class HttpRequester(private val contentResolver: ContentResolver) {
                                 fileName = parameter.fileName.ifEmpty { file!!.fileName },
                                 type = file!!.mimeType,
                                 data = contentResolver.openInputStream(file.data)!!,
-                                length = file.fileSize
+                                length = file.fileSize,
                             )
                         }
                     }
@@ -134,7 +141,7 @@ class HttpRequester(private val contentResolver: ContentResolver) {
                 else -> {
                     builder.parameter(
                         name = parameterName,
-                        value = Variables.rawPlaceholdersToResolvedValues(parameter.value, variables)
+                        value = Variables.rawPlaceholdersToResolvedValues(parameter.value, variables),
                     )
                 }
             }
@@ -149,7 +156,7 @@ class HttpRequester(private val contentResolver: ContentResolver) {
                 headers = HttpHeaders.parse(response.headers()),
                 statusCode = response.code(),
                 content = response.takeUnless { ignoreBody }?.body()?.byteStream(),
-                timing = response.receivedResponseAtMillis() - response.sentRequestAtMillis()
+                timing = response.receivedResponseAtMillis() - response.sentRequestAtMillis(),
             )
 
         private fun determineContentType(shortcut: Shortcut): String? = when {

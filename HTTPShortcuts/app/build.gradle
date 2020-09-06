@@ -170,6 +170,7 @@ dependencies {
     implementation 'com.facebook.stetho:stetho:1.5.1'
     implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
     implementation 'com.burgstaller:okhttp-digest:1.12' // Can't update to latest version because that depends on okhttp v4
+    implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
 
     /* Tasker integration */
     implementation 'com.twofortyfouram:android-plugin-client-sdk-for-locale:4.0.3'

@@ -27,6 +27,7 @@ import ch.rmy.android.http_shortcuts.extensions.showMessageDialog
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
+import ch.rmy.android.http_shortcuts.http.CookieManager
 import ch.rmy.android.http_shortcuts.import_export.ExportUI
 import ch.rmy.android.http_shortcuts.import_export.ImportException
 import ch.rmy.android.http_shortcuts.import_export.Importer
@@ -110,6 +111,10 @@ class SettingsActivity : BaseActivity() {
                 }
             } else {
                 findPreference<Preference>("crash_reporting")!!.isVisible = false
+            }
+
+            initPreference("clear_cookies") {
+                showClearCookieDialog()
             }
 
             initPreference("changelog") {
@@ -258,6 +263,17 @@ class SettingsActivity : BaseActivity() {
             } else {
                 showMessageDialog(getString(R.string.import_failed_with_reason, getString(R.string.error_can_only_import_from_http_url)))
             }
+        }
+
+        private fun showClearCookieDialog() {
+            DialogBuilder(requireContext())
+                .message(R.string.confirm_clear_cookies_message)
+                .positive(R.string.dialog_delete) {
+                    CookieManager.clearCookies(requireContext())
+                    activity?.showSnackbar(R.string.message_cookies_cleared)
+                }
+                .negative(R.string.dialog_cancel)
+                .showIfPossible()
         }
 
         private fun contactDeveloper() {

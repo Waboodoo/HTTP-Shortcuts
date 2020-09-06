@@ -44,6 +44,7 @@ class AdvancedSettingsActivity : BaseActivity() {
     private val waitForConnectionCheckBox: CheckBox by bindView(R.id.input_wait_for_connection)
     private val followRedirectsCheckBox: CheckBox by bindView(R.id.input_follow_redirects)
     private val acceptCertificatesCheckBox: CheckBox by bindView(R.id.input_accept_certificates)
+    private val acceptCookiesCheckBox: CheckBox by bindView(R.id.input_accept_cookies)
     private val timeoutView: PanelButton by bindView(R.id.input_timeout)
     private val proxyHostView: VariableEditText by bindView(R.id.input_proxy_host)
     private val proxyHostVariableButton: VariableButton by bindView(R.id.variable_button_proxy_host)
@@ -77,6 +78,13 @@ class AdvancedSettingsActivity : BaseActivity() {
             .observeChecked()
             .concatMapCompletable { isChecked ->
                 viewModel.setAcceptAllCertificates(isChecked)
+            }
+            .subscribe()
+            .attachTo(destroyer)
+        acceptCookiesCheckBox
+            .observeChecked()
+            .concatMapCompletable { isChecked ->
+                viewModel.setAcceptCookies(isChecked)
             }
             .subscribe()
             .attachTo(destroyer)
@@ -116,6 +124,7 @@ class AdvancedSettingsActivity : BaseActivity() {
         waitForConnectionCheckBox.isChecked = shortcut.isWaitForNetwork
         followRedirectsCheckBox.isChecked = shortcut.followRedirects
         acceptCertificatesCheckBox.isChecked = shortcut.acceptAllCertificates
+        acceptCookiesCheckBox.isChecked = shortcut.acceptCookies
         timeoutView.subtitle = viewModel.getTimeoutSubtitle(shortcut)
         proxyHostView.rawString = shortcut.proxyHost ?: ""
         proxyPortView.setText(shortcut.proxyPort?.toString() ?: "")

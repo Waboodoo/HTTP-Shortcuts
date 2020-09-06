@@ -79,11 +79,17 @@
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/settings_troubleshooting">
+        <Preference
+            app:icon="@drawable/ic_cookie"
+            app:key="clear_cookies"
+            app:title="@string/settings_clear_cookies" />
+
         <CheckBoxPreference
             app:key="force_foreground"
             app:persistent="true"
             app:summary="@string/settings_force_foreground_summary"
             app:title="@string/settings_force_foreground" />
+
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/settings_about">

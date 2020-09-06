@@ -1,6 +1,8 @@
 ## Version 1.36.0
 
-*Work in progress*
+### Cookie Store
+
+Shortcuts can now be configured to accept and store cookies via the *"Advanced Technical Settings"* section.
 
 ## Version 1.35.0
 
