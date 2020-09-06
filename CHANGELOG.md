@@ -1,0 +1,520 @@
+## Version 1.36.0
+
+*Work in progress*
+
+## Version 1.35.0
+
+### Improved "Response Handling"
+
+The "Response Handling" section of the shortcut editor was redesigned to allow for more
+fine-grained control over how the HTTP response should be handled and displayed when a
+shortcut is executed. For example, it is now possible to display a custom message instead of
+the default "Shortcut executed." message.
+
+### Miscellaneous
+
+- It is now possible to export individual shortcuts.
+- The *showDialog()* action now supports &lt;a&gt; and &lt;pre&gt; tags
+
+## Version 1.34.0
+
+### Miscellaneous
+
+- Added Korean translation
+- Added function to send arbitrary Intents
+- Added function to trigger Tasker tasks
+- Added option to force requests to run in foreground to deal with device restrictions
+- Added support for --get/-G flag in cURL parser
+
+### Bugfixes
+
+- Fixed arrow keys in scripting editor
+
+## Version 1.33.0
+
+### Scripting Improvements
+
+- Redesigned the code snippet picker to make it easier to navigate
+- Added *getWifiIPAddress()* helper function (thanks [@wahaha](https://github.com/2219160052))
+- Added *wait()* helper function
+
+### Bugfixes
+
+- Requests with file parameters (form-data) or files as request body now correctly include a Content-Length header
+- Fixed bug where the response was not available for scripting when code was executed before the request
+- Fixed bug where shortcuts couldn't be placed on the home screen using the "Legacy" placement method
+- Don't show Text-to-speech option when device does not support it
+
+## Version 1.32.0
+
+### Multi-Shortcuts
+
+You can now create a special type of shortcut which allows you to easily trigger multiple
+other shortcuts without having to write special code for it.
+
+### Scripting Improvements
+
+There is now a special type of shortcut which makes it easier to write custom logic through
+scripting without making an actual HTTP request. Additionally, it is now also easier to
+set up scripting actions which interact with or modify other shortcuts (e.g. to trigger or
+rename them or change their icon).
+
+### Miscellaneous
+
+- The app now has a new logo
+- You can now use a file as the request body
+- Added a text-to-speech action which allows to read out a snippet of text.
+Find it in the code snippet picker.
+- Added Hungarian as a language (thanks Dezső Gergely)
+- Added 6 new built-in icons
+- All pickers which offer a selection of shortcuts now also show their icon, e.g. when sharing text or a file into the app
+- Renamed "variable key" to "variable name" for clarity
+
+### Bugfixes
+
+- Fixed permission error when sharing a file into the app to be used as a file parameter
+- The same shortcut can now be triggered multiple times
+- Hidden categories no longer show the options to change layout or background
+
+## Version 1.31.0
+
+### Miscellaneous
+
+- Drastically reduced the size of the app
+- Improved quality of most built-in icons. This also allows them to be displayed larger when used in a widget.
+- Added 10 new built-in icons to choose from
+- cURL import/export now supports Bearer authentication and proxy settings
+- The color picker for "Color" variables now supports HSV mode in addition to RGB mode
+- When using the 'triggerShortcut' action you can now pass along a set of variable values to the triggered shortcut. See documentation for more information.
+- When exporting, unnecessary and redundant fields are excluded from the export to make it smaller in size and easier to read
+- Variable types can no longer be changed after creation
+
+### Bugfixes
+
+- Fixed widget creation on Android 10 which would previously result in a crash
+- Variable placeholders are now replaced with their respective values when using cURL export
+
+## Version 1.30.0
+
+### Widgets!
+
+The app now has a (somewhat) customizable widget. This provides an alternative to regular
+home screen shortcuts and has the benefit that they can be customized more freely (size,
+label color, etc.).
+
+Please note that this feature is in an early stage. More customization options will
+come in a future release.
+
+### Miscellaneous
+
+- Added a language picker to allow changing the language of the app. If your language is
+not there, is incomplete or wrong, please feel free to help me out with the translations.
+- Improved validation of inputs for better error messages
+- When deleting variables a warning is shown if they are still in use by a shortcut
+
+### Bugfixes
+
+- Fixed crashes that sometimes happened when importing or exporting
+- Fixed a bug where shortcuts would sometimes not properly trigger other shortcuts
+
+## Version 1.29.0
+
+### File Parameters
+
+You can now add file parameters to your shortcuts, which allows to send one or multiple
+files as part of a request. Triggering a shortcut with a file parameter will open a file
+picker to select which file to send. Alternatively you can share a file from another app
+to trigger a shortcut, similar to how it was already possible to share text values from
+other apps to be used as a value for a variable.
+
+### Response Debugging
+
+There is now an additional option for how to display the response of an HTTP request, which
+displays the response body in a fullscreen window but also displays additional meta information
+such as response headers, status code and the response time. This should make it easier to
+set up or debug shortcuts.
+
+### User Interaction in Scripting
+
+You can now use *alert()*, *prompt()* and *confirm()* as part of the scripting
+feature to create flows that require user interaction. These 3 functions work the same way
+as you'd expect from a browser.
+
+### Proxy Support
+
+It is now possible to specify an HTTP proxy for each shortcut. Check the "Advanced Technical
+Settings" section when creating or editing a shortcut.
+
+### Miscellaneous
+
+- Triggering another shortcut when using scripting is now more reliable and much faster
+- HTTP response is ignored if it's not needed, for better performance
+- More meaningful error messages are displayed when importing fails
+
+### Bugfixes
+
+- Import and export now work as expected on Android 10 and no longer require Storage permission
+- URLs are trimmed to avoid leading and trailing whitespace characters
+- Duplicating shortcuts generates correct names
+
+## Version 1.28.0
+
+### Miscellaneous
+
+- Response handling and scripting options are now logically separated for clarity
+- Improved Chinese and Italian translation
+- Improved error handling for importing, exporting and when features are not supported on the device
+
+### Bugfixes
+
+- Content-Type header no longer includes a charset unless explicitly specified
+- Shortcuts on launcher icon are kept up-to-date more reliably
+
+## Version 1.27.0
+### Quick Settings Tile
+
+The app now has a Quick Settings Tile, which can be used to trigger a shortcut without opening the app and without
+going to the home screen. Simply enable the option for one or more shortcuts via the "Misc Settings" menu in the editor.
+
+### Dynamically change icons
+
+There is now a new action "changeIcon" which can be used to change the icon of a shortcut before or after execution. So far
+it only supports built-in icons.
+
+### Miscellaneous
+
+- Bearer Authentication can now be set up more easily, directly from the "Authentication" settings of a shortcut
+- Categories can now be hidden
+- Added option to change the title on the main toolbar in the app
+- Shortcuts can now be imported directly from a URL
+- Added 45 new built-in icons
+- Added *abort()* function that allows to cancel the execution of a shortcut
+- HTTP errors include the HTTP status message in addition to the status code for more clarity
+- Newly created shortcuts will show full response in toast by default instead of only simple toast
+
+### Bugfixes
+
+- Categories no longer show the wrong shortcuts after moving or deleting categories or after importing
+- App no longer crashes when HTTP response is too large
+- (Confirmation) dialogs have the correct colors now when dark mode is enabled
+- One shortcut can now trigger multiple other shortcuts (kinda... it's not quite smooth yet...)
+
+## Version 1.26.0
+
+### Miscellaneous
+
+- Better handling of empty responses
+- Added Russian translation
+- Made "Help me Translate" button more foolproof
+
+### Bugfixes
+
+- GET requests can now have a *Content-Type* header
+- CURL export of GET requests no longer incorrectly sets method to POST
+- Variables can now be used in URLs again without triggering validation errors
+
+## Version 1.25.0
+
+### Dark Mode
+
+The app now has a dark theme. It can be enabled or disabled via the settings.
+
+### Miscellaneous
+
+- Increased font size of response
+- Improved value picker for timeout settings
+
+### Bugfixes
+
+- Variable changes in pre-request actions now properly affect the current execution
+- Execution now less likely to fail due to battery saver or data saver modes
+
+## Version 1.24.1
+
+### Bugfixes
+
+- Fixed Tasker integration
+- Fixed variable dialogs triggering when they should not
+- Fixed resolution of variables within variables
+- Fixed adding of variables to request body
+- Fixed a crash when setting delay to 1 second
+
+## Version 1.24.0
+
+### Redesigned Editor
+
+The editor for creating and editing shortcuts was completely redesigned. The many different options are now separated
+into their own screens to make the UI easier to navigate.
+
+### JavaScript Code Execution
+
+Previously you were able to add specific actions to be executed before or after a shortcut runs. Now, instead of a static list
+of actions, you can run arbitrary JavaScript code, which allows for much more flexibility and more advanced workflows.
+On top of that, there are now 2 new actions that can be called directly from within the JavaScript code:
+
+
+- Added action to show a dialog window with text in it
+- Added action to copy text to the clipboard
+
+### Miscellaneous
+
+- HTML responses are shown in a web view instead of as plain text, allowing to include styling and formatting
+- Basic HTML formatting is now possible when using response type "Dialog" or "showDialog" action
+- Added option to have HTTP requests follow redirects
+- Increased maximum length for variables of type 'Constant' from 300 to 3000 characters
+- Loosened variable name restrictions: They may now contain underscores and be up to 30 characters long.
+- Added option to change the background of individual categories
+
+### Bugfixes
+
+- Fixed bug where importing shortcuts would sometimes overwrite other existing shortcuts
+- Fixed requests with method DELETE or OPTIONS not sending a request body
+- Fixed zero or negative step sizes in variables of type 'Slider' crashing the app
+
+## Version 1.23.0
+
+### App Lock
+
+It is now possible to lock the app with a password, to prevent modification of shortcuts or
+app settings.
+
+### Require Confirmation
+
+There is now a new option that allows you to mark a shortcut as requiring confirmation.
+These shortcuts will prompt you with a confirmation dialog before executing, thereby
+preventing accidental execution.
+
+### Miscellaneous
+
+- Added link to FAQ page
+- Added partial translation into Catalan
+- Added partial translation into Polish
+
+### Bugfixes
+
+- Fixed shortcuts not working when Battery Saver or Data Saver enabled
+- Fixed crash when using form-data on Android Marshmallow or older
+- Fixed crash when deleting variable
+
+## Version 1.22.0
+
+### Shortcut Placement / Using in Other Apps
+
+You may have encountered a problem when trying to use shortcuts in other apps (e.g. Tasker),
+where it would not select or make the other app crash. There is now an alternative method of
+selecting a shortcut that you may try in this case. Simply retry selecting the shortcut and
+you will be prompted with a dialog that asks you to pick either the new or the old method.
+
+### Longer Timeouts
+
+It is now possible to have request timeouts of up to 10 minutes.
+
+### Bugfixes
+
+- Request body of *multipart/form* requests now correctly uses CRLF instead of only
+LF
+
+- Fixed various rare app crashes
+
+## Version 1.21.0
+
+### Shortcut Actions
+
+You can now define what happens before and after a shortcut is executed. This includes
+things like displaying a Toast message, extracting part of the response or triggering
+another shortcut. More to come in future updates!
+
+### Support for multipart/form-data
+
+In addition to sending a custom request body and simple parameters, it is now also possible
+to send form data, i.e, using the "multipart/form-data" content type.
+
+### Miscellaneous
+
+- New translations: Norwegian (Bokmål), Italian
+- Shortcut can be opened in browser
+- Improved syntax highlighting & pretty printing of JSON & XML responses
+
+### Bugfixes
+
+- Delayed execution & waiting for network connectivity now work again
+- Custom icons now show on the home screen on Oreo
+- gzipped responses are now correctly parsed
+- Various occasional crashes
+
+## Version 1.20.0
+
+### Simplified Variable Insertion
+
+Inserting variables into shortcuts has now become much easier. Each input field that
+supports variables now has a button next to it. Clicking it opens a popup dialog with a list
+of all available variables, allowing you to easily pick and insert one.
+
+### Improved Tasker Integration
+
+When triggering shortcuts from Tasker, it is now possible to send along variables. Simply
+define variables with the same name in Tasker as in your shortcut and their value will
+automatically be sent from Tasker to your shortcut when triggered.
+
+### Drag & Drop Reordering
+
+Categories & Variables, as well as options of *select* & *toggle* variables, can
+now easily be reordered via drag & drop.
+
+### Improved Specification of Request Body
+
+When specifying the request body of a shortcut, you now have the option to chose between *x-www-form-urlencoded*,
+i.e., the body is a list of parameters, or *custom text*, i.e., you specify the request
+body as raw text and give it a content-type.
+
+### Variables within Variables!
+
+The *constant*, *toggle* and *select* variable types now support recursive
+resolution of values. This means you can reference other variables from these variables. For
+example, you could set up a *select* variable where one of the options is a
+*color* variable.
+
+### Miscellaneous
+
+- The input field for request parameter values now allows multiline input.
+- The cURL export dialog now includes a *copy* button to allow you to quickly copy
+the cURL command to the clipboard.
+
+- The *About* section in the settings now features a *Translate this App* button
+as a call-to-action for translators. Help me translate everything!
+
+## Version 1.19.0
+
+- New variable type: number slider
+- "Number Input" variable allows decimals and minus sign
+- Better support for user-defined certificates
+- Password input is hidden
+- Internal storage is encrypted
+
+## Version 1.18.0
+
+- French translations
+- Fixed shortcut creation on Oreo
+- Added Privacy Policy & Crash Reporting opt-out
+- Minor bugfixes
+
+## Version 1.17.0
+
+- New variable types: date & time
+- Fixed/improved retry on failure
+- Option to delay shortcut execution
+- Portuguese translations
+- Improved quality of custom icons
+- Minor bugfixes
+
+## Version 1.16.0
+
+- Support for Digest Auth
+- Support for OPTIONS, HEAD and TRACE methods
+- Launcher Shortcuts (Android 7.1 and up only)
+- Categories can have different layout types: list or grid
+- Minor bugfixes & other improvements
+
+## Version 1.15.0
+
+- Shortcuts can be exported as cURL commands
+- Chinese translations
+- Minor bugfixes
+
+## Version 1.14.0
+
+- Syntax highlighting for JSON and XML responses
+- Import shortcuts from cURL commands
+- Improved import &amp; export
+- Themes
+- Minor bugfixes
+
+## Version 1.13.0
+
+- New variable type: color
+- Allow sharing text snippets into variables
+- New app icon
+
+## Version 1.12.0
+
+- New response options: show in dialog or window
+- Option to remember/forget variable values
+- Pending executions can be cancelled
+
+## Version 1.11.0
+
+- Variables: inject custom values through prompt dialogs
+- Plugin support for integration with automation apps (e.g. Tasker)
+
+## Version 1.10.1
+
+- Shortcuts are removed from homescreen when deleted in app
+- Fixed a crash when saving shortcuts
+
+## Version 1.10.0
+
+- Shortcuts can be organized into categories
+- Possibility to accept any certificate
+- More icons
+- *Acknowledgements* section in settings screen
+- Bugfixes
+
+## Version 1.9.2
+
+- Bugfixes
+
+## Version 1.9.1
+
+- Layout improvements
+- Auto-complete suggestions for custom headers
+- Import/Export uses JSON format now
+- Improved execution retries after reconnecting with the internet
+- Bugfixes
+
+## Version 1.8.0
+
+- Shortcut execution can be delayed when not connected to the internet
+- Added *View in Play Store* button to settings screen
+
+## Version 1.7.0
+
+- Shortcuts can have different timeouts (3, 10, 30 or 60 seconds)
+- Added *About* section to settings screen
+- Added *What\'s new* dialog
+- Minor language improvements
+
+## Version 1.6.1
+
+- Bugfixes
+
+## Version 1.6.0
+
+- Custom headers
+- Custom request body
+- Settings Screen
+- Import & Export (new permissions needed)
+- New request methods: *PUT*, *DELETE*, *PATCH*
+- Shortcuts can be tested before being saved
+- Bugfixes
+
+## Version 1.5.0
+
+- Possibility to add *POST* parameters
+- More built-in icons, with improved selector dialog
+
+## Version 1.4.0
+
+- Built-in icons
+- Shortcuts can have descriptions for the overview screen
+- Bugfix: Connections are no longer left idle after use
+
+## Version 1.2.0
+
+- Added support for Ipack icons
+
+## Version 1.1.0
+
+- Shortcuts can be moved up and down in the shortcut list
+- Default click action executes the shortcuts instead of opening context menu
+- Buttons moved into action bar
+- Bugfixes
