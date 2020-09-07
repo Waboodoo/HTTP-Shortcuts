@@ -10,6 +10,7 @@ import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.isWebUrl
+import ch.rmy.android.http_shortcuts.extensions.logInfo
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.RxUtils
 import com.google.gson.JsonParseException
@@ -33,6 +34,7 @@ class Importer(private val context: Context) {
                 val inputStream = getStream(context, uri)
                 BufferedReader(InputStreamReader(inputStream)).use { reader ->
                     val importData = JsonParser.parseReader(reader)
+                    logInfo("Importing from v${importData.asJsonObject.get("version") ?: "?"}: ${importData.asJsonObject.keySet()}")
                     val migratedImportData = ImportMigrator.migrate(importData)
                     val newBase = GsonUtil.importData(migratedImportData)
                     newBase.validate()
