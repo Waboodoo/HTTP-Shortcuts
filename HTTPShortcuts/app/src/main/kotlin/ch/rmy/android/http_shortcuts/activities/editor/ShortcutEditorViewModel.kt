@@ -100,7 +100,7 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
 
     fun trySave(): Single<SaveResult> {
         val id = shortcutId ?: newUUID()
-        var name = ""
+        var name: String? = null
         var iconName: String? = null
         return Transactions
             .commit { realm ->
@@ -215,7 +215,7 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
         )
     }
 
-    data class SaveResult(val id: String, val name: String, val iconName: String?)
+    data class SaveResult(val id: String, val name: String?, val iconName: String?)
 
     companion object {
 

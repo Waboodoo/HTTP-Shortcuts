@@ -365,7 +365,9 @@ class ShortcutEditorActivity : BaseActivity() {
             .observeOn(mainThread())
             .subscribe({ saveResult ->
                 logInfo("Saving shortcut successful")
-                LauncherShortcutManager.updatePinnedShortcut(context, saveResult.id, saveResult.name, saveResult.iconName)
+                if (saveResult.name != null) {
+                    LauncherShortcutManager.updatePinnedShortcut(context, saveResult.id, saveResult.name, saveResult.iconName)
+                }
                 WidgetManager.updateWidgets(context, saveResult.id)
                 setResult(RESULT_OK, Intent().putExtra(RESULT_SHORTCUT_ID, saveResult.id))
                 finish()
