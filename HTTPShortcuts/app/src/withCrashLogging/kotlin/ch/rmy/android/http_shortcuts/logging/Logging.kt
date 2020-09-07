@@ -7,6 +7,7 @@ import ch.rmy.android.http_shortcuts.BuildConfig
 import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.utils.Settings
 import com.bugsnag.android.Bugsnag
+import com.bugsnag.android.Configuration
 import java.io.IOException
 import java.lang.RuntimeException
 import java.util.Date
@@ -29,7 +30,7 @@ object Logging {
             throw IllegalStateException("Bugsnag API key not set")
         }
 
-        Bugsnag.init(context, BuildConfig.BUGSNAG_API_KEY)
+        Bugsnag.init(context, createBugsnagConfig())
         Bugsnag.setUserId(Settings(context).userId)
         Bugsnag.beforeNotify { error ->
             consume {
@@ -38,6 +39,13 @@ object Logging {
         }
         initialized = true
     }
+
+    private fun createBugsnagConfig() =
+        Configuration(BuildConfig.BUGSNAG_API_KEY)
+            .apply {
+                sendThreads = false
+                autoCaptureSessions = false
+            }
 
     private val isAppOutdated
         get() = Date().time - BuildConfig.BUILD_TIMESTAMP.toLong() > MAX_APP_AGE

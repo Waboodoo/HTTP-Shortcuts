@@ -4,6 +4,10 @@
 
 Shortcuts can now be configured to accept and store cookies via the *"Advanced Technical Settings"* section.
 
+### Miscellaneous
+
+- Privacy improvements in crash reporting (some unnecessary details excluded from crash reports)
+
 ## Version 1.35.0
 
 ### Improved "Response Handling"
