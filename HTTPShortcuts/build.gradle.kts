@@ -34,15 +34,19 @@ repositories {
     mavenCentral()
 }
 
-// Task to copy the changelog from the CHANGELOG.md file into the app so it can be displayed
-task("syncChangeLog") {
-    val changelogMarkdown = File("../CHANGELOG.md").readText()
-    val template = File("changelog_template.html").readText()
-    val flavour = org.intellij.markdown.flavours.commonmark.CommonMarkFlavourDescriptor()
-    val parsedTree = org.intellij.markdown.parser.MarkdownParser(flavour)
-        .buildMarkdownTreeFromString(changelogMarkdown)
-    val html = org.intellij.markdown.html.HtmlGenerator(changelogMarkdown, parsedTree, flavour).generateHtml()
-    File("app/src/main/assets/changelog.html").writeText(
-        template.replace("<!-- CONTENT -->", html)
-    )
+tasks.register("syncChangeLog") {
+    description = "copies the CHANGELOG.md file's content into the app so it can be displayed"
+
+    doLast {
+        val changelogMarkdown = File("../CHANGELOG.md").readText()
+        val template = File("changelog_template.html").readText()
+        val flavour = org.intellij.markdown.flavours.commonmark.CommonMarkFlavourDescriptor()
+        val parsedTree = org.intellij.markdown.parser.MarkdownParser(flavour)
+            .buildMarkdownTreeFromString(changelogMarkdown)
+        val html = org.intellij.markdown.html.HtmlGenerator(changelogMarkdown, parsedTree, flavour).generateHtml()
+        File("app/src/main/assets/changelog.html").writeText(
+            template.replace("<!-- CONTENT -->", html)
+        )
+    }
 }
+
