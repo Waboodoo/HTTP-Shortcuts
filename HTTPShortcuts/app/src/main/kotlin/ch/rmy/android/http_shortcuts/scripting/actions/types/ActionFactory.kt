@@ -27,6 +27,7 @@ class ActionFactory {
                 DialogActionType(),
                 PromptActionType(),
                 RenameShortcutActionType(),
+                SelectionActionType(),
                 SendIntentActionType(),
                 TextToSpeechActionType(),
                 ToastActionType(),
@@ -34,7 +35,7 @@ class ActionFactory {
                 TriggerTaskerTaskActionType(),
                 VibrateActionType(),
                 WaitActionType(),
-                WifiIPActionType()
+                WifiIPActionType(),
             )
         }
     }

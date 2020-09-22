@@ -1,5 +1,9 @@
 ## Version 1.37.0
 
+### Scripting Improvements
+
+There is now a *showSelection()* action which allows showing a dialog of options to choose from, similar to the multiple-choice variable type.
+
 ### Bugfixes
 
 - The "User-Agent" header can now be set without being overwritten by the default one
