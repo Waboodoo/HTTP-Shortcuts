@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.http
 import ch.rmy.android.http_shortcuts.exceptions.InvalidBearerAuthException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidHeaderException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidUrlException
+import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_MULTIPART_CONTENT_TYPE
 import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_URLENCODE_CONTENT_TYPE
 import ch.rmy.android.http_shortcuts.http.RequestUtil.encode
@@ -31,6 +32,7 @@ class RequestBuilder(private val method: String, url: String) {
     private var bodyStream: InputStream? = null
     private var bodyLength: Long? = null
     private var contentType: String? = null
+    private var userAgent: String? = null
     private val parameters = mutableListOf<Parameter>()
 
     fun basicAuth(username: String, password: String) = also {
@@ -80,9 +82,18 @@ class RequestBuilder(private val method: String, url: String) {
         } catch (e: IllegalArgumentException) {
             throw InvalidHeaderException("$name: $value")
         }
-        if (name.equals(HttpHeaders.CONTENT_TYPE, ignoreCase = true)) {
-            contentType = value
+        when {
+            name.equals(HttpHeaders.CONTENT_TYPE, ignoreCase = true) -> {
+                contentType = value
+            }
+            name.equals(HttpHeaders.USER_AGENT, ignoreCase = true) -> {
+                userAgent = null
+            }
         }
+    }
+
+    fun userAgent(userAgent: String) = also {
+        this.userAgent = userAgent
     }
 
     fun contentType(contentType: String?) = also {
@@ -96,6 +107,9 @@ class RequestBuilder(private val method: String, url: String) {
             } else {
                 null
             })
+        }
+        .mapIf(userAgent != null) {
+            it.header(HttpHeaders.USER_AGENT, userAgent!!)
         }
         .build()
 

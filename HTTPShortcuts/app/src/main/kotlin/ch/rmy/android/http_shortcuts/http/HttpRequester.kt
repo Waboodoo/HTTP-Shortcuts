@@ -59,7 +59,7 @@ class HttpRequester(private val contentResolver: ContentResolver) {
 
                 val request = RequestBuilder(shortcut.method, url)
                     .header(HttpHeaders.CONNECTION, "close")
-                    .header(HttpHeaders.USER_AGENT, UserAgentUtil.userAgent)
+                    .userAgent(UserAgentUtil.userAgent)
                     .mapIf(shortcut.usesCustomBody()) {
                         it.contentType(determineContentType(shortcut))
                         it.body(body)
