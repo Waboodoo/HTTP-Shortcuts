@@ -12,4 +12,6 @@
     <string name="action_type_dialog_title">Show Dialogue</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->
     <string name="option_response_handling_type_dialog">Dialogue</string>
+    <!-- Label: Shown when user selects a widget to place on the home screen, shown for the customizable widget (as opposite to the generic shortcut) -->
+    <string name="label_widget">Customisable Widget</string>
 </resources>
