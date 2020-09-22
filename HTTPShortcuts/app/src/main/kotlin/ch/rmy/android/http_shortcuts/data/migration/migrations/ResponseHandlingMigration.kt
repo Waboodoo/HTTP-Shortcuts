@@ -110,7 +110,7 @@ class ResponseHandlingMigration : BaseMigration {
                     JsonObject()
                         .apply {
                             addProperty("id", UUIDUtils.newUUID())
-                            when (shortcutObject.get("feedback").asString) {
+                            when (shortcutObject.get("feedback")?.asString) {
                                 "simple_response" -> {
                                     addProperty("uiType", "toast")
                                     addProperty("successOutput", "message")
