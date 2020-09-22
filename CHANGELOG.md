@@ -1,3 +1,9 @@
+## Version 1.37.0
+
+### Bugfixes
+
+- The "User-Agent" header can now be set without being overwritten by the default one
+
 ## Version 1.36.0
 
 ### Cookie Store
