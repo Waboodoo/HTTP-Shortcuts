@@ -104,7 +104,7 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
         var iconName: String? = null
         return Transactions
             .commit { realm ->
-                val shortcut = Repository.getShortcutById(realm, TEMPORARY_ID)!!
+                val shortcut = Repository.getShortcutById(realm, TEMPORARY_ID) ?: return@commit
                 name = shortcut.name
                 iconName = shortcut.iconName
                 validateShortcut(shortcut)
