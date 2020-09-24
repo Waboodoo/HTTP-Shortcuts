@@ -128,6 +128,8 @@
     <string name="dialog_ok">OK</string>
     <!-- Generic button: Cancel -->
     <string name="dialog_cancel">Cancel</string>
+    <!-- Generic button: Help (to open documentation) -->
+    <string name="dialog_help">Help</string>
     <!-- Generic button: remove -->
     <string name="dialog_remove">Remove</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the headers of the HTTP request -->
