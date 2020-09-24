@@ -43,6 +43,9 @@
     <!-- Label above input field in editor, for shortcut authentication password -->
     <string name="label_password">"Parola"</string>
 
+    <!-- Label above input field in editor, for shortcut authentication token -->
+    <string name="label_auth_token">"Jeton"</string>
+
     <!-- Shortcut dropdown option: Place shortcut on home screen -->
     <string name="action_place">"Ana ekrana yerleştir"</string>
 
@@ -73,6 +76,12 @@
     <!-- Shortcut dropdown option: Move the shortcut to a different category -->
     <string name="action_move_to_category">"Kategoriye taşı…"</string>
 
+    <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
+    <string name="empty_state_shortcuts_instructions">"Başlamak için + butonuna basın"</string>
+
+    <!-- Empty state instructions, shown in list when there are no variables yet -->
+    <string name="empty_state_variables_instructions">"Değişken eklemek için + butonuna basın"</string>
+
     <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
     <string name="confirm_delete_shortcut_message">"Bu kısayolu silinsin mi?"</string>
 
@@ -102,6 +111,9 @@
 
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
     <string name="error_other">"%1$s başarısız oldu: %2$s"</string>
+
+    <!-- Error shown when the HTTP response is too large to be loaded into memory. %s is a placeholder for the size limit, e.g. "1 MB") -->
+    <string name="error_response_too_large">"Yanıt çok büyük (limit %s)"</string>
 
     <!-- Error shown when a selected image cannot be used as an icon -->
     <string name="error_set_image">"Resim simge olarak kullanılamadı."</string>
