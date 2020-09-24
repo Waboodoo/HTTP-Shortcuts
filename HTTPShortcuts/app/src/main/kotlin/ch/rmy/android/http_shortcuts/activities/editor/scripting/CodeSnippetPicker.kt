@@ -109,6 +109,9 @@ class CodeSnippetPicker(
             .item(R.string.action_type_dialog_title) {
                 insertText("showDialog(\"Message\"", ", \"Title\");\n")
             }
+            .item(R.string.action_type_selection_title) {
+                insertText("showSelection({\n\"option1\": \"Option 1\",\n\"option2\": \"Option 2\",\n});\n", "")
+            }
             .item(R.string.action_type_prompt_title) {
                 insertText("prompt(\"Message", "\");\n")
             }
