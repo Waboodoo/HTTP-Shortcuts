@@ -4,6 +4,10 @@
 
 There is now a *showSelection()* action which allows showing a dialog of options to choose from, similar to the multiple-choice variable type.
 
+### Miscellaneous
+
+- Added help buttons that link to the online documentation throughout the app
+
 ### Bugfixes
 
 - The "User-Agent" header can now be set without being overwritten by the default one
