@@ -1346,4 +1346,10 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
 
     <!-- Message, shown in snackbar as confirmation to the user that cookies have been deleted -->
     <string name="message_cookies_cleared">"Cookies gelöscht."</string>
+
+    <!-- Generic button: Help (to open documentation) -->
+    <string name="dialog_help">"Hilfe"</string>
+
+    <!-- Shortcut Action Title: Show Selection (i.e., show a popup with multiple-choice option) -->
+    <string name="action_type_selection_title">"Auswahl anzeigen (Multiple-Choice)"</string>
 </resources>
