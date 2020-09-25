@@ -65,7 +65,7 @@ internal object ImportMigrator {
             10L -> { // 1.17.0
                 for (category in base["categories"].asJsonArray) {
                     for (shortcut in category.asJsonObject["shortcuts"].asJsonArray) {
-                        if (shortcut.asJsonObject["authentication"].isJsonNull) {
+                        if (shortcut.asJsonObject["authentication"]?.isJsonNull != false) {
                             shortcut.asJsonObject.addProperty("authentication", "none")
                             shortcut.asJsonObject.addProperty("contentType", "text/plain")
                         }
