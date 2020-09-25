@@ -8,7 +8,7 @@ object Logging {
 
     fun initCrashReporting(context: Context) {}
 
-    fun disableCrashReporting() {}
+    fun disableCrashReporting(context: Context) {}
 
     val supportsCrashReporting: Boolean = false
 

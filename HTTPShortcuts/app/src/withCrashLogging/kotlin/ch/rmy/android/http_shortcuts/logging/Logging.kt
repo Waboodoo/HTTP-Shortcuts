@@ -2,14 +2,13 @@ package ch.rmy.android.http_shortcuts.logging
 
 import android.content.Context
 import android.view.InflateException
-import android.util.Log
 import ch.rmy.android.http_shortcuts.BuildConfig
-import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.utils.Settings
 import com.bugsnag.android.Bugsnag
 import com.bugsnag.android.Configuration
+import com.bugsnag.android.ErrorTypes
+import com.bugsnag.android.ThreadSendPolicy
 import java.io.IOException
-import java.lang.RuntimeException
 import java.util.Date
 
 object Logging {
@@ -30,12 +29,11 @@ object Logging {
             throw IllegalStateException("Bugsnag API key not set")
         }
 
-        Bugsnag.init(context, createBugsnagConfig())
-        Bugsnag.setUserId(Settings(context).userId)
-        Bugsnag.beforeNotify { error ->
-            consume {
-                error.addToTab("app", "installedFromStore", isAppInstalledFromStore(context))
-            }
+        Bugsnag.start(context, createBugsnagConfig())
+        Bugsnag.setUser(Settings(context).userId, null, null)
+        Bugsnag.addOnError { event ->
+            event.addMetadata("app", "installedFromStore", isAppInstalledFromStore(context))
+            event.originalError?.let { !shouldIgnore(it) } ?: true
         }
         initialized = true
     }
@@ -43,8 +41,8 @@ object Logging {
     private fun createBugsnagConfig() =
         Configuration(BuildConfig.BUGSNAG_API_KEY)
             .apply {
-                sendThreads = false
-                autoCaptureSessions = false
+                sendThreads = ThreadSendPolicy.NEVER
+                autoTrackSessions = false
             }
 
     private val isAppOutdated
@@ -52,9 +50,11 @@ object Logging {
 
     val supportsCrashReporting: Boolean = true
 
-    fun disableCrashReporting() {
+    fun disableCrashReporting(context: Context) {
         if (initialized) {
-            Bugsnag.disableExceptionHandler()
+            Configuration.load(context).apply {
+                setEnabledErrorTypes(ErrorTypes(false, false, false, false))
+            }
         }
     }
 

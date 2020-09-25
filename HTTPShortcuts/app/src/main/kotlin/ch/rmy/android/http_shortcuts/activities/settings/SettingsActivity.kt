@@ -106,7 +106,7 @@ class SettingsActivity : BaseActivity() {
             if (Logging.supportsCrashReporting) {
                 initListPreference("crash_reporting") { newValue ->
                     if (newValue == "false") {
-                        Logging.disableCrashReporting()
+                        Logging.disableCrashReporting(requireContext())
                     }
                 }
             } else {

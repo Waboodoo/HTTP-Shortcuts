@@ -182,7 +182,7 @@ dependencies {
     implementation 'org.mindrot:jbcrypt:0.4'
 
     /* Crash Reporting */
-    releaseWithCrashLoggingImplementation 'com.bugsnag:bugsnag-android:4.21.1'
+    releaseWithCrashLoggingImplementation 'com.bugsnag:bugsnag-android:5.2.0'
 
     /* cURL import & export */
     implementation project(path: ':curl_command')
