@@ -56,6 +56,30 @@
 
             <include layout="@layout/divider_line" />
 
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp">
+
+                <TextView
+                        style="@style/Label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/label_ssid"
+                        android:text="@string/label_ssid"/>
+
+                <EditText
+                        android:id="@+id/input_ssid"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text" />
+
+            </LinearLayout>
+
+            <include layout="@layout/divider_line" />
+
             <ch.rmy.android.http_shortcuts.views.PanelButton
                 android:id="@+id/input_timeout"
                 android:layout_width="match_parent"

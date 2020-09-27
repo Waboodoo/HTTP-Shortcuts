@@ -965,4 +965,14 @@
     <string name="instructions_deep_linking">To use the deep-linking feature, make sure to use a valid URL of the form:\n\n%s</string>
     <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
     <string name="placeholder_deleted_shortcut">Deleted Shortcut</string>
+    <!-- Label: Wifi network selection config in shortcut settings -->
+    <string name="label_ssid">Wifi SSID</string>
+    <!-- Dialog title: Permission request for wifi/ssid check -->
+    <string name="title_permission_dialog">Permissions required</string>
+    <!-- Message: Rational given for location permission in wifi/ssid check  -->
+    <string name="message_permission_rational">Location permissions are required to check if the shortcut is executed on the configured wifi network.</string>
+    <!-- Message: Shown to the user when connected to a different wifi network then the one given in the config -->
+    <string name="message_wrong_wifi_network">Not connected to the wifi network configured for this shortcut \"%1$s\". Select another wifi network now?</string>
+    <!-- Action label: Shown on wifi check dialog to open the wifi picker -->
+    <string name="action_label_select">Select</string>
 </resources>

@@ -43,10 +43,14 @@ class AdvancedSettingsViewModel(application: Application) : BasicShortcutEditorV
             }
         }
 
+    fun setSsid(ssid: String): Completable =
+            Transactions.commit { realm ->
+                getShortcut(realm)?.ssid = ssid.trim()
+            }
+
     fun getTimeoutSubtitle(shortcut: Shortcut): CharSequence =
         getTimeoutText(shortcut.timeout)
 
     fun getTimeoutText(timeout: Int) =
         StringUtils.getDurationText(context, timeout)
-
 }
