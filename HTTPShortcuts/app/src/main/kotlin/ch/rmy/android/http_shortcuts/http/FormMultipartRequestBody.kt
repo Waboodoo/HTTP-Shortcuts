@@ -13,21 +13,23 @@ class FormMultipartRequestBody(private val parameters: List<RequestBuilder.Param
     override fun contentType(): MediaType =
         RequestUtil.getMediaType(FORM_MULTIPART_CONTENT_TYPE)
 
-    override fun contentLength(): Long {
+    private val length: Long by lazy {
         try {
             var computedLength = 0L
             process(
                 { string ->
-                    computedLength += string.length
+                    computedLength += string.toByteArray().size
                 }, { _, length ->
                 computedLength += length ?: throw UnknownLength()
             }
             )
-            return computedLength
+            computedLength
         } catch (t: UnknownLength) {
-            return -1
+            -1
         }
     }
+
+    override fun contentLength(): Long = length
 
     override fun writeTo(sink: BufferedSink) {
         process(

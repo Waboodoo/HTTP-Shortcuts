@@ -1,3 +1,9 @@
+## Version 1.38.0
+
+### Bugfixes
+
+- Content-Length is now correctly computed when using form-data. Previously it was counting some characters (e.g. Cyrillic letter) incorrectly.
+
 ## Version 1.37.0
 
 ### Scripting Improvements
