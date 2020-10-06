@@ -176,7 +176,7 @@
     <string name="dialog_remove">"移除"</string>
 
     <!-- Section title in shortcut editor, for section that contains options to specify the headers of the HTTP request -->
-    <string name="section_request_headers">"请求头部"</string>
+    <string name="section_request_headers">"请求头"</string>
 
     <!-- Section title in shortcut editor, for section that contains options to specify the body of the HTTP request -->
     <string name="section_request_body">"响应体/响应参数"</string>
