@@ -47,22 +47,20 @@ class ShareActivity : BaseActivity() {
         val text = intent.getStringExtra(Intent.EXTRA_TEXT)
 
         if (type == TYPE_TEXT && action == Intent.ACTION_SEND && text != null) {
-            handleTextSharing(text)
+            handleTextSharing(text, getFileUris())
         } else {
-            handleFileSharing(getFileUris() ?: return)
+            handleFileSharing(getFileUris())
         }
     }
 
-    private fun getFileUris(): List<Uri>? =
+    private fun getFileUris(): List<Uri> =
         if (intent.action == Intent.ACTION_SEND) {
-            intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)?.let {
-                listOf(it)
-            }
+            intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)?.let { listOf(it) }
         } else {
             intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM)
-        }
+        } ?: emptyList()
 
-    private fun handleTextSharing(text: String) {
+    private fun handleTextSharing(text: String, fileUris: List<Uri>) {
         val variableLookup = VariableManager(Repository.getBase(realm)!!.variables)
         val variables = getTargetableVariablesForTextSharing()
         val variableIds = variables.map { it.id }.toSet()
@@ -72,10 +70,14 @@ class ShareActivity : BaseActivity() {
         when (shortcuts.size) {
             0 -> showInstructions(R.string.error_not_suitable_shortcuts)
             1 -> {
-                executeShortcut(shortcuts[0], variableValues = variableValues)
+                cacheFiles(fileUris) {
+                    executeShortcut(shortcuts[0], variableValues = variableValues, files = it)
+                }
                 finishWithoutAnimation()
             }
-            else -> showShortcutSelection(shortcuts, variableValues = variableValues)
+            else -> cacheFiles(fileUris) {
+                showShortcutSelection(shortcuts, variableValues = variableValues, files = it)
+            }
         }
     }
 
@@ -99,6 +101,16 @@ class ShareActivity : BaseActivity() {
             return
         }
 
+        cacheFiles(fileUris) {
+            proceedWithCachedShareFiles(shortcuts, it)
+        }
+    }
+
+    private fun cacheFiles(fileUris: List<Uri>, action: (List<Uri>) -> Unit) {
+        if (fileUris.isEmpty()) {
+            action(emptyList())
+            return
+        }
         val context = applicationContext
         Single.fromCallable {
             cacheSharedFiles(context, fileUris)
@@ -106,9 +118,7 @@ class ShareActivity : BaseActivity() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                {
-                    proceedWithCachedShareFiles(shortcuts, it)
-                },
+                action,
                 { e ->
                     showToast(R.string.error_generic)
                     logException(e)
