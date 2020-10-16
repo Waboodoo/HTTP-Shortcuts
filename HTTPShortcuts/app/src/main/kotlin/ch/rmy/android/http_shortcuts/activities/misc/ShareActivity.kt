@@ -42,11 +42,9 @@ class ShareActivity : BaseActivity() {
             return
         }
 
-        val type = intent.type
-        val action = intent.action
         val text = intent.getStringExtra(Intent.EXTRA_TEXT)
 
-        if (type == TYPE_TEXT && action == Intent.ACTION_SEND && text != null) {
+        if (text != null) {
             handleTextSharing(text, getFileUris())
         } else {
             handleFileSharing(getFileUris())
