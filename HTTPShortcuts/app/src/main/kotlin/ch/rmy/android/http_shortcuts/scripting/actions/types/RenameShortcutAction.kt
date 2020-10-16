@@ -21,7 +21,7 @@ class RenameShortcutAction(private val name: String, private val shortcutNameOrI
         renameShortcut(
             executionContext.context,
             this.shortcutNameOrId ?: executionContext.shortcutId,
-            executionContext.variableManager
+            executionContext.variableManager,
         )
 
     private fun renameShortcut(context: Context, shortcutNameOrId: String, variableManager: VariableManager): Completable {
@@ -42,7 +42,7 @@ class RenameShortcutAction(private val name: String, private val shortcutNameOrI
                         context = context,
                         shortcutId = shortcut.id,
                         shortcutName = newName,
-                        shortcutIcon = shortcut.iconName
+                        shortcutIcon = shortcut.iconName,
                     )
                 }
                 WidgetManager.updateWidgets(context, shortcut.id)

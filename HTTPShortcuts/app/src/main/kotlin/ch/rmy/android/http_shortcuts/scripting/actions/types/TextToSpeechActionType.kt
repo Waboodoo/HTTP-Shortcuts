@@ -9,12 +9,12 @@ class TextToSpeechActionType : BaseActionType() {
 
     override fun fromDTO(actionDTO: ActionDTO) = TextToSpeechAction(
         message = actionDTO[KEY_TEXT] ?: "",
-        language = actionDTO[KEY_LANGUAGE] ?: ""
+        language = actionDTO[KEY_LANGUAGE] ?: "",
     )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
-        parameters = listOf(KEY_TEXT, KEY_LANGUAGE)
+        parameters = listOf(KEY_TEXT, KEY_LANGUAGE),
     )
 
     companion object {

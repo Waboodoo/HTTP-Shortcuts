@@ -12,7 +12,7 @@ class ConfirmAction(private val message: String) : BaseAction() {
     override fun executeForValue(executionContext: ExecutionContext): Single<String> {
         val finalMessage = Variables.rawPlaceholdersToResolvedValues(
             message,
-            executionContext.variableManager.getVariableValuesByIds()
+            executionContext.variableManager.getVariableValuesByIds(),
         )
 
         return if (finalMessage.isNotEmpty()) {

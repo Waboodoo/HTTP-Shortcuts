@@ -9,14 +9,14 @@ class TriggerShortcutActionType : BaseActionType() {
 
     override fun fromDTO(actionDTO: ActionDTO) = TriggerShortcutAction(
         shortcutNameOrId = actionDTO[KEY_SHORTCUT_NAME_OR_ID] ?: "",
-        variableValuesJson = actionDTO[KEY_VARIABLE_VALUES] ?: ""
+        variableValuesJson = actionDTO[KEY_VARIABLE_VALUES] ?: "",
     )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
         parameters = listOf(
             KEY_SHORTCUT_NAME_OR_ID,
-            KEY_VARIABLE_VALUES
+            KEY_VARIABLE_VALUES,
         )
     )
 

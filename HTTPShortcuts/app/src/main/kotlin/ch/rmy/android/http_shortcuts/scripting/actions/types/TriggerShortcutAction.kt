@@ -33,7 +33,7 @@ class TriggerShortcutAction(
             tryNumber = 0,
             waitUntil = DateUtil.calculateDate(shortcut.delay),
             requiresNetwork = shortcut.isWaitForNetwork,
-            recursionDepth = executionContext.recursionDepth + 1
+            recursionDepth = executionContext.recursionDepth + 1,
         )
     }
 

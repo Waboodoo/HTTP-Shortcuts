@@ -9,12 +9,12 @@ class PromptActionType : BaseActionType() {
 
     override fun fromDTO(actionDTO: ActionDTO) = PromptAction(
         message = actionDTO[KEY_MESSAGE] ?: "",
-        prefill = actionDTO[KEY_PREFILL] ?: ""
+        prefill = actionDTO[KEY_PREFILL] ?: "",
     )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
-        parameters = listOf(KEY_MESSAGE, KEY_PREFILL)
+        parameters = listOf(KEY_MESSAGE, KEY_PREFILL),
     )
 
     companion object {

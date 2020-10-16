@@ -9,13 +9,13 @@ class DialogActionType : BaseActionType() {
 
     override fun fromDTO(actionDTO: ActionDTO) = DialogAction(
         message = actionDTO[KEY_TEXT] ?: "",
-        title = actionDTO[KEY_TITLE] ?: ""
+        title = actionDTO[KEY_TITLE] ?: "",
     )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
         functionNameAliases = setOf(FUNCTION_NAME_ALIAS),
-        parameters = listOf(KEY_TEXT, KEY_TITLE)
+        parameters = listOf(KEY_TEXT, KEY_TITLE),
     )
 
     companion object {

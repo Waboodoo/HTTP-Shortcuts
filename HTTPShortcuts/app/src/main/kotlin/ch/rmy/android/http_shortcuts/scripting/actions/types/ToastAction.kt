@@ -11,7 +11,7 @@ class ToastAction(private val message: String) : BaseAction() {
     override fun execute(executionContext: ExecutionContext): Completable {
         val finalMessage = Variables.rawPlaceholdersToResolvedValues(
             message,
-            executionContext.variableManager.getVariableValuesByIds()
+            executionContext.variableManager.getVariableValuesByIds(),
         )
         return if (finalMessage.isNotEmpty()) {
             Completable

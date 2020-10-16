@@ -30,7 +30,7 @@ class ChangeIconAction(private val icon: String, private val shortcutNameOrId: S
                         context = context,
                         shortcutId = shortcut.id,
                         shortcutName = shortcut.name,
-                        shortcutIcon = newIcon
+                        shortcutIcon = newIcon,
                     )
                 }
                 WidgetManager.updateWidgets(context, shortcut.id)

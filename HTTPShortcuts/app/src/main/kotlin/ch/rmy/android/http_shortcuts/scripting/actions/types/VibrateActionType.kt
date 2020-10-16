@@ -9,12 +9,12 @@ class VibrateActionType : BaseActionType() {
 
     override fun fromDTO(actionDTO: ActionDTO) = VibrateAction(
         patternId = actionDTO[KEY_PATTERN]?.toIntOrNull() ?: 0,
-        waitForCompletion = actionDTO[KEY_WAIT_FOR_COMPLETION]?.toBoolean() ?: false
+        waitForCompletion = actionDTO[KEY_WAIT_FOR_COMPLETION]?.toBoolean() ?: false,
     )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
-        parameters = listOf(KEY_PATTERN, KEY_WAIT_FOR_COMPLETION)
+        parameters = listOf(KEY_PATTERN, KEY_WAIT_FOR_COMPLETION),
     )
 
     companion object {

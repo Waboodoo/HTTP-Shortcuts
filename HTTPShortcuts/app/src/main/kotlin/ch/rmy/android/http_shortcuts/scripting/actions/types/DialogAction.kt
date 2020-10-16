@@ -13,7 +13,7 @@ class DialogAction(private val message: String, private val title: String) : Bas
     override fun execute(executionContext: ExecutionContext): Completable {
         val finalMessage = Variables.rawPlaceholdersToResolvedValues(
             message,
-            executionContext.variableManager.getVariableValuesByIds()
+            executionContext.variableManager.getVariableValuesByIds(),
         )
         return if (finalMessage.isNotEmpty()) {
             Completable

@@ -10,12 +10,12 @@ class RenameShortcutActionType : BaseActionType() {
 
     override fun fromDTO(actionDTO: ActionDTO) = RenameShortcutAction(
         name = actionDTO[KEY_NAME] ?: "",
-        shortcutNameOrId = actionDTO[KEY_SHORTCUT_NAME_OR_ID]?.takeUnlessEmpty()
+        shortcutNameOrId = actionDTO[KEY_SHORTCUT_NAME_OR_ID]?.takeUnlessEmpty(),
     )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
-        parameters = listOf(KEY_SHORTCUT_NAME_OR_ID, KEY_NAME)
+        parameters = listOf(KEY_SHORTCUT_NAME_OR_ID, KEY_NAME),
     )
 
     companion object {

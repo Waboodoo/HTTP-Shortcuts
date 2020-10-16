@@ -10,12 +10,12 @@ class ChangeIconActionType : BaseActionType() {
 
     override fun fromDTO(actionDTO: ActionDTO) = ChangeIconAction(
         icon = actionDTO[KEY_ICON] ?: "",
-        shortcutNameOrId = actionDTO[KEY_SHORTCUT_NAME_OR_ID]?.takeUnlessEmpty()
+        shortcutNameOrId = actionDTO[KEY_SHORTCUT_NAME_OR_ID]?.takeUnlessEmpty(),
     )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
-        parameters = listOf(KEY_SHORTCUT_NAME_OR_ID, KEY_ICON)
+        parameters = listOf(KEY_SHORTCUT_NAME_OR_ID, KEY_ICON),
     )
 
     companion object {

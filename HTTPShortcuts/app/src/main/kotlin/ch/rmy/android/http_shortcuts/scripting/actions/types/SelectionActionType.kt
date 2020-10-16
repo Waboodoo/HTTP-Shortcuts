@@ -13,7 +13,7 @@ class SelectionActionType : BaseActionType() {
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
-        parameters = listOf(KEY_DATA)
+        parameters = listOf(KEY_DATA),
     )
 
     companion object {

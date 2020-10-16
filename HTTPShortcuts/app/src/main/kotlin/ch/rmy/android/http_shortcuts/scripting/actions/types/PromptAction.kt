@@ -12,7 +12,7 @@ class PromptAction(private val message: String, private val prefill: String) : B
     override fun executeForValue(executionContext: ExecutionContext): Single<String> {
         val finalMessage = Variables.rawPlaceholdersToResolvedValues(
             message,
-            executionContext.variableManager.getVariableValuesByIds()
+            executionContext.variableManager.getVariableValuesByIds(),
         )
 
         return if (finalMessage.isNotEmpty()) {
