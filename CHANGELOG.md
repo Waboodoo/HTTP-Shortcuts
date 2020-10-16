@@ -1,8 +1,13 @@
 ## Version 1.38.0
 
+### Scripting Improvements
+
+There is now a *hash()* action, which allows to apply MD5, SHA-1, SHA-256 and SHA-512.
+
 ### Bugfixes
 
 - Content-Length is now correctly computed when using form-data. Previously it was counting some characters (e.g. Cyrillic letter) incorrectly.
+- Shared text is no longer ignored when sharing text and files into the app at the same time
 
 ## Version 1.37.0
 

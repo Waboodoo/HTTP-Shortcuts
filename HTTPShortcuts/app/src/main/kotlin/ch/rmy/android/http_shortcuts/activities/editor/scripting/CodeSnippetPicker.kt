@@ -56,6 +56,9 @@ class CodeSnippetPicker(
             .item(R.string.dialog_code_snippet_control_flow, iconRes = R.drawable.ic_control_flow) {
                 showControlFlowPicker(insertText)
             }
+            .item(R.string.dialog_code_snippet_text_processing, iconRes = R.drawable.ic_text_processing) {
+                showTextProcessingPicker(insertText)
+            }
             .item(R.string.dialog_code_snippet_misc, iconRes = R.drawable.ic_misc) {
                 showMiscPicker(insertText)
             }
@@ -213,6 +216,23 @@ class CodeSnippetPicker(
             }
             .item(R.string.action_type_abort_execution) {
                 insertText("abort();\n", "")
+            }
+            .showIfPossible()
+    }
+
+    private fun showTextProcessingPicker(insertText: (before: String, after: String) -> Unit) {
+        DialogBuilder(context)
+            .item(name = "MD5") {
+                insertText("hash(\"MD5\", \"", "\");\n")
+            }
+            .item(name = "SHA-1") {
+                insertText("hash(\"SHA-1\", \"", "\");\n")
+            }
+            .item(name = "SHA-256") {
+                insertText("hash(\"SHA-256\", \"", "\");\n")
+            }
+            .item(name = "SHA-512") {
+                insertText("hash(\"SHA-512\", \"", "\");\n")
             }
             .showIfPossible()
     }

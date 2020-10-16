@@ -25,6 +25,7 @@ class ActionFactory {
                 ConfirmActionType(),
                 CopyToClipboardActionType(),
                 DialogActionType(),
+                HashActionType(),
                 PromptActionType(),
                 RenameShortcutActionType(),
                 SelectionActionType(),

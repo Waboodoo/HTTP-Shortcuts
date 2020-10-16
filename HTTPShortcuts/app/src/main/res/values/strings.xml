@@ -760,6 +760,8 @@
     <string name="dialog_code_snippet_modify_shortcuts">Modify Shortcuts</string>
     <!-- Dialog option: shown in code snippet picker, shows options to control the flow of the script (abort, if-else, ...) -->
     <string name="dialog_code_snippet_control_flow">Control Flow</string>
+    <!-- Dialog option: shown in code snippet picker, shows options to process text (e.g. encoding, hashing, ...) -->
+    <string name="dialog_code_snippet_text_processing">Text Processing (Hashing)</string>
     <!-- Dialog option: shown in code snippet picker, shows options to don't belong in any of the other categories -->
     <string name="dialog_code_snippet_misc">Miscellaneous</string>
     <!-- Dialog option: shown in code snippet picker, option to get the ID of the current shortcut -->
