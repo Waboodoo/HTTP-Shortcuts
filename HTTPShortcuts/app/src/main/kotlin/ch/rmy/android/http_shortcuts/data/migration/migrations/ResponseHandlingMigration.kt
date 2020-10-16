@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.data.migration.migrations
 
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import io.realm.DynamicRealm
 
@@ -103,7 +104,7 @@ class ResponseHandlingMigration : BaseMigration {
 
     override fun migrateImport(base: JsonObject) {
         for (category in base["categories"].asJsonArray) {
-            for (shortcut in category.asJsonObject["shortcuts"].asJsonArray) {
+            for (shortcut in category.asJsonObject["shortcuts"]?.asJsonArray ?: JsonArray()) {
                 val shortcutObject = shortcut.asJsonObject
                 val executionType = shortcutObject.get("executionType")?.asString
                 if (executionType == "app" || executionType == null) {

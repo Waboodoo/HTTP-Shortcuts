@@ -77,7 +77,7 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
 
     fun hasChanges(): Boolean {
         val oldShortcut = shortcutId
-            ?.let { Repository.getShortcutById(persistedRealm, it)!! }
+            ?.let { Repository.getShortcutById(persistedRealm, it) ?: return false }
             ?: createNewShortcut()
         val newShortcut = getShortcut(persistedRealm) ?: return false
         return !newShortcut.isSameAs(oldShortcut)

@@ -91,7 +91,11 @@ class SettingsActivity : BaseActivity() {
 
             initPreference("export") {
                 exportUI.showExportOptions { intent ->
-                    intent.startActivity(this, REQUEST_EXPORT_TO_DOCUMENTS)
+                    try {
+                        intent.startActivity(this, REQUEST_EXPORT_TO_DOCUMENTS)
+                    } catch (e: ActivityNotFoundException) {
+                        context?.showToast(R.string.error_generic)
+                    }
                 }
             }
 
