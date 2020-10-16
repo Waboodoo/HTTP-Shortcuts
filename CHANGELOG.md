@@ -8,6 +8,7 @@ There is now a *hash()* action, which allows to apply MD5, SHA-1, SHA-256 and SH
 
 - Content-Length is now correctly computed when using form-data. Previously it was counting some characters (e.g. Cyrillic letter) incorrectly.
 - Shared text is no longer ignored when sharing text and files into the app at the same time
+- The scrolling behavior is now smoother when displaying HTML responses
 
 ## Version 1.37.0
 

@@ -130,7 +130,11 @@ class DisplayResponseActivity : BaseActivity() {
 
     private fun displayInWebView(text: String, url: String?) {
         try {
-            setContentView(R.layout.activity_display_response_webview)
+            setContentView(if (showDetails) {
+                R.layout.activity_display_response_webview_with_details
+            } else {
+                R.layout.activity_display_response_webview
+            })
             responseWebView.loadFromString(text, url)
         } catch (e: Exception) {
             logException(e)
@@ -140,7 +144,11 @@ class DisplayResponseActivity : BaseActivity() {
 
     private fun displayWithSyntaxHighlighting(text: String, language: SyntaxHighlightView.Language) {
         try {
-            setContentView(R.layout.activity_display_response_syntax_highlighting)
+            setContentView(if (showDetails) {
+                R.layout.activity_display_response_syntax_highlighting_with_details
+            } else {
+                R.layout.activity_display_response_syntax_highlighting
+            })
             formattedResponseText.setCode(text, language)
         } catch (e: Exception) {
             logException(e)
