@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import io.reactivex.Single
@@ -26,7 +27,11 @@ class HashAction(private val algorithm: String, private val text: String) : Base
 
     private fun throwUnsupportedError(): Nothing {
         throw ActionException {
-            "Unsupported hash algorithm \"$algorithm\". Use ${SUPPORTED_ALGORITHMS.joinToString()}." // TODO: Localize
+            it.getString(
+                R.string.error_unsupported_hash_algorithm,
+                algorithm,
+                SUPPORTED_ALGORITHMS.joinToString(),
+            )
         }
     }
 
