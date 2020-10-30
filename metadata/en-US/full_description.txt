@@ -1,26 +1,30 @@
 Place shortcuts (widgets) on your home screen to submit HTTP requests to all your favorite RESTful APIs, webservices and other URL resources. Great for home automation projects!
 
-- HTTP and HTTPS
-- GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS and TRACE
-- Basic Authentication, Digest Authentication & Bearer Authentication
-- Custom request headers
-- Custom request body (text only)
-- Upload files as form-data
-- Option to accept all certificates (if you know what you're doing)
-- Support for HTTP proxies
-- Built-in icons, support for Ipack icons and custom icons
-- Display response as a toast, window or dialog, or run silently
-- Grouping into categories through tabs
-- Value injection through variables (e.g., text, numbers, passwords, selections, colors, dates, …)
-- Run arbitrary JavaScript before & after execution, including special actions (e.g., vibrate, show toast, parse and process response…),
-- Import & Export in JSON or cURL format
-- 3rd party integration (e.g. Tasker)
-- Themes (with Dark Mode support)
+<ul>
+<li>HTTP and HTTPS</li>
+<li>GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS and TRACE</li>
+<li>Basic Authentication, Digest Authentication & Bearer Authentication</li>
+<li>Custom request headers</li>
+<li>Custom request body (text only)</li>
+<li>Upload files as form-data</li>
+<li>Option to accept all certificates (if you know what you're doing)</li>
+<li>Support for HTTP proxies</li>
+<li>Built-in icons, support for Ipack icons and custom icons</li>
+<li>Display response as a toast, window or dialog, or run silently</li>
+<li>Grouping into categories through tabs</li>
+<li>Value injection through variables (e.g., text, numbers, passwords, selections, colors, dates, …)</li>
+<li>Run arbitrary JavaScript before & after execution, including special actions (e.g., vibrate, show toast, parse and process response…)</li>
+<li>Import & Export in JSON or cURL format</li>
+<li>3rd party integration (e.g. Tasker)</li>
+<li>Themes (with Dark Mode support)</li>
+</ul>
 
 Some ideas what to use HTTP shortcuts for:
-- Execute a script on your web server
-- Control your home automation system and IoT devices
-- Interact with your RaspberryPi and Arduino tinkering projects
-- Automate workflows
+<ul>
+<li>Execute a script on your web server</li>
+<li>Control your home automation system and IoT devices</li>
+<li>Interact with your RaspberryPi and Arduino tinkering projects</li>
+<li>Automate workflows</li>
+</ul>
 
-This app is open source, find it on Github: https://github.com/Waboodoo/HTTP-Shortcuts. It's also completely free and contains no ads, because who wants those anyway.
+This app is open source, find it on Github: <a href="https://github.com/Waboodoo/HTTP-Shortcuts">https://github.com/Waboodoo/HTTP-Shortcuts</a>. It's also completely free and contains no ads, because who wants those anyway.

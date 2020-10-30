@@ -1,1 +1,1 @@
-Submit HTTP Requests from Shortcuts on your Home Screen.
+Submit HTTP Requests from Shortcuts on your Home Screen
