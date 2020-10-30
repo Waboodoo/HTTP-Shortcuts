@@ -4,21 +4,36 @@ import android.content.Context
 import android.widget.CheckBox
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.extensions.showIfPossible
-import io.reactivex.Completable
-import io.reactivex.subjects.CompletableSubject
+import io.reactivex.Single
+import io.reactivex.subjects.SingleSubject
 
-abstract class DismissableDialog(private val context: Context) : Dialog {
+abstract class DismissableDialog(private val context: Context, private val isCancelable: Boolean = false) : Dialog {
 
-    override fun show(): Completable {
-        val completable = CompletableSubject.create()
+    override fun show(): Single<DialogResult> {
+        var doNotShowAgain = false
+        val single = SingleSubject.create<DialogResult>()
         val dialog = DialogBuilder(context)
-            .positive(R.string.dialog_ok)
+            .positive(R.string.dialog_ok) {
+                isPermanentlyDismissed = doNotShowAgain
+                single.onSuccess(DialogResult.OK)
+            }
             .view(R.layout.dismissable_dialog)
-            .cancelable(false)
-            .canceledOnTouchOutside(false)
+            .cancelable(isCancelable)
+            .canceledOnTouchOutside(isCancelable)
             .dismissListener {
-                completable.onComplete()
+                if (!isCancelable) {
+                    isPermanentlyDismissed = doNotShowAgain
+                }
+                if (!single.hasValue()) {
+                    single.onSuccess(DialogResult.CANCELED)
+                }
+            }
+            .mapIf(isCancelable) {
+                it.negative(R.string.dialog_cancel) {
+                    single.onSuccess(DialogResult.CANCELED)
+                }
             }
             .build()
             .also {
@@ -26,16 +41,16 @@ abstract class DismissableDialog(private val context: Context) : Dialog {
                 messageView.text = message
                 val checkBox = it.findViewById(R.id.checkbox_do_not_show_again) as CheckBox
                 checkBox.setOnCheckedChangeListener { _, isChecked ->
-                    isPermanentlyDismissed = isChecked
+                    doNotShowAgain = isChecked
                 }
             }
             .showIfPossible()
         return if (dialog != null) {
-            completable.doOnDispose {
+            single.doOnDispose {
                 dialog.dismiss()
             }
         } else {
-            Completable.complete()
+            Single.just(DialogResult.NOT_SHOWN)
         }
     }
 

@@ -184,6 +184,8 @@
     <string name="settings_import">Import Shortcuts</string>
     <!-- Button in settings page to start export of shortcuts -->
     <string name="settings_export">Export Shortcuts</string>
+    <!-- Button in settings page to start editing shortcuts from a connected computer -->
+    <string name="settings_remote_edit">Edit on Computer</string>
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
     <plurals name="shortcut_export_success">
         <item quantity="one">1 shortcut exported.</item>
@@ -907,4 +909,8 @@
     <string name="confirm_clear_cookies_message">Delete all stored cookies?</string>
     <!-- Message, shown in snackbar as confirmation to the user that cookies have been deleted -->
     <string name="message_cookies_cleared">Cookies deleted.</string>
+    <!-- Instructions on how to edit shortcuts remotely from a computer on the same network -->
+    <string name="instructions_remote_edit">Go to %s on a computer that is connected to the same network as this device and enter the IP address displayed above.\n\nDon\'t forget to save your changes when you\'re done.</string>
+    <!-- Warning message shown when opening the remote edit feature -->
+    <string name="warning_remote_edit">This feature allows you to edit your shortcuts from a computer on the same network.\n\nBeware that all your shortcut and variable data will be accessible by any device on your network and that it is transferred over an unencrypted channel. Use with caution and at your own risk.</string>
 </resources>

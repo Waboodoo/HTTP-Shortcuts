@@ -13,8 +13,8 @@ import ch.rmy.android.http_shortcuts.extensions.isDarkThemeEnabled
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.utils.Settings
-import io.reactivex.Completable
-import io.reactivex.subjects.CompletableSubject
+import io.reactivex.Single
+import io.reactivex.subjects.SingleSubject
 
 
 class ChangeLogDialog(private val context: Context, private val whatsNew: Boolean) : Dialog {
@@ -33,7 +33,7 @@ class ChangeLogDialog(private val context: Context, private val whatsNew: Boolea
         get() = settings.isChangeLogPermanentlyHidden
 
     @SuppressLint("InflateParams")
-    override fun show(): Completable {
+    override fun show(): Single<DialogResult> {
         try {
             settings.changeLogLastVersion = version
 
@@ -50,14 +50,18 @@ class ChangeLogDialog(private val context: Context, private val whatsNew: Boolea
                 }
             }
 
-            val completable = CompletableSubject.create()
+            val single = SingleSubject.create<DialogResult>()
 
             val dialog = DialogBuilder(context)
                 .view(view)
                 .title(if (whatsNew) R.string.changelog_title_whats_new else R.string.changelog_title)
-                .positive(android.R.string.ok)
+                .positive(android.R.string.ok) {
+                    single.onSuccess(DialogResult.OK)
+                }
                 .dismissListener {
-                    completable.onComplete()
+                    if (!single.hasValue()) {
+                        single.onSuccess(DialogResult.CANCELED)
+                    }
                 }
                 .showIfPossible()
 
@@ -73,15 +77,15 @@ class ChangeLogDialog(private val context: Context, private val whatsNew: Boolea
                     settings.isChangeLogPermanentlyHidden = !isChecked
                 }
 
-                completable.doOnDispose {
+                single.doOnDispose {
                     dialog.dismiss()
                 }
             } else {
-                Completable.complete()
+                Single.just(DialogResult.NOT_SHOWN)
             }
         } catch (e: Exception) {
             logException(e)
-            return Completable.error(e)
+            return Single.error(e)
         }
     }
 

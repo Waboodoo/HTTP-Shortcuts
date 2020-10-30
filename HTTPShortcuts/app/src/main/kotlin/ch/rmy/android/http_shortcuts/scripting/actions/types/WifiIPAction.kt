@@ -1,8 +1,8 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import android.content.Context
-import android.net.wifi.WifiManager
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
+import ch.rmy.android.http_shortcuts.utils.NetworkUtil
 import io.reactivex.Single
 
 class WifiIPAction : BaseAction() {
@@ -13,21 +13,7 @@ class WifiIPAction : BaseAction() {
         }
 
     private fun getIPAddress(context: Context): String =
-        (context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager)
-            .connectionInfo
-            .ipAddress
-            .takeUnless { it == 0 }
-            ?.let { ipAddress ->
-                formatIPAddress(ipAddress)
-            }
+        NetworkUtil.getIPV4Address(context)
             ?: NO_RESULT
-
-    companion object {
-        private fun formatIPAddress(ip: Int): String =
-            (ip shr 0 and 0xFF).toString() + "." +
-                (ip shr 8 and 0xFF) + "." +
-                (ip shr 16 and 0xFF) + "." +
-                (ip shr 24 and 0xFF)
-    }
 
 }

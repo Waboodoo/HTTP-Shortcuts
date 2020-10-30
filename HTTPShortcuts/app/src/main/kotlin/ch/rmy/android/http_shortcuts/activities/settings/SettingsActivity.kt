@@ -15,6 +15,7 @@ import androidx.preference.PreferenceFragmentCompat
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.misc.AcknowledgmentActivity
+import ch.rmy.android.http_shortcuts.activities.remote_edit.RemoteEditActivity
 import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.dialogs.SpecialWarnings
@@ -101,6 +102,10 @@ class SettingsActivity : BaseActivity() {
 
             initPreference("import") {
                 showImportOptions()
+            }
+
+            initPreference("remote_edit") {
+                openRemoteEditor()
             }
 
             initPreference("privacy_policy") {
@@ -269,6 +274,12 @@ class SettingsActivity : BaseActivity() {
             }
         }
 
+        private fun openRemoteEditor() {
+            RemoteEditActivity.IntentBuilder(requireContext())
+                .build()
+                .startActivity(this)
+        }
+
         private fun showClearCookieDialog() {
             DialogBuilder(requireContext())
                 .message(R.string.confirm_clear_cookies_message)
@@ -327,7 +338,7 @@ class SettingsActivity : BaseActivity() {
                 setCanceledOnTouchOutside(false)
             }
             Importer(requireContext().applicationContext)
-                .import(uri)
+                .importFromUri(uri)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {
                     progressDialog.show()

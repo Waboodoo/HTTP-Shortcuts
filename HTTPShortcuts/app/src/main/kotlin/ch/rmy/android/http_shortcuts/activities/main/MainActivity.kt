@@ -221,6 +221,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost {
     private fun showChangeLogIfNeeded() {
         ChangeLogDialog(context, whatsNew = true)
             .showIfNeeded()
+            .ignoreElement()
             .andThen(
                 NetworkRestrictionWarningDialog(context)
                     .showIfNeeded()

@@ -1,18 +1,18 @@
 package ch.rmy.android.http_shortcuts.dialogs
 
-import io.reactivex.Completable
+import io.reactivex.Single
 
 interface Dialog {
 
     fun shouldShow(): Boolean
 
-    fun show(): Completable
+    fun show(): Single<DialogResult>
 
-    fun showIfNeeded(): Completable =
+    fun showIfNeeded(): Single<DialogResult> =
         if (shouldShow()) {
             show()
         } else {
-            Completable.complete()
+            Single.just(DialogResult.NOT_SHOWN)
         }
 
 }

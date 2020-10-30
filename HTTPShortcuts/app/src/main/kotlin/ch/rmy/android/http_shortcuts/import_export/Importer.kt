@@ -28,27 +28,30 @@ import java.net.URL
 
 class Importer(private val context: Context) {
 
-    fun import(uri: Uri): Single<ImportStatus> =
+    fun importFromUri(uri: Uri): Single<ImportStatus> =
         RxUtils
             .single {
-                val inputStream = getStream(context, uri)
-                BufferedReader(InputStreamReader(inputStream)).use { reader ->
-                    val importData = JsonParser.parseReader(reader)
-                    logInfo("Importing from v${importData.asJsonObject.get("version") ?: "?"}: ${importData.asJsonObject.keySet()}")
-                    val migratedImportData = ImportMigrator.migrate(importData)
-                    val newBase = GsonUtil.importData(migratedImportData)
-                    newBase.validate()
-                    importBase(newBase)
-                    ImportStatus(
-                        importedShortcuts = newBase.shortcuts.size,
-                        needsRussianWarning = newBase.shortcuts.any { it.url.contains(".beeline.ru") }
-                    )
-                }
+                import(getStream(context, uri))
             }
             .onErrorResumeNext { error ->
                 Single.error(handleError(error))
             }
             .subscribeOn(Schedulers.io())
+
+    fun import(inputStream: InputStream): ImportStatus {
+        val importData = BufferedReader(InputStreamReader(inputStream)).use { reader ->
+            JsonParser.parseReader(reader)
+        }
+        logInfo("Importing from v${importData.asJsonObject.get("version") ?: "?"}: ${importData.asJsonObject.keySet()}")
+        val migratedImportData = ImportMigrator.migrate(importData)
+        val newBase = GsonUtil.importData(migratedImportData)
+        newBase.validate()
+        importBase(newBase)
+        return ImportStatus(
+            importedShortcuts = newBase.shortcuts.size,
+            needsRussianWarning = newBase.shortcuts.any { it.url.contains(".beeline.ru") }
+        )
+    }
 
     private fun getStream(context: Context, uri: Uri): InputStream =
         if (uri.isWebUrl) {

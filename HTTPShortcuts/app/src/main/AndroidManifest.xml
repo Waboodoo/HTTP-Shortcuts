@@ -210,6 +210,10 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".activities.remote_edit.RemoteEditActivity"
+            android:label="@string/settings_remote_edit"
+            android:windowSoftInputMode="adjustResize" />
+
         <activity
             android:name=".activities.widget.WidgetSettingsActivity"
             android:windowSoftInputMode="adjustResize"
