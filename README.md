@@ -3,15 +3,19 @@
 <img src="/Assets/logo.png" align="right" style="margin-left: 1em;"/>
 </a>
 
-![Version](https://img.shields.io/badge/version-1.38.0-green.svg)
+![Version](https://img.shields.io/badge/version-1.39.0-green.svg)
 
 A simple Android app that allows you to create shortcuts that can be placed on your home screen. Each shortcut, when clicked, triggers an HTTP request.
 
 <a href="https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts">
-<img alt="Get it on Google Play" src="http://steverichey.github.io/google-play-badge-svg/img/en_get.svg" width="280" />
+<img alt="Get it on Google Play" src="/Assets/play_store.svg" height="80" />
+</a>
+<a href="https://f-droid.org/en/packages/ch.rmy.android.http_shortcuts/">
+<img alt="Get it on F-Droid" src="/Assets/f_droid.svg" height="80" />
 </a>
 
-Get it on the [Play Store](https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts), [F-Droid](https://f-droid.org/en/packages/ch.rmy.android.http_shortcuts/) or [download the latest APK](https://github.com/Waboodoo/HTTP-Shortcuts/releases) directly.
+
+or [download the latest APK](https://github.com/Waboodoo/HTTP-Shortcuts/releases) directly.
 
 Find more information and documentation on the [official website](https://http-shortcuts.rmy.ch/).
 
@@ -34,6 +38,8 @@ Find more information and documentation on the [official website](https://http-s
 - Import & Export in JSON or cURL format
 - 3rd party integration (e.g. Tasker)
 - Themes (with Dark Mode support)
+
+See also the [Changelog](CHANGELOG.md) for the latest additions and updates.
 
 ## Screenshots
 
