@@ -424,13 +424,9 @@ class ShortcutEditorActivity : BaseActivity() {
                         bitmap.recycle()
                         updateIconName(iconName)
                     } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                        if (result.error != null) {
-                            logException(result.error)
-                        }
                         showSnackbar(R.string.error_set_image, long = true)
                     }
                 } catch (e: Exception) {
-                    logException(e)
                     showSnackbar(R.string.error_set_image, long = true)
                 }
             }
