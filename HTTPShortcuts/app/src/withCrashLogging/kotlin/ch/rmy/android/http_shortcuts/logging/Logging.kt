@@ -43,6 +43,7 @@ object Logging {
             .apply {
                 sendThreads = ThreadSendPolicy.NEVER
                 autoTrackSessions = false
+                enabledErrorTypes = ErrorTypes(anrs = false, ndkCrashes = false)
             }
 
     private val isAppOutdated
