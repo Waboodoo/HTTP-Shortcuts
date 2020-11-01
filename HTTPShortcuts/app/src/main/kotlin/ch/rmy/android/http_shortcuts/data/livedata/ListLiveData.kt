@@ -18,7 +18,7 @@ abstract class ListLiveData<T> : LiveData<List<T>>(), Collection<T> {
     override fun isEmpty(): Boolean =
         value?.isEmpty() != false
 
-    protected fun onChange() {
+    fun onChange() {
         value = value
     }
 

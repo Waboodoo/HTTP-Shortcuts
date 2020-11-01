@@ -14,6 +14,7 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.detachFromRealm
 import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.utils.FileUtil
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.RxUtils
@@ -22,18 +23,28 @@ import io.reactivex.schedulers.Schedulers
 
 class Exporter(private val context: Context) {
 
-    fun exportToUri(uri: Uri, shortcutId: String? = null, variableIds: Collection<String>? = null): Single<ExportStatus> =
+    fun exportToUri(
+        uri: Uri,
+        shortcutId: String? = null,
+        variableIds: Collection<String>? = null,
+        excludeDefaults: Boolean = false,
+    ): Single<ExportStatus> =
         RxUtils
             .single {
                 FileUtil.getWriter(context, uri).use {
-                    export(it, shortcutId, variableIds)
+                    export(it, shortcutId, variableIds, excludeDefaults)
                 }
             }
             .subscribeOn(Schedulers.io())
 
-    fun export(writer: Appendable, shortcutId: String? = null, variableIds: Collection<String>? = null): ExportStatus {
+    fun export(
+        writer: Appendable,
+        shortcutId: String? = null,
+        variableIds: Collection<String>? = null,
+        excludeDefaults: Boolean = false,
+    ): ExportStatus {
         val base = getDetachedBase(shortcutId, variableIds)
-        exportData(base, writer)
+        exportData(base, writer, excludeDefaults)
         return ExportStatus(exportedShortcuts = base.shortcuts.size)
     }
 
@@ -54,20 +65,22 @@ class Exporter(private val context: Context) {
                 }
             }
 
-    private fun exportData(base: Base, writer: Appendable) {
+    private fun exportData(base: Base, writer: Appendable, excludeDefaults: Boolean = false) {
         try {
             val serializer = ModelSerializer()
             GsonUtil.gson
                 .newBuilder()
                 .setPrettyPrinting()
-                .registerTypeAdapter(Base::class.java, serializer)
-                .registerTypeAdapter(Header::class.java, serializer)
-                .registerTypeAdapter(Parameter::class.java, serializer)
-                .registerTypeAdapter(Shortcut::class.java, serializer)
-                .registerTypeAdapter(Option::class.java, serializer)
-                .registerTypeAdapter(Variable::class.java, serializer)
-                .registerTypeAdapter(Category::class.java, serializer)
-                .registerTypeAdapter(ResponseHandling::class.java, serializer)
+                .mapIf(excludeDefaults) {
+                    it.registerTypeAdapter(Base::class.java, serializer)
+                        .registerTypeAdapter(Header::class.java, serializer)
+                        .registerTypeAdapter(Parameter::class.java, serializer)
+                        .registerTypeAdapter(Shortcut::class.java, serializer)
+                        .registerTypeAdapter(Option::class.java, serializer)
+                        .registerTypeAdapter(Variable::class.java, serializer)
+                        .registerTypeAdapter(Category::class.java, serializer)
+                        .registerTypeAdapter(ResponseHandling::class.java, serializer)
+                }
                 .create()
                 .toJson(base, writer)
         } catch (e: Throwable) {

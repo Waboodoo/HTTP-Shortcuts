@@ -913,4 +913,12 @@
     <string name="instructions_remote_edit">Go to %s on a computer that is connected to the same network as this device and enter the IP address displayed above.\n\nDon\'t forget to save your changes when you\'re done.</string>
     <!-- Warning message shown when opening the remote edit feature -->
     <string name="warning_remote_edit">This feature allows you to edit your shortcuts from a computer on the same network.\n\nBeware that all your shortcut and variable data will be accessible by any device on your network and that it is transferred over an unencrypted channel. Use with caution and at your own risk.</string>
+    <!-- Request log message when remote editing shortcuts: server started -->
+    <string name="request_log_shortcuts_server_started">Server started, waiting for connections</string>
+    <!-- Request log message when remote editing shortcuts: server started -->
+    <string name="request_log_shortcuts_server_stopped">Server stopped</string>
+    <!-- Request log message when remote editing shortcuts: shortcuts loaded -->
+    <string name="request_log_shortcuts_loaded">Requests loaded</string>
+    <!-- Request log message when remote editing shortcuts: shortcuts saved -->
+    <string name="request_log_shortcuts_saved">Requests saved</string>
 </resources>

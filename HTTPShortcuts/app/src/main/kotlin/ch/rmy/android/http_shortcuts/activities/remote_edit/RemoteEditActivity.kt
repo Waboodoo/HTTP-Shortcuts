@@ -3,10 +3,12 @@ package ch.rmy.android.http_shortcuts.activities.remote_edit
 import android.content.Context
 import android.os.Bundle
 import android.view.WindowManager
+import android.widget.ScrollView
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.dialogs.DialogResult
+import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.import_export.Exporter
 import ch.rmy.android.http_shortcuts.import_export.Importer
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
@@ -18,6 +20,7 @@ import io.ktor.features.CORS
 import io.ktor.features.ContentNegotiation
 import io.ktor.gson.gson
 import io.ktor.http.ContentType
+import io.ktor.request.userAgent
 import io.ktor.response.respond
 import io.ktor.response.respondTextWriter
 import io.ktor.routing.get
@@ -32,10 +35,14 @@ import java.io.InputStream
 
 class RemoteEditActivity : BaseActivity() {
 
+    private val viewModel: RemoteEditViewModel by bindViewModel()
+
     private var server: ApplicationEngine? = null
 
     private val ipAddressView: TextView by bindView(R.id.ip_address)
     private val instructions: TextView by bindView(R.id.instructions)
+    private val requestLog: TextView by bindView(R.id.request_log)
+    private val requestLogContainer: ScrollView by bindView(R.id.request_log_container)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,13 +65,24 @@ class RemoteEditActivity : BaseActivity() {
             }
 
         // TODO: Subscribe IntentFilter to observe network and IP address changes
-        // TODO: Display a log of incoming connections and performed actions
-    }
 
+        viewModel.events.observe(this, { events ->
+            requestLog.text = events.joinToString("\n\n")
+            requestLogContainer.fullScroll(ScrollView.FOCUS_DOWN)
+        })
+    }
 
     private fun setUp() {
         server = createServer()
+        startServer()
         updateIPAddressView()
+    }
+
+    private fun startServer() {
+        server?.let {
+            it.start(wait = false)
+            logEvent(getString(R.string.request_log_shortcuts_server_started))
+        }
     }
 
     private fun createServer(): ApplicationEngine =
@@ -81,6 +99,7 @@ class RemoteEditActivity : BaseActivity() {
                 get("/base") {
                     call.respondTextWriter(ContentType.Application.Json) {
                         export(this)
+                        logEvent(getString(R.string.request_log_shortcuts_loaded), call.request.userAgent())
                     }
                 }
                 post("/base") {
@@ -89,9 +108,20 @@ class RemoteEditActivity : BaseActivity() {
                         "status" to "success",
                         "updatedShortcuts" to importStatus.importedShortcuts,
                     ))
+                    logEvent(getString(R.string.request_log_shortcuts_saved), call.request.userAgent())
                 }
             }
         }
+
+    private fun logEvent(event: String, userAgent: String? = null) {
+        runOnUiThread {
+            viewModel.onApiEvent(if (userAgent.isNullOrEmpty()) {
+                event
+            } else {
+                "$event ($userAgent)"
+            })
+        }
+    }
 
     private fun updateIPAddressView() {
         ipAddressView.text = server
@@ -101,22 +131,27 @@ class RemoteEditActivity : BaseActivity() {
             ?: "-"
     }
 
-    private fun export(writer: Appendable) {
+    private fun export(writer: Appendable) =
         Exporter(context).export(writer)
-    }
 
     private fun import(inputStream: InputStream) =
         Importer(context).import(inputStream)
 
     override fun onStart() {
         super.onStart()
-        server?.start(wait = false)
         updateIPAddressView()
     }
 
-    override fun onStop() {
-        super.onStop()
-        server?.stop(1000, 1000)
+    override fun onDestroy() {
+        super.onDestroy()
+        stopServer()
+    }
+
+    private fun stopServer() {
+        server?.let {
+            it.stop(1000, 1000)
+            logEvent(getString(R.string.request_log_shortcuts_server_stopped))
+        }
     }
 
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, RemoteEditActivity::class.java)

@@ -51,7 +51,7 @@ class ExportUI(private val activity: FragmentActivity) : Destroyable {
             setCanceledOnTouchOutside(false)
         }
         Exporter(context.applicationContext)
-            .exportToUri(uri, shortcutId, variableIds)
+            .exportToUri(uri, shortcutId, variableIds, excludeDefaults = true)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
                 progressDialog.show()
@@ -81,7 +81,7 @@ class ExportUI(private val activity: FragmentActivity) : Destroyable {
             setCanceledOnTouchOutside(false)
         }
         Exporter(context.applicationContext)
-            .exportToUri(cacheFile)
+            .exportToUri(cacheFile, excludeDefaults = true)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
                 progressDialog.show()

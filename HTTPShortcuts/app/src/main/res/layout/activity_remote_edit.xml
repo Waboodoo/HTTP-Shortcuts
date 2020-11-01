@@ -35,6 +35,25 @@
             android:text="@string/instructions_remote_edit"
             android:textSize="17sp" />
 
+        <ScrollView
+            android:id="@+id/request_log_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/instructions"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="12dp"
+            android:background="@color/textarea_background"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/request_log"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="monospace"
+                android:textSize="12sp" />
+        </ScrollView>
+
+
     </RelativeLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
