@@ -7,7 +7,11 @@ object UserAgentUtil {
     val userAgent: String
         get() {
             val base = "HttpShortcuts/${BuildConfig.VERSION_NAME}"
-            val userAgent = System.getProperty("http.agent") ?: return base
+            val userAgent = System.getProperty("http.agent")
+                ?.filter { c ->
+                    (c > '\u001f' || c == '\t') && c < '\u007f'
+                }
+                ?: return base
             val start = userAgent.indexOf("(")
             val end = userAgent.indexOf(")")
             if (start == -1 || end == -1 || start > end) {
