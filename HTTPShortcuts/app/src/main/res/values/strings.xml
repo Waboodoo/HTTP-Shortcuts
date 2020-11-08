@@ -909,16 +909,34 @@
     <string name="confirm_clear_cookies_message">Delete all stored cookies?</string>
     <!-- Message, shown in snackbar as confirmation to the user that cookies have been deleted -->
     <string name="message_cookies_cleared">Cookies deleted.</string>
-    <!-- Instructions on how to edit shortcuts remotely from a computer on the same network -->
-    <string name="instructions_remote_edit">Go to %s on a computer that is connected to the same network as this device and enter the IP address displayed above.\n\nDon\'t forget to save your changes when you\'re done.</string>
-    <!-- Warning message shown when opening the remote edit feature -->
-    <string name="warning_remote_edit">This feature allows you to edit your shortcuts from a computer on the same network.\n\nBeware that all your shortcut and variable data will be accessible by any device on your network and that it is transferred over an unencrypted channel. Use with caution and at your own risk.</string>
-    <!-- Request log message when remote editing shortcuts: server started -->
-    <string name="request_log_shortcuts_server_started">Server started, waiting for connections</string>
-    <!-- Request log message when remote editing shortcuts: server started -->
-    <string name="request_log_shortcuts_server_stopped">Server stopped</string>
-    <!-- Request log message when remote editing shortcuts: shortcuts loaded -->
-    <string name="request_log_shortcuts_loaded">Requests loaded</string>
-    <!-- Request log message when remote editing shortcuts: shortcuts saved -->
-    <string name="request_log_shortcuts_saved">Requests saved</string>
+    <!-- Instructions on how to edit shortcuts remotely from a computer -->
+    <string name="instructions_remote_edit">This feature allows you to edit your shortcuts and variables on a computer, from the comfort of a browser. Please read the app\'s Privacy Policy before getting started, then follow these steps:</string>
+    <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->
+    <string name="instructions_remote_edit_step_1">Enter a password into the field above.</string>
+    <!-- Instruction step for editing shortcuts remotely from a computer: click the push button -->
+    <string name="instructions_remote_edit_step_2">"Click the <pre>\"Push to Server\"</pre> button".</string>
+    <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
+    <string name="instructions_remote_edit_step_3">Open %s in a browser on your computer, enter your device ID and password and start editing.</string>
+    <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
+    <string name="instructions_remote_edit_step_4">"Once you\'re done editing click the <pre>\"Pull Changes\"</pre> button below to download your changes back into the app."</string>
+    <!-- Button label: Shown in "Edit on Computer" feature, allows to push all shortcuts and variables to the editing server -->
+    <string name="button_remote_edit_upload">Push to Server</string>
+    <!-- Button label: Shown in "Edit on Computer" feature, allows to pull all changes to shortcuts and variables from the editing server -->
+    <string name="button_remote_edit_download">Pull Changes</string>
+    <!-- Label: Shown above a textfield with the device's ID, used to log in to edit server when editing shortcuts on a computer -->
+    <string name="label_remote_edit_device_id">Device ID</string>
+    <!-- Label: Shown above a textfield for entering a password, used to log in to edit server when editing shortcuts on a computer -->
+    <string name="label_remote_edit_password">Password</string>
+    <!-- Status message shown while shortcuts & variables are being pushed to the remote server, shown on progress dialog -->
+    <string name="remote_edit_upload_in_progress">Pushing to Server…</string>
+    <!-- Status message shown while changes to shortcuts & variables are being pulled down from the remote server, shown on progress dialog -->
+    <string name="remote_edit_download_in_progress">Pulling changes…</string>
+    <!-- Message: Success message shown in snackbar when pushing shortcuts and variables to the editing server was successful -->
+    <string name="message_remote_edit_upload_successful">Successfully pushed to server.</string>
+    <!-- Message: Success message shown in snackbar when pulling changes to shortcuts and variables from the editing server was successful -->
+    <string name="message_remote_edit_download_successful">Successfully pulled changes.</string>
+    <!-- Error message: shown in dialog when pushing shortcuts to the editing server failed -->
+    <string name="error_remote_edit_upload">Failed to push to server. Please try again later.</string>
+    <!-- Error message: shown in dialog when pulling changes to shortcuts from the editing server failed -->
+    <string name="error_remote_edit_download">Failed to pull changes from server. Please check your network connection and make sure you did not change the password.</string>
 </resources>

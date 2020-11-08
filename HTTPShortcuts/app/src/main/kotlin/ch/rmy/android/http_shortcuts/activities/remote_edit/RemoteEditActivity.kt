@@ -1,167 +1,137 @@
 package ch.rmy.android.http_shortcuts.activities.remote_edit
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.os.Bundle
-import android.view.WindowManager
-import android.widget.ScrollView
+import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
-import ch.rmy.android.http_shortcuts.dialogs.DialogResult
+import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
-import ch.rmy.android.http_shortcuts.import_export.Exporter
-import ch.rmy.android.http_shortcuts.import_export.Importer
+import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
+import ch.rmy.android.http_shortcuts.extensions.showMessageDialog
+import ch.rmy.android.http_shortcuts.extensions.showSnackbar
+import ch.rmy.android.http_shortcuts.import_export.ImportException
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.HTMLUtil
-import ch.rmy.android.http_shortcuts.utils.NetworkUtil
-import io.ktor.application.call
-import io.ktor.application.install
-import io.ktor.features.CORS
-import io.ktor.features.ContentNegotiation
-import io.ktor.gson.gson
-import io.ktor.http.ContentType
-import io.ktor.request.userAgent
-import io.ktor.response.respond
-import io.ktor.response.respondTextWriter
-import io.ktor.routing.get
-import io.ktor.routing.post
-import io.ktor.routing.routing
-import io.ktor.server.engine.ApplicationEngine
-import io.ktor.server.engine.embeddedServer
-import io.ktor.server.netty.Netty
-import io.ktor.utils.io.jvm.javaio.toInputStream
+import ch.rmy.android.http_shortcuts.utils.StringUtils
+import io.reactivex.android.schedulers.AndroidSchedulers
 import kotterknife.bindView
-import java.io.InputStream
+import java.util.concurrent.TimeUnit
 
 class RemoteEditActivity : BaseActivity() {
 
     private val viewModel: RemoteEditViewModel by bindViewModel()
 
-    private var server: ApplicationEngine? = null
-
-    private val ipAddressView: TextView by bindView(R.id.ip_address)
     private val instructions: TextView by bindView(R.id.instructions)
-    private val requestLog: TextView by bindView(R.id.request_log)
-    private val requestLogContainer: ScrollView by bindView(R.id.request_log_container)
+    private val instructionsList: TextView by bindView(R.id.instructions_list)
+    private val uploadButton: Button by bindView(R.id.button_remote_edit_upload)
+    private val downloadButton: Button by bindView(R.id.button_remote_edit_download)
+    private val deviceIdView: TextView by bindView(R.id.remote_edit_device_id)
+    private val passwordInput: EditText by bindView(R.id.input_password)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_remote_edit)
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
-        instructions.text = HTMLUtil.format(getString(
-            R.string.instructions_remote_edit,
-            "<b>$REMOTE_EDIT_ADDRESS</b>",
-        ))
+        deviceIdView.text = viewModel.deviceId
+        passwordInput.setText(viewModel.password)
 
-        RemoteEditWarningDialog(context)
-            .showIfNeeded()
-            .subscribe { dialogResult ->
-                if (dialogResult == DialogResult.CANCELED) {
-                    finish()
-                } else {
-                    setUp()
-                }
+        instructionsList.text = StringUtils.getOrderedList(
+            listOf(
+                getString(R.string.instructions_remote_edit_step_1),
+                getString(R.string.instructions_remote_edit_step_2),
+                getString(R.string.instructions_remote_edit_step_3, "<b>${viewModel.editorAddress}</b>"),
+                getString(R.string.instructions_remote_edit_step_4),
+            )
+                .map(HTMLUtil::getHTML)
+        )
+
+        passwordInput.observeTextChanges()
+            .subscribe {
+                updateViews()
             }
+            .attachTo(destroyer)
 
-        // TODO: Subscribe IntentFilter to observe network and IP address changes
+        passwordInput.observeTextChanges()
+            .debounce(300, TimeUnit.MILLISECONDS)
+            .subscribe {
+                viewModel.password = it.toString()
+            }
+            .attachTo(destroyer)
 
-        viewModel.events.observe(this, { events ->
-            requestLog.text = events.joinToString("\n\n")
-            requestLogContainer.fullScroll(ScrollView.FOCUS_DOWN)
-        })
-    }
-
-    private fun setUp() {
-        server = createServer()
-        startServer()
-        updateIPAddressView()
-    }
-
-    private fun startServer() {
-        server?.let {
-            it.start(wait = false)
-            logEvent(getString(R.string.request_log_shortcuts_server_started))
+        uploadButton.setOnClickListener {
+            upload()
         }
+        downloadButton.setOnClickListener {
+            download()
+        }
+
+        updateViews()
     }
 
-    private fun createServer(): ApplicationEngine =
-        embeddedServer(Netty, SERVER_PORT) {
-            install(CORS) {
-                anyHost()
+    private fun upload() {
+        val progressDialog = ProgressDialog(context).apply {
+            setMessage(context.getString(R.string.remote_edit_upload_in_progress))
+            setCanceledOnTouchOutside(false)
+        }
+        viewModel.upload()
+            .doOnSubscribe {
+                progressDialog.show()
             }
-            install(ContentNegotiation) {
-                gson {
-                    setPrettyPrinting()
+            .doOnEvent { _ ->
+                progressDialog.dismiss()
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    showSnackbar(R.string.message_remote_edit_upload_successful)
+                },
+                { error ->
+                    logException(error)
+                    showMessageDialog(R.string.error_remote_edit_upload)
                 }
+            )
+            .attachTo(destroyer)
+    }
+
+    private fun download() {
+        val progressDialog = ProgressDialog(context).apply {
+            setMessage(context.getString(R.string.remote_edit_download_in_progress))
+            setCanceledOnTouchOutside(false)
+        }
+        viewModel.download()
+            .doOnSubscribe {
+                progressDialog.show()
             }
-            routing {
-                get("/base") {
-                    call.respondTextWriter(ContentType.Application.Json) {
-                        export(this)
-                        logEvent(getString(R.string.request_log_shortcuts_loaded), call.request.userAgent())
+            .doOnEvent { _, _ ->
+                progressDialog.dismiss()
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    showSnackbar(R.string.message_remote_edit_download_successful)
+                },
+                { error ->
+                    if (error is ImportException) {
+                        showMessageDialog(getString(R.string.error_remote_edit_download) + " " + error.message)
+                    } else {
+                        logException(error)
+                        showMessageDialog(R.string.error_remote_edit_download)
                     }
                 }
-                post("/base") {
-                    val importStatus = import(call.request.receiveChannel().toInputStream())
-                    call.respond(mapOf(
-                        "status" to "success",
-                        "updatedShortcuts" to importStatus.importedShortcuts,
-                    ))
-                    logEvent(getString(R.string.request_log_shortcuts_saved), call.request.userAgent())
-                }
-            }
-        }
-
-    private fun logEvent(event: String, userAgent: String? = null) {
-        runOnUiThread {
-            viewModel.onApiEvent(if (userAgent.isNullOrEmpty()) {
-                event
-            } else {
-                "$event ($userAgent)"
-            })
-        }
+            )
+            .attachTo(destroyer)
     }
 
-    private fun updateIPAddressView() {
-        ipAddressView.text = server
-            ?.let {
-                NetworkUtil.getIPV4Address(context)
-            }
-            ?: "-"
-    }
-
-    private fun export(writer: Appendable) =
-        Exporter(context).export(writer)
-
-    private fun import(inputStream: InputStream) =
-        Importer(context).import(inputStream)
-
-    override fun onStart() {
-        super.onStart()
-        updateIPAddressView()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        stopServer()
-    }
-
-    private fun stopServer() {
-        server?.let {
-            it.stop(1000, 1000)
-            logEvent(getString(R.string.request_log_shortcuts_server_stopped))
-        }
+    private fun updateViews() {
+        uploadButton.isEnabled = passwordInput.text.isNotEmpty()
+        downloadButton.isEnabled = passwordInput.text.isNotEmpty()
     }
 
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, RemoteEditActivity::class.java)
-
-    companion object {
-
-        private const val SERVER_PORT = 9274
-
-        private const val REMOTE_EDIT_ADDRESS = "http-shortcuts.rmy.ch/edit"
-
-    }
 
 }

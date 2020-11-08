@@ -21,7 +21,7 @@ object FileUtil {
             OutputStreamWriter(context.contentResolver.openOutputStream(uri, "w")!!)
         )
 
-    private fun getUriFromFile(context: Context, file: File): Uri =
+    fun getUriFromFile(context: Context, file: File): Uri =
         FileProvider.getUriForFile(
             context,
             "${context.packageName}.provider",

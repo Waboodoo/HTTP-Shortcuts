@@ -17,14 +17,14 @@ import javax.net.ssl.X509TrustManager
 internal object HttpClients {
 
     fun getClient(
-        acceptAllCertificates: Boolean,
-        username: String?,
-        password: String?,
-        followRedirects: Boolean,
-        timeout: Long,
-        proxyHost: String?,
-        proxyPort: Int?,
-        cookieJar: CookieJar?,
+        acceptAllCertificates: Boolean = false,
+        username: String? = null,
+        password: String? = null,
+        followRedirects: Boolean = true,
+        timeout: Long = 10000,
+        proxyHost: String? = null,
+        proxyPort: Int? = null,
+        cookieJar: CookieJar? = null,
     ): OkHttpClient =
         (if (acceptAllCertificates) createUnsafeOkHttpClientBuilder() else createDefaultOkHttpClientBuilder())
             .mapIf(username != null && password != null) {

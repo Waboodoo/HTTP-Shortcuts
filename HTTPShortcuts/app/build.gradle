@@ -177,11 +177,6 @@ dependencies {
     implementation 'com.burgstaller:okhttp-digest:1.12' // Can't update to latest version because that depends on okhttp v4
     implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
 
-    /* HTTP server */
-    implementation 'io.ktor:ktor:1.4.1'
-    implementation 'io.ktor:ktor-server-netty:1.4.1'
-    implementation 'io.ktor:ktor-gson:1.4.1'
-
     /* Tasker integration */
     implementation 'com.twofortyfouram:android-plugin-client-sdk-for-locale:4.0.3'
 

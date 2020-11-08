@@ -37,7 +37,7 @@ class Exporter(private val context: Context) {
             }
             .subscribeOn(Schedulers.io())
 
-    fun export(
+    private fun export(
         writer: Appendable,
         shortcutId: String? = null,
         variableIds: Collection<String>? = null,

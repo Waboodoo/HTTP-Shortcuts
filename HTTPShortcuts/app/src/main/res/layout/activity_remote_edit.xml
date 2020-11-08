@@ -6,54 +6,80 @@
 
     <include layout="@layout/toolbar_layout" />
 
-    <RelativeLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="6dp"
-        android:paddingBottom="10dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <TextView
-            android:id="@+id/ip_address"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-            android:background="@color/textarea_background"
-            android:fontFamily="monospace"
-            android:padding="8dp"
-            android:textAlignment="center"
-            android:textSize="24sp" />
-
-        <TextView
-            android:id="@+id/instructions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/ip_address"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="4dp"
-            android:text="@string/instructions_remote_edit"
-            android:textSize="17sp" />
-
-        <ScrollView
-            android:id="@+id/request_log_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/instructions"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="12dp"
-            android:background="@color/textarea_background"
-            android:padding="8dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <TextView
-                android:id="@+id/request_log"
+                style="@style/Label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/label_remote_edit_device_id" />
+
+            <TextView
+                android:id="@+id/remote_edit_device_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/textarea_background"
                 android:fontFamily="monospace"
-                android:textSize="12sp" />
-        </ScrollView>
+                android:padding="8dp"
+                android:textAlignment="center"
+                android:textSize="22sp" />
 
+            <TextView
+                android:id="@+id/remote_edit_password"
+                style="@style/Label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/label_remote_edit_password" />
 
-    </RelativeLayout>
+            <EditText
+                android:id="@+id/input_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:importantForAutofill="no"
+                android:inputType="textPassword"
+                android:maxLength="200" />
+
+            <Button
+                android:id="@+id/button_remote_edit_upload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_remote_edit_upload" />
+
+            <TextView
+                android:id="@+id/instructions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="@string/instructions_remote_edit"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/instructions_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:textSize="17sp" />
+
+            <Button
+                android:id="@+id/button_remote_edit_download"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_remote_edit_download" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.utils
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
+import ch.rmy.android.http_shortcuts.extensions.takeUnlessEmpty
 
 class Settings(context: Context) {
 
@@ -38,10 +39,6 @@ class Settings(context: Context) {
         get() = preferences.getBoolean(KEY_NETWORK_RESTRICTION_PERMANENTLY_HIDDEN, false)
         set(hidden) = putBoolean(KEY_NETWORK_RESTRICTION_PERMANENTLY_HIDDEN, hidden)
 
-    var isRemoteEditWarningPermanentlyHidden: Boolean
-        get() = preferences.getBoolean(KEY_REMOTE_EDIT_WARNING_PERMANENTLY_HIDDEN, false)
-        set(hidden) = putBoolean(KEY_REMOTE_EDIT_WARNING_PERMANENTLY_HIDDEN, hidden)
-
     var changeLogLastVersion: Long
         get() = try {
             preferences.getLong(KEY_CHANGE_LOG_LAST_VERSION, 0L)
@@ -60,6 +57,14 @@ class Settings(context: Context) {
     var isForceForegroundEnabled: Boolean
         get() = preferences.getBoolean(KEY_FORCE_FOREGROUND, false)
         set(value) = putBoolean(KEY_FORCE_FOREGROUND, value)
+
+    var remoteEditDeviceId: String?
+        get() = preferences.getString(KEY_REMOTE_EDIT_DEVICE_ID, null)?.takeUnlessEmpty()
+        set(value) = putString(KEY_REMOTE_EDIT_DEVICE_ID, value ?: "")
+
+    var remoteEditPassword: String?
+        get() = preferences.getString(KEY_REMOTE_EDIT_PASSWORD, null)?.takeUnlessEmpty()
+        set(value) = putString(KEY_REMOTE_EDIT_PASSWORD, value ?: "")
 
     private fun putString(key: String, value: String) {
         preferences.edit().putString(key, value).apply()
@@ -101,7 +106,8 @@ class Settings(context: Context) {
         private const val KEY_CHANGE_LOG_PERMANENTLY_HIDDEN = "change_log_permanently_hidden"
         private const val KEY_CHANGE_LOG_LAST_VERSION = "change_log_last_version"
         private const val KEY_NETWORK_RESTRICTION_PERMANENTLY_HIDDEN = "network_restriction_permanently_hidden"
-        private const val KEY_REMOTE_EDIT_WARNING_PERMANENTLY_HIDDEN = "remote_edit_warning_permanently_hidden"
+        private const val KEY_REMOTE_EDIT_DEVICE_ID = "remote_edit_device_id"
+        private const val KEY_REMOTE_EDIT_PASSWORD = "remote_edit_password"
         private const val KEY_THEME = "theme"
         private const val KEY_DARK_THEME = "dark_theme"
         private const val KEY_FORCE_FOREGROUND = "force_foreground"
