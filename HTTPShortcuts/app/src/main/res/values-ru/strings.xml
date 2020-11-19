@@ -625,6 +625,9 @@
     <!-- Dialog option on Import dialog, for importing shortcuts from a file picked via the system's document browser -->
     <string name="button_import_from_general">"Документы"</string>
 
+    <!-- Dialog option on Import dialog, for importing shortcuts from a URL -->
+    <string name="button_import_from_url">"URL"</string>
+
     <!-- Dialog title when creating a new shortcut, shows options below -->
     <string name="title_create_new_shortcut_options_dialog">"Создать новый ярлык"</string>
 
@@ -937,4 +940,7 @@
 
     <!-- Error: Generic error shown when the user enters an invalid character, e.g. for an HTTP header. %s is the placeholder for the character -->
     <string name="error_invalid_character">"Неправильный символ: %s"</string>
+
+    <!-- Dialog option, for exporting a single shortcut as cURL -->
+    <string name="action_export_as_curl">"cURL"</string>
 </resources>

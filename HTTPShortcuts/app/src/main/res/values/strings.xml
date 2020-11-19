@@ -910,7 +910,7 @@
     <!-- Message, shown in snackbar as confirmation to the user that cookies have been deleted -->
     <string name="message_cookies_cleared">Cookies deleted.</string>
     <!-- Instructions on how to edit shortcuts remotely from a computer -->
-    <string name="instructions_remote_edit">This feature allows you to edit your shortcuts and variables on a computer, from the comfort of a browser. Please read the app\'s Privacy Policy before getting started, then follow these steps:</string>
+    <string name="instructions_remote_edit">This feature allows you to edit your shortcuts on a computer, from the comfort of a browser. Please read the app\'s Privacy Policy before getting started, then follow these steps:</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->
     <string name="instructions_remote_edit_step_1">Enter a password into the field above.</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: click the push button -->
@@ -918,7 +918,7 @@
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
     <string name="instructions_remote_edit_step_3">Open %s in a browser on your computer, enter your device ID and password and start editing.</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
-    <string name="instructions_remote_edit_step_4">"Once you\'re done editing click the <pre>\"Pull Changes\"</pre> button below to download your changes back into the app."</string>
+    <string name="instructions_remote_edit_step_4">"Once you are done editing and have saved your changes click the <pre>\"Pull Changes\"</pre> button below to download your changes back into the app."</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to push all shortcuts and variables to the editing server -->
     <string name="button_remote_edit_upload">Push to Server</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to pull all changes to shortcuts and variables from the editing server -->
