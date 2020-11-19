@@ -1,3 +1,7 @@
+## Version 1.39.0
+
+The app now has basic support for remote editing on a computer. Go to "Settings > Edit on Computer" to find out more.
+
 ## Version 1.38.0
 
 ### Scripting Improvements

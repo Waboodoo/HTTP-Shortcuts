@@ -38,6 +38,7 @@ Find more information and documentation on the [official website](https://http-s
 - Import & Export in JSON or cURL format
 - 3rd party integration (e.g. Tasker)
 - Themes (with Dark Mode support)
+- Remote editing on computer
 
 See also the [Changelog](CHANGELOG.md) for the latest additions and updates.
 
