@@ -29,7 +29,7 @@ object Icons {
         R.drawable.flat_color_brightness_6,
         R.drawable.flat_color_lightbulb_6,
         R.drawable.flat_color_brightness_7,
-        R.drawable.flat_color_lightbulb_7
+        R.drawable.flat_color_lightbulb_7,
     )
 
     internal val ICONS = intArrayOf(
@@ -632,7 +632,7 @@ object Icons {
         R.drawable.flat_grey_windsock,
         R.drawable.flat_grey_rainbow,
         R.drawable.flat_grey_flower,
-        R.drawable.flat_grey_flame
+        R.drawable.flat_grey_flame,
     )
 
     internal val TINTABLE_ICONS = intArrayOf(
@@ -850,7 +850,7 @@ object Icons {
         R.drawable.black_table_lamp,
         R.drawable.black_remote_control,
         R.drawable.black_television,
-        R.drawable.black_toy
+        R.drawable.black_toy,
     )
 
     const val DEFAULT_TINT_PREFIX = "black_"

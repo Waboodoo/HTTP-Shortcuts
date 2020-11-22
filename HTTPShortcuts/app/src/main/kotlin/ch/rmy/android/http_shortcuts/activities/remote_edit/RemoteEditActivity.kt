@@ -1,7 +1,9 @@
 package ch.rmy.android.http_shortcuts.activities.remote_edit
 
+import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -113,6 +115,9 @@ class RemoteEditActivity : BaseActivity() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
+                    setResult(Activity.RESULT_OK, Intent().apply {
+                        putExtra(EXTRA_CHANGES_IMPORTED, true)
+                    })
                     showSnackbar(R.string.message_remote_edit_download_successful)
                 },
                 { error ->
@@ -133,5 +138,9 @@ class RemoteEditActivity : BaseActivity() {
     }
 
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, RemoteEditActivity::class.java)
+
+    companion object {
+        const val EXTRA_CHANGES_IMPORTED = "changes_imported"
+    }
 
 }

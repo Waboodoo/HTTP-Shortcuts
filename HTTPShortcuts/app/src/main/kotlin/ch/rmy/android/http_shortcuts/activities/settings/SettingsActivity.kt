@@ -277,7 +277,7 @@ class SettingsActivity : BaseActivity() {
         private fun openRemoteEditor() {
             RemoteEditActivity.IntentBuilder(requireContext())
                 .build()
-                .startActivity(this)
+                .startActivity(this, REQUEST_REMOTE_EDIT)
         }
 
         private fun showClearCookieDialog() {
@@ -323,6 +323,9 @@ class SettingsActivity : BaseActivity() {
                 REQUEST_IMPORT_FROM_DOCUMENTS -> {
                     startImport(intent.data ?: return)
                 }
+                REQUEST_REMOTE_EDIT -> {
+                    reloadCategoriesWhenLeaving()
+                }
             }
         }
 
@@ -338,7 +341,7 @@ class SettingsActivity : BaseActivity() {
                 setCanceledOnTouchOutside(false)
             }
             Importer(requireContext().applicationContext)
-                .importFromUri(uri)
+                .importFromUri(uri, importMode = Importer.ImportMode.MERGE)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {
                     progressDialog.show()
@@ -355,9 +358,7 @@ class SettingsActivity : BaseActivity() {
                         status.importedShortcuts,
                         status.importedShortcuts
                     ))
-                    requireActivity().setResult(Activity.RESULT_OK, Intent().apply {
-                        putExtra(EXTRA_CATEGORIES_CHANGED, true)
-                    })
+                    reloadCategoriesWhenLeaving()
                 }, { e ->
                     if (e !is ImportException) {
                         logException(e)
@@ -365,6 +366,12 @@ class SettingsActivity : BaseActivity() {
                     showMessageDialog(getString(R.string.import_failed_with_reason, e.message))
                 })
                 .attachTo(destroyer)
+        }
+
+        private fun reloadCategoriesWhenLeaving() {
+            requireActivity().setResult(Activity.RESULT_OK, Intent().apply {
+                putExtra(EXTRA_CATEGORIES_CHANGED, true)
+            })
         }
 
         private fun showSnackbar(message: CharSequence) {
@@ -388,6 +395,7 @@ class SettingsActivity : BaseActivity() {
 
         private const val REQUEST_EXPORT_TO_DOCUMENTS = 2
         private const val REQUEST_IMPORT_FROM_DOCUMENTS = 3
+        private const val REQUEST_REMOTE_EDIT = 4
 
     }
 

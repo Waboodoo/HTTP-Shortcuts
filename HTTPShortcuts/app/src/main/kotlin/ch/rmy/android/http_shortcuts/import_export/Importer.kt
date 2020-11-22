@@ -28,17 +28,17 @@ import java.net.URL
 
 class Importer(private val context: Context) {
 
-    fun importFromUri(uri: Uri): Single<ImportStatus> =
+    fun importFromUri(uri: Uri, importMode: ImportMode): Single<ImportStatus> =
         RxUtils
             .single {
-                import(getStream(context, uri))
+                import(getStream(context, uri), importMode)
             }
             .onErrorResumeNext { error ->
                 Single.error(handleError(error))
             }
             .subscribeOn(Schedulers.io())
 
-    fun import(inputStream: InputStream): ImportStatus {
+    fun import(inputStream: InputStream, importMode: ImportMode): ImportStatus {
         val importData = BufferedReader(InputStreamReader(inputStream)).use { reader ->
             JsonParser.parseReader(reader)
         }
@@ -46,7 +46,7 @@ class Importer(private val context: Context) {
         val migratedImportData = ImportMigrator.migrate(importData)
         val newBase = GsonUtil.importData(migratedImportData)
         newBase.validate()
-        importBase(newBase)
+        importBase(newBase, importMode)
         return ImportStatus(
             importedShortcuts = newBase.shortcuts.size,
             needsRussianWarning = newBase.shortcuts.any { it.url.contains(".beeline.ru") }
@@ -61,25 +61,35 @@ class Importer(private val context: Context) {
                 ?: throw IOException("Failed to open input stream")
         }
 
-    private fun importBase(base: Base) {
-        RealmFactory.withRealm { realm ->
-            realm.executeTransaction {
+    private fun importBase(base: Base, importMode: ImportMode) {
+        RealmFactory.withRealm {
+            it.executeTransaction { realm ->
                 val oldBase = Repository.getBase(realm)!!
                 if (base.title != null) {
                     oldBase.title = base.title
                 }
+                when (importMode) {
+                    ImportMode.MERGE -> {
+                        if (oldBase.categories.singleOrNull()?.shortcuts?.isEmpty() == true) {
+                            oldBase.categories.clear()
+                        }
 
-                if (oldBase.categories.singleOrNull()?.shortcuts?.isEmpty() == true) {
-                    oldBase.categories.clear()
+                        base.categories.forEach { category ->
+                            importCategory(realm, oldBase, category)
+                        }
+
+                        val persistedVariables = realm.copyToRealmOrUpdate(base.variables)
+                        oldBase.variables.removeAll(persistedVariables)
+                        oldBase.variables.addAll(persistedVariables)
+                    }
+                    ImportMode.REPLACE -> {
+                        oldBase.categories.clear()
+                        oldBase.categories.addAll(realm.copyToRealmOrUpdate(base.categories))
+
+                        oldBase.variables.clear()
+                        oldBase.variables.addAll(realm.copyToRealmOrUpdate(base.variables))
+                    }
                 }
-
-                base.categories.forEach { category ->
-                    importCategory(realm, oldBase, category)
-                }
-
-                val persistedVariables = realm.copyToRealmOrUpdate(base.variables)
-                oldBase.variables.removeAll(persistedVariables)
-                oldBase.variables.addAll(persistedVariables)
             }
         }
     }
@@ -135,5 +145,10 @@ class Importer(private val context: Context) {
     }
 
     data class ImportStatus(val importedShortcuts: Int, val needsRussianWarning: Boolean)
+
+    enum class ImportMode {
+        MERGE,
+        REPLACE,
+    }
 
 }
