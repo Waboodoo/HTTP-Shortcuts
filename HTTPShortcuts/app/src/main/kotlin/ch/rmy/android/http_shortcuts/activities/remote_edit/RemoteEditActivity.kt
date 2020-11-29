@@ -5,13 +5,17 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
+import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
 import ch.rmy.android.http_shortcuts.extensions.showMessageDialog
@@ -41,16 +45,7 @@ class RemoteEditActivity : BaseActivity() {
 
         deviceIdView.text = viewModel.deviceId
         passwordInput.setText(viewModel.password)
-
-        instructionsList.text = StringUtils.getOrderedList(
-            listOf(
-                getString(R.string.instructions_remote_edit_step_1),
-                getString(R.string.instructions_remote_edit_step_2),
-                getString(R.string.instructions_remote_edit_step_3, "<b>${viewModel.editorAddress}</b>"),
-                getString(R.string.instructions_remote_edit_step_4),
-            )
-                .map(HTMLUtil::getHTML)
-        )
+        updateInstructions()
 
         passwordInput.observeTextChanges()
             .subscribe {
@@ -73,6 +68,18 @@ class RemoteEditActivity : BaseActivity() {
         }
 
         updateViews()
+    }
+
+    private fun updateInstructions() {
+        instructionsList.text = StringUtils.getOrderedList(
+            listOf(
+                getString(R.string.instructions_remote_edit_step_1),
+                getString(R.string.instructions_remote_edit_step_2),
+                getString(R.string.instructions_remote_edit_step_3, "<b>${viewModel.humanReadableEditorAddress}</b>"),
+                getString(R.string.instructions_remote_edit_step_4),
+            )
+                .map(HTMLUtil::getHTML)
+        )
     }
 
     private fun upload() {
@@ -135,6 +142,38 @@ class RemoteEditActivity : BaseActivity() {
     private fun updateViews() {
         uploadButton.isEnabled = passwordInput.text.isNotEmpty()
         downloadButton.isEnabled = passwordInput.text.isNotEmpty()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.remote_edit_activity_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+        when (item.itemId) {
+            R.id.action_change_remote_host -> consume {
+                openChangeRemoteHostDialog()
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+
+    private fun openChangeRemoteHostDialog() {
+        DialogBuilder(context)
+            .title(R.string.title_change_remote_server)
+            .textInput(
+                prefill = viewModel.serverUrl,
+                allowEmpty = false,
+                callback = ::setRemoteHost
+            )
+            .neutral(R.string.dialog_reset) {
+                setRemoteHost("")
+            }
+            .showIfPossible()
+    }
+
+    private fun setRemoteHost(value: String) {
+        viewModel.serverUrl = value
+        updateInstructions()
     }
 
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, RemoteEditActivity::class.java)

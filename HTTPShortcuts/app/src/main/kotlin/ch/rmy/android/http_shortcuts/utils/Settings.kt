@@ -58,6 +58,10 @@ class Settings(context: Context) {
         get() = preferences.getBoolean(KEY_FORCE_FOREGROUND, false)
         set(value) = putBoolean(KEY_FORCE_FOREGROUND, value)
 
+    var remoteEditServerUrl: String?
+        get() = preferences.getString(KEY_REMOTE_EDIT_SERVER, null)?.takeUnlessEmpty()
+        set(value) = putString(KEY_REMOTE_EDIT_SERVER, value ?: "")
+
     var remoteEditDeviceId: String?
         get() = preferences.getString(KEY_REMOTE_EDIT_DEVICE_ID, null)?.takeUnlessEmpty()
         set(value) = putString(KEY_REMOTE_EDIT_DEVICE_ID, value ?: "")
@@ -106,6 +110,7 @@ class Settings(context: Context) {
         private const val KEY_CHANGE_LOG_PERMANENTLY_HIDDEN = "change_log_permanently_hidden"
         private const val KEY_CHANGE_LOG_LAST_VERSION = "change_log_last_version"
         private const val KEY_NETWORK_RESTRICTION_PERMANENTLY_HIDDEN = "network_restriction_permanently_hidden"
+        private const val KEY_REMOTE_EDIT_SERVER = "remote_edit_server"
         private const val KEY_REMOTE_EDIT_DEVICE_ID = "remote_edit_device_id"
         private const val KEY_REMOTE_EDIT_PASSWORD = "remote_edit_password"
         private const val KEY_THEME = "theme"

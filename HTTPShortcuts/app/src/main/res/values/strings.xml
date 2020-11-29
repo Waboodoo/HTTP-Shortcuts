@@ -939,4 +939,10 @@
     <string name="error_remote_edit_upload">Failed to push to server. Please try again later.</string>
     <!-- Error message: shown in dialog when pulling changes to shortcuts from the editing server failed -->
     <string name="error_remote_edit_download">Failed to pull changes from server. Please check your network connection and make sure you did not change the password.</string>
+    <!-- Option for dropdown menu in remote editor, allows to change the remote editing server -->
+    <string name="button_change_remote_server">Change server address</string>
+    <!-- Dialog title: allows to change the remote editing server -->
+    <string name="title_change_remote_server">Change Server Address</string>
+    <!-- Dialog button (generic): Allows to reset some setting to its original value -->
+    <string name="dialog_reset">Reset</string>
 </resources>

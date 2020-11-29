@@ -13,21 +13,13 @@ import io.reactivex.Single
 
 class RemoteEditViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val remoteBaseUrl = Uri.parse(REMOTE_BASE_URL)
-        .buildUpon()
-        .appendEncodedPath(REMOTE_API_PATH)
-        .build()
-
     private val settings = Settings(context)
-    private val remoteEditManager by lazy {
-        RemoteEditManager(
-            context = context,
-            client = HttpClients.getClient(),
-            baseUrl = remoteBaseUrl,
-            exporter = Exporter(context),
-            importer = Importer(context),
-        )
-    }
+
+    var serverUrl: String
+        get() = settings.remoteEditServerUrl ?: REMOTE_BASE_URL
+        set(value) {
+            settings.remoteEditServerUrl = value
+        }
 
     val deviceId: String
         get() = settings.remoteEditDeviceId
@@ -50,14 +42,29 @@ class RemoteEditViewModel(application: Application) : AndroidViewModel(applicati
         }
             .joinToString(separator = "")
 
-    val editorAddress: String
-        get() = REMOTE_BASE_URL.replace("https://", "")
+    val humanReadableEditorAddress: String
+        get() = getRemoteBaseUrl().toString().replace("https://", "")
 
     fun upload(): Completable =
-        remoteEditManager.upload(deviceId, password)
+        getRemoteEditManager().upload(deviceId, password)
 
     fun download(): Single<Importer.ImportStatus> =
-        remoteEditManager.download(deviceId, password)
+        getRemoteEditManager().download(deviceId, password)
+
+    private fun getRemoteBaseUrl() =
+        Uri.parse(serverUrl)
+
+    private fun getRemoteEditManager() =
+        RemoteEditManager(
+            context = context,
+            client = HttpClients.getClient(),
+            baseUrl = getRemoteBaseUrl()
+                .buildUpon()
+                .appendEncodedPath(REMOTE_API_PATH)
+                .build(),
+            exporter = Exporter(context),
+            importer = Importer(context),
+        )
 
     companion object {
 
