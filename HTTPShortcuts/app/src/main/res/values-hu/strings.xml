@@ -92,7 +92,7 @@
     <string name="confirm_delete_shortcut_message">"Biztosan törlöd a parancsikont?"</string>
 
     <!-- Dialog prompt to ask user if unsaved changes should be discarded. -->
-    <string name="confirm_discard_changes_message">"A változtatáaok nincsenek elmentve. Elveted a változtatásokat? "</string>
+    <string name="confirm_discard_changes_message">"A változtatáaok nincsenek elmentve. Elveted a változtatásokat?"</string>
 
     <!-- Dialog option: Discard (unsaved changes) -->
     <string name="dialog_discard">"Elvet"</string>
@@ -104,7 +104,7 @@
     <string name="executed">"%s végrehajtva."</string>
 
     <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
-    <string name="shortcut_not_found">"Parancsikont nem található.  Lehet, hogy újra hozzá kell adnia a kezdőképernyőhöz."</string>
+    <string name="shortcut_not_found">"Parancsikon nem található. Lehet, hogy újra hozzá kell adnod a kezdőképernyőhöz."</string>
 
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
     <string name="validation_name_not_empty">"Add meg nevet."</string>
@@ -174,6 +174,12 @@
 
     <!-- Generic button: remove -->
     <string name="dialog_remove">"Eltávolítás"</string>
+
+    <!-- Section title in shortcut editor, for section that contains options to specify the headers of the HTTP request -->
+    <string name="section_request_headers">"Kérés fejléc"</string>
+
+    <!-- Section title in shortcut editor, for section that contains options to specify the body of the HTTP request -->
+    <string name="section_request_body">"Kérés törzse / paraméterek"</string>
 
     <!-- Title of dialog to edit a custom header of a shortcut -->
     <string name="title_custom_header_edit">"Fejléc szerkesztése"</string>
@@ -296,7 +302,7 @@
     <string name="pattern_minutes_seconds">"%1$s, %2$s"</string>
 
     <!-- Section title in app settings -->
-    <string name="settings_about">"Erről az Alkalmazásról"</string>
+    <string name="settings_about">"Alkalmazás névjegy"</string>
 
     <!-- Title of option in settings to show change changelog of current and past versions -->
     <string name="settings_changelog">"Változásnapló"</string>
@@ -324,6 +330,9 @@
 
     <!-- Checkbox label, shown on Changelog dialog, allowing user to enable that the dialog shows when the app is started -->
     <string name="changelog_checkbox_show_at_startup">"Megjelenítés indításkor"</string>
+
+    <!-- Message displayed when the shortcut cannot be executed because there is no internet connection. %1$s is a placeholder for the shortcut name. -->
+    <string name="execution_delayed">"%1$s végre lesz hajtva, ha lesz internet kapcsolat."</string>
 
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor -->
     <string name="label_wait_for_connection">"Várjon a kapcsolatra offline állapotban"</string>

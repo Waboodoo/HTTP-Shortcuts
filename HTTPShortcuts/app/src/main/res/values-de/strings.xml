@@ -1406,4 +1406,13 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
 
     <!-- Error message: shown in dialog when pulling changes to shortcuts from the editing server failed -->
     <string name="error_remote_edit_download">"Herunterladen der Änderungen fehlgeschlagen. Bitte überprüfe deine Netzwerk-Verbindung und dein Passwort."</string>
+
+    <!-- Option for dropdown menu in remote editor, allows to change the remote editing server -->
+    <string name="button_change_remote_server">"Server-Adresse ändern"</string>
+
+    <!-- Dialog title: allows to change the remote editing server -->
+    <string name="title_change_remote_server">"Server-Adresse ändern"</string>
+
+    <!-- Dialog button (generic): Allows to reset some setting to its original value -->
+    <string name="dialog_reset">"Zurücksetzen"</string>
 </resources>

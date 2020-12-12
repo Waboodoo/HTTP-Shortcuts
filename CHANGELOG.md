@@ -1,6 +1,17 @@
 ## Version 1.39.0
 
-The app now has basic support for remote editing on a computer. Go to "Settings > Edit on Computer" to find out more.
+### Remote Editing
+
+You can now edit your shortcuts and categories from the comfort of a desktop computer. Go to "Settings > Edit on Computer" to find out more.
+
+### Miscellaneous
+
+- Improved Polish translation
+- Increased maximum length of static variables (constants) from 3000 to 30000 characters
+
+### Bugfixes
+
+- Fixed a crash caused by invalid characters in User-Agent header
 
 ## Version 1.38.0
 
