@@ -6,12 +6,13 @@ You can now edit your shortcuts and categories from the comfort of a desktop com
 
 ### Miscellaneous
 
-- Improved Polish translation
 - Increased maximum length of static variables (constants) from 3000 to 30000 characters
+- Improved Polish translation
 
 ### Bugfixes
 
 - Fixed a crash caused by invalid characters in User-Agent header
+- Using getVariable() or setVariable() now raises an error when the variable doesn't exist instead of silently failing
 
 ## Version 1.38.0
 
