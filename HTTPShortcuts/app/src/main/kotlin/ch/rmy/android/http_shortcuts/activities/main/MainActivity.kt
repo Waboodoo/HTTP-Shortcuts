@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.activities.Entrypoint
 import ch.rmy.android.http_shortcuts.activities.categories.CategoriesActivity
 import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
 import ch.rmy.android.http_shortcuts.activities.misc.CurlImportActivity
@@ -46,7 +47,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import kotterknife.bindView
 
-class MainActivity : BaseActivity(), ListFragment.TabHost {
+class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
 
     private val viewModel: MainViewModel by bindViewModel()
 

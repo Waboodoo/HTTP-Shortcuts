@@ -62,7 +62,7 @@ import java.net.UnknownHostException
 import java.util.HashMap
 import kotlin.math.pow
 
-class ExecuteActivity : BaseActivity() {
+class ExecuteActivity : BaseActivity(), Entrypoint {
 
     override val initializeWithTheme: Boolean
         get() = false

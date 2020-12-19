@@ -49,7 +49,11 @@ abstract class BaseActivity : AppCompatActivity() {
         try {
             RealmFactory.init(applicationContext)
         } catch (e: RealmFactory.RealmNotFoundException) {
-            showRealmError()
+            if (this is Entrypoint) {
+                showRealmError()
+            } else {
+                throw e
+            }
         }
     }
 

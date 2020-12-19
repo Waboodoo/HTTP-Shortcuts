@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.annotation.StringRes
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.activities.Entrypoint
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.Repository
@@ -27,7 +28,7 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class ShareActivity : BaseActivity() {
+class ShareActivity : BaseActivity(), Entrypoint {
 
     private val realm by lazy {
         RealmFactory.getInstance().createRealm()
