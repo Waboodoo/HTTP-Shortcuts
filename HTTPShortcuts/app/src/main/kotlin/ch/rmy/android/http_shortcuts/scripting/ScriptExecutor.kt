@@ -2,8 +2,6 @@ package ch.rmy.android.http_shortcuts.scripting
 
 import android.content.Context
 import androidx.annotation.Keep
-import ch.rmy.android.http_shortcuts.data.RealmFactory
-import ch.rmy.android.http_shortcuts.data.Repository
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.exceptions.CanceledByUserException
 import ch.rmy.android.http_shortcuts.exceptions.JavaScriptException
@@ -45,7 +43,6 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
 
                 registerShortcut(shortcut)
                 registerResponse(response, error)
-                registerVariables(variableManager)
 
                 registerActions(context, shortcut.id, variableManager, recursionDepth)
 
@@ -81,32 +78,6 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
             )
         }, READ_ONLY)
         jsContext.property("networkError", error?.message, READ_ONLY)
-    }
-
-    private fun registerVariables(variableManager: VariableManager) {
-        jsContext.property("getVariable", object : JSFunction(jsContext, "run") {
-            @Suppress("unused")
-            @Keep
-            fun run(variableKeyOrId: String): String? =
-                variableManager.getVariableValueByKeyOrId(variableKeyOrId)
-        }, READ_ONLY)
-        jsContext.property("setVariable", object : JSFunction(jsContext, "run") {
-            @Suppress("unused")
-            @Keep
-            fun run(variableKeyOrId: String, rawValue: JSValue?) {
-                val value = sanitizeData(rawValue)
-                variableManager.setVariableValueByKeyOrId(variableKeyOrId, value)
-
-                // TODO: Handle variable persistance in a better way
-                RealmFactory.getInstance().createRealm().use { realm ->
-                    realm.executeTransaction {
-                        Repository.getVariableByKeyOrId(realm, variableKeyOrId)
-                            ?.takeIf { it.isConstant }
-                            ?.value = value
-                    }
-                }
-            }
-        }, READ_ONLY)
     }
 
     private fun registerAbort(jsContext: JSContext) {
