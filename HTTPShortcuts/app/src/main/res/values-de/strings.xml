@@ -1415,4 +1415,10 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
 
     <!-- Dialog button (generic): Allows to reset some setting to its original value -->
     <string name="dialog_reset">"Zurücksetzen"</string>
+
+    <!-- Error message: Shown when a script tries to read from a variable that does not exist. %s is a placeholder for the name of the variable. -->
+    <string name="error_variable_not_found_read">"Variablen-Fehler: %s existiert nicht"</string>
+
+    <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->
+    <string name="error_variable_not_found_write">"Variablen-Fehler: %s existiert nicht oder ist keine Konstante"</string>
 </resources>
