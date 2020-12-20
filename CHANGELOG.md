@@ -12,6 +12,7 @@ You can now edit your shortcuts and categories from the comfort of a desktop com
 ### Bugfixes
 
 - Fixed a crash caused by invalid characters in User-Agent header
+- Fixed a rounding error when using large numbers in Scripting and storing them using `setVariable()`
 - Using getVariable() or setVariable() now raises an error when the variable doesn't exist instead of silently failing
 
 ## Version 1.38.0
