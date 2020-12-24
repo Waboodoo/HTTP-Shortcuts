@@ -9,19 +9,15 @@ import androidx.annotation.StringRes
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
-import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
-import ch.rmy.android.http_shortcuts.icons.IconSelector
 import ch.rmy.android.http_shortcuts.plugin.TaskerIntent
 import ch.rmy.android.http_shortcuts.scripting.actions.types.TriggerTaskerTaskActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.TriggerTaskerTaskActionType.Companion.REQUEST_CODE_SELECT_TASK
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholderProvider
-import ch.rmy.android.http_shortcuts.utils.Destroyable
-import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 
 class CodeSnippetPicker(
@@ -29,9 +25,8 @@ class CodeSnippetPicker(
     private val currentShortcutId: String?,
     private val variablePlaceholderProvider: VariablePlaceholderProvider,
     private val shortcutPlaceholderProvider: ShortcutPlaceholderProvider,
-) : Destroyable {
-
-    private val destroyer = Destroyer()
+    private val openIconPicker: (String) -> Unit,
+) {
 
     fun showCodeSnippetPicker(insertText: (before: String, after: String) -> Unit, includeResponseOptions: Boolean = true, includeNetworkErrorOption: Boolean = false) {
         DialogBuilder(context)
@@ -143,12 +138,7 @@ class CodeSnippetPicker(
             }
             .item(R.string.action_type_change_icon_title) {
                 actionWithShortcut(R.string.action_type_change_icon_title) { shortcutPlaceholder ->
-                    IconSelector(context)
-                        .show()
-                        .subscribe { iconName ->
-                            insertText("changeIcon($shortcutPlaceholder, \"$iconName\");\n", "")
-                        }
-                        .attachTo(destroyer)
+                    openIconPicker(shortcutPlaceholder)
                 }
             }
             .showIfPossible()
@@ -268,6 +258,10 @@ class CodeSnippetPicker(
     }
 
     private fun actionWithShortcut(@StringRes title: Int, callback: (String) -> Unit) {
+        if (shortcutPlaceholderProvider.placeholders.none { it.id != currentShortcutId }) {
+            callback("\"\"")
+            return
+        }
         DialogBuilder(context)
             .title(title)
             .item(R.string.label_insert_action_code_for_current_shortcut) {
@@ -292,8 +286,8 @@ class CodeSnippetPicker(
         }
     }
 
-    override fun destroy() {
-        destroyer.destroy()
+    fun insertChangeIconSnippet(shortcutPlaceholder: String, insertText: (String, String) -> Unit, iconName: String) {
+        insertText("changeIcon($shortcutPlaceholder, \"$iconName\");\n", "")
     }
 
     companion object {

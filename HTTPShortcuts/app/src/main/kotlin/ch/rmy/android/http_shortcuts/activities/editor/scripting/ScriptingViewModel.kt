@@ -7,6 +7,8 @@ import io.reactivex.Completable
 
 class ScriptingViewModel(application: Application) : BasicShortcutEditorViewModel(application) {
 
+    var iconPickerShortcutPlaceholder: String? = null
+
     fun setCode(prepareCode: String, successCode: String, failureCode: String): Completable =
         Transactions.commit { realm ->
             getShortcut(realm)?.let { shortcut ->

@@ -3,9 +3,7 @@ package ch.rmy.android.http_shortcuts.activities.editor
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -41,20 +39,16 @@ import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.extensions.visible
-import ch.rmy.android.http_shortcuts.icons.IconSelector
+import ch.rmy.android.http_shortcuts.icons.IconPicker
 import ch.rmy.android.http_shortcuts.icons.IconView
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
-import ch.rmy.android.http_shortcuts.utils.IconUtil
-import ch.rmy.android.http_shortcuts.utils.IpackUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
-import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.utils.Validation
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.android.http_shortcuts.views.PanelButton
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
 import ch.rmy.curlcommand.CurlCommand
-import com.theartofdev.edmodo.cropper.CropImage
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import kotterknife.bindView
@@ -108,6 +102,12 @@ class ShortcutEditorActivity : BaseActivity() {
 
     private val variablePlaceholderColor by lazy {
         color(context, R.color.variable)
+    }
+
+    private val iconPicker by lazy {
+        IconPicker(this) { iconName ->
+            viewModel.setIconName(iconName)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -199,7 +199,7 @@ class ShortcutEditorActivity : BaseActivity() {
 
     private fun bindClickListeners() {
         iconContainer.setOnClickListener {
-            openIconSelectionDialog()
+            iconPicker.openIconSelectionDialog()
         }
         basicRequestSettingsButton.setOnClickListener {
             BasicRequestSettingsActivity.IntentBuilder(context)
@@ -263,42 +263,6 @@ class ShortcutEditorActivity : BaseActivity() {
             .concatMapCompletable { updateViewModelFromViews() }
             .subscribe()
             .attachTo(destroyer)
-    }
-
-    private fun openIconSelectionDialog() {
-        DialogBuilder(context)
-            .title(R.string.change_icon)
-            .item(R.string.choose_icon, action = ::openBuiltInIconSelectionDialog)
-            .item(R.string.choose_image, action = ::openImagePicker)
-            .item(R.string.choose_ipack_icon, action = ::openIpackPicker)
-            .showIfPossible()
-    }
-
-    private fun openBuiltInIconSelectionDialog() {
-        IconSelector(context)
-            .show()
-            .flatMapCompletable { iconName ->
-                viewModel.setIconName(iconName)
-            }
-            .subscribe()
-            .attachTo(destroyer)
-    }
-
-    private fun openImagePicker() {
-        val iconSize = IconUtil.getIconSize(context)
-        CropImage.activity()
-            .setCropMenuCropButtonIcon(R.drawable.ic_save)
-            .setCropMenuCropButtonTitle(getString(R.string.button_apply_icon))
-            .setAspectRatio(1, 1)
-            .setRequestedSize(iconSize, iconSize)
-            .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
-            .setMultiTouchEnabled(true)
-            .start(this)
-    }
-
-    private fun openIpackPicker() {
-        IpackUtil.getIpackIntent(context)
-            .startActivity(this, REQUEST_SELECT_IPACK_ICON)
     }
 
     override val navigateUpIcon = R.drawable.ic_clear
@@ -410,38 +374,7 @@ class ShortcutEditorActivity : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
-        when (requestCode) {
-            CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
-                try {
-                    val result = CropImage.getActivityResult(intent)
-                    if (resultCode == RESULT_OK) {
-                        val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, result.uri)
-                        val iconName = "${newUUID()}.png"
-                        openFileOutput(iconName, 0).use {
-                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
-                            it.flush()
-                        }
-                        bitmap.recycle()
-                        updateIconName(iconName)
-                    } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                        showSnackbar(R.string.error_set_image, long = true)
-                    }
-                } catch (e: Exception) {
-                    showSnackbar(R.string.error_set_image, long = true)
-                }
-            }
-            REQUEST_SELECT_IPACK_ICON -> {
-                if (resultCode == RESULT_OK && intent != null) {
-                    updateIconName(IpackUtil.getIpackUri(intent).toString())
-                }
-            }
-        }
-    }
-
-    private fun updateIconName(iconName: String) {
-        viewModel.setIconName(iconName)
-            .subscribe()
-            .attachTo(destroyer)
+        iconPicker.handleResult(requestCode, resultCode, intent)
     }
 
     override fun onBackPressed() {
@@ -479,8 +412,6 @@ class ShortcutEditorActivity : BaseActivity() {
         private const val EXTRA_CATEGORY_ID = "categoryId"
         private const val EXTRA_CURL_COMMAND = "curlCommand"
         private const val EXTRA_EXECUTION_TYPE = "executionType"
-
-        private const val REQUEST_SELECT_IPACK_ICON = 3
 
         const val RESULT_SHORTCUT_ID = "shortcutId"
 

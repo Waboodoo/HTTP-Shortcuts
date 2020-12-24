@@ -25,6 +25,7 @@ import ch.rmy.android.http_shortcuts.extensions.openURL
 import ch.rmy.android.http_shortcuts.extensions.setTextSafely
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.extensions.visible
+import ch.rmy.android.http_shortcuts.icons.IconPicker
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholderProvider
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutSpanManager
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
@@ -58,13 +59,27 @@ class ScriptingActivity : BaseActivity() {
     private val shortcutPlaceholderProvider by lazy {
         ShortcutPlaceholderProvider(shortcutsData)
     }
+    private val iconPicker: IconPicker by lazy {
+        IconPicker(this) { iconName ->
+            Completable.fromAction {
+                codeSnippetPicker.insertChangeIconSnippet(
+                    viewModel.iconPickerShortcutPlaceholder ?: return@fromAction,
+                    getCodeInsertion(lastActiveCodeInput ?: return@fromAction),
+                    iconName,
+                )
+            }
+        }
+    }
     private val codeSnippetPicker by lazy {
-        destroyer.own(CodeSnippetPicker(
+        CodeSnippetPicker(
             context,
             currentShortcutId,
             variablePlaceholderProvider,
-            shortcutPlaceholderProvider
-        ))
+            shortcutPlaceholderProvider,
+        ) { shortcutPlaceholder ->
+            viewModel.iconPickerShortcutPlaceholder = shortcutPlaceholder
+            iconPicker.openIconSelectionDialog()
+        }
     }
     private val variablePlaceholderColor by lazy {
         color(context, R.color.variable)
@@ -192,13 +207,15 @@ class ScriptingActivity : BaseActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             codeSnippetPicker.handleRequestResult(
                 getCodeInsertion(lastActiveCodeInput ?: return),
                 requestCode,
-                data
+                data,
             )
         }
+        iconPicker.handleResult(requestCode, resultCode, data)
     }
 
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, ScriptingActivity::class.java) {
