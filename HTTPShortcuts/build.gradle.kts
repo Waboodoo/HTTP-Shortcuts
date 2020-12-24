@@ -8,7 +8,7 @@ buildscript {
         classpath("io.realm:realm-gradle-plugin:7.0.7")
         classpath("com.bugsnag:bugsnag-android-gradle-plugin:4.+")
         classpath("org.jetbrains:markdown:0.1.45")
-        classpath(kotlin("gradle-plugin", "1.4.0"))
+        classpath(kotlin("gradle-plugin", "1.4.10"))
     }
 }
 
