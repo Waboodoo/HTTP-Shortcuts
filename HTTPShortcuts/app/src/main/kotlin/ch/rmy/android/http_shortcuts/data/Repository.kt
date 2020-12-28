@@ -22,7 +22,7 @@ object Repository {
             .where<Base>()
             .findFirst()
 
-    internal fun getBaseAsync(realm: Realm): Base? =
+    internal fun getBaseAsync(realm: Realm): Base =
         realm
             .where<Base>()
             .findFirstAsync()

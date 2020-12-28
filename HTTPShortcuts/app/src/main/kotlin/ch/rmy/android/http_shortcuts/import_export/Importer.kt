@@ -68,6 +68,9 @@ class Importer(private val context: Context) {
                 if (base.title != null) {
                     oldBase.title = base.title
                 }
+                if (!base.globalCode.isNullOrEmpty() && oldBase.globalCode.isNullOrEmpty()) {
+                    oldBase.globalCode = base.globalCode
+                }
                 when (importMode) {
                     ImportMode.MERGE -> {
                         if (oldBase.categories.singleOrNull()?.shortcuts?.isEmpty() == true) {

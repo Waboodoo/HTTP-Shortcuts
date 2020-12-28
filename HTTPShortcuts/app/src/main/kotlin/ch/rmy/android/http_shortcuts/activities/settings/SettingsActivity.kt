@@ -16,6 +16,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.misc.AcknowledgmentActivity
 import ch.rmy.android.http_shortcuts.activities.remote_edit.RemoteEditActivity
+import ch.rmy.android.http_shortcuts.activities.settings.globalcode.GlobalScriptingActivity
 import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.dialogs.SpecialWarnings
@@ -88,6 +89,10 @@ class SettingsActivity : BaseActivity() {
 
             initPreference("lock_settings") {
                 showAppLockDialog()
+            }
+
+            initPreference("global_scripting") {
+                openGlobalScriptingEditor()
             }
 
             initPreference("export") {
@@ -233,6 +238,12 @@ class SettingsActivity : BaseActivity() {
                         logException(e)
                     })
                 .attachTo(destroyer)
+        }
+
+        private fun openGlobalScriptingEditor() {
+            GlobalScriptingActivity.IntentBuilder(requireContext())
+                .build()
+                .startActivity(this)
         }
 
         private fun showImportOptions() {

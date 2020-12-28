@@ -12,6 +12,7 @@ import ch.rmy.android.http_shortcuts.activities.response.DisplayResponseActivity
 import ch.rmy.android.http_shortcuts.data.Commons
 import ch.rmy.android.http_shortcuts.data.Controller
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
+import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
@@ -59,7 +60,11 @@ import io.reactivex.schedulers.Schedulers
 import okhttp3.CookieJar
 import java.io.IOException
 import java.net.UnknownHostException
-import java.util.HashMap
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.List
+import kotlin.collections.Map
+import kotlin.collections.emptyList
 import kotlin.math.pow
 
 class ExecuteActivity : BaseActivity(), Entrypoint {
@@ -70,6 +75,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     private val controller by lazy {
         destroyer.own(Controller())
     }
+    private lateinit var base: Base
     private lateinit var shortcut: Shortcut
 
     private val progressIndicator: ProgressIndicator by lazy {
@@ -98,6 +104,9 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     }
     private val shortcutName by lazy {
         shortcut.name.ifEmpty { getString(R.string.shortcut_safe_name) }
+    }
+    private val globalCode: String by lazy {
+        base.globalCode ?: ""
     }
 
     /* Caches / State */
@@ -130,6 +139,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
             finishWithoutAnimation()
             return
         }
+        base = controller.getBase().detachFromRealm()
         setTheme(themeHelper.transparentTheme)
 
         destroyer.own {
@@ -259,7 +269,12 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
 
     private fun resolveVariablesAndExecute(): Completable =
         VariableResolver(context)
-            .resolve(controller.getVariables().detachFromRealm(), shortcut, variableValues)
+            .resolve(
+                controller.getVariables().detachFromRealm(),
+                shortcut,
+                globalCode,
+                variableValues,
+            )
             .flatMapCompletable { variableManager ->
                 this.variableManager = variableManager
                 if (shouldDelayExecution()) {
@@ -330,8 +345,13 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
             .subscribeOn(AndroidSchedulers.mainThread())
             .concatWith(
                 if (tryNumber == 0 || (tryNumber == 1 && shortcut.delay > 0)) {
+                    val script = if (globalCode.isEmpty()) {
+                        shortcut.codeOnPrepare
+                    } else {
+                        "$globalCode;\n${shortcut.codeOnPrepare}"
+                    }
                     scriptExecutor.execute(
-                        script = shortcut.codeOnPrepare,
+                        script = script,
                         shortcut = shortcut,
                         variableManager = variableManager,
                         recursionDepth = recursionDepth

@@ -12,9 +12,16 @@ import io.reactivex.Single
 
 class VariableResolver(private val context: Context) {
 
-    fun resolve(variables: List<Variable>, shortcut: Shortcut, preResolvedValues: Map<String, String> = emptyMap()): Single<VariableManager> {
+    fun resolve(
+        variables: List<Variable>,
+        shortcut: Shortcut,
+        globalCode: String = "",
+        preResolvedValues: Map<String, String> = emptyMap(),
+    ): Single<VariableManager> {
         val variableManager = VariableManager(variables)
-        val requiredVariableIds = extractVariableIds(shortcut, variableManager).toMutableSet()
+        val requiredVariableIds = extractVariableIds(shortcut, variableManager)
+            .plus(extractVariableIdsFromJS(globalCode, variableManager))
+            .toMutableSet()
 
         val preResolvedVariables = mutableMapOf<Variable, String>()
         preResolvedValues

@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.data
 
+import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.PendingExecution
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.utils.Destroyable
@@ -19,6 +20,9 @@ class Controller : Destroyable, Closeable {
     }
 
     override fun close() = destroy()
+
+    fun getBase(): Base =
+        Repository.getBase(realm)!!
 
     fun getVariables(): RealmList<Variable> = Repository.getBase(realm)!!.variables
 

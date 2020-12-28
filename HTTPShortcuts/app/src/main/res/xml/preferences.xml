@@ -46,6 +46,14 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="Scripting">
+        <Preference
+            app:icon="@drawable/ic_control_flow"
+            app:key="global_scripting"
+            app:summary="@string/settings_global_scripting_summary"
+            app:title="@string/settings_global_scripting" />
+    </PreferenceCategory>
+
     <PreferenceCategory app:title="@string/settings_title_import_export">
 
         <Preference

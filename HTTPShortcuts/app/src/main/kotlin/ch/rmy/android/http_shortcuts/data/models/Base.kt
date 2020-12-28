@@ -9,6 +9,7 @@ open class Base : RealmObject() {
     var categories: RealmList<Category> = RealmList()
     var variables: RealmList<Variable> = RealmList()
     var title: String? = null
+    var globalCode: String? = null
 
     val shortcuts: List<Shortcut>
         get() = categories.flatMap { it.shortcuts }

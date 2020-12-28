@@ -25,9 +25,9 @@
             android:value="${bugsnagAPIKey}" />
 
         <activity
-            android:theme="@style/LoaderTheme"
             android:name=".activities.main.MainActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:theme="@style/LoaderTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -162,8 +162,8 @@
         <activity
             android:name=".activities.settings.SettingsActivity"
             android:label="@string/title_settings"
-            android:windowSoftInputMode="adjustResize"
-            android:parentActivityName=".activities.main.MainActivity">
+            android:parentActivityName=".activities.main.MainActivity"
+            android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.main.MainActivity" />
@@ -182,13 +182,18 @@
         <activity android:name=".activities.response.DisplayResponseActivity" />
         <activity
             android:name=".activities.misc.AcknowledgmentActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:label="@string/title_licenses" />
+            android:label="@string/title_licenses"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".activities.settings.ContactActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:label="@string/title_contact" />
+            android:label="@string/title_contact"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".activities.settings.globalcode.GlobalScriptingActivity"
+            android:label="@string/title_global_scripting"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".activities.misc.ShareActivity"
@@ -210,14 +215,15 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.remote_edit.RemoteEditActivity"
+        <activity
+            android:name=".activities.remote_edit.RemoteEditActivity"
             android:label="@string/settings_remote_edit"
             android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".activities.widget.WidgetSettingsActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:label="@string/title_configure_widget" />
+            android:label="@string/title_configure_widget"
+            android:windowSoftInputMode="adjustResize" />
 
         <!-- EXPERIMENTAL -->
         <activity

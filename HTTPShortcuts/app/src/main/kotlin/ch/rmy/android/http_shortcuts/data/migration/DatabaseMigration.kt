@@ -10,7 +10,7 @@ import io.realm.DynamicRealm
 import io.realm.DynamicRealmObject
 import io.realm.RealmList
 import io.realm.RealmMigration
-import java.util.Date
+import java.util.*
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class DatabaseMigration : RealmMigration {
@@ -278,7 +278,6 @@ class DatabaseMigration : RealmMigration {
                 schema.get("Shortcut")!!
                     .addField("proxyHost", String::class.java)
                     .addField("proxyPort", Integer::class.java)
-
             }
             36L -> { // 1.30.0
                 schema.createWithPrimaryKeyField("Widget", "widgetId", Int::class.javaPrimitiveType)
@@ -316,6 +315,10 @@ class DatabaseMigration : RealmMigration {
                 schema.get("Shortcut")!!
                     .addField("acceptCookies", Boolean::class.javaPrimitiveType)
             }
+            42L -> { // 2.0.0
+                schema.get("Base")!!
+                    .addField("globalCode", String::class.java)
+            }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -341,7 +344,7 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 41L
+        const val VERSION = 42L
 
     }
 

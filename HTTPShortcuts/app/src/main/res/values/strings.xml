@@ -949,4 +949,14 @@
     <string name="title_change_remote_server">Change Server Address</string>
     <!-- Dialog button (generic): Allows to reset some setting to its original value -->
     <string name="dialog_reset">Reset</string>
+    <!-- Title of code editor for defining global scripting code (JS code that runs before every shortcut) -->
+    <string name="title_global_scripting">Global Scripting</string>
+    <!-- Button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
+    <string name="settings_global_scripting">Global Scripting</string>
+    <!-- Subtitle of button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
+    <string name="settings_global_scripting_summary">Run JavaScript code before every shortcut execution</string>
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the execution of every shortcut -->
+    <string name="placeholder_javascript_global_scripting">Add JavaScript code here to run at the start of every shortcut execution, e.g., to prepare some variables or define some functions which can be used in a shortcut\'s Scripting section.</string>
+    <!-- Action label: Shown on menu button to save changes in the Global Scripting editor -->
+    <string name="action_save_global_scripting">Save Changes</string>
 </resources>

@@ -26,7 +26,7 @@ abstract class BasicShortcutEditorViewModel(application: Application) : RealmVie
 
     val shortcuts: ListLiveData<Shortcut> = object : ListLiveData<Shortcut>() {
 
-        private val base: Base = Repository.getBaseAsync(persistedRealm)!!
+        private val base: Base = Repository.getBaseAsync(persistedRealm)
 
         private val changeListener = RealmChangeListener<Base> { onChange() }
 
