@@ -963,4 +963,6 @@
     <string name="error_shortcut_not_found_for_deep_link">Shortcut \"%s\" not found</string>
     <!-- Instructions: Shown when the deep-linking feature is used but with an invalid URL -->
     <string name="instructions_deep_linking">To use the deep-linking feature, make sure to use a valid URL of the form:\n\n%s</string>
+    <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
+    <string name="placeholder_deleted_shortcut">Deleted Shortcut</string>
 </resources>

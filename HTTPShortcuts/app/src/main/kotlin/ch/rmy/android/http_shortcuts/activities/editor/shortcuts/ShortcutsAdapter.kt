@@ -10,6 +10,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.livedata.ListLiveData
 import ch.rmy.android.http_shortcuts.icons.IconView
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholder
+import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils
 import kotterknife.bindView
 
@@ -54,8 +55,14 @@ class ShortcutsAdapter(lifecycleOwner: LifecycleOwner, private val shortcuts: Li
 
         fun setItem(shortcut: ShortcutPlaceholder) {
             this.item = shortcut
-            name.text = shortcut.name
-            icon.setIcon(shortcut.iconName)
+            if (shortcut.isDeleted()) {
+                val deleted = itemView.context.getString(R.string.placeholder_deleted_shortcut)
+                name.text = HTMLUtil.format("<i>$deleted</i>")
+                icon.setIcon(null)
+            } else {
+                name.text = shortcut.name
+                icon.setIcon(shortcut.iconName)
+            }
         }
 
     }

@@ -29,7 +29,7 @@ class IconView : AppCompatImageView {
     }
 
     private fun setImageURI(uri: Uri, iconName: String?, animated: Boolean = false) {
-        if (this.iconName == iconName) {
+        if (this.iconName != null && this.iconName == iconName) {
             return
         }
         val tint = IconUtil.getIconTint(iconName)

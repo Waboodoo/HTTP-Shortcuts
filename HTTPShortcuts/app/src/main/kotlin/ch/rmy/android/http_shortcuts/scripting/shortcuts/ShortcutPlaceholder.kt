@@ -4,7 +4,11 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 
 class ShortcutPlaceholder(val id: String, val name: String, val iconName: String?) {
 
+    fun isDeleted() = name.isEmpty() && iconName == null
+
     companion object {
+
+        fun deletedShortcut(id: String) = ShortcutPlaceholder(id, "", null)
 
         fun fromShortcut(shortcut: Shortcut) =
             ShortcutPlaceholder(

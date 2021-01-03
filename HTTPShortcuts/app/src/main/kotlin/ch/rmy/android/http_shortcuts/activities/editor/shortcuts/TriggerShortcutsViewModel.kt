@@ -27,11 +27,12 @@ class TriggerShortcutsViewModel(application: Application) : BasicShortcutEditorV
             shortcut.removeObserver(observer)
         }
 
-        override fun getValue(): List<ShortcutPlaceholder>? =
+        override fun getValue(): List<ShortcutPlaceholder> =
             getTriggeredShortcuts()
-                .mapNotNull {
+                .map {
                     shortcuts.firstOrNull { shortcut -> shortcut.id == it.shortcutId }
-                        ?.let { ShortcutPlaceholder.fromShortcut(it) }
+                        ?.let(ShortcutPlaceholder::fromShortcut)
+                        ?: ShortcutPlaceholder.deletedShortcut(it.shortcutId)
                 }
 
     }
@@ -56,7 +57,17 @@ class TriggerShortcutsViewModel(application: Application) : BasicShortcutEditorV
 
     fun removeShortcut(shortcutId: String): Completable =
         mutateShortcutList { shortcuts ->
-            shortcuts.removeIf { it.shortcutId == shortcutId }
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                shortcuts.removeIf { it.shortcutId == shortcutId }
+            } else {
+                val iterator = shortcuts.iterator()
+                while (iterator.hasNext()) {
+                    val item = iterator.next()
+                    if (item.shortcutId == shortcutId) {
+                        iterator.remove()
+                    }
+                }
+            }
         }
 
     private fun mutateShortcutList(action: (MutableList<TriggerShortcutManager.TriggeredShortcut>) -> Unit): Completable {
