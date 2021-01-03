@@ -26,6 +26,7 @@ class RenameShortcutAction(private val name: String, private val shortcutNameOrI
 
     private fun renameShortcut(context: Context, shortcutNameOrId: String, variableManager: VariableManager): Completable {
         val newName = Variables.rawPlaceholdersToResolvedValues(name, variableManager.getVariableValuesByIds())
+            .trim()
             .truncate(Shortcut.NAME_MAX_LENGTH)
         if (newName.isEmpty()) {
             return Completable.complete()
@@ -53,7 +54,7 @@ class RenameShortcutAction(private val name: String, private val shortcutNameOrI
 
         private fun renameShortcut(shortcutId: String, newName: String) =
             Transactions.commit { realm ->
-                Repository.getShortcutById(realm, shortcutId)?.name = newName.truncate(40)
+                Repository.getShortcutById(realm, shortcutId)?.name = newName
             }
 
     }

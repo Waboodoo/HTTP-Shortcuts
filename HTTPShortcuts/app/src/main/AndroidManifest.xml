@@ -225,7 +225,23 @@
             android:label="@string/title_configure_widget"
             android:windowSoftInputMode="adjustResize" />
 
-        <!-- EXPERIMENTAL -->
+        <activity
+            android:name=".activities.misc.DeepLinkActivity"
+            android:configChanges="orientation|screenSize"
+            android:excludeFromRecents="true"
+            android:label="@string/title_activity_execute"
+            android:launchMode="singleInstance"
+            android:noHistory="true"
+            android:theme="@style/Theme.Transparent">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="http-shortcuts" android:host="deep-link" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".activities.misc.VoiceActivity"
             android:configChanges="orientation|screenSize"

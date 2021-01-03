@@ -17,32 +17,24 @@ import ch.rmy.android.http_shortcuts.utils.Destroyable
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import io.reactivex.disposables.Disposable
 
-fun Context.showMessageDialog(@StringRes stringRes: Int) {
-    DialogBuilder(this)
-        .message(stringRes)
-        .positive(R.string.dialog_ok)
-        .showIfPossible()
+fun Context.showMessageDialog(@StringRes stringRes: Int, onDismiss: () -> Unit = {}) {
+    showMessageDialog(getString(stringRes), onDismiss)
 }
 
-fun Context.showMessageDialog(string: String) {
+fun Context.showMessageDialog(string: CharSequence, onDismiss: () -> Unit = {}) {
     DialogBuilder(this)
         .message(string)
         .positive(R.string.dialog_ok)
+        .dismissListener(onDismiss)
         .showIfPossible()
 }
 
-fun Fragment.showMessageDialog(@StringRes stringRes: Int) {
-    DialogBuilder(requireContext())
-        .message(stringRes)
-        .positive(R.string.dialog_ok)
-        .showIfPossible()
+fun Fragment.showMessageDialog(@StringRes stringRes: Int, onDismiss: () -> Unit = {}) {
+    requireContext().showMessageDialog(stringRes, onDismiss)
 }
 
-fun Fragment.showMessageDialog(string: String) {
-    DialogBuilder(requireContext())
-        .message(string)
-        .positive(R.string.dialog_ok)
-        .showIfPossible()
+fun Fragment.showMessageDialog(string: CharSequence, onDismiss: () -> Unit = {}) {
+    requireContext().showMessageDialog(string, onDismiss)
 }
 
 @ColorInt

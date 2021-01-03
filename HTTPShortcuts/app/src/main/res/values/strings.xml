@@ -959,4 +959,8 @@
     <string name="placeholder_javascript_global_scripting">Add JavaScript code here to run at the start of every shortcut execution, e.g., to prepare some variables or define some functions which can be used in a shortcut\'s Scripting section.</string>
     <!-- Action label: Shown on menu button to save changes in the Global Scripting editor -->
     <string name="action_save_global_scripting">Save Changes</string>
+    <!-- Error message: Shown when trying to trigger a shortcut by name via a voice command or deep-linking but the shortcut is not found -->
+    <string name="error_shortcut_not_found_for_deep_link">Shortcut \"%s\" not found</string>
+    <!-- Instructions: Shown when the deep-linking feature is used but with an invalid URL -->
+    <string name="instructions_deep_linking">To use the deep-linking feature, make sure to use a valid URL of the form:\n\n%s</string>
 </resources>

@@ -86,7 +86,7 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
     fun setNameAndDescription(name: String, description: String): Completable =
         Transactions.commit { realm ->
             getShortcut(realm)?.apply {
-                this.name = name
+                this.name = name.trim()
                 this.description = description
             }
         }
