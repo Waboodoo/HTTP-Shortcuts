@@ -5,7 +5,7 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.net.*
+import android.net.Uri
 import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.util.Log
@@ -39,7 +39,6 @@ import java.net.UnknownHostException
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.pow
-
 
 class ExecuteActivity : BaseActivity(), Entrypoint {
 
@@ -95,9 +94,9 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
 
         Commons
             .createPendingExecution(
-                    shortcutId = IntentUtil.getShortcutId(intent),
-                    resolvedVariables = IntentUtil.getVariableValues(intent),
-                    tryNumber = 0
+                shortcutId = IntentUtil.getShortcutId(intent),
+                resolvedVariables = IntentUtil.getVariableValues(intent),
+                tryNumber = 0
             )
             .subscribe()
     }
@@ -124,8 +123,8 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         }
 
         subscribeAndFinishAfterIfNeeded(
-                promptForConfirmationIfNeeded()
-                        .concatWith(resolveVariablesAndExecute())
+            promptForConfirmationIfNeeded()
+                .concatWith(resolveVariablesAndExecute())
         )
     }
 
@@ -159,23 +158,23 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                         } else {
                             val simple = shortcut.responseHandling?.failureOutput == ResponseHandling.FAILURE_OUTPUT_SIMPLE
                             displayOutput(
-                                    generateOutputFromError(error, simple),
-                                    response = (error as? ErrorResponse)?.shortcutResponse
+                                generateOutputFromError(error, simple),
+                                response = (error as? ErrorResponse)?.shortcutResponse
                             )
                         }
                     }
                 }
             }
             .subscribe(
-                    {
+                {
+                    finishWithoutAnimation()
+                },
+                { error ->
+                    if (error !is ResumeLaterException) {
+                        logException(error)
                         finishWithoutAnimation()
-                    },
-                    { error ->
-                        if (error !is ResumeLaterException) {
-                            logException(error)
-                            finishWithoutAnimation()
-                        }
                     }
+                }
             )
     }
 
@@ -244,22 +243,22 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     private fun resolveVariablesAndExecute(): Completable =
         VariableResolver(context)
             .resolve(
-                    controller.getVariables().detachFromRealm(),
-                    shortcut,
-                    globalCode,
-                    variableValues,
+                controller.getVariables().detachFromRealm(),
+                shortcut,
+                globalCode,
+                variableValues,
             )
             .flatMapCompletable { variableManager ->
                 this.variableManager = variableManager
                 if (shouldDelayExecution()) {
                     val waitUntil = DateUtil.calculateDate(shortcut.delay)
                     Commons.createPendingExecution(
-                            shortcutId = shortcut.id,
-                            resolvedVariables = variableManager.getVariableValuesByKeys(),
-                            waitUntil = waitUntil,
-                            tryNumber = 1,
-                            recursionDepth = recursionDepth,
-                            requiresNetwork = shortcut.isWaitForNetwork
+                        shortcutId = shortcut.id,
+                        resolvedVariables = variableManager.getVariableValuesByKeys(),
+                        waitUntil = waitUntil,
+                        tryNumber = 1,
+                        recursionDepth = recursionDepth,
+                        requiresNetwork = shortcut.isWaitForNetwork
                     )
                 } else {
                     executeWithFileRequests()
@@ -307,8 +306,6 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         } catch (e: ActivityNotFoundException) {
             Completable.error(UnsupportedFeatureException())
         }
-
-    private var rxPermissions: RxPermissions = RxPermissions(this)
 
     private fun checkWifiNetworkSsid(): Completable =
         if (shortcut.ssid.isEmpty()) {
@@ -361,33 +358,33 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         }
 
     private fun requestPermissionsForWifiCheckIfNeeded(): Completable =
-            if (shortcut.ssid.isEmpty())
-                Completable.complete()
-            else
-                showRequestPermissionRationalIfNeeded().concatWith(requestPermissionsForWifiCheck())
+        if (shortcut.ssid.isEmpty())
+            Completable.complete()
+        else
+            showRequestPermissionRationalIfNeeded().concatWith(requestPermissionsForWifiCheck())
 
 
     private fun showRequestPermissionRationalIfNeeded(): Completable =
            if(shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION))
                DialogBuilder(context)
-                       .title(getString(R.string.title_permission_dialog))
-                       .message(getString(R.string.message_permission_rational))
-                       .positive(R.string.dialog_ok)
-                       .showAsCompletable()
+                   .title(getString(R.string.title_permission_dialog))
+                   .message(getString(R.string.message_permission_rational))
+                   .positive(R.string.dialog_ok)
+                   .showAsCompletable()
            else
                Completable.complete()
 
     private fun requestPermissionsForWifiCheck() = Completable.create { emitter ->
-        rxPermissions
-                .request(Manifest.permission.ACCESS_FINE_LOCATION)
-                .subscribe { granted ->
-                    if (granted) {
-                        Log.d("Wifi Connection", "Ppermission ACCESS_FINE_LOCATION granted")
-                        emitter.onComplete()
-                    } else {
-                        emitter.onError(MissingPermissionException({ "Could not get location permission. Aborting request." }))
-                    }
+        RxPermissions(this)
+            .request(Manifest.permission.ACCESS_FINE_LOCATION)
+            .subscribe { granted ->
+                if (granted) {
+                    Log.d("Wifi Connection", "Ppermission ACCESS_FINE_LOCATION granted")
+                    emitter.onComplete()
+                } else {
+                    emitter.onError(MissingPermissionException({ "Could not get location permission. Aborting request." }))
                 }
+            }
     }
 
     private fun finishActivityIfPossible(): Completable = Completable.fromAction {
@@ -399,34 +396,34 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
 
     private fun executeWithActions(): Completable =
         requestPermissionsForWifiCheckIfNeeded()
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .concatWith(checkWifiNetworkSsid())
-                .concatWith(
-                        if (tryNumber == 0 || (tryNumber == 1 && shortcut.delay > 0)) {
-                            val script = if (globalCode.isEmpty()) {
-                                shortcut.codeOnPrepare
-                            } else {
-                                "$globalCode;\n${shortcut.codeOnPrepare}"
-                            }
-                            scriptExecutor.execute(
-                                    script = script,
-                                    shortcut = shortcut,
-                                    variableManager = variableManager,
-                                    recursionDepth = recursionDepth
-                            )
-                                    .subscribeOn(Schedulers.computation())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                        } else {
-                            Completable.complete()
-                        }
-                )
-                .concatWith(
-                        when (shortcut.type) {
-                            ShortcutExecutionType.APP -> executeShortcut()
-                            ShortcutExecutionType.BROWSER -> openShortcutInBrowser()
-                            else -> Completable.complete()
-                        }
-                )
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .concatWith(checkWifiNetworkSsid())
+            .concatWith(
+                if (tryNumber == 0 || (tryNumber == 1 && shortcut.delay > 0)) {
+                    val script = if (globalCode.isEmpty()) {
+                        shortcut.codeOnPrepare
+                    } else {
+                        "$globalCode;\n${shortcut.codeOnPrepare}"
+                    }
+                    scriptExecutor.execute(
+                        script = script,
+                        shortcut = shortcut,
+                        variableManager = variableManager,
+                        recursionDepth = recursionDepth
+                    )
+                        .subscribeOn(Schedulers.computation())
+                        .observeOn(AndroidSchedulers.mainThread())
+                } else {
+                    Completable.complete()
+                }
+            )
+            .concatWith(
+                when (shortcut.type) {
+                    ShortcutExecutionType.APP -> executeShortcut()
+                    ShortcutExecutionType.BROWSER -> openShortcutInBrowser()
+                    else -> Completable.complete()
+                }
+            )
 
     private fun openShortcutInBrowser(): Completable = Completable.fromAction {
         val url = injectVariables(shortcut.url)
@@ -448,21 +445,21 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     private fun executeShortcut(): Completable =
         HttpRequester(contentResolver)
             .executeShortcut(
-                    shortcut,
-                    variableManager,
-                    fileUploadManager,
-                    if (shortcut.acceptCookies) cookieJar else null,
+                shortcut,
+                variableManager,
+                fileUploadManager,
+                if (shortcut.acceptCookies) cookieJar else null,
             )
             .observeOn(AndroidSchedulers.mainThread())
             .onErrorResumeNext { error ->
                 if (error is ErrorResponse || error is IOException) {
                     scriptExecutor
                         .execute(
-                                script = shortcut.codeOnFailure,
-                                shortcut = shortcut,
-                                variableManager = variableManager,
-                                error = error as? Exception,
-                                recursionDepth = recursionDepth
+                            script = shortcut.codeOnFailure,
+                            shortcut = shortcut,
+                            variableManager = variableManager,
+                            error = error as? Exception,
+                            recursionDepth = recursionDepth
                         )
                         .subscribeOn(Schedulers.computation())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -474,11 +471,11 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
             .flatMap { response ->
                 scriptExecutor
                     .execute(
-                            script = shortcut.codeOnSuccess,
-                            shortcut = shortcut,
-                            variableManager = variableManager,
-                            response = response,
-                            recursionDepth = recursionDepth
+                        script = shortcut.codeOnSuccess,
+                        shortcut = shortcut,
+                        variableManager = variableManager,
+                        response = response,
+                        recursionDepth = recursionDepth
                     )
                     .subscribeOn(Schedulers.computation())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -507,12 +504,12 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
             val waitUntil = DateUtil.calculateDate(calculateDelay())
             Commons
                 .createPendingExecution(
-                        shortcutId = shortcut.id,
-                        resolvedVariables = variableManager.getVariableValuesByKeys(),
-                        tryNumber = tryNumber + 1,
-                        waitUntil = waitUntil,
-                        recursionDepth = recursionDepth,
-                        requiresNetwork = shortcut.isWaitForNetwork
+                    shortcutId = shortcut.id,
+                    resolvedVariables = variableManager.getVariableValuesByKeys(),
+                    tryNumber = tryNumber + 1,
+                    waitUntil = waitUntil,
+                    recursionDepth = recursionDepth,
+                    requiresNetwork = shortcut.isWaitForNetwork
                 )
         } else {
             Completable.complete()
@@ -537,34 +534,34 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         when (shortcut.responseHandling?.uiType) {
             ResponseHandling.UI_TYPE_TOAST -> {
                 showToast(
-                        output
-                                .truncate(maxLength = TOAST_MAX_LENGTH)
-                                .ifBlank { getString(R.string.message_blank_response) },
-                        long = shortcut.responseHandling?.successOutput == ResponseHandling.SUCCESS_OUTPUT_RESPONSE
+                    output
+                        .truncate(maxLength = TOAST_MAX_LENGTH)
+                        .ifBlank { getString(R.string.message_blank_response) },
+                    long = shortcut.responseHandling?.successOutput == ResponseHandling.SUCCESS_OUTPUT_RESPONSE
                 )
                 Completable.complete()
             }
             ResponseHandling.UI_TYPE_DIALOG -> {
                 DialogBuilder(context)
-                        .title(shortcutName)
-                        .message(HTMLUtil.format(output.ifBlank { getString(R.string.message_blank_response) }))
-                        .positive(R.string.dialog_ok)
-                        .showAsCompletable()
+                    .title(shortcutName)
+                    .message(HTMLUtil.format(output.ifBlank { getString(R.string.message_blank_response) }))
+                    .positive(R.string.dialog_ok)
+                    .showAsCompletable()
             }
             ResponseHandling.UI_TYPE_WINDOW -> {
                 DisplayResponseActivity.IntentBuilder(context, shortcutId)
-                        .name(shortcutName)
-                        .type(response?.contentType)
-                        .text(output)
-                        .url(response?.url)
-                        .mapIf(shortcut.responseHandling?.includeMetaInfo == true) {
-                            it.showDetails(true)
-                                    .timing(response?.timing)
-                                    .headers(response?.headers)
-                                    .statusCode(response?.statusCode)
-                        }
-                        .build()
-                        .startActivity(this)
+                    .name(shortcutName)
+                    .type(response?.contentType)
+                    .text(output)
+                    .url(response?.url)
+                    .mapIf(shortcut.responseHandling?.includeMetaInfo == true) {
+                        it.showDetails(true)
+                            .timing(response?.timing)
+                            .headers(response?.headers)
+                            .statusCode(response?.statusCode)
+                    }
+                    .build()
+                    .startActivity(this)
                 Completable.complete()
             }
             else -> Completable.complete()
@@ -572,8 +569,6 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.d("Wifi", "Received result ${requestCode}")
-
         when (requestCode) {
             REQUEST_PICK_FILES -> {
                 if (resultCode != Activity.RESULT_OK || data == null) {
