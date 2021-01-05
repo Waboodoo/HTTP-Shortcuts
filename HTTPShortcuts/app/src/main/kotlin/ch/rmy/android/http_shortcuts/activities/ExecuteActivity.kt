@@ -30,6 +30,7 @@ import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import ch.rmy.android.http_shortcuts.variables.Variables
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Completable
+import io.reactivex.CompletableEmitter
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -309,16 +310,21 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
 
     private fun checkWifiNetworkSsid(): Completable =
         if (shortcut.ssid.isEmpty()) {
-            Completable.complete()
-        } else {
-            if (getCurrentSsid() == shortcut.ssid) {
-                finishActivityIfPossible()
-            } else {
-                showWifiPickerConfirmation()
-                        .concatWith(finishActivityIfPossible())
-                        .concatWith(showWifiPicker())
+            Completable.fromAction() {
+                finishActivityIfNeeded()
             }
+        } else {
+            showWifiDialogIfNeeded()
         }
+
+    private fun showWifiDialogIfNeeded(): Completable = Completable.create { emitter ->
+        if (getCurrentSsid() == shortcut.ssid) {
+            finishActivityIfNeeded()
+            emitter.onComplete()
+        } else {
+            showWifiPickerConfirmation(emitter)
+        }
+    }
 
     private fun getCurrentSsid(): String {
         val wifiManager = getSystemService(WIFI_SERVICE) as WifiManager
@@ -327,35 +333,32 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         return info.ssid.removePrefix("\"").removeSuffix("\"")
     }
 
-    private fun showWifiPickerConfirmation(): Completable =
-            Completable.create { emitter ->
-                DialogBuilder(context)
-                        .title(shortcutName)
-                        .message(String.format(getString(R.string.message_wrong_wifi_network), shortcut.ssid))
-                        .dismissListener {
-                            emitter.cancel()
-                        }
-                        .positive(getString(R.string.action_label_select)) {
-                            emitter.onComplete()
-                            finishWithoutAnimation()
-                        }
-                        .negative(R.string.dialog_cancel)
-                        .showIfPossible()
-                        ?: run {
-                            emitter.cancel()
-                        }
+    private fun showWifiPickerConfirmation(emitter: CompletableEmitter) {
+        DialogBuilder(context)
+            .title(shortcutName)
+            .message(String.format(getString(R.string.message_wrong_wifi_network), shortcut.ssid))
+            .dismissListener {
+                emitter.cancel()
             }
+            .positive(getString(R.string.action_label_select)) {
+                showWifiPicker()
+                emitter.cancel()
+            }
+            .negative(R.string.dialog_cancel)
+            .showIfPossible()
+            ?: run {
+                emitter.cancel()
+            }
+    }
 
-    private fun showWifiPicker(): Completable =
-        Completable.create { emitter ->
-            val intent = Intent(WifiManager.ACTION_PICK_WIFI_NETWORK)
-            intent.putExtra("extra_prefs_show_button_bar", true);
-            intent.putExtra("wifi_enable_next_on_connect", true);
 
-            startActivity(intent)
+    private fun showWifiPicker() {
+        val intent = Intent(WifiManager.ACTION_PICK_WIFI_NETWORK)
+        intent.putExtra("extra_prefs_show_button_bar", true)
+        intent.putExtra("wifi_enable_next_on_connect", true)
 
-            emitter.cancel()
-        }
+        startActivity(intent)
+    }
 
     private fun requestPermissionsForWifiCheckIfNeeded(): Completable =
         if (shortcut.ssid.isEmpty())
@@ -364,15 +367,22 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
             showRequestPermissionRationalIfNeeded().concatWith(requestPermissionsForWifiCheck())
 
 
+    private fun finishActivityIfNeeded() {
+        if (shouldFinishImmediately()) {
+            finishWithoutAnimation()
+        }
+        showProgress()
+    }
+
     private fun showRequestPermissionRationalIfNeeded(): Completable =
-           if(shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION))
-               DialogBuilder(context)
-                   .title(getString(R.string.title_permission_dialog))
-                   .message(getString(R.string.message_permission_rational))
-                   .positive(R.string.dialog_ok)
-                   .showAsCompletable()
-           else
-               Completable.complete()
+       if(shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION))
+           DialogBuilder(context)
+               .title(getString(R.string.title_permission_dialog))
+               .message(getString(R.string.message_permission_rational))
+               .positive(R.string.dialog_ok)
+               .showAsCompletable()
+       else
+           Completable.complete()
 
     private fun requestPermissionsForWifiCheck() = Completable.create { emitter ->
         RxPermissions(this)
@@ -385,13 +395,6 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                     emitter.onError(MissingPermissionException({ "Could not get location permission. Aborting request." }))
                 }
             }
-    }
-
-    private fun finishActivityIfPossible(): Completable = Completable.fromAction {
-      if (shouldFinishImmediately()) {
-            finishWithoutAnimation()
-        }
-        showProgress()
     }
 
     private fun executeWithActions(): Completable =
