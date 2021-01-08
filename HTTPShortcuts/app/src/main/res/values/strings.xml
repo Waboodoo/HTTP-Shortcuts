@@ -971,8 +971,9 @@
     <string name="title_permission_dialog">Permissions required</string>
     <!-- Message: Rational given for location permission in wifi/ssid check  -->
     <string name="message_permission_rational">Location permissions are required to check if the shortcut is executed on the configured wifi network.</string>
-    <!-- Message: Shown to the user when connected to a different wifi network then the one given in the config -->
+    <!-- Message: Shown to the user when connected to a different wifi network than the one given in the config -->
     <string name="message_wrong_wifi_network">Not connected to the wifi network configured for this shortcut \"%1$s\". Select another wifi network now?</string>
     <!-- Action label: Shown on wifi check dialog to open the wifi picker -->
     <string name="action_label_select">Select</string>
+    <string name="error_missing_location_permission">Could not get location permission. Aborting request.</string>
 </resources>

@@ -35,18 +35,14 @@ class AdvancedSettingsViewModel(application: Application) : BasicShortcutEditorV
             getShortcut(realm)?.timeout = timeout
         }
 
-    fun setProxy(host: String, port: Int?): Completable =
+    fun setAdvamcedSettings(host: String, port: Int?, ssid: String): Completable =
         Transactions.commit { realm ->
             getShortcut(realm)?.let { shortcut ->
                 shortcut.proxyHost = host.trim().takeUnless { it.isEmpty() }
                 shortcut.proxyPort = port
+                shortcut.ssid = ssid.trim()
             }
         }
-
-    fun setSsid(ssid: String): Completable =
-            Transactions.commit { realm ->
-                getShortcut(realm)?.ssid = ssid.trim()
-            }
 
     fun getTimeoutSubtitle(shortcut: Shortcut): CharSequence =
         getTimeoutText(shortcut.timeout)

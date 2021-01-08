@@ -1,9 +1,10 @@
 package ch.rmy.android.http_shortcuts.exceptions
 
 import android.content.Context
+import ch.rmy.android.http_shortcuts.R
 
-class MissingPermissionException(private val messageProvider: (Context) -> String) : UserException() {
+class MissingPermissionException() : UserException() {
 
     override fun getLocalizedMessage(context: Context): String =
-            messageProvider.invoke(context)
+        context.getString(R.string.error_missing_location_permission)
 }

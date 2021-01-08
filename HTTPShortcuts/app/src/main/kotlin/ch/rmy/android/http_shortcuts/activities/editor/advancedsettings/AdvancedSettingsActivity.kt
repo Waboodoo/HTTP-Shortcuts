@@ -120,9 +120,7 @@ class AdvancedSettingsActivity : BaseActivity() {
     }
 
     private fun updateViewModelFromViews(): Completable =
-        viewModel.setProxy(proxyHostView.rawString, proxyPortView.text.toString().toIntOrNull()).andThen(
-                viewModel.setSsid(ssidView.text.toString())
-        )
+        viewModel.setAdvamcedSettings(proxyHostView.rawString, proxyPortView.text.toString().toIntOrNull(), ssidView.text.toString())
 
     private fun updateShortcutViews(shortcut: Shortcut) {
         waitForConnectionCheckBox.isChecked = shortcut.isWaitForNetwork

@@ -321,7 +321,8 @@ class DatabaseMigration : RealmMigration {
             }
             43L -> { // x.x.x TODO
                 schema.get("Shortcut")!!
-                        .addField("ssid", String::class.java)
+                    .addField("ssid", String::class.java)
+                    .setRequired("ssid", true)
             }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }

@@ -8,7 +8,7 @@ import android.content.Intent
 import android.net.Uri
 import android.net.wifi.WifiManager
 import android.os.Bundle
-import android.util.Log
+import androidx.core.app.ActivityCompat
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.execute.ProgressIndicator
 import ch.rmy.android.http_shortcuts.activities.response.DisplayResponseActivity
@@ -19,12 +19,41 @@ import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
-import ch.rmy.android.http_shortcuts.exceptions.*
-import ch.rmy.android.http_shortcuts.extensions.*
-import ch.rmy.android.http_shortcuts.http.*
+import ch.rmy.android.http_shortcuts.exceptions.CanceledByUserException
+import ch.rmy.android.http_shortcuts.exceptions.InvalidUrlException
+import ch.rmy.android.http_shortcuts.exceptions.MissingPermissionException
+import ch.rmy.android.http_shortcuts.exceptions.ResumeLaterException
+import ch.rmy.android.http_shortcuts.exceptions.UnsupportedFeatureException
+import ch.rmy.android.http_shortcuts.exceptions.UserException
+import ch.rmy.android.http_shortcuts.extensions.cancel
+import ch.rmy.android.http_shortcuts.extensions.detachFromRealm
+import ch.rmy.android.http_shortcuts.extensions.finishWithoutAnimation
+import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.http_shortcuts.extensions.mapFor
+import ch.rmy.android.http_shortcuts.extensions.mapIf
+import ch.rmy.android.http_shortcuts.extensions.showToast
+import ch.rmy.android.http_shortcuts.extensions.startActivity
+import ch.rmy.android.http_shortcuts.extensions.takeUnlessEmpty
+import ch.rmy.android.http_shortcuts.extensions.truncate
+import ch.rmy.android.http_shortcuts.extensions.type
+import ch.rmy.android.http_shortcuts.http.CookieManager
+import ch.rmy.android.http_shortcuts.http.ErrorResponse
+import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
+import ch.rmy.android.http_shortcuts.http.FileUploadManager
+import ch.rmy.android.http_shortcuts.http.HttpRequester
+import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.scripting.ScriptExecutor
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ActionFactory
-import ch.rmy.android.http_shortcuts.utils.*
+import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
+import ch.rmy.android.http_shortcuts.utils.DateUtil
+import ch.rmy.android.http_shortcuts.utils.ErrorFormatter
+import ch.rmy.android.http_shortcuts.utils.FilePickerUtil
+import ch.rmy.android.http_shortcuts.utils.FileUtil
+import ch.rmy.android.http_shortcuts.utils.HTMLUtil
+import ch.rmy.android.http_shortcuts.utils.IntentUtil
+import ch.rmy.android.http_shortcuts.utils.NetworkUtil
+import ch.rmy.android.http_shortcuts.utils.Settings
+import ch.rmy.android.http_shortcuts.utils.Validation
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import ch.rmy.android.http_shortcuts.variables.Variables
@@ -39,6 +68,9 @@ import java.io.IOException
 import java.net.UnknownHostException
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.List
+import kotlin.collections.Map
+import kotlin.collections.emptyList
 import kotlin.math.pow
 
 class ExecuteActivity : BaseActivity(), Entrypoint {
@@ -327,16 +359,15 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     }
 
     private fun getCurrentSsid(): String {
-        val wifiManager = getSystemService(WIFI_SERVICE) as WifiManager
+        val wifiManager = applicationContext.getSystemService(WIFI_SERVICE) as WifiManager
         val info = wifiManager.connectionInfo
-        Log.d("Wifi Connection", "Ssid: ${info.ssid}")
         return info.ssid.removePrefix("\"").removeSuffix("\"")
     }
 
     private fun showWifiPickerConfirmation(emitter: CompletableEmitter) {
         DialogBuilder(context)
             .title(shortcutName)
-            .message(String.format(getString(R.string.message_wrong_wifi_network), shortcut.ssid))
+            .message(getString(R.string.message_wrong_wifi_network, shortcut.ssid))
             .dismissListener {
                 emitter.cancel()
             }
@@ -351,13 +382,11 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
             }
     }
 
-
     private fun showWifiPicker() {
-        val intent = Intent(WifiManager.ACTION_PICK_WIFI_NETWORK)
-        intent.putExtra("extra_prefs_show_button_bar", true)
-        intent.putExtra("wifi_enable_next_on_connect", true)
-
-        startActivity(intent)
+        Intent(WifiManager.ACTION_PICK_WIFI_NETWORK)
+                .putExtra("extra_prefs_show_button_bar", true)
+                .putExtra("wifi_enable_next_on_connect", true)
+                .startActivity(this)
     }
 
     private fun requestPermissionsForWifiCheckIfNeeded(): Completable =
@@ -365,7 +394,6 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
             Completable.complete()
         else
             showRequestPermissionRationalIfNeeded().concatWith(requestPermissionsForWifiCheck())
-
 
     private fun finishActivityIfNeeded() {
         if (shouldFinishImmediately()) {
@@ -375,7 +403,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     }
 
     private fun showRequestPermissionRationalIfNeeded(): Completable =
-       if(shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION))
+       if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION))
            DialogBuilder(context)
                .title(getString(R.string.title_permission_dialog))
                .message(getString(R.string.message_permission_rational))
@@ -389,10 +417,9 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
             .request(Manifest.permission.ACCESS_FINE_LOCATION)
             .subscribe { granted ->
                 if (granted) {
-                    Log.d("Wifi Connection", "Ppermission ACCESS_FINE_LOCATION granted")
                     emitter.onComplete()
                 } else {
-                    emitter.onError(MissingPermissionException({ "Could not get location permission. Aborting request." }))
+                    emitter.onError(MissingPermissionException())
                 }
             }
     }
