@@ -119,7 +119,7 @@
     <string name="error_other">"%1$s fehlgeschlagen: %2$s"</string>
 
     <!-- Error shown when the HTTP response is too large to be loaded into memory. %s is a placeholder for the size limit, e.g. "1 MB") -->
-    <string name="error_response_too_large">"Response zu gross (maximal %s)"</string>
+    <string name="error_response_too_large">"Response zu gross um angezeigt zu werden (maximal %s)"</string>
 
     <!-- Error shown when a selected image cannot be used as an icon -->
     <string name="error_set_image">"Bild konnte nicht geladen werden."</string>
@@ -1421,4 +1421,54 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
 
     <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->
     <string name="error_variable_not_found_write">"Variablen-Fehler: %s existiert nicht oder ist keine Konstante"</string>
+
+    <!-- Title of code editor for defining global scripting code (JS code that runs before every shortcut) -->
+    <string name="title_global_scripting">"Globales Scripting"</string>
+
+    <!-- Button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
+    <string name="settings_global_scripting">"Globales Scripting"</string>
+
+    <!-- Subtitle of button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
+    <string name="settings_global_scripting_summary">"JavaScript-Code ausführen vor jedem Request"</string>
+
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the execution of every shortcut -->
+    <string name="placeholder_javascript_global_scripting">"Füge hier JavaScript-Code ein, welcher beim Ausführen jedes Shortcuts als erstes ausgeführt werden soll, z.B. um Variablen vorzubereiten oder Funktionen zu definieren welche von allen Shortcuts verwendet werden können."</string>
+
+    <!-- Action label: Shown on menu button to save changes in the Global Scripting editor -->
+    <string name="action_save_global_scripting">"Änderungen speichern"</string>
+
+    <!-- Error message: Shown when trying to trigger a shortcut by name via a voice command or deep-linking but the shortcut is not found -->
+    <string name="error_shortcut_not_found_for_deep_link">"Shortcut \"%s\" nicht gefunden"</string>
+
+    <!-- Instructions: Shown when the deep-linking feature is used but with an invalid URL -->
+    <string name="instructions_deep_linking">"Um das Deep-Linking-Feature zu verwenden muss deine URL wie folgt aussehen:
+
+%s"</string>
+
+    <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
+    <string name="placeholder_deleted_shortcut">"Gelöschter Shortcut"</string>
+
+    <!-- Menu button, allows saving a response as a file -->
+    <string name="button_save_response_as_file">"Als Datei speichern"</string>
+
+    <!-- Label: Wifi network selection config in shortcut settings -->
+    <string name="label_ssid">"Erforderliche Wifi-SSID"</string>
+
+    <!-- Dialog title: Permission request for wifi/ssid check -->
+    <string name="title_permission_dialog">"Berechtigung notwendig"</string>
+
+    <!-- Message: Rational given for location permission in wifi/ssid check -->
+    <string name="message_permission_rational">"Standort-Berechtigungen sind erforderlich um sicherzustellen dass der Shortcut nur auf dem angegebenen Wifi ausgeführt werden kann."</string>
+
+    <!-- Message: Shown to the user when connected to a different wifi network than the one given in the config -->
+    <string name="message_wrong_wifi_network">"Es besteht keine Verbindung zum erforderlichen Wifi-Netzwerk \"%1$s\". Anderes Netzwerk wählen?"</string>
+
+    <!-- Action label: Shown on wifi check dialog to open the wifi picker -->
+    <string name="action_label_select">"Wählen"</string>
+
+    <!-- Error message, shown when user declines location permission for wifi check -->
+    <string name="error_missing_location_permission">"Standort-Berechtigungen nicht gewährt. Der Shortcut wird nicht ausgeführt."</string>
+
+    <!-- Message: Success message shown when a response was saved to a file -->
+    <string name="message_response_saved_to_file">"Datei gespeichert."</string>
 </resources>
