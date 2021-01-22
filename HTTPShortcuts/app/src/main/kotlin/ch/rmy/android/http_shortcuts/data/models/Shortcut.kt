@@ -25,8 +25,6 @@ open class Shortcut(
     @Required
     var url: String = "http://"
 
-    var ssid: String = ""
-
     @Required
     var username: String = ""
 
@@ -76,6 +74,8 @@ open class Shortcut(
     var proxyHost: String? = null
 
     var proxyPort: Int? = null
+
+    var wifiSsid: String = ""
 
     @Required
     var codeOnPrepare: String = ""
@@ -133,7 +133,7 @@ open class Shortcut(
             other.acceptCookies != acceptCookies ||
             other.proxyHost != proxyHost ||
             other.proxyPort != proxyPort ||
-            other.ssid != ssid
+            other.wifiSsid != wifiSsid
         ) {
             return false
         }

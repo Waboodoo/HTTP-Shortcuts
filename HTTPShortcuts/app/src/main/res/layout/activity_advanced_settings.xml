@@ -57,25 +57,32 @@
             <include layout="@layout/divider_line" />
 
             <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingLeft="16dp"
-                    android:layout_marginTop="16dp"
-                    android:paddingRight="16dp">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
 
                 <TextView
-                        style="@style/Label"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/label_ssid"
-                        android:text="@string/label_ssid"/>
+                    android:id="@+id/label_ssid"
+                    style="@style/Label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_ssid" />
 
                 <EditText
-                        android:id="@+id/input_ssid"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="text" />
+                    android:id="@+id/input_ssid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+
+                <TextView
+                    style="@style/InfoLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/message_permission_rational" />
 
             </LinearLayout>
 

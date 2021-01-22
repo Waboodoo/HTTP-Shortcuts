@@ -40,6 +40,17 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="InfoLabel">
+        <item name="android:textSize">11sp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginRight">4dp</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+        <item name="android:layout_marginLeft">4dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:alpha">0.9</item>
+    </style>
+
     <style name="VariableButton">
         <item name="android:layout_width">36dp</item>
         <item name="android:layout_height">36dp</item>
@@ -54,6 +65,7 @@
         <item name="android:textSize">15sp</item>
         <item name="android:textStyle">bold</item>
     </style>
+
     <style name="ResponseInfo_Values">
         <item name="android:textSize">14sp</item>
     </style>
