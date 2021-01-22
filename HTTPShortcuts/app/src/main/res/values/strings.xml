@@ -93,7 +93,7 @@
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
     <string name="error_other">%1$s failed: %2$s</string>
     <!-- Error shown when the HTTP response is too large to be loaded into memory. %s is a placeholder for the size limit, e.g. "1 MB") -->
-    <string name="error_response_too_large">Response too large (limit is %s)</string>
+    <string name="error_response_too_large">Response too large to display (limit is %s)</string>
     <!-- Error shown when a selected image cannot be used as an icon -->
     <string name="error_set_image">Failed to use image as icon.</string>
     <!-- Name template for a duplicated shortcut. %1$s is a placeholder for the name of the original shortcut -->
@@ -456,6 +456,8 @@
     <string name="share_button">Share</string>
     <!-- Title on Share dialog -->
     <string name="share_title">Share…</string>
+    <!-- Menu button, allows saving a response as a file -->
+    <string name="button_save_response_as_file">Save as file</string>
     <!-- Section title, for section in variable editor containing options specific to the variable type -->
     <string name="section_input_options">Input Options</string>
     <!-- Checkbox value, shown in variable editor, allows to enable a variable to remember its previous value -->
@@ -965,4 +967,6 @@
     <string name="instructions_deep_linking">To use the deep-linking feature, make sure to use a valid URL of the form:\n\n%s</string>
     <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
     <string name="placeholder_deleted_shortcut">Deleted Shortcut</string>
+    <!-- Message: Success message shown when a response was saved to a file -->
+    <string name="message_response_saved_to_file">Response saved to file.</string>
 </resources>

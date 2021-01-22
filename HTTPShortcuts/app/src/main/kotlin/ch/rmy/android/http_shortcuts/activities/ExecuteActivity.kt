@@ -18,6 +18,7 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.exceptions.CanceledByUserException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidUrlException
+import ch.rmy.android.http_shortcuts.exceptions.ResponseTooLargeException
 import ch.rmy.android.http_shortcuts.exceptions.ResumeLaterException
 import ch.rmy.android.http_shortcuts.exceptions.UnsupportedFeatureException
 import ch.rmy.android.http_shortcuts.exceptions.UserException
@@ -37,6 +38,7 @@ import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.http.FileUploadManager
 import ch.rmy.android.http_shortcuts.http.HttpRequester
+import ch.rmy.android.http_shortcuts.http.ResponseFileStorage
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.scripting.ScriptExecutor
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ActionFactory
@@ -60,11 +62,7 @@ import io.reactivex.schedulers.Schedulers
 import okhttp3.CookieJar
 import java.io.IOException
 import java.net.UnknownHostException
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.List
-import kotlin.collections.Map
-import kotlin.collections.emptyList
+import java.util.HashMap
 import kotlin.math.pow
 
 class ExecuteActivity : BaseActivity(), Entrypoint {
@@ -392,6 +390,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
             .executeShortcut(
                 shortcut,
                 variableManager,
+                ResponseFileStorage(context, shortcutId),
                 fileUploadManager,
                 if (shortcut.acceptCookies) cookieJar else null,
             )
@@ -462,7 +461,12 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
 
     private fun calculateDelay() = RETRY_BACKOFF.pow(tryNumber.toDouble()).toInt() * 1000
 
-    private fun generateOutputFromResponse(response: ShortcutResponse) = response.bodyAsString
+    private fun generateOutputFromResponse(response: ShortcutResponse) =
+        try {
+            response.getContentAsString(context)
+        } catch (e: ResponseTooLargeException) {
+            e.getLocalizedMessage(context)
+        }
 
     private fun generateOutputFromError(error: Throwable, simple: Boolean = false) =
         ErrorFormatter(context).getPrettyError(error, shortcutName, includeBody = !simple)
@@ -498,6 +502,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                     .name(shortcutName)
                     .type(response?.contentType)
                     .text(output)
+                    .responseFileUri(response?.contentFile)
                     .url(response?.url)
                     .mapIf(shortcut.responseHandling?.includeMetaInfo == true) {
                         it.showDetails(true)

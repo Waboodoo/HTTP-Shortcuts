@@ -5,6 +5,7 @@ import androidx.annotation.Keep
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.exceptions.CanceledByUserException
 import ch.rmy.android.http_shortcuts.exceptions.JavaScriptException
+import ch.rmy.android.http_shortcuts.exceptions.ResponseTooLargeException
 import ch.rmy.android.http_shortcuts.extensions.logInfo
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
@@ -71,7 +72,11 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
         val responseObject = (response ?: (error as? ErrorResponse)?.shortcutResponse)
         jsContext.property("response", responseObject?.let {
             mapOf(
-                "body" to it.bodyAsString,
+                "body" to try {
+                    it.getContentAsString(context)
+                } catch (e: ResponseTooLargeException) {
+                    ""
+                },
                 "headers" to it.headers,
                 "statusCode" to it.statusCode,
                 "cookies" to it.cookies
@@ -153,10 +158,12 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
                         """
                         const ${alias.functionName} = (${alias.parameters.joinToString()}) => {
                             const result = _runAction("$actionName", {
-                                ${alias.parameters.joinToString { parameter ->
-                                    // Cast numbers to strings to avoid rounding errors
-                                    "\"$parameter\": typeof($parameter) === 'number' ? `\${$parameter}` : $parameter"
-                                }}
+                                ${
+                            alias.parameters.joinToString { parameter ->
+                                // Cast numbers to strings to avoid rounding errors
+                                "\"$parameter\": typeof($parameter) === 'number' ? `\${$parameter}` : $parameter"
+                            }
+                        }
                             });
                             return _convertResult(result, "${alias.returnType.name}");
                         };

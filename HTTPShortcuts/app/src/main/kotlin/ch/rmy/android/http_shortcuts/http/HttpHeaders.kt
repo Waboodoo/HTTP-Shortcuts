@@ -14,8 +14,10 @@ class HttpHeaders private constructor(private val headers: Map<String, List<Stri
     companion object {
 
         fun parse(headers: Headers) =
-            HttpHeaders(headers.names()
-                .associateWith { name -> headers.values(name) })
+            HttpHeaders(
+                headers.names()
+                    .associateWith { name -> headers.values(name) }
+            )
 
         const val AUTHORIZATION = "Authorization"
 

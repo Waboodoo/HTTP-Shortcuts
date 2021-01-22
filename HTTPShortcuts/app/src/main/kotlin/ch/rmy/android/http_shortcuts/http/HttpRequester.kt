@@ -23,6 +23,7 @@ class HttpRequester(private val contentResolver: ContentResolver) {
     fun executeShortcut(
         shortcut: Shortcut,
         variableManager: VariableManager,
+        responseFileStorage: ResponseFileStorage,
         fileUploadManager: FileUploadManager? = null,
         cookieJar: CookieJar? = null,
     ): Single<ShortcutResponse> =
@@ -93,7 +94,12 @@ class HttpRequester(private val contentResolver: ContentResolver) {
                     .newCall(request)
                     .execute()
                     .use { okHttpResponse ->
-                        val shortcutResponse = prepareResponse(url, okHttpResponse, ignoreBody = !shortcut.usesResponseBody)
+                        val contentFile = if (shortcut.usesResponseBody) {
+                            responseFileStorage.store(okHttpResponse)
+                        } else {
+                            null
+                        }
+                        val shortcutResponse = prepareResponse(url, okHttpResponse, contentFile)
                         if (okHttpResponse.isSuccessful) {
                             emitter.onSuccess(shortcutResponse)
                         } else {
@@ -150,20 +156,21 @@ class HttpRequester(private val contentResolver: ContentResolver) {
 
     companion object {
 
-        private fun prepareResponse(url: String, response: Response, ignoreBody: Boolean) =
+        private fun prepareResponse(url: String, response: Response, contentFile: Uri?) =
             ShortcutResponse(
                 url = url,
                 headers = HttpHeaders.parse(response.headers()),
                 statusCode = response.code(),
-                content = response.takeUnless { ignoreBody }?.body()?.byteStream(),
+                contentFile = contentFile,
                 timing = response.receivedResponseAtMillis() - response.sentRequestAtMillis(),
             )
 
-        private fun determineContentType(shortcut: Shortcut): String? = when {
-            shortcut.requestBodyType == Shortcut.REQUEST_BODY_TYPE_FORM_DATA -> FORM_MULTIPART_CONTENT_TYPE
-            shortcut.requestBodyType == Shortcut.REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE -> FORM_URLENCODE_CONTENT_TYPE
-            else -> shortcut.contentType.takeUnlessEmpty()
-        }
+        private fun determineContentType(shortcut: Shortcut): String? =
+            when (shortcut.requestBodyType) {
+                Shortcut.REQUEST_BODY_TYPE_FORM_DATA -> FORM_MULTIPART_CONTENT_TYPE
+                Shortcut.REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE -> FORM_URLENCODE_CONTENT_TYPE
+                else -> shortcut.contentType.takeUnlessEmpty()
+            }
 
     }
 

@@ -1,7 +1,12 @@
 package ch.rmy.android.http_shortcuts.activities.response
 
+import android.app.ProgressDialog
+import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.Intent
 import android.graphics.Typeface
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -9,12 +14,19 @@ import android.view.ViewGroup
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.http_shortcuts.extensions.showIfPossible
+import ch.rmy.android.http_shortcuts.extensions.showSnackbar
+import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.http.HttpStatus
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.ShareUtil
+import io.reactivex.Completable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotterknife.bindView
 
 class DisplayResponseActivity : BaseActivity() {
@@ -24,6 +36,9 @@ class DisplayResponseActivity : BaseActivity() {
     }
     private val text: String by lazy {
         intent?.extras?.getString(EXTRA_TEXT) ?: ""
+    }
+    private val responseFileUri: Uri? by lazy {
+        intent?.extras?.getParcelable(EXTRA_RESPONSE_FILE_URI)
     }
     private val type: String? by lazy {
         intent?.extras?.getString(EXTRA_TYPE)
@@ -159,14 +174,19 @@ class DisplayResponseActivity : BaseActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.display_response_activity_menu, menu)
         menu.findItem(R.id.action_share_response).isVisible = canShare()
+        menu.findItem(R.id.action_save_response_as_file).isVisible = canExport()
         return super.onCreateOptionsMenu(menu)
     }
 
     private fun canShare() =
         text.length < MAX_SHARE_LENGTH
 
+    private fun canExport() =
+        responseFileUri != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_share_response -> consume { shareText() }
+        R.id.action_save_response_as_file -> consume { openFilePicker() }
         else -> super.onOptionsItemSelected(item)
     }
 
@@ -175,6 +195,63 @@ class DisplayResponseActivity : BaseActivity() {
             return
         }
         ShareUtil.shareText(context, text)
+    }
+
+    private fun openFilePicker() {
+        try {
+            Intent(Intent.ACTION_CREATE_DOCUMENT)
+                .addCategory(Intent.CATEGORY_OPENABLE)
+                .setType(type)
+                .putExtra(Intent.EXTRA_TITLE, shortcutName)
+                .startActivity(this, REQUEST_SAVE_FILE)
+        } catch (e: ActivityNotFoundException) {
+            showSnackbar(R.string.error_generic)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
+        super.onActivityResult(requestCode, resultCode, intent)
+        if (resultCode != RESULT_OK || intent == null) {
+            return
+        }
+        when (requestCode) {
+            REQUEST_SAVE_FILE -> {
+                saveResponseToFile(intent.data ?: return)
+            }
+        }
+    }
+
+    private fun saveResponseToFile(uri: Uri) {
+        val progressDialog = ProgressDialog(this).apply {
+            setCanceledOnTouchOutside(false)
+        }
+        // TODO: Separate concerns better (this should not be in the activity)
+        Completable
+            .fromAction {
+                context.contentResolver.openOutputStream(uri).use { output ->
+                    context.contentResolver.openInputStream(responseFileUri!!).use { input ->
+                        input!!.copyTo(output!!)
+                    }
+                }
+            }
+            .doOnSubscribe {
+                progressDialog.showIfPossible()
+            }
+            .doOnEvent {
+                progressDialog.hide()
+            }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    showSnackbar(R.string.message_response_saved_to_file)
+                },
+                { e ->
+                    showSnackbar(R.string.error_generic)
+                    logException(e)
+                },
+            )
+            .attachTo(destroyer)
     }
 
     override val navigateUpIcon = R.drawable.ic_clear
@@ -195,6 +272,10 @@ class DisplayResponseActivity : BaseActivity() {
 
         fun text(text: String) = also {
             intent.putExtra(EXTRA_TEXT, text)
+        }
+
+        fun responseFileUri(uri: Uri?) = also {
+            intent.putExtra(EXTRA_RESPONSE_FILE_URI, uri)
         }
 
         fun url(url: String?) = also {
@@ -230,11 +311,14 @@ class DisplayResponseActivity : BaseActivity() {
         private const val EXTRA_NAME = "name"
         private const val EXTRA_TYPE = "type"
         private const val EXTRA_TEXT = "text"
+        private const val EXTRA_RESPONSE_FILE_URI = "response_file_uri"
         private const val EXTRA_URL = "url"
         private const val EXTRA_HEADERS = "headers"
         private const val EXTRA_STATUS_CODE = "status_code"
         private const val EXTRA_TIMING = "timing"
         private const val EXTRA_DETAILS = "details"
+
+        private const val REQUEST_SAVE_FILE = 1
 
         private const val MAX_SHARE_LENGTH = 500000
 
