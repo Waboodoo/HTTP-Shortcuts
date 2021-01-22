@@ -194,10 +194,10 @@ class DisplayResponseActivity : BaseActivity() {
     }
 
     private fun canShare() =
-        responseFileUri != null
+        text.isNotEmpty() && responseFileUri != null
 
     private fun canExport() =
-        responseFileUri != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+        text.isNotEmpty() && responseFileUri != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_share_response -> consume { shareResponse() }
