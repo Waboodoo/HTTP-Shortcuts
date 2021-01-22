@@ -194,23 +194,38 @@ class DisplayResponseActivity : BaseActivity() {
     }
 
     private fun canShare() =
-        text.length < MAX_SHARE_LENGTH
+        responseFileUri != null
 
     private fun canExport() =
         responseFileUri != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.action_share_response -> consume { shareText() }
+        R.id.action_share_response -> consume { shareResponse() }
         R.id.action_save_response_as_file -> consume { openFilePicker() }
         else -> super.onOptionsItemSelected(item)
     }
 
-    private fun shareText() {
-        if (!canShare()) {
-            return
+    private fun shareResponse() {
+        if (shouldShareAsText()) {
+            ShareUtil.shareText(context, text)
+        } else {
+            Intent(Intent.ACTION_SEND)
+                .setType(type)
+                .putExtra(Intent.EXTRA_STREAM, responseFileUri)
+                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                .let {
+                    Intent.createChooser(it, shortcutName)
+                }
+                .startActivity(this)
         }
-        ShareUtil.shareText(context, text)
     }
+
+    private fun shouldShareAsText() =
+        text.length < MAX_SHARE_LENGTH
+            && type != TYPE_GIF
+            && type != TYPE_PNG
+            && type != TYPE_JPEG
+            && type != TYPE_JPG
 
     private fun openFilePicker() {
         try {
@@ -335,7 +350,7 @@ class DisplayResponseActivity : BaseActivity() {
 
         private const val REQUEST_SAVE_FILE = 1
 
-        private const val MAX_SHARE_LENGTH = 500000
+        private const val MAX_SHARE_LENGTH = 300000
 
         private const val TYPE_XML = "text/xml"
         private const val TYPE_JSON = "application/json"
