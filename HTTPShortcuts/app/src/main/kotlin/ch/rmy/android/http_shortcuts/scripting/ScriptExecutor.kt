@@ -8,6 +8,7 @@ import ch.rmy.android.http_shortcuts.exceptions.JavaScriptException
 import ch.rmy.android.http_shortcuts.exceptions.ResponseTooLargeException
 import ch.rmy.android.http_shortcuts.extensions.logInfo
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
+import ch.rmy.android.http_shortcuts.http.FileUploadManager
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionDTO
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ActionFactory
@@ -31,7 +32,15 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
 
     private var lastException: Throwable? = null
 
-    fun execute(script: String, shortcut: Shortcut, variableManager: VariableManager, response: ShortcutResponse? = null, error: Exception? = null, recursionDepth: Int = 0): Completable =
+    fun execute(
+        script: String,
+        shortcut: Shortcut,
+        variableManager: VariableManager,
+        fileUploadManager: FileUploadManager?,
+        response: ShortcutResponse? = null,
+        error: Exception? = null,
+        recursionDepth: Int = 0,
+    ): Completable =
         if (script.isEmpty()) {
             Completable.complete()
         } else {
@@ -44,6 +53,7 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
 
                 registerShortcut(shortcut)
                 registerResponse(response, error)
+                registerFiles(fileUploadManager)
 
                 registerActions(context, shortcut.id, variableManager, recursionDepth)
 
@@ -58,11 +68,15 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
         }
 
     private fun registerShortcut(shortcut: Shortcut) {
-        jsContext.property("shortcut", mapOf(
-            "id" to shortcut.id,
-            "name" to shortcut.name,
-            "description" to shortcut.description
-        ), READ_ONLY)
+        jsContext.property(
+            "shortcut",
+            mapOf(
+                "id" to shortcut.id,
+                "name" to shortcut.name,
+                "description" to shortcut.description,
+            ),
+            READ_ONLY,
+        )
     }
 
     private fun registerResponse(response: ShortcutResponse?, error: Exception?) {
@@ -70,19 +84,39 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
             return
         }
         val responseObject = (response ?: (error as? ErrorResponse)?.shortcutResponse)
-        jsContext.property("response", responseObject?.let {
-            mapOf(
-                "body" to try {
-                    it.getContentAsString(context)
-                } catch (e: ResponseTooLargeException) {
-                    ""
-                },
-                "headers" to it.headers,
-                "statusCode" to it.statusCode,
-                "cookies" to it.cookies
-            )
-        }, READ_ONLY)
+        jsContext.property(
+            "response",
+            responseObject?.let {
+                mapOf(
+                    "body" to try {
+                        it.getContentAsString(context)
+                    } catch (e: ResponseTooLargeException) {
+                        ""
+                    },
+                    "headers" to it.headers,
+                    "statusCode" to it.statusCode,
+                    "cookies" to it.cookies,
+                )
+            },
+            READ_ONLY,
+        )
         jsContext.property("networkError", error?.message, READ_ONLY)
+    }
+
+    private fun registerFiles(fileUploadManager: FileUploadManager?) {
+        jsContext.property(
+            "selectedFiles",
+            fileUploadManager?.getFiles()
+                ?.map { file ->
+                    mapOf(
+                        "name" to file.fileName,
+                        "size" to file.fileSize,
+                        "type" to file.mimeType,
+                    )
+                }
+                ?: emptyList<Map<String, String>>(),
+            READ_ONLY,
+        )
     }
 
     private fun registerAbort(jsContext: JSContext) {

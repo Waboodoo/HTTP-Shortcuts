@@ -111,7 +111,11 @@ class ScriptingActivity : BaseActivity() {
     private fun initViews() {
         prepareSnippetButton.setOnClickListener {
             lastActiveCodeInput = prepareCodeInput
-            codeSnippetPicker.showCodeSnippetPicker(getCodeInsertion(prepareCodeInput), includeResponseOptions = false)
+            codeSnippetPicker.showCodeSnippetPicker(
+                getCodeInsertion(prepareCodeInput),
+                includeResponseOptions = false,
+                includeFileOptions = shortcutData.value?.type != ShortcutExecutionType.SCRIPTING,
+            )
         }
         successSnippetButton.setOnClickListener {
             lastActiveCodeInput = successCodeInput
@@ -123,7 +127,7 @@ class ScriptingActivity : BaseActivity() {
         }
     }
 
-    private fun getCodeInsertion(codeInput: EditText): (String, String) -> Unit =
+    private fun getCodeInsertion(codeInput: EditText): InsertText =
         { before, after ->
             codeInput.insertAroundCursor(before, after)
             Variables.applyVariableFormattingToJS(codeInput.text, variablePlaceholderProvider, variablePlaceholderColor)

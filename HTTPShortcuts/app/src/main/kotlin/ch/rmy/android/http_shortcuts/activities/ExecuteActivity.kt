@@ -439,7 +439,8 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                         script = script,
                         shortcut = shortcut,
                         variableManager = variableManager,
-                        recursionDepth = recursionDepth
+                        fileUploadManager = fileUploadManager,
+                        recursionDepth = recursionDepth,
                     )
                         .subscribeOn(Schedulers.computation())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -489,6 +490,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                             script = shortcut.codeOnFailure,
                             shortcut = shortcut,
                             variableManager = variableManager,
+                            fileUploadManager = fileUploadManager,
                             error = error as? Exception,
                             recursionDepth = recursionDepth
                         )
@@ -505,6 +507,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                         script = shortcut.codeOnSuccess,
                         shortcut = shortcut,
                         variableManager = variableManager,
+                        fileUploadManager = fileUploadManager,
                         response = response,
                         recursionDepth = recursionDepth
                     )

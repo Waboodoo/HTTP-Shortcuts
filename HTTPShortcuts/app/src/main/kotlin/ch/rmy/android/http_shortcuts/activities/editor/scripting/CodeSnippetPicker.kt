@@ -28,7 +28,12 @@ class CodeSnippetPicker(
     private val openIconPicker: (String) -> Unit,
 ) {
 
-    fun showCodeSnippetPicker(insertText: (before: String, after: String) -> Unit, includeResponseOptions: Boolean = true, includeNetworkErrorOption: Boolean = false) {
+    fun showCodeSnippetPicker(
+        insertText: InsertText,
+        includeResponseOptions: Boolean = true,
+        includeNetworkErrorOption: Boolean = false,
+        includeFileOptions: Boolean = true,
+    ) {
         DialogBuilder(context)
             .title(R.string.title_add_code_snippet)
             .mapIf(includeResponseOptions) {
@@ -41,6 +46,11 @@ class CodeSnippetPicker(
             }
             .item(R.string.dialog_code_snippet_shortcut_info, iconRes = R.drawable.ic_shortcut_info) {
                 showShortcutInfoPicker(insertText)
+            }
+            .mapIf(includeFileOptions) {
+                it.item(R.string.dialog_code_snippet_files, iconRes = R.drawable.ic_files) {
+                    showFilesPicker(insertText)
+                }
             }
             .item(R.string.dialog_code_snippet_user_interaction, iconRes = R.drawable.ic_user_interaction) {
                 showUserInteractionPicker(insertText)
@@ -60,7 +70,7 @@ class CodeSnippetPicker(
             .showIfPossible()
     }
 
-    private fun showShortcutInfoPicker(insertText: (before: String, after: String) -> Unit) {
+    private fun showShortcutInfoPicker(insertText: InsertText) {
         DialogBuilder(context)
             .item(R.string.dialog_code_snippet_get_shortcut_id) {
                 insertText("shortcut.id", "")
@@ -74,7 +84,21 @@ class CodeSnippetPicker(
             .showIfPossible()
     }
 
-    private fun showResponseOptionsPicker(insertText: (before: String, after: String) -> Unit, includeNetworkErrorOption: Boolean = false) {
+    private fun showFilesPicker(insertText: InsertText) {
+        DialogBuilder(context)
+            .item(R.string.dialog_code_snippet_get_file_name) {
+                insertText("selectedFiles[0].name", "")
+            }
+            .item(R.string.dialog_code_snippet_get_file_type) {
+                insertText("selectedFiles[0].size", "")
+            }
+            .item(R.string.dialog_code_snippet_get_file_size) {
+                insertText("selectedFiles[0].type", "")
+            }
+            .showIfPossible()
+    }
+
+    private fun showResponseOptionsPicker(insertText: InsertText, includeNetworkErrorOption: Boolean = false) {
         DialogBuilder(context)
             .item(R.string.dialog_code_snippet_response_body) {
                 insertText("response.body", "")
@@ -99,7 +123,7 @@ class CodeSnippetPicker(
             .showIfPossible()
     }
 
-    private fun showUserInteractionPicker(insertText: (before: String, after: String) -> Unit) {
+    private fun showUserInteractionPicker(insertText: InsertText) {
         DialogBuilder(context)
             .item(R.string.action_type_toast_title) {
                 insertText("showToast(\"", "\");\n")
@@ -129,7 +153,7 @@ class CodeSnippetPicker(
             .showIfPossible()
     }
 
-    private fun showModifyShortcutPicker(insertText: (before: String, after: String) -> Unit) {
+    private fun showModifyShortcutPicker(insertText: InsertText) {
         DialogBuilder(context)
             .item(R.string.action_type_rename_shortcut_title) {
                 actionWithShortcut(R.string.action_type_rename_shortcut_title) { shortcutPlaceholder ->
@@ -144,7 +168,7 @@ class CodeSnippetPicker(
             .showIfPossible()
     }
 
-    private fun showVariablesOptionsPicker(insertText: (before: String, after: String) -> Unit) {
+    private fun showVariablesOptionsPicker(insertText: InsertText) {
         if (variablePlaceholderProvider.hasVariables) {
             DialogBuilder(context)
                 .item(R.string.dialog_code_snippet_get_variable) {
@@ -199,7 +223,7 @@ class CodeSnippetPicker(
             .show()
     }
 
-    private fun showControlFlowPicker(insertText: (before: String, after: String) -> Unit) {
+    private fun showControlFlowPicker(insertText: InsertText) {
         DialogBuilder(context)
             .item(R.string.action_type_wait) {
                 insertText("wait(1000 /* milliseconds */", ");\n")
@@ -210,7 +234,7 @@ class CodeSnippetPicker(
             .showIfPossible()
     }
 
-    private fun showTextProcessingPicker(insertText: (before: String, after: String) -> Unit) {
+    private fun showTextProcessingPicker(insertText: InsertText) {
         DialogBuilder(context)
             .item(name = "MD5") {
                 insertText("hash(\"MD5\", \"", "\");\n")
@@ -227,7 +251,7 @@ class CodeSnippetPicker(
             .showIfPossible()
     }
 
-    private fun showMiscPicker(insertText: (before: String, after: String) -> Unit) {
+    private fun showMiscPicker(insertText: InsertText) {
         DialogBuilder(context)
             .item(R.string.action_type_trigger_shortcut_title) {
                 actionWithShortcut(R.string.action_type_trigger_shortcut_title) { shortcutPlaceholder ->
@@ -277,7 +301,7 @@ class CodeSnippetPicker(
             .showIfPossible()
     }
 
-    fun handleRequestResult(insertText: (before: String, after: String) -> Unit, requestCode: Int, data: Intent?) {
+    fun handleRequestResult(insertText: InsertText, requestCode: Int, data: Intent?) {
         when (requestCode) {
             REQUEST_CODE_SELECT_TASK -> {
                 val taskName = data?.dataString ?: return

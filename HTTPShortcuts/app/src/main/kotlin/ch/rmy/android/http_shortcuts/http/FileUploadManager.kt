@@ -28,6 +28,9 @@ class FileUploadManager private constructor(
         }
     }
 
+    fun getFiles(): List<File> =
+        registeredFiles.flatten()
+
     fun getFiles(index: Int): List<File> =
         registeredFiles.getOrNull(index) ?: emptyList()
 

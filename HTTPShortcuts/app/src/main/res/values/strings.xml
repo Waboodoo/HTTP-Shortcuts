@@ -758,6 +758,8 @@
     <string name="title_add_code_snippet">Add Code Snippet</string>
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the current shortcut itself -->
     <string name="dialog_code_snippet_shortcut_info">Shortcut Info</string>
+    <!-- Dialog option: shown in code snippet picker, shows options to get information about the selected files -->
+    <string name="dialog_code_snippet_files">Selected Files</string>
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the HTTP response -->
     <string name="dialog_code_snippet_handle_response">Handle Response</string>
     <!-- Dialog option: shown in code snippet picker, shows options to get or set variables -->
@@ -774,6 +776,12 @@
     <string name="dialog_code_snippet_misc">Miscellaneous</string>
     <!-- Dialog option: shown in code snippet picker, option to get the ID of the current shortcut -->
     <string name="dialog_code_snippet_get_shortcut_id">Get Shortcut ID</string>
+    <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
+    <string name="dialog_code_snippet_get_file_name">Get Name of Selected File</string>
+    <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->
+    <string name="dialog_code_snippet_get_file_type">Get Type of Selected File</string>
+    <!-- Dialog option: shown in code snippet picker, option to get the size of a selected file -->
+    <string name="dialog_code_snippet_get_file_size">Get Size of Selected File (in Bytes)</string>
     <!-- Dialog option: shown in code snippet picker, option to get the name of the current shortcut -->
     <string name="dialog_code_snippet_get_shortcut_name">Get Shortcut Name</string>
     <!-- Dialog option: shown in code snippet picker, option to get the description of the current shortcut -->
