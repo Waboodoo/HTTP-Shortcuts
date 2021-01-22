@@ -75,6 +75,8 @@ open class Shortcut(
 
     var proxyPort: Int? = null
 
+    var wifiSsid: String = ""
+
     @Required
     var codeOnPrepare: String = ""
 
@@ -130,7 +132,8 @@ open class Shortcut(
             other.followRedirects != followRedirects ||
             other.acceptCookies != acceptCookies ||
             other.proxyHost != proxyHost ||
-            other.proxyPort != proxyPort
+            other.proxyPort != proxyPort ||
+            other.wifiSsid != wifiSsid
         ) {
             return false
         }

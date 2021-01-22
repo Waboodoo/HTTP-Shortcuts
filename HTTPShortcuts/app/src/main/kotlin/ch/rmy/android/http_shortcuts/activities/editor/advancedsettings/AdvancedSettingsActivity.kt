@@ -49,6 +49,7 @@ class AdvancedSettingsActivity : BaseActivity() {
     private val proxyHostView: VariableEditText by bindView(R.id.input_proxy_host)
     private val proxyHostVariableButton: VariableButton by bindView(R.id.variable_button_proxy_host)
     private val proxyPortView: EditText by bindView(R.id.input_proxy_port)
+    private val ssidView: EditText by bindView(R.id.input_ssid)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,6 +106,7 @@ class AdvancedSettingsActivity : BaseActivity() {
         })
         bindTextChangeListener(proxyHostView) { shortcutData.value?.proxyHost ?: "" }
         bindTextChangeListener(proxyPortView) { shortcutData.value?.proxyPort?.toString() ?: "" }
+        bindTextChangeListener(ssidView) { shortcutData.value?.wifiSsid ?: "" }
     }
 
     private fun bindTextChangeListener(textView: EditText, currentValueProvider: () -> String?) {
@@ -118,7 +120,7 @@ class AdvancedSettingsActivity : BaseActivity() {
     }
 
     private fun updateViewModelFromViews(): Completable =
-        viewModel.setProxy(proxyHostView.rawString, proxyPortView.text.toString().toIntOrNull())
+        viewModel.setAdvancedSettings(proxyHostView.rawString, proxyPortView.text.toString().toIntOrNull(), ssidView.text.toString())
 
     private fun updateShortcutViews(shortcut: Shortcut) {
         waitForConnectionCheckBox.isChecked = shortcut.isWaitForNetwork
@@ -128,6 +130,7 @@ class AdvancedSettingsActivity : BaseActivity() {
         timeoutView.subtitle = viewModel.getTimeoutSubtitle(shortcut)
         proxyHostView.rawString = shortcut.proxyHost ?: ""
         proxyPortView.setText(shortcut.proxyPort?.toString() ?: "")
+        ssidView.setText(shortcut.wifiSsid ?: "")
     }
 
     private fun showTimeoutDialog() {

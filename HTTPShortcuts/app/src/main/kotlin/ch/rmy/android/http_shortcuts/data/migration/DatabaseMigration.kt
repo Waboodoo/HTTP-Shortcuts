@@ -319,6 +319,11 @@ class DatabaseMigration : RealmMigration {
                 schema.get("Base")!!
                     .addField("globalCode", String::class.java)
             }
+            43L -> { // 2.0.0
+                schema.get("Shortcut")!!
+                    .addField("wifiSsid", String::class.java)
+                    .setRequired("wifiSsid", true)
+            }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -344,7 +349,7 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 42L
+        const val VERSION = 43L
 
     }
 
