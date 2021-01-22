@@ -3,7 +3,9 @@ package ch.rmy.android.http_shortcuts.http
 import android.content.ContentResolver
 import android.content.res.AssetFileDescriptor
 import android.net.Uri
+import android.provider.OpenableColumns
 import android.webkit.MimeTypeMap
+import ch.rmy.android.http_shortcuts.extensions.tryOrLog
 import java.io.FileNotFoundException
 
 class FileUploadManager private constructor(
@@ -52,6 +54,26 @@ class FileUploadManager private constructor(
             )
         }
 
+    private fun getFileName(file: Uri, type: String): String {
+        tryOrLog {
+            if (file.scheme == "content") {
+                contentResolver.query(file, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null)?.use { cursor ->
+                    cursor.moveToFirst()
+                    val fileName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+                    if (fileName != null) {
+                        return fileName
+                    }
+                }
+            }
+        }
+        val potentialFileName = file.lastPathSegment ?: DEFAULT_FILE_NAME
+        val expectedExtension = MimeTypeMap.getSingleton().getExtensionFromMimeType(type)
+        if (expectedExtension != null && !potentialFileName.endsWith(".$expectedExtension", ignoreCase = true)) {
+            return "$potentialFileName.$expectedExtension"
+        }
+        return potentialFileName
+    }
+
     private fun getFileSize(file: Uri): Long? =
         try {
             contentResolver.openAssetFileDescriptor(file, "r")
@@ -90,15 +112,6 @@ class FileUploadManager private constructor(
 
         private const val FALLBACK_TYPE = "application/octet-stream"
         private const val DEFAULT_FILE_NAME = "file"
-
-        private fun getFileName(file: Uri, type: String): String {
-            val potentialFileName = file.lastPathSegment ?: DEFAULT_FILE_NAME
-            val expectedExtension = MimeTypeMap.getSingleton().getExtensionFromMimeType(type)
-            if (expectedExtension != null && !potentialFileName.endsWith(".$expectedExtension", ignoreCase = true)) {
-                return "$potentialFileName.$expectedExtension"
-            }
-            return potentialFileName
-        }
 
     }
 
