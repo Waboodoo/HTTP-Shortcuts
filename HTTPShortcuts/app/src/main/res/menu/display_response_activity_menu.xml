@@ -6,4 +6,9 @@
         android:icon="@drawable/ic_share"
         android:title="@string/share_button"
         app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_save_response_as_file"
+        android:icon="@drawable/ic_save_file"
+        android:title="@string/button_save_response_as_file"
+        app:showAsAction="ifRoom"/>
 </menu>

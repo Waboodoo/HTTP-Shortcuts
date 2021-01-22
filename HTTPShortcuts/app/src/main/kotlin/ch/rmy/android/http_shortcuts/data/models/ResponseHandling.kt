@@ -9,7 +9,7 @@ open class ResponseHandling(
     @PrimaryKey
     @Required
     override var id: String = UUIDUtils.newUUID(),
-    var uiType: String = UI_TYPE_TOAST,
+    var uiType: String = UI_TYPE_WINDOW,
     var successOutput: String = SUCCESS_OUTPUT_RESPONSE,
     var failureOutput: String = FAILURE_OUTPUT_DETAILED,
     var successMessage: String = "",
