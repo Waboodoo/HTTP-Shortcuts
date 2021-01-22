@@ -1,3 +1,26 @@
+## Version 2.0.0
+
+### Response Handling
+- When using the 'Window' UI type for displaying the response, it is now possible to save the response into a file.
+- When using the 'Window' UI type for displaying the response and the response is an image, it will be displayed as such instead of displaying it as plain text.
+- When the response is larger than the limit of 1MB, instead of failing, the request is treated as a success.
+- When creating a new shortcut, the default way of displaying the response is via a window instead of a toast.
+
+### Scripting
+- When using the Code Snippet picker for the `changeIcons` action it is now possible to pick a custom image instead of only a built-in one.
+- It is now possible to access the name, type and size of selected files via Scripting.
+- The settings page now features a scripting editor which can be used to define a piece of code which is executed at the start of each shortcut, allowing to share code and define common variables and functions.
+
+### Miscellaneous
+- Shortcuts can now be limited to only execute when connected to a specific wifi (thanks [@crasu](https://github.com/crasu))
+- The value input field for static (constant) variables is now multi-line, making it easier to enter or view larger values.
+- It is now possible to trigger a specific shortcut via a invoking a deep-link of the form `http-shortcuts://deep-link/<id-of-shortcut-here>`
+
+### Bugfixes
+- Deleted shortcuts now show in the shortcut list of Multi-Shortcuts, making it possible to fully remove them manually.
+- When a response is too large for sharing as text, instead of crashing or silently failing it will now try to share it as a file instead.
+- When selecting files (for request parameters or body) their original file name is used instead of a generated or internal one.
+
 ## Version 1.39.0
 
 ### Remote Editing
