@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
@@ -24,6 +25,7 @@ import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.http.HttpStatus
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.ShareUtil
+import com.squareup.picasso.Picasso
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -60,6 +62,7 @@ class DisplayResponseActivity : BaseActivity() {
     }
 
     private val responseText: TextView by bindView(R.id.response_text)
+    private val responseImage: ImageView by bindView(R.id.response_image)
     private val formattedResponseText: SyntaxHighlightView by bindView(R.id.formatted_response_text)
     private val responseWebView: ResponseWebView by bindView(R.id.response_web_view)
     private val metaInfoContainer: ViewGroup by bindView(R.id.meta_info_container)
@@ -116,6 +119,9 @@ class DisplayResponseActivity : BaseActivity() {
             displayAsPlainText(getString(R.string.message_blank_response), italic = true)
         } else {
             when (type) {
+                TYPE_JPEG, TYPE_JPG, TYPE_GIF, TYPE_PNG -> {
+                    displayImage()
+                }
                 TYPE_HTML -> {
                     displayInWebView(text, url)
                 }
@@ -133,6 +139,15 @@ class DisplayResponseActivity : BaseActivity() {
                 }
             }
         }
+    }
+
+    private fun displayImage() {
+        setContentView(R.layout.activity_display_response_image)
+        Picasso.get()
+            .load(responseFileUri)
+            .noFade()
+            .error(R.drawable.bitsies_cancel)
+            .into(responseImage)
     }
 
     private fun displayAsPlainText(text: String, italic: Boolean = false) {
@@ -327,6 +342,10 @@ class DisplayResponseActivity : BaseActivity() {
         private const val TYPE_HTML = "text/html"
         private const val TYPE_YAML = "text/yaml"
         private const val TYPE_YAML_ALT = "application/x-yaml"
+        private const val TYPE_JPEG = "image/jpeg"
+        private const val TYPE_JPG = "image/jpg"
+        private const val TYPE_PNG = "image/png"
+        private const val TYPE_GIF = "image/gif"
     }
 
 }

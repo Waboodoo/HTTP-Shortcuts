@@ -169,6 +169,9 @@ dependencies {
     /* Image selection */
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
 
+    /* Image display */
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
     /* HTTP & Network */
     implementation 'com.squareup.okhttp3:okhttp:3.12.1' // TODO: Use version 4 once dropping support for Kitkat and below
     implementation 'com.facebook.stetho:stetho:1.5.1'
