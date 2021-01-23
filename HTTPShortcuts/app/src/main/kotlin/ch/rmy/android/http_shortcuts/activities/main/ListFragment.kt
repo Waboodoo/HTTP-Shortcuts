@@ -8,7 +8,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
@@ -100,15 +99,15 @@ class ListFragment : BaseFragment() {
     }
 
     private fun bindViewsToViewModel() {
-        categoryData.observe(this, Observer {
+        categoryData.observe(this) {
             updateViews()
-        })
-        pendingShortcuts.observe(this, Observer { pendingShortcuts ->
+        }
+        pendingShortcuts.observe(this) { pendingShortcuts ->
             adapter?.setPendingShortcuts(pendingShortcuts)
-        })
-        shortcuts.observe(this, Observer {
+        }
+        shortcuts.observe(this) {
             updateEmptyState()
-        })
+        }
     }
 
     private fun updateViews() {

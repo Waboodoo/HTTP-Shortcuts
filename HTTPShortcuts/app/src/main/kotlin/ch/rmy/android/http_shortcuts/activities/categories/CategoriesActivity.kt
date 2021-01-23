@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
@@ -44,11 +43,11 @@ class CategoriesActivity : BaseActivity() {
         setTitle(R.string.title_categories)
         initViews()
 
-        viewModel.hasChanges.observe(this, Observer {
+        viewModel.hasChanges.observe(this) {
             setResult(Activity.RESULT_OK, Intent().apply {
                 putExtra(EXTRA_CATEGORIES_CHANGED, it)
             })
-        })
+        }
     }
 
     private fun initViews() {

@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.widget.CheckBox
 import android.widget.SeekBar
 import android.widget.TextView
-import androidx.lifecycle.Observer
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
@@ -70,9 +69,9 @@ class MiscSettingsActivity : BaseActivity() {
     }
 
     private fun bindViewsToViewModel() {
-        shortcutData.observe(this, Observer {
+        shortcutData.observe(this) {
             updateShortcutViews()
-        })
+        }
     }
 
     private fun updateShortcutViews() {

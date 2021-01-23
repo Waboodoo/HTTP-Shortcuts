@@ -8,7 +8,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.CheckBox
 import android.widget.TextView
-import androidx.lifecycle.Observer
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
@@ -65,13 +64,13 @@ class WidgetSettingsActivity : BaseActivity() {
     }
 
     private fun bindViewsToViewModel() {
-        viewModel.showLabel.observe(this, Observer {
+        viewModel.showLabel.observe(this) {
             labelView.visible = it
             labelColorView.isEnabled = it
-        })
-        viewModel.labelColor.observe(this, Observer {
+        }
+        viewModel.labelColor.observe(this) {
             updateLabelColor()
-        })
+        }
         showLabelCheckbox.setOnCheckedChangeListener { _, _ ->
             viewModel.showLabel.value = showLabelCheckbox.isChecked
         }

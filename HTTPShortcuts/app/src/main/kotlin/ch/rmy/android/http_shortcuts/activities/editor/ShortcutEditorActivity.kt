@@ -8,7 +8,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
-import androidx.lifecycle.Observer
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
@@ -142,13 +141,13 @@ class ShortcutEditorActivity : BaseActivity() {
     }
 
     private fun bindViewsToViewModel() {
-        shortcutData.observe(this, Observer {
+        shortcutData.observe(this) {
             updateShortcutViews()
             invalidateOptionsMenu()
-        })
-        variablesData.observe(this, Observer {
+        }
+        variablesData.observe(this) {
             updateShortcutViews()
-        })
+        }
     }
 
     private fun updateShortcutViews() {

@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
@@ -109,12 +108,12 @@ class RequestBodyActivity : BaseActivity() {
     }
 
     private fun bindViewsToViewModel() {
-        shortcutData.observe(this, Observer {
+        shortcutData.observe(this) {
             updateShortcutViews()
-        })
-        variablesData.observe(this, Observer {
+        }
+        variablesData.observe(this) {
             updateShortcutViews()
-        })
+        }
 
         requestBodyTypeSpinner.selectionChanges
             .concatMapCompletable { type -> viewModel.setRequestBodyType(type) }

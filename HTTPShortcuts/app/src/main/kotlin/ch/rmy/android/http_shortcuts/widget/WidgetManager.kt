@@ -24,7 +24,7 @@ object WidgetManager {
                 widgetId = widgetId,
                 shortcut = Repository.getShortcutById(realm, shortcutId),
                 showLabel = showLabel,
-                labelColor = labelColor
+                labelColor = labelColor,
             ))
         }
 
@@ -83,7 +83,7 @@ object WidgetManager {
     fun getWidgetIdFromIntent(intent: Intent): Int =
         intent.extras?.getInt(
             AppWidgetManager.EXTRA_APPWIDGET_ID,
-            AppWidgetManager.INVALID_APPWIDGET_ID
+            AppWidgetManager.INVALID_APPWIDGET_ID,
         ) ?: AppWidgetManager.INVALID_APPWIDGET_ID
 
 }

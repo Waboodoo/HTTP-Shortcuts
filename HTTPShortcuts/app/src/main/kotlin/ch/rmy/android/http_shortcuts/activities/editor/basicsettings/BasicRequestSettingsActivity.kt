@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts.activities.editor.basicsettings
 import android.content.Context
 import android.os.Bundle
 import android.widget.EditText
-import androidx.lifecycle.Observer
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
@@ -59,12 +58,12 @@ class BasicRequestSettingsActivity : BaseActivity() {
     }
 
     private fun bindViewsToViewModel() {
-        shortcutData.observe(this, Observer {
+        shortcutData.observe(this) {
             updateShortcutViews()
-        })
-        variablesData.observe(this, Observer {
+        }
+        variablesData.observe(this) {
             updateShortcutViews()
-        })
+        }
 
         methodSpinner.selectionChanges
             .concatMapCompletable { method -> viewModel.setMethod(method) }

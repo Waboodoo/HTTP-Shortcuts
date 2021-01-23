@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
-import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
@@ -111,18 +110,18 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
     }
 
     private fun bindViewsToViewModel() {
-        viewModel.appLockedSource.observe(this, Observer { isLocked ->
+        viewModel.appLockedSource.observe(this) { isLocked ->
             createButton.visible = !isLocked
             invalidateOptionsMenu()
-        })
+        }
 
-        viewModel.getCategories().observe(this, Observer { categories ->
+        viewModel.getCategories().observe(this) { categories ->
             val visibleCategoryCount = categories.count { !it.hidden || showHiddenCategories }
             tabLayout.visible = visibleCategoryCount > 1
             if (viewPager.currentItem >= visibleCategoryCount) {
                 viewPager.currentItem = 0
             }
-        })
+        }
     }
 
     private fun showCreateOptions() {
@@ -181,15 +180,15 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
         adapter = CategoryPagerAdapter(supportFragmentManager, selectionMode)
         viewPager.adapter = adapter
         tabLayout.setupWithViewPager(viewPager)
-        viewModel.getCategories().observe(this, Observer { categories ->
+        viewModel.getCategories().observe(this) { categories ->
             adapter.setCategories(categories.filter { !it.hidden || showHiddenCategories })
-        })
+        }
     }
 
     private fun setupTitleBar() {
-        viewModel.getLiveToolbarTitle().observe(this, Observer { title ->
+        viewModel.getLiveToolbarTitle().observe(this) { title ->
             setTitle(title.ifEmpty { context.getString(R.string.app_name) })
-        })
+        }
         if (selectionMode === SelectionMode.NORMAL) {
             toolbar!!.titleView?.setOnClickListener {
                 if (!viewModel.isAppLocked()) {

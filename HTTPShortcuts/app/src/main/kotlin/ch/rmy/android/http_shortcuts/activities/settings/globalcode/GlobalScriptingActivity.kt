@@ -10,7 +10,6 @@ import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.CodeSnippetPicker
@@ -109,14 +108,14 @@ class GlobalScriptingActivity : BaseActivity() {
         }
 
     private fun bindViewsToViewModel() {
-        baseData.observe(this, Observer {
-            val base = viewModel.base.value ?: return@Observer
+        baseData.observe(this) {
+            val base = viewModel.base.value ?: return@observe
             initViews(base)
             baseData.removeObservers(this)
-        })
-        viewModel.hasChanges.observe(this, {
+        }
+        viewModel.hasChanges.observe(this) {
             invalidateOptionsMenu()
-        })
+        }
     }
 
     private fun initViews(base: Base) {

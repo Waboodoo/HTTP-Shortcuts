@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
-import androidx.lifecycle.Observer
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
@@ -69,12 +68,12 @@ class AuthenticationActivity : BaseActivity() {
     }
 
     private fun bindViewsToViewModel() {
-        shortcutData.observe(this, Observer {
+        shortcutData.observe(this) {
             updateShortcutViews()
-        })
-        variablesData.observe(this, Observer {
+        }
+        variablesData.observe(this) {
             updateShortcutViews()
-        })
+        }
 
         authenticationMethodSpinner.selectionChanges
             .concatMapCompletable { method -> viewModel.setAuthenticationMethod(method) }

@@ -10,7 +10,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import androidx.lifecycle.Observer
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
@@ -135,11 +134,11 @@ class ScriptingActivity : BaseActivity() {
         }
 
     private fun bindViewsToViewModel() {
-        shortcutData.observe(this, Observer {
-            val shortcut = shortcutData.value ?: return@Observer
+        shortcutData.observe(this) {
+            val shortcut = shortcutData.value ?: return@observe
             updateShortcutViews(shortcut)
             shortcutData.removeObservers(this)
-        })
+        }
         bindTextChangeListener(prepareCodeInput) { shortcutData.value?.codeOnPrepare }
         bindTextChangeListener(successCodeInput) { shortcutData.value?.codeOnSuccess }
         bindTextChangeListener(failureCodeInput) { shortcutData.value?.codeOnFailure }
@@ -159,7 +158,7 @@ class ScriptingActivity : BaseActivity() {
         viewModel.setCode(
             prepareCode = prepareCodeInput.text.toString(),
             successCode = successCodeInput.text.toString(),
-            failureCode = failureCodeInput.text.toString()
+            failureCode = failureCodeInput.text.toString(),
         )
 
     private fun updateShortcutViews(shortcut: Shortcut) {
@@ -178,12 +177,12 @@ class ScriptingActivity : BaseActivity() {
         Variables.applyVariableFormattingToJS(
             text,
             variablePlaceholderProvider,
-            variablePlaceholderColor
+            variablePlaceholderColor,
         )
         ShortcutSpanManager.applyShortcutFormattingToJS(
             text,
             shortcutPlaceholderProvider,
-            shortcutPlaceholderColor
+            shortcutPlaceholderColor,
         )
         return text
     }

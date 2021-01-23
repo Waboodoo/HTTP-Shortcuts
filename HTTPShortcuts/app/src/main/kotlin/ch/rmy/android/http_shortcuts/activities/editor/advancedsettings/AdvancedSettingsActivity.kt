@@ -7,7 +7,6 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.SeekBar
 import android.widget.TextView
-import androidx.lifecycle.Observer
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
@@ -99,11 +98,11 @@ class AdvancedSettingsActivity : BaseActivity() {
     }
 
     private fun bindViewsToViewModel() {
-        shortcutData.observe(this, Observer {
-            val shortcut = shortcutData.value ?: return@Observer
+        shortcutData.observe(this) {
+            val shortcut = shortcutData.value ?: return@observe
             updateShortcutViews(shortcut)
             shortcutData.removeObservers(this)
-        })
+        }
         bindTextChangeListener(proxyHostView) { shortcutData.value?.proxyHost ?: "" }
         bindTextChangeListener(proxyPortView) { shortcutData.value?.proxyPort?.toString() ?: "" }
         bindTextChangeListener(ssidView) { shortcutData.value?.wifiSsid ?: "" }
