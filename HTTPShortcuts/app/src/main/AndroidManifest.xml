@@ -13,6 +13,10 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="net.dinglisch.android.tasker.PERMISSION_RUN_TASKS" />
 
+    <uses-feature
+        android:name="android.hardware.location"
+        android:required="false" />
+
     <application
         android:name="ch.rmy.android.http_shortcuts.Application"
         android:allowBackup="true"
@@ -236,10 +240,13 @@
             android:theme="@style/Theme.Transparent">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="http-shortcuts" android:host="deep-link" />
+                <data
+                    android:host="deep-link"
+                    android:scheme="http-shortcuts" />
             </intent-filter>
         </activity>
 
