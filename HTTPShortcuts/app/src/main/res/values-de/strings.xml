@@ -682,22 +682,22 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
     <string name="theme_indigo">"Indigo"</string>
 
     <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
-    <string name="title_export">"Exportieren"</string>
+    <string name="title_export">"Exportieren…"</string>
 
     <!-- Dialog option on Export dialog, for exporting by storing in a file -->
-    <string name="button_export_to_general">"Dokumente"</string>
+    <string name="button_export_to_general">"…als Datei"</string>
 
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
-    <string name="button_export_send_to">"Andere App"</string>
+    <string name="button_export_send_to">"…zu anderer App"</string>
 
     <!-- Dialog title, for dialog with options allowing user to pick where to import shortcuts from -->
-    <string name="title_import">"Importieren"</string>
+    <string name="title_import">"Importieren…"</string>
 
     <!-- Dialog option on Import dialog, for importing shortcuts from a file picked via the system's document browser -->
-    <string name="button_import_from_general">"Dokumente"</string>
+    <string name="button_import_from_general">"…aus Datei"</string>
 
     <!-- Dialog option on Import dialog, for importing shortcuts from a URL -->
-    <string name="button_import_from_url">"URL"</string>
+    <string name="button_import_from_url">"…von URL"</string>
 
     <!-- Dialog title when creating a new shortcut, shows options below -->
     <string name="title_create_new_shortcut_options_dialog">"Neuen Shortcut erstellen"</string>
