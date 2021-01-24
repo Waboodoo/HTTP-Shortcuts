@@ -264,7 +264,7 @@
     <!-- Title of option in settings screen: links the user to an external documentation page -->
     <string name="settings_documentation">Documentation</string>
     <!-- Subtitle of option in settings screen: links the user to an external documentation page -->
-    <string name="settings_documentation_summary">FAQ, References, Examples</string>
+    <string name="settings_documentation_summary">FAQ, references, examples, …</string>
     <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_duplicated">\"%1$s\" duplicated.</string>
     <!-- Message, shown in snackbar, confirming to user that a shortcut was moved. %1$s is a placeholder for the shortcut's name -->
