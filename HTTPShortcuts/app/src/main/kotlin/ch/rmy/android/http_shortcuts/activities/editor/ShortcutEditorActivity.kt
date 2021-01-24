@@ -35,7 +35,6 @@ import ch.rmy.android.http_shortcuts.extensions.setMaxLength
 import ch.rmy.android.http_shortcuts.extensions.setTextSafely
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.showToast
-import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.icons.IconPicker
@@ -202,49 +201,40 @@ class ShortcutEditorActivity : BaseActivity() {
         }
         basicRequestSettingsButton.setOnClickListener {
             BasicRequestSettingsActivity.IntentBuilder(context)
-                .build()
                 .startActivity(this)
         }
         headersButton.setOnClickListener {
             RequestHeadersActivity.IntentBuilder(context)
-                .build()
                 .startActivity(this)
         }
         requestBodyButton.setOnClickListener {
             RequestBodyActivity.IntentBuilder(context)
-                .build()
                 .startActivity(this)
         }
         authenticationButton.setOnClickListener {
             AuthenticationActivity.IntentBuilder(context)
-                .build()
                 .startActivity(this)
         }
         responseHandlingButton.setOnClickListener {
             ResponseActivity.IntentBuilder(context)
-                .build()
                 .startActivity(this)
         }
         scriptingButton.setOnClickListener {
             ScriptingActivity.IntentBuilder(context)
                 .shortcutId(shortcutId)
-                .build()
                 .startActivity(this)
         }
         triggerShortcutsButton.setOnClickListener {
             TriggerShortcutsActivity.IntentBuilder(context)
                 .shortcutId(shortcutId)
-                .build()
                 .startActivity(this)
         }
         miscSettingsButton.setOnClickListener {
             MiscSettingsActivity.IntentBuilder(context)
-                .build()
                 .startActivity(this)
         }
         advancedTechnicalSettingsButton.setOnClickListener {
             AdvancedSettingsActivity.IntentBuilder(context)
-                .build()
                 .startActivity(this)
         }
     }
@@ -359,7 +349,6 @@ class ShortcutEditorActivity : BaseActivity() {
         updateViewModelFromViews()
             .subscribe {
                 ExecuteActivity.IntentBuilder(context, Shortcut.TEMPORARY_ID)
-                    .build()
                     .startActivity(this)
             }
             .attachTo(destroyer)

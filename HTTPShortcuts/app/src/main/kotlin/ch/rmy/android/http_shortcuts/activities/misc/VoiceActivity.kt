@@ -9,7 +9,6 @@ import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.data.DataSource
 import ch.rmy.android.http_shortcuts.extensions.finishWithoutAnimation
 import ch.rmy.android.http_shortcuts.extensions.showToast
-import ch.rmy.android.http_shortcuts.extensions.startActivity
 
 class VoiceActivity : BaseActivity(), Entrypoint {
 
@@ -28,7 +27,6 @@ class VoiceActivity : BaseActivity(), Entrypoint {
         }
 
         ExecuteActivity.IntentBuilder(context, shortcut.id)
-            .build()
             .startActivity(this)
         finishWithoutAnimation()
     }

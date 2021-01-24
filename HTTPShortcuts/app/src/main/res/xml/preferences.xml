@@ -73,13 +73,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/settings_title_privacy">
-
-        <Preference
-            app:icon="@drawable/ic_privacy_policy"
-            app:key="privacy_policy"
-            app:summary="@string/settings_privacy_policy_summary"
-            app:title="@string/settings_privacy_policy" />
+    <PreferenceCategory app:title="@string/settings_title_privacy" app:key="privacy">
 
         <ListPreference
             app:defaultValue="true"
@@ -103,45 +97,6 @@
             app:persistent="true"
             app:summary="@string/settings_force_foreground_summary"
             app:title="@string/settings_force_foreground" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory app:title="@string/settings_about">
-
-        <Preference
-            app:icon="@drawable/ic_version"
-            app:key="changelog"
-            app:title="@string/settings_changelog" />
-        <Preference
-            app:icon="@drawable/ic_email_outline"
-            app:key="mail"
-            app:summary="@string/settings_mail_summary"
-            app:title="@string/settings_mail" />
-        <Preference
-            app:icon="@drawable/ic_faq"
-            app:key="faq"
-            app:summary="@string/settings_faq_summary"
-            app:title="@string/settings_faq" />
-        <Preference
-            app:icon="@drawable/ic_google_play"
-            app:key="play_store"
-            app:summary="@string/settings_play_store_summary"
-            app:title="@string/settings_play_store" />
-        <Preference
-            app:icon="@drawable/ic_github_circle"
-            app:key="github"
-            app:summary="@string/settings_github_summary"
-            app:title="@string/settings_github" />
-        <Preference
-            app:icon="@drawable/ic_translate"
-            app:key="translate"
-            app:summary="@string/settings_help_translate_summary"
-            app:title="@string/settings_help_translate" />
-        <Preference
-            app:icon="@drawable/ic_acknowledgments"
-            app:key="acknowledgments"
-            app:summary="@string/settings_licenses_summary"
-            app:title="@string/settings_licenses" />
 
     </PreferenceCategory>
 

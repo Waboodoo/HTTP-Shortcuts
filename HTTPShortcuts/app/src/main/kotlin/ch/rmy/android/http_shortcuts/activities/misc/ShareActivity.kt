@@ -18,7 +18,6 @@ import ch.rmy.android.http_shortcuts.extensions.finishWithoutAnimation
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.showToast
-import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.utils.FileUtil
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils
 import ch.rmy.android.http_shortcuts.variables.VariableLookup
@@ -141,7 +140,6 @@ class ShareActivity : BaseActivity(), Entrypoint {
         ExecuteActivity.IntentBuilder(context, shortcut.id)
             .variableValues(variableValues)
             .files(files)
-            .build()
             .startActivity(this)
     }
 

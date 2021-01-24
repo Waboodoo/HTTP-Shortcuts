@@ -600,7 +600,6 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                             .headers(response?.headers)
                             .statusCode(response?.statusCode)
                     }
-                    .build()
                     .startActivity(this)
                 Completable.complete()
             }
@@ -642,11 +641,11 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
             intent.action = ACTION_EXECUTE_SHORTCUT
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NO_ANIMATION
             if (shortcutId != null) {
-                shortcut(shortcutId)
+                shortcut(shortcutId, context)
             }
         }
 
-        private fun shortcut(shortcutId: String) = also {
+        private fun shortcut(shortcutId: String, context: Context) = also {
             intent.putExtra(EXTRA_SHORTCUT_ID, shortcutId)
             intent.data = Uri.fromParts("content", context.packageName, null)
                 .buildUpon()

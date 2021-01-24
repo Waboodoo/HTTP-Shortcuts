@@ -148,6 +148,8 @@
     <string name="label_custom_body">Request Body</string>
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
     <string name="title_settings">Settings</string>
+    <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, ...) -->
+    <string name="title_about">About</string>
     <!-- Name of toolbar action: Unlock all settings (will prompt user to enter passcode) -->
     <string name="menu_action_unlock_app">Unlock settings</string>
     <!-- Title of theme settings -->
@@ -229,8 +231,6 @@
     </plurals>
     <!-- Pattern: Combines an indication of minutes (first %s) with an indication of seconds (second %s), e.g. 1 minute, 24 seconds -->
     <string name="pattern_minutes_seconds">%1$s, %2$s</string>
-    <!-- Section title in app settings -->
-    <string name="settings_about">About this App</string>
     <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
     <string name="settings_troubleshooting">Troubleshooting</string>
     <!-- Title of option in settings to show change changelog of current and past versions -->
@@ -261,10 +261,10 @@
     <string name="settings_play_store">View in Play Store</string>
     <!-- Button subtitle for "View in Play Store" button -->
     <string name="settings_play_store_summary">Thank you for your ratings and reviews</string>
-    <!-- Title of option in settings screen: FAQ (frequently asked questions), links the user to an external documentation page -->
-    <string name="settings_faq">FAQ</string>
-    <!-- Subtitle of option in settings screen: FAQ (frequently asked questions), links the user to an external documentation page -->
-    <string name="settings_faq_summary">Frequently asked questions</string>
+    <!-- Title of option in settings screen: links the user to an external documentation page -->
+    <string name="settings_documentation">Documentation</string>
+    <!-- Subtitle of option in settings screen: links the user to an external documentation page -->
+    <string name="settings_documentation_summary">FAQ, References, Examples</string>
     <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_duplicated">\"%1$s\" duplicated.</string>
     <!-- Message, shown in snackbar, confirming to user that a shortcut was moved. %1$s is a placeholder for the shortcut's name -->

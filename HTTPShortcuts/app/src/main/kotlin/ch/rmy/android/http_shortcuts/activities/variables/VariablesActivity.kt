@@ -22,7 +22,6 @@ import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.extensions.openURL
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
-import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
@@ -83,7 +82,6 @@ class VariablesActivity : BaseActivity() {
                 builder.item(variableType.name) {
                     VariableEditorActivity.IntentBuilder(context)
                         .variableType(variableType.type)
-                        .build()
                         .startActivity(this)
                 }
                     .mapIf(variableType.type == Variable.TYPE_CONSTANT) {
@@ -113,7 +111,6 @@ class VariablesActivity : BaseActivity() {
     private fun editVariable(variable: Variable) {
         VariableEditorActivity.IntentBuilder(context)
             .variableId(variable.id)
-            .build()
             .startActivity(this)
     }
 

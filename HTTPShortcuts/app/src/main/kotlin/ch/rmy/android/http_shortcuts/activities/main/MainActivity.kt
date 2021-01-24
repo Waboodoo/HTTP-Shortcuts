@@ -14,6 +14,7 @@ import ch.rmy.android.http_shortcuts.activities.Entrypoint
 import ch.rmy.android.http_shortcuts.activities.categories.CategoriesActivity
 import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
 import ch.rmy.android.http_shortcuts.activities.misc.CurlImportActivity
+import ch.rmy.android.http_shortcuts.activities.settings.AboutActivity
 import ch.rmy.android.http_shortcuts.activities.settings.SettingsActivity
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.activities.widget.WidgetSettingsActivity
@@ -31,7 +32,6 @@ import ch.rmy.android.http_shortcuts.extensions.openURL
 import ch.rmy.android.http_shortcuts.extensions.restartWithoutAnimation
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.showToast
-import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.extensions.titleView
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
@@ -172,7 +172,6 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
         ShortcutEditorActivity.IntentBuilder(context)
             .categoryId(categoryId)
             .executionType(type)
-            .build()
             .startActivity(this, REQUEST_CREATE_SHORTCUT)
     }
 
@@ -282,7 +281,6 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
         ShortcutEditorActivity.IntentBuilder(context)
             .categoryId(categoryId)
             .curlCommand(curlCommand)
-            .build()
             .startActivity(this, REQUEST_CREATE_SHORTCUT)
     }
 
@@ -302,7 +300,6 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
     private fun openWidgetSettings(shortcut: Shortcut) {
         WidgetSettingsActivity.IntentBuilder(context)
             .shortcut(shortcut)
-            .build()
             .startActivity(this, REQUEST_WIDGET_SETTINGS)
     }
 
@@ -363,6 +360,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_settings -> consume { openSettings() }
+        R.id.action_about -> consume { openAbout() }
         R.id.action_categories -> consume { openCategoriesEditor() }
         R.id.action_variables -> consume { openVariablesEditor() }
         R.id.action_unlock -> consume { openAppUnlockDialog() }
@@ -371,19 +369,21 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
 
     private fun openSettings() {
         SettingsActivity.IntentBuilder(context)
-            .build()
             .startActivity(this, REQUEST_SETTINGS)
+    }
+
+    private fun openAbout() {
+        AboutActivity.IntentBuilder(context)
+            .startActivity(this)
     }
 
     private fun openCategoriesEditor() {
         CategoriesActivity.IntentBuilder(context)
-            .build()
             .startActivity(this, REQUEST_CATEGORIES)
     }
 
     private fun openVariablesEditor() {
         VariablesActivity.IntentBuilder(context)
-            .build()
             .startActivity(this)
     }
 
@@ -416,7 +416,6 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
 
     private fun openCurlImport() {
         CurlImportActivity.IntentBuilder(context)
-            .build()
             .startActivity(this, REQUEST_CREATE_SHORTCUT_FROM_CURL)
     }
 

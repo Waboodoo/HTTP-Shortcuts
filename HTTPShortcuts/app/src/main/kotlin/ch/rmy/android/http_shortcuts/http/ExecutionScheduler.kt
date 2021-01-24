@@ -14,7 +14,6 @@ import ch.rmy.android.http_shortcuts.data.models.PendingExecution
 import ch.rmy.android.http_shortcuts.extensions.detachFromRealm
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.mapIf
-import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils
 import java.util.Calendar
 import java.util.Date
@@ -93,7 +92,6 @@ object ExecutionScheduler {
             .variableValues(variableValues)
             .tryNumber(tryNumber)
             .recursionDepth(recursionDepth)
-            .build()
             .startActivity(context)
     }
 }

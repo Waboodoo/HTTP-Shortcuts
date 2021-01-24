@@ -6,21 +6,15 @@ import android.app.ProgressDialog
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager.NameNotFoundException
 import android.net.Uri
 import android.os.Bundle
-import androidx.preference.ListPreference
 import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
-import ch.rmy.android.http_shortcuts.activities.misc.AcknowledgmentActivity
 import ch.rmy.android.http_shortcuts.activities.remote_edit.RemoteEditActivity
 import ch.rmy.android.http_shortcuts.activities.settings.globalcode.GlobalScriptingActivity
-import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.dialogs.SpecialWarnings
-import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.isWebUrl
@@ -36,8 +30,6 @@ import ch.rmy.android.http_shortcuts.import_export.Importer
 import ch.rmy.android.http_shortcuts.logging.Logging
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
-import ch.rmy.android.http_shortcuts.utils.Destroyer
-import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.FilePickerUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -58,9 +50,7 @@ class SettingsActivity : BaseActivity() {
             .commit()
     }
 
-    class SettingsFragment : PreferenceFragmentCompat() {
-
-        private val destroyer = Destroyer()
+    class SettingsFragment : BaseSettingsFragment() {
 
         private val viewModel: SettingsViewModel
             get() = (activity as SettingsActivity).viewModel
@@ -113,10 +103,6 @@ class SettingsActivity : BaseActivity() {
                 openRemoteEditor()
             }
 
-            initPreference("privacy_policy") {
-                openURL(ExternalURLs.PRIVACY_POLICY)
-            }
-
             if (Logging.supportsCrashReporting) {
                 initListPreference("crash_reporting") { newValue ->
                     if (newValue == "false") {
@@ -124,45 +110,11 @@ class SettingsActivity : BaseActivity() {
                     }
                 }
             } else {
-                findPreference<Preference>("crash_reporting")!!.isVisible = false
+                findPreference<Preference>("privacy")!!.isVisible = false
             }
 
             initPreference("clear_cookies") {
                 showClearCookieDialog()
-            }
-
-            initPreference("changelog") {
-                ChangeLogDialog(requireContext(), false)
-                    .show()
-                    .subscribe({}, {
-                        showSnackbar(R.string.error_generic, long = true)
-                    })
-                    .attachTo(destroyer)
-            }
-                .summary = getString(R.string.settings_changelog_summary, versionName)
-
-            initPreference("mail") {
-                contactDeveloper()
-            }
-
-            initPreference("faq") {
-                openURL(ExternalURLs.FAQ_PAGE)
-            }
-
-            initPreference("play_store") {
-                openURL(ExternalURLs.PLAY_STORE)
-            }
-
-            initPreference("github") {
-                openURL(ExternalURLs.GITHUB)
-            }
-
-            initPreference("translate") {
-                openURL(ExternalURLs.TRANSLATION)
-            }
-
-            initPreference("acknowledgments") {
-                showAcknowledgments()
             }
         }
 
@@ -173,43 +125,6 @@ class SettingsActivity : BaseActivity() {
             requireActivity().setResult(Activity.RESULT_OK, returnIntent)
             requireActivity().finish()
             requireActivity().overridePendingTransition(0, 0)
-        }
-
-        private val versionName: String
-            get() = try {
-                requireContext().packageManager.getPackageInfo(requireContext().packageName, 0).versionName
-            } catch (e: NameNotFoundException) {
-                "???"
-            }
-
-        private fun initPreference(key: String, action: () -> Unit = {}): Preference {
-            val preference = findPreference<Preference>(key)!!
-            preference.applyTheme()
-            preference.onPreferenceClickListener = Preference.OnPreferenceClickListener {
-                action()
-                true
-            }
-            return preference
-        }
-
-        private fun initListPreference(key: String, action: (newValue: Any) -> Unit = {}): ListPreference {
-            val preference = findPreference<ListPreference>(key)!!
-            preference.applyTheme()
-            preference.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, newValue ->
-                if (isAdded) {
-                    updateSummary(preference, newValue)
-                    action(newValue)
-                }
-                true
-            }
-            updateSummary(preference, null)
-            return preference
-        }
-
-        private fun updateSummary(preference: ListPreference, value: Any?) {
-            val index = preference.findIndexOfValue((value ?: preference.value) as String?)
-                .takeUnless { it == -1 }
-            preference.summary = preference.entries[index ?: 0]
         }
 
         private fun showAppLockDialog() {
@@ -242,7 +157,6 @@ class SettingsActivity : BaseActivity() {
 
         private fun openGlobalScriptingEditor() {
             GlobalScriptingActivity.IntentBuilder(requireContext())
-                .build()
                 .startActivity(this)
         }
 
@@ -287,7 +201,6 @@ class SettingsActivity : BaseActivity() {
 
         private fun openRemoteEditor() {
             RemoteEditActivity.IntentBuilder(requireContext())
-                .build()
                 .startActivity(this, REQUEST_REMOTE_EDIT)
         }
 
@@ -300,27 +213,6 @@ class SettingsActivity : BaseActivity() {
                 }
                 .negative(R.string.dialog_cancel)
                 .showIfPossible()
-        }
-
-        private fun contactDeveloper() {
-            ContactActivity.IntentBuilder(requireContext())
-                .build()
-                .startActivity(this)
-        }
-
-        private fun openURL(url: String) {
-            try {
-                Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                    .startActivity(this)
-            } catch (e: ActivityNotFoundException) {
-                requireActivity().showToast(R.string.error_not_supported)
-            }
-        }
-
-        private fun showAcknowledgments() {
-            AcknowledgmentActivity.IntentBuilder(requireContext())
-                .build()
-                .startActivity(this)
         }
 
         override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
@@ -383,10 +275,6 @@ class SettingsActivity : BaseActivity() {
             requireActivity().setResult(Activity.RESULT_OK, Intent().apply {
                 putExtra(EXTRA_CATEGORIES_CHANGED, true)
             })
-        }
-
-        private fun showSnackbar(message: CharSequence) {
-            activity?.showSnackbar(message)
         }
 
         override fun onDestroy() {

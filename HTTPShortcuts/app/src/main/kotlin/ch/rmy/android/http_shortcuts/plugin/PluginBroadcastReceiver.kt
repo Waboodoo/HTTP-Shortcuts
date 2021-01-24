@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts.plugin
 import android.content.Context
 import android.os.Bundle
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
-import ch.rmy.android.http_shortcuts.extensions.startActivity
 import com.twofortyfouram.locale.sdk.client.receiver.AbstractPluginSettingReceiver
 
 class PluginBroadcastReceiver : AbstractPluginSettingReceiver() {
@@ -17,7 +16,6 @@ class PluginBroadcastReceiver : AbstractPluginSettingReceiver() {
         val variableValues = PluginBundleManager.getVariableValues(bundle)
         ExecuteActivity.IntentBuilder(context, shortcutId)
             .variableValues(variableValues)
-            .build()
             .startActivity(context)
     }
 

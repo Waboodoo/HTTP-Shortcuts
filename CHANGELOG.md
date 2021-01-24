@@ -16,6 +16,7 @@
 - The value input field for static (constant) variables is now multi-line, making it easier to enter or view larger values.
 - It is now possible to trigger a specific shortcut via a invoking a deep-link of the form `http-shortcuts://deep-link/<id-of-shortcut-here>`
 - When displaying a JSON formatted response in a window, it is now possible to toggle line-wrapping by tapping.
+- The `About` section was moved out of the `Settings` page to be a standalone page.
 
 ### Bugfixes
 - Deleted shortcuts now show in the shortcut list of Multi-Shortcuts, making it possible to fully remove them manually.

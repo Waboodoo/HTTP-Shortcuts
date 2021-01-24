@@ -8,7 +8,6 @@ import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.data.DataSource
 import ch.rmy.android.http_shortcuts.extensions.finishWithoutAnimation
 import ch.rmy.android.http_shortcuts.extensions.showMessageDialog
-import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 
 class DeepLinkActivity : BaseActivity(), Entrypoint {
@@ -41,7 +40,6 @@ class DeepLinkActivity : BaseActivity(), Entrypoint {
 
         ExecuteActivity.IntentBuilder(context, shortcut.id)
             .variableValues(variables)
-            .build()
             .startActivity(this)
         finishWithoutAnimation()
     }

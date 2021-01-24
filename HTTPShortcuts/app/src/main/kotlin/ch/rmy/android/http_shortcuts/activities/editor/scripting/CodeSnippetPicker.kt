@@ -210,7 +210,6 @@ class CodeSnippetPicker(
 
     private fun openVariableEditor() {
         VariablesActivity.IntentBuilder(context)
-            .build()
             .startActivity(context)
     }
 

@@ -247,7 +247,6 @@ class ListFragment : BaseFragment() {
 
     private fun executeShortcut(shortcut: Shortcut) {
         ExecuteActivity.IntentBuilder(requireContext(), shortcut.id)
-            .build()
             .startActivity(this)
     }
 
@@ -255,7 +254,6 @@ class ListFragment : BaseFragment() {
         ShortcutEditorActivity.IntentBuilder(requireContext())
             .categoryId(categoryId)
             .shortcutId(shortcut.id)
-            .build()
             .startActivity(this, REQUEST_EDIT_SHORTCUT)
     }
 
