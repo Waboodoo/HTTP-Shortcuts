@@ -167,7 +167,7 @@
     <string name="label_custom_header_value">"Valor"</string>
 
     <!-- Label of input field to provide request body of a shortcut -->
-    <string name="label_custom_body">"Sol·licita cos"</string>
+    <string name="label_custom_body">"Cos de la sol·licitud"</string>
 
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
     <string name="title_settings">"Configuració"</string>
@@ -185,13 +185,13 @@
     <string name="settings_click_behavior">"Drecera clic per acció"</string>
 
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: execute the shortcut (i.e., send request) -->
-    <string name="settings_click_behavior_run">"Execute drecera"</string>
+    <string name="settings_click_behavior_run">"Executa la drecera"</string>
 
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: edit the shortcut -->
-    <string name="settings_click_behavior_edit">"Editar la drecera"</string>
+    <string name="settings_click_behavior_edit">"Edita la drecera"</string>
 
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: show options / context menu -->
-    <string name="settings_click_behavior_menu">"Mostrar opcions del menú"</string>
+    <string name="settings_click_behavior_menu">"Mostra el menú d'opcions"</string>
 
     <!-- Title of section in settings page, section contains opens for importing and exporting shortcuts -->
     <string name="settings_title_import_export">"Importar / Exportar"</string>
@@ -200,19 +200,19 @@
     <string name="settings_title_privacy">"Privacitat"</string>
 
     <!-- Setting title for crash reporting settings, as part of privacy settings (opt-in/opt-out) -->
-    <string name="settings_crash_reporting">"Informe d'errors"</string>
+    <string name="settings_crash_reporting">"Informes d'error"</string>
 
     <!-- Option for crash reporting opt in -->
     <string name="settings_crash_reporting_allow">"Enviar informes d'error per ajudar a millorar l'aplicació"</string>
 
     <!-- Option for crash reporting opt out -->
-    <string name="settings_crash_reporting_disallow">"No enviar cap informe d'errors"</string>
+    <string name="settings_crash_reporting_disallow">"No enviar cap informe d'error"</string>
 
     <!-- Button in settings page to start import of shortcuts -->
-    <string name="settings_import">"Important dreceres"</string>
+    <string name="settings_import">"Importa dreceres"</string>
 
     <!-- Button in settings page to start export of shortcuts -->
-    <string name="settings_export">"Exportant dreceres"</string>
+    <string name="settings_export">"Exporta dreceres"</string>
 
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
     <string name="export_in_progress">"Exportant…"</string>
@@ -235,9 +235,6 @@
         <item quantity="other">"%d minuts"</item>
     </plurals>
 
-    <!-- Section title in app settings -->
-    <string name="settings_about">"Sobre aquesta aplicació"</string>
-
     <!-- Title of option in settings to show change changelog of current and past versions -->
     <string name="settings_changelog">"Registre de canvis"</string>
 
@@ -254,10 +251,10 @@
     <string name="settings_github">"Veure a Github"</string>
 
     <!-- Button subtitle for "View on Github" button -->
-    <string name="settings_github_summary">"Es correcte, aquesta aplicació és de codi obert"</string>
+    <string name="settings_github_summary">"És correcte, aquesta aplicació és de codi obert"</string>
 
     <!-- Dialog title, for changelog, shown when a new version of the app is released -->
-    <string name="changelog_title_whats_new">"Què es nou?"</string>
+    <string name="changelog_title_whats_new">"Què hi ha de nou?"</string>
 
     <!-- Dialog title, for changelog, showing what's new in a release -->
     <string name="changelog_title">"Registre de canvis"</string>
@@ -276,12 +273,6 @@
 
     <!-- Button subtitle for "View in Play Store" button -->
     <string name="settings_play_store_summary">"Gràcies per les vostres valoracions i comentaris"</string>
-
-    <!-- Title of option in settings screen: FAQ (frequently asked questions), links the user to an external documentation page -->
-    <string name="settings_faq">"FAQ"</string>
-
-    <!-- Subtitle of option in settings screen: FAQ (frequently asked questions), links the user to an external documentation page -->
-    <string name="settings_faq_summary">"Preguntes més freqûents"</string>
 
     <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_duplicated">"\"%1$s\" duplicada."</string>
@@ -347,6 +338,12 @@
     <!-- One of two options when picking the layout for a category: Show shortcuts in a grid -->
     <string name="layout_type_grid">"Graella"</string>
 
+    <!-- Option to choose from when selecting the background of a category: Plain white -->
+    <string name="category_background_type_white">"Blanc"</string>
+
+    <!-- Option to choose from when selecting the background of a category: Plain black -->
+    <string name="category_background_type_black">"Negre"</string>
+
     <!-- Option to allow renaming a category -->
     <string name="title_rename_category">"Renombrar categoria"</string>
 
@@ -378,7 +375,7 @@
     </plurals>
 
     <!-- Dialog title/button, for feature to move a shortcut to a different category -->
-    <string name="title_move_to_category">"Moure categoria"</string>
+    <string name="title_move_to_category">"Moure a categoria"</string>
 
     <!-- Name/title to describe what the plugin action does, used by external plugins, e.g. Tasker -->
     <string name="plugin_name">"Executar drecera HTTP"</string>
@@ -419,10 +416,10 @@
 
     <!-- Type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
     <!-- Fuzzy -->
-    <string name="variable_type_select">"Selecció"</string>
+    <string name="variable_type_select">"Selecció múltiple"</string>
 
     <!-- Type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
-    <string name="variable_type_toggle">"Canviar"</string>
+    <string name="variable_type_toggle">"Conmutador"</string>
 
     <!-- Type of variable: Date Input, i.e., a dialog that asks user to pick a date in a calendar -->
     <string name="variable_type_date">"Data entrada"</string>

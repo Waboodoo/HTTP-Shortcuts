@@ -302,9 +302,6 @@
     <!-- Pattern: Combines an indication of minutes (first %s) with an indication of seconds (second %s), e.g. 1 minute, 24 seconds -->
     <string name="pattern_minutes_seconds">"%1$s, %2$s"</string>
 
-    <!-- Section title in app settings -->
-    <string name="settings_about">"Über diese App"</string>
-
     <!-- Title of option in settings to show change changelog of current and past versions -->
     <string name="settings_changelog">"Changelog"</string>
 
@@ -346,12 +343,6 @@
 
     <!-- Button subtitle for "View in Play Store" button -->
     <string name="settings_play_store_summary">"Vielen Dank für Reviews und Bewertungen"</string>
-
-    <!-- Title of option in settings screen: FAQ (frequently asked questions), links the user to an external documentation page -->
-    <string name="settings_faq">"FAQ"</string>
-
-    <!-- Subtitle of option in settings screen: FAQ (frequently asked questions), links the user to an external documentation page -->
-    <string name="settings_faq_summary">"Häufig gestellte Fragen"</string>
 
     <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_duplicated">"%1$s dupliziert."</string>
@@ -1483,4 +1474,19 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
 
     <!-- Dialog option: shown in code snippet picker, option to get the size of a selected file -->
     <string name="dialog_code_snippet_get_file_size">"Größe (in Bytes) von ausgewählter Datei auslesen"</string>
+
+    <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, ...) -->
+    <string name="title_about">"Über diese App"</string>
+
+    <!-- Title of option in settings screen: links the user to an external documentation page -->
+    <string name="settings_documentation">"Dokumentation"</string>
+
+    <!-- Subtitle of option in settings screen: links the user to an external documentation page -->
+    <string name="settings_documentation_summary">"FAQ, Referenzen, Beispiele"</string>
+
+    <!-- Instructions shown below the "Allow Share..." checkbox in the variable editor -->
+    <string name="message_allow_share_instructions">"Ermöglicht es, Text aus anderen Apps zu teilen und als temporären Wert für diese Variable zu verwenden."</string>
+
+    <!-- Dialog title: Shown in progress dialog while a file is being saved -->
+    <string name="saving_in_progress">"Speichern…"</string>
 </resources>

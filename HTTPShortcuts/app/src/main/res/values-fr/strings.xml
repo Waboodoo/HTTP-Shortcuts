@@ -298,9 +298,6 @@
     <!-- Pattern: Combines an indication of minutes (first %s) with an indication of seconds (second %s), e.g. 1 minute, 24 seconds -->
     <string name="pattern_minutes_seconds">"%1$s, %2$s"</string>
 
-    <!-- Section title in app settings -->
-    <string name="settings_about">"A propos de cette application"</string>
-
     <!-- Subtitle/summary of "Changelog" option in settings, showing the current app version number -->
     <string name="settings_changelog_summary">"Version %1$s"</string>
 
@@ -336,12 +333,6 @@
 
     <!-- Button subtitle for "View in Play Store" button -->
     <string name="settings_play_store_summary">"Merci pour vos évaluations et commentaires"</string>
-
-    <!-- Title of option in settings screen: FAQ (frequently asked questions), links the user to an external documentation page -->
-    <string name="settings_faq">"FAQ"</string>
-
-    <!-- Subtitle of option in settings screen: FAQ (frequently asked questions), links the user to an external documentation page -->
-    <string name="settings_faq_summary">"Questions souvent posées"</string>
 
     <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_duplicated">"%1$s dupliqué."</string>

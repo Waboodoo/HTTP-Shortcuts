@@ -235,9 +235,6 @@
         <item quantity="other">"%d minutter"</item>
     </plurals>
 
-    <!-- Section title in app settings -->
-    <string name="settings_about">"Om denne appen"</string>
-
     <!-- Title of option in settings to show change changelog of current and past versions -->
     <string name="settings_changelog">"Endringslogg"</string>
 

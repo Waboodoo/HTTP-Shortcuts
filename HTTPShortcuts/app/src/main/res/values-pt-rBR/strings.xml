@@ -238,9 +238,6 @@
         <item quantity="other">"%d minutos"</item>
     </plurals>
 
-    <!-- Section title in app settings -->
-    <string name="settings_about">"Sobre este App"</string>
-
     <!-- Title of option in settings to show change changelog of current and past versions -->
     <string name="settings_changelog">"Changelog"</string>
 
@@ -279,9 +276,6 @@
 
     <!-- Button subtitle for "View in Play Store" button -->
     <string name="settings_play_store_summary">"Obrigado por sua classificação e comentários"</string>
-
-    <!-- Subtitle of option in settings screen: FAQ (frequently asked questions), links the user to an external documentation page -->
-    <string name="settings_faq_summary">"Perguntas frequentes"</string>
 
     <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_duplicated">"%1$s duplicado."</string>
