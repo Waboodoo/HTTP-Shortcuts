@@ -19,7 +19,9 @@ class DeepLinkActivity : BaseActivity(), Entrypoint {
             return
         }
 
-        val shortcutIdOrName = intent.data?.lastPathSegment ?: run {
+        val deepLinkUrl = intent.data
+
+        val shortcutIdOrName = deepLinkUrl?.lastPathSegment ?: run {
             showMessageDialog(HTMLUtil.format(getString(R.string.instructions_deep_linking, EXAMPLE_URL))) {
                 finishWithoutAnimation()
             }
@@ -33,7 +35,12 @@ class DeepLinkActivity : BaseActivity(), Entrypoint {
             return
         }
 
+        val variables = deepLinkUrl.queryParameterNames.associateWith { key ->
+            deepLinkUrl.getQueryParameter(key)!!
+        }
+
         ExecuteActivity.IntentBuilder(context, shortcut.id)
+            .variableValues(variables)
             .build()
             .startActivity(this)
         finishWithoutAnimation()

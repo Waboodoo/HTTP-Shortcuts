@@ -646,7 +646,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
             }
         }
 
-        fun shortcut(shortcutId: String) = also {
+        private fun shortcut(shortcutId: String) = also {
             intent.putExtra(EXTRA_SHORTCUT_ID, shortcutId)
             intent.data = Uri.fromParts("content", context.packageName, null)
                 .buildUpon()
