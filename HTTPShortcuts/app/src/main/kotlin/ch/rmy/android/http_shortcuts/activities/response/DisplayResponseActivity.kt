@@ -252,7 +252,8 @@ class DisplayResponseActivity : BaseActivity() {
     }
 
     private fun saveResponseToFile(uri: Uri) {
-        val progressDialog = ProgressDialog(this).apply {
+        val progressDialog = ProgressDialog(context).apply {
+            setMessage(getString(R.string.saving_in_progress))
             setCanceledOnTouchOutside(false)
         }
         // TODO: Separate concerns better (this should not be in the activity)
@@ -264,14 +265,14 @@ class DisplayResponseActivity : BaseActivity() {
                     }
                 }
             }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
                 progressDialog.showIfPossible()
             }
             .doOnEvent {
                 progressDialog.hide()
             }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
                     showSnackbar(R.string.message_response_saved_to_file)

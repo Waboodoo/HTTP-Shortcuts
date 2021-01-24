@@ -989,4 +989,6 @@
     <string name="error_missing_location_permission">Could not get location permission. Aborting request.</string>
     <!-- Message: Success message shown when a response was saved to a file -->
     <string name="message_response_saved_to_file">Response saved to file.</string>
+    <!-- Dialog title: Shown in progress dialog while a file is being saved -->
+    <string name="saving_in_progress">Saving…</string>
 </resources>
