@@ -118,10 +118,11 @@ class DisplayResponseActivity : BaseActivity() {
         if (text.isBlank()) {
             displayAsPlainText(getString(R.string.message_blank_response), italic = true)
         } else {
+            if (isImage(type)) {
+                displayImage()
+                return
+            }
             when (type) {
-                TYPE_JPEG, TYPE_JPG, TYPE_GIF, TYPE_PNG -> {
-                    displayImage()
-                }
                 TYPE_HTML -> {
                     displayInWebView(text, url)
                 }
@@ -221,11 +222,7 @@ class DisplayResponseActivity : BaseActivity() {
     }
 
     private fun shouldShareAsText() =
-        text.length < MAX_SHARE_LENGTH
-            && type != TYPE_GIF
-            && type != TYPE_PNG
-            && type != TYPE_JPEG
-            && type != TYPE_JPG
+        !isImage(type) && text.length < MAX_SHARE_LENGTH
 
     private fun openFilePicker() {
         try {
@@ -358,10 +355,8 @@ class DisplayResponseActivity : BaseActivity() {
         private const val TYPE_HTML = "text/html"
         private const val TYPE_YAML = "text/yaml"
         private const val TYPE_YAML_ALT = "application/x-yaml"
-        private const val TYPE_JPEG = "image/jpeg"
-        private const val TYPE_JPG = "image/jpg"
-        private const val TYPE_PNG = "image/png"
-        private const val TYPE_GIF = "image/gif"
+
+        private fun isImage(type: String?) = type?.startsWith("image/") == true
     }
 
 }
