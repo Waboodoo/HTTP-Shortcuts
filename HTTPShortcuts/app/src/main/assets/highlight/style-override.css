@@ -5,3 +5,6 @@
   background-color: transparent;
   font-size: 12pt;
 }
+body.wrap-lines .hljs {
+  white-space: pre-wrap;
+}

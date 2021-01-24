@@ -45,9 +45,21 @@ class SyntaxHighlightView @JvmOverloads constructor(context: Context, attrs: Att
                     <link rel="stylesheet" href="file:///android_asset/highlight/styles/${getStyle()}.css">
                     <link rel="stylesheet" href="file:///android_asset/highlight/style-override.css">
                     <script src="file:///android_asset/highlight/highlight.pack.js"></script>
-                    <script>hljs.initHighlightingOnLoad();</script>
+                    <script>
+                        let wrapLines = false;
+                        document.addEventListener("click", function() {
+                            wrapLines = !wrapLines;
+                            const body = document.getElementById("body");
+                            if (wrapLines) {
+                                body.classList.add('wrap-lines');
+                            } else {
+                                body.classList.remove('wrap-lines');                            
+                            }
+                        });                    
+                        hljs.initHighlightingOnLoad();
+                    </script>
                 </head>
-                <body>
+                <body id="body">
                     <pre>
                         <code class="$language">${htmlEncode(content)}</code>
                     </pre>
