@@ -25,13 +25,13 @@ import me.priyesh.chroma.ColorSelectListener
 class WidgetSettingsActivity : BaseActivity() {
 
     private val shortcutId: String by lazy {
-        intent.getStringExtra(EXTRA_SHORTCUT_ID)
+        intent.getStringExtra(EXTRA_SHORTCUT_ID)!!
     }
     private val shortcutName: String by lazy {
-        intent.getStringExtra(EXTRA_SHORTCUT_NAME)
+        intent.getStringExtra(EXTRA_SHORTCUT_NAME)!!
     }
     private val shortcutIcon: String by lazy {
-        intent.getStringExtra(EXTRA_SHORTCUT_ICON)
+        intent.getStringExtra(EXTRA_SHORTCUT_ICON)!!
     }
 
     private val iconView: IconView by bindView(R.id.widget_icon)

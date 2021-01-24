@@ -4,7 +4,7 @@
         <item name="android:background">@color/primary_color</item>
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="android:textColorSecondary">@android:color/white</item>
-        <item name="android:itemTextAppearance">@style/BlackMenuText</item>
+        <item name="android:itemTextAppearance">@android:color/white</item>
         <item name="selectableItemBackground">?android:selectableItemBackground</item>
     </style>
 </resources>
