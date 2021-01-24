@@ -472,6 +472,8 @@
     <string name="error_not_suitable_shortcuts">No suitable shortcuts found.\n\nTo use this feature you need to have at least one shortcut that uses a variable that allows \'Share …\', or a shortcut that has a file parameter.\n\nSee the documentation in the variable section for more information.</string>
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">Allow \'Share …\'</string>
+    <!-- Instructions shown below the "Allow Share..." checkbox in the variable editor -->
+    <string name="message_allow_share_instructions">Enabling this allows you to share text from other apps and use that shared text as the temporary value for this variable.</string>
     <!-- App color theme option Blue -->
     <string name="theme_blue">Blue</string>
     <!-- App color theme option Green -->

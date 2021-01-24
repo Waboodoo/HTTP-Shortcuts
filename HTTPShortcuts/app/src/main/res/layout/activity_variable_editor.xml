@@ -90,6 +90,13 @@
                 android:layout_height="wrap_content"
                 android:text="@string/label_allow_share_into" />
 
+            <TextView
+                style="@style/InfoLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:text="@string/message_allow_share_instructions" />
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
