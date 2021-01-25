@@ -25,6 +25,8 @@ import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.http.HttpStatus
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.ShareUtil
+import com.squareup.picasso.MemoryPolicy
+import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -147,6 +149,8 @@ class DisplayResponseActivity : BaseActivity() {
         Picasso.get()
             .load(responseFileUri)
             .noFade()
+            .networkPolicy(NetworkPolicy.NO_CACHE)
+            .memoryPolicy(MemoryPolicy.NO_CACHE)
             .error(R.drawable.bitsies_cancel)
             .into(responseImage)
     }

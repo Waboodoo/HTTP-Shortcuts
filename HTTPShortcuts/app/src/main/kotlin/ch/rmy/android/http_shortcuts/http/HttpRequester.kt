@@ -90,6 +90,8 @@ class HttpRequester(private val contentResolver: ContentResolver) {
                     }
                     .build()
 
+                responseFileStorage.clear()
+
                 client
                     .newCall(request)
                     .execute()
