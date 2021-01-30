@@ -6,7 +6,6 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.net.wifi.WifiManager
 import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import ch.rmy.android.http_shortcuts.R
@@ -56,12 +55,12 @@ import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.NetworkUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.Validation
+import ch.rmy.android.http_shortcuts.utils.WifiUtil
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import ch.rmy.android.http_shortcuts.variables.Variables
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Completable
-import io.reactivex.CompletableEmitter
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -127,7 +126,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
             .createPendingExecution(
                 shortcutId = IntentUtil.getShortcutId(intent),
                 resolvedVariables = IntentUtil.getVariableValues(intent),
-                tryNumber = 0
+                tryNumber = 0,
             )
             .subscribe()
     }
@@ -289,7 +288,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                         waitUntil = waitUntil,
                         tryNumber = 1,
                         recursionDepth = recursionDepth,
-                        requiresNetwork = shortcut.isWaitForNetwork
+                        requiresNetwork = shortcut.isWaitForNetwork,
                     )
                 } else {
                     executeWithFileRequests()
@@ -339,30 +338,15 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         }
 
     private fun checkWifiNetworkSsid(): Completable =
-        if (shortcut.wifiSsid.isEmpty()) {
+        if (shortcut.wifiSsid.isEmpty() || WifiUtil.getCurrentSsid(context) == shortcut.wifiSsid) {
             Completable.fromAction {
                 finishActivityIfNeeded()
             }
         } else {
-            showWifiDialogIfNeeded()
+            showWifiPickerConfirmation()
         }
 
-    private fun showWifiDialogIfNeeded(): Completable = Completable.create { emitter ->
-        if (getCurrentSsid() == shortcut.wifiSsid) {
-            finishActivityIfNeeded()
-            emitter.onComplete()
-        } else {
-            showWifiPickerConfirmation(emitter)
-        }
-    }
-
-    private fun getCurrentSsid(): String =
-        (applicationContext.getSystemService(WIFI_SERVICE) as WifiManager)
-            .connectionInfo
-            .ssid
-            .trim('"')
-
-    private fun showWifiPickerConfirmation(emitter: CompletableEmitter) {
+    private fun showWifiPickerConfirmation() = Completable.create { emitter ->
         DialogBuilder(context)
             .title(shortcutName)
             .message(getString(R.string.message_wrong_wifi_network, shortcut.wifiSsid))
@@ -370,21 +354,13 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                 emitter.cancel()
             }
             .positive(getString(R.string.action_label_select)) {
-                showWifiPicker()
-                emitter.cancel()
+                WifiUtil.showWifiPicker(this)
             }
             .negative(R.string.dialog_cancel)
             .showIfPossible()
             ?: run {
                 emitter.cancel()
             }
-    }
-
-    private fun showWifiPicker() {
-        Intent(WifiManager.ACTION_PICK_WIFI_NETWORK)
-            .putExtra("extra_prefs_show_button_bar", true)
-            .putExtra("wifi_enable_next_on_connect", true)
-            .startActivity(this)
     }
 
     private fun requestPermissionsForWifiCheckIfNeeded(): Completable =
@@ -492,7 +468,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                             variableManager = variableManager,
                             fileUploadManager = fileUploadManager,
                             error = error as? Exception,
-                            recursionDepth = recursionDepth
+                            recursionDepth = recursionDepth,
                         )
                         .subscribeOn(Schedulers.computation())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -509,7 +485,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                         variableManager = variableManager,
                         fileUploadManager = fileUploadManager,
                         response = response,
-                        recursionDepth = recursionDepth
+                        recursionDepth = recursionDepth,
                     )
                     .subscribeOn(Schedulers.computation())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -543,7 +519,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                     tryNumber = tryNumber + 1,
                     waitUntil = waitUntil,
                     recursionDepth = recursionDepth,
-                    requiresNetwork = shortcut.isWaitForNetwork
+                    requiresNetwork = shortcut.isWaitForNetwork,
                 )
         } else {
             Completable.complete()
