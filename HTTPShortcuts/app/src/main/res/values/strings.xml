@@ -906,7 +906,7 @@
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->
     <string name="option_response_handling_type_dialog">Dialog</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a fullscreen window -->
-    <string name="option_response_handling_type_window">Window</string>
+    <string name="option_response_handling_type_window">Fullscreen Window</string>
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show the (full) response -->
     <string name="option_response_handling_success_output_response">Show the response</string>
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show a pre-defined message -->
