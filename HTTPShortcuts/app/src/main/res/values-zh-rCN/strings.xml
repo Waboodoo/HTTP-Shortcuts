@@ -591,6 +591,7 @@
     <string name="help_text_code_snippet_get_variable_no_variable">"你还没有声明任何变量，请按下面的新建按钮开始"</string>
 
     <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
+    <!-- Fuzzy -->
     <string name="help_text_code_snippet_set_variable_no_variable">"你还没有声明任何常量，请按下面的新建按钮开始"</string>
 
     <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
@@ -636,6 +637,7 @@
     <string name="action_send_to">"发送到…"</string>
 
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
+    <!-- Fuzzy -->
     <string name="error_not_suitable_shortcuts">"没有找到合适的快捷方式，要使用这个功能。你必须至少要有一个使用了共享变量的快捷方式。查阅文档中关于变量部分以获取更多信息。"</string>
 
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
@@ -1280,9 +1282,11 @@
     <string name="option_response_handling_type_toast">"悬浮窗弹出窗口"</string>
 
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->
+    <!-- Fuzzy -->
     <string name="option_response_handling_type_dialog">"对话框"</string>
 
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a fullscreen window -->
+    <!-- Fuzzy -->
     <string name="option_response_handling_type_window">"窗口"</string>
 
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show the (full) response -->

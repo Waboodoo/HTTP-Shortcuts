@@ -612,6 +612,7 @@ Tous les raccourcis contenus dans cette catégorie seront supprimés."</string>
     <string name="action_send_to">"Envoyer à …"</string>
 
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
+    <!-- Fuzzy -->
     <string name="error_not_suitable_shortcuts">"Aucun raccourci approprié trouvé.
 
 Pour utiliser cette fonctionnalité, vous devez disposer d'au moins un raccourci qui utilise une variable permettant de 'partager …'

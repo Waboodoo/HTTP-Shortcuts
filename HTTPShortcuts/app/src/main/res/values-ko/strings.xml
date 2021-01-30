@@ -591,6 +591,7 @@
     <string name="help_text_code_snippet_get_variable_no_variable">"아직 변수가 없습니다. 시작하려면 아래의 CREATE 버튼을 클릭하세요."</string>
 
     <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
+    <!-- Fuzzy -->
     <string name="help_text_code_snippet_set_variable_no_variable">"이 작업으로 설정할 수있는 상수 유형의 변수가 아직 없습니다. 시작하려면 아래의 CREATE 버튼을 클릭하세요."</string>
 
     <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
@@ -636,6 +637,7 @@
     <string name="action_send_to">"다음으로 보내기…"</string>
 
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
+    <!-- Fuzzy -->
     <string name="error_not_suitable_shortcuts">"적합한 바로가기가 없습니다.
 
 이 기능을 사용하려면 '공유…'를 허용하는 변수를 사용하는 바로가기 또는 파일 매개변수가 있는 바로가기가 하나 이상 있어야 합니다.

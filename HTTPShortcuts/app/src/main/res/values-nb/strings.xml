@@ -539,6 +539,7 @@ Du har ikke satt opp noen variabler ennå, riktignok."</string>
     <string name="action_send_to">"Send til…"</string>
 
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
+    <!-- Fuzzy -->
     <string name="error_not_suitable_shortcuts">"Ingen egnede snarveier ble funnet.
 
 For å bruke denne egenskapen, trenger du minst én snarvei som bruker en variabel som tillater 'Del …'.

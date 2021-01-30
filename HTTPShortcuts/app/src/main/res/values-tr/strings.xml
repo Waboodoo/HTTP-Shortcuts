@@ -597,6 +597,7 @@
     <string name="help_text_code_snippet_get_variable_no_variable">"Henüz değişkeniniz yok. Başlamak için aşağıdaki OLUŞTUR düğmesini tıklayın."</string>
 
     <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
+    <!-- Fuzzy -->
     <string name="help_text_code_snippet_set_variable_no_variable">"Henüz bu eylemle ayarlanabilen Sabit türünde değişkeniniz yok. Başlamak için aşağıdaki OLUŞTUR düğmesini tıklayın."</string>
 
     <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
@@ -642,6 +643,7 @@
     <string name="action_send_to">"Gönder…"</string>
 
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
+    <!-- Fuzzy -->
     <string name="error_not_suitable_shortcuts">"Uygun bir kısayol bulunamadı.
 
 Bu özelliği kullanmak için 'Paylaş…' seçeneğine izin veren bir değişkeni kullanan en az bir kısayolun olması gerekir.
@@ -1291,9 +1293,11 @@ Bu özelliği, bir kısayolu düzenleyerek ve \"%2$s\" içinde bulunan \"%1$s\" 
     <string name="option_response_handling_type_toast">"Alt Mesaj Çubuğu"</string>
 
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->
+    <!-- Fuzzy -->
     <string name="option_response_handling_type_dialog">"Uyarı Penceresi"</string>
 
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a fullscreen window -->
+    <!-- Fuzzy -->
     <string name="option_response_handling_type_window">"Tam Pencere"</string>
 
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show the (full) response -->

@@ -627,6 +627,7 @@ Nie masz jednak jeszcze skonfigurowanych żadnych zmiennych."</string>
     <string name="help_text_code_snippet_get_variable_no_variable">"Nie masz jeszcze żadnych zmiennych.  Kliknij przycisk UTWÓRZ poniżej, aby je utworzyć."</string>
 
     <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
+    <!-- Fuzzy -->
     <string name="help_text_code_snippet_set_variable_no_variable">"Nie masz jeszcze żadnych zmiennych typu stała, które można ustawić za pomocą tej akcji.  Kliknij przycisk UTWÓRZ poniżej, aby dodać zmienną."</string>
 
     <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
@@ -672,6 +673,7 @@ Nie masz jednak jeszcze skonfigurowanych żadnych zmiennych."</string>
     <string name="action_send_to">"Wyślij do..."</string>
 
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
+    <!-- Fuzzy -->
     <string name="error_not_suitable_shortcuts">"Nie znaleziono odpowiednich skrótów.
 
  Aby skorzystać z tej funkcji, musisz mieć co najmniej jeden skrót, który używa zmiennej umożliwiającej „Udostępnij…” lub skrótu z parametrem pliku.
@@ -1303,6 +1305,7 @@ Więcej informacji można znaleźć w dokumentacji w sekcji zmiennych."</string>
     <string name="option_response_handling_type_toast">"dymek"</string>
 
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->
+    <!-- Fuzzy -->
     <string name="option_response_handling_type_dialog">"okno dialogowe"</string>
 
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a fullscreen window -->

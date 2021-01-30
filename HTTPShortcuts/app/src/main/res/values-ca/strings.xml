@@ -546,6 +546,7 @@ Malgrat tot, encara no tens cap variable configurada."</string>
     <string name="action_send_to">"Enviar a…"</string>
 
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
+    <!-- Fuzzy -->
     <string name="error_not_suitable_shortcuts">"No s'ha trobat cap drecera adequada.
 
 Per utilitzar aquesta funció, has de tenir com a mínim una drecera que utilitzi una variable que permeti 'Compartir …'.

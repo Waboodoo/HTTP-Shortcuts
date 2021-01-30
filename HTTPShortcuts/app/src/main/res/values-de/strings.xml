@@ -597,7 +597,7 @@ Du hast jedoch noch keine Variablen konfiguriert."</string>
     <string name="help_text_code_snippet_get_variable_no_variable">"Du hast noch keine Variablen erstellt. Klicke den ERSTELLEN-Button um loszulegen."</string>
 
     <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_set_variable_no_variable">"Du hast noch keine Variablen vom Typen \"Konstante\" erstellt dessen Wert verändert werden könnte. Klicke den ERSTELLEN-Button um loszulegen."</string>
+    <string name="help_text_code_snippet_set_variable_no_variable">"Du hast noch keine statischen Variablen (Konstanten) erstellt dessen Wert verändert werden könnte. Klicke den ERSTELLEN-Button um loszulegen."</string>
 
     <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
     <string name="button_create_first_variable">"Erstellen"</string>
@@ -644,7 +644,7 @@ Du hast jedoch noch keine Variablen konfiguriert."</string>
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
     <string name="error_not_suitable_shortcuts">"Keine verwendbaren Shortcuts gefunden.
 
-Um dieses Feature zu verwenden muss mindestens ein Shortcut vorhanden sein der eine Variable verwendet welche 'Teilen …' erlaubt.
+Um dieses Feature zu verwenden muss mindestens ein Shortcut vorhanden sein der eine Variable verwendet welche 'Teilen …' erlaubt, oder ein Shortcut welcher einen Datei-Parameter oder Datei-Request-Body verwendet.
 
 Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informationen."</string>
 
@@ -1449,7 +1449,7 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <string name="title_permission_dialog">"Berechtigung notwendig"</string>
 
     <!-- Message: Rational given for location permission in wifi/ssid check -->
-    <string name="message_permission_rational">"Standort-Berechtigungen sind erforderlich um sicherzustellen dass der Shortcut nur auf dem angegebenen Wifi ausgeführt werden kann."</string>
+    <string name="message_permission_rational">"Standort-Berechtigungen sind erforderlich um sicherzustellen dass der Shortcut nur auf dem angegebenen Wifi ausgeführt werden kann. Diese Bedingung ist vom Android Betriebsystem vorgegeben. Deine Standort-Daten werden nicht direkt abgefragt."</string>
 
     <!-- Message: Shown to the user when connected to a different wifi network than the one given in the config -->
     <string name="message_wrong_wifi_network">"Es besteht keine Verbindung zum erforderlichen Wifi-Netzwerk \"%1$s\". Anderes Netzwerk wählen?"</string>
@@ -1482,7 +1482,7 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <string name="settings_documentation">"Dokumentation"</string>
 
     <!-- Subtitle of option in settings screen: links the user to an external documentation page -->
-    <string name="settings_documentation_summary">"FAQ, Referenzen, Beispiele"</string>
+    <string name="settings_documentation_summary">"FAQ, Tipps, Beispiele, …"</string>
 
     <!-- Instructions shown below the "Allow Share..." checkbox in the variable editor -->
     <string name="message_allow_share_instructions">"Ermöglicht es, Text aus anderen Apps zu teilen und als temporären Wert für diese Variable zu verwenden."</string>

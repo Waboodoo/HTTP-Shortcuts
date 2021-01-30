@@ -545,6 +545,7 @@ No entanto, você não tem nenhuma variável configurada ainda."</string>
     <string name="action_send_to">"Enviar para…"</string>
 
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
+    <!-- Fuzzy -->
     <string name="error_not_suitable_shortcuts">"Não foram encontrados atalhos adequados.
 
 Para usar este recurso, você precisa ter ao menos um atalho que use uma variável que permita 'Compartilhar…'.

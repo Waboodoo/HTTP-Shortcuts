@@ -587,6 +587,7 @@ Sin embargo, todavía no tiene ninguna variable configurada."</string>
     <string name="help_text_code_snippet_get_variable_no_variable">"Si no tienen ninguna variable más"</string>
 
     <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
+    <!-- Fuzzy -->
     <string name="help_text_code_snippet_set_variable_no_variable">"Aún no tienes ninguna variable. Haga clic en el botón CREAR a continuación para comenzar."</string>
 
     <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
@@ -632,6 +633,7 @@ Sin embargo, todavía no tiene ninguna variable configurada."</string>
     <string name="action_send_to">"Enviar a…"</string>
 
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
+    <!-- Fuzzy -->
     <string name="error_not_suitable_shortcuts">"No se encontraron accesos directos adecuados.
 
 Para usar esta función, debe tener al menos un acceso directo que use una variable que permita 'Compartir …'.

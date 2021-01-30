@@ -527,6 +527,7 @@
     <string name="help_text_code_snippet_get_variable_no_variable">"У вас еще нет переменных. Нажмите кнопку СОЗДАТЬ ниже, чтобы начать."</string>
 
     <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
+    <!-- Fuzzy -->
     <string name="help_text_code_snippet_set_variable_no_variable">"У вас еще нет переменных типа Константа, которые могут быть заданы этим действием. Нажмите кнопку СОЗДАТЬ ниже, чтобы начать."</string>
 
     <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
@@ -572,6 +573,7 @@
     <string name="action_send_to">"Отправка в…"</string>
 
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
+    <!-- Fuzzy -->
     <string name="error_not_suitable_shortcuts">"Не найдено подходящих ярлыков.
 
 Чтобы использовать эту функцию, у вас должен быть хотя бы один ярлык, использующий переменную, которая позволяет «Поделиться…». 

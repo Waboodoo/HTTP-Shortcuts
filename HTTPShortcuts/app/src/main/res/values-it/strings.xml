@@ -597,6 +597,7 @@ Non hai nessuna variabile configurata."</string>
     <string name="help_text_code_snippet_get_variable_no_variable">"Non hai ancora variabili. Fai clic sul pulsante CREA qui sotto per iniziare."</string>
 
     <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
+    <!-- Fuzzy -->
     <string name="help_text_code_snippet_set_variable_no_variable">"Non hai ancora variabili del tipo \"Costante\" che possono essere impostate da questa azione. Fai clic sul pulsante CREA qui sotto per iniziare."</string>
 
     <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
@@ -643,6 +644,7 @@ Annulla l'esecuzione in sospeso"</string>
     <string name="action_send_to">"Invia a…"</string>
 
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
+    <!-- Fuzzy -->
     <string name="error_not_suitable_shortcuts">"Nessuna scorciatoia adatta trovata.
 
 Per utilizzare questa funzione è necessario avere almeno una scorciatoia che utilizza una variabile che consenta \"Condividi …\".
@@ -1290,9 +1292,11 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
     <string name="option_response_handling_type_toast">"Popup Toast"</string>
 
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->
+    <!-- Fuzzy -->
     <string name="option_response_handling_type_dialog">"Dialogo"</string>
 
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a fullscreen window -->
+    <!-- Fuzzy -->
     <string name="option_response_handling_type_window">"Finestra"</string>
 
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show the (full) response -->

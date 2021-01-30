@@ -576,6 +576,7 @@ Az összes benne található parancsikon törlődik."</string>
     <string name="help_text_code_snippet_get_variable_no_variable">"Még nem rendelkezik változóval. Az induláshoz kattints az alábbi LÉTREHOZÁS gombra."</string>
 
     <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
+    <!-- Fuzzy -->
     <string name="help_text_code_snippet_set_variable_no_variable">"Még nincs olyan ÁLLANDÓ típusú változó, amelyet ezzel a művelettel beállíthatsz. Az induláshoz kattints az alábbi LÉTREHOZÁS gombra."</string>
 
     <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
@@ -621,6 +622,7 @@ Az összes benne található parancsikon törlődik."</string>
     <string name="action_send_to">"Küldés…"</string>
 
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
+    <!-- Fuzzy -->
     <string name="error_not_suitable_shortcuts">"Nem található megfelelő hivatkozás.
 
 Ennek a szolgáltatásnak a használatához rendelkezned kell legalább egy parancsikonnal, amely egy olyan változót használ, amely lehetővé teszi a „Megosztás…”, vagy egy parancsikonnal, amely rendelkezik fájlparaméterrel.
