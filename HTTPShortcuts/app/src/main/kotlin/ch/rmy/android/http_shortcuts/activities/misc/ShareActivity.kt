@@ -19,11 +19,11 @@ import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.utils.FileUtil
+import ch.rmy.android.http_shortcuts.utils.RxUtils
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils
 import ch.rmy.android.http_shortcuts.variables.VariableLookup
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
-import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -70,8 +70,8 @@ class ShareActivity : BaseActivity(), Entrypoint {
             1 -> {
                 cacheFiles(fileUris) {
                     executeShortcut(shortcuts[0], variableValues = variableValues, files = it)
+                    finishWithoutAnimation()
                 }
-                finishWithoutAnimation()
             }
             else -> cacheFiles(fileUris) {
                 showShortcutSelection(shortcuts, variableValues = variableValues, files = it)
@@ -110,7 +110,7 @@ class ShareActivity : BaseActivity(), Entrypoint {
             return
         }
         val context = applicationContext
-        Single.fromCallable {
+        RxUtils.single {
             cacheSharedFiles(context, fileUris)
         }
             .subscribeOn(Schedulers.io())
