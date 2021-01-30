@@ -437,7 +437,7 @@
     <!-- Instructions shown in code snippet picker when the user selects the "Get Variable" option and there are no variables yet -->
     <string name="help_text_code_snippet_get_variable_no_variable">You don\'t have any variables yet. Click the CREATE button below to get started.</string>
     <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_set_variable_no_variable">You don\'t have any variables of type "Constant" yet that can be set by this action. Click the CREATE button below to get started.</string>
+    <string name="help_text_code_snippet_set_variable_no_variable">You don\'t have any static variables (constants) yet that can be set by this action. Click the CREATE button below to get started.</string>
     <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
     <string name="button_create_first_variable">Create</string>
     <!-- Title of dialog that allows users to pick a variable from a list to insert its placeholder somewhere -->
@@ -469,7 +469,7 @@
     <!-- Feature label for sharing text into the app, to be used in a specific variable for a configured shortcut -->
     <string name="action_send_to">Send to…</string>
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
-    <string name="error_not_suitable_shortcuts">No suitable shortcuts found.\n\nTo use this feature you need to have at least one shortcut that uses a variable that allows \'Share …\', or a shortcut that has a file parameter.\n\nSee the documentation in the variable section for more information.</string>
+    <string name="error_not_suitable_shortcuts">No suitable shortcuts found.\n\nTo use this feature you need to have at least one shortcut that uses a variable that allows \'Share …\', or a shortcut that has a file parameter or uses a file as its request body.\n\nClick the help button in the variable section for more information.</string>
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">Allow \'Share …\'</string>
     <!-- Instructions shown below the "Allow Share..." checkbox in the variable editor -->
@@ -982,7 +982,7 @@
     <!-- Dialog title: Permission request for wifi/ssid check -->
     <string name="title_permission_dialog">Permissions required</string>
     <!-- Message: Rational given for location permission in wifi/ssid check  -->
-    <string name="message_permission_rational">Location permissions are required to check if the shortcut is executed on the configured wifi network.</string>
+    <string name="message_permission_rational">Location permissions are required to check if the shortcut is executed on the configured wifi network. This is a requirement imposed by the Android OS. Your location data is not accessed directly.</string>
     <!-- Message: Shown to the user when connected to a different wifi network than the one given in the config -->
     <string name="message_wrong_wifi_network">Not connected to the wifi network configured for this shortcut \"%1$s\". Select another wifi network now?</string>
     <!-- Action label: Shown on wifi check dialog to open the wifi picker -->
