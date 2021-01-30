@@ -340,7 +340,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
 
     private fun checkWifiNetworkSsid(): Completable =
         if (shortcut.wifiSsid.isEmpty()) {
-            Completable.fromAction() {
+            Completable.fromAction {
                 finishActivityIfNeeded()
             }
         } else {

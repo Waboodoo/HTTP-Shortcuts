@@ -164,8 +164,6 @@ class ShareActivity : BaseActivity(), Entrypoint {
 
     companion object {
 
-        private const val TYPE_TEXT = "text/plain"
-
         private fun hasShareVariable(shortcut: Shortcut, variableIds: Set<String>, variableLookup: VariableLookup): Boolean {
             val variableIdsInShortcut = VariableResolver.extractVariableIds(shortcut, variableLookup)
             return variableIds.any { variableIdsInShortcut.contains(it) }
@@ -176,12 +174,13 @@ class ShareActivity : BaseActivity(), Entrypoint {
 
         private fun cacheSharedFiles(context: Context, fileUris: List<Uri>) =
             fileUris
-                .map {
-                    context.contentResolver.openInputStream(it)!!
-                        .use {
-                            val file = FileUtil.createCacheFile(context, createCacheFileName())
-                            it.copyTo(context.contentResolver.openOutputStream(file)!!)
-                            file
+                .map { fileUri ->
+                    context.contentResolver.openInputStream(fileUri)!!
+                        .use { stream ->
+                            FileUtil.createCacheFile(context, createCacheFileName())
+                                .also { file ->
+                                    stream.copyTo(context.contentResolver.openOutputStream(file)!!)
+                                }
                         }
                 }
 
