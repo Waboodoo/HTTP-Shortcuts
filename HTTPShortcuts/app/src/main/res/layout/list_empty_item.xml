@@ -10,7 +10,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="4dp">
+        android:padding="8dp">
 
         <ImageView
             android:layout_width="44dp"
@@ -31,7 +31,7 @@
             android:id="@+id/empty_marker_instructions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
             android:gravity="center"
             android:textColor="#999999"
             android:textSize="14sp" />

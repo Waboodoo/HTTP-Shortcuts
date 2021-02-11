@@ -63,7 +63,7 @@ abstract class BaseAdapter<T> internal constructor(val context: Context, private
         }
     }
 
-    private inner class EmptyMarkerViewHolder internal constructor(parent: ViewGroup, emptyMarker: EmptyMarker) : RecyclerView.ViewHolder(LayoutInflater.from(context).inflate(R.layout.list_empty_item, parent, false)) {
+    private inner class EmptyMarkerViewHolder constructor(parent: ViewGroup, emptyMarker: EmptyMarker) : RecyclerView.ViewHolder(LayoutInflater.from(context).inflate(R.layout.list_empty_item, parent, false)) {
 
         private val emptyMarkerText: TextView by bindView(R.id.empty_marker)
         private val emptyMarkerInstructions: TextView by bindView(R.id.empty_marker_instructions)
