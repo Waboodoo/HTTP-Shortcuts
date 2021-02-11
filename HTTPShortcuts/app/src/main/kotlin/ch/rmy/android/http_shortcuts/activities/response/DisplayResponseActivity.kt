@@ -21,6 +21,7 @@ import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.startActivity
+import ch.rmy.android.http_shortcuts.extensions.truncate
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.http.HttpStatus
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
@@ -303,7 +304,7 @@ class DisplayResponseActivity : BaseActivity() {
         }
 
         fun text(text: String) = also {
-            intent.putExtra(EXTRA_TEXT, text)
+            intent.putExtra(EXTRA_TEXT, text.truncate(MAX_TEXT_LENGTH))
         }
 
         fun responseFileUri(uri: Uri?) = also {
@@ -352,6 +353,7 @@ class DisplayResponseActivity : BaseActivity() {
 
         private const val REQUEST_SAVE_FILE = 1
 
+        private const val MAX_TEXT_LENGTH = 800000
         private const val MAX_SHARE_LENGTH = 300000
 
         private const val TYPE_XML = "text/xml"
