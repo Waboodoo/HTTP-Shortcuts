@@ -1408,4 +1408,81 @@
 
     <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->
     <string name="error_variable_not_found_write">"变量错误：试图设置不存在或非静态（常量）的变量的值：%s"</string>
+
+    <!-- Title of code editor for defining global scripting code (JS code that runs before every shortcut) -->
+    <string name="title_global_scripting">"全局脚本"</string>
+
+    <!-- Button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
+    <string name="settings_global_scripting">"全局脚本"</string>
+
+    <!-- Subtitle of button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
+    <string name="settings_global_scripting_summary">"在每次快捷方式执行前运行 JavaScript 代码"</string>
+
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the execution of every shortcut -->
+    <string name="placeholder_javascript_global_scripting">"在此处添加要在每个快捷方式执行启动时运行的 JavaScript 代码。比如，准备一些变量或定义一些函数，这些函数可以在快捷方式的脚本部分中使用。"</string>
+
+    <!-- Action label: Shown on menu button to save changes in the Global Scripting editor -->
+    <string name="action_save_global_scripting">"保存更改"</string>
+
+    <!-- Error message: Shown when trying to trigger a shortcut by name via a voice command or deep-linking but the shortcut is not found -->
+    <string name="error_shortcut_not_found_for_deep_link">"快捷方式 \"%s\" 未找到"</string>
+
+    <!-- Instructions: Shown when the deep-linking feature is used but with an invalid URL -->
+    <string name="instructions_deep_linking">"要使用深链接特性，请确保使用此种形式的有效 URL：
+
+%s"</string>
+
+    <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
+    <string name="placeholder_deleted_shortcut">"删除快捷方式"</string>
+
+    <!-- Menu button, allows saving a response as a file -->
+    <string name="button_save_response_as_file">"保存为文件"</string>
+
+    <!-- Label: Wifi network selection config in shortcut settings -->
+    <string name="label_ssid">"必需的 Wifi SSID"</string>
+
+    <!-- Dialog title: Permission request for wifi/ssid check -->
+    <string name="title_permission_dialog">"必需的权限"</string>
+
+    <!-- Message: Rational given for location permission in wifi/ssid check -->
+    <string name="message_permission_rational">"需要位置权限来检查快捷方式是否执行于配置的无线网络上。这是安卓操作系统强加的要求。你的位置数据不会被直接访问。"</string>
+
+    <!-- Message: Shown to the user when connected to a different wifi network than the one given in the config -->
+    <string name="message_wrong_wifi_network">"未连接到为快捷方式 \"%1$s\" 所配置的无线网络。现在选择另一个无线网络吗？"</string>
+
+    <!-- Action label: Shown on wifi check dialog to open the wifi picker -->
+    <string name="action_label_select">"选择"</string>
+
+    <!-- Error message, shown when user declines location permission for wifi check -->
+    <string name="error_missing_location_permission">"无法获取位置权限。正在终止权限。"</string>
+
+    <!-- Message: Success message shown when a response was saved to a file -->
+    <string name="message_response_saved_to_file">"响应未保存到文件。"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options to get information about the selected files -->
+    <string name="dialog_code_snippet_files">"所选的文件"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
+    <string name="dialog_code_snippet_get_file_name">"获取所选文件的名称"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->
+    <string name="dialog_code_snippet_get_file_type">"获取所选文件的类型"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the size of a selected file -->
+    <string name="dialog_code_snippet_get_file_size">"获取所选文件的大小 （字节数）"</string>
+
+    <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, ...) -->
+    <string name="title_about">"关于"</string>
+
+    <!-- Title of option in settings screen: links the user to an external documentation page -->
+    <string name="settings_documentation">"文档"</string>
+
+    <!-- Subtitle of option in settings screen: links the user to an external documentation page -->
+    <string name="settings_documentation_summary">"常见问题、参考、例子 …"</string>
+
+    <!-- Instructions shown below the "Allow Share..." checkbox in the variable editor -->
+    <string name="message_allow_share_instructions">"启用此功能允许你分享来自其他应用的文本并将共享的文本用作这个变量的临时值。"</string>
+
+    <!-- Dialog title: Shown in progress dialog while a file is being saved -->
+    <string name="saving_in_progress">"正在保存…"</string>
 </resources>

@@ -1425,4 +1425,19 @@ Więcej informacji można znaleźć w dokumentacji w sekcji zmiennych."</string>
 
     <!-- Dialog button (generic): Allows to reset some setting to its original value -->
     <string name="dialog_reset">"Reset"</string>
+
+    <!-- Subtitle of button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
+    <string name="settings_global_scripting_summary">"Uruchom kod JavaScript przed każdym uruchomieniem skrótu"</string>
+
+    <!-- Action label: Shown on menu button to save changes in the Global Scripting editor -->
+    <string name="action_save_global_scripting">"Zapisz zmiany"</string>
+
+    <!-- Error message: Shown when trying to trigger a shortcut by name via a voice command or deep-linking but the shortcut is not found -->
+    <string name="error_shortcut_not_found_for_deep_link">"Nie znaleziono skrótu \"%s\""</string>
+
+    <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
+    <string name="placeholder_deleted_shortcut">"Skrót usunięty"</string>
+
+    <!-- Menu button, allows saving a response as a file -->
+    <string name="button_save_response_as_file">"Zapisz jako plik"</string>
 </resources>
