@@ -179,6 +179,10 @@ class ShareActivity : BaseActivity(), Entrypoint {
                         .use { stream ->
                             FileUtil.createCacheFile(context, createCacheFileName())
                                 .also { file ->
+                                    FileUtil.getFileName(context.contentResolver, fileUri)
+                                        ?.let { fileName ->
+                                            FileUtil.putCacheFileOriginalName(file, fileName)
+                                        }
                                     stream.copyTo(context.contentResolver.openOutputStream(file)!!)
                                 }
                         }

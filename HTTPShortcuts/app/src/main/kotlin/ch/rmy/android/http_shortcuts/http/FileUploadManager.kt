@@ -3,9 +3,9 @@ package ch.rmy.android.http_shortcuts.http
 import android.content.ContentResolver
 import android.content.res.AssetFileDescriptor
 import android.net.Uri
-import android.provider.OpenableColumns
 import android.webkit.MimeTypeMap
 import ch.rmy.android.http_shortcuts.extensions.tryOrLog
+import ch.rmy.android.http_shortcuts.utils.FileUtil
 import java.io.FileNotFoundException
 
 class FileUploadManager private constructor(
@@ -53,22 +53,26 @@ class FileUploadManager private constructor(
                 mimeType = type,
                 fileName = getFileName(uri, type),
                 data = uri,
-                fileSize = getFileSize(uri)
+                fileSize = getFileSize(uri),
             )
         }
 
     private fun getFileName(file: Uri, type: String): String {
+        // Case 1: The file was shared into the app and we can look up its original name instead of using the name of the cache file
+        val cachedFileName = FileUtil.getCacheFileOriginalName(file)
+        if (cachedFileName != null) {
+            return cachedFileName
+        }
+
+        // Case 2: The content resolver provides the file's name
         tryOrLog {
-            if (file.scheme == "content") {
-                contentResolver.query(file, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null)?.use { cursor ->
-                    cursor.moveToFirst()
-                    val fileName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME))
-                    if (fileName != null) {
-                        return fileName
-                    }
-                }
+            val fileName = FileUtil.getFileName(contentResolver, file)
+            if (fileName != null) {
+                return fileName
             }
         }
+
+        // Case 3: We failed to determine the file name and fall back to a constructed file name, while trying to pick an appropriate file extension
         val potentialFileName = file.lastPathSegment ?: DEFAULT_FILE_NAME
         val expectedExtension = MimeTypeMap.getSingleton().getExtensionFromMimeType(type)
         if (expectedExtension != null && !potentialFileName.endsWith(".$expectedExtension", ignoreCase = true)) {
