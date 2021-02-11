@@ -15,7 +15,8 @@ object WifiUtil {
         (context.applicationContext.getSystemService(AppCompatActivity.WIFI_SERVICE) as WifiManager)
             .connectionInfo
             .ssid
-            .trim('"')
+            ?.trim('"')
+            ?: ""
 
     fun showWifiPicker(activity: AppCompatActivity) {
         try {
