@@ -39,13 +39,14 @@ class Settings(context: Context) {
         get() = preferences.getBoolean(KEY_NETWORK_RESTRICTION_PERMANENTLY_HIDDEN, false)
         set(hidden) = putBoolean(KEY_NETWORK_RESTRICTION_PERMANENTLY_HIDDEN, hidden)
 
-    var changeLogLastVersion: Long
+    var changeLogLastVersion: Long?
         get() = try {
-            preferences.getLong(KEY_CHANGE_LOG_LAST_VERSION, 0L)
+            preferences.getLong(KEY_CHANGE_LOG_LAST_VERSION, -1L)
         } catch (e: ClassCastException) {
-            preferences.getInt(KEY_CHANGE_LOG_LAST_VERSION, 0).toLong()
+            preferences.getInt(KEY_CHANGE_LOG_LAST_VERSION, -1).toLong()
         }
-        set(version) = putLong(KEY_CHANGE_LOG_LAST_VERSION, version)
+            .takeUnless { it == -1L }
+        set(version) = putLong(KEY_CHANGE_LOG_LAST_VERSION, version ?: -1L)
 
     var theme: String
         get() = preferences.getString(KEY_THEME, THEME_BLUE)!!

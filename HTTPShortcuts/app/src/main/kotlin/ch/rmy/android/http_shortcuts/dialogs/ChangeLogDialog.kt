@@ -26,7 +26,8 @@ class ChangeLogDialog(private val context: Context, private val whatsNew: Boolea
             return false
         }
         val lastSeenVersion = settings.changeLogLastVersion
-        return version != lastSeenVersion && lastSeenVersion != 0L
+        settings.changeLogLastVersion = version
+        return lastSeenVersion != null && version != lastSeenVersion
     }
 
     private val isPermanentlyHidden: Boolean
