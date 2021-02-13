@@ -765,9 +765,6 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
     <!-- error message displayed when "Step Size" is not a positive number for "slider" variable type -->
     <string name="error_slider_step_size_must_be_positive">"Die Schrittgröße muss größer als 0 sein."</string>
 
-    <!-- Button text: Set image as icon (after selecting and editing) -->
-    <string name="button_apply_icon">"Anwenden"</string>
-
     <!-- Blurb/short description of plugin action (for Tasker integration), where %1$s is a placeholder for the shortcut name. -->
     <string name="plugin_blurb_execute_task">"Shortcut \"%1$s\" ausführen"</string>
 
@@ -1489,4 +1486,7 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
 
     <!-- Dialog title: Shown in progress dialog while a file is being saved -->
     <string name="saving_in_progress">"Speichern…"</string>
+
+    <!-- Title: Shown above cropper/resizer tool when picking a custom icon -->
+    <string name="title_edit_custom_icon">"Symbol bearbeiten"</string>
 </resources>

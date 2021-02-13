@@ -653,9 +653,6 @@ Consulte a documentação na seção variável para obter mais informações."</
     <!-- error message displayed when "Maximum" is lesser than or equal to "Minimum" for "slider" variable type -->
     <string name="error_slider_max_not_greater_than_min">"O máximo deve ser maior que o mínimo."</string>
 
-    <!-- Button text: Set image as icon (after selecting and editing) -->
-    <string name="button_apply_icon">"Aplicar Ícone"</string>
-
     <!-- Blurb/short description of plugin action (for Tasker integration), where %1$s is a placeholder for the shortcut name. -->
     <string name="plugin_blurb_execute_task">"Executar atalho %1$s"</string>
 

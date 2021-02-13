@@ -641,9 +641,6 @@ Se dokumentasjonen i variabelseksjonen for mere informasjon."</string>
     <!-- error message displayed when "Maximum" is lesser than or equal to "Minimum" for "slider" variable type -->
     <string name="error_slider_max_not_greater_than_min">"Maksimummet må være større enn minimummet."</string>
 
-    <!-- Button text: Set image as icon (after selecting and editing) -->
-    <string name="button_apply_icon">"Bruk ikonet"</string>
-
     <!-- Blurb/short description of plugin action (for Tasker integration), where %1$s is a placeholder for the shortcut name. -->
     <string name="plugin_blurb_execute_task">"Iverksett snarveien \"%1$s\""</string>
 

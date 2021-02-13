@@ -723,9 +723,6 @@ Voir la documentation dans la section variable pour plus d'informations."</strin
     <!-- error message displayed when "Step Size" is not a positive number for "slider" variable type -->
     <string name="error_slider_step_size_must_be_positive">"La taille doit être une nombre positif."</string>
 
-    <!-- Button text: Set image as icon (after selecting and editing) -->
-    <string name="button_apply_icon">"Appliquer"</string>
-
     <!-- Blurb/short description of plugin action (for Tasker integration), where %1$s is a placeholder for the shortcut name. -->
     <string name="plugin_blurb_execute_task">"Exécuter le raccourci \"%1$s\""</string>
 
