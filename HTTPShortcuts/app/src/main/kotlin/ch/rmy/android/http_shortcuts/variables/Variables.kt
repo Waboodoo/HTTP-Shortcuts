@@ -20,7 +20,7 @@ object Variables {
     private const val RAW_PLACEHOLDER_REGEX = "\\{\\{($VARIABLE_ID_REGEX)\\}\\}"
 
     private const val JS_PLACEHOLDER_REGEX = """/\*\[variable]\*/"([^"]+)"/\*\[/variable]\*/"""
-    private const val JS_PLACEHOLDER_REGEX2 = """getVariable\("($VARIABLE_KEY_REGEX)"\)"""
+    private const val JS_PLACEHOLDER_REGEX2 = """getVariable\(["']($VARIABLE_KEY_REGEX)["']\)"""
 
     private const val PRETTY_PLACEHOLDER_PREFIX = "{"
     private const val PRETTY_PLACEHOLDER_SUFFIX = "}"
@@ -139,6 +139,6 @@ object Variables {
 
     fun toPrettyPlaceholder(variableKey: String) = "$PRETTY_PLACEHOLDER_PREFIX$variableKey$PRETTY_PLACEHOLDER_SUFFIX"
 
-    private class Replacement(internal val startIndex: Int, internal val endIndex: Int, internal val placeholder: VariablePlaceholder)
+    private class Replacement(val startIndex: Int, val endIndex: Int, val placeholder: VariablePlaceholder)
 
 }
