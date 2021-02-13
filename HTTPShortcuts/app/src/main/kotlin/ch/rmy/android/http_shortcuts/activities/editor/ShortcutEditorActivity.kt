@@ -266,7 +266,11 @@ class ShortcutEditorActivity : BaseActivity() {
 
     private fun canExecute(): Boolean =
         shortcutData.value
-            ?.let { !it.type.usesUrl || Validation.isAcceptableUrl(it.url) }
+            ?.let {
+                !it.type.usesUrl
+                    || (it.type.requiresHttpUrl && Validation.isAcceptableHttpUrl(it.url))
+                    || (!it.type.requiresHttpUrl && Validation.isAcceptableUrl(it.url))
+            }
             ?: false
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {

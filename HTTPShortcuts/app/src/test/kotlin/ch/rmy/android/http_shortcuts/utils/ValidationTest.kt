@@ -1,10 +1,12 @@
 package ch.rmy.android.http_shortcuts.utils
 
 import android.net.Uri
+import ch.rmy.android.http_shortcuts.utils.Validation.isAcceptableHttpUrl
 import ch.rmy.android.http_shortcuts.utils.Validation.isAcceptableUrl
+import ch.rmy.android.http_shortcuts.utils.Validation.isValidHttpUrl
 import ch.rmy.android.http_shortcuts.utils.Validation.isValidUrl
+import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
-import org.junit.Assert.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -14,56 +16,58 @@ class ValidationTest {
 
     @Test
     fun testValidUrlAcceptable() {
-        assertThat(isAcceptableUrl("http://example.com"), equalTo(true))
-        assertThat(isAcceptableUrl("https://example.com"), equalTo(true))
-        assertThat(isAcceptableUrl("HTTP://example.com"), equalTo(true))
-        assertThat(isAcceptableUrl("HTTPS://example.com"), equalTo(true))
+        assertThat(isAcceptableHttpUrl("http://example.com"), equalTo(true))
+        assertThat(isAcceptableHttpUrl("https://example.com"), equalTo(true))
+        assertThat(isAcceptableHttpUrl("HTTP://example.com"), equalTo(true))
+        assertThat(isAcceptableHttpUrl("HTTPS://example.com"), equalTo(true))
     }
 
     @Test
     fun testEmptyStringNotAcceptable() {
         assertThat(isAcceptableUrl(""), equalTo(false))
+        assertThat(isAcceptableHttpUrl(""), equalTo(false))
     }
 
     @Test
     fun testSchemeOnlyNotAcceptable() {
         assertThat(isAcceptableUrl("http://"), equalTo(false))
-        assertThat(isAcceptableUrl("https://"), equalTo(false))
+        assertThat(isAcceptableHttpUrl("http://"), equalTo(false))
+        assertThat(isAcceptableHttpUrl("https://"), equalTo(false))
     }
 
     @Test
     fun testInvalidSchemeNotAcceptable() {
-        assertThat(isAcceptableUrl("ftp://example.com"), equalTo(false))
+        assertThat(isAcceptableHttpUrl("ftp://example.com"), equalTo(false))
     }
 
     @Test
     fun testNoSchemeNotAcceptable() {
-        assertThat(isAcceptableUrl("example.com"), equalTo(false))
+        assertThat(isAcceptableHttpUrl("example.com"), equalTo(false))
     }
 
     @Test
     fun testVariableSchemeAcceptable() {
-        assertThat(isAcceptableUrl("{{12a21268-84a3-4e79-b7cd-51b87fc49eb7}}://example.com"), equalTo(true))
-        assertThat(isAcceptableUrl("{{12a21268-84a3-4e79-b7cd-51b87fc49eb7}}example.com"), equalTo(true))
-        assertThat(isAcceptableUrl("http{{12a21268-84a3-4e79-b7cd-51b87fc49eb7}}://example.com"), equalTo(true))
+        assertThat(isAcceptableHttpUrl("{{12a21268-84a3-4e79-b7cd-51b87fc49eb7}}://example.com"), equalTo(true))
+        assertThat(isAcceptableHttpUrl("{{12a21268-84a3-4e79-b7cd-51b87fc49eb7}}example.com"), equalTo(true))
+        assertThat(isAcceptableHttpUrl("http{{12a21268-84a3-4e79-b7cd-51b87fc49eb7}}://example.com"), equalTo(true))
 
-        assertThat(isAcceptableUrl("{{42}}://example.com"), equalTo(true))
-        assertThat(isAcceptableUrl("{{42}}example.com"), equalTo(true))
-        assertThat(isAcceptableUrl("http{{42}}://example.com"), equalTo(true))
+        assertThat(isAcceptableHttpUrl("{{42}}://example.com"), equalTo(true))
+        assertThat(isAcceptableHttpUrl("{{42}}example.com"), equalTo(true))
+        assertThat(isAcceptableHttpUrl("http{{42}}://example.com"), equalTo(true))
     }
 
     @Test
     fun testVariableOnlyUrlAcceptable() {
-        assertThat(isAcceptableUrl("{{12a21268-84a3-4e79-b7cd-51b87fc49eb7}}"), equalTo(true))
+        assertThat(isAcceptableHttpUrl("{{12a21268-84a3-4e79-b7cd-51b87fc49eb7}}"), equalTo(true))
 
-        assertThat(isAcceptableUrl("{{42}}"), equalTo(true))
+        assertThat(isAcceptableHttpUrl("{{42}}"), equalTo(true))
     }
 
     @Test
     fun testPartialVariableSchemeAcceptable() {
-        assertThat(isAcceptableUrl("http{{12a21268-84a3-4e79-b7cd-51b87fc49eb7}}://example.com"), equalTo(true))
+        assertThat(isAcceptableHttpUrl("http{{12a21268-84a3-4e79-b7cd-51b87fc49eb7}}://example.com"), equalTo(true))
 
-        assertThat(isAcceptableUrl("http{{42}}://example.com"), equalTo(true))
+        assertThat(isAcceptableHttpUrl("http{{42}}://example.com"), equalTo(true))
     }
 
     @Test
@@ -72,51 +76,56 @@ class ValidationTest {
     }
 
     @Test
-    fun testNonHttpSchemeNotValid() {
-        assertThat(isValidUrl(Uri.parse("ftp://example.com")), equalTo(false))
+    fun testNonHttpSchemeNotValidHttpUrl() {
+        assertThat(isValidHttpUrl(Uri.parse("ftp://example.com")), equalTo(false))
+    }
+
+    @Test
+    fun testNonHttpSchemeValidUrl() {
+        assertThat(isValidUrl(Uri.parse("ftp://example.com")), equalTo(true))
     }
 
     @Test
     fun testEmptyUrlNotValid() {
-        assertThat(isValidUrl(Uri.parse("http://")), equalTo(false))
-        assertThat(isValidUrl(Uri.parse("https://")), equalTo(false))
-        assertThat(isValidUrl(Uri.parse("https:")), equalTo(false))
-        assertThat(isValidUrl(Uri.parse("https")), equalTo(false))
-        assertThat(isValidUrl(Uri.parse("https:/")), equalTo(false))
-        assertThat(isValidUrl(Uri.parse("https:///")), equalTo(false))
-        assertThat(isValidUrl(Uri.parse("https://:")), equalTo(false))
+        assertThat(isValidHttpUrl(Uri.parse("http://")), equalTo(false))
+        assertThat(isValidHttpUrl(Uri.parse("https://")), equalTo(false))
+        assertThat(isValidHttpUrl(Uri.parse("https:")), equalTo(false))
+        assertThat(isValidHttpUrl(Uri.parse("https")), equalTo(false))
+        assertThat(isValidHttpUrl(Uri.parse("https:/")), equalTo(false))
+        assertThat(isValidHttpUrl(Uri.parse("https:///")), equalTo(false))
+        assertThat(isValidHttpUrl(Uri.parse("https://:")), equalTo(false))
     }
 
     @Test
     fun testHttpSchemeValid() {
-        assertThat(isValidUrl(Uri.parse("http://example.com")), equalTo(true))
+        assertThat(isValidHttpUrl(Uri.parse("http://example.com")), equalTo(true))
     }
 
     @Test
     fun testHttpSchemeValidCaseInsensitive() {
-        assertThat(isValidUrl(Uri.parse("HTTP://example.com")), equalTo(true))
+        assertThat(isValidHttpUrl(Uri.parse("HTTP://example.com")), equalTo(true))
     }
 
     @Test
     fun testHttpsSchemeValid() {
-        assertThat(isValidUrl(Uri.parse("https://example.com")), equalTo(true))
+        assertThat(isValidHttpUrl(Uri.parse("https://example.com")), equalTo(true))
     }
 
     @Test
     fun testHttpsSchemeValidCaseInsensitive() {
-        assertThat(isValidUrl(Uri.parse("HTTPS://example.com")), equalTo(true))
+        assertThat(isValidHttpUrl(Uri.parse("HTTPS://example.com")), equalTo(true))
     }
 
     @Test
     fun testNotValidWithInvalidCharacters() {
-        assertThat(isValidUrl(Uri.parse("http://{{1234⁻5678}}")), equalTo(false))
-        assertThat(isValidUrl(Uri.parse("https://\"+document.domain+\"/")), equalTo(false))
-        assertThat(isValidUrl(Uri.parse("http://a</")), equalTo(false))
+        assertThat(isValidHttpUrl(Uri.parse("http://{{1234⁻5678}}")), equalTo(false))
+        assertThat(isValidHttpUrl(Uri.parse("https://\"+document.domain+\"/")), equalTo(false))
+        assertThat(isValidHttpUrl(Uri.parse("http://a</")), equalTo(false))
     }
 
     @Test
     fun testUrlWithWhitespacesIsValid() {
-        assertThat(isValidUrl(Uri.parse("http://example.com/?cmd=Hello World")), equalTo(true))
+        assertThat(isValidHttpUrl(Uri.parse("http://example.com/?cmd=Hello World")), equalTo(true))
     }
 
 }

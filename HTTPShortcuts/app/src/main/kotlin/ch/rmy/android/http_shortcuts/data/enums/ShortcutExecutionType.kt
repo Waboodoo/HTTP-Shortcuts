@@ -3,13 +3,14 @@ package ch.rmy.android.http_shortcuts.data.enums
 enum class ShortcutExecutionType(
     val type: String,
     val usesUrl: Boolean = false,
+    val requiresHttpUrl: Boolean = false,
     val usesRequestOptions: Boolean = false,
     val usesResponse: Boolean = false,
     val usesScriptingEditor: Boolean = true,
 ) {
 
-    APP(type = "app", usesUrl = true, usesRequestOptions = true, usesResponse = true),
-    BROWSER(type = "browser", usesUrl = true),
+    APP(type = "app", usesUrl = true, requiresHttpUrl = true, usesRequestOptions = true, usesResponse = true),
+    BROWSER(type = "browser", usesUrl = true, requiresHttpUrl = false),
     SCRIPTING(type = "scripting"),
     TRIGGER(type = "trigger", usesScriptingEditor = false);
 

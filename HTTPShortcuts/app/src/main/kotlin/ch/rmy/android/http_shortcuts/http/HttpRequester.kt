@@ -42,7 +42,7 @@ class HttpRequester(private val contentResolver: ContentResolver) {
                     }
                     ?.trim()
 
-                if (!Validation.isValidUrl(Uri.parse(url))) {
+                if (!Validation.isValidHttpUrl(Uri.parse(url))) {
                     emitter.onError(InvalidUrlException(url))
                     return@create
                 }

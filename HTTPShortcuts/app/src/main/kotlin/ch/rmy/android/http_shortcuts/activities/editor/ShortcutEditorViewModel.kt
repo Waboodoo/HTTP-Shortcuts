@@ -131,7 +131,10 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
         if (shortcut.name.isBlank()) {
             throw ShortcutValidationError(VALIDATION_ERROR_EMPTY_NAME)
         }
-        if (shortcut.type.usesUrl && !Validation.isAcceptableUrl(shortcut.url)) {
+        if (
+            (shortcut.type.requiresHttpUrl && !Validation.isAcceptableHttpUrl(shortcut.url))
+            || (shortcut.type.usesUrl && !shortcut.type.requiresHttpUrl && !Validation.isAcceptableUrl(shortcut.url))
+        ) {
             throw ShortcutValidationError(VALIDATION_ERROR_INVALID_URL)
         }
     }
@@ -158,7 +161,7 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
                 getString(
                     R.string.subtitle_basic_request_settings_pattern,
                     shortcut.method,
-                    shortcut.url
+                    shortcut.url,
                 )
             }
         }
@@ -167,7 +170,7 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
         getQuantityString(
             shortcut.headers.size,
             R.string.subtitle_request_headers_none,
-            R.plurals.subtitle_request_headers_pattern
+            R.plurals.subtitle_request_headers_pattern,
         )
 
     fun getRequestBodySettingsSubtitle(shortcut: Shortcut): CharSequence =
