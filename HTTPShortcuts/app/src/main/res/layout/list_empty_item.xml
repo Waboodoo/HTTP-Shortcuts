@@ -10,7 +10,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="8dp">
+        android:padding="16dp">
 
         <ImageView
             android:layout_width="44dp"

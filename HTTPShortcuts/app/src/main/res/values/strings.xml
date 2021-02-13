@@ -560,8 +560,8 @@
     <string name="error_slider_max_not_greater_than_min">The maximum must be greater than the minimum.</string>
     <!-- error message displayed when "Step Size" is not a positive number for "slider" variable type -->
     <string name="error_slider_step_size_must_be_positive">The step size must be a positive number.</string>
-    <!-- Button text: Set image as icon (after selecting and editing) -->
-    <string name="button_apply_icon">Apply icon</string>
+    <!-- Title: Shown above cropper/resizer tool when picking a custom icon -->
+    <string name="title_edit_custom_icon">Edit Icon</string>
     <!-- Blurb/short description of plugin action (for Tasker integration), where %1$s is a placeholder for the shortcut name. -->
     <string name="plugin_blurb_execute_task">Execute shortcut \"%1$s\"</string>
     <!-- Label of dropdown to select the request body type in shortcut editor -->

@@ -30,7 +30,7 @@ object FileUtil {
         FileProvider.getUriForFile(
             context,
             "${context.packageName}.provider",
-            file
+            file,
         )
 
     fun deleteOldCacheFiles(context: Context) {
