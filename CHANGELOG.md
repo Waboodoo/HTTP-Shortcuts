@@ -1,3 +1,16 @@
+## Version 2.1.0
+
+### Miscellaneous
+- Browser Shortcuts are no longer limited to just HTTP(S) but can now use arbitrary URL schemes, allowing deep-linking into other apps.
+- Improved some of the help texts to make it clearer how to use the app
+
+### Bugfixes
+- Replaced the icon picker & cropper, as it no longer worked on Android 10. As a bonus, it now supports free 360° rotation
+- Original file names are preserved when sharing files into the app and accessing file information through scripting
+- Fixed a crash when displaying responses close to the 1MB size limit.
+- Fixed the displaying of the changelog dialog on app startup (so meta).
+- Fixed detection of variable names in scripts when enclosed by single quotes instead of double quotes
+
 ## Version 2.0.0
 
 ### Response Handling
