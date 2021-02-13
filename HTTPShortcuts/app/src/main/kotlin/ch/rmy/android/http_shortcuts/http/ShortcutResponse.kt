@@ -6,6 +6,7 @@ import ch.rmy.android.http_shortcuts.exceptions.ResponseTooLargeException
 import ch.rmy.android.http_shortcuts.utils.SizeLimitedReader
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import java.util.Locale
 
 
 class ShortcutResponse internal constructor(
@@ -18,7 +19,7 @@ class ShortcutResponse internal constructor(
 
     val contentType: String?
         get() = headers.getLast(HttpHeaders.CONTENT_TYPE)?.let { contentType ->
-            contentType.split(';', limit = 2)[0].toLowerCase()
+            contentType.split(';', limit = 2)[0].toLowerCase(locale = Locale.US)
         }
 
     val cookies: Map<String, String>

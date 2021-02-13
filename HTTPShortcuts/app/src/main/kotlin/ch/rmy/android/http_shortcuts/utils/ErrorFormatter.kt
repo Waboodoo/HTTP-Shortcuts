@@ -34,14 +34,14 @@ class ErrorFormatter(private val context: Context) {
             getString(R.string.error_http),
             shortcutName,
             error.shortcutResponse.statusCode,
-            HttpStatus.getMessage(error.shortcutResponse.statusCode)
+            HttpStatus.getMessage(error.shortcutResponse.statusCode),
         ))
 
         if (includeBody) {
             try {
-                val responseBody = error.shortcutResponse.getContentAsString(context)
-                if (responseBody.isNotEmpty()) {
-                    tryOrLog {
+                tryOrLog {
+                    val responseBody = error.shortcutResponse.getContentAsString(context)
+                    if (responseBody.isNotEmpty()) {
                         builder.append("\n\n")
                         builder.append(responseBody)
                     }
