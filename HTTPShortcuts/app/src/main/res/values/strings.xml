@@ -993,4 +993,6 @@
     <string name="message_response_saved_to_file">Response saved to file.</string>
     <!-- Dialog title: Shown in progress dialog while a file is being saved -->
     <string name="saving_in_progress">Saving…</string>
+    <!-- Error message: Shown in dialog when user tries to enter an invalid URL for the remote edit feature -->
+    <string name="error_invalid_remote_edit_host_url">Invalid URL. Must be http(s).</string>
 </resources>

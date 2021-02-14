@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -24,6 +25,7 @@ import ch.rmy.android.http_shortcuts.import_export.ImportException
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 import ch.rmy.android.http_shortcuts.utils.StringUtils
+import ch.rmy.android.http_shortcuts.utils.Validation
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotterknife.bindView
 import java.util.concurrent.TimeUnit
@@ -163,7 +165,7 @@ class RemoteEditActivity : BaseActivity() {
             .textInput(
                 prefill = viewModel.serverUrl,
                 allowEmpty = false,
-                callback = ::setRemoteHost
+                callback = ::setRemoteHost,
             )
             .neutral(R.string.dialog_reset) {
                 setRemoteHost("")
@@ -172,6 +174,13 @@ class RemoteEditActivity : BaseActivity() {
     }
 
     private fun setRemoteHost(value: String) {
+        if (!Validation.isValidHttpUrl(Uri.parse(value))) {
+            DialogBuilder(context)
+                .message(R.string.error_invalid_remote_edit_host_url)
+                .positive(R.string.dialog_ok)
+                .showIfPossible()
+            return
+        }
         viewModel.serverUrl = value
         updateInstructions()
     }
