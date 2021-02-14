@@ -8,6 +8,7 @@ import android.webkit.WebViewClient
 import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.extensions.openURL
+import ch.rmy.android.http_shortcuts.utils.UserAgentUtil
 
 class ResponseWebView @JvmOverloads constructor(
     context: Context,
@@ -30,6 +31,7 @@ class ResponseWebView @JvmOverloads constructor(
             allowFileAccess = false
             allowFileAccessFromFileURLs = false
             allowUniversalAccessFromFileURLs = false
+            userAgentString = UserAgentUtil.userAgent
         }
     }
 
