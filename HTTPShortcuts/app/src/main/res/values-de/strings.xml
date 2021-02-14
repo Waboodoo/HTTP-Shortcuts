@@ -1489,4 +1489,7 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
 
     <!-- Title: Shown above cropper/resizer tool when picking a custom icon -->
     <string name="title_edit_custom_icon">"Symbol bearbeiten"</string>
+
+    <!-- Error message: Shown in dialog when user tries to enter an invalid URL for the remote edit feature -->
+    <string name="error_invalid_remote_edit_host_url">"Ungültige URL. Die URL muss mit http(s) beginnen."</string>
 </resources>
