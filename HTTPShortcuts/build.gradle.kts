@@ -14,6 +14,8 @@ buildscript {
 
 ext {
     set("bugsnagAPIKey", System.getenv("BUGSNAG_API_KEY") ?: "")
+    set("poeditorAPIKey", System.getenv("PO_EDITOR_API_KEY") ?: "")
+    set("poeditorProjectId", System.getenv("PO_EDITOR_PROJECT_ID") ?: "")
     set("buildTimestamp", java.util.Date().time.toString())
 }
 
