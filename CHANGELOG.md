@@ -10,6 +10,7 @@
 - Fixed a crash when displaying responses close to the 1MB size limit.
 - Fixed the displaying of the changelog dialog on app startup (so meta).
 - Fixed detection of variable names in scripts when enclosed by single quotes instead of double quotes
+- When unlocking app settings, the password prompt dialog no longer incorrectly pops up again when the correct password is entered.
 
 ## Version 2.0.0
 

@@ -401,11 +401,11 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
 
     private fun unlockApp(password: String) {
         viewModel.removeAppLock(password)
-            .subscribe({
-                if (viewModel.isAppLocked()) {
-                    openAppUnlockDialog(showError = true)
-                } else {
+            .subscribe({ unlocked ->
+                if (unlocked) {
                     showSnackbar(R.string.message_app_unlocked)
+                } else {
+                    openAppUnlockDialog(showError = true)
                 }
             }, { e ->
                 showSnackbar(R.string.error_generic, long = true)
