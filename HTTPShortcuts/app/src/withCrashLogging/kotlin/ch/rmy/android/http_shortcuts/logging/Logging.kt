@@ -71,7 +71,6 @@ object Logging {
             || e.cause is IOException
             || e is InflateException
             || e is RealmFactory.RealmNotFoundException
-            || (e is RuntimeException && e.message == "File is not a picture")
 
     fun logInfo(origin: String, message: String) {
         if (initialized) {
@@ -84,7 +83,7 @@ object Logging {
 
     private val STORE_PACKAGES = setOf(
         "com.android.vending",
-        "com.google.android.feedback"
+        "com.google.android.feedback",
     )
 
 }
