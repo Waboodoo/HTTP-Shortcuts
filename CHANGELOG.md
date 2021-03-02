@@ -1,3 +1,7 @@
+## Version 2.2.0
+
+- Added `base64decode` and `base64encode` functions for scripting
+
 ## Version 2.1.0
 
 ### Miscellaneous

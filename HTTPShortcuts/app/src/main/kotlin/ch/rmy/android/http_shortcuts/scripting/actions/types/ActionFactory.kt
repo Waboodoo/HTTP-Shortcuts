@@ -21,6 +21,8 @@ class ActionFactory {
     companion object {
         private val types by lazy {
             listOf(
+                Base64DecodeActionType(),
+                Base64EncodeActionType(),
                 ChangeIconActionType(),
                 ConfirmActionType(),
                 CopyToClipboardActionType(),

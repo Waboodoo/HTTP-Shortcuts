@@ -247,6 +247,12 @@ class CodeSnippetPicker(
             .item(name = "SHA-512") {
                 insertText("hash(\"SHA-512\", \"", "\");\n")
             }
+            .item(name = "Base64 Encode") {
+                insertText("base64encode(\"", "\");\n")
+            }
+            .item(name = "Base64 Decode") {
+                insertText("base64decode(\"", "\");\n")
+            }
             .showIfPossible()
     }
 
