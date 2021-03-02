@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
+import ch.rmy.android.http_shortcuts.exceptions.JavaScriptException
 import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.extensions.toListOfStrings
@@ -37,14 +38,18 @@ class SelectionAction(private val jsonData: String) : BaseAction() {
         }
     }
 
-    private fun parseData(data: String): Map<String, String> {
+    private fun parseData(data: String): Map<String, String> = try {
+        val obj = JSONObject(data)
+        obj.keys()
+            .asSequence()
+            .associateWith { key -> obj.getString(key) }
+    } catch (e: JSONException) {
         try {
-            val obj = JSONObject(data)
-            return obj.keys().asSequence().associateWith { key -> obj.getString(key) }
-        } catch (e: JSONException) {
-            val array = JSONArray(data)
-            return array.toListOfStrings()
+            JSONArray(data)
+                .toListOfStrings()
                 .associateWith { it }
+        } catch (e2: JSONException) {
+            throw JavaScriptException("showSelection function expects object or array as argument")
         }
     }
 
