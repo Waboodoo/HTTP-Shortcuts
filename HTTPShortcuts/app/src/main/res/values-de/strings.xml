@@ -1342,7 +1342,7 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <string name="action_type_selection_title">"Auswahl anzeigen (Multiple-Choice)"</string>
 
     <!-- Dialog option: shown in code snippet picker, shows options to process text (e.g. encoding, hashing, ...) -->
-    <string name="dialog_code_snippet_text_processing">"Textverarbeitung (Hashing)"</string>
+    <string name="dialog_code_snippet_text_processing">"Textverarbeitung"</string>
 
     <!-- Error message: Shown when user tries to use an unsupported hash function -->
     <string name="error_unsupported_hash_algorithm">"Hash-Algorithmus \"%1$s\" nicht unterstützt. Verwende %2$s."</string>

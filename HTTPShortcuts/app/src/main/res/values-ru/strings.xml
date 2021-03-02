@@ -43,6 +43,9 @@
     <!-- Label above input field in editor, for shortcut authentication password -->
     <string name="label_password">"Пароль"</string>
 
+    <!-- Label above input field in editor, for shortcut authentication token -->
+    <string name="label_auth_token">"Токен"</string>
+
     <!-- Shortcut dropdown option: Place shortcut on home screen -->
     <string name="action_place">"Разместить на главном экране"</string>
 
@@ -147,6 +150,9 @@
 
     <!-- Label of input field to provide the name/key of a parameter of a shortcut -->
     <string name="label_post_param_key">"Параметр"</string>
+
+    <!-- Label of input field to provide the file name for a file parameter of a shortcut -->
+    <string name="label_post_param_file_name">"Имя файла (опционально)"</string>
 
     <!-- Label of input field to provide the value of a parameter of a shortcut -->
     <string name="label_post_param_value">"Значение"</string>
@@ -344,6 +350,12 @@
     <!-- Action, shown on dropdown when editing a category, for allowing to change the category's layout type -->
     <string name="action_change_category_layout_type">"Изменить тип макета"</string>
 
+    <!-- Action, shown on dropdown when editing a category, for allowing to hide a category -->
+    <string name="action_hide_category">"Скрыть"</string>
+
+    <!-- Action, shown on dropdown when editing a category, for allowing to show a hidden category -->
+    <string name="action_show_category">"Показать"</string>
+
     <!-- Message, shown in snackbar to confirm to the user that the layout type of a category was changed -->
     <string name="message_layout_type_changed">"Тип макета изменен."</string>
 
@@ -387,6 +399,12 @@
 
     <!-- Message, shown in snackbar, to confirm to the user that a category was renamed -->
     <string name="message_category_renamed">"Категория переименована."</string>
+
+    <!-- Message, shown in snackbar, to confirm to the user that a category was hidden -->
+    <string name="message_category_hidden">"Категория скрыта"</string>
+
+    <!-- Message, shown in snackbar, to confirm to the user that a category is no longer hidden and visible again -->
+    <string name="message_category_visible">"Категория больше не скрыта"</string>
 
     <!-- Message, shown in snackbar, to confirm to the user that a category was created -->
     <string name="message_category_created">"Категория создана."</string>
@@ -933,4 +951,25 @@
 
     <!-- Dialog option, for exporting a single shortcut as cURL -->
     <string name="action_export_as_curl">"cURL"</string>
+
+    <!-- Message: Success message shown when a response was saved to a file -->
+    <string name="message_response_saved_to_file">"Ответ сохранен в файл."</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options to get information about the selected files -->
+    <string name="dialog_code_snippet_files">"Выбранные файлы"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
+    <string name="dialog_code_snippet_get_file_name">"Получить имя выбранного файла"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->
+    <string name="dialog_code_snippet_get_file_type">"Получить тип выбранного файла"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the size of a selected file -->
+    <string name="dialog_code_snippet_get_file_size">"Получить размер выбранного файла (в байтах)"</string>
+
+    <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, ...) -->
+    <string name="title_about">"О программе"</string>
+
+    <!-- Title of option in settings screen: links the user to an external documentation page -->
+    <string name="settings_documentation">"Документация"</string>
 </resources>

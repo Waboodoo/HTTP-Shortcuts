@@ -1144,9 +1144,9 @@ Więcej informacji można znaleźć w dokumentacji w sekcji zmiennych."</string>
     <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
     <plurals name="warning_variable_still_in_use_in_shortcuts">
         <item quantity="one">"Ta zmienna jest nadal używana w 1 skrócie: %1$s"</item>
-        <item quantity="few">"Ta zmienna jest nadal używana w $2%d skrótach: %1$s"</item>
-        <item quantity="many">"Ta zmienna jest nadal używana w $2%d skrótach: %1$s"</item>
-        <item quantity="other">"Ta zmienna jest nadal używana w $2%d skrótach: %1$s"</item>
+        <item quantity="few">"Ta zmienna jest nadal używana w %2$d skrótach: %1$s"</item>
+        <item quantity="many">"Ta zmienna jest nadal używana w %2$d skrótach: %1$s"</item>
+        <item quantity="other">"Ta zmienna jest nadal używana w %2$d skrótach: %1$s"</item>
     </plurals>
 
     <!-- dialog title, shown when creating new variable and user is prompted to select the type of the variable -->
@@ -1360,7 +1360,7 @@ Więcej informacji można znaleźć w dokumentacji w sekcji zmiennych."</string>
     <string name="dialog_help">"Pomoc"</string>
 
     <!-- Dialog option: shown in code snippet picker, shows options to process text (e.g. encoding, hashing, ...) -->
-    <string name="dialog_code_snippet_text_processing">"Przetwarzanie tekstu (haszowanie)"</string>
+    <string name="dialog_code_snippet_text_processing">"Przetwarzanie tekstu"</string>
 
     <!-- Error message: Shown when user tries to use an unsupported hash function -->
     <string name="error_unsupported_hash_algorithm">"Nieobsługiwany algorytm skrótu \"%1$s\".  Użyj \"%2$s\"."</string>
@@ -1423,8 +1423,17 @@ Więcej informacji można znaleźć w dokumentacji w sekcji zmiennych."</string>
     <!-- Dialog button (generic): Allows to reset some setting to its original value -->
     <string name="dialog_reset">"Reset"</string>
 
+    <!-- Title of code editor for defining global scripting code (JS code that runs before every shortcut) -->
+    <string name="title_global_scripting">"Skrypt globalny"</string>
+
+    <!-- Button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
+    <string name="settings_global_scripting">"Skrypt globalny"</string>
+
     <!-- Subtitle of button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
     <string name="settings_global_scripting_summary">"Uruchom kod JavaScript przed każdym uruchomieniem skrótu"</string>
+
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the execution of every shortcut -->
+    <string name="placeholder_javascript_global_scripting">"Dodaj tutaj kod JavaScript, który będzie uruchamiany na początku każdego wykonania skrótu, np. W celu przygotowania niektórych zmiennych lub zdefiniowania niektórych funkcji, które mogą być używane w sekcji Skrypty skrótu."</string>
 
     <!-- Action label: Shown on menu button to save changes in the Global Scripting editor -->
     <string name="action_save_global_scripting">"Zapisz zmiany"</string>
@@ -1437,4 +1446,7 @@ Więcej informacji można znaleźć w dokumentacji w sekcji zmiennych."</string>
 
     <!-- Menu button, allows saving a response as a file -->
     <string name="button_save_response_as_file">"Zapisz jako plik"</string>
+
+    <!-- Label: Wifi network selection config in shortcut settings -->
+    <string name="label_ssid">"Wymagana nazwa sieci WiFi"</string>
 </resources>

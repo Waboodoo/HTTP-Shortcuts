@@ -1338,7 +1338,7 @@
     <string name="action_type_selection_title">"显示选择 （多选）"</string>
 
     <!-- Dialog option: shown in code snippet picker, shows options to process text (e.g. encoding, hashing, ...) -->
-    <string name="dialog_code_snippet_text_processing">"文本处理 （散列）"</string>
+    <string name="dialog_code_snippet_text_processing">"文本处理"</string>
 
     <!-- Error message: Shown when user tries to use an unsupported hash function -->
     <string name="error_unsupported_hash_algorithm">"不受支持的散列算法 \"%1$s\"。使用 %2$s。"</string>
@@ -1482,4 +1482,10 @@
 
     <!-- Dialog title: Shown in progress dialog while a file is being saved -->
     <string name="saving_in_progress">"正在保存…"</string>
+
+    <!-- Title: Shown above cropper/resizer tool when picking a custom icon -->
+    <string name="title_edit_custom_icon">"编辑图标"</string>
+
+    <!-- Error message: Shown in dialog when user tries to enter an invalid URL for the remote edit feature -->
+    <string name="error_invalid_remote_edit_host_url">"无效 URL。必须是 http(s)。"</string>
 </resources>
