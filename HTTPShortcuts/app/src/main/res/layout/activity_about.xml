@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.settings.SettingsActivity">
+    tools:context=".activities.settings.AboutActivity">
 
     <include layout="@layout/toolbar_layout" />
 
@@ -12,6 +12,7 @@
         android:id="@+id/settings_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="-16dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     </FrameLayout>

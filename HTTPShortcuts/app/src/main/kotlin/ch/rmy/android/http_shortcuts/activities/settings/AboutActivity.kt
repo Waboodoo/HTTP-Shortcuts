@@ -23,7 +23,7 @@ class AboutActivity : BaseActivity() {
     @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
+        setContentView(R.layout.activity_about)
         setTitle(R.string.title_about)
         supportFragmentManager
             .beginTransaction()
