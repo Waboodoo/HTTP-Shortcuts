@@ -353,7 +353,7 @@ class DisplayResponseActivity : BaseActivity() {
 
         private const val REQUEST_SAVE_FILE = 1
 
-        private const val MAX_TEXT_LENGTH = 800000
+        private const val MAX_TEXT_LENGTH = 700000
         private const val MAX_SHARE_LENGTH = 300000
 
         private const val TYPE_XML = "text/xml"
