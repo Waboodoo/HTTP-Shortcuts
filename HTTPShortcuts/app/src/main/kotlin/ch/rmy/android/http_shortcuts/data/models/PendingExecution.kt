@@ -24,6 +24,7 @@ open class PendingExecution(
 
     companion object {
 
+        const val FIELD_ID = "id"
         const val FIELD_SHORTCUT_ID = "shortcutId"
         const val FIELD_ENQUEUED_AT = "enqueuedAt"
 

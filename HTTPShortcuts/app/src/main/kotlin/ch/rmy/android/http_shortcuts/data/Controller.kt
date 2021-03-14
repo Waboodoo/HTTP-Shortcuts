@@ -28,9 +28,11 @@ class Controller : Destroyable, Closeable {
 
     fun getShortcutById(id: String) = Repository.getShortcutById(realm, id)
 
-    fun getShortcutsPendingExecution(): RealmResults<PendingExecution> = Repository.getShortcutsPendingExecution(realm)
+    fun getPendingExecutions(shortcutId: String? = null): RealmResults<PendingExecution> =
+        Repository.getPendingExecutions(realm, shortcutId)
 
-    fun getShortcutPendingExecution(shortcutId: String) = Repository.getShortcutPendingExecution(realm, shortcutId)
+    fun getPendingExecution(id: String) =
+        Repository.getPendingExecution(realm, id)
 
     fun getWidgetsByIds(widgetIds: Array<Int>) =
         Repository.getWidgetsByIds(realm, widgetIds)

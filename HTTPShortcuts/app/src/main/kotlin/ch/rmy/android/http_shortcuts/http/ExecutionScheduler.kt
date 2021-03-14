@@ -38,7 +38,7 @@ object ExecutionScheduler {
 
     private fun getNextPendingExecution(): PendingExecution? =
         Controller().use { controller ->
-            controller.getShortcutsPendingExecution()
+            controller.getPendingExecutions()
                 .minByOrNull { it.waitUntil ?: Date(0) }
                 ?.detachFromRealm()
         }
@@ -53,7 +53,7 @@ object ExecutionScheduler {
         val delay = calculateDelay(pendingExecution.waitUntil)
         val jobId = UUIDUtils.toLong(pendingExecution.shortcutId).toInt()
         val jobInfo = JobInfo.Builder(jobId, ComponentName(context, ExecutionService::class.java))
-            .setExtras(PersistableBundle().apply { putString(ExecutionService.PARAM_SHORTCUT_ID, pendingExecution.shortcutId) })
+            .setExtras(PersistableBundle().apply { putString(ExecutionService.PARAM_EXECUTION_ID, pendingExecution.id) })
             .mapIf(delay != null) {
                 it.setMinimumLatency(delay!!)
             }
@@ -79,7 +79,7 @@ object ExecutionScheduler {
         val variableValues = pendingExecution.resolvedVariables
             .associate { variable -> variable.key to variable.value }
         val recursionDepth = pendingExecution.recursionDepth
-        Commons.removePendingExecution(shortcutId)
+        Commons.removePendingExecution(pendingExecution.id)
             .doOnTerminate {
                 executeShortcut(context, shortcutId, variableValues, tryNumber, recursionDepth)
                 callback()

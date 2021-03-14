@@ -6,9 +6,8 @@ import ch.rmy.android.http_shortcuts.data.Repository
 import ch.rmy.android.http_shortcuts.data.Repository.copyShortcut
 import ch.rmy.android.http_shortcuts.data.Repository.getBase
 import ch.rmy.android.http_shortcuts.data.Repository.getCategoryByIdAsync
+import ch.rmy.android.http_shortcuts.data.Repository.getPendingExecutions
 import ch.rmy.android.http_shortcuts.data.Repository.getShortcutById
-import ch.rmy.android.http_shortcuts.data.Repository.getShortcutPendingExecution
-import ch.rmy.android.http_shortcuts.data.Repository.getShortcutsPendingExecution
 import ch.rmy.android.http_shortcuts.data.Repository.moveShortcut
 import ch.rmy.android.http_shortcuts.data.Transactions
 import ch.rmy.android.http_shortcuts.data.livedata.ListLiveData
@@ -29,7 +28,7 @@ class ShortcutListViewModel(application: Application) : MainViewModel(applicatio
             .toLiveData()
 
     fun getPendingShortcuts(): ListLiveData<PendingExecution> =
-        getShortcutsPendingExecution(persistedRealm)
+        getPendingExecutions(persistedRealm)
             .toLiveData()
 
     fun getShortcuts(): ListLiveData<Shortcut> =
@@ -43,7 +42,7 @@ class ShortcutListViewModel(application: Application) : MainViewModel(applicatio
     fun deleteShortcut(shortcutId: String) =
         Transactions.commit { realm ->
             val shortcut = getShortcutById(realm, shortcutId) ?: return@commit
-            getShortcutPendingExecution(realm, shortcutId)?.deleteFromRealm()
+            getPendingExecutions(realm, shortcutId).deleteAllFromRealm()
             shortcut.headers.deleteAllFromRealm()
             shortcut.parameters.deleteAllFromRealm()
             shortcut.deleteFromRealm()
@@ -54,7 +53,7 @@ class ShortcutListViewModel(application: Application) : MainViewModel(applicatio
 
     fun removePendingExecution(shortcutId: String) =
         Transactions.commit { realm ->
-            getShortcutPendingExecution(realm, shortcutId)?.deleteFromRealm()
+            getPendingExecutions(realm, shortcutId).deleteAllFromRealm()
         }
 
     fun duplicateShortcut(shortcutId: String, newName: String, newPosition: Int?, categoryId: String) =

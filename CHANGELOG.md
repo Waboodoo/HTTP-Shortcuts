@@ -1,6 +1,10 @@
 ## Version 2.2.0
 
+### Miscellaneous
 - Added `base64decode` and `base64encode` functions for scripting
+
+### Bugfixes
+- When triggering the same shortcut multiple times but with different variable values, the values are preserved and passed correctly.
 
 ## Version 2.1.0
 

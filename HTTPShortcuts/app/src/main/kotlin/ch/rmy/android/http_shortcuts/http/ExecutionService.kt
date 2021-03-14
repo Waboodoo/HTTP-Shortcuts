@@ -17,13 +17,13 @@ class ExecutionService : JobService() {
 
     private val destroyer = Destroyer()
 
-    val controller: Controller by lazy {
+    private val controller: Controller by lazy {
         destroyer.own(Controller())
     }
 
     override fun onStartJob(params: JobParameters): Boolean {
-        val shortcutId = params.extras.getString(PARAM_SHORTCUT_ID) ?: return false
-        val pendingExecution = controller.getShortcutPendingExecution(shortcutId) ?: return false
+        val executionId = params.extras.getString(PARAM_EXECUTION_ID) ?: return false
+        val pendingExecution = controller.getPendingExecution(executionId) ?: return false
         ExecutionScheduler.processPendingExecution(context, pendingExecution) {
             jobFinished(params, false)
         }
@@ -44,7 +44,7 @@ class ExecutionService : JobService() {
 
     companion object {
 
-        const val PARAM_SHORTCUT_ID = "shortcutId"
+        const val PARAM_EXECUTION_ID = "executionId"
 
     }
 

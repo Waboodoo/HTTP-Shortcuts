@@ -35,9 +35,9 @@ object Commons { // TODO: Find better name
         }
 
     @CheckResult
-    fun removePendingExecution(shortcutId: String) =
+    fun removePendingExecution(id: String) =
         Transactions.commit { realm ->
-            Repository.getShortcutPendingExecution(realm, shortcutId)?.deleteFromRealm()
+            Repository.getPendingExecution(realm, id)?.deleteFromRealm()
         }
 
 }

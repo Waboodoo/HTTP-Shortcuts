@@ -9,6 +9,7 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.data.models.Widget
 import ch.rmy.android.http_shortcuts.extensions.detachFromRealm
+import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import io.realm.Case
 import io.realm.Realm
@@ -79,16 +80,19 @@ object Repository {
             .equalTo(HasId.FIELD_ID, keyOrId)
             .findFirst()
 
-    internal fun getShortcutsPendingExecution(realm: Realm): RealmResults<PendingExecution> =
+    internal fun getPendingExecutions(realm: Realm, shortcutId: String? = null): RealmResults<PendingExecution> =
         realm
             .where<PendingExecution>()
+            .mapIf(shortcutId != null) {
+                it.equalTo(PendingExecution.FIELD_SHORTCUT_ID, shortcutId)
+            }
             .sort(PendingExecution.FIELD_ENQUEUED_AT)
             .findAll()
 
-    internal fun getShortcutPendingExecution(realm: Realm, shortcutId: String): PendingExecution? =
+    internal fun getPendingExecution(realm: Realm, id: String): PendingExecution? =
         realm
             .where<PendingExecution>()
-            .equalTo(PendingExecution.FIELD_SHORTCUT_ID, shortcutId)
+            .equalTo(PendingExecution.FIELD_ID, id)
             .findFirst()
 
     internal fun getAppLock(realm: Realm): AppLock? =
