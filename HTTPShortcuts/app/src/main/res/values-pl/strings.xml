@@ -1055,16 +1055,16 @@ Więcej informacji można znaleźć w dokumentacji w sekcji zmiennych."</string>
     <string name="error_shortcut_not_found_for_changing_icon">"Nie można zmienić ikony skrótu \"%1$s\" ponieważ nie istnieje."</string>
 
     <!-- Settings option for dark mode: when selected the app will always use Dark Mode -->
-    <string name="settings_dark_theme_options_on">"Zawsze ciemny"</string>
+    <string name="settings_dark_theme_options_on">"Ciemny"</string>
 
     <!-- Settings option for dark mode: when selected the app will never use Dark Mode -->
-    <string name="settings_dark_theme_options_off">"Zawsze jasny"</string>
+    <string name="settings_dark_theme_options_off">"Jasny"</string>
 
     <!-- Settings option for dark mode: when selected the app will use Dark Mode according to the system settings (i.e., automatically switch) -->
-    <string name="settings_dark_theme_options_auto">"Automatycznie"</string>
+    <string name="settings_dark_theme_options_auto">"Motyw urządzenia"</string>
 
     <!-- Title of dark mode theme settings (which allows user to pick how/when the app should use dark mode) -->
-    <string name="settings_dark_theme">"Tryb ciemny"</string>
+    <string name="settings_dark_theme">"Motyw"</string>
 
     <!-- Message: Shown as a placeholder when the HTTP response has no content that could be displayed -->
     <string name="message_blank_response">"pusta odpowiedź"</string>
@@ -1449,4 +1449,49 @@ Więcej informacji można znaleźć w dokumentacji w sekcji zmiennych."</string>
 
     <!-- Label: Wifi network selection config in shortcut settings -->
     <string name="label_ssid">"Wymagana nazwa sieci WiFi"</string>
+
+    <!-- Dialog title: Permission request for wifi/ssid check -->
+    <string name="title_permission_dialog">"Wymagane uprawnienia"</string>
+
+    <!-- Action label: Shown on wifi check dialog to open the wifi picker -->
+    <string name="action_label_select">"Wybierz"</string>
+
+    <!-- Error message, shown when user declines location permission for wifi check -->
+    <string name="error_missing_location_permission">"Nie udało się uzyskać pozwolenia na lokalizację. Anulowanie żądania."</string>
+
+    <!-- Message: Success message shown when a response was saved to a file -->
+    <string name="message_response_saved_to_file">"Odpowiedź została zapisana do pliku."</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options to get information about the selected files -->
+    <string name="dialog_code_snippet_files">"Wybrane pliki"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
+    <string name="dialog_code_snippet_get_file_name">"Uzyskaj nazwę wybranego pliku"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->
+    <string name="dialog_code_snippet_get_file_type">"Uzyskaj typ wybranego pliku"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the size of a selected file -->
+    <string name="dialog_code_snippet_get_file_size">"Pobierz rozmiar wybranego pliku (w bajtach)"</string>
+
+    <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, ...) -->
+    <string name="title_about">"O aplikacji"</string>
+
+    <!-- Title of option in settings screen: links the user to an external documentation page -->
+    <string name="settings_documentation">"Dokumentacja"</string>
+
+    <!-- Subtitle of option in settings screen: links the user to an external documentation page -->
+    <string name="settings_documentation_summary">"Często zadawane pytania, referencje, przykłady,…"</string>
+
+    <!-- Instructions shown below the "Allow Share..." checkbox in the variable editor -->
+    <string name="message_allow_share_instructions">"Włączenie tej opcji umożliwia udostępnianie tekstu z innych aplikacji i używanie tego udostępnionego tekstu jako tymczasowej wartości tej zmiennej."</string>
+
+    <!-- Dialog title: Shown in progress dialog while a file is being saved -->
+    <string name="saving_in_progress">"Zapisywanie..."</string>
+
+    <!-- Title: Shown above cropper/resizer tool when picking a custom icon -->
+    <string name="title_edit_custom_icon">"Edycja ikony"</string>
+
+    <!-- Error message: Shown in dialog when user tries to enter an invalid URL for the remote edit feature -->
+    <string name="error_invalid_remote_edit_host_url">"Nieprawidłowy URL. Musi to być http(s)."</string>
 </resources>
