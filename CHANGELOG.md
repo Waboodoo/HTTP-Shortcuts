@@ -1,3 +1,8 @@
+## Version 2.3.0
+
+### Miscellaneous
+- The "Number Slider" variable type now also supports negative numbers.
+
 ## Version 2.2.0
 
 ### Miscellaneous
