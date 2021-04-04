@@ -13,6 +13,7 @@ import ch.rmy.android.http_shortcuts.extensions.toListOfStrings
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import io.reactivex.Completable
 import org.json.JSONObject
+import java.util.Locale
 
 class SendIntentAction(private val jsonData: String) : BaseAction() {
 
@@ -23,7 +24,7 @@ class SendIntentAction(private val jsonData: String) : BaseAction() {
             val intent = constructIntent(parameters)
 
             try {
-                when (parameters.optString(KEY_TYPE).toLowerCase()) {
+                when (parameters.optString(KEY_TYPE).toLowerCase(Locale.ROOT)) {
                     TYPE_ACTIVITY -> {
                         executionContext.context.startActivity(intent)
                     }
@@ -35,7 +36,7 @@ class SendIntentAction(private val jsonData: String) : BaseAction() {
                     }
                 }
             } catch (e: Exception) {
-                if (e !is ActivityNotFoundException) {
+                if (e !is ActivityNotFoundException && e !is SecurityException) {
                     logException(e)
                 }
                 throw ActionException { context ->
@@ -143,8 +144,8 @@ class SendIntentAction(private val jsonData: String) : BaseAction() {
                                 putExtra(name, extra.optDouble(KEY_EXTRA_VALUE).toFloat())
                             }
                             EXTRA_TYPE_DOUBLE -> {
-                            putExtra(name, extra.optDouble(KEY_EXTRA_VALUE))
-                        }
+                                putExtra(name, extra.optDouble(KEY_EXTRA_VALUE))
+                            }
                             EXTRA_TYPE_INT -> {
                                 putExtra(name, extra.optInt(KEY_EXTRA_VALUE))
                             }
