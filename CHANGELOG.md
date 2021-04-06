@@ -1,5 +1,10 @@
 ## Version 2.3.0
 
+### Improved Import & Export
+When exporting shortcuts and variables, the resulting file is now a ZIP file instead of a raw JSON file. This has the advantage that custom icons are now also exported and automatically become part of the exported bundle, and of course they can be imported again as well.
+
+The Import and Export functionality was moved out of the general settings screen and into its own dedicated screen to make it easier to discover and use.
+
 ### Miscellaneous
 - The "Number Slider" variable type now also supports negative numbers.
 
