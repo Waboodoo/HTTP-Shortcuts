@@ -214,9 +214,6 @@
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: show options / context menu -->
     <string name="settings_click_behavior_menu">"Показать меню «Опции»"</string>
 
-    <!-- Title of section in settings page, section contains opens for importing and exporting shortcuts -->
-    <string name="title_import_export">"Импорт / Экспорт"</string>
-
     <!-- Section title on settings screen for privacy related settings -->
     <string name="settings_title_privacy">"Конфиденциальность"</string>
 
@@ -229,10 +226,8 @@
     <!-- Option for crash reporting opt out -->
     <string name="settings_crash_reporting_disallow">"Не отправлять отчеты о сбоях"</string>
 
-    <!-- Button in settings page to start import of shortcuts -->
-    <string name="settings_import">"Импорт ярлыков"</string>
-
     <!-- Button in settings page to start export of shortcuts -->
+    <!-- Fuzzy -->
     <string name="settings_export">"Экспорт ярлыков"</string>
 
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
@@ -625,19 +620,12 @@
     <string name="title_export">"Экспорт в…"</string>
 
     <!-- Dialog option on Export dialog, for exporting by storing in a file -->
+    <!-- Fuzzy -->
     <string name="button_export_to_general">"файлы"</string>
 
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
+    <!-- Fuzzy -->
     <string name="button_export_send_to">"Другое приложение"</string>
-
-    <!-- Dialog title, for dialog with options allowing user to pick where to import shortcuts from -->
-    <string name="title_import">"Импорт из…"</string>
-
-    <!-- Dialog option on Import dialog, for importing shortcuts from a file picked via the system's document browser -->
-    <string name="button_import_from_general">"Документы"</string>
-
-    <!-- Dialog option on Import dialog, for importing shortcuts from a URL -->
-    <string name="button_import_from_url">"URL"</string>
 
     <!-- Dialog title when creating a new shortcut, shows options below -->
     <string name="title_create_new_shortcut_options_dialog">"Создать новый ярлык"</string>
@@ -950,6 +938,7 @@
     <string name="error_invalid_character">"Неправильный символ: %s"</string>
 
     <!-- Dialog option, for exporting a single shortcut as cURL -->
+    <!-- Fuzzy -->
     <string name="action_export_as_curl">"cURL"</string>
 
     <!-- Message: Success message shown when a response was saved to a file -->

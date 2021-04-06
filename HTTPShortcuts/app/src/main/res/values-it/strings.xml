@@ -223,9 +223,6 @@
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: show options / context menu -->
     <string name="settings_click_behavior_menu">"Mostra il menù delle opzioni"</string>
 
-    <!-- Title of section in settings page, section contains opens for importing and exporting shortcuts -->
-    <string name="title_import_export">"Importa / Esporta"</string>
-
     <!-- Section title on settings screen for privacy related settings -->
     <string name="settings_title_privacy">"Privacy"</string>
 
@@ -238,10 +235,8 @@
     <!-- Option for crash reporting opt out -->
     <string name="settings_crash_reporting_disallow">"Non inviare gli arresti anomali"</string>
 
-    <!-- Button in settings page to start import of shortcuts -->
-    <string name="settings_import">"Importa scorciatoie"</string>
-
     <!-- Button in settings page to start export of shortcuts -->
+    <!-- Fuzzy -->
     <string name="settings_export">"Esporta scorciatoie"</string>
 
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
@@ -679,19 +674,12 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni."</st
     <string name="title_export">"Esporta in…"</string>
 
     <!-- Dialog option on Export dialog, for exporting by storing in a file -->
+    <!-- Fuzzy -->
     <string name="button_export_to_general">"Documenti"</string>
 
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
+    <!-- Fuzzy -->
     <string name="button_export_send_to">"Altra app"</string>
-
-    <!-- Dialog title, for dialog with options allowing user to pick where to import shortcuts from -->
-    <string name="title_import">"Importa da…"</string>
-
-    <!-- Dialog option on Import dialog, for importing shortcuts from a file picked via the system's document browser -->
-    <string name="button_import_from_general">"Documenti"</string>
-
-    <!-- Dialog option on Import dialog, for importing shortcuts from a URL -->
-    <string name="button_import_from_url">"URL"</string>
 
     <!-- Dialog title when creating a new shortcut, shows options below -->
     <string name="title_create_new_shortcut_options_dialog">"Crea una scorciatoia"</string>
@@ -1324,8 +1312,6 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
     <string name="title_export_shortcut_as">"Esporta come..."</string>
 
     <!-- Dialog option, for exporting a single shortcut as cURL -->
+    <!-- Fuzzy -->
     <string name="action_export_as_curl">"cURL"</string>
-
-    <!-- Dialog option, for exporting a single shortcut as JSON -->
-    <string name="action_export_as_json">"JSON"</string>
 </resources>

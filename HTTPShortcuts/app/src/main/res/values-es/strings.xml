@@ -211,9 +211,6 @@
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: show options / context menu -->
     <string name="settings_click_behavior_menu">"Mostrar el menú de opciones"</string>
 
-    <!-- Title of section in settings page, section contains opens for importing and exporting shortcuts -->
-    <string name="title_import_export">"Importar / Exportar"</string>
-
     <!-- Section title on settings screen for privacy related settings -->
     <string name="settings_title_privacy">"Privacidad"</string>
 
@@ -226,10 +223,8 @@
     <!-- Option for crash reporting opt out -->
     <string name="settings_crash_reporting_disallow">"No enviar ningún informe de fallos"</string>
 
-    <!-- Button in settings page to start import of shortcuts -->
-    <string name="settings_import">"Importar accesos directos"</string>
-
     <!-- Button in settings page to start export of shortcuts -->
+    <!-- Fuzzy -->
     <string name="settings_export">"Exportar accesos directos"</string>
 
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
@@ -668,19 +663,12 @@ Consulte la documentación en la sección de variables para más información."<
     <string name="title_export">"Exportar a…"</string>
 
     <!-- Dialog option on Export dialog, for exporting by storing in a file -->
+    <!-- Fuzzy -->
     <string name="button_export_to_general">"Documentos"</string>
 
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
+    <!-- Fuzzy -->
     <string name="button_export_send_to">"Otra aplicación"</string>
-
-    <!-- Dialog title, for dialog with options allowing user to pick where to import shortcuts from -->
-    <string name="title_import">"Importar desde…"</string>
-
-    <!-- Dialog option on Import dialog, for importing shortcuts from a file picked via the system's document browser -->
-    <string name="button_import_from_general">"Documentos"</string>
-
-    <!-- Dialog option on Import dialog, for importing shortcuts from a URL -->
-    <string name="button_import_from_url">"URL"</string>
 
     <!-- Dialog title when creating a new shortcut, shows options below -->
     <string name="title_create_new_shortcut_options_dialog">"Crear nuevo acceso directo"</string>

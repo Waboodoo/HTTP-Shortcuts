@@ -220,9 +220,6 @@
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: show options / context menu -->
     <string name="settings_click_behavior_menu">"Afficher le menu des options"</string>
 
-    <!-- Title of section in settings page, section contains opens for importing and exporting shortcuts -->
-    <string name="title_import_export">"Import / Export"</string>
-
     <!-- Section title on settings screen for privacy related settings -->
     <string name="settings_title_privacy">"Confidentialité"</string>
 
@@ -235,10 +232,8 @@
     <!-- Option for crash reporting opt out -->
     <string name="settings_crash_reporting_disallow">"Ne pas envoyer les rapports d'erreur"</string>
 
-    <!-- Button in settings page to start import of shortcuts -->
-    <string name="settings_import">"Importer des raccourcis"</string>
-
     <!-- Button in settings page to start export of shortcuts -->
+    <!-- Fuzzy -->
     <string name="settings_export">"Exporter les raccourcis"</string>
 
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
@@ -647,19 +642,12 @@ Voir la documentation dans la section variable pour plus d'informations."</strin
     <string name="title_export">"Exporter vers …"</string>
 
     <!-- Dialog option on Export dialog, for exporting by storing in a file -->
+    <!-- Fuzzy -->
     <string name="button_export_to_general">"Documents"</string>
 
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
+    <!-- Fuzzy -->
     <string name="button_export_send_to">"Autre application"</string>
-
-    <!-- Dialog title, for dialog with options allowing user to pick where to import shortcuts from -->
-    <string name="title_import">"Importer de …"</string>
-
-    <!-- Dialog option on Import dialog, for importing shortcuts from a file picked via the system's document browser -->
-    <string name="button_import_from_general">"Documents"</string>
-
-    <!-- Dialog option on Import dialog, for importing shortcuts from a URL -->
-    <string name="button_import_from_url">"URL"</string>
 
     <!-- Dialog title when creating a new shortcut, shows options below -->
     <string name="title_create_new_shortcut_options_dialog">"Créer un nouveau raccourci"</string>

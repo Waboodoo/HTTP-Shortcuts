@@ -237,9 +237,6 @@
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: show options / context menu -->
     <string name="settings_click_behavior_menu">"Pokaż menu opcji"</string>
 
-    <!-- Title of section in settings page, section contains opens for importing and exporting shortcuts -->
-    <string name="title_import_export">"Import / Eksport"</string>
-
     <!-- Section title on settings screen for privacy related settings -->
     <string name="settings_title_privacy">"Prywatność"</string>
 
@@ -252,10 +249,8 @@
     <!-- Option for crash reporting opt out -->
     <string name="settings_crash_reporting_disallow">"Nie wysyłaj\u0020"</string>
 
-    <!-- Button in settings page to start import of shortcuts -->
-    <string name="settings_import">"Importuj skróty"</string>
-
     <!-- Button in settings page to start export of shortcuts -->
+    <!-- Fuzzy -->
     <string name="settings_export">"Eksportuj skróty"</string>
 
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
@@ -708,19 +703,12 @@ Więcej informacji można znaleźć w dokumentacji w sekcji zmiennych."</string>
     <string name="title_export">"Eksportowanie do..."</string>
 
     <!-- Dialog option on Export dialog, for exporting by storing in a file -->
+    <!-- Fuzzy -->
     <string name="button_export_to_general">"Do pliku"</string>
 
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
+    <!-- Fuzzy -->
     <string name="button_export_send_to">"Do innej aplikacji"</string>
-
-    <!-- Dialog title, for dialog with options allowing user to pick where to import shortcuts from -->
-    <string name="title_import">"Importowanie z..."</string>
-
-    <!-- Dialog option on Import dialog, for importing shortcuts from a file picked via the system's document browser -->
-    <string name="button_import_from_general">"Z pliku"</string>
-
-    <!-- Dialog option on Import dialog, for importing shortcuts from a URL -->
-    <string name="button_import_from_url">"Z adresu URL"</string>
 
     <!-- Dialog title when creating a new shortcut, shows options below -->
     <string name="title_create_new_shortcut_options_dialog">"Utwórz nowy skrót"</string>
@@ -1338,10 +1326,8 @@ Więcej informacji można znaleźć w dokumentacji w sekcji zmiennych."</string>
     <string name="title_export_shortcut_as">"Eksportuj jako…"</string>
 
     <!-- Dialog option, for exporting a single shortcut as cURL -->
+    <!-- Fuzzy -->
     <string name="action_export_as_curl">"cURL"</string>
-
-    <!-- Dialog option, for exporting a single shortcut as JSON -->
-    <string name="action_export_as_json">"JSON"</string>
 
     <!-- Name of button in settings screen that allows to clear all HTTP cookies -->
     <string name="settings_clear_cookies">"Usuń ciasteczka"</string>

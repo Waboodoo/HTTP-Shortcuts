@@ -193,9 +193,6 @@
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: show options / context menu -->
     <string name="settings_click_behavior_menu">"Vis innstillingsmenyen"</string>
 
-    <!-- Title of section in settings page, section contains opens for importing and exporting shortcuts -->
-    <string name="title_import_export">"Importer/Eksporter"</string>
-
     <!-- Section title on settings screen for privacy related settings -->
     <string name="settings_title_privacy">"Privatliv"</string>
 
@@ -208,10 +205,8 @@
     <!-- Option for crash reporting opt out -->
     <string name="settings_crash_reporting_disallow">"Ikke send noen krasjrapporter"</string>
 
-    <!-- Button in settings page to start import of shortcuts -->
-    <string name="settings_import">"Importer snarveier"</string>
-
     <!-- Button in settings page to start export of shortcuts -->
+    <!-- Fuzzy -->
     <string name="settings_export">"Eksporter snarveier"</string>
 
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
@@ -574,13 +569,8 @@ Se dokumentasjonen i variabelseksjonen for mere informasjon."</string>
     <string name="title_export">"Eksporter til…"</string>
 
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
+    <!-- Fuzzy -->
     <string name="button_export_send_to">"En annen app"</string>
-
-    <!-- Dialog title, for dialog with options allowing user to pick where to import shortcuts from -->
-    <string name="title_import">"Importer fra…"</string>
-
-    <!-- Dialog option on Import dialog, for importing shortcuts from a file picked via the system's document browser -->
-    <string name="button_import_from_general">"Dokumenter"</string>
 
     <!-- Dialog title when creating a new shortcut, shows options below -->
     <string name="title_create_new_shortcut_options_dialog">"Lag en ny snarvei"</string>

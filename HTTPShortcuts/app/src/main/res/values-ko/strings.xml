@@ -223,9 +223,6 @@
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: show options / context menu -->
     <string name="settings_click_behavior_menu">"옵션 메뉴 표시"</string>
 
-    <!-- Title of section in settings page, section contains opens for importing and exporting shortcuts -->
-    <string name="title_import_export">"가져오기/내보내기"</string>
-
     <!-- Section title on settings screen for privacy related settings -->
     <string name="settings_title_privacy">"개인정보보호"</string>
 
@@ -238,10 +235,8 @@
     <!-- Option for crash reporting opt out -->
     <string name="settings_crash_reporting_disallow">"충돌 보고서를 보내지 않음"</string>
 
-    <!-- Button in settings page to start import of shortcuts -->
-    <string name="settings_import">"가져오기 바로가기"</string>
-
     <!-- Button in settings page to start export of shortcuts -->
+    <!-- Fuzzy -->
     <string name="settings_export">"내보내기 바로가기"</string>
 
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
@@ -254,8 +249,7 @@
 
     <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="import_failed_with_reason">"바로가기 가져오기 실패:
-
-%s"</string>
+%s"</string>
 
     <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="export_failed_with_reason">"바로가기 내보내기 실패: %s"</string>
@@ -673,19 +667,12 @@
     <string name="title_export">"다음으로 내보내기.."</string>
 
     <!-- Dialog option on Export dialog, for exporting by storing in a file -->
+    <!-- Fuzzy -->
     <string name="button_export_to_general">"서류"</string>
 
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
+    <!-- Fuzzy -->
     <string name="button_export_send_to">"다른 앱"</string>
-
-    <!-- Dialog title, for dialog with options allowing user to pick where to import shortcuts from -->
-    <string name="title_import">"다음에서 가져 오기…"</string>
-
-    <!-- Dialog option on Import dialog, for importing shortcuts from a file picked via the system's document browser -->
-    <string name="button_import_from_general">"서류"</string>
-
-    <!-- Dialog option on Import dialog, for importing shortcuts from a URL -->
-    <string name="button_import_from_url">"URL"</string>
 
     <!-- Dialog title when creating a new shortcut, shows options below -->
     <string name="title_create_new_shortcut_options_dialog">"새로운 바로가기 만들기"</string>
@@ -972,8 +959,7 @@
 
     <!-- Error message: Shown when a JS error occurs. %s is a placeholder for the more detailed error message. -->
     <string name="error_js_pattern">"JavaScript 오류:
-
-%s"</string>
+%s"</string>
 
     <!-- Button: Shown below JavaScript editor (for pre-request and post-request actions), allows to add snippets of JS code -->
     <string name="button_add_code_snippet">"코드 스니펫 추가"</string>

@@ -223,9 +223,6 @@
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: show options / context menu -->
     <string name="settings_click_behavior_menu">"弹出菜单选项"</string>
 
-    <!-- Title of section in settings page, section contains opens for importing and exporting shortcuts -->
-    <string name="title_import_export">"导入/导出"</string>
-
     <!-- Section title on settings screen for privacy related settings -->
     <string name="settings_title_privacy">"隐私"</string>
 
@@ -238,10 +235,8 @@
     <!-- Option for crash reporting opt out -->
     <string name="settings_crash_reporting_disallow">"不要发送崩溃报告"</string>
 
-    <!-- Button in settings page to start import of shortcuts -->
-    <string name="settings_import">"导入快捷方式"</string>
-
     <!-- Button in settings page to start export of shortcuts -->
+    <!-- Fuzzy -->
     <string name="settings_export">"导出快捷方式"</string>
 
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
@@ -668,19 +663,12 @@
     <string name="title_export">"导出……"</string>
 
     <!-- Dialog option on Export dialog, for exporting by storing in a file -->
+    <!-- Fuzzy -->
     <string name="button_export_to_general">"文档"</string>
 
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
+    <!-- Fuzzy -->
     <string name="button_export_send_to">"其他应用"</string>
-
-    <!-- Dialog title, for dialog with options allowing user to pick where to import shortcuts from -->
-    <string name="title_import">"导入……"</string>
-
-    <!-- Dialog option on Import dialog, for importing shortcuts from a file picked via the system's document browser -->
-    <string name="button_import_from_general">"文档"</string>
-
-    <!-- Dialog option on Import dialog, for importing shortcuts from a URL -->
-    <string name="button_import_from_url">"URL"</string>
 
     <!-- Dialog title when creating a new shortcut, shows options below -->
     <string name="title_create_new_shortcut_options_dialog">"新建快捷方式"</string>
@@ -1314,10 +1302,8 @@
     <string name="title_export_shortcut_as">"导出为 ......"</string>
 
     <!-- Dialog option, for exporting a single shortcut as cURL -->
+    <!-- Fuzzy -->
     <string name="action_export_as_curl">"cURL"</string>
-
-    <!-- Dialog option, for exporting a single shortcut as JSON -->
-    <string name="action_export_as_json">"JSON"</string>
 
     <!-- Name of button in settings screen that allows to clear all HTTP cookies -->
     <string name="settings_clear_cookies">"删除 Cookies"</string>

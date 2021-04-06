@@ -223,9 +223,6 @@
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: show options / context menu -->
     <string name="settings_click_behavior_menu">"Kontextmenü anzeigen"</string>
 
-    <!-- Title of section in settings page, section contains opens for importing and exporting shortcuts -->
-    <string name="title_import_export">"Importieren / Exportieren"</string>
-
     <!-- Section title on settings screen for privacy related settings -->
     <string name="settings_title_privacy">"Datenschutz"</string>
 
@@ -238,10 +235,8 @@
     <!-- Option for crash reporting opt out -->
     <string name="settings_crash_reporting_disallow">"Keine Absturzberichte senden"</string>
 
-    <!-- Button in settings page to start import of shortcuts -->
-    <string name="settings_import">"Shortcuts importieren"</string>
-
     <!-- Button in settings page to start export of shortcuts -->
+    <!-- Fuzzy -->
     <string name="settings_export">"Shortcuts exportieren"</string>
 
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
@@ -676,19 +671,12 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
     <string name="title_export">"Exportieren…"</string>
 
     <!-- Dialog option on Export dialog, for exporting by storing in a file -->
+    <!-- Fuzzy -->
     <string name="button_export_to_general">"…als Datei"</string>
 
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
+    <!-- Fuzzy -->
     <string name="button_export_send_to">"…zu anderer App"</string>
-
-    <!-- Dialog title, for dialog with options allowing user to pick where to import shortcuts from -->
-    <string name="title_import">"Importieren…"</string>
-
-    <!-- Dialog option on Import dialog, for importing shortcuts from a file picked via the system's document browser -->
-    <string name="button_import_from_general">"…aus Datei"</string>
-
-    <!-- Dialog option on Import dialog, for importing shortcuts from a URL -->
-    <string name="button_import_from_url">"…von URL"</string>
 
     <!-- Dialog title when creating a new shortcut, shows options below -->
     <string name="title_create_new_shortcut_options_dialog">"Neuen Shortcut erstellen"</string>
@@ -1018,7 +1006,7 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
     <string name="error_shortcut_not_found_for_renaming">"Shortcut \"%1$s\" konnte nicht umbenannt werden, da er nicht existiert."</string>
 
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
-    <string name="error_shortcut_not_found_for_changing_icon">"Shortcut \"%1$s\" konnte nicht ausgeführt werden, da er nicht existiert."</string>
+    <string name="error_shortcut_not_found_for_changing_icon">"Das Symbol des Shortcuts \"%1$s\" konnte nicht geändert werden, da er nicht existiert."</string>
 
     <!-- Settings option for dark mode: when selected the app will always use Dark Mode -->
     <string name="settings_dark_theme_options_on">"Immer dunkel"</string>
@@ -1045,7 +1033,7 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
     <string name="dialog_title_import_from_url">"Importieren von URL"</string>
 
     <!-- Error: Shown when user tries to import shortcuts from an invalid URL -->
-    <string name="error_can_only_import_from_http_url">"Kann nur von gültigen http(s) URL importieren"</string>
+    <string name="error_can_only_import_from_http_url">"Kann nur von gültiger http(s) URL importieren"</string>
 
     <!-- Action Label: Shown on Quick Settings Title that allows the user to quickly trigger a shortcut without opening the app -->
     <string name="action_quick_settings_tile_trigger">"Shortcut auslösen"</string>
@@ -1318,10 +1306,8 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <string name="title_export_shortcut_as">"Exportieren als…"</string>
 
     <!-- Dialog option, for exporting a single shortcut as cURL -->
+    <!-- Fuzzy -->
     <string name="action_export_as_curl">"cURL"</string>
-
-    <!-- Dialog option, for exporting a single shortcut as JSON -->
-    <string name="action_export_as_json">"JSON"</string>
 
     <!-- Name of button in settings screen that allows to clear all HTTP cookies -->
     <string name="settings_clear_cookies">"Cookies löschen"</string>
@@ -1492,4 +1478,34 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
 
     <!-- Error message: Shown in dialog when user tries to enter an invalid URL for the remote edit feature -->
     <string name="error_invalid_remote_edit_host_url">"Ungültige URL. Die URL muss mit http(s) beginnen."</string>
+
+    <!-- Dialog option, for exporting a single shortcut as a file -->
+    <string name="action_export_as_file">"Datei"</string>
+
+    <!-- Title of import/export page, for importing and exporting shortcuts and variables -->
+    <string name="title_import_export">"Import / Export"</string>
+
+    <!-- Section title on settings screen for options related to Scripting (i.e., custom workflow code in JavaScript) -->
+    <string name="settings_title_scripting">"Scripting"</string>
+
+    <!-- Button in settings page to start import of shortcuts from a file -->
+    <string name="settings_import_from_file">"Aus Datei importieren"</string>
+
+    <!-- Button in settings page to start import of shortcuts from a url -->
+    <string name="settings_import_from_url">"Von URL importieren"</string>
+
+    <!-- Section title on import/export screen for options related to importing -->
+    <string name="settings_title_import">"Importieren"</string>
+
+    <!-- Section title on import/export screen for options related to exporting -->
+    <string name="settings_title_export">"Exportieren"</string>
+
+    <!-- Section title on import/export screen for options related to remote editing (i.e. editing on computer) -->
+    <string name="settings_title_remote_edit">"Fernbearbeitung"</string>
+
+    <!-- Name of setting that allows the user to enable exporting using the legacy file format -->
+    <string name="settings_use_legacy_export_format">"Legacy-Format verwenden"</string>
+
+    <!-- Subtitle of setting that allows the user to enable exporting using the legacy file format -->
+    <string name="settings_use_legacy_export_format_summary">"Aktivieren um das alte Dateiformat (JSON-Datei) für den Export zu verwenden. Das alte Format unterstützt keinen Export von benutzerdefinierten Symbolen."</string>
 </resources>
