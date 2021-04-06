@@ -60,10 +60,10 @@
     <string name="action_move_to_category">Move to category…</string>
     <!-- Dialog title, for exporting a single shortcut. Dialog offers different export options (e.g. as JSON, as cURL)-->
     <string name="title_export_shortcut_as">Export as…</string>
-    <!-- Dialog option, for exporting a single shortcut as cURL -->
-    <string name="action_export_as_curl">cURL</string>
-    <!-- Dialog option, for exporting a single shortcut as JSON -->
-    <string name="action_export_as_json">JSON</string>
+    <!-- Dialog option, for exporting a single shortcut as a cURL command -->
+    <string name="action_export_as_curl">cURL command</string>
+    <!-- Dialog option, for exporting a single shortcut as a file -->
+    <string name="action_export_as_file">File</string>
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">You don\'t have any shortcuts yet.</string>
     <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
@@ -172,20 +172,24 @@
     <string name="settings_click_behavior_edit">Edit the Shortcut</string>
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: show options / context menu -->
     <string name="settings_click_behavior_menu">Show the Options Menu</string>
-    <!-- Title of section in settings page, section contains opens for importing and exporting shortcuts -->
-    <string name="settings_title_import_export">Import / Export</string>
+    <!-- Title of import/export page, for importing and exporting shortcuts and variables -->
+    <string name="title_import_export">Import / Export</string>
     <!-- Section title on settings screen for privacy related settings -->
     <string name="settings_title_privacy">Privacy</string>
+    <!-- Section title on settings screen for options related to Scripting (i.e., custom workflow code in JavaScript) -->
+    <string name="settings_title_scripting">Scripting</string>
     <!-- Setting title for crash reporting settings, as part of privacy settings (opt-in/opt-out) -->
     <string name="settings_crash_reporting">Crash Reporting</string>
     <!-- Option for crash reporting opt in -->
     <string name="settings_crash_reporting_allow">Send crash reports to help improve the app</string>
     <!-- Option for crash reporting opt out -->
     <string name="settings_crash_reporting_disallow">Don\'t send any crash reports</string>
-    <!-- Button in settings page to start import of shortcuts -->
-    <string name="settings_import">Import Shortcuts</string>
+    <!-- Button in settings page to start import of shortcuts from a file -->
+    <string name="settings_import_from_file">Import from File</string>
+    <!-- Button in settings page to start import of shortcuts from a url -->
+    <string name="settings_import_from_url">Import from URL</string>
     <!-- Button in settings page to start export of shortcuts -->
-    <string name="settings_export">Export Shortcuts</string>
+    <string name="settings_export">Export Shortcuts &amp; Variables</string>
     <!-- Button in settings page to start editing shortcuts from a connected computer -->
     <string name="settings_remote_edit">Edit on Computer</string>
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
@@ -491,15 +495,9 @@
     <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
     <string name="title_export">Export to…</string>
     <!-- Dialog option on Export dialog, for exporting by storing in a file -->
-    <string name="button_export_to_general">Documents</string>
+    <string name="button_export_to_general">Documents (Store File)</string>
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
-    <string name="button_export_send_to">Other app</string>
-    <!-- Dialog title, for dialog with options allowing user to pick where to import shortcuts from -->
-    <string name="title_import">Import from…</string>
-    <!-- Dialog option on Import dialog, for importing shortcuts from a file picked via the system's document browser -->
-    <string name="button_import_from_general">Documents</string>
-    <!-- Dialog option on Import dialog, for importing shortcuts from a URL -->
-    <string name="button_import_from_url">URL</string>
+    <string name="button_export_send_to">Other App (Share)</string>
     <!-- Dialog title when creating a new shortcut, shows options below -->
     <string name="title_create_new_shortcut_options_dialog">Create New Shortcut</string>
     <!-- Option in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
@@ -995,4 +993,14 @@
     <string name="saving_in_progress">Saving…</string>
     <!-- Error message: Shown in dialog when user tries to enter an invalid URL for the remote edit feature -->
     <string name="error_invalid_remote_edit_host_url">Invalid URL. Must be http(s).</string>
+    <!-- Section title on import/export screen for options related to importing -->
+    <string name="settings_title_import">Import</string>
+    <!-- Section title on import/export screen for options related to exporting -->
+    <string name="settings_title_export">Export</string>
+    <!-- Section title on import/export screen for options related to remote editing (i.e. editing on computer) -->
+    <string name="settings_title_remote_edit">Remote Editing</string>
+    <!-- Name of setting that allows the user to enable exporting using the legacy file format -->
+    <string name="settings_use_legacy_export_format">Use legacy file format</string>
+    <!-- Subtitle of setting that allows the user to enable exporting using the legacy file format -->
+    <string name="settings_use_legacy_export_format_summary">Enable to export shortcuts &amp; variables using the old file format (i.e., a single JSON file). This will prevent the exporting of custom shortcut icons.</string>
 </resources>

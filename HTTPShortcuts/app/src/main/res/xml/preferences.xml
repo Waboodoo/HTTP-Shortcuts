@@ -46,31 +46,12 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="Scripting">
+    <PreferenceCategory app:title="@string/settings_title_scripting">
         <Preference
             app:icon="@drawable/ic_control_flow"
             app:key="global_scripting"
             app:summary="@string/settings_global_scripting_summary"
             app:title="@string/settings_global_scripting" />
-    </PreferenceCategory>
-
-    <PreferenceCategory app:title="@string/settings_title_import_export">
-
-        <Preference
-            app:icon="@drawable/ic_import"
-            app:key="import"
-            app:title="@string/settings_import" />
-
-        <Preference
-            app:icon="@drawable/ic_export"
-            app:key="export"
-            app:title="@string/settings_export" />
-
-        <Preference
-            app:icon="@drawable/ic_remote_edit"
-            app:key="remote_edit"
-            app:title="@string/settings_remote_edit" />
-
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/settings_title_privacy" app:key="privacy">

@@ -11,7 +11,9 @@ import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.isWebUrl
 import ch.rmy.android.http_shortcuts.extensions.logInfo
+import ch.rmy.android.http_shortcuts.utils.FileUtil
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
+import ch.rmy.android.http_shortcuts.utils.NoCloseInputStream
 import ch.rmy.android.http_shortcuts.utils.RxUtils
 import com.google.gson.JsonParseException
 import com.google.gson.JsonParser
@@ -20,25 +22,65 @@ import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import io.realm.Realm
 import java.io.BufferedReader
+import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
 import java.io.InputStreamReader
 import java.net.URISyntaxException
 import java.net.URL
+import java.util.zip.ZipException
+import java.util.zip.ZipInputStream
 
 class Importer(private val context: Context) {
 
     fun importFromUri(uri: Uri, importMode: ImportMode): Single<ImportStatus> =
         RxUtils
             .single {
-                import(getStream(context, uri), importMode)
+                val cacheFile = FileUtil.createCacheFile(context, IMPORT_TEMP_FILE)
+                getStream(context, uri).use { inStream ->
+                    FileUtil.getOutputStream(context, cacheFile).use { outStream ->
+                        inStream.copyTo(outStream)
+                    }
+                }
+
+                try {
+                    context.contentResolver.openInputStream(cacheFile)!!.use { stream ->
+                        importFromZIP(stream, importMode)
+                    }
+                } catch (e: ZipException) {
+                    context.contentResolver.openInputStream(cacheFile)!!.use { stream ->
+                        importFromJSON(stream, importMode)
+                    }
+                }
             }
             .onErrorResumeNext { error ->
                 Single.error(handleError(error))
             }
             .subscribeOn(Schedulers.io())
 
-    fun import(inputStream: InputStream, importMode: ImportMode): ImportStatus {
+    private fun importFromZIP(inputStream: InputStream, importMode: ImportMode): ImportStatus {
+        var importStatus: ImportStatus? = null
+        ZipInputStream(inputStream).use { stream ->
+            while (true) {
+                val entry = stream.nextEntry ?: break
+                when {
+                    entry.name == Exporter.JSON_FILE -> {
+                        importStatus = importFromJSON(NoCloseInputStream(stream), importMode)
+                    }
+                    entry.name.endsWith(".png") -> {
+                        NoCloseInputStream(stream).copyTo(FileOutputStream(File(context.filesDir, entry.name)))
+                    }
+                    else -> {
+                        stream.closeEntry()
+                    }
+                }
+            }
+        }
+        return importStatus ?: throw ZipException("Invalid file")
+    }
+
+    fun importFromJSON(inputStream: InputStream, importMode: ImportMode): ImportStatus {
         val importData = BufferedReader(InputStreamReader(inputStream)).use { reader ->
             JsonParser.parseReader(reader)
         }
@@ -152,6 +194,10 @@ class Importer(private val context: Context) {
     enum class ImportMode {
         MERGE,
         REPLACE,
+    }
+
+    companion object {
+        private const val IMPORT_TEMP_FILE = "import"
     }
 
 }

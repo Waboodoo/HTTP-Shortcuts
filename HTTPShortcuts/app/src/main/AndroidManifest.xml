@@ -183,6 +183,15 @@
                 android:value=".activities.main.MainActivity" />
         </activity>
         <activity
+            android:name=".activities.settings.ImportExportActivity"
+            android:label="@string/title_import_export"
+            android:parentActivityName=".activities.main.MainActivity"
+            android:windowSoftInputMode="adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.main.MainActivity" />
+        </activity>
+        <activity
             android:name=".activities.ExecuteActivity"
             android:configChanges="orientation|screenSize"
             android:excludeFromRecents="true"

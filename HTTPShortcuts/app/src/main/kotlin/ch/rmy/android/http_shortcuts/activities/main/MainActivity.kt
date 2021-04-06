@@ -15,6 +15,7 @@ import ch.rmy.android.http_shortcuts.activities.categories.CategoriesActivity
 import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
 import ch.rmy.android.http_shortcuts.activities.misc.CurlImportActivity
 import ch.rmy.android.http_shortcuts.activities.settings.AboutActivity
+import ch.rmy.android.http_shortcuts.activities.settings.ImportExportActivity
 import ch.rmy.android.http_shortcuts.activities.settings.SettingsActivity
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.activities.widget.WidgetSettingsActivity
@@ -257,7 +258,9 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
                 } else if (intent.getBooleanExtra(SettingsActivity.EXTRA_APP_LOCKED, false)) {
                     showSnackbar(R.string.message_app_locked)
                 }
-                if (intent.getBooleanExtra(SettingsActivity.EXTRA_CATEGORIES_CHANGED, false)) {
+            }
+            REQUEST_IMPORT_EXPORT -> {
+                if (intent.getBooleanExtra(ImportExportActivity.EXTRA_CATEGORIES_CHANGED, false)) {
                     restartWithoutAnimation()
                 }
             }
@@ -270,7 +273,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
                 returnForHomeScreenWidgetPlacement(
                     shortcutId = WidgetSettingsActivity.getShortcutId(intent) ?: return,
                     showLabel = WidgetSettingsActivity.shouldShowLabel(intent),
-                    labelColor = WidgetSettingsActivity.getLabelColor(intent)
+                    labelColor = WidgetSettingsActivity.getLabelColor(intent),
                 )
             }
         }
@@ -360,6 +363,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_settings -> consume { openSettings() }
+        R.id.action_import_export -> consume { openImportExport() }
         R.id.action_about -> consume { openAbout() }
         R.id.action_categories -> consume { openCategoriesEditor() }
         R.id.action_variables -> consume { openVariablesEditor() }
@@ -370,6 +374,11 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
     private fun openSettings() {
         SettingsActivity.IntentBuilder(context)
             .startActivity(this, REQUEST_SETTINGS)
+    }
+
+    private fun openImportExport() {
+        ImportExportActivity.IntentBuilder(context)
+            .startActivity(this, REQUEST_IMPORT_EXPORT)
     }
 
     private fun openAbout() {
@@ -448,6 +457,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
         private const val REQUEST_SETTINGS = 3
         private const val REQUEST_CATEGORIES = 4
         private const val REQUEST_WIDGET_SETTINGS = 5
+        private const val REQUEST_IMPORT_EXPORT = 6
 
         private const val TITLE_MAX_LENGTH = 50
 

@@ -35,6 +35,7 @@ import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.import_export.CurlExporter
+import ch.rmy.android.http_shortcuts.import_export.ExportFormat
 import ch.rmy.android.http_shortcuts.import_export.ExportUI
 import ch.rmy.android.http_shortcuts.utils.GridLayoutManager
 import ch.rmy.android.http_shortcuts.utils.SelectionMode
@@ -55,7 +56,7 @@ class ListFragment : BaseFragment() {
     }
 
     private val exportUI by lazy {
-        ExportUI(requireActivity())
+        destroyer.own(ExportUI(requireActivity()))
     }
 
     private val viewModel: ShortcutListViewModel by bindViewModel()
@@ -358,12 +359,12 @@ class ListFragment : BaseFragment() {
                 .item(R.string.action_export_as_curl) {
                     showCurlExportDialog(shortcutData)
                 }
-                .item(R.string.action_export_as_json) {
-                    showJsonExportDialog(shortcutData)
+                .item(R.string.action_export_as_file) {
+                    showFileExportDialog(shortcutData)
                 }
                 .showIfPossible()
         } else {
-            showJsonExportDialog(shortcutData)
+            showFileExportDialog(shortcutData)
         }
     }
 
@@ -388,8 +389,8 @@ class ListFragment : BaseFragment() {
             .attachTo(destroyer)
     }
 
-    private fun showJsonExportDialog(shortcutData: LiveData<Shortcut?>) {
-        exportUI.showExportOptions(single = true) { intent ->
+    private fun showFileExportDialog(shortcutData: LiveData<Shortcut?>) {
+        exportUI.showExportOptions(format = ExportFormat.getPreferredFormat(requireContext()), single = true) { intent ->
             viewModel.exportedShortcutId = shortcutData.value?.id ?: return@showExportOptions
             intent.startActivity(this, REQUEST_EXPORT)
         }
@@ -443,8 +444,9 @@ class ListFragment : BaseFragment() {
 
         exportUI.startExport(
             uri,
-            shortcutId,
-            variableIds,
+            format = ExportFormat.getPreferredFormat(requireContext()),
+            shortcutId = shortcutId,
+            variableIds = variableIds,
         )
     }
 

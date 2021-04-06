@@ -224,7 +224,7 @@
     <string name="settings_click_behavior_menu">"弹出菜单选项"</string>
 
     <!-- Title of section in settings page, section contains opens for importing and exporting shortcuts -->
-    <string name="settings_title_import_export">"导入/导出"</string>
+    <string name="title_import_export">"导入/导出"</string>
 
     <!-- Section title on settings screen for privacy related settings -->
     <string name="settings_title_privacy">"隐私"</string>

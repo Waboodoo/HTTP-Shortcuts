@@ -25,35 +25,40 @@ class ExportUI(private val activity: FragmentActivity) : Destroyable {
 
     private val destroyer = Destroyer()
 
-    fun showExportOptions(single: Boolean = false, intentHandler: (Intent) -> Unit) {
+    fun showExportOptions(format: ExportFormat = ExportFormat.LEGACY_JSON, single: Boolean = false, intentHandler: (Intent) -> Unit) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             DialogBuilder(context)
                 .title(R.string.title_export)
-                .item(R.string.button_export_to_general) { openFilePickerForExport(single, intentHandler) }
-                .item(R.string.button_export_send_to) { sendExport(single) }
+                .item(R.string.button_export_to_general) { openFilePickerForExport(format, single, intentHandler) }
+                .item(R.string.button_export_send_to) { sendExport(format, single) }
                 .showIfPossible()
         } else {
-            sendExport(single)
+            sendExport(format, single)
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.KITKAT)
-    private fun openFilePickerForExport(single: Boolean, intentHandler: (Intent) -> Unit) {
+    private fun openFilePickerForExport(format: ExportFormat = ExportFormat.LEGACY_JSON, single: Boolean, intentHandler: (Intent) -> Unit) {
         Intent(Intent.ACTION_CREATE_DOCUMENT)
             .addCategory(Intent.CATEGORY_OPENABLE)
-            .setType(EXPORT_FILE_TYPE_FOR_CREATING_FILE)
-            .putExtra(Intent.EXTRA_TITLE, getExportFileName(single))
+            .setType(format.fileType)
+            .putExtra(Intent.EXTRA_TITLE, format.getFileName(single))
             .let(intentHandler)
     }
 
-    fun startExport(uri: Uri, shortcutId: String? = null, variableIds: Collection<String>? = null) {
+    fun startExport(
+        uri: Uri,
+        format: ExportFormat = ExportFormat.ZIP,
+        shortcutId: String? = null,
+        variableIds: Collection<String>? = null,
+    ) {
         // TODO: Replace progress dialog with something better
         val progressDialog = ProgressDialog(activity).apply {
             setMessage(context.getString(R.string.export_in_progress))
             setCanceledOnTouchOutside(false)
         }
         Exporter(context.applicationContext)
-            .exportToUri(uri, shortcutId, variableIds, excludeDefaults = true)
+            .exportToUri(uri, format, shortcutId, variableIds, excludeDefaults = true)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
                 progressDialog.show()
@@ -74,8 +79,8 @@ class ExportUI(private val activity: FragmentActivity) : Destroyable {
             .attachTo(destroyer)
     }
 
-    private fun sendExport(single: Boolean = false) {
-        val cacheFile = FileUtil.createCacheFile(context, getExportFileName(single))
+    private fun sendExport(format: ExportFormat = ExportFormat.LEGACY_JSON, single: Boolean = false) {
+        val cacheFile = FileUtil.createCacheFile(context, format.getFileName(single))
 
         // TODO: Replace progress dialog with something better
         val progressDialog = ProgressDialog(activity).apply {
@@ -94,7 +99,7 @@ class ExportUI(private val activity: FragmentActivity) : Destroyable {
             .subscribe(
                 {
                     Intent(Intent.ACTION_SEND)
-                        .setType(EXPORT_FILE_TYPE_FOR_SHARING)
+                        .setType(format.fileTypeForSharing)
                         .putExtra(Intent.EXTRA_STREAM, cacheFile)
                         .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                         .let {
@@ -113,18 +118,4 @@ class ExportUI(private val activity: FragmentActivity) : Destroyable {
     override fun destroy() {
         destroyer.destroy()
     }
-
-    companion object {
-        private const val EXPORT_FILE_TYPE_FOR_SHARING = "text/plain"
-        private const val EXPORT_FILE_TYPE_FOR_CREATING_FILE = "application/json"
-        private const val EXPORT_SINGLE_FILE_NAME = "shortcut.json"
-        private const val EXPORT_MULTIPLE_FILE_NAME = "shortcuts.json"
-
-        private fun getExportFileName(single: Boolean) = if (single) {
-            EXPORT_SINGLE_FILE_NAME
-        } else {
-            EXPORT_MULTIPLE_FILE_NAME
-        }
-    }
-
 }

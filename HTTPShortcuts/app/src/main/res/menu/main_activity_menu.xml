@@ -12,6 +12,11 @@
         android:title="@string/title_variables"
         app:showAsAction="never"/>
     <item
+        android:id="@+id/action_import_export"
+        android:icon="@drawable/ic_import"
+        android:title="@string/title_import_export"
+        app:showAsAction="never"/>
+    <item
         android:id="@+id/action_settings"
         android:icon="@drawable/ic_settings"
         android:title="@string/title_settings"

@@ -225,7 +225,7 @@
     <string name="settings_click_behavior_menu">"Seçenekler menüsünü göster"</string>
 
     <!-- Title of section in settings page, section contains opens for importing and exporting shortcuts -->
-    <string name="settings_title_import_export">"İçe Aktar / Dışa Aktar"</string>
+    <string name="title_import_export">"İçe Aktar / Dışa Aktar"</string>
 
     <!-- Section title on settings screen for privacy related settings -->
     <string name="settings_title_privacy">"Gizlilik"</string>

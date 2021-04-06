@@ -61,7 +61,7 @@ class RemoteEditManager(
                     .build()
             )
                 .byteStream().use { inputStream ->
-                    importer.import(inputStream, importMode = Importer.ImportMode.REPLACE)
+                    importer.importFromJSON(inputStream, importMode = Importer.ImportMode.REPLACE)
                 }
         }
             .subscribeOn(Schedulers.io())

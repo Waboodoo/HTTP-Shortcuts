@@ -146,5 +146,4 @@ object IconUtil {
     }
 
     private var iconSizeCached: Int? = null
-
 }

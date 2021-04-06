@@ -224,7 +224,7 @@
     <string name="settings_click_behavior_menu">"옵션 메뉴 표시"</string>
 
     <!-- Title of section in settings page, section contains opens for importing and exporting shortcuts -->
-    <string name="settings_title_import_export">"가져오기/내보내기"</string>
+    <string name="title_import_export">"가져오기/내보내기"</string>
 
     <!-- Section title on settings screen for privacy related settings -->
     <string name="settings_title_privacy">"개인정보보호"</string>
@@ -254,7 +254,8 @@
 
     <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="import_failed_with_reason">"바로가기 가져오기 실패:
-%s"</string>
+
+%s"</string>
 
     <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="export_failed_with_reason">"바로가기 내보내기 실패: %s"</string>
@@ -971,7 +972,8 @@
 
     <!-- Error message: Shown when a JS error occurs. %s is a placeholder for the more detailed error message. -->
     <string name="error_js_pattern">"JavaScript 오류:
-%s"</string>
+
+%s"</string>
 
     <!-- Button: Shown below JavaScript editor (for pre-request and post-request actions), allows to add snippets of JS code -->
     <string name="button_add_code_snippet">"코드 스니펫 추가"</string>

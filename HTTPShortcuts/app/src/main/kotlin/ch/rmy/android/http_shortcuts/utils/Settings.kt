@@ -59,6 +59,9 @@ class Settings(context: Context) {
         get() = preferences.getBoolean(KEY_FORCE_FOREGROUND, false)
         set(value) = putBoolean(KEY_FORCE_FOREGROUND, value)
 
+    val useLegacyExportFormat: Boolean
+        get() = preferences.getBoolean(KEY_LEGACY_EXPORT_FORMAT, false)
+
     var remoteEditServerUrl: String?
         get() = preferences.getString(KEY_REMOTE_EDIT_SERVER, null)?.takeUnlessEmpty()
         set(value) = putString(KEY_REMOTE_EDIT_SERVER, value ?: "")
@@ -117,6 +120,7 @@ class Settings(context: Context) {
         private const val KEY_THEME = "theme"
         private const val KEY_DARK_THEME = "dark_theme"
         private const val KEY_FORCE_FOREGROUND = "force_foreground"
+        private const val KEY_LEGACY_EXPORT_FORMAT = "use_legacy_export_format"
 
     }
 

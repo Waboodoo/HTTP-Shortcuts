@@ -21,10 +21,11 @@ object FileUtil {
     fun createCacheFile(context: Context, file: String): Uri =
         getUriFromFile(context, File(context.cacheDir, file))
 
+    fun getOutputStream(context: Context, uri: Uri) =
+        context.contentResolver.openOutputStream(uri, "w")!!
+
     fun getWriter(context: Context, uri: Uri) =
-        BufferedWriter(
-            OutputStreamWriter(context.contentResolver.openOutputStream(uri, "w")!!)
-        )
+        BufferedWriter(OutputStreamWriter(getOutputStream(context, uri)))
 
     fun getUriFromFile(context: Context, file: File): Uri =
         FileProvider.getUriForFile(

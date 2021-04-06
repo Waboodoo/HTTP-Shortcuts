@@ -20,30 +20,57 @@ import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.RxUtils
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
+import java.io.File
+import java.io.FileInputStream
+import java.util.zip.ZipEntry
+import java.util.zip.ZipOutputStream
 
 class Exporter(private val context: Context) {
 
     fun exportToUri(
         uri: Uri,
+        format: ExportFormat = ExportFormat.ZIP,
         shortcutId: String? = null,
         variableIds: Collection<String>? = null,
         excludeDefaults: Boolean = false,
     ): Single<ExportStatus> =
         RxUtils
             .single {
-                FileUtil.getWriter(context, uri).use {
-                    export(it, shortcutId, variableIds, excludeDefaults)
+                val base = getDetachedBase(shortcutId, variableIds)
+
+                when (format) {
+                    ExportFormat.ZIP -> {
+                        ZipOutputStream(FileUtil.getOutputStream(context, uri)).use { out ->
+
+                            out.putNextEntry(ZipEntry(JSON_FILE))
+                            val writer = out.bufferedWriter()
+                            val result = export(writer, base, excludeDefaults)
+                            writer.flush()
+                            out.closeEntry()
+
+                            getShortcutIconFiles(context, base).forEach { file ->
+                                out.putNextEntry(ZipEntry(file.name))
+                                FileInputStream(file).copyTo(out)
+                                writer.flush()
+                                out.closeEntry()
+                            }
+                            result
+                        }
+                    }
+                    ExportFormat.LEGACY_JSON -> {
+                        FileUtil.getWriter(context, uri).use { writer ->
+                            export(writer, base, excludeDefaults)
+                        }
+                    }
                 }
             }
             .subscribeOn(Schedulers.io())
 
     private fun export(
         writer: Appendable,
-        shortcutId: String? = null,
-        variableIds: Collection<String>? = null,
+        base: Base,
         excludeDefaults: Boolean = false,
     ): ExportStatus {
-        val base = getDetachedBase(shortcutId, variableIds)
         exportData(base, writer, excludeDefaults)
         return ExportStatus(exportedShortcuts = base.shortcuts.size)
     }
@@ -95,6 +122,16 @@ class Exporter(private val context: Context) {
         }
     }
 
+    private fun getShortcutIconFiles(context: Context, base: Base): List<File> =
+        base.shortcuts.mapNotNull { it.iconName }
+            .filter { it.endsWith(".png") }
+            .map { File(context.filesDir, it) }
+            .filter { it.isFile }
+
     data class ExportStatus(val exportedShortcuts: Int)
+
+    companion object {
+        const val JSON_FILE = "shortcuts.json"
+    }
 
 }
