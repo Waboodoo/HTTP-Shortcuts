@@ -11,12 +11,10 @@ import androidx.core.widget.ImageViewCompat
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.extensions.isDarkThemeEnabled
 import ch.rmy.android.http_shortcuts.utils.Animations
-import ch.rmy.android.http_shortcuts.utils.IconUtil
 
 class IconView : AppCompatImageView {
 
-    var iconName: String? = null
-        private set
+    private var icon: ShortcutIcon? = null
 
     constructor(context: Context) : super(context)
 
@@ -24,20 +22,21 @@ class IconView : AppCompatImageView {
 
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
-    fun setIcon(iconName: String?, animated: Boolean = false) {
-        setImageURI(IconUtil.getIconURI(context, iconName), iconName, animated)
+    fun setIcon(icon: ShortcutIcon, animated: Boolean = false) {
+        applyIcon(icon, animated)
     }
 
-    private fun setImageURI(uri: Uri, iconName: String?, animated: Boolean = false) {
-        if (this.iconName != null && this.iconName == iconName) {
+    private fun applyIcon(icon: ShortcutIcon, animated: Boolean = false) {
+        if (icon == this.icon) {
             return
         }
-        val tint = IconUtil.getIconTint(iconName)
-        if (this.iconName == null || !animated) {
-            this.iconName = iconName
+        val uri = icon.getIconURI(context)
+        val tint = (icon as? ShortcutIcon.BuiltInIcon)?.tint
+        if (this.icon == null || !animated) {
+            this.icon = icon
             applyImageURI(uri, tint)
         } else {
-            this.iconName = iconName
+            this.icon = icon
             Animations.zoomSwap(this) {
                 applyImageURI(uri, tint)
             }
@@ -77,7 +76,7 @@ class IconView : AppCompatImageView {
         val fullUri = uri?.toString()
         if (fullUri?.startsWith(internalIconPrefix) == true) {
             val iconName = fullUri.removePrefix(internalIconPrefix)
-            val drawableId = IconUtil.getDrawableIdentifier(context, iconName)
+            val drawableId = ShortcutIcon.BuiltInIcon(iconName).getDrawableIdentifier(context)
             setImageResource(drawableId)
         } else {
             super.setImageURI(uri)

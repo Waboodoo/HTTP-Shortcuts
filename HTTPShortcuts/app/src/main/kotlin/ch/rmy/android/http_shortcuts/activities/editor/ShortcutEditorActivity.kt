@@ -103,8 +103,8 @@ class ShortcutEditorActivity : BaseActivity() {
     }
 
     private val iconPicker by lazy {
-        IconPicker(this) { iconName ->
-            viewModel.setIconName(iconName)
+        IconPicker(this) { icon ->
+            viewModel.setIcon(icon)
         }
     }
 
@@ -151,7 +151,7 @@ class ShortcutEditorActivity : BaseActivity() {
 
     private fun updateShortcutViews() {
         val shortcut = shortcutData.value ?: return
-        iconView.setIcon(shortcut.iconName, animated = true)
+        iconView.setIcon(shortcut.icon, animated = true)
         nameView.setTextSafely(shortcut.name)
         descriptionView.setTextSafely(shortcut.description)
 
@@ -316,20 +316,22 @@ class ShortcutEditorActivity : BaseActivity() {
             logInfo("Saving already in progress")
             return
         }
-        viewModel.isSaving = true
         updateViewModelFromViews()
             .andThen(viewModel.trySave())
             .observeOn(mainThread())
             .subscribe({ saveResult ->
-                logInfo("Saving shortcut successful")
-                if (saveResult.name != null) {
-                    LauncherShortcutManager.updatePinnedShortcut(context, saveResult.id, saveResult.name, saveResult.iconName)
+                try {
+                    logInfo("Saving shortcut successful")
+                    if (saveResult.name != null && saveResult.icon != null) {
+                        LauncherShortcutManager.updatePinnedShortcut(context, saveResult.id, saveResult.name, saveResult.icon)
+                    }
+                    WidgetManager.updateWidgets(context, saveResult.id)
+                    setResult(RESULT_OK, Intent().putExtra(RESULT_SHORTCUT_ID, saveResult.id))
+                    finish()
+                } catch (e: Exception) {
+                    handleUnknownError(e)
                 }
-                WidgetManager.updateWidgets(context, saveResult.id)
-                setResult(RESULT_OK, Intent().putExtra(RESULT_SHORTCUT_ID, saveResult.id))
-                finish()
             }, { e ->
-                viewModel.isSaving = false
                 logInfo("Saving shortcut failed: ${e.message}")
                 if (e is ShortcutValidationError) {
                     when (e.type) {

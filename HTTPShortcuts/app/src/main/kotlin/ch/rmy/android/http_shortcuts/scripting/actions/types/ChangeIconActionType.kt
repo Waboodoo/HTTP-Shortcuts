@@ -9,7 +9,7 @@ class ChangeIconActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = ChangeIconAction(
-        icon = actionDTO[KEY_ICON] ?: "",
+        iconName = actionDTO[KEY_ICON] ?: "",
         shortcutNameOrId = actionDTO[KEY_SHORTCUT_NAME_OR_ID]?.takeUnlessEmpty(),
     )
 

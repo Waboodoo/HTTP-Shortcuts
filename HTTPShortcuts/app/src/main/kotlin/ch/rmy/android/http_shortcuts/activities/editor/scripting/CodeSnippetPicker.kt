@@ -14,6 +14,7 @@ import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
+import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.plugin.TaskerIntent
 import ch.rmy.android.http_shortcuts.scripting.actions.types.TriggerTaskerTaskActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.TriggerTaskerTaskActionType.Companion.REQUEST_CODE_SELECT_TASK
@@ -298,7 +299,7 @@ class CodeSnippetPicker(
             }
             .mapFor(shortcutPlaceholderProvider.placeholders) { builder, shortcut ->
                 builder.mapIf(shortcut.id != currentShortcutId) {
-                    it.item(name = shortcut.name, iconName = shortcut.iconName) {
+                    it.item(name = shortcut.name, shortcutIcon = shortcut.icon) {
                         callback("/*[shortcut]*/\"${shortcut.id}\"/*[/shortcut]*/")
                     }
                 }
@@ -315,8 +316,8 @@ class CodeSnippetPicker(
         }
     }
 
-    fun insertChangeIconSnippet(shortcutPlaceholder: String, insertText: (String, String) -> Unit, iconName: String) {
-        insertText("changeIcon($shortcutPlaceholder, \"$iconName\");\n", "")
+    fun insertChangeIconSnippet(shortcutPlaceholder: String, insertText: (String, String) -> Unit, icon: ShortcutIcon) {
+        insertText("changeIcon($shortcutPlaceholder, \"$icon\");\n", "")
     }
 
     companion object {

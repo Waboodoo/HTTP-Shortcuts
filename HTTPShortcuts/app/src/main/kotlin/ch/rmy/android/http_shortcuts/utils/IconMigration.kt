@@ -19,7 +19,7 @@ object IconMigration {
                 RealmFactory.withRealm { realm ->
                     Repository.getShortcuts(realm)
                         .forEach { shortcut ->
-                            IconUtil.getIconURI(context, shortcut.iconName, external = true)
+                            shortcut.icon.getIconURI(context, external = true)
                         }
                 }
             }

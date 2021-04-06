@@ -97,7 +97,7 @@ class TriggerShortcutsActivity : BaseActivity() {
         DialogBuilder(context)
             .title(R.string.title_add_trigger_shortcut)
             .mapFor(placeholders) { builder, shortcut ->
-                builder.item(name = shortcut.name, iconName = shortcut.iconName) {
+                builder.item(name = shortcut.name, shortcutIcon = shortcut.icon) {
                     addShortcut(shortcut.id)
                 }
             }

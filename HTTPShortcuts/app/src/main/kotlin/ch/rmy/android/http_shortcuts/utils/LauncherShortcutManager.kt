@@ -11,6 +11,7 @@ import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.mapIf
+import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
 object LauncherShortcutManager {
 
@@ -57,8 +58,8 @@ object LauncherShortcutManager {
                         context = context,
                         shortcutId = shortcut.id,
                         shortcutName = shortcut.name,
-                        shortcutIcon = shortcut.iconName,
-                        rank = rank
+                        shortcutIcon = shortcut.icon,
+                        rank = rank,
                     ))
                     if (++count >= max) {
                         return launcherShortcuts
@@ -69,15 +70,16 @@ object LauncherShortcutManager {
         return launcherShortcuts
     }
 
+    @RequiresApi(Build.VERSION_CODES.N_MR1)
     private fun createShortcutInfo(context: Context, shortcut: Shortcut) =
-        createShortcutInfo(context, shortcut.id, shortcut.name, shortcut.iconName)
+        createShortcutInfo(context, shortcut.id, shortcut.name, shortcut.icon)
 
     @RequiresApi(Build.VERSION_CODES.N_MR1)
     private fun createShortcutInfo(
         context: Context,
         shortcutId: String,
         shortcutName: String,
-        shortcutIcon: String?,
+        shortcutIcon: ShortcutIcon,
         rank: Int = 0,
     ): ShortcutInfo {
         val icon = IconUtil.getIcon(context, shortcutIcon)
@@ -123,7 +125,7 @@ object LauncherShortcutManager {
         throw RuntimeException()
     }
 
-    fun updatePinnedShortcut(context: Context, shortcutId: String, shortcutName: String, shortcutIcon: String?) {
+    fun updatePinnedShortcut(context: Context, shortcutId: String, shortcutName: String, shortcutIcon: ShortcutIcon) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val shortcutManager = context.getSystemService(ShortcutManager::class.java)!!
             val shortcutInfo = createShortcutInfo(context, shortcutId, shortcutName, shortcutIcon)

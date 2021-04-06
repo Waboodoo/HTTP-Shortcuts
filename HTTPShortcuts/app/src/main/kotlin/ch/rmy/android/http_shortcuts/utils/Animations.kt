@@ -8,6 +8,7 @@ import ch.rmy.android.http_shortcuts.R
 object Animations {
 
     fun zoomSwap(view: View, action: () -> Unit) {
+        view.animation?.cancel()
         val zoomOut = AnimationUtils.loadAnimation(view.context, R.anim.zoom_out)
         zoomOut.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationEnd(animation: Animation?) {

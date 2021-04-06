@@ -43,7 +43,7 @@ class RenameShortcutAction(private val name: String, private val shortcutNameOrI
                         context = context,
                         shortcutId = shortcut.id,
                         shortcutName = newName,
-                        shortcutIcon = shortcut.iconName,
+                        shortcutIcon = shortcut.icon,
                     )
                 }
                 WidgetManager.updateWidgets(context, shortcut.id)

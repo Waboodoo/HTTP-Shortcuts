@@ -59,12 +59,12 @@ class ScriptingActivity : BaseActivity() {
         ShortcutPlaceholderProvider(shortcutsData)
     }
     private val iconPicker: IconPicker by lazy {
-        IconPicker(this) { iconName ->
+        IconPicker(this) { icon ->
             Completable.fromAction {
                 codeSnippetPicker.insertChangeIconSnippet(
                     viewModel.iconPickerShortcutPlaceholder ?: return@fromAction,
                     getCodeInsertion(lastActiveCodeInput ?: return@fromAction),
-                    iconName,
+                    icon,
                 )
             }
         }

@@ -22,6 +22,7 @@ import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.icons.IconView
+import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.input.input
@@ -47,14 +48,14 @@ open class DialogBuilder(val context: Context) {
         name: CharSequence? = null,
         @StringRes descriptionRes: Int? = null,
         description: CharSequence? = null,
-        iconName: String? = null,
+        shortcutIcon: ShortcutIcon? = null,
         @DrawableRes iconRes: Int? = null,
         action: () -> Unit = {},
     ) = also {
         items.add(MenuItem.ClickableItem(
             name ?: context.getString(nameRes!!),
             description ?: (descriptionRes?.let { context.getString(it) }),
-            iconName,
+            shortcutIcon,
             iconRes,
             action
         ))
@@ -166,7 +167,7 @@ open class DialogBuilder(val context: Context) {
         class ClickableItem(
             val name: CharSequence,
             val description: CharSequence?,
-            val iconName: String?,
+            val shortcutIcon: ShortcutIcon?,
             val iconRes: Int?,
             val action: (() -> Unit)?,
         ) : MenuItem()
@@ -209,8 +210,8 @@ open class DialogBuilder(val context: Context) {
             descriptionView.visible = item.description != null
             descriptionView.text = item.description
             when {
-                item.iconName != null -> {
-                    shortcutIconView.setIcon(item.iconName)
+                item.shortcutIcon != null -> {
+                    shortcutIconView.setIcon(item.shortcutIcon)
                     shortcutIconView.visible = true
                     regularIconView.visible = false
                     iconContainer.visible = true

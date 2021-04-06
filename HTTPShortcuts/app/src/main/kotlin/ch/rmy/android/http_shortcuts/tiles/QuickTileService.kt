@@ -2,8 +2,10 @@ package ch.rmy.android.http_shortcuts.tiles
 
 import android.app.Dialog
 import android.content.Intent
+import android.os.Build
 import android.service.quicksettings.TileService
 import android.view.WindowManager
+import androidx.annotation.RequiresApi
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.data.RealmFactory
@@ -16,6 +18,7 @@ import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.utils.ThemeHelper
 
+@RequiresApi(Build.VERSION_CODES.N)
 class QuickTileService : TileService() {
 
     override fun onClick() {
@@ -58,7 +61,7 @@ class QuickTileService : TileService() {
         applyTheme()
         val dialog = DialogBuilder(context)
             .mapFor(shortcuts) { builder, shortcut ->
-                builder.item(name = shortcut.name, iconName = shortcut.iconName) {
+                builder.item(name = shortcut.name, shortcutIcon = shortcut.icon) {
                     executeShortcut(shortcut.id)
                 }
             }

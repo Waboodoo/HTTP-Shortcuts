@@ -15,6 +15,7 @@ import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.icons.IconView
+import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.views.PanelButton
 import kotterknife.bindView
@@ -30,8 +31,8 @@ class WidgetSettingsActivity : BaseActivity() {
     private val shortcutName: String by lazy {
         intent.getStringExtra(EXTRA_SHORTCUT_NAME)!!
     }
-    private val shortcutIcon: String by lazy {
-        intent.getStringExtra(EXTRA_SHORTCUT_ICON)!!
+    private val shortcutIcon: ShortcutIcon by lazy {
+        ShortcutIcon.fromName(intent.getStringExtra(EXTRA_SHORTCUT_ICON)!!)
     }
 
     private val iconView: IconView by bindView(R.id.widget_icon)
@@ -115,7 +116,7 @@ class WidgetSettingsActivity : BaseActivity() {
         fun shortcut(shortcut: Shortcut) = also {
             intent.putExtra(EXTRA_SHORTCUT_ID, shortcut.id)
             intent.putExtra(EXTRA_SHORTCUT_NAME, shortcut.name)
-            intent.putExtra(EXTRA_SHORTCUT_ICON, shortcut.iconName)
+            intent.putExtra(EXTRA_SHORTCUT_ICON, shortcut.icon.toString())
         }
 
     }

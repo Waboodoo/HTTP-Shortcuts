@@ -6,8 +6,8 @@ import ch.rmy.android.http_shortcuts.R
 
 object Icons {
 
-    fun getRandomInitialIcon(context: Context): String =
-        context.resources.getResourceEntryName(INITIAL_ICONS.random())
+    fun getRandomInitialIcon(context: Context) =
+        ShortcutIcon.BuiltInIcon.fromDrawableResource(context, INITIAL_ICONS.random())
 
     private val INITIAL_ICONS = intArrayOf(
         R.drawable.flat_color_play,

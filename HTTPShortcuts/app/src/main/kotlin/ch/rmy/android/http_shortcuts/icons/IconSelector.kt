@@ -13,7 +13,7 @@ import io.reactivex.subjects.MaybeSubject
 class IconSelector(context: Context) {
 
     private val dialog: Dialog
-    private val source = MaybeSubject.create<String>()
+    private val source = MaybeSubject.create<ShortcutIcon.BuiltInIcon>()
 
     init {
         dialog = DialogBuilder(context)
@@ -25,7 +25,7 @@ class IconSelector(context: Context) {
             .build()
     }
 
-    fun show(): Maybe<String> {
+    fun show(): Maybe<ShortcutIcon.BuiltInIcon> {
         dialog.showIfPossible()
             ?.let {
                 val grid = dialog.findViewById(R.id.icon_selector_grid) as RecyclerView

@@ -23,7 +23,7 @@ import java.io.File
 
 class IconPicker(
     private val activity: BaseActivity,
-    private val iconSelected: (String) -> Completable,
+    private val iconSelected: (ShortcutIcon) -> Completable,
 ) {
 
     private val context: Context
@@ -44,8 +44,8 @@ class IconPicker(
     private fun openBuiltInIconSelectionDialog() {
         IconSelector(context)
             .show()
-            .flatMapCompletable { iconName ->
-                iconSelected(iconName)
+            .flatMapCompletable { icon ->
+                iconSelected(icon)
             }
             .subscribe()
             .attachTo(destroyer)
@@ -80,7 +80,7 @@ class IconPicker(
             REQUEST_CROP_IMAGE -> {
                 try {
                     if (resultCode == RESULT_OK && intent != null) {
-                        updateIconName(UCrop.getOutput(intent)!!.lastPathSegment!!)
+                        updateIcon(ShortcutIcon.CustomIcon(UCrop.getOutput(intent)!!.lastPathSegment!!))
                     } else if (resultCode == UCrop.RESULT_ERROR) {
                         activity.showSnackbar(R.string.error_set_image, long = true)
                     }
@@ -91,7 +91,7 @@ class IconPicker(
             }
             REQUEST_SELECT_IPACK_ICON -> {
                 if (resultCode == RESULT_OK && intent != null) {
-                    updateIconName(IpackUtil.getIpackUri(intent).toString())
+                    updateIcon(ShortcutIcon.ExternalResourceIcon(IpackUtil.getIpackUri(intent)))
                 }
             }
         }
@@ -102,8 +102,8 @@ class IconPicker(
         return Uri.fromFile(File(context.filesDir, fileName))
     }
 
-    private fun updateIconName(iconName: String) {
-        iconSelected(iconName)
+    private fun updateIcon(icon: ShortcutIcon) {
+        iconSelected(icon)
             .subscribe()
             .attachTo(destroyer)
     }

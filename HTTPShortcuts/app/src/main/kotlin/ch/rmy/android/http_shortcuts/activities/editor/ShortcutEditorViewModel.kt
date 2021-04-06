@@ -16,6 +16,7 @@ import ch.rmy.android.http_shortcuts.extensions.getString
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.icons.Icons
+import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.TriggerShortcutManager
 import ch.rmy.android.http_shortcuts.utils.RxUtils
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
@@ -35,7 +36,7 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
 
     private var categoryId: String? = null
     private var shortcutId: String? = null
-    private var initialIcon: String? = null
+    private var initialIcon: ShortcutIcon = ShortcutIcon.NoIcon
     private var executionType: String? = null
 
     fun init(categoryId: String?, shortcutId: String?, curlCommand: CurlCommand?, executionType: String): Completable {
@@ -66,7 +67,7 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
     private fun createNewShortcut(): Shortcut =
         Shortcut(
             id = TEMPORARY_ID,
-            iconName = initialIcon,
+            icon = initialIcon,
             executionType = executionType,
             responseHandling = if (executionType == ShortcutExecutionType.APP.type) {
                 ResponseHandling()
@@ -91,22 +92,22 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
             }
         }
 
-    fun setIconName(iconName: String?): Completable =
+    fun setIcon(icon: ShortcutIcon): Completable =
         Transactions.commit { realm ->
             getShortcut(realm)?.apply {
-                this.iconName = iconName
+                this.icon = icon
             }
         }
 
     fun trySave(): Single<SaveResult> {
         val id = shortcutId ?: newUUID()
         var name: String? = null
-        var iconName: String? = null
+        var icon: ShortcutIcon? = null
         return Transactions
             .commit { realm ->
                 val shortcut = Repository.getShortcutById(realm, TEMPORARY_ID) ?: return@commit
                 name = shortcut.name
-                iconName = shortcut.iconName
+                icon = shortcut.icon
                 validateShortcut(shortcut)
 
                 val newShortcut = Repository.copyShortcut(realm, shortcut, id)
@@ -122,9 +123,15 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
                 SaveResult(
                     id = id,
                     name = name,
-                    iconName = iconName
+                    icon = icon,
                 )
             })
+            .doOnSubscribe {
+                isSaving = true
+            }
+            .doOnEvent { _, _ ->
+                isSaving = false
+            }
     }
 
     private fun validateShortcut(shortcut: Shortcut) {
@@ -218,7 +225,7 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
         )
     }
 
-    data class SaveResult(val id: String, val name: String?, val iconName: String?)
+    data class SaveResult(val id: String, val name: String?, val icon: ShortcutIcon?)
 
     companion object {
 

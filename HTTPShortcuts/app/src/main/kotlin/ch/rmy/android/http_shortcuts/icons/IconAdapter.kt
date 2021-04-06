@@ -3,30 +3,24 @@ package ch.rmy.android.http_shortcuts.icons
 import android.content.Context
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import ch.rmy.android.http_shortcuts.extensions.mapFor
-import ch.rmy.android.http_shortcuts.extensions.replacePrefix
-import ch.rmy.android.http_shortcuts.utils.IconUtil
 
-class IconAdapter(private val context: Context, private val listener: (String) -> Unit) : RecyclerView.Adapter<IconViewHolder>() {
+class IconAdapter(private val context: Context, private val listener: (ShortcutIcon.BuiltInIcon) -> Unit) : RecyclerView.Adapter<IconViewHolder>() {
 
-    private val normalIconNames: List<String>
-        get() = Icons.ICONS
+    private val normalIcons: List<ShortcutIcon.BuiltInIcon> =
+        Icons.ICONS
             .map {
-                IconUtil.getIconName(context, it)
+                ShortcutIcon.BuiltInIcon.fromDrawableResource(context, it)
             }
 
-    private val tintableIconNames: List<String>
-        get() = Icons.TINTABLE_ICONS
-            .map {
-                IconUtil.getIconName(context, it)
+    private val tintedIcons: List<ShortcutIcon.BuiltInIcon> =
+        Icons.TintColors.values()
+            .flatMap { tint ->
+                Icons.TINTABLE_ICONS.map { iconResource ->
+                    ShortcutIcon.BuiltInIcon.fromDrawableResource(context, iconResource, tint)
+                }
             }
 
-    private val icons = normalIconNames
-        .mapFor(Icons.TintColors.values().asIterable()) { icons, tintColor ->
-            icons.plus(tintableIconNames.map {
-                it.replacePrefix(Icons.DEFAULT_TINT_PREFIX, tintColor.prefix)
-            })
-        }
+    private val icons = normalIcons.plus(tintedIcons)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IconViewHolder =
         IconViewHolder(context, parent, listener)

@@ -15,6 +15,7 @@ import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.detachFromRealm
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.mapIf
+import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.FileUtil
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.RxUtils
@@ -123,10 +124,10 @@ class Exporter(private val context: Context) {
     }
 
     private fun getShortcutIconFiles(context: Context, base: Base): List<File> =
-        base.shortcuts.mapNotNull { it.iconName }
-            .filter { it.endsWith(".png") }
-            .map { File(context.filesDir, it) }
-            .filter { it.isFile }
+        base.shortcuts.map { it.icon }
+            .filterIsInstance(ShortcutIcon.CustomIcon::class.java)
+            .map { it.getFile(context) }
+            .filter { it.exists() }
 
     data class ExportStatus(val exportedShortcuts: Int)
 

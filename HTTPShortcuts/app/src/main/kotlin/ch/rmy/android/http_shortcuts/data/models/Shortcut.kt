@@ -1,7 +1,9 @@
 package ch.rmy.android.http_shortcuts.data.models
 
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
+import ch.rmy.android.http_shortcuts.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.extensions.type
+import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils
 import io.realm.RealmList
 import io.realm.RealmObject
@@ -11,13 +13,15 @@ import io.realm.annotations.Required
 open class Shortcut(
     @PrimaryKey
     override var id: String = "",
-    var iconName: String? = null,
+    icon: ShortcutIcon = ShortcutIcon.NoIcon,
     var executionType: String? = ShortcutExecutionType.APP.type,
     var responseHandling: ResponseHandling? = null,
 ) : RealmObject(), HasId {
 
     @Required
     var name: String = ""
+
+    var iconName: String? = icon.toString().takeUnlessEmpty()
 
     @Required
     var method = METHOD_GET
@@ -85,6 +89,12 @@ open class Shortcut(
 
     @Required
     var codeOnFailure: String = ""
+
+    var icon: ShortcutIcon
+        get() = ShortcutIcon.fromName(iconName)
+        set(value) {
+            iconName = value.toString().takeUnlessEmpty()
+        }
 
     fun allowsBody(): Boolean =
         METHOD_POST == method
