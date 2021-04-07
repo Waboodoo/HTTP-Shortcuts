@@ -237,7 +237,7 @@
 
     <!-- Button in settings page to start export of shortcuts -->
     <!-- Fuzzy -->
-    <string name="settings_export">"Shortcuts exportieren"</string>
+    <string name="settings_export">"Shortcuts &amp; Variablen exportieren"</string>
 
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
     <plurals name="shortcut_export_success">
@@ -672,11 +672,11 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
 
     <!-- Dialog option on Export dialog, for exporting by storing in a file -->
     <!-- Fuzzy -->
-    <string name="button_export_to_general">"…als Datei"</string>
+    <string name="button_export_to_general">"Dokumente (in Datei speichern)"</string>
 
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
     <!-- Fuzzy -->
-    <string name="button_export_send_to">"…zu anderer App"</string>
+    <string name="button_export_send_to">"Andere App (Teilen)"</string>
 
     <!-- Dialog title when creating a new shortcut, shows options below -->
     <string name="title_create_new_shortcut_options_dialog">"Neuen Shortcut erstellen"</string>
@@ -1307,7 +1307,7 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
 
     <!-- Dialog option, for exporting a single shortcut as cURL -->
     <!-- Fuzzy -->
-    <string name="action_export_as_curl">"cURL"</string>
+    <string name="action_export_as_curl">"cURL-Befehl"</string>
 
     <!-- Name of button in settings screen that allows to clear all HTTP cookies -->
     <string name="settings_clear_cookies">"Cookies löschen"</string>
@@ -1508,4 +1508,16 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
 
     <!-- Subtitle of setting that allows the user to enable exporting using the legacy file format -->
     <string name="settings_use_legacy_export_format_summary">"Aktivieren um das alte Dateiformat (JSON-Datei) für den Export zu verwenden. Das alte Format unterstützt keinen Export von benutzerdefinierten Symbolen."</string>
+
+    <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
+    <string name="label_client_cert">"Authentifizierung mit Client-Zertifikat"</string>
+
+    <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
+    <string name="label_subtitle_no_client_cert">"Klicke um Zertifikat zu wählen."</string>
+
+    <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
+    <string name="label_subtitle_client_cert_in_use">"Zertifikat \"%s\" wird verwendet. Klicke um zu entfernen."</string>
+
+    <!-- Error: Shown to the user when any error occurred while trying to execute a shortcut that uses a client certificate -->
+    <string name="error_failed_to_use_client_cert">"Beim Laden oder Anwenden des Client-Zertifikats ist ein Fehler aufgetreten. Möglicherweise wird dies von deinem Gerät nicht unterstützt, oder der Shortcut muss neu konfiguriert werden."</string>
 </resources>
