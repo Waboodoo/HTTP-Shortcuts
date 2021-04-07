@@ -22,15 +22,6 @@ Find more information and documentation on the [official website](https://http-s
 
 [Support this app](https://http-shortcuts.rmy.ch/support-me) by helping me [translate it](https://poeditor.com/join/project/8tHhwOTzVZ) or by becoming a [Beta Tester](https://play.google.com/apps/testing/ch.rmy.android.http_shortcuts)!
 
-![POEditor](https://img.shields.io/poeditor/progress/339871/it?token=c2706e0c35bf1f1d85d71e637ca1b4e2)
-![POEditor](https://img.shields.io/poeditor/progress/339871/fr?token=c2706e0c35bf1f1d85d71e637ca1b4e2)
-![POEditor](https://img.shields.io/poeditor/progress/339871/es?token=c2706e0c35bf1f1d85d71e637ca1b4e2)
-![POEditor](https://img.shields.io/poeditor/progress/339871/nl?token=c2706e0c35bf1f1d85d71e637ca1b4e2)
-![POEditor](https://img.shields.io/poeditor/progress/339871/ru?token=c2706e0c35bf1f1d85d71e637ca1b4e2)
-![POEditor](https://img.shields.io/poeditor/progress/339871/pl?token=c2706e0c35bf1f1d85d71e637ca1b4e2)
-![POEditor](https://img.shields.io/poeditor/progress/339871/hu?token=c2706e0c35bf1f1d85d71e637ca1b4e2)
-![POEditor](https://img.shields.io/poeditor/progress/339871/ko?token=c2706e0c35bf1f1d85d71e637ca1b4e2)
-
 ## Features
 - HTTP and HTTPS
 - GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS and TRACE
