@@ -1006,7 +1006,7 @@
     <!-- Section title on import/export screen for options related to remote editing (i.e. editing on computer) -->
     <string name="settings_title_remote_edit">Remote Editing</string>
     <!-- Name of setting that allows the user to enable exporting using the legacy file format -->
-    <string name="settings_use_legacy_export_format">Use legacy file format</string>
+    <string name="settings_use_legacy_export_format">Use Legacy File Format</string>
     <!-- Subtitle of setting that allows the user to enable exporting using the legacy file format -->
     <string name="settings_use_legacy_export_format_summary">Enable to export shortcuts &amp; variables using the old file format (i.e., a single JSON file). This will prevent the exporting of custom shortcut icons.</string>
     <!-- Error: Shown to the user when any error occurred while trying to execute a shortcut that uses a client certificate -->

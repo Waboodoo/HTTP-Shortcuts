@@ -29,10 +29,12 @@ Find more information and documentation on the [official website](https://http-s
 - Custom request headers
 - Custom request body (text or from file)
 - Upload files as form-data
+- Client Certificate Authentication
 - Option to accept all certificates (if you know what you're doing)
 - Support for HTTP proxies
 - Built-in icons, support for Ipack icons and custom icons
 - Display response as a toast, window or dialog, or run silently
+- Display response as HTML-formatted text, as image or as web page
 - Grouping into categories through tabs
 - Value injection through variables (e.g., text, numbers, passwords, selections, colors, dates, …)
 - Run arbitrary [JavaScript](https://http-shortcuts.rmy.ch/scripting) before & after execution, including special actions (e.g., vibrate, show toast, parse and process response…), 
