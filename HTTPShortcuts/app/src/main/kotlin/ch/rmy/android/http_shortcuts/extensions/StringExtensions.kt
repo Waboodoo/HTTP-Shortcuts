@@ -10,3 +10,6 @@ fun String.replacePrefix(oldPrefix: String, newPrefix: String) =
 
 fun String.takeUnlessEmpty() =
     takeUnless { it.isEmpty() }
+
+fun ByteArray.toHexString() =
+    joinToString("") { "%02x".format(it) }

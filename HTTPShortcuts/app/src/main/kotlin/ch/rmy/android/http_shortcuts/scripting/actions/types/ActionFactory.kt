@@ -29,6 +29,7 @@ class ActionFactory {
                 DialogActionType(),
                 GetVariableActionType(),
                 HashActionType(),
+                HmacActionType(),
                 PromptActionType(),
                 RenameShortcutActionType(),
                 SelectionActionType(),

@@ -5,21 +5,23 @@ import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.extensions.toHexString
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import io.reactivex.Single
-import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.Locale
+import javax.crypto.Mac
+import javax.crypto.spec.SecretKeySpec
 
-class HashAction(private val algorithm: String, private val text: String) : BaseAction() {
+class HmacAction(private val algorithm: String, private val key: String, private val message: String) : BaseAction() {
 
     override fun executeForValue(executionContext: ExecutionContext): Single<String> =
         Single.fromCallable {
             val algorithmName = SUPPORTED_ALGORITHMS[normalizeAlgorithm(algorithm)]
                 ?: throwUnsupportedError()
             try {
-                MessageDigest.getInstance(algorithmName)
-                    .digest(text.toByteArray())
+                hmac(algorithmName, key.toByteArray(), message.toByteArray())
                     .toHexString()
             } catch (e: NoSuchAlgorithmException) {
+                throwUnsupportedError()
+            } catch (e: IllegalArgumentException) {
                 throwUnsupportedError()
             }
         }
@@ -27,7 +29,7 @@ class HashAction(private val algorithm: String, private val text: String) : Base
     private fun throwUnsupportedError(): Nothing {
         throw ActionException {
             it.getString(
-                R.string.error_unsupported_hash_algorithm,
+                R.string.error_unsupported_hmac_algorithm,
                 algorithm,
                 SUPPORTED_ALGORITHMS.keys.joinToString(),
             )
@@ -41,11 +43,17 @@ class HashAction(private val algorithm: String, private val text: String) : Base
                 .replace("-", "")
                 .replace("_", "")
 
+        private fun hmac(algorithm: String, key: ByteArray, message: ByteArray): ByteArray {
+            val mac = Mac.getInstance(algorithm)
+            mac.init(SecretKeySpec(key, algorithm))
+            return mac.doFinal(message)
+        }
+
         private val SUPPORTED_ALGORITHMS = mapOf(
-            "md5" to "md5",
-            "sha1" to "sha-1",
-            "sha256" to "sha-256",
-            "sha512" to "sha-512",
+            "md5" to "HmacMD5",
+            "sha1" to "HmacSHA1",
+            "sha256" to "HmacSHA256",
+            "sha512" to "HmacSHA512",
         )
 
     }

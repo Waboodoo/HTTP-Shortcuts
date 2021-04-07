@@ -816,6 +816,8 @@
     <string name="error_shortcut_not_found_for_changing_icon">Could not change icon of shortcut \"%1$s\" because it does not exist.</string>
     <!-- Error message: Shown when user tries to use an unsupported hash function -->
     <string name="error_unsupported_hash_algorithm">Unsupported hash algorithm \"%1$s\". Use %2$s.</string>
+    <!-- Error message: Shown when user tries to use an unsupported hmac function -->
+    <string name="error_unsupported_hmac_algorithm">Unsupported HMAC algorithm \"%1$s\" or invalid key. Use %2$s.</string>
     <!-- Settings option for dark mode: when selected the app will always use Dark Mode -->
     <string name="settings_dark_theme_options_on">Always Dark</string>
     <!-- Settings option for dark mode: when selected the app will never use Dark Mode -->

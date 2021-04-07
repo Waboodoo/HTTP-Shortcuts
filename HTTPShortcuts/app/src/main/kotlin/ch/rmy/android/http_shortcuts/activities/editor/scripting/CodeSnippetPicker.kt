@@ -248,6 +248,18 @@ class CodeSnippetPicker(
             .item(name = "SHA-512") {
                 insertText("hash(\"SHA-512\", \"", "\");\n")
             }
+            .item(name = "HMAC MD5") {
+                insertText("hmac(\"MD5\", \"key", "\", \"message\");\n")
+            }
+            .item(name = "HMAC SHA-1") {
+                insertText("hmac(\"SHA-1\", \"key", "\", \"message\");\n")
+            }
+            .item(name = "HMAC SHA-256") {
+                insertText("hmac(\"SHA-256\", \"key", "\", \"message\");\n")
+            }
+            .item(name = "HMAC SHA-512") {
+                insertText("hmac(\"SHA-512\", \"key", "\", \"message\");\n")
+            }
             .item(name = "Base64 Encode") {
                 insertText("base64encode(\"", "\");\n")
             }
