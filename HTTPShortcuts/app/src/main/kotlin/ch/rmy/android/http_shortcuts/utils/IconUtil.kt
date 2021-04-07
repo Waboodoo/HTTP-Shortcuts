@@ -13,13 +13,23 @@ import androidx.core.graphics.drawable.DrawableCompat
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.extensions.setTintCompat
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
+import ch.rmy.android.http_shortcuts.utils.UUIDUtils.UUID_REGEX
+import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import java.io.File
+import java.util.regex.Pattern
+import java.util.regex.Pattern.quote
 import kotlin.math.max
 
 
 object IconUtil {
 
     private const val ICON_SCALING_FACTOR = 2
+
+    private const val CUSTOM_ICON_NAME_PREFIX = "custom-icon_"
+    private const val CUSTOM_ICON_NAME_SUFFIX = ".png"
+
+    private val CUSTOM_ICON_NAME_REGEX = "${quote(CUSTOM_ICON_NAME_PREFIX)}($UUID_REGEX)${quote(CUSTOM_ICON_NAME_SUFFIX)}"
+    private val CUSTOM_ICON_NAME_PATTERN = Pattern.compile(CUSTOM_ICON_NAME_REGEX)
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     fun getIcon(context: Context, icon: ShortcutIcon): Icon? = try {
@@ -96,4 +106,19 @@ object IconUtil {
     }
 
     private var iconSizeCached: Int? = null
+
+    fun isCustomIconName(string: String) =
+        string.matches(CUSTOM_ICON_NAME_REGEX.toRegex())
+
+    fun generateCustomIconName(): String =
+        "$CUSTOM_ICON_NAME_PREFIX${newUUID()}$CUSTOM_ICON_NAME_SUFFIX"
+
+    fun extractCustomIconNames(string: String): Set<String> {
+        val result = mutableSetOf<String>()
+        val matcher = CUSTOM_ICON_NAME_PATTERN.matcher(string)
+        while (matcher.find()) {
+            result.add(matcher.group())
+        }
+        return result
+    }
 }

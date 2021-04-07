@@ -4,20 +4,22 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import androidx.annotation.ColorInt
+import ch.rmy.android.http_shortcuts.utils.UUIDUtils.UUID_REGEX
 import java.util.LinkedList
 import java.util.regex.Matcher
 import java.util.regex.Pattern
+import java.util.regex.Pattern.quote
 
 object Variables {
 
     const val KEY_MAX_LENGTH = 30
 
     private const val VARIABLE_KEY_REGEX = "[A-Za-z0-9_]{1,$KEY_MAX_LENGTH}"
-    const val VARIABLE_ID_REGEX = "([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}|[0-9]+)"
+    const val VARIABLE_ID_REGEX = "($UUID_REGEX|[0-9]+)"
 
     private const val RAW_PLACEHOLDER_PREFIX = "{{"
     private const val RAW_PLACEHOLDER_SUFFIX = "}}"
-    private const val RAW_PLACEHOLDER_REGEX = "\\{\\{($VARIABLE_ID_REGEX)\\}\\}"
+    private val RAW_PLACEHOLDER_REGEX = "${quote(RAW_PLACEHOLDER_PREFIX)}($VARIABLE_ID_REGEX)${quote(RAW_PLACEHOLDER_SUFFIX)}"
 
     private const val JS_PLACEHOLDER_REGEX = """/\*\[variable]\*/"([^"]+)"/\*\[/variable]\*/"""
     private const val JS_PLACEHOLDER_REGEX2 = """getVariable\(["']($VARIABLE_KEY_REGEX)["']\)"""

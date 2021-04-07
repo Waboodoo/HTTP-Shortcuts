@@ -13,6 +13,7 @@ import ch.rmy.android.http_shortcuts.extensions.isWebUrl
 import ch.rmy.android.http_shortcuts.extensions.logInfo
 import ch.rmy.android.http_shortcuts.utils.FileUtil
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
+import ch.rmy.android.http_shortcuts.utils.IconUtil
 import ch.rmy.android.http_shortcuts.utils.NoCloseInputStream
 import ch.rmy.android.http_shortcuts.utils.RxUtils
 import com.google.gson.JsonParseException
@@ -68,7 +69,7 @@ class Importer(private val context: Context) {
                     entry.name == Exporter.JSON_FILE -> {
                         importStatus = importFromJSON(NoCloseInputStream(stream), importMode)
                     }
-                    entry.name.endsWith(".png") -> {
+                    IconUtil.isCustomIconName(entry.name) -> {
                         NoCloseInputStream(stream).copyTo(FileOutputStream(File(context.filesDir, entry.name)))
                     }
                     else -> {

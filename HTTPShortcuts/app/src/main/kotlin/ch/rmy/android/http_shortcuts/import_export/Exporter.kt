@@ -18,6 +18,7 @@ import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.FileUtil
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
+import ch.rmy.android.http_shortcuts.utils.IconUtil
 import ch.rmy.android.http_shortcuts.utils.RxUtils
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
@@ -124,10 +125,27 @@ class Exporter(private val context: Context) {
     }
 
     private fun getShortcutIconFiles(context: Context, base: Base): List<File> =
-        base.shortcuts.map { it.icon }
+        base.shortcuts.asSequence()
+            .map { it.icon }
             .filterIsInstance(ShortcutIcon.CustomIcon::class.java)
+            .plus(
+                getReferencedIconNames(base)
+                    .map { fileName ->
+                        ShortcutIcon.CustomIcon(fileName)
+                    }
+            )
+            .distinct()
             .map { it.getFile(context) }
-            .filter { it.exists() }
+            .filter { it.exists() }.toList()
+
+    private fun getReferencedIconNames(base: Base): Set<String> =
+        IconUtil.extractCustomIconNames(base.globalCode ?: "")
+            .plus(base.shortcuts.flatMap(::getReferencedIconNames))
+
+    private fun getReferencedIconNames(shortcut: Shortcut): Set<String> =
+        IconUtil.extractCustomIconNames(shortcut.codeOnSuccess)
+            .plus(IconUtil.extractCustomIconNames(shortcut.codeOnFailure))
+            .plus(IconUtil.extractCustomIconNames(shortcut.codeOnPrepare))
 
     data class ExportStatus(val exportedShortcuts: Int)
 

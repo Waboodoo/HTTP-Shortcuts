@@ -16,7 +16,6 @@ import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.FilePickerUtil
 import ch.rmy.android.http_shortcuts.utils.IconUtil
 import ch.rmy.android.http_shortcuts.utils.IpackUtil
-import ch.rmy.android.http_shortcuts.utils.UUIDUtils
 import com.yalantis.ucrop.UCrop
 import io.reactivex.Completable
 import java.io.File
@@ -97,10 +96,8 @@ class IconPicker(
         }
     }
 
-    private fun createNewIconFile(): Uri {
-        val fileName = "custom-icon_${UUIDUtils.newUUID()}.png"
-        return Uri.fromFile(File(context.filesDir, fileName))
-    }
+    private fun createNewIconFile(): Uri =
+        Uri.fromFile(File(context.filesDir, IconUtil.generateCustomIconName()))
 
     private fun updateIcon(icon: ShortcutIcon) {
         iconSelected(icon)
