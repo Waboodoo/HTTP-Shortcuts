@@ -82,6 +82,9 @@ open class Shortcut(
     var wifiSsid: String = ""
 
     @Required
+    var clientCertAlias: String = ""
+
+    @Required
     var codeOnPrepare: String = ""
 
     @Required

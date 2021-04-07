@@ -455,6 +455,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     private fun executeShortcut(): Completable =
         HttpRequester(contentResolver)
             .executeShortcut(
+                context,
                 shortcut,
                 variableManager,
                 ResponseFileStorage(context, shortcutId),

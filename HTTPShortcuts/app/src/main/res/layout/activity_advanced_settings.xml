@@ -45,15 +45,6 @@
                 android:layout_marginBottom="8dp"
                 android:text="@string/label_accept_cookies" />
 
-            <CheckBox
-                android:id="@+id/input_accept_certificates"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/label_accept_all_certificates" />
-
             <include layout="@layout/divider_line" />
 
             <LinearLayout
@@ -144,9 +135,29 @@
                     android:id="@+id/input_proxy_port"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
                     android:inputType="number" />
 
             </LinearLayout>
+
+            <include layout="@layout/divider_line" />
+
+            <ch.rmy.android.http_shortcuts.views.PanelButton
+                android:id="@+id/button_client_cert"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:text="@string/label_client_cert" />
+
+            <CheckBox
+                android:id="@+id/input_accept_certificates"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/label_accept_all_certificates" />
 
         </LinearLayout>
 

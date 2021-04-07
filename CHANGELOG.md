@@ -1,5 +1,8 @@
 ## Version 2.3.0
 
+### Client Certificate Authentication
+There is now the option to configure a shortcut to use a client certificate for authentication. You'll find the option in the shortcut's *Advanced Settings* section.
+
 ### Improved Import & Export
 When exporting shortcuts and variables, the resulting file is now a ZIP file instead of a raw JSON file. This has the advantage that custom icons are now also exported and automatically become part of the exported bundle, and of course they can be imported again as well.
 

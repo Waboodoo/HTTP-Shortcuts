@@ -16,6 +16,7 @@ import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.observeChecked
 import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
+import ch.rmy.android.http_shortcuts.utils.ClientCertUtil
 import ch.rmy.android.http_shortcuts.utils.SimpleOnSeekBarChangeListener
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
@@ -43,6 +44,7 @@ class AdvancedSettingsActivity : BaseActivity() {
     private val waitForConnectionCheckBox: CheckBox by bindView(R.id.input_wait_for_connection)
     private val followRedirectsCheckBox: CheckBox by bindView(R.id.input_follow_redirects)
     private val acceptCertificatesCheckBox: CheckBox by bindView(R.id.input_accept_certificates)
+    private val clientCertButton: PanelButton by bindView(R.id.button_client_cert)
     private val acceptCookiesCheckBox: CheckBox by bindView(R.id.input_accept_cookies)
     private val timeoutView: PanelButton by bindView(R.id.input_timeout)
     private val proxyHostView: VariableEditText by bindView(R.id.input_proxy_host)
@@ -89,6 +91,10 @@ class AdvancedSettingsActivity : BaseActivity() {
             .subscribe()
             .attachTo(destroyer)
 
+        clientCertButton.setOnClickListener {
+            onClientCertButtonClicked()
+        }
+
         timeoutView.setOnClickListener {
             showTimeoutDialog()
         }
@@ -97,11 +103,14 @@ class AdvancedSettingsActivity : BaseActivity() {
             .attachTo(destroyer)
     }
 
+    // TODO: This gets hackier and hackier. Let's refactor this, maybe let's use MVVI
+    private var viewStatesInitialized = false
+
     private fun bindViewsToViewModel() {
         shortcutData.observe(this) {
             val shortcut = shortcutData.value ?: return@observe
-            updateShortcutViews(shortcut)
-            shortcutData.removeObservers(this)
+            updateShortcutViews(shortcut, !viewStatesInitialized)
+            viewStatesInitialized = true
         }
         bindTextChangeListener(proxyHostView) { shortcutData.value?.proxyHost ?: "" }
         bindTextChangeListener(proxyPortView) { shortcutData.value?.proxyPort?.toString() ?: "" }
@@ -121,15 +130,38 @@ class AdvancedSettingsActivity : BaseActivity() {
     private fun updateViewModelFromViews(): Completable =
         viewModel.setAdvancedSettings(proxyHostView.rawString, proxyPortView.text.toString().toIntOrNull(), ssidView.text.toString())
 
-    private fun updateShortcutViews(shortcut: Shortcut) {
+    private fun updateShortcutViews(shortcut: Shortcut, isInitial: Boolean) {
         waitForConnectionCheckBox.isChecked = shortcut.isWaitForNetwork
         followRedirectsCheckBox.isChecked = shortcut.followRedirects
         acceptCertificatesCheckBox.isChecked = shortcut.acceptAllCertificates
+        clientCertButton.isEnabled = !shortcut.acceptAllCertificates
+        clientCertButton.subtitle = viewModel.getClientCertSubtitle(shortcut)
         acceptCookiesCheckBox.isChecked = shortcut.acceptCookies
         timeoutView.subtitle = viewModel.getTimeoutSubtitle(shortcut)
-        proxyHostView.rawString = shortcut.proxyHost ?: ""
-        proxyPortView.setText(shortcut.proxyPort?.toString() ?: "")
-        ssidView.setText(shortcut.wifiSsid ?: "")
+        if (isInitial) {
+            proxyHostView.rawString = shortcut.proxyHost ?: ""
+            proxyPortView.setText(shortcut.proxyPort?.toString() ?: "")
+            ssidView.setText(shortcut.wifiSsid)
+        }
+    }
+
+    private fun onClientCertButtonClicked() {
+        val shortcut = shortcutData.value ?: return
+        if (shortcut.clientCertAlias.isEmpty()) {
+            promptForClientCertAlias()
+        } else {
+            setClientCertAlias("")
+        }
+    }
+
+    private fun promptForClientCertAlias() {
+        ClientCertUtil.promptForAlias(this, ::setClientCertAlias)
+    }
+
+    private fun setClientCertAlias(alias: String) {
+        viewModel.setClientCertAlias(alias)
+            .subscribe()
+            .attachTo(destroyer)
     }
 
     private fun showTimeoutDialog() {
@@ -184,7 +216,7 @@ class AdvancedSettingsActivity : BaseActivity() {
             180000,
             300000,
             450000,
-            600000
+            600000,
         )
 
 

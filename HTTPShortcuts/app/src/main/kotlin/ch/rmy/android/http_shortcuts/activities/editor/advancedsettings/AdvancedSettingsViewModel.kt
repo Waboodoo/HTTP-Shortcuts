@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.editor.advancedsettings
 
 import android.app.Application
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.BasicShortcutEditorViewModel
 import ch.rmy.android.http_shortcuts.data.Transactions
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
@@ -49,4 +50,15 @@ class AdvancedSettingsViewModel(application: Application) : BasicShortcutEditorV
 
     fun getTimeoutText(timeout: Int) =
         StringUtils.getDurationText(context, timeout)
+
+    fun setClientCertAlias(alias: String): Completable =
+        Transactions.commit { realm ->
+            getShortcut(realm)?.clientCertAlias = alias
+        }
+
+    fun getClientCertSubtitle(shortcut: Shortcut) =
+        when (shortcut.clientCertAlias) {
+            "" -> context.getString(R.string.label_subtitle_no_client_cert)
+            else -> context.getString(R.string.label_subtitle_client_cert_in_use, shortcut.clientCertAlias)
+        }
 }

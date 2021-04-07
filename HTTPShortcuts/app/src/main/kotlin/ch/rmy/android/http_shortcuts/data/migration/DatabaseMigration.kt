@@ -10,7 +10,7 @@ import io.realm.DynamicRealm
 import io.realm.DynamicRealmObject
 import io.realm.RealmList
 import io.realm.RealmMigration
-import java.util.*
+import java.util.Date
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class DatabaseMigration : RealmMigration {
@@ -324,6 +324,11 @@ class DatabaseMigration : RealmMigration {
                     .addField("wifiSsid", String::class.java)
                     .setRequired("wifiSsid", true)
             }
+            44L -> { // 2.3.0
+                schema.get("Shortcut")!!
+                    .addField("clientCertAlias", String::class.java)
+                    .setRequired("clientCertAlias", true)
+            }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -349,7 +354,7 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 43L
+        const val VERSION = 44L
 
     }
 

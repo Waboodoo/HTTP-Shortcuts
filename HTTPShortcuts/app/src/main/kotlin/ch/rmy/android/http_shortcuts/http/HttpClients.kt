@@ -1,7 +1,10 @@
 package ch.rmy.android.http_shortcuts.http
 
 
+import android.content.Context
+import ch.rmy.android.http_shortcuts.exceptions.ClientCertException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidProxyException
+import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import com.burgstaller.okhttp.digest.Credentials
 import com.facebook.stetho.okhttp3.StethoInterceptor
@@ -17,6 +20,8 @@ import javax.net.ssl.X509TrustManager
 internal object HttpClients {
 
     fun getClient(
+        context: Context,
+        clientCertAlias: String? = null,
         acceptAllCertificates: Boolean = false,
         username: String? = null,
         password: String? = null,
@@ -26,7 +31,11 @@ internal object HttpClients {
         proxyPort: Int? = null,
         cookieJar: CookieJar? = null,
     ): OkHttpClient =
-        (if (acceptAllCertificates) createUnsafeOkHttpClientBuilder() else createDefaultOkHttpClientBuilder())
+        (if (acceptAllCertificates) {
+            createUnsafeOkHttpClientBuilder()
+        } else {
+            createDefaultOkHttpClientBuilder(context, clientCertAlias)
+        })
             .mapIf(username != null && password != null) {
                 val authenticator = DigestAuthenticator(Credentials(username, password))
                 it.authenticator(authenticator)
@@ -49,7 +58,15 @@ internal object HttpClients {
             .addNetworkInterceptor(StethoInterceptor())
             .build()
 
-    private fun createDefaultOkHttpClientBuilder() = OkHttpClient.Builder()
+    private fun createDefaultOkHttpClientBuilder(context: Context, clientCertAlias: String?) = OkHttpClient.Builder()
+        .mapIf(clientCertAlias != null) { builder ->
+            try {
+                ClientCertKeyManager.applyToOkHttpClient(builder, context, clientCertAlias!!)
+            } catch (e: Throwable) {
+                logException(e)
+                throw ClientCertException()
+            }
+        }
 
     private fun createUnsafeOkHttpClientBuilder(): OkHttpClient.Builder {
         val trustAllCerts = arrayOf<X509TrustManager>(object : X509TrustManager {

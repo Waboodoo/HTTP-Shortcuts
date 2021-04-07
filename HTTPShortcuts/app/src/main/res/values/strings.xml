@@ -218,6 +218,12 @@
     <string name="label_proxy_host">Proxy Hostname / IP Address</string>
     <!-- Label, for option to set the proxy port for a shortcut -->
     <string name="label_proxy_port">Proxy Port</string>
+    <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
+    <string name="label_client_cert">Client Certificate Authentication</string>
+    <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
+    <string name="label_subtitle_no_client_cert">Click to select a certificate.</string>
+    <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
+    <string name="label_subtitle_client_cert_in_use">Using certificate \"%s\". Click to remove.</string>
     <!-- Used in various places to indicate a number of seconds, e.g. for a delay. %s is a placeholder for the actual number. -->
     <plurals name="seconds">
         <item quantity="one">%d second</item>
@@ -1003,4 +1009,6 @@
     <string name="settings_use_legacy_export_format">Use legacy file format</string>
     <!-- Subtitle of setting that allows the user to enable exporting using the legacy file format -->
     <string name="settings_use_legacy_export_format_summary">Enable to export shortcuts &amp; variables using the old file format (i.e., a single JSON file). This will prevent the exporting of custom shortcut icons.</string>
+    <!-- Error: Shown to the user when any error occurred while trying to execute a shortcut that uses a client certificate -->
+    <string name="error_failed_to_use_client_cert">Failed to load or use the client certificate. It may be that this is not supported by your device or that it needs to be re-configured in the shortcut\'s settings.</string>
 </resources>

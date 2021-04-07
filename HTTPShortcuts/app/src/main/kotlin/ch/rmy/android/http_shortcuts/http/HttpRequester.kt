@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.http
 
 import android.content.ContentResolver
+import android.content.Context
 import android.net.Uri
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.exceptions.InvalidUrlException
@@ -21,6 +22,7 @@ import okhttp3.Response
 class HttpRequester(private val contentResolver: ContentResolver) {
 
     fun executeShortcut(
+        context: Context,
         shortcut: Shortcut,
         variableManager: VariableManager,
         responseFileStorage: ResponseFileStorage,
@@ -48,6 +50,8 @@ class HttpRequester(private val contentResolver: ContentResolver) {
                 }
 
                 val client = HttpClients.getClient(
+                    context = context,
+                    clientCertAlias = shortcut.clientCertAlias.takeUnlessEmpty(),
                     acceptAllCertificates = shortcut.acceptAllCertificates,
                     username = username.takeIf { shortcut.usesDigestAuthentication() },
                     password = password.takeIf { shortcut.usesDigestAuthentication() },

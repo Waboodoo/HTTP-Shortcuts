@@ -57,7 +57,7 @@ class RemoteEditViewModel(application: Application) : AndroidViewModel(applicati
     private fun getRemoteEditManager() =
         RemoteEditManager(
             context = context,
-            client = HttpClients.getClient(),
+            client = HttpClients.getClient(context),
             baseUrl = getRemoteBaseUrl()
                 .buildUpon()
                 .appendEncodedPath(REMOTE_API_PATH)
