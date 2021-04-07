@@ -19,7 +19,7 @@ class ClientCertKeyManager(
     private val certChain: Array<X509Certificate>,
     private val privateKey: PrivateKey,
 ) : X509KeyManager {
-    override fun chooseClientAlias(keyType: Array<String>, issuers: Array<Principal>, socket: Socket) =
+    override fun chooseClientAlias(keyType: Array<String>, issuers: Array<Principal>?, socket: Socket?) =
         alias
 
     override fun getCertificateChain(alias: String): Array<X509Certificate>? =
@@ -28,15 +28,15 @@ class ClientCertKeyManager(
     override fun getPrivateKey(alias: String): PrivateKey? =
         if (alias == this.alias) privateKey else null
 
-    override fun chooseServerAlias(keyType: String, issuers: Array<Principal>, socket: Socket): String {
+    override fun chooseServerAlias(keyType: String, issuers: Array<Principal>?, socket: Socket?): String {
         throw UnsupportedOperationException()
     }
 
-    override fun getClientAliases(keyType: String, issuers: Array<Principal>): Array<String> {
+    override fun getClientAliases(keyType: String, issuers: Array<Principal>?): Array<String> {
         throw UnsupportedOperationException()
     }
 
-    override fun getServerAliases(keyType: String, issuers: Array<Principal>): Array<String> {
+    override fun getServerAliases(keyType: String, issuers: Array<Principal>?): Array<String> {
         throw UnsupportedOperationException()
     }
 
