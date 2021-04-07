@@ -7,6 +7,7 @@ The Import and Export functionality was moved out of the general settings screen
 
 ### Miscellaneous
 - The "Number Slider" variable type now also supports negative numbers.
+- Image responses can now also be displayed in the 'Dialog Window' option, not only with the 'Fullscreen Window' option
 
 ## Version 2.2.0
 

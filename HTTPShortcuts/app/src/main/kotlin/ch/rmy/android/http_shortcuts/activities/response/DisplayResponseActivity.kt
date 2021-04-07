@@ -17,6 +17,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.consume
+import ch.rmy.android.http_shortcuts.extensions.loadImage
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
@@ -25,10 +26,13 @@ import ch.rmy.android.http_shortcuts.extensions.truncate
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.http.HttpStatus
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
+import ch.rmy.android.http_shortcuts.utils.FileTypeUtil.TYPE_HTML
+import ch.rmy.android.http_shortcuts.utils.FileTypeUtil.TYPE_JSON
+import ch.rmy.android.http_shortcuts.utils.FileTypeUtil.TYPE_XML
+import ch.rmy.android.http_shortcuts.utils.FileTypeUtil.TYPE_YAML
+import ch.rmy.android.http_shortcuts.utils.FileTypeUtil.TYPE_YAML_ALT
+import ch.rmy.android.http_shortcuts.utils.FileTypeUtil.isImage
 import ch.rmy.android.http_shortcuts.utils.ShareUtil
-import com.squareup.picasso.MemoryPolicy
-import com.squareup.picasso.NetworkPolicy
-import com.squareup.picasso.Picasso
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -147,13 +151,7 @@ class DisplayResponseActivity : BaseActivity() {
 
     private fun displayImage() {
         setContentView(R.layout.activity_display_response_image)
-        Picasso.get()
-            .load(responseFileUri)
-            .noFade()
-            .networkPolicy(NetworkPolicy.NO_CACHE)
-            .memoryPolicy(MemoryPolicy.NO_CACHE)
-            .error(R.drawable.bitsies_cancel)
-            .into(responseImage)
+        responseImage.loadImage(responseFileUri!!)
     }
 
     private fun displayAsPlainText(text: String, italic: Boolean = false) {
@@ -355,14 +353,6 @@ class DisplayResponseActivity : BaseActivity() {
 
         private const val MAX_TEXT_LENGTH = 700000
         private const val MAX_SHARE_LENGTH = 300000
-
-        private const val TYPE_XML = "text/xml"
-        private const val TYPE_JSON = "application/json"
-        private const val TYPE_HTML = "text/html"
-        private const val TYPE_YAML = "text/yaml"
-        private const val TYPE_YAML_ALT = "application/x-yaml"
-
-        private fun isImage(type: String?) = type?.startsWith("image/") == true
     }
 
 }

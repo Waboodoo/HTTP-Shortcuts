@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.ImageView
 import androidx.core.app.ActivityCompat
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.execute.ProgressIndicator
@@ -28,6 +29,7 @@ import ch.rmy.android.http_shortcuts.exceptions.UserException
 import ch.rmy.android.http_shortcuts.extensions.cancel
 import ch.rmy.android.http_shortcuts.extensions.detachFromRealm
 import ch.rmy.android.http_shortcuts.extensions.finishWithoutAnimation
+import ch.rmy.android.http_shortcuts.extensions.loadImage
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.mapIf
@@ -49,6 +51,7 @@ import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.DateUtil
 import ch.rmy.android.http_shortcuts.utils.ErrorFormatter
 import ch.rmy.android.http_shortcuts.utils.FilePickerUtil
+import ch.rmy.android.http_shortcuts.utils.FileTypeUtil.isImage
 import ch.rmy.android.http_shortcuts.utils.FileUtil
 import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
@@ -559,7 +562,15 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
             ResponseHandling.UI_TYPE_DIALOG -> {
                 DialogBuilder(context)
                     .title(shortcutName)
-                    .message(HTMLUtil.format(output.ifBlank { getString(R.string.message_blank_response) }))
+                    .let { builder ->
+                        if (isImage(response?.contentType)) {
+                            val imageView = ImageView(context)
+                            imageView.loadImage(response!!.contentFile!!)
+                            builder.view(imageView)
+                        } else {
+                            builder.message(HTMLUtil.format(output.ifBlank { getString(R.string.message_blank_response) }))
+                        }
+                    }
                     .positive(R.string.dialog_ok)
                     .showAsCompletable()
             }
