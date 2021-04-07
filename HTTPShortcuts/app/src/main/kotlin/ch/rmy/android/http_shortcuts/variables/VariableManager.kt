@@ -62,6 +62,12 @@ class VariableManager(variables: List<Variable>) : VariableLookup {
                 getVariableById(entry.key)!!.key
             }
 
+    fun getVariableValues(): Map<Variable, String> =
+        variableValuesById
+            .mapKeys { entry ->
+                getVariableById(entry.key)!!
+            }
+
     companion object {
         private fun encodeValue(variable: Variable, value: String) =
             value

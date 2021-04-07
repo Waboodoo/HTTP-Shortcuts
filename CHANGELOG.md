@@ -9,6 +9,9 @@ The Import and Export functionality was moved out of the general settings screen
 - The "Number Slider" variable type now also supports negative numbers.
 - Image responses can now also be displayed in the 'Dialog Window' option, not only with the 'Fullscreen Window' option
 
+### Bugfixes
+- When using the `getVariable` function to access a variable's value in code and that variable has not been loaded yet, instead of aborting with an error, the missing value is now resolved in a second variable loading step.
+
 ## Version 2.2.0
 
 ### Miscellaneous

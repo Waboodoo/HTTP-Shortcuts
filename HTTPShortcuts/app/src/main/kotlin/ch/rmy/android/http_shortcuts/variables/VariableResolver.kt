@@ -78,7 +78,7 @@ class VariableResolver(private val context: Context) {
             }
     }
 
-    private fun resolveVariables(variablesToResolve: List<Variable>, preResolvedValues: Map<Variable, String> = emptyMap()): Single<Map<Variable, String>> {
+    fun resolveVariables(variablesToResolve: List<Variable>, preResolvedValues: Map<Variable, String> = emptyMap()): Single<Map<Variable, String>> {
         var completable = Completable.complete()
         val resolvedVariables = preResolvedValues.toMutableMap()
 
