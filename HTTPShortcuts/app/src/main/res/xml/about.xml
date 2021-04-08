@@ -32,6 +32,12 @@
             app:title="@string/settings_play_store" />
 
         <Preference
+            app:icon="@drawable/ic_f_droid"
+            app:key="f_droid"
+            app:summary="@string/settings_f_droid_summary"
+            app:title="@string/settings_f_droid" />
+
+        <Preference
             app:icon="@drawable/ic_github_circle"
             app:key="github"
             app:summary="@string/settings_github_summary"

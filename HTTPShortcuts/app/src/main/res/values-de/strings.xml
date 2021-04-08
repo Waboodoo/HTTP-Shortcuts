@@ -1516,4 +1516,10 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
 
     <!-- Error message: Shown when user tries to use an unsupported hmac function -->
     <string name="error_unsupported_hmac_algorithm">"Ungültiger HMAC-Algorithmus \"%1$s\" oder ungültiger Schlüssel. Unterstützte Algorithmen: %2$s"</string>
+
+    <!-- Button, shown on About page, to allow opening the app's F-Droid page -->
+    <string name="settings_f_droid">"In F-Droid anzeigen"</string>
+
+    <!-- Button subtitle for "View in F-Droid" button -->
+    <string name="settings_f_droid_summary">"Nach Updates prüfen"</string>
 </resources>

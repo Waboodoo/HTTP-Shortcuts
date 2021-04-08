@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.InflateException
 import ch.rmy.android.http_shortcuts.BuildConfig
 import ch.rmy.android.http_shortcuts.data.RealmFactory
+import ch.rmy.android.http_shortcuts.utils.InstallUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
 import com.bugsnag.android.Bugsnag
 import com.bugsnag.android.Configuration
@@ -33,7 +34,7 @@ object Logging {
         Bugsnag.start(context, createBugsnagConfig())
         Bugsnag.setUser(Settings(context).userId, null, null)
         Bugsnag.addOnError { event ->
-            event.addMetadata("app", "installedFromStore", isAppInstalledFromStore(context))
+            event.addMetadata("app", "installedFromStore", InstallUtil.isAppInstalledFromPlayStore(context))
             event.originalError?.let { !shouldIgnore(it) } ?: true
         }
         initialized = true
@@ -55,7 +56,12 @@ object Logging {
     fun disableCrashReporting(context: Context) {
         if (initialized) {
             Configuration.load(context).apply {
-                setEnabledErrorTypes(ErrorTypes(false, false, false, false))
+                enabledErrorTypes = ErrorTypes(
+                    anrs = false,
+                    ndkCrashes = false,
+                    unhandledExceptions = false,
+                    unhandledRejections = false,
+                )
             }
         }
     }
@@ -77,13 +83,5 @@ object Logging {
             Bugsnag.leaveBreadcrumb(message)
         }
     }
-
-    private fun isAppInstalledFromStore(context: Context): Boolean =
-        (context.packageManager.getInstallerPackageName(context.packageName) ?: "") in STORE_PACKAGES
-
-    private val STORE_PACKAGES = setOf(
-        "com.android.vending",
-        "com.google.android.feedback",
-    )
 
 }

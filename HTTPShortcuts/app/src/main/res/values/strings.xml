@@ -265,10 +265,14 @@
     <string name="label_wait_for_connection">Wait for connection when offline</string>
     <!-- Label: Shown on button that allows to enable execution delay of a shortcut -->
     <string name="label_delay_execution">Delay execution</string>
-    <!-- Button, shown on Settings page, to allow opening the app's Play Store page -->
+    <!-- Button, shown on About page, to allow opening the app's Play Store page -->
     <string name="settings_play_store">View in Play Store</string>
     <!-- Button subtitle for "View in Play Store" button -->
     <string name="settings_play_store_summary">Thank you for your ratings and reviews</string>
+    <!-- Button, shown on About page, to allow opening the app's F-Droid page -->
+    <string name="settings_f_droid">View in F-Droid</string>
+    <!-- Button subtitle for "View in F-Droid" button -->
+    <string name="settings_f_droid_summary">Check for updates</string>
     <!-- Title of option in settings screen: links the user to an external documentation page -->
     <string name="settings_documentation">Documentation</string>
     <!-- Subtitle of option in settings screen: links the user to an external documentation page -->

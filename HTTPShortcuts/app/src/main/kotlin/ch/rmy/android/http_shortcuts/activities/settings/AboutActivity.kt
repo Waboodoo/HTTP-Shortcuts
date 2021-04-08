@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageManager.NameNotFoundException
 import android.net.Uri
 import android.os.Bundle
+import androidx.preference.Preference
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.misc.AcknowledgmentActivity
@@ -16,6 +17,7 @@ import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
+import ch.rmy.android.http_shortcuts.utils.InstallUtil
 
 
 class AboutActivity : BaseActivity() {
@@ -58,8 +60,16 @@ class AboutActivity : BaseActivity() {
                 openURL(ExternalURLs.DOCUMENTATION_PAGE)
             }
 
-            initPreference("play_store") {
-                openURL(ExternalURLs.PLAY_STORE)
+            if (InstallUtil.isAppInstalledFromFDroid(requireContext())) {
+                initPreference("f_droid") {
+                    openURL(ExternalURLs.F_DROID)
+                }
+                findPreference<Preference>("play_store")!!.isVisible = false
+            } else {
+                initPreference("play_store") {
+                    openURL(ExternalURLs.PLAY_STORE)
+                }
+                findPreference<Preference>("f_droid")!!.isVisible = false
             }
 
             initPreference("github") {
