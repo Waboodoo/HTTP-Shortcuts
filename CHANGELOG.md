@@ -9,7 +9,7 @@ When exporting shortcuts and variables, the resulting file is now a ZIP file ins
 The Import and Export functionality was moved out of the general settings screen and into its own dedicated screen to make it easier to discover and use.
 
 ### Miscellaneous
-- Added `hmac` function, which allows computing the HMAC of a message. Support algorithms are md5, sha-1, sha-256 and sha-512.
+- Added `hmac` function, which allows computing the HMAC of a message. Supported algorithms are md5, sha-1, sha-256 and sha-512.
 - The "Number Slider" variable type now also supports negative numbers.
 - Image responses can now also be displayed in the 'Dialog Window' option, not only with the 'Fullscreen Window' option
 
