@@ -73,7 +73,7 @@ class SelectEditorFragment : VariableEditorFragment() {
             valueInput.rawString = option.value
         }
 
-        DialogBuilder(context!!)
+        DialogBuilder(requireContext())
             .title(if (option != null) R.string.title_edit_select_option else R.string.title_add_select_option)
             .view(editorView)
             .positive(R.string.dialog_ok) {

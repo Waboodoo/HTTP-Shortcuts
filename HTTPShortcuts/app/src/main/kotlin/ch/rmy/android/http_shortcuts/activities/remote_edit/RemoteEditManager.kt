@@ -29,10 +29,18 @@ class RemoteEditManager(
 ) {
 
     fun upload(deviceId: String, password: String): Completable =
+        Single.just(File(context.cacheDir, "remote-edit.json"))
+            .flatMapCompletable { file ->
+                exporter.exportToUri(FileUtil.getUriFromFile(context, file))
+                    .flatMapCompletable {
+                        pushToServer(deviceId, password, file)
+                    }
+            }
+            .subscribeOn(Schedulers.io())
+
+    private fun pushToServer(deviceId: String, password: String, file: File) =
         Completable.fromAction {
-            val file = File(context.cacheDir, "remote-edit.json")
             try {
-                exporter.exportToUri(FileUtil.getUriFromFile(context, file)).blockingGet()
                 processRequest(
                     newRequestBuilder(deviceId, password)
                         .method("POST", object : RequestBody() {
@@ -52,7 +60,6 @@ class RemoteEditManager(
                 file.delete()
             }
         }
-            .subscribeOn(Schedulers.io())
 
     fun download(deviceId: String, password: String): Single<Importer.ImportStatus> =
         Single.fromCallable {

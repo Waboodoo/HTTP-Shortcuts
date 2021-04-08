@@ -13,6 +13,7 @@ import android.view.MenuItem
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.extensions.attachTo
@@ -205,7 +206,11 @@ class DisplayResponseActivity : BaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_share_response -> consume { shareResponse() }
-        R.id.action_save_response_as_file -> consume { openFilePicker() }
+        R.id.action_save_response_as_file -> consume {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                openFilePicker()
+            }
+        }
         else -> super.onOptionsItemSelected(item)
     }
 
@@ -227,6 +232,7 @@ class DisplayResponseActivity : BaseActivity() {
     private fun shouldShareAsText() =
         !isImage(type) && text.length < MAX_SHARE_LENGTH
 
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
     private fun openFilePicker() {
         try {
             Intent(Intent.ACTION_CREATE_DOCUMENT)

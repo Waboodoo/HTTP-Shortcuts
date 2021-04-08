@@ -34,7 +34,6 @@ class RemoteEditActivity : BaseActivity() {
 
     private val viewModel: RemoteEditViewModel by bindViewModel()
 
-    private val instructions: TextView by bindView(R.id.instructions)
     private val instructionsList: TextView by bindView(R.id.instructions_list)
     private val uploadButton: Button by bindView(R.id.button_remote_edit_upload)
     private val downloadButton: Button by bindView(R.id.button_remote_edit_download)
@@ -93,7 +92,7 @@ class RemoteEditActivity : BaseActivity() {
             .doOnSubscribe {
                 progressDialog.show()
             }
-            .doOnEvent { _ ->
+            .doOnEvent {
                 progressDialog.dismiss()
             }
             .observeOn(AndroidSchedulers.mainThread())

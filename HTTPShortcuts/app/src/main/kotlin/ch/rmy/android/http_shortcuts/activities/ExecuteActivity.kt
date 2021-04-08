@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -161,6 +162,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         )
     }
 
+    @SuppressLint("CheckResult")
     private fun subscribeAndFinishAfterIfNeeded(completable: Completable) {
         completable
             .doOnError { error ->

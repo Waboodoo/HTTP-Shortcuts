@@ -16,7 +16,7 @@ class StreamRequestBody(
     override fun contentLength(): Long =
         length ?: -1
 
-    override fun contentType(): MediaType? =
+    override fun contentType(): MediaType =
         getMediaType(contentType)
 
     override fun writeTo(sink: BufferedSink) {

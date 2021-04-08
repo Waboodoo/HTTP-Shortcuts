@@ -58,9 +58,6 @@
     <!-- Shortcut dropdown option: Delete the shortcut/variable -->
     <string name="action_delete">"Excluir"</string>
 
-    <!-- Shortcut dropdown option: export the shortcut in cURL format -->
-    <string name="action_curl_export">"Exportar cURL"</string>
-
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
     <string name="action_move">"Mover"</string>
 

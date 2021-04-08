@@ -61,9 +61,6 @@
     <!-- Shortcut dropdown option: Delete the shortcut/variable -->
     <string name="action_delete">"Löschen"</string>
 
-    <!-- Shortcut dropdown option: export the shortcut in cURL format -->
-    <string name="action_curl_export">"cURL-Export"</string>
-
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
     <string name="action_move">"Verschieben"</string>
 
@@ -414,7 +411,7 @@
     <string name="layout_type_grid">"Raster"</string>
 
     <!-- Option to choose from when selecting the background of a category: Plain white -->
-    <string name="category_background_type_white">"Weiss"</string>
+    <string name="category_background_type_white">"Weiß"</string>
 
     <!-- Option to choose from when selecting the background of a category: Plain black -->
     <string name="category_background_type_black">"Schwarz"</string>

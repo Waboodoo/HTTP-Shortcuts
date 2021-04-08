@@ -46,8 +46,6 @@
     <string name="action_duplicate">Duplicate</string>
     <!-- Shortcut dropdown option: Delete the shortcut/variable -->
     <string name="action_delete">Delete</string>
-    <!-- Shortcut dropdown option: export the shortcut in cURL format -->
-    <string name="action_curl_export">cURL export</string>
     <!-- Shortcut dropdown option: export the shortcut -->
     <string name="action_export">Export</string>
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->

@@ -64,7 +64,7 @@ class ToggleEditorFragment : VariableEditorFragment() {
             valueInput.rawString = option.value
         }
 
-        DialogBuilder(context!!)
+        DialogBuilder(requireContext())
             .title(if (option != null) R.string.title_edit_toggle_option else R.string.title_add_toggle_option)
             .view(editorView)
             .positive(R.string.dialog_ok) {

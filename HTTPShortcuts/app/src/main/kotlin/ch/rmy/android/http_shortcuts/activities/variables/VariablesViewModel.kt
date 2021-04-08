@@ -10,14 +10,11 @@ import ch.rmy.android.http_shortcuts.data.livedata.ListLiveData
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.detachFromRealm
 import ch.rmy.android.http_shortcuts.extensions.toLiveData
-import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.variables.Variables.KEY_MAX_LENGTH
 import io.realm.Realm
 
 class VariablesViewModel(application: Application) : RealmViewModel(application) {
-
-    private val settings by lazy { Settings(application.applicationContext) }
 
     fun getVariables(): ListLiveData<Variable> =
         getBase(persistedRealm)!!

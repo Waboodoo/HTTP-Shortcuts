@@ -11,7 +11,7 @@ object ViewUtil {
         var ta: TypedArray? = null
         try {
             ta = context.obtainStyledAttributes(attrs, intArrayOf(attributeId))
-            return ta!!.getInt(0, -1).takeUnless { it == -1 }
+            return ta.getInt(0, -1).takeUnless { it == -1 }
         } finally {
             ta?.recycle()
         }

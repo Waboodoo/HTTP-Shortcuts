@@ -11,7 +11,9 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 internal class TimeType : BaseVariableType(), AsyncVariableType {
 
@@ -20,7 +22,7 @@ internal class TimeType : BaseVariableType(), AsyncVariableType {
     override fun resolveValue(context: Context, variable: Variable): Single<String> =
         Single.create<Date> { emitter ->
             val calendar = getInitialTime(variable.value)
-            val timePicker = TimePickerDialog(context, TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
+            val timePicker = TimePickerDialog(context, { _, hourOfDay, minute ->
                 val newDate = Calendar.getInstance()
                 newDate.set(Calendar.HOUR_OF_DAY, hourOfDay)
                 newDate.set(Calendar.MINUTE, minute)

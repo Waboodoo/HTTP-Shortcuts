@@ -61,9 +61,6 @@
     <!-- Shortcut dropdown option: Delete the shortcut/variable -->
     <string name="action_delete">"删除"</string>
 
-    <!-- Shortcut dropdown option: export the shortcut in cURL format -->
-    <string name="action_curl_export">"以cURL命令格式导出"</string>
-
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
     <string name="action_move">"移动"</string>
 
@@ -1231,7 +1228,7 @@
     <string name="dialog_code_snippet_response_body_json">"获取响应正文为 JSON 文件"</string>
 
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid bearer auth token configured -->
-    <string name="error_invalid_bearer_auth">"无效的持有人认证令牌"</string>
+    <string name="error_invalid_bearer_auth">"无效的持有人认证令牌 (%s)"</string>
 
     <!-- Shortcut Action Title: Trigger a task in Tasker -->
     <string name="action_type_trigger_tasker_title">"触发 Tasker 任务"</string>

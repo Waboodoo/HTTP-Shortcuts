@@ -9,7 +9,7 @@ import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 
 open class VariableEditorFragment : BaseFragment() {
 
-    protected val controller by lazy { destroyer.own(Controller()) }
+    private val controller by lazy { destroyer.own(Controller()) }
     protected val variablePlaceholderProvider by lazy {
         VariablePlaceholderProvider(controller.getVariables().toLiveData())
     }

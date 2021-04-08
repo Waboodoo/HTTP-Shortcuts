@@ -15,7 +15,7 @@ import org.json.JSONObject
 class SelectionAction(private val jsonData: String) : BaseAction() {
 
     override fun executeForValue(executionContext: ExecutionContext): Single<String> {
-        val options = parseData(jsonData);
+        val options = parseData(jsonData)
         return if (options.isNotEmpty()) {
             Single.create<String> { emitter ->
                 DialogBuilder(executionContext.context)

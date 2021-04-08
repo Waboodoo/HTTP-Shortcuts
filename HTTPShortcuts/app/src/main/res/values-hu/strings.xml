@@ -61,9 +61,6 @@
     <!-- Shortcut dropdown option: Delete the shortcut/variable -->
     <string name="action_delete">"Törlés"</string>
 
-    <!-- Shortcut dropdown option: export the shortcut in cURL format -->
-    <string name="action_curl_export">"cURL exportálás"</string>
-
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
     <string name="action_move">"Áthelyezés"</string>
 
@@ -556,7 +553,7 @@ Az összes benne található parancsikon törlődik."</string>
     <string name="section_select_options">"Választható opciók"</string>
 
     <!-- Label, for dialog that allows adding/editing an option for a Selection variable, for specifying the option's "Label" -->
-    <string name="label_select_label">"Cimke"</string>
+    <string name="label_select_label">"Címke"</string>
 
     <!-- Label, for dialog that allows adding/editing an option for a Selection variable, for specifying the option's "Value" -->
     <string name="label_select_value">"Érték"</string>
@@ -1009,7 +1006,7 @@ Ezt a funkciót engedélyezheted egy parancsikon szerkesztésével és a \"%1$s\
     <string name="label_widget">"Testre szabható Widget"</string>
 
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
-    <string name="label_show_widget_label">"Cimke mutatása"</string>
+    <string name="label_show_widget_label">"Címke mutatása"</string>
 
     <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
     <string name="action_create_widget">"Widget létrehozása"</string>
@@ -1018,7 +1015,7 @@ Ezt a funkciót engedélyezheted egy parancsikon szerkesztésével és a \"%1$s\
     <string name="title_configure_widget">"Widget beállítása"</string>
 
     <!-- Label: Shown in widget configuration screen, clicking it allows the user to pick a color for the widget label -->
-    <string name="label_widget_label_color">"Cimke szín"</string>
+    <string name="label_widget_label_color">"Címke szín"</string>
 
     <!-- Error: Generic error shown when the user enters an invalid character, e.g. for an HTTP header. %s is the placeholder for the character -->
     <string name="error_invalid_character">"Érvénytelen karakter: %s"</string>

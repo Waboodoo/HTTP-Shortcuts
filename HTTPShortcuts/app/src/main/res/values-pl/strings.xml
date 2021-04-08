@@ -75,9 +75,6 @@
     <!-- Fuzzy -->
     <string name="action_delete">"Usuń"</string>
 
-    <!-- Shortcut dropdown option: export the shortcut in cURL format -->
-    <string name="action_curl_export">"Eksportuj cURL"</string>
-
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
     <string name="action_move">"Przenieś"</string>
 

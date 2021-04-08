@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.livedata.ListLiveData
@@ -18,7 +17,7 @@ import kotterknife.bindView
 class ShortcutsAdapter(lifecycleOwner: LifecycleOwner, private val shortcuts: ListLiveData<ShortcutPlaceholder>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     init {
-        shortcuts.observe(lifecycleOwner, Observer {
+        shortcuts.observe(lifecycleOwner, {
             notifyDataSetChanged()
         })
         setHasStableIds(true)
