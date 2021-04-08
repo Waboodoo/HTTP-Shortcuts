@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.activities.remote_edit
 import android.content.Context
 import android.net.Uri
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
+import ch.rmy.android.http_shortcuts.import_export.ExportFormat
 import ch.rmy.android.http_shortcuts.import_export.Exporter
 import ch.rmy.android.http_shortcuts.import_export.Importer
 import ch.rmy.android.http_shortcuts.utils.FileUtil
@@ -31,7 +32,7 @@ class RemoteEditManager(
     fun upload(deviceId: String, password: String): Completable =
         Single.just(File(context.cacheDir, "remote-edit.json"))
             .flatMapCompletable { file ->
-                exporter.exportToUri(FileUtil.getUriFromFile(context, file))
+                exporter.exportToUri(FileUtil.getUriFromFile(context, file), format = ExportFormat.LEGACY_JSON)
                     .flatMapCompletable {
                         pushToServer(deviceId, password, file)
                     }
