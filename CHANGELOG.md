@@ -1,3 +1,7 @@
+## Version 2.4.0
+
+Work in progress
+
 ## Version 2.3.0
 
 ### Client Certificate Authentication
