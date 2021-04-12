@@ -3,8 +3,8 @@
 <img src="/Assets/logo.png" align="right" style="margin-left: 1em;"/>
 </a>
 
-![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/Waboodoo/HTTP-Shortcuts)
-![F-Droid](https://img.shields.io/f-droid/v/ch.rmy.android.http_shortcuts)
+[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/Waboodoo/HTTP-Shortcuts)](https://github.com/Waboodoo/HTTP-Shortcuts/releases)
+[![F-Droid](https://img.shields.io/f-droid/v/ch.rmy.android.http_shortcuts)](https://f-droid.org/en/packages/ch.rmy.android.http_shortcuts/)
 
 A simple Android app that allows you to create shortcuts that can be placed on your home screen. Each shortcut, when clicked, triggers an HTTP request.
 
