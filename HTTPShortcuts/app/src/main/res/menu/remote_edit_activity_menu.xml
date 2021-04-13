@@ -4,6 +4,7 @@
 
     <item
         android:id="@+id/action_change_remote_host"
+        android:icon="@drawable/ic_settings"
         android:title="@string/button_change_remote_server"
         app:showAsAction="never" />
 
