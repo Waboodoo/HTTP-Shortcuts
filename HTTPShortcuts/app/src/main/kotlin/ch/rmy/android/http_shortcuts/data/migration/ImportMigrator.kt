@@ -7,6 +7,7 @@ import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceActionsWit
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceVariableKeysWithIdsMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ResponseHandlingMigration
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
+import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 
@@ -54,7 +55,7 @@ internal object ImportMigrator {
                         }
                     }
                 }
-                for (variable in base["variables"].asJsonArray) {
+                for (variable in base["variables"]?.takeIf { it.isJsonArray }?.asJsonArray ?: JsonArray()) {
                     if (!variable.asJsonObject["options"].isJsonNull) {
                         for (option in variable.asJsonObject["options"].asJsonArray) {
                             option.asJsonObject.addProperty("id", newUUID())

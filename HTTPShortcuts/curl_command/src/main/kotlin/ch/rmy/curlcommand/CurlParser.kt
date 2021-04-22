@@ -34,7 +34,7 @@ class CurlParser private constructor(arguments: List<String>) {
                     }
                     "-x", "--proxy" -> {
                         val parts = iterator.next().split(":")
-                        builder.proxy(parts[0], parts.getOrNull(1)?.toInt() ?: 3128)
+                        builder.proxy(parts[0], parts.getOrNull(1)?.toIntOrNull() ?: 3128)
                         continue@loop
                     }
                     "-H", "--header" -> {
