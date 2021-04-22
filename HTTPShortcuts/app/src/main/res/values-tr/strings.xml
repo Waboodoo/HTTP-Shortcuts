@@ -77,7 +77,9 @@
     <string name="empty_state_shortcuts">"henüz kısayol yok"</string>
 
     <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
-    <string name="empty_state_shortcuts_instructions">"Başlamak için + butonuna basın"</string>
+    <string name="empty_state_shortcuts_instructions">"Bir kısayol, isteğe bağlı olarak yanıtı işleyip görüntüleyerek tek bir HTTP isteği göndermenize olanak tanır.
+
+Başlamak için + düğmesini tıklayın veya Hakkında bölümündeki Belgeleri kontrol edin."</string>
 
     <!-- Empty state, shown in list when there are no variables yet -->
     <string name="empty_state_variables">"henüz değişken yok"</string>
@@ -234,8 +236,7 @@
     <string name="settings_crash_reporting_disallow">"Herhangi bir kilitlenme raporu göndermeyin"</string>
 
     <!-- Button in settings page to start export of shortcuts -->
-    <!-- Fuzzy -->
-    <string name="settings_export">"Kısayolları Dışa Aktar"</string>
+    <string name="settings_export">"Kısayolları ve Değişkenleri Dışa Aktar"</string>
 
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
     <plurals name="shortcut_export_success">
@@ -589,8 +590,7 @@
     <string name="help_text_code_snippet_get_variable_no_variable">"Henüz değişkeniniz yok. Başlamak için aşağıdaki OLUŞTUR düğmesini tıklayın."</string>
 
     <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
-    <!-- Fuzzy -->
-    <string name="help_text_code_snippet_set_variable_no_variable">"Henüz bu eylemle ayarlanabilen Sabit türünde değişkeniniz yok. Başlamak için aşağıdaki OLUŞTUR düğmesini tıklayın."</string>
+    <string name="help_text_code_snippet_set_variable_no_variable">"Henüz bu işlemle ayarlanabilecek statik değişkenleriniz (sabitleriniz) yok.  Başlamak için aşağıdaki OLUŞTUR düğmesini tıklayın."</string>
 
     <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
     <string name="button_create_first_variable">"Oluştur"</string>
@@ -635,12 +635,11 @@
     <string name="action_send_to">"Gönder…"</string>
 
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
-    <!-- Fuzzy -->
-    <string name="error_not_suitable_shortcuts">"Uygun bir kısayol bulunamadı.
+    <string name="error_not_suitable_shortcuts">"Uygun kısayol bulunamadı.
 
-Bu özelliği kullanmak için 'Paylaş…' seçeneğine izin veren bir değişkeni kullanan en az bir kısayolun olması gerekir.
+Bu özelliği kullanmak için, 'Paylaş ...' seçeneğine izin veren bir değişken kullanan veya bir dosya parametresi olan veya istek gövdesi olarak bir dosya kullanan en az bir kısayola sahip olmanız gerekir.
 
-Daha fazla bilgi için değişken bölümdeki belgelere bakın."</string>
+Daha fazla bilgi için değişken bölümündeki yardım düğmesine tıklayın."</string>
 
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">"'Paylaş…' seçeneğine izin ver"</string>
@@ -670,12 +669,10 @@ Daha fazla bilgi için değişken bölümdeki belgelere bakın."</string>
     <string name="title_export">"Dışarı aktar…"</string>
 
     <!-- Dialog option on Export dialog, for exporting by storing in a file -->
-    <!-- Fuzzy -->
-    <string name="button_export_to_general">"Belgeler"</string>
+    <string name="button_export_to_general">"Belgeler (Dosyayı Kaydet)"</string>
 
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
-    <!-- Fuzzy -->
-    <string name="button_export_send_to">"Başka uygulama"</string>
+    <string name="button_export_send_to">"Başka Uygulama (Paylaş)"</string>
 
     <!-- Dialog title when creating a new shortcut, shows options below -->
     <string name="title_create_new_shortcut_options_dialog">"Yeni Kısayol Oluştur"</string>
@@ -844,7 +841,7 @@ Daha fazla bilgi için değişken bölümdeki belgelere bakın."</string>
     <string name="title_select_placement_method">"Yerleşim Yöntemi"</string>
 
     <!-- Description: Dialog text when selecting how to place a shortcut on the homescreen -->
-    <string name="description_select_placement_method">"Kısayolu yerleştirmek için kullanılacak yöntemi seçin. \"Varsayılan\" yöntemiyle ilgili bir sorunla karşılaşırsanız, bunun yerine \"Katılım\" yöntemini deneyebilirsiniz. Lütfen bazı özelliklerin (örneğin, kısayol adının değiştirilmesi) Katılım yönteminde mevcut olmadığını unutmayın."</string>
+    <string name="description_select_placement_method">"Kısayolu yerleştirmek için kullanılacak yöntemi seçin.  \"Varsayılan\" yöntemle ilgili sorunlarla karşılaşırsanız, bunun yerine \"Eski\" yöntemini deneyebilirsiniz.  Lütfen bazı özelliklerin (örneğin kısayol adını değiştirme) Eski yöntemde kullanılamadığını unutmayın."</string>
 
     <!-- Label: Preferred option in dialog for selecting how to place the shortcut on the homescreen: Default (method) -->
     <string name="label_placement_method_default">"Varsayılan"</string>
@@ -1275,12 +1272,10 @@ Bu özelliği, bir kısayolu düzenleyerek ve \"%2$s\" içinde bulunan \"%1$s\" 
     <string name="option_response_handling_type_toast">"Alt Mesaj Çubuğu"</string>
 
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->
-    <!-- Fuzzy -->
-    <string name="option_response_handling_type_dialog">"Uyarı Penceresi"</string>
+    <string name="option_response_handling_type_dialog">"İletişim Penceresi"</string>
 
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a fullscreen window -->
-    <!-- Fuzzy -->
-    <string name="option_response_handling_type_window">"Tam Pencere"</string>
+    <string name="option_response_handling_type_window">"Tam Ekran Pencere"</string>
 
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show the (full) response -->
     <string name="option_response_handling_success_output_response">"Yanıtı göster"</string>
@@ -1310,8 +1305,7 @@ Bu özelliği, bir kısayolu düzenleyerek ve \"%2$s\" içinde bulunan \"%1$s\" 
     <string name="title_export_shortcut_as">"Dışarı Farklı Aktar"</string>
 
     <!-- Dialog option, for exporting a single shortcut as cURL -->
-    <!-- Fuzzy -->
-    <string name="action_export_as_curl">"cURL"</string>
+    <string name="action_export_as_curl">"cURL komutu"</string>
 
     <!-- Name of button in settings screen that allows to clear all HTTP cookies -->
     <string name="settings_clear_cookies">"Çerezleri Sil"</string>
@@ -1330,4 +1324,207 @@ Bu özelliği, bir kısayolu düzenleyerek ve \"%2$s\" içinde bulunan \"%1$s\" 
 
     <!-- Shortcut Action Title: Show Selection (i.e., show a popup with multiple-choice option) -->
     <string name="action_type_selection_title">"Seçimi Göster (Çoktan Seçmeli)"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options to process text (e.g. encoding, hashing, ...) -->
+    <string name="dialog_code_snippet_text_processing">"Metin İşleme"</string>
+
+    <!-- Error message: Shown when user tries to use an unsupported hash function -->
+    <string name="error_unsupported_hash_algorithm">"Desteklenmeyen karma algoritma \"%1$s\".  %2$s kullanın."</string>
+
+    <!-- Button in settings page to start editing shortcuts from a connected computer -->
+    <string name="settings_remote_edit">"Bilgisayarda Düzenle"</string>
+
+    <!-- Instructions on how to edit shortcuts remotely from a computer -->
+    <string name="instructions_remote_edit">"Bu özellik, bir tarayıcının rahatlığıyla bir bilgisayarda kısayollarınızı düzenlemenize olanak tanır.  Lütfen başlamadan önce uygulamanın Gizlilik Politikasını okuyun ve ardından aşağıdaki adımları izleyin:"</string>
+
+    <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->
+    <string name="instructions_remote_edit_step_1">"Yukarıdaki alana bir şifre girin."</string>
+
+    <!-- Instruction step for editing shortcuts remotely from a computer: click the push button -->
+    <string name="instructions_remote_edit_step_2">"&lt;pre&gt;\"Sunucuya Gönder\"&lt;/pre&gt; düğmesini tıklayın."</string>
+
+    <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
+    <string name="instructions_remote_edit_step_3">"Bilgisayarınızdaki bir tarayıcıdan %s açın, cihaz kimliğinizi ve şifrenizi girin ve düzenlemeye başlayın."</string>
+
+    <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
+    <string name="instructions_remote_edit_step_4">"Düzenlemeyi bitirip değişikliklerinizi kaydettikten sonra, değişikliklerinizi uygulamaya yüklemek için aşağıdaki &lt;pre&gt;\"Değişiklikleri Al\"&lt;/pre&gt; düğmesini tıklayın."</string>
+
+    <!-- Button label: Shown in "Edit on Computer" feature, allows to push all shortcuts and variables to the editing server -->
+    <string name="button_remote_edit_upload">"Sunucuya Gönder"</string>
+
+    <!-- Button label: Shown in "Edit on Computer" feature, allows to pull all changes to shortcuts and variables from the editing server -->
+    <string name="button_remote_edit_download">"Değişiklikleri Al"</string>
+
+    <!-- Label: Shown above a textfield with the device's ID, used to log in to edit server when editing shortcuts on a computer -->
+    <string name="label_remote_edit_device_id">"Cihaz ID"</string>
+
+    <!-- Label: Shown above a textfield for entering a password, used to log in to edit server when editing shortcuts on a computer -->
+    <string name="label_remote_edit_password">"Şifre"</string>
+
+    <!-- Status message shown while shortcuts & variables are being pushed to the remote server, shown on progress dialog -->
+    <string name="remote_edit_upload_in_progress">"Sunucuya Gönderiliyor…"</string>
+
+    <!-- Status message shown while changes to shortcuts & variables are being pulled down from the remote server, shown on progress dialog -->
+    <string name="remote_edit_download_in_progress">"Değişiklikler Alınıyor…"</string>
+
+    <!-- Message: Success message shown in snackbar when pushing shortcuts and variables to the editing server was successful -->
+    <string name="message_remote_edit_upload_successful">"Sunucuya başarıyla gönderildi."</string>
+
+    <!-- Message: Success message shown in snackbar when pulling changes to shortcuts and variables from the editing server was successful -->
+    <string name="message_remote_edit_download_successful">"Değişiklikler başarıyla alındı."</string>
+
+    <!-- Error message: shown in dialog when pushing shortcuts to the editing server failed -->
+    <string name="error_remote_edit_upload">"Sunucuya aktarılamadı.  Lütfen daha sonra tekrar deneyiniz."</string>
+
+    <!-- Error message: shown in dialog when pulling changes to shortcuts from the editing server failed -->
+    <string name="error_remote_edit_download">"Sunucudan değişiklikler alınamadı.  Lütfen ağ bağlantınızı kontrol edin ve şifreyi değiştirmediğinizden emin olun."</string>
+
+    <!-- Option for dropdown menu in remote editor, allows to change the remote editing server -->
+    <string name="button_change_remote_server">"Sunucu adresini değiştir"</string>
+
+    <!-- Dialog title: allows to change the remote editing server -->
+    <string name="title_change_remote_server">"Sunucu Adresini Değiştir"</string>
+
+    <!-- Dialog button (generic): Allows to reset some setting to its original value -->
+    <string name="dialog_reset">"Sıfırla"</string>
+
+    <!-- Error message: Shown when a script tries to read from a variable that does not exist. %s is a placeholder for the name of the variable. -->
+    <string name="error_variable_not_found_read">"Değişken hatası: var olmayan değişkenin değeri alınmaya çalışıldı: %s"</string>
+
+    <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->
+    <string name="error_variable_not_found_write">"Değişken hatası: Var olmayan veya statik olmayan (sabit) değişkenin değeri ayarlanmaya çalışıldı: %s"</string>
+
+    <!-- Title of code editor for defining global scripting code (JS code that runs before every shortcut) -->
+    <string name="title_global_scripting">"Global Komut Dosyası"</string>
+
+    <!-- Button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
+    <string name="settings_global_scripting">"Global Komut Dosyası"</string>
+
+    <!-- Subtitle of button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
+    <string name="settings_global_scripting_summary">"Her kısayol çalıştırmadan önce JavaScript kodunu çalıştırın"</string>
+
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the execution of every shortcut -->
+    <string name="placeholder_javascript_global_scripting">"Her kısayol çalıştırmanın başlangıcında çalıştırmak için, örneğin bazı değişkenleri hazırlamak veya bir kısayolun Komut Dosyası bölümünde kullanılabilecek bazı işlevleri tanımlamak için JavaScript kodunu buraya ekleyin."</string>
+
+    <!-- Action label: Shown on menu button to save changes in the Global Scripting editor -->
+    <string name="action_save_global_scripting">"Değişiklikleri Kaydet"</string>
+
+    <!-- Error message: Shown when trying to trigger a shortcut by name via a voice command or deep-linking but the shortcut is not found -->
+    <string name="error_shortcut_not_found_for_deep_link">"\"%s\" kısayolu bulunamadı"</string>
+
+    <!-- Instructions: Shown when the deep-linking feature is used but with an invalid URL -->
+    <string name="instructions_deep_linking">"Derin bağlantı özelliğini kullanmak için, formun geçerli bir URL'sini kullandığınızdan emin olun:
+
+ %s"</string>
+
+    <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
+    <string name="placeholder_deleted_shortcut">"Kısayol Silindi"</string>
+
+    <!-- Menu button, allows saving a response as a file -->
+    <string name="button_save_response_as_file">"Dosya olarak kaydet"</string>
+
+    <!-- Label: Wifi network selection config in shortcut settings -->
+    <string name="label_ssid">"İstenilen Wifi SSID'si"</string>
+
+    <!-- Dialog title: Permission request for wifi/ssid check -->
+    <string name="title_permission_dialog">"İzinler gerekli"</string>
+
+    <!-- Message: Rational given for location permission in wifi/ssid check -->
+    <string name="message_permission_rational">"Kısayolun yapılandırılmış kablosuz ağda yürütülüp yürütülmediğini kontrol etmek için konum izinleri gereklidir.  Bu, Android işletim sistemi tarafından uygulanan bir gerekliliktir.  Konum verilerinize doğrudan erişilmez."</string>
+
+    <!-- Message: Shown to the user when connected to a different wifi network than the one given in the config -->
+    <string name="message_wrong_wifi_network">"Bu kısayol için yapılandırılmış olan kablosuz ağa bağlanılmadı \"%1$s\". Şimdi başka bir kablosuz ağ seçilsin mi?"</string>
+
+    <!-- Action label: Shown on wifi check dialog to open the wifi picker -->
+    <string name="action_label_select">"Seçiniz"</string>
+
+    <!-- Error message, shown when user declines location permission for wifi check -->
+    <string name="error_missing_location_permission">"Konum izni alınamadı. İstek iptal edildi."</string>
+
+    <!-- Message: Success message shown when a response was saved to a file -->
+    <string name="message_response_saved_to_file">"Yanıt dosyaya kaydedildi."</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options to get information about the selected files -->
+    <string name="dialog_code_snippet_files">"Seçili Dosyalar"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
+    <string name="dialog_code_snippet_get_file_name">"Seçili Dosyanın Adını Al"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->
+    <string name="dialog_code_snippet_get_file_type">"Seçili Dosyanın Türünü Al"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the size of a selected file -->
+    <string name="dialog_code_snippet_get_file_size">"Seçili Dosyanın Boyutunu Alın (Bayt olarak)"</string>
+
+    <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, ...) -->
+    <string name="title_about">"Hakkında"</string>
+
+    <!-- Title of option in settings screen: links the user to an external documentation page -->
+    <string name="settings_documentation">"Dokümantasyon"</string>
+
+    <!-- Subtitle of option in settings screen: links the user to an external documentation page -->
+    <string name="settings_documentation_summary">"SSS, referanslar, örnekler,…"</string>
+
+    <!-- Instructions shown below the "Allow Share..." checkbox in the variable editor -->
+    <string name="message_allow_share_instructions">"Bunu etkinleştirmek, diğer uygulamalardan metin paylaşmanıza ve bu paylaşılan metni bu değişken için geçici değer olarak kullanmanıza olanak tanır."</string>
+
+    <!-- Dialog title: Shown in progress dialog while a file is being saved -->
+    <string name="saving_in_progress">"Kaydediliyor…"</string>
+
+    <!-- Title: Shown above cropper/resizer tool when picking a custom icon -->
+    <string name="title_edit_custom_icon">"Simgeyi Düzenle"</string>
+
+    <!-- Error message: Shown in dialog when user tries to enter an invalid URL for the remote edit feature -->
+    <string name="error_invalid_remote_edit_host_url">"Geçersiz URL. Http(s) olmalıdır."</string>
+
+    <!-- Dialog option, for exporting a single shortcut as a file -->
+    <string name="action_export_as_file">"Dosya"</string>
+
+    <!-- Title of import/export page, for importing and exporting shortcuts and variables -->
+    <string name="title_import_export">"İçe Aktar / Dışa Aktar"</string>
+
+    <!-- Section title on settings screen for options related to Scripting (i.e., custom workflow code in JavaScript) -->
+    <string name="settings_title_scripting">"Komut Dosyası"</string>
+
+    <!-- Button in settings page to start import of shortcuts from a file -->
+    <string name="settings_import_from_file">"Dosyadan içe aktar"</string>
+
+    <!-- Button in settings page to start import of shortcuts from a url -->
+    <string name="settings_import_from_url">"URL’den içe aktar"</string>
+
+    <!-- Section title on import/export screen for options related to importing -->
+    <string name="settings_title_import">"İçe Aktar"</string>
+
+    <!-- Section title on import/export screen for options related to exporting -->
+    <string name="settings_title_export">"Dışa Aktar"</string>
+
+    <!-- Section title on import/export screen for options related to remote editing (i.e. editing on computer) -->
+    <string name="settings_title_remote_edit">"Uzaktan Düzenleme"</string>
+
+    <!-- Name of setting that allows the user to enable exporting using the legacy file format -->
+    <string name="settings_use_legacy_export_format">"Eski Dosya Biçimini Kullan"</string>
+
+    <!-- Subtitle of setting that allows the user to enable exporting using the legacy file format -->
+    <string name="settings_use_legacy_export_format_summary">"Kısayolları ve değişkenleri eski dosya biçimini (yani tek bir JSON dosyası) kullanarak dışa aktarmayı etkinleştirin.  Bu, özel kısayol simgelerinin dışa aktarılmasını önleyecektir."</string>
+
+    <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
+    <string name="label_client_cert">"İstemci Sertifikası Kimlik Doğrulaması"</string>
+
+    <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
+    <string name="label_subtitle_no_client_cert">"Bir sertifika seçmek için tıklayın."</string>
+
+    <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
+    <string name="label_subtitle_client_cert_in_use">"\"%s\" sertifikası kullanılıyor.  Kaldırmak için tıklayın."</string>
+
+    <!-- Error: Shown to the user when any error occurred while trying to execute a shortcut that uses a client certificate -->
+    <string name="error_failed_to_use_client_cert">"İstemci sertifikası yüklenemedi veya kullanılamadı.  Bu, cihazınız tarafından desteklenmiyor olabilir veya kısayol ayarlarında yeniden yapılandırılması gerekebilir."</string>
+
+    <!-- Error message: Shown when user tries to use an unsupported hmac function -->
+    <string name="error_unsupported_hmac_algorithm">"Desteklenmeyen HMAC algoritması \"%1$s\" veya geçersiz anahtar.  %2$s kullanın."</string>
+
+    <!-- Button, shown on About page, to allow opening the app's F-Droid page -->
+    <string name="settings_f_droid">"F-Droid'de görüntüle"</string>
+
+    <!-- Button subtitle for "View in F-Droid" button -->
+    <string name="settings_f_droid_summary">"Güncellemeleri kontrol et"</string>
 </resources>
