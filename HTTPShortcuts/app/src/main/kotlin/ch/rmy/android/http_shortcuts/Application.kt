@@ -11,6 +11,8 @@ import ch.rmy.android.http_shortcuts.utils.LocaleHelper
 import ch.rmy.android.http_shortcuts.utils.Settings
 import com.facebook.stetho.Stetho
 import io.reactivex.plugins.RxJavaPlugins
+import org.conscrypt.Conscrypt
+import java.security.Security
 
 class Application : android.app.Application() {
 
@@ -19,6 +21,7 @@ class Application : android.app.Application() {
 
     override fun onCreate() {
         super.onCreate()
+        Security.insertProviderAt(Conscrypt.newProvider(), 1)
 
         Logging.initCrashReporting(context)
 

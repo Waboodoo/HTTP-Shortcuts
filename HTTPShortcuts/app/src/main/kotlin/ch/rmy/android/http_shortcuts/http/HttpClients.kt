@@ -8,8 +8,10 @@ import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import com.burgstaller.okhttp.digest.Credentials
 import com.facebook.stetho.okhttp3.StethoInterceptor
+import okhttp3.ConnectionSpec
 import okhttp3.CookieJar
 import okhttp3.OkHttpClient
+import org.conscrypt.Conscrypt
 import java.net.InetSocketAddress
 import java.net.Proxy
 import java.security.cert.CertificateException
@@ -59,13 +61,22 @@ internal object HttpClients {
             .build()
 
     private fun createDefaultOkHttpClientBuilder(context: Context, clientCertAlias: String?) = OkHttpClient.Builder()
-        .mapIf(clientCertAlias != null) { builder ->
-            try {
-                ClientCertKeyManager.applyToOkHttpClient(builder, context, clientCertAlias!!)
+        .connectionSpecs(listOf(ConnectionSpec.MODERN_TLS))
+        .run {
+            val trustManager = Conscrypt.getDefaultX509TrustManager()
+            val sslContext = SSLContext.getInstance("TLS", "Conscrypt")
+
+            val keyManager = try {
+                clientCertAlias?.let {
+                    arrayOf(ClientCertKeyManager.getClientCertKeyManager(context, it))
+                }
             } catch (e: Throwable) {
                 logException(e)
                 throw ClientCertException()
             }
+
+            sslContext.init(keyManager, arrayOf(trustManager), null)
+            sslSocketFactory(TLSEnabledSSLSocketFactory(sslContext.socketFactory), trustManager)
         }
 
     private fun createUnsafeOkHttpClientBuilder(): OkHttpClient.Builder {

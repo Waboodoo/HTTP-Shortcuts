@@ -1,6 +1,6 @@
 ## Version 2.4.0
 
-Work in progress
+- Added TLSv1.3 support also for older Android versions
 
 ## Version 2.3.0
 
