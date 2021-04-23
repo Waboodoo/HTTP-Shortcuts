@@ -2,6 +2,9 @@
 
 - Added TLSv1.3 support also for older Android versions
 
+### Bugfixes
+- Fixed broken special characters when using Basic Authentication, now uses UTF-8
+
 ## Version 2.3.0
 
 ### Client Certificate Authentication
