@@ -7,6 +7,7 @@ import ch.rmy.android.http_shortcuts.data.Repository
 import ch.rmy.android.http_shortcuts.data.Transactions
 import ch.rmy.android.http_shortcuts.data.livedata.ListLiveData
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.extensions.safeRemoveIf
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.TriggerShortcutManager
 import io.reactivex.Completable
@@ -57,17 +58,7 @@ class TriggerShortcutsViewModel(application: Application) : BasicShortcutEditorV
 
     fun removeShortcut(shortcutId: String): Completable =
         mutateShortcutList { shortcuts ->
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                shortcuts.removeIf { it.shortcutId == shortcutId }
-            } else {
-                val iterator = shortcuts.iterator()
-                while (iterator.hasNext()) {
-                    val item = iterator.next()
-                    if (item.shortcutId == shortcutId) {
-                        iterator.remove()
-                    }
-                }
-            }
+            shortcuts.safeRemoveIf { it.shortcutId == shortcutId }
         }
 
     private fun mutateShortcutList(action: (MutableList<TriggerShortcutManager.TriggeredShortcut>) -> Unit): Completable {

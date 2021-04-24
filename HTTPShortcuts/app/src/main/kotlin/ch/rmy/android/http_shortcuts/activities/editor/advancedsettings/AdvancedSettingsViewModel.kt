@@ -4,6 +4,7 @@ import android.app.Application
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.BasicShortcutEditorViewModel
 import ch.rmy.android.http_shortcuts.data.Transactions
+import ch.rmy.android.http_shortcuts.data.models.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.context
 import ch.rmy.android.http_shortcuts.utils.StringUtils
@@ -51,14 +52,17 @@ class AdvancedSettingsViewModel(application: Application) : BasicShortcutEditorV
     fun getTimeoutText(timeout: Int) =
         StringUtils.getDurationText(context, timeout)
 
-    fun setClientCertAlias(alias: String): Completable =
+    fun setClientCertParams(clientCertParams: ClientCertParams?): Completable =
         Transactions.commit { realm ->
-            getShortcut(realm)?.clientCertAlias = alias
+            getShortcut(realm)?.clientCertParams = clientCertParams
         }
 
     fun getClientCertSubtitle(shortcut: Shortcut) =
-        when (shortcut.clientCertAlias) {
-            "" -> context.getString(R.string.label_subtitle_no_client_cert)
-            else -> context.getString(R.string.label_subtitle_client_cert_in_use, shortcut.clientCertAlias)
+        shortcut.clientCertParams.let { clientCertParams ->
+            when (clientCertParams) {
+                is ClientCertParams.Alias -> context.getString(R.string.label_subtitle_client_cert_in_use, clientCertParams.alias)
+                is ClientCertParams.File -> context.getString(R.string.label_subtitle_client_cert_file_in_use)
+                else -> context.getString(R.string.label_subtitle_no_client_cert)
+            }
         }
 }

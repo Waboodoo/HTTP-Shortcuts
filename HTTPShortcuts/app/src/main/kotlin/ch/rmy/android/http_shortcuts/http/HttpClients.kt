@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.http
 
 
 import android.content.Context
+import ch.rmy.android.http_shortcuts.data.models.ClientCertParams
 import ch.rmy.android.http_shortcuts.exceptions.ClientCertException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidProxyException
 import ch.rmy.android.http_shortcuts.extensions.logException
@@ -14,8 +15,10 @@ import okhttp3.OkHttpClient
 import org.conscrypt.Conscrypt
 import java.net.InetSocketAddress
 import java.net.Proxy
-import java.security.cert.CertificateException
+import java.security.KeyStore
+import java.security.SecureRandom
 import java.util.concurrent.TimeUnit
+import javax.net.ssl.KeyManagerFactory
 import javax.net.ssl.SSLContext
 import javax.net.ssl.X509TrustManager
 
@@ -23,7 +26,7 @@ internal object HttpClients {
 
     fun getClient(
         context: Context,
-        clientCertAlias: String? = null,
+        clientCertParams: ClientCertParams? = null,
         acceptAllCertificates: Boolean = false,
         username: String? = null,
         password: String? = null,
@@ -36,7 +39,7 @@ internal object HttpClients {
         (if (acceptAllCertificates) {
             createUnsafeOkHttpClientBuilder()
         } else {
-            createDefaultOkHttpClientBuilder(context, clientCertAlias)
+            createDefaultOkHttpClientBuilder(context, clientCertParams)
         })
             .mapIf(username != null && password != null) {
                 val authenticator = DigestAuthenticator(Credentials(username, password))
@@ -60,40 +63,44 @@ internal object HttpClients {
             .addNetworkInterceptor(StethoInterceptor())
             .build()
 
-    private fun createDefaultOkHttpClientBuilder(context: Context, clientCertAlias: String?) = OkHttpClient.Builder()
+    private fun createDefaultOkHttpClientBuilder(context: Context, clientCertParams: ClientCertParams?) = OkHttpClient.Builder()
         .connectionSpecs(listOf(ConnectionSpec.MODERN_TLS))
         .run {
             val trustManager = Conscrypt.getDefaultX509TrustManager()
             val sslContext = SSLContext.getInstance("TLS", "Conscrypt")
 
-            val keyManager = try {
-                clientCertAlias?.let {
-                    arrayOf(ClientCertKeyManager.getClientCertKeyManager(context, it))
+            val keyManagers = when (clientCertParams) {
+                is ClientCertParams.Alias -> {
+                    try {
+                        arrayOf(ClientCertKeyManager.getClientCertKeyManager(context, clientCertParams.alias))
+                    } catch (e: Throwable) {
+                        logException(e)
+                        throw ClientCertException()
+                    }
                 }
-            } catch (e: Throwable) {
-                logException(e)
-                throw ClientCertException()
+                is ClientCertParams.File -> {
+                    val keyStore = KeyStore.getInstance("PKCS12")
+                    context.openFileInput(clientCertParams.fileName).use {
+                        keyStore.load(it, clientCertParams.password.toCharArray())
+                    }
+                    KeyManagerFactory.getInstance("X509")
+                        .apply {
+                            init(keyStore, clientCertParams.password.toCharArray())
+                        }
+                        .keyManagers
+                }
+                else -> null
             }
 
-            sslContext.init(keyManager, arrayOf(trustManager), null)
+            sslContext.init(keyManagers, arrayOf(trustManager), null)
             sslSocketFactory(TLSEnabledSSLSocketFactory(sslContext.socketFactory), trustManager)
         }
 
     private fun createUnsafeOkHttpClientBuilder(): OkHttpClient.Builder {
-        val trustAllCerts = arrayOf<X509TrustManager>(object : X509TrustManager {
-            @Throws(CertificateException::class)
-            override fun checkClientTrusted(chain: Array<java.security.cert.X509Certificate>, authType: String) {
-            }
-
-            @Throws(CertificateException::class)
-            override fun checkServerTrusted(chain: Array<java.security.cert.X509Certificate>, authType: String) {
-            }
-
-            override fun getAcceptedIssuers(): Array<java.security.cert.X509Certificate> = emptyArray()
-        })
+        val trustAllCerts = arrayOf<X509TrustManager>(UnsafeTrustManager())
 
         val sslContext = SSLContext.getInstance("SSL")
-        sslContext.init(null, trustAllCerts, java.security.SecureRandom())
+        sslContext.init(null, trustAllCerts, SecureRandom())
         val sslSocketFactory = sslContext.socketFactory
 
         return OkHttpClient.Builder()

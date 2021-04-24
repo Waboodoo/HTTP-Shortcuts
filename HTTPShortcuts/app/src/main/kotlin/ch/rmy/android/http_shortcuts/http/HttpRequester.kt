@@ -51,7 +51,7 @@ class HttpRequester(private val contentResolver: ContentResolver) {
 
                 val client = HttpClients.getClient(
                     context = context,
-                    clientCertAlias = shortcut.clientCertAlias.takeUnlessEmpty(),
+                    clientCertParams = shortcut.clientCertParams,
                     acceptAllCertificates = shortcut.acceptAllCertificates,
                     username = username.takeIf { shortcut.usesDigestAuthentication() },
                     password = password.takeIf { shortcut.usesDigestAuthentication() },

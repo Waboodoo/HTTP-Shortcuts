@@ -1,6 +1,7 @@
 ## Version 2.4.0
 
 - Added TLSv1.3 support also for older Android versions
+- Added option to use a .p12 file directly for client certificate authentication
 
 ### Bugfixes
 - Fixed broken special characters when using Basic Authentication, now uses UTF-8

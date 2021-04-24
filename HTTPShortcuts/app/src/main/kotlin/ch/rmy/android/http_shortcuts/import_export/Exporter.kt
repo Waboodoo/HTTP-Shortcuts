@@ -6,6 +6,7 @@ import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.Repository
 import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.Category
+import ch.rmy.android.http_shortcuts.data.models.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.models.Header
 import ch.rmy.android.http_shortcuts.data.models.Option
 import ch.rmy.android.http_shortcuts.data.models.Parameter
@@ -15,6 +16,7 @@ import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.detachFromRealm
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.mapIf
+import ch.rmy.android.http_shortcuts.extensions.safeRemoveIf
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.FileUtil
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
@@ -50,7 +52,7 @@ class Exporter(private val context: Context) {
                             writer.flush()
                             out.closeEntry()
 
-                            getShortcutIconFiles(context, base).forEach { file ->
+                            getFilesToExport(context, base).forEach { file ->
                                 out.putNextEntry(ZipEntry(file.name))
                                 FileInputStream(file).copyTo(out)
                                 writer.flush()
@@ -84,13 +86,13 @@ class Exporter(private val context: Context) {
             .also { base ->
                 if (shortcutId != null) {
                     base.title = null
-                    base.categories.removeIf {
+                    base.categories.safeRemoveIf {
                         it.shortcuts.none { it.id == shortcutId }
                     }
-                    base.categories.firstOrNull()?.shortcuts?.removeIf { it.id != shortcutId }
+                    base.categories.firstOrNull()?.shortcuts?.safeRemoveIf { it.id != shortcutId }
                 }
                 if (variableIds != null) {
-                    base.variables.removeIf { !variableIds.contains(it.id) }
+                    base.variables.safeRemoveIf { !variableIds.contains(it.id) }
                 }
             }
 
@@ -124,7 +126,13 @@ class Exporter(private val context: Context) {
         }
     }
 
-    private fun getShortcutIconFiles(context: Context, base: Base): List<File> =
+    private fun getFilesToExport(context: Context, base: Base): List<File> =
+        getShortcutIconFiles(context, base)
+            .plus(getClientCertFiles(context, base))
+            .filter { it.exists() }
+            .toList()
+
+    private fun getShortcutIconFiles(context: Context, base: Base) =
         base.shortcuts.asSequence()
             .map { it.icon }
             .filterIsInstance(ShortcutIcon.CustomIcon::class.java)
@@ -136,7 +144,6 @@ class Exporter(private val context: Context) {
             )
             .distinct()
             .map { it.getFile(context) }
-            .filter { it.exists() }.toList()
 
     private fun getReferencedIconNames(base: Base): Set<String> =
         IconUtil.extractCustomIconNames(base.globalCode ?: "")
@@ -146,6 +153,12 @@ class Exporter(private val context: Context) {
         IconUtil.extractCustomIconNames(shortcut.codeOnSuccess)
             .plus(IconUtil.extractCustomIconNames(shortcut.codeOnFailure))
             .plus(IconUtil.extractCustomIconNames(shortcut.codeOnPrepare))
+
+    private fun getClientCertFiles(context: Context, base: Base) =
+        base.shortcuts.asSequence()
+            .mapNotNull { (it.clientCertParams as? ClientCertParams.File) }
+            .map { it.getFile(context) }
+
 
     data class ExportStatus(val exportedShortcuts: Int)
 

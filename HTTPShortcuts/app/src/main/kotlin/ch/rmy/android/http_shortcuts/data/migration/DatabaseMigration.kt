@@ -329,6 +329,18 @@ class DatabaseMigration : RealmMigration {
                     .addField("clientCertAlias", String::class.java)
                     .setRequired("clientCertAlias", true)
             }
+            45L -> { // 2.4.0
+                schema.get("Shortcut")!!
+                    .addField("clientCert", String::class.java)
+                    .setRequired("clientCert", true)
+                realm.where("Shortcut").findAll().forEach { shortcut ->
+                    val clientCertAlias = shortcut.getString("clientCertAlias")
+                    if (clientCertAlias.isNotEmpty()) {
+                        shortcut.setString("clientCert", "alias:$clientCertAlias")
+                    }
+                }
+                schema.get("Shortcut")!!.removeField("clientCertAlias")
+            }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -354,7 +366,7 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 44L
+        const val VERSION = 45L
 
     }
 

@@ -1,7 +1,11 @@
 package ch.rmy.android.http_shortcuts.activities.editor.advancedsettings
 
+import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.text.InputType
 import android.view.LayoutInflater
 import android.widget.CheckBox
 import android.widget.EditText
@@ -9,21 +13,31 @@ import android.widget.SeekBar
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.data.models.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
+import ch.rmy.android.http_shortcuts.extensions.cancel
+import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.observeChecked
 import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
+import ch.rmy.android.http_shortcuts.extensions.showSnackbar
+import ch.rmy.android.http_shortcuts.extensions.showToast
+import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.ClientCertUtil
+import ch.rmy.android.http_shortcuts.utils.FilePickerUtil
+import ch.rmy.android.http_shortcuts.utils.RxUtils
 import ch.rmy.android.http_shortcuts.utils.SimpleOnSeekBarChangeListener
+import ch.rmy.android.http_shortcuts.utils.UUIDUtils
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
 import ch.rmy.android.http_shortcuts.views.PanelButton
 import io.reactivex.Completable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotterknife.bindView
 import java.util.concurrent.TimeUnit
@@ -147,19 +161,42 @@ class AdvancedSettingsActivity : BaseActivity() {
 
     private fun onClientCertButtonClicked() {
         val shortcut = shortcutData.value ?: return
-        if (shortcut.clientCertAlias.isEmpty()) {
-            promptForClientCertAlias()
+        if (shortcut.clientCertParams == null) {
+            openClientCertDialog()
         } else {
-            setClientCertAlias("")
+            setClientCertParams(null)
         }
     }
 
-    private fun promptForClientCertAlias() {
-        ClientCertUtil.promptForAlias(this, ::setClientCertAlias)
+    private fun openClientCertDialog() {
+        DialogBuilder(context)
+            .title(R.string.title_client_cert)
+            .item(R.string.label_client_cert_from_os, descriptionRes = R.string.label_client_cert_from_os_subtitle) {
+                promptForClientCertAlias()
+            }
+            .item(R.string.label_client_cert_from_file, descriptionRes = R.string.label_client_cert_from_file_subtitle) {
+                openCertificateFilePicker()
+            }
+            .showIfPossible()
     }
 
-    private fun setClientCertAlias(alias: String) {
-        viewModel.setClientCertAlias(alias)
+    private fun promptForClientCertAlias() {
+        ClientCertUtil.promptForAlias(this) { alias ->
+            setClientCertParams(ClientCertParams.Alias(alias))
+        }
+    }
+
+    private fun openCertificateFilePicker() {
+        try {
+            FilePickerUtil.createIntent(type = "application/x-pkcs12")
+                .startActivity(this, REQUEST_SELECT_CERTIFICATE_FILE)
+        } catch (e: ActivityNotFoundException) {
+            showToast(R.string.error_not_supported)
+        }
+    }
+
+    private fun setClientCertParams(clientCertParams: ClientCertParams?) {
+        viewModel.setClientCertParams(clientCertParams)
             .subscribe()
             .attachTo(destroyer)
     }
@@ -193,9 +230,66 @@ class AdvancedSettingsActivity : BaseActivity() {
             .showIfPossible()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
+        super.onActivityResult(requestCode, resultCode, intent)
+        if (resultCode != RESULT_OK || intent == null) {
+            return
+        }
+        when (requestCode) {
+            REQUEST_SELECT_CERTIFICATE_FILE -> {
+                onCertificateFileSelected(intent.data ?: return)
+            }
+        }
+    }
+
+    private fun onCertificateFileSelected(file: Uri) {
+        copyCertificateFile(file)
+            .flatMap { fileName ->
+                promptForPassword()
+                    .map { password ->
+                        ClientCertParams.File(fileName, password)
+                    }
+            }
+            .subscribe(
+                ::setClientCertParams,
+            ) { e ->
+                logException(e)
+                showSnackbar(R.string.error_generic)
+            }
+            .attachTo(destroyer)
+    }
+
+    private fun copyCertificateFile(file: Uri): Single<String> =
+        RxUtils.single {
+            val fileName = "${UUIDUtils.newUUID()}.p12"
+            contentResolver.openInputStream(file)!!.use { inputStream ->
+                context.openFileOutput(fileName, MODE_PRIVATE).use { outputStream ->
+                    inputStream.copyTo(outputStream)
+                }
+            }
+            fileName
+        }
+
+    private fun promptForPassword(): Single<String> =
+        Single.create { emitter ->
+            DialogBuilder(context)
+                .title(R.string.title_client_cert_file_password)
+                .textInput(
+                    inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD,
+                ) { input ->
+                    emitter.onSuccess(input)
+                }
+                .dismissListener {
+                    emitter.cancel()
+                }
+                .showIfPossible()
+        }
+
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, AdvancedSettingsActivity::class.java)
 
     companion object {
+
+        private const val REQUEST_SELECT_CERTIFICATE_FILE = 1
 
         private val TIMEOUT_OPTIONS = arrayOf(
             500,

@@ -55,7 +55,8 @@ internal object ImportMigrator {
                         }
                     }
                 }
-                for (variable in base["variables"]?.takeIf { it.isJsonArray }?.asJsonArray ?: JsonArray()) {
+                for (variable in base["variables"]?.takeIf { it.isJsonArray }?.asJsonArray
+                    ?: JsonArray()) {
                     if (!variable.asJsonObject["options"].isJsonNull) {
                         for (option in variable.asJsonObject["options"].asJsonArray) {
                             option.asJsonObject.addProperty("id", newUUID())
@@ -128,6 +129,16 @@ internal object ImportMigrator {
             }
             40L -> { // 1.35.0
                 ResponseHandlingMigration().migrateImport(base)
+            }
+            45L -> { // 2.4.0
+                for (category in base["categories"].asJsonArray) {
+                    for (shortcut in category.asJsonObject["shortcuts"].asJsonArray) {
+                        val clientCertAlias = shortcut.asJsonObject.get("clientCertAlias")?.takeIf { it.isJsonPrimitive }?.asString
+                        if (!clientCertAlias.isNullOrEmpty()) {
+                            shortcut.asJsonObject.addProperty("clientCert", "alias:$clientCertAlias")
+                        }
+                    }
+                }
             }
         }
     }

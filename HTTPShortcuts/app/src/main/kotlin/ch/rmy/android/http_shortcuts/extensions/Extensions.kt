@@ -10,6 +10,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
+import androidx.core.util.Predicate
 import androidx.fragment.app.Fragment
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
@@ -81,3 +82,17 @@ inline fun <T> Boolean.ifTrue(block: () -> T): T? =
     } else {
         null
     }
+
+fun <T> MutableCollection<T>.safeRemoveIf(predicate: Predicate<T>) {
+    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+        removeIf(predicate::test)
+    } else {
+        val iterator = iterator()
+        while (iterator.hasNext()) {
+            val item = iterator.next()
+            if (predicate.test(item)) {
+                iterator.remove()
+            }
+        }
+    }
+}

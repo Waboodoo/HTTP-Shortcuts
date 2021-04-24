@@ -82,7 +82,7 @@ open class Shortcut(
     var wifiSsid: String = ""
 
     @Required
-    var clientCertAlias: String = ""
+    var clientCert: String = ""
 
     @Required
     var codeOnPrepare: String = ""
@@ -97,6 +97,12 @@ open class Shortcut(
         get() = ShortcutIcon.fromName(iconName)
         set(value) {
             iconName = value.toString().takeUnlessEmpty()
+        }
+
+    var clientCertParams: ClientCertParams?
+        get() = ClientCertParams.fromString(clientCert)
+        set(value) {
+            clientCert = value?.toString() ?: ""
         }
 
     fun allowsBody(): Boolean =

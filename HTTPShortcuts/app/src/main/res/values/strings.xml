@@ -220,8 +220,22 @@
     <string name="label_client_cert">Client Certificate Authentication</string>
     <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
     <string name="label_subtitle_no_client_cert">Click to select a certificate.</string>
-    <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
+    <!-- Subtitle for button to select a client certificate, when a certificate been selected. %s is a placeholder for the certificate alias (i.e., its name) -->
     <string name="label_subtitle_client_cert_in_use">Using certificate \"%s\". Click to remove.</string>
+    <!-- Subtitle for button to select a client certificate, when a file based certificate has been selected -->
+    <string name="label_subtitle_client_cert_file_in_use">Using certificate file. Click to remove.</string>
+    <!-- Title for dialog, when selecting a client certificate -->
+    <string name="title_client_cert">Client Certificate</string>
+    <!-- Label, for option in dialog to pick a client certificate managed by the operating system -->
+    <string name="label_client_cert_from_os">Managed by OS</string>
+    <!-- Subtitle for Label, for option in dialog to pick a client certificate managed by the operating system -->
+    <string name="label_client_cert_from_os_subtitle">Recommended, more secure</string>
+    <!-- Label, for option in dialog to pick a client certificate from a .p12 file -->
+    <string name="label_client_cert_from_file">Import from .p12 File</string>
+    <!-- Subtitle for Label, for option in dialog to pick a client certificate from a .p12 file -->
+    <string name="label_client_cert_from_file_subtitle">A copy of the file and password will be stored inside the app without special protected. Use at your own risk.</string>
+    <!-- Title of dialog, for entering the password for a client cert file -->
+    <string name="title_client_cert_file_password">Password</string>
     <!-- Used in various places to indicate a number of seconds, e.g. for a delay. %s is a placeholder for the actual number. -->
     <plurals name="seconds">
         <item quantity="one">%d second</item>
