@@ -22,16 +22,19 @@ class ChangeLogDialog(private val context: Context, private val whatsNew: Boolea
     private val settings: Settings = Settings(context)
 
     override fun shouldShow(): Boolean {
-        if (isPermanentlyHidden) {
+        val lastSeenVersion = settings.changeLogLastVersion
+        if (isPermanentlyHidden && hasSeenAllImportantVersions(lastSeenVersion)) {
             return false
         }
-        val lastSeenVersion = settings.changeLogLastVersion
         settings.changeLogLastVersion = version
         return lastSeenVersion != null && version != lastSeenVersion
     }
 
     private val isPermanentlyHidden: Boolean
         get() = settings.isChangeLogPermanentlyHidden
+
+    private fun hasSeenAllImportantVersions(lastSeenVersion: Long?) =
+        IMPORTANT_VERSIONS.all { it <= (lastSeenVersion ?: 0L) }
 
     @SuppressLint("InflateParams")
     override fun show(): Single<DialogResult> {
@@ -104,6 +107,10 @@ class ChangeLogDialog(private val context: Context, private val whatsNew: Boolea
 
         private const val CHANGELOG_ASSET_URL = "file:///android_asset/changelog.html"
         private const val CHANGELOG_ASSET_URL_DARK_MODE = "$CHANGELOG_ASSET_URL?dark"
+
+        private val IMPORTANT_VERSIONS = setOf(
+            204,
+        )
 
     }
 

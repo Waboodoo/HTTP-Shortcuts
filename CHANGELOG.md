@@ -1,5 +1,10 @@
 ## Version 2.4.0
 
+### Important: Tasker Integration Overhaul
+The integration with Tasker has been updated. It should now work more reliably, in particular in terms of passing around variables.
+Unfortunately, this is a **breaking change**, so most likely you will need to re-configure your Tasker tasks, if you have any. Sorry for the inconvenience.
+
+### Miscellaneous
 - Added TLSv1.3 support also for older Android versions
 - Added option to use a .p12 file directly for client certificate authentication
 
