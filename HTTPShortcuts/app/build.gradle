@@ -179,7 +179,7 @@ dependencies {
     implementation 'org.conscrypt:conscrypt-android:2.5.2'
 
     /* Tasker integration */
-    implementation 'com.twofortyfouram:android-plugin-client-sdk-for-locale:4.0.3'
+    implementation 'com.joaomgcd:taskerpluginlibrary:0.4.1'
 
     /* Scripting */
     implementation 'com.github.LiquidPlayer:LiquidCore:0.6.2'

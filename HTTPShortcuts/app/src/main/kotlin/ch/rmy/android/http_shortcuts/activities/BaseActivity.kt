@@ -83,7 +83,7 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    protected val context: Context
+    val context: Context
         get() = this
 
     protected open val navigateUpIcon = R.drawable.up_arrow

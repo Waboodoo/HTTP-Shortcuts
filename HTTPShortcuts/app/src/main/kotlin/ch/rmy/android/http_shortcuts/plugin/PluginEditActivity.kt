@@ -3,16 +3,17 @@ package ch.rmy.android.http_shortcuts.plugin
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.main.MainActivity
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.extensions.startActivity
-import com.twofortyfouram.locale.sdk.client.ui.activity.AbstractFragmentPluginActivity
+import ch.rmy.android.http_shortcuts.plugin.VariableHelper.getTaskerInputInfos
+import com.joaomgcd.taskerpluginlibrary.config.TaskerPluginConfig
+import com.joaomgcd.taskerpluginlibrary.input.TaskerInput
 
-class PluginEditActivity : AbstractFragmentPluginActivity() {
+class PluginEditActivity : BaseActivity(), TaskerPluginConfig<Input> {
 
-    private var bundle: Bundle? = null
-    private var name: String? = null
+    private lateinit var input: Input
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,25 +29,26 @@ class PluginEditActivity : AbstractFragmentPluginActivity() {
         if (requestCode == REQUEST_SELECT) {
             if (resultCode == Activity.RESULT_OK) {
                 intent?.extras?.let { extras ->
-                    val shortcutId = extras.getString(MainActivity.EXTRA_SELECTION_ID) ?: ""
-                    val supportsVariables = TaskerPlugin.Setting.hostSupportsOnFireVariableReplacement(this)
-                    bundle = PluginBundleManager.generateBundle(shortcutId, supportsVariables)
-                    name = extras.getString(MainActivity.EXTRA_SELECTION_NAME)
+                    val shortcutId = extras.getString(MainActivity.EXTRA_SELECTION_ID)!!
+                    val shortcutName = extras.getString(MainActivity.EXTRA_SELECTION_NAME)!!
+
+                    input = Input(
+                        shortcutId = shortcutId,
+                        shortcutName = shortcutName,
+                    )
                 }
             }
-            finish()
+            TriggerShortcutActionHelper(this)
+                .finishForTasker()
         }
     }
 
-    override fun isBundleValid(bundle: Bundle) = PluginBundleManager.isBundleValid(bundle)
+    override val inputForTasker: TaskerInput<Input>
+        get() = TaskerInput(input, getTaskerInputInfos())
 
-    override fun onPostCreateWithPreviousResult(bundle: Bundle, s: String) {
-
+    override fun assignFromInput(input: TaskerInput<Input>) {
+        this.input = input.regular
     }
-
-    override fun getResultBundle() = bundle
-
-    override fun getResultBlurb(bundle: Bundle): String = getString(R.string.plugin_blurb_execute_task, name)
 
     companion object {
 

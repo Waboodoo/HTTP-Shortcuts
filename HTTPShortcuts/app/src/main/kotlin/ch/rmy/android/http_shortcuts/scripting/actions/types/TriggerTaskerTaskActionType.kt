@@ -33,7 +33,7 @@ class TriggerTaskerTaskActionType : BaseActionType() {
         const val REQUEST_CODE_SELECT_TASK = 14
 
         fun isTaskerAvailable(context: Context): Boolean =
-            TaskerIntent.taskerInstalled(context)
+            TaskerIntent.isTaskerInstalled(context)
 
     }
 
