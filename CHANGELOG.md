@@ -7,6 +7,7 @@ Unfortunately, this is a **breaking change**, so most likely you will need to re
 ### Miscellaneous
 - Added TLSv1.3 support also for older Android versions
 - Added option to use a .p12 file directly for client certificate authentication
+- Added info dialog for easier lookup for a shortcut's ID or deep-linking URL
 
 ### Bugfixes
 - Fixed broken special characters when using Basic Authentication, now uses UTF-8

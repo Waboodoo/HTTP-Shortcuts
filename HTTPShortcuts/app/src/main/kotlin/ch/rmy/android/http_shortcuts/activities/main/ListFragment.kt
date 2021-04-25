@@ -22,6 +22,7 @@ import ch.rmy.android.http_shortcuts.data.models.PendingExecution
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.dialogs.CurlExportDialog
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
+import ch.rmy.android.http_shortcuts.dialogs.ShortcutInfoDialog
 import ch.rmy.android.http_shortcuts.exceptions.CanceledByUserException
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
@@ -218,6 +219,12 @@ class ListFragment : BaseFragment() {
             .item(R.string.action_run) {
                 executeShortcut(shortcutData.value ?: return@item)
             }
+            .mapIf(isPending(shortcut)) {
+                it.item(R.string.action_cancel_pending) {
+                    cancelPendingExecution(shortcutData.value ?: return@item)
+                }
+            }
+            .separator()
             .item(R.string.action_edit) {
                 editShortcut(shortcutData.value ?: return@item)
             }
@@ -229,16 +236,16 @@ class ListFragment : BaseFragment() {
             .item(R.string.action_duplicate) {
                 duplicateShortcut(shortcutData.value ?: return@item)
             }
-            .mapIf(isPending(shortcut)) {
-                it.item(R.string.action_cancel_pending) {
-                    cancelPendingExecution(shortcutData.value ?: return@item)
-                }
+
+            .item(R.string.action_delete) {
+                showDeleteDialog(shortcutData)
+            }
+            .separator()
+            .item(R.string.action_shortcut_information) {
+                showInfoDialog(shortcutData)
             }
             .item(R.string.action_export) {
                 showExportChoiceDialog(shortcutData)
-            }
-            .item(R.string.action_delete) {
-                showDeleteDialog(shortcutData)
             }
             .showIfPossible()
     }
@@ -414,6 +421,12 @@ class ListFragment : BaseFragment() {
                 ExecutionScheduler.schedule(requireContext())
             }
             .attachTo(destroyer)
+    }
+
+    private fun showInfoDialog(shortcutData: LiveData<Shortcut?>) {
+        val shortcut = shortcutData.value ?: return
+        ShortcutInfoDialog(requireContext(), shortcut)
+            .show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {

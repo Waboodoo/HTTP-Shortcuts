@@ -40,6 +40,18 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="Copyable">
+        <item name="android:background">#DFDFDF</item>
+        <item name="android:paddingLeft">4dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingRight">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:textIsSelectable">true</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
     <style name="InfoLabel">
         <item name="android:textSize">12sp</item>
         <item name="android:layout_width">match_parent</item>

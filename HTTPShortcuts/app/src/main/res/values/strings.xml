@@ -48,6 +48,8 @@
     <string name="action_delete">Delete</string>
     <!-- Shortcut dropdown option: export the shortcut -->
     <string name="action_export">Export</string>
+    <!-- Shortcut dropdown option: display information about the shortcut -->
+    <string name="action_shortcut_information">Show Info</string>
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
     <string name="action_move">Move</string>
     <!-- Shortcut dropdown option: Move the shortcut upwards -->
@@ -489,7 +491,7 @@
     <!-- Checkbox value, shown in variable editor, allows to enable a variable to remember its previous value -->
     <string name="label_remember_value">Remember value</string>
     <!-- Action, allows the user to cancel a pending shortcut execution -->
-    <string name="action_cancel_pending">Cancel pending execution</string>
+    <string name="action_cancel_pending">Cancel Pending Execution</string>
     <!-- Message, shown in snackbar to confirm when the user cancelled a pending shortcut execution (%1$s is a placeholder for the shortcut name) -->
     <string name="pending_shortcut_execution_cancelled">%1$s cancelled.</string>
     <!-- Feature label for sharing text into the app, to be used in a specific variable for a configured shortcut -->
@@ -1029,4 +1031,10 @@
     <string name="settings_use_legacy_export_format_summary">Enable to export shortcuts &amp; variables using the old file format (i.e., a single JSON file). This will prevent the exporting of custom shortcut icons.</string>
     <!-- Error: Shown to the user when any error occurred while trying to execute a shortcut that uses a client certificate -->
     <string name="error_failed_to_use_client_cert">Failed to load or use the client certificate. It may be that this is not supported by your device or that it needs to be re-configured in the shortcut\'s settings.</string>
+    <!-- Label shown above a text field showing a shortcut's ID -->
+    <string name="label_shortcut_id">Shortcut ID</string>
+    <!-- Label shown above a text field showing a shortcut's deep link URL -->
+    <string name="label_deep_link_url">Deep-Linking URL</string>
+    <!-- Message: instructions shown below a shortcut's deep-linking URL -->
+    <string name="message_deep_link_instructions">You can trigger this shortcut by invoking this URL from another app. Append query parameters to it to pass variable values.</string>
 </resources>

@@ -1543,4 +1543,16 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
 
     <!-- Title of dialog, for entering the password for a client cert file -->
     <string name="title_client_cert_file_password">"Passwort"</string>
+
+    <!-- Shortcut dropdown option: display information about the shortcut -->
+    <string name="action_shortcut_information">"Information anzeigen"</string>
+
+    <!-- Label shown above a text field showing a shortcut's ID -->
+    <string name="label_shortcut_id">"Shortcut-ID"</string>
+
+    <!-- Label shown above a text field showing a shortcut's deep link URL -->
+    <string name="label_deep_link_url">"Deep-Link URL"</string>
+
+    <!-- Message: instructions shown below a shortcut's deep-linking URL -->
+    <string name="message_deep_link_instructions">"Du kannst diese URL von einer anderen App aus aufrufen um diesen Shortcut auszulösen. Füge Query-Parameter an um Variablen-Werte zu übergeben."</string>
 </resources>
