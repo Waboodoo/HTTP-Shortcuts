@@ -34,9 +34,11 @@ class DeepLinkActivity : BaseActivity(), Entrypoint {
             return
         }
 
-        val variables = deepLinkUrl.queryParameterNames.associateWith { key ->
-            deepLinkUrl.getQueryParameter(key)!!
-        }
+        val variables = deepLinkUrl.queryParameterNames
+            .filterNot { it.isEmpty() }
+            .associateWith { key ->
+                deepLinkUrl.getQueryParameter(key) ?: ""
+            }
 
         ExecuteActivity.IntentBuilder(context, shortcut.id)
             .variableValues(variables)
