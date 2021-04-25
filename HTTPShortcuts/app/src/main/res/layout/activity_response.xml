@@ -76,6 +76,16 @@
                 android:layout_height="wrap_content"
                 android:text="@string/label_include_meta_information" />
 
+            <include layout="@layout/divider_line" />
+
+            <TextView
+                android:id="@+id/instructions_scripting_hint"
+                style="@style/InfoLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/message_response_handling_scripting_hint" />
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

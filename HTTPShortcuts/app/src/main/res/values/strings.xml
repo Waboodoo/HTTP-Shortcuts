@@ -107,9 +107,9 @@
     <!-- Option in "Change Icon" dialog, allows user to select an icon from an Ipack icon set (from a third-party icon app) -->
     <string name="choose_ipack_icon">Choose Ipack Icon</string>
     <!-- Option in "Change Icon" dialog, allows user to select one of the built-in icons to use as a shortcut icon -->
-    <string name="choose_icon">Choose Built-in Icon</string>
+    <string name="choose_icon">Choose Built-In Icon</string>
     <!-- Title of dialog that allows user to pick an icon from the built-in icons -->
-    <string name="title_choose_icon">Choose Built-in Icon</string>
+    <string name="title_choose_icon">Choose Built-In Icon</string>
     <!-- Title of dialog to edit a parameter on a shortcut -->
     <string name="title_post_param_edit">Edit Parameter</string>
     <!-- Title of dialog to edit a file parameter on a shortcut -->
@@ -280,7 +280,7 @@
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor -->
     <string name="label_wait_for_connection">Wait for connection when offline</string>
     <!-- Label: Shown on button that allows to enable execution delay of a shortcut -->
-    <string name="label_delay_execution">Delay execution</string>
+    <string name="label_delay_execution">Delay Execution</string>
     <!-- Button, shown on About page, to allow opening the app's Play Store page -->
     <string name="settings_play_store">View in Play Store</string>
     <!-- Button subtitle for "View in Play Store" button -->
@@ -1039,4 +1039,6 @@
     <string name="label_deep_link_url">Deep-Linking URL</string>
     <!-- Message: instructions shown below a shortcut's deep-linking URL -->
     <string name="message_deep_link_instructions">You can trigger this shortcut by invoking this URL from another app. Append query parameters to it to pass variable values.</string>
+    <!-- Message: Hint to the user that additional/advanced options are available for response handling through scripting.  -->
+    <string name="message_response_handling_scripting_hint">If you need more advanced options for processing and displaying the response, check out the \'%s\' section, which lets you define custom logic using JavaScript code.</string>
 </resources>

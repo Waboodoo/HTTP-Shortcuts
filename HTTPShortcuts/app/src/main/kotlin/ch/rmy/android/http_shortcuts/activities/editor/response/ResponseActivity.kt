@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
@@ -47,6 +48,7 @@ class ResponseActivity : BaseActivity() {
     private val successMessageContainer: View by bindView(R.id.container_input_success_message)
     private val successMessageView: VariableEditText by bindView(R.id.input_success_message)
     private val successMessageVariableButton: VariableButton by bindView(R.id.variable_button_success_message)
+    private val scriptingHint: TextView by bindView(R.id.instructions_scripting_hint)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +71,8 @@ class ResponseActivity : BaseActivity() {
         })
 
         VariableViewUtils.bindVariableViews(successMessageView, successMessageVariableButton, variablePlaceholderProvider)
+
+        scriptingHint.text = getString(R.string.message_response_handling_scripting_hint, getString(R.string.label_scripting))
     }
 
     private fun bindViewsToViewModel() {
