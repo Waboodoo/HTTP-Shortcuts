@@ -37,7 +37,7 @@
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
     <string name="label_include_meta_information">Show Meta Information (e.g. Response Headers)</string>
     <!-- Shortcut dropdown option: Place shortcut on home screen -->
-    <string name="action_place">Place on home screen</string>
+    <string name="action_place">Place on Home Screen</string>
     <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
     <string name="action_run">Execute</string>
     <!-- Shortcut dropdown option: Edit the shortcut -->
@@ -51,15 +51,15 @@
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
     <string name="action_move">Move</string>
     <!-- Shortcut dropdown option: Move the shortcut upwards -->
-    <string name="action_move_up">Move up</string>
+    <string name="action_move_up">Move Up</string>
     <!-- Shortcut dropdown option: Move the shortcut downwards -->
-    <string name="action_move_down">Move down</string>
+    <string name="action_move_down">Move Down</string>
     <!-- Shortcut dropdown option: Move the shortcut to a different category -->
-    <string name="action_move_to_category">Move to category…</string>
+    <string name="action_move_to_category">Move to Category…</string>
     <!-- Dialog title, for exporting a single shortcut. Dialog offers different export options (e.g. as JSON, as cURL)-->
     <string name="title_export_shortcut_as">Export as…</string>
     <!-- Dialog option, for exporting a single shortcut as a cURL command -->
-    <string name="action_export_as_curl">cURL command</string>
+    <string name="action_export_as_curl">cURL Command</string>
     <!-- Dialog option, for exporting a single shortcut as a file -->
     <string name="action_export_as_file">File</string>
     <!-- Empty state, shown in list when there are no shortcuts yet -->
