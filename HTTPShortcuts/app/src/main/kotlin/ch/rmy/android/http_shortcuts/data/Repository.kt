@@ -84,7 +84,7 @@ object Repository {
         realm
             .where<PendingExecution>()
             .mapIf(shortcutId != null) {
-                it.equalTo(PendingExecution.FIELD_SHORTCUT_ID, shortcutId)
+                equalTo(PendingExecution.FIELD_SHORTCUT_ID, shortcutId)
             }
             .sort(PendingExecution.FIELD_ENQUEUED_AT)
             .findAll()

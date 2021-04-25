@@ -43,7 +43,7 @@ internal object HttpClients {
         })
             .mapIf(username != null && password != null) {
                 val authenticator = DigestAuthenticator(Credentials(username, password))
-                it.authenticator(authenticator)
+                authenticator(authenticator)
             }
             .followRedirects(followRedirects)
             .followSslRedirects(followRedirects)
@@ -51,11 +51,11 @@ internal object HttpClients {
             .readTimeout(timeout, TimeUnit.MILLISECONDS)
             .writeTimeout(timeout, TimeUnit.MILLISECONDS)
             .mapIf(cookieJar != null) {
-                it.cookieJar(cookieJar!!)
+                cookieJar(cookieJar!!)
             }
             .mapIf(proxyHost != null && proxyPort != null) {
                 try {
-                    it.proxy(Proxy(Proxy.Type.HTTP, InetSocketAddress(proxyHost!!, proxyPort!!)))
+                    proxy(Proxy(Proxy.Type.HTTP, InetSocketAddress(proxyHost!!, proxyPort!!)))
                 } catch (e: IllegalArgumentException) {
                     throw InvalidProxyException(e.message!!)
                 }

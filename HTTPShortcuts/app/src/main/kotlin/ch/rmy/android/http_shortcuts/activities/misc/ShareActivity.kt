@@ -153,8 +153,8 @@ class ShareActivity : BaseActivity(), Entrypoint {
 
     private fun showShortcutSelection(shortcuts: List<Shortcut>, variableValues: Map<String, String> = emptyMap(), files: List<Uri> = emptyList()) {
         DialogBuilder(context)
-            .mapFor(shortcuts) { builder, shortcut ->
-                builder.item(name = shortcut.name, shortcutIcon = shortcut.icon) {
+            .mapFor(shortcuts) { shortcut ->
+                item(name = shortcut.name, shortcutIcon = shortcut.icon) {
                     executeShortcut(shortcut, variableValues, files)
                 }
             }

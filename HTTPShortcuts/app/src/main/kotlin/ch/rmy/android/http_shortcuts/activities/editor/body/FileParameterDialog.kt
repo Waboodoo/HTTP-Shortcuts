@@ -46,7 +46,7 @@ class FileParameterDialog(
                 subject.onSuccess(Event.DataChangedEvent(keyName = keyText, fileName = fileNameField.text.toString()))
             }
             .mapIf(showRemoveOption) {
-                it.neutral(R.string.dialog_remove) {
+                neutral(R.string.dialog_remove) {
                     subject.onSuccess(Event.DataRemovedEvent)
                 }
             }

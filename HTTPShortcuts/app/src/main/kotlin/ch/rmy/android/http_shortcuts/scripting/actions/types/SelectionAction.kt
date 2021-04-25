@@ -19,8 +19,8 @@ class SelectionAction(private val jsonData: String) : BaseAction() {
         return if (options.isNotEmpty()) {
             Single.create<String> { emitter ->
                 DialogBuilder(executionContext.context)
-                    .mapFor(options.entries) { builder, entry ->
-                        builder.item(name = entry.value) {
+                    .mapFor(options.entries) { entry ->
+                        item(name = entry.value) {
                             emitter.onSuccess("-${entry.key}")
                         }
                     }

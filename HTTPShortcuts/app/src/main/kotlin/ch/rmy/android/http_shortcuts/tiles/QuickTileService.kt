@@ -60,8 +60,8 @@ class QuickTileService : TileService() {
     private fun showPickerDialog(shortcuts: List<Shortcut>) {
         applyTheme()
         val dialog = DialogBuilder(context)
-            .mapFor(shortcuts) { builder, shortcut ->
-                builder.item(name = shortcut.name, shortcutIcon = shortcut.icon) {
+            .mapFor(shortcuts) { shortcut ->
+                item(name = shortcut.name, shortcutIcon = shortcut.icon) {
                     executeShortcut(shortcut.id)
                 }
             }

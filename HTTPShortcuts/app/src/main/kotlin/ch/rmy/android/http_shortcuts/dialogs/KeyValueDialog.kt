@@ -49,7 +49,7 @@ class KeyValueDialog(
                 subject.onSuccess(Event.DataChangedEvent(keyText to valueText))
             }
             .mapIf(data != null) {
-                it.neutral(R.string.dialog_remove) {
+                neutral(R.string.dialog_remove) {
                     subject.onSuccess(Event.DataRemovedEvent)
                 }
             }

@@ -78,7 +78,7 @@ object IconUtil {
     private fun getBitmapFromVectorDrawable(context: Context, drawableId: Int, tint: Int?): Bitmap {
         val drawable = AppCompatResources.getDrawable(context, drawableId)!!
             .mapIf(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                DrawableCompat.wrap(it).mutate()
+                DrawableCompat.wrap(this).mutate()
             }
         val iconSize = getIconSize(context)
         val bitmap = Bitmap.createBitmap(iconSize, iconSize, Bitmap.Config.ARGB_8888)

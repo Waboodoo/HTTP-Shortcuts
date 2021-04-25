@@ -55,10 +55,10 @@ object ExecutionScheduler {
         val jobInfo = JobInfo.Builder(jobId, ComponentName(context, ExecutionService::class.java))
             .setExtras(PersistableBundle().apply { putString(ExecutionService.PARAM_EXECUTION_ID, pendingExecution.id) })
             .mapIf(delay != null) {
-                it.setMinimumLatency(delay!!)
+                setMinimumLatency(delay!!)
             }
             .mapIf(pendingExecution.waitForNetwork) {
-                it.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
             }
             .build()
         (context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler).schedule(jobInfo)

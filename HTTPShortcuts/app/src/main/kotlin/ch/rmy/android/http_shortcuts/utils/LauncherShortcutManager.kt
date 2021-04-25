@@ -93,7 +93,7 @@ object LauncherShortcutManager {
                     .build()
             )
             .mapIf(icon != null) {
-                it.setIcon(icon)
+                setIcon(icon)
             }
             .build()
     }

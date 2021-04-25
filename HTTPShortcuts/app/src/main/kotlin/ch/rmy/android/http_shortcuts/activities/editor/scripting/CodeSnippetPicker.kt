@@ -40,7 +40,7 @@ class CodeSnippetPicker(
         DialogBuilder(context)
             .title(R.string.title_add_code_snippet)
             .mapIf(includeResponseOptions) {
-                it.item(R.string.dialog_code_snippet_handle_response, iconRes = R.drawable.ic_handle_response) {
+                item(R.string.dialog_code_snippet_handle_response, iconRes = R.drawable.ic_handle_response) {
                     showResponseOptionsPicker(insertText, includeNetworkErrorOption)
                 }
             }
@@ -51,7 +51,7 @@ class CodeSnippetPicker(
                 showShortcutInfoPicker(insertText)
             }
             .mapIf(includeFileOptions) {
-                it.item(R.string.dialog_code_snippet_files, iconRes = R.drawable.ic_files) {
+                item(R.string.dialog_code_snippet_files, iconRes = R.drawable.ic_files) {
                     showFilesPicker(insertText)
                 }
             }
@@ -119,7 +119,7 @@ class CodeSnippetPicker(
                 insertText("response.cookies", "")
             }
             .mapIf(includeNetworkErrorOption) {
-                it.item(R.string.dialog_code_snippet_response_network_error) {
+                item(R.string.dialog_code_snippet_response_network_error) {
                     insertText("networkError", "")
                 }
             }
@@ -147,12 +147,12 @@ class CodeSnippetPicker(
                 openSoundPicker()
             }
             .mapIf(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                it.item(R.string.action_tts) {
+                item(R.string.action_tts) {
                     insertText("speak(\"", "\");\n")
                 }
             }
             .mapIf((context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator).hasVibrator()) {
-                it.item(R.string.action_type_vibrate_title) {
+                item(R.string.action_type_vibrate_title) {
                     insertText("vibrate();\n", "")
                 }
             }
@@ -190,8 +190,8 @@ class CodeSnippetPicker(
             DialogBuilder(context)
                 .item(R.string.dialog_code_snippet_get_variable) {
                     DialogBuilder(context)
-                        .mapFor(variablePlaceholderProvider.placeholders) { builder, variable ->
-                            builder.item(name = variable.variableKey) {
+                        .mapFor(variablePlaceholderProvider.placeholders) { variable ->
+                            item(name = variable.variableKey) {
                                 insertText("getVariable(/*[variable]*/\"${variable.variableId}\"/*[/variable]*/)", "")
                             }
                         }
@@ -200,8 +200,8 @@ class CodeSnippetPicker(
                 .item(R.string.dialog_code_snippet_set_variable) {
                     if (variablePlaceholderProvider.hasConstants) {
                         DialogBuilder(context)
-                            .mapFor(variablePlaceholderProvider.constantsPlaceholders) { builder, variable ->
-                                builder.item(name = variable.variableKey) {
+                            .mapFor(variablePlaceholderProvider.constantsPlaceholders) { variable ->
+                                item(name = variable.variableKey) {
                                     insertText("setVariable(/*[variable]*/\"${variable.variableId}\"/*[/variable]*/, \"", "\");\n")
                                 }
                             }
@@ -302,7 +302,7 @@ class CodeSnippetPicker(
                 insertText("sendIntent({", "});\n")
             }
             .mapIf(TriggerTaskerTaskActionType.isTaskerAvailable(context)) {
-                it.item(R.string.action_type_trigger_tasker_title) {
+                item(R.string.action_type_trigger_tasker_title) {
                     try {
                         TaskerIntent.getTaskSelectIntent()
                             .startActivity(context, REQUEST_CODE_SELECT_TASK)
@@ -325,9 +325,9 @@ class CodeSnippetPicker(
             .item(R.string.label_insert_action_code_for_current_shortcut) {
                 callback("\"\"")
             }
-            .mapFor(shortcutPlaceholderProvider.placeholders) { builder, shortcut ->
-                builder.mapIf(shortcut.id != currentShortcutId) {
-                    it.item(name = shortcut.name, shortcutIcon = shortcut.icon) {
+            .mapFor(shortcutPlaceholderProvider.placeholders) { shortcut ->
+                mapIf(shortcut.id != currentShortcutId) {
+                    item(name = shortcut.name, shortcutIcon = shortcut.icon) {
                         callback("/*[shortcut]*/\"${shortcut.id}\"/*[/shortcut]*/")
                     }
                 }

@@ -31,7 +31,7 @@ abstract class DismissableDialog(private val context: Context, private val isCan
                 }
             }
             .mapIf(isCancelable) {
-                it.negative(R.string.dialog_cancel) {
+                negative(R.string.dialog_cancel) {
                     single.onSuccess(DialogResult.CANCELED)
                 }
             }

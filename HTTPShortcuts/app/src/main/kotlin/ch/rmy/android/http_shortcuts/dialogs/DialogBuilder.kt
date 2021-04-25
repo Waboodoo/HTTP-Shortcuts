@@ -142,7 +142,7 @@ open class DialogBuilder(val context: Context) {
                     divider = null
                 }
 
-            it.customView(view = listView)
+            customView(view = listView)
         }
 
     fun show() = build().showIfPossible()

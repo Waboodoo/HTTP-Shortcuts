@@ -23,7 +23,7 @@ class VibrateAction(private val patternId: Int, private val waitForCompletion: B
         pattern.execute(vibrator)
         return Completable.complete()
             .mapIf(waitForCompletion) {
-                it.delay(pattern.duration, TimeUnit.MILLISECONDS)
+                delay(pattern.duration, TimeUnit.MILLISECONDS)
             }
     }
 

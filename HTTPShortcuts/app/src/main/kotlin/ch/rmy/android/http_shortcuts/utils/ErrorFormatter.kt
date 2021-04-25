@@ -73,7 +73,7 @@ class ErrorFormatter(private val context: Context) {
     private fun getCauseChain(error: Throwable, recursionDepth: Int = 0): List<Throwable> =
         listOf(error)
             .mapIf(error.cause != null && recursionDepth < MAX_RECURSION_DEPTH) {
-                it.plus(getCauseChain(error.cause!!, recursionDepth + 1))
+                plus(getCauseChain(error.cause!!, recursionDepth + 1))
             }
 
     private fun getSingleErrorMessage(error: Throwable): String =

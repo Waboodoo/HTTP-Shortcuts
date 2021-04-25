@@ -78,14 +78,14 @@ class VariablesActivity : BaseActivity() {
     private fun openEditorForCreation() {
         DialogBuilder(context)
             .title(R.string.title_select_variable_type)
-            .mapFor(VariableTypes.TYPES) { builder, variableType ->
-                builder.item(variableType.name) {
+            .mapFor(VariableTypes.TYPES) { variableType ->
+                item(variableType.name) {
                     VariableEditorActivity.IntentBuilder(context)
                         .variableType(variableType.type)
-                        .startActivity(this)
+                        .startActivity(this@VariablesActivity)
                 }
                     .mapIf(variableType.type == Variable.TYPE_CONSTANT) {
-                        it.separator()
+                        separator()
                     }
             }
             .showIfPossible()
@@ -135,7 +135,7 @@ class VariablesActivity : BaseActivity() {
                 { shortcutNames ->
                     val message = getString(R.string.confirm_delete_variable_message)
                         .mapIf(shortcutNames.isNotEmpty()) {
-                            it.plus("\n\n")
+                            plus("\n\n")
                                 .plus(context.resources.getQuantityString(
                                     R.plurals.warning_variable_still_in_use_in_shortcuts,
                                     shortcutNames.size,

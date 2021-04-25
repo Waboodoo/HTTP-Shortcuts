@@ -38,7 +38,7 @@ class ResponseWebView @JvmOverloads constructor(
     fun loadFromString(data: String, baseUrl: String?) {
         val url = baseUrl
             ?.mapIf(!baseUrl.endsWith("/")) {
-                it.plus("/")
+                plus("/")
             }
         loadDataWithBaseURL(url, data, "text/html", "UTF-8", null)
     }

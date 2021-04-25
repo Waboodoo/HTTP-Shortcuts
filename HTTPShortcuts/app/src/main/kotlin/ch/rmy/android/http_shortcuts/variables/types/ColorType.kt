@@ -47,7 +47,7 @@ internal class ColorType : BaseVariableType(), AsyncVariableType {
             })
         }
             .mapIf(variable.rememberValue) {
-                it.flatMap { variableValue ->
+                flatMap { variableValue ->
                     Commons.setVariableValue(variable.id, variableValue)
                         .toSingle { variableValue }
                 }

@@ -52,7 +52,7 @@ internal class SliderType : BaseVariableType(), AsyncVariableType {
                 .showIfPossible()
         }
             .mapIf(variable.rememberValue) {
-                it.flatMap { resolvedValue ->
+                flatMap { resolvedValue ->
                     Commons.setVariableValue(variable.id, resolvedValue)
                         .toSingle { resolvedValue }
                 }

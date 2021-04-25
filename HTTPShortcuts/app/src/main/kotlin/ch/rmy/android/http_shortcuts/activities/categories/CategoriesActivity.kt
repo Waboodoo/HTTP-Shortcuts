@@ -106,26 +106,25 @@ class CategoriesActivity : BaseActivity() {
                 showRenameDialog(categoryData)
             }
             .mapIf(category.hidden) {
-                it.item(R.string.action_show_category) {
+                item(R.string.action_show_category) {
                     toggleCategoryHidden(categoryData, hidden = false)
                 }
             }
             .mapIf(!category.hidden && categories.count { !it.hidden } > 1) {
-                it.item(R.string.action_hide_category) {
+                item(R.string.action_hide_category) {
                     toggleCategoryHidden(categoryData, hidden = true)
                 }
             }
             .mapIf(!category.hidden) {
-                it
-                    .item(R.string.action_change_category_layout_type) {
-                        showLayoutTypeDialog(categoryData)
-                    }
+                item(R.string.action_change_category_layout_type) {
+                    showLayoutTypeDialog(categoryData)
+                }
                     .item(R.string.action_change_category_background) {
                         showBackgroundChangeDialog(categoryData)
                     }
             }
             .mapIf(categories.size > 1) {
-                it.item(R.string.action_delete) {
+                item(R.string.action_delete) {
                     showDeleteDialog(categoryData)
                 }
             }
@@ -217,7 +216,9 @@ class CategoriesActivity : BaseActivity() {
         }
         DialogBuilder(context)
             .message(R.string.confirm_delete_category_message)
-            .positive(R.string.dialog_delete) { deleteCategory(categoryData.value ?: return@positive) }
+            .positive(R.string.dialog_delete) {
+                deleteCategory(categoryData.value ?: return@positive)
+            }
             .negative(R.string.dialog_cancel)
             .showIfPossible()
     }

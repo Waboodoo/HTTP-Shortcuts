@@ -77,8 +77,7 @@ class ToggleEditorFragment : VariableEditorFragment() {
             }
             .negative(R.string.dialog_cancel)
             .mapIf(option != null) {
-                it
-                    .neutral(R.string.dialog_remove) { removeOption(option!!) }
+                neutral(R.string.dialog_remove) { removeOption(option!!) }
             }
             .dismissListener {
                 destroyer.destroy()

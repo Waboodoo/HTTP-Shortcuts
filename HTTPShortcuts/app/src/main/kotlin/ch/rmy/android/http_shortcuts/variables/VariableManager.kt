@@ -72,13 +72,13 @@ class VariableManager(variables: List<Variable>) : VariableLookup {
         private fun encodeValue(variable: Variable, value: String) =
             value
                 .mapIf(variable.jsonEncode) {
-                    JSONObject.quote(it).drop(1).dropLast(1)
+                    JSONObject.quote(this).drop(1).dropLast(1)
                 }
                 .mapIf(variable.urlEncode) {
                     try {
-                        URLEncoder.encode(it, "utf-8")
+                        URLEncoder.encode(this, "utf-8")
                     } catch (e: UnsupportedEncodingException) {
-                        it
+                        this
                     }
                 }
     }

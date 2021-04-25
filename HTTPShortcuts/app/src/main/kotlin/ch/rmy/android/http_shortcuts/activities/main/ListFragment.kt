@@ -220,7 +220,7 @@ class ListFragment : BaseFragment() {
                 executeShortcut(shortcutData.value ?: return@item)
             }
             .mapIf(isPending(shortcut)) {
-                it.item(R.string.action_cancel_pending) {
+                item(R.string.action_cancel_pending) {
                     cancelPendingExecution(shortcutData.value ?: return@item)
                 }
             }
@@ -229,7 +229,7 @@ class ListFragment : BaseFragment() {
                 editShortcut(shortcutData.value ?: return@item)
             }
             .mapIf(canMoveShortcut(shortcut)) {
-                it.item(R.string.action_move) {
+                item(R.string.action_move) {
                     openMoveDialog(shortcutData)
                 }
             }
@@ -277,17 +277,17 @@ class ListFragment : BaseFragment() {
         val shortcut = shortcutData.value ?: return
         DialogBuilder(requireContext())
             .mapIf(canMoveShortcut(shortcut, -1)) {
-                it.item(R.string.action_move_up) {
+                item(R.string.action_move_up) {
                     moveShortcut(shortcut, -1)
                 }
             }
             .mapIf(canMoveShortcut(shortcut, 1)) {
-                it.item(R.string.action_move_down) {
+                item(R.string.action_move_down) {
                     moveShortcut(shortcut, 1)
                 }
             }
             .mapIf(categories.size > 1) {
-                it.item(R.string.action_move_to_category) {
+                item(R.string.action_move_to_category) {
                     showMoveToCategoryDialog(shortcutData)
                 }
             }
@@ -314,9 +314,9 @@ class ListFragment : BaseFragment() {
         categoryData.value?.let { currentCategory ->
             DialogBuilder(requireContext())
                 .title(R.string.title_move_to_category)
-                .mapFor(categories.filter { it.id != currentCategory.id }) { builder, category ->
+                .mapFor(categories.filter { it.id != currentCategory.id }) { category ->
                     val categoryId = category.id
-                    builder.item(name = category.name) {
+                    item(name = category.name) {
                         moveShortcut(shortcutData.value ?: return@item, categoryId)
                     }
                 }

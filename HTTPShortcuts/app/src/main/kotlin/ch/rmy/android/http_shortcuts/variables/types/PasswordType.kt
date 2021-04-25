@@ -21,7 +21,7 @@ class PasswordType : TextType() {
                 .showIfPossible()
         }
             .mapIf(variable.rememberValue) {
-                it.flatMap { resolvedValue ->
+                flatMap { resolvedValue ->
                     Commons.setVariableValue(variable.id, resolvedValue)
                         .toSingle { resolvedValue }
                 }

@@ -66,31 +66,33 @@ class HttpRequester(private val contentResolver: ContentResolver) {
                     .header(HttpHeaders.CONNECTION, "close")
                     .userAgent(UserAgentUtil.userAgent)
                     .mapIf(shortcut.usesCustomBody()) {
-                        it.contentType(determineContentType(shortcut))
-                        it.body(body)
+                        contentType(determineContentType(shortcut))
+                            .body(body)
                     }
                     .mapIf(shortcut.usesFileBody()) {
                         val file = fileUploadManager?.getFile(0)
-                        it.mapIf(file != null) {
-                            it.contentType(determineContentType(shortcut) ?: file!!.mimeType)
-                            it.body(contentResolver.openInputStream(file!!.data)!!, length = file.fileSize)
+                        mapIf(file != null) {
+                            contentType(determineContentType(shortcut) ?: file!!.mimeType)
+                                .body(contentResolver.openInputStream(file!!.data)!!, length = file.fileSize)
                         }
                     }
                     .mapIf(shortcut.usesRequestParameters()) {
-                        it.contentType(determineContentType(shortcut))
-                        attachParameters(it, shortcut, variables, fileUploadManager)
+                        contentType(determineContentType(shortcut))
+                            .run {
+                                attachParameters(this, shortcut, variables, fileUploadManager)
+                            }
                     }
-                    .mapFor(shortcut.headers) { builder, header ->
-                        builder.header(
+                    .mapFor(shortcut.headers) { header ->
+                        header(
                             Variables.rawPlaceholdersToResolvedValues(header.key, variables),
                             Variables.rawPlaceholdersToResolvedValues(header.value, variables)
                         )
                     }
                     .mapIf(shortcut.usesBasicAuthentication()) {
-                        it.basicAuth(username, password)
+                        basicAuth(username, password)
                     }
                     .mapIf(shortcut.usesBearerAuthentication()) {
-                        it.bearerAuth(authToken)
+                        bearerAuth(authToken)
                     }
                     .build()
 
@@ -117,15 +119,15 @@ class HttpRequester(private val contentResolver: ContentResolver) {
 
     private fun attachParameters(requestBuilder: RequestBuilder, shortcut: Shortcut, variables: Map<String, String>, fileUploadManager: FileUploadManager?): RequestBuilder {
         var fileIndex = -1
-        return requestBuilder.mapFor(shortcut.parameters) { builder, parameter ->
+        return requestBuilder.mapFor(shortcut.parameters) { parameter ->
             val parameterName = Variables.rawPlaceholdersToResolvedValues(parameter.key, variables)
             when {
                 parameter.isFilesParameter -> {
-                    builder.mapIf(fileUploadManager != null) { builder2 ->
+                    mapIf(fileUploadManager != null) {
                         fileIndex++
                         val files = fileUploadManager!!.getFiles(fileIndex)
-                        builder2.mapFor(files) { builder3, file ->
-                            builder3.fileParameter(
+                        mapFor(files) { file ->
+                            fileParameter(
                                 name = "$parameterName[]",
                                 fileName = parameter.fileName.ifEmpty { file.fileName },
                                 type = file.mimeType,
@@ -136,11 +138,11 @@ class HttpRequester(private val contentResolver: ContentResolver) {
                     }
                 }
                 parameter.isFileParameter -> {
-                    builder.mapIf(fileUploadManager != null) { builder2 ->
+                    mapIf(fileUploadManager != null) {
                         fileIndex++
                         val file = fileUploadManager!!.getFile(fileIndex)
-                        builder2.mapIf(file != null) { builder3 ->
-                            builder3.fileParameter(
+                        mapIf(file != null) {
+                            fileParameter(
                                 name = parameterName,
                                 fileName = parameter.fileName.ifEmpty { file!!.fileName },
                                 type = file!!.mimeType,
@@ -151,7 +153,7 @@ class HttpRequester(private val contentResolver: ContentResolver) {
                     }
                 }
                 else -> {
-                    builder.parameter(
+                    parameter(
                         name = parameterName,
                         value = Variables.rawPlaceholdersToResolvedValues(parameter.value, variables),
                     )

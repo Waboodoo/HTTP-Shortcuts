@@ -39,9 +39,9 @@ sealed class ShortcutIcon {
 
         private val normalizedIconName: String =
             iconName
-                .mapFor(Icons.TintColors.values().asIterable()) { iconName, tintColor ->
-                    iconName.mapIf(iconName.startsWith(tintColor.prefix)) {
-                        it.replacePrefix(tintColor.prefix, Icons.DEFAULT_TINT_PREFIX)
+                .mapFor(Icons.TintColors.values().asIterable()) { tintColor ->
+                    mapIf(startsWith(tintColor.prefix)) {
+                        replacePrefix(tintColor.prefix, Icons.DEFAULT_TINT_PREFIX)
                     }
                 }
 
@@ -57,7 +57,7 @@ sealed class ShortcutIcon {
             fun fromDrawableResource(context: Context, @DrawableRes resource: Int, tint: Icons.TintColors? = null): BuiltInIcon {
                 val iconName = context.resources.getResourceEntryName(resource)
                     .mapIf(tint != null) {
-                        it.replacePrefix(Icons.DEFAULT_TINT_PREFIX, tint!!.prefix)
+                        replacePrefix(Icons.DEFAULT_TINT_PREFIX, tint!!.prefix)
                     }
                 return BuiltInIcon(iconName)
             }

@@ -15,6 +15,7 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.detachFromRealm
 import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.extensions.safeRemoveIf
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
@@ -103,14 +104,9 @@ class Exporter(private val context: Context) {
                 .newBuilder()
                 .setPrettyPrinting()
                 .mapIf(excludeDefaults) {
-                    it.registerTypeAdapter(Base::class.java, serializer)
-                        .registerTypeAdapter(Header::class.java, serializer)
-                        .registerTypeAdapter(Parameter::class.java, serializer)
-                        .registerTypeAdapter(Shortcut::class.java, serializer)
-                        .registerTypeAdapter(Option::class.java, serializer)
-                        .registerTypeAdapter(Variable::class.java, serializer)
-                        .registerTypeAdapter(Category::class.java, serializer)
-                        .registerTypeAdapter(ResponseHandling::class.java, serializer)
+                    mapFor(MODEL_CLASSES) { clazz ->
+                        registerTypeAdapter(clazz, serializer)
+                    }
                 }
                 .create()
                 .toJson(base, writer)
@@ -164,6 +160,17 @@ class Exporter(private val context: Context) {
 
     companion object {
         const val JSON_FILE = "shortcuts.json"
+
+        private val MODEL_CLASSES = setOf(
+            Base::class.java,
+            Header::class.java,
+            Parameter::class.java,
+            Shortcut::class.java,
+            Option::class.java,
+            Variable::class.java,
+            Category::class.java,
+            ResponseHandling::class.java,
+        )
     }
 
 }

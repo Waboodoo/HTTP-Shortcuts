@@ -27,7 +27,7 @@ class PlaySoundActionType : BaseActionType() {
 
         private fun normalize(uriString: String?): String? =
             uriString?.mapIf(!uriString.contains("://")) {
-                CONTENT_PREFIX + it
+                CONTENT_PREFIX + this
             }
 
         const val CONTENT_PREFIX = "content://"

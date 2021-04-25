@@ -14,8 +14,8 @@ internal class SelectType : BaseVariableType(), AsyncVariableType {
         Single
             .create<String> { emitter ->
                 createDialogBuilder(context, variable, emitter)
-                    .mapFor(variable.options!!) { builder, option ->
-                        builder.item(name = option.labelOrValue) {
+                    .mapFor(variable.options!!) { option ->
+                        item(name = option.labelOrValue) {
                             emitter.onSuccess(option.value)
                         }
                     }

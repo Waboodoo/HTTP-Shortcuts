@@ -52,7 +52,7 @@ open class VariableButton : AppCompatImageButton {
             .message(if (isUsedFromVariableEditor()) R.string.help_text_variable_button_for_variables else R.string.help_text_variable_button)
             .positive(android.R.string.ok)
             .mapIf(!isUsedFromVariableEditor()) {
-                it.neutral(R.string.button_create_first_variable) { openVariableEditor() }
+                neutral(R.string.button_create_first_variable) { openVariableEditor() }
             }
             .show()
     }
@@ -65,13 +65,13 @@ open class VariableButton : AppCompatImageButton {
     private fun openVariableSelectionDialog() {
         DialogBuilder(context)
             .title(getTitle())
-            .mapFor(getVariables()) { builder, placeholder ->
-                builder.item(name = placeholder.variableKey) {
+            .mapFor(getVariables()) { placeholder ->
+                item(name = placeholder.variableKey) {
                     variableSubject.onNext(placeholder)
                 }
             }
             .mapIf(!isUsedFromVariableEditor()) {
-                it.neutral(R.string.label_edit_variables) { openVariableEditor() }
+                neutral(R.string.label_edit_variables) { openVariableEditor() }
             }
             .showIfPossible()
     }

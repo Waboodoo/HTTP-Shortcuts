@@ -307,17 +307,17 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         fileUploadManager = FileUploadManager.Builder(contentResolver)
             .withSharedFiles(fileUris)
             .mapIf(shortcut.usesFileBody()) {
-                it.addFileRequest()
+                addFileRequest()
             }
-            .mapFor(shortcut.parameters) { builder, parameter ->
+            .mapFor(shortcut.parameters) { parameter ->
                 when {
                     parameter.isFilesParameter -> {
-                        builder.addFileRequest(multiple = true)
+                        addFileRequest(multiple = true)
                     }
                     parameter.isFileParameter -> {
-                        builder.addFileRequest(multiple = false)
+                        addFileRequest(multiple = false)
                     }
-                    else -> builder
+                    else -> this
                 }
             }
             .build()
@@ -585,7 +585,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                     .responseFileUri(response?.contentFile)
                     .url(response?.url)
                     .mapIf(shortcut.responseHandling?.includeMetaInfo == true) {
-                        it.showDetails(true)
+                        showDetails(true)
                             .timing(response?.timing)
                             .headers(response?.headers)
                             .statusCode(response?.statusCode)

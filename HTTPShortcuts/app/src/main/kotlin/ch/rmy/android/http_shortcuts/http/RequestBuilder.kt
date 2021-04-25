@@ -110,7 +110,7 @@ class RequestBuilder(private val method: String, url: String) {
             })
         }
         .mapIf(userAgent != null) {
-            it.header(HttpHeaders.USER_AGENT, userAgent!!)
+            header(HttpHeaders.USER_AGENT, userAgent!!)
         }
         .build()
 
