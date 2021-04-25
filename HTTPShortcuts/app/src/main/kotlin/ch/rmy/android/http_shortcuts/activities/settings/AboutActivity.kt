@@ -60,16 +60,16 @@ class AboutActivity : BaseActivity() {
                 openURL(ExternalURLs.DOCUMENTATION_PAGE)
             }
 
-            if (InstallUtil.isAppInstalledFromFDroid(requireContext())) {
+            if (InstallUtil.isAppInstalledFromPlayStore(requireContext())) {
+                findPreference<Preference>("f_droid")!!.isVisible = false
+            } else {
                 initPreference("f_droid") {
                     openURL(ExternalURLs.F_DROID)
                 }
-                findPreference<Preference>("play_store")!!.isVisible = false
-            } else {
-                initPreference("play_store") {
-                    openURL(ExternalURLs.PLAY_STORE)
-                }
-                findPreference<Preference>("f_droid")!!.isVisible = false
+            }
+
+            initPreference("play_store") {
+                openURL(ExternalURLs.PLAY_STORE)
             }
 
             initPreference("github") {
