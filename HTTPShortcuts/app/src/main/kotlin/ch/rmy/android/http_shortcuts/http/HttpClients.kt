@@ -64,7 +64,7 @@ internal object HttpClients {
             .build()
 
     private fun createDefaultOkHttpClientBuilder(context: Context, clientCertParams: ClientCertParams?) = OkHttpClient.Builder()
-        .connectionSpecs(listOf(ConnectionSpec.MODERN_TLS))
+        .connectionSpecs(listOf(ConnectionSpec.MODERN_TLS, ConnectionSpec.CLEARTEXT))
         .run {
             val trustManager = Conscrypt.getDefaultX509TrustManager()
             val sslContext = SSLContext.getInstance("TLS", "Conscrypt")
