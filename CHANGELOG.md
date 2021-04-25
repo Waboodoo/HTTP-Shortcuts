@@ -7,6 +7,7 @@ Unfortunately, this is a **breaking change**, so most likely you will need to re
 ### Miscellaneous
 - Added TLSv1.3 support also for older Android versions
 - Added option to use a .p12 file directly for client certificate authentication
+- Added function `playSound` which allows playing a notification sound
 - Added info dialog for easier lookup for a shortcut's ID or deep-linking URL
 
 ### Bugfixes

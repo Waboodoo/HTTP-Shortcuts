@@ -642,6 +642,8 @@
     <string name="action_copy_to_clipboard_title">Copy to Clipboard</string>
     <!-- Shortcut Action Title: Action that allows to read a snippet of text out load (text-to-speech) -->
     <string name="action_tts">Speak (Text-to-Speech)</string>
+    <!-- Shortcut Action Title: Action that allows to play a (notification) sound effect -->
+    <string name="action_play_sound">Play Sound</string>
     <!-- Shortcut Action Title: Vibrate -->
     <string name="action_type_vibrate_title">Vibrate</string>
     <!-- Shortcut Action Title: Change Shortcut Name -->

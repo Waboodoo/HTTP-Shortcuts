@@ -30,8 +30,6 @@ class TriggerTaskerTaskActionType : BaseActionType() {
         const val KEY_TASK_NAME = "taskName"
         const val KEY_VARIABLE_VALUES = "variables"
 
-        const val REQUEST_CODE_SELECT_TASK = 14
-
         fun isTaskerAvailable(context: Context): Boolean =
             TaskerIntent.isTaskerInstalled(context)
 

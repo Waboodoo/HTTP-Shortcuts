@@ -30,6 +30,7 @@ class ActionFactory {
                 GetVariableActionType(),
                 HashActionType(),
                 HmacActionType(),
+                PlaySoundActionType(),
                 PromptActionType(),
                 RenameShortcutActionType(),
                 SelectionActionType(),

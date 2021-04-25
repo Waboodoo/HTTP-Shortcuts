@@ -3,6 +3,8 @@ package ch.rmy.android.http_shortcuts.activities.editor.scripting
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.media.RingtoneManager
+import android.net.Uri
 import android.os.Build
 import android.os.Vibrator
 import androidx.annotation.StringRes
@@ -16,8 +18,8 @@ import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.plugin.TaskerIntent
+import ch.rmy.android.http_shortcuts.scripting.actions.types.PlaySoundActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.TriggerTaskerTaskActionType
-import ch.rmy.android.http_shortcuts.scripting.actions.types.TriggerTaskerTaskActionType.Companion.REQUEST_CODE_SELECT_TASK
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 
@@ -141,6 +143,9 @@ class CodeSnippetPicker(
             .item(R.string.action_type_confirm_title) {
                 insertText("confirm(\"Message", "\");\n")
             }
+            .item(R.string.action_play_sound) {
+                openSoundPicker()
+            }
             .mapIf(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 it.item(R.string.action_tts) {
                     insertText("speak(\"", "\");\n")
@@ -152,6 +157,17 @@ class CodeSnippetPicker(
                 }
             }
             .showIfPossible()
+    }
+
+    private fun openSoundPicker() {
+        try {
+            Intent(RingtoneManager.ACTION_RINGTONE_PICKER)
+                .putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION)
+                .startActivity(context, REQUEST_CODE_SELECT_NOTIFICATION_SOUND)
+        } catch (e: ActivityNotFoundException) {
+            logException(e)
+            context.showToast(R.string.error_generic)
+        }
     }
 
     private fun showModifyShortcutPicker(insertText: InsertText) {
@@ -325,6 +341,13 @@ class CodeSnippetPicker(
                 val taskName = data?.dataString ?: return
                 insertText.invoke("${TriggerTaskerTaskActionType.FUNCTION_NAME}(\"${escape(taskName)}\");", "")
             }
+            REQUEST_CODE_SELECT_NOTIFICATION_SOUND -> {
+                val uri = data?.getParcelableExtra<Uri>(RingtoneManager.EXTRA_RINGTONE_PICKED_URI)
+                    ?.toString()
+                    ?.removePrefix(PlaySoundActionType.CONTENT_PREFIX)
+                    ?: return
+                insertText.invoke("${PlaySoundActionType.FUNCTION_NAME}(\"${escape(uri)}\");", "")
+            }
         }
     }
 
@@ -333,6 +356,9 @@ class CodeSnippetPicker(
     }
 
     companion object {
+
+        private const val REQUEST_CODE_SELECT_TASK = 14
+        private const val REQUEST_CODE_SELECT_NOTIFICATION_SOUND = 15
 
         private fun escape(input: String) =
             input.replace("\"", "\\\"")
