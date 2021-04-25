@@ -1555,4 +1555,10 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
 
     <!-- Message: instructions shown below a shortcut's deep-linking URL -->
     <string name="message_deep_link_instructions">"Du kannst diese URL von einer anderen App aus aufrufen um diesen Shortcut auszulösen. Füge Query-Parameter an um Variablen-Werte zu übergeben."</string>
+
+    <!-- Shortcut Action Title: Action that allows to play a (notification) sound effect -->
+    <string name="action_play_sound">"Ton abspielen"</string>
+
+    <!-- Message: Hint to the user that additional/advanced options are available for response handling through scripting. -->
+    <string name="message_response_handling_scripting_hint">"Für weitere Optionen zum Verarbeiten und Anzeigen der Response, sieh dir die '%s'-Sektion an. Dort kannst du fortgeschrittene Abläufe mittels JavaScript-Code definieren."</string>
 </resources>
