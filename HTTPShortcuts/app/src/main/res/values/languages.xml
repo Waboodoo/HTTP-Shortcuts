@@ -6,6 +6,7 @@
     <string name="language_spanish" translatable="false">Español</string>
     <string name="language_french" translatable="false">Français</string>
     <string name="language_italian" translatable="false">Italiano</string>
+    <string name="language_hebrew" translatable="false">עִברִית</string>
     <string name="language_hungarian" translatable="false">Magyar</string>
     <string name="language_norwegian_bokmal" translatable="false">Norsk</string>
     <string name="language_polish" translatable="false">Polski</string>
@@ -31,6 +32,7 @@
         <item>@string/language_turkish</item>
         <item>@string/language_chinese</item>
         <item>@string/language_korean</item>
+        <item>@string/language_hebrew</item>
     </string-array>
 
     <string-array name="language_values" translatable="false">
@@ -49,5 +51,6 @@
         <item>tr</item>
         <item>zh-rCN</item>
         <item>ko</item>
+        <item>he</item>
     </string-array>
 </resources>
