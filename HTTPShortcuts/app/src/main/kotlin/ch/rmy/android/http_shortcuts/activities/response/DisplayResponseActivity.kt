@@ -16,8 +16,10 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.consume
+import ch.rmy.android.http_shortcuts.extensions.finishWithoutAnimation
 import ch.rmy.android.http_shortcuts.extensions.loadImage
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.showIfPossible
@@ -41,6 +43,9 @@ import kotterknife.bindView
 
 class DisplayResponseActivity : BaseActivity() {
 
+    private val shortcutId: String by lazy {
+        intent?.extras?.getString(EXTRA_SHORTCUT_ID) ?: ""
+    }
     private val shortcutName: String by lazy {
         intent?.extras?.getString(EXTRA_NAME) ?: ""
     }
@@ -205,6 +210,7 @@ class DisplayResponseActivity : BaseActivity() {
         text.isNotEmpty() && responseFileUri != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_rerun -> consume { rerunShortcut() }
         R.id.action_share_response -> consume { shareResponse() }
         R.id.action_save_response_as_file -> consume {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -212,6 +218,12 @@ class DisplayResponseActivity : BaseActivity() {
             }
         }
         else -> super.onOptionsItemSelected(item)
+    }
+
+    private fun rerunShortcut() {
+        ExecuteActivity.IntentBuilder(context, shortcutId)
+            .startActivity(context)
+        finishWithoutAnimation()
     }
 
     private fun shareResponse() {
