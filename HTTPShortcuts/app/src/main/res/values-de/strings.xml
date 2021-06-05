@@ -1554,11 +1554,23 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <string name="label_deep_link_url">"Deep-Link URL"</string>
 
     <!-- Message: instructions shown below a shortcut's deep-linking URL -->
-    <string name="message_deep_link_instructions">"Du kannst diese URL von einer anderen App aus aufrufen um diesen Shortcut auszulösen. Füge Query-Parameter an um Variablen-Werte zu übergeben."</string>
+    <string name="message_deep_link_instructions">"Du kannst diese URL von einer anderen App aus aufrufen um diesen Shortcut auszulösen, z.B. durch einen QR-Code oder NFC-Tag. Füge Query-Parameter an um Variablen-Werte zu übergeben."</string>
 
     <!-- Shortcut Action Title: Action that allows to play a (notification) sound effect -->
     <string name="action_play_sound">"Ton abspielen"</string>
 
     <!-- Message: Hint to the user that additional/advanced options are available for response handling through scripting. -->
     <string name="message_response_handling_scripting_hint">"Für weitere Optionen zum Verarbeiten und Anzeigen der Response, sieh dir die '%s'-Sektion an. Dort kannst du fortgeschrittene Abläufe mittels JavaScript-Code definieren."</string>
+
+    <!-- Menu button shown on response window, allows the user to execute the current shortcut again -->
+    <string name="action_rerun_shortcut">"Erneut ausführen"</string>
+
+    <!-- Checkbox value, shown in variable editor, allows to enable multiline input for a text variable -->
+    <string name="label_multiline">"Mehrzeilig"</string>
+
+    <!-- Instructions shown below the "JSON encode" checkbox in the variable editor -->
+    <string name="message_json_encode_instructions">"Aktiviere diese Option wenn du die Variable innerhalb eines JSON-Strings verwenden möchtest, z.B. als Teil des Request-Bodys. Sonderzeichen werden maskiert."</string>
+
+    <!-- Instructions shown below the "URL encode" checkbox in the variable editor -->
+    <string name="message_url_encode_instructions">"Aktiviere diese Option wenn du die Variable innerhalb der URL verwenden möchtest, z.B. als Teil eines Query-Strings. Sonderzeichen werden maskiert."</string>
 </resources>

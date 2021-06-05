@@ -73,6 +73,9 @@
     <!-- Shortcut dropdown option: Move the shortcut to a different category -->
     <string name="action_move_to_category">"Déplacer vers la catégorie …"</string>
 
+    <!-- Empty state, shown in list when there are no shortcuts yet -->
+    <string name="empty_state_shortcuts">"Vous n'avez aucun raccourci"</string>
+
     <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts_instructions">"Cliquer sur le bouton + pour commencer"</string>
 
@@ -289,6 +292,9 @@
 
     <!-- Pattern: Combines an indication of minutes (first %s) with an indication of seconds (second %s), e.g. 1 minute, 24 seconds -->
     <string name="pattern_minutes_seconds">"%1$s, %2$s"</string>
+
+    <!-- Title of option in settings to show change changelog of current and past versions -->
+    <string name="settings_changelog">"Changements"</string>
 
     <!-- Subtitle/summary of "Changelog" option in settings, showing the current app version number -->
     <string name="settings_changelog_summary">"Version %1$s"</string>
@@ -570,6 +576,15 @@ Tous les raccourcis contenus dans cette catégorie seront supprimés."</string>
     <!-- Page/dialog title, for help article about variables -->
     <string name="help_title_variables">"Variables"</string>
 
+    <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
+    <string name="button_create_first_variable">"Créer"</string>
+
+    <!-- Title of dialog that allows users to pick a variable from a list to insert its placeholder somewhere -->
+    <string name="dialog_title_variable_selection">"Variables"</string>
+
+    <!-- Option shown on variable selection dialog, clicking it opens variable editor -->
+    <string name="label_edit_variables">"Modifier variables"</string>
+
     <!-- Error message, shown in variable editor when the user didn't add enough options -->
     <string name="error_not_enough_toggle_values">"Veuillez ajouter au moins deux valeurs."</string>
 
@@ -716,6 +731,9 @@ Voir la documentation dans la section variable pour plus d'informations."</strin
 
     <!-- Dropdown option for request body: custom text (i.e. enter a custom Content-Type and a request body as text) -->
     <string name="request_body_option_custom_text">"Texte personnalisé"</string>
+
+    <!-- Label above input box for Request Content-Type -->
+    <string name="label_content_type">"Content-Type"</string>
 
     <!-- Button to copy the cURL export of a shortcut to the clipboard -->
     <string name="button_copy_curl_export">"Copier"</string>
