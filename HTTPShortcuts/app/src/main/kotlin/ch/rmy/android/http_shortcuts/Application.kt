@@ -6,7 +6,6 @@ import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.logging.Logging
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
-import ch.rmy.android.http_shortcuts.utils.IconMigration
 import ch.rmy.android.http_shortcuts.utils.LocaleHelper
 import ch.rmy.android.http_shortcuts.utils.Settings
 import com.facebook.stetho.Stetho
@@ -32,7 +31,6 @@ class Application : android.app.Application() {
         try {
             RealmFactory.init(applicationContext)
             isRealmAvailable = true
-            IconMigration.migrateIfNeeded(context)
         } catch (e: RealmFactory.RealmNotFoundException) {
             // Nothing to do here...
         }
