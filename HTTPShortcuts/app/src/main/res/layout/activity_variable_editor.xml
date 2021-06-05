@@ -78,11 +78,23 @@
                 android:layout_height="wrap_content"
                 android:text="@string/label_url_encode" />
 
+            <TextView
+                style="@style/InfoLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/message_url_encode_instructions" />
+
             <CheckBox
                 android:id="@+id/input_json_encode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/label_json_encode" />
+
+            <TextView
+                style="@style/InfoLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/message_json_encode_instructions" />
 
             <CheckBox
                 android:id="@+id/input_allow_share"
@@ -94,7 +106,6 @@
                 style="@style/InfoLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
                 android:text="@string/message_allow_share_instructions" />
 
         </LinearLayout>

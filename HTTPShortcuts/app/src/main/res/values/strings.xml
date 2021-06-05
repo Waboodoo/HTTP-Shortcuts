@@ -506,6 +506,10 @@
     <string name="label_allow_share_into">Allow \'Share …\'</string>
     <!-- Instructions shown below the "Allow Share..." checkbox in the variable editor -->
     <string name="message_allow_share_instructions">Enabling this allows you to share text from other apps and use that shared text as the temporary value for this variable.</string>
+    <!-- Instructions shown below the "JSON encode" checkbox in the variable editor -->
+    <string name="message_json_encode_instructions">Enable this if you are using this variable inside a JSON string, e.g., in a request body. Special characters will be escaped.</string>
+    <!-- Instructions shown below the "URL encode" checkbox in the variable editor -->
+    <string name="message_url_encode_instructions">Enable this if you are using this variable inside a URL, e.g., as part of a query string. Special characters will be escaped.</string>
     <!-- App color theme option Blue -->
     <string name="theme_blue">Blue</string>
     <!-- App color theme option Green -->
@@ -1042,7 +1046,7 @@
     <!-- Label shown above a text field showing a shortcut's deep link URL -->
     <string name="label_deep_link_url">Deep-Linking URL</string>
     <!-- Message: instructions shown below a shortcut's deep-linking URL -->
-    <string name="message_deep_link_instructions">You can trigger this shortcut by invoking this URL from another app. Append query parameters to it to pass variable values.</string>
+    <string name="message_deep_link_instructions">You can trigger this shortcut by invoking this URL from another app, e.g., via a QR scanner or NFC reader. Append query parameters to the URL to pass variable values.</string>
     <!-- Message: Hint to the user that additional/advanced options are available for response handling through scripting.  -->
     <string name="message_response_handling_scripting_hint">If you need more advanced options for processing and displaying the response, check out the \'%s\' section, which lets you define custom logic using JavaScript code.</string>
 </resources>
