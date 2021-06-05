@@ -1,14 +1,14 @@
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
         google()
     }
     dependencies {
         classpath("com.android.tools.build:gradle:4.0.1")
-        classpath("io.realm:realm-gradle-plugin:7.0.8")
+        classpath("io.realm:realm-gradle-plugin:10.5.0")
         classpath("com.bugsnag:bugsnag-android-gradle-plugin:4.+")
         classpath("org.jetbrains:markdown:0.1.45")
-        classpath(kotlin("gradle-plugin", "1.4.32"))
+        classpath(kotlin("gradle-plugin", "1.5.10"))
     }
 }
 
@@ -21,12 +21,12 @@ ext {
 
 allprojects {
     repositories {
-        jcenter()
+        mavenCentral()
         maven("https://jitpack.io")
+        maven("https://oss.sonatype.org/content/repositories/snapshots/")
+        google()
+        jcenter()
     }
-}
-repositories {
-    mavenCentral()
 }
 
 tasks.register("syncChangeLog") {

@@ -124,16 +124,6 @@ project.configure(project.android, {
     }
 })
 
-repositories {
-    maven {
-        url 'https://jitpack.io'
-    }
-    google()
-    maven {
-        url 'https://oss.sonatype.org/content/repositories/snapshots/'
-    }
-}
-
 dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
