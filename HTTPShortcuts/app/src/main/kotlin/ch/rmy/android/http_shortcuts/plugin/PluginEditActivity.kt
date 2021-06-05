@@ -13,7 +13,7 @@ import com.joaomgcd.taskerpluginlibrary.input.TaskerInput
 
 class PluginEditActivity : BaseActivity(), TaskerPluginConfig<Input> {
 
-    private lateinit var input: Input
+    private var input: Input? = null
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +44,13 @@ class PluginEditActivity : BaseActivity(), TaskerPluginConfig<Input> {
     }
 
     override val inputForTasker: TaskerInput<Input>
-        get() = TaskerInput(input, getTaskerInputInfos())
+        get() = TaskerInput(
+            input ?: Input(
+                shortcutId = "???",
+                shortcutName = "???",
+            ),
+            getTaskerInputInfos(),
+        )
 
     override fun assignFromInput(input: TaskerInput<Input>) {
         this.input = input.regular

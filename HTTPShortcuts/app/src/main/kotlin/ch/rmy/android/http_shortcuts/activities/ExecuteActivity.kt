@@ -46,6 +46,7 @@ import ch.rmy.android.http_shortcuts.http.FileUploadManager
 import ch.rmy.android.http_shortcuts.http.HttpRequester
 import ch.rmy.android.http_shortcuts.http.ResponseFileStorage
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
+import ch.rmy.android.http_shortcuts.plugin.SessionMonitor
 import ch.rmy.android.http_shortcuts.scripting.ScriptExecutor
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ActionFactory
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
@@ -184,7 +185,13 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                     else -> {
                         if (shouldReschedule(error)) {
                             if (shortcut.responseHandling?.successOutput != ResponseHandling.SUCCESS_OUTPUT_NONE && tryNumber == 0) {
-                                showToast(String.format(context.getString(R.string.execution_delayed), shortcutName), long = true)
+                                showToast(
+                                    String.format(
+                                        context.getString(R.string.execution_delayed),
+                                        shortcutName,
+                                    ),
+                                    long = true,
+                                )
                             }
                             rescheduleExecution()
                                 .doOnComplete {
@@ -383,7 +390,11 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     }
 
     private fun showRequestPermissionRationalIfNeeded(): Completable =
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+            )
+        ) {
             DialogBuilder(context)
                 .title(getString(R.string.title_permission_dialog))
                 .message(getString(R.string.message_permission_rational))
@@ -625,7 +636,13 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         // Prevent cancelling. Not optimal, but will have to do for now
     }
 
-    class IntentBuilder(context: Context, shortcutId: String? = null) : BaseIntentBuilder(context, ExecuteActivity::class.java) {
+    override fun onDestroy() {
+        super.onDestroy()
+        SessionMonitor.onSessionComplete()
+    }
+
+    class IntentBuilder(context: Context, shortcutId: String? = null) :
+        BaseIntentBuilder(context, ExecuteActivity::class.java) {
 
         init {
             intent.action = ACTION_EXECUTE_SHORTCUT
@@ -658,14 +675,17 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         }
 
         fun files(files: List<Uri>) = also {
-            intent.putParcelableArrayListExtra(EXTRA_FILES, ArrayList<Uri>().apply { addAll(files) })
+            intent.putParcelableArrayListExtra(
+                EXTRA_FILES,
+                ArrayList<Uri>().apply { addAll(files) })
         }
 
     }
 
     companion object {
 
-        const val ACTION_EXECUTE_SHORTCUT = "ch.rmy.android.http_shortcuts.resolveVariablesAndExecute"
+        const val ACTION_EXECUTE_SHORTCUT =
+            "ch.rmy.android.http_shortcuts.resolveVariablesAndExecute"
 
         const val EXTRA_SHORTCUT_ID = "id"
         const val EXTRA_VARIABLE_VALUES = "variable_values"
