@@ -14,7 +14,7 @@ internal class NumberType : TextType() {
             createDialogBuilder(context, variable, emitter)
                 .textInput(
                     prefill = variable.value?.takeIf { variable.rememberValue } ?: "",
-                    inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED
+                    inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED,
                 ) { input ->
                     emitter.onSuccess(input)
                     Commons.setVariableValue(variable.id, input).subscribe()

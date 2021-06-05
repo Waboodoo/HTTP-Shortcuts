@@ -15,19 +15,23 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
-internal class TimeType : BaseVariableType(), AsyncVariableType {
-
-    override val hasTitle = false
+internal class TimeType : BaseVariableType() {
 
     override fun resolveValue(context: Context, variable: Variable): Single<String> =
         Single.create<Date> { emitter ->
             val calendar = getInitialTime(variable.value)
-            val timePicker = TimePickerDialog(context, { _, hourOfDay, minute ->
-                val newDate = Calendar.getInstance()
-                newDate.set(Calendar.HOUR_OF_DAY, hourOfDay)
-                newDate.set(Calendar.MINUTE, minute)
-                emitter.onSuccess(newDate.time)
-            }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), DateFormat.is24HourFormat(context))
+            val timePicker = TimePickerDialog(
+                context,
+                { _, hourOfDay, minute ->
+                    val newDate = Calendar.getInstance()
+                    newDate.set(Calendar.HOUR_OF_DAY, hourOfDay)
+                    newDate.set(Calendar.MINUTE, minute)
+                    emitter.onSuccess(newDate.time)
+                },
+                calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.MINUTE),
+                DateFormat.is24HourFormat(context),
+            )
             timePicker.setCancelable(true)
             timePicker.setCanceledOnTouchOutside(true)
 
@@ -43,7 +47,10 @@ internal class TimeType : BaseVariableType(), AsyncVariableType {
                     Completable.complete()
                 }
                     .toSingle {
-                        val dateFormat = SimpleDateFormat(variable.dataForType[DateType.KEY_FORMAT] ?: DEFAULT_FORMAT, Locale.US)
+                        val dateFormat = SimpleDateFormat(
+                            variable.dataForType[DateType.KEY_FORMAT] ?: DEFAULT_FORMAT,
+                            Locale.US,
+                        )
                         dateFormat.format(resolvedDate.time)
                     }
             }

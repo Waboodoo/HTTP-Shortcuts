@@ -39,13 +39,15 @@ fun Fragment.showMessageDialog(string: CharSequence, onDismiss: () -> Unit = {})
 }
 
 @ColorInt
-fun color(context: Context, @ColorRes colorRes: Int): Int = ContextCompat.getColor(context, colorRes)
+fun color(context: Context, @ColorRes colorRes: Int): Int =
+    ContextCompat.getColor(context, colorRes)
 
 fun drawable(context: Context, @DrawableRes drawableRes: Int): Drawable? =
     AppCompatResources.getDrawable(context, drawableRes)
 
 fun Activity.dimen(@DimenRes dimenRes: Int) = dimen(this, dimenRes)
-fun dimen(context: Context, @DimenRes dimenRes: Int) = context.resources.getDimensionPixelSize(dimenRes)
+fun dimen(context: Context, @DimenRes dimenRes: Int) =
+    context.resources.getDimensionPixelSize(dimenRes)
 
 inline fun consume(f: () -> Unit): Boolean {
     f()
@@ -97,3 +99,6 @@ fun <T> MutableCollection<T>.safeRemoveIf(predicate: Predicate<T>) {
         }
     }
 }
+
+fun <T> T.takeUnlessEmpty(): T? where T : Collection<*> =
+    takeUnless { it.isEmpty() }

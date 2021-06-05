@@ -34,11 +34,21 @@ open class Variable(
 
     var isShareText: Boolean
         get() = flags and FLAG_SHARE_TEXT != 0
-        set(shareText) {
-            flags = if (shareText) {
+        set(value) {
+            flags = if (value) {
                 flags or FLAG_SHARE_TEXT
             } else {
                 flags and FLAG_SHARE_TEXT.inv()
+            }
+        }
+
+    var isMultiline: Boolean
+        get() = flags and FLAG_MULTILINE != 0
+        set(value) {
+            flags = if (value) {
+                flags or FLAG_MULTILINE
+            } else {
+                flags and FLAG_MULTILINE.inv()
             }
         }
 
@@ -107,6 +117,7 @@ open class Variable(
         const val TYPE_SLIDER = "slider"
 
         private const val FLAG_SHARE_TEXT = 0x1
+        private const val FLAG_MULTILINE = 0x2
 
     }
 

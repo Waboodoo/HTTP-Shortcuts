@@ -6,6 +6,7 @@ import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.cancel
 import ch.rmy.android.http_shortcuts.extensions.mapIf
+import io.reactivex.Single
 import io.reactivex.SingleEmitter
 
 abstract class BaseVariableType {
@@ -23,9 +24,15 @@ abstract class BaseVariableType {
 
     protected open fun createEditorFragment() = VariableEditorFragment()
 
+    abstract fun resolveValue(context: Context, variable: Variable): Single<String>
+
     companion object {
 
-        internal fun createDialogBuilder(context: Context, variable: Variable, emitter: SingleEmitter<String>) =
+        internal fun createDialogBuilder(
+            context: Context,
+            variable: Variable,
+            emitter: SingleEmitter<String>,
+        ) =
             DialogBuilder(context)
                 .mapIf(variable.title.isNotEmpty()) {
                     title(variable.title)

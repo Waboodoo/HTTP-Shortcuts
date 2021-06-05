@@ -12,18 +12,27 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 
-internal class DateType : BaseVariableType(), AsyncVariableType {
-
-    override val hasTitle = false
+internal class DateType : BaseVariableType() {
 
     override fun resolveValue(context: Context, variable: Variable): Single<String> =
         Single.create<Date> { emitter ->
             val calendar = getInitialDate(variable.value)
-            val datePicker = DatePickerDialog(context, null, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
-            datePicker.setButton(DialogInterface.BUTTON_POSITIVE, context.getString(R.string.dialog_ok)) { _, _ ->
+            val datePicker = DatePickerDialog(
+                context,
+                null,
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH),
+            )
+            datePicker.setButton(
+                DialogInterface.BUTTON_POSITIVE,
+                context.getString(R.string.dialog_ok),
+            ) { _, _ ->
                 val newDate = Calendar.getInstance()
                 val day = datePicker.datePicker.dayOfMonth
                 val month = datePicker.datePicker.month
@@ -49,7 +58,10 @@ internal class DateType : BaseVariableType(), AsyncVariableType {
                     Completable.complete()
                 }
                     .toSingle {
-                        val dateFormat = SimpleDateFormat(variable.dataForType[KEY_FORMAT] ?: DEFAULT_FORMAT, Locale.US)
+                        val dateFormat = SimpleDateFormat(
+                            variable.dataForType[KEY_FORMAT] ?: DEFAULT_FORMAT,
+                            Locale.US,
+                        )
                         dateFormat.format(resolvedDate.time)
                     }
             }

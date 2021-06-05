@@ -16,9 +16,7 @@ import me.priyesh.chroma.ChromaDialog
 import me.priyesh.chroma.ColorMode
 import me.priyesh.chroma.ColorSelectListener
 
-internal class ColorType : BaseVariableType(), AsyncVariableType {
-
-    override val hasTitle = false
+internal class ColorType : BaseVariableType() {
 
     override fun resolveValue(context: Context, variable: Variable): Single<String> =
         Single.create<String> { emitter ->

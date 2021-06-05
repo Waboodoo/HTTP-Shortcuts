@@ -4,8 +4,6 @@ import android.content.Context
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
-import ch.rmy.android.http_shortcuts.variables.types.AsyncVariableType
-import ch.rmy.android.http_shortcuts.variables.types.SyncVariableType
 import ch.rmy.android.http_shortcuts.variables.types.VariableTypeFactory
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -49,7 +47,11 @@ class VariableResolver(private val context: Context) {
             }
     }
 
-    private fun resolveRecursiveVariables(variableLookup: VariableLookup, preResolvedValues: Map<Variable, String>, recursionDepth: Int = 0): Single<Map<Variable, String>> {
+    private fun resolveRecursiveVariables(
+        variableLookup: VariableLookup,
+        preResolvedValues: Map<Variable, String>,
+        recursionDepth: Int = 0,
+    ): Single<Map<Variable, String>> {
         val requiredVariableIds = mutableSetOf<String>()
         preResolvedValues.values.forEach { value ->
             requiredVariableIds.addAll(Variables.extractVariableIds(value))
@@ -66,10 +68,11 @@ class VariableResolver(private val context: Context) {
             .map {
                 it.toMutableMap().also { resolvedVariables ->
                     resolvedVariables.forEach { resolvedVariable ->
-                        resolvedVariables[resolvedVariable.key] = Variables.rawPlaceholdersToResolvedValues(
-                            resolvedVariable.value,
-                            resolvedVariables.mapKeys { it.key.id }
-                        )
+                        resolvedVariables[resolvedVariable.key] =
+                            Variables.rawPlaceholdersToResolvedValues(
+                                resolvedVariable.value,
+                                resolvedVariables.mapKeys { it.key.id },
+                            )
                     }
                 }
             }
@@ -78,7 +81,10 @@ class VariableResolver(private val context: Context) {
             }
     }
 
-    fun resolveVariables(variablesToResolve: List<Variable>, preResolvedValues: Map<Variable, String> = emptyMap()): Single<Map<Variable, String>> {
+    fun resolveVariables(
+        variablesToResolve: List<Variable>,
+        preResolvedValues: Map<Variable, String> = emptyMap(),
+    ): Single<Map<Variable, String>> {
         var completable = Completable.complete()
         val resolvedVariables = preResolvedValues.toMutableMap()
 
@@ -97,17 +103,13 @@ class VariableResolver(private val context: Context) {
             }
 
             val variableType = VariableTypeFactory.getType(variable.type)
-            if (variableType is AsyncVariableType) {
-                completable = completable.concatWith(
-                    variableType.resolveValue(context, variable)
-                        .doOnSuccess { resolvedValue ->
-                            resolvedVariables[variable] = resolvedValue
-                        }
-                        .ignoreElement()
-                )
-            } else if (variableType is SyncVariableType) {
-                resolvedVariables[variable] = variableType.resolveValue(variable)
-            }
+            completable = completable.concatWith(
+                variableType.resolveValue(context, variable)
+                    .doOnSuccess { resolvedValue ->
+                        resolvedVariables[variable] = resolvedValue
+                    }
+                    .ignoreElement()
+            )
         }
 
         return completable.toSingle { resolvedVariables }
@@ -157,7 +159,10 @@ class VariableResolver(private val context: Context) {
                 }
             }
 
-        private fun extractVariableIdsFromJS(code: String, variableLookup: VariableLookup): Set<String> =
+        private fun extractVariableIdsFromJS(
+            code: String,
+            variableLookup: VariableLookup,
+        ): Set<String> =
             Variables.extractVariableIdsFromJS(code)
                 .plus(
                     Variables.extractVariableKeysFromJS(code)

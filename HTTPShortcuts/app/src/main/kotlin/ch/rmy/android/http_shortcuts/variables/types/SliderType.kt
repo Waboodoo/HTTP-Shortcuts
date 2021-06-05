@@ -12,9 +12,7 @@ import ch.rmy.android.http_shortcuts.utils.SimpleOnSeekBarChangeListener
 import io.reactivex.Single
 
 
-internal class SliderType : BaseVariableType(), AsyncVariableType {
-
-    override val hasTitle = true
+internal class SliderType : BaseVariableType(), HasTitle {
 
     override fun resolveValue(context: Context, variable: Variable): Single<String> =
         Single.create<String> { emitter ->
@@ -76,14 +74,19 @@ internal class SliderType : BaseVariableType(), AsyncVariableType {
         const val DEFAULT_MAX = 100
         const val DEFAULT_STEP = 1
 
-        fun findMax(variable: Variable): Int = variable.dataForType[KEY_MAX]?.toDoubleOrNull()?.toInt() ?: DEFAULT_MAX
-        fun findMin(variable: Variable): Int = variable.dataForType[KEY_MIN]?.toDoubleOrNull()?.toInt() ?: DEFAULT_MIN
-        fun findStep(variable: Variable): Int = variable.dataForType[KEY_STEP]?.toDoubleOrNull()?.toInt() ?: DEFAULT_STEP
+        fun findMax(variable: Variable): Int =
+            variable.dataForType[KEY_MAX]?.toDoubleOrNull()?.toInt() ?: DEFAULT_MAX
+
+        fun findMin(variable: Variable): Int =
+            variable.dataForType[KEY_MIN]?.toDoubleOrNull()?.toInt() ?: DEFAULT_MIN
+
+        fun findStep(variable: Variable): Int =
+            variable.dataForType[KEY_STEP]?.toDoubleOrNull()?.toInt() ?: DEFAULT_STEP
 
         fun getData(maxValue: Int, minValue: Int, stepValue: Int) = mapOf(
             KEY_MAX to maxValue.toString(),
             KEY_MIN to minValue.toString(),
-            KEY_STEP to stepValue.toString()
+            KEY_STEP to stepValue.toString(),
         )
 
     }

@@ -20,7 +20,7 @@ import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.variables.Variables
-import ch.rmy.android.http_shortcuts.variables.types.AsyncVariableType
+import ch.rmy.android.http_shortcuts.variables.types.HasTitle
 import ch.rmy.android.http_shortcuts.variables.types.VariableEditorFragment
 import ch.rmy.android.http_shortcuts.variables.types.VariableTypeFactory
 import kotterknife.bindView
@@ -95,7 +95,7 @@ class VariableEditorActivity : BaseActivity() {
 
         fragment = variableType.getEditorFragment(supportFragmentManager)
 
-        titleViewContainer.visible = (variableType as? AsyncVariableType)?.hasTitle == true
+        titleViewContainer.visible = variableType is HasTitle
 
         fragment?.let { fragment ->
             supportFragmentManager
