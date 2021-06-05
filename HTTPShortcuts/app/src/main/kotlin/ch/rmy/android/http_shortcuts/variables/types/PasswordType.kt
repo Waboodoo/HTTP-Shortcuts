@@ -14,7 +14,7 @@ class PasswordType : TextType() {
             createDialogBuilder(context, variable, emitter)
                 .textInput(
                     prefill = variable.value?.takeIf { variable.rememberValue } ?: "",
-                    inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
+                    inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD,
                 ) { input ->
                     emitter.onSuccess(input)
                 }

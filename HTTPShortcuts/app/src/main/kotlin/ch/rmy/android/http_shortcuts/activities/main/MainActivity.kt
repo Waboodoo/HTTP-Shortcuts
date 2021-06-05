@@ -401,7 +401,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
             .title(R.string.dialog_title_unlock_app)
             .message(if (showError) R.string.dialog_text_unlock_app_retry else R.string.dialog_text_unlock_app)
             .positive(R.string.button_unlock_app)
-            .textInput(inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD) { input ->
+            .textInput(inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD) { input ->
                 unlockApp(input)
             }
             .negative(R.string.dialog_cancel)

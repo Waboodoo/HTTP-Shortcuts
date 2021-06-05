@@ -275,7 +275,7 @@ class AdvancedSettingsActivity : BaseActivity() {
             DialogBuilder(context)
                 .title(R.string.title_client_cert_file_password)
                 .textInput(
-                    inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD,
+                    inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD,
                 ) { input ->
                     emitter.onSuccess(input)
                 }
