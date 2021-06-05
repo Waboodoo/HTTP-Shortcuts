@@ -1,3 +1,14 @@
+## Version 2.5.0
+
+### Miscellaneous
+- Added a "Rerun" button to the response window, allowing to easily execute a shortcut again
+- Added option for multiline text input to the "Text Input" variable
+- Added and improved some help texts throughout the app
+
+### Bugfixes
+- The "Password Input" variable now properly hides the password
+- Tweaked the Tasker integration to more reliably execute shortcuts
+
 ## Version 2.4.0
 
 ### Important: Tasker Integration Overhaul
