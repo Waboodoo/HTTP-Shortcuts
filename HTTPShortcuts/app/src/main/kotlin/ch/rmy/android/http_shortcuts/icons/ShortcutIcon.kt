@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.icons
 import android.content.Context
 import android.net.Uri
 import androidx.annotation.DrawableRes
+import androidx.core.net.toUri
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.mapIf
@@ -54,7 +55,11 @@ sealed class ShortcutIcon {
             iconName.hashCode()
 
         companion object {
-            fun fromDrawableResource(context: Context, @DrawableRes resource: Int, tint: Icons.TintColors? = null): BuiltInIcon {
+            fun fromDrawableResource(
+                context: Context,
+                @DrawableRes resource: Int,
+                tint: Icons.TintColors? = null,
+            ): BuiltInIcon {
                 val iconName = context.resources.getResourceEntryName(resource)
                     .mapIf(tint != null) {
                         replacePrefix(Icons.DEFAULT_TINT_PREFIX, tint!!.prefix)
@@ -85,10 +90,15 @@ sealed class ShortcutIcon {
 
     data class CustomIcon(val fileName: String) : ShortcutIcon() {
         override fun getIconURI(context: Context, external: Boolean): Uri =
-            Uri.fromFile(getFile(context))
+            getFile(context)?.let(Uri::fromFile)
+                ?: NoIcon.getIconURI(context, external)
 
-        fun getFile(context: Context): File =
-            context.getFileStreamPath(fileName)
+        fun getFile(context: Context): File? =
+            try {
+                context.getFileStreamPath(fileName)
+            } catch (e: Exception) {
+                null
+            }
 
         override fun toString() = fileName
 
@@ -120,7 +130,7 @@ sealed class ShortcutIcon {
         fun fromName(iconName: String?): ShortcutIcon =
             when {
                 iconName == null -> NoIcon
-                iconName.startsWith("android.resource://") -> ExternalResourceIcon(Uri.parse(iconName))
+                iconName.startsWith("android.resource://") -> ExternalResourceIcon(iconName.toUri())
                 iconName.endsWith(".png") -> CustomIcon(iconName)
                 else -> BuiltInIcon(iconName)
             }

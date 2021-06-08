@@ -139,7 +139,9 @@ class Exporter(private val context: Context) {
                     }
             )
             .distinct()
-            .map { it.getFile(context) }
+            .mapNotNull {
+                it.getFile(context)
+            }
 
     private fun getReferencedIconNames(base: Base): Set<String> =
         IconUtil.extractCustomIconNames(base.globalCode ?: "")

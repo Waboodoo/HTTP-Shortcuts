@@ -41,10 +41,15 @@ object IconUtil {
                 Icon.createWithResource(icon.packageName, icon.resourceId)
             }
             is ShortcutIcon.CustomIcon -> {
-                val options = BitmapFactory.Options()
-                options.inPreferredConfig = Bitmap.Config.ARGB_8888
-                val bitmap = BitmapFactory.decodeFile(icon.getFile(context).absolutePath, options)
-                Icon.createWithBitmap(bitmap)
+                val file = icon.getFile(context)
+                if (file == null) {
+                    Icon.createWithResource(context.packageName, ShortcutIcon.NoIcon.ICON_RESOURCE)
+                } else {
+                    val options = BitmapFactory.Options()
+                    options.inPreferredConfig = Bitmap.Config.ARGB_8888
+                    val bitmap = BitmapFactory.decodeFile(file.absolutePath, options)
+                    Icon.createWithBitmap(bitmap)
+                }
             }
             is ShortcutIcon.BuiltInIcon -> {
                 val file = generateRasterizedIconForBuiltInIcon(context, icon)
@@ -56,7 +61,10 @@ object IconUtil {
         null
     }
 
-    fun generateRasterizedIconForBuiltInIcon(context: Context, icon: ShortcutIcon.BuiltInIcon): File {
+    fun generateRasterizedIconForBuiltInIcon(
+        context: Context,
+        icon: ShortcutIcon.BuiltInIcon,
+    ): File {
         val fileName = "icon_${icon.iconName}.png"
         val file = context.getFileStreamPath(fileName)
         if (file.exists()) {
