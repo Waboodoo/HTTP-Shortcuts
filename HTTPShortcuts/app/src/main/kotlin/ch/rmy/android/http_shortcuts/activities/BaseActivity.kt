@@ -39,7 +39,7 @@ abstract class BaseActivity : AppCompatActivity() {
         get() = (findViewById<ViewGroup>(android.R.id.content))?.getChildAt(0) as ViewGroup?
 
     val isRealmAvailable: Boolean
-        get() = (application as Application).isRealmAvailable
+        get() = (application as? Application)?.isRealmAvailable ?: false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (initializeWithTheme) {
