@@ -66,13 +66,20 @@ class ErrorFormatter(private val context: Context) {
 
     private fun getUnknownErrorMessage(error: Throwable): String =
         getCauseChain(error)
+            .let {
+                if (it.size > 1 && it[0] is RuntimeException) {
+                    it.drop(1)
+                } else {
+                    it
+                }
+            }
             .map(::getSingleErrorMessage)
             .distinct()
             .joinToString(separator = "\n")
 
     private fun getCauseChain(error: Throwable, recursionDepth: Int = 0): List<Throwable> =
         listOf(error)
-            .mapIf(error.cause != null && recursionDepth < MAX_RECURSION_DEPTH) {
+            .mapIf(error.cause != null && error.cause != error && recursionDepth < MAX_RECURSION_DEPTH) {
                 plus(getCauseChain(error.cause!!, recursionDepth + 1))
             }
 
