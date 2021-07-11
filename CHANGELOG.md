@@ -1,7 +1,11 @@
 ## Version 2.6.0
 
+### Improvements
 - Basic support for Zeroconf/Bonjour/mDNS (.local domains)
-- Added troubleshooting option to improve Tasker integration and Quick Settings Tile. Enable it if you find either of these not working.
+- Added troubleshooting option to improve Tasker integration. Enable it you find that triggering shortcuts from Tasker or other 3rd party apps doesn't work.
+
+### Bugfixes
+- Fixed Quick Settings Tile not working when there are 3 or more shortcuts enabled for it
 
 ## Version 2.5.0
 

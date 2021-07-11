@@ -31,7 +31,7 @@ class QuickTileService : TileService() {
             1 -> {
                 executeShortcut(shortcuts[0].id)
             }
-            2 -> {
+            else -> {
                 showPickerDialog(shortcuts)
             }
         }
