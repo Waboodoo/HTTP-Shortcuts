@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import androidx.preference.Preference
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
@@ -78,6 +80,14 @@ class SettingsActivity : BaseActivity() {
 
             initPreference("clear_cookies") {
                 showClearCookieDialog()
+            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                initPreference("allow_overlay") {
+                    startActivity(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION))
+                }
+            } else {
+                findPreference<Preference>("allow_overlay")!!.isVisible = false
             }
         }
 

@@ -73,6 +73,12 @@
             app:key="clear_cookies"
             app:title="@string/settings_clear_cookies" />
 
+        <Preference
+            app:icon="@drawable/ic_overlay"
+            app:key="allow_overlay"
+            app:summary="@string/settings_allow_overlay_summary"
+            app:title="@string/settings_allow_overlay" />
+
         <CheckBoxPreference
             app:key="force_foreground"
             app:persistent="true"

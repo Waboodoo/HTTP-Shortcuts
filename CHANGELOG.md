@@ -1,6 +1,7 @@
 ## Version 2.6.0
 
 - Basic support for Zeroconf/Bonjour/mDNS (.local domains)
+- Added troubleshooting option to improve Tasker integration and Quick Settings Tile. Enable it if you find either of these not working.
 
 ## Version 2.5.0
 
