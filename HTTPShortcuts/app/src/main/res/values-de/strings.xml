@@ -1573,4 +1573,10 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
 
     <!-- Instructions shown below the "URL encode" checkbox in the variable editor -->
     <string name="message_url_encode_instructions">"Aktiviere diese Option wenn du die Variable innerhalb der URL verwenden möchtest, z.B. als Teil eines Query-Strings. Sonderzeichen werden maskiert."</string>
+
+    <!-- Name of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
+    <string name="settings_allow_overlay">"Über anderen Apps einblenden"</string>
+
+    <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
+    <string name="settings_allow_overlay_summary">"Hilft falls Shortcuts nicht via Quick Settings Tile oder von anderen Apps aus gestartet werden können"</string>
 </resources>

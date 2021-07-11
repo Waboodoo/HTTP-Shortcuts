@@ -1561,4 +1561,16 @@
 
     <!-- Message: Hint to the user that additional/advanced options are available for response handling through scripting. -->
     <string name="message_response_handling_scripting_hint">"如果你需要更高级的选项来处理和显示响应，请查看 '%s' 部分，它允许你用 JavaScript 代码定义自定义逻辑"</string>
+
+    <!-- Menu button shown on response window, allows the user to execute the current shortcut again -->
+    <string name="action_rerun_shortcut">"重新运行"</string>
+
+    <!-- Checkbox value, shown in variable editor, allows to enable multiline input for a text variable -->
+    <string name="label_multiline">"多行"</string>
+
+    <!-- Instructions shown below the "JSON encode" checkbox in the variable editor -->
+    <string name="message_json_encode_instructions">"如果你在 JSON 字符串中使用此变量，请启用此选项，例如，在请求正文中。 特殊字符将被跳过。"</string>
+
+    <!-- Instructions shown below the "URL encode" checkbox in the variable editor -->
+    <string name="message_url_encode_instructions">"如果你在 URL 中使用此变量，例如，作为查询字符串的一部分，请启用此选项。 特殊字符将被跳过。"</string>
 </resources>
