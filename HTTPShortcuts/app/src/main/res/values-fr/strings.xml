@@ -64,12 +64,6 @@
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
     <string name="action_move">"Déplacer"</string>
 
-    <!-- Shortcut dropdown option: Move the shortcut upwards -->
-    <string name="action_move_up">"Déplacer vers le haut"</string>
-
-    <!-- Shortcut dropdown option: Move the shortcut downwards -->
-    <string name="action_move_down">"Déplacer vers le bas"</string>
-
     <!-- Shortcut dropdown option: Move the shortcut to a different category -->
     <string name="action_move_to_category">"Déplacer vers la catégorie …"</string>
 

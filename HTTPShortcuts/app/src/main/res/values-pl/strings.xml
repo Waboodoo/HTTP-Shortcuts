@@ -78,12 +78,6 @@
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
     <string name="action_move">"Przenieś"</string>
 
-    <!-- Shortcut dropdown option: Move the shortcut upwards -->
-    <string name="action_move_up">"Przenieś w górę"</string>
-
-    <!-- Shortcut dropdown option: Move the shortcut downwards -->
-    <string name="action_move_down">"Przenieś w dół"</string>
-
     <!-- Shortcut dropdown option: Move the shortcut to a different category -->
     <string name="action_move_to_category">"Przenieś do kategorii"</string>
 

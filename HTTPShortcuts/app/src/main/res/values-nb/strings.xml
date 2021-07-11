@@ -61,12 +61,6 @@
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
     <string name="action_move">"Flytt"</string>
 
-    <!-- Shortcut dropdown option: Move the shortcut upwards -->
-    <string name="action_move_up">"Flytt opp"</string>
-
-    <!-- Shortcut dropdown option: Move the shortcut downwards -->
-    <string name="action_move_down">"Flytt ned"</string>
-
     <!-- Shortcut dropdown option: Move the shortcut to a different category -->
     <string name="action_move_to_category">"Flytt til en kategori…"</string>
 

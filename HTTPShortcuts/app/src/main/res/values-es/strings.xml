@@ -64,12 +64,6 @@
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
     <string name="action_move">"Mover"</string>
 
-    <!-- Shortcut dropdown option: Move the shortcut upwards -->
-    <string name="action_move_up">"Mover arriba"</string>
-
-    <!-- Shortcut dropdown option: Move the shortcut downwards -->
-    <string name="action_move_down">"Mover abajo"</string>
-
     <!-- Shortcut dropdown option: Move the shortcut to a different category -->
     <string name="action_move_to_category">"Mover a la categoría…"</string>
 
