@@ -1,3 +1,7 @@
+## Version 2.6.0
+
+- Basic support for Zeroconf/Bonjour/mDNS (.local domains)
+
 ## Version 2.5.0
 
 ### Miscellaneous

@@ -4,14 +4,12 @@ import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.exceptions.InvalidUrlException
 import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_MULTIPART_CONTENT_TYPE
 import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_URLENCODE_CONTENT_TYPE
 import ch.rmy.android.http_shortcuts.utils.UserAgentUtil
-import ch.rmy.android.http_shortcuts.utils.Validation
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.Variables
 import io.reactivex.Single
@@ -30,44 +28,80 @@ class HttpRequester(private val contentResolver: ContentResolver) {
         cookieJar: CookieJar? = null,
     ): Single<ShortcutResponse> =
         Single
-            .create<ShortcutResponse> { emitter ->
+            .fromCallable {
                 val variables = variableManager.getVariableValuesByIds()
 
-                val url = Variables.rawPlaceholdersToResolvedValues(shortcut.url, variables).trim()
-                val username = Variables.rawPlaceholdersToResolvedValues(shortcut.username, variables)
-                val password = Variables.rawPlaceholdersToResolvedValues(shortcut.password, variables)
-                val authToken = Variables.rawPlaceholdersToResolvedValues(shortcut.authToken, variables)
-                val body = Variables.rawPlaceholdersToResolvedValues(shortcut.bodyContent, variables)
-                val proxyHost = shortcut.proxyHost
-                    ?.let {
-                        Variables.rawPlaceholdersToResolvedValues(it, variables)
-                    }
-                    ?.trim()
-
-                if (!Validation.isValidHttpUrl(Uri.parse(url))) {
-                    emitter.onError(InvalidUrlException(url))
-                    return@create
+                RequestData(
+                    url = Variables.rawPlaceholdersToResolvedValues(shortcut.url, variables).trim(),
+                    username = Variables.rawPlaceholdersToResolvedValues(shortcut.username, variables),
+                    password = Variables.rawPlaceholdersToResolvedValues(shortcut.password, variables),
+                    authToken = Variables.rawPlaceholdersToResolvedValues(shortcut.authToken, variables),
+                    body = Variables.rawPlaceholdersToResolvedValues(shortcut.bodyContent, variables),
+                    proxyHost = shortcut.proxyHost
+                        ?.let {
+                            Variables.rawPlaceholdersToResolvedValues(it, variables)
+                        }
+                        ?.trim(),
+                )
+            }
+            .flatMap { requestData ->
+                if (ServiceDiscoveryHelper.requiresDiscovery(requestData.uri)) {
+                    ServiceDiscoveryHelper.discoverService(context, requestData.uri.host!!)
+                        .map { newHost ->
+                            requestData.copy(
+                                url = requestData.uri
+                                    .buildUpon()
+                                    .encodedAuthority("${newHost.address}:${newHost.port}")
+                                    .build()
+                                    .toString()
+                            )
+                        }
+                        .onErrorResumeNext { error ->
+                            if (error is ServiceDiscoveryHelper.ServiceLookupTimeoutException) {
+                                Single.just(requestData)
+                            } else {
+                                Single.error(error)
+                            }
+                        }
+                } else {
+                    Single.just(requestData)
                 }
+            }
+            .flatMap { requestData ->
+                makeRequest(context, shortcut, variableManager, requestData, responseFileStorage, fileUploadManager, cookieJar)
+            }
 
+    private fun makeRequest(
+        context: Context,
+        shortcut: Shortcut,
+        variableManager: VariableManager,
+        requestData: RequestData,
+        responseFileStorage: ResponseFileStorage,
+        fileUploadManager: FileUploadManager? = null,
+        cookieJar: CookieJar? = null,
+    ): Single<ShortcutResponse> =
+        Single
+            .create<ShortcutResponse> { emitter ->
+                val variables = variableManager.getVariableValuesByIds()
                 val client = HttpClients.getClient(
                     context = context,
                     clientCertParams = shortcut.clientCertParams,
                     acceptAllCertificates = shortcut.acceptAllCertificates,
-                    username = username.takeIf { shortcut.usesDigestAuthentication() },
-                    password = password.takeIf { shortcut.usesDigestAuthentication() },
+                    username = requestData.username.takeIf { shortcut.usesDigestAuthentication() },
+                    password = requestData.password.takeIf { shortcut.usesDigestAuthentication() },
                     followRedirects = shortcut.followRedirects,
                     timeout = shortcut.timeout.toLong(),
-                    proxyHost = proxyHost,
+                    proxyHost = requestData.proxyHost,
                     proxyPort = shortcut.proxyPort,
                     cookieJar = cookieJar,
                 )
 
-                val request = RequestBuilder(shortcut.method, url)
+                val request = RequestBuilder(shortcut.method, requestData.url)
                     .header(HttpHeaders.CONNECTION, "close")
                     .userAgent(UserAgentUtil.userAgent)
                     .mapIf(shortcut.usesCustomBody()) {
                         contentType(determineContentType(shortcut))
-                            .body(body)
+                            .body(requestData.body)
                     }
                     .mapIf(shortcut.usesFileBody()) {
                         val file = fileUploadManager?.getFile(0)
@@ -89,10 +123,10 @@ class HttpRequester(private val contentResolver: ContentResolver) {
                         )
                     }
                     .mapIf(shortcut.usesBasicAuthentication()) {
-                        basicAuth(username, password)
+                        basicAuth(requestData.username, requestData.password)
                     }
                     .mapIf(shortcut.usesBearerAuthentication()) {
-                        bearerAuth(authToken)
+                        bearerAuth(requestData.authToken)
                     }
                     .build()
 
@@ -107,7 +141,7 @@ class HttpRequester(private val contentResolver: ContentResolver) {
                         } else {
                             null
                         }
-                        val shortcutResponse = prepareResponse(url, okHttpResponse, contentFile)
+                        val shortcutResponse = prepareResponse(requestData.url, okHttpResponse, contentFile)
                         if (okHttpResponse.isSuccessful) {
                             emitter.onSuccess(shortcutResponse)
                         } else {
@@ -117,7 +151,12 @@ class HttpRequester(private val contentResolver: ContentResolver) {
             }
             .subscribeOn(Schedulers.io())
 
-    private fun attachParameters(requestBuilder: RequestBuilder, shortcut: Shortcut, variables: Map<String, String>, fileUploadManager: FileUploadManager?): RequestBuilder {
+    private fun attachParameters(
+        requestBuilder: RequestBuilder,
+        shortcut: Shortcut,
+        variables: Map<String, String>,
+        fileUploadManager: FileUploadManager?,
+    ): RequestBuilder {
         var fileIndex = -1
         return requestBuilder.mapFor(shortcut.parameters) { parameter ->
             val parameterName = Variables.rawPlaceholdersToResolvedValues(parameter.key, variables)
