@@ -5,14 +5,20 @@ import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
-class DragOrderingHelper(isEnabledCallback: () -> Boolean = { true }) {
+class DragOrderingHelper(
+    allowHorizontalDragging: Boolean = false,
+    isEnabledCallback: () -> Boolean = { true },
+) {
 
     val positionChangeSource: Observable<Pair<Int, Int>>
         get() = positionChangeSubject
 
     private val positionChangeSubject = PublishSubject.create<Pair<Int, Int>>()
 
-    private val callback = object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0) {
+    private val directions = ItemTouchHelper.UP or ItemTouchHelper.DOWN or
+        (if (allowHorizontalDragging) ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT else 0)
+
+    private val callback = object : ItemTouchHelper.SimpleCallback(directions, 0) {
         override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
             val oldPosition = viewHolder.adapterPosition
             val newPosition = target.adapterPosition

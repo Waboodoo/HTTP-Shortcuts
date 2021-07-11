@@ -1,6 +1,7 @@
 ## Version 2.6.0
 
 ### Improvements
+- Shortcuts can now be re-ordered within a category by dragging
 - Basic support for Zeroconf/Bonjour/mDNS (.local domains)
 - Added troubleshooting option to improve Tasker integration. Enable it you find that triggering shortcuts from Tasker or other 3rd party apps doesn't work.
 

@@ -10,6 +10,7 @@ import android.view.MenuItem
 import androidx.viewpager.widget.ViewPager
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.activities.BaseFragment
 import ch.rmy.android.http_shortcuts.activities.Entrypoint
 import ch.rmy.android.http_shortcuts.activities.categories.CategoriesActivity
 import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
@@ -67,6 +68,13 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
         selectionMode != SelectionMode.NORMAL
     }
 
+    override var isInMovingMode: Boolean = false
+        set(value) {
+            field = value
+            invalidateOptionsMenu()
+            updateFloatingActionButton()
+        }
+
     // Views
     private val createButton: FloatingActionButton by bindView(R.id.button_create_shortcut)
     private val viewPager: ViewPager by bindView(R.id.view_pager)
@@ -92,7 +100,8 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
                 setResult(Activity.RESULT_CANCELED, WidgetManager.getIntent(widgetId))
             }
             if ((selectionMode == SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT
-                    || selectionMode == SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT) && savedInstanceState == null) {
+                    || selectionMode == SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT) && savedInstanceState == null
+            ) {
                 showToast(R.string.instructions_select_shortcut_for_home_screen, long = true)
             }
         }
@@ -111,8 +120,8 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
     }
 
     private fun bindViewsToViewModel() {
-        viewModel.appLockedSource.observe(this) { isLocked ->
-            createButton.visible = !isLocked
+        viewModel.appLockedSource.observe(this) {
+            updateFloatingActionButton()
             invalidateOptionsMenu()
         }
 
@@ -123,6 +132,10 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
                 viewPager.currentItem = 0
             }
         }
+    }
+
+    private fun updateFloatingActionButton() {
+        createButton.visible = viewModel.appLockedSource.value != true && !isInMovingMode
     }
 
     private fun showCreateOptions() {
@@ -342,8 +355,8 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
 
     private fun returnForPlugin(shortcut: Shortcut) {
         val intent = Intent()
-        intent.putExtra(EXTRA_SELECTION_ID, shortcut.id)
-        intent.putExtra(EXTRA_SELECTION_NAME, shortcut.name)
+            .putExtra(EXTRA_SELECTION_ID, shortcut.id)
+            .putExtra(EXTRA_SELECTION_NAME, shortcut.name)
         setResult(Activity.RESULT_OK, intent)
         finish()
     }
@@ -351,7 +364,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
     override val navigateUpIcon = 0
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        if (isRealmAvailable && selectionMode === SelectionMode.NORMAL) {
+        if (isRealmAvailable && selectionMode === SelectionMode.NORMAL && !isInMovingMode) {
             if (viewModel.isAppLocked()) {
                 menuInflater.inflate(R.menu.locked_main_activity_menu, menu)
             } else {
@@ -445,6 +458,18 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
 
     override fun updateLauncherShortcuts() {
         LauncherShortcutManager.updateAppShortcuts(context, categories)
+    }
+
+    override fun onBackPressed() {
+        supportFragmentManager.fragments
+            .filter { it.isResumed }
+            .filterIsInstance(BaseFragment::class.java)
+            .forEach { fragment ->
+                if (fragment.onBackPressed()) {
+                    return
+                }
+            }
+        super.onBackPressed()
     }
 
     companion object {

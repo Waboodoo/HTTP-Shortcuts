@@ -52,10 +52,10 @@
     <string name="action_shortcut_information">Show Info</string>
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
     <string name="action_move">Move</string>
-    <!-- Shortcut dropdown option: Move the shortcut upwards -->
-    <string name="action_move_up">Move Up</string>
-    <!-- Shortcut dropdown option: Move the shortcut downwards -->
-    <string name="action_move_down">Move Down</string>
+    <!-- Shortcut dropdown option: Enable moving shortcuts within a category by dragging -->
+    <string name="action_enable_moving">Enable Moving within Category</string>
+    <!-- Message displayed in snackbar, to let the user know that moving via dragging was enabled. -->
+    <string name="message_moving_enabled">Re-order shortcuts by dragging them.</string>
     <!-- Shortcut dropdown option: Move the shortcut to a different category -->
     <string name="action_move_to_category">Move to Category…</string>
     <!-- Dialog title, for exporting a single shortcut. Dialog offers different export options (e.g. as JSON, as cURL)-->

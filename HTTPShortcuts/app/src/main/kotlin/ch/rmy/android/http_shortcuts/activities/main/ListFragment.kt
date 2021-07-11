@@ -38,6 +38,7 @@ import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.import_export.CurlExporter
 import ch.rmy.android.http_shortcuts.import_export.ExportFormat
 import ch.rmy.android.http_shortcuts.import_export.ExportUI
+import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
 import ch.rmy.android.http_shortcuts.utils.GridLayoutManager
 import ch.rmy.android.http_shortcuts.utils.SelectionMode
 import ch.rmy.android.http_shortcuts.utils.Settings
@@ -55,6 +56,17 @@ class ListFragment : BaseFragment() {
     private val selectionMode by lazy {
         args.getSerializable(ARG_SELECTION_MODE) as SelectionMode
     }
+
+    private var isInMovingMode = false
+        set(value) {
+            if (field != value) {
+                field = value
+                tabHost?.isInMovingMode = value
+                if (value) {
+                    showSnackbar(R.string.message_moving_enabled)
+                }
+            }
+        }
 
     private val exportUI by lazy {
         destroyer.own(ExportUI(requireActivity()))
@@ -113,10 +125,11 @@ class ListFragment : BaseFragment() {
     }
 
     private fun updateViews() {
-        val layoutType = categoryData.value?.layoutType
+        val layoutType = categoryData.value?.layoutType ?: return
 
         if (layoutType != this.layoutType || adapter == null) {
             this.layoutType = layoutType
+            initDragOrdering(layoutType)
             adapter?.destroy()
 
             val adapter = when (layoutType) {
@@ -148,6 +161,18 @@ class ListFragment : BaseFragment() {
             }
             updateBackground(it)
         }
+    }
+
+    private fun initDragOrdering(layoutType: String) {
+        val dragOrderingHelper = DragOrderingHelper(allowHorizontalDragging = layoutType == Category.LAYOUT_GRID) { isInMovingMode }
+        dragOrderingHelper.attachTo(shortcutList)
+        dragOrderingHelper.positionChangeSource
+            .concatMapCompletable { (oldPosition, newPosition) ->
+                val shortcut = shortcuts[oldPosition]!!
+                viewModel.moveShortcut(shortcut.id, newPosition)
+            }
+            .subscribe()
+            .attachTo(destroyer)
     }
 
     private fun updateBackground(background: String) {
@@ -202,7 +227,7 @@ class ListFragment : BaseFragment() {
     }
 
     private fun onItemLongClicked(shortcutData: LiveData<Shortcut?>): Boolean {
-        if (tabHost?.isAppLocked() != false) {
+        if (tabHost?.isAppLocked() != false || isInMovingMode) {
             return false
         }
         showContextMenu(shortcutData)
@@ -228,7 +253,7 @@ class ListFragment : BaseFragment() {
             .item(R.string.action_edit) {
                 editShortcut(shortcutData.value ?: return@item)
             }
-            .mapIf(canMoveShortcut(shortcut)) {
+            .mapIf(canMoveShortcuts()) {
                 item(R.string.action_move) {
                     openMoveDialog(shortcutData)
                 }
@@ -265,25 +290,14 @@ class ListFragment : BaseFragment() {
             .startActivity(this, REQUEST_EDIT_SHORTCUT)
     }
 
-    private fun canMoveShortcut(shortcut: Shortcut): Boolean =
-        canMoveShortcut(shortcut, -1) || canMoveShortcut(shortcut, +1) || categories.size > 1
-
-    private fun canMoveShortcut(shortcut: Shortcut, offset: Int): Boolean {
-        val position = shortcuts.indexOf(shortcut) + offset
-        return position >= 0 && position < shortcuts.size
-    }
+    private fun canMoveShortcuts() =
+        shortcuts.size > 1 || categories.size > 1
 
     private fun openMoveDialog(shortcutData: LiveData<Shortcut?>) {
-        val shortcut = shortcutData.value ?: return
         DialogBuilder(requireContext())
-            .mapIf(canMoveShortcut(shortcut, -1)) {
-                item(R.string.action_move_up) {
-                    moveShortcut(shortcut, -1)
-                }
-            }
-            .mapIf(canMoveShortcut(shortcut, 1)) {
-                item(R.string.action_move_down) {
-                    moveShortcut(shortcut, 1)
+            .mapIf(shortcuts.size > 1) {
+                item(R.string.action_enable_moving) {
+                    isInMovingMode = true
                 }
             }
             .mapIf(categories.size > 1) {
@@ -292,22 +306,6 @@ class ListFragment : BaseFragment() {
                 }
             }
             .showIfPossible()
-    }
-
-    private fun moveShortcut(shortcut: Shortcut, offset: Int) {
-        categoryData.value?.let { currentCategory ->
-            if (!canMoveShortcut(shortcut, offset)) {
-                return
-            }
-            val position = currentCategory.shortcuts.indexOf(shortcut) + offset
-            if (position == currentCategory.shortcuts.size) {
-                viewModel.moveShortcut(shortcut.id, targetCategoryId = currentCategory.id)
-            } else {
-                viewModel.moveShortcut(shortcut.id, targetPosition = position)
-            }
-                .subscribe()
-                .attachTo(destroyer)
-        }
     }
 
     private fun showMoveToCategoryDialog(shortcutData: LiveData<Shortcut?>) {
@@ -463,6 +461,19 @@ class ListFragment : BaseFragment() {
         )
     }
 
+    override fun onPause() {
+        super.onPause()
+        isInMovingMode = false
+    }
+
+    override fun onBackPressed(): Boolean {
+        if (isInMovingMode) {
+            isInMovingMode = false
+            return true
+        }
+        return false
+    }
+
     private val tabHost: TabHost?
         get() = activity as? TabHost
 
@@ -477,6 +488,8 @@ class ListFragment : BaseFragment() {
         fun isAppLocked(): Boolean
 
         fun updateLauncherShortcuts()
+
+        var isInMovingMode: Boolean
 
     }
 
