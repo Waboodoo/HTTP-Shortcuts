@@ -1,13 +1,17 @@
 package ch.rmy.android.http_shortcuts.activities.response
 
 import android.content.Context
+import android.os.Build
 import android.util.AttributeSet
+import android.webkit.WebResourceRequest
+import android.webkit.WebResourceResponse
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.extensions.openURL
+import ch.rmy.android.http_shortcuts.extensions.tryOrIgnore
 import ch.rmy.android.http_shortcuts.utils.UserAgentUtil
 
 class ResponseWebView @JvmOverloads constructor(
@@ -19,6 +23,17 @@ class ResponseWebView @JvmOverloads constructor(
         webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, url: String) = consume {
                 context.openURL(url)
+            }
+
+            override fun shouldInterceptRequest(view: WebView, request: WebResourceRequest): WebResourceResponse? {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    if (!request.isForMainFrame && request.url.path.equals("/favicon.ico")) {
+                        tryOrIgnore {
+                            return WebResourceResponse("image/png", null, null)
+                        }
+                    }
+                }
+                return null
             }
         }
 
