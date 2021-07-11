@@ -129,10 +129,10 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
     /* Support libraries */
-    implementation 'androidx.appcompat:appcompat:1.3.0-rc01'
-    implementation 'androidx.fragment:fragment-ktx:1.3.2'
-    implementation 'com.google.android.material:material:1.4.0-rc01'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.3.0'
+    implementation 'androidx.fragment:fragment-ktx:1.3.5'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.annotation:annotation:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.preference:preference-ktx:1.1.1'
@@ -196,9 +196,9 @@ dependencies {
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
     testImplementation "org.robolectric:shadows-multidex:$robolectricVersion"
-    testImplementation 'androidx.test:monitor:1.3.0'
-    androidTestImplementation 'androidx.test:runner:1.3.0'
-    androidTestImplementation 'androidx.test:rules:1.3.0'
+    testImplementation 'androidx.test:monitor:1.4.0'
+    androidTestImplementation 'androidx.test:runner:1.4.0'
+    androidTestImplementation 'androidx.test:rules:1.4.0'
     androidTestImplementation "org.hamcrest:hamcrest-library:$hamcrestVersion"
     androidTestImplementation "junit:junit:$junitVersion"
 }

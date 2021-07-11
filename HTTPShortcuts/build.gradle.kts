@@ -5,10 +5,10 @@ buildscript {
     }
     dependencies {
         classpath("com.android.tools.build:gradle:4.0.1")
-        classpath("io.realm:realm-gradle-plugin:10.5.0")
+        classpath("io.realm:realm-gradle-plugin:10.6.0")
         classpath("com.bugsnag:bugsnag-android-gradle-plugin:4.+")
         classpath("org.jetbrains:markdown:0.1.45")
-        classpath(kotlin("gradle-plugin", "1.5.10"))
+        classpath(kotlin("gradle-plugin", "1.5.20"))
     }
 }
 
