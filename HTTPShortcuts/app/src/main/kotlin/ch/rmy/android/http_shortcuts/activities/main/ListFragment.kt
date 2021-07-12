@@ -63,7 +63,7 @@ class ListFragment : BaseFragment() {
                 field = value
                 tabHost?.isInMovingMode = value
                 if (value) {
-                    showSnackbar(R.string.message_moving_enabled)
+                    showSnackbar(R.string.message_moving_enabled, long = true)
                 }
             }
         }
@@ -207,6 +207,10 @@ class ListFragment : BaseFragment() {
 
     private fun onItemClicked(shortcutData: LiveData<Shortcut?>) {
         val shortcut = shortcutData.value ?: return
+        if (isInMovingMode) {
+            showSnackbar(R.string.message_moving_enabled)
+            return
+        }
         when (selectionMode) {
             SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT,
             SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT,
