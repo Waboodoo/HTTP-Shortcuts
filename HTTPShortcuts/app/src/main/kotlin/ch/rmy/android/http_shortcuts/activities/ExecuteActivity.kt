@@ -142,6 +142,8 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
             return
         }
 
+        SessionMonitor.onSessionStarted()
+
         shortcut = controller.getShortcutById(shortcutId)?.detachFromRealm() ?: run {
             showToast(getString(R.string.shortcut_not_found), long = true)
             finishWithoutAnimation()

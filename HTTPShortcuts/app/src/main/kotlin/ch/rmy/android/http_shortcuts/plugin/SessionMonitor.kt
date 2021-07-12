@@ -4,21 +4,42 @@ import java.util.concurrent.TimeoutException
 
 object SessionMonitor {
 
-    private var sessionInProgress = false
+    private var sessionStatus: SessionStatus = SessionStatus.SCHEDULED
 
-    fun startAndMonitorSession(timeout: Int) {
-        sessionInProgress = true
+    fun onSessionScheduled() {
+        sessionStatus = SessionStatus.SCHEDULED
+    }
+
+    fun monitorSession(startTimeout: Int, completionTimeout: Int) {
         val start = System.currentTimeMillis()
-        while (sessionInProgress) {
+        while (sessionStatus == SessionStatus.SCHEDULED) {
             Thread.sleep(300)
-            if (System.currentTimeMillis() - start > timeout) {
+            if (System.currentTimeMillis() - start > startTimeout) {
+                throw SessionStartException()
+            }
+        }
+        while (sessionStatus != SessionStatus.COMPLETED) {
+            Thread.sleep(300)
+            if (System.currentTimeMillis() - start > completionTimeout) {
                 throw TimeoutException()
             }
         }
     }
 
-    fun onSessionComplete() {
-        sessionInProgress = false
+    fun onSessionStarted() {
+        sessionStatus = SessionStatus.RUNNING
     }
+
+    fun onSessionComplete() {
+        sessionStatus = SessionStatus.COMPLETED
+    }
+
+    enum class SessionStatus {
+        SCHEDULED,
+        RUNNING,
+        COMPLETED,
+    }
+
+    class SessionStartException : Exception()
 
 }
