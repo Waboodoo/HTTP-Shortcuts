@@ -3,6 +3,8 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
+import android.os.FileUriExposedException
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.extensions.ifTrue
@@ -36,7 +38,7 @@ class SendIntentAction(private val jsonData: String) : BaseAction() {
                     }
                 }
             } catch (e: Exception) {
-                if (e !is ActivityNotFoundException && e !is SecurityException) {
+                if (shouldLogException(e)) {
                     logException(e)
                 }
                 throw ActionException { context ->
@@ -157,6 +159,18 @@ class SendIntentAction(private val jsonData: String) : BaseAction() {
                             }
                         }
                     }
+            }
+
+        private fun shouldLogException(e: Exception): Boolean =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && e is FileUriExposedException) {
+                false
+            } else {
+                when (e) {
+                    is ActivityNotFoundException,
+                    is SecurityException,
+                    -> false
+                    else -> true
+                }
             }
 
     }
