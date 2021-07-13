@@ -15,6 +15,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.ActionFactory
 import ch.rmy.android.http_shortcuts.scripting.actions.types.BaseAction
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import io.reactivex.Completable
+import org.json.JSONException
 import org.liquidplayer.javascript.JSContext
 import org.liquidplayer.javascript.JSException
 import org.liquidplayer.javascript.JSFunction
@@ -62,7 +63,11 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
             }
                 .onErrorResumeNext { e ->
                     Completable.error(
-                        if (e is JSException) JavaScriptException(e) else e
+                        when (e) {
+                            is JSException -> JavaScriptException(e)
+                            is JSONException -> JavaScriptException(e)
+                            else -> e
+                        }
                     )
                 }
         }
