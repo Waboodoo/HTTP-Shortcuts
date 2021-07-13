@@ -984,7 +984,7 @@
     <string name="dialog_code_snippet_get_variable">"获取变量值"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to set the value of a variable -->
-    <string name="dialog_code_snippet_set_variable">"设置变量(或常亮)"</string>
+    <string name="dialog_code_snippet_set_variable">"设置变量(或常量)"</string>
 
     <!-- Error message: Shown in toast when "Trigger Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_triggering">"无法执行快捷方式\"%1$s\"，快捷方式不存在"</string>

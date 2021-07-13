@@ -1578,5 +1578,5 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <string name="action_enable_moving">"Verschieben innerhalb Kategorie"</string>
 
     <!-- Message displayed in snackbar, to let the user know that moving via dragging was enabled. -->
-    <string name="message_moving_enabled">"Ordne Shortcuts neu an durch Ziehen."</string>
+    <string name="message_moving_enabled">"Ordne Shortcuts neu an durch ziehen."</string>
 </resources>
