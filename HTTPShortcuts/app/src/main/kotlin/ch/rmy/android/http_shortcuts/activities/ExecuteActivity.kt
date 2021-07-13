@@ -566,7 +566,9 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
 
     private fun displayOutput(output: String, response: ShortcutResponse? = null): Completable =
         when (shortcut.responseHandling?.uiType) {
-            ResponseHandling.UI_TYPE_TOAST -> {
+            ResponseHandling.UI_TYPE_TOAST,
+            null,
+            -> {
                 showToast(
                     output
                         .truncate(maxLength = TOAST_MAX_LENGTH)
