@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.settings
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -84,7 +85,11 @@ class SettingsActivity : BaseActivity() {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 initPreference("allow_overlay") {
-                    startActivity(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION))
+                    try {
+                        startActivity(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION))
+                    } catch (e: ActivityNotFoundException) {
+                        showSnackbar(R.string.error_not_supported)
+                    }
                 }
             } else {
                 findPreference<Preference>("allow_overlay")!!.isVisible = false
