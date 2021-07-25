@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.icons
 
 import android.app.Activity.RESULT_OK
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -51,8 +52,12 @@ class IconPicker(
     }
 
     private fun openImagePicker() {
-        FilePickerUtil.createIntent(type = "image/*")
-            .startActivity(activity, REQUEST_SELECT_IMAGE)
+        try {
+            FilePickerUtil.createIntent(type = "image/*")
+                .startActivity(activity, REQUEST_SELECT_IMAGE)
+        } catch (e: ActivityNotFoundException) {
+            activity.showSnackbar(R.string.error_not_supported)
+        }
     }
 
     private fun openIpackPicker() {
