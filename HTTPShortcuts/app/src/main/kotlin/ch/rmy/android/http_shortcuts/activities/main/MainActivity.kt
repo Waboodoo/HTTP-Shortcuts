@@ -472,6 +472,23 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
         super.onBackPressed()
     }
 
+    override fun onResume() {
+        super.onResume()
+        setTabLongPressListener()
+    }
+
+    private fun setTabLongPressListener() {
+        (0..tabLayout.tabCount)
+            .mapNotNull { tabLayout.getTabAt(it)?.view }
+            .forEach {
+                it.setOnLongClickListener {
+                    consume {
+                        openCategoriesEditor()
+                    }
+                }
+            }
+    }
+
     companion object {
 
         const val EXTRA_SELECTION_ID = "ch.rmy.android.http_shortcuts.shortcut_id"
