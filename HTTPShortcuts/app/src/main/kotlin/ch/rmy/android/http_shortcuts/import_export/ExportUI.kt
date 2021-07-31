@@ -25,15 +25,20 @@ class ExportUI(private val activity: FragmentActivity) : Destroyable {
 
     private val destroyer = Destroyer()
 
-    fun showExportOptions(format: ExportFormat = ExportFormat.LEGACY_JSON, single: Boolean = false, intentHandler: (Intent) -> Unit) {
+    fun showExportOptions(
+        format: ExportFormat = ExportFormat.LEGACY_JSON,
+        shortcutId: String? = null,
+        variableIds: Collection<String>? = null,
+        intentHandler: (Intent) -> Unit,
+    ) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             DialogBuilder(context)
                 .title(R.string.title_export)
-                .item(R.string.button_export_to_general) { openFilePickerForExport(format, single, intentHandler) }
-                .item(R.string.button_export_send_to) { sendExport(format, single) }
+                .item(R.string.button_export_to_general) { openFilePickerForExport(format, single = shortcutId != null, intentHandler) }
+                .item(R.string.button_export_send_to) { sendExport(format, shortcutId, variableIds) }
                 .showIfPossible()
         } else {
-            sendExport(format, single)
+            sendExport(format, shortcutId, variableIds)
         }
     }
 
@@ -79,8 +84,8 @@ class ExportUI(private val activity: FragmentActivity) : Destroyable {
             .attachTo(destroyer)
     }
 
-    private fun sendExport(format: ExportFormat = ExportFormat.LEGACY_JSON, single: Boolean = false) {
-        val cacheFile = FileUtil.createCacheFile(context, format.getFileName(single))
+    private fun sendExport(format: ExportFormat = ExportFormat.LEGACY_JSON, shortcutId: String? = null, variableIds: Collection<String>? = null) {
+        val cacheFile = FileUtil.createCacheFile(context, format.getFileName(single = shortcutId != null))
 
         // TODO: Replace progress dialog with something better
         val progressDialog = ProgressDialog(activity).apply {
@@ -88,7 +93,7 @@ class ExportUI(private val activity: FragmentActivity) : Destroyable {
             setCanceledOnTouchOutside(false)
         }
         Exporter(context.applicationContext)
-            .exportToUri(cacheFile, excludeDefaults = true)
+            .exportToUri(cacheFile, shortcutId = shortcutId, variableIds = variableIds, excludeDefaults = true)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
                 progressDialog.show()

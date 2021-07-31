@@ -399,8 +399,11 @@ class ListFragment : BaseFragment() {
     }
 
     private fun showFileExportDialog(shortcutData: LiveData<Shortcut?>) {
-        exportUI.showExportOptions(format = ExportFormat.getPreferredFormat(requireContext()), single = true) { intent ->
-            viewModel.exportedShortcutId = shortcutData.value?.id ?: return@showExportOptions
+        val shortcut = shortcutData.value ?: return
+        val shortcutId = shortcut.id
+        val variableIds = getVariableIdsRequiredForExport(shortcut)
+        exportUI.showExportOptions(format = ExportFormat.getPreferredFormat(requireContext()), shortcutId, variableIds) { intent ->
+            viewModel.exportedShortcutId = shortcutId
             intent.startActivity(this, REQUEST_EXPORT)
         }
     }
@@ -447,15 +450,7 @@ class ListFragment : BaseFragment() {
 
     private fun startExport(uri: Uri, shortcutId: String) {
         val shortcut = shortcuts.value?.find { it.id == shortcutId } ?: return
-
-        val variableIds = RealmFactory.withRealm { realm ->
-            VariableResolver.extractVariableIds(
-                shortcut,
-                variableLookup = VariableManager(Repository.getBase(realm)!!.variables),
-            )
-        }
-
-        // TODO: Recursively collect variables referenced by other variables
+        val variableIds = getVariableIdsRequiredForExport(shortcut)
 
         exportUI.startExport(
             uri,
@@ -464,6 +459,15 @@ class ListFragment : BaseFragment() {
             variableIds = variableIds,
         )
     }
+
+    private fun getVariableIdsRequiredForExport(shortcut: Shortcut) =
+        // TODO: Recursively collect variables referenced by other variables
+        RealmFactory.withRealm { realm ->
+            VariableResolver.extractVariableIds(
+                shortcut,
+                variableLookup = VariableManager(Repository.getBase(realm)!!.variables),
+            )
+        }
 
     override fun onPause() {
         super.onPause()
