@@ -38,6 +38,8 @@
     <string name="label_include_meta_information">Show Meta Information (e.g. Response Headers)</string>
     <!-- Shortcut dropdown option: Place shortcut on home screen -->
     <string name="action_place">Place on Home Screen</string>
+    <!-- Category dropdown option: Place category on home screen -->
+    <string name="action_place_category">Place on Home Screen</string>
     <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
     <string name="action_run">Execute</string>
     <!-- Shortcut dropdown option: Edit the shortcut -->

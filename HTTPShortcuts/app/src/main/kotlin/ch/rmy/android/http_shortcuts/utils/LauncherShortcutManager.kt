@@ -7,6 +7,7 @@ import android.content.pm.ShortcutManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
+import ch.rmy.android.http_shortcuts.activities.main.MainActivity
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.logException
@@ -15,7 +16,8 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
 object LauncherShortcutManager {
 
-    private const val ID_PREFIX = "shortcut_"
+    private const val ID_PREFIX_SHORTCUT = "shortcut_"
+    private const val ID_PREFIX_CATEGORY = "category_"
 
     fun supportsLauncherShortcuts() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1
 
@@ -84,7 +86,7 @@ object LauncherShortcutManager {
     ): ShortcutInfo {
         val icon = IconUtil.getIcon(context, shortcutIcon)
         val label = shortcutName.ifEmpty { "-" }
-        return ShortcutInfo.Builder(context, ID_PREFIX + shortcutId)
+        return ShortcutInfo.Builder(context, ID_PREFIX_SHORTCUT + shortcutId)
             .setShortLabel(label)
             .setLongLabel(label)
             .setRank(rank)
@@ -132,5 +134,43 @@ object LauncherShortcutManager {
             shortcutManager.updateShortcuts(listOf(shortcutInfo))
         }
     }
+
+    fun pinCategory(context: Context, category: Category) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val shortcutManager = context.getSystemService(ShortcutManager::class.java)!!
+            val shortcutInfo = createCategoryShortcutInfo(context, category)
+            shortcutManager.requestPinShortcut(shortcutInfo, null)
+        }
+    }
+
+    fun updatePinnedCategoryShortcut(context: Context, categoryId: String, categoryName: String) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val shortcutManager = context.getSystemService(ShortcutManager::class.java)!!
+            val shortcutInfo = createCategoryShortcutInfo(context, categoryId, categoryName)
+            shortcutManager.updateShortcuts(listOf(shortcutInfo))
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N_MR1)
+    private fun createCategoryShortcutInfo(context: Context, category: Category) =
+        createCategoryShortcutInfo(context, category.id, category.name)
+
+    @RequiresApi(Build.VERSION_CODES.N_MR1)
+    private fun createCategoryShortcutInfo(
+        context: Context,
+        categoryId: String,
+        categoryName: String,
+    ): ShortcutInfo =
+        ShortcutInfo.Builder(context, ID_PREFIX_CATEGORY + categoryId)
+            .setShortLabel(categoryName)
+            .setLongLabel(categoryName)
+            .setRank(0)
+            .setIntent(
+                MainActivity.IntentBuilder(context)
+                    .categoryId(categoryId)
+                    .build()
+            )
+            .setIcon(IconUtil.getIcon(context, ShortcutIcon.BuiltInIcon("flat_grey_folder"))) // TODO
+            .build()
 
 }

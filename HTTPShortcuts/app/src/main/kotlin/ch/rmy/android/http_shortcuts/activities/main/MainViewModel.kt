@@ -16,6 +16,8 @@ import org.mindrot.jbcrypt.BCrypt
 
 open class MainViewModel(application: Application) : RealmViewModel(application) {
 
+    var hasMovedToInitialCategory = false
+
     fun isAppLocked() = Repository.getAppLock(persistedRealm) != null
 
     val appLockedSource: LiveData<Boolean>

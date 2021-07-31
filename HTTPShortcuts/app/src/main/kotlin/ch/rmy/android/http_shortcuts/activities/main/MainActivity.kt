@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.main
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
@@ -37,6 +38,7 @@ import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.titleView
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
+import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
@@ -66,6 +68,9 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
     }
     private val showHiddenCategories: Boolean by lazy {
         selectionMode != SelectionMode.NORMAL
+    }
+    private val initialCategoryId: String? by lazy {
+        intent?.extras?.getString(EXTRA_CATEGORY_ID)
     }
 
     override var isInMovingMode: Boolean = false
@@ -128,6 +133,17 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
         viewModel.getCategories().observe(this) { categories ->
             val visibleCategoryCount = categories.count { !it.hidden || showHiddenCategories }
             tabLayout.visible = visibleCategoryCount > 1
+            if (initialCategoryId != null && !viewModel.hasMovedToInitialCategory) {
+                val categoryIndex = categories
+                    .mapIndexed { index, category -> Pair(index, category) }
+                    .firstOrNull { (_, category) -> category.id == initialCategoryId }
+                    ?.takeUnless { (_, category) -> category.hidden }
+                    ?.first
+                if (categoryIndex != null) {
+                    viewPager.currentItem = categoryIndex
+                }
+                viewModel.hasMovedToInitialCategory = true
+            }
             if (viewPager.currentItem >= visibleCategoryCount) {
                 viewPager.currentItem = 0
             }
@@ -489,10 +505,23 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
             }
     }
 
+    class IntentBuilder(context: Context) : BaseIntentBuilder(context, MainActivity::class.java) {
+        init {
+            intent.action = Intent.ACTION_VIEW
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+
+        fun categoryId(categoryId: String) = also {
+            intent.putExtra(EXTRA_CATEGORY_ID, categoryId)
+        }
+    }
+
     companion object {
 
         const val EXTRA_SELECTION_ID = "ch.rmy.android.http_shortcuts.shortcut_id"
         const val EXTRA_SELECTION_NAME = "ch.rmy.android.http_shortcuts.shortcut_name"
+        private const val EXTRA_CATEGORY_ID = "ch.rmy.android.http_shortcuts.category_id"
 
         private const val REQUEST_CREATE_SHORTCUT = 1
         private const val REQUEST_CREATE_SHORTCUT_FROM_CURL = 2

@@ -23,6 +23,7 @@ import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
+import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.PermissionManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotterknife.bindView
@@ -123,6 +124,11 @@ class CategoriesActivity : BaseActivity() {
                         showBackgroundChangeDialog(categoryData)
                     }
             }
+            .mapIf(!category.hidden && LauncherShortcutManager.supportsPinning(context)) {
+                item(R.string.action_place_category) {
+                    LauncherShortcutManager.pinCategory(context, categoryData.value ?: return@item)
+                }
+            }
             .mapIf(categories.size > 1) {
                 item(R.string.action_delete) {
                     showDeleteDialog(categoryData)
@@ -185,6 +191,7 @@ class CategoriesActivity : BaseActivity() {
         val category = categoryData.value ?: return
         viewModel.renameCategory(category.id, newName)
             .subscribe {
+                LauncherShortcutManager.updatePinnedCategoryShortcut(context, categoryData.value?.id ?: return@subscribe, newName)
                 showSnackbar(R.string.message_category_renamed)
             }
             .attachTo(destroyer)
