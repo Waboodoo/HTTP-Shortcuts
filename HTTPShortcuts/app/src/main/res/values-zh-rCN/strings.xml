@@ -1567,4 +1567,16 @@
 
     <!-- Instructions shown below the "URL encode" checkbox in the variable editor -->
     <string name="message_url_encode_instructions">"如果你在 URL 中使用此变量，例如，作为查询字符串的一部分，请启用此选项。 特殊字符将被跳过。"</string>
+
+    <!-- Name of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
+    <string name="settings_allow_overlay">"允许在其他应用上显示"</string>
+
+    <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
+    <string name="settings_allow_overlay_summary">"如果从快速设置磁贴或第三方应用程序触发时快捷方式不起作用，则启用"</string>
+
+    <!-- Shortcut dropdown option: Enable moving shortcuts within a category by dragging -->
+    <string name="action_enable_moving">"允许在类别内移动"</string>
+
+    <!-- Message displayed in snackbar, to let the user know that moving via dragging was enabled. -->
+    <string name="message_moving_enabled">"通过拖动快捷方式重新排序。"</string>
 </resources>
