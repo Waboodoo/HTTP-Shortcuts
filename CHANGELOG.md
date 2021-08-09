@@ -1,3 +1,13 @@
+## Version 2.7.0
+
+### Improvements
+- Categories can now be pinned to the home screen, allowing faster access
+- Category tabs can now be long-pressed to go to the category settings
+
+### Bugfixes
+- When exporting a single shortcut via sharing, only that shortcut is exported instead of all shortcuts
+- Better error handling for devices that don't offer an image picker
+
 ## Version 2.6.0
 
 ### Improvements
