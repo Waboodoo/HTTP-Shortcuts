@@ -16,6 +16,7 @@ import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import okhttp3.CookieJar
 import okhttp3.Response
+import java.net.UnknownHostException
 
 class HttpRequester(private val contentResolver: ContentResolver) {
 
@@ -45,30 +46,33 @@ class HttpRequester(private val contentResolver: ContentResolver) {
                 )
             }
             .flatMap { requestData ->
-                if (ServiceDiscoveryHelper.requiresDiscovery(requestData.uri)) {
-                    ServiceDiscoveryHelper.discoverService(context, requestData.uri.host!!)
-                        .map { newHost ->
-                            requestData.copy(
-                                url = requestData.uri
-                                    .buildUpon()
-                                    .encodedAuthority("${newHost.address}:${newHost.port}")
-                                    .build()
-                                    .toString()
-                            )
-                        }
-                        .onErrorResumeNext { error ->
-                            if (error is ServiceDiscoveryHelper.ServiceLookupTimeoutException) {
-                                Single.just(requestData)
-                            } else {
-                                Single.error(error)
-                            }
-                        }
-                } else {
-                    Single.just(requestData)
-                }
-            }
-            .flatMap { requestData ->
                 makeRequest(context, shortcut, variableManager, requestData, responseFileStorage, fileUploadManager, cookieJar)
+                    .onErrorResumeNext { error ->
+                        if (error is UnknownHostException && ServiceDiscoveryHelper.isDiscoverable(requestData.uri)) {
+                            ServiceDiscoveryHelper.discoverService(context, requestData.uri.host!!)
+                                .map { newHost ->
+                                    requestData.copy(
+                                        url = requestData.uri
+                                            .buildUpon()
+                                            .encodedAuthority("${newHost.address}:${newHost.port}")
+                                            .build()
+                                            .toString()
+                                    )
+                                }
+                                .onErrorResumeNext { discoveryError ->
+                                    if (discoveryError is ServiceDiscoveryHelper.ServiceLookupTimeoutException) {
+                                        Single.just(requestData)
+                                    } else {
+                                        Single.error(error)
+                                    }
+                                }
+                                .flatMap { newRequestData ->
+                                    makeRequest(context, shortcut, variableManager, newRequestData, responseFileStorage, fileUploadManager, cookieJar)
+                                }
+                        } else {
+                            Single.error(error)
+                        }
+                    }
             }
 
     private fun makeRequest(
