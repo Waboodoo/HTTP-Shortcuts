@@ -31,7 +31,6 @@ Find more information and documentation on the [official website](https://http-s
 - Upload files as form-data
 - Client Certificate Authentication
 - Support for TLSv1.3
-- Support for Zeroconf/mDNS
 - Option to accept all certificates (if you know what you're doing)
 - Support for HTTP proxies
 - Built-in icons, support for Ipack icons and custom icons

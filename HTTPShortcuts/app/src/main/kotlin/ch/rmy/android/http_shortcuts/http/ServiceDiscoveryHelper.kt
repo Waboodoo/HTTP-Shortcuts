@@ -14,7 +14,7 @@ object ServiceDiscoveryHelper {
 
     private const val SERVICE_NAME_SUFFIX = ".local"
     private const val SERVICE_TYPE = "_http._tcp"
-    private const val DISCOVER_TIMEOUT = 3000L
+    private const val DISCOVER_TIMEOUT = 1500L
 
     fun requiresDiscovery(uri: Uri) =
         uri.host?.endsWith(SERVICE_NAME_SUFFIX, ignoreCase = true) == true
