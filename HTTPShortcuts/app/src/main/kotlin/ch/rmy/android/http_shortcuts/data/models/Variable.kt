@@ -57,7 +57,12 @@ open class Variable(
             other.type != type ||
             other.value != value ||
             other.title != title ||
-            other.options!!.size != options!!.size
+            other.options!!.size != options!!.size ||
+            other.rememberValue != rememberValue ||
+            other.urlEncode != urlEncode ||
+            other.jsonEncode != jsonEncode ||
+            other.flags != flags ||
+            other.data != data
         ) {
             return false
         }
@@ -96,7 +101,8 @@ open class Variable(
                 TYPE_DATE,
                 TYPE_TIME,
                 TYPE_SLIDER
-            )) {
+            )
+        ) {
             throw IllegalArgumentException("Invalid variable type: $type")
         }
     }
