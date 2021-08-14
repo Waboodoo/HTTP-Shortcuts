@@ -26,5 +26,5 @@ class ShortcutInfoDialog(
     }
 
     private fun getDeepLinkUrl() =
-        "http-shortcuts://deep-link/${shortcut.id}"
+        "http-shortcuts://${shortcut.id}"
 }

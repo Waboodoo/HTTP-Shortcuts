@@ -20,12 +20,19 @@ class DeepLinkActivity : BaseActivity(), Entrypoint {
 
         val deepLinkUrl = intent.data
 
-        val shortcutIdOrName = deepLinkUrl?.lastPathSegment ?: run {
-            showMessageDialog(HTMLUtil.format(getString(R.string.instructions_deep_linking, EXAMPLE_URL))) {
-                finishWithoutAnimation()
+        val shortcutIdOrName = deepLinkUrl
+            ?.let { uri ->
+                uri
+                    .host
+                    ?.takeUnless { it == "deep-link" }
+                    ?: uri.lastPathSegment
             }
-            return
-        }
+            ?: run {
+                showMessageDialog(HTMLUtil.format(getString(R.string.instructions_deep_linking, EXAMPLE_URL))) {
+                    finishWithoutAnimation()
+                }
+                return
+            }
 
         val shortcut = DataSource.getShortcutByNameOrId(shortcutIdOrName) ?: run {
             showMessageDialog(getString(R.string.error_shortcut_not_found_for_deep_link, shortcutIdOrName)) {
@@ -47,7 +54,7 @@ class DeepLinkActivity : BaseActivity(), Entrypoint {
     }
 
     companion object {
-        private const val EXAMPLE_URL = "http-shortcuts://deep-link/<b>&lt;Name/ID of Shortcut&gt;</b>"
+        private const val EXAMPLE_URL = "http-shortcuts://<b>&lt;Name/ID of Shortcut&gt;</b>"
     }
 
 }

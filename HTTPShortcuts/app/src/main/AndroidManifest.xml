@@ -265,7 +265,6 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="deep-link"
                     android:scheme="http-shortcuts" />
             </intent-filter>
         </activity>
