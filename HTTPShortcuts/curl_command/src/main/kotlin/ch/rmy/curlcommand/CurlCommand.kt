@@ -35,6 +35,7 @@ class CurlCommand private constructor() : Serializable {
 
         private val curlCommand = CurlCommand()
         private var forceGet = false
+        private var methodSet = false
 
         fun url(url: String) = also {
             curlCommand.url = if (url.startsWith("http:", ignoreCase = true) || url.startsWith("https:", ignoreCase = true)) {
@@ -45,7 +46,14 @@ class CurlCommand private constructor() : Serializable {
         }
 
         fun method(method: String) = also {
+            methodSet = true
             curlCommand.method = method.toUpperCase(Locale.ROOT)
+        }
+
+        fun methodIfNotYetSet(method: String) = also {
+            if (!methodSet) {
+                method(method)
+            }
         }
 
         fun data(data: String) = also {
