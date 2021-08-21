@@ -92,4 +92,14 @@ class QuickTileService : TileService() {
             }
     }
 
+    override fun onStartListening() {
+        super.onStartListening()
+        val shortcuts = getShortcuts()
+        qsTile.label = when (shortcuts.size) {
+            1 -> shortcuts.first().name
+            else -> getString(R.string.action_quick_settings_tile_trigger)
+        }
+        qsTile.updateTile()
+    }
+
 }
