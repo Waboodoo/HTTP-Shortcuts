@@ -65,6 +65,8 @@ class ListFragment : BaseFragment() {
                 if (value) {
                     showSnackbar(R.string.message_moving_enabled, long = true)
                 }
+
+                shortcutList.alpha = if (value) 0.7f else 1f
             }
         }
 
