@@ -15,12 +15,12 @@ internal class NumberType : TextType() {
                 .textInput(
                     prefill = variable.value?.takeIf { variable.rememberValue } ?: "",
                     inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED,
-                ) { input ->
-                    emitter.onSuccess(input)
-                    Commons.setVariableValue(variable.id, input).subscribe()
-                }
+                    allowEmpty = false,
+                    callback = emitter::onSuccess,
+                )
                 .showIfPossible()
         }
+            .map(::sanitize)
             .mapIf(variable.rememberValue) {
                 flatMap { resolvedValue ->
                     Commons.setVariableValue(variable.id, resolvedValue)
@@ -28,4 +28,14 @@ internal class NumberType : TextType() {
                 }
             }
 
+    private fun sanitize(input: String) =
+        input.trimEnd('.')
+            .let {
+                when {
+                    it.startsWith("-.") -> "-0.${it.drop(2)}"
+                    it.startsWith(".") -> "0$it"
+                    it.isEmpty() || it == "-" -> "0"
+                    else -> it
+                }
+            }
 }

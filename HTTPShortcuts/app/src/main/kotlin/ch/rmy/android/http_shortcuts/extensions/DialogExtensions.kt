@@ -18,7 +18,7 @@ fun AlertDialog.Builder.showIfPossible(): AlertDialog? {
     }
 }
 
-fun Dialog.showIfPossible(): Dialog? {
+fun <T : Dialog> T.showIfPossible(): T? {
     if ((context as? Activity)?.isFinishing == true) {
         return null
     }
