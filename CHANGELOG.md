@@ -1,3 +1,15 @@
+## Version 2.8.0
+
+### Improvements
+- When only one shortcut is configured for the use in the Quick Settings Tile, the tile will assume the name of the shortcut instead of displaying "Execute Shortcut"
+- Shortened deep-link URLs so they better fit on NFC tags and small QR codes
+
+### Bugfixes
+- When importing from cURL, the method is now set to POST when there is a request body, instead of falling back to GET and ignoring the body
+- When using the "Number Input" variable type, it is no longer possible to enter invalid numbers
+- When editing variables, the checkbox values are now also taken into account when detecting whether there are unsaved changes
+
+
 ## Version 2.7.0
 
 ### Improvements

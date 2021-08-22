@@ -31,7 +31,6 @@ Find more information and documentation on the [official website](https://http-s
 - Upload files as form-data
 - Client Certificate Authentication
 - Support for TLSv1.3
-- Option to accept all certificates (if you know what you're doing)
 - Support for HTTP proxies
 - Built-in icons, support for Ipack icons and custom icons
 - Display response as a toast, window or dialog, or run silently
@@ -40,7 +39,7 @@ Find more information and documentation on the [official website](https://http-s
 - Value injection through variables (e.g., text, numbers, passwords, selections, colors, dates, …)
 - Run arbitrary [JavaScript](https://http-shortcuts.rmy.ch/scripting) before & after execution, including special actions (e.g., vibrate, show toast, parse and process response…), 
 - Import & Export in JSON or cURL format
-- 3rd party integration (e.g. Tasker)
+- 3rd party integration (e.g. Tasker or Macrodroid)
 - Themes (with Dark Mode support)
 - Remote editing on computer
 
