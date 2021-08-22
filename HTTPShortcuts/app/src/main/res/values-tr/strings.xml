@@ -41,7 +41,7 @@
     <string name="label_username">"Kullanıcı Adı"</string>
 
     <!-- Label above input field in editor, for shortcut authentication password -->
-    <string name="label_password">"Parola"</string>
+    <string name="label_password">"Şifre"</string>
 
     <!-- Label above input field in editor, for shortcut authentication token -->
     <string name="label_auth_token">"Jeton"</string>
@@ -1521,4 +1521,67 @@ Bu özelliği, bir kısayolu düzenleyerek ve \"%2$s\" içinde bulunan \"%1$s\" 
 
     <!-- Button subtitle for "View in F-Droid" button -->
     <string name="settings_f_droid_summary">"Güncellemeleri kontrol et"</string>
+
+    <!-- Subtitle for button to select a client certificate, when a file based certificate has been selected -->
+    <string name="label_subtitle_client_cert_file_in_use">"Sertifika dosyası kullan.  Kaldırmak için tıklayın."</string>
+
+    <!-- Title for dialog, when selecting a client certificate -->
+    <string name="title_client_cert">"İstemci Sertifikası"</string>
+
+    <!-- Label, for option in dialog to pick a client certificate managed by the operating system -->
+    <string name="label_client_cert_from_os">"İşletim sistemi tarafından yönetilen"</string>
+
+    <!-- Subtitle for Label, for option in dialog to pick a client certificate managed by the operating system -->
+    <string name="label_client_cert_from_os_subtitle">"Önerilen, daha güvenli"</string>
+
+    <!-- Label, for option in dialog to pick a client certificate from a .p12 file -->
+    <string name="label_client_cert_from_file">"İçe Aktar .p12 Dosyasından"</string>
+
+    <!-- Subtitle for Label, for option in dialog to pick a client certificate from a .p12 file -->
+    <string name="label_client_cert_from_file_subtitle">"Dosyanın ve şifrenin bir kopyası, özel koruma olmadan uygulamanın içinde saklanacaktır.  Kendi sorumluluğunuzda kullanın."</string>
+
+    <!-- Title of dialog, for entering the password for a client cert file -->
+    <string name="title_client_cert_file_password">"Şifre"</string>
+
+    <!-- Shortcut dropdown option: display information about the shortcut -->
+    <string name="action_shortcut_information">"Bilgi Göster"</string>
+
+    <!-- Label shown above a text field showing a shortcut's ID -->
+    <string name="label_shortcut_id">"Kısayol Kimliği"</string>
+
+    <!-- Label shown above a text field showing a shortcut's deep link URL -->
+    <string name="label_deep_link_url">"Derin Bağlantı URL'si"</string>
+
+    <!-- Message: instructions shown below a shortcut's deep-linking URL -->
+    <string name="message_deep_link_instructions">"Bu URL'yi başka bir uygulamadan, örneğin bir QR tarayıcı veya NFC okuyucu aracılığıyla çağırarak bu kısayolu tetikleyebilirsiniz.  Değişken değerlerini iletmek için URL'ye sorgu parametreleri ekleyin."</string>
+
+    <!-- Shortcut Action Title: Action that allows to play a (notification) sound effect -->
+    <string name="action_play_sound">"Sesi Çal"</string>
+
+    <!-- Message: Hint to the user that additional/advanced options are available for response handling through scripting. -->
+    <string name="message_response_handling_scripting_hint">"Yanıtı işlemek ve görüntülemek için daha gelişmiş seçeneklere ihtiyacınız varsa, JavaScript kodunu kullanarak özel mantık tanımlamanıza izin veren '%s' bölümüne bakın."</string>
+
+    <!-- Menu button shown on response window, allows the user to execute the current shortcut again -->
+    <string name="action_rerun_shortcut">"Tekrar Çalıştır"</string>
+
+    <!-- Checkbox value, shown in variable editor, allows to enable multiline input for a text variable -->
+    <string name="label_multiline">"Çok satırlı"</string>
+
+    <!-- Instructions shown below the "JSON encode" checkbox in the variable editor -->
+    <string name="message_json_encode_instructions">"Bu değişkeni bir JSON dizesi içinde, örneğin bir istek gövdesinde kullanıyorsanız bunu etkinleştirin. Özel karakterler için kaçış karakterleri kullanılacak."</string>
+
+    <!-- Instructions shown below the "URL encode" checkbox in the variable editor -->
+    <string name="message_url_encode_instructions">"Bu değişkeni bir URL içinde, örneğin bir sorgu dizesinin parçası olarak kullanıyorsanız bunu etkinleştirin. Özel karakterler için kaçış karakterleri kullanılacak."</string>
+
+    <!-- Name of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
+    <string name="settings_allow_overlay">"Diğer Uygulamaların Üzerinde Görüntülemeye İzin Ver"</string>
+
+    <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
+    <string name="settings_allow_overlay_summary">"Hızlı Ayarlar Kutucuğundan veya 3. taraf uygulamasından tetiklendiğinde kısayollar çalışmıyorsa etkinleştirin"</string>
+
+    <!-- Shortcut dropdown option: Enable moving shortcuts within a category by dragging -->
+    <string name="action_enable_moving">"Kategori İçinde Hareket Etmeyi Etkinleştir"</string>
+
+    <!-- Message displayed in snackbar, to let the user know that moving via dragging was enabled. -->
+    <string name="message_moving_enabled">"Kısayolları sürükleyerek yeniden sıralayın."</string>
 </resources>
