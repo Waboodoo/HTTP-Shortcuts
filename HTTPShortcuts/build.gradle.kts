@@ -4,7 +4,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:4.0.1")
+        classpath("com.android.tools.build:gradle:4.0.2")
         classpath("io.realm:realm-gradle-plugin:10.6.0")
         classpath("com.bugsnag:bugsnag-android-gradle-plugin:4.+")
         classpath("org.jetbrains:markdown:0.1.45")
