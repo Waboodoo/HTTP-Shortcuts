@@ -42,6 +42,7 @@ class ActionFactory {
                 TriggerTaskerTaskActionType(),
                 VibrateActionType(),
                 WaitActionType(),
+                WakeOnLanActionType(),
                 WifiIPActionType(),
             )
         }

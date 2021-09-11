@@ -672,6 +672,8 @@
     <string name="error_action_type_send_intent_failed">Failed to send intent</string>
     <!-- Shortcut Action Title: Trigger a task in Tasker -->
     <string name="action_type_trigger_tasker_title">Trigger Tasker Task</string>
+    <!-- Shortcut Action Title: Send a Wake-on-LAN packet to remotely turn on a computer -->
+    <string name="action_type_wake_on_lan">Wake-on-LAN</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
     <string name="action_type_abort_execution">Abort Execution</string>
     <!-- Shortcut Action Title: Wait for a number of milliseconds before continuing with the script execution -->

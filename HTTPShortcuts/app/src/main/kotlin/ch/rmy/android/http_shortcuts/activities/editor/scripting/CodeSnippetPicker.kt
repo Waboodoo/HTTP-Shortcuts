@@ -312,6 +312,9 @@ class CodeSnippetPicker(
                     }
                 }
             }
+            .item(R.string.action_type_wake_on_lan) {
+                insertText("wakeOnLan(\"", "\");\n")
+            }
             .showIfPossible()
     }
 
