@@ -954,6 +954,9 @@ Więcej informacji można znaleźć w dokumentacji w sekcji zmiennych."</string>
         <item quantity="other">"Ustawiono %d parametry"</item>
     </plurals>
 
+    <!-- Section subtitle, shown in shortcut editor when no custom request body is set -->
+    <string name="subtitle_request_body_none">"Nie ustawiono treści żądania"</string>
+
     <!-- Section subtitle, shown in shortcut editor when a custom request body is set. %s is a placeholder for the data type, e.g. application/json -->
     <string name="subtitle_request_body_custom">"Niestandardowa treść żądania (%s)"</string>
 
@@ -1062,6 +1065,11 @@ Więcej informacji można znaleźć w dokumentacji w sekcji zmiennych."</string>
 
     <!-- Action Label: Shown on Quick Settings Title that allows the user to quickly trigger a shortcut without opening the app -->
     <string name="action_quick_settings_tile_trigger">"Wyzwalacz skrótu"</string>
+
+    <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
+    <string name="instructions_quick_settings_tile">"Nie masz jeszcze żadnych skrótów, które można uruchomić za pomocą kafelka Szybkie ustawienia.
+
+Możesz włączyć tę funkcję, edytując skrót i zaznaczając pole wyboru \"%1$s\" znajdujące się w \"%2$s\"."</string>
 
     <!-- Label: Status code, shows the HTTP status code of the response -->
     <string name="label_status_code">"Kod statusu"</string>
@@ -1256,6 +1264,12 @@ Więcej informacji można znaleźć w dokumentacji w sekcji zmiennych."</string>
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid bearer auth token configured -->
     <string name="error_invalid_bearer_auth">"Nieprawidłowy token autoryzacji (%s)."</string>
 
+    <!-- Shortcut Action Title: Send an Android Intent, e.g. to trigger or invoke some action in another app -->
+    <string name="action_type_send_intent_title">"Wyślij instancję"</string>
+
+    <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
+    <string name="error_action_type_send_intent_failed">"Nie udało się wysłać intencji"</string>
+
     <!-- Name of setting that allows the user to enable running all HTTP requests in the foreground. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
     <string name="settings_force_foreground">"Uruchom żądania na pierwszym planie"</string>
 
@@ -1336,6 +1350,9 @@ Więcej informacji można znaleźć w dokumentacji w sekcji zmiennych."</string>
     <!-- Fuzzy -->
     <string name="dialog_help">"Pomoc"</string>
 
+    <!-- Shortcut Action Title: Show Selection (i.e., show a popup with multiple-choice option) -->
+    <string name="action_type_selection_title">"Pokaż wybór (wielokrotny wybór)"</string>
+
     <!-- Dialog option: shown in code snippet picker, shows options to process text (e.g. encoding, hashing, ...) -->
     <string name="dialog_code_snippet_text_processing">"Przetwarzanie tekstu"</string>
 
@@ -1400,6 +1417,12 @@ Więcej informacji można znaleźć w dokumentacji w sekcji zmiennych."</string>
     <!-- Dialog button (generic): Allows to reset some setting to its original value -->
     <string name="dialog_reset">"Reset"</string>
 
+    <!-- Error message: Shown when a script tries to read from a variable that does not exist. %s is a placeholder for the name of the variable. -->
+    <string name="error_variable_not_found_read">"Błąd zmiennej: próbowano uzyskać wartość zmiennej, która nie istnieje: %s"</string>
+
+    <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->
+    <string name="error_variable_not_found_write">"Błąd zmiennej: próbowano ustawić wartość zmiennej, która nie istnieje lub nie jest statyczna (stała): %s"</string>
+
     <!-- Title of code editor for defining global scripting code (JS code that runs before every shortcut) -->
     <string name="title_global_scripting">"Skrypt globalny"</string>
 
@@ -1418,6 +1441,11 @@ Więcej informacji można znaleźć w dokumentacji w sekcji zmiennych."</string>
     <!-- Error message: Shown when trying to trigger a shortcut by name via a voice command or deep-linking but the shortcut is not found -->
     <string name="error_shortcut_not_found_for_deep_link">"Nie znaleziono skrótu \"%s\""</string>
 
+    <!-- Instructions: Shown when the deep-linking feature is used but with an invalid URL -->
+    <string name="instructions_deep_linking">"Aby skorzystać z funkcji precyzyjnych linków, upewnij się, że używasz prawidłowego adresu URL formularza:
+
+%s"</string>
+
     <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
     <string name="placeholder_deleted_shortcut">"Skrót usunięty"</string>
 
@@ -1429,6 +1457,12 @@ Więcej informacji można znaleźć w dokumentacji w sekcji zmiennych."</string>
 
     <!-- Dialog title: Permission request for wifi/ssid check -->
     <string name="title_permission_dialog">"Wymagane uprawnienia"</string>
+
+    <!-- Message: Rational given for location permission in wifi/ssid check -->
+    <string name="message_permission_rational">"Uprawnienia lokalizacji są wymagane, aby sprawdzić, czy skrót jest wykonywany w skonfigurowanej sieci Wi-Fi. Jest to wymóg narzucony przez system operacyjny Android. Twoje dane o lokalizacji nie są dostępne bezpośrednio."</string>
+
+    <!-- Message: Shown to the user when connected to a different wifi network than the one given in the config -->
+    <string name="message_wrong_wifi_network">"Brak połączenia z siecią Wi-Fi skonfigurowaną dla tego skrótu \"%1$s\". Wybrać teraz inną sieć Wi-Fi?"</string>
 
     <!-- Action label: Shown on wifi check dialog to open the wifi picker -->
     <string name="action_label_select">"Wybierz"</string>
@@ -1471,4 +1505,115 @@ Więcej informacji można znaleźć w dokumentacji w sekcji zmiennych."</string>
 
     <!-- Error message: Shown in dialog when user tries to enter an invalid URL for the remote edit feature -->
     <string name="error_invalid_remote_edit_host_url">"Nieprawidłowy URL. Musi to być http(s)."</string>
+
+    <!-- Dialog option, for exporting a single shortcut as a file -->
+    <string name="action_export_as_file">"Plik"</string>
+
+    <!-- Title of import/export page, for importing and exporting shortcuts and variables -->
+    <string name="title_import_export">"Import / Eksport"</string>
+
+    <!-- Section title on settings screen for options related to Scripting (i.e., custom workflow code in JavaScript) -->
+    <string name="settings_title_scripting">"Skrypty"</string>
+
+    <!-- Button in settings page to start import of shortcuts from a file -->
+    <string name="settings_import_from_file">"Importuj z pliku"</string>
+
+    <!-- Button in settings page to start import of shortcuts from a url -->
+    <string name="settings_import_from_url">"Importuj z adresu URL"</string>
+
+    <!-- Section title on import/export screen for options related to importing -->
+    <string name="settings_title_import">"Importowanie"</string>
+
+    <!-- Section title on import/export screen for options related to exporting -->
+    <string name="settings_title_export">"Eksport"</string>
+
+    <!-- Section title on import/export screen for options related to remote editing (i.e. editing on computer) -->
+    <string name="settings_title_remote_edit">"Edycja zdalna"</string>
+
+    <!-- Name of setting that allows the user to enable exporting using the legacy file format -->
+    <string name="settings_use_legacy_export_format">"Użyj starszego formatu pliku"</string>
+
+    <!-- Subtitle of setting that allows the user to enable exporting using the legacy file format -->
+    <string name="settings_use_legacy_export_format_summary">"Włącz eksport skrótów i zmiennych przy użyciu starego formatu pliku (tj. pojedynczego pliku JSON). Zapobiegnie to eksportowaniu niestandardowych ikon skrótów."</string>
+
+    <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
+    <string name="label_client_cert">"Uwierzytelnianie za pomocą certyfikatu klienta"</string>
+
+    <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
+    <string name="label_subtitle_no_client_cert">"Kliknij, aby wybrać certyfikat."</string>
+
+    <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
+    <string name="label_subtitle_client_cert_in_use">"Używam certyfikatu \"%s\". Kliknij, aby usunąć."</string>
+
+    <!-- Error: Shown to the user when any error occurred while trying to execute a shortcut that uses a client certificate -->
+    <string name="error_failed_to_use_client_cert">"Nie udało się załadować lub użyć certyfikatu klienta. Możliwe, że nie jest to obsługiwane przez Twoje urządzenie lub wymaga ponownej konfiguracji w ustawieniach skrótu."</string>
+
+    <!-- Error message: Shown when user tries to use an unsupported hmac function -->
+    <string name="error_unsupported_hmac_algorithm">"Nieobsługiwany algorytm HMAC \"%1$s\" lub nieprawidłowy klucz. Użyj %2$s."</string>
+
+    <!-- Button, shown on About page, to allow opening the app's F-Droid page -->
+    <string name="settings_f_droid">"Zobacz w F-Droid"</string>
+
+    <!-- Button subtitle for "View in F-Droid" button -->
+    <string name="settings_f_droid_summary">"Sprawdź aktualizacje"</string>
+
+    <!-- Subtitle for button to select a client certificate, when a file based certificate has been selected -->
+    <string name="label_subtitle_client_cert_file_in_use">"Korzystanie z pliku certyfikatu. Kliknij, aby usunąć."</string>
+
+    <!-- Title for dialog, when selecting a client certificate -->
+    <string name="title_client_cert">"Certyfikat klienta"</string>
+
+    <!-- Label, for option in dialog to pick a client certificate managed by the operating system -->
+    <string name="label_client_cert_from_os">"Zarządzane przez system operacyjny"</string>
+
+    <!-- Subtitle for Label, for option in dialog to pick a client certificate managed by the operating system -->
+    <string name="label_client_cert_from_os_subtitle">"Zalecane, bezpieczniejsze"</string>
+
+    <!-- Label, for option in dialog to pick a client certificate from a .p12 file -->
+    <string name="label_client_cert_from_file">"Importuj z pliku .p12"</string>
+
+    <!-- Subtitle for Label, for option in dialog to pick a client certificate from a .p12 file -->
+    <string name="label_client_cert_from_file_subtitle">"Kopia pliku i hasło będą przechowywane w aplikacji bez specjalnej ochrony. Używaj na własne ryzyko."</string>
+
+    <!-- Title of dialog, for entering the password for a client cert file -->
+    <string name="title_client_cert_file_password">"Hasło"</string>
+
+    <!-- Shortcut dropdown option: display information about the shortcut -->
+    <string name="action_shortcut_information">"Pokaż informacje"</string>
+
+    <!-- Label shown above a text field showing a shortcut's ID -->
+    <string name="label_shortcut_id">"ID skrótu"</string>
+
+    <!-- Message: instructions shown below a shortcut's deep-linking URL -->
+    <string name="message_deep_link_instructions">"Możesz uruchomić ten skrót, wywołując ten adres URL z innej aplikacji, np. za pomocą skanera QR lub czytnika NFC. Dołącz parametry zapytania do adresu URL, aby przekazać wartości zmiennych."</string>
+
+    <!-- Shortcut Action Title: Action that allows to play a (notification) sound effect -->
+    <string name="action_play_sound">"Odtwórz dźwięk"</string>
+
+    <!-- Message: Hint to the user that additional/advanced options are available for response handling through scripting. -->
+    <string name="message_response_handling_scripting_hint">"Jeśli potrzebujesz bardziej zaawansowanych opcji przetwarzania i wyświetlania odpowiedzi, zapoznaj się z sekcją '%s', która umożliwia zdefiniowanie niestandardowej logiki za pomocą kodu JavaScript."</string>
+
+    <!-- Menu button shown on response window, allows the user to execute the current shortcut again -->
+    <string name="action_rerun_shortcut">"Ponowne odtworzenie"</string>
+
+    <!-- Checkbox value, shown in variable editor, allows to enable multiline input for a text variable -->
+    <string name="label_multiline">"Wieloliniowe"</string>
+
+    <!-- Instructions shown below the "JSON encode" checkbox in the variable editor -->
+    <string name="message_json_encode_instructions">"Włącz tę opcję, jeśli używasz tej zmiennej w ciągu JSON, np. w treści żądania. Znaki specjalne zostaną pominięte."</string>
+
+    <!-- Instructions shown below the "URL encode" checkbox in the variable editor -->
+    <string name="message_url_encode_instructions">"Włącz tę opcję, jeśli używasz tej zmiennej w adresie URL, np. jako część ciągu zapytania. Znaki specjalne zostaną pominięte."</string>
+
+    <!-- Name of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
+    <string name="settings_allow_overlay">"Zezwalaj na wyświetlanie w innych aplikacjach"</string>
+
+    <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
+    <string name="settings_allow_overlay_summary">"Włącz, jeśli skróty nie działają po uruchomieniu z kafelka szybkich ustawień lub aplikacji innej firmy"</string>
+
+    <!-- Shortcut dropdown option: Enable moving shortcuts within a category by dragging -->
+    <string name="action_enable_moving">"Włącz przenoszenie w obrębie kategorii"</string>
+
+    <!-- Message displayed in snackbar, to let the user know that moving via dragging was enabled. -->
+    <string name="message_moving_enabled">"Zmień kolejność skrótów, przeciągając je."</string>
 </resources>
