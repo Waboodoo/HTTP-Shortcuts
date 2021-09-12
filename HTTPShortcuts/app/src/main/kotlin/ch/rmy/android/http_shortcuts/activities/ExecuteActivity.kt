@@ -42,12 +42,12 @@ import ch.rmy.android.http_shortcuts.extensions.truncate
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.http.CookieManager
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
-import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.http.FileUploadManager
 import ch.rmy.android.http_shortcuts.http.HttpRequester
 import ch.rmy.android.http_shortcuts.http.ResponseFileStorage
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.plugin.SessionMonitor
+import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.scripting.ScriptExecutor
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ActionFactory
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder

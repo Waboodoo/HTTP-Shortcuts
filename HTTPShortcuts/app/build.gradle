@@ -172,6 +172,9 @@ dependencies {
     implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
     implementation 'org.conscrypt:conscrypt-android:2.5.2'
 
+    /* Scheduling */
+    implementation 'androidx.work:work-runtime-ktx:2.7.0-beta01'
+
     /* Tasker integration */
     implementation 'com.joaomgcd:taskerpluginlibrary:0.4.1'
 

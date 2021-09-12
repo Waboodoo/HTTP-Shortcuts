@@ -37,7 +37,7 @@ import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.titleView
 import ch.rmy.android.http_shortcuts.extensions.visible
-import ch.rmy.android.http_shortcuts.http.ExecutionScheduler
+import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
