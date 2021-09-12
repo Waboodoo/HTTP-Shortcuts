@@ -55,7 +55,10 @@ object WidgetManager {
             views.setOnClickPendingIntent(R.id.widget_base, ExecuteActivity.IntentBuilder(context, shortcut.id)
                 .build()
                 .let { intent ->
-                    PendingIntent.getActivity(context, 0, intent, 0)
+                    val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        PendingIntent.FLAG_IMMUTABLE
+                    } else 0
+                    PendingIntent.getActivity(context, 0, intent, flags)
                 })
             if (widget.showLabel) {
                 views.setViewVisibility(R.id.widget_label, View.VISIBLE)

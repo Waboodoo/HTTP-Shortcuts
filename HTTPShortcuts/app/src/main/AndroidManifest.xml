@@ -33,6 +33,7 @@
 
         <activity
             android:name=".activities.main.MainActivity"
+            android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/LoaderTheme">
             <intent-filter>
@@ -197,6 +198,7 @@
             android:name=".activities.ExecuteActivity"
             android:configChanges="orientation|screenSize"
             android:excludeFromRecents="true"
+            android:exported="true"
             android:label="@string/title_activity_execute"
             android:launchMode="singleInstance"
             android:theme="@style/Theme.Transparent">
@@ -224,6 +226,7 @@
             android:name=".activities.misc.ShareActivity"
             android:configChanges="orientation|screenSize"
             android:excludeFromRecents="true"
+            android:exported="true"
             android:label="@string/action_send_to"
             android:launchMode="singleInstance"
             android:noHistory="true"
@@ -254,6 +257,7 @@
             android:name=".activities.misc.DeepLinkActivity"
             android:configChanges="orientation|screenSize"
             android:excludeFromRecents="true"
+            android:exported="true"
             android:label="@string/title_activity_execute"
             android:launchMode="singleInstance"
             android:noHistory="true"
@@ -264,8 +268,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:scheme="http-shortcuts" />
+                <data android:scheme="http-shortcuts" />
             </intent-filter>
         </activity>
 
@@ -273,6 +276,7 @@
             android:name=".activities.misc.VoiceActivity"
             android:configChanges="orientation|screenSize"
             android:excludeFromRecents="true"
+            android:exported="true"
             android:label="@string/title_activity_execute"
             android:launchMode="singleInstance"
             android:noHistory="true"
@@ -290,6 +294,7 @@
 
         <service
             android:name=".tiles.QuickTileService"
+            android:exported="true"
             android:icon="@drawable/ic_quick_settings_tile"
             android:label="@string/action_quick_settings_tile_trigger"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
@@ -315,6 +320,7 @@
             android:name=".ExecuteActivity"
             android:configChanges="orientation|screenSize"
             android:excludeFromRecents="true"
+            android:exported="true"
             android:label="@string/title_activity_execute"
             android:launchMode="singleInstance"
             android:noHistory="true"
@@ -331,6 +337,7 @@
 
         <receiver
             android:name=".widget.WidgetProvider"
+            android:exported="true"
             android:label="@string/label_widget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
