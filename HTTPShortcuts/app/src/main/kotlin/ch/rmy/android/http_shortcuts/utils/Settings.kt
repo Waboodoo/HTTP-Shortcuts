@@ -2,6 +2,8 @@ package ch.rmy.android.http_shortcuts.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.net.Uri
+import androidx.core.net.toUri
 import androidx.preference.PreferenceManager
 import ch.rmy.android.http_shortcuts.extensions.takeUnlessEmpty
 
@@ -27,9 +29,9 @@ class Settings(context: Context) {
     val isCrashReportingAllowed: Boolean
         get() = preferences.getString(KEY_CRASH_REPORTING, "true") != "false"
 
-    var importUrl: String
-        get() = preferences.getString(KEY_IMPORT_URL, "") ?: ""
-        set(url) = putString(KEY_IMPORT_URL, url)
+    var importUrl: Uri?
+        get() = preferences.getString(KEY_IMPORT_URL, "")?.takeUnlessEmpty()?.toUri()
+        set(url) = putString(KEY_IMPORT_URL, url.toString())
 
     var isChangeLogPermanentlyHidden: Boolean
         get() = preferences.getBoolean(KEY_CHANGE_LOG_PERMANENTLY_HIDDEN, false)

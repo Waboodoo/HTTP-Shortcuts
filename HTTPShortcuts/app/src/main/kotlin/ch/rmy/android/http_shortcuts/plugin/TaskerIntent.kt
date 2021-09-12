@@ -3,7 +3,7 @@ package ch.rmy.android.http_shortcuts.plugin
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
+import androidx.core.net.toUri
 import java.util.ArrayList
 import kotlin.random.Random
 
@@ -15,7 +15,7 @@ class TaskerIntent(taskName: String) : Intent(ACTION_TASK) {
     }
 
     private fun setRandomData() {
-        data = Uri.parse("$TASK_ID_SCHEME:${getRandomString()}")
+        data = "$TASK_ID_SCHEME:${getRandomString()}".toUri()
     }
 
     private fun putMetaExtras(taskName: String) {

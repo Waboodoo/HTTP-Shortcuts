@@ -10,6 +10,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.core.app.ActivityCompat
+import androidx.core.net.toUri
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.execute.ProgressIndicator
 import ch.rmy.android.http_shortcuts.activities.response.DisplayResponseActivity
@@ -453,7 +454,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     private fun openShortcutInBrowser(): Completable = Completable.fromAction {
         val url = injectVariables(shortcut.url)
         try {
-            val uri = Uri.parse(url)
+            val uri = url.toUri()
             if (!Validation.isValidUrl(uri)) {
                 throw InvalidUrlException(url)
             }

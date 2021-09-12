@@ -136,6 +136,6 @@ sealed class ShortcutIcon {
             }
 
         private fun getDrawableUri(context: Context, @DrawableRes identifier: Int): Uri =
-            Uri.parse("android.resource://${context.packageName}/$identifier")
+            "android.resource://${context.packageName}/$identifier".toUri()
     }
 }

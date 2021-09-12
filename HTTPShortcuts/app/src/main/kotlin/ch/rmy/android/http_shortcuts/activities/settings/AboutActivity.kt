@@ -1,11 +1,8 @@
 package ch.rmy.android.http_shortcuts.activities.settings
 
 import android.annotation.SuppressLint
-import android.content.ActivityNotFoundException
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager.NameNotFoundException
-import android.net.Uri
 import android.os.Bundle
 import androidx.preference.Preference
 import ch.rmy.android.http_shortcuts.R
@@ -13,8 +10,8 @@ import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.misc.AcknowledgmentActivity
 import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog
 import ch.rmy.android.http_shortcuts.extensions.attachTo
+import ch.rmy.android.http_shortcuts.extensions.openURL
 import ch.rmy.android.http_shortcuts.extensions.showSnackbar
-import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.InstallUtil
@@ -100,15 +97,6 @@ class AboutActivity : BaseActivity() {
         private fun showAcknowledgments() {
             AcknowledgmentActivity.IntentBuilder(requireContext())
                 .startActivity(this)
-        }
-
-        private fun openURL(url: String) {
-            try {
-                Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                    .startActivity(this)
-            } catch (e: ActivityNotFoundException) {
-                showSnackbar(R.string.error_not_supported)
-            }
         }
 
     }

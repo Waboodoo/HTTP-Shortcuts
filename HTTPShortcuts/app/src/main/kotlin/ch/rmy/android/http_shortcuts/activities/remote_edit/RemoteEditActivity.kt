@@ -4,13 +4,13 @@ import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.core.net.toUri
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
@@ -173,7 +173,7 @@ class RemoteEditActivity : BaseActivity() {
     }
 
     private fun setRemoteHost(value: String) {
-        if (!Validation.isValidHttpUrl(Uri.parse(value))) {
+        if (!Validation.isValidHttpUrl(value.toUri())) {
             DialogBuilder(context)
                 .message(R.string.error_invalid_remote_edit_host_url)
                 .positive(R.string.dialog_ok)

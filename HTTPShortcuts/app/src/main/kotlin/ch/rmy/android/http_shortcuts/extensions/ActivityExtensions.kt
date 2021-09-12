@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.view.ViewGroup
 import androidx.annotation.StringRes
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import ch.rmy.android.http_shortcuts.R
 import com.google.android.material.snackbar.Snackbar
@@ -29,7 +30,7 @@ fun Fragment.showSnackbar(message: CharSequence, long: Boolean = false) {
 
 fun Activity.sendMail(address: String, subject: String, text: String, title: String, attachment: Uri? = null) {
     try {
-        Intent(Intent.ACTION_SEND, Uri.parse("mailto:$address"))
+        Intent(Intent.ACTION_SEND, "mailto:$address".toUri())
             .setType("message/rfc822")
             .putExtra(Intent.EXTRA_EMAIL, arrayOf(address))
             .putExtra(Intent.EXTRA_SUBJECT, subject)

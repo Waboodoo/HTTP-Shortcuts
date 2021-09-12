@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.remote_edit
 
 import android.app.Application
-import android.net.Uri
+import androidx.core.net.toUri
 import androidx.lifecycle.AndroidViewModel
 import ch.rmy.android.http_shortcuts.extensions.context
 import ch.rmy.android.http_shortcuts.http.HttpClients
@@ -52,7 +52,7 @@ class RemoteEditViewModel(application: Application) : AndroidViewModel(applicati
         getRemoteEditManager().download(deviceId, password)
 
     private fun getRemoteBaseUrl() =
-        Uri.parse(serverUrl)
+        serverUrl.toUri()
 
     private fun getRemoteEditManager() =
         RemoteEditManager(

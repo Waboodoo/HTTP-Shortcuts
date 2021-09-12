@@ -4,9 +4,10 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
-import android.net.Uri
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.core.net.toUri
+import androidx.fragment.app.Fragment
 import ch.rmy.android.http_shortcuts.R
 
 fun Context.showToast(message: String, long: Boolean = false) {
@@ -19,10 +20,19 @@ fun Context.showToast(@StringRes message: Int, long: Boolean = false) {
 
 fun Context.openURL(url: String) {
     try {
-        Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        Intent(Intent.ACTION_VIEW, url.toUri())
             .startActivity(this)
     } catch (e: ActivityNotFoundException) {
         showToast(R.string.error_not_supported)
+    }
+}
+
+fun Fragment.openURL(url: String) {
+    try {
+        Intent(Intent.ACTION_VIEW, url.toUri())
+            .startActivity(this)
+    } catch (e: ActivityNotFoundException) {
+        showSnackbar(R.string.error_not_supported)
     }
 }
 

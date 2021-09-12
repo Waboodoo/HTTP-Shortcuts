@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.utils
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import androidx.core.net.toUri
 import ch.rmy.android.http_shortcuts.R
 
 object IpackUtil {
@@ -17,7 +18,7 @@ object IpackUtil {
     fun getIpackUri(intent: Intent): Uri {
         val packageName = intent.data!!.authority
         val id = intent.getIntExtra(PACKAGE_NAME + ICON_ID_SUFFIX, -1)
-        return Uri.parse("android.resource://$packageName/$id")
+        return "android.resource://$packageName/$id".toUri()
     }
 
 }

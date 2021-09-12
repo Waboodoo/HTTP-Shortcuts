@@ -2,9 +2,9 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.FileUriExposedException
+import androidx.core.net.toUri
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.extensions.ifTrue
@@ -83,7 +83,7 @@ class SendIntentAction(private val jsonData: String) : BaseAction() {
             Intent(parameters.optString(KEY_ACTION)).apply {
                 parameters.optString(KEY_DATA_URI)
                     .takeUnlessEmpty()
-                    ?.let { Uri.parse(it) }
+                    ?.toUri()
                     ?.let { dataUri ->
                         parameters.optString(KEY_DATA_TYPE)
                             .takeUnlessEmpty()

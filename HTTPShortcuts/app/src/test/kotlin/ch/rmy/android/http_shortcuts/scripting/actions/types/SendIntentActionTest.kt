@@ -1,11 +1,11 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import android.content.Intent
-import android.net.Uri
+import androidx.core.net.toUri
+import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.not
 import org.json.JSONObject
-import org.junit.Assert.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -58,7 +58,7 @@ class SendIntentActionTest {
 
         assertThat(intent.action, equalTo("test"))
         assertThat(intent.categories, equalTo(setOf("foo", "foobar", "bla")))
-        assertThat(intent.data, equalTo(Uri.parse("http://test-uri")))
+        assertThat(intent.data, equalTo("http://test-uri".toUri()))
         assertThat(intent.type, equalTo("text/plain"))
         assertThat(intent.`package`, equalTo("com.package.test"))
 

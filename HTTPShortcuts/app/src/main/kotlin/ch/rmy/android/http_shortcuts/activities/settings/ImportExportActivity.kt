@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import androidx.core.net.toUri
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.remote_edit.RemoteEditActivity
@@ -87,7 +88,7 @@ class ImportExportActivity : BaseActivity() {
                 .title(R.string.dialog_title_import_from_url)
                 .textInput(
                     hint = "https://",
-                    prefill = Settings(requireContext()).importUrl,
+                    prefill = Settings(requireContext()).importUrl?.toString() ?: "",
                     allowEmpty = false,
                     callback = ::startImportFromURL,
                 )
@@ -95,8 +96,8 @@ class ImportExportActivity : BaseActivity() {
         }
 
         private fun startImportFromURL(url: String) {
-            val uri = Uri.parse(url)
-            persistImportUrl(url)
+            val uri = url.toUri()
+            persistImportUrl(uri)
             if (uri.isWebUrl) {
                 startImport(uri)
             } else {
@@ -129,7 +130,7 @@ class ImportExportActivity : BaseActivity() {
             }
         }
 
-        private fun persistImportUrl(url: String) {
+        private fun persistImportUrl(url: Uri) {
             Settings(requireContext()).importUrl = url
         }
 
