@@ -39,6 +39,7 @@ Find more information and documentation on the [official website](https://http-s
 - Value injection through variables (e.g., text, numbers, passwords, selections, colors, dates, …)
 - Run arbitrary [JavaScript](https://http-shortcuts.rmy.ch/scripting) before & after execution, including special actions (e.g., vibrate, show toast, parse and process response…), 
 - Import & Export in JSON or cURL format
+- Wake-on-LAN support
 - 3rd party integration (e.g. Tasker or Macrodroid)
 - Themes (with Dark Mode support)
 - Remote editing on computer

@@ -1,3 +1,12 @@
+## Version 2.9.0
+
+### Improvements
+- Added `wakeOnLan` function to allow sending magic packets to wake up devices on the network
+- When using Scripting, JavaScript errors now also include the line number for easier debugging
+
+### Miscellaneous
+- Prepared the app for compatibility with Android 12
+
 ## Version 2.8.0
 
 ### Improvements
