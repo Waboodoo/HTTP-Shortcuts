@@ -10,7 +10,7 @@ import ch.rmy.android.http_shortcuts.data.models.Option
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
-import ch.rmy.android.http_shortcuts.extensions.mapIf
+import ch.rmy.android.http_shortcuts.extensions.mapIfNotNull
 import ch.rmy.android.http_shortcuts.extensions.showMessageDialog
 import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
@@ -86,8 +86,8 @@ class SelectEditorFragment : VariableEditorFragment() {
                 }
             }
             .negative(R.string.dialog_cancel)
-            .mapIf(option != null) {
-                neutral(R.string.dialog_remove) { removeOption(option!!) }
+            .mapIfNotNull(option) { persistedOption ->
+                neutral(R.string.dialog_remove) { removeOption(persistedOption) }
             }
             .dismissListener {
                 destroyer.destroy()

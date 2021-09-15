@@ -9,7 +9,7 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.data.models.Widget
 import ch.rmy.android.http_shortcuts.extensions.detachFromRealm
-import ch.rmy.android.http_shortcuts.extensions.mapIf
+import ch.rmy.android.http_shortcuts.extensions.mapIfNotNull
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import io.realm.Case
 import io.realm.Realm
@@ -80,11 +80,14 @@ object Repository {
             .equalTo(HasId.FIELD_ID, keyOrId)
             .findFirst()
 
-    internal fun getPendingExecutions(realm: Realm, shortcutId: String? = null): RealmResults<PendingExecution> =
+    internal fun getPendingExecutions(realm: Realm, shortcutId: String? = null, waitForNetwork: Boolean? = null): RealmResults<PendingExecution> =
         realm
             .where<PendingExecution>()
-            .mapIf(shortcutId != null) {
-                equalTo(PendingExecution.FIELD_SHORTCUT_ID, shortcutId)
+            .mapIfNotNull(shortcutId) {
+                equalTo(PendingExecution.FIELD_SHORTCUT_ID, it)
+            }
+            .mapIfNotNull(waitForNetwork) {
+                equalTo(PendingExecution.FIELD_WAIT_FOR_NETWORK, it)
             }
             .sort(PendingExecution.FIELD_ENQUEUED_AT)
             .findAll()

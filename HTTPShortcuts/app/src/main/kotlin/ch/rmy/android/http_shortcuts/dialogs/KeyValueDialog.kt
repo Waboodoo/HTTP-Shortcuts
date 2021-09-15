@@ -6,7 +6,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.extensions.attachTo
-import ch.rmy.android.http_shortcuts.extensions.mapIf
+import ch.rmy.android.http_shortcuts.extensions.mapIfNotNull
 import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
 import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.extensions.showSoftKeyboard
@@ -48,7 +48,7 @@ class KeyValueDialog(
                 val valueText = valueField.rawString
                 subject.onSuccess(Event.DataChangedEvent(keyText to valueText))
             }
-            .mapIf(data != null) {
+            .mapIfNotNull(data) {
                 neutral(R.string.dialog_remove) {
                     subject.onSuccess(Event.DataRemovedEvent)
                 }

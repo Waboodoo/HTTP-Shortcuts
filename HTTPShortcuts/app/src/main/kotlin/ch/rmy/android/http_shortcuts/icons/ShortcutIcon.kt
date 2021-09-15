@@ -7,6 +7,7 @@ import androidx.core.net.toUri
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.mapIf
+import ch.rmy.android.http_shortcuts.extensions.mapIfNotNull
 import ch.rmy.android.http_shortcuts.extensions.replacePrefix
 import ch.rmy.android.http_shortcuts.utils.IconUtil
 import java.io.File
@@ -61,8 +62,8 @@ sealed class ShortcutIcon {
                 tint: Icons.TintColors? = null,
             ): BuiltInIcon {
                 val iconName = context.resources.getResourceEntryName(resource)
-                    .mapIf(tint != null) {
-                        replacePrefix(Icons.DEFAULT_TINT_PREFIX, tint!!.prefix)
+                    .mapIfNotNull(tint) {
+                        replacePrefix(Icons.DEFAULT_TINT_PREFIX, it.prefix)
                     }
                 return BuiltInIcon(iconName)
             }

@@ -7,6 +7,7 @@ import ch.rmy.android.http_shortcuts.exceptions.ClientCertException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidProxyException
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.mapIf
+import ch.rmy.android.http_shortcuts.extensions.mapIfNotNull
 import com.burgstaller.okhttp.digest.Credentials
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import okhttp3.ConnectionSpec
@@ -50,8 +51,8 @@ internal object HttpClients {
             .connectTimeout(timeout, TimeUnit.MILLISECONDS)
             .readTimeout(timeout, TimeUnit.MILLISECONDS)
             .writeTimeout(timeout, TimeUnit.MILLISECONDS)
-            .mapIf(cookieJar != null) {
-                cookieJar(cookieJar!!)
+            .mapIfNotNull(cookieJar) {
+                cookieJar(it)
             }
             .mapIf(proxyHost != null && proxyPort != null) {
                 try {

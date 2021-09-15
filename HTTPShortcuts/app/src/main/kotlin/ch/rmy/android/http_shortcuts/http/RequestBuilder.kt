@@ -3,7 +3,7 @@ package ch.rmy.android.http_shortcuts.http
 import ch.rmy.android.http_shortcuts.exceptions.InvalidBearerAuthException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidHeaderException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidUrlException
-import ch.rmy.android.http_shortcuts.extensions.mapIf
+import ch.rmy.android.http_shortcuts.extensions.mapIfNotNull
 import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_MULTIPART_CONTENT_TYPE
 import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_URLENCODE_CONTENT_TYPE
 import ch.rmy.android.http_shortcuts.http.RequestUtil.encode
@@ -105,12 +105,10 @@ class RequestBuilder(private val method: String, url: String) {
         .also {
             it.method(method, if (HttpMethod.permitsRequestBody(method)) {
                 getBody()
-            } else {
-                null
-            })
+            } else null)
         }
-        .mapIf(userAgent != null) {
-            header(HttpHeaders.USER_AGENT, userAgent!!)
+        .mapIfNotNull(userAgent) {
+            header(HttpHeaders.USER_AGENT, it)
         }
         .build()
 

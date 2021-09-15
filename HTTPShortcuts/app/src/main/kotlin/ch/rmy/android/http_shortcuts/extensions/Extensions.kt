@@ -57,6 +57,9 @@ inline fun consume(f: () -> Unit): Boolean {
 inline fun <T> T.mapIf(predicate: Boolean, block: T.() -> T): T =
     if (predicate) block(this) else this
 
+inline fun <T, U> T.mapIfNotNull(item: U?, block: T.(U) -> T): T =
+    if (item != null) block(this, item) else this
+
 inline fun <T, U> T.mapFor(iterable: Iterable<U>, block: T.(U) -> T): T {
     val iterator = iterable.iterator()
     var item = this

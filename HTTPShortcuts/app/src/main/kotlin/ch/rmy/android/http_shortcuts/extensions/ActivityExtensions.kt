@@ -36,9 +36,9 @@ fun Activity.sendMail(address: String, subject: String, text: String, title: Str
             .putExtra(Intent.EXTRA_SUBJECT, subject)
             .putExtra(Intent.EXTRA_TEXT, text)
             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            .mapIf(attachment != null) {
+            .mapIfNotNull(attachment) {
                 addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                    .putExtra(Intent.EXTRA_STREAM, attachment!!)
+                    .putExtra(Intent.EXTRA_STREAM, it)
             }
             .let {
                 Intent.createChooser(it, title)

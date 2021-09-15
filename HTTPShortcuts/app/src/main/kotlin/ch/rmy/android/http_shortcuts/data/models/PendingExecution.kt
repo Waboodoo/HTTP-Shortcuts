@@ -12,11 +12,13 @@ open class PendingExecution(
     @PrimaryKey
     var id: String = "",
     var shortcutId: String = "",
+    @Suppress("unused")
     @Index
     @Required
     var enqueuedAt: Date = Date(),
     var tryNumber: Int = 0,
     var waitUntil: Date? = null,
+    @Suppress("unused")
     var waitForNetwork: Boolean = false,
     var recursionDepth: Int = 0,
     var resolvedVariables: RealmList<ResolvedVariable> = RealmList(),
@@ -27,6 +29,7 @@ open class PendingExecution(
         const val FIELD_ID = "id"
         const val FIELD_SHORTCUT_ID = "shortcutId"
         const val FIELD_ENQUEUED_AT = "enqueuedAt"
+        const val FIELD_WAIT_FOR_NETWORK = "waitForNetwork"
 
         fun createNew(
             shortcutId: String,

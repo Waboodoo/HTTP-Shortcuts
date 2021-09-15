@@ -11,7 +11,7 @@ import ch.rmy.android.http_shortcuts.activities.main.MainActivity
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.logException
-import ch.rmy.android.http_shortcuts.extensions.mapIf
+import ch.rmy.android.http_shortcuts.extensions.mapIfNotNull
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
 object LauncherShortcutManager {
@@ -94,8 +94,8 @@ object LauncherShortcutManager {
                 ExecuteActivity.IntentBuilder(context, shortcutId)
                     .build()
             )
-            .mapIf(icon != null) {
-                setIcon(icon)
+            .mapIfNotNull(icon) {
+                setIcon(it)
             }
             .build()
     }

@@ -19,9 +19,9 @@ object DataSource {
             Repository.getPendingExecution(realm, id)
         }
 
-    fun getNextPendingExecution(): PendingExecution? =
+    fun getNextPendingExecution(waitForNetwork: Boolean): PendingExecution? =
         getFromRealm { realm ->
-            Repository.getPendingExecutions(realm)
+            Repository.getPendingExecutions(realm, waitForNetwork = waitForNetwork)
                 .minByOrNull { it.waitUntil ?: Date(0) }
         }
 
