@@ -10,8 +10,9 @@ import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import io.reactivex.Completable
 
 class TriggerShortcutAction(
-    private val shortcutNameOrId: String,
+    private val shortcutNameOrId: String?,
     private val variableValuesJson: String,
+    private val delay: Int?,
 ) : BaseAction() {
 
     override fun execute(executionContext: ExecutionContext): Completable {
@@ -21,19 +22,21 @@ class TriggerShortcutAction(
                     it.getString(R.string.action_type_trigger_shortcut_error_recursion_depth_reached)
                 })
         }
-        val shortcut = DataSource.getShortcutByNameOrId(shortcutNameOrId)
+        val shortcut = DataSource.getShortcutByNameOrId(shortcutNameOrId ?: executionContext.shortcutId)
             ?: return Completable
                 .error(ActionException {
                     it.getString(R.string.error_shortcut_not_found_for_triggering, shortcutNameOrId)
                 })
 
+        val delay = delay ?: shortcut.delay
+
         return Commons.createPendingExecution(
             shortcutId = shortcut.id,
             resolvedVariables = getVariableValues(variableValuesJson),
             tryNumber = 0,
-            waitUntil = DateUtil.calculateDate(shortcut.delay),
+            waitUntil = DateUtil.calculateDate(delay),
             requiresNetwork = shortcut.isWaitForNetwork,
-            recursionDepth = executionContext.recursionDepth + 1,
+            recursionDepth = if (delay >= 500) 0 else executionContext.recursionDepth + 1,
         )
     }
 
