@@ -3,9 +3,13 @@
 ### Improvements
 - Added `wakeOnLan` function to allow sending magic packets to wake up devices on the network
 - When using Scripting, JavaScript errors now also include the line number for easier debugging
+- The `triggerShortcut` function now supports a 3rd argument which can be used to specify a custom delay (in milliseconds)
 
 ### Miscellaneous
 - Prepared the app for compatibility with Android 12
+
+### Bugfixes
+- The `triggerShortcut` function can now be used to re-trigger the current shortcut itself, and do so indefinitely for as long as a delay larger than 500 milliseconds is specified.
 
 ## Version 2.8.0
 
