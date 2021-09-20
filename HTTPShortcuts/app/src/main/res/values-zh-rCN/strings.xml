@@ -95,7 +95,7 @@
     <string name="executed">"%s 已执行"</string>
 
     <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
-    <string name="shortcut_not_found">"快捷方式不存在，您可能需要将其重新发送到主屏幕"</string>
+    <string name="shortcut_not_found">"快捷方式不存在，您可能需要将其重新添加至桌面"</string>
 
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
     <string name="validation_name_not_empty">"请输入一个名称"</string>
@@ -335,7 +335,7 @@
     <string name="shortcut_deleted">"%1$s 已删除"</string>
 
     <!-- Message, shown in snackbar, confirming to user that a shortcut was placed on the phone's home screen. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_placed">"%1$s 已发送到主屏幕"</string>
+    <string name="shortcut_placed">"%1$s 已添加至桌面"</string>
 
     <!-- Generic 'Delete' option, used in various dialogs, e.g., to confirm the deletion of a shortcut -->
     <string name="dialog_delete">"删除"</string>
@@ -506,7 +506,7 @@
 
     <!-- Error message, information user that the variable name they entered is not valid -->
     <!-- Fuzzy -->
-    <string name="warning_invalid_variable_key">"变量的键名只能包含字母和数字"</string>
+    <string name="warning_invalid_variable_key">"变量名只能包含字母、数字和下划线"</string>
 
     <!-- Dialog message, asking user to confirm the deletion of a variable -->
     <string name="confirm_delete_variable_message">"确定删除这个变量？"</string>
@@ -525,11 +525,11 @@
 
     <!-- Error message, informing user that the entered variable key is empty -->
     <!-- Fuzzy -->
-    <string name="validation_key_non_empty">"变量的键名不能为空"</string>
+    <string name="validation_key_non_empty">"变量名不能为空"</string>
 
     <!-- Error message, informing user that the entered variable key already exists -->
     <!-- Fuzzy -->
-    <string name="validation_key_already_exists">"变量键名重复"</string>
+    <string name="validation_key_already_exists">"变量名重复"</string>
 
     <!-- Dialog title, to add another value to the list of values in a variable of Toggle type -->
     <string name="title_add_toggle_option">"添加值"</string>
@@ -736,7 +736,7 @@
     <string name="error_slider_max_not_greater_than_min">"最大值必须大于最小值"</string>
 
     <!-- error message displayed when "Step Size" is not a positive number for "slider" variable type -->
-    <string name="error_slider_step_size_must_be_positive">"步进值需为正数"</string>
+    <string name="error_slider_step_size_must_be_positive">"步长需为正数"</string>
 
     <!-- Blurb/short description of plugin action (for Tasker integration), where %1$s is a placeholder for the shortcut name. -->
     <string name="plugin_blurb_execute_task">"执行\"%1$s\""</string>
@@ -775,7 +775,7 @@
     <string name="label_scripting_browser_shortcuts_subtitle">"在执行签运行JavaScript代码"</string>
 
     <!-- Section title in shortcut editor, groups together miscellaneous settings -->
-    <string name="label_misc_settings">"杂项设置"</string>
+    <string name="label_misc_settings">"其他设置"</string>
 
     <!-- Section subtitle, shown underneath "Misc Settings", gives brief summary of what the section is about -->
     <string name="label_misc_settings_subtitle">"其他选项"</string>
@@ -963,19 +963,19 @@
 
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a string -->
     <!-- Fuzzy -->
-    <string name="dialog_code_snippet_response_body">"获取返回体"</string>
+    <string name="dialog_code_snippet_response_body">"获取响应体"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response headers -->
     <!-- Fuzzy -->
-    <string name="dialog_code_snippet_response_headers">"获取返回头部"</string>
+    <string name="dialog_code_snippet_response_headers">"获取响应头"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response status code -->
     <!-- Fuzzy -->
-    <string name="dialog_code_snippet_response_status_code">"获取返回状态码"</string>
+    <string name="dialog_code_snippet_response_status_code">"获取响应状态码"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response cookies -->
     <!-- Fuzzy -->
-    <string name="dialog_code_snippet_response_cookies">"获取返回的Cookies"</string>
+    <string name="dialog_code_snippet_response_cookies">"获取响应Cookies"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get the network error message (if any) -->
     <string name="dialog_code_snippet_response_network_error">"获取网络错误信息"</string>
@@ -1067,7 +1067,7 @@
     <string name="language_default">"系统默认"</string>
 
     <!-- Error: Shown in toast when user tries to add a variable placeholder to a text beyond its maximum size -->
-    <string name="error_text_too_long_for_variable">"字符长度超出了上限的 %d 个，无法插入变量占位符"</string>
+    <string name="error_text_too_long_for_variable">"字符长度超出上限( %d )，无法插入变量占位符"</string>
 
     <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->
     <string name="instructions_select_shortcut_for_home_screen">"选择或创建快捷方式以将其放置于主屏幕上"</string>
@@ -1207,7 +1207,7 @@
     <string name="dialog_code_snippet_control_flow">"控制流"</string>
 
     <!-- Dialog option: shown in code snippet picker, shows options to don't belong in any of the other categories -->
-    <string name="dialog_code_snippet_misc">"杂项"</string>
+    <string name="dialog_code_snippet_misc">"其他"</string>
 
     <!-- Dialog option: shown in code snippet picker, option to get the ID of the current shortcut -->
     <string name="dialog_code_snippet_get_shortcut_id">"获取快捷方式 ID"</string>
@@ -1579,4 +1579,14 @@
 
     <!-- Message displayed in snackbar, to let the user know that moving via dragging was enabled. -->
     <string name="message_moving_enabled">"通过拖动快捷方式重新排序。"</string>
+
+    <!-- Category dropdown option: Place category on home screen -->
+    <string name="action_place_category">"添加至桌面"</string>
+
+    <!-- Shortcut Action Title: Send a Wake-on-LAN packet to remotely turn on a computer -->
+    <string name="action_type_wake_on_lan">"网络唤醒"</string>
+
+    <!-- Error message: Shown when a JS error occurs. %d is a placeholder for the line number, %s is a placeholder for the more detailed error message. -->
+    <string name="error_js_pattern_with_line_number">"JavaScript错误(在第%d行):
+%s"</string>
 </resources>
