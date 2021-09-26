@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
@@ -57,6 +58,22 @@ open class DialogBuilder(val context: Context) {
             description ?: (descriptionRes?.let { context.getString(it) }),
             shortcutIcon,
             iconRes,
+            action,
+        ))
+    }
+
+    fun checkBoxItem(
+        @StringRes nameRes: Int? = null,
+        name: CharSequence? = null,
+        @StringRes descriptionRes: Int? = null,
+        description: CharSequence? = null,
+        checked: Boolean = false,
+        action: (Boolean) -> Unit = {},
+    ) = also {
+        items.add(MenuItem.CheckBoxItem(
+            name ?: context.getString(nameRes!!),
+            description ?: (descriptionRes?.let { context.getString(it) }),
+            checked,
             action,
         ))
     }
@@ -116,13 +133,20 @@ open class DialogBuilder(val context: Context) {
         })
     }
 
-    fun textInput(prefill: String = "", hint: String = "", allowEmpty: Boolean = true, maxLength: Int? = null, inputType: Int = InputType.TYPE_CLASS_TEXT, callback: (String) -> Unit) = also {
+    fun textInput(
+        prefill: String = "",
+        hint: String = "",
+        allowEmpty: Boolean = true,
+        maxLength: Int? = null,
+        inputType: Int = InputType.TYPE_CLASS_TEXT,
+        callback: (String) -> Unit,
+    ) = also {
         dialog.input(
             hint = hint,
             prefill = prefill,
             allowEmpty = allowEmpty,
             maxLength = maxLength,
-            inputType = inputType
+            inputType = inputType,
         ) { _, text -> callback(text.toString()) }
     }
 
@@ -172,6 +196,13 @@ open class DialogBuilder(val context: Context) {
             val action: (() -> Unit)?,
         ) : MenuItem
 
+        class CheckBoxItem(
+            val name: CharSequence,
+            val description: CharSequence?,
+            val checked: Boolean = false,
+            val action: ((Boolean) -> Unit),
+        ) : MenuItem
+
     }
 
     private inner class MenuListAdapter(
@@ -193,6 +224,7 @@ open class DialogBuilder(val context: Context) {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View =
             when (val item = getItem(position)!!) {
                 is MenuItem.ClickableItem -> getClickableItemView(item, convertView, parent)
+                is MenuItem.CheckBoxItem -> getCheckBoxItemView(item, convertView, parent)
                 is MenuItem.Separator -> getSeparatorView(convertView, parent)
             }
 
@@ -235,6 +267,28 @@ open class DialogBuilder(val context: Context) {
                 dialog.dismiss()
             }
 
+            return view
+        }
+
+        private fun getCheckBoxItemView(item: MenuItem.CheckBoxItem, convertView: View?, parent: ViewGroup): View {
+            val view: ViewGroup = convertView as? ViewGroup
+                ?: layoutInflater.inflate(R.layout.menu_dialog_checkbox_item, parent, false) as ViewGroup
+
+            val labelView: TextView = view.findViewById(R.id.menu_item_label)
+            val descriptionView: TextView = view.findViewById(R.id.menu_item_description)
+            val checkBox: CheckBox = view.findViewById(R.id.menu_item_checkbox)
+
+            labelView.text = item.name
+            descriptionView.visible = item.description != null
+            descriptionView.text = item.description
+            checkBox.isChecked = item.checked
+
+            view.setOnClickListener {
+                checkBox.toggle()
+            }
+            checkBox.setOnCheckedChangeListener { _, isChecked ->
+                item.action.invoke(isChecked)
+            }
             return view
         }
 

@@ -100,7 +100,7 @@ open class Variable(
                 TYPE_COLOR,
                 TYPE_DATE,
                 TYPE_TIME,
-                TYPE_SLIDER
+                TYPE_SLIDER,
             )
         ) {
             throw IllegalArgumentException("Invalid variable type: $type")

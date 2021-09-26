@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.variables.types
 
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,6 +28,8 @@ class SelectEditorFragment : VariableEditorFragment() {
 
     private val selectOptionsAddButton: Button by bindView(R.id.select_options_add_button)
     private val selectOptionsList: RecyclerView by bindView(R.id.select_options_list)
+    private val multiSelectCheckbox: CheckBox by bindView(R.id.input_multi_select)
+    private val separatorEditText: EditText by bindView(R.id.input_separator)
     private val optionsAdapter = SelectVariableOptionsAdapter()
 
     override fun setupViews() {
@@ -35,21 +38,31 @@ class SelectEditorFragment : VariableEditorFragment() {
         selectOptionsList.adapter = optionsAdapter
         optionsAdapter.clickListener = ::showEditDialog
         initDragOrdering()
+
+        multiSelectCheckbox.setOnCheckedChangeListener { _, _ ->
+            compileIntoVariable(variable!!)
+            updateViews(variable!!)
+        }
     }
 
     private fun initDragOrdering() {
         val dragOrderingHelper = DragOrderingHelper { variable!!.options!!.size > 1 }
-        dragOrderingHelper.positionChangeSource.subscribe { (oldPosition, newPosition) ->
-            variable!!.options!!.move(oldPosition, newPosition)
-
-            optionsAdapter.notifyItemMoved(oldPosition, newPosition)
-        }.attachTo(destroyer)
+        dragOrderingHelper.positionChangeSource
+            .subscribe { (oldPosition, newPosition) ->
+                variable!!.options!!.move(oldPosition, newPosition)
+                optionsAdapter.notifyItemMoved(oldPosition, newPosition)
+            }
+            .attachTo(destroyer)
         dragOrderingHelper.attachTo(selectOptionsList)
     }
 
     override fun updateViews(variable: Variable) {
         this.variable = variable
         optionsAdapter.options = variable.options!!
+        val isMultiSelect = SelectType.isMultiSelect(variable)
+        separatorEditText.setText(SelectType.getSeparator(variable))
+        separatorEditText.isEnabled = isMultiSelect
+        multiSelectCheckbox.isChecked = isMultiSelect
         optionsAdapter.notifyDataSetChanged()
     }
 
@@ -117,6 +130,13 @@ class SelectEditorFragment : VariableEditorFragment() {
         false
     } else {
         true
+    }
+
+    override fun compileIntoVariable(variable: Variable) {
+        variable.dataForType = mapOf(
+            SelectType.KEY_MULTI_SELECT to multiSelectCheckbox.isChecked.toString(),
+            SelectType.KEY_SEPARATOR to separatorEditText.text.toString(),
+        )
     }
 
 }
