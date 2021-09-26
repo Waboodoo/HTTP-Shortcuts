@@ -501,7 +501,7 @@
     <!-- Checkbox value, shown in variable editor, allows to enable a variable to remember its previous value -->
     <string name="label_remember_value">Remember value</string>
     <!-- Checkbox value, shown in variable editor for Select variables, allows to enable multi select -->
-    <string name="label_select_variable_multi_select">Allow selecting multiple values</string>
+    <string name="label_select_variable_multi_select">Allow selecting multiple options</string>
     <!-- Checkbox value, shown in variable editor, allows to enable multiline input for a text variable -->
     <string name="label_multiline">Multiline</string>
     <!-- Action, allows the user to cancel a pending shortcut execution -->
