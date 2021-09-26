@@ -11,7 +11,7 @@ android {
     buildToolsVersion '30.0.2'
 
     kotlinOptions {
-        languageVersion = '1.4'
+        languageVersion = '1.5'
     }
 
     lintOptions {

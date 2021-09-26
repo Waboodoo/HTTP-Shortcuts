@@ -2,13 +2,13 @@ package ch.rmy.android.http_shortcuts.data.models
 
 import android.content.Context
 
-sealed class ClientCertParams {
-    data class Alias(val alias: String) : ClientCertParams() {
+sealed interface ClientCertParams {
+    data class Alias(val alias: String) : ClientCertParams {
         override fun toString() =
             "$CLIENT_CERT_ALIAS_PREFIX$alias"
     }
 
-    data class File(val fileName: String, val password: String) : ClientCertParams() {
+    data class File(val fileName: String, val password: String) : ClientCertParams {
         override fun toString() =
             "$CLIENT_CERT_FILE_PREFIX$fileName$CLIENT_CERT_FILE_PASSWORD_DELIMITER$password"
 

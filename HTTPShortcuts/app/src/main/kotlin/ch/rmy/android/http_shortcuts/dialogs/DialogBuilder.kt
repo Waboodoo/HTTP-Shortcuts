@@ -57,7 +57,7 @@ open class DialogBuilder(val context: Context) {
             description ?: (descriptionRes?.let { context.getString(it) }),
             shortcutIcon,
             iconRes,
-            action
+            action,
         ))
     }
 
@@ -160,9 +160,9 @@ open class DialogBuilder(val context: Context) {
                 }
         }
 
-    private sealed class MenuItem {
+    private sealed interface MenuItem {
 
-        object Separator : MenuItem()
+        object Separator : MenuItem
 
         class ClickableItem(
             val name: CharSequence,
@@ -170,7 +170,7 @@ open class DialogBuilder(val context: Context) {
             val shortcutIcon: ShortcutIcon?,
             val iconRes: Int?,
             val action: (() -> Unit)?,
-        ) : MenuItem()
+        ) : MenuItem
 
     }
 

@@ -88,11 +88,11 @@ class FileParameterDialog(
         return subject
     }
 
-    sealed class Event {
+    sealed interface Event {
 
-        class DataChangedEvent(val keyName: String, val fileName: String) : Event()
+        class DataChangedEvent(val keyName: String, val fileName: String) : Event
 
-        object DataRemovedEvent : Event()
+        object DataRemovedEvent : Event
 
     }
 

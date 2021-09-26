@@ -113,11 +113,11 @@ class KeyValueDialog(
         return subject
     }
 
-    sealed class Event {
+    sealed interface Event {
 
-        class DataChangedEvent(val data: Pair<String, String>) : Event()
+        class DataChangedEvent(val data: Pair<String, String>) : Event
 
-        object DataRemovedEvent : Event()
+        object DataRemovedEvent : Event
 
     }
 

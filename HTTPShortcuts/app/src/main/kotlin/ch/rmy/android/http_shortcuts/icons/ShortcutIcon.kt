@@ -12,8 +12,8 @@ import ch.rmy.android.http_shortcuts.extensions.replacePrefix
 import ch.rmy.android.http_shortcuts.utils.IconUtil
 import java.io.File
 
-sealed class ShortcutIcon {
-    data class BuiltInIcon(val iconName: String) : ShortcutIcon() {
+sealed interface ShortcutIcon {
+    data class BuiltInIcon(val iconName: String) : ShortcutIcon {
         override fun getIconURI(context: Context, external: Boolean): Uri =
             if (external) {
                 Uri.fromFile(IconUtil.generateRasterizedIconForBuiltInIcon(context, this))
@@ -70,7 +70,7 @@ sealed class ShortcutIcon {
         }
     }
 
-    data class ExternalResourceIcon(val uri: Uri) : ShortcutIcon() {
+    data class ExternalResourceIcon(val uri: Uri) : ShortcutIcon {
         override fun getIconURI(context: Context, external: Boolean) = uri
 
         val packageName: String
@@ -89,7 +89,7 @@ sealed class ShortcutIcon {
             uri.hashCode()
     }
 
-    data class CustomIcon(val fileName: String) : ShortcutIcon() {
+    data class CustomIcon(val fileName: String) : ShortcutIcon {
         override fun getIconURI(context: Context, external: Boolean): Uri =
             getFile(context)?.let(Uri::fromFile)
                 ?: NoIcon.getIconURI(context, external)
@@ -110,7 +110,7 @@ sealed class ShortcutIcon {
             fileName.hashCode()
     }
 
-    object NoIcon : ShortcutIcon() {
+    object NoIcon : ShortcutIcon {
         override fun toString() = ""
 
         override fun getIconURI(context: Context, external: Boolean): Uri =
@@ -125,7 +125,7 @@ sealed class ShortcutIcon {
             0
     }
 
-    abstract fun getIconURI(context: Context, external: Boolean = false): Uri
+    fun getIconURI(context: Context, external: Boolean = false): Uri
 
     companion object {
         fun fromName(iconName: String?): ShortcutIcon =
