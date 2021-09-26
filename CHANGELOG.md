@@ -4,6 +4,7 @@
 - Added `wakeOnLan` function to allow sending magic packets to wake up devices on the network
 - When using Scripting, JavaScript errors now also include the line number for easier debugging
 - The `triggerShortcut` function now supports a 3rd argument which can be used to specify a custom delay (in milliseconds)
+- Multiple Choice variables can now be configured to allow selecting multiple options
 
 ### Miscellaneous
 - Prepared the app for compatibility with Android 12
