@@ -11,7 +11,7 @@ class TriggerShortcutActionType : BaseActionType() {
     override fun fromDTO(actionDTO: ActionDTO) = TriggerShortcutAction(
         shortcutNameOrId = actionDTO[KEY_SHORTCUT_NAME_OR_ID]?.takeUnlessEmpty(),
         variableValuesJson = actionDTO[KEY_VARIABLE_VALUES] ?: "",
-        delay = actionDTO[KEY_DELAY]?.toIntOrNull(),
+        delay = actionDTO[KEY_DELAY]?.toIntOrNull()?.takeUnless { it < 0 },
     )
 
     override fun getAlias() = ActionAlias(
