@@ -18,10 +18,9 @@ import ch.rmy.android.http_shortcuts.icons.IconView
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.views.PanelButton
+import com.skydoves.colorpickerview.ColorPickerDialog
+import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
 import kotterknife.bindView
-import me.priyesh.chroma.ChromaDialog
-import me.priyesh.chroma.ColorMode
-import me.priyesh.chroma.ColorSelectListener
 
 class WidgetSettingsActivity : BaseActivity() {
 
@@ -78,16 +77,22 @@ class WidgetSettingsActivity : BaseActivity() {
     }
 
     private fun showColorPicker() {
-        ChromaDialog.Builder()
-            .initialColor(viewModel.labelColor.value!!)
-            .colorMode(ColorMode.RGB)
-            .onColorSelected(object : ColorSelectListener {
-                override fun onColorSelected(color: Int) {
-                    viewModel.labelColor.value = color
+        ColorPickerDialog.Builder(context)
+            .setPositiveButton(R.string.dialog_ok, ColorEnvelopeListener { envelope, fromUser ->
+                if (fromUser) {
+                    viewModel.labelColor.value = envelope.color
                 }
             })
-            .create()
-            .show(supportFragmentManager, "ChromaDialog")
+            .setNegativeButton(R.string.dialog_cancel) { dialogInterface, _ ->
+                dialogInterface.dismiss()
+            }
+            .attachAlphaSlideBar(false)
+            .attachBrightnessSlideBar(true)
+            .setBottomSpace(12)
+            .apply {
+                colorPickerView.setInitialColor(viewModel.labelColor.value!!)
+            }
+            .show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

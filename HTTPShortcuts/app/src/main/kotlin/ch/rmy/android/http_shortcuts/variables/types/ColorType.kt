@@ -2,47 +2,42 @@ package ch.rmy.android.http_shortcuts.variables.types
 
 import android.content.Context
 import android.graphics.Color
-import androidx.annotation.Keep
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.Commons
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.cancel
 import ch.rmy.android.http_shortcuts.extensions.mapIf
+import com.skydoves.colorpickerview.ColorPickerDialog
+import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
 import io.reactivex.Single
-import me.priyesh.chroma.ChromaDialog
-import me.priyesh.chroma.ColorMode
-import me.priyesh.chroma.ColorSelectListener
+
 
 internal class ColorType : BaseVariableType() {
 
     override fun resolveValue(context: Context, variable: Variable): Single<String> =
         Single.create<String> { emitter ->
-            val dialog = ChromaDialog.Builder()
-                .initialColor(getInitialColor(variable))
-                .colorMode(getColorMode(variable))
-                .onColorSelected(object : ColorSelectListener {
-                    override fun onColorSelected(color: Int) {
-                        if (variable.isValid) {
-                            val colorFormatted = String.format("%06x", color and 0xffffff)
-                            emitter.onSuccess(colorFormatted)
-                        }
+            ColorPickerDialog.Builder(context)
+                .setPositiveButton(R.string.dialog_ok, ColorEnvelopeListener { envelope, fromUser ->
+                    if (fromUser && variable.isValid) {
+                        val colorFormatted = String.format("%06x", envelope.color and 0xffffff)
+                        emitter.onSuccess(colorFormatted)
                     }
                 })
-                .create()
-
-            dialog.show((context as AppCompatActivity).supportFragmentManager, "ChromaDialog")
-
-            // The following hack is needed because the ChromaDialog library does not have a method to register a dismiss listener
-            dialog.lifecycle.addObserver(object : LifecycleObserver {
-                @Keep
-                @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-                fun onDestroy() {
-                    emitter.cancel()
+                .setNegativeButton(R.string.dialog_cancel) { dialogInterface, _ ->
+                    dialogInterface.dismiss()
                 }
-            })
+                .attachAlphaSlideBar(false)
+                .attachBrightnessSlideBar(true)
+                .setBottomSpace(12)
+                .setOnDismissListener {
+                    if (!emitter.isDisposed) {
+                        emitter.cancel()
+                    }
+                }
+                .apply {
+                    colorPickerView.setInitialColor(getInitialColor(variable))
+                }
+                .show()
         }
             .mapIf(variable.rememberValue) {
                 flatMap { variableValue ->
@@ -59,22 +54,6 @@ internal class ColorType : BaseVariableType() {
         return Color.BLACK
     }
 
-    private fun getColorMode(variable: Variable): ColorMode =
-        if (variable.dataForType[KEY_INPUT_TYPE] == TYPE_HSV) {
-            ColorMode.HSV
-        } else {
-            ColorMode.RGB
-        }
-
     override fun createEditorFragment() = ColorEditorFragment()
-
-    companion object {
-
-        const val KEY_INPUT_TYPE = "input_type"
-
-        const val TYPE_RGB = "RGB"
-        const val TYPE_HSV = "HSV"
-
-    }
 
 }

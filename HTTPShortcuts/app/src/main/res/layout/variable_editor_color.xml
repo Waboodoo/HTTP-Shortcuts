@@ -8,12 +8,6 @@
         style="@style/SubHeader"
         android:text="@string/section_input_options" />
 
-    <ch.rmy.android.http_shortcuts.views.LabelledSpinner
-        android:id="@+id/input_variable_color_input_type"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/label_variable_color_input_type" />
-
     <CheckBox
         android:id="@+id/input_remember_value"
         android:layout_width="match_parent"

@@ -402,8 +402,6 @@
     <string name="label_variable_date_format">Date Format</string>
     <!-- label, shown in variable editor for Time Input variable, to allow the user to specify a time format -->
     <string name="label_variable_time_format">Time Format</string>
-    <!-- label, shown in variable editor for Color variable, to allow the user to pick which type of color picker they want (RGB or HSV) -->
-    <string name="label_variable_color_input_type">Color Picker Type</string>
     <!-- label, shown in variable editor for Select Input variable, to allow the user to specify a separator when using multi-select -->
     <string name="label_select_variable_separator">Separator</string>
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
