@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
@@ -26,8 +27,8 @@ class WakeOnLanAction(
                 )
             } catch (e: Exception) {
                 logException(e)
-                throw ActionException {
-                    "Failed to send Wake-on-LAN packet: ${e.message}"
+                throw ActionException { context ->
+                    context.getString(R.string.error_action_type_send_wol_failed, e.message)
                 }
             }
         }
@@ -68,8 +69,8 @@ class WakeOnLanAction(
                         ?.toByte()
                 }
                 .takeIf { it.size == 6 }
-                ?: throw ActionException {
-                    "Invalid MAC address: $macAddress"
+                ?: throw ActionException { context ->
+                    context.getString(R.string.error_action_type_send_wol_invalid_mac_address, macAddress)
                 }
     }
 }
