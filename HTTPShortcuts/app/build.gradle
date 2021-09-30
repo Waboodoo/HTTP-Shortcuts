@@ -162,7 +162,7 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     /* HTTP & Network */
-    implementation 'com.squareup.okhttp3:okhttp:4.7.2'
+    implementation 'com.squareup.okhttp3:okhttp:4.8.0'
     implementation 'com.facebook.stetho:stetho:1.6.0'
     implementation 'com.facebook.stetho:stetho-okhttp3:1.6.0'
     implementation 'io.github.rburgst:okhttp-digest:2.5'
@@ -182,7 +182,7 @@ dependencies {
     implementation 'org.mindrot:jbcrypt:0.4'
 
     /* Crash Reporting */
-    releaseWithCrashLoggingImplementation 'com.bugsnag:bugsnag-android:5.2.0'
+    releaseWithCrashLoggingImplementation 'com.bugsnag:bugsnag-android:5.14.0'
 
     /* cURL import & export */
     implementation project(path: ':curl_command')
