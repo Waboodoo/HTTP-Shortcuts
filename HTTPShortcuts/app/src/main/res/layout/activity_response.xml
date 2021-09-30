@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                app:labelText="@string/label_response_on_success" />
+                android:text="@string/label_response_on_success" />
 
             <RelativeLayout
                 android:id="@+id/container_input_success_message"
@@ -61,14 +61,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                app:labelText="@string/label_response_on_failure" />
+                android:text="@string/label_response_on_failure" />
 
             <ch.rmy.android.http_shortcuts.views.LabelledSpinner
                 android:id="@+id/input_response_ui_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                app:labelText="@string/label_response_handling_type" />
+                android:text="@string/label_response_handling_type" />
 
             <CheckBox
                 android:id="@+id/input_include_meta_information"

@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            app:labelText="@string/label_request_body_type" />
+            android:text="@string/label_request_body_type" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/parameter_list"
