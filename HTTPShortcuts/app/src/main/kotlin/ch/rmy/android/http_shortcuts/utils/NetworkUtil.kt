@@ -19,12 +19,7 @@ object NetworkUtil {
         isDataSaveModeEnabled(context) || isBatterySaveModeEnabled(context)
 
     private fun isBatterySaveModeEnabled(context: Context): Boolean =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val powerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager
-            powerManager.isPowerSaveMode
-        } else {
-            false
-        }
+        (context.getSystemService(Context.POWER_SERVICE) as PowerManager).isPowerSaveMode
 
     private fun isDataSaveModeEnabled(context: Context): Boolean =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

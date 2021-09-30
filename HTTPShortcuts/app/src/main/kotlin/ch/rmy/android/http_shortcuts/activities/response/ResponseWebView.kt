@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.response
 
 import android.content.Context
-import android.os.Build
 import android.util.AttributeSet
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
@@ -26,11 +25,9 @@ class ResponseWebView @JvmOverloads constructor(
             }
 
             override fun shouldInterceptRequest(view: WebView, request: WebResourceRequest): WebResourceResponse? {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    if (!request.isForMainFrame && request.url.path.equals("/favicon.ico")) {
-                        tryOrIgnore {
-                            return WebResourceResponse("image/png", null, null)
-                        }
+                if (!request.isForMainFrame && request.url.path.equals("/favicon.ico")) {
+                    tryOrIgnore {
+                        return WebResourceResponse("image/png", null, null)
                     }
                 }
                 return null

@@ -9,8 +9,6 @@ import android.graphics.drawable.Icon
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.graphics.drawable.DrawableCompat
-import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.extensions.setTintCompat
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils.UUID_REGEX
@@ -85,9 +83,6 @@ object IconUtil {
 
     private fun getBitmapFromVectorDrawable(context: Context, drawableId: Int, tint: Int?): Bitmap {
         val drawable = AppCompatResources.getDrawable(context, drawableId)!!
-            .mapIf(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                DrawableCompat.wrap(this).mutate()
-            }
         val iconSize = getIconSize(context)
         val bitmap = Bitmap.createBitmap(iconSize, iconSize, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)

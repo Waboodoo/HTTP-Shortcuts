@@ -4,7 +4,7 @@ import ch.rmy.android.http_shortcuts.http.RequestUtil.getMediaType
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import okio.BufferedSink
-import okio.Okio
+import okio.source
 import java.io.InputStream
 
 class StreamRequestBody(
@@ -20,7 +20,7 @@ class StreamRequestBody(
         getMediaType(contentType)
 
     override fun writeTo(sink: BufferedSink) {
-        sink.writeAll(Okio.source(stream))
+        sink.writeAll(stream.source())
     }
 
 }

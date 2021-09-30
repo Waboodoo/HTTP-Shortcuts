@@ -5,7 +5,7 @@ import ch.rmy.android.http_shortcuts.http.RequestUtil.sanitize
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import okio.BufferedSink
-import okio.Okio
+import okio.source
 import java.io.InputStream
 
 class FormMultipartRequestBody(private val parameters: List<RequestBuilder.Parameter>) : RequestBody() {
@@ -37,7 +37,7 @@ class FormMultipartRequestBody(private val parameters: List<RequestBuilder.Param
                 sink.writeUtf8(string)
             },
             { stream, _ ->
-                sink.writeAll(Okio.source(stream))
+                sink.writeAll(stream.source())
             }
         )
     }

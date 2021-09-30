@@ -4,8 +4,6 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.FragmentActivity
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
@@ -31,18 +29,13 @@ class ExportUI(private val activity: FragmentActivity) : Destroyable {
         variableIds: Collection<String>? = null,
         intentHandler: (Intent) -> Unit,
     ) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            DialogBuilder(context)
-                .title(R.string.title_export)
-                .item(R.string.button_export_to_general) { openFilePickerForExport(format, single = shortcutId != null, intentHandler) }
-                .item(R.string.button_export_send_to) { sendExport(format, shortcutId, variableIds) }
-                .showIfPossible()
-        } else {
-            sendExport(format, shortcutId, variableIds)
-        }
+        DialogBuilder(context)
+            .title(R.string.title_export)
+            .item(R.string.button_export_to_general) { openFilePickerForExport(format, single = shortcutId != null, intentHandler) }
+            .item(R.string.button_export_send_to) { sendExport(format, shortcutId, variableIds) }
+            .showIfPossible()
     }
 
-    @RequiresApi(Build.VERSION_CODES.KITKAT)
     private fun openFilePickerForExport(format: ExportFormat = ExportFormat.LEGACY_JSON, single: Boolean, intentHandler: (Intent) -> Unit) {
         Intent(Intent.ACTION_CREATE_DOCUMENT)
             .addCategory(Intent.CATEGORY_OPENABLE)

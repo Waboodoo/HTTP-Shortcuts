@@ -26,7 +26,7 @@ class ResponseFileStorage(private val context: Context, private val id: String) 
     }
 
     private fun getStream(response: Response): InputStream =
-        response.body()!!.byteStream()
+        response.body!!.byteStream()
             .mapIf(isGzipped(response)) {
                 GZIPInputStream(this)
             }

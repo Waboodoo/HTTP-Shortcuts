@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
-import android.os.Build
 import android.os.Handler
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
@@ -18,10 +17,6 @@ import java.util.Locale
 class TextToSpeechAction(private val message: String, private val language: String) : BaseAction() {
 
     override fun execute(executionContext: ExecutionContext): Completable {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            return Completable.error(ActionException { it.getString(R.string.error_not_supported) })
-        }
-
         val finalMessage = Variables.rawPlaceholdersToResolvedValues(message, executionContext.variableManager.getVariableValuesByIds())
             .truncate(MAX_TEXT_LENGTH)
         return if (finalMessage.isNotEmpty()) {

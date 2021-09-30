@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
 import android.net.Uri
-import android.os.Build
 import android.os.Vibrator
 import androidx.annotation.StringRes
 import ch.rmy.android.http_shortcuts.R
@@ -146,10 +145,8 @@ class CodeSnippetPicker(
             .item(R.string.action_play_sound) {
                 openSoundPicker()
             }
-            .mapIf(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                item(R.string.action_tts) {
-                    insertText("speak(\"", "\");\n")
-                }
+            .item(R.string.action_tts) {
+                insertText("speak(\"", "\");\n")
             }
             .mapIf((context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator).hasVibrator()) {
                 item(R.string.action_type_vibrate_title) {

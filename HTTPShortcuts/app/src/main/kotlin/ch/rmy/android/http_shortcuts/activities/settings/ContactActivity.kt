@@ -70,7 +70,7 @@ class ContactActivity : BaseActivity() {
             getString(R.string.email_subject_contact),
             getString(R.string.email_text_contact),
             getString(R.string.settings_mail),
-            attachment = createMetaDataFile()
+            attachment = createMetaDataFile(),
         )
     }
 

@@ -12,12 +12,13 @@ import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import okhttp3.Credentials
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import okio.BufferedSink
-import okio.Okio
+import okio.source
 import java.io.File
 import java.io.IOException
 
@@ -45,10 +46,10 @@ class RemoteEditManager(
                 processRequest(
                     newRequestBuilder(deviceId, password)
                         .method("POST", object : RequestBody() {
-                            override fun contentType(): MediaType = MediaType.get("application/json")
+                            override fun contentType(): MediaType = "application/json".toMediaType()
 
                             override fun writeTo(sink: BufferedSink) {
-                                Okio.source(file).use {
+                                file.source().use {
                                     sink.writeAll(it)
                                 }
                             }
@@ -84,7 +85,7 @@ class RemoteEditManager(
             .execute()
             .let {
                 if (it.isSuccessful) {
-                    it.body()!!
+                    it.body!!
                 } else {
                     throw IOException()
                 }

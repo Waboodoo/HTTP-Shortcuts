@@ -11,10 +11,10 @@ import ch.rmy.android.http_shortcuts.http.RequestUtil.getMediaType
 import okhttp3.Credentials
 import okhttp3.Request
 import okhttp3.RequestBody
-import okhttp3.internal.Util.UTF_8
 import okhttp3.internal.http.HttpMethod
 import java.io.InputStream
 import java.net.URISyntaxException
+import java.nio.charset.StandardCharsets.UTF_8
 
 class RequestBuilder(private val method: String, url: String) {
 

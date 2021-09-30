@@ -207,15 +207,13 @@ class DisplayResponseActivity : BaseActivity() {
         text.isNotEmpty() && responseFileUri != null
 
     private fun canExport() =
-        text.isNotEmpty() && responseFileUri != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+        text.isNotEmpty() && responseFileUri != null
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_rerun -> consume { rerunShortcut() }
         R.id.action_share_response -> consume { shareResponse() }
         R.id.action_save_response_as_file -> consume {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                openFilePicker()
-            }
+            openFilePicker()
         }
         else -> super.onOptionsItemSelected(item)
     }

@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.http
 
 import ch.rmy.android.http_shortcuts.exceptions.InvalidContentTypeException
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
 import java.net.URLEncoder
 
 object RequestUtil {
@@ -21,7 +22,7 @@ object RequestUtil {
 
     fun getMediaType(contentType: String?): MediaType =
         try {
-            MediaType.get(contentType ?: DEFAULT_CONTENT_TYPE)
+            (contentType ?: DEFAULT_CONTENT_TYPE).toMediaType()
         } catch (e: IllegalArgumentException) {
             throw InvalidContentTypeException(contentType!!)
         }

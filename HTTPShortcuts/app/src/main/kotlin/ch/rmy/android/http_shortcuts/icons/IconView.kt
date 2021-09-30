@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.net.Uri
-import android.os.Build
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.widget.ImageViewCompat
@@ -65,22 +64,6 @@ class IconView : AppCompatImageView {
         tint == Color.BLACK
     } else {
         tint == Color.WHITE
-    }
-
-    override fun setImageURI(uri: Uri?) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            super.setImageURI(uri)
-            return
-        }
-        val internalIconPrefix = "android.resource://${context.packageName}/"
-        val fullUri = uri?.toString()
-        if (fullUri?.startsWith(internalIconPrefix) == true) {
-            val iconName = fullUri.removePrefix(internalIconPrefix)
-            val drawableId = ShortcutIcon.BuiltInIcon(iconName).getDrawableIdentifier(context)
-            setImageResource(drawableId)
-        } else {
-            super.setImageURI(uri)
-        }
     }
 
 }

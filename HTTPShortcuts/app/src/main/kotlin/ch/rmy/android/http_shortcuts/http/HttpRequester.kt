@@ -210,10 +210,10 @@ class HttpRequester(private val contentResolver: ContentResolver) {
         private fun prepareResponse(url: String, response: Response, contentFile: Uri?) =
             ShortcutResponse(
                 url = url,
-                headers = HttpHeaders.parse(response.headers()),
-                statusCode = response.code(),
+                headers = HttpHeaders.parse(response.headers),
+                statusCode = response.code,
                 contentFile = contentFile,
-                timing = response.receivedResponseAtMillis() - response.sentRequestAtMillis(),
+                timing = response.receivedResponseAtMillis - response.sentRequestAtMillis,
             )
 
         private fun determineContentType(shortcut: Shortcut): String? =

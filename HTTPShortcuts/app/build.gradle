@@ -21,7 +21,7 @@ android {
 
     defaultConfig {
         applicationId 'ch.rmy.android.http_shortcuts'
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 31
         versionName '2.10.0'
         // 11,(2 digits major),(2 digits minor),(2 digits patch),(2 digits build)
@@ -145,7 +145,7 @@ dependencies {
     implementation 'android.arch.lifecycle:viewmodel:1.1.1'
 
     /* UI */
-    implementation 'com.satsuware.lib:usefulviews:2.3.1'
+    implementation 'com.satsuware.lib:usefulviews:2.3.6'
 
     /* Dialogs / Activities */
     implementation('com.afollestad.material-dialogs:core:3.1.1') {
@@ -165,10 +165,10 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     /* HTTP & Network */
-    implementation 'com.squareup.okhttp3:okhttp:3.12.13' // TODO: Use version 4 once dropping support for Kitkat and below
+    implementation 'com.squareup.okhttp3:okhttp:4.4.0'
     implementation 'com.facebook.stetho:stetho:1.5.1'
     implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
-    implementation 'com.burgstaller:okhttp-digest:1.12' // Can't update to latest version because that depends on okhttp v4
+    implementation 'io.github.rburgst:okhttp-digest:2.5'
     implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
     implementation 'org.conscrypt:conscrypt-android:2.5.2'
 
