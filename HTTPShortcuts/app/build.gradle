@@ -138,7 +138,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.annotation:annotation:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
     implementation 'androidx.preference:preference-ktx:1.1.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
     implementation 'android.arch.lifecycle:extensions:1.1.1'
@@ -162,15 +162,15 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     /* HTTP & Network */
-    implementation 'com.squareup.okhttp3:okhttp:4.4.0'
-    implementation 'com.facebook.stetho:stetho:1.5.1'
-    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
+    implementation 'com.squareup.okhttp3:okhttp:4.7.2'
+    implementation 'com.facebook.stetho:stetho:1.6.0'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.6.0'
     implementation 'io.github.rburgst:okhttp-digest:2.5'
     implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
     implementation 'org.conscrypt:conscrypt-android:2.5.2'
 
     /* Scheduling */
-    implementation 'androidx.work:work-runtime-ktx:2.7.0-beta01'
+    implementation 'androidx.work:work-runtime-ktx:2.7.0-rc01'
 
     /* Tasker integration */
     implementation 'com.joaomgcd:taskerpluginlibrary:0.4.1'
