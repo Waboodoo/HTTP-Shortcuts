@@ -116,8 +116,8 @@
                 android:value=".activities.editor.ShortcutEditorActivity" />
         </activity>
         <activity
-            android:name=".activities.editor.miscsettings.MiscSettingsActivity"
-            android:label="@string/label_misc_settings"
+            android:name=".activities.editor.executionsettings.ExecutionSettingsActivity"
+            android:label="@string/label_execution_settings"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

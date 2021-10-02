@@ -164,13 +164,13 @@
                 android:layout_height="@dimen/divider_height" />
 
             <ch.rmy.android.http_shortcuts.views.PanelButton
-                android:id="@+id/button_misc_settings"
+                android:id="@+id/button_execution_settings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
-                android:text="@string/label_misc_settings"
-                app:subtitle="@string/label_misc_settings_subtitle" />
+                android:text="@string/label_execution_settings"
+                app:subtitle="@string/label_execution_settings_subtitle" />
 
             <include layout="@layout/divider_line" />
 

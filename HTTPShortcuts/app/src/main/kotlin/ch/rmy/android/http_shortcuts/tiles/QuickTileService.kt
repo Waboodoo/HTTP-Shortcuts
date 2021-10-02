@@ -50,7 +50,7 @@ class QuickTileService : TileService() {
             .message(getString(
                 R.string.instructions_quick_settings_tile,
                 getString(R.string.label_quick_tile_shortcut),
-                getString(R.string.label_misc_settings)
+                getString(R.string.label_execution_settings)
             ))
             .positive(R.string.dialog_ok)
             .build()

@@ -15,8 +15,8 @@ import ch.rmy.android.http_shortcuts.activities.editor.advancedsettings.Advanced
 import ch.rmy.android.http_shortcuts.activities.editor.authentication.AuthenticationActivity
 import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.BasicRequestSettingsActivity
 import ch.rmy.android.http_shortcuts.activities.editor.body.RequestBodyActivity
+import ch.rmy.android.http_shortcuts.activities.editor.executionsettings.ExecutionSettingsActivity
 import ch.rmy.android.http_shortcuts.activities.editor.headers.RequestHeadersActivity
-import ch.rmy.android.http_shortcuts.activities.editor.miscsettings.MiscSettingsActivity
 import ch.rmy.android.http_shortcuts.activities.editor.response.ResponseActivity
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.ScriptingActivity
 import ch.rmy.android.http_shortcuts.activities.editor.shortcuts.TriggerShortcutsActivity
@@ -90,7 +90,7 @@ class ShortcutEditorActivity : BaseActivity() {
     private val responseHandlingButton: PanelButton by bindView(R.id.button_response_handling)
     private val scriptingButton: PanelButton by bindView(R.id.button_scripting)
     private val triggerShortcutsButton: PanelButton by bindView(R.id.button_trigger_shortcuts)
-    private val miscSettingsButton: PanelButton by bindView(R.id.button_misc_settings)
+    private val executionSettingsButton: PanelButton by bindView(R.id.button_execution_settings)
     private val advancedTechnicalSettingsButton: PanelButton by bindView(R.id.button_advanced_technical_settings)
     private val dividerBelowBasicSettings: View by bindView(R.id.divider_below_basic_request_settings)
     private val dividerBelowHeaders: View by bindView(R.id.divider_below_headers)
@@ -229,8 +229,8 @@ class ShortcutEditorActivity : BaseActivity() {
                 .shortcutId(shortcutId)
                 .startActivity(this)
         }
-        miscSettingsButton.setOnClickListener {
-            MiscSettingsActivity.IntentBuilder(context)
+        executionSettingsButton.setOnClickListener {
+            ExecutionSettingsActivity.IntentBuilder(context)
                 .startActivity(this)
         }
         advancedTechnicalSettingsButton.setOnClickListener {

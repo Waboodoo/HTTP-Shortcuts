@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.activities.editor.miscsettings
+package ch.rmy.android.http_shortcuts.activities.editor.executionsettings
 
 import android.app.Application
 import ch.rmy.android.http_shortcuts.activities.editor.BasicShortcutEditorViewModel
@@ -8,7 +8,7 @@ import ch.rmy.android.http_shortcuts.extensions.context
 import ch.rmy.android.http_shortcuts.utils.StringUtils
 import io.reactivex.Completable
 
-class MiscSettingsViewModel(application: Application) : BasicShortcutEditorViewModel(application) {
+class ExecutionSettingsViewModel(application: Application) : BasicShortcutEditorViewModel(application) {
 
     fun setRequireConfirmation(requireConfirmation: Boolean): Completable =
         Transactions.commit { realm ->

@@ -636,10 +636,10 @@
     <string name="label_scripting_browser_shortcuts_subtitle">Run JavaScript code before execution</string>
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. -->
     <string name="label_scripting_scripting_shortcuts_subtitle">Run JavaScript code</string>
-    <!-- Section title in shortcut editor, groups together miscellaneous settings -->
-    <string name="label_misc_settings">Misc Settings</string>
-    <!-- Section subtitle, shown underneath "Misc Settings", gives brief summary of what the section is about -->
-    <string name="label_misc_settings_subtitle">Various additional options</string>
+    <!-- Section title in shortcut editor, groups together settings related to triggering, scheduling and executing a shortcut -->
+    <string name="label_execution_settings">Trigger &amp; Execution Settings</string>
+    <!-- Section subtitle, shown underneath "Trigger & Execution Settings" -->
+    <string name="label_execution_settings_subtitle">Define when and how the shortcut should be executed</string>
     <!-- Section title in shortcut editor, groups together technical settings -->
     <string name="label_advanced_technical_settings">Advanced Technical Settings</string>
     <!-- Section subtitle in shortcut editor, shown below "Advanced Technical Settings" -->

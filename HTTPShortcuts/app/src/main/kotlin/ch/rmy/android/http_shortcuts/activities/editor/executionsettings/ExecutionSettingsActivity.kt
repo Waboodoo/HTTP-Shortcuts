@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.activities.editor.miscsettings
+package ch.rmy.android.http_shortcuts.activities.editor.executionsettings
 
 import android.content.Context
 import android.os.Bundle
@@ -20,9 +20,9 @@ import ch.rmy.android.http_shortcuts.utils.SimpleOnSeekBarChangeListener
 import ch.rmy.android.http_shortcuts.views.PanelButton
 import kotterknife.bindView
 
-class MiscSettingsActivity : BaseActivity() {
+class ExecutionSettingsActivity : BaseActivity() {
 
-    private val viewModel: MiscSettingsViewModel by bindViewModel()
+    private val viewModel: ExecutionSettingsViewModel by bindViewModel()
     private val shortcutData by lazy {
         viewModel.shortcut
     }
@@ -34,8 +34,8 @@ class MiscSettingsActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_misc_settings)
-        setTitle(R.string.label_misc_settings)
+        setContentView(R.layout.activity_execution_settings)
+        setTitle(R.string.label_execution_settings)
 
         initViews()
         bindViewsToViewModel()
@@ -113,7 +113,7 @@ class MiscSettingsActivity : BaseActivity() {
             .showIfPossible()
     }
 
-    class IntentBuilder(context: Context) : BaseIntentBuilder(context, MiscSettingsActivity::class.java)
+    class IntentBuilder(context: Context) : BaseIntentBuilder(context, ExecutionSettingsActivity::class.java)
 
     companion object {
 
@@ -137,7 +137,11 @@ class MiscSettingsActivity : BaseActivity() {
             180000,
             300000,
             450000,
-            600000
+            600000,
+            900000,
+            1200000,
+            1800000,
+            3600000,
         )
 
         private fun delayToProgress(delay: Int) = DELAY_OPTIONS.indexOfFirst {
