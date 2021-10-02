@@ -10,6 +10,11 @@ import io.reactivex.Completable
 
 class ExecutionSettingsViewModel(application: Application) : BasicShortcutEditorViewModel(application) {
 
+    fun setWaitForConnection(waitForConnection: Boolean): Completable =
+        Transactions.commit { realm ->
+            getShortcut(realm)?.isWaitForNetwork = waitForConnection
+        }
+
     fun setRequireConfirmation(requireConfirmation: Boolean): Completable =
         Transactions.commit { realm ->
             getShortcut(realm)?.requireConfirmation = requireConfirmation

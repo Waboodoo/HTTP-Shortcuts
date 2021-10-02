@@ -12,11 +12,6 @@ import io.reactivex.Completable
 
 class AdvancedSettingsViewModel(application: Application) : BasicShortcutEditorViewModel(application) {
 
-    fun setWaitForConnection(waitForConnection: Boolean): Completable =
-        Transactions.commit { realm ->
-            getShortcut(realm)?.isWaitForNetwork = waitForConnection
-        }
-
     fun setFollowRedirects(followRedirects: Boolean): Completable =
         Transactions.commit { realm ->
             getShortcut(realm)?.followRedirects = followRedirects

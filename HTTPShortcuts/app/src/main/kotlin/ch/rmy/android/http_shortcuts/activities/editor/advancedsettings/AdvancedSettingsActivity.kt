@@ -55,7 +55,6 @@ class AdvancedSettingsActivity : BaseActivity() {
         VariablePlaceholderProvider(variablesData)
     }
 
-    private val waitForConnectionCheckBox: CheckBox by bindView(R.id.input_wait_for_connection)
     private val followRedirectsCheckBox: CheckBox by bindView(R.id.input_follow_redirects)
     private val acceptCertificatesCheckBox: CheckBox by bindView(R.id.input_accept_certificates)
     private val clientCertButton: PanelButton by bindView(R.id.button_client_cert)
@@ -76,13 +75,6 @@ class AdvancedSettingsActivity : BaseActivity() {
     }
 
     private fun initViews() {
-        waitForConnectionCheckBox
-            .observeChecked()
-            .concatMapCompletable { isChecked ->
-                viewModel.setWaitForConnection(isChecked)
-            }
-            .subscribe()
-            .attachTo(destroyer)
         followRedirectsCheckBox
             .observeChecked()
             .concatMapCompletable { isChecked ->
@@ -145,7 +137,6 @@ class AdvancedSettingsActivity : BaseActivity() {
         viewModel.setAdvancedSettings(proxyHostView.rawString, proxyPortView.text.toString().toIntOrNull(), ssidView.text.toString())
 
     private fun updateShortcutViews(shortcut: Shortcut, isInitial: Boolean) {
-        waitForConnectionCheckBox.isChecked = shortcut.isWaitForNetwork
         followRedirectsCheckBox.isChecked = shortcut.followRedirects
         acceptCertificatesCheckBox.isChecked = shortcut.acceptAllCertificates
         clientCertButton.isEnabled = !shortcut.acceptAllCertificates

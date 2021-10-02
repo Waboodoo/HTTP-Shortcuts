@@ -30,6 +30,7 @@ class ExecutionSettingsActivity : BaseActivity() {
     private val requireConfirmationCheckBox: CheckBox by bindView(R.id.input_require_confirmation)
     private val launcherShortcutCheckBox: CheckBox by bindView(R.id.input_launcher_shortcut)
     private val quickSettingsTileCheckBox: CheckBox by bindView(R.id.input_quick_tile_shortcut)
+    private val waitForConnectionCheckBox: CheckBox by bindView(R.id.input_wait_for_connection)
     private val delayView: PanelButton by bindView(R.id.input_delay)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,6 +64,13 @@ class ExecutionSettingsActivity : BaseActivity() {
             }
             .subscribe()
             .attachTo(destroyer)
+        waitForConnectionCheckBox
+            .observeChecked()
+            .concatMapCompletable { isChecked ->
+                viewModel.setWaitForConnection(isChecked)
+            }
+            .subscribe()
+            .attachTo(destroyer)
         delayView.setOnClickListener {
             showDelayDialog()
         }
@@ -81,6 +89,7 @@ class ExecutionSettingsActivity : BaseActivity() {
         launcherShortcutCheckBox.isChecked = shortcut.launcherShortcut
         quickSettingsTileCheckBox.visible = QuickSettingsTileManager.supportsQuickSettingsTiles()
         quickSettingsTileCheckBox.isChecked = shortcut.quickSettingsTileShortcut
+        waitForConnectionCheckBox.isChecked = shortcut.isWaitForNetwork
         delayView.subtitle = viewModel.getDelaySubtitle(shortcut)
     }
 
