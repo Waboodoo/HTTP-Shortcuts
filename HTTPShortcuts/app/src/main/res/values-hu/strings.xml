@@ -746,12 +746,6 @@ További információt a változó dokumentációjában találsz."</string>
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before shortcut execution -->
     <string name="label_scripting_browser_shortcuts_subtitle">"Futtassa a JavaScript kódot a végrehajtás előtt"</string>
 
-    <!-- Section title in shortcut editor, groups together miscellaneous settings -->
-    <string name="label_misc_settings">"Egyéb beállítások"</string>
-
-    <!-- Section subtitle, shown underneath "Misc Settings", gives brief summary of what the section is about -->
-    <string name="label_misc_settings_subtitle">"Különféle kiegészítő lehetőségek"</string>
-
     <!-- Section title in shortcut editor, groups together technical settings -->
     <string name="label_advanced_technical_settings">"Speciális technikai beállítások"</string>
 
@@ -1022,9 +1016,6 @@ Ezt a funkciót engedélyezheted egy parancsikon szerkesztésével és a \"%1$s\
 
     <!-- dialog title, shown when creating new variable and user is prompted to select the type of the variable -->
     <string name="title_select_variable_type">"Válassz változó típust"</string>
-
-    <!-- label, shown in variable editor for Color variable, to allow the user to pick which type of color picker they want (RGB or HSV) -->
-    <string name="label_variable_color_input_type">"Színválasztó típusa"</string>
 
     <!-- Error message: Shown when a request that uses Digest Authentication fails. %s is a placeholder for the detailed error message. -->
     <string name="error_digest_auth_failed">"Digest hitelesítés sikertelen: %s"</string>

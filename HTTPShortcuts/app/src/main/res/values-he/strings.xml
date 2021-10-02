@@ -783,12 +783,6 @@
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before shortcut execution -->
     <string name="label_scripting_browser_shortcuts_subtitle">"הרץ קוד JavaScript לפני ביצוע"</string>
 
-    <!-- Section title in shortcut editor, groups together miscellaneous settings -->
-    <string name="label_misc_settings">"הגדרות שונות"</string>
-
-    <!-- Section subtitle, shown underneath "Misc Settings", gives brief summary of what the section is about -->
-    <string name="label_misc_settings_subtitle">"אפשרויות שונות נוספות"</string>
-
     <!-- Section title in shortcut editor, groups together technical settings -->
     <string name="label_advanced_technical_settings">"הגדרות טכניות מתקדמות"</string>
 
@@ -1106,9 +1100,6 @@
 
     <!-- dialog title, shown when creating new variable and user is prompted to select the type of the variable -->
     <string name="title_select_variable_type">"סוג של בחירת משתנה"</string>
-
-    <!-- label, shown in variable editor for Color variable, to allow the user to pick which type of color picker they want (RGB or HSV) -->
-    <string name="label_variable_color_input_type">"סוג של דוגם צבעים"</string>
 
     <!-- Error message: Shown when a request that uses Digest Authentication fails. %s is a placeholder for the detailed error message. -->
     <string name="error_digest_auth_failed">"אימות מתומצת (Digest) נכשל: %s"</string>

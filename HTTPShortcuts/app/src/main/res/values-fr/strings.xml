@@ -738,9 +738,6 @@ Voir la documentation dans la section variable pour plus d'informations."</strin
     <!-- Section subtitle in shortcut editor: "Response handling", contains settings for controlling how the shortcut response should be handled -->
     <string name="label_response_handling_subtitle">"Définir comment traiter la réponse"</string>
 
-    <!-- Section title in shortcut editor, groups together miscellaneous settings -->
-    <string name="label_misc_settings">"Autres paramètres"</string>
-
     <!-- Shortcut Action Title: Action that allows to copy strings to the device's clipboard -->
     <string name="action_copy_to_clipboard_title">"Copier dans le presse-papier"</string>
 

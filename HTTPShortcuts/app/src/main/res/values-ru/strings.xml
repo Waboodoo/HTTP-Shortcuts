@@ -713,12 +713,6 @@
     <!-- Section title in shortcut editor: "Scripting", allows to write scripts for advanced workflows -->
     <string name="label_scripting">"писать сценарии"</string>
 
-    <!-- Section title in shortcut editor, groups together miscellaneous settings -->
-    <string name="label_misc_settings">"Другие настройки"</string>
-
-    <!-- Section subtitle, shown underneath "Misc Settings", gives brief summary of what the section is about -->
-    <string name="label_misc_settings_subtitle">"Различные дополнительные опции"</string>
-
     <!-- Section title in shortcut editor, groups together technical settings -->
     <string name="label_advanced_technical_settings">"Расширенные технические настройки"</string>
 

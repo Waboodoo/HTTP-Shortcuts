@@ -812,12 +812,6 @@ Więcej informacji można znaleźć w dokumentacji w sekcji zmiennych."</string>
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before shortcut execution -->
     <string name="label_scripting_browser_shortcuts_subtitle">"Uruchom kod JavaScript przed wykonaniem"</string>
 
-    <!-- Section title in shortcut editor, groups together miscellaneous settings -->
-    <string name="label_misc_settings">"Inne ustawienia"</string>
-
-    <!-- Section subtitle, shown underneath "Misc Settings", gives brief summary of what the section is about -->
-    <string name="label_misc_settings_subtitle">"Różne dodatkowe opcje"</string>
-
     <!-- Section title in shortcut editor, groups together technical settings -->
     <string name="label_advanced_technical_settings">"Zaawansowane ustawienia techniczne"</string>
 

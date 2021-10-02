@@ -774,12 +774,6 @@
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before shortcut execution -->
     <string name="label_scripting_browser_shortcuts_subtitle">"在执行签运行JavaScript代码"</string>
 
-    <!-- Section title in shortcut editor, groups together miscellaneous settings -->
-    <string name="label_misc_settings">"其他设置"</string>
-
-    <!-- Section subtitle, shown underneath "Misc Settings", gives brief summary of what the section is about -->
-    <string name="label_misc_settings_subtitle">"其他选项"</string>
-
     <!-- Section title in shortcut editor, groups together technical settings -->
     <string name="label_advanced_technical_settings">"高级设置"</string>
 
@@ -1097,9 +1091,6 @@
 
     <!-- dialog title, shown when creating new variable and user is prompted to select the type of the variable -->
     <string name="title_select_variable_type">"选择变量类型"</string>
-
-    <!-- label, shown in variable editor for Color variable, to allow the user to pick which type of color picker they want (RGB or HSV) -->
-    <string name="label_variable_color_input_type">"拾色器类型"</string>
 
     <!-- Error message: Shown when a request that uses Digest Authentication fails. %s is a placeholder for the detailed error message. -->
     <string name="error_digest_auth_failed">"摘要式身份认证失败：%s"</string>
@@ -1589,4 +1580,16 @@
     <!-- Error message: Shown when a JS error occurs. %d is a placeholder for the line number, %s is a placeholder for the more detailed error message. -->
     <string name="error_js_pattern_with_line_number">"JavaScript错误(在第%d行):
 %s"</string>
+
+    <!-- label, shown in variable editor for Select Input variable, to allow the user to specify a separator when using multi-select -->
+    <string name="label_select_variable_separator">"分隔符"</string>
+
+    <!-- Checkbox value, shown in variable editor for Select variables, allows to enable multi select -->
+    <string name="label_select_variable_multi_select">"允许选择多个选项"</string>
+
+    <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails -->
+    <string name="error_action_type_send_wol_failed">"未能发送局域网唤醒包：%s"</string>
+
+    <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails because on an invalid MAC address -->
+    <string name="error_action_type_send_wol_invalid_mac_address">"无效的 MAC 地址：%s"</string>
 </resources>

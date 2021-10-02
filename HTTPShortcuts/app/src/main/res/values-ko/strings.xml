@@ -776,12 +776,6 @@
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before shortcut execution -->
     <string name="label_scripting_browser_shortcuts_subtitle">"실행하기 전에 JavaScript 코드를 실행하세요"</string>
 
-    <!-- Section title in shortcut editor, groups together miscellaneous settings -->
-    <string name="label_misc_settings">"기타 설정"</string>
-
-    <!-- Section subtitle, shown underneath "Misc Settings", gives brief summary of what the section is about -->
-    <string name="label_misc_settings_subtitle">"다양한 추가 옵션"</string>
-
     <!-- Section title in shortcut editor, groups together technical settings -->
     <string name="label_advanced_technical_settings">"고급 기술 설정"</string>
 
@@ -1096,9 +1090,6 @@
 
     <!-- dialog title, shown when creating new variable and user is prompted to select the type of the variable -->
     <string name="title_select_variable_type">"변수 유형 선택"</string>
-
-    <!-- label, shown in variable editor for Color variable, to allow the user to pick which type of color picker they want (RGB or HSV) -->
-    <string name="label_variable_color_input_type">"색상 선택기 유형"</string>
 
     <!-- Error message: Shown when a request that uses Digest Authentication fails. %s is a placeholder for the detailed error message. -->
     <string name="error_digest_auth_failed">"다이제스트 인증 실패: %s"</string>

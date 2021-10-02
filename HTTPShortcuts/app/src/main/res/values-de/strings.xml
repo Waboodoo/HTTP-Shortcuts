@@ -777,12 +777,6 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before shortcut execution -->
     <string name="label_scripting_browser_shortcuts_subtitle">"JavaScript-Code ausführen vor Request"</string>
 
-    <!-- Section title in shortcut editor, groups together miscellaneous settings -->
-    <string name="label_misc_settings">"Weitere Einstellungen"</string>
-
-    <!-- Section subtitle, shown underneath "Misc Settings", gives brief summary of what the section is about -->
-    <string name="label_misc_settings_subtitle">"Diverse Optionen"</string>
-
     <!-- Section title in shortcut editor, groups together technical settings -->
     <string name="label_advanced_technical_settings">"Fortgeschrittene Einstellungen"</string>
 
@@ -1099,9 +1093,6 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
 
     <!-- dialog title, shown when creating new variable and user is prompted to select the type of the variable -->
     <string name="title_select_variable_type">"Variablentyp wählen"</string>
-
-    <!-- label, shown in variable editor for Color variable, to allow the user to pick which type of color picker they want (RGB or HSV) -->
-    <string name="label_variable_color_input_type">"Farbwähler-Typ"</string>
 
     <!-- Error message: Shown when a request that uses Digest Authentication fails. %s is a placeholder for the detailed error message. -->
     <string name="error_digest_auth_failed">"Digest Authentication fehlgeschlagen: %s"</string>
@@ -1595,4 +1586,16 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
 
     <!-- Checkbox value, shown in variable editor for Select variables, allows to enable multi select -->
     <string name="label_select_variable_multi_select">"Mehrere Optionen auswählbar"</string>
+
+    <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails -->
+    <string name="error_action_type_send_wol_failed">"Wake-on-LAN fehlgeschlagen: %s"</string>
+
+    <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails because on an invalid MAC address -->
+    <string name="error_action_type_send_wol_invalid_mac_address">"Ungültige MAC-Adresse: %s"</string>
+
+    <!-- Section title in shortcut editor, groups together settings related to triggering, scheduling and executing a shortcut -->
+    <string name="label_execution_settings">"Auslöse- &amp; Ausführ-Einstellungen"</string>
+
+    <!-- Section subtitle, shown underneath "Trigger & Execution Settings" -->
+    <string name="label_execution_settings_subtitle">"Wann und wie soll der Shortcut ausgeführt werden?"</string>
 </resources>
