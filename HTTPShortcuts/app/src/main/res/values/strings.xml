@@ -211,6 +211,8 @@
     <string name="export_failed_with_reason">Exporting shortcuts failed: %s</string>
     <!-- Error message: Import failed due to invalid JSON syntax in the import file -->
     <string name="import_failure_reason_invalid_json">Invalid JSON</string>
+    <!-- Error message: Import failed due to the data being imported coming from a newer version of the app -->
+    <string name="import_failure_reason_data_version_mismatch">The selected file was exported by a newer version of the app. Please make sure you have the latest version of the app installed.</string>
     <!-- Success message, shown in snackbar when import of shortcuts is successful -->
     <plurals name="shortcut_import_success">
         <item quantity="one">1 shortcut imported.</item>

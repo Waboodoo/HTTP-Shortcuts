@@ -6,6 +6,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.Repository
 import ch.rmy.android.http_shortcuts.data.migration.ImportMigrator
+import ch.rmy.android.http_shortcuts.data.migration.ImportVersionMismatchException
 import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
@@ -174,6 +175,9 @@ class Importer(private val context: Context) {
         when (e) {
             is JsonParseException, is JsonSyntaxException -> {
                 getString(R.string.import_failure_reason_invalid_json)
+            }
+            is ImportVersionMismatchException -> {
+                getString(R.string.import_failure_reason_data_version_mismatch)
             }
             is URISyntaxException,
             is IllegalArgumentException,
