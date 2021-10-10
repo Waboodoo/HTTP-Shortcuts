@@ -19,7 +19,7 @@ class ShortcutResponse internal constructor(
 
     val contentType: String?
         get() = headers.getLast(HttpHeaders.CONTENT_TYPE)?.let { contentType ->
-            contentType.split(';', limit = 2)[0].toLowerCase(locale = Locale.US)
+            contentType.split(';', limit = 2)[0].lowercase(locale = Locale.US)
         }
 
     val cookies: Map<String, String>
@@ -28,6 +28,10 @@ class ShortcutResponse internal constructor(
             ?.map { it.split('=') }
             ?.associate { it.first() to (it.getOrNull(1) ?: "") }
             ?: emptyMap()
+
+    val headersAsMap: Map<String, String>
+        get() = headers.toMultiMap()
+            .mapValues { entry -> entry.value.last() }
 
     private var responseTooLarge = false
 

@@ -98,7 +98,7 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
                     } catch (e: ResponseTooLargeException) {
                         ""
                     },
-                    "headers" to it.headers,
+                    "headers" to it.headersAsMap,
                     "statusCode" to it.statusCode,
                     "cookies" to it.cookies,
                 )
