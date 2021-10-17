@@ -6,18 +6,21 @@ import ch.rmy.android.http_shortcuts.extensions.toHexString
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import io.reactivex.Single
 import java.security.NoSuchAlgorithmException
-import java.util.Locale
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
-class HmacAction(private val algorithm: String, private val key: String, private val message: String) : BaseAction() {
+class HmacAction(
+    private val algorithm: String,
+    private val key: ByteArray,
+    private val message: String,
+    ) : BaseAction() {
 
     override fun executeForValue(executionContext: ExecutionContext): Single<Any> =
         Single.fromCallable {
             val algorithmName = SUPPORTED_ALGORITHMS[normalizeAlgorithm(algorithm)]
                 ?: throwUnsupportedError()
             try {
-                hmac(algorithmName, key.toByteArray(), message.toByteArray())
+                hmac(algorithmName, key, message.toByteArray())
                     .toHexString()
             } catch (e: NoSuchAlgorithmException) {
                 throwUnsupportedError()
@@ -39,7 +42,7 @@ class HmacAction(private val algorithm: String, private val key: String, private
     companion object {
 
         private fun normalizeAlgorithm(algorithm: String) =
-            algorithm.toLowerCase(Locale.ROOT)
+            algorithm.lowercase()
                 .replace("-", "")
                 .replace("_", "")
 

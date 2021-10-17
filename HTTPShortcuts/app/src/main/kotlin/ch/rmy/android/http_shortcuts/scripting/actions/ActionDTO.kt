@@ -54,4 +54,13 @@ class ActionDTO(
         }
     }
 
+    fun getByteArray(key: String): ByteArray? {
+        val value = data[key]
+        return when {
+            value == null -> null
+            value.isUint8Array || value.isInt8Array -> value.toJSArray().toArray().map { it.toString().toByte() }.toByteArray()
+            else -> getString(key)?.toByteArray()
+        }
+    }
+
 }

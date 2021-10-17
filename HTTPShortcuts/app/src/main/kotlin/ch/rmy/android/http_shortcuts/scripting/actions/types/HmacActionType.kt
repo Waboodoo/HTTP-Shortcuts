@@ -9,7 +9,7 @@ class HmacActionType : BaseActionType() {
 
     override fun fromDTO(actionDTO: ActionDTO) = HmacAction(
         algorithm = actionDTO.getString(KEY_ALGORITHM) ?: "",
-        key = actionDTO.getString(KEY_KEY) ?: "",
+        key = actionDTO.getByteArray(KEY_KEY) ?: ByteArray(0),
         message = actionDTO.getString(KEY_MESSAGE) ?: "",
     )
 
