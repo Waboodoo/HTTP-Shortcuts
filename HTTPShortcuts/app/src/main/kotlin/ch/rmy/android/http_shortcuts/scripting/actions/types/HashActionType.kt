@@ -8,8 +8,8 @@ class HashActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = HashAction(
-        algorithm = actionDTO[KEY_ALGORITHM] ?: "",
-        text = actionDTO[KEY_TEXT] ?: "",
+        algorithm = actionDTO.getString(KEY_ALGORITHM) ?: "",
+        text = actionDTO.getString(KEY_TEXT) ?: "",
     )
 
     override fun getAlias() = ActionAlias(

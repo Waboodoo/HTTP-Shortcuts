@@ -7,11 +7,10 @@ import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import io.reactivex.Single
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
-import java.util.Locale
 
 class HashAction(private val algorithm: String, private val text: String) : BaseAction() {
 
-    override fun executeForValue(executionContext: ExecutionContext): Single<String> =
+    override fun executeForValue(executionContext: ExecutionContext): Single<Any> =
         Single.fromCallable {
             val algorithmName = SUPPORTED_ALGORITHMS[normalizeAlgorithm(algorithm)]
                 ?: throwUnsupportedError()
@@ -37,7 +36,7 @@ class HashAction(private val algorithm: String, private val text: String) : Base
     companion object {
 
         private fun normalizeAlgorithm(algorithm: String) =
-            algorithm.toLowerCase(Locale.ROOT)
+            algorithm.lowercase()
                 .replace("-", "")
                 .replace("_", "")
 

@@ -12,7 +12,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 
 class GetVariableAction(val variableKeyOrId: String) : BaseAction() {
 
-    override fun executeForValue(executionContext: ExecutionContext): Single<String> =
+    override fun executeForValue(executionContext: ExecutionContext): Single<Any> =
         getVariableValue(variableKeyOrId, executionContext.variableManager)
             .onErrorResumeNext { error ->
                 if (error is VariableNotFoundException) {
@@ -32,7 +32,7 @@ class GetVariableAction(val variableKeyOrId: String) : BaseAction() {
                 })
             }
 
-    private fun getVariableValue(variableKeyOrId: String, variableManager: VariableManager) =
+    private fun getVariableValue(variableKeyOrId: String, variableManager: VariableManager): Single<Any> =
         Single.fromCallable {
             variableManager.getVariableValueByKeyOrId(variableKeyOrId)
                 ?: throw VariableNotFoundException()

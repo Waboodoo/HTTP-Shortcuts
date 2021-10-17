@@ -9,7 +9,7 @@ abstract class BaseAction {
     open fun execute(executionContext: ExecutionContext): Completable =
         Completable.complete()
 
-    open fun executeForValue(executionContext: ExecutionContext): Single<String> =
+    open fun executeForValue(executionContext: ExecutionContext): Single<Any> =
         execute(executionContext).toSingleDefault(NO_RESULT)
 
     companion object {

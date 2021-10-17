@@ -9,9 +9,9 @@ class WakeOnLanActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = WakeOnLanAction(
-        macAddress = actionDTO[KEY_MAC_ADDRESS] ?: "",
-        ipAddress = actionDTO[KEY_IP_ADDRESS]?.takeUnlessEmpty() ?: "255.255.255.255",
-        port = actionDTO[KEY_PORT]?.toIntOrNull() ?: 9,
+        macAddress = actionDTO.getString(KEY_MAC_ADDRESS) ?: "",
+        ipAddress = actionDTO.getString(KEY_IP_ADDRESS)?.takeUnlessEmpty() ?: "255.255.255.255",
+        port = actionDTO.getInt(KEY_PORT) ?: 9,
     )
 
     override fun getAlias() = ActionAlias(

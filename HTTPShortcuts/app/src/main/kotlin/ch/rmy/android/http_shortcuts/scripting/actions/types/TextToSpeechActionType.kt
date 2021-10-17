@@ -8,8 +8,8 @@ class TextToSpeechActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = TextToSpeechAction(
-        message = actionDTO[KEY_TEXT] ?: "",
-        language = actionDTO[KEY_LANGUAGE] ?: "",
+        message = actionDTO.getString(KEY_TEXT) ?: "",
+        language = actionDTO.getString(KEY_LANGUAGE) ?: "",
     )
 
     override fun getAlias() = ActionAlias(

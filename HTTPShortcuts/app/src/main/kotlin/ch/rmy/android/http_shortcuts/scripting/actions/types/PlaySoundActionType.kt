@@ -10,7 +10,7 @@ class PlaySoundActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = PlaySoundAction(
-        soundUri = normalize(actionDTO[KEY_SOUND_URI])?.toUri(),
+        soundUri = normalize(actionDTO.getString(KEY_SOUND_URI))?.toUri(),
     )
 
     override fun getAlias() = ActionAlias(

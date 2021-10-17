@@ -8,7 +8,7 @@ class Base64DecodeActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = Base64DecodeAction(
-        encoded = actionDTO[KEY_TEXT] ?: "",
+        encoded = actionDTO.getString(KEY_TEXT) ?: "",
     )
 
     override fun getAlias() = ActionAlias(

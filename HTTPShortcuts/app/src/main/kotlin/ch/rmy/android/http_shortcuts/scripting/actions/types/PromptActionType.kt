@@ -8,8 +8,8 @@ class PromptActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = PromptAction(
-        message = actionDTO[KEY_MESSAGE] ?: "",
-        prefill = actionDTO[KEY_PREFILL] ?: "",
+        message = actionDTO.getString(KEY_MESSAGE) ?: "",
+        prefill = actionDTO.getString(KEY_PREFILL) ?: "",
     )
 
     override fun getAlias() = ActionAlias(

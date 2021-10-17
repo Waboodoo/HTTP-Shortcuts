@@ -12,7 +12,7 @@ import javax.crypto.spec.SecretKeySpec
 
 class HmacAction(private val algorithm: String, private val key: String, private val message: String) : BaseAction() {
 
-    override fun executeForValue(executionContext: ExecutionContext): Single<String> =
+    override fun executeForValue(executionContext: ExecutionContext): Single<Any> =
         Single.fromCallable {
             val algorithmName = SUPPORTED_ALGORITHMS[normalizeAlgorithm(algorithm)]
                 ?: throwUnsupportedError()

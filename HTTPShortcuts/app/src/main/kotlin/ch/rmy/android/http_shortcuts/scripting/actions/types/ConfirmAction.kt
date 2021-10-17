@@ -9,23 +9,23 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 
 class ConfirmAction(private val message: String) : BaseAction() {
 
-    override fun executeForValue(executionContext: ExecutionContext): Single<String> {
+    override fun executeForValue(executionContext: ExecutionContext): Single<Any> {
         val finalMessage = Variables.rawPlaceholdersToResolvedValues(
             message,
             executionContext.variableManager.getVariableValuesByIds(),
         )
 
         return if (finalMessage.isNotEmpty()) {
-            Single.create<String> { emitter ->
+            Single.create<Any> { emitter ->
                 DialogBuilder(executionContext.context)
                     .message(finalMessage)
                     .positive(R.string.dialog_ok) {
-                        emitter.onSuccess(true.toString())
+                        emitter.onSuccess(true)
                     }
                     .negative(R.string.dialog_cancel) {
-                        emitter.onSuccess(false.toString())
+                        emitter.onSuccess(false)
                     }
-                    .dismissListener { emitter.onSuccess(false.toString()) }
+                    .dismissListener { emitter.onSuccess(false) }
                     .show()
             }
                 .subscribeOn(AndroidSchedulers.mainThread())

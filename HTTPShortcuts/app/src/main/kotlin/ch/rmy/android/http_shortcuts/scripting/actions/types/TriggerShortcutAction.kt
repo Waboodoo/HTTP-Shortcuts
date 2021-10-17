@@ -6,12 +6,11 @@ import ch.rmy.android.http_shortcuts.data.DataSource
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.DateUtil
-import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import io.reactivex.Completable
 
 class TriggerShortcutAction(
     private val shortcutNameOrId: String?,
-    private val variableValuesJson: String,
+    private val variableValues: Map<String, Any?>?,
     private val delay: Int?,
 ) : BaseAction() {
 
@@ -32,7 +31,7 @@ class TriggerShortcutAction(
 
         return Commons.createPendingExecution(
             shortcutId = shortcut.id,
-            resolvedVariables = getVariableValues(variableValuesJson),
+            resolvedVariables = variableValues?.mapValues { it.toString() } ?: emptyMap(),
             tryNumber = 0,
             waitUntil = DateUtil.calculateDate(delay),
             requiresNetwork = shortcut.isWaitForNetwork,
@@ -43,15 +42,6 @@ class TriggerShortcutAction(
     companion object {
 
         private const val MAX_RECURSION_DEPTH = 5
-
-        private fun getVariableValues(json: String): Map<String, String> =
-            try {
-                GsonUtil.fromJsonObject<Any?>(json)
-                    .mapValues { it.value?.toString() ?: "" }
-            } catch (e: Exception) {
-                emptyMap()
-            }
-
     }
 
 }

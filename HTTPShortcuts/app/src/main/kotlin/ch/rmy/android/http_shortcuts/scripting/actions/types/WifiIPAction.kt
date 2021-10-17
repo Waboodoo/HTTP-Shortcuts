@@ -7,7 +7,7 @@ import io.reactivex.Single
 
 class WifiIPAction : BaseAction() {
 
-    override fun executeForValue(executionContext: ExecutionContext): Single<String> =
+    override fun executeForValue(executionContext: ExecutionContext): Single<Any> =
         Single.fromCallable {
             getIPAddress(executionContext.context)
         }

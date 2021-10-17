@@ -9,8 +9,8 @@ class RenameShortcutActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = RenameShortcutAction(
-        name = actionDTO[KEY_NAME] ?: "",
-        shortcutNameOrId = actionDTO[KEY_SHORTCUT_NAME_OR_ID]?.takeUnlessEmpty(),
+        name = actionDTO.getString(KEY_NAME) ?: "",
+        shortcutNameOrId = actionDTO.getString(KEY_SHORTCUT_NAME_OR_ID)?.takeUnlessEmpty(),
     )
 
     override fun getAlias() = ActionAlias(

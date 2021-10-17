@@ -8,7 +8,8 @@ class SelectionActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = SelectionAction(
-        jsonData = actionDTO[KEY_DATA] ?: "",
+        dataObject = actionDTO.getObject(KEY_DATA),
+        dataList = actionDTO.getList(KEY_DATA),
     )
 
     override fun getAlias() = ActionAlias(

@@ -10,8 +10,8 @@ class TriggerTaskerTaskActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = TriggerTaskerTaskAction(
-        taskName = actionDTO[KEY_TASK_NAME] ?: "",
-        variableValuesJson = actionDTO[KEY_VARIABLE_VALUES] ?: "{}",
+        taskName = actionDTO.getString(KEY_TASK_NAME) ?: "",
+        variableValuesJson = actionDTO.getString(KEY_VARIABLE_VALUES) ?: "{}",
     )
 
     override fun getAlias() = ActionAlias(

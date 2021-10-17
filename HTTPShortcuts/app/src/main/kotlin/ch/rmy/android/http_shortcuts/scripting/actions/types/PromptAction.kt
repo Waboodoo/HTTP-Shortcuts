@@ -9,7 +9,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 
 class PromptAction(private val message: String, private val prefill: String) : BaseAction() {
 
-    override fun executeForValue(executionContext: ExecutionContext): Single<String> {
+    override fun executeForValue(executionContext: ExecutionContext): Single<Any> {
         val finalMessage = Variables.rawPlaceholdersToResolvedValues(
             message,
             executionContext.variableManager.getVariableValuesByIds(),

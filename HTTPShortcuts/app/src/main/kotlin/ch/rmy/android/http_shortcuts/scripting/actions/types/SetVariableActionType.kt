@@ -8,8 +8,8 @@ class SetVariableActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = SetVariableAction(
-        variableKeyOrId = actionDTO[KEY_VARIABLE] ?: "",
-        value = actionDTO[KEY_VALUE] ?: "",
+        variableKeyOrId = actionDTO.getString(KEY_VARIABLE) ?: "",
+        value = actionDTO.getString(KEY_VALUE) ?: "",
     )
 
     override fun getAlias() = ActionAlias(

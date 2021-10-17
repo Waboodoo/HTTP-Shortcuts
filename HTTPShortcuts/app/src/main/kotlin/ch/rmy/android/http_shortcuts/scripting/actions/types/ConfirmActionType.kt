@@ -8,13 +8,12 @@ class ConfirmActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = ConfirmAction(
-        message = actionDTO[KEY_MESSAGE] ?: "",
+        message = actionDTO.getString(KEY_MESSAGE) ?: "",
     )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
         parameters = listOf(KEY_MESSAGE),
-        returnType = ActionAlias.ReturnType.BOOLEAN,
     )
 
     companion object {

@@ -8,7 +8,7 @@ class CopyToClipboardActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = CopyToClipboardAction(
-        text = actionDTO[KEY_TEXT] ?: "",
+        text = actionDTO.getString(KEY_TEXT) ?: "",
     )
 
     override fun getAlias() = ActionAlias(

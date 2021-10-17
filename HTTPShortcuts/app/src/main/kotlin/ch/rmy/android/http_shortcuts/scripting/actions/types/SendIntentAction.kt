@@ -15,7 +15,6 @@ import ch.rmy.android.http_shortcuts.extensions.toListOfStrings
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import io.reactivex.Completable
 import org.json.JSONObject
-import java.util.Locale
 
 class SendIntentAction(private val jsonData: String) : BaseAction() {
 
@@ -26,7 +25,7 @@ class SendIntentAction(private val jsonData: String) : BaseAction() {
             val intent = constructIntent(parameters)
 
             try {
-                when (parameters.optString(KEY_TYPE).toLowerCase(Locale.ROOT)) {
+                when (parameters.optString(KEY_TYPE).lowercase()) {
                     TYPE_ACTIVITY -> {
                         executionContext.context.startActivity(intent)
                     }

@@ -4,18 +4,17 @@ import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.exceptions.JavaScriptException
 import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.extensions.takeUnlessEmpty
-import ch.rmy.android.http_shortcuts.extensions.toListOfStrings
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
-import org.json.JSONArray
-import org.json.JSONException
-import org.json.JSONObject
 
-class SelectionAction(private val jsonData: String) : BaseAction() {
+class SelectionAction(
+    private val dataObject: Map<String, Any?>?,
+    private val dataList: List<Any?>?,
+) : BaseAction() {
 
-    override fun executeForValue(executionContext: ExecutionContext): Single<String> {
-        val options = parseData(jsonData)
+    override fun executeForValue(executionContext: ExecutionContext): Single<Any> {
+        val options = parseData(dataObject, dataList)
         return if (options.isNotEmpty()) {
             Single.create<String> { emitter ->
                 DialogBuilder(executionContext.context)
@@ -38,19 +37,9 @@ class SelectionAction(private val jsonData: String) : BaseAction() {
         }
     }
 
-    private fun parseData(data: String): Map<String, String> = try {
-        val obj = JSONObject(data)
-        obj.keys()
-            .asSequence()
-            .associateWith { key -> obj.getString(key) }
-    } catch (e: JSONException) {
-        try {
-            JSONArray(data)
-                .toListOfStrings()
-                .associateWith { it }
-        } catch (e2: JSONException) {
-            throw JavaScriptException("showSelection function expects object or array as argument")
-        }
-    }
+    private fun parseData(dataObject: Map<String, Any?>?, dataList: List<Any?>?): Map<String, String> =
+        dataObject?.mapValues { it.value?.toString() ?: "" }
+            ?: dataList?.map { it?.toString() ?: "" }?.associateWith { it }
+            ?: throw JavaScriptException("showSelection function expects object or array as argument")
 
 }

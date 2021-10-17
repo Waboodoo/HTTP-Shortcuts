@@ -8,8 +8,8 @@ class DialogActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = DialogAction(
-        message = actionDTO[KEY_TEXT] ?: "",
-        title = actionDTO[KEY_TITLE] ?: "",
+        message = actionDTO.getString(KEY_TEXT) ?: "",
+        title = actionDTO.getString(KEY_TITLE) ?: "",
     )
 
     override fun getAlias() = ActionAlias(

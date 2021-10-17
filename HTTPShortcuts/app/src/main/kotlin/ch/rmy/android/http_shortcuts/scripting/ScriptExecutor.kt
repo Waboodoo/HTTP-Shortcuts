@@ -146,11 +146,11 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
         jsContext.property("_runAction", object : JSFunction(jsContext, "run") {
             @Suppress("unused")
             @Keep
-            fun run(actionType: String, data: Map<String, JSValue>): String? {
+            fun run(actionType: String, data: Map<String, JSValue>): JSValue? {
                 logInfo("Running action of type: $actionType")
                 val action = actionFactory.fromDTO(ActionDTO(
                     type = actionType,
-                    data = sanitizeData(data)
+                    data = data,
                 ))
 
                 return try {
@@ -159,9 +159,12 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
                             context = context,
                             shortcutId = shortcutId,
                             variableManager = variableManager,
-                            recursionDepth = recursionDepth
+                            recursionDepth = recursionDepth,
                         ))
                         ?.blockingGet()
+                        ?.let { result ->
+                            convertResult(jsContext, result)
+                        }
                 } catch (e: Throwable) {
                     lastException = if (e is RuntimeException && e.cause != null) e.cause else e
                     null
@@ -178,13 +181,11 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
         private fun registerActionAliases(jsContext: JSContext, aliases: Map<String, ActionAlias>) {
             jsContext.evaluateScript(
                 """
-                const _convertResult = (result, returnType) => {
+                const _convertResult = (result) => {
                     if (result === null || result === undefined) {
                         throw "Error";
                     } else if (result === "${BaseAction.NO_RESULT}") {
                         return null;
-                    } else if (returnType === "${ActionAlias.ReturnType.BOOLEAN}") {
-                        return result === "${true}";    
                     } else {
                         return result;
                     }
@@ -204,7 +205,7 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
                             }
                         }
                             });
-                            return _convertResult(result, "${alias.returnType.name}");
+                            return _convertResult(result);
                         };
                         """.trimIndent()
                     )
@@ -218,15 +219,8 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
                 }
         }
 
-        private fun sanitizeData(data: Map<String, JSValue?>): Map<String, String> =
-            data.mapValues { sanitizeData(it.value) }
-
-        private fun sanitizeData(data: JSValue?): String =
-            when {
-                data == null || data.isNull || data.isUndefined -> ""
-                data.isObject || data.isArray -> data.toJSON()
-                else -> data.toString()
-            }
+        private fun convertResult(jsContext: JSContext, result: Any?): JSValue? =
+            result?.let { JSValue(jsContext, it) }
 
     }
 

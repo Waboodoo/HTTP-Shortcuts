@@ -6,7 +6,7 @@ import io.reactivex.Single
 
 class Base64EncodeAction(private val text: String) : BaseAction() {
 
-    override fun executeForValue(executionContext: ExecutionContext): Single<String> =
+    override fun executeForValue(executionContext: ExecutionContext): Single<Any> =
         Single.fromCallable {
             Base64.encodeToString(text.toByteArray(), Base64.DEFAULT)
         }

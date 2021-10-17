@@ -8,9 +8,9 @@ class HmacActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = HmacAction(
-        algorithm = actionDTO[KEY_ALGORITHM] ?: "",
-        key = actionDTO[KEY_KEY] ?: "",
-        message = actionDTO[KEY_MESSAGE] ?: "",
+        algorithm = actionDTO.getString(KEY_ALGORITHM) ?: "",
+        key = actionDTO.getString(KEY_KEY) ?: "",
+        message = actionDTO.getString(KEY_MESSAGE) ?: "",
     )
 
     override fun getAlias() = ActionAlias(

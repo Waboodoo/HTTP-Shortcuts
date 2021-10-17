@@ -8,7 +8,7 @@ class ToastActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = ToastAction(
-        message = actionDTO[KEY_TEXT] ?: "",
+        message = actionDTO.getString(KEY_TEXT) ?: "",
     )
 
     override fun getAlias() = ActionAlias(
