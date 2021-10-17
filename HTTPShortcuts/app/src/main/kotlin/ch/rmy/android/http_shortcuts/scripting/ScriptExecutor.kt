@@ -19,6 +19,7 @@ import org.json.JSONException
 import org.liquidplayer.javascript.JSContext
 import org.liquidplayer.javascript.JSException
 import org.liquidplayer.javascript.JSFunction
+import org.liquidplayer.javascript.JSUint8Array
 import org.liquidplayer.javascript.JSValue
 
 class ScriptExecutor(private val context: Context, private val actionFactory: ActionFactory) {
@@ -220,7 +221,16 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
         }
 
         private fun convertResult(jsContext: JSContext, result: Any?): JSValue? =
-            result?.let { JSValue(jsContext, it) }
+            when (result) {
+                null -> null
+                is ByteArray -> JSUint8Array(jsContext, result.size)
+                    .apply {
+                        result.forEachIndexed { index, byte ->
+                            set(index, byte)
+                        }
+                    }
+                else -> JSValue(jsContext, result)
+            }
 
     }
 

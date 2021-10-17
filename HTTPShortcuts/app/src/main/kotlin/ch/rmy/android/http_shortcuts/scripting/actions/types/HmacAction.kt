@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
-import ch.rmy.android.http_shortcuts.extensions.toHexString
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import io.reactivex.Single
 import java.security.NoSuchAlgorithmException
@@ -13,7 +12,7 @@ class HmacAction(
     private val algorithm: String,
     private val key: ByteArray,
     private val message: String,
-    ) : BaseAction() {
+) : BaseAction() {
 
     override fun executeForValue(executionContext: ExecutionContext): Single<Any> =
         Single.fromCallable {
@@ -21,7 +20,6 @@ class HmacAction(
                 ?: throwUnsupportedError()
             try {
                 hmac(algorithmName, key, message.toByteArray())
-                    .toHexString()
             } catch (e: NoSuchAlgorithmException) {
                 throwUnsupportedError()
             } catch (e: IllegalArgumentException) {

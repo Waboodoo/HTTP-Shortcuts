@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.scripting.actions
 
+import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import org.liquidplayer.javascript.JSValue
@@ -13,7 +14,8 @@ class ActionDTO(
         val value = data[key]
         return when {
             value == null || value.isNull || value.isUndefined -> null
-            value.isObject || value.isTypedArray || value.isArray -> value.toJSON()
+            value.isTypedArray -> JSONArray(value.toJSArray().toArray()).toString()
+            value.isObject || value.isArray -> value.toJSON()
             else -> value.toString()
         }
     }

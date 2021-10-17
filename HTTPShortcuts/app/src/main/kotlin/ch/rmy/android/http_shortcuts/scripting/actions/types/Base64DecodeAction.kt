@@ -10,7 +10,7 @@ class Base64DecodeAction(private val encoded: String) : BaseAction() {
     override fun executeForValue(executionContext: ExecutionContext): Single<Any> =
         Single.fromCallable {
             try {
-                String(Base64.decode(encoded, Base64.DEFAULT))
+                Base64.decode(encoded, Base64.DEFAULT)
             } catch (e: IllegalArgumentException) {
                 throw ActionException {
                     "Invalid Base64: $encoded" // TODO: Localize
