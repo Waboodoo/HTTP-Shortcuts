@@ -238,6 +238,12 @@ class CodeSnippetPicker(
 
     private fun showControlFlowPicker(insertText: InsertText) {
         DialogBuilder(context)
+            .item(name = "if { }") {
+                insertText("if () {\n    ", "\n}\n")
+            }
+            .item(name = "if { } else { }") {
+                insertText("if () {\n    ", "\n} else {\n    \n}\n")
+            }
             .item(R.string.action_type_wait) {
                 insertText("wait(1000 /* milliseconds */", ");\n")
             }
