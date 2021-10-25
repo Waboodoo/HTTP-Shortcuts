@@ -170,7 +170,7 @@ dependencies {
     implementation 'org.conscrypt:conscrypt-android:2.5.2'
 
     /* Scheduling */
-    implementation 'androidx.work:work-runtime-ktx:2.7.0-rc01'
+    implementation 'androidx.work:work-runtime-ktx:2.7.0'
 
     /* Tasker integration */
     implementation 'com.joaomgcd:taskerpluginlibrary:0.4.1'
