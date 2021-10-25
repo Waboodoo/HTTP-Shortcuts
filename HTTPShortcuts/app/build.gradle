@@ -25,7 +25,7 @@ android {
         targetSdkVersion 31
         versionName '2.10.0'
         // 11,(2 digits major),(2 digits minor),(2 digits patch),(2 digits build)
-        versionCode 1102100000
+        versionCode 1102100002
         buildConfigField 'String', 'BUGSNAG_API_KEY', "\"${rootProject.ext.bugsnagAPIKey}\""
         buildConfigField 'String', 'BUILD_TIMESTAMP', "\"${rootProject.ext.buildTimestamp}\""
         multiDexEnabled true
@@ -43,8 +43,8 @@ android {
 
     buildTypes {
         debug {
-            minifyEnabled false
-            shrinkResources false
+            minifyEnabled true
+            shrinkResources true
 
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             applicationIdSuffix ".debug"
