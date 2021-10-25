@@ -1,3 +1,25 @@
+## Version 2.10.0
+
+### Important Changes
+The minimum supported Android version is now at 5.0 (Lollipop). Going forward, older versions of Android will no longer receive updates. You can still install older versions of the app by [downloading the APK directly from Github](https://github.com/Waboodoo/HTTP-Shortcuts/releases).
+
+Furthermore, this version introduces a breaking change to the Scripting feature, specifically to the built-in `hmac` and `base64decode` functions. The return type of these functions is now `Uint8Array` (i.e., an array of bytes) instead of a hex string. See the **Scripting** section below for more information.
+
+### Scripting:
+- The `base64encode` and `hmac` functions now also accept `Uint8Array` (byte arrays) as input, instead of only strings
+- The `hmac` and `base64decode` functions now return `Uint8Array` (byte arrays) instead of a hex encoded string
+- There are 2 new functions `toString` and `toHexString` which allow to convert `Uint8Array` into strings
+- The Code Snippet picker now also allows easily adding "if { }" and "if { } else { }" blocks
+
+### Miscellaneous
+- The "Misc Settings" section was renamed to "Trigger & Execution Settings"
+- Some error messages, in particular around import & export, were improved
+- The color picker dialog for `Color` variables was swapped out for a different, easier-to-use component
+
+### Bugfixes:
+- The response headers can now be properly accessed again via Scripting
+- Form parameters can now have empty values
+
 ## Version 2.9.0
 
 ### Improvements
