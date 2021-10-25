@@ -9,8 +9,10 @@ import android.webkit.WebViewClient
 import android.widget.CheckBox
 import androidx.core.content.pm.PackageInfoCompat
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.isDarkThemeEnabled
 import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.http_shortcuts.extensions.openURL
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.utils.Settings
 import io.reactivex.Single
@@ -51,6 +53,10 @@ class ChangeLogDialog(private val context: Context, private val whatsNew: Boolea
                 override fun onPageFinished(view: WebView?, url: String?) {
                     super.onPageFinished(view, url)
                     webView.visible = true
+                }
+
+                override fun shouldOverrideUrlLoading(view: WebView, url: String) = consume {
+                    context.openURL(url)
                 }
             }
 
