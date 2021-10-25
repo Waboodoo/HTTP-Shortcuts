@@ -273,11 +273,17 @@ class CodeSnippetPicker(
             .item(name = "HMAC SHA-512") {
                 insertText("hmac(\"SHA-512\", \"key", "\", \"message\");\n")
             }
-            .item(name = "Base64 Encode") {
+            .item(name = "Base64 Encode", descriptionRes = R.string.action_type_base64encode_description) {
                 insertText("base64encode(\"", "\");\n")
             }
-            .item(name = "Base64 Decode") {
+            .item(name = "Base64 Decode", descriptionRes = R.string.action_type_base64decode_description) {
                 insertText("base64decode(\"", "\");\n")
+            }
+            .item(R.string.action_type_to_string, descriptionRes = R.string.action_type_to_string_description) {
+                insertText("toString(", ");\n")
+            }
+            .item(R.string.action_type_to_hex_string, descriptionRes = R.string.action_type_to_hex_string_description) {
+                insertText("toHexString(", ");\n")
             }
             .showIfPossible()
     }

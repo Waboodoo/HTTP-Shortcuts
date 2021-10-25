@@ -19,7 +19,7 @@ class ActionFactory {
             .associate { it.first to it.second!! }
 
     companion object {
-        private val types by lazy {
+        private val types: List<BaseActionType> by lazy {
             listOf(
                 Base64DecodeActionType(),
                 Base64EncodeActionType(),
@@ -38,6 +38,8 @@ class ActionFactory {
                 SetVariableActionType(),
                 TextToSpeechActionType(),
                 ToastActionType(),
+                ToHexStringActionType(),
+                ToStringActionType(),
                 TriggerShortcutActionType(),
                 TriggerTaskerTaskActionType(),
                 VibrateActionType(),

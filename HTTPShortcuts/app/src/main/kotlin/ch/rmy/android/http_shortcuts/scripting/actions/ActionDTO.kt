@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.scripting.actions
 
+import androidx.core.text.isDigitsOnly
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -61,6 +62,7 @@ class ActionDTO(
         return when {
             value == null -> null
             value.isUint8Array || value.isInt8Array -> value.toJSArray().toArray().map { it.toString().toByte() }.toByteArray()
+            value.isString && value.toString().isDigitsOnly() -> ByteArray(1).apply { this[0] = value.toNumber().toInt().toByte() }
             else -> getString(key)?.toByteArray()
         }
     }
