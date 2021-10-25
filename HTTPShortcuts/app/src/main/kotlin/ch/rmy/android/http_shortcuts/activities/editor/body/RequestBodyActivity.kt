@@ -171,7 +171,7 @@ class RequestBodyActivity : BaseActivity() {
             keyLabel = getString(R.string.label_post_param_key),
             valueLabel = getString(R.string.label_post_param_value),
             data = parameter.key to parameter.value,
-            isMultiLine = true
+            isMultiLine = true,
         )
             .show(context)
             .flatMapCompletable { event ->

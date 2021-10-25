@@ -96,13 +96,13 @@ class KeyValueDialog(
                 keyInput.observeTextChanges()
                     .subscribe { text ->
                         keyInput.error = keyValidator.invoke(text)
-                        okButton.isEnabled = text.isNotEmpty() && keyInput.error == null && valueInput.error == null
+                        okButton.isEnabled = keyInput.text.isNotEmpty() && keyInput.error == null && valueInput.error == null
                     }
                     .attachTo(destroyer)
                 valueInput.observeTextChanges()
                     .subscribe { text ->
                         valueInput.error = valueValidator.invoke(text)
-                        okButton.isEnabled = text.isNotEmpty() && keyInput.error == null && valueInput.error == null
+                        okButton.isEnabled = keyInput.text.isNotEmpty() && keyInput.error == null && valueInput.error == null
                     }
                     .attachTo(destroyer)
             }
