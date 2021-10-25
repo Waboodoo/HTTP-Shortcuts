@@ -1610,4 +1610,29 @@ Możesz włączyć tę funkcję, edytując skrót i zaznaczając pole wyboru \"%
 
     <!-- Message displayed in snackbar, to let the user know that moving via dragging was enabled. -->
     <string name="message_moving_enabled">"Zmień kolejność skrótów, przeciągając je."</string>
+
+    <!-- Category dropdown option: Place category on home screen -->
+    <string name="action_place_category">"Umieść na ekranie głównym"</string>
+
+    <!-- Shortcut Action Title: Send a Wake-on-LAN packet to remotely turn on a computer -->
+    <string name="action_type_wake_on_lan">"Wake-on-LAN"</string>
+
+    <!-- Error message: Shown when a JS error occurs. %d is a placeholder for the line number, %s is a placeholder for the more detailed error message. -->
+    <string name="error_js_pattern_with_line_number">"Błąd JavaScript (linia %d):
+%s"</string>
+
+    <!-- Checkbox value, shown in variable editor for Select variables, allows to enable multi select -->
+    <string name="label_select_variable_multi_select">"Zezwalaj na wybór wielu opcji"</string>
+
+    <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails -->
+    <string name="error_action_type_send_wol_failed">"Nie udało się wysłać pakietu Wake-on-LAN: %s"</string>
+
+    <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails because on an invalid MAC address -->
+    <string name="error_action_type_send_wol_invalid_mac_address">"Nieprawidłowy adres MAC: %s"</string>
+
+    <!-- Section title in shortcut editor, groups together settings related to triggering, scheduling and executing a shortcut -->
+    <string name="label_execution_settings">"Ustawienia wyzwalania i wykonywania"</string>
+
+    <!-- Section subtitle, shown underneath "Trigger & Execution Settings" -->
+    <string name="label_execution_settings_subtitle">"Określ, kiedy i jak skrót powinien być wykonywany"</string>
 </resources>

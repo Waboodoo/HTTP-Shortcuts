@@ -1598,4 +1598,25 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
 
     <!-- Section subtitle, shown underneath "Trigger & Execution Settings" -->
     <string name="label_execution_settings_subtitle">"Wann und wie soll der Shortcut ausgeführt werden?"</string>
+
+    <!-- Error message: Import failed due to the data being imported coming from a newer version of the app -->
+    <string name="import_failure_reason_data_version_mismatch">"Die gewählte Datei wurde von einer neueren Version der App exportiert und kann somit nicht importiert werden. Bitte installiere die neuste Version der App."</string>
+
+    <!-- Shortcut Action Title: Allows converting a byte array into a string of hexadecimal codes using the Scripting feature -->
+    <string name="action_type_to_hex_string">"Bytes zu Hex-String"</string>
+
+    <!-- Shortcut Action Title: Allows converting a byte array into a string using the Scripting feature -->
+    <string name="action_type_to_string">"Bytes zu String"</string>
+
+    <!-- Shortcut Action Description: Allows converting a byte array into a string of hexadecimal codes using the Scripting feature -->
+    <string name="action_type_to_hex_string_description">"Wandelt ein Uint8Array in einen String aus hexadezimalen Ziffern um"</string>
+
+    <!-- Shortcut Action Description: Allows converting a byte array into a string using the Scripting feature -->
+    <string name="action_type_to_string_description">"Wandelt ein Uint8Array in einen String um"</string>
+
+    <!-- Description for Base64decode function in scripting -->
+    <string name="action_type_base64decode_description">"Wandelt einen Base64-codierten String in ein Uint8Array (Byte-Array) um"</string>
+
+    <!-- Description for Base64encode function in scripting -->
+    <string name="action_type_base64encode_description">"Wandelt einen String oder ein Uint8Array (Byte-Array) in einen Base64-codierten String um"</string>
 </resources>

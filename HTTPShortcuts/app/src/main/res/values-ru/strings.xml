@@ -109,6 +109,9 @@
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
     <string name="error_other">"Ошибка %1$s: %2$s"</string>
 
+    <!-- Error shown when the HTTP response is too large to be loaded into memory. %s is a placeholder for the size limit, e.g. "1 MB") -->
+    <string name="error_response_too_large">"Ответ слишком велик для отображения (ограничение составляет %s)"</string>
+
     <!-- Error shown when a selected image cannot be used as an icon -->
     <string name="error_set_image">"Не удалось использовать изображение в качестве значка."</string>
 
@@ -136,8 +139,14 @@
     <!-- Title of dialog to edit a parameter on a shortcut -->
     <string name="title_post_param_edit">"Изменить параметр"</string>
 
+    <!-- Title of dialog to edit a file parameter on a shortcut -->
+    <string name="title_post_param_edit_file">"Изменить параметр файла"</string>
+
     <!-- Title of dialog to add a new parameter to a shortcut -->
     <string name="title_post_param_add">"Добавить параметр"</string>
+
+    <!-- Title of dialog to add a new file parameter to a shortcut -->
+    <string name="title_post_param_add_file">"Добавить параметр файла"</string>
 
     <!-- Label of input field to provide the name/key of a parameter of a shortcut -->
     <string name="label_post_param_key">"Параметр"</string>
@@ -228,6 +237,9 @@
     <string name="import_failed_with_reason">"Не удалось импортировать ярлыки:
 %s"</string>
 
+    <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
+    <string name="export_failed_with_reason">"Не удалось экспортировать ярлыки: %s"</string>
+
     <!-- Error message: Import failed due to invalid JSON syntax in the import file -->
     <string name="import_failure_reason_invalid_json">"Неверный JSON"</string>
 
@@ -236,6 +248,12 @@
 
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
     <string name="label_timeout">"Тайм-аут"</string>
+
+    <!-- Label, for option to set the proxy hostname for a shortcut -->
+    <string name="label_proxy_host">"Proxy имя хоста / IP Address"</string>
+
+    <!-- Label, for option to set the proxy port for a shortcut -->
+    <string name="label_proxy_port">"Proxy порт"</string>
 
     <!-- Pattern: Combines an indication of minutes (first %s) with an indication of seconds (second %s), e.g. 1 minute, 24 seconds -->
     <string name="pattern_minutes_seconds">"%1$s, %2$s"</string>
@@ -397,6 +415,9 @@
 
     <!-- Message, shown in snackbar, to confirm to the user that a category was deleted -->
     <string name="message_category_deleted">"Категория удалена."</string>
+
+    <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
+    <string name="label_category_hidden">"%s (скрыто)"</string>
 
     <!-- Dialog title/button, for feature to move a shortcut to a different category -->
     <string name="title_move_to_category">"Переместить в категорию"</string>
@@ -653,6 +674,9 @@
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu, i.e., when long-pressing the app icon on the home screen -->
     <string name="label_launcher_shortcut">"Показать как ярлык приложения на панели запуска"</string>
 
+    <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
+    <string name="label_quick_tile_shortcut">"Разрешить запуск через плитку быстрых настроек"</string>
+
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
     <string name="error_share_failed">"Произошла ошибка при обмене."</string>
 
@@ -710,8 +734,20 @@
     <!-- Button to copy the cURL export of a shortcut to the clipboard -->
     <string name="button_copy_curl_export">"Копировать"</string>
 
+    <!-- Section title in shortcut editor: "Response handling", contains settings for controlling how the shortcut response should be handled -->
+    <string name="label_response_handling">"Обработка ответов"</string>
+
+    <!-- Section subtitle in shortcut editor: "Response handling", contains settings for controlling how the shortcut response should be handled -->
+    <string name="label_response_handling_subtitle">"Определите, как обрабатывать ответ"</string>
+
     <!-- Section title in shortcut editor: "Scripting", allows to write scripts for advanced workflows -->
     <string name="label_scripting">"писать сценарии"</string>
+
+    <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before or after shortcut execution -->
+    <string name="label_scripting_subtitle">"Запускать код JavaScript до или после выполнения"</string>
+
+    <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before shortcut execution -->
+    <string name="label_scripting_browser_shortcuts_subtitle">"Запустить код JavaScript перед выполнением"</string>
 
     <!-- Section title in shortcut editor, groups together technical settings -->
     <string name="label_advanced_technical_settings">"Расширенные технические настройки"</string>
@@ -734,14 +770,29 @@
     <!-- Shortcut Action Title: Change Shortcut Name -->
     <string name="action_type_rename_shortcut_title">"Переименовать ярлык"</string>
 
+    <!-- Shortcut Action Title: Change Shortcut Icon -->
+    <string name="action_type_change_icon_title">"Изменить значок ярлыка"</string>
+
     <!-- Shortcut Action Title: Trigger a shortcut, i.e., execute it -->
     <string name="action_type_trigger_shortcut_title">"Запустить ярлык"</string>
+
+    <!-- Shortcut Action Title: Abort the execution of the shortcut -->
+    <string name="action_type_abort_execution">"Прервать выполнение"</string>
 
     <!-- Shortcut error message: Maximum recursion depth reached, i.e., a potential infinite loop was detected and stopped -->
     <string name="action_type_trigger_shortcut_error_recursion_depth_reached">"Достигнута максимальная глубина рекурсии. Ярлык не будет запущен."</string>
 
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid URL -->
     <string name="error_invalid_url">"Неверный URL (%s)."</string>
+
+    <!-- error message: Shown in toast when the user tries to execute a shortcut with invalid proxy settings -->
+    <string name="error_invalid_proxy">"Неверный прокси (%s)"</string>
+
+    <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid content type -->
+    <string name="error_invalid_content_type">"Недействительный тип содержимого (%s)."</string>
+
+    <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid header -->
+    <string name="error_invalid_header">"Неверный заголовок (%s)."</string>
 
     <!-- Title: Dialog title when selecting how to place a shortcut on the homescreen -->
     <string name="title_select_placement_method">"Метод размещения"</string>
@@ -811,6 +862,9 @@
 
     <!-- Section subtitle, shown in shortcut editor when Digest Authentication is enabled -->
     <string name="subtitle_authentication_digest">"Дайджест-аутентификация с именем пользователя и паролем"</string>
+
+    <!-- Section subtitle, shown in shortcut editor when Bearer Authentication is enabled -->
+    <string name="subtitle_authentication_bearer">"Аутентификация на предъявителя с токеном "</string>
 
     <!-- Section subtitle, shown in shortcut editor when no (POST) parameters are set -->
     <string name="subtitle_request_body_params_none">"Параметры не заданы"</string>
@@ -898,6 +952,9 @@
     <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_renaming">"Не удалось переименовать ярлык \"%1$s\", так как его не существует."</string>
 
+    <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
+    <string name="error_shortcut_not_found_for_changing_icon">"Не удалось изменить значок ярлыка \"%1$s\", потому что он не существует."</string>
+
     <!-- Settings option for dark mode: when selected the app will always use Dark Mode -->
     <string name="settings_dark_theme_options_on">"Всегда темный"</string>
 
@@ -913,18 +970,409 @@
     <!-- Message: Shown as a placeholder when the HTTP response has no content that could be displayed -->
     <string name="message_blank_response">"пустой ответ"</string>
 
+    <!-- Message shown in snackbar when the title on the main title bar was changed. -->
+    <string name="message_title_changed">"Название изменено."</string>
+
+    <!-- Dialog title: Shown in dialog title when changing the title of the main screen of the app -->
+    <string name="title_set_title">"Изменить заголовок"</string>
+
+    <!-- Dialog title: Shown in dialog title when entering the URL to import shortcuts from -->
+    <string name="dialog_title_import_from_url">"Импортировать из URL"</string>
+
+    <!-- Error: Shown when user tries to import shortcuts from an invalid URL -->
+    <string name="error_can_only_import_from_http_url">"Можно импортировать только с действительного URL-адреса http (s)"</string>
+
+    <!-- Action Label: Shown on Quick Settings Title that allows the user to quickly trigger a shortcut without opening the app -->
+    <string name="action_quick_settings_tile_trigger">"Ярлык триггера"</string>
+
+    <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
+    <string name="instructions_quick_settings_tile">"У вас еще нет ярлыков, которые можно активировать с помощью плитки быстрых настроек.
+
+Вы можете включить эту функцию, отредактировав ярлык и установив флажок \"%1$s\"  в \"%2$s\"."</string>
+
+    <!-- Label: Status code, shows the HTTP status code of the response -->
+    <string name="label_status_code">"Код состояния "</string>
+
     <!-- Label: URL, shows the HTTP request's URL alongside the response -->
     <string name="label_response_url">"URL"</string>
+
+    <!-- Label: Response time, shows how long the HTTP request took -->
+    <string name="label_response_timing">"Время отклика"</string>
+
+    <!-- Label: Shown above section that lists general information about the HTTP response, e.g. status code -->
+    <string name="label_general_response_info">"Общий"</string>
 
     <!-- Label: Shown above section that lists HTTP response headers -->
     <string name="label_response_headers">"Заголовки"</string>
 
+    <!-- Dialog title: Shown in dialog when adding a new request parameter and user has to pick its type -->
+    <string name="dialog_title_parameter_type">"Тип параметра"</string>
+
+    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for string parameter -->
+    <string name="option_parameter_type_string">"Строка (по умолчанию)"</string>
+
+    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for file parameter -->
+    <string name="option_parameter_type_file">"Отдельный файл"</string>
+
+    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for files parameter -->
+    <string name="option_parameter_type_files">"Несколько файлов"</string>
+
+    <!-- Subtitle: Shown in request parameter editor underneath every file parameter to indicate their type -->
+    <string name="subtitle_parameter_value_file">"Файл"</string>
+
+    <!-- Subtitle: Shown in request parameter editor underneath every files parameter to indicate their type -->
+    <string name="subtitle_parameter_value_files">"Файлы"</string>
+
+    <!-- Settings option: Used in language picker to allow user to pick the default language, i.e., the system language -->
+    <string name="language_default">"Сброс настроек по умолчанию"</string>
+
+    <!-- Error: Shown in toast when user tries to add a variable placeholder to a text beyond its maximum size -->
+    <string name="error_text_too_long_for_variable">"Текст превышает ограничение на %d символов. Невозможно вставить местозаполнитель переменной."</string>
+
+    <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->
+    <string name="instructions_select_shortcut_for_home_screen">"Выберите или создайте ярлык, чтобы разместить его на главном экране."</string>
+
+    <!-- Label: Shown when user selects a widget to place on the home screen, shown for the customizable widget (as opposite to the generic shortcut) -->
+    <string name="label_widget">"Настраиваемый виджет"</string>
+
+    <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
+    <string name="label_show_widget_label">"Показать этикетку"</string>
+
+    <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
+    <string name="action_create_widget">"Создать виджет"</string>
+
+    <!-- Title: Configure Widget, shown when creating a widget and the user has some options to configure it -->
+    <string name="title_configure_widget">"Настроить виджет"</string>
+
+    <!-- Label: Shown in widget configuration screen, clicking it allows the user to pick a color for the widget label -->
+    <string name="label_widget_label_color">"Цвет ярлыка"</string>
+
     <!-- Error: Generic error shown when the user enters an invalid character, e.g. for an HTTP header. %s is the placeholder for the character -->
     <string name="error_invalid_character">"Неправильный символ: %s"</string>
+
+    <!-- dialog title, shown when creating new variable and user is prompted to select the type of the variable -->
+    <string name="title_select_variable_type">"Выберите тип переменной"</string>
+
+    <!-- Error message: Shown when a request that uses Digest Authentication fails. %s is a placeholder for the detailed error message. -->
+    <string name="error_digest_auth_failed">"шибка аутентификации:%s"</string>
+
+    <!-- label, to allow the user to enter the name for a variable -->
+    <string name="label_variable_name">"Имя"</string>
+
+    <!-- Description for option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
+    <string name="button_description_create_browser_shortcut">"Откройте URL-адрес в браузере"</string>
+
+    <!-- Option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
+    <string name="button_create_scripting_shortcut">"Ярлык сценария"</string>
+
+    <!-- Description for option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
+    <string name="button_description_create_scripting_shortcut">"Напишите код JavaScript для расширенных рабочих процессов"</string>
+
+    <!-- Option in dialog to create new shortcut: create a multi shortcut, i.e., a shortcut that will trigger one or more other shortcuts -->
+    <string name="button_create_trigger_shortcut">"Мульти-ярлык"</string>
+
+    <!-- Description for option in dialog to create new shortcut: create a multi shortcut, i.e., a shortcut that will trigger one or more other shortcuts -->
+    <string name="button_description_create_trigger_shortcut">"Запуск нескольких ярлыков одновременно"</string>
+
+    <!-- Dropdown option for request body: file (i.e., user gets to pick a file which is used as the request body) -->
+    <string name="request_body_option_file">"Файл (средство выбора)"</string>
+
+    <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. -->
+    <string name="label_scripting_scripting_shortcuts_subtitle">"Запустить код JavaScript"</string>
+
+    <!-- Shortcut Action Title: Action that allows to read a snippet of text out load (text-to-speech) -->
+    <string name="action_tts">"Говори (преобразование текста в речь)"</string>
+
+    <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Browser Shortcut", i.e., one that only opens the browser without making an HTTP request of its own -->
+    <string name="subtitle_editor_toolbar_browser_shortcut">"Ярлык браузера"</string>
+
+    <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Scripting Shortcut", i.e., one that only allows JavaScript for execution and doesn't actually make an HTTP request -->
+    <string name="subtitle_editor_toolbar_scripting_shortcut">"Ярлык сценария"</string>
+
+    <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Multi-Shortcut", i.e., one that only allows triggering one or more other shortcuts -->
+    <string name="subtitle_editor_toolbar_trigger_shortcut">"Мульти-ярлык"</string>
+
+    <!-- Section subtitle, shown in shortcut editor when request body is set to 'File' -->
+    <string name="subtitle_request_body_file">"Набор тела запроса файла"</string>
+
+    <!-- Error: Shown when the text-to-speech action fails to speak a piece of text -->
+    <string name="error_tts_failed">"Не удалось произнести текст"</string>
+
+    <!-- Label: Option shown in Code Snippet Picker when inserting an action that targets a shortcut, allows to target the current shortcut -->
+    <string name="label_insert_action_code_for_current_shortcut">"Текущий ярлык "</string>
+
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code -->
+    <string name="placeholder_javascript_code_generic">"Добавьте сюда код JavaScript"</string>
+
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the shortcut -->
+    <string name="placeholder_javascript_code_before">"Добавьте сюда код JavaScript для запуска перед выполнением ярлыка, например, для подготовки некоторых переменных."</string>
+
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs after the shortcut on success -->
+    <string name="placeholder_javascript_code_success">"Добавьте сюда код JavaScript для запуска после выполнения ярлыка, например, для обработки ответа."</string>
+
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs when execution fails -->
+    <string name="placeholder_javascript_code_failure">"Добавьте сюда код JavaScript для запуска в случае сбоя запроса."</string>
+
+    <!-- Section title in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger -->
+    <string name="label_trigger_shortcuts">"Ярлыки триггеров"</string>
+
+    <!-- Section subtitle in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger. No shortcuts set. -->
+    <string name="label_trigger_shortcuts_subtitle_none">"Ярлыки еще не выбраны"</string>
+
+    <!-- Dialog title: Shown in dialog when picking a shortcut to be added to the list of shortcuts that are triggered when a multi-shortcut is executed -->
+    <string name="title_add_trigger_shortcut">"Добавить ярлык"</string>
+
+    <!-- Dialog error message: Shown in dialog when picking a shortcut to be added to the list of shortcuts that are triggered when a multi-shortcut is executed but the user doesn't have any shortcuts yet -->
+    <string name="error_add_trigger_shortcut_no_shortcuts">"Нет ярлыков, которые можно добавить. Вам необходимо сначала создать несколько дополнительных ярлыков, прежде чем вы сможете выбрать их здесь."</string>
+
+    <!-- Dialog title: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
+    <string name="title_remove_trigger_shortcut">"Удалить ярлык"</string>
+
+    <!-- Dialog message: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
+    <string name="message_remove_trigger_shortcut">"Удалить ярлык \"%s\" из списка сработавших ярлыков?"</string>
+
+    <!-- Shortcut Action Title: Show Dialog that asks the user to input text -->
+    <string name="action_type_prompt_title">"Запрос текста"</string>
+
+    <!-- Shortcut Action Title: Show Dialog that asks the user to confirm something -->
+    <string name="action_type_confirm_title">"Запросить подтверждение"</string>
+
+    <!-- Shortcut Action Title: Wait for a number of milliseconds before continuing with the script execution -->
+    <string name="action_type_wait">"Ждать"</string>
+
+    <!-- Shortcut Action Title: Get the IP Address of the current WiFi -->
+    <string name="action_type_get_wifi_ip_address">"Получить IP-адрес в WiFi"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options to get information about the current shortcut itself -->
+    <string name="dialog_code_snippet_shortcut_info">"Информация о ярлыке"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options to interact with the user (show dialog, prompt for input, ...) -->
+    <string name="dialog_code_snippet_user_interaction">"Взаимодействие с пользователем"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options to modify shortcuts -->
+    <string name="dialog_code_snippet_modify_shortcuts">"Изменить ярлыки"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options to control the flow of the script (abort, if-else, ...) -->
+    <string name="dialog_code_snippet_control_flow">"Поток управления"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options to don't belong in any of the other categories -->
+    <string name="dialog_code_snippet_misc">"Смешанный Miscellaneous"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the ID of the current shortcut -->
+    <string name="dialog_code_snippet_get_shortcut_id">"Получить идентификатор ярлыка"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the name of the current shortcut -->
+    <string name="dialog_code_snippet_get_shortcut_name">"Получить имя ярлыка"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the description of the current shortcut -->
+    <string name="dialog_code_snippet_get_shortcut_description">"Получить описание ярлыка"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a json object -->
+    <string name="dialog_code_snippet_response_body_json">"Получить тело ответа как JSON"</string>
+
+    <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid bearer auth token configured -->
+    <string name="error_invalid_bearer_auth">"Недействительный токен аутентификации на предъявителя (%s)."</string>
+
+    <!-- Shortcut Action Title: Trigger a task in Tasker -->
+    <string name="action_type_trigger_tasker_title">"Запуск задачи Tasker"</string>
+
+    <!-- Shortcut Action Title: Send an Android Intent, e.g. to trigger or invoke some action in another app -->
+    <string name="action_type_send_intent_title">"Отправить Intent"</string>
+
+    <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
+    <string name="error_action_type_send_intent_failed">"Не удалось отправить intent"</string>
+
+    <!-- Name of setting that allows the user to enable running all HTTP requests in the foreground. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
+    <string name="settings_force_foreground">"Запускать запросы на переднем плане"</string>
+
+    <!-- Subtitle of setting that allows the user to enable running all HTTP requests in the foreground. This is the description of a troubleshooting option, to prevent requests from failing when the app is in the background -->
+    <string name="settings_force_foreground_summary">"Включите, если ярлыки не работают извне приложения"</string>
+
+    <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
+    <string name="settings_troubleshooting">"Исправление проблем"</string>
+
+    <!-- Label above dropdown in editor, to select what should happen when the HTTP request succeeds -->
+    <string name="label_response_on_success">"При успешном"</string>
+
+    <!-- Label above dropdown in editor, to select what should happen when the HTTP request fails -->
+    <string name="label_response_on_failure">"При ошибке"</string>
+
+    <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
+    <string name="label_include_meta_information">"Показать метаинформацию (например, заголовки ответа)"</string>
+
+    <!-- Label for dropdown in shortcut editor, for picking how the response should be displayed -->
+    <string name="label_response_handling_type">"Отобразить тип"</string>
+
+    <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Toast popup -->
+    <string name="option_response_handling_type_toast">"Всплывающее popup окно"</string>
+
+    <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->
+    <string name="option_response_handling_type_dialog">"Диалоговое окно"</string>
+
+    <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a fullscreen window -->
+    <string name="option_response_handling_type_window">"Вовесь экран"</string>
+
+    <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show the (full) response -->
+    <string name="option_response_handling_success_output_response">"Показать ответ"</string>
+
+    <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show a pre-defined message -->
+    <string name="option_response_handling_success_output_message">"Показать сообщение"</string>
+
+    <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show nothing -->
+    <string name="option_response_handling_success_output_none">"Ничего не показывать (тихий запуск)"</string>
+
+    <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request fails: show the full/detailed error message -->
+    <string name="option_response_handling_failure_output_detailed">"Показать подробное сообщение об ошибке"</string>
+
+    <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request fails: show a simplified error message -->
+    <string name="option_response_handling_failure_output_simple">"Показать простое сообщение об ошибке"</string>
+
+    <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request fails: show nothing -->
+    <string name="option_response_handling_failure_output_none">"Ничего не показывать (тихий режим)"</string>
+
+    <!-- Label for text area in shortcut editor that allows to enter a custom message which should be displayed when the request succeeds -->
+    <string name="label_response_handling_success_message">"Сообщение"</string>
+
+    <!-- Shortcut dropdown option: export the shortcut -->
+    <string name="action_export">"Экспорт"</string>
+
+    <!-- Dialog title, for exporting a single shortcut. Dialog offers different export options (e.g. as JSON, as cURL) -->
+    <string name="title_export_shortcut_as">"Экспорт как..."</string>
 
     <!-- Dialog option, for exporting a single shortcut as cURL -->
     <!-- Fuzzy -->
     <string name="action_export_as_curl">"cURL"</string>
+
+    <!-- Name of button in settings screen that allows to clear all HTTP cookies -->
+    <string name="settings_clear_cookies">"Удалить Cookies"</string>
+
+    <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor, to decide whether cookies should be stored for the HTTP request -->
+    <string name="label_accept_cookies">"Хранить cookies"</string>
+
+    <!-- Message, shown in dialog, to ask the user to confirm the deletion of all cookies -->
+    <string name="confirm_clear_cookies_message">"Удалить все сохраненные файлы cookie?"</string>
+
+    <!-- Message, shown in snackbar as confirmation to the user that cookies have been deleted -->
+    <string name="message_cookies_cleared">"Файлы cookie удалены."</string>
+
+    <!-- Generic button: Help (to open documentation) -->
+    <string name="dialog_help">"Помощь"</string>
+
+    <!-- Shortcut Action Title: Show Selection (i.e., show a popup with multiple-choice option) -->
+    <string name="action_type_selection_title">"Показать выбор (множественный выбор)"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options to process text (e.g. encoding, hashing, ...) -->
+    <string name="dialog_code_snippet_text_processing">"Обработка текста"</string>
+
+    <!-- Error message: Shown when user tries to use an unsupported hash function -->
+    <string name="error_unsupported_hash_algorithm">"Неподдерживаемый алгоритм хеширования \"%1$s\".  Используйте %2$s."</string>
+
+    <!-- Button in settings page to start editing shortcuts from a connected computer -->
+    <string name="settings_remote_edit">"Редактировать на компьютере"</string>
+
+    <!-- Instructions on how to edit shortcuts remotely from a computer -->
+    <string name="instructions_remote_edit">"Эта функция позволяет редактировать ярлыки на компьютере, не выходя из браузера. Перед началом работы ознакомьтесь с Политикой конфиденциальности приложения, а затем выполните следующие действия:"</string>
+
+    <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->
+    <string name="instructions_remote_edit_step_1">"Введите пароль в поле выше."</string>
+
+    <!-- Instruction step for editing shortcuts remotely from a computer: click the push button -->
+    <string name="instructions_remote_edit_step_2">"Нажмите  &lt;pre&gt; «Отправить на сервер» &lt;/pre&gt; кнопку."</string>
+
+    <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
+    <string name="instructions_remote_edit_step_3">"Откройте %s в браузере на своем компьютере, введите идентификатор устройства и пароль и начните редактирование."</string>
+
+    <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
+    <string name="instructions_remote_edit_step_4">"После того, как вы закончите редактирование и сохраните изменения, нажмите кнопку &lt;pre&gt;«Извлечь изменения»&lt;/pre&gt; ниже, чтобы загрузить изменения обратно в приложение."</string>
+
+    <!-- Button label: Shown in "Edit on Computer" feature, allows to push all shortcuts and variables to the editing server -->
+    <string name="button_remote_edit_upload">"Отправить на сервер"</string>
+
+    <!-- Label: Shown above a textfield with the device's ID, used to log in to edit server when editing shortcuts on a computer -->
+    <string name="label_remote_edit_device_id">"Идентификатор устройства"</string>
+
+    <!-- Label: Shown above a textfield for entering a password, used to log in to edit server when editing shortcuts on a computer -->
+    <string name="label_remote_edit_password">"Пароль"</string>
+
+    <!-- Status message shown while shortcuts & variables are being pushed to the remote server, shown on progress dialog -->
+    <string name="remote_edit_upload_in_progress">"Отправка на сервер…"</string>
+
+    <!-- Status message shown while changes to shortcuts & variables are being pulled down from the remote server, shown on progress dialog -->
+    <string name="remote_edit_download_in_progress">"Получение изменений…"</string>
+
+    <!-- Message: Success message shown in snackbar when pushing shortcuts and variables to the editing server was successful -->
+    <string name="message_remote_edit_upload_successful">"Успешно отправлено на сервер."</string>
+
+    <!-- Message: Success message shown in snackbar when pulling changes to shortcuts and variables from the editing server was successful -->
+    <string name="message_remote_edit_download_successful">"Изменения внесены."</string>
+
+    <!-- Error message: shown in dialog when pushing shortcuts to the editing server failed -->
+    <string name="error_remote_edit_upload">"Не удалось отправить на сервер. Пожалуйста, попробуйте позже."</string>
+
+    <!-- Error message: shown in dialog when pulling changes to shortcuts from the editing server failed -->
+    <string name="error_remote_edit_download">"Не удалось получить изменения с сервера. Пожалуйста, проверьте ваше сетевое соединение и убедитесь, что вы не меняли пароль."</string>
+
+    <!-- Option for dropdown menu in remote editor, allows to change the remote editing server -->
+    <string name="button_change_remote_server">"Изменить адрес сервера"</string>
+
+    <!-- Dialog title: allows to change the remote editing server -->
+    <string name="title_change_remote_server">"Изменить адрес сервера"</string>
+
+    <!-- Dialog button (generic): Allows to reset some setting to its original value -->
+    <string name="dialog_reset">"Сброс настроек"</string>
+
+    <!-- Error message: Shown when a script tries to read from a variable that does not exist. %s is a placeholder for the name of the variable. -->
+    <string name="error_variable_not_found_read">"Ошибка переменной: попытка получить значение несуществующей переменной: %s"</string>
+
+    <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->
+    <string name="error_variable_not_found_write">"Ошибка переменной: попытка установить значение переменной, которая не существует или не является статической (константой): %s"</string>
+
+    <!-- Title of code editor for defining global scripting code (JS code that runs before every shortcut) -->
+    <string name="title_global_scripting">"Глобальные сценарии"</string>
+
+    <!-- Button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
+    <string name="settings_global_scripting">"Глобальные сценарии"</string>
+
+    <!-- Subtitle of button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
+    <string name="settings_global_scripting_summary">"Запускать код JavaScript перед каждым выполнением ярлыка"</string>
+
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the execution of every shortcut -->
+    <string name="placeholder_javascript_global_scripting">"Добавьте сюда код JavaScript для запуска в начале каждого выполнения ярлыка, например, чтобы подготовить некоторые переменные или определить некоторые функции, которые можно использовать в разделе сценариев ярлыка."</string>
+
+    <!-- Action label: Shown on menu button to save changes in the Global Scripting editor -->
+    <string name="action_save_global_scripting">"Сохранить изменения"</string>
+
+    <!-- Error message: Shown when trying to trigger a shortcut by name via a voice command or deep-linking but the shortcut is not found -->
+    <string name="error_shortcut_not_found_for_deep_link">"Ярлык \"%s\" не найден"</string>
+
+    <!-- Instructions: Shown when the deep-linking feature is used but with an invalid URL -->
+    <string name="instructions_deep_linking">"Чтобы использовать функцию глубокой ссылки, убедитесь, что вы используете действительный URL-адрес в форме:
+
+%s"</string>
+
+    <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
+    <string name="placeholder_deleted_shortcut">"Удален ярлык"</string>
+
+    <!-- Menu button, allows saving a response as a file -->
+    <string name="button_save_response_as_file">"Сохранить как файл"</string>
+
+    <!-- Label: Wifi network selection config in shortcut settings -->
+    <string name="label_ssid">"Требуемый Wi-Fi SSID"</string>
+
+    <!-- Dialog title: Permission request for wifi/ssid check -->
+    <string name="title_permission_dialog">"Требуются разрешения"</string>
+
+    <!-- Message: Rational given for location permission in wifi/ssid check -->
+    <string name="message_permission_rational">"Разрешения на расположение необходимы, чтобы проверить, выполняется ли ярлык в настроенной сети Wi-Fi. Это требование, предъявляемое ОС Android. Данные о вашем местоположении не доступны напрямую."</string>
+
+    <!-- Message: Shown to the user when connected to a different wifi network than the one given in the config -->
+    <string name="message_wrong_wifi_network">"Не подключен к сети Wi-Fi, настроенной для этого ярлыка \"%1$s\". Выбрать другую сеть Wi-Fi сейчас?"</string>
+
+    <!-- Action label: Shown on wifi check dialog to open the wifi picker -->
+    <string name="action_label_select">"Выбирать"</string>
+
+    <!-- Error message, shown when user declines location permission for wifi check -->
+    <string name="error_missing_location_permission">"Не удалось получить разрешение на определение местоположения. Отмена запроса."</string>
 
     <!-- Message: Success message shown when a response was saved to a file -->
     <string name="message_response_saved_to_file">"Ответ сохранен в файл."</string>
@@ -946,4 +1394,162 @@
 
     <!-- Title of option in settings screen: links the user to an external documentation page -->
     <string name="settings_documentation">"Документация"</string>
+
+    <!-- Subtitle of option in settings screen: links the user to an external documentation page -->
+    <string name="settings_documentation_summary">"FAQ, ссылки, примеры,…"</string>
+
+    <!-- Instructions shown below the "Allow Share..." checkbox in the variable editor -->
+    <string name="message_allow_share_instructions">"Включение этого параметра позволяет вам обмениваться текстом из других приложений и использовать этот общий текст в качестве временного значения для этой переменной."</string>
+
+    <!-- Dialog title: Shown in progress dialog while a file is being saved -->
+    <string name="saving_in_progress">"Сохранение…"</string>
+
+    <!-- Title: Shown above cropper/resizer tool when picking a custom icon -->
+    <string name="title_edit_custom_icon">"Редактировать иконку"</string>
+
+    <!-- Error message: Shown in dialog when user tries to enter an invalid URL for the remote edit feature -->
+    <string name="error_invalid_remote_edit_host_url">"Неверный URL. Должен быть http (s)."</string>
+
+    <!-- Dialog option, for exporting a single shortcut as a file -->
+    <string name="action_export_as_file">"Файл"</string>
+
+    <!-- Title of import/export page, for importing and exporting shortcuts and variables -->
+    <string name="title_import_export">"Иморт / Экспорт"</string>
+
+    <!-- Section title on settings screen for options related to Scripting (i.e., custom workflow code in JavaScript) -->
+    <string name="settings_title_scripting">"Сценарии"</string>
+
+    <!-- Button in settings page to start import of shortcuts from a file -->
+    <string name="settings_import_from_file">"Импорт из файла"</string>
+
+    <!-- Button in settings page to start import of shortcuts from a url -->
+    <string name="settings_import_from_url">"Импортировать из URL"</string>
+
+    <!-- Section title on import/export screen for options related to importing -->
+    <string name="settings_title_import">"Импорт"</string>
+
+    <!-- Section title on import/export screen for options related to exporting -->
+    <string name="settings_title_export">"Экспорт"</string>
+
+    <!-- Section title on import/export screen for options related to remote editing (i.e. editing on computer) -->
+    <string name="settings_title_remote_edit">"Удаленное редактирование"</string>
+
+    <!-- Name of setting that allows the user to enable exporting using the legacy file format -->
+    <string name="settings_use_legacy_export_format">"Использовать устаревший формат файла"</string>
+
+    <!-- Subtitle of setting that allows the user to enable exporting using the legacy file format -->
+    <string name="settings_use_legacy_export_format_summary">"Включите экспорт ярлыков и переменных с использованием старого формата файла (т. Е. Одного файла JSON). Это предотвратит экспорт пользовательских значков ярлыков."</string>
+
+    <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
+    <string name="label_client_cert">"Проверка подлинности сертификата клиента"</string>
+
+    <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
+    <string name="label_subtitle_no_client_cert">"Щелкните, чтобы выбрать сертификат."</string>
+
+    <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
+    <string name="label_subtitle_client_cert_in_use">"Используя сертификат \"% s\". Щелкните, чтобы удалить."</string>
+
+    <!-- Error: Shown to the user when any error occurred while trying to execute a shortcut that uses a client certificate -->
+    <string name="error_failed_to_use_client_cert">"Не удалось загрузить или использовать сертификат клиента. Возможно, это не поддерживается вашим устройством или его необходимо перенастроить в настройках ярлыка."</string>
+
+    <!-- Error message: Shown when user tries to use an unsupported hmac function -->
+    <string name="error_unsupported_hmac_algorithm">"Неподдерживаемый алгоритм HMAC \"%1$s\"  или недопустимый ключ. Используйте  %2$s."</string>
+
+    <!-- Button, shown on About page, to allow opening the app's F-Droid page -->
+    <string name="settings_f_droid">"Посмотреть в F-Droid"</string>
+
+    <!-- Button subtitle for "View in F-Droid" button -->
+    <string name="settings_f_droid_summary">"Проверить обновления"</string>
+
+    <!-- Subtitle for button to select a client certificate, when a file based certificate has been selected -->
+    <string name="label_subtitle_client_cert_file_in_use">"Использование файла сертификата. Щелкните, чтобы удалить."</string>
+
+    <!-- Title for dialog, when selecting a client certificate -->
+    <string name="title_client_cert">"Сертификат клиента"</string>
+
+    <!-- Label, for option in dialog to pick a client certificate managed by the operating system -->
+    <string name="label_client_cert_from_os">"Управляется ОС "</string>
+
+    <!-- Subtitle for Label, for option in dialog to pick a client certificate managed by the operating system -->
+    <string name="label_client_cert_from_os_subtitle">"Рекомендуемый, более безопасный"</string>
+
+    <!-- Label, for option in dialog to pick a client certificate from a .p12 file -->
+    <string name="label_client_cert_from_file">"Импорт из файла .p12"</string>
+
+    <!-- Subtitle for Label, for option in dialog to pick a client certificate from a .p12 file -->
+    <string name="label_client_cert_from_file_subtitle">"Копия файла и пароль будут храниться внутри приложения без специальной защиты. Используйте на свой риск."</string>
+
+    <!-- Title of dialog, for entering the password for a client cert file -->
+    <string name="title_client_cert_file_password">"Пароль"</string>
+
+    <!-- Shortcut dropdown option: display information about the shortcut -->
+    <string name="action_shortcut_information">"Показать инфо"</string>
+
+    <!-- Label shown above a text field showing a shortcut's ID -->
+    <string name="label_shortcut_id">"ID ярлыка"</string>
+
+    <!-- Label shown above a text field showing a shortcut's deep link URL -->
+    <string name="label_deep_link_url">"URL с глубинными ссылками"</string>
+
+    <!-- Message: instructions shown below a shortcut's deep-linking URL -->
+    <string name="message_deep_link_instructions">"Вы можете активировать этот ярлык, вызвав этот URL-адрес из другого приложения, например, через QR-сканер или считыватель NFC. Добавьте параметры запроса к URL-адресу для передачи значений переменных."</string>
+
+    <!-- Shortcut Action Title: Action that allows to play a (notification) sound effect -->
+    <string name="action_play_sound">"Воспроизвести звук"</string>
+
+    <!-- Message: Hint to the user that additional/advanced options are available for response handling through scripting. -->
+    <string name="message_response_handling_scripting_hint">"Если вам нужны более продвинутые параметры для обработки и отображения ответа, ознакомьтесь с разделом  '%s'  который позволяет вам определять пользовательскую логику с помощью кода JavaScript."</string>
+
+    <!-- Menu button shown on response window, allows the user to execute the current shortcut again -->
+    <string name="action_rerun_shortcut">"Повторить"</string>
+
+    <!-- Checkbox value, shown in variable editor, allows to enable multiline input for a text variable -->
+    <string name="label_multiline">"Многострочный "</string>
+
+    <!-- Instructions shown below the "JSON encode" checkbox in the variable editor -->
+    <string name="message_json_encode_instructions">"Включите это, если вы используете эту переменную внутри строки JSON, например, в теле запроса. Специальные символы будут экранированы."</string>
+
+    <!-- Instructions shown below the "URL encode" checkbox in the variable editor -->
+    <string name="message_url_encode_instructions">"Включите это, если вы используете эту переменную внутри URL-адреса, например, как часть строки запроса. Специальные символы будут экранированы."</string>
+
+    <!-- Name of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
+    <string name="settings_allow_overlay">"Разрешить отображение поверх других приложений"</string>
+
+    <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
+    <string name="settings_allow_overlay_summary">"включить, если ярлыки не работают при запуске из панели быстрых настроек или стороннего приложения"</string>
+
+    <!-- Shortcut dropdown option: Enable moving shortcuts within a category by dragging -->
+    <string name="action_enable_moving">"Включить перемещение по категории"</string>
+
+    <!-- Message displayed in snackbar, to let the user know that moving via dragging was enabled. -->
+    <string name="message_moving_enabled">"Измените порядок ярлыков, перетащив их."</string>
+
+    <!-- Category dropdown option: Place category on home screen -->
+    <string name="action_place_category">"Поместить на главный экран"</string>
+
+    <!-- Shortcut Action Title: Send a Wake-on-LAN packet to remotely turn on a computer -->
+    <string name="action_type_wake_on_lan">"
+Wake-on-LAN"</string>
+
+    <!-- Error message: Shown when a JS error occurs. %d is a placeholder for the line number, %s is a placeholder for the more detailed error message. -->
+    <string name="error_js_pattern_with_line_number">"Ошибка JavaScript (в строке %d):
+%s"</string>
+
+    <!-- label, shown in variable editor for Select Input variable, to allow the user to specify a separator when using multi-select -->
+    <string name="label_select_variable_separator">"Разделитель"</string>
+
+    <!-- Checkbox value, shown in variable editor for Select variables, allows to enable multi select -->
+    <string name="label_select_variable_multi_select">"Разрешить выбор нескольких вариантов "</string>
+
+    <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails -->
+    <string name="error_action_type_send_wol_failed">"Не удалось отправить пакет Wake-on-LAN:% s"</string>
+
+    <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails because on an invalid MAC address -->
+    <string name="error_action_type_send_wol_invalid_mac_address">"Недействительный MAC-адрес: %s"</string>
+
+    <!-- Section title in shortcut editor, groups together settings related to triggering, scheduling and executing a shortcut -->
+    <string name="label_execution_settings">"Настройки триггера и выполнения"</string>
+
+    <!-- Section subtitle, shown underneath "Trigger & Execution Settings" -->
+    <string name="label_execution_settings_subtitle">"Определите, когда и как должен выполняться ярлык"</string>
 </resources>

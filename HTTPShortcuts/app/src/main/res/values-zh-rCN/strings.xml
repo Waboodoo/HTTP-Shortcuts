@@ -1592,4 +1592,10 @@
 
     <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails because on an invalid MAC address -->
     <string name="error_action_type_send_wol_invalid_mac_address">"无效的 MAC 地址：%s"</string>
+
+    <!-- Section title in shortcut editor, groups together settings related to triggering, scheduling and executing a shortcut -->
+    <string name="label_execution_settings">"触发器&amp;执行设置"</string>
+
+    <!-- Section subtitle, shown underneath "Trigger & Execution Settings" -->
+    <string name="label_execution_settings_subtitle">"定义何时以及如何执行快捷方式"</string>
 </resources>
