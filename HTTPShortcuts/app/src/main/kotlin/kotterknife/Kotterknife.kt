@@ -1,7 +1,6 @@
 package kotterknife
 
 import android.app.Activity
-import android.app.Dialog
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import kotlin.properties.ReadOnlyProperty
@@ -10,15 +9,10 @@ import kotlin.reflect.KProperty
 fun <V : View> Activity.bindView(id: Int)
     : ReadOnlyProperty<Activity, V> = required(id, viewFinder)
 
-fun <V : View> Dialog.bindView(id: Int)
-    : ReadOnlyProperty<Dialog, V> = required(id, viewFinder)
-
 fun <V : View> ViewHolder.bindView(id: Int)
     : ReadOnlyProperty<ViewHolder, V> = required(id, viewFinder)
 
 private val Activity.viewFinder: Activity.(Int) -> View?
-    get() = { findViewById(it) }
-private val Dialog.viewFinder: Dialog.(Int) -> View?
     get() = { findViewById(it) }
 private val ViewHolder.viewFinder: ViewHolder.(Int) -> View?
     get() = { itemView.findViewById(it) }
