@@ -393,11 +393,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     }
 
     private fun showRequestPermissionRationalIfNeeded(): Completable =
-        if (ActivityCompat.shouldShowRequestPermissionRationale(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-            )
-        ) {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
             DialogBuilder(context)
                 .title(getString(R.string.title_permission_dialog))
                 .message(getString(R.string.message_permission_rational))
@@ -407,17 +403,16 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
             Completable.complete()
         }
 
-    private fun requestPermissionsForWifiCheck() = Completable.create { emitter ->
+    private fun requestPermissionsForWifiCheck() =
         RxPermissions(this)
             .request(Manifest.permission.ACCESS_FINE_LOCATION)
-            .subscribe { granted ->
+            .flatMapCompletable { granted ->
                 if (granted) {
-                    emitter.onComplete()
+                    Completable.complete()
                 } else {
-                    emitter.onError(MissingLocationPermissionException())
+                    Completable.error(MissingLocationPermissionException())
                 }
             }
-    }
 
     private fun executeWithActions(): Completable =
         requestPermissionsForWifiCheckIfNeeded()
