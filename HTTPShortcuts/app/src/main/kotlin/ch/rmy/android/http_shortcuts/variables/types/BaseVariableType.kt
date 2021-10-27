@@ -14,15 +14,11 @@ abstract class BaseVariableType {
     val tag: String
         get() = javaClass.simpleName
 
-    fun getEditorFragment(fragmentManager: FragmentManager): VariableEditorFragment {
-        val fragment = fragmentManager.findFragmentByTag(tag)
-        if (fragment != null) {
-            return fragment as VariableEditorFragment
-        }
-        return createEditorFragment()
-    }
+    fun getEditorFragment(fragmentManager: FragmentManager): VariableEditorFragment<*> =
+        fragmentManager.findFragmentByTag(tag) as? VariableEditorFragment<*>?
+            ?: createEditorFragment()
 
-    protected open fun createEditorFragment() = VariableEditorFragment()
+    protected abstract fun createEditorFragment(): VariableEditorFragment<*>
 
     abstract fun resolveValue(context: Context, variable: Variable): Single<String>
 

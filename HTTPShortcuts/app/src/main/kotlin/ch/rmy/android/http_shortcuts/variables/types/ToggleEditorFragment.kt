@@ -1,12 +1,13 @@
 package ch.rmy.android.http_shortcuts.variables.types
 
-import android.widget.Button
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.ToggleVariableOptionsAdapter
 import ch.rmy.android.http_shortcuts.data.models.Option
 import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.databinding.VariableEditorToggleBinding
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.mapIfNotNull
@@ -16,24 +17,22 @@ import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils.bindVariableViews
-import kotterknife.bindView
 
-class ToggleEditorFragment : VariableEditorFragment() {
+class ToggleEditorFragment : VariableEditorFragment<VariableEditorToggleBinding>() {
 
     private var variable: Variable? = null
 
-    override val layoutResource = R.layout.variable_editor_toggle
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?) =
+        VariableEditorToggleBinding.inflate(inflater, container, false)
 
-    private val toggleOptionsAddButton: Button by bindView(R.id.toggle_options_add_button)
-    private val toggleOptionsList: RecyclerView by bindView(R.id.toggle_options_list)
     private val optionsAdapter = ToggleVariableOptionsAdapter()
 
     override fun setupViews() {
         optionsAdapter.variablePlaceholderProvider = variablePlaceholderProvider
 
-        toggleOptionsAddButton.setOnClickListener { showAddDialog() }
-        toggleOptionsList.layoutManager = LinearLayoutManager(context)
-        toggleOptionsList.adapter = optionsAdapter
+        binding.toggleOptionsAddButton.setOnClickListener { showAddDialog() }
+        binding.toggleOptionsList.layoutManager = LinearLayoutManager(context)
+        binding.toggleOptionsList.adapter = optionsAdapter
         optionsAdapter.clickListener = ::showEditDialog
         initDragOrdering()
     }
@@ -44,7 +43,7 @@ class ToggleEditorFragment : VariableEditorFragment() {
             variable!!.options!!.move(oldPosition, newPosition)
             optionsAdapter.notifyItemMoved(oldPosition, newPosition)
         }.attachTo(destroyer)
-        dragOrderingHelper.attachTo(toggleOptionsList)
+        dragOrderingHelper.attachTo(binding.toggleOptionsList)
     }
 
     private fun showAddDialog() {

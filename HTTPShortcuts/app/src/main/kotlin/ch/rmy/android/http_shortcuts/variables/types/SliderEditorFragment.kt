@@ -1,30 +1,26 @@
 package ch.rmy.android.http_shortcuts.variables.types
 
-import android.widget.CheckBox
-import android.widget.EditText
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.databinding.VariableEditorSliderBinding
 import ch.rmy.android.http_shortcuts.extensions.showMessageDialog
-import kotterknife.bindView
 
-class SliderEditorFragment : VariableEditorFragment() {
+class SliderEditorFragment : VariableEditorFragment<VariableEditorSliderBinding>() {
 
     private var variable: Variable? = null
 
-    override val layoutResource = R.layout.variable_editor_slider
-
-    private val inputRememberValue: CheckBox by bindView(R.id.input_remember_value)
-    private val inputMin: EditText by bindView(R.id.input_slider_min)
-    private val inputMax: EditText by bindView(R.id.input_slider_max)
-    private val inputStep: EditText by bindView(R.id.input_slider_step)
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?) =
+        VariableEditorSliderBinding.inflate(inflater, container, false)
 
     override fun updateViews(variable: Variable) {
         this.variable = variable
-        inputRememberValue.isChecked = variable.rememberValue
+        binding.inputRememberValue.isChecked = variable.rememberValue
 
-        inputMin.setText(SliderType.findMin(variable).toString())
-        inputMax.setText(SliderType.findMax(variable).toString())
-        inputStep.setText(SliderType.findStep(variable).toString())
+        binding.inputSliderMin.setText(SliderType.findMin(variable).toString())
+        binding.inputSliderMax.setText(SliderType.findMax(variable).toString())
+        binding.inputSliderStep.setText(SliderType.findStep(variable).toString())
     }
 
     override fun validate() =
@@ -41,17 +37,17 @@ class SliderEditorFragment : VariableEditorFragment() {
         }
 
     override fun compileIntoVariable(variable: Variable) {
-        variable.rememberValue = inputRememberValue.isChecked
+        variable.rememberValue = binding.inputRememberValue.isChecked
         variable.dataForType = SliderType.getData(maxValue, minValue, stepSize)
     }
 
     private val minValue
-        get() = inputMin.text.toString().toIntOrNull() ?: SliderType.DEFAULT_MIN
+        get() = binding.inputSliderMin.text.toString().toIntOrNull() ?: SliderType.DEFAULT_MIN
 
     private val maxValue
-        get() = inputMax.text.toString().toIntOrNull() ?: SliderType.DEFAULT_MAX
+        get() = binding.inputSliderMax.text.toString().toIntOrNull() ?: SliderType.DEFAULT_MAX
 
     private val stepSize
-        get() = inputStep.text.toString().toIntOrNull() ?: SliderType.DEFAULT_STEP
+        get() = binding.inputSliderStep.text.toString().toIntOrNull() ?: SliderType.DEFAULT_STEP
 
 }

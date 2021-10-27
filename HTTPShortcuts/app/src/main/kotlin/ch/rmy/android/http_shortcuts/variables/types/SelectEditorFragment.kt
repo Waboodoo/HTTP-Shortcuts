@@ -1,14 +1,14 @@
 package ch.rmy.android.http_shortcuts.variables.types
 
-import android.widget.Button
-import android.widget.CheckBox
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import android.widget.EditText
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.SelectVariableOptionsAdapter
 import ch.rmy.android.http_shortcuts.data.models.Option
 import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.databinding.VariableEditorSelectBinding
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.mapIfNotNull
@@ -18,28 +18,24 @@ import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils.bindVariableViews
-import kotterknife.bindView
 
-class SelectEditorFragment : VariableEditorFragment() {
+class SelectEditorFragment : VariableEditorFragment<VariableEditorSelectBinding>() {
 
     private var variable: Variable? = null
 
-    override val layoutResource = R.layout.variable_editor_select
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?) =
+        VariableEditorSelectBinding.inflate(inflater, container, false)
 
-    private val selectOptionsAddButton: Button by bindView(R.id.select_options_add_button)
-    private val selectOptionsList: RecyclerView by bindView(R.id.select_options_list)
-    private val multiSelectCheckbox: CheckBox by bindView(R.id.input_multi_select)
-    private val separatorEditText: EditText by bindView(R.id.input_separator)
     private val optionsAdapter = SelectVariableOptionsAdapter()
 
     override fun setupViews() {
-        selectOptionsAddButton.setOnClickListener { showAddDialog() }
-        selectOptionsList.layoutManager = LinearLayoutManager(context)
-        selectOptionsList.adapter = optionsAdapter
+        binding.selectOptionsAddButton.setOnClickListener { showAddDialog() }
+        binding.selectOptionsList.layoutManager = LinearLayoutManager(context)
+        binding.selectOptionsList.adapter = optionsAdapter
         optionsAdapter.clickListener = ::showEditDialog
         initDragOrdering()
 
-        multiSelectCheckbox.setOnCheckedChangeListener { _, _ ->
+        binding.inputMultiSelect.setOnCheckedChangeListener { _, _ ->
             compileIntoVariable(variable!!)
             updateViews(variable!!)
         }
@@ -53,16 +49,16 @@ class SelectEditorFragment : VariableEditorFragment() {
                 optionsAdapter.notifyItemMoved(oldPosition, newPosition)
             }
             .attachTo(destroyer)
-        dragOrderingHelper.attachTo(selectOptionsList)
+        dragOrderingHelper.attachTo(binding.selectOptionsList)
     }
 
     override fun updateViews(variable: Variable) {
         this.variable = variable
         optionsAdapter.options = variable.options!!
         val isMultiSelect = SelectType.isMultiSelect(variable)
-        separatorEditText.setText(SelectType.getSeparator(variable))
-        separatorEditText.isEnabled = isMultiSelect
-        multiSelectCheckbox.isChecked = isMultiSelect
+        binding.inputSeparator.setText(SelectType.getSeparator(variable))
+        binding.inputSeparator.isEnabled = isMultiSelect
+        binding.inputMultiSelect.isChecked = isMultiSelect
         optionsAdapter.notifyDataSetChanged()
     }
 
@@ -134,8 +130,8 @@ class SelectEditorFragment : VariableEditorFragment() {
 
     override fun compileIntoVariable(variable: Variable) {
         variable.dataForType = mapOf(
-            SelectType.KEY_MULTI_SELECT to multiSelectCheckbox.isChecked.toString(),
-            SelectType.KEY_SEPARATOR to separatorEditText.text.toString(),
+            SelectType.KEY_MULTI_SELECT to binding.inputMultiSelect.isChecked.toString(),
+            SelectType.KEY_SEPARATOR to binding.inputSeparator.text.toString(),
         )
     }
 

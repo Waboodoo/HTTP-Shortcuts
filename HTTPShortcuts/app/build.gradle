@@ -43,8 +43,8 @@ android {
 
     buildTypes {
         debug {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
 
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             applicationIdSuffix ".debug"
@@ -94,7 +94,7 @@ android {
     }
     buildFeatures {
         buildConfig = true
-        viewBinding = false
+        viewBinding = true
         dataBinding = false
         aidl = false
         renderScript = false

@@ -7,14 +7,11 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.TextView
 import androidx.appcompat.widget.LinearLayoutCompat
-import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.extensions.setContentView
+import ch.rmy.android.http_shortcuts.databinding.LabelledSpinnerBinding
+import ch.rmy.android.http_shortcuts.extensions.layoutInflater
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import kotterknife.bindView
 
 class LabelledSpinner @JvmOverloads constructor(
     context: Context,
@@ -23,8 +20,7 @@ class LabelledSpinner @JvmOverloads constructor(
 ) :
     LinearLayoutCompat(context, attrs, defStyleAttr) {
 
-    private val label: TextView by bindView(R.id.label)
-    private val spinner: Spinner by bindView(R.id.spinner)
+    private val binding = LabelledSpinnerBinding.inflate(layoutInflater, this)
 
     private val selectionChangeSubject = PublishSubject.create<String>()
 
@@ -34,7 +30,7 @@ class LabelledSpinner @JvmOverloads constructor(
     var items: List<Item> = emptyList()
         set(value) {
             field = value
-            spinner.adapter = ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, value.map { it.value ?: it.key })
+            binding.spinner.adapter = ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, value.map { it.value ?: it.key })
         }
 
     fun setItemsFromPairs(items: List<Pair<String, String>>) {
@@ -43,8 +39,7 @@ class LabelledSpinner @JvmOverloads constructor(
 
     init {
         orientation = VERTICAL
-        setContentView(R.layout.labelled_spinner)
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, id: Long) {
                 selectedItem = items[position].key
             }
@@ -59,7 +54,7 @@ class LabelledSpinner @JvmOverloads constructor(
             try {
                 @SuppressLint("Recycle")
                 a = context.obtainStyledAttributes(attrs, ATTRIBUTE_IDS)
-                label.text = a.getText(ATTRIBUTE_IDS.indexOf(android.R.attr.text)) ?: ""
+                binding.label.text = a.getText(ATTRIBUTE_IDS.indexOf(android.R.attr.text)) ?: ""
             } finally {
                 a?.recycle()
             }
@@ -74,7 +69,7 @@ class LabelledSpinner @JvmOverloads constructor(
                 ?: return
             val before = field
             field = value
-            spinner.setSelection(index)
+            binding.spinner.setSelection(index)
             if (before != value && before.isNotEmpty()) {
                 selectionChangeSubject.onNext(value)
             }

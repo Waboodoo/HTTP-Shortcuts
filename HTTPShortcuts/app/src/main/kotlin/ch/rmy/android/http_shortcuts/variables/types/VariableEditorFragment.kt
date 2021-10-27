@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.variables.types
 
+import androidx.viewbinding.ViewBinding
 import ch.rmy.android.http_shortcuts.activities.BaseFragment
 import ch.rmy.android.http_shortcuts.activities.variables.VariableEditorActivity
 import ch.rmy.android.http_shortcuts.data.Controller
@@ -7,7 +8,7 @@ import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.toLiveData
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 
-open class VariableEditorFragment : BaseFragment() {
+abstract class VariableEditorFragment<Binding : ViewBinding> : BaseFragment<Binding>() {
 
     private val controller by lazy { destroyer.own(Controller()) }
     protected val variablePlaceholderProvider by lazy {

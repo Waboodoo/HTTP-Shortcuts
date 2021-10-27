@@ -7,9 +7,6 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-fun <V : View> View.bindView(id: Int)
-    : ReadOnlyProperty<View, V> = required(id, viewFinder)
-
 fun <V : View> Activity.bindView(id: Int)
     : ReadOnlyProperty<Activity, V> = required(id, viewFinder)
 
@@ -19,8 +16,6 @@ fun <V : View> Dialog.bindView(id: Int)
 fun <V : View> ViewHolder.bindView(id: Int)
     : ReadOnlyProperty<ViewHolder, V> = required(id, viewFinder)
 
-private val View.viewFinder: View.(Int) -> View?
-    get() = { findViewById(it) }
 private val Activity.viewFinder: Activity.(Int) -> View?
     get() = { findViewById(it) }
 private val Dialog.viewFinder: Dialog.(Int) -> View?

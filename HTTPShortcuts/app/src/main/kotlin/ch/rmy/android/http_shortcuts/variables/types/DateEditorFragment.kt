@@ -1,27 +1,25 @@
 package ch.rmy.android.http_shortcuts.variables.types
 
-import android.widget.CheckBox
-import android.widget.EditText
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.databinding.VariableEditorDateBinding
 import ch.rmy.android.http_shortcuts.extensions.showMessageDialog
-import kotterknife.bindView
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
 
-class DateEditorFragment : VariableEditorFragment() {
+class DateEditorFragment : VariableEditorFragment<VariableEditorDateBinding>() {
 
     private lateinit var variable: Variable
 
-    override val layoutResource = R.layout.variable_editor_date
-
-    private val inputRememberValue: CheckBox by bindView(R.id.input_remember_value)
-    private val dateFormat: EditText by bindView(R.id.input_variable_date_format)
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?) =
+        VariableEditorDateBinding.inflate(inflater, container, false)
 
     override fun updateViews(variable: Variable) {
         this.variable = variable
-        inputRememberValue.isChecked = variable.rememberValue
-        dateFormat.setText(variable.dataForType[DateType.KEY_FORMAT] ?: DateType.DEFAULT_FORMAT)
+        binding.inputRememberValue.isChecked = variable.rememberValue
+        binding.inputVariableDateFormat.setText(variable.dataForType[DateType.KEY_FORMAT] ?: DateType.DEFAULT_FORMAT)
     }
 
     override fun validate(): Boolean {
@@ -35,8 +33,8 @@ class DateEditorFragment : VariableEditorFragment() {
     }
 
     override fun compileIntoVariable(variable: Variable) {
-        variable.rememberValue = inputRememberValue.isChecked
-        variable.dataForType = mapOf(DateType.KEY_FORMAT to dateFormat.text.toString())
+        variable.rememberValue = binding.inputRememberValue.isChecked
+        variable.dataForType = mapOf(DateType.KEY_FORMAT to binding.inputVariableDateFormat.text.toString())
     }
 
 }

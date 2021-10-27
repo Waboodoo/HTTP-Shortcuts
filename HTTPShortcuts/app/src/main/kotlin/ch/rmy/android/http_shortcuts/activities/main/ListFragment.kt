@@ -6,10 +6,10 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
-import android.widget.ImageView
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseFragment
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
@@ -20,6 +20,7 @@ import ch.rmy.android.http_shortcuts.data.livedata.ListLiveData
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.PendingExecution
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.databinding.FragmentListBinding
 import ch.rmy.android.http_shortcuts.dialogs.CurlExportDialog
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.dialogs.ShortcutInfoDialog
@@ -45,9 +46,8 @@ import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import ch.rmy.curlcommand.CurlConstructor
-import kotterknife.bindView
 
-class ListFragment : BaseFragment() {
+class ListFragment : BaseFragment<FragmentListBinding>() {
 
     val categoryId by lazy {
         args.getString(ARG_CATEGORY_ID) ?: ""
@@ -66,7 +66,7 @@ class ListFragment : BaseFragment() {
                     showSnackbar(R.string.message_moving_enabled, long = true)
                 }
 
-                shortcutList.alpha = if (value) 0.7f else 1f
+                binding.shortcutList.alpha = if (value) 0.7f else 1f
             }
         }
 
@@ -84,12 +84,6 @@ class ListFragment : BaseFragment() {
     private var layoutType: String? = null
     private var adapter: BaseShortcutAdapter? = null
 
-    override val layoutResource = R.layout.fragment_list
-
-    // Views
-    private val shortcutList: RecyclerView by bindView(R.id.shortcut_list)
-    private val backgroundView: ImageView by bindView(R.id.background)
-
     private val wallpaper: Drawable? by lazy {
         try {
             val wallpaperManager = WallpaperManager.getInstance(context)
@@ -98,6 +92,9 @@ class ListFragment : BaseFragment() {
             null
         }
     }
+
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?) =
+        FragmentListBinding.inflate(inflater, container, false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -110,7 +107,7 @@ class ListFragment : BaseFragment() {
     }
 
     override fun setupViews() {
-        shortcutList.setHasFixedSize(true)
+        binding.shortcutList.setHasFixedSize(true)
         bindViewsToViewModel()
     }
 
@@ -150,8 +147,8 @@ class ListFragment : BaseFragment() {
             adapter.clickListener = ::onItemClicked
             adapter.longClickListener = ::onItemLongClicked
 
-            shortcutList.layoutManager = manager
-            shortcutList.adapter = adapter
+            binding.shortcutList.layoutManager = manager
+            binding.shortcutList.adapter = adapter
             updateEmptyState()
         }
 
@@ -167,7 +164,7 @@ class ListFragment : BaseFragment() {
 
     private fun initDragOrdering(layoutType: String) {
         val dragOrderingHelper = DragOrderingHelper(allowHorizontalDragging = layoutType == Category.LAYOUT_GRID) { isInMovingMode }
-        dragOrderingHelper.attachTo(shortcutList)
+        dragOrderingHelper.attachTo(binding.shortcutList)
         dragOrderingHelper.positionChangeSource
             .concatMapCompletable { (oldPosition, newPosition) ->
                 val shortcut = shortcuts[oldPosition]!!
@@ -178,7 +175,7 @@ class ListFragment : BaseFragment() {
     }
 
     private fun updateBackground(background: String) {
-        backgroundView.apply {
+        binding.background.apply {
             when (background) {
                 Category.BACKGROUND_TYPE_BLACK -> {
                     setImageDrawable(null)
@@ -204,7 +201,7 @@ class ListFragment : BaseFragment() {
     }
 
     private fun updateEmptyState() {
-        (shortcutList.layoutManager as? GridLayoutManager)?.setEmpty(shortcuts.isEmpty())
+        (binding.shortcutList.layoutManager as? GridLayoutManager)?.setEmpty(shortcuts.isEmpty())
     }
 
     private fun onItemClicked(shortcutData: LiveData<Shortcut?>) {

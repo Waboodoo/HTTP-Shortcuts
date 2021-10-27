@@ -5,13 +5,11 @@ import android.graphics.Typeface
 import android.text.SpannableStringBuilder
 import android.text.style.TypefaceSpan
 import android.util.AttributeSet
-import android.view.View
 import android.widget.FrameLayout
-import android.widget.TextView
-import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.databinding.ViewMetaInfoBinding
+import ch.rmy.android.http_shortcuts.extensions.layoutInflater
 import ch.rmy.android.http_shortcuts.extensions.tryOrIgnore
 import ch.rmy.android.http_shortcuts.extensions.visible
-import kotterknife.bindView
 
 class MetaInfoView @JvmOverloads constructor(
     context: Context,
@@ -19,23 +17,16 @@ class MetaInfoView @JvmOverloads constructor(
     defStyleAttr: Int = 0,
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
-    private val generalInfoContainer: View by bindView(R.id.general_container)
-    private val generalView: TextView by bindView(R.id.general_view)
-    private val headersContainer: View by bindView(R.id.headers_container)
-    private val headersView: TextView by bindView(R.id.headers_view)
-
-    init {
-        View.inflate(context, R.layout.view_meta_info, this)
-    }
+    private val binding = ViewMetaInfoBinding.inflate(layoutInflater, this, true)
 
     fun showGeneralInfo(data: List<Pair<String, String>>) {
-        generalInfoContainer.visible = true
-        generalView.text = toStyledSpan(data)
+        binding.generalContainer.visible = true
+        binding.generalView.text = toStyledSpan(data)
     }
 
     fun showHeaders(headers: List<Pair<String, String>>) {
-        headersContainer.visible = true
-        headersView.text = toStyledSpan(headers)
+        binding.headersContainer.visible = true
+        binding.headersView.text = toStyledSpan(headers)
     }
 
     companion object {

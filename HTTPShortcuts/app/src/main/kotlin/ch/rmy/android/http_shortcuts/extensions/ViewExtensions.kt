@@ -3,15 +3,14 @@ package ch.rmy.android.http_shortcuts.extensions
 import android.content.Context
 import android.net.Uri
 import android.text.InputFilter
+import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.Toolbar
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.utils.SimpleTextWatcher
@@ -34,6 +33,9 @@ var View.visible: Boolean
             visibility = newState
         }
     }
+
+val View.layoutInflater: LayoutInflater
+    get() = LayoutInflater.from(context)
 
 fun EditText.focus() {
     requestFocus()
@@ -69,9 +71,6 @@ fun View.showSoftKeyboard() {
             .showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
     }
 }
-
-fun ViewGroup.setContentView(@LayoutRes layoutResource: Int): View =
-    View.inflate(context, layoutResource, this)
 
 fun View.addRippleAnimation(borderless: Boolean = false) {
     val attrs = intArrayOf(if (borderless) R.attr.selectableItemBackgroundBorderless else R.attr.selectableItemBackground)

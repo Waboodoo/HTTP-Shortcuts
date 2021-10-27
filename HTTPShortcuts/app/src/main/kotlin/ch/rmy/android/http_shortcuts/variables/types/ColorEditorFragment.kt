@@ -1,27 +1,26 @@
 package ch.rmy.android.http_shortcuts.variables.types
 
-import android.widget.CheckBox
-import ch.rmy.android.http_shortcuts.R
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import ch.rmy.android.http_shortcuts.data.models.Variable
-import kotterknife.bindView
+import ch.rmy.android.http_shortcuts.databinding.VariableEditorColorBinding
 
-class ColorEditorFragment : VariableEditorFragment() {
+class ColorEditorFragment : VariableEditorFragment<VariableEditorColorBinding>() {
 
     private lateinit var variable: Variable
 
-    override val layoutResource = R.layout.variable_editor_color
-
-    private val inputRememberValue: CheckBox by bindView(R.id.input_remember_value)
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?) =
+        VariableEditorColorBinding.inflate(inflater, container, false)
 
     override fun updateViews(variable: Variable) {
         this.variable = variable
-        inputRememberValue.isChecked = variable.rememberValue
+        binding.inputRememberValue.isChecked = variable.rememberValue
     }
 
     override fun validate() = true
 
     override fun compileIntoVariable(variable: Variable) {
-        variable.rememberValue = inputRememberValue.isChecked
+        variable.rememberValue = binding.inputRememberValue.isChecked
     }
 
 }

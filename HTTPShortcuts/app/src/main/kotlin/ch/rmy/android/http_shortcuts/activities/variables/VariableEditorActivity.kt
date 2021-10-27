@@ -48,7 +48,7 @@ class VariableEditorActivity : BaseActivity() {
     private val jsonEncode: CheckBox by bindView(R.id.input_json_encode)
     private val allowShare: CheckBox by bindView(R.id.input_allow_share)
 
-    private var fragment: VariableEditorFragment? = null
+    private var fragment: VariableEditorFragment<*>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

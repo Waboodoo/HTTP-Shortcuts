@@ -4,32 +4,31 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.TypedArray
 import android.util.AttributeSet
-import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.databinding.ViewPanelButtonBinding
 import ch.rmy.android.http_shortcuts.extensions.addRippleAnimation
-import ch.rmy.android.http_shortcuts.extensions.setContentView
-import kotterknife.bindView
+import ch.rmy.android.http_shortcuts.extensions.layoutInflater
 
-class PanelButton @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : ConstraintLayout(context, attrs, defStyleAttr) {
+class PanelButton
+@JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
+    ConstraintLayout(context, attrs, defStyleAttr) {
 
-    private val titleView: TextView by bindView(R.id.panel_button_title)
-    private val subtitleView: TextView by bindView(R.id.panel_button_subtitle)
+    private val binding = ViewPanelButtonBinding.inflate(layoutInflater, this)
 
     var title: CharSequence = ""
         set(value) {
             field = value
-            titleView.text = value
+            binding.panelButtonTitle.text = value
         }
 
     var subtitle: CharSequence = ""
         set(value) {
             field = value
-            subtitleView.text = value
+            binding.panelButtonSubtitle.text = value
         }
 
     init {
-        setContentView(R.layout.view_panel_button)
         addRippleAnimation()
 
         if (attrs != null) {
@@ -48,8 +47,8 @@ class PanelButton @JvmOverloads constructor(context: Context, attrs: AttributeSe
     override fun setEnabled(enabled: Boolean) {
         super.setEnabled(enabled)
         val alpha = if (enabled) 1f else 0.4f
-        titleView.alpha = alpha
-        subtitleView.alpha = alpha
+        binding.panelButtonTitle.alpha = alpha
+        binding.panelButtonSubtitle.alpha = alpha
     }
 
 
