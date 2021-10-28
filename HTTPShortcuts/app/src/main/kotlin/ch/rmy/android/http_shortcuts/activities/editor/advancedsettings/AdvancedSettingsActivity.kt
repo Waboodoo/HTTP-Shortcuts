@@ -7,7 +7,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.InputType
 import android.view.LayoutInflater
-import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.SeekBar
 import android.widget.TextView
@@ -15,6 +14,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.data.models.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.databinding.ActivityAdvancedSettingsBinding
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
@@ -31,15 +31,11 @@ import ch.rmy.android.http_shortcuts.utils.FilePickerUtil
 import ch.rmy.android.http_shortcuts.utils.RxUtils
 import ch.rmy.android.http_shortcuts.utils.SimpleOnSeekBarChangeListener
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils
-import ch.rmy.android.http_shortcuts.variables.VariableButton
-import ch.rmy.android.http_shortcuts.variables.VariableEditText
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
-import ch.rmy.android.http_shortcuts.views.PanelButton
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
-import kotterknife.bindView
 import java.util.concurrent.TimeUnit
 
 class AdvancedSettingsActivity : BaseActivity() {
@@ -55,19 +51,11 @@ class AdvancedSettingsActivity : BaseActivity() {
         VariablePlaceholderProvider(variablesData)
     }
 
-    private val followRedirectsCheckBox: CheckBox by bindView(R.id.input_follow_redirects)
-    private val acceptCertificatesCheckBox: CheckBox by bindView(R.id.input_accept_certificates)
-    private val clientCertButton: PanelButton by bindView(R.id.button_client_cert)
-    private val acceptCookiesCheckBox: CheckBox by bindView(R.id.input_accept_cookies)
-    private val timeoutView: PanelButton by bindView(R.id.input_timeout)
-    private val proxyHostView: VariableEditText by bindView(R.id.input_proxy_host)
-    private val proxyHostVariableButton: VariableButton by bindView(R.id.variable_button_proxy_host)
-    private val proxyPortView: EditText by bindView(R.id.input_proxy_port)
-    private val ssidView: EditText by bindView(R.id.input_ssid)
+    private lateinit var binding: ActivityAdvancedSettingsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_advanced_settings)
+        binding = applyBinding(ActivityAdvancedSettingsBinding.inflate(layoutInflater))
         setTitle(R.string.label_advanced_technical_settings)
 
         initViews()
@@ -75,21 +63,21 @@ class AdvancedSettingsActivity : BaseActivity() {
     }
 
     private fun initViews() {
-        followRedirectsCheckBox
+        binding.inputFollowRedirects
             .observeChecked()
             .concatMapCompletable { isChecked ->
                 viewModel.setFollowRedirects(isChecked)
             }
             .subscribe()
             .attachTo(destroyer)
-        acceptCertificatesCheckBox
+        binding.inputAcceptCertificates
             .observeChecked()
             .concatMapCompletable { isChecked ->
                 viewModel.setAcceptAllCertificates(isChecked)
             }
             .subscribe()
             .attachTo(destroyer)
-        acceptCookiesCheckBox
+        binding.inputAcceptCookies
             .observeChecked()
             .concatMapCompletable { isChecked ->
                 viewModel.setAcceptCookies(isChecked)
@@ -97,15 +85,15 @@ class AdvancedSettingsActivity : BaseActivity() {
             .subscribe()
             .attachTo(destroyer)
 
-        clientCertButton.setOnClickListener {
+        binding.buttonClientCert.setOnClickListener {
             onClientCertButtonClicked()
         }
 
-        timeoutView.setOnClickListener {
+        binding.inputTimeout.setOnClickListener {
             showTimeoutDialog()
         }
 
-        VariableViewUtils.bindVariableViews(proxyHostView, proxyHostVariableButton, variablePlaceholderProvider)
+        VariableViewUtils.bindVariableViews(binding.inputProxyHost, binding.variableButtonProxyHost, variablePlaceholderProvider)
             .attachTo(destroyer)
     }
 
@@ -118,9 +106,9 @@ class AdvancedSettingsActivity : BaseActivity() {
             updateShortcutViews(shortcut, !viewStatesInitialized)
             viewStatesInitialized = true
         }
-        bindTextChangeListener(proxyHostView) { shortcutData.value?.proxyHost ?: "" }
-        bindTextChangeListener(proxyPortView) { shortcutData.value?.proxyPort?.toString() ?: "" }
-        bindTextChangeListener(ssidView) { shortcutData.value?.wifiSsid ?: "" }
+        bindTextChangeListener(binding.inputProxyHost) { shortcutData.value?.proxyHost ?: "" }
+        bindTextChangeListener(binding.inputProxyPort) { shortcutData.value?.proxyPort?.toString() ?: "" }
+        bindTextChangeListener(binding.inputSsid) { shortcutData.value?.wifiSsid ?: "" }
     }
 
     private fun bindTextChangeListener(textView: EditText, currentValueProvider: () -> String?) {
@@ -134,19 +122,21 @@ class AdvancedSettingsActivity : BaseActivity() {
     }
 
     private fun updateViewModelFromViews(): Completable =
-        viewModel.setAdvancedSettings(proxyHostView.rawString, proxyPortView.text.toString().toIntOrNull(), ssidView.text.toString())
+        viewModel.setAdvancedSettings(binding.inputProxyHost.rawString,
+            binding.inputProxyPort.text.toString().toIntOrNull(),
+            binding.inputSsid.text.toString())
 
     private fun updateShortcutViews(shortcut: Shortcut, isInitial: Boolean) {
-        followRedirectsCheckBox.isChecked = shortcut.followRedirects
-        acceptCertificatesCheckBox.isChecked = shortcut.acceptAllCertificates
-        clientCertButton.isEnabled = !shortcut.acceptAllCertificates
-        clientCertButton.subtitle = viewModel.getClientCertSubtitle(shortcut)
-        acceptCookiesCheckBox.isChecked = shortcut.acceptCookies
-        timeoutView.subtitle = viewModel.getTimeoutSubtitle(shortcut)
+        binding.inputFollowRedirects.isChecked = shortcut.followRedirects
+        binding.inputAcceptCertificates.isChecked = shortcut.acceptAllCertificates
+        binding.buttonClientCert.isEnabled = !shortcut.acceptAllCertificates
+        binding.buttonClientCert.subtitle = viewModel.getClientCertSubtitle(shortcut)
+        binding.inputAcceptCookies.isChecked = shortcut.acceptCookies
+        binding.inputTimeout.subtitle = viewModel.getTimeoutSubtitle(shortcut)
         if (isInitial) {
-            proxyHostView.rawString = shortcut.proxyHost ?: ""
-            proxyPortView.setText(shortcut.proxyPort?.toString() ?: "")
-            ssidView.setText(shortcut.wifiSsid)
+            binding.inputProxyHost.rawString = shortcut.proxyHost ?: ""
+            binding.inputProxyPort.setText(shortcut.proxyPort?.toString() ?: "")
+            binding.inputSsid.setText(shortcut.wifiSsid)
         }
     }
 

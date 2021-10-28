@@ -7,20 +7,17 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.databinding.ActivityBasicRequestSettingsBinding
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
-import ch.rmy.android.http_shortcuts.variables.VariableButton
-import ch.rmy.android.http_shortcuts.variables.VariableEditText
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils.bindVariableViews
-import ch.rmy.android.http_shortcuts.views.LabelledSpinner
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import kotterknife.bindView
 import java.util.concurrent.TimeUnit
 
 class BasicRequestSettingsActivity : BaseActivity() {
@@ -35,14 +32,12 @@ class BasicRequestSettingsActivity : BaseActivity() {
     private val variablePlaceholderProvider by lazy {
         VariablePlaceholderProvider(variablesData)
     }
-
-    private val methodSpinner: LabelledSpinner by bindView(R.id.input_method)
-    private val urlView: VariableEditText by bindView(R.id.input_url)
-    private val urlVariableButton: VariableButton by bindView(R.id.variable_button_url)
+    
+    private lateinit var binding: ActivityBasicRequestSettingsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_basic_request_settings)
+        binding = applyBinding(ActivityBasicRequestSettingsBinding.inflate(layoutInflater))
         setTitle(R.string.section_basic_request)
 
         initViews()
@@ -50,10 +45,10 @@ class BasicRequestSettingsActivity : BaseActivity() {
     }
 
     private fun initViews() {
-        methodSpinner.setItemsFromPairs(METHODS.map {
+        binding.inputMethod.setItemsFromPairs(METHODS.map {
             it to it
         })
-        bindVariableViews(urlView, urlVariableButton, variablePlaceholderProvider)
+        bindVariableViews(binding.inputUrl, binding.variableButtonUrl, variablePlaceholderProvider)
             .attachTo(destroyer)
     }
 
@@ -65,11 +60,11 @@ class BasicRequestSettingsActivity : BaseActivity() {
             updateShortcutViews()
         }
 
-        methodSpinner.selectionChanges
+        binding.inputMethod.selectionChanges
             .concatMapCompletable { method -> viewModel.setMethod(method) }
             .subscribe()
             .attachTo(destroyer)
-        bindTextChangeListener(urlView) { shortcutData.value?.url }
+        bindTextChangeListener(binding.inputUrl) { shortcutData.value?.url }
     }
 
     private fun bindTextChangeListener(textView: EditText, currentValueProvider: () -> String?) {
@@ -83,14 +78,14 @@ class BasicRequestSettingsActivity : BaseActivity() {
     }
 
     private fun updateViewModelFromUrlView(): Completable =
-        viewModel.setUrl(urlView.rawString)
+        viewModel.setUrl(binding.inputUrl.rawString)
 
     private fun updateShortcutViews() {
         val shortcut = shortcutData.value ?: return
 
-        methodSpinner.visible = shortcut.type == ShortcutExecutionType.APP
-        methodSpinner.selectedItem = shortcut.method
-        urlView.rawString = shortcut.url
+        binding.inputMethod.visible = shortcut.type == ShortcutExecutionType.APP
+        binding.inputMethod.selectedItem = shortcut.method
+        binding.inputUrl.rawString = shortcut.url
     }
 
     override fun onBackPressed() {
@@ -113,7 +108,7 @@ class BasicRequestSettingsActivity : BaseActivity() {
             Shortcut.METHOD_PATCH,
             Shortcut.METHOD_HEAD,
             Shortcut.METHOD_OPTIONS,
-            Shortcut.METHOD_TRACE
+            Shortcut.METHOD_TRACE,
         )
 
     }

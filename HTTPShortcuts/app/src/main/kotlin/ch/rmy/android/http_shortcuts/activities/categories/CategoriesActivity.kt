@@ -8,10 +8,10 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.data.models.Category
+import ch.rmy.android.http_shortcuts.databinding.ActivityCategoriesBinding
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.extensions.attachTo
@@ -25,22 +25,18 @@ import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.PermissionManager
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotterknife.bindView
 
 class CategoriesActivity : BaseActivity() {
 
     private val viewModel: CategoriesViewModel by bindViewModel()
 
-    // Views
-    private val categoryList: RecyclerView by bindView(R.id.category_list)
-    private val createButton: FloatingActionButton by bindView(R.id.button_create_category)
+    private lateinit var binding: ActivityCategoriesBinding
 
     private val categories by lazy { viewModel.getCategories() }
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_categories)
+        binding = applyBinding(ActivityCategoriesBinding.inflate(layoutInflater))
         setTitle(R.string.title_categories)
         initViews()
 
@@ -55,21 +51,21 @@ class CategoriesActivity : BaseActivity() {
         val adapter = destroyer.own(CategoryAdapter(context, categories))
 
         val manager = LinearLayoutManager(context)
-        categoryList.layoutManager = manager
-        categoryList.setHasFixedSize(true)
-        categoryList.adapter = adapter
+        binding.categoryList.layoutManager = manager
+        binding.categoryList.setHasFixedSize(true)
+        binding.categoryList.adapter = adapter
 
         adapter.clickListener = ::showContextMenu
 
         initDragOrdering()
 
-        createButton.applyTheme(themeHelper)
-        createButton.setOnClickListener { openCreateDialog() }
+        binding.buttonCreateCategory.applyTheme(themeHelper)
+        binding.buttonCreateCategory.setOnClickListener { openCreateDialog() }
     }
 
     private fun initDragOrdering() {
         val dragOrderingHelper = DragOrderingHelper { categories.size > 1 }
-        dragOrderingHelper.attachTo(categoryList)
+        dragOrderingHelper.attachTo(binding.categoryList)
         dragOrderingHelper.positionChangeSource
             .concatMapCompletable { (oldPosition, newPosition) ->
                 val category = categories[oldPosition]!!

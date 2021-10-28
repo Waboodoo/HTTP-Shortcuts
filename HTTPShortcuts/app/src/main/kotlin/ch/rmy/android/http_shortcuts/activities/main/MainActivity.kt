@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
-import androidx.viewpager.widget.ViewPager
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.BaseFragment
@@ -23,6 +22,7 @@ import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.activities.widget.WidgetSettingsActivity
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.databinding.ActivityMainBinding
 import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.dialogs.NetworkRestrictionWarningDialog
@@ -46,9 +46,6 @@ import ch.rmy.android.http_shortcuts.utils.SelectionMode
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
 import ch.rmy.curlcommand.CurlCommand
 import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.tabs.TabLayout
-import kotterknife.bindView
 
 class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
 
@@ -80,10 +77,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
             updateFloatingActionButton()
         }
 
-    // Views
-    private val createButton: FloatingActionButton by bindView(R.id.button_create_shortcut)
-    private val viewPager: ViewPager by bindView(R.id.view_pager)
-    private val tabLayout: TabLayout by bindView(R.id.tabs)
+    private lateinit var binding: ActivityMainBinding
 
     @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,7 +85,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
         if (!isRealmAvailable) {
             return
         }
-        setContentView(R.layout.activity_main)
+        binding = applyBinding(ActivityMainBinding.inflate(layoutInflater))
         if (categories.count { !it.hidden || showHiddenCategories } <= 1) {
             (toolbar?.layoutParams as? AppBarLayout.LayoutParams?)?.scrollFlags = 0
         }
@@ -116,11 +110,11 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
     }
 
     private fun initViews() {
-        createButton.setOnClickListener { showCreateOptions() }
+        binding.buttonCreateShortcut.setOnClickListener { showCreateOptions() }
         setupViewPager()
         setupTitleBar()
-        tabLayout.applyTheme(themeHelper)
-        createButton.applyTheme(themeHelper)
+        binding.tabs.applyTheme(themeHelper)
+        binding.buttonCreateShortcut.applyTheme(themeHelper)
         bindViewsToViewModel()
     }
 
@@ -132,7 +126,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
 
         viewModel.getCategories().observe(this) { categories ->
             val visibleCategoryCount = categories.count { !it.hidden || showHiddenCategories }
-            tabLayout.visible = visibleCategoryCount > 1
+            binding.tabs.visible = visibleCategoryCount > 1
             if (initialCategoryId != null && !viewModel.hasMovedToInitialCategory) {
                 val categoryIndex = categories
                     .mapIndexed { index, category -> Pair(index, category) }
@@ -140,18 +134,18 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
                     ?.takeUnless { (_, category) -> category.hidden }
                     ?.first
                 if (categoryIndex != null) {
-                    viewPager.currentItem = categoryIndex
+                    binding.viewPager.currentItem = categoryIndex
                 }
                 viewModel.hasMovedToInitialCategory = true
             }
-            if (viewPager.currentItem >= visibleCategoryCount) {
-                viewPager.currentItem = 0
+            if (binding.viewPager.currentItem >= visibleCategoryCount) {
+                binding.viewPager.currentItem = 0
             }
         }
     }
 
     private fun updateFloatingActionButton() {
-        createButton.visible = viewModel.appLockedSource.value != true && !isInMovingMode
+        binding.buttonCreateShortcut.visible = viewModel.appLockedSource.value != true && !isInMovingMode
     }
 
     private fun showCreateOptions() {
@@ -198,7 +192,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
     }
 
     private fun openEditorForShortcutCreation(type: ShortcutExecutionType) {
-        val categoryId = adapter.getItem(viewPager.currentItem).categoryId
+        val categoryId = adapter.getItem(binding.viewPager.currentItem).categoryId
         ShortcutEditorActivity.IntentBuilder(context)
             .categoryId(categoryId)
             .executionType(type)
@@ -207,8 +201,8 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
 
     private fun setupViewPager() {
         adapter = CategoryPagerAdapter(supportFragmentManager, selectionMode)
-        viewPager.adapter = adapter
-        tabLayout.setupWithViewPager(viewPager)
+        binding.viewPager.adapter = adapter
+        binding.tabs.setupWithViewPager(binding.viewPager)
         viewModel.getCategories().observe(this) { categories ->
             adapter.setCategories(categories.filter { !it.hidden || showHiddenCategories })
         }
@@ -309,7 +303,7 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
     }
 
     private fun openEditorWithCurlCommand(curlCommand: CurlCommand) {
-        val categoryId = adapter.getItem(viewPager.currentItem).categoryId
+        val categoryId = adapter.getItem(binding.viewPager.currentItem).categoryId
         ShortcutEditorActivity.IntentBuilder(context)
             .categoryId(categoryId)
             .curlCommand(curlCommand)
@@ -494,8 +488,8 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
     }
 
     private fun setTabLongPressListener() {
-        (0..tabLayout.tabCount)
-            .mapNotNull { tabLayout.getTabAt(it)?.view }
+        (0..binding.tabs.tabCount)
+            .mapNotNull { binding.tabs.getTabAt(it)?.view }
             .forEach {
                 it.setOnLongClickListener {
                     consume {

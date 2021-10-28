@@ -6,15 +6,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.EditText
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.databinding.ActivityCurlImportBinding
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.curlcommand.CurlParser
-import kotterknife.bindView
 
 class CurlImportActivity : BaseActivity() {
 
@@ -26,14 +25,14 @@ class CurlImportActivity : BaseActivity() {
             }
         }
 
-    private val curlCommand: EditText by bindView(R.id.curl_import_command)
+    private lateinit var binding: ActivityCurlImportBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_curl_import)
+        binding = applyBinding(ActivityCurlImportBinding.inflate(layoutInflater))
         setTitle(R.string.title_curl_import)
 
-        curlCommand.observeTextChanges()
+        binding.curlImportCommand.observeTextChanges()
             .subscribe { text ->
                 commandEmpty = text.isEmpty()
             }
@@ -52,7 +51,7 @@ class CurlImportActivity : BaseActivity() {
     }
 
     private fun startImport() {
-        val commandString = curlCommand.text.toString()
+        val commandString = binding.curlImportCommand.text.toString()
         val command = CurlParser.parse(commandString)
 
         val intent = Intent()

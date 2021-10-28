@@ -6,12 +6,12 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.Repository
 import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.databinding.ActivityVariablesBinding
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.extensions.attachTo
@@ -27,39 +27,35 @@ import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotterknife.bindView
 
 class VariablesActivity : BaseActivity() {
 
     private val viewModel: VariablesViewModel by bindViewModel()
 
-    // Views
-    private val variableList: RecyclerView by bindView(R.id.variable_list)
-    private val createButton: FloatingActionButton by bindView(R.id.button_create_variable)
+    private lateinit var binding: ActivityVariablesBinding
 
     private val variables by lazy { viewModel.getVariables() }
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_variables)
+        binding = applyBinding(ActivityVariablesBinding.inflate(layoutInflater))
         setTitle(R.string.title_variables)
 
         val adapter = destroyer.own(VariableAdapter(context, variables))
         adapter.clickListener = ::showContextMenu
 
         val manager = LinearLayoutManager(context)
-        variableList.layoutManager = manager
-        variableList.setHasFixedSize(true)
-        variableList.adapter = adapter
+        binding.variableList.layoutManager = manager
+        binding.variableList.setHasFixedSize(true)
+        binding.variableList.adapter = adapter
 
         initDragOrdering()
 
-        createButton.applyTheme(themeHelper)
-        createButton.setOnClickListener { openEditorForCreation() }
+        binding.buttonCreateVariable.applyTheme(themeHelper)
+        binding.buttonCreateVariable.setOnClickListener { openEditorForCreation() }
     }
 
     private fun initDragOrdering() {
@@ -72,7 +68,7 @@ class VariablesActivity : BaseActivity() {
                     .attachTo(destroyer)
             }
             .attachTo(destroyer)
-        dragOrderingHelper.attachTo(variableList)
+        dragOrderingHelper.attachTo(binding.variableList)
     }
 
     private fun openEditorForCreation() {

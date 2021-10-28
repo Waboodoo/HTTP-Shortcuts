@@ -3,9 +3,9 @@ package ch.rmy.android.http_shortcuts.activities.editor.shortcuts
 import android.content.Context
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.databinding.ActivityTriggerShortcutsBinding
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.extensions.attachTo
@@ -17,8 +17,6 @@ import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholderProvider
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotterknife.bindView
 
 class TriggerShortcutsActivity : BaseActivity() {
 
@@ -27,9 +25,8 @@ class TriggerShortcutsActivity : BaseActivity() {
     }
 
     private val viewModel: TriggerShortcutsViewModel by bindViewModel()
-
-    private val shortcutsList: RecyclerView by bindView(R.id.trigger_shortcuts_list)
-    private val addTriggerButton: FloatingActionButton by bindView(R.id.button_add_trigger)
+    
+    private lateinit var binding: ActivityTriggerShortcutsBinding
 
     private val shortcutsData by lazy {
         viewModel.shortcuts
@@ -40,32 +37,32 @@ class TriggerShortcutsActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_trigger_shortcuts)
+        binding = applyBinding(ActivityTriggerShortcutsBinding.inflate(layoutInflater))
         setTitle(R.string.label_trigger_shortcuts)
 
         initViews()
     }
 
     private fun initViews() {
-        addTriggerButton.applyTheme(themeHelper)
-        addTriggerButton.setOnClickListener {
+        binding.buttonAddTrigger.applyTheme(themeHelper)
+        binding.buttonAddTrigger.setOnClickListener {
             openShortcutPickerForAdding()
         }
 
         val manager = LinearLayoutManager(context)
-        shortcutsList.layoutManager = manager
-        shortcutsList.setHasFixedSize(true)
+        binding.triggerShortcutsList.layoutManager = manager
+        binding.triggerShortcutsList.setHasFixedSize(true)
 
         val adapter = ShortcutsAdapter(this, viewModel.triggerShortcuts)
         adapter.itemClickListener = ::showRemoveShortcutDialog
-        shortcutsList.adapter = adapter
+        binding.triggerShortcutsList.adapter = adapter
 
         initDragOrdering()
     }
 
     private fun initDragOrdering() {
         val dragOrderingHelper = DragOrderingHelper { viewModel.triggerShortcuts.size > 1 }
-        dragOrderingHelper.attachTo(shortcutsList)
+        dragOrderingHelper.attachTo(binding.triggerShortcutsList)
         dragOrderingHelper.positionChangeSource
             .concatMapCompletable { (oldPosition, newPosition) ->
                 viewModel.changeShortcutPosition(oldPosition, newPosition)
@@ -75,7 +72,7 @@ class TriggerShortcutsActivity : BaseActivity() {
                 { e ->
                     logException(e)
                     showSnackbar(R.string.error_generic)
-                }
+                },
             )
             .attachTo(destroyer)
     }
@@ -111,7 +108,7 @@ class TriggerShortcutsActivity : BaseActivity() {
                 { e ->
                     logException(e)
                     showSnackbar(R.string.error_generic)
-                }
+                },
             )
             .attachTo(destroyer)
     }
@@ -134,7 +131,7 @@ class TriggerShortcutsActivity : BaseActivity() {
                 { e ->
                     logException(e)
                     showSnackbar(R.string.error_generic)
-                }
+                },
             )
             .attachTo(destroyer)
     }

@@ -23,9 +23,9 @@
                 android:layout_height="match_parent"
                 android:fontFamily="monospace"
                 android:gravity="top"
-                android:minLines="12"
                 android:hint="@string/placeholder_javascript_global_scripting"
                 android:inputType="textMultiLine|textNoSuggestions"
+                android:minLines="12"
                 android:textSize="@dimen/js_font_size" />
 
             <Button

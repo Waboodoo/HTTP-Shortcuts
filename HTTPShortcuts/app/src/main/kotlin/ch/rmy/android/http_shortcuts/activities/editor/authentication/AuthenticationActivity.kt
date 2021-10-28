@@ -2,24 +2,20 @@ package ch.rmy.android.http_shortcuts.activities.editor.authentication
 
 import android.content.Context
 import android.os.Bundle
-import android.view.View
 import android.widget.EditText
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.databinding.ActivityAuthenticationBinding
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
-import ch.rmy.android.http_shortcuts.variables.VariableButton
-import ch.rmy.android.http_shortcuts.variables.VariableEditText
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
-import ch.rmy.android.http_shortcuts.views.LabelledSpinner
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import kotterknife.bindView
 import java.util.concurrent.TimeUnit
 
 class AuthenticationActivity : BaseActivity() {
@@ -35,20 +31,11 @@ class AuthenticationActivity : BaseActivity() {
         VariablePlaceholderProvider(variablesData)
     }
 
-    private val authenticationMethodSpinner: LabelledSpinner by bindView(R.id.input_authentication_method)
-    private val usernameView: VariableEditText by bindView(R.id.input_username)
-    private val usernameVariableButton: VariableButton by bindView(R.id.variable_button_username)
-    private val usernameContainer: View by bindView(R.id.container_username)
-    private val passwordView: VariableEditText by bindView(R.id.input_password)
-    private val passwordVariableButton: VariableButton by bindView(R.id.variable_button_password)
-    private val passwordContainer: View by bindView(R.id.container_password)
-    private val tokenView: VariableEditText by bindView(R.id.input_token)
-    private val tokenVariableButton: VariableButton by bindView(R.id.variable_button_token)
-    private val tokenContainer: View by bindView(R.id.container_token)
+    private lateinit var binding: ActivityAuthenticationBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_authentication)
+        binding = applyBinding(ActivityAuthenticationBinding.inflate(layoutInflater))
         setTitle(R.string.section_authentication)
 
         initViews()
@@ -56,14 +43,14 @@ class AuthenticationActivity : BaseActivity() {
     }
 
     private fun initViews() {
-        authenticationMethodSpinner.setItemsFromPairs(AUTHENTICATION_METHODS.map {
+        binding.inputAuthenticationMethod.setItemsFromPairs(AUTHENTICATION_METHODS.map {
             it.first to getString(it.second)
         })
-        VariableViewUtils.bindVariableViews(usernameView, usernameVariableButton, variablePlaceholderProvider)
+        VariableViewUtils.bindVariableViews(binding.inputUsername, binding.variableButtonUsername, variablePlaceholderProvider)
             .attachTo(destroyer)
-        VariableViewUtils.bindVariableViews(passwordView, passwordVariableButton, variablePlaceholderProvider)
+        VariableViewUtils.bindVariableViews(binding.inputPassword, binding.variableButtonPassword, variablePlaceholderProvider)
             .attachTo(destroyer)
-        VariableViewUtils.bindVariableViews(tokenView, tokenVariableButton, variablePlaceholderProvider)
+        VariableViewUtils.bindVariableViews(binding.inputToken, binding.variableButtonToken, variablePlaceholderProvider)
             .attachTo(destroyer)
     }
 
@@ -75,13 +62,13 @@ class AuthenticationActivity : BaseActivity() {
             updateShortcutViews()
         }
 
-        authenticationMethodSpinner.selectionChanges
+        binding.inputAuthenticationMethod.selectionChanges
             .concatMapCompletable { method -> viewModel.setAuthenticationMethod(method) }
             .subscribe()
             .attachTo(destroyer)
-        bindTextChangeListener(usernameView) { shortcutData.value?.username }
-        bindTextChangeListener(passwordView) { shortcutData.value?.password }
-        bindTextChangeListener(tokenView) { shortcutData.value?.authToken }
+        bindTextChangeListener(binding.inputUsername) { shortcutData.value?.username }
+        bindTextChangeListener(binding.inputPassword) { shortcutData.value?.password }
+        bindTextChangeListener(binding.inputToken) { shortcutData.value?.authToken }
     }
 
     private fun bindTextChangeListener(textView: EditText, currentValueProvider: () -> String?) {
@@ -95,29 +82,29 @@ class AuthenticationActivity : BaseActivity() {
     }
 
     private fun updateViewModelFromViews(): Completable =
-        viewModel.setCredentials(usernameView.rawString, passwordView.rawString, tokenView.rawString)
+        viewModel.setCredentials(binding.inputUsername.rawString, binding.inputPassword.rawString, binding.inputToken.rawString)
 
     private fun updateShortcutViews() {
         val shortcut = shortcutData.value ?: return
-        authenticationMethodSpinner.selectedItem = shortcut.authentication ?: Shortcut.AUTHENTICATION_NONE
+        binding.inputAuthenticationMethod.selectedItem = shortcut.authentication ?: Shortcut.AUTHENTICATION_NONE
         when {
             shortcut.usesBasicAuthentication() || shortcut.usesDigestAuthentication() -> {
-                usernameContainer.visible = true
-                passwordContainer.visible = true
-                tokenContainer.visible = false
-                usernameView.rawString = shortcut.username
-                passwordView.rawString = shortcut.password
+                binding.containerUsername.visible = true
+                binding.containerPassword.visible = true
+                binding.containerToken.visible = false
+                binding.inputUsername.rawString = shortcut.username
+                binding.inputPassword.rawString = shortcut.password
             }
             shortcut.usesBearerAuthentication() -> {
-                usernameContainer.visible = false
-                passwordContainer.visible = false
-                tokenContainer.visible = true
-                tokenView.rawString = shortcut.authToken
+                binding.containerUsername.visible = false
+                binding.containerPassword.visible = false
+                binding.containerToken.visible = true
+                binding.inputToken.rawString = shortcut.authToken
             }
             else -> {
-                usernameContainer.visible = false
-                passwordContainer.visible = false
-                tokenContainer.visible = false
+                binding.containerUsername.visible = false
+                binding.containerPassword.visible = false
+                binding.containerToken.visible = false
             }
         }
     }
@@ -138,7 +125,7 @@ class AuthenticationActivity : BaseActivity() {
             Shortcut.AUTHENTICATION_NONE to R.string.authentication_none,
             Shortcut.AUTHENTICATION_BASIC to R.string.authentication_basic,
             Shortcut.AUTHENTICATION_DIGEST to R.string.authentication_digest,
-            Shortcut.AUTHENTICATION_BEARER to R.string.authentication_bearer
+            Shortcut.AUTHENTICATION_BEARER to R.string.authentication_bearer,
         )
 
     }

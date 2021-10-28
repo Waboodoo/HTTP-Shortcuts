@@ -3,10 +3,10 @@ package ch.rmy.android.http_shortcuts.activities.editor.headers
 import android.content.Context
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.data.models.Header
+import ch.rmy.android.http_shortcuts.databinding.ActivityRequestHeadersBinding
 import ch.rmy.android.http_shortcuts.dialogs.KeyValueDialog
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.extensions.attachTo
@@ -14,9 +14,7 @@ import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import io.reactivex.Completable
-import kotterknife.bindView
 
 class RequestHeadersActivity : BaseActivity() {
 
@@ -31,38 +29,36 @@ class RequestHeadersActivity : BaseActivity() {
         VariablePlaceholderProvider(variablesData)
     }
 
-    private val headerList: RecyclerView by bindView(R.id.header_list)
-    private val addButton: FloatingActionButton by bindView(R.id.button_add_header)
+    private lateinit var binding: ActivityRequestHeadersBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_request_headers)
+        binding = applyBinding(ActivityRequestHeadersBinding.inflate(layoutInflater))
         setTitle(R.string.section_request_headers)
 
         initViews()
-        bindViewsToViewModel()
     }
 
     private fun initViews() {
         val adapter = destroyer.own(RequestHeaderAdapter(context, headers, variablePlaceholderProvider))
 
         val manager = LinearLayoutManager(context)
-        headerList.layoutManager = manager
-        headerList.setHasFixedSize(true)
-        headerList.adapter = adapter
+        binding.headerList.layoutManager = manager
+        binding.headerList.setHasFixedSize(true)
+        binding.headerList.adapter = adapter
 
         initDragOrdering()
 
         adapter.clickListener = { it.value?.let { header -> showEditDialog(header) } }
-        addButton.applyTheme(themeHelper)
-        addButton.setOnClickListener {
+        binding.buttonAddHeader.applyTheme(themeHelper)
+        binding.buttonAddHeader.setOnClickListener {
             showAddDialog()
         }
     }
 
     private fun initDragOrdering() {
         val dragOrderingHelper = DragOrderingHelper { headers.size > 1 }
-        dragOrderingHelper.attachTo(headerList)
+        dragOrderingHelper.attachTo(binding.headerList)
         dragOrderingHelper.positionChangeSource
             .concatMapCompletable { (oldPosition, newPosition) ->
                 viewModel.moveHeader(oldPosition, newPosition)
@@ -81,7 +77,7 @@ class RequestHeadersActivity : BaseActivity() {
             data = header.key to header.value,
             suggestions = SUGGESTED_KEYS,
             keyValidator = { validateHeaderName(context, it) },
-            valueValidator = { validateHeaderValue(context, it) }
+            valueValidator = { validateHeaderValue(context, it) },
         )
             .show(context)
             .flatMapCompletable { event ->
@@ -106,7 +102,7 @@ class RequestHeadersActivity : BaseActivity() {
             valueLabel = getString(R.string.label_custom_header_value),
             suggestions = SUGGESTED_KEYS,
             keyValidator = { validateHeaderName(context, it) },
-            valueValidator = { validateHeaderValue(context, it) }
+            valueValidator = { validateHeaderValue(context, it) },
         )
             .show(context)
             .flatMapCompletable { event ->
@@ -119,10 +115,6 @@ class RequestHeadersActivity : BaseActivity() {
             }
             .subscribe()
             .attachTo(destroyer)
-    }
-
-    private fun bindViewsToViewModel() {
-
     }
 
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, RequestHeadersActivity::class.java)
@@ -162,7 +154,7 @@ class RequestHeadersActivity : BaseActivity() {
             "User-Agent",
             "Upgrade",
             "Via",
-            "Warning"
+            "Warning",
         )
 
         private fun validateHeaderName(context: Context, name: CharSequence): String? =

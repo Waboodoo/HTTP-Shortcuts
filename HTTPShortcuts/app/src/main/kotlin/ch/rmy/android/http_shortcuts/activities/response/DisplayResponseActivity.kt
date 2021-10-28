@@ -11,12 +11,16 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.annotation.RequiresApi
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
+import ch.rmy.android.http_shortcuts.databinding.ActivityDisplayResponseImageBinding
+import ch.rmy.android.http_shortcuts.databinding.ActivityDisplayResponsePlainBinding
+import ch.rmy.android.http_shortcuts.databinding.ActivityDisplayResponseSyntaxHighlightingBinding
+import ch.rmy.android.http_shortcuts.databinding.ActivityDisplayResponseSyntaxHighlightingWithDetailsBinding
+import ch.rmy.android.http_shortcuts.databinding.ActivityDisplayResponseWebviewBinding
+import ch.rmy.android.http_shortcuts.databinding.ActivityDisplayResponseWebviewWithDetailsBinding
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.finishWithoutAnimation
@@ -39,7 +43,6 @@ import ch.rmy.android.http_shortcuts.utils.ShareUtil
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotterknife.bindView
 
 class DisplayResponseActivity : BaseActivity() {
 
@@ -73,12 +76,6 @@ class DisplayResponseActivity : BaseActivity() {
     private val showDetails: Boolean by lazy {
         intent?.extras?.getBoolean(EXTRA_DETAILS, false) ?: false
     }
-
-    private val responseText: TextView by bindView(R.id.response_text)
-    private val responseImage: ImageView by bindView(R.id.response_image)
-    private val formattedResponseText: SyntaxHighlightView by bindView(R.id.formatted_response_text)
-    private val responseWebView: ResponseWebView by bindView(R.id.response_web_view)
-    private val metaInfoContainer: ViewGroup by bindView(R.id.meta_info_container)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -121,7 +118,7 @@ class DisplayResponseActivity : BaseActivity() {
 
         if (processedGeneralData.isNotEmpty() || processedHeaders.isNotEmpty()) {
             val view = MetaInfoView(context)
-            metaInfoContainer.addView(view)
+            findViewById<ViewGroup>(R.id.meta_info_container).addView(view)
             view.showGeneralInfo(processedGeneralData)
             view.showHeaders(processedHeaders)
         }
@@ -156,26 +153,27 @@ class DisplayResponseActivity : BaseActivity() {
     }
 
     private fun displayImage() {
-        setContentView(R.layout.activity_display_response_image)
-        responseImage.loadImage(responseFileUri!!)
+        val binding = applyBinding(ActivityDisplayResponseImageBinding.inflate(layoutInflater))
+        binding.responseImage.loadImage(responseFileUri!!)
     }
 
     private fun displayAsPlainText(text: String, italic: Boolean = false) {
-        setContentView(R.layout.activity_display_response_plain)
+        val binding = applyBinding(ActivityDisplayResponsePlainBinding.inflate(layoutInflater))
         if (italic) {
-            responseText.setTypeface(null, Typeface.ITALIC)
+            binding.responseText.setTypeface(null, Typeface.ITALIC)
         }
-        responseText.text = text
+        binding.responseText.text = text
     }
 
     private fun displayInWebView(text: String, url: String?) {
         try {
-            setContentView(if (showDetails) {
-                R.layout.activity_display_response_webview_with_details
+            if (showDetails) {
+                val binding = applyBinding(ActivityDisplayResponseWebviewWithDetailsBinding.inflate(layoutInflater))
+                binding.responseWebView.loadFromString(text, url)
             } else {
-                R.layout.activity_display_response_webview
-            })
-            responseWebView.loadFromString(text, url)
+                val binding = applyBinding(ActivityDisplayResponseWebviewBinding.inflate(layoutInflater))
+                binding.responseWebView.loadFromString(text, url)
+            }
         } catch (e: Exception) {
             logException(e)
             displayAsPlainText(text)
@@ -184,12 +182,13 @@ class DisplayResponseActivity : BaseActivity() {
 
     private fun displayWithSyntaxHighlighting(text: String, language: SyntaxHighlightView.Language) {
         try {
-            setContentView(if (showDetails) {
-                R.layout.activity_display_response_syntax_highlighting_with_details
+            if (showDetails) {
+                val binding = applyBinding(ActivityDisplayResponseSyntaxHighlightingWithDetailsBinding.inflate(layoutInflater))
+                binding.formattedResponseText.setCode(text, language)
             } else {
-                R.layout.activity_display_response_syntax_highlighting
-            })
-            formattedResponseText.setCode(text, language)
+                val binding = applyBinding(ActivityDisplayResponseSyntaxHighlightingBinding.inflate(layoutInflater))
+                binding.formattedResponseText.setCode(text, language)
+            }
         } catch (e: Exception) {
             logException(e)
             displayAsPlainText(text)

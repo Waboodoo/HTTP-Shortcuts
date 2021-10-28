@@ -5,12 +5,10 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.widget.CheckBox
-import android.widget.EditText
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.databinding.ActivityVariableEditorBinding
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
@@ -23,7 +21,6 @@ import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.android.http_shortcuts.variables.types.HasTitle
 import ch.rmy.android.http_shortcuts.variables.types.VariableEditorFragment
 import ch.rmy.android.http_shortcuts.variables.types.VariableTypeFactory
-import kotterknife.bindView
 
 class VariableEditorActivity : BaseActivity() {
 
@@ -40,18 +37,13 @@ class VariableEditorActivity : BaseActivity() {
         viewModel.getVariable()
     }
 
-    // Views
-    private val keyView: EditText by bindView(R.id.input_variable_key)
-    private val titleView: EditText by bindView(R.id.input_variable_title)
-    private val titleViewContainer: View by bindView(R.id.dialog_title_container)
-    private val urlEncode: CheckBox by bindView(R.id.input_url_encode)
-    private val jsonEncode: CheckBox by bindView(R.id.input_json_encode)
-    private val allowShare: CheckBox by bindView(R.id.input_allow_share)
+    private lateinit var binding: ActivityVariableEditorBinding
 
     private var fragment: VariableEditorFragment<*>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = applyBinding(ActivityVariableEditorBinding.inflate(layoutInflater))
         initViewModel()
         initViews()
     }
@@ -62,27 +54,26 @@ class VariableEditorActivity : BaseActivity() {
     }
 
     private fun initViews() {
-        setContentView(R.layout.activity_variable_editor)
-        toolbar!!.setSubtitle(VariableTypes.getTypeName(variable.type))
-        keyView.setText(variable.key)
-        titleView.setText(variable.title)
-        val defaultColor = keyView.textColors
-        keyView
+        setSubtitle(VariableTypes.getTypeName(variable.type))
+        binding.inputVariableKey.setText(variable.key)
+        binding.inputVariableTitle.setText(variable.title)
+        val defaultColor = binding.inputVariableKey.textColors
+        binding.inputVariableKey
             .observeTextChanges()
             .subscribe { text ->
                 if (text.isEmpty() || Variables.isValidVariableKey(text.toString())) {
-                    keyView.setTextColor(defaultColor)
-                    keyView.error = null
+                    binding.inputVariableKey.setTextColor(defaultColor)
+                    binding.inputVariableKey.error = null
                 } else {
-                    keyView.setTextColor(Color.RED)
-                    keyView.error = getString(R.string.warning_invalid_variable_key)
+                    binding.inputVariableKey.setTextColor(Color.RED)
+                    binding.inputVariableKey.error = getString(R.string.warning_invalid_variable_key)
                 }
             }
             .attachTo(destroyer)
 
-        urlEncode.isChecked = variable.urlEncode
-        jsonEncode.isChecked = variable.jsonEncode
-        allowShare.isChecked = variable.isShareText
+        binding.inputUrlEncode.isChecked = variable.urlEncode
+        binding.inputJsonEncode.isChecked = variable.jsonEncode
+        binding.inputAllowShare.isChecked = variable.isShareText
 
         setTitle(if (variable.isNew) R.string.create_variable else R.string.edit_variable)
 
@@ -95,7 +86,7 @@ class VariableEditorActivity : BaseActivity() {
 
         fragment = variableType.getEditorFragment(supportFragmentManager)
 
-        titleViewContainer.visible = variableType is HasTitle
+        binding.dialogTitleContainer.visible = variableType is HasTitle
 
         fragment?.let { fragment ->
             supportFragmentManager
@@ -152,22 +143,22 @@ class VariableEditorActivity : BaseActivity() {
 
     private fun compileVariable() {
         fragment?.compileIntoVariable(variable)
-        variable.title = titleView.text.toString().trim { it <= ' ' }
-        variable.key = keyView.text.toString()
-        variable.urlEncode = urlEncode.isChecked
-        variable.jsonEncode = jsonEncode.isChecked
-        variable.isShareText = allowShare.isChecked
+        variable.title = binding.inputVariableTitle.text.toString().trim { it <= ' ' }
+        variable.key = binding.inputVariableKey.text.toString()
+        variable.urlEncode = binding.inputUrlEncode.isChecked
+        variable.jsonEncode = binding.inputJsonEncode.isChecked
+        variable.isShareText = binding.inputAllowShare.isChecked
     }
 
     private fun validate(): Boolean {
         if (variable.key.isEmpty()) {
-            keyView.error = getString(R.string.validation_key_non_empty)
-            keyView.focus()
+            binding.inputVariableKey.error = getString(R.string.validation_key_non_empty)
+            binding.inputVariableKey.focus()
             return false
         }
         if (viewModel.isKeyAlreadyInUsed()) {
-            keyView.error = getString(R.string.validation_key_already_exists)
-            keyView.focus()
+            binding.inputVariableKey.error = getString(R.string.validation_key_already_exists)
+            binding.inputVariableKey.focus()
             return false
         }
         return fragment == null || fragment!!.validate()

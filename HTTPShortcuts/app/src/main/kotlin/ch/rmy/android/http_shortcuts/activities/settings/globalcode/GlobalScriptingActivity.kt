@@ -7,13 +7,13 @@ import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Button
 import android.widget.EditText
 import androidx.lifecycle.LiveData
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.CodeSnippetPicker
 import ch.rmy.android.http_shortcuts.data.models.Base
+import ch.rmy.android.http_shortcuts.databinding.ActivityGlobalScriptingBinding
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
@@ -32,7 +32,6 @@ import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import kotterknife.bindView
 import java.util.concurrent.TimeUnit
 
 class GlobalScriptingActivity : BaseActivity() {
@@ -82,29 +81,28 @@ class GlobalScriptingActivity : BaseActivity() {
     private val shortcutPlaceholderColor by lazy {
         color(context, R.color.shortcut)
     }
-
-    private val codeInput: EditText by bindView(R.id.input_code)
-    private val snippetButton: Button by bindView(R.id.button_add_code_snippet)
+    
+    private lateinit var binding: ActivityGlobalScriptingBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_global_scripting)
+        binding = applyBinding(ActivityGlobalScriptingBinding.inflate(layoutInflater))
 
         initViews()
         bindViewsToViewModel()
     }
 
     private fun initViews() {
-        snippetButton.setOnClickListener {
+        binding.buttonAddCodeSnippet.setOnClickListener {
             codeSnippetPicker.showCodeSnippetPicker(getCodeInsertion(), includeResponseOptions = false)
         }
     }
 
     private fun getCodeInsertion(): (String, String) -> Unit =
         { before, after ->
-            codeInput.insertAroundCursor(before, after)
-            Variables.applyVariableFormattingToJS(codeInput.text, variablePlaceholderProvider, variablePlaceholderColor)
-            ShortcutSpanManager.applyShortcutFormattingToJS(codeInput.text, shortcutPlaceholderProvider, shortcutPlaceholderColor)
+            binding.inputCode.insertAroundCursor(before, after)
+            Variables.applyVariableFormattingToJS(binding.inputCode.text!!, variablePlaceholderProvider, variablePlaceholderColor)
+            ShortcutSpanManager.applyShortcutFormattingToJS(binding.inputCode.text!!, shortcutPlaceholderProvider, shortcutPlaceholderColor)
         }
 
     private fun bindViewsToViewModel() {
@@ -119,8 +117,8 @@ class GlobalScriptingActivity : BaseActivity() {
     }
 
     private fun initViews(base: Base) {
-        codeInput.setTextSafely(processTextForView(base.globalCode ?: ""))
-        bindTextChangeListener(codeInput)
+        binding.inputCode.setTextSafely(processTextForView(base.globalCode ?: ""))
+        bindTextChangeListener(binding.inputCode)
     }
 
     private fun processTextForView(input: String): CharSequence {
@@ -165,7 +163,7 @@ class GlobalScriptingActivity : BaseActivity() {
     }
 
     private fun save() {
-        viewModel.setCode(codeInput.text.toString())
+        viewModel.setCode(binding.inputCode.text.toString())
             .subscribe {
                 finish()
             }

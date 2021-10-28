@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.viewbinding.ViewBinding
 import ch.rmy.android.http_shortcuts.Application
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.RealmFactory
@@ -71,8 +73,13 @@ abstract class BaseActivity : AppCompatActivity() {
             .showIfPossible()
     }
 
-    override fun setContentView(layoutResID: Int) {
-        super.setContentView(layoutResID)
+    fun <T : ViewBinding> applyBinding(binding: T): T =
+        binding.also {
+            setContentView(binding.root)
+            setUpCommonViews()
+        }
+
+    private fun setUpCommonViews() {
         baseView?.setBackgroundColor(color(context, R.color.activity_background))
         toolbar = findViewById(R.id.toolbar) ?: return
         updateStatusBarColor()
@@ -80,6 +87,15 @@ abstract class BaseActivity : AppCompatActivity() {
         if (navigateUpIcon != 0) {
             enableNavigateUpButton(navigateUpIcon)
         }
+    }
+
+    override fun setContentView(layoutResID: Int) {
+        super.setContentView(layoutResID)
+        setUpCommonViews()
+    }
+
+    fun setSubtitle(@StringRes subtitle: Int) {
+        toolbar?.setSubtitle(subtitle)
     }
 
     val context: Context

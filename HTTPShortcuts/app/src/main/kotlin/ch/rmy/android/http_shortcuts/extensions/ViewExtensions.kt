@@ -12,6 +12,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.viewbinding.ViewBinding
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.utils.SimpleTextWatcher
 import com.squareup.picasso.MemoryPolicy
@@ -32,6 +33,12 @@ var View.visible: Boolean
         if (visibility != newState) {
             visibility = newState
         }
+    }
+
+var ViewBinding.visible: Boolean
+    get() = root.visible
+    set(value) {
+        root.visible = value
     }
 
 val View.layoutInflater: LayoutInflater

@@ -7,13 +7,12 @@ import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.widget.Button
 import android.widget.EditText
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.databinding.ActivityScriptingBinding
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.color
@@ -33,7 +32,6 @@ import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import kotterknife.bindView
 import java.util.concurrent.TimeUnit
 
 class ScriptingActivity : BaseActivity() {
@@ -87,20 +85,13 @@ class ScriptingActivity : BaseActivity() {
         color(context, R.color.shortcut)
     }
 
-    private val labelPrepareCode: View by bindView(R.id.label_code_prepare)
-    private val prepareCodeInput: EditText by bindView(R.id.input_code_prepare)
-    private val prepareSnippetButton: Button by bindView(R.id.button_add_code_snippet_pre)
-    private val successCodeInput: EditText by bindView(R.id.input_code_success)
-    private val failureCodeInput: EditText by bindView(R.id.input_code_failure)
-    private val successSnippetButton: Button by bindView(R.id.button_add_code_snippet_success)
-    private val failureSnippetButton: Button by bindView(R.id.button_add_code_snippet_failure)
-    private val postRequestContainer: View by bindView(R.id.container_post_request_scripting)
+    private lateinit var binding: ActivityScriptingBinding
 
     private var lastActiveCodeInput: EditText? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_scripting)
+        binding = applyBinding(ActivityScriptingBinding.inflate(layoutInflater))
         setTitle(R.string.label_scripting)
 
         initViews()
@@ -108,21 +99,21 @@ class ScriptingActivity : BaseActivity() {
     }
 
     private fun initViews() {
-        prepareSnippetButton.setOnClickListener {
-            lastActiveCodeInput = prepareCodeInput
+        binding.buttonAddCodeSnippetPre.setOnClickListener {
+            lastActiveCodeInput = binding.inputCodePrepare
             codeSnippetPicker.showCodeSnippetPicker(
-                getCodeInsertion(prepareCodeInput),
+                getCodeInsertion(binding.inputCodePrepare),
                 includeResponseOptions = false,
                 includeFileOptions = shortcutData.value?.type != ShortcutExecutionType.SCRIPTING,
             )
         }
-        successSnippetButton.setOnClickListener {
-            lastActiveCodeInput = successCodeInput
-            codeSnippetPicker.showCodeSnippetPicker(getCodeInsertion(successCodeInput))
+        binding.buttonAddCodeSnippetSuccess.setOnClickListener {
+            lastActiveCodeInput = binding.inputCodeSuccess
+            codeSnippetPicker.showCodeSnippetPicker(getCodeInsertion(binding.inputCodeSuccess))
         }
-        failureSnippetButton.setOnClickListener {
-            lastActiveCodeInput = failureCodeInput
-            codeSnippetPicker.showCodeSnippetPicker(getCodeInsertion(failureCodeInput), includeNetworkErrorOption = true)
+        binding.buttonAddCodeSnippetFailure.setOnClickListener {
+            lastActiveCodeInput = binding.inputCodeFailure
+            codeSnippetPicker.showCodeSnippetPicker(getCodeInsertion(binding.inputCodeFailure), includeNetworkErrorOption = true)
         }
     }
 
@@ -139,9 +130,9 @@ class ScriptingActivity : BaseActivity() {
             updateShortcutViews(shortcut)
             shortcutData.removeObservers(this)
         }
-        bindTextChangeListener(prepareCodeInput) { shortcutData.value?.codeOnPrepare }
-        bindTextChangeListener(successCodeInput) { shortcutData.value?.codeOnSuccess }
-        bindTextChangeListener(failureCodeInput) { shortcutData.value?.codeOnFailure }
+        bindTextChangeListener(binding.inputCodePrepare) { shortcutData.value?.codeOnPrepare }
+        bindTextChangeListener(binding.inputCodeSuccess) { shortcutData.value?.codeOnSuccess }
+        bindTextChangeListener(binding.inputCodeFailure) { shortcutData.value?.codeOnFailure }
     }
 
     private fun bindTextChangeListener(textView: EditText, currentValueProvider: () -> String?) {
@@ -156,20 +147,20 @@ class ScriptingActivity : BaseActivity() {
 
     private fun updateViewModelFromViews(): Completable =
         viewModel.setCode(
-            prepareCode = prepareCodeInput.text.toString(),
-            successCode = successCodeInput.text.toString(),
-            failureCode = failureCodeInput.text.toString(),
+            prepareCode = binding.inputCodePrepare.text.toString(),
+            successCode = binding.inputCodeSuccess.text.toString(),
+            failureCode = binding.inputCodeFailure.text.toString(),
         )
 
     private fun updateShortcutViews(shortcut: Shortcut) {
         val type = shortcut.type
-        prepareCodeInput.minLines = getMinLinesForCode(type)
-        prepareCodeInput.setHint(getHintText(type))
-        labelPrepareCode.visible = type != ShortcutExecutionType.SCRIPTING
-        postRequestContainer.visible = type.usesResponse
-        successCodeInput.setTextSafely(processTextForView(shortcut.codeOnSuccess))
-        failureCodeInput.setTextSafely(processTextForView(shortcut.codeOnFailure))
-        prepareCodeInput.setTextSafely(processTextForView(shortcut.codeOnPrepare))
+        binding.inputCodePrepare.minLines = getMinLinesForCode(type)
+        binding.inputCodePrepare.setHint(getHintText(type))
+        binding.labelCodePrepare.visible = type != ShortcutExecutionType.SCRIPTING
+        binding.containerPostRequestScripting.visible = type.usesResponse
+        binding.inputCodeSuccess.setTextSafely(processTextForView(shortcut.codeOnSuccess))
+        binding.inputCodeFailure.setTextSafely(processTextForView(shortcut.codeOnFailure))
+        binding.inputCodePrepare.setTextSafely(processTextForView(shortcut.codeOnPrepare))
     }
 
     private fun processTextForView(input: String): CharSequence {

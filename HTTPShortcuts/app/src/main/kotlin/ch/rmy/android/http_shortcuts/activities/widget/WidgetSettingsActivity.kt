@@ -6,21 +6,17 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.CheckBox
-import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.databinding.ActivityWidgetSettingsBinding
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.consume
 import ch.rmy.android.http_shortcuts.extensions.visible
-import ch.rmy.android.http_shortcuts.icons.IconView
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
-import ch.rmy.android.http_shortcuts.views.PanelButton
 import com.skydoves.colorpickerview.ColorPickerDialog
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
-import kotterknife.bindView
 
 class WidgetSettingsActivity : BaseActivity() {
 
@@ -34,45 +30,42 @@ class WidgetSettingsActivity : BaseActivity() {
         ShortcutIcon.fromName(intent.getStringExtra(EXTRA_SHORTCUT_ICON)!!)
     }
 
-    private val iconView: IconView by bindView(R.id.widget_icon)
-    private val labelView: TextView by bindView(R.id.widget_label)
-    private val showLabelCheckbox: CheckBox by bindView(R.id.input_show_label)
-    private val labelColorView: PanelButton by bindView(R.id.input_label_color)
+    private lateinit var binding: ActivityWidgetSettingsBinding
 
     private val viewModel: WidgetSettingsViewModel by bindViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_widget_settings)
+        binding = applyBinding(ActivityWidgetSettingsBinding.inflate(layoutInflater))
         setTitle(R.string.title_configure_widget)
         initViews()
         bindViewsToViewModel()
     }
 
     private fun initViews() {
-        iconView.setIcon(shortcutIcon)
-        labelView.text = shortcutName
+        binding.widgetIcon.setIcon(shortcutIcon)
+        binding.widgetLabel.text = shortcutName
         updateLabelColor()
-        labelColorView.setOnClickListener {
+        binding.inputLabelColor.setOnClickListener {
             showColorPicker()
         }
     }
 
     private fun updateLabelColor() {
-        labelColorView.subtitle = viewModel.labelColorFormatted
-        labelView.setTextColor(viewModel.labelColor.value!!)
+        binding.inputLabelColor.subtitle = viewModel.labelColorFormatted
+        binding.widgetLabel.setTextColor(viewModel.labelColor.value!!)
     }
 
     private fun bindViewsToViewModel() {
         viewModel.showLabel.observe(this) {
-            labelView.visible = it
-            labelColorView.isEnabled = it
+            binding.widgetLabel.visible = it
+            binding.inputLabelColor.isEnabled = it
         }
         viewModel.labelColor.observe(this) {
             updateLabelColor()
         }
-        showLabelCheckbox.setOnCheckedChangeListener { _, _ ->
-            viewModel.showLabel.value = showLabelCheckbox.isChecked
+        binding.inputShowLabel.setOnCheckedChangeListener { _, _ ->
+            viewModel.showLabel.value = binding.inputShowLabel.isChecked
         }
     }
 

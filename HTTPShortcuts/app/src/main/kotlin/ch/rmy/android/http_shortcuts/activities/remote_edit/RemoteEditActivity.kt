@@ -7,12 +7,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
 import androidx.core.net.toUri
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.databinding.ActivityRemoteEditBinding
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
@@ -27,44 +25,39 @@ import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 import ch.rmy.android.http_shortcuts.utils.StringUtils
 import ch.rmy.android.http_shortcuts.utils.Validation
 import io.reactivex.android.schedulers.AndroidSchedulers
-import kotterknife.bindView
 import java.util.concurrent.TimeUnit
 
 class RemoteEditActivity : BaseActivity() {
 
     private val viewModel: RemoteEditViewModel by bindViewModel()
 
-    private val instructionsList: TextView by bindView(R.id.instructions_list)
-    private val uploadButton: Button by bindView(R.id.button_remote_edit_upload)
-    private val downloadButton: Button by bindView(R.id.button_remote_edit_download)
-    private val deviceIdView: TextView by bindView(R.id.remote_edit_device_id)
-    private val passwordInput: EditText by bindView(R.id.input_password)
+    private lateinit var binding: ActivityRemoteEditBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_remote_edit)
+        binding = applyBinding(ActivityRemoteEditBinding.inflate(layoutInflater))
 
-        deviceIdView.text = viewModel.deviceId
-        passwordInput.setText(viewModel.password)
+        binding.remoteEditDeviceId.text = viewModel.deviceId
+        binding.inputPassword.setText(viewModel.password)
         updateInstructions()
 
-        passwordInput.observeTextChanges()
+        binding.inputPassword.observeTextChanges()
             .subscribe {
                 updateViews()
             }
             .attachTo(destroyer)
 
-        passwordInput.observeTextChanges()
+        binding.inputPassword.observeTextChanges()
             .debounce(300, TimeUnit.MILLISECONDS)
             .subscribe {
                 viewModel.password = it.toString()
             }
             .attachTo(destroyer)
 
-        uploadButton.setOnClickListener {
+        binding.buttonRemoteEditUpload.setOnClickListener {
             upload()
         }
-        downloadButton.setOnClickListener {
+        binding.buttonRemoteEditDownload.setOnClickListener {
             download()
         }
 
@@ -72,7 +65,7 @@ class RemoteEditActivity : BaseActivity() {
     }
 
     private fun updateInstructions() {
-        instructionsList.text = StringUtils.getOrderedList(
+        binding.instructionsList.text = StringUtils.getOrderedList(
             listOf(
                 getString(R.string.instructions_remote_edit_step_1),
                 getString(R.string.instructions_remote_edit_step_2),
@@ -141,8 +134,8 @@ class RemoteEditActivity : BaseActivity() {
     }
 
     private fun updateViews() {
-        uploadButton.isEnabled = passwordInput.text.isNotEmpty()
-        downloadButton.isEnabled = passwordInput.text.isNotEmpty()
+        binding.buttonRemoteEditUpload.isEnabled = binding.inputPassword.text.isNotEmpty()
+        binding.buttonRemoteEditDownload.isEnabled = binding.inputPassword.text.isNotEmpty()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

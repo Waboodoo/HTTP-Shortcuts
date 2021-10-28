@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.EditText
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
@@ -22,6 +21,7 @@ import ch.rmy.android.http_shortcuts.activities.editor.scripting.ScriptingActivi
 import ch.rmy.android.http_shortcuts.activities.editor.shortcuts.TriggerShortcutsActivity
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.databinding.ActivityShortcutEditorOverviewBinding
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
@@ -38,18 +38,15 @@ import ch.rmy.android.http_shortcuts.extensions.showToast
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.icons.IconPicker
-import ch.rmy.android.http_shortcuts.icons.IconView
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.Validation
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
-import ch.rmy.android.http_shortcuts.views.PanelButton
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
 import ch.rmy.curlcommand.CurlCommand
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
-import kotterknife.bindView
 import java.util.concurrent.TimeUnit
 
 class ShortcutEditorActivity : BaseActivity() {
@@ -77,26 +74,8 @@ class ShortcutEditorActivity : BaseActivity() {
     private val variablePlaceholderProvider by lazy {
         VariablePlaceholderProvider(variablesData)
     }
-
-    // Views
-    private val iconView: IconView by bindView(R.id.input_icon)
-    private val iconContainer: View by bindView(R.id.icon_container)
-    private val nameView: EditText by bindView(R.id.input_shortcut_name)
-    private val descriptionView: EditText by bindView(R.id.input_description)
-    private val basicRequestSettingsButton: PanelButton by bindView(R.id.button_basic_request_settings)
-    private val headersButton: PanelButton by bindView(R.id.button_headers)
-    private val requestBodyButton: PanelButton by bindView(R.id.button_request_body)
-    private val authenticationButton: PanelButton by bindView(R.id.button_authentication)
-    private val responseHandlingButton: PanelButton by bindView(R.id.button_response_handling)
-    private val scriptingButton: PanelButton by bindView(R.id.button_scripting)
-    private val triggerShortcutsButton: PanelButton by bindView(R.id.button_trigger_shortcuts)
-    private val executionSettingsButton: PanelButton by bindView(R.id.button_execution_settings)
-    private val advancedTechnicalSettingsButton: PanelButton by bindView(R.id.button_advanced_technical_settings)
-    private val dividerBelowBasicSettings: View by bindView(R.id.divider_below_basic_request_settings)
-    private val dividerBelowHeaders: View by bindView(R.id.divider_below_headers)
-    private val dividerBelowRequestBody: View by bindView(R.id.divider_below_request_body)
-    private val dividerBelowAuthentication: View by bindView(R.id.divider_below_authentication)
-    private val dividerBelowScripting: View by bindView(R.id.divider_below_scripting)
+    
+    private lateinit var binding: ActivityShortcutEditorOverviewBinding
 
     private val variablePlaceholderColor by lazy {
         color(context, R.color.variable)
@@ -131,8 +110,8 @@ class ShortcutEditorActivity : BaseActivity() {
     }
 
     private fun initViews() {
-        setContentView(R.layout.activity_shortcut_editor_overview)
-        nameView.setMaxLength(Shortcut.NAME_MAX_LENGTH)
+        binding = applyBinding(ActivityShortcutEditorOverviewBinding.inflate(layoutInflater))
+        binding.inputShortcutName.setMaxLength(Shortcut.NAME_MAX_LENGTH)
         invalidateOptionsMenu()
         bindViewsToViewModel()
         bindClickListeners()
@@ -151,28 +130,28 @@ class ShortcutEditorActivity : BaseActivity() {
 
     private fun updateShortcutViews() {
         val shortcut = shortcutData.value ?: return
-        iconView.setIcon(shortcut.icon, animated = true)
-        nameView.setTextSafely(shortcut.name)
-        descriptionView.setTextSafely(shortcut.description)
+        binding.inputIcon.setIcon(shortcut.icon, animated = true)
+        binding.inputShortcutName.setTextSafely(shortcut.name)
+        binding.inputDescription.setTextSafely(shortcut.description)
 
         toolbar?.subtitle = viewModel.getToolbarSubtitle(shortcut)
 
         val type = shortcut.type
-        basicRequestSettingsButton.visible = type.usesUrl
-        dividerBelowBasicSettings.visible = type.usesUrl
-        headersButton.visible = type.usesRequestOptions
-        dividerBelowHeaders.visible = type.usesRequestOptions
-        requestBodyButton.visible = type.usesRequestOptions
-        dividerBelowRequestBody.visible = type.usesRequestOptions
-        authenticationButton.visible = type.usesRequestOptions
-        dividerBelowAuthentication.visible = type.usesRequestOptions
-        responseHandlingButton.visible = type.usesResponse
-        advancedTechnicalSettingsButton.visible = type.usesRequestOptions
-        scriptingButton.visible = type.usesScriptingEditor
-        triggerShortcutsButton.visible = type == ShortcutExecutionType.TRIGGER
-        dividerBelowScripting.visible = type.usesScriptingEditor || type == ShortcutExecutionType.TRIGGER
+        binding.buttonBasicRequestSettings.visible = type.usesUrl
+        binding.dividerBelowBasicRequestSettings.visible = type.usesUrl
+        binding.buttonHeaders.visible = type.usesRequestOptions
+        binding.dividerBelowHeaders.visible = type.usesRequestOptions
+        binding.buttonRequestBody.visible = type.usesRequestOptions
+        binding.dividerBelowRequestBody.visible = type.usesRequestOptions
+        binding.buttonAuthentication.visible = type.usesRequestOptions
+        binding.dividerBelowAuthentication.visible = type.usesRequestOptions
+        binding.buttonResponseHandling.visible = type.usesResponse
+        binding.buttonAdvancedTechnicalSettings.visible = type.usesRequestOptions
+        binding.buttonScripting.visible = type.usesScriptingEditor
+        binding.buttonTriggerShortcuts.visible = type == ShortcutExecutionType.TRIGGER
+        binding.dividerBelowScripting.visible = type.usesScriptingEditor || type == ShortcutExecutionType.TRIGGER
 
-        basicRequestSettingsButton.subtitle = viewModel.getBasicSettingsSubtitle(shortcut)
+        binding.buttonBasicRequestSettings.subtitle = viewModel.getBasicSettingsSubtitle(shortcut)
             .let { subtitle ->
                 Variables.rawPlaceholdersToVariableSpans(
                     subtitle,
@@ -182,66 +161,66 @@ class ShortcutEditorActivity : BaseActivity() {
             }
 
         if (type.usesRequestOptions) {
-            headersButton.subtitle = viewModel.getHeadersSettingsSubtitle(shortcut)
-            requestBodyButton.subtitle = viewModel.getRequestBodySettingsSubtitle(shortcut)
-            authenticationButton.subtitle = viewModel.getAuthenticationSettingsSubtitle(shortcut)
+            binding.buttonHeaders.subtitle = viewModel.getHeadersSettingsSubtitle(shortcut)
+            binding.buttonRequestBody.subtitle = viewModel.getRequestBodySettingsSubtitle(shortcut)
+            binding.buttonAuthentication.subtitle = viewModel.getAuthenticationSettingsSubtitle(shortcut)
 
-            requestBodyButton.isEnabled = shortcut.allowsBody()
+            binding.buttonRequestBody.isEnabled = shortcut.allowsBody()
         }
-        scriptingButton.subtitle = viewModel.getScriptingSubtitle(shortcut)
+        binding.buttonScripting.subtitle = viewModel.getScriptingSubtitle(shortcut)
 
         if (type == ShortcutExecutionType.TRIGGER) {
-            triggerShortcutsButton.subtitle = viewModel.getTriggerShortcutsSubtitle(shortcut)
+            binding.buttonTriggerShortcuts.subtitle = viewModel.getTriggerShortcutsSubtitle(shortcut)
         }
     }
 
     private fun bindClickListeners() {
-        iconContainer.setOnClickListener {
+        binding.iconContainer.setOnClickListener {
             iconPicker.openIconSelectionDialog()
         }
-        basicRequestSettingsButton.setOnClickListener {
+        binding.buttonBasicRequestSettings.setOnClickListener {
             BasicRequestSettingsActivity.IntentBuilder(context)
                 .startActivity(this)
         }
-        headersButton.setOnClickListener {
+        binding.buttonHeaders.setOnClickListener {
             RequestHeadersActivity.IntentBuilder(context)
                 .startActivity(this)
         }
-        requestBodyButton.setOnClickListener {
+        binding.buttonRequestBody.setOnClickListener {
             RequestBodyActivity.IntentBuilder(context)
                 .startActivity(this)
         }
-        authenticationButton.setOnClickListener {
+        binding.buttonAuthentication.setOnClickListener {
             AuthenticationActivity.IntentBuilder(context)
                 .startActivity(this)
         }
-        responseHandlingButton.setOnClickListener {
+        binding.buttonResponseHandling.setOnClickListener {
             ResponseActivity.IntentBuilder(context)
                 .startActivity(this)
         }
-        scriptingButton.setOnClickListener {
+        binding.buttonScripting.setOnClickListener {
             ScriptingActivity.IntentBuilder(context)
                 .shortcutId(shortcutId)
                 .startActivity(this)
         }
-        triggerShortcutsButton.setOnClickListener {
+        binding.buttonTriggerShortcuts.setOnClickListener {
             TriggerShortcutsActivity.IntentBuilder(context)
                 .shortcutId(shortcutId)
                 .startActivity(this)
         }
-        executionSettingsButton.setOnClickListener {
+        binding.buttonExecutionSettings.setOnClickListener {
             ExecutionSettingsActivity.IntentBuilder(context)
                 .startActivity(this)
         }
-        advancedTechnicalSettingsButton.setOnClickListener {
+        binding.buttonAdvancedTechnicalSettings.setOnClickListener {
             AdvancedSettingsActivity.IntentBuilder(context)
                 .startActivity(this)
         }
     }
 
     private fun bindTextChangeListeners() {
-        bindTextChangeListener(nameView) { shortcutData.value?.name }
-        bindTextChangeListener(descriptionView) { shortcutData.value?.description }
+        bindTextChangeListener(binding.inputShortcutName) { shortcutData.value?.name }
+        bindTextChangeListener(binding.inputDescription) { shortcutData.value?.description }
     }
 
     private fun bindTextChangeListener(textView: EditText, currentValueProvider: () -> String?) {
@@ -337,7 +316,7 @@ class ShortcutEditorActivity : BaseActivity() {
                     when (e.type) {
                         ShortcutEditorViewModel.VALIDATION_ERROR_EMPTY_NAME -> {
                             showSnackbar(R.string.validation_name_not_empty, long = true)
-                            nameView.focus()
+                            binding.inputShortcutName.focus()
                         }
                         ShortcutEditorViewModel.VALIDATION_ERROR_INVALID_URL -> {
                             showSnackbar(R.string.validation_url_invalid, long = true)
@@ -362,8 +341,8 @@ class ShortcutEditorActivity : BaseActivity() {
 
     private fun updateViewModelFromViews(): Completable =
         viewModel.setNameAndDescription(
-            name = nameView.text.toString(),
-            description = descriptionView.text.toString()
+            name = binding.inputShortcutName.text.toString(),
+            description = binding.inputDescription.text.toString()
         )
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {

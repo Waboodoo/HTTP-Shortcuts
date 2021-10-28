@@ -2,16 +2,14 @@ package ch.rmy.android.http_shortcuts.activities.editor.body
 
 import android.content.Context
 import android.os.Bundle
-import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.EditText
-import androidx.appcompat.widget.AppCompatAutoCompleteTextView
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.data.models.Parameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.databinding.ActivityRequestBodyBinding
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.dialogs.KeyValueDialog
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
@@ -22,15 +20,10 @@ import ch.rmy.android.http_shortcuts.extensions.setTextSafely
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
-import ch.rmy.android.http_shortcuts.variables.VariableButton
-import ch.rmy.android.http_shortcuts.variables.VariableEditText
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
-import ch.rmy.android.http_shortcuts.views.LabelledSpinner
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import kotterknife.bindView
 import java.util.concurrent.TimeUnit
 
 class RequestBodyActivity : BaseActivity() {
@@ -49,18 +42,11 @@ class RequestBodyActivity : BaseActivity() {
         VariablePlaceholderProvider(variablesData)
     }
 
-    private val requestBodyTypeSpinner: LabelledSpinner by bindView(R.id.input_request_body_type)
-    private val parameterList: RecyclerView by bindView(R.id.parameter_list)
-    private val contentTypeContainer: View by bindView(R.id.container_input_content_type)
-    private val contentTypeView: AppCompatAutoCompleteTextView by bindView(R.id.input_content_type)
-    private val bodyContentContainer: View by bindView(R.id.container_input_body_content)
-    private val bodyContentView: VariableEditText by bindView(R.id.input_body_content)
-    private val bodyContentVariableButton: VariableButton by bindView(R.id.variable_button_body_content)
-    private val addButton: FloatingActionButton by bindView(R.id.button_add_parameter)
+    private lateinit var binding: ActivityRequestBodyBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_request_body)
+        binding = applyBinding(ActivityRequestBodyBinding.inflate(layoutInflater))
         setTitle(R.string.section_request_body)
 
         initViews()
@@ -68,22 +54,22 @@ class RequestBodyActivity : BaseActivity() {
     }
 
     private fun initViews() {
-        requestBodyTypeSpinner.setItemsFromPairs(REQUEST_BODY_TYPES.map {
+        binding.inputRequestBodyType.setItemsFromPairs(REQUEST_BODY_TYPES.map {
             it.first to getString(it.second)
         })
 
         val adapter = destroyer.own(ParameterAdapter(context, parameters, variablePlaceholderProvider))
 
         val manager = LinearLayoutManager(context)
-        parameterList.layoutManager = manager
-        parameterList.setHasFixedSize(true)
-        parameterList.adapter = adapter
+        binding.parameterList.layoutManager = manager
+        binding.parameterList.setHasFixedSize(true)
+        binding.parameterList.adapter = adapter
 
         initDragOrdering()
 
         adapter.clickListener = { it.value?.let { parameter -> showEditDialog(parameter) } }
-        addButton.applyTheme(themeHelper)
-        addButton.setOnClickListener {
+        binding.buttonAddParameter.applyTheme(themeHelper)
+        binding.buttonAddParameter.setOnClickListener {
             if (shortcutData.value?.requestBodyType == Shortcut.REQUEST_BODY_TYPE_FORM_DATA) {
                 showParameterTypeDialog()
             } else {
@@ -91,14 +77,14 @@ class RequestBodyActivity : BaseActivity() {
             }
         }
 
-        VariableViewUtils.bindVariableViews(bodyContentView, bodyContentVariableButton, variablePlaceholderProvider)
+        VariableViewUtils.bindVariableViews(binding.inputBodyContent, binding.variableButtonBodyContent, variablePlaceholderProvider)
 
-        contentTypeView.setAdapter(ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, CONTENT_TYPE_SUGGESTIONS))
+        binding.inputContentType.setAdapter(ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, CONTENT_TYPE_SUGGESTIONS))
     }
 
     private fun initDragOrdering() {
         val dragOrderingHelper = DragOrderingHelper { parameters.size > 1 }
-        dragOrderingHelper.attachTo(parameterList)
+        dragOrderingHelper.attachTo(binding.parameterList)
         dragOrderingHelper.positionChangeSource
             .concatMapCompletable { (oldPosition, newPosition) ->
                 viewModel.moveParameter(oldPosition, newPosition)
@@ -115,13 +101,13 @@ class RequestBodyActivity : BaseActivity() {
             updateShortcutViews()
         }
 
-        requestBodyTypeSpinner.selectionChanges
+        binding.inputRequestBodyType.selectionChanges
             .concatMapCompletable { type -> viewModel.setRequestBodyType(type) }
             .subscribe()
             .attachTo(destroyer)
 
-        bindTextChangeListener(contentTypeView) { shortcutData.value?.contentType }
-        bindTextChangeListener(bodyContentView) { shortcutData.value?.bodyContent }
+        bindTextChangeListener(binding.inputContentType) { shortcutData.value?.contentType }
+        bindTextChangeListener(binding.inputBodyContent) { shortcutData.value?.bodyContent }
     }
 
     private fun bindTextChangeListener(textView: EditText, currentValueProvider: () -> String?) {
@@ -136,23 +122,23 @@ class RequestBodyActivity : BaseActivity() {
 
     private fun updateViewModelFromViews(): Completable =
         viewModel.setRequestBody(
-            contentType = contentTypeView.text.toString(),
-            bodyContent = bodyContentView.rawString
+            contentType = binding.inputContentType.text.toString(),
+            bodyContent = binding.inputBodyContent.rawString
         )
 
     private fun updateShortcutViews() {
         val shortcut = shortcutData.value ?: return
-        requestBodyTypeSpinner.selectedItem = shortcut.requestBodyType
-        contentTypeView.setTextSafely(shortcut.contentType)
-        bodyContentView.rawString = shortcut.bodyContent
+        binding.inputRequestBodyType.selectedItem = shortcut.requestBodyType
+        binding.inputContentType.setTextSafely(shortcut.contentType)
+        binding.inputBodyContent.rawString = shortcut.bodyContent
 
         val usesParameters = shortcut.usesRequestParameters()
-        parameterList.visible = usesParameters
-        addButton.visible = usesParameters
+        binding.parameterList.visible = usesParameters
+        binding.buttonAddParameter.visible = usesParameters
 
         val usesCustomBody = shortcut.usesCustomBody()
-        contentTypeContainer.visible = usesCustomBody
-        bodyContentContainer.visible = usesCustomBody
+        binding.containerInputContentType.visible = usesCustomBody
+        binding.containerInputBodyContent.visible = usesCustomBody
     }
 
     private fun showEditDialog(parameter: Parameter) {
@@ -196,7 +182,7 @@ class RequestBodyActivity : BaseActivity() {
             showRemoveOption = true,
             showFileNameOption = parameter.isFileParameter,
             keyName = parameter.key,
-            fileName = parameter.fileName
+            fileName = parameter.fileName,
         )
             .show(context)
             .flatMapCompletable { event ->
@@ -234,7 +220,7 @@ class RequestBodyActivity : BaseActivity() {
             title = getString(R.string.title_post_param_add),
             keyLabel = getString(R.string.label_post_param_key),
             valueLabel = getString(R.string.label_post_param_value),
-            isMultiLine = true
+            isMultiLine = true,
         )
             .show(context)
             .flatMapCompletable { event ->
@@ -251,7 +237,7 @@ class RequestBodyActivity : BaseActivity() {
         FileParameterDialog(
             variablePlaceholderProvider = variablePlaceholderProvider,
             title = getString(R.string.title_post_param_add_file),
-            showFileNameOption = !multiple
+            showFileNameOption = !multiple,
         )
             .show(context)
             .flatMapCompletable { event ->
@@ -292,7 +278,7 @@ class RequestBodyActivity : BaseActivity() {
             "text/csv",
             "text/plain",
             "text/html",
-            "text/xml"
+            "text/xml",
         )
 
     }

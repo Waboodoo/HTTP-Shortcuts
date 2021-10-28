@@ -3,11 +3,11 @@ package ch.rmy.android.http_shortcuts.activities.editor.executionsettings
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.widget.CheckBox
 import android.widget.SeekBar
 import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.databinding.ActivityExecutionSettingsBinding
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.attachTo
 import ch.rmy.android.http_shortcuts.extensions.bindViewModel
@@ -17,8 +17,6 @@ import ch.rmy.android.http_shortcuts.tiles.QuickSettingsTileManager
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.SimpleOnSeekBarChangeListener
-import ch.rmy.android.http_shortcuts.views.PanelButton
-import kotterknife.bindView
 
 class ExecutionSettingsActivity : BaseActivity() {
 
@@ -27,15 +25,11 @@ class ExecutionSettingsActivity : BaseActivity() {
         viewModel.shortcut
     }
 
-    private val requireConfirmationCheckBox: CheckBox by bindView(R.id.input_require_confirmation)
-    private val launcherShortcutCheckBox: CheckBox by bindView(R.id.input_launcher_shortcut)
-    private val quickSettingsTileCheckBox: CheckBox by bindView(R.id.input_quick_tile_shortcut)
-    private val waitForConnectionCheckBox: CheckBox by bindView(R.id.input_wait_for_connection)
-    private val delayView: PanelButton by bindView(R.id.input_delay)
+    private lateinit var binding: ActivityExecutionSettingsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_execution_settings)
+        binding = applyBinding(ActivityExecutionSettingsBinding.inflate(layoutInflater))
         setTitle(R.string.label_execution_settings)
 
         initViews()
@@ -43,35 +37,35 @@ class ExecutionSettingsActivity : BaseActivity() {
     }
 
     private fun initViews() {
-        requireConfirmationCheckBox
+        binding.inputRequireConfirmation
             .observeChecked()
             .concatMapCompletable { isChecked ->
                 viewModel.setRequireConfirmation(isChecked)
             }
             .subscribe()
             .attachTo(destroyer)
-        launcherShortcutCheckBox
+        binding.inputLauncherShortcut
             .observeChecked()
             .concatMapCompletable { isChecked ->
                 viewModel.setLauncherShortcut(isChecked)
             }
             .subscribe()
             .attachTo(destroyer)
-        quickSettingsTileCheckBox
+        binding.inputQuickTileShortcut
             .observeChecked()
             .concatMapCompletable { isChecked ->
                 viewModel.setQuickSettingsTileShortcut(isChecked)
             }
             .subscribe()
             .attachTo(destroyer)
-        waitForConnectionCheckBox
+        binding.inputWaitForConnection
             .observeChecked()
             .concatMapCompletable { isChecked ->
                 viewModel.setWaitForConnection(isChecked)
             }
             .subscribe()
             .attachTo(destroyer)
-        delayView.setOnClickListener {
+        binding.inputDelay.setOnClickListener {
             showDelayDialog()
         }
     }
@@ -84,13 +78,13 @@ class ExecutionSettingsActivity : BaseActivity() {
 
     private fun updateShortcutViews() {
         val shortcut = shortcutData.value ?: return
-        requireConfirmationCheckBox.isChecked = shortcut.requireConfirmation
-        launcherShortcutCheckBox.visible = LauncherShortcutManager.supportsLauncherShortcuts()
-        launcherShortcutCheckBox.isChecked = shortcut.launcherShortcut
-        quickSettingsTileCheckBox.visible = QuickSettingsTileManager.supportsQuickSettingsTiles()
-        quickSettingsTileCheckBox.isChecked = shortcut.quickSettingsTileShortcut
-        waitForConnectionCheckBox.isChecked = shortcut.isWaitForNetwork
-        delayView.subtitle = viewModel.getDelaySubtitle(shortcut)
+        binding.inputRequireConfirmation.isChecked = shortcut.requireConfirmation
+        binding.inputLauncherShortcut.visible = LauncherShortcutManager.supportsLauncherShortcuts()
+        binding.inputLauncherShortcut.isChecked = shortcut.launcherShortcut
+        binding.inputQuickTileShortcut.visible = QuickSettingsTileManager.supportsQuickSettingsTiles()
+        binding.inputQuickTileShortcut.isChecked = shortcut.quickSettingsTileShortcut
+        binding.inputWaitForConnection.isChecked = shortcut.isWaitForNetwork
+        binding.inputDelay.subtitle = viewModel.getDelaySubtitle(shortcut)
     }
 
     private fun showDelayDialog() {
@@ -153,7 +147,8 @@ class ExecutionSettingsActivity : BaseActivity() {
             3600000,
         )
 
-        private fun delayToProgress(delay: Int) = DELAY_OPTIONS.indexOfFirst {
+        private fun delayToProgress(delay: Int) = DELAY_OPTIONS
+            .indexOfFirst {
                 it >= delay
             }
             .takeUnless { it == -1 }
