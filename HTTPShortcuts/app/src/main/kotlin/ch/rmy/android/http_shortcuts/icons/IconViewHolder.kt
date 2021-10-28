@@ -1,16 +1,12 @@
 package ch.rmy.android.http_shortcuts.icons
 
-import android.content.Context
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import ch.rmy.android.http_shortcuts.R
-import kotterknife.bindView
+import ch.rmy.android.http_shortcuts.databinding.IconListItemBinding
 
-class IconViewHolder(context: Context, parent: ViewGroup, listener: (ShortcutIcon.BuiltInIcon) -> Unit)
-    : RecyclerView.ViewHolder(LayoutInflater.from(context).inflate(R.layout.icon_list_item, parent, false)) {
-
-    private val iconView: IconView by bindView(R.id.icon)
+class IconViewHolder(
+    private val binding: IconListItemBinding,
+    listener: (ShortcutIcon.BuiltInIcon) -> Unit,
+) : RecyclerView.ViewHolder(binding.root) {
 
     private lateinit var icon: ShortcutIcon.BuiltInIcon
 
@@ -22,7 +18,7 @@ class IconViewHolder(context: Context, parent: ViewGroup, listener: (ShortcutIco
 
     fun setIcon(icon: ShortcutIcon.BuiltInIcon) {
         this.icon = icon
-        iconView.setIcon(icon)
+        binding.icon.setIcon(icon)
     }
 
 }

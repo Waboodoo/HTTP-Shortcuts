@@ -1,28 +1,25 @@
 package ch.rmy.android.http_shortcuts.activities.main
 
 import android.content.Context
+import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
-import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseViewHolder
 import ch.rmy.android.http_shortcuts.data.livedata.ListLiveData
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.icons.IconView
-import kotterknife.bindView
+import ch.rmy.android.http_shortcuts.databinding.GridItemShortcutBinding
 
 class ShortcutGridAdapter(context: Context, shortcuts: ListLiveData<Shortcut>) : BaseShortcutAdapter(context, shortcuts) {
 
-    override fun createViewHolder(parentView: ViewGroup) = ShortcutViewHolder(parentView)
+    override fun createViewHolder(parentView: ViewGroup) =
+        ShortcutViewHolder(GridItemShortcutBinding.inflate(LayoutInflater.from(parentView.context), parentView, false))
 
-    inner class ShortcutViewHolder(parent: ViewGroup) : BaseViewHolder<Shortcut>(parent, R.layout.grid_item_shortcut, this@ShortcutGridAdapter) {
-
-        private val name: TextView by bindView(R.id.name)
-        private val icon: IconView by bindView(R.id.icon)
+    inner class ShortcutViewHolder(private val binding: GridItemShortcutBinding) :
+        BaseViewHolder<Shortcut>(binding.root, this@ShortcutGridAdapter) {
 
         override fun updateViews(item: Shortcut) {
-            name.text = item.name
-            icon.setIcon(item.icon)
-            name.setTextColor(nameTextColor)
+            binding.name.text = item.name
+            binding.icon.setIcon(item.icon)
+            binding.name.setTextColor(nameTextColor)
         }
 
     }

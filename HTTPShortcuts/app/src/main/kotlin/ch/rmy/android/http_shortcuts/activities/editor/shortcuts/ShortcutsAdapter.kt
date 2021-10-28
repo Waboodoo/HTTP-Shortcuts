@@ -2,19 +2,18 @@ package ch.rmy.android.http_shortcuts.activities.editor.shortcuts
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.livedata.ListLiveData
-import ch.rmy.android.http_shortcuts.icons.IconView
+import ch.rmy.android.http_shortcuts.databinding.ListItemShortcutTriggerBinding
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils
-import kotterknife.bindView
 
-class ShortcutsAdapter(lifecycleOwner: LifecycleOwner, private val shortcuts: ListLiveData<ShortcutPlaceholder>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ShortcutsAdapter(lifecycleOwner: LifecycleOwner, private val shortcuts: ListLiveData<ShortcutPlaceholder>) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     init {
         shortcuts.observe(lifecycleOwner, {
@@ -26,7 +25,7 @@ class ShortcutsAdapter(lifecycleOwner: LifecycleOwner, private val shortcuts: Li
     var itemClickListener: ((ShortcutPlaceholder) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
-        ShortcutViewHolder(parent, R.layout.list_item_shortcut_trigger, this)
+        ShortcutViewHolder(ListItemShortcutTriggerBinding.inflate(LayoutInflater.from(parent.context), parent, false), this)
 
     override fun getItemCount() = shortcuts.size
 
@@ -40,10 +39,10 @@ class ShortcutsAdapter(lifecycleOwner: LifecycleOwner, private val shortcuts: Li
     override fun getItemId(position: Int): Long =
         UUIDUtils.toLong(getItem(position).id)
 
-    class ShortcutViewHolder(parent: ViewGroup, layoutRes: Int, adapter: ShortcutsAdapter) : RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(layoutRes, parent, false)) {
-
-        private val icon: IconView by bindView(R.id.icon)
-        private val name: TextView by bindView(R.id.name)
+    class ShortcutViewHolder(
+        private val binding: ListItemShortcutTriggerBinding,
+        adapter: ShortcutsAdapter,
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         private lateinit var item: ShortcutPlaceholder
 
@@ -57,11 +56,11 @@ class ShortcutsAdapter(lifecycleOwner: LifecycleOwner, private val shortcuts: Li
             this.item = shortcut
             if (shortcut.isDeleted()) {
                 val deleted = itemView.context.getString(R.string.placeholder_deleted_shortcut)
-                name.text = HTMLUtil.format("<i>$deleted</i>")
-                icon.setIcon(ShortcutIcon.NoIcon)
+                binding.name.text = HTMLUtil.format("<i>$deleted</i>")
+                binding.icon.setIcon(ShortcutIcon.NoIcon)
             } else {
-                name.text = shortcut.name
-                icon.setIcon(shortcut.icon)
+                binding.name.text = shortcut.name
+                binding.icon.setIcon(shortcut.icon)
             }
         }
 

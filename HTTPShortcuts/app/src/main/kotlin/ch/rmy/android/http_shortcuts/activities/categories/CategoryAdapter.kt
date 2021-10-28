@@ -1,38 +1,38 @@
 package ch.rmy.android.http_shortcuts.activities.categories
 
 import android.content.Context
+import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseAdapter
 import ch.rmy.android.http_shortcuts.activities.BaseViewHolder
 import ch.rmy.android.http_shortcuts.data.livedata.ListLiveData
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.databinding.ListItemCategoryBinding
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.extensions.dimen
 import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.icons.IconView
-import kotterknife.bindView
 import kotlin.math.min
 
 class CategoryAdapter(context: Context, categories: ListLiveData<Category>) : BaseAdapter<Category>(context, categories) {
 
-    override fun createViewHolder(parentView: ViewGroup) = CategoryViewHolder(parentView)
+    override fun createViewHolder(parentView: ViewGroup) =
+        CategoryViewHolder(ListItemCategoryBinding.inflate(LayoutInflater.from(parentView.context), parentView, false))
 
-    inner class CategoryViewHolder(parent: ViewGroup) : BaseViewHolder<Category>(parent, R.layout.list_item_category, this@CategoryAdapter) {
-
-        private val name: TextView by bindView(R.id.name)
-        private val description: TextView by bindView(R.id.description)
-        private val smallIconContainer: ViewGroup by bindView(R.id.small_icons)
-        private val layoutTypeIcon: ImageView by bindView(R.id.layout_type_icon)
+    inner class CategoryViewHolder(
+        private val binding: ListItemCategoryBinding,
+    ) : BaseViewHolder<Category>(
+        binding.root,
+        this@CategoryAdapter,
+    ) {
 
         override fun updateViews(item: Category) {
-            name.text = getName(item)
+            binding.name.text = getName(item)
             val count = item.shortcuts.size
-            description.text = context.resources.getQuantityString(R.plurals.shortcut_count, count, count)
+            binding.description.text = context.resources.getQuantityString(R.plurals.shortcut_count, count, count)
 
             updateIcons(item.shortcuts)
             updateLayoutTypeIcon(item.layoutType.takeUnless { item.hidden })
@@ -49,33 +49,33 @@ class CategoryAdapter(context: Context, categories: ListLiveData<Category>) : Ba
             shortcuts
                 .take(MAX_ICONS)
                 .forEachIndexed { index, shortcut ->
-                    val icon = smallIconContainer.getChildAt(index) as IconView
+                    val icon = binding.smallIcons.getChildAt(index) as IconView
                     icon.setIcon(shortcut.icon)
                 }
         }
 
         private fun updateIconNumber(number: Int) {
             val size = dimen(context, R.dimen.small_icon_size)
-            while (smallIconContainer.childCount < number) {
+            while (binding.smallIcons.childCount < number) {
                 val icon = IconView(context)
                 icon.layoutParams = LinearLayout.LayoutParams(size, size)
-                smallIconContainer.addView(icon)
+                binding.smallIcons.addView(icon)
             }
-            while (smallIconContainer.childCount > number) {
-                smallIconContainer.removeViewAt(0)
+            while (binding.smallIcons.childCount > number) {
+                binding.smallIcons.removeViewAt(0)
             }
         }
 
         private fun updateLayoutTypeIcon(layoutType: String?) {
             if (layoutType == null) {
-                layoutTypeIcon.visible = false
+                binding.layoutTypeIcon.visible = false
             } else {
-                layoutTypeIcon.visible = true
-                layoutTypeIcon.setImageResource(when (layoutType) {
+                binding.layoutTypeIcon.visible = true
+                binding.layoutTypeIcon.setImageResource(when (layoutType) {
                     Category.LAYOUT_GRID -> R.drawable.ic_grid
                     else -> R.drawable.ic_list
                 })
-                layoutTypeIcon.applyTheme()
+                binding.layoutTypeIcon.applyTheme()
             }
         }
 

@@ -2,7 +2,7 @@ package ch.rmy.android.http_shortcuts.activities
 
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class SimpleListAdapter<T, U : SimpleViewHolder<T>> : RecyclerView.Adapter<U>() {
+abstract class SimpleListAdapter<T, U : RecyclerView.ViewHolder> : RecyclerView.Adapter<U>() {
 
     var items: List<T> = emptyList()
 
@@ -13,9 +13,5 @@ abstract class SimpleListAdapter<T, U : SimpleViewHolder<T>> : RecyclerView.Adap
     final override fun getItemCount() = items.size
 
     protected abstract fun getItemId(item: T): Long
-
-    final override fun onBindViewHolder(holder: U, position: Int) {
-        holder.updateViews(items[position])
-    }
 
 }

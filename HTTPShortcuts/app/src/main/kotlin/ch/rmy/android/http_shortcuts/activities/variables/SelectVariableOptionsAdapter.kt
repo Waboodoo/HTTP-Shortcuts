@@ -1,13 +1,12 @@
 package ch.rmy.android.http_shortcuts.activities.variables
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
-import ch.rmy.android.http_shortcuts.R
+import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.activities.SimpleListAdapter
-import ch.rmy.android.http_shortcuts.activities.SimpleViewHolder
 import ch.rmy.android.http_shortcuts.data.models.Option
+import ch.rmy.android.http_shortcuts.databinding.SelectOptionBinding
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils
-import kotterknife.bindView
 
 class SelectVariableOptionsAdapter : SimpleListAdapter<Option, SelectVariableOptionsAdapter.SelectOptionViewHolder>() {
 
@@ -18,16 +17,21 @@ class SelectVariableOptionsAdapter : SimpleListAdapter<Option, SelectVariableOpt
         }
     var clickListener: ((Option) -> Unit)? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = SelectOptionViewHolder(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        SelectOptionViewHolder(SelectOptionBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
     override fun getItemId(item: Option) = UUIDUtils.toLong(item.id)
 
-    inner class SelectOptionViewHolder(parent: ViewGroup) : SimpleViewHolder<Option>(parent, R.layout.select_option) {
+    override fun onBindViewHolder(holder: SelectOptionViewHolder, position: Int) {
+        holder.updateViews(options[position])
+    }
 
-        private val label: TextView by bindView(R.id.select_option_label)
+    inner class SelectOptionViewHolder(
+        private val binding: SelectOptionBinding,
+    ) : RecyclerView.ViewHolder(binding.root) {
 
-        override fun updateViews(item: Option) {
-            label.text = item.labelOrValue
+        fun updateViews(item: Option) {
+            binding.selectOptionLabel.text = item.labelOrValue
             itemView.setOnClickListener { clickListener?.invoke(item) }
         }
 

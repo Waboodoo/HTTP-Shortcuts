@@ -3,19 +3,18 @@ package ch.rmy.android.http_shortcuts.activities
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
-import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.livedata.ListLiveData
 import ch.rmy.android.http_shortcuts.data.models.HasId
+import ch.rmy.android.http_shortcuts.databinding.ListEmptyItemBinding
 import ch.rmy.android.http_shortcuts.utils.Destroyable
 import ch.rmy.android.http_shortcuts.utils.UUIDUtils
 import io.realm.RealmObject
-import kotterknife.bindView
 
-abstract class BaseAdapter<T> internal constructor(val context: Context, private val items: ListLiveData<T>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Destroyable where T : RealmObject, T : HasId {
+abstract class BaseAdapter<T> internal constructor(val context: Context, private val items: ListLiveData<T>) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>(), Destroyable where T : RealmObject, T : HasId {
 
     var clickListener: ((LiveData<T?>) -> Unit)? = null
     var longClickListener: ((LiveData<T?>) -> Boolean)? = null
@@ -47,7 +46,7 @@ abstract class BaseAdapter<T> internal constructor(val context: Context, private
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
         if (viewType == TYPE_EMPTY_MARKER) {
-            EmptyMarkerViewHolder(parent, emptyMarker!!)
+            EmptyMarkerViewHolder(ListEmptyItemBinding.inflate(LayoutInflater.from(parent.context), parent, false), emptyMarker!!)
         } else {
             createViewHolder(parent)
         }
@@ -63,14 +62,14 @@ abstract class BaseAdapter<T> internal constructor(val context: Context, private
         }
     }
 
-    private inner class EmptyMarkerViewHolder constructor(parent: ViewGroup, emptyMarker: EmptyMarker) : RecyclerView.ViewHolder(LayoutInflater.from(context).inflate(R.layout.list_empty_item, parent, false)) {
-
-        private val emptyMarkerText: TextView by bindView(R.id.empty_marker)
-        private val emptyMarkerInstructions: TextView by bindView(R.id.empty_marker_instructions)
+    private inner class EmptyMarkerViewHolder constructor(
+        binding: ListEmptyItemBinding,
+        emptyMarker: EmptyMarker,
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         init {
-            emptyMarkerText.text = emptyMarker.title
-            emptyMarkerInstructions.text = emptyMarker.instructions
+            binding.emptyMarker.text = emptyMarker.title
+            binding.emptyMarkerInstructions.text = emptyMarker.instructions
         }
     }
 
