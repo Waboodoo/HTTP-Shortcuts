@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
 import android.net.Uri
-import android.os.Vibrator
 import androidx.annotation.StringRes
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
@@ -20,6 +19,7 @@ import ch.rmy.android.http_shortcuts.plugin.TaskerIntent
 import ch.rmy.android.http_shortcuts.scripting.actions.types.PlaySoundActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.TriggerTaskerTaskActionType
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholderProvider
+import ch.rmy.android.http_shortcuts.utils.VibrationUtil
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 
 class CodeSnippetPicker(
@@ -148,7 +148,7 @@ class CodeSnippetPicker(
             .item(R.string.action_tts) {
                 insertText("speak(\"", "\");\n")
             }
-            .mapIf((context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator).hasVibrator()) {
+            .mapIf(VibrationUtil.canVibrate(context)) {
                 item(R.string.action_type_vibrate_title) {
                     insertText("vibrate();\n", "")
                 }

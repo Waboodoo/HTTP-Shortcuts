@@ -1,27 +1,26 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
-import android.content.Context
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
+import ch.rmy.android.http_shortcuts.utils.VibrationUtil
 import io.reactivex.Completable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
 
 class VibrateAction(private val patternId: Int, private val waitForCompletion: Boolean) : BaseAction() {
 
-    private val pattern: VibrationPattern
-        get() = findPattern(patternId)
-
     override fun execute(executionContext: ExecutionContext): Completable {
-        val vibrator = executionContext.context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-        if (!vibrator.hasVibrator()) {
-            return Completable.complete()
+        val vibrator = VibrationUtil.getVibrator(executionContext.context)
+            ?: return Completable.complete()
+
+        val pattern = findPattern(patternId)
+        return Completable.fromAction {
+            pattern.execute(vibrator)
         }
-        val pattern = pattern
-        pattern.execute(vibrator)
-        return Completable.complete()
+            .subscribeOn(AndroidSchedulers.mainThread())
             .mapIf(waitForCompletion) {
                 delay(pattern.duration, TimeUnit.MILLISECONDS)
             }
