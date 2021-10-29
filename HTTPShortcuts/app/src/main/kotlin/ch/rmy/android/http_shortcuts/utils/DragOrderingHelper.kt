@@ -20,8 +20,8 @@ class DragOrderingHelper(
 
     private val callback = object : ItemTouchHelper.SimpleCallback(directions, 0) {
         override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-            val oldPosition = viewHolder.adapterPosition
-            val newPosition = target.adapterPosition
+            val oldPosition = viewHolder.bindingAdapterPosition
+            val newPosition = target.bindingAdapterPosition
             if (oldPosition == RecyclerView.NO_POSITION || newPosition == RecyclerView.NO_POSITION) {
                 return false
             }

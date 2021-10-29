@@ -17,6 +17,7 @@ object InstallUtil {
                     .initiatingPackageName
             }
         } else {
+            @Suppress("DEPRECATION")
             context.packageManager.getInstallerPackageName(context.packageName)
         }
 

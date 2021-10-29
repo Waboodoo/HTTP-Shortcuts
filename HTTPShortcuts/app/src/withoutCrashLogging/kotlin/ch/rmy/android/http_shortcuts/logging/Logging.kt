@@ -6,9 +6,13 @@ import ch.rmy.android.http_shortcuts.BuildConfig
 
 object Logging {
 
-    fun initCrashReporting(context: Context) {}
+    @Suppress("UNUSED_PARAMETER")
+    fun initCrashReporting(context: Context) {
+    }
 
-    fun disableCrashReporting(context: Context) {}
+    @Suppress("UNUSED_PARAMETER")
+    fun disableCrashReporting(context: Context) {
+    }
 
     val supportsCrashReporting: Boolean = false
 

@@ -26,8 +26,8 @@ class ResponseWebView @JvmOverloads constructor(
 
             override fun shouldInterceptRequest(view: WebView, request: WebResourceRequest): WebResourceResponse? {
                 if (!request.isForMainFrame && request.url.path.equals("/favicon.ico")) {
-                    tryOrIgnore {
-                        return WebResourceResponse("image/png", null, null)
+                    return tryOrIgnore {
+                        WebResourceResponse("image/png", null, null)
                     }
                 }
                 return null

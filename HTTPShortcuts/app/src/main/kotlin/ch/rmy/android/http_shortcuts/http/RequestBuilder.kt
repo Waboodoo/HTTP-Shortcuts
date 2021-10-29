@@ -11,6 +11,7 @@ import ch.rmy.android.http_shortcuts.http.RequestUtil.getMediaType
 import okhttp3.Credentials
 import okhttp3.Request
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.internal.http.HttpMethod
 import java.io.InputStream
 import java.net.URISyntaxException
@@ -135,7 +136,9 @@ class RequestBuilder(private val method: String, url: String) {
     }
 
     private fun constructBodyFromString(string: String): RequestBody =
-        RequestBody.create(getMediaType(contentType), string.toByteArray())
+        string.toByteArray().let { content ->
+            content.toRequestBody(getMediaType(contentType), 0, content.size)
+        }
 
     private fun constructBodyFromStream(stream: InputStream, length: Long?): RequestBody =
         StreamRequestBody(contentType, stream, length)

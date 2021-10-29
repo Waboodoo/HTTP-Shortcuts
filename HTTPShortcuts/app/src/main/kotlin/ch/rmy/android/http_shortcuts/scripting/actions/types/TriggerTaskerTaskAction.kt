@@ -4,7 +4,6 @@ import ch.rmy.android.http_shortcuts.plugin.TaskerIntent
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import io.reactivex.Completable
-import java.util.Locale
 
 class TriggerTaskerTaskAction(
     private val taskName: String,
@@ -16,7 +15,7 @@ class TriggerTaskerTaskAction(
             val intent = TaskerIntent(taskName)
             getVariableValues(variableValuesJson)
                 .forEach { (variableName, value) ->
-                    intent.addLocalVariable("%${variableName.toLowerCase(Locale.ROOT)}", value)
+                    intent.addLocalVariable("%${variableName.lowercase()}", value)
                 }
             executionContext.context.sendBroadcast(intent)
         }

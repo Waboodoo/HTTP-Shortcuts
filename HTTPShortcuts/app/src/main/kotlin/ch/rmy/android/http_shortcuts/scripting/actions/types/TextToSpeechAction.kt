@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import android.os.Handler
+import android.os.Looper
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import ch.rmy.android.http_shortcuts.R
@@ -24,7 +25,7 @@ class TextToSpeechAction(private val message: String, private val language: Stri
             Completable
                 .create { emitter ->
                     val id = newUUID()
-                    val handler = Handler()
+                    val handler = Handler(Looper.getMainLooper())
 
                     tts = TextToSpeech(executionContext.context) { code ->
                         if (code != TextToSpeech.SUCCESS) {

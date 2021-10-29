@@ -54,7 +54,7 @@ object ServiceDiscoveryHelper {
                         logInfo("Service Resolved")
                         if (serviceInfo.serviceName.contains(serviceName.removeSuffix(SERVICE_NAME_SUFFIX), ignoreCase = true)) {
                             emitter.onSuccess(ServiceInfo(
-                                address = serviceInfo.host.hostAddress,
+                                address = serviceInfo.host.hostAddress!!,
                                 port = serviceInfo.port,
                             ))
                         }

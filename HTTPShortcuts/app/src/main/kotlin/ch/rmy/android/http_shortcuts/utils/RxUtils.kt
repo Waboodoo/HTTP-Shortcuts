@@ -6,7 +6,7 @@ import io.reactivex.Single
 object RxUtils {
 
     @CheckResult
-    fun <T> single(action: () -> T): Single<T> =
+    fun <T : Any> single(action: () -> T): Single<T> =
         Single.create { emitter ->
             try {
                 val result = action.invoke()

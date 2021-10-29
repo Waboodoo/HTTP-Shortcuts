@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.execute
 
 import android.graphics.Color
 import android.os.Handler
+import android.os.Looper
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 
@@ -16,7 +17,7 @@ class ProgressIndicator(private val activity: BaseActivity) {
         }
     }
 
-    private val handler = Handler()
+    private val handler = Handler(Looper.getMainLooper())
 
     fun showProgress() {
         handler.removeCallbacks(showProgressRunnable)
