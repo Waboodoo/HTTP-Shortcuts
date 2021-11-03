@@ -26,9 +26,13 @@ class WakeOnLanAction(
                     port = port,
                 )
             } catch (e: Exception) {
-                logException(e)
-                throw ActionException { context ->
-                    context.getString(R.string.error_action_type_send_wol_failed, e.message)
+                if (e is ActionException) {
+                    throw e
+                } else {
+                    logException(e)
+                    throw ActionException { context ->
+                        context.getString(R.string.error_action_type_send_wol_failed, e.message)
+                    }
                 }
             }
         }
