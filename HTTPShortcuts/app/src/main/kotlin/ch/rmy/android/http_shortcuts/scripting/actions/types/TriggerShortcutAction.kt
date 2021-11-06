@@ -31,7 +31,7 @@ class TriggerShortcutAction(
 
         return Commons.createPendingExecution(
             shortcutId = shortcut.id,
-            resolvedVariables = variableValues?.mapValues { it.toString() } ?: emptyMap(),
+            resolvedVariables = variableValues?.mapValues { it.value?.toString() ?: "" } ?: emptyMap(),
             tryNumber = 0,
             waitUntil = DateUtil.calculateDate(delay),
             requiresNetwork = shortcut.isWaitForNetwork,
