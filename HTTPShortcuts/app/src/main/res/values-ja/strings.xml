@@ -1,0 +1,852 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- The name of the app -->
+    <string name="app_name">"HTTP Shortcuts"</string>
+
+    <!-- The name of the default category -->
+    <string name="shortcuts">"ショートカット"</string>
+
+    <!-- The name used as a fallback for shortcuts without a name -->
+    <string name="shortcut_safe_name">"ショートカット"</string>
+
+    <!-- Title in editor when editing a shortcut -->
+    <string name="edit_shortcut">"ショートカットを変更"</string>
+
+    <!-- Title in editor when creating a new shortcut -->
+    <string name="create_shortcut">"ショートカットを作成"</string>
+
+    <!-- Content description of icon image, accessibility information -->
+    <string name="icon_description">"アイコン"</string>
+
+    <!-- Label above input field in editor, for shortcut name -->
+    <string name="label_name">"ショートカットの名前"</string>
+
+    <!-- Label above input field in editor, for shortcut description -->
+    <string name="label_description">"説明"</string>
+
+    <!-- Label above input field in editor, for shortcut URL -->
+    <string name="label_url">"URL"</string>
+
+    <!-- Button to save changes made to shortcut/variable -->
+    <string name="save_button">"保存"</string>
+
+    <!-- Button to test changes made to shortcut -->
+    <string name="test_button">"テスト"</string>
+
+    <!-- Label above input field in editor, for shortcut HTTP method (GET, POST, PUT, …) -->
+    <string name="label_method">"HTTP METHOD"</string>
+
+    <!-- Label above input field in editor, for shortcut authentication username -->
+    <string name="label_username">"ユーザー名"</string>
+
+    <!-- Label above input field in editor, for shortcut authentication password -->
+    <string name="label_password">"パスワード"</string>
+
+    <!-- Label above input field in editor, for shortcut authentication token -->
+    <string name="label_auth_token">"認証 Token"</string>
+
+    <!-- Shortcut dropdown option: Place shortcut on home screen -->
+    <string name="action_place">"ホーム画面に追加"</string>
+
+    <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
+    <string name="action_run">"実行"</string>
+
+    <!-- Shortcut dropdown option: Edit the shortcut -->
+    <string name="action_edit">"変更"</string>
+
+    <!-- Shortcut dropdown option: Duplicate the shortcut/variable -->
+    <string name="action_duplicate">"複製"</string>
+
+    <!-- Shortcut dropdown option: Delete the shortcut/variable -->
+    <string name="action_delete">"削除"</string>
+
+    <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
+    <string name="action_move">"移動"</string>
+
+    <!-- Shortcut dropdown option: Move the shortcut to a different category -->
+    <string name="action_move_to_category">"カテゴリーに移動..."</string>
+
+    <!-- Empty state, shown in list when there are no shortcuts yet -->
+    <string name="empty_state_shortcuts">"ショートカットがありません"</string>
+
+    <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
+    <string name="empty_state_shortcuts_instructions">"ショートカットは、任意のレスポンス処理や表示を含め、１行のHTTPリクエストを送信できます。
+
+開始するには[＋]ボタンをクリックするか、「アプリについて」項目のドキュメントを確認してください。"</string>
+
+    <!-- Empty state, shown in list when there are no variables yet -->
+    <string name="empty_state_variables">"変数がありません"</string>
+
+    <!-- Empty state instructions, shown in list when there are no variables yet -->
+    <string name="empty_state_variables_instructions">"変数を使用すると、動的に値をショートカットに代入できます（例：URL、ヘッダー、リクエストBodyに保存する値を変数で指定する）ショートカット編集時に「{}」ボタンを押すと、使用できる変数から選択して変数名を記述できます。
+
+変数を追加するには[＋] ボタンをクリックします。"</string>
+
+    <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
+    <string name="confirm_delete_shortcut_message">"このショートカットを削除しますか？"</string>
+
+    <!-- Dialog prompt to ask user if unsaved changes should be discarded. -->
+    <string name="confirm_discard_changes_message">"保存していない変更があります。変更を破棄しますか？"</string>
+
+    <!-- Dialog option: Discard (unsaved changes) -->
+    <string name="dialog_discard">"破棄"</string>
+
+    <!-- Title of fullscreen window when shortcut is executed/run -->
+    <string name="title_activity_execute">"ショートカット実行"</string>
+
+    <!-- Confirmation message shown in Toast when a shortcut was executed. %s is a placeholder for the shortcut's name -->
+    <string name="executed">"%s 実行しました"</string>
+
+    <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
+    <string name="shortcut_not_found">"ショートカットが見つかりません。 ホーム画面に再び追加する必要があるかもしれません。"</string>
+
+    <!-- Validation error, shown when user tries to save a shortcut without a name -->
+    <string name="validation_name_not_empty">"名前を入力してください"</string>
+
+    <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
+    <string name="validation_url_invalid">"HTTP(S)のURLを入力してください"</string>
+
+    <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
+    <string name="error_http">"失敗：ショートカット名「%1$s 」、エラーコード： %2$d (%3$s)"</string>
+
+    <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
+    <string name="error_other">"失敗：ショートカット名「%1$s」、エラー：%2$s"</string>
+
+    <!-- Error shown when the HTTP response is too large to be loaded into memory. %s is a placeholder for the size limit, e.g. "1 MB") -->
+    <string name="error_response_too_large">"レスポンスが長すぎて表示不可 (上限：%s)"</string>
+
+    <!-- Error shown when a selected image cannot be used as an icon -->
+    <string name="error_set_image">"アイコン画像の使用に失敗しました"</string>
+
+    <!-- Name template for a duplicated shortcut. %1$s is a placeholder for the name of the original shortcut -->
+    <string name="template_shortcut_name_copy">"%1$s (コピー)"</string>
+
+    <!-- Option in "Change Icon" dialog, allows user to pick an icon from an ipack app (i.e., a special icon provider app) -->
+    <string name="choose_ipack">"Ipackを選択"</string>
+
+    <!-- Title of "Change Icon" dialog, where user can pick source/type of new icon for shortcut -->
+    <string name="change_icon">"アイコンを変更"</string>
+
+    <!-- Option in "Change Icon" dialog, allows user to select a custom image to use as a shortcut icon -->
+    <string name="choose_image">"カスタム画像を選択"</string>
+
+    <!-- Option in "Change Icon" dialog, allows user to select an icon from an Ipack icon set (from a third-party icon app) -->
+    <string name="choose_ipack_icon">"Ipackアイコンを選択"</string>
+
+    <!-- Option in "Change Icon" dialog, allows user to select one of the built-in icons to use as a shortcut icon -->
+    <string name="choose_icon">"組み込みのアイコンを選択"</string>
+
+    <!-- Title of dialog that allows user to pick an icon from the built-in icons -->
+    <string name="title_choose_icon">"組み込みのアイコンを選択"</string>
+
+    <!-- Title of dialog to edit a parameter on a shortcut -->
+    <string name="title_post_param_edit">"パラメーターを編集"</string>
+
+    <!-- Title of dialog to edit a file parameter on a shortcut -->
+    <string name="title_post_param_edit_file">"ファイルパラメーターを編集"</string>
+
+    <!-- Title of dialog to add a new parameter to a shortcut -->
+    <string name="title_post_param_add">"パラメーターを追加"</string>
+
+    <!-- Title of dialog to add a new file parameter to a shortcut -->
+    <string name="title_post_param_add_file">"ファイルパラメーターを追加"</string>
+
+    <!-- Label of input field to provide the name/key of a parameter of a shortcut -->
+    <string name="label_post_param_key">"パラメーター"</string>
+
+    <!-- Label of input field to provide the file name for a file parameter of a shortcut -->
+    <string name="label_post_param_file_name">"ファイル名（任意）"</string>
+
+    <!-- Label of input field to provide the value of a parameter of a shortcut -->
+    <string name="label_post_param_value">"パラメーター値"</string>
+
+    <!-- Generic dialog button: OK -->
+    <string name="dialog_ok">"OK"</string>
+
+    <!-- Generic button: Cancel -->
+    <string name="dialog_cancel">"キャンセル"</string>
+
+    <!-- Generic button: remove -->
+    <string name="dialog_remove">"削除"</string>
+
+    <!-- Section title in shortcut editor, for section that contains options to specify the headers of the HTTP request -->
+    <string name="section_request_headers">"リクエストHEADER"</string>
+
+    <!-- Section title in shortcut editor, for section that contains options to specify the body of the HTTP request -->
+    <string name="section_request_body">"リクエストBODY／パラメーター"</string>
+
+    <!-- Title of dialog to edit a custom header of a shortcut -->
+    <string name="title_custom_header_edit">"HEADERを変更"</string>
+
+    <!-- Title of dialog to add a custom header to a shortcut -->
+    <string name="title_custom_header_add">"HEADERを追加"</string>
+
+    <!-- Label of input field to provide name of custom header -->
+    <string name="label_custom_header_key">"HEADER"</string>
+
+    <!-- Label of input field to provide value of custom header -->
+    <string name="label_custom_header_value">"HEADER値"</string>
+
+    <!-- Label of input field to provide request body of a shortcut -->
+    <string name="label_custom_body">"リクエストBody"</string>
+
+    <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
+    <string name="title_settings">"設定"</string>
+
+    <!-- Name of toolbar action: Unlock all settings (will prompt user to enter passcode) -->
+    <string name="menu_action_unlock_app">"設定を解除"</string>
+
+    <!-- Title of theme settings -->
+    <string name="settings_theme">"テーマ"</string>
+
+    <!-- Title of section in "Settings" screen: Basic settings -->
+    <string name="settings_title_basic">"基本設定"</string>
+
+    <!-- Name of setting that allows the user to pick what should happen when a shortcut is clicked -->
+    <string name="settings_click_behavior">"ショートカットのクリック時のアクション"</string>
+
+    <!-- Name of setting that allows the user to change the app's language -->
+    <string name="settings_language">"言語"</string>
+
+    <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: execute the shortcut (i.e., send request) -->
+    <string name="settings_click_behavior_run">"ショートカットを実行"</string>
+
+    <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: edit the shortcut -->
+    <string name="settings_click_behavior_edit">"ショートカットを変更"</string>
+
+    <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: show options / context menu -->
+    <string name="settings_click_behavior_menu">"オプションメニュー表示"</string>
+
+    <!-- Section title on settings screen for privacy related settings -->
+    <string name="settings_title_privacy">"プライバシー"</string>
+
+    <!-- Setting title for crash reporting settings, as part of privacy settings (opt-in/opt-out) -->
+    <string name="settings_crash_reporting">"クラッシュレポート"</string>
+
+    <!-- Option for crash reporting opt in -->
+    <string name="settings_crash_reporting_allow">"アプリの改善にクラッシュレポートを送信"</string>
+
+    <!-- Option for crash reporting opt out -->
+    <string name="settings_crash_reporting_disallow">"何もレポートを送信しない"</string>
+
+    <!-- Button in settings page to start export of shortcuts -->
+    <string name="settings_export">"ショートカットと変数をエクスポート"</string>
+
+    <!-- Success message, shown in snackbar when export of shortcuts is successful -->
+    <plurals name="shortcut_export_success">
+        <item quantity="other">"%d 個のショートカットをエクスポート完了"</item>
+    </plurals>
+
+    <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
+    <string name="export_in_progress">"エクスポート中..."</string>
+
+    <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
+    <string name="import_failed_with_reason">"ショートカットのインポート失敗：%s"</string>
+
+    <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
+    <string name="export_failed_with_reason">"ショートカットのエクスポート失敗：%s"</string>
+
+    <!-- Error message: Import failed due to invalid JSON syntax in the import file -->
+    <string name="import_failure_reason_invalid_json">"無効なJSON"</string>
+
+    <!-- Success message, shown in snackbar when import of shortcuts is successful -->
+    <plurals name="shortcut_import_success">
+        <item quantity="other">"%d 個のショートカットをインポート完了"</item>
+    </plurals>
+
+    <!-- Message shown in progress dialog while shortcuts are being imported -->
+    <string name="import_in_progress">"インポート中..."</string>
+
+    <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
+    <string name="label_timeout">"タイムアウト"</string>
+
+    <!-- Label, for option to set the proxy hostname for a shortcut -->
+    <string name="label_proxy_host">"Proxyホスト／IPアドレス"</string>
+
+    <!-- Label, for option to set the proxy port for a shortcut -->
+    <string name="label_proxy_port">"Proxyポート"</string>
+
+    <!-- Used in various places to indicate a number of seconds, e.g. for a delay. %s is a placeholder for the actual number. -->
+    <plurals name="seconds">
+        <item quantity="other">"%d 秒"</item>
+    </plurals>
+
+    <!-- Used in various places to indicate a number of milliseconds, e.g. for a delay. %s is a placeholder for the actual number. -->
+    <plurals name="milliseconds">
+        <item quantity="other">"%d ミリ秒"</item>
+    </plurals>
+
+    <!-- Used in various places to indicate a number of minutes, e.g. for a delay. %s is a placeholder for the actual number. -->
+    <plurals name="minutes">
+        <item quantity="other">"%d 分"</item>
+    </plurals>
+
+    <!-- Pattern: Combines an indication of minutes (first %s) with an indication of seconds (second %s), e.g. 1 minute, 24 seconds -->
+    <string name="pattern_minutes_seconds">"%1$s 分 %2$s 秒"</string>
+
+    <!-- Title of option in settings to show change changelog of current and past versions -->
+    <string name="settings_changelog">"変更ログ"</string>
+
+    <!-- Subtitle/summary of "Changelog" option in settings, showing the current app version number -->
+    <string name="settings_changelog_summary">"バージョン %1$s"</string>
+
+    <!-- Button title, for option to contact the app developer (via email) -->
+    <string name="settings_mail">"開発者へメール"</string>
+
+    <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
+    <string name="settings_mail_summary">"質問、新機能のリクエスト、ユーザーの声をフィードバック..."</string>
+
+    <!-- Button title, for option to open the app's Github page in a browser -->
+    <string name="settings_github">"Githubを閲覧"</string>
+
+    <!-- Button subtitle for "View on Github" button -->
+    <string name="settings_github_summary">"そう、このアプリはオープンソースです"</string>
+
+    <!-- Dialog title, for changelog, shown when a new version of the app is released -->
+    <string name="changelog_title_whats_new">"更新の内容は？"</string>
+
+    <!-- Dialog title, for changelog, showing what's new in a release -->
+    <string name="changelog_title">"変更履歴"</string>
+
+    <!-- Checkbox label, shown on Changelog dialog, allowing user to enable that the dialog shows when the app is started -->
+    <string name="changelog_checkbox_show_at_startup">"スタート時に表示"</string>
+
+    <!-- Message displayed when the shortcut cannot be executed because there is no internet connection. %1$s is a placeholder for the shortcut name. -->
+    <string name="execution_delayed">"インターネットへの接続が有効になると、%1$s が実行されます。"</string>
+
+    <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor -->
+    <string name="label_wait_for_connection">"オフライン時に接続を待機する"</string>
+
+    <!-- Label: Shown on button that allows to enable execution delay of a shortcut -->
+    <string name="label_delay_execution">"実行を遅延する"</string>
+
+    <!-- Button, shown on Settings page, to allow opening the app's Play Store page -->
+    <string name="settings_play_store">"Playストアで見る"</string>
+
+    <!-- Button subtitle for "View in Play Store" button -->
+    <string name="settings_play_store_summary">"評判レビューをありがとうございます"</string>
+
+    <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
+    <string name="shortcut_duplicated">"「%1$s」を複製しました"</string>
+
+    <!-- Message, shown in snackbar, confirming to user that a shortcut was moved. %1$s is a placeholder for the shortcut's name -->
+    <string name="shortcut_moved">"「%1$s」を移動しました"</string>
+
+    <!-- Message, shown in snackbar, confirming to user that a shortcut was deleted. %1$s is a placeholder for the shortcut's name -->
+    <string name="shortcut_deleted">"「%1$s」を削除しました"</string>
+
+    <!-- Message, shown in snackbar, confirming to user that a shortcut was placed on the phone's home screen. %1$s is a placeholder for the shortcut's name -->
+    <string name="shortcut_placed">"「%1$s」ホーム画面に配置しました"</string>
+
+    <!-- Generic 'Delete' option, used in various dialogs, e.g., to confirm the deletion of a shortcut -->
+    <string name="dialog_delete">"削除"</string>
+
+    <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
+    <string name="section_basic_request">"ベーシック リクエスト 設定"</string>
+
+    <!-- Section title, shown in shortcut editor, for section containing advanced settings -->
+    <string name="section_advanced_settings">"高度な設定"</string>
+
+    <!-- Section title, shown in shortcut editor, for section containing authentication settings -->
+    <string name="section_authentication">"認証"</string>
+
+    <!-- Label, for dropdown picker, allowing to select the authentication method (i.e., how to authenticate) of a shortcut -->
+    <string name="label_authentication_method">"認証方法"</string>
+
+    <!-- Checkbox label, used in varies dialogs, to allow user to hide the dialog forever -->
+    <string name="dialog_checkbox_do_not_show_again">"今後、表示しない"</string>
+
+    <!-- checkbox label in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
+    <string name="label_accept_all_certificates">"全ての証明を承認する(この意味を理解しています)"</string>
+
+    <!-- Checkbox label in editor, if enabled user will be prompted to confirm before a shortcut is executed -->
+    <string name="label_require_execution_confirmation">"実行前に確認をする"</string>
+
+    <!-- Page title, for page showing all configured categories -->
+    <string name="title_categories">"カテゴリー"</string>
+
+    <!-- Generic action, shown on dialog, to rename things -->
+    <string name="action_rename">"名前を変更"</string>
+
+    <!-- Action, shown on dropdown when editing a category, for allowing to change the category's layout type -->
+    <string name="action_change_category_layout_type">"レイアウト形式を変更"</string>
+
+    <!-- Action, shown on dropdown when editing a category, for allowing to hide a category -->
+    <string name="action_hide_category">"非表示"</string>
+
+    <!-- Action, shown on dropdown when editing a category, for allowing to show a hidden category -->
+    <string name="action_show_category">"表示する"</string>
+
+    <!-- Message, shown in snackbar to confirm to the user that the layout type of a category was changed -->
+    <string name="message_layout_type_changed">"レイアウト形式を変更しました"</string>
+
+    <!-- Option in context menu for category, allows user to change the background of a category -->
+    <string name="action_change_category_background">"背景を変更"</string>
+
+    <!-- Success message after background of a category was changed. Shown in snackbar. -->
+    <string name="message_background_type_changed">"背景を変更しました"</string>
+
+    <!-- One of two options when picking the layout for a category: Show shortcuts in a list -->
+    <string name="layout_type_linear_list">"リスト"</string>
+
+    <!-- One of two options when picking the layout for a category: Show shortcuts in a grid -->
+    <string name="layout_type_grid">"グリッド"</string>
+
+    <!-- Option to choose from when selecting the background of a category: Plain white -->
+    <string name="category_background_type_white">"白色"</string>
+
+    <!-- Option to choose from when selecting the background of a category: Plain black -->
+    <string name="category_background_type_black">"黒色"</string>
+
+    <!-- Option to choose from when selecting the background of a category: Use phone's wallpaper -->
+    <string name="category_background_type_wallpaper">"壁紙"</string>
+
+    <!-- Option to allow renaming a category -->
+    <string name="title_rename_category">"カテゴリー名を変更"</string>
+
+    <!-- Dialog prompt/placeholder in input field, asking user to enter a name for a category -->
+    <string name="placeholder_category_name">"カテゴリー名を入力..."</string>
+
+    <!-- Placeholder in input field, asking user to enter a value. Used in varies places -->
+    <string name="placeholder_value">"値"</string>
+
+    <!-- Dialog title, shown in editor when creating a new category -->
+    <string name="title_create_category">"カテゴリーを作成"</string>
+
+    <!-- Message, shown in dialog, to ask the user to confirm the deletion of a category and all shortcuts within -->
+    <string name="confirm_delete_category_message">"このカテゴリーを削除する？ここに含まれるショートカットが全て削除されます。"</string>
+
+    <!-- Message, shown in snackbar, to confirm to the user that a category was renamed -->
+    <string name="message_category_renamed">"カテゴリー名を変更しました"</string>
+
+    <!-- Message, shown in snackbar, to confirm to the user that a category was hidden -->
+    <string name="message_category_hidden">"カテゴリーを非表示"</string>
+
+    <!-- Message, shown in snackbar, to confirm to the user that a category is no longer hidden and visible again -->
+    <string name="message_category_visible">"カテゴリー名を再表示します"</string>
+
+    <!-- Message, shown in snackbar, to confirm to the user that a category was created -->
+    <string name="message_category_created">"カテゴリーを作成しました。"</string>
+
+    <!-- Message, shown in snackbar, to confirm to the user that a category was deleted -->
+    <string name="message_category_deleted">"カテゴリーを削除しました。"</string>
+
+    <!-- Shows numerical count of shortcuts, used to show how many shortcuts are in a given category -->
+    <plurals name="shortcut_count">
+        <item quantity="other">"%d 個のショートカット"</item>
+    </plurals>
+
+    <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
+    <string name="label_category_hidden">"%s (非表示)"</string>
+
+    <!-- Dialog title/button, for feature to move a shortcut to a different category -->
+    <string name="title_move_to_category">"カテゴリーに移動"</string>
+
+    <!-- Name/title to describe what the plugin action does, used by external plugins, e.g. Tasker -->
+    <string name="plugin_name">"HTTP Shortcut を実行"</string>
+
+    <!-- Button/page title, for viewing list of variables -->
+    <string name="title_variables">"変数"</string>
+
+    <!-- Button, to edit a variable -->
+    <string name="edit_variable">"変数を編集"</string>
+
+    <!-- Button, to create a new variable -->
+    <string name="create_variable">"変数を作成"</string>
+
+    <!-- label, shown in variable editor, to allow the user to enter a dialog title that will be shown then the variable is evaluated -->
+    <string name="label_variable_title">"ダイアログ タイトル (任意)"</string>
+
+    <!-- label, shown in variable editor for Date Input variable, to allow the user to specify a date format -->
+    <string name="label_variable_date_format">"日付の形式"</string>
+
+    <!-- label, shown in variable editor for Time Input variable, to allow the user to specify a time format -->
+    <string name="label_variable_time_format">"時刻の形式"</string>
+
+    <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
+    <string name="variable_type_constant">"固定変数（定数）"</string>
+
+    <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
+    <string name="variable_type_text">"テキスト入力"</string>
+
+    <!-- Type of variable: Number Input, i.e., a dialog that asks user to enter a number -->
+    <string name="variable_type_number">"数字の入力"</string>
+
+    <!-- Type of variable: Slider, i.e. a horizontal bar that allows to pick a number by sliding a knob left or right -->
+    <string name="variable_type_slider">"スライドバーで入力"</string>
+
+    <!-- Type of variable: Password Input, i.e., a dialog that asks user to enter a password -->
+    <string name="variable_type_password">"パスワード入力"</string>
+
+    <!-- Type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
+    <string name="variable_type_select">"複数の選択"</string>
+
+    <!-- Type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
+    <string name="variable_type_toggle">"切り替えスイッチ"</string>
+
+    <!-- Type of variable: Date Input, i.e., a dialog that asks user to pick a date in a calendar -->
+    <string name="variable_type_date">"日付の入力"</string>
+
+    <!-- Type of variable: Time Input, i.e., a dialog that asks user to pick a time in a clock -->
+    <string name="variable_type_time">"時間の入力"</string>
+
+    <!-- Type of variable: Color Input, i.e., a dialog that asks user to pick a color in a color picker -->
+    <string name="variable_type_color">"色の入力"</string>
+
+    <!-- Error message, information user that the variable name they entered is not valid -->
+    <string name="warning_invalid_variable_key">"変数名には、英語アルファベットのアンダースコア、数字、文字のみを含めることができます。"</string>
+
+    <!-- Dialog message, asking user to confirm the deletion of a variable -->
+    <string name="confirm_delete_variable_message">"この変数を削除する？"</string>
+
+    <!-- Message, shown in snackbar, confirming to user that a variable was deleted. %1$s is a placeholder for the variable name -->
+    <string name="variable_deleted">"「%1$s」削除しました"</string>
+
+    <!-- Checkbox label, for option to enable URL encoding of a variable -->
+    <string name="label_url_encode">"URLエンコード"</string>
+
+    <!-- Checkbox label, for option to enable JSON encoding of a variable -->
+    <string name="label_json_encode">"JSONエンコード"</string>
+
+    <!-- Section title, for section containing basic settings for a shortcut -->
+    <string name="section_basic_variable_settings">"基本設定"</string>
+
+    <!-- Error message, informing user that the entered variable key is empty -->
+    <string name="validation_key_non_empty">"変数名は空にできません"</string>
+
+    <!-- Error message, informing user that the entered variable key already exists -->
+    <string name="validation_key_already_exists">"同じ名前の変数が存在します"</string>
+
+    <!-- Dialog title, to add another value to the list of values in a variable of Toggle type -->
+    <string name="title_add_toggle_option">"値を追加"</string>
+
+    <!-- Button, to edit an existing value in the list of values in a variable of Toggle type -->
+    <string name="title_edit_toggle_option">"値を編集"</string>
+
+    <!-- Button, to add another value to the list of values in a variable of Toggle type -->
+    <string name="button_add_toggle_option">"値を追加"</string>
+
+    <!-- Section title, for section that lists all values of a variable of Toggle type -->
+    <string name="section_toggle_options">"切り替え値"</string>
+
+    <!-- Title, for dialog that allows user to add an option to a Selection variable -->
+    <string name="title_add_select_option">"選択を追加"</string>
+
+    <!-- Title, for dialog that allows user to edit an existing option of a Selection variable -->
+    <string name="title_edit_select_option">"選択を編集"</string>
+
+    <!-- Button, to allow a user to add an option to a Selection variable -->
+    <string name="button_add_select_option">"選択を追加"</string>
+
+    <!-- Section title, for section that lists all selectable options of a Selection variable -->
+    <string name="section_select_options">"選択オプション"</string>
+
+    <!-- Label, for dialog that allows adding/editing an option for a Selection variable, for specifying the option's "Label" -->
+    <string name="label_select_label">"ラベル"</string>
+
+    <!-- Label, for dialog that allows adding/editing an option for a Selection variable, for specifying the option's "Value" -->
+    <string name="label_select_value">"値"</string>
+
+    <!-- Button, for opening help article page -->
+    <string name="button_show_help">"ヘルプを表示"</string>
+
+    <!-- Page/dialog title, for help article about variables -->
+    <string name="help_title_variables">"変数"</string>
+
+    <!-- Instructions shown in dialog when user clicks the variables button in the shortcut editor but doesn't have any variables configured yet -->
+    <string name="help_text_variable_button">"このボタンを使用すると、ショートカットに変数のプレースホルダを配置することができ、動的に変動する値を含めることができます。
+
+定義済みの変数が何もありません。下記の［作成］ボタンをクリックして追加できます。"</string>
+
+    <!-- Instructions shown in dialog when user clicks the variables button in the variable editor but doesn't have any variables configured yet -->
+    <string name="help_text_variable_button_for_variables">"このボタンを使用すると、他の変数のプレースホルダーをここに含めることができます。
+
+ただし変数はまだ未定義のようですが。"</string>
+
+    <!-- Instructions shown in code snippet picker when the user selects the "Get Variable" option and there are no variables yet -->
+    <string name="help_text_code_snippet_get_variable_no_variable">"まだ定義済みの変数がありません。 下の[作成]ボタンをクリックして開始します。"</string>
+
+    <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
+    <string name="help_text_code_snippet_set_variable_no_variable">"このアクションで設定できる固定変数（定数）はまだありません。 下の[作成]ボタンをクリックして開始します。"</string>
+
+    <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
+    <string name="button_create_first_variable">"作成する"</string>
+
+    <!-- Title of dialog that allows users to pick a variable from a list to insert its placeholder somewhere -->
+    <string name="dialog_title_variable_selection">"変数"</string>
+
+    <!-- Option shown on variable selection dialog, clicking it opens variable editor -->
+    <string name="label_edit_variables">"変数を編集"</string>
+
+    <!-- Error message, shown in variable editor when the user didn't add enough options -->
+    <string name="error_not_enough_toggle_values">"少なくとも２つの値を入力してください。"</string>
+
+    <!-- Error message, shown in variable editor when the user didn't add enough options -->
+    <string name="error_not_enough_select_values">"少なくとも１つの選択肢を入力してください。"</string>
+
+    <!-- Error message, shown in variable editor when an invalid date format is entered -->
+    <string name="error_invalid_date_format">"日付の形式が無効です"</string>
+
+    <!-- Error message, shown in variable editor when an invalid time format is entered -->
+    <string name="error_invalid_time_format">"時刻の形式が無効です"</string>
+
+    <!-- Dialog button, allowing the user to share a text snippet with other apps -->
+    <string name="share_button">"共有する"</string>
+
+    <!-- Title on Share dialog -->
+    <string name="share_title">"共有する..."</string>
+
+    <!-- Section title, for section in variable editor containing options specific to the variable type -->
+    <string name="section_input_options">"選択を入力"</string>
+
+    <!-- Checkbox value, shown in variable editor, allows to enable a variable to remember its previous value -->
+    <string name="label_remember_value">"値を記憶する"</string>
+
+    <!-- Action, allows the user to cancel a pending shortcut execution -->
+    <string name="action_cancel_pending">"実行の保留をキャンセル"</string>
+
+    <!-- Message, shown in snackbar to confirm when the user cancelled a pending shortcut execution (%1$s is a placeholder for the shortcut name) -->
+    <string name="pending_shortcut_execution_cancelled">"%1$s キャンセルしました"</string>
+
+    <!-- Feature label for sharing text into the app, to be used in a specific variable for a configured shortcut -->
+    <string name="action_send_to">"送信... "</string>
+
+    <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
+    <string name="error_not_suitable_shortcuts">"適切なショートカットが見つかりません。
+
+この機能を使用するには、少なくとも次のショートカットが１つ必要です：「共有…」を許可する変数を使用しているショートカット、またはファイルパラメーター付きの、もしくはリクエストBodyにファイルを含んでいるショートカット。
+
+詳細については、変数セクションの［ヘルプ］ボタンをクリックしてください。"</string>
+
+    <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
+    <string name="label_allow_share_into">"「共有する...」を有効にする"</string>
+
+    <!-- App color theme option Blue -->
+    <string name="theme_blue">"青"</string>
+
+    <!-- App color theme option Green -->
+    <string name="theme_green">"緑"</string>
+
+    <!-- App color theme option Red -->
+    <string name="theme_red">"赤"</string>
+
+    <!-- App color theme option Grey -->
+    <string name="theme_grey">"グレー"</string>
+
+    <!-- App color theme option Orange -->
+    <string name="theme_orange">"オレンジ"</string>
+
+    <!-- App color theme option Purple -->
+    <string name="theme_purple">"紫"</string>
+
+    <!-- App color theme option Indigo -->
+    <string name="theme_indigo">"藍"</string>
+
+    <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
+    <string name="title_export">"エクスポート中... "</string>
+
+    <!-- Dialog option on Export dialog, for exporting by storing in a file -->
+    <string name="button_export_to_general">"ドキュメント（保存したファイル）"</string>
+
+    <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
+    <string name="button_export_send_to">"その他のアプリ（共有）"</string>
+
+    <!-- Dialog title when creating a new shortcut, shows options below -->
+    <string name="title_create_new_shortcut_options_dialog">"新規ショートカットを作成"</string>
+
+    <!-- Option 1 in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
+    <string name="button_create_new">"標準のHTTPショートカット"</string>
+
+    <!-- Option 2 in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
+    <string name="button_curl_import">"cURLコマンドからインポート"</string>
+
+    <!-- Option 3 in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
+    <string name="button_create_browser_shortcut">"ブラウザ ショートカット"</string>
+
+    <!-- Window title for cURL import -->
+    <string name="title_curl_import">"cURLインポート"</string>
+
+    <!-- Instruction text for shortcut import from cURL format -->
+    <string name="instructions_curl_import">"以下にcURLコマンドを入力または貼り付けてください、そこから新しいショートカットを作成します。"</string>
+
+    <!-- Text on button to start shortcut import from a cURL command -->
+    <string name="curl_import_button">"インポート"</string>
+
+    <!-- Dropdown option for "Authentication" of a shortcut: no authentication -->
+    <string name="authentication_none">"認証なし"</string>
+
+    <!-- Dropdown option for "Authentication" of a shortcut: "Basic Authentication", aka. BasicAuth (username & password) -->
+    <string name="authentication_basic">"ベーシック認証"</string>
+
+    <!-- Dropdown option for "Authentication" of a shortcut: "Digest Authentication", aka. DigestAuth (username & password) -->
+    <string name="authentication_digest">"ダイジェスト認証"</string>
+
+    <!-- Dropdown option for "Authentication" of a shortcut: "Bearer Authentication", aka. BearerAuth (token) -->
+    <string name="authentication_bearer">"Bearer認証"</string>
+
+    <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu, i.e., when long-pressing the app icon on the home screen -->
+    <string name="label_launcher_shortcut">"ランチャーにアプリのショートカットとして表示"</string>
+
+    <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
+    <string name="label_quick_tile_shortcut">"クイックタイル経由でトリガーを許可する"</string>
+
+    <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
+    <string name="error_share_failed">"共有中にエラーが発生しました"</string>
+
+    <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
+    <string name="error_not_supported">"この機能は、ご使用の機器でではサポートされていません。"</string>
+
+    <!-- Generic error shown when something went wrong and there is no better error message available -->
+    <string name="error_generic">"何か変でした…"</string>
+
+    <!-- Title of section in settings that allows user to click to open privacy policy dialog -->
+    <string name="settings_privacy_policy">"プライバシーポリシー"</string>
+
+    <!-- Summary/subtitle of section in settings that allows user to click to open privacy policy dialog -->
+    <string name="settings_privacy_policy_summary">"いいえ、データーを盗むことはしません"</string>
+
+    <!-- Title of section in settings that allows user to lock all settings with a passcode. -->
+    <string name="settings_lock_app_title">"ロック設定"</string>
+
+    <!-- Summary/subtitle of section in settings that allows user to lock all settings with a passcode. -->
+    <string name="settings_lock_app_summary">"ショートカットと設定の変更を禁止する"</string>
+
+    <!-- Label above input box, for minimum (numeric) value of a horizontal slider -->
+    <string name="label_variable_slider_min">"最小"</string>
+
+    <!-- Label above input box, for maximum (numeric) value of a horizontal slider -->
+    <string name="label_variable_slider_max">"最大"</string>
+
+    <!-- Label above input box, for step size (numeric) value of a horizontal slider -->
+    <string name="label_variable_slider_step">"ステップサイズ"</string>
+
+    <!-- error message displayed when "Maximum" is lesser than or equal to "Minimum" for "slider" variable type -->
+    <string name="error_slider_max_not_greater_than_min">"最大値は最小値より大きくなければなりません。"</string>
+
+    <!-- error message displayed when "Step Size" is not a positive number for "slider" variable type -->
+    <string name="error_slider_step_size_must_be_positive">"ステップサイズは正の数でなければなりません。"</string>
+
+    <!-- Blurb/short description of plugin action (for Tasker integration), where %1$s is a placeholder for the shortcut name. -->
+    <string name="plugin_blurb_execute_task">"ショートカット「%1$s」を実行"</string>
+
+    <!-- Label of dropdown to select the request body type in shortcut editor -->
+    <string name="label_request_body_type">"リクエストBodyのタイプ"</string>
+
+    <!-- Dropdown option for request body: form-data (i.e. list of parameters) -->
+    <string name="request_body_option_form_data">"パラメーター (form-data)"</string>
+
+    <!-- Dropdown option for request body: x-www-form-urlencoded (i.e. list of parameters) -->
+    <string name="request_body_option_x_www_form_urlencoded">"パラメーター (x-www-form-urlencoded)"</string>
+
+    <!-- Dropdown option for request body: custom text (i.e. enter a custom Content-Type and a request body as text) -->
+    <string name="request_body_option_custom_text">"カスタムテキスト"</string>
+
+    <!-- Label above input box for Request Content-Type -->
+    <string name="label_content_type">"Content-Type"</string>
+
+    <!-- Button to copy the cURL export of a shortcut to the clipboard -->
+    <string name="button_copy_curl_export">"コピー"</string>
+
+    <!-- Section title in shortcut editor: "Response handling", contains settings for controlling how the shortcut response should be handled -->
+    <string name="label_response_handling">"レスポンスの取り扱い"</string>
+
+    <!-- Section subtitle in shortcut editor: "Response handling", contains settings for controlling how the shortcut response should be handled -->
+    <string name="label_response_handling_subtitle">"レスポンスの処理方法を定義する"</string>
+
+    <!-- Section title in shortcut editor: "Scripting", allows to write scripts for advanced workflows -->
+    <string name="label_scripting">"スクリプト処理"</string>
+
+    <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before or after shortcut execution -->
+    <string name="label_scripting_subtitle">"実行前または実行後にJavaScriptコードを実行する"</string>
+
+    <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before shortcut execution -->
+    <string name="label_scripting_browser_shortcuts_subtitle">"実行前にJavaScriptコードを実行する"</string>
+
+    <!-- Section title in shortcut editor, groups together technical settings -->
+    <string name="label_advanced_technical_settings">"高度な設定"</string>
+
+    <!-- Section subtitle in shortcut editor, shown below "Advanced Technical Settings" -->
+    <string name="label_advanced_technical_settings_subtitle">"この意味を理解している人："</string>
+
+    <!-- Shortcut Action Title: Show Toast (small popup message) -->
+    <string name="action_type_toast_title">"ポップアップメッセージを表示"</string>
+
+    <!-- Shortcut Action Title: Show Dialog -->
+    <string name="action_type_dialog_title">"ダイアログを表示"</string>
+
+    <!-- Shortcut Action Title: Action that allows to copy strings to the device's clipboard -->
+    <string name="action_copy_to_clipboard_title">"クリップボードへのコピー"</string>
+
+    <!-- Shortcut Action Title: Vibrate -->
+    <string name="action_type_vibrate_title">"バイブする"</string>
+
+    <!-- Shortcut Action Title: Change Shortcut Name -->
+    <string name="action_type_rename_shortcut_title">"ショートカット名を変更"</string>
+
+    <!-- Dialog title: Shown on dialog that shows an error message when something goes wrong while executing a shortcut (e.g. JS exception) -->
+    <string name="dialog_title_error">"エラー"</string>
+
+    <!-- Settings option for dark mode: when selected the app will always use Dark Mode -->
+    <string name="settings_dark_theme_options_on">"ダークのみ"</string>
+
+    <!-- Settings option for dark mode: when selected the app will never use Dark Mode -->
+    <string name="settings_dark_theme_options_off">"ライトのみ"</string>
+
+    <!-- Title of dark mode theme settings (which allows user to pick how/when the app should use dark mode) -->
+    <string name="settings_dark_theme">"ダークのテーマ"</string>
+
+    <!-- Label: URL, shows the HTTP request's URL alongside the response -->
+    <string name="label_response_url">"URL"</string>
+
+    <!-- Subtitle: Shown in request parameter editor underneath every file parameter to indicate their type -->
+    <string name="subtitle_parameter_value_file">"ファイル"</string>
+
+    <!-- Subtitle: Shown in request parameter editor underneath every files parameter to indicate their type -->
+    <string name="subtitle_parameter_value_files">"ファイル"</string>
+
+    <!-- label, to allow the user to enter the name for a variable -->
+    <string name="label_variable_name">"名前"</string>
+
+    <!-- Shortcut Action Title: Wait for a number of milliseconds before continuing with the script execution -->
+    <string name="action_type_wait">"待機"</string>
+
+    <!-- Shortcut Action Title: Get the IP Address of the current WiFi -->
+    <string name="action_type_get_wifi_ip_address">"WiFi接続でIPアドレスを獲得"</string>
+
+    <!-- Label above dropdown in editor, to select what should happen when the HTTP request succeeds -->
+    <string name="label_response_on_success">"成功の場合"</string>
+
+    <!-- Label above dropdown in editor, to select what should happen when the HTTP request fails -->
+    <string name="label_response_on_failure">"失敗の場合"</string>
+
+    <!-- Button in settings page to start editing shortcuts from a connected computer -->
+    <string name="settings_remote_edit">"パソコンで変更"</string>
+
+    <!-- Label: Shown above a textfield for entering a password, used to log in to edit server when editing shortcuts on a computer -->
+    <string name="label_remote_edit_password">"パスワード"</string>
+
+    <!-- Action label: Shown on menu button to save changes in the Global Scripting editor -->
+    <string name="action_save_global_scripting">"変更を保存"</string>
+
+    <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, ...) -->
+    <string name="title_about">"このアプリについて"</string>
+
+    <!-- Dialog title: Shown in progress dialog while a file is being saved -->
+    <string name="saving_in_progress">"保存中..."</string>
+
+    <!-- Title: Shown above cropper/resizer tool when picking a custom icon -->
+    <string name="title_edit_custom_icon">"アイコンを変更"</string>
+
+    <!-- Dialog option, for exporting a single shortcut as a file -->
+    <string name="action_export_as_file">"ファイル"</string>
+
+    <!-- Button, shown on About page, to allow opening the app's F-Droid page -->
+    <string name="settings_f_droid">"F-Droidで見る"</string>
+
+    <!-- Label, for option in dialog to pick a client certificate managed by the operating system -->
+    <string name="label_client_cert_from_os">"OSで管理します"</string>
+
+    <!-- Title of dialog, for entering the password for a client cert file -->
+    <string name="title_client_cert_file_password">"パスワード"</string>
+</resources>

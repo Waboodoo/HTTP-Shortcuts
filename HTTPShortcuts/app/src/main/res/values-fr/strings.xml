@@ -86,7 +86,7 @@
     <string name="confirm_discard_changes_message">"Vous avez des modifications non enregistrées. Annuler les modifications?"</string>
 
     <!-- Dialog option: Discard (unsaved changes) -->
-    <string name="dialog_discard">"Annuler"</string>
+    <string name="dialog_discard">"Retour"</string>
 
     <!-- Title of fullscreen window when shortcut is executed/run -->
     <string name="title_activity_execute">"Exécuter un raccourci"</string>
@@ -317,6 +317,9 @@
     <!-- Message displayed when the shortcut cannot be executed because there is no internet connection. %1$s is a placeholder for the shortcut name. -->
     <string name="execution_delayed">"%1$s sera exécuté une fois qu'une connexion à internet sera disponible."</string>
 
+    <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor -->
+    <string name="label_wait_for_connection">"Attendre une connexion lorsqu'on est hors ligne"</string>
+
     <!-- Label: Shown on button that allows to enable execution delay of a shortcut -->
     <string name="label_delay_execution">"Délai d'exécution"</string>
 
@@ -480,32 +483,32 @@ Tous les raccourcis contenus dans cette catégorie seront supprimés."</string>
     <string name="variable_type_constant">"Constante"</string>
 
     <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
-    <string name="variable_type_text">"Entrée de texte"</string>
+    <string name="variable_type_text">"Saisie de texte"</string>
 
     <!-- Type of variable: Number Input, i.e., a dialog that asks user to enter a number -->
-    <string name="variable_type_number">"Entrée de nombre"</string>
+    <string name="variable_type_number">"Saisie de nombre"</string>
 
     <!-- Type of variable: Slider, i.e. a horizontal bar that allows to pick a number by sliding a knob left or right -->
-    <string name="variable_type_slider">"Barre de curseur"</string>
+    <string name="variable_type_slider">"Curseur numérique"</string>
 
     <!-- Type of variable: Password Input, i.e., a dialog that asks user to enter a password -->
-    <string name="variable_type_password">"Saisie du mot de passe"</string>
+    <string name="variable_type_password">"Saisie de mot de passe"</string>
 
     <!-- Type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
     <!-- Fuzzy -->
-    <string name="variable_type_select">"Sélection"</string>
+    <string name="variable_type_select">"Sélection à choix multiple"</string>
 
     <!-- Type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
     <string name="variable_type_toggle">"Bascule"</string>
 
     <!-- Type of variable: Date Input, i.e., a dialog that asks user to pick a date in a calendar -->
-    <string name="variable_type_date">"Entrée de date"</string>
+    <string name="variable_type_date">"Saisie de date"</string>
 
     <!-- Type of variable: Time Input, i.e., a dialog that asks user to pick a time in a clock -->
-    <string name="variable_type_time">"Entée d'heure"</string>
+    <string name="variable_type_time">"Saisie d'heure"</string>
 
     <!-- Type of variable: Color Input, i.e., a dialog that asks user to pick a color in a color picker -->
-    <string name="variable_type_color">"Entrée de couleur"</string>
+    <string name="variable_type_color">"Saisie de couleur"</string>
 
     <!-- Error message, information user that the variable name they entered is not valid -->
     <!-- Fuzzy -->
@@ -569,6 +572,9 @@ Tous les raccourcis contenus dans cette catégorie seront supprimés."</string>
 
     <!-- Page/dialog title, for help article about variables -->
     <string name="help_title_variables">"Variables"</string>
+
+    <!-- Instructions shown in code snippet picker when the user selects the "Get Variable" option and there are no variables yet -->
+    <string name="help_text_code_snippet_get_variable_no_variable">"Vous n'avez pas encore de variables. Cliquez sur le bouton CREER ci-dessous pour commencer."</string>
 
     <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
     <string name="button_create_first_variable">"Créer"</string>
@@ -690,11 +696,17 @@ Voir la documentation dans la section variable pour plus d'informations."</strin
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu, i.e., when long-pressing the app icon on the home screen -->
     <string name="label_launcher_shortcut">"Afficher en tant que raccourci d'application sur le lanceur"</string>
 
+    <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
+    <string name="label_quick_tile_shortcut">"Autoriser le déclenchement via la tuile de réglages rapides"</string>
+
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
     <string name="error_share_failed">"Une erreur s'est produite lors du partage."</string>
 
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
     <string name="error_not_supported">"Cette fonctionnalité n'est pas prise en charge sur votre appareil."</string>
+
+    <!-- Generic error shown when something went wrong and there is no better error message available -->
+    <string name="error_generic">"Quelque chose s'est mal passé …"</string>
 
     <!-- Title of section in settings that allows user to click to open privacy policy dialog -->
     <string name="settings_privacy_policy">"Politique de Confidentialité"</string>
@@ -704,6 +716,9 @@ Voir la documentation dans la section variable pour plus d'informations."</strin
 
     <!-- Title of section in settings that allows user to lock all settings with a passcode. -->
     <string name="settings_lock_app_title">"Verrouiller les paramètres"</string>
+
+    <!-- Summary/subtitle of section in settings that allows user to lock all settings with a passcode. -->
+    <string name="settings_lock_app_summary">"Empêcher la modification des raccourcis et des paramètres"</string>
 
     <!-- Label above input box, for minimum (numeric) value of a horizontal slider -->
     <string name="label_variable_slider_min">"Minimum"</string>
@@ -723,6 +738,12 @@ Voir la documentation dans la section variable pour plus d'informations."</strin
     <!-- Blurb/short description of plugin action (for Tasker integration), where %1$s is a placeholder for the shortcut name. -->
     <string name="plugin_blurb_execute_task">"Exécuter le raccourci \"%1$s\""</string>
 
+    <!-- Dropdown option for request body: form-data (i.e. list of parameters) -->
+    <string name="request_body_option_form_data">"Paramètres (form-data)"</string>
+
+    <!-- Dropdown option for request body: x-www-form-urlencoded (i.e. list of parameters) -->
+    <string name="request_body_option_x_www_form_urlencoded">"Paramètres (x-www-form-urlencoded)"</string>
+
     <!-- Dropdown option for request body: custom text (i.e. enter a custom Content-Type and a request body as text) -->
     <string name="request_body_option_custom_text">"Texte personnalisé"</string>
 
@@ -737,6 +758,25 @@ Voir la documentation dans la section variable pour plus d'informations."</strin
 
     <!-- Section subtitle in shortcut editor: "Response handling", contains settings for controlling how the shortcut response should be handled -->
     <string name="label_response_handling_subtitle">"Définir comment traiter la réponse"</string>
+
+    <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before or after shortcut execution -->
+    <string name="label_scripting_subtitle">"Exécuter le code JavaScript avant ou après l'exécution"</string>
+
+    <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before shortcut execution -->
+    <string name="label_scripting_browser_shortcuts_subtitle">"Exécuter le code JavaScript avant l'exécution"</string>
+
+    <!-- Section title in shortcut editor, groups together technical settings -->
+    <string name="label_advanced_technical_settings">"Paramètres techniques avancés"</string>
+
+    <!-- Section subtitle in shortcut editor, shown below "Advanced Technical Settings" -->
+    <string name="label_advanced_technical_settings_subtitle">"Pour les personnes qui savent ce qu'elles font"</string>
+
+    <!-- Shortcut Action Title: Show Toast (small popup message) -->
+    <string name="action_type_toast_title">"Afficher les bulles de notification"</string>
+
+    <!-- Shortcut Action Title: Show Dialog -->
+    <string name="action_type_dialog_title">"Afficher une boîte de dialogue
+"</string>
 
     <!-- Shortcut Action Title: Action that allows to copy strings to the device's clipboard -->
     <string name="action_copy_to_clipboard_title">"Copier dans le presse-papier"</string>
@@ -762,6 +802,9 @@ Voir la documentation dans la section variable pour plus d'informations."</strin
     <!-- error message: Shown in toast when the user tries to execute a shortcut with invalid proxy settings -->
     <string name="error_invalid_proxy">"Proxy invalide (%s)"</string>
 
+    <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid header -->
+    <string name="error_invalid_header">"En-tête non valide (%s)."</string>
+
     <!-- Label: Preferred option in dialog for selecting how to place the shortcut on the homescreen: Default (method) -->
     <string name="label_placement_method_default">"Defaut"</string>
 
@@ -783,6 +826,9 @@ Voir la documentation dans la section variable pour plus d'informations."</strin
     <!-- Dialog title: Asks user to enter a password to lock the app's settings -->
     <string name="dialog_title_lock_app">"Application vérouillé"</string>
 
+    <!-- Dialog text: Asks user to enter a password to lock the app's settings -->
+    <string name="dialog_text_lock_app">"Saisissez un mot de passe pour verrouiller les paramètres de l'application et empêcher la modification de vos raccourcis."</string>
+
     <!-- Dialog button: Lock the app (by entering a password) -->
     <string name="button_lock_app">"Vérouiller"</string>
 
@@ -792,11 +838,162 @@ Voir la documentation dans la section variable pour plus d'informations."</strin
     <!-- Snackbar message: App was unlocked (settings can be changed again) -->
     <string name="message_app_unlocked">"Application déverrouillé."</string>
 
+    <!-- Warning dialog: Shown to user on startup to inform them that Android's "Data Saver" and/or "Battery Saver" modes may cause problems. -->
+    <string name="warning_data_saver_battery_saver_enabled">"Les modes économie de bande passante et/ou économie de batterie sont activés sur votre appareil. Si vous rencontrez des problèmes avec les raccourcis, essayez de les désactiver.
+"</string>
+
     <!-- Message: Shown as a snackbar popup when a variable was duplicated. -->
     <string name="message_variable_duplicated">"\"%1$s\" dupliqué."</string>
 
+    <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
+    <string name="subtitle_basic_request_settings_url_only_prompt">"Définir l'URL du raccourci"</string>
+
+    <!-- Section subtitle, shown in shortcut editor when the shortcut has no custom HTTP headers -->
+    <string name="subtitle_request_headers_none">"Aucune en-têtes définis"</string>
+
+    <!-- Section subtitle, shown in shortcut editor when the shortcut has one or more custom HTTP headers -->
+    <plurals name="subtitle_request_headers_pattern">
+        <item quantity="one">"1 en-tête défini"</item>
+        <item quantity="other">"%d en-têtes définies"</item>
+    </plurals>
+
+    <!-- Section subtitle, shown in shortcut editor when no authentication behavior is defined -->
+    <string name="subtitle_authentication_none">"Pas d'authentification
+"</string>
+
+    <!-- Section subtitle, shown in shortcut editor when no Basic Authentication is enabled -->
+    <string name="subtitle_authentication_basic">"Authentification Basic avec nom d'utilisateur et mot de passe"</string>
+
+    <!-- Section subtitle, shown in shortcut editor when Digest Authentication is enabled -->
+    <string name="subtitle_authentication_digest">"Authentification Digest avec nom d'utilisateur et mot de passe"</string>
+
+    <!-- Section subtitle, shown in shortcut editor when no (POST) parameters are set -->
+    <string name="subtitle_request_body_params_none">"Aucun paramètre défini"</string>
+
+    <!-- Section subtitle, shown in shortcut editor when one or more (POST) parameters are set -->
+    <plurals name="subtitle_request_body_params_pattern">
+        <item quantity="one">"1 paramètre défini"</item>
+        <item quantity="other">"%d paramètres définis"</item>
+    </plurals>
+
+    <!-- Section subtitle, shown in shortcut editor when no custom request body is set -->
+    <string name="subtitle_request_body_none">"Aucun corps de requête défini"</string>
+
+    <!-- Section subtitle, shown for "Custom Request Body" option when it is not available because the selected HTTP method (%1$s) does not support a request body -->
+    <string name="subtitle_request_body_not_available">"Non applicable pour %1$s"</string>
+
+    <!-- Empty state, shown in list when there are no custom request headers yet -->
+    <string name="empty_state_request_headers">"pas d'en-têtes définis"</string>
+
+    <!-- Empty state instructions, shown in list when there are no custom request headers yet -->
+    <string name="empty_state_request_headers_instructions">"Cliquez sur le bouton + pour ajouter un en-tête."</string>
+
+    <!-- Empty state, shown in list when there are no request parameters yet -->
+    <string name="empty_state_request_parameters">"aucun paramètre défini"</string>
+
+    <!-- Empty state instructions, shown in list when there are no parameters yet -->
+    <string name="empty_state_request_parameters_instructions">"Cliquez sur le bouton + pour ajouter un paramètre."</string>
+
+    <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor. -->
+    <string name="label_follow_redirects">"Suivre les redirections"</string>
+
+    <!-- Label: shown above input box that lets user define JS code to be executed before shortcut -->
+    <string name="label_pre_request_script">"Exécuter avant l'exécution"</string>
+
+    <!-- Label: shown above input box that lets user define JS code to be executed after shortcut succeeds -->
+    <string name="label_post_request_success_script">"Executer en cas de réussite"</string>
+
+    <!-- Label: shown above input box that lets user define JS code to be executed after shortcut fails -->
+    <string name="label_post_request_failure_script">"Executer en cas d'échec"</string>
+
+    <!-- Dialog title: Shown on dialog that shows an error message when something goes wrong while executing a shortcut (e.g. JS exception) -->
+    <string name="dialog_title_error">"Erreur"</string>
+
+    <!-- Error message: Shown when a JS error occurs. %s is a placeholder for the more detailed error message. -->
+    <string name="error_js_pattern">"Erreur JavaScript:
+%s
+"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options to get or set variables -->
+    <string name="dialog_code_snippet_variables">"Variables"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option allows to get the network error message (if any) -->
+    <string name="dialog_code_snippet_response_network_error">"Obtenez l'erreur réseau"</string>
+
+    <!-- Error message: Shown in toast when "Trigger Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
+    <string name="error_shortcut_not_found_for_triggering">"Impossible de lancer le raccourci \"%1$s\" car il n'existe pas."</string>
+
+    <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
+    <string name="error_shortcut_not_found_for_renaming">"Impossible de renommer le raccourci \"%1$s\" car il n'existe pas."</string>
+
+    <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
+    <string name="error_shortcut_not_found_for_changing_icon">"Impossible de modifier le raccourci \"%1$s\" car il n'existe pas."</string>
+
+    <!-- Settings option for dark mode: when selected the app will always use Dark Mode -->
+    <string name="settings_dark_theme_options_on">"Toujours sombre"</string>
+
+    <!-- Settings option for dark mode: when selected the app will never use Dark Mode -->
+    <string name="settings_dark_theme_options_off">"Toujours clair"</string>
+
+    <!-- Settings option for dark mode: when selected the app will use Dark Mode according to the system settings (i.e., automatically switch) -->
+    <string name="settings_dark_theme_options_auto">"Suivre les paramètres système"</string>
+
+    <!-- Title of dark mode theme settings (which allows user to pick how/when the app should use dark mode) -->
+    <string name="settings_dark_theme">"Mode Sombre"</string>
+
+    <!-- Message shown in snackbar when the title on the main title bar was changed. -->
+    <string name="message_title_changed">"Le titre a changé."</string>
+
+    <!-- Dialog title: Shown in dialog title when changing the title of the main screen of the app -->
+    <string name="title_set_title">"Changer le titre"</string>
+
+    <!-- Dialog title: Shown in dialog title when entering the URL to import shortcuts from -->
+    <string name="dialog_title_import_from_url">"Importation depuis une URL"</string>
+
+    <!-- Error: Shown when user tries to import shortcuts from an invalid URL -->
+    <string name="error_can_only_import_from_http_url">"Peut uniquement importer à partir d'une URL http(s) valide"</string>
+
+    <!-- Label: URL, shows the HTTP request's URL alongside the response -->
+    <string name="label_response_url">"URL"</string>
+
+    <!-- Label: Response time, shows how long the HTTP request took -->
+    <string name="label_response_timing">"Temps de réponse"</string>
+
+    <!-- Label: Shown above section that lists general information about the HTTP response, e.g. status code -->
+    <string name="label_general_response_info">"Général"</string>
+
+    <!-- Label: Shown above section that lists HTTP response headers -->
+    <string name="label_response_headers">"En-têtes"</string>
+
+    <!-- Dialog title: Shown in dialog when adding a new request parameter and user has to pick its type -->
+    <string name="dialog_title_parameter_type">"Type de paramètre"</string>
+
+    <!-- Subtitle: Shown in request parameter editor underneath every file parameter to indicate their type -->
+    <string name="subtitle_parameter_value_file">"Fichier"</string>
+
+    <!-- Subtitle: Shown in request parameter editor underneath every files parameter to indicate their type -->
+    <string name="subtitle_parameter_value_files">"Fichiers"</string>
+
     <!-- Settings option: Used in language picker to allow user to pick the default language, i.e., the system language -->
     <string name="language_default">"Valeur Système"</string>
+
+    <!-- Label: Shown when user selects a widget to place on the home screen, shown for the customizable widget (as opposite to the generic shortcut) -->
+    <string name="label_widget">"Widget personnalisable"</string>
+
+    <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
+    <string name="action_create_widget">"Créer un widget"</string>
+
+    <!-- Title: Configure Widget, shown when creating a widget and the user has some options to configure it -->
+    <string name="title_configure_widget">"Configurer le widget"</string>
+
+    <!-- Error: Generic error shown when the user enters an invalid character, e.g. for an HTTP header. %s is the placeholder for the character -->
+    <string name="error_invalid_character">"Caractère non valide : %s"</string>
+
+    <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
+    <plurals name="warning_variable_still_in_use_in_shortcuts">
+        <item quantity="one">"Cette variable est encore utilisée dans 1 raccourci : %1$s"</item>
+        <item quantity="other">"Cette variable est encore utilisée dans %2$d raccourcis : %1$s"</item>
+    </plurals>
 
     <!-- dialog title, shown when creating new variable and user is prompted to select the type of the variable -->
     <string name="title_select_variable_type">"Sélectionner un type de variable"</string>
@@ -813,11 +1010,94 @@ Voir la documentation dans la section variable pour plus d'informations."</strin
     <!-- Description for option in dialog to create new shortcut: create a multi shortcut, i.e., a shortcut that will trigger one or more other shortcuts -->
     <string name="button_description_create_trigger_shortcut">"Déclencher plusieurs raccourcis en même temps"</string>
 
+    <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. -->
+    <string name="label_scripting_scripting_shortcuts_subtitle">"Exécuter du code JavaScript"</string>
+
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Browser Shortcut", i.e., one that only opens the browser without making an HTTP request of its own -->
     <string name="subtitle_editor_toolbar_browser_shortcut">"Raccourci de navigateur"</string>
 
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Multi-Shortcut", i.e., one that only allows triggering one or more other shortcuts -->
     <string name="subtitle_editor_toolbar_trigger_shortcut">"Multi-Raccourci"</string>
+
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code -->
+    <string name="placeholder_javascript_code_generic">"Ajoutez le code JavaScript ici"</string>
+
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the shortcut -->
+    <string name="placeholder_javascript_code_before">"Ajoutez ici du code JavaScript à exécuter avant l'exécution du raccourci, par exemple pour préparer certaines variables."</string>
+
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs after the shortcut on success -->
+    <string name="placeholder_javascript_code_success">"Ajoutez ici du code JavaScript à exécuter après l'exécution du raccourci, par exemple pour traiter la réponse."</string>
+
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs when execution fails -->
+    <string name="placeholder_javascript_code_failure">"Ajoutez ici du code JavaScript à exécuter en cas d'échec de la requête."</string>
+
+    <!-- Section subtitle in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger. No shortcuts set. -->
+    <string name="label_trigger_shortcuts_subtitle_none">"Aucun raccourci sélectionné"</string>
+    <plurals name="label_trigger_shortcuts_subtitle">
+        <item quantity="one">"%d raccourci sélectionné"</item>
+        <item quantity="other">"%d raccourcis sélectionnés"</item>
+    </plurals>
+
+    <!-- Dialog title: Shown in dialog when picking a shortcut to be added to the list of shortcuts that are triggered when a multi-shortcut is executed -->
+    <string name="title_add_trigger_shortcut">"Ajouter un raccourci"</string>
+
+    <!-- Dialog title: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
+    <string name="title_remove_trigger_shortcut">"Supprimer le raccourci"</string>
+
+    <!-- Shortcut Action Title: Show Dialog that asks the user to confirm something -->
+    <string name="action_type_confirm_title">"Demandez une confirmation"</string>
+
+    <!-- Shortcut Action Title: Wait for a number of milliseconds before continuing with the script execution -->
+    <string name="action_type_wait">"Attendre"</string>
+
+    <!-- Shortcut Action Title: Get the IP Address of the current WiFi -->
+    <string name="action_type_get_wifi_ip_address">"Obtenir l'adresse IP sur le WiFi"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options to interact with the user (show dialog, prompt for input, ...) -->
+    <string name="dialog_code_snippet_user_interaction">"Interaction avec l'utilisateur"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options to modify shortcuts -->
+    <string name="dialog_code_snippet_modify_shortcuts">"Modifier les raccourcis"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options to don't belong in any of the other categories -->
+    <string name="dialog_code_snippet_misc">"Divers"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the ID of the current shortcut -->
+    <string name="dialog_code_snippet_get_shortcut_id">"Obtenir l'ID du raccourci"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the name of the current shortcut -->
+    <string name="dialog_code_snippet_get_shortcut_name">"Obtenir le nom du raccourci"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the description of the current shortcut -->
+    <string name="dialog_code_snippet_get_shortcut_description">"Obtenir la description du raccourci
+"</string>
+
+    <!-- Name of setting that allows the user to enable running all HTTP requests in the foreground. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
+    <string name="settings_force_foreground">"Exécuter des requêtes au premier plan"</string>
+
+    <!-- Subtitle of setting that allows the user to enable running all HTTP requests in the foreground. This is the description of a troubleshooting option, to prevent requests from failing when the app is in the background -->
+    <string name="settings_force_foreground_summary">"Activer si les raccourcis ne fonctionnent pas depuis l'extérieur de l'application"</string>
+
+    <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
+    <string name="settings_troubleshooting">"Dépannage"</string>
+
+    <!-- Label above dropdown in editor, to select what should happen when the HTTP request succeeds -->
+    <string name="label_response_on_success">"En cas de Succés"</string>
+
+    <!-- Label above dropdown in editor, to select what should happen when the HTTP request fails -->
+    <string name="label_response_on_failure">"En cas d'échec"</string>
+
+    <!-- Label for dropdown in shortcut editor, for picking how the response should be displayed -->
+    <string name="label_response_handling_type">"Type d'affichage"</string>
+
+    <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Toast popup -->
+    <string name="option_response_handling_type_toast">"Bulle de notification"</string>
+
+    <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->
+    <string name="option_response_handling_type_dialog">"Boîte de dialogue"</string>
+
+    <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a fullscreen window -->
+    <string name="option_response_handling_type_window">"Fenêtre plein écran"</string>
 
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show the (full) response -->
     <string name="option_response_handling_success_output_response">"Afficher la réponse"</string>
@@ -837,12 +1117,203 @@ Voir la documentation dans la section variable pour plus d'informations."</strin
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request fails: show nothing -->
     <string name="option_response_handling_failure_output_none">"Ne rien afficher (exécuter silencieusement)"</string>
 
+    <!-- Label for text area in shortcut editor that allows to enter a custom message which should be displayed when the request succeeds -->
+    <string name="label_response_handling_success_message">"Message"</string>
+
     <!-- Shortcut dropdown option: export the shortcut -->
     <string name="action_export">"Exporter"</string>
+
+    <!-- Dialog title, for exporting a single shortcut. Dialog offers different export options (e.g. as JSON, as cURL) -->
+    <string name="title_export_shortcut_as">"Exporter en tant que …"</string>
+
+    <!-- Dialog option, for exporting a single shortcut as cURL -->
+    <string name="action_export_as_curl">"Commande cURL"</string>
+
+    <!-- Name of button in settings screen that allows to clear all HTTP cookies -->
+    <string name="settings_clear_cookies">"Supprimer les cookies"</string>
+
+    <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor, to decide whether cookies should be stored for the HTTP request -->
+    <string name="label_accept_cookies">"Stocker les cookies"</string>
+
+    <!-- Message, shown in dialog, to ask the user to confirm the deletion of all cookies -->
+    <string name="confirm_clear_cookies_message">"Supprimer tous les cookies stockés ?"</string>
+
+    <!-- Message, shown in snackbar as confirmation to the user that cookies have been deleted -->
+    <string name="message_cookies_cleared">"Cookies supprimés."</string>
 
     <!-- Generic button: Help (to open documentation) -->
     <string name="dialog_help">"Aide"</string>
 
+    <!-- Dialog option: shown in code snippet picker, shows options to process text (e.g. encoding, hashing, ...) -->
+    <string name="dialog_code_snippet_text_processing">"Traitement du texte"</string>
+
+    <!-- Button in settings page to start editing shortcuts from a connected computer -->
+    <string name="settings_remote_edit">"Modifier sur un ordinateur"</string>
+
+    <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->
+    <string name="instructions_remote_edit_step_1">"Saisissez un mot de passe dans le champ ci-dessus."</string>
+
+    <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
+    <string name="instructions_remote_edit_step_3">"Ouvrez %s dans un navigateur sur votre ordinateur, saisissez votre identifiant et votre mot de passe et commencez à éditer."</string>
+
+    <!-- Label: Shown above a textfield with the device's ID, used to log in to edit server when editing shortcuts on a computer -->
+    <string name="label_remote_edit_device_id">"Identifiant de l'appareil"</string>
+
+    <!-- Label: Shown above a textfield for entering a password, used to log in to edit server when editing shortcuts on a computer -->
+    <string name="label_remote_edit_password">"Mot de passe"</string>
+
+    <!-- Option for dropdown menu in remote editor, allows to change the remote editing server -->
+    <string name="button_change_remote_server">"Modifier l'adresse du serveur"</string>
+
+    <!-- Dialog title: allows to change the remote editing server -->
+    <string name="title_change_remote_server">"Modifier l'adresse du serveur"</string>
+
+    <!-- Dialog button (generic): Allows to reset some setting to its original value -->
+    <string name="dialog_reset">"Réinitialiser"</string>
+
+    <!-- Error message: Shown when a script tries to read from a variable that does not exist. %s is a placeholder for the name of the variable. -->
+    <string name="error_variable_not_found_read">"Erreur de variable : tentative de récupérer la valeur d'une variable qui n'existe pas : %s"</string>
+
+    <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->
+    <string name="error_variable_not_found_write">"Erreur de variable : tentative de définir la valeur d'une variable qui n'existe pas ou qui n'est pas statique (constante) : %s"</string>
+
+    <!-- Subtitle of button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
+    <string name="settings_global_scripting_summary">"Exécuter le code JavaScript avant chaque exécution du raccourci"</string>
+
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the execution of every shortcut -->
+    <string name="placeholder_javascript_global_scripting">"Ajoutez ici du code JavaScript à exécuter au début de chaque exécution d'un raccourci, par exemple pour préparer certaines variables ou définir certaines fonctions qui peuvent être utilisées dans la section Scripting du raccourci."</string>
+
+    <!-- Action label: Shown on menu button to save changes in the Global Scripting editor -->
+    <string name="action_save_global_scripting">"Sauvegarder les changements"</string>
+
+    <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
+    <string name="placeholder_deleted_shortcut">"Raccourci supprimé"</string>
+
+    <!-- Menu button, allows saving a response as a file -->
+    <string name="button_save_response_as_file">"Enregistrer comme un fichier"</string>
+
+    <!-- Label: Wifi network selection config in shortcut settings -->
+    <string name="label_ssid">"SSID Wifi requis"</string>
+
+    <!-- Dialog title: Permission request for wifi/ssid check -->
+    <string name="title_permission_dialog">"Autorisations requises"</string>
+
+    <!-- Error message, shown when user declines location permission for wifi check -->
+    <string name="error_missing_location_permission">"Impossible d'obtenir l'autorisation de localisation. Abandon de la requête."</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options to get information about the selected files -->
+    <string name="dialog_code_snippet_files">"Fichiers sélectionnés"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the size of a selected file -->
+    <string name="dialog_code_snippet_get_file_size">"Obtenir la taille du fichier sélectionné (en octets)"</string>
+
     <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, ...) -->
     <string name="title_about">"À propos"</string>
+
+    <!-- Title of option in settings screen: links the user to an external documentation page -->
+    <string name="settings_documentation">"Documentation"</string>
+
+    <!-- Subtitle of option in settings screen: links the user to an external documentation page -->
+    <string name="settings_documentation_summary">"FAQ, références, exemples, …"</string>
+
+    <!-- Instructions shown below the "Allow Share..." checkbox in the variable editor -->
+    <string name="message_allow_share_instructions">"Cette option vous permet de partager du texte à partir d'autres applications et d'utiliser ce texte partagé comme valeur temporaire pour cette variable."</string>
+
+    <!-- Dialog title: Shown in progress dialog while a file is being saved -->
+    <string name="saving_in_progress">"Sauvegarde …"</string>
+
+    <!-- Title: Shown above cropper/resizer tool when picking a custom icon -->
+    <string name="title_edit_custom_icon">"Modifier l'icône"</string>
+
+    <!-- Error message: Shown in dialog when user tries to enter an invalid URL for the remote edit feature -->
+    <string name="error_invalid_remote_edit_host_url">"URL non valide. Doit être http(s)."</string>
+
+    <!-- Dialog option, for exporting a single shortcut as a file -->
+    <string name="action_export_as_file">"Fichier"</string>
+
+    <!-- Title of import/export page, for importing and exporting shortcuts and variables -->
+    <string name="title_import_export">"Importer / Exporter"</string>
+
+    <!-- Button in settings page to start import of shortcuts from a file -->
+    <string name="settings_import_from_file">"Importer à partir d'un Fichier"</string>
+
+    <!-- Button in settings page to start import of shortcuts from a url -->
+    <string name="settings_import_from_url">"Importer à partir d'une URL"</string>
+
+    <!-- Section title on import/export screen for options related to importing -->
+    <string name="settings_title_import">"Importer"</string>
+
+    <!-- Section title on import/export screen for options related to exporting -->
+    <string name="settings_title_export">"Exporter"</string>
+
+    <!-- Section title on import/export screen for options related to remote editing (i.e. editing on computer) -->
+    <string name="settings_title_remote_edit">"Édition à distance"</string>
+
+    <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
+    <string name="label_subtitle_no_client_cert">"Cliquez pour sélectionner un certificat."</string>
+
+    <!-- Error: Shown to the user when any error occurred while trying to execute a shortcut that uses a client certificate -->
+    <string name="error_failed_to_use_client_cert">"Impossible de charger ou d'utiliser le certificat du client. Il se peut que ce dernier ne soit pas pris en charge par votre appareil ou qu'il doive être reconfiguré dans les paramètres du raccourci."</string>
+
+    <!-- Error message: Shown when user tries to use an unsupported hmac function -->
+    <string name="error_unsupported_hmac_algorithm">"Algorithme HMAC non supporté \"%1$s\" ou clé invalide. Utilisez %2$s."</string>
+
+    <!-- Button, shown on About page, to allow opening the app's F-Droid page -->
+    <string name="settings_f_droid">"Voir sur F-Droid"</string>
+
+    <!-- Button subtitle for "View in F-Droid" button -->
+    <string name="settings_f_droid_summary">"Vérifier les mises à jour"</string>
+
+    <!-- Subtitle for Label, for option in dialog to pick a client certificate managed by the operating system -->
+    <string name="label_client_cert_from_os_subtitle">"Recommandé, plus sûr"</string>
+
+    <!-- Title of dialog, for entering the password for a client cert file -->
+    <string name="title_client_cert_file_password">"Mot de passe"</string>
+
+    <!-- Shortcut dropdown option: display information about the shortcut -->
+    <string name="action_shortcut_information">"Afficher les informations"</string>
+
+    <!-- Label shown above a text field showing a shortcut's ID -->
+    <string name="label_shortcut_id">"ID du raccourci"</string>
+
+    <!-- Shortcut Action Title: Action that allows to play a (notification) sound effect -->
+    <string name="action_play_sound">"Jouer le son"</string>
+
+    <!-- Menu button shown on response window, allows the user to execute the current shortcut again -->
+    <string name="action_rerun_shortcut">"Relancer"</string>
+
+    <!-- Checkbox value, shown in variable editor, allows to enable multiline input for a text variable -->
+    <string name="label_multiline">"Multi-ligne"</string>
+
+    <!-- Name of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
+    <string name="settings_allow_overlay">"Autoriser l'affichage au-dessus des autres applications
+"</string>
+
+    <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
+    <string name="settings_allow_overlay_summary">"Activez si les raccourcis ne fonctionnent pas lorsqu'ils sont déclenchés à partir de la tuile des paramètres rapides ou d'une application tierce."</string>
+
+    <!-- Message displayed in snackbar, to let the user know that moving via dragging was enabled. -->
+    <string name="message_moving_enabled">"Réorganisez les raccourcis en les faisant glisser."</string>
+
+    <!-- Category dropdown option: Place category on home screen -->
+    <string name="action_place_category">"Placer sur l'écran d'accueil"</string>
+
+    <!-- Error message: Shown when a JS error occurs. %d is a placeholder for the line number, %s is a placeholder for the more detailed error message. -->
+    <string name="error_js_pattern_with_line_number">"Erreur JavaScript (à la ligne %d) :
+%s"</string>
+
+    <!-- label, shown in variable editor for Select Input variable, to allow the user to specify a separator when using multi-select -->
+    <string name="label_select_variable_separator">"Séparateur"</string>
+
+    <!-- Checkbox value, shown in variable editor for Select variables, allows to enable multi select -->
+    <string name="label_select_variable_multi_select">"Permettre de sélectionner plusieurs options"</string>
+
+    <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails because on an invalid MAC address -->
+    <string name="error_action_type_send_wol_invalid_mac_address">"Adresse MAC non valide : %s"</string>
+
+    <!-- Error message: Import failed due to the data being imported coming from a newer version of the app -->
+    <string name="import_failure_reason_data_version_mismatch">"Le fichier sélectionné a été exporté par une version plus récente de l'application. Veuillez vous assurer que vous avez installé la dernière version de l'application."</string>
+
+    <!-- Shortcut Action Description: Allows converting a byte array into a string using the Scripting feature -->
+    <string name="action_type_to_string_description">"Convertir un \"Uint8Array\" en \"string\""</string>
 </resources>

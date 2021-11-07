@@ -15,6 +15,7 @@
     <string name="language_turkish" translatable="false">Türkçe</string>
     <string name="language_chinese" translatable="false">简体中文</string>
     <string name="language_korean" translatable="false">‪‪한국어</string>
+    <string name="language_japanese" translatable="false">日本</string>
 
     <string-array name="language_options" translatable="false">
         <item>@string/language_default</item>
@@ -31,6 +32,7 @@
         <item>@string/language_russian</item>
         <item>@string/language_turkish</item>
         <item>@string/language_chinese</item>
+        <item>@string/language_japanese</item>
         <item>@string/language_korean</item>
         <item>@string/language_hebrew</item>
     </string-array>
@@ -50,6 +52,7 @@
         <item>ru</item>
         <item>tr</item>
         <item>zh-rCN</item>
+        <item>ja</item>
         <item>ko</item>
         <item>he</item>
     </string-array>

@@ -1598,4 +1598,25 @@
 
     <!-- Section subtitle, shown underneath "Trigger & Execution Settings" -->
     <string name="label_execution_settings_subtitle">"定义何时以及如何执行快捷方式"</string>
+
+    <!-- Error message: Import failed due to the data being imported coming from a newer version of the app -->
+    <string name="import_failure_reason_data_version_mismatch">"所选择的文件是由最新版本的应用程序导出的。请确保您已经安装了最新版本的应用程序。"</string>
+
+    <!-- Shortcut Action Title: Allows converting a byte array into a string of hexadecimal codes using the Scripting feature -->
+    <string name="action_type_to_hex_string">"Byte 到十六进制字符串"</string>
+
+    <!-- Shortcut Action Title: Allows converting a byte array into a string using the Scripting feature -->
+    <string name="action_type_to_string">"Byte 到字符串"</string>
+
+    <!-- Shortcut Action Description: Allows converting a byte array into a string of hexadecimal codes using the Scripting feature -->
+    <string name="action_type_to_hex_string_description">"将 Uint8Array 转换为十六进制数字字符串"</string>
+
+    <!-- Shortcut Action Description: Allows converting a byte array into a string using the Scripting feature -->
+    <string name="action_type_to_string_description">"将 Uint8Array 转换为字符串"</string>
+
+    <!-- Description for Base64decode function in scripting -->
+    <string name="action_type_base64decode_description">"将 Base64 编码的字符串转换为 Unit8Array (字节数组)"</string>
+
+    <!-- Description for Base64encode function in scripting -->
+    <string name="action_type_base64encode_description">"将字符串或 Uint8Array (字节数组)转换为 Base64 编码的字符串"</string>
 </resources>
