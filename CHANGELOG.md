@@ -1,3 +1,18 @@
+## Version 2.11.0
+
+## Scripting
+`response.headers` and `response.cookies` now return a list of strings instead of just a string. This is a breaking change, but it allows handling the case where there are multiple headers or cookies with the same name.
+
+For convenience, there is now a `response.getHeader(headerName)` and a `response.getCookie(cookieName)` function which can be used to retrieve a specific header or cookie by name. If there are multiple headers or cookies with the given name, the last one will be returned.
+
+## Miscellaneous
+- When choosing an icon for a shortcut, it is now possible to select a custom icon that was previously used
+- Added partial Japanese translation
+
+## Bugfixes
+- Passing variable values to a shortcut via the `triggerShortcut` now passes the correct values again, without an unwanted prefix
+- Fixed incorrect error message of `wakeOnLan` function
+
 ## Version 2.10.0
 
 ### Important Changes
@@ -5,7 +20,7 @@ The minimum supported Android version is now at 5.0 (Lollipop). Going forward, o
 
 Furthermore, this version introduces a breaking change to the Scripting feature, specifically to the built-in `hmac` and `base64decode` functions. The return type of these functions is now `Uint8Array` (i.e., an array of bytes) instead of a hex string. See the **Scripting** section below for more information.
 
-### Scripting:
+### Scripting
 - The `base64encode` and `hmac` functions now also accept `Uint8Array` (byte arrays) as input, instead of only strings
 - The `hmac` and `base64decode` functions now return `Uint8Array` (byte arrays) instead of a hex encoded string
 - There are 2 new functions `toString` and `toHexString` which allow to convert `Uint8Array` into strings
