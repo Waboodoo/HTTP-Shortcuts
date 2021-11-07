@@ -22,16 +22,27 @@ class ShortcutResponse internal constructor(
             contentType.split(';', limit = 2)[0].lowercase(locale = Locale.US)
         }
 
-    val cookies: Map<String, String>
-        get() = headers.getLast(HttpHeaders.SET_COOKIE)
-            ?.split(';')
-            ?.map { it.split('=') }
-            ?.associate { it.first() to (it.getOrNull(1) ?: "") }
-            ?: emptyMap()
+    val cookiesAsMultiMap: Map<String, List<String>> by lazy {
+        headers.toMultiMap()
+            .filterKeys { it.equals(HttpHeaders.SET_COOKIE, ignoreCase = true) }
+            .values
+            .flatten()
+            .map { it.split(';', limit = 2).first() }
+            .map { it.split('=', limit = 2) }
+            .map { it[0] to it[1] }
+            .let { cookies ->
+                mutableMapOf<String, MutableList<String>>()
+                    .apply {
+                        cookies.forEach { (key, value) ->
+                            getOrPut(key) { mutableListOf() }.add(value)
+                        }
+                    }
+            }
+    }
 
-    val headersAsMap: Map<String, String>
-        get() = headers.toMultiMap()
-            .mapValues { entry -> entry.value.last() }
+    val headersAsMultiMap: Map<String, List<String>> by lazy {
+        headers.toMultiMap()
+    }
 
     private var responseTooLarge = false
 

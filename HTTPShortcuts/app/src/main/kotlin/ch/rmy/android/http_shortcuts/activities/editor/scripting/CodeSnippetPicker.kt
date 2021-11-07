@@ -111,11 +111,17 @@ class CodeSnippetPicker(
             .item(R.string.dialog_code_snippet_response_headers) {
                 insertText("response.headers", "")
             }
+            .item(R.string.dialog_code_snippet_response_header) {
+                insertText("response.getHeader(\"", "\")")
+            }
             .item(R.string.dialog_code_snippet_response_status_code) {
                 insertText("response.statusCode", "")
             }
             .item(R.string.dialog_code_snippet_response_cookies) {
                 insertText("response.cookies", "")
+            }
+            .item(R.string.dialog_code_snippet_response_cookie) {
+                insertText("response.getCookie(\"", "\")")
             }
             .mapIf(includeNetworkErrorOption) {
                 item(R.string.dialog_code_snippet_response_network_error) {

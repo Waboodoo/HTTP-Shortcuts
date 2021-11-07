@@ -6,7 +6,9 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.exceptions.CanceledByUserException
 import ch.rmy.android.http_shortcuts.exceptions.JavaScriptException
 import ch.rmy.android.http_shortcuts.exceptions.ResponseTooLargeException
+import ch.rmy.android.http_shortcuts.extensions.getCaseInsensitive
 import ch.rmy.android.http_shortcuts.extensions.logInfo
+import ch.rmy.android.http_shortcuts.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.FileUploadManager
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
@@ -19,6 +21,7 @@ import org.json.JSONException
 import org.liquidplayer.javascript.JSContext
 import org.liquidplayer.javascript.JSException
 import org.liquidplayer.javascript.JSFunction
+import org.liquidplayer.javascript.JSObject
 import org.liquidplayer.javascript.JSUint8Array
 import org.liquidplayer.javascript.JSValue
 
@@ -65,7 +68,11 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
                 .onErrorResumeNext { e ->
                     Completable.error(
                         when (e) {
-                            is JSException -> JavaScriptException(e)
+                            is JSException -> if (e.error.message() == "java.lang.reflect.InvocationTargetException") {
+                                JavaScriptException("Invalid function arguments", e)
+                            } else {
+                                JavaScriptException(e)
+                            }
                             is JSONException -> JavaScriptException(e)
                             else -> e
                         }
@@ -89,23 +96,30 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
         if (response == null && error == null) {
             return
         }
-        val responseObject = (response ?: (error as? ErrorResponse)?.shortcutResponse)
-        jsContext.property(
-            "response",
-            responseObject?.let {
-                mapOf(
-                    "body" to try {
-                        it.getContentAsString(context)
-                    } catch (e: ResponseTooLargeException) {
-                        ""
-                    },
-                    "headers" to it.headersAsMap,
-                    "statusCode" to it.statusCode,
-                    "cookies" to it.cookies,
-                )
-            },
-            READ_ONLY,
-        )
+        (response ?: (error as? ErrorResponse)?.shortcutResponse)?.let { responseObject ->
+            val responseJsObject = JSObject(jsContext)
+            responseJsObject.property("body", try {
+                responseObject.getContentAsString(context)
+            } catch (e: ResponseTooLargeException) {
+                ""
+            })
+            responseJsObject.property("headers", tryOrLog { responseObject.headersAsMultiMap }, READ_ONLY)
+            responseJsObject.property("cookies", tryOrLog { responseObject.cookiesAsMultiMap }, READ_ONLY)
+            responseJsObject.property("statusCode", responseObject.statusCode, READ_ONLY)
+            responseJsObject.property("getHeader", object : JSFunction(jsContext, "run") {
+                @Suppress("unused")
+                @Keep
+                fun run(headerName: String): String? =
+                    responseObject.headers.getLast(headerName)
+            }, READ_ONLY)
+            responseJsObject.property("getCookie", object : JSFunction(jsContext, "run") {
+                @Suppress("unused")
+                @Keep
+                fun run(cookieName: String): String? =
+                    responseObject.cookiesAsMultiMap.getCaseInsensitive(cookieName)?.last()
+            }, READ_ONLY)
+            jsContext.property("response", responseJsObject, READ_ONLY)
+        }
         jsContext.property("networkError", error?.message, READ_ONLY)
     }
 
