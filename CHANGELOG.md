@@ -1,15 +1,15 @@
 ## Version 2.11.0
 
-## Scripting
+### Scripting
 `response.headers` and `response.cookies` now return a list of strings instead of just a string. This is a breaking change, but it allows handling the case where there are multiple headers or cookies with the same name.
 
 For convenience, there is now a `response.getHeader(headerName)` and a `response.getCookie(cookieName)` function which can be used to retrieve a specific header or cookie by name. If there are multiple headers or cookies with the given name, the last one will be returned.
 
-## Miscellaneous
+### Miscellaneous
 - When choosing an icon for a shortcut, it is now possible to select a custom icon that was previously used
 - Added partial Japanese translation
 
-## Bugfixes
+### Bugfixes
 - Passing variable values to a shortcut via the `triggerShortcut` now passes the correct values again, without an unwanted prefix
 - Fixed incorrect error message of `wakeOnLan` function
 
