@@ -124,4 +124,13 @@ object IconUtil {
         }
         return result
     }
+
+    fun getCustomIconNamesInApp(context: Context): List<String> =
+        context.filesDir
+            .listFiles { file ->
+                file.name.matches(CUSTOM_ICON_NAME_REGEX.toRegex())
+            }
+            ?.map { it.name }
+            ?: emptyList()
+
 }

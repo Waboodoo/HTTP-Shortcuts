@@ -1,28 +1,14 @@
 package ch.rmy.android.http_shortcuts.icons
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.http_shortcuts.databinding.IconListItemBinding
 
-class IconAdapter(private val context: Context, private val listener: (ShortcutIcon.BuiltInIcon) -> Unit) : RecyclerView.Adapter<IconViewHolder>() {
-
-    private val normalIcons: List<ShortcutIcon.BuiltInIcon> =
-        Icons.ICONS
-            .map {
-                ShortcutIcon.BuiltInIcon.fromDrawableResource(context, it)
-            }
-
-    private val tintedIcons: List<ShortcutIcon.BuiltInIcon> =
-        Icons.TintColors.values()
-            .flatMap { tint ->
-                Icons.TINTABLE_ICONS.map { iconResource ->
-                    ShortcutIcon.BuiltInIcon.fromDrawableResource(context, iconResource, tint)
-                }
-            }
-
-    private val icons = normalIcons.plus(tintedIcons)
+class IconAdapter(
+    private val icons: List<ShortcutIcon>,
+    private val listener: (ShortcutIcon) -> Unit,
+) : RecyclerView.Adapter<IconViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IconViewHolder =
         IconViewHolder(IconListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false), listener)

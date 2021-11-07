@@ -5,10 +5,10 @@ import ch.rmy.android.http_shortcuts.databinding.IconListItemBinding
 
 class IconViewHolder(
     private val binding: IconListItemBinding,
-    listener: (ShortcutIcon.BuiltInIcon) -> Unit,
+    listener: (ShortcutIcon) -> Unit,
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    private lateinit var icon: ShortcutIcon.BuiltInIcon
+    private lateinit var icon: ShortcutIcon
 
     init {
         itemView.setOnClickListener {
@@ -16,7 +16,7 @@ class IconViewHolder(
         }
     }
 
-    fun setIcon(icon: ShortcutIcon.BuiltInIcon) {
+    fun setIcon(icon: ShortcutIcon) {
         this.icon = icon
         binding.icon.setIcon(icon)
     }

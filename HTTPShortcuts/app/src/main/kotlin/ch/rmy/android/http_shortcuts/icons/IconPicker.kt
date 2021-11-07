@@ -37,12 +37,13 @@ class IconPicker(
             .title(R.string.change_icon)
             .item(R.string.choose_icon, action = ::openBuiltInIconSelectionDialog)
             .item(R.string.choose_image, action = ::openImagePicker)
+            .item(R.string.choose_previously_used_image, action = ::openPreviouslyUsedCustomInIconSelectionDialog)
             .item(R.string.choose_ipack_icon, action = ::openIpackPicker)
             .showIfPossible()
     }
 
     private fun openBuiltInIconSelectionDialog() {
-        IconSelector(context)
+        BuiltInIconSelector(context)
             .show()
             .flatMapCompletable { icon ->
                 iconSelected(icon)
@@ -58,6 +59,16 @@ class IconPicker(
         } catch (e: ActivityNotFoundException) {
             activity.showSnackbar(R.string.error_not_supported)
         }
+    }
+
+    private fun openPreviouslyUsedCustomInIconSelectionDialog() {
+        CustomIconSelector(context)
+            .show()
+            .flatMapCompletable { icon ->
+                iconSelected(icon)
+            }
+            .subscribe()
+            .attachTo(destroyer)
     }
 
     private fun openIpackPicker() {

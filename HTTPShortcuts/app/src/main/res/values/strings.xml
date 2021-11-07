@@ -101,17 +101,21 @@
     <!-- Name template for a duplicated shortcut. %1$s is a placeholder for the name of the original shortcut -->
     <string name="template_shortcut_name_copy">%1$s (copy)</string>
     <!-- Option in "Change Icon" dialog, allows user to pick an icon from an ipack app (i.e., a special icon provider app) -->
-    <string name="choose_ipack">Choose an Ipack</string>
+    <string name="choose_ipack">Ipack Icon</string>
     <!-- Title of "Change Icon" dialog, where user can pick source/type of new icon for shortcut -->
     <string name="change_icon">Change Icon</string>
     <!-- Option in "Change Icon" dialog, allows user to select a custom image to use as a shortcut icon -->
-    <string name="choose_image">Choose Custom Image</string>
+    <string name="choose_image">New Custom Image</string>
+    <!-- Option in "Change Icon" dialog, allows user to select a custom image to use as a shortcut icon -->
+    <string name="choose_previously_used_image">Existing Custom Image</string>
     <!-- Option in "Change Icon" dialog, allows user to select an icon from an Ipack icon set (from a third-party icon app) -->
-    <string name="choose_ipack_icon">Choose Ipack Icon</string>
+    <string name="choose_ipack_icon">Ipack Icon</string>
     <!-- Option in "Change Icon" dialog, allows user to select one of the built-in icons to use as a shortcut icon -->
-    <string name="choose_icon">Choose Built-In Icon</string>
+    <string name="choose_icon">Built-In Icon</string>
     <!-- Title of dialog that allows user to pick an icon from the built-in icons -->
     <string name="title_choose_icon">Choose Built-In Icon</string>
+    <!-- Title of dialog that allows user to pick an icon from the previously used custom icon icons -->
+    <string name="title_choose_previously_used_icon">Choose Custom Image</string>
     <!-- Title of dialog to edit a parameter on a shortcut -->
     <string name="title_post_param_edit">Edit Parameter</string>
     <!-- Title of dialog to edit a file parameter on a shortcut -->
@@ -1083,4 +1087,6 @@
     <string name="action_type_base64decode_description">Converts a Base64 encoded string into a Unit8Array (byte array)</string>
     <!-- Description for Base64encode function in scripting -->
     <string name="action_type_base64encode_description">Converts a string or Uint8Array (byte array) into a Base64 encoded string</string>
+    <!-- Error message: Shown to user when trying to select the "previously used custom icon" option while there are no custom icons yet -->
+    <string name="error_no_custom_icons">You don\'t have any custom icons yet.</string>
 </resources>
