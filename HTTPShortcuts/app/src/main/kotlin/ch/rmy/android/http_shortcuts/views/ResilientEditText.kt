@@ -20,6 +20,8 @@ class ResilientEditText @JvmOverloads constructor(
             super.dispatchTouchEvent(event)
         } catch (e: IndexOutOfBoundsException) {
             true
+        } catch (e: IllegalStateException) {
+            true
         }
 
     override fun onCreateInputConnection(outAttrs: EditorInfo?): InputConnection? =
