@@ -2,8 +2,8 @@
 
 When a shortcut is executed it is possible to run JavaScript code snippets before or after execution. You'll find the corresponding settings in the shortcut editor in the *"Scripting"* section.
 
-![Scripting Option in Shortcut Editor](/assets/documentation/scripting/01.png)
-![Scripting Editor](/assets/documentation/scripting/02.png)
+![Scripting Option in Shortcut Editor](../assets/documentation/scripting/01.png)
+![Scripting Editor](../assets/documentation/scripting/02.png)
 
 Additionally, you'll find an option in the app's settings that allows you to run code before the execution of every shortcut, which can be used to define shared functions.
 
@@ -18,7 +18,7 @@ You can access the response of your HTTP request via the `response` object.
 
 The response body is available as a string via `response.body`.
 
-````js
+```js
 const myBody = response.body;
 ```
 
@@ -28,7 +28,7 @@ The response headers are available as an object (key-value-pairs) via `response.
 
 There is also a convenience function `response.getHeader(name)` which can be used to get the value of a specific header by its name. If there are multiple headers with that name, the last one is returned, and if there are none, `null` is returned.
 
-````js
+```js
 const contentType = response.headers['Content-Type'][0];
 
 const contentLength = response.getHeader('Content-Length');
@@ -38,7 +38,7 @@ const contentLength = response.getHeader('Content-Length');
 
 The response's HTTP status code is available as an integer via `response.statusCode`.
 
-````js
+```js
 const isNotFound = response.statusCode == 404;
 ```
 
@@ -48,7 +48,7 @@ The response's cookies are available as an object (key-value-pairs) via `respons
 
 There is also a convenience function `response.getCookie(name)` which can be used to get the value of a specific cookie by its name. If there are multiple cookies with that name, the last one is returned, and if there are none, `null` is returned.
 
-````js
+```js
 const myCookieValue = response.cookies['MyCookieName'][0];
 
 const myCookieValue2 = response.getCookie('MyCookieName2');
@@ -71,7 +71,7 @@ This section explains how you can interact with these variables from a script.
 
 You can access the value of any of your variables via the `getVariable()` function. Simply pass the variable's name or ID as a parameter.
 
-````js
+```js
 const myValue = getVariable('myVariable');
 ```
 
@@ -81,7 +81,7 @@ Please note that the returned value will always be a string. If the variable doe
 
 You can store a value as a string into a variable via the `setVariable()` function. Simply pass the variable's name or ID as the first parameter and the value you want to store as the second parameter.
 
-````js
+```js
 setVariable('myVariable', 'Hello World');
 ```
 
@@ -121,7 +121,7 @@ This section describes how you can interact with the user (i.e., you), during th
 
 With this function you can display a toast message on the screen. Simply pass your message as the first parameter.
 
-````js
+```js
 showToast('Hello World');
 ```
 
@@ -131,7 +131,7 @@ Please note that no toast will be displayed if the string you pass is empty.
 
 With this function you can display a dialog window on the screen. Simply pass your message as the first parameter, and optionally a title for the dialog as the second paramter. The dialog will be displayed until its *"OK"* button is pressed.
 
-````js
+```js
 showDialog('My Message', 'My Title');
 ```
 
@@ -199,7 +199,7 @@ Vibration patterns:
 - 2 means *"1 long vibration"*
 - 3 means *"3 short vibrations"*
 
-````js
+```js
 vibrate(2, true);
 ```
 
@@ -212,7 +212,7 @@ This section lists all the built-in functions which you can use to modify existi
 
 With this function you can rename a shortcut. Simply pass the name or ID of a shortcut as the first parameter and the new name as the second one. You can also pass an empty string as the first parameter to target the current shortcut.
 
-````js
+```js
 renameShortcut('Old Name', 'New Name');
 ```
 
@@ -220,7 +220,7 @@ renameShortcut('Old Name', 'New Name');
 
 With this function you can change the icon of a shortcut. Simply pass the name or ID of a shortcut as the first parameter and the name of the icon as the second one. You can also pass an empty string as the first parameter to target the current shortcut. This only works with built-in icons. Use the *"Add Code Snippet"* in the app to select an icon.
 
-````js
+```js
 changeIcon('My Shortcut', 'bitsies_lightbulb');
 ```
 
@@ -241,7 +241,7 @@ wait(3000); // delay execution by 3 seconds
 
 With the `abort` function you can abort the execution of the shortcut.
 
-````js
+```js
 abort();
 ```
 
@@ -301,13 +301,13 @@ This section lists all of the built-in functions which do not fall into a specif
 
 With this function you can trigger a shortcut to execute after the current one. Simply pass the name or ID of a shortcut as the first parameter.
 
-````js
+```js
 triggerShortcut('My Other Shortcut');
 ```
 
 Optionally you can pass an object as the second parameter to provide values for variables. This will not change the stored value of the variable but they will assume the specified value when the other shortcut is executed. This is particularly useful for dynamic variable types (such as *"Text Input"* or *"Multiple Choice Selection"*).
 
-````js
+```js
 triggerShortcut('My Other Shortcut', {
     'My_Variable1': 'Hello World',
     'My_Variable2': ':D',
@@ -316,7 +316,7 @@ triggerShortcut('My Other Shortcut', {
 
 As an optional third parameter, you can pass the number of milliseconds by which to delay the execution. This way you can schedule a shortcut to run at a later point in time. Please note that the delay will not be exact.
 
-````js
+```js
 triggerShortcut('My Other Shortcut', null, 10 * 60 * 1000); // runs in 10 minutes
 ```
 
@@ -327,7 +327,7 @@ Note that triggering a shortcut means its execution is enqueued. This means that
 
 With this function you can copy a value to the device's clipboard. Simply pass the value you want to copy as the first parameter.
 
-````js
+```js
 copyToClipboard('Hello World');
 ```
 

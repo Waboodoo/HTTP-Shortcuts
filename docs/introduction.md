@@ -8,8 +8,8 @@ This app assumes that you're already familiar with the basics of the protocol, s
 
 ## What is this app about?
 
-The main goal of this app is to provide an easy way to send HTTP requests from an Android device. It achieves this by allowing you to create so called [shortcuts](shortcuts) which can be clicked to trigger such a request, either from within the app directly or via a widget placed on your home screen.
+The main goal of this app is to provide an easy way to send HTTP requests from an Android device. It achieves this by allowing you to create so called [shortcuts](shortcuts.md) which can be clicked to trigger such a request, either from within the app directly or via a widget placed on your home screen.
 
-Shortcuts can be grouped together into different [categories](categories) which are shown as separate tabs inside the app.
+Shortcuts can be grouped together into different [categories](categories.md) which are shown as separate tabs inside the app.
 
-In some cases you want do to more than just send a simple HTTP request but need more powerful tools for advanced workflows. This is where [variables](variables) come in, which allow you to dynamically inject values into your request, and the [scripting](scripting) capabilities of the app, which allow you to use JavaScript code snippets to further customize how your shortcuts behave.
+In some cases you want do to more than just send a simple HTTP request but need more powerful tools for advanced workflows. This is where [variables](variables.md) come in, which allow you to dynamically inject values into your request, and the [scripting](scripting.md) capabilities of the app, which allow you to use JavaScript code snippets to further customize how your shortcuts behave.

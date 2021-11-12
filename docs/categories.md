@@ -16,5 +16,5 @@ You can change a category's background to either be black, white, or to display 
 
 ### Hidden Categories
 
-A category can be set to be hidden. A hidden category will not show up as a tab in the app. This can be useful if you have shortcuts that you only want to access directly from the home screen (make sure to place them first before hiding the category) or that you only want to trigger from other shortcuts, using [Scripting](scripting#trigger-shortcut)
- or via a [Multi-Shortcut](shortcuts#multi-shortcut).
+A category can be set to be hidden. A hidden category will not show up as a tab in the app. This can be useful if you have shortcuts that you only want to access directly from the home screen (make sure to place them first before hiding the category) or that you only want to trigger from other shortcuts, using [Scripting](scripting.md#trigger-shortcut)
+ or via a [Multi-Shortcut](shortcuts.md#multi-shortcut).

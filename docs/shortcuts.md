@@ -4,16 +4,16 @@ The *HTTP Shortcuts* app allows you to create *shortcuts* that represent an acti
 
 Get started by clicking the *plus button* at the bottom right when opening the app and pick which type of shortcut you want to create. For each shortcut you can set a name, an icon and a description. Depening on the type, there's a number of additional options.
 
-![Start creating a shortcut by picking a type](/assets/documentation/shortcuts/01.png)
+![Start creating a shortcut by picking a type](../assets/documentation/shortcuts/01.png)
 
 <a name="regular"></a>
 ## Regular HTTP Shortcuts
 
 The main purpose of the app is to make it easy to send HTTP requests, so the main type of shortcut is a regular HTTP shortcut. For this at the very least you need to specify an HTTP method (e.g. GET, POST, PUT, ...) and the URL that you want to reach (e.g. an API endpoint, a hosted text document or a website).
 
-You will also find a number of options, such as custom request headers, request body settings, or how the response should be display. You will also find more advanced features like proxy settings or [scripting](scripting).
+You will also find a number of options, such as custom request headers, request body settings, or how the response should be display. You will also find more advanced features like proxy settings or [scripting](scripting.md).
 
-See the [Execution Flow](execution-flow) page for more information on how a shortcut is executed.
+See the [Execution Flow](execution-flow.md) page for more information on how a shortcut is executed.
 
 <a name="curl-import"></a>
 ### Import from cURL
@@ -37,5 +37,5 @@ A *browser shortcut* is similar to a regular HTTP shortcut in that it correspond
 <a name="scripting-shortcut"></a>
 ### Scripting Shortcut
 
-A *scripting shortcut* allows you to run arbitrary JavaScript code, also known as [scripting](scripting).
+A *scripting shortcut* allows you to run arbitrary JavaScript code, also known as [scripting](scripting.md).
 

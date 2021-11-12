@@ -12,7 +12,7 @@ If you use any variables in your shortcut, they will be resolved in this step. E
 
 If you select *"Cancel"* on any of the variable resolution dialogs then the remaining steps will not be executed.
 
-For more information see the [Variables](variables) documentation.
+For more information see the [Variables](variables.md) documentation.
 
 ## 3. Delay
 
@@ -25,7 +25,7 @@ If you added any JavaScript code into the *"Global Scripting"* section in the ap
 
 If the script fails (e.g., due to a syntax error) then an error message will be displayed and the remaining steps will not be executed.
 
-For more details see the documentation on [Scripting](scripting).
+For more details see the documentation on [Scripting](scripting.md).
 
 ## 5. Run "Before" Script
 
@@ -33,7 +33,7 @@ If you added any JavaScript code into the *"Run before Execution"* textarea in y
 
 If the script fails (e.g., due to a syntax error) then an error message will be displayed and the remaining steps will not be executed.
 
-For more details see the documentation on [Scripting](scripting).
+For more details see the documentation on [Scripting](scripting.md).
 
 ## 6. Send HTTP Request
 
@@ -49,7 +49,7 @@ Similarly, if the HTTP request failed (e.g., because of a network error or becau
 
 If the script fails (e.g., due to a syntax error) then an error message will be displayed and the remaining steps will not be executed.
 
-For more details see the documentation on [Scripting](scripting).
+For more details see the documentation on [Scripting](scripting.md).
 
 ## 8. Display Result
 
