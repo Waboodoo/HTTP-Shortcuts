@@ -11,10 +11,10 @@ jobs:
     - name: setup python
       uses: actions/setup-python@v2
       with:
-        python-version: 3.8
-      - name: Process files
-        run: |
-          python scripts/publish-docs.py
+        python-version: '3.8'
+    - name: Process files
+      run: |
+        python scripts/publish-docs.py
     - name: Upload FTP
       uses: sebastianpopp/ftp-action@releases/v2
       with:
