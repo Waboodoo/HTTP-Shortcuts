@@ -6,12 +6,10 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
@@ -241,7 +239,6 @@ class DisplayResponseActivity : BaseActivity() {
     private fun shouldShareAsText() =
         !isImage(type) && text.length < MAX_SHARE_LENGTH
 
-    @RequiresApi(Build.VERSION_CODES.KITKAT)
     private fun openFilePicker() {
         try {
             Intent(Intent.ACTION_CREATE_DOCUMENT)
@@ -250,7 +247,7 @@ class DisplayResponseActivity : BaseActivity() {
                 .putExtra(Intent.EXTRA_TITLE, shortcutName)
                 .startActivity(this, REQUEST_SAVE_FILE)
         } catch (e: ActivityNotFoundException) {
-            showSnackbar(R.string.error_generic)
+            showSnackbar(R.string.error_not_supported)
         }
     }
 
