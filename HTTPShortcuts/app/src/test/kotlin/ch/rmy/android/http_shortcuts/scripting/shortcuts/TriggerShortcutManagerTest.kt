@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.scripting.shortcuts
 
+import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
-import org.junit.Assert.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
