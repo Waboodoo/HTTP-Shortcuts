@@ -7,6 +7,8 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.context
 import ch.rmy.android.http_shortcuts.utils.StringUtils
 import io.reactivex.Completable
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
 
 class ExecutionSettingsViewModel(application: Application) : BasicShortcutEditorViewModel(application) {
 
@@ -30,15 +32,15 @@ class ExecutionSettingsViewModel(application: Application) : BasicShortcutEditor
             getShortcut(realm)?.quickSettingsTileShortcut = quickSettingsTileShortcut
         }
 
-    fun setDelay(delay: Int): Completable =
+    fun setDelay(delay: Duration): Completable =
         Transactions.commit { realm ->
-            getShortcut(realm)?.delay = delay
+            getShortcut(realm)?.delay = delay.inWholeMilliseconds.toInt()
         }
 
     fun getDelaySubtitle(shortcut: Shortcut): CharSequence =
-        getDelayText(shortcut.delay)
+        getDelayText(shortcut.delay.milliseconds)
 
-    fun getDelayText(delay: Int) =
+    fun getDelayText(delay: Duration) =
         StringUtils.getDurationText(context, delay)
 
 }

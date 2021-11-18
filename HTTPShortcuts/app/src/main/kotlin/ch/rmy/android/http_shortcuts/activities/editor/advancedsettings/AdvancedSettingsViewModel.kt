@@ -9,6 +9,8 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.context
 import ch.rmy.android.http_shortcuts.utils.StringUtils
 import io.reactivex.Completable
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
 
 class AdvancedSettingsViewModel(application: Application) : BasicShortcutEditorViewModel(application) {
 
@@ -27,9 +29,9 @@ class AdvancedSettingsViewModel(application: Application) : BasicShortcutEditorV
             getShortcut(realm)?.acceptCookies = acceptCookies
         }
 
-    fun setTimeout(timeout: Int): Completable =
+    fun setTimeout(timeout: Duration): Completable =
         Transactions.commit { realm ->
-            getShortcut(realm)?.timeout = timeout
+            getShortcut(realm)?.timeout = timeout.inWholeMilliseconds.toInt()
         }
 
     fun setAdvancedSettings(host: String, port: Int?, ssid: String): Completable =
@@ -42,9 +44,9 @@ class AdvancedSettingsViewModel(application: Application) : BasicShortcutEditorV
         }
 
     fun getTimeoutSubtitle(shortcut: Shortcut): CharSequence =
-        getTimeoutText(shortcut.timeout)
+        getTimeoutText(shortcut.timeout.milliseconds)
 
-    fun getTimeoutText(timeout: Int) =
+    fun getTimeoutText(timeout: Duration) =
         StringUtils.getDurationText(context, timeout)
 
     fun setClientCertParams(clientCertParams: ClientCertParams?): Completable =

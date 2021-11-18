@@ -102,7 +102,7 @@ class DisplayResponseActivity : BaseActivity() {
                     add(context.getString(R.string.label_response_timing) to context.resources.getQuantityString(
                         R.plurals.milliseconds,
                         milliseconds,
-                        milliseconds
+                        milliseconds,
                     ))
                 }
             }

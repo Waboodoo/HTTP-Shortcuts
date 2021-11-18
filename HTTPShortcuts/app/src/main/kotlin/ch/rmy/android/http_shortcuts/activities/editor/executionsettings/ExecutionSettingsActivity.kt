@@ -17,6 +17,11 @@ import ch.rmy.android.http_shortcuts.tiles.QuickSettingsTileManager
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.SimpleOnSeekBarChangeListener
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 class ExecutionSettingsActivity : BaseActivity() {
 
@@ -102,8 +107,8 @@ class ExecutionSettingsActivity : BaseActivity() {
                 label.text = viewModel.getDelayText(progressToDelay(progress))
             }
         })
-        label.text = viewModel.getDelayText(shortcut.delay)
-        slider.progress = delayToProgress(shortcut.delay)
+        label.text = viewModel.getDelayText(shortcut.delay.milliseconds)
+        slider.progress = delayToProgress(shortcut.delay.milliseconds)
 
         DialogBuilder(context)
             .title(R.string.label_delay_execution)
@@ -121,33 +126,33 @@ class ExecutionSettingsActivity : BaseActivity() {
     companion object {
 
         private val DELAY_OPTIONS = arrayOf(
-            0,
-            500,
-            1000,
-            2000,
-            3000,
-            5000,
-            8000,
-            10000,
-            15000,
-            20000,
-            25000,
-            30000,
-            45000,
-            60000,
-            90000,
-            120000,
-            180000,
-            300000,
-            450000,
-            600000,
-            900000,
-            1200000,
-            1800000,
-            3600000,
+            0.milliseconds,
+            500.milliseconds,
+            1.seconds,
+            2.seconds,
+            3.seconds,
+            5.seconds,
+            8.seconds,
+            10.seconds,
+            15.seconds,
+            20.seconds,
+            25.seconds,
+            30.seconds,
+            45.seconds,
+            1.minutes,
+            90.seconds,
+            2.minutes,
+            3.minutes,
+            5.minutes,
+            450.seconds,
+            10.minutes,
+            15.minutes,
+            20.minutes,
+            30.minutes,
+            1.hours,
         )
 
-        private fun delayToProgress(delay: Int) = DELAY_OPTIONS
+        private fun delayToProgress(delay: Duration) = DELAY_OPTIONS
             .indexOfFirst {
                 it >= delay
             }

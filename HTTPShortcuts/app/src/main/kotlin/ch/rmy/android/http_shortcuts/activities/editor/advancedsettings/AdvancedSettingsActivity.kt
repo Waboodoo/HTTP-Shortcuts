@@ -37,6 +37,10 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 class AdvancedSettingsActivity : BaseActivity() {
 
@@ -201,8 +205,8 @@ class AdvancedSettingsActivity : BaseActivity() {
                 label.text = viewModel.getTimeoutText(progressToTimeout(progress))
             }
         })
-        label.text = viewModel.getTimeoutText(shortcut.timeout)
-        slider.progress = timeoutToProgress(shortcut.timeout)
+        label.text = viewModel.getTimeoutText(shortcut.timeout.milliseconds)
+        slider.progress = timeoutToProgress(shortcut.timeout.milliseconds)
 
         DialogBuilder(context)
             .title(R.string.label_timeout)
@@ -277,29 +281,29 @@ class AdvancedSettingsActivity : BaseActivity() {
         private const val REQUEST_SELECT_CERTIFICATE_FILE = 1
 
         private val TIMEOUT_OPTIONS = arrayOf(
-            500,
-            1000,
-            2000,
-            3000,
-            5000,
-            8000,
-            10000,
-            15000,
-            20000,
-            25000,
-            30000,
-            45000,
-            60000,
-            90000,
-            120000,
-            180000,
-            300000,
-            450000,
-            600000,
+            500.milliseconds,
+            1.seconds,
+            2.seconds,
+            3.seconds,
+            5.seconds,
+            8.seconds,
+            10.seconds,
+            15.seconds,
+            20.seconds,
+            25.seconds,
+            30.seconds,
+            45.seconds,
+            1.minutes,
+            90.seconds,
+            2.minutes,
+            3.minutes,
+            5.minutes,
+            450.seconds,
+            10.minutes,
         )
 
 
-        private fun timeoutToProgress(timeout: Int) = TIMEOUT_OPTIONS.indexOfFirst {
+        private fun timeoutToProgress(timeout: Duration) = TIMEOUT_OPTIONS.indexOfFirst {
             it >= timeout
         }
             .takeUnless { it == -1 }

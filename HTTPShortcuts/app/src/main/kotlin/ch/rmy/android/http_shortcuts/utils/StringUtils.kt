@@ -4,20 +4,22 @@ import android.content.Context
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import ch.rmy.android.http_shortcuts.R
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 object StringUtils {
 
-    fun getDurationText(context: Context, durationInMilliseconds: Int): CharSequence {
-        if (durationInMilliseconds < 1000) {
+    fun getDurationText(context: Context, duration: Duration): CharSequence {
+        if (duration < 1.seconds) {
             return context.resources.getQuantityString(
                 R.plurals.milliseconds,
-                durationInMilliseconds,
-                durationInMilliseconds
+                duration.inWholeMilliseconds.toInt(),
+                duration.inWholeMilliseconds.toInt(),
             )
         }
-        val durationInSeconds = durationInMilliseconds / 1000
-        val minutes = durationInSeconds / 60
-        val seconds = durationInSeconds % 60
+        val minutes = duration.inWholeMinutes.toInt()
+        val seconds = (duration - minutes.minutes).inWholeSeconds.toInt()
         return if (minutes > 0 && seconds > 0) {
             context.getString(R.string.pattern_minutes_seconds,
                 context.resources.getQuantityString(R.plurals.minutes, minutes, minutes),
