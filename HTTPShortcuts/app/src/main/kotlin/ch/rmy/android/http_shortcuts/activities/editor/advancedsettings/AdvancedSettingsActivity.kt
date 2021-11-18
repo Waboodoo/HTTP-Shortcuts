@@ -162,8 +162,12 @@ class AdvancedSettingsActivity : BaseActivity() {
     }
 
     private fun promptForClientCertAlias() {
-        ClientCertUtil.promptForAlias(this) { alias ->
-            setClientCertParams(ClientCertParams.Alias(alias))
+        try {
+            ClientCertUtil.promptForAlias(this) { alias ->
+                setClientCertParams(ClientCertParams.Alias(alias))
+            }
+        } catch (e: ActivityNotFoundException) {
+            showToast(R.string.error_not_supported)
         }
     }
 
