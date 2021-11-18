@@ -46,20 +46,23 @@ class CurlParser private constructor(arguments: List<String>) {
                     }
                     "-d", "--data", "--data-binary", "--data-urlencode" -> {
                         builder.methodIfNotYetSet("POST")
-                        var data = iterator.next()
+                        var dataItems = iterator.next().split("&")
                         if (argument == "--data-urlencode") {
-                            data = if (data.contains("=")) {
-                                val parts = data.split("=", limit = 2)
-                                parts[0] + "=" + URLEncoder.encode(parts[1], "utf-8")
-                            } else {
-                                URLEncoder.encode(data, "utf-8")
+                            dataItems = dataItems.map { data ->
+                                if (data.contains("=")) {
+                                    val parts = data.split("=", limit = 2)
+                                    parts[0] + "=" + URLEncoder.encode(parts[1], "utf-8")
+                                } else {
+                                    URLEncoder.encode(data, "utf-8")
+                                }
                             }
-
                         }
-                        if (argument == "--data-binary" && data.startsWith("@")) {
+                        if (argument == "--data-binary" && dataItems.any { it.startsWith("@") }) {
                             builder.usesBinaryData()
                         } else {
-                            builder.data(data)
+                            dataItems.forEach { data ->
+                                builder.data(data)
+                            }
                         }
                         continue@loop
                     }

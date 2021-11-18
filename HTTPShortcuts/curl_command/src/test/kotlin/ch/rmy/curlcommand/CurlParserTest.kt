@@ -33,18 +33,18 @@ class CurlParserTest {
 
     @Test
     fun testUrlEncodedData() {
-        val target = "curl --data-urlencode \"Hä&?4\""
+        val target = "curl --data-urlencode \"Hä_?4\""
         val command = CurlParser.parse(target)
-        assertEquals(listOf("H%C3%A4%26%3F4"), command.data)
+        assertEquals(listOf("H%C3%A4_%3F4"), command.data)
         assertFalse(command.isFormData)
         assertEquals("POST", command.method)
     }
 
     @Test
     fun testUrlEncodedData2() {
-        val target = "curl --data-urlencode \"föö=Hä&?4\""
+        val target = "curl --data-urlencode \"föö=Hä_?4\""
         val command = CurlParser.parse(target)
-        assertEquals(listOf("föö=H%C3%A4%26%3F4"), command.data)
+        assertEquals(listOf("föö=H%C3%A4_%3F4"), command.data)
         assertFalse(command.isFormData)
         assertEquals("POST", command.method)
     }
@@ -81,6 +81,15 @@ class CurlParserTest {
         val command = CurlParser.parse(target)
 
         assertEquals(listOf("Hello", " world"), command.data)
+        assertEquals("POST", command.method)
+    }
+
+    @Test
+    fun testMultipleParametersInSingleDataArgument() {
+        val target = "curl -d \"foo=bar&hello_world=123\""
+        val command = CurlParser.parse(target)
+
+        assertEquals(listOf("foo=bar", "hello_world=123"), command.data)
         assertEquals("POST", command.method)
     }
 

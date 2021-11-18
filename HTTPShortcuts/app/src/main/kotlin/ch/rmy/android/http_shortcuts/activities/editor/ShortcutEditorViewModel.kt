@@ -276,12 +276,12 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
                         val parameter = if (value.startsWith("@") && curlCommand.isFormData) {
                             Parameter(
                                 key = decode(key),
-                                type = Parameter.TYPE_FILE
+                                type = Parameter.TYPE_FILE,
                             )
                         } else {
                             Parameter(
                                 key = decode(key),
-                                value = decode(value)
+                                value = decode(value),
                             )
                         }
                         shortcut.parameters.add(realm.copyToRealm(parameter))
