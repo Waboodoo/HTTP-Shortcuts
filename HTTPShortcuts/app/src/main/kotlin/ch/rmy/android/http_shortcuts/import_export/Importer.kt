@@ -89,7 +89,11 @@ class Importer(private val context: Context) {
         logInfo("Importing from v${importData.asJsonObject.get("version") ?: "?"}: ${importData.asJsonObject.keySet()}")
         val migratedImportData = ImportMigrator.migrate(importData)
         val newBase = GsonUtil.importData(migratedImportData)
-        newBase.validate()
+        try {
+            newBase.validate()
+        } catch (e: IllegalArgumentException) {
+            throw ImportException(e.message!!)
+        }
         importBase(newBase, importMode)
         return ImportStatus(
             importedShortcuts = newBase.shortcuts.size,
