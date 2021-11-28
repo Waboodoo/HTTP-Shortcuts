@@ -27,7 +27,7 @@ open class Shortcut(
     var method = METHOD_GET
 
     @Required
-    var url: String = "http://"
+    var url: String = "https://"
 
     @Required
     var username: String = ""
