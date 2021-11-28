@@ -232,7 +232,7 @@
 %s"</string>
 
     <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
-    <string name="export_failed_with_reason">"Error al exportar accesos directos: % s"</string>
+    <string name="export_failed_with_reason">"Error al exportar accesos directos: %s"</string>
 
     <!-- Error message: Import failed due to invalid JSON syntax in the import file -->
     <string name="import_failure_reason_invalid_json">"JSON inválido"</string>

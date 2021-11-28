@@ -864,7 +864,7 @@
     <string name="subtitle_authentication_digest">"Дайджест-аутентификация с именем пользователя и паролем"</string>
 
     <!-- Section subtitle, shown in shortcut editor when Bearer Authentication is enabled -->
-    <string name="subtitle_authentication_bearer">"Аутентификация на предъявителя с токеном "</string>
+    <string name="subtitle_authentication_bearer">"Аутентификация на предъявителя с токеном"</string>
 
     <!-- Section subtitle, shown in shortcut editor when no (POST) parameters are set -->
     <string name="subtitle_request_body_params_none">"Параметры не заданы"</string>
@@ -991,7 +991,7 @@
 Вы можете включить эту функцию, отредактировав ярлык и установив флажок \"%1$s\"  в \"%2$s\"."</string>
 
     <!-- Label: Status code, shows the HTTP status code of the response -->
-    <string name="label_status_code">"Код состояния "</string>
+    <string name="label_status_code">"Код состояния"</string>
 
     <!-- Label: URL, shows the HTTP request's URL alongside the response -->
     <string name="label_response_url">"URL"</string>
@@ -1099,7 +1099,7 @@
     <string name="error_tts_failed">"Не удалось произнести текст"</string>
 
     <!-- Label: Option shown in Code Snippet Picker when inserting an action that targets a shortcut, allows to target the current shortcut -->
-    <string name="label_insert_action_code_for_current_shortcut">"Текущий ярлык "</string>
+    <string name="label_insert_action_code_for_current_shortcut">"Текущий ярлык"</string>
 
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code -->
     <string name="placeholder_javascript_code_generic">"Добавьте сюда код JavaScript"</string>
@@ -1237,7 +1237,7 @@
     <string name="action_export">"Экспорт"</string>
 
     <!-- Dialog title, for exporting a single shortcut. Dialog offers different export options (e.g. as JSON, as cURL) -->
-    <string name="title_export_shortcut_as">"Экспорт как..."</string>
+    <string name="title_export_shortcut_as">"Экспорт как…"</string>
 
     <!-- Dialog option, for exporting a single shortcut as cURL -->
     <!-- Fuzzy -->
@@ -1447,7 +1447,7 @@
     <string name="label_subtitle_no_client_cert">"Щелкните, чтобы выбрать сертификат."</string>
 
     <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
-    <string name="label_subtitle_client_cert_in_use">"Используя сертификат \"% s\". Щелкните, чтобы удалить."</string>
+    <string name="label_subtitle_client_cert_in_use">"Используя сертификат \"%s\". Щелкните, чтобы удалить."</string>
 
     <!-- Error: Shown to the user when any error occurred while trying to execute a shortcut that uses a client certificate -->
     <string name="error_failed_to_use_client_cert">"Не удалось загрузить или использовать сертификат клиента. Возможно, это не поддерживается вашим устройством или его необходимо перенастроить в настройках ярлыка."</string>
@@ -1468,7 +1468,7 @@
     <string name="title_client_cert">"Сертификат клиента"</string>
 
     <!-- Label, for option in dialog to pick a client certificate managed by the operating system -->
-    <string name="label_client_cert_from_os">"Управляется ОС "</string>
+    <string name="label_client_cert_from_os">"Управляется ОС"</string>
 
     <!-- Subtitle for Label, for option in dialog to pick a client certificate managed by the operating system -->
     <string name="label_client_cert_from_os_subtitle">"Рекомендуемый, более безопасный"</string>
@@ -1504,7 +1504,7 @@
     <string name="action_rerun_shortcut">"Повторить"</string>
 
     <!-- Checkbox value, shown in variable editor, allows to enable multiline input for a text variable -->
-    <string name="label_multiline">"Многострочный "</string>
+    <string name="label_multiline">"Многострочный"</string>
 
     <!-- Instructions shown below the "JSON encode" checkbox in the variable editor -->
     <string name="message_json_encode_instructions">"Включите это, если вы используете эту переменную внутри строки JSON, например, в теле запроса. Специальные символы будут экранированы."</string>
@@ -1539,10 +1539,10 @@ Wake-on-LAN"</string>
     <string name="label_select_variable_separator">"Разделитель"</string>
 
     <!-- Checkbox value, shown in variable editor for Select variables, allows to enable multi select -->
-    <string name="label_select_variable_multi_select">"Разрешить выбор нескольких вариантов "</string>
+    <string name="label_select_variable_multi_select">"Разрешить выбор нескольких вариантов"</string>
 
     <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails -->
-    <string name="error_action_type_send_wol_failed">"Не удалось отправить пакет Wake-on-LAN:% s"</string>
+    <string name="error_action_type_send_wol_failed">"Не удалось отправить пакет Wake-on-LAN: %s"</string>
 
     <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails because on an invalid MAC address -->
     <string name="error_action_type_send_wol_invalid_mac_address">"Недействительный MAC-адрес: %s"</string>

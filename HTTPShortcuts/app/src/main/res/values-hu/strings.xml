@@ -944,7 +944,7 @@ További információt a változó dokumentációjában találsz."</string>
     <string name="dialog_title_import_from_url">"Importálás URL-ből"</string>
 
     <!-- Error: Shown when user tries to import shortcuts from an invalid URL -->
-    <string name="error_can_only_import_from_http_url">"Importálás csak érvényes http(s) URL-ből "</string>
+    <string name="error_can_only_import_from_http_url">"Importálás csak érvényes http(s) URL-ből"</string>
 
     <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
     <string name="instructions_quick_settings_tile">"Még nincs olyan parancsikon, amelyet a Gyorsbeállítások csempén keresztül lehet elindítani.
@@ -1127,7 +1127,7 @@ Ezt a funkciót engedélyezheted egy parancsikon szerkesztésével és a \"%1$s\
     <string name="action_export">"Exportálás"</string>
 
     <!-- Dialog title, for exporting a single shortcut. Dialog offers different export options (e.g. as JSON, as cURL) -->
-    <string name="title_export_shortcut_as">"Exportálás mint..."</string>
+    <string name="title_export_shortcut_as">"Exportálás mint…"</string>
 
     <!-- Dialog option, for exporting a single shortcut as cURL -->
     <!-- Fuzzy -->

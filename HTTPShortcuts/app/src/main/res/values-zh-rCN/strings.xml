@@ -236,7 +236,7 @@
     </plurals>
 
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
-    <string name="export_in_progress">"正在导出快捷方式……"</string>
+    <string name="export_in_progress">"正在导出快捷方式…"</string>
 
     <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="import_failed_with_reason">"导入快捷方式失败:
@@ -254,7 +254,7 @@
     </plurals>
 
     <!-- Message shown in progress dialog while shortcuts are being imported -->
-    <string name="import_in_progress">"正在导出快捷方式……"</string>
+    <string name="import_in_progress">"正在导出快捷方式…"</string>
 
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
     <string name="label_timeout">"创建超时"</string>
@@ -293,7 +293,7 @@
     <string name="settings_mail">"联系开发者"</string>
 
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
-    <string name="settings_mail_summary">"提问题，请求新功能，其它……"</string>
+    <string name="settings_mail_summary">"提问题，请求新功能，其它…"</string>
 
     <!-- Button title, for option to open the app's Github page in a browser -->
     <string name="settings_github">"在 Github 查看"</string>
@@ -651,7 +651,7 @@
     <string name="theme_indigo">"靛蓝色"</string>
 
     <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
-    <string name="title_export">"导出……"</string>
+    <string name="title_export">"导出…"</string>
 
     <!-- Dialog option on Export dialog, for exporting by storing in a file -->
     <!-- Fuzzy -->
@@ -1281,7 +1281,7 @@
     <string name="action_export">"导出"</string>
 
     <!-- Dialog title, for exporting a single shortcut. Dialog offers different export options (e.g. as JSON, as cURL) -->
-    <string name="title_export_shortcut_as">"导出为 ......"</string>
+    <string name="title_export_shortcut_as">"导出为 …"</string>
 
     <!-- Dialog option, for exporting a single shortcut as cURL -->
     <!-- Fuzzy -->
@@ -1345,7 +1345,7 @@
     <string name="remote_edit_upload_in_progress">"正在推送到服务器"</string>
 
     <!-- Status message shown while changes to shortcuts & variables are being pulled down from the remote server, shown on progress dialog -->
-    <string name="remote_edit_download_in_progress">"提交更改中 ......"</string>
+    <string name="remote_edit_download_in_progress">"提交更改中 …"</string>
 
     <!-- Message: Success message shown in snackbar when pushing shortcuts and variables to the editing server was successful -->
     <string name="message_remote_edit_upload_successful">"成功地推送到服务器"</string>
@@ -1619,4 +1619,19 @@
 
     <!-- Description for Base64encode function in scripting -->
     <string name="action_type_base64encode_description">"将字符串或 Uint8Array (字节数组)转换为 Base64 编码的字符串"</string>
+
+    <!-- Option in "Change Icon" dialog, allows user to select a custom image to use as a shortcut icon -->
+    <string name="choose_previously_used_image">"现有的自定义图像"</string>
+
+    <!-- Title of dialog that allows user to pick an icon from the previously used custom icon icons -->
+    <string name="title_choose_previously_used_icon">"选择自定义图像"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option allows to get a specific HTTP response header -->
+    <string name="dialog_code_snippet_response_header">"按名称获取响应标头"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option allows to get a specific HTTP response cookie -->
+    <string name="dialog_code_snippet_response_cookie">"按名称获取响应 Cookie"</string>
+
+    <!-- Error message: Shown to user when trying to select the "previously used custom icon" option while there are no custom icons yet -->
+    <string name="error_no_custom_icons">"您还没有任何自定义图标。"</string>
 </resources>

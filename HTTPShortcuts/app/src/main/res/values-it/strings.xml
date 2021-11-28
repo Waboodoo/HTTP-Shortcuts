@@ -1291,7 +1291,7 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
     <string name="action_export">"Esporta"</string>
 
     <!-- Dialog title, for exporting a single shortcut. Dialog offers different export options (e.g. as JSON, as cURL) -->
-    <string name="title_export_shortcut_as">"Esporta come..."</string>
+    <string name="title_export_shortcut_as">"Esporta come…"</string>
 
     <!-- Dialog option, for exporting a single shortcut as cURL -->
     <!-- Fuzzy -->
@@ -1314,6 +1314,9 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
 
     <!-- Shortcut Action Title: Show Selection (i.e., show a popup with multiple-choice option) -->
     <string name="action_type_selection_title">"Mostra la selezione (scelta multipla)"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options to process text (e.g. encoding, hashing, ...) -->
+    <string name="dialog_code_snippet_text_processing">"Elaborazione Testo"</string>
 
     <!-- Error message: Shown when user tries to use an unsupported hash function -->
     <string name="error_unsupported_hash_algorithm">"Algoritmo \"%1$s\" di hash non supportato. Utilizza %2$s."</string>
@@ -1349,8 +1352,17 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
     <string name="label_remote_edit_password">"Password"</string>
 
     <!-- Status message shown while shortcuts & variables are being pushed to the remote server, shown on progress dialog -->
-    <string name="remote_edit_upload_in_progress">"Caricamento sul server in corso..."</string>
+    <string name="remote_edit_upload_in_progress">"Caricamento sul server in corso…"</string>
 
     <!-- Status message shown while changes to shortcuts & variables are being pulled down from the remote server, shown on progress dialog -->
-    <string name="remote_edit_download_in_progress">"Download delle modifiche in corso..."</string>
+    <string name="remote_edit_download_in_progress">"Download delle modifiche in corso…"</string>
+
+    <!-- Message: Success message shown in snackbar when pushing shortcuts and variables to the editing server was successful -->
+    <string name="message_remote_edit_upload_successful">"Inviato con successo al server."</string>
+
+    <!-- Message: Success message shown in snackbar when pulling changes to shortcuts and variables from the editing server was successful -->
+    <string name="message_remote_edit_download_successful">"Prelevate modfiche con successo."</string>
+
+    <!-- Error message: shown in dialog when pushing shortcuts to the editing server failed -->
+    <string name="error_remote_edit_upload">"Invio al server fallito. Riprovare più tardi"</string>
 </resources>

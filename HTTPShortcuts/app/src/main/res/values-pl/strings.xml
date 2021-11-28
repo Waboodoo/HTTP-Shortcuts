@@ -641,7 +641,7 @@ Nie masz jednak jeszcze skonfigurowanych żadnych zmiennych."</string>
     <string name="share_button">"Udostępnij"</string>
 
     <!-- Title on Share dialog -->
-    <string name="share_title">"Udostępnianie..."</string>
+    <string name="share_title">"Udostępnianie…"</string>
 
     <!-- Section title, for section in variable editor containing options specific to the variable type -->
     <string name="section_input_options">"Opcje wprowadzania"</string>
@@ -656,7 +656,7 @@ Nie masz jednak jeszcze skonfigurowanych żadnych zmiennych."</string>
     <string name="pending_shortcut_execution_cancelled">"%1$s anulowano."</string>
 
     <!-- Feature label for sharing text into the app, to be used in a specific variable for a configured shortcut -->
-    <string name="action_send_to">"Wyślij do..."</string>
+    <string name="action_send_to">"Wyślij do…"</string>
 
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
     <!-- Fuzzy -->
@@ -691,7 +691,7 @@ Więcej informacji można znaleźć w dokumentacji w sekcji zmiennych."</string>
     <string name="theme_indigo">"Indygo"</string>
 
     <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
-    <string name="title_export">"Eksportowanie do..."</string>
+    <string name="title_export">"Eksportowanie do…"</string>
 
     <!-- Dialog option on Export dialog, for exporting by storing in a file -->
     <!-- Fuzzy -->
@@ -1492,7 +1492,7 @@ Możesz włączyć tę funkcję, edytując skrót i zaznaczając pole wyboru \"%
     <string name="message_allow_share_instructions">"Włączenie tej opcji umożliwia udostępnianie tekstu z innych aplikacji i używanie tego udostępnionego tekstu jako tymczasowej wartości tej zmiennej."</string>
 
     <!-- Dialog title: Shown in progress dialog while a file is being saved -->
-    <string name="saving_in_progress">"Zapisywanie..."</string>
+    <string name="saving_in_progress">"Zapisywanie…"</string>
 
     <!-- Title: Shown above cropper/resizer tool when picking a custom icon -->
     <string name="title_edit_custom_icon">"Edycja ikony"</string>

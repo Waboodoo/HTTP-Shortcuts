@@ -518,7 +518,7 @@
     <string name="error_not_suitable_shortcuts">No suitable shortcuts found.\n\nTo use this feature you need to have at least one shortcut that uses a variable that allows \'Share …\', or a shortcut that has a file parameter or uses a file as its request body.\n\nClick the help button in the variable section for more information.</string>
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">Allow \'Share …\'</string>
-    <!-- Instructions shown below the "Allow Share..." checkbox in the variable editor -->
+    <!-- Instructions shown below the "Allow Share…" checkbox in the variable editor -->
     <string name="message_allow_share_instructions">Enabling this allows you to share text from other apps and use that shared text as the temporary value for this variable.</string>
     <!-- Instructions shown below the "JSON encode" checkbox in the variable editor -->
     <string name="message_json_encode_instructions">Enable this if you are using this variable inside a JSON string, e.g., in a request body. Special characters will be escaped.</string>
@@ -820,13 +820,13 @@
     <string name="dialog_code_snippet_handle_response">Handle Response</string>
     <!-- Dialog option: shown in code snippet picker, shows options to get or set variables -->
     <string name="dialog_code_snippet_variables">Variables</string>
-    <!-- Dialog option: shown in code snippet picker, shows options to interact with the user (show dialog, prompt for input, ...) -->
+    <!-- Dialog option: shown in code snippet picker, shows options to interact with the user (show dialog, prompt for input, …) -->
     <string name="dialog_code_snippet_user_interaction">User Interaction</string>
     <!-- Dialog option: shown in code snippet picker, shows options to modify shortcuts -->
     <string name="dialog_code_snippet_modify_shortcuts">Modify Shortcuts</string>
-    <!-- Dialog option: shown in code snippet picker, shows options to control the flow of the script (abort, if-else, ...) -->
+    <!-- Dialog option: shown in code snippet picker, shows options to control the flow of the script (abort, if-else, …) -->
     <string name="dialog_code_snippet_control_flow">Control Flow</string>
-    <!-- Dialog option: shown in code snippet picker, shows options to process text (e.g. encoding, hashing, ...) -->
+    <!-- Dialog option: shown in code snippet picker, shows options to process text (e.g. encoding, hashing, …) -->
     <string name="dialog_code_snippet_text_processing">Text Processing</string>
     <!-- Dialog option: shown in code snippet picker, shows options to don't belong in any of the other categories -->
     <string name="dialog_code_snippet_misc">Miscellaneous</string>

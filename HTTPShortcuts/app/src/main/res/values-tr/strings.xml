@@ -631,7 +631,7 @@ Başlamak için + düğmesini tıklayın veya Hakkında bölümündeki Belgeleri
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
     <string name="error_not_suitable_shortcuts">"Uygun kısayol bulunamadı.
 
-Bu özelliği kullanmak için, 'Paylaş ...' seçeneğine izin veren bir değişken kullanan veya bir dosya parametresi olan veya istek gövdesi olarak bir dosya kullanan en az bir kısayola sahip olmanız gerekir.
+Bu özelliği kullanmak için, 'Paylaş …' seçeneğine izin veren bir değişken kullanan veya bir dosya parametresi olan veya istek gövdesi olarak bir dosya kullanan en az bir kısayola sahip olmanız gerekir.
 
 Daha fazla bilgi için değişken bölümündeki yardım düğmesine tıklayın."</string>
 
@@ -1575,4 +1575,68 @@ Bu özelliği, bir kısayolu düzenleyerek ve \"%2$s\" içinde bulunan \"%1$s\" 
 
     <!-- Message displayed in snackbar, to let the user know that moving via dragging was enabled. -->
     <string name="message_moving_enabled">"Kısayolları sürükleyerek yeniden sıralayın."</string>
+
+    <!-- Category dropdown option: Place category on home screen -->
+    <string name="action_place_category">"Ana ekrana yerleştir"</string>
+
+    <!-- Shortcut Action Title: Send a Wake-on-LAN packet to remotely turn on a computer -->
+    <string name="action_type_wake_on_lan">"Wake-on-LAN"</string>
+
+    <!-- Error message: Shown when a JS error occurs. %d is a placeholder for the line number, %s is a placeholder for the more detailed error message. -->
+    <string name="error_js_pattern_with_line_number">"JavaScript hatası (%d. satır):
+%s"</string>
+
+    <!-- label, shown in variable editor for Select Input variable, to allow the user to specify a separator when using multi-select -->
+    <string name="label_select_variable_separator">"Ayırıcı"</string>
+
+    <!-- Checkbox value, shown in variable editor for Select variables, allows to enable multi select -->
+    <string name="label_select_variable_multi_select">"Çoklu seçime izin ver"</string>
+
+    <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails -->
+    <string name="error_action_type_send_wol_failed">"Wake-on-LAN paketi gönderilemedi: %s"</string>
+
+    <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails because on an invalid MAC address -->
+    <string name="error_action_type_send_wol_invalid_mac_address">"Geçersiz MAC adresi: %s"</string>
+
+    <!-- Section title in shortcut editor, groups together settings related to triggering, scheduling and executing a shortcut -->
+    <string name="label_execution_settings">"Tetikleme ve Yürütme Ayarları"</string>
+
+    <!-- Section subtitle, shown underneath "Trigger & Execution Settings" -->
+    <string name="label_execution_settings_subtitle">"Kısayolun ne zaman ve nasıl yürütüleceğini tanımlayın"</string>
+
+    <!-- Error message: Import failed due to the data being imported coming from a newer version of the app -->
+    <string name="import_failure_reason_data_version_mismatch">"Seçilen dosya, uygulamanın daha yeni bir sürümü tarafından dışa aktarıldı. Lütfen uygulamanın en son sürümünün yüklü olduğundan emin olun."</string>
+
+    <!-- Shortcut Action Title: Allows converting a byte array into a string of hexadecimal codes using the Scripting feature -->
+    <string name="action_type_to_hex_string">"Bytes to Hex String"</string>
+
+    <!-- Shortcut Action Title: Allows converting a byte array into a string using the Scripting feature -->
+    <string name="action_type_to_string">"Bytes to String"</string>
+
+    <!-- Shortcut Action Description: Allows converting a byte array into a string of hexadecimal codes using the Scripting feature -->
+    <string name="action_type_to_hex_string_description">"Bir Uint8Array'i onaltılık basamak dizgesine dönüştürür"</string>
+
+    <!-- Shortcut Action Description: Allows converting a byte array into a string using the Scripting feature -->
+    <string name="action_type_to_string_description">"Bir Uint8Array'i dizgeye dönüştürür"</string>
+
+    <!-- Description for Base64decode function in scripting -->
+    <string name="action_type_base64decode_description">"Base64 ile kodlanmış bir dizgeyi Unit8Array'e (bayt dizisi) dönüştürür"</string>
+
+    <!-- Description for Base64encode function in scripting -->
+    <string name="action_type_base64encode_description">"Bir dizgeyi veya Uint8Array'i (bayt dizisi) Base64 ile kodlanmış bir dizgeye dönüştürür"</string>
+
+    <!-- Option in "Change Icon" dialog, allows user to select a custom image to use as a shortcut icon -->
+    <string name="choose_previously_used_image">"Mevcut Özel Resim"</string>
+
+    <!-- Title of dialog that allows user to pick an icon from the previously used custom icon icons -->
+    <string name="title_choose_previously_used_icon">"Özel Resim Seç"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option allows to get a specific HTTP response header -->
+    <string name="dialog_code_snippet_response_header">"Yanıt Başlığı Al"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option allows to get a specific HTTP response cookie -->
+    <string name="dialog_code_snippet_response_cookie">"Yanıt Çerezi Al ada göre"</string>
+
+    <!-- Error message: Shown to user when trying to select the "previously used custom icon" option while there are no custom icons yet -->
+    <string name="error_no_custom_icons">"Henüz özel simgeniz yok."</string>
 </resources>
