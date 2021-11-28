@@ -1,3 +1,14 @@
+## Version 2.12.0
+
+### Miscellaneous
+- Use https for new shortcuts by default
+- Improved Android backup support
+- Improved error messages in some places
+- Rearranged the order of the icons in the built-in icon picker
+
+### Bugfixes
+- Fixed an issue with the `-d` parameter in cURL parsing
+
 ## Version 2.11.0
 
 ### Scripting
