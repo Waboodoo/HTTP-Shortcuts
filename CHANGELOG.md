@@ -8,6 +8,7 @@
 
 ### Bugfixes
 - Fixed an issue with the `-d` parameter in cURL parsing
+- 3xx status codes are now treated as a successful response instead of a failure
 
 ## Version 2.11.0
 

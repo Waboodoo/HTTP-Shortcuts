@@ -147,7 +147,7 @@ class HttpRequester(private val contentResolver: ContentResolver) {
                             null
                         }
                         val shortcutResponse = prepareResponse(requestData.url, okHttpResponse, contentFile)
-                        if (okHttpResponse.isSuccessful) {
+                        if (okHttpResponse.code in 200..399) {
                             emitter.onSuccess(shortcutResponse)
                         } else {
                             emitter.onError(ErrorResponse(shortcutResponse))
