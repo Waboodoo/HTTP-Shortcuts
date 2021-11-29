@@ -24,7 +24,7 @@ class ResilientEditText @JvmOverloads constructor(
             true
         }
 
-    override fun onCreateInputConnection(outAttrs: EditorInfo?): InputConnection? =
+    override fun onCreateInputConnection(outAttrs: EditorInfo): InputConnection? =
         super.onCreateInputConnection(outAttrs)
             ?.let {
                 object : InputConnectionWrapper(it, false) {
