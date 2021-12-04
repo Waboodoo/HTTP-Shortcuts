@@ -71,10 +71,6 @@ android {
         }
     }
 
-    dexOptions {
-        jumboMode true
-    }
-
     splits {
         abi {
             enable true
