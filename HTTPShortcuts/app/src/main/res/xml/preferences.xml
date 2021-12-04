@@ -79,7 +79,7 @@
             app:summary="@string/settings_allow_overlay_summary"
             app:title="@string/settings_allow_overlay" />
 
-        <CheckBoxPreference
+        <SwitchPreference
             app:key="force_foreground"
             app:persistent="true"
             app:summary="@string/settings_force_foreground_summary"

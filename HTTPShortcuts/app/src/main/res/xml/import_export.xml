@@ -21,7 +21,7 @@
             app:key="export"
             app:title="@string/settings_export" />
 
-        <CheckBoxPreference
+        <SwitchPreference
             app:key="use_legacy_export_format"
             app:persistent="true"
             app:summary="@string/settings_use_legacy_export_format_summary"
