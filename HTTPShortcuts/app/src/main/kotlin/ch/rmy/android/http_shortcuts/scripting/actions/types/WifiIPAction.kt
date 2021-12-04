@@ -15,5 +15,4 @@ class WifiIPAction : BaseAction() {
     private fun getIPAddress(context: Context): String =
         NetworkUtil.getIPV4Address(context)
             ?: NO_RESULT
-
 }

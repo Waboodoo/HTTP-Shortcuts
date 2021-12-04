@@ -32,7 +32,5 @@ class TriggerTaskerTaskActionType : BaseActionType() {
 
         fun isTaskerAvailable(context: Context): Boolean =
             TaskerIntent.isTaskerInstalled(context)
-
     }
-
 }

@@ -128,5 +128,4 @@ class ValidationTest {
     fun testUrlWithWhitespacesIsValid() {
         assertThat(isValidHttpUrl("http://example.com/?cmd=Hello World".toUri()), equalTo(true))
     }
-
 }

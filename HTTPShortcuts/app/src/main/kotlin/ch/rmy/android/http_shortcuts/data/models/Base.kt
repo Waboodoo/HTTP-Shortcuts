@@ -18,5 +18,4 @@ open class Base : RealmObject() {
         categories.forEach(Category::validate)
         variables.forEach(Variable::validate)
     }
-
 }

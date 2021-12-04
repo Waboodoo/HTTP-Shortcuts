@@ -23,5 +23,4 @@ object Animations {
         })
         view.startAnimation(zoomOut)
     }
-
 }

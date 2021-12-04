@@ -14,5 +14,4 @@ interface Dialog {
         } else {
             Single.just(DialogResult.NOT_SHOWN)
         }
-
 }

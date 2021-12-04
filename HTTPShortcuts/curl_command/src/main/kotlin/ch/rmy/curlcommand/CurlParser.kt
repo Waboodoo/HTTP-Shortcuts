@@ -129,5 +129,4 @@ class CurlParser private constructor(arguments: List<String>) {
             return curlParser.builder.build()
         }
     }
-
 }

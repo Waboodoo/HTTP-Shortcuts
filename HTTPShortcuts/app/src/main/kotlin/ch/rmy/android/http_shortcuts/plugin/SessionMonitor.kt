@@ -41,5 +41,4 @@ object SessionMonitor {
     }
 
     class SessionStartException : Exception()
-
 }

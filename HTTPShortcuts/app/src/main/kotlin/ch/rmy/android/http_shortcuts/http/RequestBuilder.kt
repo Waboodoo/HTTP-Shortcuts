@@ -69,13 +69,15 @@ class RequestBuilder(private val method: String, url: String) {
         data: InputStream,
         length: Long?,
     ) = also {
-        parameters.add(Parameter.FileParameter(
-            name,
-            fileName,
-            type,
-            data,
-            length
-        ))
+        parameters.add(
+            Parameter.FileParameter(
+                name,
+                fileName,
+                type,
+                data,
+                length,
+            )
+        )
     }
 
     fun header(name: String, value: String) = also {
@@ -104,9 +106,12 @@ class RequestBuilder(private val method: String, url: String) {
 
     fun build(): Request = requestBuilder
         .also {
-            it.method(method, if (HttpMethod.permitsRequestBody(method)) {
-                getBody()
-            } else null)
+            it.method(
+                method,
+                if (HttpMethod.permitsRequestBody(method)) {
+                    getBody()
+                } else null,
+            )
         }
         .mapIfNotNull(userAgent) {
             header(HttpHeaders.USER_AGENT, it)
@@ -149,5 +154,4 @@ class RequestBuilder(private val method: String, url: String) {
             .joinToString(separator = "&") { parameter ->
                 encode(parameter.name) + '=' + encode(parameter.value)
             }
-
 }

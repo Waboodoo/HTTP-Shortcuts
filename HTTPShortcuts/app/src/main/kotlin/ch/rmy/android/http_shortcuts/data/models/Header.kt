@@ -16,5 +16,4 @@ open class Header(
 ) : RealmObject(), HasId {
 
     fun isSameAs(other: Header) = other.key == key && other.value == value
-
 }

@@ -8,11 +8,8 @@ interface BaseMigration {
     val version: Int
 
     fun migrateRealm(realm: DynamicRealm) {
-
     }
 
     fun migrateImport(base: JsonObject) {
-
     }
-
 }

@@ -24,5 +24,4 @@ class SizeLimitedReader(private val reader: Reader, private val maxBytes: Long) 
     }
 
     class LimitReachedException(val limit: Long) : IOException()
-
 }

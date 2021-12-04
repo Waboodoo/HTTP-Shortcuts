@@ -153,11 +153,13 @@ class ImportExportActivity : BaseActivity() {
                     if (status.needsRussianWarning) {
                         SpecialWarnings.show(requireContext())
                     }
-                    showSnackbar(requireContext().resources.getQuantityString(
-                        R.plurals.shortcut_import_success,
-                        status.importedShortcuts,
-                        status.importedShortcuts,
-                    ))
+                    showSnackbar(
+                        requireContext().resources.getQuantityString(
+                            R.plurals.shortcut_import_success,
+                            status.importedShortcuts,
+                            status.importedShortcuts,
+                        )
+                    )
                     reloadCategoriesWhenLeaving()
                 }, { e ->
                     if (e !is ImportException) {
@@ -169,16 +171,18 @@ class ImportExportActivity : BaseActivity() {
         }
 
         private fun reloadCategoriesWhenLeaving() {
-            requireActivity().setResult(Activity.RESULT_OK, Intent().apply {
-                putExtra(EXTRA_CATEGORIES_CHANGED, true)
-            })
+            requireActivity().setResult(
+                Activity.RESULT_OK,
+                Intent().apply {
+                    putExtra(EXTRA_CATEGORIES_CHANGED, true)
+                }
+            )
         }
 
         override fun onDestroy() {
             super.onDestroy()
             destroyer.destroy()
         }
-
     }
 
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, ImportExportActivity::class.java)
@@ -190,7 +194,5 @@ class ImportExportActivity : BaseActivity() {
         private const val REQUEST_EXPORT_TO_DOCUMENTS = 2
         private const val REQUEST_IMPORT_FROM_DOCUMENTS = 3
         private const val REQUEST_REMOTE_EDIT = 4
-
     }
-
 }

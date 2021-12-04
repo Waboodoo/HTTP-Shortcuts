@@ -81,5 +81,4 @@ object CurlExporter {
                     .data(rawPlaceholdersToResolvedValues(shortcut.bodyContent, variableValues))
             }
             .build()
-
 }

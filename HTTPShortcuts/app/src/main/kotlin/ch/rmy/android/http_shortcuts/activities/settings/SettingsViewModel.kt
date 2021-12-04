@@ -17,5 +17,4 @@ class SettingsViewModel(application: Application) : RealmViewModel(application) 
                     }
             )
         }
-
 }

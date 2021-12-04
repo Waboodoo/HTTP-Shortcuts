@@ -52,5 +52,4 @@ class VariableEditorViewModel(application: Application) : RealmViewModel(applica
             }
         }
     }
-
 }

@@ -170,7 +170,5 @@ class VariableResolver(private val context: Context) {
                             variableLookup.getVariableByKey(variableKey)?.id ?: variableKey
                         }
                 )
-
     }
-
 }

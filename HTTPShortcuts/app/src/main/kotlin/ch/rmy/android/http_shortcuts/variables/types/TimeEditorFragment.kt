@@ -35,5 +35,4 @@ class TimeEditorFragment : VariableEditorFragment<VariableEditorTimeBinding>() {
         variable.rememberValue = binding.inputRememberValue.isChecked
         variable.dataForType = mapOf(TimeType.KEY_FORMAT to binding.inputVariableTimeFormat.text.toString())
     }
-
 }

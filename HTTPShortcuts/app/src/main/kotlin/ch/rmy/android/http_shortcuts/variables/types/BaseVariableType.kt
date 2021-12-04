@@ -36,7 +36,5 @@ abstract class BaseVariableType {
                 .dismissListener {
                     emitter.cancel()
                 }
-
     }
-
 }

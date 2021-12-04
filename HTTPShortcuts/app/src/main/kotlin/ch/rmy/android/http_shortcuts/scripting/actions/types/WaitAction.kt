@@ -9,5 +9,4 @@ class WaitAction(private val duration: Int) : BaseAction() {
 
     override fun execute(executionContext: ExecutionContext): Completable =
         Completable.timer(duration.toLong(), TimeUnit.MILLISECONDS, Schedulers.single())
-
 }

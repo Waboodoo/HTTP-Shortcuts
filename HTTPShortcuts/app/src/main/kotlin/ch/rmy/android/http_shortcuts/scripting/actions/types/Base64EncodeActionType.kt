@@ -24,5 +24,4 @@ class Base64EncodeActionType : BaseActionType() {
 
         const val KEY_TEXT = "text"
     }
-
 }

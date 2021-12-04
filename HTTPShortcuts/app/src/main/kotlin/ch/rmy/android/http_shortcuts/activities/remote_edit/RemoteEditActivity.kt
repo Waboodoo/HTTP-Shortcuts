@@ -116,9 +116,12 @@ class RemoteEditActivity : BaseActivity() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
-                    setResult(Activity.RESULT_OK, Intent().apply {
-                        putExtra(EXTRA_CHANGES_IMPORTED, true)
-                    })
+                    setResult(
+                        Activity.RESULT_OK,
+                        Intent().apply {
+                            putExtra(EXTRA_CHANGES_IMPORTED, true)
+                        },
+                    )
                     showSnackbar(R.string.message_remote_edit_download_successful)
                 },
                 { error ->
@@ -182,5 +185,4 @@ class RemoteEditActivity : BaseActivity() {
     companion object {
         const val EXTRA_CHANGES_IMPORTED = "changes_imported"
     }
-
 }

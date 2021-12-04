@@ -25,7 +25,5 @@ class GridLayoutManager(context: Context) : GridLayoutManager(context, getNumber
             val dpWidth = displayMetrics.widthPixels / displayMetrics.density
             return (dpWidth / 90).toInt()
         }
-
     }
-
 }

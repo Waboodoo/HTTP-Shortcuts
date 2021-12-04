@@ -15,5 +15,4 @@ open class Widget(
         const val FIELD_WIDGET_ID = "widgetId"
         const val FIELD_SHORTCUT = "shortcut"
     }
-
 }

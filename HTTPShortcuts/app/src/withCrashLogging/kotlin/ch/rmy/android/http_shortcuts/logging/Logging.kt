@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.logging
 
 import android.content.Context
-import android.view.InflateException
 import ch.rmy.android.http_shortcuts.BuildConfig
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.utils.InstallUtil
@@ -10,7 +9,6 @@ import com.bugsnag.android.Bugsnag
 import com.bugsnag.android.Configuration
 import com.bugsnag.android.ErrorTypes
 import com.bugsnag.android.ThreadSendPolicy
-import java.io.IOException
 import java.util.Date
 
 object Logging {
@@ -74,10 +72,10 @@ object Logging {
     }
 
     private fun shouldIgnore(e: Throwable) =
-        e is IOException
-            || e.cause is IOException
-            || e is InflateException
-            || e is RealmFactory.RealmNotFoundException
+        e is IOException ||
+            e.cause is IOException ||
+            e is InflateException ||
+            e is RealmFactory.RealmNotFoundException
 
     @Suppress("unused")
     fun logInfo(origin: String, message: String) {
@@ -85,5 +83,4 @@ object Logging {
             Bugsnag.leaveBreadcrumb(message)
         }
     }
-
 }

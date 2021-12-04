@@ -46,7 +46,6 @@ class TextToSpeechAction(private val message: String, private val language: Stri
                                 }
 
                                 override fun onStart(utteranceId: String?) {
-
                                 }
                             })
                             if (language.isNotEmpty()) {
@@ -71,7 +70,5 @@ class TextToSpeechAction(private val message: String, private val language: Stri
     companion object {
 
         private const val MAX_TEXT_LENGTH = 400
-
     }
-
 }

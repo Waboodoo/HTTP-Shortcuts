@@ -265,7 +265,6 @@ class ListFragment : BaseFragment<FragmentListBinding>() {
             .item(R.string.action_duplicate) {
                 duplicateShortcut(shortcutData.value ?: return@item)
             }
-
             .item(R.string.action_delete) {
                 showDeleteDialog(shortcutData)
             }
@@ -502,7 +501,6 @@ class ListFragment : BaseFragment<FragmentListBinding>() {
         fun updateLauncherShortcuts()
 
         var isInMovingMode: Boolean
-
     }
 
     companion object {
@@ -522,7 +520,5 @@ class ListFragment : BaseFragment<FragmentListBinding>() {
 
         private const val ARG_CATEGORY_ID = "categoryId"
         private const val ARG_SELECTION_MODE = "selectionMode"
-
     }
-
 }

@@ -99,5 +99,4 @@ class CategoriesViewModel(application: Application) : RealmViewModel(application
             .doOnComplete {
                 categoriesChanged.value = true
             }
-
 }

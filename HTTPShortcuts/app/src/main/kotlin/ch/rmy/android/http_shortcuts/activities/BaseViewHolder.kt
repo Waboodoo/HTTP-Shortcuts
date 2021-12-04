@@ -32,5 +32,4 @@ abstract class BaseViewHolder<in T>(
     }
 
     protected abstract fun updateViews(item: T)
-
 }

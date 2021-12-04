@@ -7,5 +7,4 @@ class UnsupportedFeatureException : UserException() {
 
     override fun getLocalizedMessage(context: Context): String =
         context.getString(R.string.error_not_supported)
-
 }

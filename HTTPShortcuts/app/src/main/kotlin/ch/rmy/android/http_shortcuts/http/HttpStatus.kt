@@ -63,5 +63,4 @@ object HttpStatus {
         511 -> "Network Authentication Required"
         else -> "???"
     }
-
 }

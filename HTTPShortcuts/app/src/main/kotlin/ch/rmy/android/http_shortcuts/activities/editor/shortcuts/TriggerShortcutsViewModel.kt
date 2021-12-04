@@ -35,7 +35,6 @@ class TriggerShortcutsViewModel(application: Application) : BasicShortcutEditorV
                         ?.let(ShortcutPlaceholder::fromShortcut)
                         ?: ShortcutPlaceholder.deletedShortcut(it.shortcutId)
                 }
-
     }
 
     private fun getTriggeredShortcuts(): List<TriggerShortcutManager.TriggeredShortcut> =
@@ -69,5 +68,4 @@ class TriggerShortcutsViewModel(application: Application) : BasicShortcutEditorV
                 TriggerShortcutManager.getCodeFromTriggeredShortcuts(shortcuts)
         }
     }
-
 }

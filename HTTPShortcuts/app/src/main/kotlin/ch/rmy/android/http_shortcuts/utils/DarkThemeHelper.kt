@@ -19,5 +19,4 @@ object DarkThemeHelper {
                 AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
             }
         }
-
 }

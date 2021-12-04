@@ -7,7 +7,6 @@ import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.Required
 
-
 open class Variable(
     @PrimaryKey
     override var id: String = "",
@@ -124,7 +123,5 @@ open class Variable(
 
         private const val FLAG_SHARE_TEXT = 0x1
         private const val FLAG_MULTILINE = 0x2
-
     }
-
 }

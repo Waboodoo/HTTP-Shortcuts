@@ -16,7 +16,6 @@ sealed interface ClientCertParams {
             context.getFileStreamPath(fileName)
     }
 
-
     companion object {
         fun fromString(string: String) =
             when {

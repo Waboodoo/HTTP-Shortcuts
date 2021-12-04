@@ -380,7 +380,5 @@ class CodeSnippetPicker(
 
         private fun escape(input: String) =
             input.replace("\"", "\\\"")
-
     }
-
 }

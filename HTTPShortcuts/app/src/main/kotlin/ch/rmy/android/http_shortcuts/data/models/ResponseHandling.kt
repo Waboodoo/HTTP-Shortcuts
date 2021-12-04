@@ -35,11 +35,11 @@ open class ResponseHandling(
     }
 
     fun isSameAs(other: ResponseHandling?) =
-        other?.uiType == uiType
-            && other.successOutput == successOutput
-            && other.failureOutput == failureOutput
-            && other.successMessage == successMessage
-            && other.includeMetaInfo == includeMetaInfo
+        other?.uiType == uiType &&
+            other.successOutput == successOutput &&
+            other.failureOutput == failureOutput &&
+            other.successMessage == successMessage &&
+            other.includeMetaInfo == includeMetaInfo
 
     companion object {
 
@@ -54,7 +54,5 @@ open class ResponseHandling(
         const val FAILURE_OUTPUT_DETAILED = "detailed"
         const val FAILURE_OUTPUT_SIMPLE = "simple"
         const val FAILURE_OUTPUT_NONE = "none"
-
     }
-
 }

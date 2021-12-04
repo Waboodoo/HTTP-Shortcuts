@@ -11,5 +11,4 @@ class CustomIconSelector(private val context: Context) : IconSelector(context, R
             .map {
                 ShortcutIcon.CustomIcon(it)
             }
-
 }

@@ -23,5 +23,4 @@ object TriggerShortcutManager {
         }
 
     class TriggeredShortcut(val shortcutId: String)
-
 }

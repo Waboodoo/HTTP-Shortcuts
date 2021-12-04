@@ -19,5 +19,4 @@ object PermissionManager {
         ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
 
     private const val REQUEST_CODE = 17
-
 }

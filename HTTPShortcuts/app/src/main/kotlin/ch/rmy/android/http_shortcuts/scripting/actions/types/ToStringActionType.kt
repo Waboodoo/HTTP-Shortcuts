@@ -22,7 +22,5 @@ class ToStringActionType : BaseActionType() {
         const val FUNCTION_NAME = "toString"
 
         const val KEY_DATA = "data"
-
     }
-
 }

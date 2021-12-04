@@ -41,5 +41,4 @@ object CurlConstructor {
 
         return builder.build()
     }
-
 }

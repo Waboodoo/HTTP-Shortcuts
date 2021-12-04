@@ -65,5 +65,4 @@ class IconView : AppCompatImageView {
     } else {
         tint == Color.WHITE
     }
-
 }

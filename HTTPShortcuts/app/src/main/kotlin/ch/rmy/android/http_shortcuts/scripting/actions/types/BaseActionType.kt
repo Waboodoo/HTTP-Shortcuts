@@ -10,5 +10,4 @@ abstract class BaseActionType {
     abstract fun fromDTO(actionDTO: ActionDTO): BaseAction
 
     open fun getAlias(): ActionAlias? = null
-
 }

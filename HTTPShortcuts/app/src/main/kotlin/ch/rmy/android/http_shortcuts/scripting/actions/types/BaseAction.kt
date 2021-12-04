@@ -15,7 +15,5 @@ abstract class BaseAction {
     companion object {
 
         const val NO_RESULT = "[[[no result]]]"
-
     }
-
 }

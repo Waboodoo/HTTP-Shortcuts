@@ -34,5 +34,4 @@ class CommandLineBuilderTest {
         CommandLineBuilder("foo")
             .option("invalidOption")
     }
-
 }

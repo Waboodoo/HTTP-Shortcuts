@@ -7,5 +7,4 @@ class InvalidBearerAuthException(val token: String) : UserException() {
 
     override fun getLocalizedMessage(context: Context): String =
         context.getString(R.string.error_invalid_bearer_auth, token)
-
 }

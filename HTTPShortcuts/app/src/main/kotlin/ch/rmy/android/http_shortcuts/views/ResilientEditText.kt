@@ -36,5 +36,4 @@ class ResilientEditText @JvmOverloads constructor(
                         }
                 }
             }
-
 }

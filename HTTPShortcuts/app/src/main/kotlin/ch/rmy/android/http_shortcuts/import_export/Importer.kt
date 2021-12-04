@@ -145,7 +145,6 @@ class Importer(private val context: Context) {
         }
     }
 
-
     private fun importCategory(realm: Realm, base: Base, category: Category) {
         val oldCategory = base.categories.find { it.id == category.id }
         if (oldCategory == null) {
@@ -190,11 +189,12 @@ class Importer(private val context: Context) {
             -> {
                 e.message
             }
-            else -> e.cause
-                ?.takeIf { recursive }
-                ?.let {
-                    getHumanReadableErrorMessage(it, recursive = false)
-                }
+            else ->
+                e.cause
+                    ?.takeIf { recursive }
+                    ?.let {
+                        getHumanReadableErrorMessage(it, recursive = false)
+                    }
         }
     }
 
@@ -208,5 +208,4 @@ class Importer(private val context: Context) {
     companion object {
         private const val IMPORT_TEMP_FILE = "import"
     }
-
 }

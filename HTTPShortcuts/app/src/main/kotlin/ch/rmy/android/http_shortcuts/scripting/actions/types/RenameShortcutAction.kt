@@ -33,21 +33,25 @@ class RenameShortcutAction(private val name: String, private val shortcutNameOrI
         }
         val shortcut = DataSource.getShortcutByNameOrId(shortcutNameOrId)
             ?: return Completable
-                .error(ActionException {
-                    it.getString(R.string.error_shortcut_not_found_for_renaming, shortcutNameOrId)
-                })
+                .error(
+                    ActionException {
+                        it.getString(R.string.error_shortcut_not_found_for_renaming, shortcutNameOrId)
+                    }
+                )
         return renameShortcut(shortcut.id, newName)
-            .andThen(Completable.fromAction {
-                if (LauncherShortcutManager.supportsPinning(context)) {
-                    LauncherShortcutManager.updatePinnedShortcut(
-                        context = context,
-                        shortcutId = shortcut.id,
-                        shortcutName = newName,
-                        shortcutIcon = shortcut.icon,
-                    )
+            .andThen(
+                Completable.fromAction {
+                    if (LauncherShortcutManager.supportsPinning(context)) {
+                        LauncherShortcutManager.updatePinnedShortcut(
+                            context = context,
+                            shortcutId = shortcut.id,
+                            shortcutName = newName,
+                            shortcutIcon = shortcut.icon,
+                        )
+                    }
+                    WidgetManager.updateWidgets(context, shortcut.id)
                 }
-                WidgetManager.updateWidgets(context, shortcut.id)
-            })
+            )
     }
 
     companion object {
@@ -56,7 +60,5 @@ class RenameShortcutAction(private val name: String, private val shortcutNameOrI
             Transactions.commit { realm ->
                 Repository.getShortcutById(realm, shortcutId)?.name = newName
             }
-
     }
-
 }

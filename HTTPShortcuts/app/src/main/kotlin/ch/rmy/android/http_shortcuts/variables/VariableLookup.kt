@@ -7,5 +7,4 @@ interface VariableLookup {
     fun getVariableById(id: String): Variable?
 
     fun getVariableByKey(key: String): Variable?
-
 }

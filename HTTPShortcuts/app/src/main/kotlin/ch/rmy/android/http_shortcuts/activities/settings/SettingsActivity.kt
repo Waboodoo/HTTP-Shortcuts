@@ -22,7 +22,6 @@ import ch.rmy.android.http_shortcuts.logging.Logging
 import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
 
-
 class SettingsActivity : BaseActivity() {
 
     private val viewModel: SettingsViewModel by bindViewModel()
@@ -121,19 +120,21 @@ class SettingsActivity : BaseActivity() {
 
         private fun lockApp(password: String) {
             viewModel.setAppLock(password)
-                .subscribe({
-                    val returnIntent = Intent().apply {
-                        putExtra(EXTRA_APP_LOCKED, true)
-                    }
-                    requireActivity().apply {
-                        setResult(Activity.RESULT_OK, returnIntent)
-                        finish()
-                    }
-                },
+                .subscribe(
+                    {
+                        val returnIntent = Intent().apply {
+                            putExtra(EXTRA_APP_LOCKED, true)
+                        }
+                        requireActivity().apply {
+                            setResult(Activity.RESULT_OK, returnIntent)
+                            finish()
+                        }
+                    },
                     { e ->
                         activity?.showSnackbar(R.string.error_generic, long = true)
                         logException(e)
-                    })
+                    },
+                )
                 .attachTo(destroyer)
         }
 
@@ -157,7 +158,6 @@ class SettingsActivity : BaseActivity() {
             super.onDestroy()
             destroyer.destroy()
         }
-
     }
 
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, SettingsActivity::class.java)
@@ -166,7 +166,5 @@ class SettingsActivity : BaseActivity() {
 
         const val EXTRA_THEME_CHANGED = "theme_changed"
         const val EXTRA_APP_LOCKED = "app_locked"
-
     }
-
 }

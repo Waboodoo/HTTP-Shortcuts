@@ -20,5 +20,4 @@ class ExecutionReceiver : BroadcastReceiver() {
             }
             .startActivity(context)
     }
-
 }

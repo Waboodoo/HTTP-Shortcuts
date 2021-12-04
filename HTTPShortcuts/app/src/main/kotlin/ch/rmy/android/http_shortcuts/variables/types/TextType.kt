@@ -28,5 +28,4 @@ open class TextType : BaseVariableType(), HasTitle {
             }
 
     override fun createEditorFragment() = TextEditorFragment()
-
 }

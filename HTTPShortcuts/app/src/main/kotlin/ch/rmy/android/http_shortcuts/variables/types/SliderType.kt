@@ -11,7 +11,6 @@ import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.utils.SimpleOnSeekBarChangeListener
 import io.reactivex.Single
 
-
 internal class SliderType : BaseVariableType(), HasTitle {
 
     override fun resolveValue(context: Context, variable: Variable): Single<String> =
@@ -88,7 +87,5 @@ internal class SliderType : BaseVariableType(), HasTitle {
             KEY_MIN to minValue.toString(),
             KEY_STEP to stepValue.toString(),
         )
-
     }
-
 }

@@ -25,7 +25,5 @@ class ChangeIconActionType : BaseActionType() {
 
         const val KEY_ICON = "icon"
         const val KEY_SHORTCUT_NAME_OR_ID = "shortcut_id"
-
     }
-
 }

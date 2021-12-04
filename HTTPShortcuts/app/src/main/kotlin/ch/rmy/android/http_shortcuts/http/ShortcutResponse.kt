@@ -8,7 +8,6 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.util.Locale
 
-
 class ShortcutResponse internal constructor(
     val url: String?,
     val headers: HttpHeaders,
@@ -78,5 +77,4 @@ class ShortcutResponse internal constructor(
 
         private const val CONTENT_SIZE_LIMIT = 1 * 1000L * 1000L
     }
-
 }

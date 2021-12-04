@@ -51,11 +51,8 @@ class PanelButton
         binding.panelButtonSubtitle.alpha = alpha
     }
 
-
     companion object {
 
         private val ATTRIBUTE_IDS = intArrayOf(android.R.attr.text, R.attr.subtitle)
-
     }
-
 }

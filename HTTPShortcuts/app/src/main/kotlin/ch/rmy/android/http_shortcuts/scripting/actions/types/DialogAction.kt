@@ -30,5 +30,4 @@ class DialogAction(private val message: String, private val title: String) : Bas
             Completable.complete()
         }
     }
-
 }

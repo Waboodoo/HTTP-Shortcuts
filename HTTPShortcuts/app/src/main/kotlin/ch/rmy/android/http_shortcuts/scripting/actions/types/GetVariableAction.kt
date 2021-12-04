@@ -23,13 +23,15 @@ class GetVariableAction(val variableKeyOrId: String) : BaseAction() {
                 }
             }
             .onErrorResumeNext { error ->
-                Single.error(if (error is VariableNotFoundException) {
-                    ActionException {
-                        it.getString(R.string.error_variable_not_found_read, variableKeyOrId)
+                Single.error(
+                    if (error is VariableNotFoundException) {
+                        ActionException {
+                            it.getString(R.string.error_variable_not_found_read, variableKeyOrId)
+                        }
+                    } else {
+                        error
                     }
-                } else {
-                    error
-                })
+                )
             }
 
     private fun getVariableValue(variableKeyOrId: String, variableManager: VariableManager): Single<Any> =
@@ -59,5 +61,4 @@ class GetVariableAction(val variableKeyOrId: String) : BaseAction() {
             }
 
     private class VariableNotFoundException : Throwable()
-
 }

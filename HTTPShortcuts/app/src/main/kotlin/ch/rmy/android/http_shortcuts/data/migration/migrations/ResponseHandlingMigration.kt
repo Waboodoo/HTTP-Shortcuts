@@ -177,5 +177,4 @@ class ResponseHandlingMigration : BaseMigration {
             }
         }
     }
-
 }

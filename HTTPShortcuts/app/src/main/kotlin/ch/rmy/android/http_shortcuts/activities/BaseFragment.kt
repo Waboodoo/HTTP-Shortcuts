@@ -43,9 +43,7 @@ abstract class BaseFragment<Binding : ViewBinding> : Fragment() {
     }
 
     protected open fun setupViews() {
-
     }
 
     open fun onBackPressed(): Boolean = false
-
 }

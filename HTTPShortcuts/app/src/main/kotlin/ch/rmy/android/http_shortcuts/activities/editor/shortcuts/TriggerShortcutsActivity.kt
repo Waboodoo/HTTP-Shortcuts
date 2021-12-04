@@ -25,7 +25,7 @@ class TriggerShortcutsActivity : BaseActivity() {
     }
 
     private val viewModel: TriggerShortcutsViewModel by bindViewModel()
-    
+
     private lateinit var binding: ActivityTriggerShortcutsBinding
 
     private val shortcutsData by lazy {
@@ -141,11 +141,9 @@ class TriggerShortcutsActivity : BaseActivity() {
         fun shortcutId(shortcutId: String?) = also {
             intent.putExtra(EXTRA_SHORTCUT_ID, shortcutId)
         }
-
     }
 
     companion object {
         private const val EXTRA_SHORTCUT_ID = "shortcutId"
     }
-
 }

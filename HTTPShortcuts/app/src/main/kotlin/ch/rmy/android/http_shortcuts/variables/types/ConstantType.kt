@@ -12,5 +12,4 @@ internal class ConstantType : BaseVariableType() {
         Single.fromCallable {
             variable.value!!
         }
-
 }

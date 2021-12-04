@@ -106,11 +106,11 @@ open class Shortcut(
         }
 
     fun allowsBody(): Boolean =
-        METHOD_POST == method
-            || METHOD_PUT == method
-            || METHOD_DELETE == method
-            || METHOD_PATCH == method
-            || METHOD_OPTIONS == method
+        METHOD_POST == method ||
+            METHOD_PUT == method ||
+            METHOD_DELETE == method ||
+            METHOD_PATCH == method ||
+            METHOD_OPTIONS == method
 
     fun usesBasicAuthentication() = authentication == AUTHENTICATION_BASIC
 
@@ -118,7 +118,9 @@ open class Shortcut(
 
     fun usesBearerAuthentication() = authentication == AUTHENTICATION_BEARER
 
-    fun usesRequestParameters() = allowsBody() && (requestBodyType == REQUEST_BODY_TYPE_FORM_DATA || requestBodyType == REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE)
+    fun usesRequestParameters() =
+        allowsBody() &&
+            (requestBodyType == REQUEST_BODY_TYPE_FORM_DATA || requestBodyType == REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE)
 
     fun usesCustomBody() = allowsBody() && requestBodyType == REQUEST_BODY_TYPE_CUSTOM_TEXT
 
@@ -187,12 +189,14 @@ open class Shortcut(
         }
 
     val usesResponseBody: Boolean
-        get() = type.usesResponse
-            && (
-            (responseHandling?.successOutput == ResponseHandling.SUCCESS_OUTPUT_RESPONSE
-                || responseHandling?.failureOutput == ResponseHandling.FAILURE_OUTPUT_DETAILED)
-                || codeOnSuccess.isNotEmpty() || codeOnFailure.isNotEmpty()
-            )
+        get() = type.usesResponse &&
+            (
+                (
+                    responseHandling?.successOutput == ResponseHandling.SUCCESS_OUTPUT_RESPONSE ||
+                        responseHandling?.failureOutput == ResponseHandling.FAILURE_OUTPUT_DETAILED
+                    ) ||
+                    codeOnSuccess.isNotEmpty() || codeOnFailure.isNotEmpty()
+                )
 
     fun validate() {
         if (!UUIDUtils.isUUID(id) && id.toIntOrNull() == null) {
@@ -219,7 +223,13 @@ open class Shortcut(
             throw IllegalArgumentException("Invalid retry policy: $retryPolicy")
         }
 
-        if (requestBodyType !in setOf(REQUEST_BODY_TYPE_FORM_DATA, REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE, REQUEST_BODY_TYPE_CUSTOM_TEXT, REQUEST_BODY_TYPE_FILE)) {
+        if (requestBodyType !in setOf(
+                REQUEST_BODY_TYPE_FORM_DATA,
+                REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE,
+                REQUEST_BODY_TYPE_CUSTOM_TEXT,
+                REQUEST_BODY_TYPE_FILE,
+            )
+        ) {
             throw IllegalArgumentException("Invalid request body type: $requestBodyType")
         }
 
@@ -270,5 +280,4 @@ open class Shortcut(
 
         const val DEFAULT_CONTENT_TYPE = "text/plain"
     }
-
 }

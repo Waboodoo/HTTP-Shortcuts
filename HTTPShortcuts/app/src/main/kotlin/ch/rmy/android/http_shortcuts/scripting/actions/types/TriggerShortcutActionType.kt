@@ -34,7 +34,5 @@ class TriggerShortcutActionType : BaseActionType() {
         const val KEY_DELAY = "delay"
 
         private const val MAX_DELAY = 5 * 60 * 60 * 1000
-
     }
-
 }

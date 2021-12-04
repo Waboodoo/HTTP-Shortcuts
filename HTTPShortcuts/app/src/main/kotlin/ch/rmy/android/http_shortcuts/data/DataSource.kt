@@ -46,5 +46,4 @@ object DataSource {
             realm.executeTransaction(transaction)
         }
     }
-
 }

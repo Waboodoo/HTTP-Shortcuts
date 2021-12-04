@@ -22,5 +22,4 @@ class StreamRequestBody(
     override fun writeTo(sink: BufferedSink) {
         sink.writeAll(stream.source())
     }
-
 }

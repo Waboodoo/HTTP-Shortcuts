@@ -21,7 +21,8 @@ object StringUtils {
         val minutes = duration.inWholeMinutes.toInt()
         val seconds = (duration - minutes.minutes).inWholeSeconds.toInt()
         return if (minutes > 0 && seconds > 0) {
-            context.getString(R.string.pattern_minutes_seconds,
+            context.getString(
+                R.string.pattern_minutes_seconds,
                 context.resources.getQuantityString(R.plurals.minutes, minutes, minutes),
                 context.resources.getQuantityString(R.plurals.seconds, seconds, seconds)
             )
@@ -52,5 +53,4 @@ object StringUtils {
                     offset += length
                 }
             }
-
 }

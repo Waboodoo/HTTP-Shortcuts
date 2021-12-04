@@ -21,13 +21,10 @@ abstract class VariableEditorFragment<Binding : ViewBinding> : BaseFragment<Bind
     }
 
     open fun updateViews(variable: Variable) {
-
     }
 
     open fun compileIntoVariable(variable: Variable) {
-
     }
 
     open fun validate() = true
-
 }

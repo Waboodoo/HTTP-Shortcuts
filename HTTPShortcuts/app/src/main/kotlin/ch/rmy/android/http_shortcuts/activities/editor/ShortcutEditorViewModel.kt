@@ -119,13 +119,15 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
 
                 Repository.deleteShortcut(realm, TEMPORARY_ID)
             }
-            .andThen(RxUtils.single {
-                SaveResult(
-                    id = id,
-                    name = name,
-                    icon = icon,
-                )
-            })
+            .andThen(
+                RxUtils.single {
+                    SaveResult(
+                        id = id,
+                        name = name,
+                        icon = icon,
+                    )
+                }
+            )
             .doOnSubscribe {
                 isSaving = true
             }
@@ -139,8 +141,8 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
             throw ShortcutValidationError(VALIDATION_ERROR_EMPTY_NAME)
         }
         if (
-            (shortcut.type.requiresHttpUrl && !Validation.isAcceptableHttpUrl(shortcut.url))
-            || (shortcut.type.usesUrl && !shortcut.type.requiresHttpUrl && !Validation.isAcceptableUrl(shortcut.url))
+            (shortcut.type.requiresHttpUrl && !Validation.isAcceptableHttpUrl(shortcut.url)) ||
+            (shortcut.type.usesUrl && !shortcut.type.requiresHttpUrl && !Validation.isAcceptableUrl(shortcut.url))
         ) {
             throw ShortcutValidationError(VALIDATION_ERROR_INVALID_URL)
         }
@@ -210,11 +212,13 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
         }
 
     fun getScriptingSubtitle(shortcut: Shortcut): CharSequence =
-        getString(when (shortcut.type) {
-            ShortcutExecutionType.SCRIPTING -> R.string.label_scripting_scripting_shortcuts_subtitle
-            ShortcutExecutionType.BROWSER -> R.string.label_scripting_browser_shortcuts_subtitle
-            else -> R.string.label_scripting_subtitle
-        })
+        getString(
+            when (shortcut.type) {
+                ShortcutExecutionType.SCRIPTING -> R.string.label_scripting_scripting_shortcuts_subtitle
+                ShortcutExecutionType.BROWSER -> R.string.label_scripting_browser_shortcuts_subtitle
+                else -> R.string.label_scripting_subtitle
+            }
+        )
 
     fun getTriggerShortcutsSubtitle(shortcut: Shortcut): CharSequence {
         val count = TriggerShortcutManager.getTriggeredShortcutsFromCode(shortcut.codeOnPrepare).size
@@ -295,7 +299,5 @@ class ShortcutEditorViewModel(application: Application) : BasicShortcutEditorVie
             } catch (e: IllegalArgumentException) {
                 text
             }
-
     }
-
 }

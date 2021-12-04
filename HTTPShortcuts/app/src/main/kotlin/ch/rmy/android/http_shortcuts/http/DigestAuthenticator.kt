@@ -16,5 +16,4 @@ class DigestAuthenticator(credentials: Credentials) : DigestAuthenticator(creden
             throw DigestAuthException(e.message!!)
         }
     }
-
 }

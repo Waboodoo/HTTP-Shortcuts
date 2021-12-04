@@ -12,6 +12,10 @@ buildscript {
     }
 }
 
+plugins {
+    id("com.diffplug.spotless") version "5.17.0"
+}
+
 ext {
     set("bugsnagAPIKey", System.getenv("BUGSNAG_API_KEY") ?: "")
     set("poeditorAPIKey", System.getenv("PO_EDITOR_API_KEY") ?: "")
@@ -25,6 +29,23 @@ allprojects {
         maven("https://jitpack.io")
         maven("https://oss.sonatype.org/content/repositories/snapshots/")
         google()
+    }
+
+    apply {
+        plugin("com.diffplug.spotless")
+    }
+
+    spotless {
+        kotlin {
+            target(fileTree(".") {
+                include("**/*.kt")
+            })
+            ktlint("0.42.1").userData(mapOf(
+                "max_line_length" to "150",
+                "indent_size" to "4",
+                "insert_final_newline" to "true",
+            ))
+        }
     }
 }
 

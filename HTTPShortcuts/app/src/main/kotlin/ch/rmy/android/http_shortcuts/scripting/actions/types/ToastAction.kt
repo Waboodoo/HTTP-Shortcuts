@@ -23,5 +23,4 @@ class ToastAction(private val message: String) : BaseAction() {
             Completable.complete()
         }
     }
-
 }

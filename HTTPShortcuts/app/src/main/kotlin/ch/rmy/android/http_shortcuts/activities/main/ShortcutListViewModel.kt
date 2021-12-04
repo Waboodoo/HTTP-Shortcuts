@@ -63,5 +63,4 @@ class ShortcutListViewModel(application: Application) : MainViewModel(applicatio
             newShortcut.name = newName
             moveShortcut(realm, newShortcut.id, newPosition, categoryId)
         }
-
 }

@@ -7,7 +7,6 @@ import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.PowerManager
 
-
 object NetworkUtil {
 
     fun isNetworkConnected(context: Context): Boolean {
@@ -24,8 +23,10 @@ object NetworkUtil {
     private fun isDataSaveModeEnabled(context: Context): Boolean =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            (connectivityManager.isActiveNetworkMetered
-                && connectivityManager.restrictBackgroundStatus == RESTRICT_BACKGROUND_STATUS_ENABLED)
+            (
+                connectivityManager.isActiveNetworkMetered &&
+                    connectivityManager.restrictBackgroundStatus == RESTRICT_BACKGROUND_STATUS_ENABLED
+                )
         } else {
             false
         }
@@ -42,5 +43,4 @@ object NetworkUtil {
             (ip shr 8 and 0xFF) + "." +
             (ip shr 16 and 0xFF) + "." +
             (ip shr 24 and 0xFF)
-
 }

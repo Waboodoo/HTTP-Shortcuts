@@ -17,5 +17,4 @@ class ScriptingViewModel(application: Application) : BasicShortcutEditorViewMode
                 shortcut.codeOnFailure = failureCode.trim()
             }
         }
-
 }

@@ -18,7 +18,6 @@ import java.util.regex.Pattern
 import java.util.regex.Pattern.quote
 import kotlin.math.max
 
-
 object IconUtil {
 
     private const val ICON_SCALING_FACTOR = 2
@@ -132,5 +131,4 @@ object IconUtil {
             }
             ?.map { it.name }
             ?: emptyList()
-
 }

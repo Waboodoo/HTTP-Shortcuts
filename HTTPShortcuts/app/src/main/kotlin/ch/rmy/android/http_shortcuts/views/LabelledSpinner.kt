@@ -45,7 +45,6 @@ class LabelledSpinner @JvmOverloads constructor(
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
-
             }
         }
 
@@ -80,7 +79,5 @@ class LabelledSpinner @JvmOverloads constructor(
     companion object {
 
         private val ATTRIBUTE_IDS = intArrayOf(android.R.attr.text)
-
     }
-
 }

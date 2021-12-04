@@ -17,7 +17,5 @@ class ShortcutPlaceholder(val id: String, val name: String, val icon: ShortcutIc
                 name = shortcut.name,
                 icon = shortcut.icon,
             )
-
     }
-
 }

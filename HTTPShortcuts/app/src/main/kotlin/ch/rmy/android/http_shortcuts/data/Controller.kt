@@ -32,5 +32,4 @@ class Controller : Destroyable, Closeable {
 
     fun getWidgetsForShortcut(shortcutId: String) =
         Repository.getWidgetsForShortcut(realm, shortcutId)
-
 }

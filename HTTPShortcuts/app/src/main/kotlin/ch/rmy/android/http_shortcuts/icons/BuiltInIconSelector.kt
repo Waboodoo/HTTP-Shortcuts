@@ -21,5 +21,4 @@ class BuiltInIconSelector(context: Context) : IconSelector(context, R.string.tit
 
     override fun getIcons(): List<ShortcutIcon> =
         normalIcons.plus(tintedIcons)
-
 }

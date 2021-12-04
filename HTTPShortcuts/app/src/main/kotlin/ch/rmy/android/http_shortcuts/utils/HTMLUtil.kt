@@ -24,5 +24,4 @@ object HTMLUtil {
     fun format(string: String): Spanned = getHTML(
         string.replace("\n", "<br>")
     )
-
 }

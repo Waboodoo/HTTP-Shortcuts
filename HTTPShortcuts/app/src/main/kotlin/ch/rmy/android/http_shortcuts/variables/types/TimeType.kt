@@ -74,7 +74,5 @@ internal class TimeType : BaseVariableType() {
         const val DEFAULT_FORMAT = "HH:mm"
 
         private val DATE_FORMAT = SimpleDateFormat("HH-mm", Locale.US)
-
     }
-
 }

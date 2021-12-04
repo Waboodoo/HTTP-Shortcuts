@@ -24,7 +24,5 @@ class WaitActionType : BaseActionType() {
         const val FUNCTION_NAME_ALIAS = "sleep"
 
         const val KEY_DURATION = "duration"
-
     }
-
 }

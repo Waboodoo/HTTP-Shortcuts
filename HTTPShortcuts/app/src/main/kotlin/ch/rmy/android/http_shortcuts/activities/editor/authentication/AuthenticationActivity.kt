@@ -43,9 +43,11 @@ class AuthenticationActivity : BaseActivity() {
     }
 
     private fun initViews() {
-        binding.inputAuthenticationMethod.setItemsFromPairs(AUTHENTICATION_METHODS.map {
-            it.first to getString(it.second)
-        })
+        binding.inputAuthenticationMethod.setItemsFromPairs(
+            AUTHENTICATION_METHODS.map {
+                it.first to getString(it.second)
+            }
+        )
         VariableViewUtils.bindVariableViews(binding.inputUsername, binding.variableButtonUsername, variablePlaceholderProvider)
             .attachTo(destroyer)
         VariableViewUtils.bindVariableViews(binding.inputPassword, binding.variableButtonPassword, variablePlaceholderProvider)
@@ -127,7 +129,5 @@ class AuthenticationActivity : BaseActivity() {
             Shortcut.AUTHENTICATION_DIGEST to R.string.authentication_digest,
             Shortcut.AUTHENTICATION_BEARER to R.string.authentication_bearer,
         )
-
     }
-
 }

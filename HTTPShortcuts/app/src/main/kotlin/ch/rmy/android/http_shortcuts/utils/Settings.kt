@@ -123,7 +123,5 @@ class Settings(context: Context) {
         private const val KEY_DARK_THEME = "dark_theme"
         private const val KEY_FORCE_FOREGROUND = "force_foreground"
         private const val KEY_LEGACY_EXPORT_FORMAT = "use_legacy_export_format"
-
     }
-
 }

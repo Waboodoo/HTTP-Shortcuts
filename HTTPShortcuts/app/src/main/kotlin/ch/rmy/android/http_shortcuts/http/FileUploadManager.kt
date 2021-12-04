@@ -112,14 +112,11 @@ class FileUploadManager private constructor(
             sharedFileUris = sharedFiles ?: emptyList(),
             fileRequests = fileRequests.iterator()
         )
-
     }
 
     companion object {
 
         private const val FALLBACK_TYPE = "application/octet-stream"
         private const val DEFAULT_FILE_NAME = "file"
-
     }
-
 }

@@ -44,7 +44,5 @@ class RequestHeaderAdapter(context: Context, headers: ListLiveData<Header>, val 
                 variablePlaceholderColor,
             )
         }
-
     }
-
 }

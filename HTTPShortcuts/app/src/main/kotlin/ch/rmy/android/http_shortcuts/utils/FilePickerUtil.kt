@@ -24,5 +24,4 @@ object FilePickerUtil {
                 }
             }
             ?: intent.data?.let { listOf(it) }
-
 }

@@ -21,5 +21,4 @@ open class Option(
             .ifEmpty { "-" }
 
     fun isSameAs(other: Option) = other.label == label && other.value == value
-
 }

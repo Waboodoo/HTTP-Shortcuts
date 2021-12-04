@@ -28,6 +28,5 @@ class VariableAdapter(context: Context, variables: ListLiveData<Variable>) : Bas
             binding.name.text = item.key
             binding.type.setText(VariableTypes.getTypeName(item.type))
         }
-
     }
 }

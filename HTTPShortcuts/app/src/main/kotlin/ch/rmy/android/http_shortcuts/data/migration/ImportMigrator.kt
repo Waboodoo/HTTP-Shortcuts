@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.data.migration
 
-
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ParameterTypeMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.RemoveLegacyActionsMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceActionsWithScriptsMigration
@@ -79,11 +78,14 @@ internal object ImportMigrator {
                 for (category in base.getArrayOrEmpty("categories")) {
                     for (shortcut in category.getArrayOrEmpty("shortcuts")) {
                         shortcut.asJsonObject.addProperty("contentType", "text/plain")
-                        shortcut.asJsonObject.addProperty("requestBodyType", if (shortcut.getArrayOrEmpty("parameters").size() == 0) {
-                            "custom_text"
-                        } else {
-                            "x_www_form_urlencode"
-                        })
+                        shortcut.asJsonObject.addProperty(
+                            "requestBodyType",
+                            if (shortcut.getArrayOrEmpty("parameters").size() == 0) {
+                                "custom_text"
+                            } else {
+                                "x_www_form_urlencode"
+                            },
+                        )
                     }
                 }
             }
@@ -143,5 +145,4 @@ internal object ImportMigrator {
             }
         }
     }
-
 }

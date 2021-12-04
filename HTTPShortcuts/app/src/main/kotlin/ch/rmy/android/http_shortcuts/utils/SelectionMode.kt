@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.utils
 
 import android.appwidget.AppWidgetManager
 import android.content.Intent
-
 import ch.rmy.android.http_shortcuts.plugin.PluginEditActivity
 
 enum class SelectionMode {
@@ -20,7 +19,5 @@ enum class SelectionMode {
             PluginEditActivity.ACTION_SELECT_SHORTCUT_FOR_PLUGIN -> PLUGIN
             else -> NORMAL
         }
-
     }
-
 }

@@ -45,5 +45,4 @@ class Application : android.app.Application() {
 
     val context: Context
         get() = this
-
 }

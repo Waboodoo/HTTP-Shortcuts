@@ -30,7 +30,5 @@ class HttpHeaders private constructor(private val headers: Map<String, List<Stri
         const val SET_COOKIE = "Set-Cookie"
 
         const val USER_AGENT = "User-Agent"
-
     }
-
 }

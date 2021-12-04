@@ -60,7 +60,5 @@ class PluginEditActivity : BaseActivity(), TaskerPluginConfig<Input> {
 
         const val ACTION_SELECT_SHORTCUT_FOR_PLUGIN = "ch.rmy.android.http_shortcuts.plugin"
         private const val REQUEST_SELECT = 1
-
     }
-
 }

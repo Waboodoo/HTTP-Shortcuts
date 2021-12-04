@@ -28,5 +28,4 @@ object Logging {
             Log.i(origin, message)
         }
     }
-
 }

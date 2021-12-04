@@ -46,7 +46,5 @@ class HashAction(private val algorithm: String, private val text: String) : Base
             "sha256" to "sha-256",
             "sha512" to "sha-512",
         )
-
     }
-
 }

@@ -98,8 +98,10 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
             if (selectionMode == SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT) {
                 setResult(Activity.RESULT_CANCELED, WidgetManager.getIntent(widgetId))
             }
-            if ((selectionMode == SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT
-                    || selectionMode == SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT) && savedInstanceState == null
+            if ((
+                selectionMode == SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT ||
+                    selectionMode == SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT
+                ) && savedInstanceState == null
             ) {
                 showToast(R.string.instructions_select_shortcut_for_home_screen, long = true)
             }
@@ -525,6 +527,5 @@ class MainActivity : BaseActivity(), ListFragment.TabHost, Entrypoint {
         private const val REQUEST_IMPORT_EXPORT = 6
 
         private const val TITLE_MAX_LENGTH = 50
-
     }
 }

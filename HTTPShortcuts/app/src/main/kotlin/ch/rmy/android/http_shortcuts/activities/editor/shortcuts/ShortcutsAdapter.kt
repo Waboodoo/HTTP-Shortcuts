@@ -63,7 +63,5 @@ class ShortcutsAdapter(lifecycleOwner: LifecycleOwner, private val shortcuts: Li
                 binding.icon.setIcon(shortcut.icon)
             }
         }
-
     }
-
 }

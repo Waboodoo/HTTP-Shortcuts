@@ -36,5 +36,4 @@ class DateEditorFragment : VariableEditorFragment<VariableEditorDateBinding>() {
         variable.rememberValue = binding.inputRememberValue.isChecked
         variable.dataForType = mapOf(DateType.KEY_FORMAT to binding.inputVariableDateFormat.text.toString())
     }
-
 }

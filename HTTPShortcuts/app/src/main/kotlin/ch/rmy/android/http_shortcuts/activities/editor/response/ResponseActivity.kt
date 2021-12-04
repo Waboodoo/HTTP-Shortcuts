@@ -48,15 +48,21 @@ class ResponseActivity : BaseActivity() {
     }
 
     private fun initViews() {
-        binding.inputResponseUiType.setItemsFromPairs(UI_TYPES.map {
-            it.first to getString(it.second)
-        })
-        binding.inputResponseSuccessOutput.setItemsFromPairs(SUCCESS_OUTPUT_TYPES.map {
-            it.first to getString(it.second)
-        })
-        binding.inputResponseFailureOutput.setItemsFromPairs(FAILURE_OUTPUT_TYPES.map {
-            it.first to getString(it.second)
-        })
+        binding.inputResponseUiType.setItemsFromPairs(
+            UI_TYPES.map {
+                it.first to getString(it.second)
+            }
+        )
+        binding.inputResponseSuccessOutput.setItemsFromPairs(
+            SUCCESS_OUTPUT_TYPES.map {
+                it.first to getString(it.second)
+            }
+        )
+        binding.inputResponseFailureOutput.setItemsFromPairs(
+            FAILURE_OUTPUT_TYPES.map {
+                it.first to getString(it.second)
+            }
+        )
 
         VariableViewUtils.bindVariableViews(binding.inputSuccessMessage, binding.variableButtonSuccessMessage, variablePlaceholderProvider)
 
@@ -130,8 +136,8 @@ class ResponseActivity : BaseActivity() {
             successMessageInitialized = true
         }
 
-        val hasOutput = responseHandling.successOutput != ResponseHandling.SUCCESS_OUTPUT_NONE
-            || responseHandling.failureOutput != ResponseHandling.FAILURE_OUTPUT_NONE
+        val hasOutput = responseHandling.successOutput != ResponseHandling.SUCCESS_OUTPUT_NONE ||
+            responseHandling.failureOutput != ResponseHandling.FAILURE_OUTPUT_NONE
         binding.inputResponseUiType.visible = hasOutput
         binding.containerInputSuccessMessage.visible = responseHandling.successOutput == ResponseHandling.SUCCESS_OUTPUT_MESSAGE
         binding.inputIncludeMetaInformation.visible = responseHandling.uiType == ResponseHandling.UI_TYPE_WINDOW && hasOutput
@@ -158,7 +164,5 @@ class ResponseActivity : BaseActivity() {
             ResponseHandling.FAILURE_OUTPUT_SIMPLE to R.string.option_response_handling_failure_output_simple,
             ResponseHandling.FAILURE_OUTPUT_NONE to R.string.option_response_handling_failure_output_none,
         )
-
     }
-
 }

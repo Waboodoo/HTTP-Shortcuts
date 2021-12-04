@@ -7,5 +7,4 @@ class InvalidContentTypeException(val contentType: String) : UserException() {
 
     override fun getLocalizedMessage(context: Context): String =
         context.getString(R.string.error_invalid_content_type, contentType)
-
 }

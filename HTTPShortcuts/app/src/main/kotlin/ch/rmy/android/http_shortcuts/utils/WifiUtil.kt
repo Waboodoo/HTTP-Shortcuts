@@ -28,5 +28,4 @@ object WifiUtil {
             activity.showToast(R.string.error_not_supported)
         }
     }
-
 }

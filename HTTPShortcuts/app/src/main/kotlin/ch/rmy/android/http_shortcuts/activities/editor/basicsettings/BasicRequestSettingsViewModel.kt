@@ -16,5 +16,4 @@ class BasicRequestSettingsViewModel(application: Application) : BasicShortcutEdi
         Transactions.commit { realm ->
             getShortcut(realm)?.url = url.trim()
         }
-
 }

@@ -7,5 +7,4 @@ class InvalidHeaderException(val header: String) : UserException() {
 
     override fun getLocalizedMessage(context: Context): String =
         context.getString(R.string.error_invalid_header, header)
-
 }

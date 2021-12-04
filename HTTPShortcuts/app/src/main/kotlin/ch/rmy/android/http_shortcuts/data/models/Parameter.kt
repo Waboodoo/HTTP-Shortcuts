@@ -18,10 +18,10 @@ open class Parameter(
 ) : RealmObject(), HasId {
 
     fun isSameAs(other: Parameter) =
-        other.key == key
-            && other.value == value
-            && other.type == type
-            && other.fileName == fileName
+        other.key == key &&
+            other.value == value &&
+            other.type == type &&
+            other.fileName == fileName
 
     val isFileParameter: Boolean
         get() = type == TYPE_FILE
@@ -40,7 +40,5 @@ open class Parameter(
         const val TYPE_STRING = "string"
         const val TYPE_FILE = "file"
         const val TYPE_FILES = "files"
-
     }
-
 }

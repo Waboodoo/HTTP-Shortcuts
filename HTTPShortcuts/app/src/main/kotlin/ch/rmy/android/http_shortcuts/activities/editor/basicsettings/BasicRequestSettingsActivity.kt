@@ -32,7 +32,7 @@ class BasicRequestSettingsActivity : BaseActivity() {
     private val variablePlaceholderProvider by lazy {
         VariablePlaceholderProvider(variablesData)
     }
-    
+
     private lateinit var binding: ActivityBasicRequestSettingsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,9 +45,11 @@ class BasicRequestSettingsActivity : BaseActivity() {
     }
 
     private fun initViews() {
-        binding.inputMethod.setItemsFromPairs(METHODS.map {
-            it to it
-        })
+        binding.inputMethod.setItemsFromPairs(
+            METHODS.map {
+                it to it
+            }
+        )
         bindVariableViews(binding.inputUrl, binding.variableButtonUrl, variablePlaceholderProvider)
             .attachTo(destroyer)
     }
@@ -110,7 +112,5 @@ class BasicRequestSettingsActivity : BaseActivity() {
             Shortcut.METHOD_OPTIONS,
             Shortcut.METHOD_TRACE,
         )
-
     }
-
 }

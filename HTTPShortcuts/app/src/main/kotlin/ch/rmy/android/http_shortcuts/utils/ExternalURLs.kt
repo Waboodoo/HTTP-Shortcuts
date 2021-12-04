@@ -13,5 +13,4 @@ object ExternalURLs {
     const val F_DROID = "https://f-droid.org/en/packages/ch.rmy.android.http_shortcuts/"
     const val GITHUB = "https://github.com/Waboodoo/HTTP-Shortcuts"
     const val TRANSLATION = "https://poeditor.com/join/project/8tHhwOTzVZ"
-
 }

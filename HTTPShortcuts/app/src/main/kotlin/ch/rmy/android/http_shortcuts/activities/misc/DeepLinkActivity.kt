@@ -56,5 +56,4 @@ class DeepLinkActivity : BaseActivity(), Entrypoint {
     companion object {
         private const val EXAMPLE_URL = "http-shortcuts://<b>&lt;Name/ID of Shortcut&gt;</b>"
     }
-
 }

@@ -31,5 +31,4 @@ class CurlExportDialog(private val context: Context, private val title: String, 
     private fun copyCurlExport() {
         ClipboardUtil.copyToClipboard(context, curlCommand)
     }
-
 }

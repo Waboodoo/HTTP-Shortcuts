@@ -23,5 +23,4 @@ object VariableTypes {
     )
 
     class VariableType(val type: String, @StringRes val name: Int)
-
 }

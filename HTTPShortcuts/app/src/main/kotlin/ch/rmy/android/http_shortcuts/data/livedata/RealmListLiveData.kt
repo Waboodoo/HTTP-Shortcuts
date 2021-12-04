@@ -23,5 +23,4 @@ class RealmListLiveData<T>(private val data: RealmList<T>) : ListLiveData<T>() {
             data.removeChangeListener(listener)
         }
     }
-
 }

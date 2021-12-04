@@ -12,5 +12,4 @@ class ShortcutPlaceholderProvider(private val shortcuts: ListLiveData<Shortcut>)
 
     val placeholders
         get() = shortcuts.map { ShortcutPlaceholder.fromShortcut(it) }
-
 }

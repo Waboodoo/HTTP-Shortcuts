@@ -22,7 +22,5 @@ class ToHexStringActionType : BaseActionType() {
         const val FUNCTION_NAME = "toHexString"
 
         const val KEY_DATA = "data"
-
     }
-
 }

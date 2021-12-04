@@ -19,5 +19,4 @@ object VibrationUtil {
 
     fun canVibrate(context: Context): Boolean =
         getVibrator(context) != null
-
 }

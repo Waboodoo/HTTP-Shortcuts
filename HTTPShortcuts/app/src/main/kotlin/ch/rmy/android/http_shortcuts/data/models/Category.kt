@@ -45,7 +45,5 @@ open class Category(
         const val BACKGROUND_TYPE_WHITE = "white"
         const val BACKGROUND_TYPE_BLACK = "black"
         const val BACKGROUND_TYPE_WALLPAPER = "wallpaper"
-
     }
-
 }

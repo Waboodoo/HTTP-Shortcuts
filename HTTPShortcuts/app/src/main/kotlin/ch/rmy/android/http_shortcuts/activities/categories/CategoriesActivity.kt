@@ -41,9 +41,12 @@ class CategoriesActivity : BaseActivity() {
         initViews()
 
         viewModel.hasChanges.observe(this) {
-            setResult(Activity.RESULT_OK, Intent().apply {
-                putExtra(EXTRA_CATEGORIES_CHANGED, it)
-            })
+            setResult(
+                Activity.RESULT_OK,
+                Intent().apply {
+                    putExtra(EXTRA_CATEGORIES_CHANGED, it)
+                },
+            )
         }
     }
 
@@ -255,6 +258,5 @@ class CategoriesActivity : BaseActivity() {
         const val EXTRA_CATEGORIES_CHANGED = "categories_changed"
 
         private const val NAME_MAX_LENGTH = 20
-
     }
 }

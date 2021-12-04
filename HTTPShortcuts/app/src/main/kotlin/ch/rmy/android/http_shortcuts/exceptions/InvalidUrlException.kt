@@ -7,5 +7,4 @@ class InvalidUrlException(val url: String, private val detail: String? = null) :
 
     override fun getLocalizedMessage(context: Context): String =
         context.getString(R.string.error_invalid_url, detail ?: url)
-
 }

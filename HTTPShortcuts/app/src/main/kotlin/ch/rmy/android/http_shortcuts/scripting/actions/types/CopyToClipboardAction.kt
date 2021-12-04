@@ -18,5 +18,4 @@ class CopyToClipboardAction(private val text: String) : BaseAction() {
                     }
             }
             .subscribeOn(AndroidSchedulers.mainThread())
-
 }

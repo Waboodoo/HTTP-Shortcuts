@@ -66,5 +66,4 @@ object FileUtil {
     fun putCacheFileOriginalName(cacheFileUri: Uri, name: String) {
         cacheFileNames[cacheFileUri] = name
     }
-
 }

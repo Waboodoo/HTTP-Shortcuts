@@ -17,15 +17,19 @@ class TriggerShortcutAction(
     override fun execute(executionContext: ExecutionContext): Completable {
         if (executionContext.recursionDepth >= MAX_RECURSION_DEPTH) {
             return Completable
-                .error(ActionException {
-                    it.getString(R.string.action_type_trigger_shortcut_error_recursion_depth_reached)
-                })
+                .error(
+                    ActionException {
+                        it.getString(R.string.action_type_trigger_shortcut_error_recursion_depth_reached)
+                    }
+                )
         }
         val shortcut = DataSource.getShortcutByNameOrId(shortcutNameOrId ?: executionContext.shortcutId)
             ?: return Completable
-                .error(ActionException {
-                    it.getString(R.string.error_shortcut_not_found_for_triggering, shortcutNameOrId)
-                })
+                .error(
+                    ActionException {
+                        it.getString(R.string.error_shortcut_not_found_for_triggering, shortcutNameOrId)
+                    }
+                )
 
         val delay = delay ?: shortcut.delay
 
@@ -43,5 +47,4 @@ class TriggerShortcutAction(
 
         private const val MAX_RECURSION_DEPTH = 5
     }
-
 }

@@ -22,7 +22,5 @@ class GetVariableActionType : BaseActionType() {
         const val FUNCTION_NAME = "getVariable"
 
         const val KEY_VARIABLE = "variable"
-
     }
-
 }

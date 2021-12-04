@@ -48,7 +48,5 @@ class MetaInfoView @JvmOverloads constructor(
             }
             return builder
         }
-
     }
-
 }

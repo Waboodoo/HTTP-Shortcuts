@@ -30,7 +30,5 @@ class AcknowledgmentActivity : BaseActivity() {
     companion object {
 
         private const val ACKNOWLEDGMENTS_ASSET_URL = "file:///android_asset/acknowledgments.html"
-
     }
-
 }

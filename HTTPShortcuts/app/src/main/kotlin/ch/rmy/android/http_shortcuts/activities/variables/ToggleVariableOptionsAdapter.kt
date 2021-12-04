@@ -38,6 +38,5 @@ class ToggleVariableOptionsAdapter : SimpleListAdapter<Option, ToggleVariableOpt
             binding.toggleOptionValue.text = Variables.rawPlaceholdersToVariableSpans(item.value, variablePlaceholderProvider, 0)
             itemView.setOnClickListener { clickListener?.invoke(item) }
         }
-
     }
 }

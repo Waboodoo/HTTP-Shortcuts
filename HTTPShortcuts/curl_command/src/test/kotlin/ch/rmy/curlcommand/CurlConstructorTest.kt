@@ -51,5 +51,4 @@ class CurlConstructorTest {
         assertEquals(originalCommand.proxyHost, parsedCommand.proxyHost)
         assertEquals(originalCommand.proxyPort, parsedCommand.proxyPort)
     }
-
 }

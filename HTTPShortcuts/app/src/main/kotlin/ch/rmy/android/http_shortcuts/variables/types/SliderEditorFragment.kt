@@ -49,5 +49,4 @@ class SliderEditorFragment : VariableEditorFragment<VariableEditorSliderBinding>
 
     private val stepSize
         get() = binding.inputSliderStep.text.toString().toIntOrNull() ?: SliderType.DEFAULT_STEP
-
 }

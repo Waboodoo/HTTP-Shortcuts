@@ -28,5 +28,4 @@ class JavaScriptException(override val message: String?, private val error: Exce
             ?.dropLast(1)
             ?.lastOrNull()
             ?.toInt()
-
 }

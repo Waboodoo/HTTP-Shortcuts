@@ -13,7 +13,6 @@ object Commons { // TODO: Find better name
             Repository.getVariableById(realm, variableId)?.value = value
         }
 
-
     @CheckResult
     fun createPendingExecution(
         shortcutId: String,
@@ -24,20 +23,15 @@ object Commons { // TODO: Find better name
         recursionDepth: Int = 0,
     ) =
         Transactions.commit { realm ->
-            realm.copyToRealm(PendingExecution.createNew(
-                shortcutId,
-                resolvedVariables,
-                tryNumber,
-                waitUntil,
-                requiresNetwork,
-                recursionDepth
-            ))
+            realm.copyToRealm(
+                PendingExecution.createNew(
+                    shortcutId,
+                    resolvedVariables,
+                    tryNumber,
+                    waitUntil,
+                    requiresNetwork,
+                    recursionDepth,
+                )
+            )
         }
-
-    @CheckResult
-    fun removePendingExecution(id: String) =
-        Transactions.commit { realm ->
-            Repository.getPendingExecution(realm, id)?.deleteFromRealm()
-        }
-
 }

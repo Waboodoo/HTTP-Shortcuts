@@ -217,7 +217,6 @@ class ScriptingActivity : BaseActivity() {
         fun shortcutId(shortcutId: String?) = also {
             intent.putExtra(EXTRA_SHORTCUT_ID, shortcutId)
         }
-
     }
 
     companion object {
@@ -235,5 +234,4 @@ class ScriptingActivity : BaseActivity() {
             R.string.placeholder_javascript_code_before
         }
     }
-
 }

@@ -24,7 +24,5 @@ class HashActionType : BaseActionType() {
 
         const val KEY_ALGORITHM = "algorithm"
         const val KEY_TEXT = "text"
-
     }
-
 }

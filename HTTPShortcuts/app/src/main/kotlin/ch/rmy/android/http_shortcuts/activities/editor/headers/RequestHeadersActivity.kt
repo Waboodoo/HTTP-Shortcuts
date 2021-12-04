@@ -174,7 +174,5 @@ class RequestHeadersActivity : BaseActivity() {
                 ?.let { invalidChar ->
                     context.getString(R.string.error_invalid_character, invalidChar)
                 }
-
     }
-
 }

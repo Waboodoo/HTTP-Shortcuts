@@ -30,5 +30,4 @@ class VoiceActivity : BaseActivity(), Entrypoint {
             .startActivity(this)
         finishWithoutAnimation()
     }
-
 }

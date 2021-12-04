@@ -21,21 +21,25 @@ class ChangeIconAction(private val iconName: String, private val shortcutNameOrI
         val newIcon = ShortcutIcon.fromName(iconName)
         val shortcut = DataSource.getShortcutByNameOrId(shortcutNameOrId)
             ?: return Completable
-                .error(ActionException {
-                    it.getString(R.string.error_shortcut_not_found_for_changing_icon, shortcutNameOrId)
-                })
+                .error(
+                    ActionException {
+                        it.getString(R.string.error_shortcut_not_found_for_changing_icon, shortcutNameOrId)
+                    }
+                )
         return changeIcon(shortcut.id, newIcon)
-            .andThen(Completable.fromAction {
-                if (LauncherShortcutManager.supportsPinning(context)) {
-                    LauncherShortcutManager.updatePinnedShortcut(
-                        context = context,
-                        shortcutId = shortcut.id,
-                        shortcutName = shortcut.name,
-                        shortcutIcon = newIcon,
-                    )
+            .andThen(
+                Completable.fromAction {
+                    if (LauncherShortcutManager.supportsPinning(context)) {
+                        LauncherShortcutManager.updatePinnedShortcut(
+                            context = context,
+                            shortcutId = shortcut.id,
+                            shortcutName = shortcut.name,
+                            shortcutIcon = newIcon,
+                        )
+                    }
+                    WidgetManager.updateWidgets(context, shortcut.id)
                 }
-                WidgetManager.updateWidgets(context, shortcut.id)
-            })
+            )
     }
 
     companion object {
@@ -44,7 +48,5 @@ class ChangeIconAction(private val iconName: String, private val shortcutNameOrI
             Transactions.commit { realm ->
                 Repository.getShortcutById(realm, shortcutId)?.icon = newIcon
             }
-
     }
-
 }

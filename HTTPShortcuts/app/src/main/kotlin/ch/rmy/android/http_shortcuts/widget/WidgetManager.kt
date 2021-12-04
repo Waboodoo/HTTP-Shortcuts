@@ -20,12 +20,14 @@ object WidgetManager {
 
     fun createWidget(widgetId: Int, shortcutId: String, showLabel: Boolean, labelColor: String?) =
         Transactions.commit { realm ->
-            realm.copyToRealmOrUpdate(Widget(
-                widgetId = widgetId,
-                shortcut = Repository.getShortcutById(realm, shortcutId),
-                showLabel = showLabel,
-                labelColor = labelColor,
-            ))
+            realm.copyToRealmOrUpdate(
+                Widget(
+                    widgetId = widgetId,
+                    shortcut = Repository.getShortcutById(realm, shortcutId),
+                    showLabel = showLabel,
+                    labelColor = labelColor,
+                )
+            )
         }
 
     fun updateWidgets(context: Context, widgetIds: Array<Int>) {
@@ -52,14 +54,17 @@ object WidgetManager {
     private fun updateWidget(context: Context, widget: Widget) {
         val shortcut = widget.shortcut ?: return
         RemoteViews(context.packageName, R.layout.widget).also { views ->
-            views.setOnClickPendingIntent(R.id.widget_base, ExecuteActivity.IntentBuilder(context, shortcut.id)
-                .build()
-                .let { intent ->
-                    val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        PendingIntent.FLAG_IMMUTABLE
-                    } else 0
-                    PendingIntent.getActivity(context, 0, intent, flags)
-                })
+            views.setOnClickPendingIntent(
+                R.id.widget_base,
+                ExecuteActivity.IntentBuilder(context, shortcut.id)
+                    .build()
+                    .let { intent ->
+                        val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            PendingIntent.FLAG_IMMUTABLE
+                        } else 0
+                        PendingIntent.getActivity(context, 0, intent, flags)
+                    }
+            )
             if (widget.showLabel) {
                 views.setViewVisibility(R.id.widget_label, View.VISIBLE)
                 views.setTextViewText(R.id.widget_label, shortcut.name)
@@ -88,5 +93,4 @@ object WidgetManager {
             AppWidgetManager.EXTRA_APPWIDGET_ID,
             AppWidgetManager.INVALID_APPWIDGET_ID,
         ) ?: AppWidgetManager.INVALID_APPWIDGET_ID
-
 }

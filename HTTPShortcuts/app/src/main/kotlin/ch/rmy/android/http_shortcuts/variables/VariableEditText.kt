@@ -60,5 +60,4 @@ class VariableEditText @JvmOverloads constructor(
         text.insert(position, placeholderText)
         text.setSpan(span, position, position + placeholderText.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
     }
-
 }

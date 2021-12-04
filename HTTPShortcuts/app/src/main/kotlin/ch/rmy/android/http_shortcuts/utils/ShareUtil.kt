@@ -25,5 +25,4 @@ object ShareUtil {
     }
 
     private const val TYPE_TEXT = "text/plain"
-
 }

@@ -13,5 +13,4 @@ abstract class SimpleListAdapter<T, U : RecyclerView.ViewHolder> : RecyclerView.
     final override fun getItemCount() = items.size
 
     protected abstract fun getItemId(item: T): Long
-
 }

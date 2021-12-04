@@ -222,7 +222,5 @@ class HttpRequester(private val contentResolver: ContentResolver) {
                 Shortcut.REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE -> FORM_URLENCODE_CONTENT_TYPE
                 else -> shortcut.contentType.takeUnlessEmpty()
             }
-
     }
-
 }

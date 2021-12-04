@@ -161,7 +161,5 @@ class VariableResolverTest {
             Shortcut().apply {
                 codeOnSuccess = content
             }
-
     }
-
 }

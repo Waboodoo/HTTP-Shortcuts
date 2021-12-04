@@ -33,5 +33,4 @@ class ConfirmAction(private val message: String) : BaseAction() {
             Single.just(NO_RESULT)
         }
     }
-
 }

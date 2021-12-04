@@ -54,5 +54,4 @@ class ResponseWebView @JvmOverloads constructor(
             }
         loadDataWithBaseURL(url, data, "text/html", "UTF-8", null)
     }
-
 }

@@ -20,5 +20,4 @@ class AuthenticationViewModel(application: Application) : BasicShortcutEditorVie
                 shortcut.authToken = token
             }
         }
-
 }

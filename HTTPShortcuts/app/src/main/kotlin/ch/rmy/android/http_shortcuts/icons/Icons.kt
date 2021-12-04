@@ -860,5 +860,4 @@ object Icons {
         GREY("grey_", Color.GRAY),
         WHITE("white_", Color.WHITE),
     }
-
 }

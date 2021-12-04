@@ -22,7 +22,5 @@ class CopyToClipboardActionType : BaseActionType() {
         const val FUNCTION_NAME = "copyToClipboard"
 
         const val KEY_TEXT = "text"
-
     }
-
 }

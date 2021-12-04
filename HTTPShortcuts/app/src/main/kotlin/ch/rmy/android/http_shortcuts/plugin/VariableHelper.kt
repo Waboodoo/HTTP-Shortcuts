@@ -11,13 +11,15 @@ object VariableHelper {
         TaskerInputInfos().apply {
             getVariableKeys()
                 .forEach { variableKey ->
-                    add(TaskerInputInfo(
-                        key = variableKey,
-                        label = variableKey,
-                        description = null,
-                        ignoreInStringBlurb = false,
-                        value = "%$variableKey",
-                    ))
+                    add(
+                        TaskerInputInfo(
+                            key = variableKey,
+                            label = variableKey,
+                            description = null,
+                            ignoreInStringBlurb = false,
+                            value = "%$variableKey",
+                        )
+                    )
                 }
         }
 
@@ -33,5 +35,4 @@ object VariableHelper {
             .associate { it.key to (it.value as String) }
 
     private const val TASKER_INPUT_PREFIX = "net.dinglisch.android.tasker.extras."
-
 }

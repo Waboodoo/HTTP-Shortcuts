@@ -30,5 +30,4 @@ class WakeOnLanActionType : BaseActionType() {
         const val KEY_IP_ADDRESS = "ip_address"
         const val KEY_PORT = "port"
     }
-
 }

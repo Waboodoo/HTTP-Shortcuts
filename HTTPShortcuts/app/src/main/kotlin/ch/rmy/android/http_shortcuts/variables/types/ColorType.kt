@@ -11,18 +11,20 @@ import com.skydoves.colorpickerview.ColorPickerDialog
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
 import io.reactivex.Single
 
-
 internal class ColorType : BaseVariableType() {
 
     override fun resolveValue(context: Context, variable: Variable): Single<String> =
         Single.create<String> { emitter ->
             ColorPickerDialog.Builder(context)
-                .setPositiveButton(R.string.dialog_ok, ColorEnvelopeListener { envelope, fromUser ->
-                    if (fromUser && variable.isValid) {
-                        val colorFormatted = String.format("%06x", envelope.color and 0xffffff)
-                        emitter.onSuccess(colorFormatted)
+                .setPositiveButton(
+                    R.string.dialog_ok,
+                    ColorEnvelopeListener { envelope, fromUser ->
+                        if (fromUser && variable.isValid) {
+                            val colorFormatted = String.format("%06x", envelope.color and 0xffffff)
+                            emitter.onSuccess(colorFormatted)
+                        }
                     }
-                })
+                )
                 .setNegativeButton(R.string.dialog_cancel) { dialogInterface, _ ->
                     dialogInterface.dismiss()
                 }
@@ -55,5 +57,4 @@ internal class ColorType : BaseVariableType() {
     }
 
     override fun createEditorFragment() = ColorEditorFragment()
-
 }

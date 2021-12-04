@@ -39,5 +39,4 @@ abstract class ColoredSpan(private val color: Int) : ReplacementSpan() {
         val textWidth = paint.measureText(text, 0, text.length)
         return textWidth.roundToInt()
     }
-
 }

@@ -16,5 +16,4 @@ object VariableTypeFactory {
         Variable.TYPE_SLIDER -> SliderType()
         else -> ConstantType()
     }
-
 }

@@ -21,5 +21,4 @@ data class RequestData(
             throw InvalidUrlException(url)
         }
     }
-
 }

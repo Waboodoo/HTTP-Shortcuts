@@ -55,5 +55,4 @@ class ThemeHelper(context: Context) {
         } else {
             context.obtainStyledAttributes(intArrayOf(R.attr.colorPrimary)).getColor(0, color(context, R.color.primary_alt0))
         }
-
 }

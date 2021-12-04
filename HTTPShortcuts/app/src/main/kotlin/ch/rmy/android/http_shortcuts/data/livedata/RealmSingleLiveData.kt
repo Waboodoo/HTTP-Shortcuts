@@ -28,5 +28,4 @@ class RealmSingleLiveData<T : RealmObject>(private val data: T) : LiveData<T?>()
             data.removeChangeListener(listener)
         }
     }
-
 }

@@ -2,7 +2,6 @@ package ch.rmy.curlcommand
 
 import java.util.StringTokenizer
 
-
 internal object CommandParser {
 
     private enum class State {
@@ -70,5 +69,4 @@ internal object CommandParser {
         }
         return arguments
     }
-
 }

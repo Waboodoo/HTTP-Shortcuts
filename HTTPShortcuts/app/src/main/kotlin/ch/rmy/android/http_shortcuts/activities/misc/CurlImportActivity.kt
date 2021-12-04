@@ -67,7 +67,5 @@ class CurlImportActivity : BaseActivity() {
     companion object {
 
         const val EXTRA_CURL_COMMAND = "curl_command"
-
     }
-
 }

@@ -15,7 +15,5 @@ class WifiIPActionType : BaseActionType() {
 
         const val TYPE = "wifi_ip"
         const val FUNCTION_NAME = "getWifiIPAddress"
-
     }
-
 }

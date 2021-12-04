@@ -10,7 +10,5 @@ interface HasId {
     companion object {
 
         const val FIELD_ID = "id"
-
     }
-
 }

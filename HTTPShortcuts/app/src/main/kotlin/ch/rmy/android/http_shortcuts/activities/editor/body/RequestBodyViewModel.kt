@@ -41,22 +41,26 @@ class RequestBodyViewModel(application: Application) : BasicShortcutEditorViewMo
         Transactions.commit { realm ->
             val shortcut = getShortcut(realm) ?: return@commit
             val parameters = shortcut.parameters
-            parameters.add(Parameter(
-                type = Parameter.TYPE_STRING,
-                key = key.trim(),
-                value = value
-            ))
+            parameters.add(
+                Parameter(
+                    type = Parameter.TYPE_STRING,
+                    key = key.trim(),
+                    value = value
+                )
+            )
         }
 
     fun addFileParameter(key: String, fileName: String, multiple: Boolean) =
         Transactions.commit { realm ->
             val shortcut = getShortcut(realm) ?: return@commit
             val parameters = shortcut.parameters
-            parameters.add(Parameter(
-                type = if (multiple) Parameter.TYPE_FILES else Parameter.TYPE_FILE,
-                key = key.trim(),
-                fileName = fileName
-            ))
+            parameters.add(
+                Parameter(
+                    type = if (multiple) Parameter.TYPE_FILES else Parameter.TYPE_FILE,
+                    key = key.trim(),
+                    fileName = fileName
+                )
+            )
         }
 
     fun updateParameter(parameterId: String, key: String, value: String = "", fileName: String = "") =
@@ -82,5 +86,4 @@ class RequestBodyViewModel(application: Application) : BasicShortcutEditorViewMo
                 shortcut.bodyContent = bodyContent
             }
         }
-
 }

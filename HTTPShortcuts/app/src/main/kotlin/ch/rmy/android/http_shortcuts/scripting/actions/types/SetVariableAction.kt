@@ -14,7 +14,7 @@ class SetVariableAction(val variableKeyOrId: String, val value: String) : BaseAc
         Completable.fromAction {
             executionContext.variableManager.setVariableValueByKeyOrId(variableKeyOrId, value)
 
-            // TODO: Handle variable persistance in a better way
+            // TODO: Handle variable persistence in a better way
             RealmFactory.getInstance().createRealm().use { realm ->
                 realm.executeTransaction {
                     (
@@ -35,7 +35,5 @@ class SetVariableAction(val variableKeyOrId: String, val value: String) : BaseAc
     companion object {
 
         private const val MAX_VARIABLE_LENGTH = 30000
-
     }
-
 }

@@ -35,5 +35,4 @@ class TriggerShortcutManagerTest {
         val actual = TriggerShortcutManager.getCodeFromTriggeredShortcuts(target)
         assertThat(actual, equalTo(expected))
     }
-
 }

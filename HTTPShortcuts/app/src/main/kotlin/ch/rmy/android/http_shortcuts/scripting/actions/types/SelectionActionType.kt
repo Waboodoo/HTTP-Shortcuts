@@ -23,7 +23,5 @@ class SelectionActionType : BaseActionType() {
         const val FUNCTION_NAME = "showSelection"
 
         const val KEY_DATA = "data"
-
     }
-
 }

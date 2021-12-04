@@ -113,5 +113,4 @@ class ToggleEditorFragment : VariableEditorFragment<VariableEditorToggleBinding>
         }
         return true
     }
-
 }

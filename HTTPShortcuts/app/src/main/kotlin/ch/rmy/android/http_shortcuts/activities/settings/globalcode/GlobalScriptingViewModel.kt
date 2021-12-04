@@ -29,5 +29,4 @@ class GlobalScriptingViewModel(application: Application) : BasicShortcutEditorVi
                 base.globalCode = globalCode.trim().takeUnlessEmpty()
             }
         }
-
 }

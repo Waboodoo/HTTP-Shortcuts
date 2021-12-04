@@ -7,5 +7,4 @@ class InvalidProxyException(val error: String) : UserException() {
 
     override fun getLocalizedMessage(context: Context): String =
         context.getString(R.string.error_invalid_proxy, error)
-
 }

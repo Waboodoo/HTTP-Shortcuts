@@ -28,7 +28,11 @@ class TriggerShortcutActionRunner : TaskerPluginRunnerActionNoOutput<Input>() {
         } catch (e: TimeoutException) {
             TaskerPluginResultUnknown()
         } catch (e: SessionMonitor.SessionStartException) {
-            TaskerPluginResultError(0, "Failed to trigger shortcut. Check the app's Troubleshooting section in the Settings for options to mitigate this.")
+            TaskerPluginResultError(
+                0,
+                "Failed to trigger shortcut. Check the app's Troubleshooting section " +
+                    "in the Settings for options to mitigate this.",
+            )
         }
     }
 

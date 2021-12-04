@@ -12,5 +12,4 @@ class CommandParserTest {
         val actual = CommandParser.parseCommand(target)
         assertEquals(expected, actual)
     }
-
 }

@@ -35,5 +35,4 @@ class PromptAction(private val message: String, private val prefill: String) : B
             Single.just(NO_RESULT)
         }
     }
-
 }

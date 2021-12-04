@@ -8,5 +8,4 @@ class ResponseTooLargeException(private val limit: Long) : UserException() {
 
     override fun getLocalizedMessage(context: Context): String =
         context.getString(R.string.error_response_too_large, Formatter.formatShortFileSize(context, limit))
-
 }

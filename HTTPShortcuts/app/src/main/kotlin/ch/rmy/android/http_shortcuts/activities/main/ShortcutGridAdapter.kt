@@ -21,7 +21,5 @@ class ShortcutGridAdapter(context: Context, shortcuts: ListLiveData<Shortcut>) :
             binding.icon.setIcon(item.icon)
             binding.name.setTextColor(nameTextColor)
         }
-
     }
-
 }

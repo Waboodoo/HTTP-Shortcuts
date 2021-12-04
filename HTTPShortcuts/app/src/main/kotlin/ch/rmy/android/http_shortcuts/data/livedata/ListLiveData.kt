@@ -33,5 +33,4 @@ abstract class ListLiveData<T> : LiveData<List<T>>(), Collection<T> {
             return get(offset)!!
         }
     }
-
 }

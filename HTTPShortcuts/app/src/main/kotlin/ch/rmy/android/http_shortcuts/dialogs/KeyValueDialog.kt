@@ -118,13 +118,10 @@ class KeyValueDialog(
         class DataChangedEvent(val data: Pair<String, String>) : Event
 
         object DataRemovedEvent : Event
-
     }
 
     companion object {
 
         private const val MAX_LINES = 5
-
     }
-
 }

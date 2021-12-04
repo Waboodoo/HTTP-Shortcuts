@@ -35,5 +35,4 @@ class CategoryPagerAdapter(
     override fun getPageTitle(position: Int) = fragments[position].first
 
     private fun makeFragmentName(position: Int) = "android:switcher:" + R.id.view_pager + ":" + position
-
 }

@@ -24,7 +24,5 @@ class TextToSpeechActionType : BaseActionType() {
 
         const val KEY_TEXT = "text"
         const val KEY_LANGUAGE = "language"
-
     }
-
 }

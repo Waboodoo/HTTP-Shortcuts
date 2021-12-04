@@ -74,7 +74,7 @@ class ShortcutEditorActivity : BaseActivity() {
     private val variablePlaceholderProvider by lazy {
         VariablePlaceholderProvider(variablesData)
     }
-    
+
     private lateinit var binding: ActivityShortcutEditorOverviewBinding
 
     private val variablePlaceholderColor by lazy {
@@ -89,11 +89,13 @@ class ShortcutEditorActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTitle(if (shortcutId != null) {
-            R.string.edit_shortcut
-        } else {
-            R.string.create_shortcut
-        })
+        setTitle(
+            if (shortcutId != null) {
+                R.string.edit_shortcut
+            } else {
+                R.string.create_shortcut
+            }
+        )
         setContentView(R.layout.activity_loading)
         initViewModel()
     }
@@ -246,9 +248,9 @@ class ShortcutEditorActivity : BaseActivity() {
     private fun canExecute(): Boolean =
         shortcutData.value
             ?.let {
-                !it.type.usesUrl
-                    || (it.type.requiresHttpUrl && Validation.isAcceptableHttpUrl(it.url))
-                    || (!it.type.requiresHttpUrl && Validation.isAcceptableUrl(it.url))
+                !it.type.usesUrl ||
+                    (it.type.requiresHttpUrl && Validation.isAcceptableHttpUrl(it.url)) ||
+                    (!it.type.requiresHttpUrl && Validation.isAcceptableUrl(it.url))
             }
             ?: false
 
@@ -376,7 +378,6 @@ class ShortcutEditorActivity : BaseActivity() {
         fun executionType(type: ShortcutExecutionType) = also {
             intent.putExtra(EXTRA_EXECUTION_TYPE, type.type)
         }
-
     }
 
     companion object {
@@ -387,7 +388,5 @@ class ShortcutEditorActivity : BaseActivity() {
         private const val EXTRA_EXECUTION_TYPE = "executionType"
 
         const val RESULT_SHORTCUT_ID = "shortcutId"
-
     }
-
 }

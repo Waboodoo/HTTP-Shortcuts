@@ -82,5 +82,4 @@ class VariableManager(variables: List<Variable>) : VariableLookup {
                     }
                 }
     }
-
 }

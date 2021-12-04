@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.activities.settings
 
-
 import android.content.Context
 import android.net.Uri
 import android.os.Build
@@ -96,5 +95,4 @@ class ContactActivity : BaseActivity() {
         private const val CAPTCHA_CODE = "HTTP Shortcuts"
         private const val META_DATA_FILE = "app-details.json"
     }
-
 }

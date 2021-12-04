@@ -13,5 +13,4 @@ object ClipboardUtil {
 
     private fun getClipboardManager(context: Context) =
         context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-
 }

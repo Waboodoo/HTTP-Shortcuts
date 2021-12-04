@@ -25,5 +25,4 @@ class WidgetProvider : AppWidgetProvider() {
         }
             .subscribe()
     }
-
 }

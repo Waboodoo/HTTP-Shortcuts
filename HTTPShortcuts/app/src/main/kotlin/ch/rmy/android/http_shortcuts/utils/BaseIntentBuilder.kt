@@ -23,5 +23,4 @@ abstract class BaseIntentBuilder(context: Context, clazz: Class<*>) {
     fun startActivity(context: Context, requestCode: Int? = null) {
         build().startActivity(context, requestCode)
     }
-
 }

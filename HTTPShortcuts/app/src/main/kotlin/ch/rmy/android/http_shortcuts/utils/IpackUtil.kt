@@ -20,5 +20,4 @@ object IpackUtil {
         val id = intent.getIntExtra(PACKAGE_NAME + ICON_ID_SUFFIX, -1)
         return "android.resource://$packageName/$id".toUri()
     }
-
 }

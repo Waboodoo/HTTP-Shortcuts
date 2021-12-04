@@ -24,5 +24,4 @@ object ShortcutSpanManager {
             text.setSpan(JSShortcutSpan(color, variableKey), matcher.start(), matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
     }
-
 }

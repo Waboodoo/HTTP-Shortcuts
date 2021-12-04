@@ -98,26 +98,37 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
         }
         (response ?: (error as? ErrorResponse)?.shortcutResponse)?.let { responseObject ->
             val responseJsObject = JSObject(jsContext)
-            responseJsObject.property("body", try {
-                responseObject.getContentAsString(context)
-            } catch (e: ResponseTooLargeException) {
-                ""
-            })
+            responseJsObject.property(
+                "body",
+                try {
+                    responseObject.getContentAsString(context)
+                } catch (e: ResponseTooLargeException) {
+                    ""
+                }
+            )
             responseJsObject.property("headers", tryOrLog { responseObject.headersAsMultiMap }, READ_ONLY)
             responseJsObject.property("cookies", tryOrLog { responseObject.cookiesAsMultiMap }, READ_ONLY)
             responseJsObject.property("statusCode", responseObject.statusCode, READ_ONLY)
-            responseJsObject.property("getHeader", object : JSFunction(jsContext, "run") {
-                @Suppress("unused")
-                @Keep
-                fun run(headerName: String): String? =
-                    responseObject.headers.getLast(headerName)
-            }, READ_ONLY)
-            responseJsObject.property("getCookie", object : JSFunction(jsContext, "run") {
-                @Suppress("unused")
-                @Keep
-                fun run(cookieName: String): String? =
-                    responseObject.cookiesAsMultiMap.getCaseInsensitive(cookieName)?.last()
-            }, READ_ONLY)
+            responseJsObject.property(
+                "getHeader",
+                object : JSFunction(jsContext, "run") {
+                    @Suppress("unused")
+                    @Keep
+                    fun run(headerName: String): String? =
+                        responseObject.headers.getLast(headerName)
+                },
+                READ_ONLY,
+            )
+            responseJsObject.property(
+                "getCookie",
+                object : JSFunction(jsContext, "run") {
+                    @Suppress("unused")
+                    @Keep
+                    fun run(cookieName: String): String? =
+                        responseObject.cookiesAsMultiMap.getCaseInsensitive(cookieName)?.last()
+                },
+                READ_ONLY,
+            )
             jsContext.property("response", responseJsObject, READ_ONLY)
         }
         jsContext.property("networkError", error?.message, READ_ONLY)
@@ -148,44 +159,56 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
             }
             """.trimIndent()
         )
-        jsContext.property("_abort", object : JSFunction(jsContext, "run") {
-            @Suppress("unused")
-            @Keep
-            fun run() {
-                lastException = CanceledByUserException()
-            }
-        }, READ_ONLY)
+        jsContext.property(
+            "_abort",
+            object : JSFunction(jsContext, "run") {
+                @Suppress("unused")
+                @Keep
+                fun run() {
+                    lastException = CanceledByUserException()
+                }
+            },
+            READ_ONLY,
+        )
     }
 
     private fun registerActions(context: Context, shortcutId: String, variableManager: VariableManager, recursionDepth: Int) {
-        jsContext.property("_runAction", object : JSFunction(jsContext, "run") {
-            @Suppress("unused")
-            @Keep
-            fun run(actionType: String, data: Map<String, JSValue>): JSValue? {
-                logInfo("Running action of type: $actionType")
-                val action = actionFactory.fromDTO(ActionDTO(
-                    type = actionType,
-                    data = data,
-                ))
+        jsContext.property(
+            "_runAction",
+            object : JSFunction(jsContext, "run") {
+                @Suppress("unused")
+                @Keep
+                fun run(actionType: String, data: Map<String, JSValue>): JSValue? {
+                    logInfo("Running action of type: $actionType")
+                    val action = actionFactory.fromDTO(
+                        ActionDTO(
+                            type = actionType,
+                            data = data,
+                        )
+                    )
 
-                return try {
-                    action
-                        ?.executeForValue(ExecutionContext(
-                            context = context,
-                            shortcutId = shortcutId,
-                            variableManager = variableManager,
-                            recursionDepth = recursionDepth,
-                        ))
-                        ?.blockingGet()
-                        ?.let { result ->
-                            convertResult(jsContext, result)
-                        }
-                } catch (e: Throwable) {
-                    lastException = if (e is RuntimeException && e.cause != null) e.cause else e
-                    null
+                    return try {
+                        action
+                            ?.executeForValue(
+                                ExecutionContext(
+                                    context = context,
+                                    shortcutId = shortcutId,
+                                    variableManager = variableManager,
+                                    recursionDepth = recursionDepth,
+                                )
+                            )
+                            ?.blockingGet()
+                            ?.let { result ->
+                                convertResult(jsContext, result)
+                            }
+                    } catch (e: Throwable) {
+                        lastException = if (e is RuntimeException && e.cause != null) e.cause else e
+                        null
+                    }
                 }
-            }
-        }, READ_ONLY)
+            },
+            READ_ONLY
+        )
     }
 
     companion object {
@@ -214,10 +237,10 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
                         const ${alias.functionName} = (${alias.parameters.joinToString()}) => {
                             const result = _runAction("$actionName", {
                                 ${
-                            alias.parameters.joinToString { parameter ->
-                                // Cast numbers to strings to avoid rounding errors
-                                "\"$parameter\": typeof($parameter) === 'number' ? `\${$parameter}` : $parameter"
-                            }
+                        alias.parameters.joinToString { parameter ->
+                            // Cast numbers to strings to avoid rounding errors
+                            "\"$parameter\": typeof($parameter) === 'number' ? `\${$parameter}` : $parameter"
+                        }
                         }
                             });
                             return _convertResult(result);
@@ -245,7 +268,5 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
                     }
                 else -> JSValue(jsContext, result)
             }
-
     }
-
 }

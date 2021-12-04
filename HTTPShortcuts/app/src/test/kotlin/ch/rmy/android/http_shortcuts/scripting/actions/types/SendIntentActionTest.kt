@@ -15,7 +15,8 @@ class SendIntentActionTest {
 
     @Test
     fun testIntentConstruction() {
-        val parameters = JSONObject("""{
+        val parameters = JSONObject(
+            """{
             "action": "test",
             "category": "foo",
             "categories": ["foobar", "bla"],
@@ -53,7 +54,9 @@ class SendIntentActionTest {
                     "value": 13.37
                 }
             ]
-        }""".trimIndent())
+        }
+            """.trimIndent()
+        )
         val intent = SendIntentAction.constructIntent(parameters)
 
         assertThat(intent.action, equalTo("test"))
@@ -73,5 +76,4 @@ class SendIntentActionTest {
         assertThat(intent.extras!!.getDouble("doubleExtra"), equalTo(13.37))
         assertThat(intent.extras!!.getFloat("floatExtra"), equalTo(13.37f))
     }
-
 }

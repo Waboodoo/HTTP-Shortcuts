@@ -126,5 +126,4 @@ class RemoveLegacyActionsMigration : BaseMigration {
         val value = payload.get("newValue").asString
         return "setVariable(\"$variableId\", \"$value\");"
     }
-
 }

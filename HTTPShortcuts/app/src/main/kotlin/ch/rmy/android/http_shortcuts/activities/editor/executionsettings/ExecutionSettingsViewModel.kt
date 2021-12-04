@@ -42,5 +42,4 @@ class ExecutionSettingsViewModel(application: Application) : BasicShortcutEditor
 
     fun getDelayText(delay: Duration) =
         StringUtils.getDurationText(context, delay)
-
 }

@@ -46,7 +46,5 @@ object GsonUtil {
         override fun shouldSkipField(f: FieldAttributes) = f.declaringClass == RealmObject::class.java
 
         override fun shouldSkipClass(clazz: Class<*>) = false
-
     }
-
 }

@@ -41,5 +41,4 @@ class SelectionAction(
         dataObject?.mapValues { it.value?.toString() ?: "" }
             ?: dataList?.map { it?.toString() ?: "" }?.associateWith { it }
             ?: throw JavaScriptException("showSelection function expects object or array as argument")
-
 }

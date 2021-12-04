@@ -6,8 +6,7 @@ import com.joaomgcd.taskerpluginlibrary.input.TaskerInputRoot
 @TaskerInputRoot
 data class Input
 @JvmOverloads
-constructor
-(
+constructor(
     @field:TaskerInputField("${FIELD_PREFIX}shortcut_id")
     val shortcutId: String = "",
     @field:TaskerInputField("${FIELD_PREFIX}shortcut_name")

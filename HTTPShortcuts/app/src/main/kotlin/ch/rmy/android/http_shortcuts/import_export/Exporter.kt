@@ -157,7 +157,6 @@ class Exporter(private val context: Context) {
             .mapNotNull { (it.clientCertParams as? ClientCertParams.File) }
             .map { it.getFile(context) }
 
-
     data class ExportStatus(val exportedShortcuts: Int)
 
     companion object {
@@ -174,5 +173,4 @@ class Exporter(private val context: Context) {
             ResponseHandling::class.java,
         )
     }
-
 }

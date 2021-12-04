@@ -12,5 +12,4 @@ class WidgetSettingsViewModel(application: Application) : AndroidViewModel(appli
 
     val labelColorFormatted: String
         get() = String.format("#%06x", labelColor.value!! and 0xffffff)
-
 }

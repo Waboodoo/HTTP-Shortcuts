@@ -26,6 +26,4 @@ class PasswordType : TextType() {
                         .toSingle { resolvedValue }
                 }
             }
-
-
 }

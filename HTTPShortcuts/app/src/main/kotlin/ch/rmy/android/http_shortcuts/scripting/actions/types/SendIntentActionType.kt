@@ -22,7 +22,5 @@ class SendIntentActionType : BaseActionType() {
         const val FUNCTION_NAME = "sendIntent"
 
         const val KEY_DATA = "data"
-
     }
-
 }

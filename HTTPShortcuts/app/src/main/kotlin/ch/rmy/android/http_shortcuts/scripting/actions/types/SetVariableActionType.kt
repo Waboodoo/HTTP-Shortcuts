@@ -24,7 +24,5 @@ class SetVariableActionType : BaseActionType() {
 
         const val KEY_VARIABLE = "variable"
         const val KEY_VALUE = "value"
-
     }
-
 }

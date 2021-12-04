@@ -25,5 +25,4 @@ class ResponseViewModel(application: Application) : BasicShortcutEditorViewModel
                     responseHandling.includeMetaInfo = includeMetaInfo
                 }
         }
-
 }

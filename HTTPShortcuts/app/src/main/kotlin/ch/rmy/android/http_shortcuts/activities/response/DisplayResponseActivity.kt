@@ -99,11 +99,13 @@ class DisplayResponseActivity : BaseActivity() {
                 }
                 if (timing != null) {
                     val milliseconds = timing!!.toInt()
-                    add(context.getString(R.string.label_response_timing) to context.resources.getQuantityString(
-                        R.plurals.milliseconds,
-                        milliseconds,
-                        milliseconds,
-                    ))
+                    add(
+                        context.getString(R.string.label_response_timing) to context.resources.getQuantityString(
+                            R.plurals.milliseconds,
+                            milliseconds,
+                            milliseconds,
+                        )
+                    )
                 }
             }
 
@@ -330,13 +332,16 @@ class DisplayResponseActivity : BaseActivity() {
         }
 
         fun headers(headers: HttpHeaders?) = also {
-            intent.putExtra(EXTRA_HEADERS, headers?.toMultiMap()?.let {
-                HashMap<String, ArrayList<String>>().apply {
-                    it.forEach { (name, values) ->
-                        put(name, ArrayList<String>().also { it.addAll(values) })
+            intent.putExtra(
+                EXTRA_HEADERS,
+                headers?.toMultiMap()?.let {
+                    HashMap<String, ArrayList<String>>().apply {
+                        it.forEach { (name, values) ->
+                            put(name, ArrayList<String>().also { it.addAll(values) })
+                        }
                     }
                 }
-            })
+            )
         }
 
         fun statusCode(statusCode: Int?) = also {
@@ -346,7 +351,6 @@ class DisplayResponseActivity : BaseActivity() {
         fun timing(timing: Long?) = also {
             intent.putExtra(EXTRA_TIMING, timing ?: return@also)
         }
-
     }
 
     companion object {
@@ -366,5 +370,4 @@ class DisplayResponseActivity : BaseActivity() {
         private const val MAX_TEXT_LENGTH = 700000
         private const val MAX_SHARE_LENGTH = 300000
     }
-
 }

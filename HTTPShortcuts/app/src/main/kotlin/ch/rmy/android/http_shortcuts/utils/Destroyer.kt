@@ -25,5 +25,4 @@ class Destroyer : Destroyable {
         }
         destroyables.clear()
     }
-
 }

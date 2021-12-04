@@ -178,14 +178,11 @@ class VariableEditorActivity : BaseActivity() {
         fun variableId(variableId: String) = also {
             intent.putExtra(EXTRA_VARIABLE_ID, variableId)
         }
-
     }
 
     companion object {
 
         private const val EXTRA_VARIABLE_ID = "ch.rmy.android.http_shortcuts.activities.variables.VariableEditorActivity.variable_id"
         private const val EXTRA_VARIABLE_TYPE = "ch.rmy.android.http_shortcuts.activities.variables.VariableEditorActivity.variable_type"
-
     }
-
 }

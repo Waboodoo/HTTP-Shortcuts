@@ -31,7 +31,6 @@ class VibrateAction(private val patternId: Int, private val waitForCompletion: B
         val duration: Long
 
         fun execute(vibrator: Vibrator)
-
     }
 
     companion object {
@@ -79,7 +78,5 @@ class VibrateAction(private val patternId: Int, private val waitForCompletion: B
                     }
                 }
             }
-
     }
-
 }

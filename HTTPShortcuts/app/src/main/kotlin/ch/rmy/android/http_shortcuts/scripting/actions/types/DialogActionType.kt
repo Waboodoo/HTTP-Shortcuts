@@ -26,7 +26,5 @@ class DialogActionType : BaseActionType() {
 
         const val KEY_TEXT = "text"
         const val KEY_TITLE = "title"
-
     }
-
 }

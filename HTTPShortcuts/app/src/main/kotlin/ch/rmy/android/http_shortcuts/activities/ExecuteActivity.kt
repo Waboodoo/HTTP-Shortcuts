@@ -233,17 +233,17 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         shortcut.delay > 0 && tryNumber == 0
 
     private fun shouldReschedule(error: Throwable): Boolean =
-        shortcut.isWaitForNetwork
-            && error !is ErrorResponse
-            && (error is UnknownHostException || !NetworkUtil.isNetworkConnected(context))
+        shortcut.isWaitForNetwork &&
+            error !is ErrorResponse &&
+            (error is UnknownHostException || !NetworkUtil.isNetworkConnected(context))
 
     private fun shouldFinishImmediately() =
-        shouldFinishAfterExecution()
-            && shortcut.codeOnPrepare.isEmpty()
-            && shortcut.codeOnSuccess.isEmpty()
-            && shortcut.codeOnFailure.isEmpty()
-            && !NetworkUtil.isNetworkPerformanceRestricted(context)
-            && !Settings(context).isForceForegroundEnabled
+        shouldFinishAfterExecution() &&
+            shortcut.codeOnPrepare.isEmpty() &&
+            shortcut.codeOnSuccess.isEmpty() &&
+            shortcut.codeOnFailure.isEmpty() &&
+            !NetworkUtil.isNetworkPerformanceRestricted(context) &&
+            !Settings(context).isForceForegroundEnabled
 
     private fun promptForConfirmationIfNeeded(): Completable =
         if (requiresConfirmation()) {
@@ -677,9 +677,9 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         fun files(files: List<Uri>) = also {
             intent.putParcelableArrayListExtra(
                 EXTRA_FILES,
-                ArrayList<Uri>().apply { addAll(files) })
+                ArrayList<Uri>().apply { addAll(files) }
+            )
         }
-
     }
 
     companion object {
@@ -703,12 +703,10 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         private const val INVISIBLE_PROGRESS_THRESHOLD = 1000L
 
         private fun isExpected(throwable: Throwable?) =
-            throwable is ErrorResponse
-                || throwable is IOException
-                || throwable is UserException
-                || throwable is CanceledByUserException
-                || throwable is ResumeLaterException
-
+            throwable is ErrorResponse ||
+                throwable is IOException ||
+                throwable is UserException ||
+                throwable is CanceledByUserException ||
+                throwable is ResumeLaterException
     }
-
 }

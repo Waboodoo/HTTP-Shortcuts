@@ -82,11 +82,13 @@ class IconPicker(
                 if (resultCode == RESULT_OK && intent?.data != null) {
                     val iconSize = IconUtil.getIconSize(context)
                     UCrop.of(intent.data!!, createNewIconFile())
-                        .withOptions(UCrop.Options().apply {
-                            setToolbarTitle(activity.getString(R.string.title_edit_custom_icon))
-                            setCompressionQuality(100)
-                            setCompressionFormat(Bitmap.CompressFormat.PNG)
-                        })
+                        .withOptions(
+                            UCrop.Options().apply {
+                                setToolbarTitle(activity.getString(R.string.title_edit_custom_icon))
+                                setCompressionQuality(100)
+                                setCompressionFormat(Bitmap.CompressFormat.PNG)
+                            }
+                        )
                         .withAspectRatio(1f, 1f)
                         .withMaxResultSize(iconSize, iconSize)
                         .start(activity, REQUEST_CROP_IMAGE)
@@ -126,5 +128,4 @@ class IconPicker(
         private const val REQUEST_CROP_IMAGE = 2
         private const val REQUEST_SELECT_IPACK_ICON = 3
     }
-
 }

@@ -13,7 +13,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class SyntaxHighlightView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : WebView(context, attrs, defStyleAttr) {
+class SyntaxHighlightView
+@JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0,
+) : WebView(context, attrs, defStyleAttr) {
 
     private var disposable: Disposable? = null
 
@@ -65,7 +70,7 @@ class SyntaxHighlightView @JvmOverloads constructor(context: Context, attrs: Att
                     </pre>
                 </body>
             </html>
-            """.trimIndent()
+        """.trimIndent()
         loadDataWithBaseURL("file:///android_asset/", html, "text/html", "UTF-8", "")
     }
 
@@ -80,5 +85,4 @@ class SyntaxHighlightView @JvmOverloads constructor(context: Context, attrs: Att
         JSON("json"),
         YAML("yaml")
     }
-
 }

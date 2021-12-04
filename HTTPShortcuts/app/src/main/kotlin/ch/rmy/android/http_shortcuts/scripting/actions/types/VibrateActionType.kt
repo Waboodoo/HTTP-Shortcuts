@@ -24,7 +24,5 @@ class VibrateActionType : BaseActionType() {
 
         const val KEY_PATTERN = "pattern"
         const val KEY_WAIT_FOR_COMPLETION = "wait"
-
     }
-
 }

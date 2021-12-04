@@ -19,5 +19,4 @@ object UserAgentUtil {
             }
             return base + " " + userAgent.substring(start, end + 1)
         }
-
 }

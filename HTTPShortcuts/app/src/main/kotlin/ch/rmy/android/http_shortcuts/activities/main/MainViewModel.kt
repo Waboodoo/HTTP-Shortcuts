@@ -68,5 +68,4 @@ open class MainViewModel(application: Application) : RealmViewModel(application)
         Transactions.commit { realm ->
             Repository.getBase(realm)?.title = title.trim()
         }
-
 }

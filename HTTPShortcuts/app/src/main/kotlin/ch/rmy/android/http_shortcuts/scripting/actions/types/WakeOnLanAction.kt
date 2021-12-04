@@ -10,7 +10,6 @@ import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
 
-
 class WakeOnLanAction(
     private val macAddress: String,
     private val ipAddress: String,

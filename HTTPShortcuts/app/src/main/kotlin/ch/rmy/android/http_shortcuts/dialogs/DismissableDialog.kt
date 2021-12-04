@@ -59,6 +59,4 @@ abstract class DismissableDialog(private val context: Context, private val isCan
     protected abstract var isPermanentlyDismissed: Boolean
 
     override fun shouldShow() = !isPermanentlyDismissed
-
-
 }

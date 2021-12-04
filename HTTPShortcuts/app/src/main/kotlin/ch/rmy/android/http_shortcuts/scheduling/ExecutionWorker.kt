@@ -40,7 +40,6 @@ class ExecutionWorker(private val context: Context, workerParams: WorkerParamete
                 .tryNumber(tryNumber)
                 .recursionDepth(recursionDepth)
                 .startActivity(context)
-
         }
     }
 }

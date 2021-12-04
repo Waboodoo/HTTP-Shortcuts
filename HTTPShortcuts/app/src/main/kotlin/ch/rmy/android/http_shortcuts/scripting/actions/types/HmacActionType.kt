@@ -26,7 +26,5 @@ class HmacActionType : BaseActionType() {
         const val KEY_ALGORITHM = "algorithm"
         const val KEY_KEY = "key"
         const val KEY_MESSAGE = "message"
-
     }
-
 }

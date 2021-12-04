@@ -2,7 +2,6 @@ package ch.rmy.curlcommand
 
 import java.io.Serializable
 import java.net.URLEncoder
-import java.util.Locale
 
 class CurlCommand private constructor() : Serializable {
 
@@ -47,7 +46,7 @@ class CurlCommand private constructor() : Serializable {
 
         fun method(method: String) = also {
             methodSet = true
-            curlCommand.method = method.toUpperCase(Locale.ROOT)
+            curlCommand.method = method.uppercase()
         }
 
         fun methodIfNotYetSet(method: String) = also {
@@ -119,7 +118,6 @@ class CurlCommand private constructor() : Serializable {
 
             return curlCommand
         }
-
     }
 
     companion object {
@@ -130,7 +128,5 @@ class CurlCommand private constructor() : Serializable {
 
         private fun encode(text: String): String =
             URLEncoder.encode(text, PARAMETER_ENCODING)
-
     }
-
 }

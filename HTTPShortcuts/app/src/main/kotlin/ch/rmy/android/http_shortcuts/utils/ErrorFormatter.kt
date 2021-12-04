@@ -30,12 +30,14 @@ class ErrorFormatter(private val context: Context) {
 
     private fun getHttpErrorMessage(error: ErrorResponse, shortcutName: String, includeBody: Boolean): String {
         val builder = StringBuilder()
-        builder.append(String.format(
-            getString(R.string.error_http),
-            shortcutName,
-            error.shortcutResponse.statusCode,
-            HttpStatus.getMessage(error.shortcutResponse.statusCode),
-        ))
+        builder.append(
+            String.format(
+                getString(R.string.error_http),
+                shortcutName,
+                error.shortcutResponse.statusCode,
+                HttpStatus.getMessage(error.shortcutResponse.statusCode),
+            )
+        )
 
         if (includeBody) {
             try {
@@ -94,5 +96,4 @@ class ErrorFormatter(private val context: Context) {
     companion object {
         private const val MAX_RECURSION_DEPTH = 2
     }
-
 }

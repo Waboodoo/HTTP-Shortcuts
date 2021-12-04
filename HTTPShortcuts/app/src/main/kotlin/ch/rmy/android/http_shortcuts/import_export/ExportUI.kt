@@ -65,11 +65,13 @@ class ExportUI(private val activity: FragmentActivity) : Destroyable {
                 progressDialog.dismiss()
             }
             .subscribe({ status ->
-                activity.showSnackbar(context.resources.getQuantityString(
-                    R.plurals.shortcut_export_success,
-                    status.exportedShortcuts,
-                    status.exportedShortcuts
-                ))
+                activity.showSnackbar(
+                    context.resources.getQuantityString(
+                        R.plurals.shortcut_export_success,
+                        status.exportedShortcuts,
+                        status.exportedShortcuts,
+                    )
+                )
             }, { e ->
                 activity.showMessageDialog(context.getString(R.string.export_failed_with_reason, e.message))
                 logException(e)

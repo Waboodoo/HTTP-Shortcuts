@@ -55,5 +55,4 @@ abstract class BasicShortcutEditorViewModel(application: Application) : RealmVie
 
     protected fun getShortcut(realm: Realm): Shortcut? =
         Repository.getShortcutById(realm, Shortcut.TEMPORARY_ID)
-
 }

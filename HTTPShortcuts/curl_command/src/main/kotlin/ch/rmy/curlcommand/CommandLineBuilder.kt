@@ -40,10 +40,7 @@ class CommandLineBuilder(private val command: String) {
         private fun needsEscaping(string: String): Boolean =
             string.contains("\"") || string.contains(" ") || string.contains("<") || string.contains(">")
 
-
         private fun escape(string: String): String =
             "\"" + string.replace("\\\\".toRegex(), Matcher.quoteReplacement("\\")).replace("\"".toRegex(), Matcher.quoteReplacement("\\\"")) + "\""
-
     }
-
 }

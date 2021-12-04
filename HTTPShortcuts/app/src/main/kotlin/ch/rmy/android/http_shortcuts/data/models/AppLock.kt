@@ -9,5 +9,4 @@ open class AppLock : RealmObject() {
     var id: Long = 0
 
     var passwordHash: String = ""
-
 }

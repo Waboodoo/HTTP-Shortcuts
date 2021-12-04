@@ -22,7 +22,6 @@ import ch.rmy.android.http_shortcuts.utils.Destroyer
 import ch.rmy.android.http_shortcuts.utils.LocaleHelper
 import ch.rmy.android.http_shortcuts.utils.ThemeHelper
 
-
 abstract class BaseActivity : AppCompatActivity() {
 
     internal var toolbar: Toolbar? = null

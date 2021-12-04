@@ -56,13 +56,15 @@ object LauncherShortcutManager {
             for (shortcut in category.shortcuts) {
                 if (shortcut.launcherShortcut) {
                     val rank = max - count + 1
-                    launcherShortcuts.add(createShortcutInfo(
-                        context = context,
-                        shortcutId = shortcut.id,
-                        shortcutName = shortcut.name,
-                        shortcutIcon = shortcut.icon,
-                        rank = rank,
-                    ))
+                    launcherShortcuts.add(
+                        createShortcutInfo(
+                            context = context,
+                            shortcutId = shortcut.id,
+                            shortcutName = shortcut.name,
+                            shortcutIcon = shortcut.icon,
+                            rank = rank,
+                        )
+                    )
                     if (++count >= max) {
                         return launcherShortcuts
                     }
@@ -172,5 +174,4 @@ object LauncherShortcutManager {
             )
             .setIcon(IconUtil.getIcon(context, ShortcutIcon.BuiltInIcon("flat_grey_folder"))) // TODO
             .build()
-
 }

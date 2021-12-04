@@ -189,7 +189,5 @@ class ShareActivity : BaseActivity(), Entrypoint {
                 }
 
         private fun createCacheFileName() = "shared_${UUIDUtils.newUUID()}"
-
     }
-
 }

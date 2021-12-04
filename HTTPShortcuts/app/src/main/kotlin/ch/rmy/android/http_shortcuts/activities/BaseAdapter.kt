@@ -82,5 +82,4 @@ abstract class BaseAdapter<T> internal constructor(val context: Context, private
 
         private const val ID_EMPTY_MARKER = -1L
     }
-
 }

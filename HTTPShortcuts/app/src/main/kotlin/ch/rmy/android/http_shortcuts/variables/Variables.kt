@@ -62,7 +62,11 @@ object Variables {
 
     private fun match(s: CharSequence): Matcher = PATTERN.matcher(s)
 
-    fun rawPlaceholdersToVariableSpans(text: CharSequence, variablePlaceholderProvider: VariablePlaceholderProvider, @ColorInt color: Int): Spannable {
+    fun rawPlaceholdersToVariableSpans(
+        text: CharSequence,
+        variablePlaceholderProvider: VariablePlaceholderProvider,
+        @ColorInt color: Int,
+    ): Spannable {
         val builder = SpannableStringBuilder(text)
         val matcher = match(text)
 
@@ -142,5 +146,4 @@ object Variables {
     fun toPrettyPlaceholder(variableKey: String) = "$PRETTY_PLACEHOLDER_PREFIX$variableKey$PRETTY_PLACEHOLDER_SUFFIX"
 
     private class Replacement(val startIndex: Int, val endIndex: Int, val placeholder: VariablePlaceholder)
-
 }

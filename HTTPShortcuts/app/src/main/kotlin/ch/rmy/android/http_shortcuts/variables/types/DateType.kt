@@ -16,7 +16,6 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
-
 internal class DateType : BaseVariableType() {
 
     override fun resolveValue(context: Context, variable: Variable): Single<String> =
@@ -85,7 +84,5 @@ internal class DateType : BaseVariableType() {
         const val DEFAULT_FORMAT = "yyyy-MM-dd"
 
         private val DATE_FORMAT = SimpleDateFormat("yyyy-MM-dd", Locale.US)
-
     }
-
 }

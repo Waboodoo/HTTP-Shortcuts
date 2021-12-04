@@ -25,5 +25,4 @@ object InstallUtil {
         "com.android.vending",
         "com.google.android.feedback",
     )
-
 }

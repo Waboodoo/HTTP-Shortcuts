@@ -9,7 +9,8 @@ class CurlParserTest {
 
     @Test
     fun testCurlParser() {
-        val target = "curl \"https://foo\" -X POST -H \"Authorization: Cookie\" -H \"Accept: application/json\" --proxy 192.168.1.42:1337 --data \"This is my \\\"data\\\"\" -u foo:bar --compressed"
+        val target = "curl \"https://foo\" -X POST -H \"Authorization: Cookie\" -H \"Accept: application/json\" " +
+            "--proxy 192.168.1.42:1337 --data \"This is my \\\"data\\\"\" -u foo:bar --compressed"
         val command = CurlParser.parse(target)
 
         assertEquals("https://foo", command.url)
@@ -159,5 +160,4 @@ class CurlParserTest {
 
         assertEquals("http://foo?test=lol&username=myuser", command.url)
     }
-
 }

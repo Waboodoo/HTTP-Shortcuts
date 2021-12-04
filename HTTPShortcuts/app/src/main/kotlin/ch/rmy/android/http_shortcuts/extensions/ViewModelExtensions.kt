@@ -20,11 +20,11 @@ inline fun <reified V : ViewModel> Fragment.bindViewModel(): ReadOnlyProperty<Fr
     return bindViewModelOf(V::class.java)
 }
 
-fun <V : ViewModel> FragmentActivity.bindViewModelOf(clazz: Class<V>)
-    : ReadOnlyProperty<FragmentActivity, V> = bind(clazz, viewModelProviderFinder)
+fun <V : ViewModel> FragmentActivity.bindViewModelOf(clazz: Class<V>): ReadOnlyProperty<FragmentActivity, V> =
+    bind(clazz, viewModelProviderFinder)
 
-fun <V : ViewModel> Fragment.bindViewModelOf(clazz: Class<V>)
-    : ReadOnlyProperty<Fragment, V> = bind(clazz, viewModelProviderFinder)
+fun <V : ViewModel> Fragment.bindViewModelOf(clazz: Class<V>): ReadOnlyProperty<Fragment, V> =
+    bind(clazz, viewModelProviderFinder)
 
 private val FragmentActivity.viewModelProviderFinder: FragmentActivity.() -> ViewModelProvider
     get() = { ViewModelProviders.of(this) }

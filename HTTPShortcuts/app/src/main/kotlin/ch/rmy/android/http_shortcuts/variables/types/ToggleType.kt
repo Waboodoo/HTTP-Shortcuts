@@ -18,5 +18,4 @@ internal class ToggleType : BaseVariableType() {
     }
 
     override fun createEditorFragment() = ToggleEditorFragment()
-
 }

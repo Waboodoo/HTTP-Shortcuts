@@ -24,7 +24,5 @@ class PromptActionType : BaseActionType() {
 
         const val KEY_MESSAGE = "message"
         const val KEY_PREFILL = "prefill"
-
     }
-
 }

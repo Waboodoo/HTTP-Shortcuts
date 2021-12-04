@@ -15,9 +15,11 @@ class TriggerShortcutActionHelper(config: TaskerPluginConfig<Input>) : TaskerPlu
 
     override fun addToStringBlurb(input: TaskerInput<Input>, blurbBuilder: StringBuilder) {
         blurbBuilder.clear()
-        blurbBuilder.append(context.getString(
-            R.string.plugin_blurb_execute_task,
-            input.regular.shortcutName,
-        ))
+        blurbBuilder.append(
+            context.getString(
+                R.string.plugin_blurb_execute_task,
+                input.regular.shortcutName,
+            )
+        )
     }
 }

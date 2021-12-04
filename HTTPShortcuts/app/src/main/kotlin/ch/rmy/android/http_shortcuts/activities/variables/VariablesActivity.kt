@@ -87,7 +87,6 @@ class VariablesActivity : BaseActivity() {
             .showIfPossible()
     }
 
-
     private fun showContextMenu(variableData: LiveData<Variable?>) {
         val variable = variableData.value ?: return
         DialogBuilder(context)
@@ -132,12 +131,14 @@ class VariablesActivity : BaseActivity() {
                     val message = getString(R.string.confirm_delete_variable_message)
                         .mapIf(shortcutNames.isNotEmpty()) {
                             plus("\n\n")
-                                .plus(context.resources.getQuantityString(
-                                    R.plurals.warning_variable_still_in_use_in_shortcuts,
-                                    shortcutNames.size,
-                                    shortcutNames.joinToString(),
-                                    shortcutNames.size
-                                ))
+                                .plus(
+                                    context.resources.getQuantityString(
+                                        R.plurals.warning_variable_still_in_use_in_shortcuts,
+                                        shortcutNames.size,
+                                        shortcutNames.joinToString(),
+                                        shortcutNames.size,
+                                    )
+                                )
                         }
                     DialogBuilder(context)
                         .message(message)
@@ -196,5 +197,4 @@ class VariablesActivity : BaseActivity() {
     }
 
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, VariablesActivity::class.java)
-
 }

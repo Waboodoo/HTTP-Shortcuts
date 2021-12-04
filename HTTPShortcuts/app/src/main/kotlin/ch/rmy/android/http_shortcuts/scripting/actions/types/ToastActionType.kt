@@ -22,7 +22,5 @@ class ToastActionType : BaseActionType() {
         const val FUNCTION_NAME = "showToast"
 
         const val KEY_TEXT = "text"
-
     }
-
 }

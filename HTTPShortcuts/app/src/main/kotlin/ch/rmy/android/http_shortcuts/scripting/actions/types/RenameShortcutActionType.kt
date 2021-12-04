@@ -25,7 +25,5 @@ class RenameShortcutActionType : BaseActionType() {
 
         const val KEY_NAME = "name"
         const val KEY_SHORTCUT_NAME_OR_ID = "shortcut_id"
-
     }
-
 }

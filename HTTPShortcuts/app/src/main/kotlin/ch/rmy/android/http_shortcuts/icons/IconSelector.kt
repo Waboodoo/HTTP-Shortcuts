@@ -54,5 +54,4 @@ abstract class IconSelector(context: Context, @StringRes title: Int) {
     }
 
     protected abstract fun getIcons(): List<ShortcutIcon>
-
 }

@@ -18,7 +18,6 @@ import ch.rmy.android.http_shortcuts.utils.Settings
 import io.reactivex.Single
 import io.reactivex.subjects.SingleSubject
 
-
 class ChangeLogDialog(private val context: Context, private val whatsNew: Boolean) : Dialog {
 
     private val settings: Settings = Settings(context)
@@ -76,11 +75,13 @@ class ChangeLogDialog(private val context: Context, private val whatsNew: Boolea
                 .showIfPossible()
 
             return if (dialog != null) {
-                webView.loadUrl(if (context.isDarkThemeEnabled()) {
-                    CHANGELOG_ASSET_URL_DARK_MODE
-                } else {
-                    CHANGELOG_ASSET_URL
-                })
+                webView.loadUrl(
+                    if (context.isDarkThemeEnabled()) {
+                        CHANGELOG_ASSET_URL_DARK_MODE
+                    } else {
+                        CHANGELOG_ASSET_URL
+                    },
+                )
 
                 showAtStartupCheckbox.isChecked = !isPermanentlyHidden
                 showAtStartupCheckbox.setOnCheckedChangeListener { _, isChecked ->
@@ -101,10 +102,12 @@ class ChangeLogDialog(private val context: Context, private val whatsNew: Boolea
 
     private val version: Long
         get() = try {
-            (PackageInfoCompat.getLongVersionCode(
-                context.packageManager
-                    .getPackageInfo(context.packageName, 0)
-            ) / 10000) - 110000
+            (
+                PackageInfoCompat.getLongVersionCode(
+                    context.packageManager
+                        .getPackageInfo(context.packageName, 0)
+                ) / 10000
+                ) - 110000
         } catch (e: NameNotFoundException) {
             0L
         }
@@ -117,7 +120,5 @@ class ChangeLogDialog(private val context: Context, private val whatsNew: Boolea
         private val IMPORTANT_VERSIONS = setOf(
             204,
         )
-
     }
-
 }

@@ -13,5 +13,4 @@ object DateUtil {
         calendar.add(Calendar.MILLISECOND, delay)
         return calendar.time
     }
-
 }

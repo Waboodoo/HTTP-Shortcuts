@@ -93,7 +93,5 @@ class FileParameterDialog(
         class DataChangedEvent(val keyName: String, val fileName: String) : Event
 
         object DataRemovedEvent : Event
-
     }
-
 }

@@ -23,7 +23,5 @@ class Base64DecodeActionType : BaseActionType() {
         const val FUNCTION_NAME = "base64decode"
 
         const val KEY_TEXT = "text"
-
     }
-
 }

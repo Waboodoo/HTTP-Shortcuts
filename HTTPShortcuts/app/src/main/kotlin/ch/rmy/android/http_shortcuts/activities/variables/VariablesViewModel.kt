@@ -66,5 +66,4 @@ class VariablesViewModel(application: Application) : RealmViewModel(application)
 
     private fun isVariableKeyInUse(realm: Realm, key: String): Boolean =
         Repository.getVariableByKey(realm, key) != null
-
 }

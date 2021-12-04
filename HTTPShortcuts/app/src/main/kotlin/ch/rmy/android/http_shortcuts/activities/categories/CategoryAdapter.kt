@@ -71,19 +71,19 @@ class CategoryAdapter(context: Context, categories: ListLiveData<Category>) : Ba
                 binding.layoutTypeIcon.visible = false
             } else {
                 binding.layoutTypeIcon.visible = true
-                binding.layoutTypeIcon.setImageResource(when (layoutType) {
-                    Category.LAYOUT_GRID -> R.drawable.ic_grid
-                    else -> R.drawable.ic_list
-                })
+                binding.layoutTypeIcon.setImageResource(
+                    when (layoutType) {
+                        Category.LAYOUT_GRID -> R.drawable.ic_grid
+                        else -> R.drawable.ic_list
+                    }
+                )
                 binding.layoutTypeIcon.applyTheme()
             }
         }
-
     }
 
     companion object {
 
         private const val MAX_ICONS = 5
     }
-
 }

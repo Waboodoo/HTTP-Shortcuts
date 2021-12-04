@@ -53,13 +53,15 @@ open class DialogBuilder(val context: Context) {
         @DrawableRes iconRes: Int? = null,
         action: () -> Unit = {},
     ) = also {
-        items.add(MenuItem.ClickableItem(
-            name ?: context.getString(nameRes!!),
-            description ?: (descriptionRes?.let { context.getString(it) }),
-            shortcutIcon,
-            iconRes,
-            action,
-        ))
+        items.add(
+            MenuItem.ClickableItem(
+                name ?: context.getString(nameRes!!),
+                description ?: (descriptionRes?.let { context.getString(it) }),
+                shortcutIcon,
+                iconRes,
+                action,
+            )
+        )
     }
 
     fun checkBoxItem(
@@ -70,12 +72,14 @@ open class DialogBuilder(val context: Context) {
         checked: Boolean = false,
         action: (Boolean) -> Unit = {},
     ) = also {
-        items.add(MenuItem.CheckBoxItem(
-            name ?: context.getString(nameRes!!),
-            description ?: (descriptionRes?.let { context.getString(it) }),
-            checked,
-            action,
-        ))
+        items.add(
+            MenuItem.CheckBoxItem(
+                name ?: context.getString(nameRes!!),
+                description ?: (descriptionRes?.let { context.getString(it) }),
+                checked,
+                action,
+            )
+        )
     }
 
     fun separator() = also {
@@ -202,7 +206,6 @@ open class DialogBuilder(val context: Context) {
             val checked: Boolean = false,
             val action: ((Boolean) -> Unit),
         ) : MenuItem
-
     }
 
     private inner class MenuListAdapter(
@@ -294,14 +297,11 @@ open class DialogBuilder(val context: Context) {
 
         private fun getSeparatorView(convertView: View?, parent: ViewGroup): View =
             convertView ?: layoutInflater.inflate(R.layout.menu_dialog_separator, parent, false)
-
     }
 
     companion object {
 
         private const val TYPE_CLICKABLE_ITEM = 0
         private const val TYPE_SEPARATOR = 1
-
     }
-
 }

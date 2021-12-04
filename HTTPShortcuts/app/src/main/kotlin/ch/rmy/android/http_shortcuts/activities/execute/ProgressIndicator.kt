@@ -28,5 +28,4 @@ class ProgressIndicator(private val activity: BaseActivity) {
         handler.removeCallbacks(showProgressRunnable)
         handler.postDelayed(showProgressRunnable, delay)
     }
-
 }

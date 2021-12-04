@@ -54,7 +54,5 @@ class ParameterAdapter(context: Context, parameters: ListLiveData<Parameter>, va
                     variablePlaceholderColor,
                 )
             }
-
     }
-
 }

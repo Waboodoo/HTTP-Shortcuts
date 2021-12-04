@@ -19,5 +19,4 @@ object CookieManager {
     private val cookieSessionStore: CookieCache by lazy {
         SetCookieCache()
     }
-
 }

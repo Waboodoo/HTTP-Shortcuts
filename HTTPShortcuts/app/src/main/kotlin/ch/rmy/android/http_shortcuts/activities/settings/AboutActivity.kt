@@ -16,7 +16,6 @@ import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.InstallUtil
 
-
 class AboutActivity : BaseActivity() {
 
     @SuppressLint("NewApi")
@@ -98,9 +97,7 @@ class AboutActivity : BaseActivity() {
             AcknowledgmentActivity.IntentBuilder(requireContext())
                 .startActivity(this)
         }
-
     }
 
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, AboutActivity::class.java)
-
 }

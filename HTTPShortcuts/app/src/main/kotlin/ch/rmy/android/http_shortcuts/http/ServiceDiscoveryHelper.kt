@@ -45,21 +45,26 @@ object ServiceDiscoveryHelper {
                 if (!isCorrectServiceType(serviceInfo)) {
                     return
                 }
-                nsdManager.resolveService(serviceInfo, object : NsdManager.ResolveListener {
-                    override fun onResolveFailed(serviceInfo: NsdServiceInfo, errorCode: Int) {
-                        logInfo("Resolve Failed")
-                    }
-
-                    override fun onServiceResolved(serviceInfo: NsdServiceInfo) {
-                        logInfo("Service Resolved")
-                        if (serviceInfo.serviceName.contains(serviceName.removeSuffix(SERVICE_NAME_SUFFIX), ignoreCase = true)) {
-                            emitter.onSuccess(ServiceInfo(
-                                address = serviceInfo.host.hostAddress!!,
-                                port = serviceInfo.port,
-                            ))
+                nsdManager.resolveService(
+                    serviceInfo,
+                    object : NsdManager.ResolveListener {
+                        override fun onResolveFailed(serviceInfo: NsdServiceInfo, errorCode: Int) {
+                            logInfo("Resolve Failed")
                         }
-                    }
-                })
+
+                        override fun onServiceResolved(serviceInfo: NsdServiceInfo) {
+                            logInfo("Service Resolved")
+                            if (serviceInfo.serviceName.contains(serviceName.removeSuffix(SERVICE_NAME_SUFFIX), ignoreCase = true)) {
+                                emitter.onSuccess(
+                                    ServiceInfo(
+                                        address = serviceInfo.host.hostAddress!!,
+                                        port = serviceInfo.port,
+                                    )
+                                )
+                            }
+                        }
+                    },
+                )
             }
 
             override fun onServiceLost(serviceInfo: NsdServiceInfo?) {

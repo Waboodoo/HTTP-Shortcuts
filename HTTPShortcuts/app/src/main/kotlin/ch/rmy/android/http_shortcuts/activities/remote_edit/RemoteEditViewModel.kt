@@ -73,7 +73,5 @@ class RemoteEditViewModel(application: Application) : AndroidViewModel(applicati
 
         private const val DEVICE_ID_CHARACTERS = "abcdefghijklmnopqrstuvwxyz0123456789"
         private const val DEVICE_ID_LENGTH = 8
-
     }
-
 }

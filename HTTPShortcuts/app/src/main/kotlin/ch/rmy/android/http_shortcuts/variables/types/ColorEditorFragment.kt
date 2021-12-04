@@ -22,5 +22,4 @@ class ColorEditorFragment : VariableEditorFragment<VariableEditorColorBinding>()
     override fun compileIntoVariable(variable: Variable) {
         variable.rememberValue = binding.inputRememberValue.isChecked
     }
-
 }

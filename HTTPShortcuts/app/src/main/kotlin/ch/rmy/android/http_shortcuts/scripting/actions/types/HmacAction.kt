@@ -56,7 +56,5 @@ class HmacAction(
             "sha256" to "HmacSHA256",
             "sha512" to "HmacSHA512",
         )
-
     }
-
 }

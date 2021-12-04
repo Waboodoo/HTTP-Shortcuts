@@ -30,7 +30,5 @@ class ShortcutListAdapter(context: Context, shortcuts: ListLiveData<Shortcut>) :
         private fun isPendingExecution(shortcutId: String) = shortcutsPendingExecution.any {
             it.shortcutId == shortcutId
         }
-
     }
-
 }

@@ -56,5 +56,4 @@ class ReplaceActionsWithScriptsMigration : BaseMigration {
             }
         }
     }
-
 }

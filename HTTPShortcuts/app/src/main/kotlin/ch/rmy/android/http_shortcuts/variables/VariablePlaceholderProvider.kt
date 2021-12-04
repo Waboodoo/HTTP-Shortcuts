@@ -31,7 +31,5 @@ class VariablePlaceholderProvider(private val variables: ListLiveData<Variable>)
                 variableId = variable.id,
                 variableKey = variable.key
             )
-
     }
-
 }

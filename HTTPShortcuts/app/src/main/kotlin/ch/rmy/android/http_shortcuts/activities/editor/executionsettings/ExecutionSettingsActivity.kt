@@ -160,7 +160,5 @@ class ExecutionSettingsActivity : BaseActivity() {
             ?: DELAY_OPTIONS.lastIndex
 
         private fun progressToDelay(progress: Int) = DELAY_OPTIONS[progress]
-
     }
-
 }

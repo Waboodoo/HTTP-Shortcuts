@@ -81,7 +81,7 @@ class GlobalScriptingActivity : BaseActivity() {
     private val shortcutPlaceholderColor by lazy {
         color(context, R.color.shortcut)
     }
-    
+
     private lateinit var binding: ActivityGlobalScriptingBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -197,5 +197,4 @@ class GlobalScriptingActivity : BaseActivity() {
     override val navigateUpIcon = R.drawable.ic_clear
 
     class IntentBuilder(context: Context) : BaseIntentBuilder(context, GlobalScriptingActivity::class.java)
-
 }

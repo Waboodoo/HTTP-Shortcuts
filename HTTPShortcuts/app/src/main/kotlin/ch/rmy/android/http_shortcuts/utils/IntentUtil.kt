@@ -44,12 +44,14 @@ object IntentUtil {
             val unscaledIcon = Bitmap.createScaledBitmap(scaledIcon, size, size, false)
             addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON, unscaledIcon)
         } catch (e: Exception) {
-            addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(context.applicationContext, ShortcutIcon.NoIcon.ICON_RESOURCE))
+            addIntent.putExtra(
+                Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
+                Intent.ShortcutIconResource.fromContext(context.applicationContext, ShortcutIcon.NoIcon.ICON_RESOURCE),
+            )
         }
 
         addIntent.action = if (install) ACTION_INSTALL_SHORTCUT else ACTION_UNINSTALL_SHORTCUT
 
         return addIntent
     }
-
 }

@@ -20,5 +20,4 @@ class IconViewHolder(
         this.icon = icon
         binding.icon.setIcon(icon)
     }
-
 }

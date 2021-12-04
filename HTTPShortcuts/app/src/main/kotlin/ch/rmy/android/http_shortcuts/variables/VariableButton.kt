@@ -15,7 +15,6 @@ import ch.rmy.android.http_shortcuts.extensions.setTintCompat
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
-
 open class VariableButton : AppCompatImageButton {
 
     lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
@@ -81,5 +80,4 @@ open class VariableButton : AppCompatImageButton {
     protected open fun getVariables() = variablePlaceholderProvider.placeholders
 
     private fun isUsedFromVariableEditor() = context is VariableEditorActivity
-
 }

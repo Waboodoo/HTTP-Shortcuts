@@ -15,5 +15,4 @@ object Transactions {
         }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-
 }

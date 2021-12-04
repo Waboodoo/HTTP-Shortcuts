@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.http
 
-
 import android.content.Context
 import ch.rmy.android.http_shortcuts.data.models.ClientCertParams
 import ch.rmy.android.http_shortcuts.exceptions.ClientCertException
@@ -37,11 +36,13 @@ internal object HttpClients {
         proxyPort: Int? = null,
         cookieJar: CookieJar? = null,
     ): OkHttpClient =
-        (if (acceptAllCertificates) {
-            createUnsafeOkHttpClientBuilder()
-        } else {
-            createDefaultOkHttpClientBuilder(context, clientCertParams)
-        })
+        (
+            if (acceptAllCertificates) {
+                createUnsafeOkHttpClientBuilder()
+            } else {
+                createDefaultOkHttpClientBuilder(context, clientCertParams)
+            }
+            )
             .mapIf(username != null && password != null) {
                 val authenticator = DigestAuthenticator(Credentials(username, password))
                 authenticator(authenticator)
@@ -108,5 +109,4 @@ internal object HttpClients {
             .sslSocketFactory(sslSocketFactory, trustAllCerts[0])
             .hostnameVerifier { _, _ -> true }
     }
-
 }

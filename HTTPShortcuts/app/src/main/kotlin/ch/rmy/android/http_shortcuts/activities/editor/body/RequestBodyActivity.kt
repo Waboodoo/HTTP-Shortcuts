@@ -54,9 +54,11 @@ class RequestBodyActivity : BaseActivity() {
     }
 
     private fun initViews() {
-        binding.inputRequestBodyType.setItemsFromPairs(REQUEST_BODY_TYPES.map {
-            it.first to getString(it.second)
-        })
+        binding.inputRequestBodyType.setItemsFromPairs(
+            REQUEST_BODY_TYPES.map {
+                it.first to getString(it.second)
+            }
+        )
 
         val adapter = destroyer.own(ParameterAdapter(context, parameters, variablePlaceholderProvider))
 
@@ -280,7 +282,5 @@ class RequestBodyActivity : BaseActivity() {
             "text/html",
             "text/xml",
         )
-
     }
-
 }

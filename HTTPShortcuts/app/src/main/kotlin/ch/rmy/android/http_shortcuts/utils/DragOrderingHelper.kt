@@ -41,6 +41,4 @@ class DragOrderingHelper(
     fun attachTo(recyclerView: RecyclerView) {
         touchHelper.attachToRecyclerView(recyclerView)
     }
-
-
 }

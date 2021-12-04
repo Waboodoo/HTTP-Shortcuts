@@ -71,11 +71,14 @@ class WidgetSettingsActivity : BaseActivity() {
 
     private fun showColorPicker() {
         ColorPickerDialog.Builder(context)
-            .setPositiveButton(R.string.dialog_ok, ColorEnvelopeListener { envelope, fromUser ->
-                if (fromUser) {
-                    viewModel.labelColor.value = envelope.color
-                }
-            })
+            .setPositiveButton(
+                R.string.dialog_ok,
+                ColorEnvelopeListener { envelope, fromUser ->
+                    if (fromUser) {
+                        viewModel.labelColor.value = envelope.color
+                    }
+                },
+            )
             .setNegativeButton(R.string.dialog_cancel) { dialogInterface, _ ->
                 dialogInterface.dismiss()
             }
@@ -99,10 +102,12 @@ class WidgetSettingsActivity : BaseActivity() {
     }
 
     private fun onDone() {
-        setResult(Activity.RESULT_OK, Intent()
-            .putExtra(EXTRA_SHORTCUT_ID, shortcutId)
-            .putExtra(EXTRA_SHOW_LABEL, viewModel.showLabel.value)
-            .putExtra(EXTRA_LABEL_COLOR, viewModel.labelColorFormatted)
+        setResult(
+            Activity.RESULT_OK,
+            Intent()
+                .putExtra(EXTRA_SHORTCUT_ID, shortcutId)
+                .putExtra(EXTRA_SHOW_LABEL, viewModel.showLabel.value)
+                .putExtra(EXTRA_LABEL_COLOR, viewModel.labelColorFormatted),
         )
         finish()
     }
@@ -116,7 +121,6 @@ class WidgetSettingsActivity : BaseActivity() {
             intent.putExtra(EXTRA_SHORTCUT_NAME, shortcut.name)
             intent.putExtra(EXTRA_SHORTCUT_ICON, shortcut.icon.toString())
         }
-
     }
 
     companion object {
@@ -134,7 +138,5 @@ class WidgetSettingsActivity : BaseActivity() {
 
         fun shouldShowLabel(intent: Intent): Boolean =
             intent.getBooleanExtra(EXTRA_SHOW_LABEL, true)
-
     }
-
 }

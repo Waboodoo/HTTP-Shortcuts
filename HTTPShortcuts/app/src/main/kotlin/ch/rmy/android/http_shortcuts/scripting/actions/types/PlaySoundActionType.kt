@@ -32,5 +32,4 @@ class PlaySoundActionType : BaseActionType() {
 
         const val CONTENT_PREFIX = "content://"
     }
-
 }

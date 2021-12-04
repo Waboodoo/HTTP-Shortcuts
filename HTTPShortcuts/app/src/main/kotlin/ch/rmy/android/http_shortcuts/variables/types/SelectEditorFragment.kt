@@ -134,5 +134,4 @@ class SelectEditorFragment : VariableEditorFragment<VariableEditorSelectBinding>
             SelectType.KEY_SEPARATOR to binding.inputSeparator.text.toString(),
         )
     }
-
 }

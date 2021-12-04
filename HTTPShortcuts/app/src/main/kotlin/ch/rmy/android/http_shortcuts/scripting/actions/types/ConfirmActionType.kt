@@ -22,7 +22,5 @@ class ConfirmActionType : BaseActionType() {
         const val FUNCTION_NAME = "confirm"
 
         const val KEY_MESSAGE = "message"
-
     }
-
 }

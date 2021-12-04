@@ -27,5 +27,4 @@ object UUIDUtils {
         } catch (e: IllegalArgumentException) {
             false
         }
-
 }

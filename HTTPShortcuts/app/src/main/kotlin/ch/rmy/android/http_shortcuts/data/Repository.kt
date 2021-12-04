@@ -163,5 +163,4 @@ object Repository {
             .where<Widget>()
             .equalTo("${Widget.FIELD_SHORTCUT}.${HasId.FIELD_ID}", shortcutId)
             .findAll()
-
 }

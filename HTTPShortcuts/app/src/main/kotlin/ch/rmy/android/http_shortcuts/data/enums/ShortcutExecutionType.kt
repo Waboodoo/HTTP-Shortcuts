@@ -18,7 +18,5 @@ enum class ShortcutExecutionType(
 
         fun get(type: String) =
             values().first { it.type == type }
-
     }
-
 }

@@ -126,9 +126,11 @@ class AdvancedSettingsActivity : BaseActivity() {
     }
 
     private fun updateViewModelFromViews(): Completable =
-        viewModel.setAdvancedSettings(binding.inputProxyHost.rawString,
+        viewModel.setAdvancedSettings(
+            binding.inputProxyHost.rawString,
             binding.inputProxyPort.text.toString().toIntOrNull(),
-            binding.inputSsid.text.toString())
+            binding.inputSsid.text.toString(),
+        )
 
     private fun updateShortcutViews(shortcut: Shortcut, isInitial: Boolean) {
         binding.inputFollowRedirects.isChecked = shortcut.followRedirects
@@ -302,7 +304,6 @@ class AdvancedSettingsActivity : BaseActivity() {
             10.minutes,
         )
 
-
         private fun timeoutToProgress(timeout: Duration) = TIMEOUT_OPTIONS.indexOfFirst {
             it >= timeout
         }
@@ -310,7 +311,5 @@ class AdvancedSettingsActivity : BaseActivity() {
             ?: TIMEOUT_OPTIONS.lastIndex
 
         private fun progressToTimeout(progress: Int) = TIMEOUT_OPTIONS[progress]
-
     }
-
 }

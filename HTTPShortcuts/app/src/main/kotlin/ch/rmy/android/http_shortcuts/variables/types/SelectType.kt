@@ -61,5 +61,4 @@ internal class SelectType : BaseVariableType(), HasTitle {
         fun getSeparator(variable: Variable) =
             variable.dataForType[KEY_SEPARATOR] ?: ","
     }
-
 }

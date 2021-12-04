@@ -45,17 +45,20 @@ class RemoteEditManager(
             try {
                 processRequest(
                     newRequestBuilder(deviceId, password)
-                        .method("POST", object : RequestBody() {
-                            override fun contentType(): MediaType = "application/json".toMediaType()
+                        .method(
+                            "POST",
+                            object : RequestBody() {
+                                override fun contentType(): MediaType = "application/json".toMediaType()
 
-                            override fun writeTo(sink: BufferedSink) {
-                                file.source().use {
-                                    sink.writeAll(it)
+                                override fun writeTo(sink: BufferedSink) {
+                                    file.source().use {
+                                        sink.writeAll(it)
+                                    }
                                 }
-                            }
 
-                            override fun contentLength(): Long = file.length()
-                        })
+                                override fun contentLength(): Long = file.length()
+                            },
+                        )
                         .build()
                 )
             } finally {
@@ -90,5 +93,4 @@ class RemoteEditManager(
                     throw IOException()
                 }
             }
-
 }

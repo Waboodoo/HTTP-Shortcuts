@@ -138,11 +138,14 @@ class DatabaseMigration : RealmMigration {
 
                 val shortcuts = realm.where("Shortcut").findAll()
                 for (shortcut in shortcuts) {
-                    shortcut.setString("requestBodyType", if (shortcut.getList("parameters").isEmpty()) {
-                        "custom_text"
-                    } else {
-                        "x_www_form_urlencode"
-                    })
+                    shortcut.setString(
+                        "requestBodyType",
+                        if (shortcut.getList("parameters").isEmpty()) {
+                            "custom_text"
+                        } else {
+                            "x_www_form_urlencode"
+                        },
+                    )
                     shortcut.setString("contentType", "text/plain")
                 }
             }
@@ -298,7 +301,6 @@ class DatabaseMigration : RealmMigration {
                     .addField("id", String::class.java)
                     .setRequired("id", true)
                     .addPrimaryKey("id")
-
             }
             39L -> { // 1.32.1
                 realm.where("Shortcut").findAll().forEach { shortcut ->
@@ -367,7 +369,5 @@ class DatabaseMigration : RealmMigration {
     companion object {
 
         const val VERSION = 45L
-
     }
-
 }

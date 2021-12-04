@@ -171,7 +171,5 @@ class SendIntentAction(private val jsonData: String) : BaseAction() {
                     else -> true
                 }
             }
-
     }
-
 }

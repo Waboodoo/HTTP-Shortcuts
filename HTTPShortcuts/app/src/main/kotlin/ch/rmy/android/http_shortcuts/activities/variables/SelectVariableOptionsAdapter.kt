@@ -34,6 +34,5 @@ class SelectVariableOptionsAdapter : SimpleListAdapter<Option, SelectVariableOpt
             binding.selectOptionLabel.text = item.labelOrValue
             itemView.setOnClickListener { clickListener?.invoke(item) }
         }
-
     }
 }

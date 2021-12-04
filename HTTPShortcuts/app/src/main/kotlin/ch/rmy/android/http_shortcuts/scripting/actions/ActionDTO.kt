@@ -66,5 +66,4 @@ class ActionDTO(
             else -> getString(key)?.toByteArray()
         }
     }
-
 }

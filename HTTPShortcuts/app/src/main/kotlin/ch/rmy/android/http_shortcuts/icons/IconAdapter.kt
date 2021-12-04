@@ -18,5 +18,4 @@ class IconAdapter(
     }
 
     override fun getItemCount() = icons.size
-
 }
