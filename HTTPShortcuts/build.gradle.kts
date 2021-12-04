@@ -4,9 +4,9 @@ buildscript {
         google()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:4.2.2")
-        classpath("io.realm:realm-gradle-plugin:10.8.0")
-        classpath("com.bugsnag:bugsnag-android-gradle-plugin:5.8.1")
+        classpath("com.android.tools.build:gradle:7.0.3")
+        classpath("io.realm:realm-gradle-plugin:10.8.1")
+        classpath("com.bugsnag:bugsnag-android-gradle-plugin:7.1.0")
         classpath("org.jetbrains:markdown:0.1.45")
         classpath(kotlin("gradle-plugin", "1.6.0"))
     }

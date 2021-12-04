@@ -66,6 +66,7 @@ object Logging {
         }
     }
 
+    @Suppress("unused")
     fun logException(origin: String, e: Throwable) {
         if (initialized && !shouldIgnore(e)) {
             Bugsnag.notify(e)
@@ -78,6 +79,7 @@ object Logging {
             || e is InflateException
             || e is RealmFactory.RealmNotFoundException
 
+    @Suppress("unused")
     fun logInfo(origin: String, message: String) {
         if (initialized) {
             Bugsnag.leaveBreadcrumb(message)
