@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.main
 
 import android.app.Activity.RESULT_OK
 import android.app.WallpaperManager
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -403,7 +404,11 @@ class ListFragment : BaseFragment<FragmentListBinding>() {
         val variableIds = getVariableIdsRequiredForExport(shortcut)
         exportUI.showExportOptions(format = ExportFormat.getPreferredFormat(requireContext()), shortcutId, variableIds) { intent ->
             viewModel.exportedShortcutId = shortcutId
-            intent.startActivity(this, REQUEST_EXPORT)
+            try {
+                intent.startActivity(this, REQUEST_EXPORT)
+            } catch (e: ActivityNotFoundException) {
+                context?.showToast(R.string.error_not_supported)
+            }
         }
     }
 
