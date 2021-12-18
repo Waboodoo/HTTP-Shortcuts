@@ -8,14 +8,15 @@ import io.reactivex.Single
 
 internal class ToggleType : BaseVariableType() {
 
-    override fun resolveValue(context: Context, variable: Variable) = Single.fromCallable {
-        val options = variable.options?.takeUnlessEmpty() ?: return@fromCallable ""
+    override fun resolveValue(context: Context, variable: Variable) =
+        Single.defer {
+            val options = variable.options?.takeUnlessEmpty() ?: return@defer Single.just("")
 
-        val previousIndex = variable.value?.toIntOrNull() ?: 0
-        val index = (previousIndex + 1) % options.size
-        Commons.setVariableValue(variable.id, index.toString()).subscribe()
-        return@fromCallable options[index]!!.value
-    }
+            val previousIndex = variable.value?.toIntOrNull() ?: 0
+            val index = (previousIndex + 1) % options.size
+            Commons.setVariableValue(variable.id, index.toString())
+                .toSingleDefault(options[index]!!.value)
+        }
 
     override fun createEditorFragment() = ToggleEditorFragment()
 }

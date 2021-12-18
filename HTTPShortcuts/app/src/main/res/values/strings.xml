@@ -807,7 +807,7 @@
     <!-- Error message: Shown when a script tries to read from a variable that does not exist. %s is a placeholder for the name of the variable. -->
     <string name="error_variable_not_found_read">Variable error: tried to get value of variable that doesn\'t exist: %s</string>
     <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->
-    <string name="error_variable_not_found_write">Variable error: tried to set value of variable that doesn\'t exist or is not a static (constant): %s</string>
+    <string name="error_variable_not_found_write">Variable error: tried to set value of variable that doesn\'t exist: %s</string>
     <!-- Button: Shown below JavaScript editor (for pre-request and post-request actions), allows to add snippets of JS code -->
     <string name="button_add_code_snippet">Add Code Snippet</string>
     <!-- Title: Shown on menu dialog (for pre-request and post-request actions), allows to add snippets of JS code -->
@@ -861,7 +861,7 @@
     <!-- Dialog option: shown in code snippet picker, option allows to get the value of a variable -->
     <string name="dialog_code_snippet_get_variable">Get Variable</string>
     <!-- Dialog option: shown in code snippet picker, option allows to set the value of a variable -->
-    <string name="dialog_code_snippet_set_variable">Set Variable (Constant)</string>
+    <string name="dialog_code_snippet_set_variable">Set Variable</string>
     <!-- Error message: Shown in toast when "Trigger Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_triggering">Could not trigger shortcut \"%1$s\" because it does not exist.</string>
     <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->

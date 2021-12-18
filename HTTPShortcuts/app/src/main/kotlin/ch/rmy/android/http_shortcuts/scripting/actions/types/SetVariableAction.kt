@@ -19,7 +19,6 @@ class SetVariableAction(val variableKeyOrId: String, val value: String) : BaseAc
                 realm.executeTransaction {
                     (
                         Repository.getVariableByKeyOrId(realm, variableKeyOrId)
-                            ?.takeIf { it.isConstant }
                             ?: throw ActionException {
                                 it.getString(
                                     R.string.error_variable_not_found_write,

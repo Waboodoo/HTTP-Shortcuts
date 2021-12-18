@@ -13,7 +13,7 @@ internal class NumberType : TextType() {
         Single.create<String> { emitter ->
             createDialogBuilder(context, variable, emitter)
                 .textInput(
-                    prefill = variable.value?.takeIf { variable.rememberValue } ?: "",
+                    prefill = variable.value?.takeIf { variable.rememberValue }?.toIntOrNull()?.toString() ?: "",
                     inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED,
                     allowEmpty = false,
                     callback = emitter::onSuccess,

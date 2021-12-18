@@ -8,11 +8,6 @@ class VariablePlaceholderProvider(private val variables: ListLiveData<Variable>)
     val placeholders
         get() = variables.map(::toPlaceholder)
 
-    val constantsPlaceholders
-        get() = variables
-            .filter { it.isConstant }
-            .map(::toPlaceholder)
-
     val hasVariables
         get() = variables.isNotEmpty()
 
@@ -29,7 +24,7 @@ class VariablePlaceholderProvider(private val variables: ListLiveData<Variable>)
         private fun toPlaceholder(variable: Variable) =
             VariablePlaceholder(
                 variableId = variable.id,
-                variableKey = variable.key
+                variableKey = variable.key,
             )
     }
 }

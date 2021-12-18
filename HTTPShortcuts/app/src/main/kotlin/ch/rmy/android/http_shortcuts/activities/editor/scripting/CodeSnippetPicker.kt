@@ -203,7 +203,7 @@ class CodeSnippetPicker(
                 .item(R.string.dialog_code_snippet_set_variable) {
                     if (variablePlaceholderProvider.hasConstants) {
                         DialogBuilder(context)
-                            .mapFor(variablePlaceholderProvider.constantsPlaceholders) { variable ->
+                            .mapFor(variablePlaceholderProvider.placeholders) { variable ->
                                 item(name = variable.variableKey) {
                                     insertText("setVariable(/*[variable]*/\"${variable.variableId}\"/*[/variable]*/, \"", "\");\n")
                                 }
