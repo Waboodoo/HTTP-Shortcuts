@@ -23,7 +23,7 @@ android {
         applicationId 'ch.rmy.android.http_shortcuts'
         minSdkVersion 21
         targetSdkVersion 31
-        versionName '2.12.0'
+        versionName '2.13.0'
         // 11,(2 digits major),(2 digits minor),(2 digits patch),(2 digits build)
         versionCode 1102130000
         buildConfigField 'String', 'BUGSNAG_API_KEY', "\"${rootProject.ext.bugsnagAPIKey}\""
