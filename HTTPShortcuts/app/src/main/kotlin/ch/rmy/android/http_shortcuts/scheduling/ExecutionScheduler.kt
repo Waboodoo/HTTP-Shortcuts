@@ -6,40 +6,44 @@ import androidx.work.Data
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import ch.rmy.android.http_shortcuts.data.DataSource
+import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.mapIf
+import ch.rmy.android.framework.extensions.mapIfNotNull
+import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.models.PendingExecution
-import ch.rmy.android.http_shortcuts.extensions.logException
-import ch.rmy.android.http_shortcuts.extensions.mapIf
-import ch.rmy.android.http_shortcuts.extensions.mapIfNotNull
+import io.reactivex.Completable
 import java.util.Calendar
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
-object ExecutionScheduler {
+class ExecutionScheduler(private val context: Context) {
 
-    private const val TAG = "execution_scheduler"
+    private val pendingExecutionsRepository = PendingExecutionsRepository()
 
-    fun schedule(context: Context) {
-        schedule(context, withNetworkConstraints = true)
-        schedule(context, withNetworkConstraints = false)
-    }
+    fun schedule(): Completable =
+        schedule(withNetworkConstraints = true)
+            .mergeWith(schedule(withNetworkConstraints = false))
 
-    private fun schedule(context: Context, withNetworkConstraints: Boolean) {
-        val nextPendingExecution = DataSource.getNextPendingExecution(withNetworkConstraints) ?: return
-        val delay = calculateDelay(nextPendingExecution.waitUntil)
+    private fun schedule(withNetworkConstraints: Boolean): Completable =
+        pendingExecutionsRepository.getNextPendingExecution(withNetworkConstraints)
+            .flatMapCompletable { nextPendingExecutionOptional ->
+                Completable.fromAction {
+                    val nextPendingExecution = nextPendingExecutionOptional.value ?: return@fromAction
+                    val delay = calculateDelay(nextPendingExecution.waitUntil)
 
-        if (delay == null && !withNetworkConstraints) {
-            ExecutionWorker.runPendingExecution(context, nextPendingExecution)
-        } else {
-            try {
-                scheduleService(context, nextPendingExecution, delay, withNetworkConstraints)
-            } catch (e: Exception) {
-                logException(e)
+                    if (delay == null && !withNetworkConstraints) {
+                        ExecutionWorker.runPendingExecution(context, nextPendingExecution)
+                    } else {
+                        try {
+                            scheduleService(nextPendingExecution, delay, withNetworkConstraints)
+                        } catch (e: Exception) {
+                            logException(e)
+                        }
+                    }
+                }
             }
-        }
-    }
 
-    private fun scheduleService(context: Context, pendingExecution: PendingExecution, delay: Long?, withNetworkConstraints: Boolean) {
+    private fun scheduleService(pendingExecution: PendingExecution, delay: Long?, withNetworkConstraints: Boolean) {
         with(WorkManager.getInstance(context)) {
             cancelAllWorkByTag(TAG)
             enqueue(
@@ -72,5 +76,9 @@ object ExecutionScheduler {
         val now = Calendar.getInstance().time
         val difference = waitUntil.time - now.time
         return difference.takeIf { it > 0L }
+    }
+
+    companion object {
+        private const val TAG = "execution_scheduler"
     }
 }

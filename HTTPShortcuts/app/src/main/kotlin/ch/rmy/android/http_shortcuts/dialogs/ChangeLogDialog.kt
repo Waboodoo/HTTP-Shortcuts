@@ -8,12 +8,12 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.CheckBox
 import androidx.core.content.pm.PackageInfoCompat
+import ch.rmy.android.framework.extensions.consume
+import ch.rmy.android.framework.extensions.isDarkThemeEnabled
+import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.openURL
+import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.extensions.consume
-import ch.rmy.android.http_shortcuts.extensions.isDarkThemeEnabled
-import ch.rmy.android.http_shortcuts.extensions.logException
-import ch.rmy.android.http_shortcuts.extensions.openURL
-import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.utils.Settings
 import io.reactivex.Single
 import io.reactivex.subjects.SingleSubject

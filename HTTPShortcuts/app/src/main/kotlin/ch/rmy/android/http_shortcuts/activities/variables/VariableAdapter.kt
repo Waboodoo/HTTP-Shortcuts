@@ -1,32 +1,83 @@
 package ch.rmy.android.http_shortcuts.activities.variables
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.BaseAdapter
-import ch.rmy.android.http_shortcuts.activities.BaseViewHolder
-import ch.rmy.android.http_shortcuts.data.livedata.ListLiveData
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import androidx.recyclerview.widget.RecyclerView
+import ch.rmy.android.framework.extensions.setText
+import ch.rmy.android.framework.ui.BaseAdapter
+import ch.rmy.android.http_shortcuts.databinding.ListEmptyItemBinding
 import ch.rmy.android.http_shortcuts.databinding.ListItemVariableBinding
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
 
-class VariableAdapter(context: Context, variables: ListLiveData<Variable>) : BaseAdapter<Variable>(context, variables) {
+class VariableAdapter : BaseAdapter<VariableListItem>() {
 
-    override fun createViewHolder(parentView: ViewGroup) =
-        VariableViewHolder(ListItemVariableBinding.inflate(LayoutInflater.from(parentView.context), parentView, false))
+    sealed interface UserEvent {
+        data class VariableClicked(val id: String) : UserEvent
+    }
 
-    override val emptyMarker = EmptyMarker(
-        context.getString(R.string.empty_state_variables),
-        context.getString(R.string.empty_state_variables_instructions),
-    )
+    private val userEventSubject = PublishSubject.create<UserEvent>()
+
+    val userEvents: Observable<UserEvent>
+        get() = userEventSubject
+
+    override fun areItemsTheSame(oldItem: VariableListItem, newItem: VariableListItem): Boolean =
+        when (oldItem) {
+            is VariableListItem.Variable -> (newItem as? VariableListItem.Variable)?.id == oldItem.id
+            is VariableListItem.EmptyState -> newItem is VariableListItem.EmptyState
+        }
+
+    override fun getItemViewType(position: Int): Int =
+        when (items[position]) {
+            is VariableListItem.Variable -> VIEW_TYPE_VARIABLE
+            is VariableListItem.EmptyState -> VIEW_TYPE_EMPTY_STATE
+        }
+
+    override fun createViewHolder(viewType: Int, parent: ViewGroup, layoutInflater: LayoutInflater): RecyclerView.ViewHolder? =
+        when (viewType) {
+            VIEW_TYPE_VARIABLE -> VariableViewHolder(ListItemVariableBinding.inflate(layoutInflater, parent, false))
+            VIEW_TYPE_EMPTY_STATE -> EmptyStateViewHolder(ListEmptyItemBinding.inflate(layoutInflater, parent, false))
+            else -> null
+        }
+
+    override fun bindViewHolder(holder: RecyclerView.ViewHolder, position: Int, item: VariableListItem) {
+        when (holder) {
+            is VariableViewHolder -> holder.setItem(item as VariableListItem.Variable)
+            is EmptyStateViewHolder -> holder.setItem(item as VariableListItem.EmptyState)
+        }
+    }
 
     inner class VariableViewHolder(
         private val binding: ListItemVariableBinding,
-    ) : BaseViewHolder<Variable>(binding.root, this@VariableAdapter) {
+    ) : RecyclerView.ViewHolder(binding.root) {
 
-        override fun updateViews(item: Variable) {
-            binding.name.text = item.key
-            binding.type.setText(VariableTypes.getTypeName(item.type))
+        private lateinit var variableId: String
+
+        init {
+            binding.root.setOnClickListener {
+                userEventSubject.onNext(UserEvent.VariableClicked(variableId))
+            }
         }
+
+        fun setItem(item: VariableListItem.Variable) {
+            variableId = item.id
+            binding.name.text = item.key
+            binding.type.setText(item.type)
+        }
+    }
+
+    inner class EmptyStateViewHolder(
+        private val binding: ListEmptyItemBinding,
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun setItem(item: VariableListItem.EmptyState) {
+            binding.emptyMarker.setText(item.title)
+            binding.emptyMarkerInstructions.setText(item.instructions)
+        }
+    }
+
+    companion object {
+        private const val VIEW_TYPE_VARIABLE = 1
+        private const val VIEW_TYPE_EMPTY_STATE = 2
     }
 }

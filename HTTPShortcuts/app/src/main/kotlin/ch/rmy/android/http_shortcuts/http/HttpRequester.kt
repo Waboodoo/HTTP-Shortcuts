@@ -3,11 +3,12 @@ package ch.rmy.android.http_shortcuts.http
 import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
+import ch.rmy.android.framework.extensions.mapFor
+import ch.rmy.android.framework.extensions.mapIf
+import ch.rmy.android.framework.extensions.mapIfNotNull
+import ch.rmy.android.framework.extensions.takeUnlessEmpty
+import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.extensions.mapFor
-import ch.rmy.android.http_shortcuts.extensions.mapIf
-import ch.rmy.android.http_shortcuts.extensions.mapIfNotNull
-import ch.rmy.android.http_shortcuts.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_MULTIPART_CONTENT_TYPE
 import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_URLENCODE_CONTENT_TYPE
 import ch.rmy.android.http_shortcuts.utils.UserAgentUtil
@@ -217,9 +218,9 @@ class HttpRequester(private val contentResolver: ContentResolver) {
             )
 
         private fun determineContentType(shortcut: Shortcut): String? =
-            when (shortcut.requestBodyType) {
-                Shortcut.REQUEST_BODY_TYPE_FORM_DATA -> FORM_MULTIPART_CONTENT_TYPE
-                Shortcut.REQUEST_BODY_TYPE_X_WWW_FORM_URLENCODE -> FORM_URLENCODE_CONTENT_TYPE
+            when (shortcut.bodyType) {
+                RequestBodyType.FORM_DATA -> FORM_MULTIPART_CONTENT_TYPE
+                RequestBodyType.X_WWW_FORM_URLENCODE -> FORM_URLENCODE_CONTENT_TYPE
                 else -> shortcut.contentType.takeUnlessEmpty()
             }
     }

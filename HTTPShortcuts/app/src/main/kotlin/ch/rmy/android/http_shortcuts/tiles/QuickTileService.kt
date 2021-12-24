@@ -6,20 +6,20 @@ import android.os.Build
 import android.service.quicksettings.TileService
 import android.view.WindowManager
 import androidx.annotation.RequiresApi
+import ch.rmy.android.framework.extensions.context
+import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.mapFor
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
-import ch.rmy.android.http_shortcuts.data.RealmFactory
-import ch.rmy.android.http_shortcuts.data.Repository
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
-import ch.rmy.android.http_shortcuts.extensions.context
-import ch.rmy.android.http_shortcuts.extensions.detachFromRealm
-import ch.rmy.android.http_shortcuts.extensions.logException
-import ch.rmy.android.http_shortcuts.extensions.mapFor
 import ch.rmy.android.http_shortcuts.utils.ThemeHelper
 
 @RequiresApi(Build.VERSION_CODES.N)
 class QuickTileService : TileService() {
+
+    private val shortcutRepository = ShortcutRepository()
 
     override fun onClick() {
         val shortcuts = getShortcuts()
@@ -38,11 +38,10 @@ class QuickTileService : TileService() {
     }
 
     private fun getShortcuts() =
-        RealmFactory.withRealm { realm ->
-            Repository.getShortcuts(realm)
-                .filter { it.quickSettingsTileShortcut }
-                .map { it.detachFromRealm() }
-        }
+        shortcutRepository.getShortcuts()
+            .blockingGet() // TODO: Avoid blocking
+            .sortedBy { it.name }
+            .filter { it.quickSettingsTileShortcut }
 
     private fun showInstructions() {
         applyTheme()
@@ -86,8 +85,8 @@ class QuickTileService : TileService() {
     }
 
     private fun executeShortcut(shortcutId: String) {
-        ExecuteActivity.IntentBuilder(context, shortcutId)
-            .build()
+        ExecuteActivity.IntentBuilder(shortcutId)
+            .build(context)
             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             .let { intent ->
                 startActivityAndCollapse(intent)
@@ -97,10 +96,10 @@ class QuickTileService : TileService() {
     override fun onStartListening() {
         super.onStartListening()
         val shortcuts = getShortcuts()
-        qsTile.label = when (shortcuts.size) {
+        qsTile?.label = when (shortcuts.size) {
             1 -> shortcuts.first().name
             else -> getString(R.string.action_quick_settings_tile_trigger)
         }
-        qsTile.updateTile()
+        qsTile?.updateTile()
     }
 }

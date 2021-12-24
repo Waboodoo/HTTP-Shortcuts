@@ -16,7 +16,7 @@ class TriggerShortcutActionRunner : TaskerPluginRunnerActionNoOutput<Input>() {
         SessionMonitor.onSessionScheduled()
         val shortcutId = input.regular.shortcutId
         val variableValues = extractVariableMap(input)
-        ExecuteActivity.IntentBuilder(context, shortcutId)
+        ExecuteActivity.IntentBuilder(shortcutId)
             .variableValues(variableValues)
             .startActivity(context)
 

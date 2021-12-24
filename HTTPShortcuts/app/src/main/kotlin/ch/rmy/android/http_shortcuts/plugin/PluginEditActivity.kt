@@ -2,23 +2,23 @@ package ch.rmy.android.http_shortcuts.plugin
 
 import android.app.Activity
 import android.content.Intent
-import android.os.Bundle
+import ch.rmy.android.framework.extensions.startActivity
+import ch.rmy.android.framework.ui.Entrypoint
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.main.MainActivity
-import ch.rmy.android.http_shortcuts.data.RealmFactory
-import ch.rmy.android.http_shortcuts.extensions.startActivity
-import ch.rmy.android.http_shortcuts.plugin.VariableHelper.getTaskerInputInfos
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import com.joaomgcd.taskerpluginlibrary.config.TaskerPluginConfig
 import com.joaomgcd.taskerpluginlibrary.input.TaskerInput
+import com.joaomgcd.taskerpluginlibrary.input.TaskerInputInfo
+import com.joaomgcd.taskerpluginlibrary.input.TaskerInputInfos
 
-class PluginEditActivity : BaseActivity(), TaskerPluginConfig<Input> {
+class PluginEditActivity : BaseActivity(), TaskerPluginConfig<Input>, Entrypoint {
 
     private var input: Input? = null
 
-    public override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        RealmFactory.init(applicationContext)
+    private val variableRepository = VariableRepository()
 
+    override fun onCreate() {
         Intent(this, MainActivity::class.java)
             .setAction(ACTION_SELECT_SHORTCUT_FOR_PLUGIN)
             .startActivity(this, REQUEST_SELECT)
@@ -51,6 +51,27 @@ class PluginEditActivity : BaseActivity(), TaskerPluginConfig<Input> {
             ),
             getTaskerInputInfos(),
         )
+
+    private fun getTaskerInputInfos() =
+        TaskerInputInfos().apply {
+            getVariableKeys()
+                .forEach { variableKey ->
+                    add(
+                        TaskerInputInfo(
+                            key = variableKey,
+                            label = variableKey,
+                            description = null,
+                            ignoreInStringBlurb = false,
+                            value = "%$variableKey",
+                        )
+                    )
+                }
+        }
+
+    private fun getVariableKeys() =
+        variableRepository.getVariables()
+            .blockingGet() // TODO: Find a way to avoid using blockingGet
+            .map { it.key }
 
     override fun assignFromInput(input: TaskerInput<Input>) {
         this.input = input.regular

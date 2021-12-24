@@ -1,29 +1,23 @@
 package ch.rmy.android.http_shortcuts.activities.categories
 
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
-import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.LinearLayoutManager
+import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.consume
+import ch.rmy.android.framework.extensions.initialize
+import ch.rmy.android.framework.extensions.mapIf
+import ch.rmy.android.framework.extensions.observe
+import ch.rmy.android.framework.ui.BaseIntentBuilder
+import ch.rmy.android.framework.utils.DragOrderingHelper
+import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
-import ch.rmy.android.http_shortcuts.data.models.Category
+import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
+import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.databinding.ActivityCategoriesBinding
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
-import ch.rmy.android.http_shortcuts.extensions.attachTo
-import ch.rmy.android.http_shortcuts.extensions.bindViewModel
-import ch.rmy.android.http_shortcuts.extensions.consume
-import ch.rmy.android.http_shortcuts.extensions.mapIf
-import ch.rmy.android.http_shortcuts.extensions.openURL
-import ch.rmy.android.http_shortcuts.extensions.showSnackbar
-import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
-import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
-import ch.rmy.android.http_shortcuts.utils.ExternalURLs
-import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.PermissionManager
 
 class CategoriesActivity : BaseActivity() {
@@ -31,210 +25,181 @@ class CategoriesActivity : BaseActivity() {
     private val viewModel: CategoriesViewModel by bindViewModel()
 
     private lateinit var binding: ActivityCategoriesBinding
+    private lateinit var adapter: CategoryAdapter
+    private var isDraggingEnabled = false
 
-    private val categories by lazy { viewModel.getCategories() }
-
-    public override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = applyBinding(ActivityCategoriesBinding.inflate(layoutInflater))
-        setTitle(R.string.title_categories)
+    override fun onCreate() {
+        viewModel.initialize()
         initViews()
-
-        viewModel.hasChanges.observe(this) {
-            setResult(
-                Activity.RESULT_OK,
-                Intent().apply {
-                    putExtra(EXTRA_CATEGORIES_CHANGED, it)
-                },
-            )
-        }
+        initUserInputBindings()
+        initViewModelBindings()
     }
 
     private fun initViews() {
-        val adapter = destroyer.own(CategoryAdapter(context, categories))
+        binding = applyBinding(ActivityCategoriesBinding.inflate(layoutInflater))
+        setTitle(R.string.title_categories)
+
+        adapter = CategoryAdapter()
 
         val manager = LinearLayoutManager(context)
         binding.categoryList.layoutManager = manager
         binding.categoryList.setHasFixedSize(true)
         binding.categoryList.adapter = adapter
 
-        adapter.clickListener = ::showContextMenu
+        binding.buttonCreateCategory.applyTheme(themeHelper)
+    }
 
+    private fun initUserInputBindings() {
         initDragOrdering()
 
-        binding.buttonCreateCategory.applyTheme(themeHelper)
-        binding.buttonCreateCategory.setOnClickListener { openCreateDialog() }
+        adapter.userEvents.observe(this) { event ->
+            when (event) {
+                is CategoryAdapter.UserEvent.CategoryClicked -> {
+                    viewModel.onCategoryClicked(event.id)
+                }
+            }
+        }
+
+        binding.buttonCreateCategory.setOnClickListener {
+            viewModel.onCreateCategoryButtonClicked()
+        }
     }
 
     private fun initDragOrdering() {
-        val dragOrderingHelper = DragOrderingHelper { categories.size > 1 }
+        val dragOrderingHelper = DragOrderingHelper { isDraggingEnabled }
         dragOrderingHelper.attachTo(binding.categoryList)
-        dragOrderingHelper.positionChangeSource
-            .concatMapCompletable { (oldPosition, newPosition) ->
-                val category = categories[oldPosition]!!
-                viewModel.moveCategory(category.id, newPosition)
-            }
-            .subscribe()
-            .attachTo(destroyer)
+        dragOrderingHelper.positionChangeSource.observe(this) { (oldPosition, newPosition) ->
+            viewModel.onCategoryMoved(oldPosition, newPosition)
+        }
     }
 
-    private fun openCreateDialog() {
+    private fun initViewModelBindings() {
+        viewModel.viewState.observe(this) { viewState ->
+            adapter.items = viewState.categories
+            isDraggingEnabled = viewState.isDraggingEnabled
+        }
+        viewModel.events.observe(this, ::handleEvent)
+    }
+
+    override fun handleEvent(event: ViewModelEvent) {
+        when (event) {
+            is CategoriesEvent.ShowCreateCategoryDialog -> {
+                showCreateDialog()
+            }
+            is CategoriesEvent.ShowContextMenu -> {
+                showContextMenu(event)
+            }
+            is CategoriesEvent.ShowRenameDialog -> {
+                showRenameDialog(event)
+            }
+            is CategoriesEvent.ShowDeleteDialog -> {
+                showDeleteDialog(event)
+            }
+            else -> super.handleEvent(event)
+        }
+    }
+
+    private fun showCreateDialog() {
         DialogBuilder(context)
             .title(R.string.title_create_category)
             .textInput(
                 hint = getString(R.string.placeholder_category_name),
                 allowEmpty = false,
                 maxLength = NAME_MAX_LENGTH,
-                callback = ::createCategory
+                callback = ::createCategory,
             )
             .showIfPossible()
     }
 
     private fun createCategory(name: String) {
-        viewModel.createCategory(name)
-            .subscribe {
-                showSnackbar(R.string.message_category_created)
-            }
-            .attachTo(destroyer)
+        viewModel.onCreateDialogConfirmed(name)
     }
 
-    private fun showContextMenu(categoryData: LiveData<Category?>) {
-        val category = categoryData.value ?: return
+    private fun showContextMenu(event: CategoriesEvent.ShowContextMenu) {
         DialogBuilder(context)
-            .title(category.name)
+            .title(event.title)
             .item(R.string.action_rename) {
-                showRenameDialog(categoryData)
+                viewModel.onRenameCategoryOptionSelected(event.categoryId)
             }
-            .mapIf(category.hidden) {
+            .mapIf(event.showOptionVisible) {
                 item(R.string.action_show_category) {
-                    toggleCategoryHidden(categoryData, hidden = false)
+                    viewModel.onCategoryVisibilityChanged(event.categoryId, hidden = false)
                 }
             }
-            .mapIf(!category.hidden && categories.count { !it.hidden } > 1) {
+            .mapIf(event.hideOptionVisible) {
                 item(R.string.action_hide_category) {
-                    toggleCategoryHidden(categoryData, hidden = true)
+                    viewModel.onCategoryVisibilityChanged(event.categoryId, hidden = true)
                 }
             }
-            .mapIf(!category.hidden) {
+            .mapIf(event.changeLayoutTypeOptionVisible) {
                 item(R.string.action_change_category_layout_type) {
-                    showLayoutTypeDialog(categoryData)
+                    showLayoutTypeDialog(event.categoryId)
                 }
                     .item(R.string.action_change_category_background) {
-                        showBackgroundChangeDialog(categoryData)
+                        showBackgroundChangeDialog(event.categoryId)
                     }
             }
-            .mapIf(!category.hidden && LauncherShortcutManager.supportsPinning(context)) {
+            .mapIf(event.placeOnHomeScreenOptionVisible) {
                 item(R.string.action_place_category) {
-                    LauncherShortcutManager.pinCategory(context, categoryData.value ?: return@item)
+                    viewModel.onPlaceOnHomeScreenSelected(event.categoryId)
                 }
             }
-            .mapIf(categories.size > 1) {
+            .mapIf(event.deleteOptionVisible) {
                 item(R.string.action_delete) {
-                    showDeleteDialog(categoryData)
+                    viewModel.onCategoryDeletionSelected(event.categoryId)
                 }
             }
             .showIfPossible()
     }
 
-    private fun showRenameDialog(categoryData: LiveData<Category?>) {
-        val category = categoryData.value ?: return
+    private fun showRenameDialog(event: CategoriesEvent.ShowRenameDialog) {
         DialogBuilder(context)
             .title(R.string.title_rename_category)
             .textInput(
                 hint = getString(R.string.placeholder_category_name),
-                prefill = category.name,
+                prefill = event.prefill,
                 allowEmpty = false,
                 maxLength = NAME_MAX_LENGTH
             ) { input ->
-                renameCategory(categoryData, input)
+                viewModel.onRenameDialogConfirmed(event.categoryId, newName = input)
             }
             .showIfPossible()
     }
 
-    private fun showLayoutTypeDialog(categoryData: LiveData<Category?>) {
+    private fun showLayoutTypeDialog(categoryId: String) {
         DialogBuilder(context)
             .item(R.string.layout_type_linear_list) {
-                changeLayoutType(categoryData, Category.LAYOUT_LINEAR_LIST)
+                viewModel.onLayoutTypeChanged(categoryId, CategoryLayoutType.LINEAR_LIST)
             }
             .item(R.string.layout_type_grid) {
-                changeLayoutType(categoryData, Category.LAYOUT_GRID)
+                viewModel.onLayoutTypeChanged(categoryId, CategoryLayoutType.GRID)
             }
             .showIfPossible()
     }
 
-    private fun showBackgroundChangeDialog(categoryData: LiveData<Category?>) {
+    private fun showBackgroundChangeDialog(categoryId: String) {
         DialogBuilder(context)
             .item(R.string.category_background_type_white) {
-                changeBackgroundType(categoryData, Category.BACKGROUND_TYPE_WHITE)
+                viewModel.onBackgroundTypeChanged(categoryId, CategoryBackgroundType.WHITE)
             }
             .item(R.string.category_background_type_black) {
-                changeBackgroundType(categoryData, Category.BACKGROUND_TYPE_BLACK)
+                viewModel.onBackgroundTypeChanged(categoryId, CategoryBackgroundType.BLACK)
             }
             .item(R.string.category_background_type_wallpaper) {
                 PermissionManager.requestFileStoragePermissionIfNeeded(this)
-                changeBackgroundType(categoryData, Category.BACKGROUND_TYPE_WALLPAPER)
+                viewModel.onBackgroundTypeChanged(categoryId, CategoryBackgroundType.WALLPAPER)
             }
             .showIfPossible()
     }
 
-    private fun toggleCategoryHidden(categoryData: LiveData<Category?>, hidden: Boolean) {
-        val category = categoryData.value ?: return
-        viewModel.toggleCategoryHidden(category.id, hidden)
-            .subscribe {
-                showSnackbar(if (hidden) R.string.message_category_hidden else R.string.message_category_visible)
-            }
-            .attachTo(destroyer)
-    }
-
-    private fun renameCategory(categoryData: LiveData<Category?>, newName: String) {
-        val category = categoryData.value ?: return
-        viewModel.renameCategory(category.id, newName)
-            .subscribe {
-                LauncherShortcutManager.updatePinnedCategoryShortcut(context, categoryData.value?.id ?: return@subscribe, newName)
-                showSnackbar(R.string.message_category_renamed)
-            }
-            .attachTo(destroyer)
-    }
-
-    private fun changeLayoutType(categoryData: LiveData<Category?>, layoutType: String) {
-        val category = categoryData.value ?: return
-        viewModel.setLayoutType(category.id, layoutType)
-            .subscribe {
-                showSnackbar(R.string.message_layout_type_changed)
-            }
-            .attachTo(destroyer)
-    }
-
-    private fun changeBackgroundType(categoryData: LiveData<Category?>, backgroundType: String) {
-        val category = categoryData.value ?: return
-        viewModel.setBackground(category.id, backgroundType)
-            .subscribe {
-                showSnackbar(R.string.message_background_type_changed)
-            }
-            .attachTo(destroyer)
-    }
-
-    private fun showDeleteDialog(categoryData: LiveData<Category?>) {
-        val category = categoryData.value ?: return
-        if (category.shortcuts.isEmpty()) {
-            deleteCategory(category)
-            return
-        }
+    private fun showDeleteDialog(event: CategoriesEvent.ShowDeleteDialog) {
         DialogBuilder(context)
             .message(R.string.confirm_delete_category_message)
             .positive(R.string.dialog_delete) {
-                deleteCategory(categoryData.value ?: return@positive)
+                viewModel.onCategoryDeletionConfirmed(event.categoryId)
             }
             .negative(R.string.dialog_cancel)
             .showIfPossible()
-    }
-
-    private fun deleteCategory(category: Category) {
-        viewModel.deleteCategory(category.id)
-            .subscribe {
-                showSnackbar(R.string.message_category_deleted)
-            }
-            .attachTo(destroyer)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -243,15 +208,15 @@ class CategoriesActivity : BaseActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.action_show_help -> consume { showHelp() }
+        R.id.action_show_help -> consume { viewModel.onHelpButtonClicked() }
         else -> super.onOptionsItemSelected(item)
     }
 
-    private fun showHelp() {
-        openURL(ExternalURLs.CATEGORIES_DOCUMENTATION)
+    override fun onBackPressed() {
+        viewModel.onBackPressed()
     }
 
-    class IntentBuilder(context: Context) : BaseIntentBuilder(context, CategoriesActivity::class.java)
+    class IntentBuilder : BaseIntentBuilder(CategoriesActivity::class.java)
 
     companion object {
 

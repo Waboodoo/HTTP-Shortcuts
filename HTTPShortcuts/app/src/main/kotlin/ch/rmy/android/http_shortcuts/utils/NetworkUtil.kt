@@ -15,12 +15,12 @@ object NetworkUtil {
     }
 
     fun isNetworkPerformanceRestricted(context: Context) =
-        isDataSaveModeEnabled(context) || isBatterySaveModeEnabled(context)
+        isDataSaverModeEnabled(context) || isBatterySaverModeEnabled(context)
 
-    private fun isBatterySaveModeEnabled(context: Context): Boolean =
+    private fun isBatterySaverModeEnabled(context: Context): Boolean =
         (context.getSystemService(Context.POWER_SERVICE) as PowerManager).isPowerSaveMode
 
-    private fun isDataSaveModeEnabled(context: Context): Boolean =
+    private fun isDataSaverModeEnabled(context: Context): Boolean =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             (

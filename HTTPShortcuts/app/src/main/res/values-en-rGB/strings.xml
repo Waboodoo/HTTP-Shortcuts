@@ -12,4 +12,6 @@
     <string name="option_response_handling_type_dialog">Dialogue Window</string>
     <!-- Label: Shown when user selects a widget to place on the home screen, shown for the customizable widget (as opposite to the generic shortcut) -->
     <string name="label_widget">Customisable Widget</string>
+    <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
+    <string name="label_allow_share_into">Allow Receiving Value from Share Dialogue</string>
 </resources>

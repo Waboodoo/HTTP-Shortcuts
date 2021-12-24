@@ -6,12 +6,11 @@ import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.os.Build
 import androidx.annotation.RequiresApi
+import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.mapIfNotNull
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.activities.main.MainActivity
-import ch.rmy.android.http_shortcuts.data.models.Category
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.extensions.logException
-import ch.rmy.android.http_shortcuts.extensions.mapIfNotNull
+import ch.rmy.android.http_shortcuts.data.dtos.LauncherShortcut
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
 object LauncherShortcutManager {
@@ -21,14 +20,14 @@ object LauncherShortcutManager {
 
     fun supportsLauncherShortcuts() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1
 
-    fun updateAppShortcuts(context: Context, categories: Collection<Category>) {
+    fun updateAppShortcuts(context: Context, shortcuts: Collection<LauncherShortcut>) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-            update(context, categories)
+            update(context, shortcuts)
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.N_MR1)
-    private fun update(context: Context, categories: Collection<Category>) {
+    private fun update(context: Context, shortcuts: Collection<LauncherShortcut>) {
         try {
             val shortcutManager = context.getSystemService(ShortcutManager::class.java)!!
             val max = try {
@@ -38,7 +37,7 @@ object LauncherShortcutManager {
                 5
             }
 
-            val launcherShortcuts = createLauncherShortcuts(context, categories, max)
+            val launcherShortcuts = createLauncherShortcuts(context, shortcuts.take(max))
             if (launcherShortcuts.isEmpty() && shortcutManager.dynamicShortcuts.isEmpty()) {
                 return
             }
@@ -49,33 +48,20 @@ object LauncherShortcutManager {
     }
 
     @RequiresApi(Build.VERSION_CODES.N_MR1)
-    private fun createLauncherShortcuts(context: Context, categories: Collection<Category>, max: Int): List<ShortcutInfo> {
-        var count = 0
-        val launcherShortcuts = mutableListOf<ShortcutInfo>()
-        for (category in categories) {
-            for (shortcut in category.shortcuts) {
-                if (shortcut.launcherShortcut) {
-                    val rank = max - count + 1
-                    launcherShortcuts.add(
-                        createShortcutInfo(
-                            context = context,
-                            shortcutId = shortcut.id,
-                            shortcutName = shortcut.name,
-                            shortcutIcon = shortcut.icon,
-                            rank = rank,
-                        )
-                    )
-                    if (++count >= max) {
-                        return launcherShortcuts
-                    }
-                }
+    private fun createLauncherShortcuts(context: Context, shortcuts: Collection<LauncherShortcut>): List<ShortcutInfo> =
+        shortcuts
+            .mapIndexed { index, launcherShortcut ->
+                createShortcutInfo(
+                    context = context,
+                    shortcutId = launcherShortcut.id,
+                    shortcutName = launcherShortcut.name,
+                    shortcutIcon = launcherShortcut.icon,
+                    rank = index,
+                )
             }
-        }
-        return launcherShortcuts
-    }
 
     @RequiresApi(Build.VERSION_CODES.N_MR1)
-    private fun createShortcutInfo(context: Context, shortcut: Shortcut) =
+    private fun createShortcutInfo(context: Context, shortcut: LauncherShortcut) =
         createShortcutInfo(context, shortcut.id, shortcut.name, shortcut.icon)
 
     @RequiresApi(Build.VERSION_CODES.N_MR1)
@@ -93,8 +79,8 @@ object LauncherShortcutManager {
             .setLongLabel(label)
             .setRank(rank)
             .setIntent(
-                ExecuteActivity.IntentBuilder(context, shortcutId)
-                    .build()
+                ExecuteActivity.IntentBuilder(shortcutId)
+                    .build(context)
             )
             .mapIfNotNull(icon) {
                 setIcon(it)
@@ -112,7 +98,7 @@ object LauncherShortcutManager {
         return false
     }
 
-    fun pinShortcut(context: Context, shortcut: Shortcut) {
+    fun pinShortcut(context: Context, shortcut: LauncherShortcut) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val shortcutManager = context.getSystemService(ShortcutManager::class.java)!!
             val shortcutInfo = createShortcutInfo(context, shortcut)
@@ -120,7 +106,7 @@ object LauncherShortcutManager {
         }
     }
 
-    fun createShortcutPinIntent(context: Context, shortcut: Shortcut): Intent {
+    fun createShortcutPinIntent(context: Context, shortcut: LauncherShortcut): Intent {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val shortcutManager = context.getSystemService(ShortcutManager::class.java)!!
             val shortcutInfo = createShortcutInfo(context, shortcut)
@@ -137,10 +123,10 @@ object LauncherShortcutManager {
         }
     }
 
-    fun pinCategory(context: Context, category: Category) {
+    fun pinCategory(context: Context, categoryId: String, categoryName: String) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val shortcutManager = context.getSystemService(ShortcutManager::class.java)!!
-            val shortcutInfo = createCategoryShortcutInfo(context, category)
+            val shortcutInfo = createCategoryShortcutInfo(context, categoryId, categoryName)
             shortcutManager.requestPinShortcut(shortcutInfo, null)
         }
     }
@@ -154,10 +140,6 @@ object LauncherShortcutManager {
     }
 
     @RequiresApi(Build.VERSION_CODES.N_MR1)
-    private fun createCategoryShortcutInfo(context: Context, category: Category) =
-        createCategoryShortcutInfo(context, category.id, category.name)
-
-    @RequiresApi(Build.VERSION_CODES.N_MR1)
     private fun createCategoryShortcutInfo(
         context: Context,
         categoryId: String,
@@ -168,9 +150,9 @@ object LauncherShortcutManager {
             .setLongLabel(categoryName)
             .setRank(0)
             .setIntent(
-                MainActivity.IntentBuilder(context)
+                MainActivity.IntentBuilder()
                     .categoryId(categoryId)
-                    .build()
+                    .build(context)
             )
             .setIcon(IconUtil.getIcon(context, ShortcutIcon.BuiltInIcon("flat_grey_folder"))) // TODO
             .build()

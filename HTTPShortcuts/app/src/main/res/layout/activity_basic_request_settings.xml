@@ -17,7 +17,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <ch.rmy.android.http_shortcuts.views.LabelledSpinner
+            <ch.rmy.android.framework.ui.views.LabelledSpinner
                 android:id="@+id/input_method"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

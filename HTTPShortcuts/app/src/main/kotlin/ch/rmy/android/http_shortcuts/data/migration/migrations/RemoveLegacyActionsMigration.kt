@@ -1,6 +1,6 @@
 package ch.rmy.android.http_shortcuts.data.migration.migrations
 
-import ch.rmy.android.http_shortcuts.extensions.logException
+import ch.rmy.android.framework.extensions.logException
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import io.realm.DynamicRealm

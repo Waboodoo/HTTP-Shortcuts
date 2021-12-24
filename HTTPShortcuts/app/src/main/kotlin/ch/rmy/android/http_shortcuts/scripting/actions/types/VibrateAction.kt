@@ -3,9 +3,9 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
-import ch.rmy.android.http_shortcuts.extensions.mapIf
+import ch.rmy.android.framework.extensions.mapIf
+import ch.rmy.android.framework.utils.VibrationUtil
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
-import ch.rmy.android.http_shortcuts.utils.VibrationUtil
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit

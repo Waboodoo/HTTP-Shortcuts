@@ -162,7 +162,7 @@
                 android:value=".activities.main.MainActivity" />
         </activity>
         <activity
-            android:name=".activities.variables.VariableEditorActivity"
+            android:name=".activities.variables.editor.VariableEditorActivity"
             android:label="@string/edit_variable"
             android:parentActivityName=".activities.variables.VariablesActivity"
             android:windowSoftInputMode="adjustResize">
@@ -226,7 +226,7 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".activities.misc.ShareActivity"
+            android:name=".activities.misc.share.ShareActivity"
             android:configChanges="orientation|screenSize"
             android:excludeFromRecents="true"
             android:exported="true"
@@ -257,7 +257,7 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".activities.misc.DeepLinkActivity"
+            android:name=".activities.misc.deeplink.DeepLinkActivity"
             android:configChanges="orientation|screenSize"
             android:excludeFromRecents="true"
             android:exported="true"
@@ -276,7 +276,7 @@
         </activity>
 
         <activity
-            android:name=".activities.misc.VoiceActivity"
+            android:name=".activities.misc.voice.VoiceActivity"
             android:configChanges="orientation|screenSize"
             android:excludeFromRecents="true"
             android:exported="true"

@@ -4,7 +4,8 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import androidx.annotation.ColorInt
-import ch.rmy.android.http_shortcuts.utils.UUIDUtils.UUID_REGEX
+import ch.rmy.android.framework.utils.UUIDUtils.UUID_REGEX
+import ch.rmy.android.http_shortcuts.data.dtos.VariablePlaceholder
 import java.util.LinkedList
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -19,7 +20,7 @@ object Variables {
 
     private const val RAW_PLACEHOLDER_PREFIX = "{{"
     private const val RAW_PLACEHOLDER_SUFFIX = "}}"
-    private val RAW_PLACEHOLDER_REGEX = "${quote(RAW_PLACEHOLDER_PREFIX)}($VARIABLE_ID_REGEX)${quote(RAW_PLACEHOLDER_SUFFIX)}"
+    private val RAW_PLACEHOLDER_REGEX = "${quote(RAW_PLACEHOLDER_PREFIX)}$VARIABLE_ID_REGEX${quote(RAW_PLACEHOLDER_SUFFIX)}"
 
     private const val JS_PLACEHOLDER_REGEX = """/\*\[variable]\*/"([^"]+)"/\*\[/variable]\*/"""
     private const val JS_PLACEHOLDER_REGEX2 = """getVariable\(["']($VARIABLE_KEY_REGEX)["']\)"""

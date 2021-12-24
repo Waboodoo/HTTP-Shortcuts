@@ -2,7 +2,7 @@ package ch.rmy.android.http_shortcuts.http
 
 import android.content.Context
 import android.net.Uri
-import ch.rmy.android.http_shortcuts.extensions.mapIf
+import ch.rmy.android.framework.extensions.mapIf
 import ch.rmy.android.http_shortcuts.utils.FileUtil
 import okhttp3.Response
 import java.io.File

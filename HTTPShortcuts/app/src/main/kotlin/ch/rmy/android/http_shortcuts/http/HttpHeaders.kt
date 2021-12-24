@@ -1,6 +1,6 @@
 package ch.rmy.android.http_shortcuts.http
 
-import ch.rmy.android.http_shortcuts.extensions.getCaseInsensitive
+import ch.rmy.android.framework.extensions.getCaseInsensitive
 import okhttp3.Headers
 
 class HttpHeaders private constructor(private val headers: Map<String, List<String>>) {

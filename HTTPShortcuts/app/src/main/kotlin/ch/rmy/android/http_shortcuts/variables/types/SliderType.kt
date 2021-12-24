@@ -4,14 +4,15 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.widget.SeekBar
 import android.widget.TextView
+import ch.rmy.android.framework.utils.SimpleOnSeekBarChangeListener
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.data.Commons
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.Variable
-import ch.rmy.android.http_shortcuts.extensions.mapIf
-import ch.rmy.android.http_shortcuts.utils.SimpleOnSeekBarChangeListener
 import io.reactivex.Single
 
-internal class SliderType : BaseVariableType(), HasTitle {
+internal class SliderType : BaseVariableType() {
+
+    private val variablesRepository = VariableRepository()
 
     override fun resolveValue(context: Context, variable: Variable): Single<String> =
         Single.create<String> { emitter ->
@@ -48,20 +49,13 @@ internal class SliderType : BaseVariableType(), HasTitle {
                 .negative(R.string.dialog_cancel)
                 .showIfPossible()
         }
-            .mapIf(variable.rememberValue) {
-                flatMap { resolvedValue ->
-                    Commons.setVariableValue(variable.id, resolvedValue)
-                        .toSingle { resolvedValue }
-                }
-            }
+            .storeValueIfNeeded(variable, variablesRepository)
 
     private fun findSliderMax(variable: Variable): Int =
         ((findMax(variable) - findMin(variable)) / findStep(variable))
 
     private fun findValue(slider: SeekBar, variable: Variable): String =
         (slider.progress * findStep(variable) + findMin(variable)).toString()
-
-    override fun createEditorFragment() = SliderEditorFragment()
 
     companion object {
 

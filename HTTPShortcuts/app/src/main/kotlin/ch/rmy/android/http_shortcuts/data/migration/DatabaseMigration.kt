@@ -1,11 +1,11 @@
 package ch.rmy.android.http_shortcuts.data.migration
 
+import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ParameterTypeMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.RemoveLegacyActionsMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceActionsWithScriptsMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceVariableKeysWithIdsMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ResponseHandlingMigration
-import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import io.realm.DynamicRealm
 import io.realm.DynamicRealmObject
 import io.realm.RealmList

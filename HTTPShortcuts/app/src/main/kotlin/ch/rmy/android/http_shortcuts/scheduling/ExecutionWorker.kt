@@ -1,44 +1,55 @@
 package ch.rmy.android.http_shortcuts.scheduling
 
 import android.content.Context
-import androidx.work.Worker
+import androidx.work.RxWorker
 import androidx.work.WorkerParameters
+import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
-import ch.rmy.android.http_shortcuts.data.DataSource
 import ch.rmy.android.http_shortcuts.data.RealmFactory
+import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.models.PendingExecution
+import io.reactivex.Completable
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 
 class ExecutionWorker(private val context: Context, workerParams: WorkerParameters) :
-    Worker(context, workerParams) {
+    RxWorker(context, workerParams) {
 
-    override fun doWork(): Result {
-        val executionId = inputData.getString(INPUT_EXECUTION_ID) ?: return Result.failure()
+    private val pendingExecutionsRepository = PendingExecutionsRepository()
 
-        RealmFactory.init(applicationContext)
-        runPendingExecution(context, executionId)
-        return Result.success()
-    }
+    override fun createWork(): Single<Result> =
+        Single.defer {
+            val executionId = inputData.getString(INPUT_EXECUTION_ID) ?: return@defer Single.just(Result.failure())
+            RealmFactory.init(applicationContext)
+            runPendingExecution(context, executionId)
+                .toSingleDefault(Result.success())
+        }
+            .onErrorReturn { error ->
+                logException(error)
+                Result.failure()
+            }
+
+    private fun runPendingExecution(context: Context, id: String): Completable =
+        pendingExecutionsRepository.getPendingExecution(id)
+            .flatMapCompletable { pendingExecution ->
+                Completable.fromAction {
+                    runPendingExecution(context, pendingExecution)
+                }
+                    .subscribeOn(AndroidSchedulers.mainThread())
+            }
 
     companion object {
         const val INPUT_EXECUTION_ID = "id"
 
-        private fun runPendingExecution(context: Context, id: String) {
-            val pendingExecution = DataSource.getPendingExecution(id) ?: return
-            runPendingExecution(context, pendingExecution)
-        }
-
         fun runPendingExecution(context: Context, pendingExecution: PendingExecution) {
-            DataSource.deletePendingExecution(pendingExecution.id)
-            val shortcutId = pendingExecution.shortcutId
-            val tryNumber = pendingExecution.tryNumber
-            val variableValues = pendingExecution.resolvedVariables
-                .associate { variable -> variable.key to variable.value }
-            val recursionDepth = pendingExecution.recursionDepth
-
-            ExecuteActivity.IntentBuilder(context, shortcutId)
-                .variableValues(variableValues)
-                .tryNumber(tryNumber)
-                .recursionDepth(recursionDepth)
+            ExecuteActivity.IntentBuilder(shortcutId = pendingExecution.shortcutId)
+                .variableValues(
+                    pendingExecution.resolvedVariables
+                        .associate { variable -> variable.key to variable.value }
+                )
+                .tryNumber(pendingExecution.tryNumber)
+                .recursionDepth(pendingExecution.recursionDepth)
+                .executionId(pendingExecution.id)
                 .startActivity(context)
         }
     }

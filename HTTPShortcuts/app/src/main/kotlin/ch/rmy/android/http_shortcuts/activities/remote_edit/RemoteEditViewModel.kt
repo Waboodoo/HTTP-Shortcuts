@@ -3,7 +3,7 @@ package ch.rmy.android.http_shortcuts.activities.remote_edit
 import android.app.Application
 import androidx.core.net.toUri
 import androidx.lifecycle.AndroidViewModel
-import ch.rmy.android.http_shortcuts.extensions.context
+import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.http_shortcuts.http.HttpClients
 import ch.rmy.android.http_shortcuts.import_export.Exporter
 import ch.rmy.android.http_shortcuts.import_export.Importer

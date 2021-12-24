@@ -9,10 +9,10 @@ import android.graphics.drawable.Icon
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.appcompat.content.res.AppCompatResources
-import ch.rmy.android.http_shortcuts.extensions.setTintCompat
+import ch.rmy.android.framework.extensions.setTintCompat
+import ch.rmy.android.framework.utils.UUIDUtils.UUID_REGEX
+import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
-import ch.rmy.android.http_shortcuts.utils.UUIDUtils.UUID_REGEX
-import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import java.io.File
 import java.util.regex.Pattern
 import java.util.regex.Pattern.quote

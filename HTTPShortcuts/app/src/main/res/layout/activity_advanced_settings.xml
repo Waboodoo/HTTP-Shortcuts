@@ -70,7 +70,7 @@
 
             <include layout="@layout/divider_line" />
 
-            <ch.rmy.android.http_shortcuts.views.PanelButton
+            <ch.rmy.android.framework.ui.views.PanelButton
                 android:id="@+id/input_timeout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -133,7 +133,7 @@
 
             <include layout="@layout/divider_line" />
 
-            <ch.rmy.android.http_shortcuts.views.PanelButton
+            <ch.rmy.android.framework.ui.views.PanelButton
                 android:id="@+id/button_client_cert"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

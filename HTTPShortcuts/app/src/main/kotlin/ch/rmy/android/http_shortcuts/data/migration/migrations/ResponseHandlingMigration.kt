@@ -1,6 +1,6 @@
 package ch.rmy.android.http_shortcuts.data.migration.migrations
 
-import ch.rmy.android.http_shortcuts.utils.UUIDUtils
+import ch.rmy.android.framework.utils.UUIDUtils
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import io.realm.DynamicRealm

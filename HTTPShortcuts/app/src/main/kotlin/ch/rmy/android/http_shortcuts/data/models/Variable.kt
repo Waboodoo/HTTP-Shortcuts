@@ -1,7 +1,9 @@
 package ch.rmy.android.http_shortcuts.data.models
 
+import ch.rmy.android.framework.utils.UUIDUtils
+import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
-import ch.rmy.android.http_shortcuts.utils.UUIDUtils
+import ch.rmy.android.http_shortcuts.variables.Variables
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
@@ -9,12 +11,10 @@ import io.realm.annotations.Required
 
 open class Variable(
     @PrimaryKey
-    override var id: String = "",
+    var id: String = "",
 
     @Required
     var key: String = "",
-    @Required
-    var type: String = TYPE_CONSTANT,
 
     var value: String? = "",
     var options: RealmList<Option>? = RealmList(),
@@ -23,13 +23,27 @@ open class Variable(
     var urlEncode: Boolean = false,
     var jsonEncode: Boolean = false,
 
-    var data: String? = null,
-
-    var flags: Int = 0,
-
     @Required
     var title: String = "",
-) : RealmObject(), HasId {
+    variableType: VariableType = VariableType.CONSTANT,
+) : RealmObject() {
+
+    private var flags: Int = 0
+
+    @Required
+    private var type: String = VariableType.CONSTANT.type
+
+    init {
+        type = variableType.type
+    }
+
+    private var data: String? = null
+
+    var variableType: VariableType
+        get() = VariableType.parse(type)
+        set(value) {
+            type = value.type
+        }
 
     var isShareText: Boolean
         get() = flags and FLAG_SHARE_TEXT != 0
@@ -79,9 +93,6 @@ open class Variable(
             data = GsonUtil.toJson(dataMap)
         }
 
-    val isConstant
-        get() = type == TYPE_CONSTANT
-
     override fun toString() = "Variable($type, $key, $id)"
 
     fun validate() {
@@ -89,37 +100,21 @@ open class Variable(
             throw IllegalArgumentException("Invalid variable ID found, must be UUID: $id")
         }
 
-        if (type !in setOf(
-                TYPE_CONSTANT,
-                TYPE_TEXT,
-                TYPE_NUMBER,
-                TYPE_PASSWORD,
-                TYPE_SELECT,
-                TYPE_TOGGLE,
-                TYPE_COLOR,
-                TYPE_DATE,
-                TYPE_TIME,
-                TYPE_SLIDER,
-            )
-        ) {
+        if (!Variables.isValidVariableKey(key)) {
+            throw IllegalArgumentException("Invalid variable key: $key")
+        }
+
+        if (VariableType.values().none { it.type == type }) {
             throw IllegalArgumentException("Invalid variable type: $type")
         }
     }
 
     companion object {
 
-        const val FIELD_KEY = "key"
+        const val TEMPORARY_ID: String = "0"
 
-        const val TYPE_CONSTANT = "constant"
-        const val TYPE_TEXT = "text"
-        const val TYPE_NUMBER = "number"
-        const val TYPE_PASSWORD = "password"
-        const val TYPE_SELECT = "select"
-        const val TYPE_TOGGLE = "toggle"
-        const val TYPE_COLOR = "color"
-        const val TYPE_DATE = "date"
-        const val TYPE_TIME = "time"
-        const val TYPE_SLIDER = "slider"
+        const val FIELD_ID = "id"
+        const val FIELD_KEY = "key"
 
         private const val FLAG_SHARE_TEXT = 0x1
         private const val FLAG_MULTILINE = 0x2

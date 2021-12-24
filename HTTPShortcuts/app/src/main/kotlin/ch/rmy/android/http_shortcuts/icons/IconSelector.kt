@@ -5,10 +5,10 @@ import android.content.Context
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import ch.rmy.android.framework.extensions.showIfPossible
+import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
-import ch.rmy.android.http_shortcuts.extensions.showIfPossible
-import ch.rmy.android.http_shortcuts.extensions.showToast
 import io.reactivex.Maybe
 import io.reactivex.subjects.MaybeSubject
 

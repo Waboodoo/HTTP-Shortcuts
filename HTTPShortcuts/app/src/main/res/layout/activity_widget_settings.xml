@@ -62,7 +62,7 @@
 
             <include layout="@layout/divider_line" />
 
-            <ch.rmy.android.http_shortcuts.views.PanelButton
+            <ch.rmy.android.framework.ui.views.PanelButton
                 android:id="@+id/input_label_color"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

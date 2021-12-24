@@ -1,13 +1,15 @@
 package ch.rmy.android.http_shortcuts.variables.types
 
 import android.content.Context
+import ch.rmy.android.framework.extensions.mapFor
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.data.Commons
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.Variable
-import ch.rmy.android.http_shortcuts.extensions.mapFor
 import io.reactivex.Single
 
-internal class SelectType : BaseVariableType(), HasTitle {
+internal class SelectType : BaseVariableType() {
+
+    private val variablesRepository = VariableRepository()
 
     override fun resolveValue(context: Context, variable: Variable): Single<String> =
         Single
@@ -44,12 +46,7 @@ internal class SelectType : BaseVariableType(), HasTitle {
                     }
                     .showIfPossible()
             }
-            .flatMap { resolvedValue ->
-                Commons.setVariableValue(variable.id, resolvedValue)
-                    .toSingle { resolvedValue }
-            }
-
-    override fun createEditorFragment() = SelectEditorFragment()
+            .storeValueIfNeeded(variable, variablesRepository)
 
     companion object {
         const val KEY_MULTI_SELECT = "multi_select"

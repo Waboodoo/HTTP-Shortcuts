@@ -7,20 +7,18 @@ object TriggerShortcutManager {
     private const val REGEX = """triggerShortcut\(/\*\[shortcut]\*/"([^"]+)"/\*\[/shortcut]\*/\);"""
     private val PATTERN = Pattern.compile(REGEX)
 
-    fun getTriggeredShortcutsFromCode(code: String): List<TriggeredShortcut> {
-        val result = mutableListOf<TriggeredShortcut>()
+    fun getTriggeredShortcutIdsFromCode(code: String): List<String> {
+        val result = mutableListOf<String>()
         val matcher = PATTERN.matcher(code)
         while (matcher.find()) {
             val shortcutId = matcher.group(1) ?: ""
-            result.add(TriggeredShortcut(shortcutId))
+            result.add(shortcutId)
         }
         return result
     }
 
-    fun getCodeFromTriggeredShortcuts(shortcuts: List<TriggeredShortcut>): String =
-        shortcuts.joinToString("\n") {
-            """triggerShortcut(/*[shortcut]*/"${it.shortcutId}"/*[/shortcut]*/);"""
+    fun getCodeFromTriggeredShortcutIds(shortcutIds: List<String>): String =
+        shortcutIds.joinToString("\n") { shortcutId ->
+            """triggerShortcut(/*[shortcut]*/"$shortcutId"/*[/shortcut]*/);"""
         }
-
-    class TriggeredShortcut(val shortcutId: String)
 }

@@ -5,7 +5,7 @@ import android.content.Context
 import android.net.Uri
 import android.provider.OpenableColumns
 import androidx.core.content.FileProvider
-import ch.rmy.android.http_shortcuts.extensions.tryOrLog
+import ch.rmy.android.framework.extensions.tryOrLog
 import java.io.BufferedWriter
 import java.io.File
 import java.io.OutputStreamWriter
@@ -51,7 +51,9 @@ object FileUtil {
             contentResolver.query(fileUri, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null)
                 ?.use { cursor ->
                     cursor.moveToFirst()
-                    val fileName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+                    val fileName = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                        .takeUnless { it == -1 }
+                        ?.let(cursor::getString)
                     if (fileName != null) {
                         return fileName
                     }

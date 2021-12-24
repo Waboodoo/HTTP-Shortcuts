@@ -17,5 +17,13 @@ open class Base : RealmObject() {
     fun validate() {
         categories.forEach(Category::validate)
         variables.forEach(Variable::validate)
+        if (hasDuplicateVariableKeys()) {
+            throw IllegalArgumentException("Duplicate variable keys")
+        }
+    }
+
+    private fun hasDuplicateVariableKeys(): Boolean {
+        val keys = variables.map { it.key }
+        return keys.distinct().size != keys.size
     }
 }

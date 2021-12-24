@@ -1,25 +1,52 @@
 package ch.rmy.android.http_shortcuts.activities.main
 
-import android.content.Context
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import ch.rmy.android.http_shortcuts.activities.BaseViewHolder
-import ch.rmy.android.http_shortcuts.data.livedata.ListLiveData
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import androidx.recyclerview.widget.RecyclerView
+import ch.rmy.android.framework.extensions.consume
+import ch.rmy.android.framework.extensions.context
+import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.http_shortcuts.databinding.GridItemShortcutBinding
 
-class ShortcutGridAdapter(context: Context, shortcuts: ListLiveData<Shortcut>) : BaseShortcutAdapter(context, shortcuts) {
+class ShortcutGridAdapter : BaseShortcutAdapter() {
 
-    override fun createViewHolder(parentView: ViewGroup) =
-        ShortcutViewHolder(GridItemShortcutBinding.inflate(LayoutInflater.from(parentView.context), parentView, false))
+    override fun createViewHolder(parent: ViewGroup, layoutInflater: LayoutInflater) =
+        ShortcutViewHolder(GridItemShortcutBinding.inflate(layoutInflater, parent, false))
 
-    inner class ShortcutViewHolder(private val binding: GridItemShortcutBinding) :
-        BaseViewHolder<Shortcut>(binding.root, this@ShortcutGridAdapter) {
+    override fun bindViewHolder(holder: RecyclerView.ViewHolder, item: ShortcutListItem.Shortcut) {
+        (holder as ShortcutViewHolder).setItem(item)
+    }
 
-        override fun updateViews(item: Shortcut) {
+    inner class ShortcutViewHolder(
+        private val binding: GridItemShortcutBinding,
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        private lateinit var shortcutId: String
+
+        init {
+            binding.root.setOnClickListener {
+                userEventSubject.onNext(UserEvent.ShortcutClicked(shortcutId))
+            }
+            binding.root.setOnLongClickListener {
+                if (isLongClickingEnabled) {
+                    consume {
+                        userEventSubject.onNext(UserEvent.ShortcutLongClicked(shortcutId))
+                    }
+                } else {
+                    false
+                }
+            }
+        }
+
+        fun setItem(item: ShortcutListItem.Shortcut) {
+            shortcutId = item.id
             binding.name.text = item.name
             binding.icon.setIcon(item.icon)
-            binding.name.setTextColor(nameTextColor)
+            binding.waitingIcon.visible = item.isPending
+            val primaryColor = getPrimaryTextColor(context, item.textColor)
+            binding.waitingIcon.imageTintList = ColorStateList.valueOf(primaryColor)
+            binding.name.setTextColor(primaryColor)
         }
     }
 }

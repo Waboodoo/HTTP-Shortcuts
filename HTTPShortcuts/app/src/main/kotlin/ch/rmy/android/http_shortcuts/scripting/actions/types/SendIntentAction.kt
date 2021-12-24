@@ -5,11 +5,11 @@ import android.content.Intent
 import android.os.Build
 import android.os.FileUriExposedException
 import androidx.core.net.toUri
+import ch.rmy.android.framework.extensions.ifTrue
+import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
-import ch.rmy.android.http_shortcuts.extensions.ifTrue
-import ch.rmy.android.http_shortcuts.extensions.logException
-import ch.rmy.android.http_shortcuts.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.extensions.toListOfObjects
 import ch.rmy.android.http_shortcuts.extensions.toListOfStrings
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext

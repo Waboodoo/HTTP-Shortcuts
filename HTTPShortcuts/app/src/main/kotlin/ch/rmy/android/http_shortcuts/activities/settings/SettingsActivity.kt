@@ -1,34 +1,30 @@
 package ch.rmy.android.http_shortcuts.activities.settings
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ActivityNotFoundException
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import androidx.preference.Preference
+import ch.rmy.android.framework.extensions.attachTo
+import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.showSnackbar
+import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.settings.globalcode.GlobalScriptingActivity
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
-import ch.rmy.android.http_shortcuts.extensions.attachTo
-import ch.rmy.android.http_shortcuts.extensions.bindViewModel
-import ch.rmy.android.http_shortcuts.extensions.logException
-import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.http.CookieManager
 import ch.rmy.android.http_shortcuts.logging.Logging
-import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
 
 class SettingsActivity : BaseActivity() {
 
     private val viewModel: SettingsViewModel by bindViewModel()
 
-    @SuppressLint("NewApi")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreate() {
         setContentView(R.layout.activity_settings)
         setTitle(R.string.title_settings)
         supportFragmentManager
@@ -139,7 +135,7 @@ class SettingsActivity : BaseActivity() {
         }
 
         private fun openGlobalScriptingEditor() {
-            GlobalScriptingActivity.IntentBuilder(requireContext())
+            GlobalScriptingActivity.IntentBuilder()
                 .startActivity(this)
         }
 
@@ -160,7 +156,7 @@ class SettingsActivity : BaseActivity() {
         }
     }
 
-    class IntentBuilder(context: Context) : BaseIntentBuilder(context, SettingsActivity::class.java)
+    class IntentBuilder : BaseIntentBuilder(SettingsActivity::class.java)
 
     companion object {
 

@@ -1,20 +1,20 @@
 package ch.rmy.android.http_shortcuts.data
 
 import android.content.Context
+import ch.rmy.android.framework.extensions.logInfo
+import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.migration.DatabaseMigration
 import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.Category
-import ch.rmy.android.http_shortcuts.extensions.logInfo
-import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import com.getkeepsafe.relinker.MissingLibraryException
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.RealmList
 
-internal class RealmFactory {
+class RealmFactory private constructor() : ch.rmy.android.framework.data.RealmFactory {
 
-    fun createRealm(): Realm = Realm.getInstance(configuration)
+    override fun createRealm(): Realm = Realm.getInstance(configuration)
 
     class RealmNotFoundException(e: Throwable) : Exception(e)
 
@@ -33,13 +33,6 @@ internal class RealmFactory {
                 Realm.init(context)
                 configuration = createConfiguration(context)
                 instance = RealmFactory()
-                    .apply {
-                        createRealm().use { realm ->
-                            if (Repository.getBase(realm) == null) {
-                                setupBase(context, realm)
-                            }
-                        }
-                    }
             } catch (e: MissingLibraryException) {
                 logInfo("Realm binary not found")
                 throw RealmNotFoundException(e)
@@ -48,13 +41,9 @@ internal class RealmFactory {
 
         fun getInstance(): RealmFactory = instance!!
 
-        fun <T> withRealm(block: (realm: Realm) -> T): T =
-            getInstance().createRealm().use(block)
-
         private fun createConfiguration(context: Context): RealmConfiguration =
             RealmConfiguration.Builder()
                 .schemaVersion(DatabaseMigration.VERSION)
-                .allowWritesOnUiThread(true) // TODO: Refactor app such that this is no longer needed
                 .migration(DatabaseMigration())
                 .initialData { realm ->
                     setupBase(context, realm)

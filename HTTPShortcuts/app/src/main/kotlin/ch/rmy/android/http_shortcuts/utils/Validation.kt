@@ -10,7 +10,7 @@ object Validation {
 
     fun isAcceptableUrl(url: String) =
         // TODO: Refine this check
-        url.isNotEmpty() && url != "http://"
+        url.isNotEmpty() && url != "http://" && url != "https://"
 
     fun isValidUrl(uri: Uri) =
         uri.scheme?.isNotEmpty() == true &&

@@ -2,13 +2,13 @@ package ch.rmy.android.http_shortcuts.scripting
 
 import android.content.Context
 import androidx.annotation.Keep
+import ch.rmy.android.framework.extensions.getCaseInsensitive
+import ch.rmy.android.framework.extensions.logInfo
+import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.exceptions.CanceledByUserException
 import ch.rmy.android.http_shortcuts.exceptions.JavaScriptException
 import ch.rmy.android.http_shortcuts.exceptions.ResponseTooLargeException
-import ch.rmy.android.http_shortcuts.extensions.getCaseInsensitive
-import ch.rmy.android.http_shortcuts.extensions.logInfo
-import ch.rmy.android.http_shortcuts.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.FileUploadManager
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse

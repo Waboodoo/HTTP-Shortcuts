@@ -7,17 +7,29 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
 import android.widget.ImageView
 import androidx.core.app.ActivityCompat
 import androidx.core.net.toUri
+import ch.rmy.android.framework.extensions.attachTo
+import ch.rmy.android.framework.extensions.finishWithoutAnimation
+import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.mapFor
+import ch.rmy.android.framework.extensions.mapIf
+import ch.rmy.android.framework.extensions.showToast
+import ch.rmy.android.framework.extensions.startActivity
+import ch.rmy.android.framework.extensions.takeUnlessEmpty
+import ch.rmy.android.framework.extensions.truncate
+import ch.rmy.android.framework.ui.BaseIntentBuilder
+import ch.rmy.android.framework.ui.Entrypoint
+import ch.rmy.android.framework.utils.DateUtil
+import ch.rmy.android.framework.utils.FilePickerUtil
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.execute.ProgressIndicator
 import ch.rmy.android.http_shortcuts.activities.response.DisplayResponseActivity
-import ch.rmy.android.http_shortcuts.data.Commons
-import ch.rmy.android.http_shortcuts.data.Controller
+import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
+import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
-import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
@@ -29,16 +41,7 @@ import ch.rmy.android.http_shortcuts.exceptions.ResumeLaterException
 import ch.rmy.android.http_shortcuts.exceptions.UnsupportedFeatureException
 import ch.rmy.android.http_shortcuts.exceptions.UserException
 import ch.rmy.android.http_shortcuts.extensions.cancel
-import ch.rmy.android.http_shortcuts.extensions.detachFromRealm
-import ch.rmy.android.http_shortcuts.extensions.finishWithoutAnimation
 import ch.rmy.android.http_shortcuts.extensions.loadImage
-import ch.rmy.android.http_shortcuts.extensions.logException
-import ch.rmy.android.http_shortcuts.extensions.mapFor
-import ch.rmy.android.http_shortcuts.extensions.mapIf
-import ch.rmy.android.http_shortcuts.extensions.showToast
-import ch.rmy.android.http_shortcuts.extensions.startActivity
-import ch.rmy.android.http_shortcuts.extensions.takeUnlessEmpty
-import ch.rmy.android.http_shortcuts.extensions.truncate
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.http.CookieManager
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
@@ -50,15 +53,13 @@ import ch.rmy.android.http_shortcuts.plugin.SessionMonitor
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.scripting.ScriptExecutor
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ActionFactory
-import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
-import ch.rmy.android.http_shortcuts.utils.DateUtil
 import ch.rmy.android.http_shortcuts.utils.ErrorFormatter
-import ch.rmy.android.http_shortcuts.utils.FilePickerUtil
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil.isImage
 import ch.rmy.android.http_shortcuts.utils.FileUtil
 import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.NetworkUtil
+import ch.rmy.android.http_shortcuts.utils.ProgressIndicator
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.Validation
 import ch.rmy.android.http_shortcuts.utils.WifiUtil
@@ -67,6 +68,7 @@ import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import ch.rmy.android.http_shortcuts.variables.Variables
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Completable
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -81,11 +83,13 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     override val initializeWithTheme: Boolean
         get() = false
 
-    private val controller by lazy {
-        destroyer.own(Controller())
-    }
-    private lateinit var base: Base
+    private val shortcutRepository = ShortcutRepository()
+    private val variableRepository = VariableRepository()
+    private val appRepository = AppRepository()
+    private val pendingExecutionsRepository = PendingExecutionsRepository()
+
     private lateinit var shortcut: Shortcut
+    private lateinit var globalCode: String
 
     private val progressIndicator: ProgressIndicator by lazy {
         ProgressIndicator(this)
@@ -93,6 +97,10 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
 
     private val scriptExecutor: ScriptExecutor by lazy {
         ScriptExecutor(context, ActionFactory())
+    }
+
+    private val executionScheduler by lazy {
+        ExecutionScheduler(applicationContext)
     }
 
     /* Execution Parameters */
@@ -106,16 +114,16 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         intent.extras?.getInt(EXTRA_TRY_NUMBER) ?: 0
     }
     private val recursionDepth by lazy {
-        intent?.extras?.getInt(EXTRA_RECURSION_DEPTH) ?: 0
+        intent.extras?.getInt(EXTRA_RECURSION_DEPTH) ?: 0
     }
     private val fileUris: List<Uri> by lazy {
-        intent?.extras?.getParcelableArrayList<Uri>(EXTRA_FILES) ?: emptyList<Uri>()
+        intent.extras?.getParcelableArrayList<Uri>(EXTRA_FILES) ?: emptyList<Uri>()
+    }
+    private val executionId: String? by lazy {
+        intent.extras?.getString(EXTRA_EXECUTION_SCHEDULE_ID)
     }
     private val shortcutName by lazy {
         shortcut.name.ifEmpty { getString(R.string.shortcut_safe_name) }
-    }
-    private val globalCode: String by lazy {
-        base.globalCode ?: ""
     }
 
     /* Caches / State */
@@ -128,36 +136,67 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
 
-        Commons
+        pendingExecutionsRepository
             .createPendingExecution(
                 shortcutId = IntentUtil.getShortcutId(intent),
                 resolvedVariables = IntentUtil.getVariableValues(intent),
                 tryNumber = 0,
             )
             .subscribe()
+            .attachTo(destroyer)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (!isRealmAvailable) {
-            return
-        }
-
+    override fun onCreate() {
         SessionMonitor.onSessionStarted()
 
-        shortcut = controller.getShortcutById(shortcutId)?.detachFromRealm() ?: run {
-            showToast(getString(R.string.shortcut_not_found), long = true)
-            finishWithoutAnimation()
+        appRepository.getGlobalCode()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { globalCode ->
+                    this.globalCode = globalCode
+                    onDataLoaded()
+                },
+                { error ->
+                    logException(error)
+                    showToast(getString(R.string.error_generic), long = true)
+                    finishWithoutAnimation()
+                },
+            )
+            .attachTo(destroyer)
+
+        if (executionId != null) {
+            pendingExecutionsRepository.removePendingExecution(executionId!!)
+        } else {
+            Completable.complete()
+        }
+            .andThen(shortcutRepository.getShortcutById(shortcutId))
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { shortcut ->
+                    this.shortcut = shortcut
+                    onDataLoaded()
+                },
+                { error ->
+                    logException(error)
+                    showToast(getString(R.string.shortcut_not_found), long = true)
+                    finishWithoutAnimation()
+                },
+            )
+            .attachTo(destroyer)
+    }
+
+    private fun onDataLoaded() {
+        if (!(::shortcut).isInitialized || !(::globalCode).isInitialized) {
             return
         }
-        base = controller.getBase().detachFromRealm()
         setTheme(themeHelper.transparentTheme)
 
         destroyer.own {
             if (fileUploadManager != null) {
                 FileUtil.deleteOldCacheFiles(context)
             }
-            ExecutionScheduler.schedule(context)
+            executionScheduler.schedule()
+                .blockingAwait() // TODO: Avoid blocking the UI thread
         }
 
         subscribeAndFinishAfterIfNeeded(
@@ -197,9 +236,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                                 )
                             }
                             rescheduleExecution()
-                                .doOnComplete {
-                                    ExecutionScheduler.schedule(context)
-                                }
+                                .andThen(executionScheduler.schedule())
                         } else {
                             val simple = shortcut.responseHandling?.failureOutput == ResponseHandling.FAILURE_OUTPUT_SIMPLE
                             displayOutput(
@@ -286,18 +323,21 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
             }
 
     private fun resolveVariablesAndExecute(): Completable =
-        VariableResolver(context)
-            .resolve(
-                controller.getVariables().detachFromRealm(),
-                shortcut,
-                globalCode,
-                variableValues,
-            )
+        variableRepository.getVariables()
+            .flatMap { variables ->
+                VariableResolver(context)
+                    .resolve(
+                        variables,
+                        shortcut,
+                        globalCode,
+                        variableValues,
+                    )
+            }
             .flatMapCompletable { variableManager ->
                 this.variableManager = variableManager
                 if (shouldDelayExecution()) {
                     val waitUntil = DateUtil.calculateDate(shortcut.delay)
-                    Commons.createPendingExecution(
+                    pendingExecutionsRepository.createPendingExecution(
                         shortcutId = shortcut.id,
                         resolvedVariables = variableManager.getVariableValuesByKeys(),
                         waitUntil = waitUntil,
@@ -404,8 +444,11 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         }
 
     private fun requestPermissionsForWifiCheck() =
-        RxPermissions(this)
-            .request(Manifest.permission.ACCESS_FINE_LOCATION)
+        Observable.defer {
+            RxPermissions(this)
+                .request(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+            .subscribeOn(AndroidSchedulers.mainThread())
             .flatMapCompletable { granted ->
                 if (granted) {
                     Completable.complete()
@@ -527,7 +570,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     private fun rescheduleExecution(): Completable =
         if (tryNumber < MAX_RETRY) {
             val waitUntil = DateUtil.calculateDate(calculateDelay())
-            Commons
+            pendingExecutionsRepository
                 .createPendingExecution(
                     shortcutId = shortcut.id,
                     resolvedVariables = variableManager.getVariableValuesByKeys(),
@@ -579,7 +622,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                     .let { builder ->
                         if (isImage(response?.contentType)) {
                             val imageView = ImageView(context)
-                            imageView.loadImage(response!!.contentFile!!)
+                            imageView.loadImage(response!!.contentFile!!, preventMemoryCache = true)
                             builder.view(imageView)
                         } else {
                             builder.message(HTMLUtil.format(output.ifBlank { getString(R.string.message_blank_response) }))
@@ -589,7 +632,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                     .showAsCompletable()
             }
             ResponseHandling.UI_TYPE_WINDOW -> {
-                DisplayResponseActivity.IntentBuilder(context, shortcutId)
+                DisplayResponseActivity.IntentBuilder(shortcutId)
                     .name(shortcutName)
                     .type(response?.contentType)
                     .text(output)
@@ -641,15 +684,19 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         SessionMonitor.onSessionComplete()
     }
 
-    class IntentBuilder(context: Context, shortcutId: String? = null) :
-        BaseIntentBuilder(context, ExecuteActivity::class.java) {
+    class IntentBuilder(private val shortcutId: String? = null) :
+        BaseIntentBuilder(ExecuteActivity::class.java) {
 
         init {
             intent.action = ACTION_EXECUTE_SHORTCUT
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NO_ANIMATION
+        }
+
+        override fun build(context: Context): Intent {
             if (shortcutId != null) {
                 shortcut(shortcutId, context)
             }
+            return super.build(context)
         }
 
         private fun shortcut(shortcutId: String, context: Context) = also {
@@ -680,6 +727,10 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                 ArrayList<Uri>().apply { addAll(files) }
             )
         }
+
+        fun executionId(id: String) = also {
+            intent.putExtra(EXTRA_EXECUTION_SCHEDULE_ID, id)
+        }
     }
 
     companion object {
@@ -692,6 +743,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         const val EXTRA_TRY_NUMBER = "try_number"
         const val EXTRA_RECURSION_DEPTH = "recursion_depth"
         const val EXTRA_FILES = "files"
+        const val EXTRA_EXECUTION_SCHEDULE_ID = "schedule_id"
 
         private const val REQUEST_PICK_FILES = 1
 

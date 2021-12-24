@@ -4,11 +4,11 @@ import android.content.Context
 import android.net.Uri
 import androidx.annotation.DrawableRes
 import androidx.core.net.toUri
+import ch.rmy.android.framework.extensions.mapFor
+import ch.rmy.android.framework.extensions.mapIf
+import ch.rmy.android.framework.extensions.mapIfNotNull
+import ch.rmy.android.framework.extensions.replacePrefix
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.extensions.mapFor
-import ch.rmy.android.http_shortcuts.extensions.mapIf
-import ch.rmy.android.http_shortcuts.extensions.mapIfNotNull
-import ch.rmy.android.http_shortcuts.extensions.replacePrefix
 import ch.rmy.android.http_shortcuts.utils.IconUtil
 import java.io.File
 

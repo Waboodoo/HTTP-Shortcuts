@@ -1,125 +1,95 @@
 package ch.rmy.android.http_shortcuts.activities.editor.authentication
 
-import android.content.Context
-import android.os.Bundle
-import android.widget.EditText
+import ch.rmy.android.framework.extensions.attachTo
+import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.initialize
+import ch.rmy.android.framework.extensions.observe
+import ch.rmy.android.framework.extensions.observeTextChanges
+import ch.rmy.android.framework.extensions.visible
+import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.databinding.ActivityAuthenticationBinding
-import ch.rmy.android.http_shortcuts.extensions.attachTo
-import ch.rmy.android.http_shortcuts.extensions.bindViewModel
-import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
-import ch.rmy.android.http_shortcuts.extensions.visible
-import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
-import io.reactivex.Completable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import java.util.concurrent.TimeUnit
 
 class AuthenticationActivity : BaseActivity() {
 
     private val viewModel: AuthenticationViewModel by bindViewModel()
-    private val shortcutData by lazy {
-        viewModel.shortcut
-    }
-    private val variablesData by lazy {
-        viewModel.variables
-    }
-    private val variablePlaceholderProvider by lazy {
-        VariablePlaceholderProvider(variablesData)
-    }
+    private val variablePlaceholderProvider = VariablePlaceholderProvider()
 
     private lateinit var binding: ActivityAuthenticationBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = applyBinding(ActivityAuthenticationBinding.inflate(layoutInflater))
-        setTitle(R.string.section_authentication)
-
+    override fun onCreate() {
+        viewModel.initialize()
         initViews()
-        bindViewsToViewModel()
+        initUserInputBindings()
+        initViewModelBindings()
     }
 
     private fun initViews() {
+        binding = applyBinding(ActivityAuthenticationBinding.inflate(layoutInflater))
+        setTitle(R.string.section_authentication)
         binding.inputAuthenticationMethod.setItemsFromPairs(
             AUTHENTICATION_METHODS.map {
                 it.first to getString(it.second)
             }
         )
+    }
+
+    private fun initUserInputBindings() {
         VariableViewUtils.bindVariableViews(binding.inputUsername, binding.variableButtonUsername, variablePlaceholderProvider)
             .attachTo(destroyer)
         VariableViewUtils.bindVariableViews(binding.inputPassword, binding.variableButtonPassword, variablePlaceholderProvider)
             .attachTo(destroyer)
         VariableViewUtils.bindVariableViews(binding.inputToken, binding.variableButtonToken, variablePlaceholderProvider)
             .attachTo(destroyer)
-    }
-
-    private fun bindViewsToViewModel() {
-        shortcutData.observe(this) {
-            updateShortcutViews()
-        }
-        variablesData.observe(this) {
-            updateShortcutViews()
-        }
 
         binding.inputAuthenticationMethod.selectionChanges
-            .concatMapCompletable { method -> viewModel.setAuthenticationMethod(method) }
-            .subscribe()
+            .subscribe(viewModel::onAuthenticationMethodChanged)
             .attachTo(destroyer)
-        bindTextChangeListener(binding.inputUsername) { shortcutData.value?.username }
-        bindTextChangeListener(binding.inputPassword) { shortcutData.value?.password }
-        bindTextChangeListener(binding.inputToken) { shortcutData.value?.authToken }
+
+        binding.inputUsername.observeTextChanges()
+            .subscribe {
+                viewModel.onUsernameChanged(binding.inputUsername.rawString)
+            }
+            .attachTo(destroyer)
+
+        binding.inputPassword.observeTextChanges()
+            .subscribe {
+                viewModel.onPasswordChanged(binding.inputPassword.rawString)
+            }
+            .attachTo(destroyer)
+
+        binding.inputToken.observeTextChanges()
+            .subscribe {
+                viewModel.onTokenChanged(binding.inputToken.rawString)
+            }
+            .attachTo(destroyer)
     }
 
-    private fun bindTextChangeListener(textView: EditText, currentValueProvider: () -> String?) {
-        textView.observeTextChanges()
-            .debounce(300, TimeUnit.MILLISECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .filter { it.toString() != currentValueProvider.invoke() }
-            .concatMapCompletable { updateViewModelFromViews() }
-            .subscribe()
-            .attachTo(destroyer)
-    }
+    private fun initViewModelBindings() {
+        viewModel.viewState.observe(this) { viewState ->
+            binding.containerUsername.visible = viewState.isUsernameAndPasswordVisible
+            binding.containerPassword.visible = viewState.isUsernameAndPasswordVisible
+            binding.containerToken.visible = viewState.isTokenVisible
 
-    private fun updateViewModelFromViews(): Completable =
-        viewModel.setCredentials(binding.inputUsername.rawString, binding.inputPassword.rawString, binding.inputToken.rawString)
+            binding.inputAuthenticationMethod.selectedItem = viewState.authenticationMethod
+            binding.inputUsername.rawString = viewState.username
+            binding.inputPassword.rawString = viewState.password
+            binding.inputToken.rawString = viewState.token
 
-    private fun updateShortcutViews() {
-        val shortcut = shortcutData.value ?: return
-        binding.inputAuthenticationMethod.selectedItem = shortcut.authentication ?: Shortcut.AUTHENTICATION_NONE
-        when {
-            shortcut.usesBasicAuthentication() || shortcut.usesDigestAuthentication() -> {
-                binding.containerUsername.visible = true
-                binding.containerPassword.visible = true
-                binding.containerToken.visible = false
-                binding.inputUsername.rawString = shortcut.username
-                binding.inputPassword.rawString = shortcut.password
-            }
-            shortcut.usesBearerAuthentication() -> {
-                binding.containerUsername.visible = false
-                binding.containerPassword.visible = false
-                binding.containerToken.visible = true
-                binding.inputToken.rawString = shortcut.authToken
-            }
-            else -> {
-                binding.containerUsername.visible = false
-                binding.containerPassword.visible = false
-                binding.containerToken.visible = false
-            }
+            viewState.variables?.let(variablePlaceholderProvider::applyVariables)
         }
+        viewModel.events.observe(this, ::handleEvent)
     }
 
     override fun onBackPressed() {
-        updateViewModelFromViews()
-            .subscribe {
-                finish()
-            }
-            .attachTo(destroyer)
+        viewModel.onBackPressed()
     }
 
-    class IntentBuilder(context: Context) : BaseIntentBuilder(context, AuthenticationActivity::class.java)
+    class IntentBuilder : BaseIntentBuilder(AuthenticationActivity::class.java)
 
     companion object {
 

@@ -2,14 +2,21 @@ package ch.rmy.android.http_shortcuts.activities.response
 
 import android.app.ProgressDialog
 import android.content.ActivityNotFoundException
-import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
 import android.net.Uri
-import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
+import ch.rmy.android.framework.extensions.attachTo
+import ch.rmy.android.framework.extensions.consume
+import ch.rmy.android.framework.extensions.finishWithoutAnimation
+import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.showIfPossible
+import ch.rmy.android.framework.extensions.showSnackbar
+import ch.rmy.android.framework.extensions.startActivity
+import ch.rmy.android.framework.extensions.truncate
+import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
@@ -19,18 +26,9 @@ import ch.rmy.android.http_shortcuts.databinding.ActivityDisplayResponseSyntaxHi
 import ch.rmy.android.http_shortcuts.databinding.ActivityDisplayResponseSyntaxHighlightingWithDetailsBinding
 import ch.rmy.android.http_shortcuts.databinding.ActivityDisplayResponseWebviewBinding
 import ch.rmy.android.http_shortcuts.databinding.ActivityDisplayResponseWebviewWithDetailsBinding
-import ch.rmy.android.http_shortcuts.extensions.attachTo
-import ch.rmy.android.http_shortcuts.extensions.consume
-import ch.rmy.android.http_shortcuts.extensions.finishWithoutAnimation
 import ch.rmy.android.http_shortcuts.extensions.loadImage
-import ch.rmy.android.http_shortcuts.extensions.logException
-import ch.rmy.android.http_shortcuts.extensions.showIfPossible
-import ch.rmy.android.http_shortcuts.extensions.showSnackbar
-import ch.rmy.android.http_shortcuts.extensions.startActivity
-import ch.rmy.android.http_shortcuts.extensions.truncate
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.http.HttpStatus
-import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil.TYPE_HTML
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil.TYPE_JSON
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil.TYPE_XML
@@ -75,8 +73,7 @@ class DisplayResponseActivity : BaseActivity() {
         intent?.extras?.getBoolean(EXTRA_DETAILS, false) ?: false
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreate() {
         title = shortcutName
         updateViews()
     }
@@ -154,7 +151,7 @@ class DisplayResponseActivity : BaseActivity() {
 
     private fun displayImage() {
         val binding = applyBinding(ActivityDisplayResponseImageBinding.inflate(layoutInflater))
-        binding.responseImage.loadImage(responseFileUri!!)
+        binding.responseImage.loadImage(responseFileUri!!, preventMemoryCache = true)
     }
 
     private fun displayAsPlainText(text: String, italic: Boolean = false) {
@@ -218,7 +215,7 @@ class DisplayResponseActivity : BaseActivity() {
     }
 
     private fun rerunShortcut() {
-        ExecuteActivity.IntentBuilder(context, shortcutId)
+        ExecuteActivity.IntentBuilder(shortcutId)
             .startActivity(context)
         finishWithoutAnimation()
     }
@@ -301,7 +298,7 @@ class DisplayResponseActivity : BaseActivity() {
 
     override val navigateUpIcon = R.drawable.ic_clear
 
-    class IntentBuilder(context: Context, shortcutId: String) : BaseIntentBuilder(context, DisplayResponseActivity::class.java) {
+    class IntentBuilder(shortcutId: String) : BaseIntentBuilder(DisplayResponseActivity::class.java) {
 
         init {
             intent.putExtra(EXTRA_SHORTCUT_ID, shortcutId)

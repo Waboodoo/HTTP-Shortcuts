@@ -4,12 +4,12 @@ import android.os.Handler
 import android.os.Looper
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
+import ch.rmy.android.framework.extensions.truncate
+import ch.rmy.android.framework.extensions.tryOrIgnore
+import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
-import ch.rmy.android.http_shortcuts.extensions.truncate
-import ch.rmy.android.http_shortcuts.extensions.tryOrIgnore
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
-import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.variables.Variables
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers

@@ -1,32 +1,9 @@
 package ch.rmy.android.http_shortcuts.plugin
 
-import ch.rmy.android.http_shortcuts.data.Controller
 import com.joaomgcd.taskerpluginlibrary.input.TaskerInput
 import com.joaomgcd.taskerpluginlibrary.input.TaskerInputInfo
-import com.joaomgcd.taskerpluginlibrary.input.TaskerInputInfos
 
 object VariableHelper {
-
-    fun getTaskerInputInfos() =
-        TaskerInputInfos().apply {
-            getVariableKeys()
-                .forEach { variableKey ->
-                    add(
-                        TaskerInputInfo(
-                            key = variableKey,
-                            label = variableKey,
-                            description = null,
-                            ignoreInStringBlurb = false,
-                            value = "%$variableKey",
-                        )
-                    )
-                }
-        }
-
-    private fun getVariableKeys() =
-        Controller().use { controller ->
-            controller.getVariables().map { it.key }
-        }
 
     fun extractVariableMap(input: TaskerInput<Input>) =
         input.dynamic.filterIsInstance<TaskerInputInfo>()

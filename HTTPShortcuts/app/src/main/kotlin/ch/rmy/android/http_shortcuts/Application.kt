@@ -2,8 +2,9 @@ package ch.rmy.android.http_shortcuts
 
 import android.content.Context
 import androidx.multidex.MultiDex
+import ch.rmy.android.framework.WithRealm
+import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.http_shortcuts.data.RealmFactory
-import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.logging.Logging
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
 import ch.rmy.android.http_shortcuts.utils.LocaleHelper
@@ -13,9 +14,9 @@ import io.reactivex.plugins.RxJavaPlugins
 import org.conscrypt.Conscrypt
 import java.security.Security
 
-class Application : android.app.Application() {
+class Application : android.app.Application(), WithRealm {
 
-    var isRealmAvailable: Boolean = false
+    override var isRealmAvailable: Boolean = false
         private set
 
     override fun onCreate() {
@@ -43,6 +44,6 @@ class Application : android.app.Application() {
         super.attachBaseContext(LocaleHelper.applyLocale(base))
     }
 
-    val context: Context
+    private val context: Context
         get() = this
 }

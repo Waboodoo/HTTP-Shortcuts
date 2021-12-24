@@ -1,26 +1,22 @@
 package ch.rmy.android.http_shortcuts.activities.settings
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.content.pm.PackageManager.NameNotFoundException
 import android.os.Bundle
 import androidx.preference.Preference
+import ch.rmy.android.framework.extensions.attachTo
+import ch.rmy.android.framework.extensions.openURL
+import ch.rmy.android.framework.extensions.showSnackbar
+import ch.rmy.android.framework.ui.BaseIntentBuilder
+import ch.rmy.android.framework.utils.InstallUtil
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.misc.AcknowledgmentActivity
 import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog
-import ch.rmy.android.http_shortcuts.extensions.attachTo
-import ch.rmy.android.http_shortcuts.extensions.openURL
-import ch.rmy.android.http_shortcuts.extensions.showSnackbar
-import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
-import ch.rmy.android.http_shortcuts.utils.InstallUtil
 
 class AboutActivity : BaseActivity() {
 
-    @SuppressLint("NewApi")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreate() {
         setContentView(R.layout.activity_about)
         setTitle(R.string.title_about)
         supportFragmentManager
@@ -89,15 +85,15 @@ class AboutActivity : BaseActivity() {
             }
 
         private fun contactDeveloper() {
-            ContactActivity.IntentBuilder(requireContext())
+            ContactActivity.IntentBuilder()
                 .startActivity(this)
         }
 
         private fun showAcknowledgments() {
-            AcknowledgmentActivity.IntentBuilder(requireContext())
+            AcknowledgmentActivity.IntentBuilder()
                 .startActivity(this)
         }
     }
 
-    class IntentBuilder(context: Context) : BaseIntentBuilder(context, AboutActivity::class.java)
+    class IntentBuilder : BaseIntentBuilder(AboutActivity::class.java)
 }

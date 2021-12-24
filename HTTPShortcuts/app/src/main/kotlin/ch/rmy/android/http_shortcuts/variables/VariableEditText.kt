@@ -2,14 +2,16 @@ package ch.rmy.android.http_shortcuts.variables
 
 import android.content.Context
 import android.text.Spannable
+import android.text.SpannableString
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView
+import ch.rmy.android.framework.extensions.color
+import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.setTextSafely
+import ch.rmy.android.framework.extensions.showToast
+import ch.rmy.android.framework.utils.ViewUtil.getAttributeValue
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.extensions.color
-import ch.rmy.android.http_shortcuts.extensions.logException
-import ch.rmy.android.http_shortcuts.extensions.setTextSafely
-import ch.rmy.android.http_shortcuts.extensions.showToast
-import ch.rmy.android.http_shortcuts.utils.ViewUtil.getAttributeValue
+import ch.rmy.android.http_shortcuts.data.dtos.VariablePlaceholder
 
 class VariableEditText @JvmOverloads constructor(
     context: Context,
@@ -49,7 +51,7 @@ class VariableEditText @JvmOverloads constructor(
 
     fun insertVariablePlaceholder(placeholder: VariablePlaceholder) {
         val position = selectionEnd.takeIf { it != -1 } ?: text.length
-        val placeholderText = Variables.toPrettyPlaceholder(placeholder.variableKey)
+        val placeholderText = SpannableString(Variables.toPrettyPlaceholder(placeholder.variableKey))
 
         if (maxLength != null && position + placeholderText.length > maxLength) {
             context.showToast(context.getString(R.string.error_text_too_long_for_variable, maxLength), long = true)
@@ -57,7 +59,7 @@ class VariableEditText @JvmOverloads constructor(
         }
 
         val span = VariableSpan(placeholderColor, placeholder.variableId)
+        placeholderText.setSpan(span, 0, placeholderText.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         text.insert(position, placeholderText)
-        text.setSpan(span, position, position + placeholderText.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
     }
 }

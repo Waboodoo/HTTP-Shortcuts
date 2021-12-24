@@ -3,8 +3,8 @@ package ch.rmy.android.http_shortcuts.dialogs
 import android.content.Context
 import android.view.LayoutInflater
 import android.widget.TextView
+import ch.rmy.android.framework.utils.ClipboardUtil
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.utils.ClipboardUtil
 import ch.rmy.android.http_shortcuts.utils.ShareUtil
 
 class CurlExportDialog(private val context: Context, private val title: String, private val curlCommand: String) {
