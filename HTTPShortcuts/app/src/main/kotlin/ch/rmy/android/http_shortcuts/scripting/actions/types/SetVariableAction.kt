@@ -11,11 +11,11 @@ import io.reactivex.Completable
 
 class SetVariableAction(val variableKeyOrId: String, val value: String) : BaseAction() {
 
-    private fun validate(it: Variable, value: String): Boolean {
-        if ( it.isConstant ) return true
-        if ( it.isRememberValueSet ) {
-            if ( it.isText ) return true
-            if ( it.isNumber or it.isSlider ) {
+    private fun validate(variable: Variable, value: String): Boolean {
+        if ( variable.isConstant ) return true
+        if ( variable.isRememberValueSet ) {
+            if ( variable.isText ) return true
+            if ( variable.isNumber or variable.isSlider ) {
                 if ( value.all { it in '0' .. '9' } ) return true
             }
         }
