@@ -3,12 +3,24 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.Repository
+import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.extensions.truncate
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import io.reactivex.Completable
 
 class SetVariableAction(val variableKeyOrId: String, val value: String) : BaseAction() {
+
+    private fun validate(it: Variable, value: String): Boolean {
+        if ( it.isConstant ) return true
+        if ( it.isRememberValueSet ) {
+            if ( it.isText ) return true
+            if ( it.isNumber or it.isSlider ) {
+                if ( value.all { it in '0' .. '9' } ) return true
+            }
+        }
+        return false
+    }
 
     override fun execute(executionContext: ExecutionContext): Completable =
         Completable.fromAction {
@@ -19,7 +31,7 @@ class SetVariableAction(val variableKeyOrId: String, val value: String) : BaseAc
                 realm.executeTransaction {
                     (
                         Repository.getVariableByKeyOrId(realm, variableKeyOrId)
-                            ?.takeIf { it.isConstant }
+                            ?.takeIf { validate(it, value) }
                             ?: throw ActionException {
                                 it.getString(
                                     R.string.error_variable_not_found_write,

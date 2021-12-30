@@ -1415,7 +1415,7 @@ Możesz włączyć tę funkcję, edytując skrót i zaznaczając pole wyboru \"%
     <string name="error_variable_not_found_read">"Błąd zmiennej: próbowano uzyskać wartość zmiennej, która nie istnieje: %s"</string>
 
     <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->
-    <string name="error_variable_not_found_write">"Błąd zmiennej: próbowano ustawić wartość zmiennej, która nie istnieje lub nie jest statyczna (stała): %s"</string>
+    <string name="error_variable_not_found_write">"Błąd zmiennej: próbowano ustawić wartość zmiennej, która nie istnieje lub nie obsługuje funkcjonalności: %s"</string>
 
     <!-- Title of code editor for defining global scripting code (JS code that runs before every shortcut) -->
     <string name="title_global_scripting">"Skrypt globalny"</string>

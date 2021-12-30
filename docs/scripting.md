@@ -85,7 +85,14 @@ You can store a value as a string into a variable via the `setVariable()` functi
 setVariable('myVariable', 'Hello World');
 ```
 
-Please note that the `setVariable` function can only store values into static variables (i.e., constants), and that there is a size limit of 30000 characters. If the variable does not exist or is not a static variable, and error is raised.
+Please note that the `setVariable` function can only store values (no longer than 30000 characters) into:
+
+- static variables (i.e., constants),
+- text variable with "Remember value" option enabled,
+- number variable with "Remember value" option enabled,
+- number slider variable with "Remember value" option enabled.
+
+If the variable does not exist or it does not meet those conditions, and error is raised.
 
 <a name="shortcut-info"></a>
 ## Getting Information about the Current Shortcut

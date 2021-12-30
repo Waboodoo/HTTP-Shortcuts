@@ -82,6 +82,18 @@ open class Variable(
     val isConstant
         get() = type == TYPE_CONSTANT
 
+    val isRememberValueSet
+        get() = rememberValue
+
+    val isText
+        get() = type == TYPE_TEXT
+
+    val isNumber
+        get() = type == TYPE_NUMBER
+
+    val isSlider
+        get() = type == TYPE_SLIDER
+
     override fun toString() = "Variable($type, $key, $id)"
 
     fun validate() {
