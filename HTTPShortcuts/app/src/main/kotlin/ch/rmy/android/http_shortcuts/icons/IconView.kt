@@ -9,7 +9,9 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.widget.ImageViewCompat
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.extensions.isDarkThemeEnabled
+import ch.rmy.android.http_shortcuts.extensions.loadImage
 import ch.rmy.android.http_shortcuts.utils.Animations
+import com.squareup.picasso.Picasso
 
 class IconView : AppCompatImageView {
 
@@ -43,7 +45,12 @@ class IconView : AppCompatImageView {
     }
 
     private fun applyImageURI(uri: Uri, tint: Int?) {
-        setImageURI(uri)
+        if (uri.scheme == "file") {
+            loadImage(uri)
+        } else {
+            Picasso.get().cancelRequest(this)
+            setImageURI(uri)
+        }
         updateTint(tint)
         updateBackground(tint)
     }

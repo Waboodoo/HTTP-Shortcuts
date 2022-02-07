@@ -145,6 +145,7 @@ fun ImageView.loadImage(uri: Uri) {
     Picasso.get()
         .load(uri)
         .noFade()
+        .placeholder(R.drawable.image_placeholder)
         .networkPolicy(NetworkPolicy.NO_CACHE)
         .memoryPolicy(MemoryPolicy.NO_CACHE)
         .error(R.drawable.bitsies_cancel)
