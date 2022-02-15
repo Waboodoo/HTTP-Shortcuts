@@ -486,3 +486,13 @@ sendIntent({
 });
 ```
 
+If you want to just open a specific app without sending any data to it, you can do so by specifying the app's package name and using the `android.intent.action.MAIN` action. The following example will just open Google Chrome:
+
+```js
+sendIntent({
+    type: 'activity',
+    action: 'android.intent.action.MAIN',
+    packageName: 'com.android.chrome',
+});
+```
+
