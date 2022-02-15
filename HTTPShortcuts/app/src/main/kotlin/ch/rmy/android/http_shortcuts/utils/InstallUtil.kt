@@ -6,7 +6,6 @@ import ch.rmy.android.http_shortcuts.extensions.tryOrLog
 
 object InstallUtil {
 
-    @Suppress("unused")
     fun isAppInstalledFromPlayStore(context: Context): Boolean =
         (getInstallerPackageName(context) ?: "") in PLAY_STORE_PACKAGES
 
