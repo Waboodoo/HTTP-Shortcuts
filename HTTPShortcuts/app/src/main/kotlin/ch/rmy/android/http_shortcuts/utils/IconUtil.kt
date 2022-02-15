@@ -24,9 +24,11 @@ object IconUtil {
 
     private const val CUSTOM_ICON_NAME_PREFIX = "custom-icon_"
     private const val CUSTOM_ICON_NAME_SUFFIX = ".png"
+    private const val CUSTOM_ICON_NAME_ALTERNATIVE_SUFFIX = ".jpg"
 
-    private val CUSTOM_ICON_NAME_REGEX = "${quote(CUSTOM_ICON_NAME_PREFIX)}($UUID_REGEX)${quote(CUSTOM_ICON_NAME_SUFFIX)}"
-    private val CUSTOM_ICON_NAME_PATTERN = Pattern.compile(CUSTOM_ICON_NAME_REGEX)
+    private val CUSTOM_ICON_NAME_REGEX = "${quote(CUSTOM_ICON_NAME_PREFIX)}($UUID_REGEX)" +
+        "(${quote(CUSTOM_ICON_NAME_SUFFIX)}|${quote(CUSTOM_ICON_NAME_ALTERNATIVE_SUFFIX)})"
+    private val CUSTOM_ICON_NAME_PATTERN = CUSTOM_ICON_NAME_REGEX.toPattern(Pattern.CASE_INSENSITIVE)
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     fun getIcon(context: Context, icon: ShortcutIcon): Icon? = try {

@@ -132,7 +132,7 @@ sealed interface ShortcutIcon {
             when {
                 iconName == null -> NoIcon
                 iconName.startsWith("android.resource://") -> ExternalResourceIcon(iconName.toUri())
-                iconName.endsWith(".png") -> CustomIcon(iconName)
+                iconName.endsWith(".png", ignoreCase = true) || iconName.endsWith(".jpg", ignoreCase = true) -> CustomIcon(iconName)
                 else -> BuiltInIcon(iconName)
             }
 
