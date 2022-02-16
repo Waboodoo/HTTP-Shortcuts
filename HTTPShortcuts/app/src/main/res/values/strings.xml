@@ -1048,7 +1048,7 @@
     <!-- Action label: Shown on wifi check dialog to open the wifi picker -->
     <string name="action_label_select">Select</string>
     <!-- Error message, shown when user declines location permission for wifi check -->
-    <string name="error_missing_location_permission">Could not get location permission. Aborting request.</string>
+    <string name="error_missing_location_permission">Failed to determine the current wifi\'s SSID. Location permission is required.</string>
     <!-- Message: Success message shown when a response was saved to a file -->
     <string name="message_response_saved_to_file">Response saved to file.</string>
     <!-- Dialog title: Shown in progress dialog while a file is being saved -->
