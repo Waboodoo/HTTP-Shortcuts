@@ -1019,7 +1019,7 @@ Więcej informacji można znaleźć w dokumentacji w sekcji zmiennych."</string>
     <string name="dialog_code_snippet_get_variable">"Uzyskaj zmienną"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to set the value of a variable -->
-    <string name="dialog_code_snippet_set_variable">"Ustaw zmienną (stałą)"</string>
+    <string name="dialog_code_snippet_set_variable">"Ustaw zmienną"</string>
 
     <!-- Error message: Shown in toast when "Trigger Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_triggering">"Nie można wywołać skrótu \"%1$s\", ponieważ nie istnieje"</string>

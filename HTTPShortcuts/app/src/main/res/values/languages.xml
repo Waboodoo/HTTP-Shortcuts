@@ -5,6 +5,7 @@
     <string name="language_german" translatable="false">Deutsch</string>
     <string name="language_spanish" translatable="false">Español</string>
     <string name="language_french" translatable="false">Français</string>
+    <string name="language_indonesian" translatable="false">Bahasa Indonesia</string>
     <string name="language_italian" translatable="false">Italiano</string>
     <string name="language_hebrew" translatable="false">עִברִית</string>
     <string name="language_hungarian" translatable="false">Magyar</string>
@@ -24,6 +25,7 @@
         <item>@string/language_german</item>
         <item>@string/language_spanish</item>
         <item>@string/language_french</item>
+        <item>@string/language_indonesian</item>
         <item>@string/language_italian</item>
         <item>@string/language_hungarian</item>
         <item>@string/language_norwegian_bokmal</item>
@@ -44,7 +46,8 @@
         <item>de</item>
         <item>es</item>
         <item>fr</item>
-        <item>it</item>
+        <item>id</item>
+        <item>in</item>
         <item>hu</item>
         <item>nb</item>
         <item>pl</item>
@@ -54,6 +57,6 @@
         <item>zh-rCN</item>
         <item>ja</item>
         <item>ko</item>
-        <item>he</item>
+        <item>iw</item>
     </string-array>
 </resources>

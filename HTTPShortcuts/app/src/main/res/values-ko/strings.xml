@@ -977,7 +977,7 @@
     <string name="dialog_code_snippet_get_variable">"변수 받기"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to set the value of a variable -->
-    <string name="dialog_code_snippet_set_variable">"변수 설정 (일정)"</string>
+    <string name="dialog_code_snippet_set_variable">"변수 설정"</string>
 
     <!-- Error message: Shown in toast when "Trigger Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_triggering">"바로가기 \"%1$s\"이(가) 없기 때문에 트리거할 수 없습니다."</string>

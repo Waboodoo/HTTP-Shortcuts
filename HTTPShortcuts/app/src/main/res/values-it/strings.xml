@@ -1365,4 +1365,250 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
 
     <!-- Error message: shown in dialog when pushing shortcuts to the editing server failed -->
     <string name="error_remote_edit_upload">"Invio al server fallito. Riprovare più tardi"</string>
+
+    <!-- Error message: shown in dialog when pulling changes to shortcuts from the editing server failed -->
+    <string name="error_remote_edit_download">"Errore nel recuperare le modifiche dal server. Controllate la connessione e accertatevi di usare la password giusta."</string>
+
+    <!-- Option for dropdown menu in remote editor, allows to change the remote editing server -->
+    <string name="button_change_remote_server">"Cambia indirizzo server"</string>
+
+    <!-- Dialog title: allows to change the remote editing server -->
+    <string name="title_change_remote_server">"Cambia indirizzo server"</string>
+
+    <!-- Dialog button (generic): Allows to reset some setting to its original value -->
+    <string name="dialog_reset">"Ripristina"</string>
+
+    <!-- Error message: Shown when a script tries to read from a variable that does not exist. %s is a placeholder for the name of the variable. -->
+    <string name="error_variable_not_found_read">"Errore nella variabile: tentato di ottenere il valore di una variabile che non esiste: %s"</string>
+
+    <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->
+    <string name="error_variable_not_found_write">"Errore nella variabile: tentato di impostare il valore di una variabile che non esiste: %s"</string>
+
+    <!-- Subtitle of button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
+    <string name="settings_global_scripting_summary">"Esegui codice JavaScript prima di eseguire ogni scorciatoia"</string>
+
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the execution of every shortcut -->
+    <string name="placeholder_javascript_global_scripting">"Aggiungi qui il codice JavaScript da eseguire all'inizio di ogni esecuzione di scorciatoia, p.e. per impostare alcune variabili o definire alcune funzioni che possono essere usate in una sezione Script di una scorciatoia."</string>
+
+    <!-- Action label: Shown on menu button to save changes in the Global Scripting editor -->
+    <string name="action_save_global_scripting">"Salva modifiche"</string>
+
+    <!-- Error message: Shown when trying to trigger a shortcut by name via a voice command or deep-linking but the shortcut is not found -->
+    <string name="error_shortcut_not_found_for_deep_link">"Scorciatoia \"%s\" non trovata"</string>
+
+    <!-- Instructions: Shown when the deep-linking feature is used but with an invalid URL -->
+    <string name="instructions_deep_linking">"Per utilizzare la funzione di \"deep-linking\", assicurati di utilizzare un URL valido del modulo:
+
+%s"</string>
+
+    <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
+    <string name="placeholder_deleted_shortcut">"Scorciatoia cancellata"</string>
+
+    <!-- Menu button, allows saving a response as a file -->
+    <string name="button_save_response_as_file">"Salva come file"</string>
+
+    <!-- Label: Wifi network selection config in shortcut settings -->
+    <!-- Fuzzy -->
+    <string name="label_ssid">"SSID WiFi richiesto"</string>
+
+    <!-- Dialog title: Permission request for wifi/ssid check -->
+    <!-- Fuzzy -->
+    <string name="title_permission_dialog">"Permessi richiesti"</string>
+
+    <!-- Message: Rational given for location permission in wifi/ssid check -->
+    <string name="message_permission_rational">"Le autorizzazioni di posizione sono necessarie per verificare se il collegamento viene eseguito sulla rete WiFi configurata. Questo è un requisito imposto dal SO Android. I tuoi dati di posizione non vengono letti direttamente."</string>
+
+    <!-- Message: Shown to the user when connected to a different wifi network than the one given in the config -->
+    <string name="message_wrong_wifi_network">"Non connesso alla rete wifi configurata per questa scorciatoia \"%1$s\". Selezionare un'altra rete Wi-Fi ora?"</string>
+
+    <!-- Action label: Shown on wifi check dialog to open the wifi picker -->
+    <string name="action_label_select">"Seleziona"</string>
+
+    <!-- Error message, shown when user declines location permission for wifi check -->
+    <string name="error_missing_location_permission">"Impossibile ottenere l'autorizzazione di posizione. Richiesta interrotta."</string>
+
+    <!-- Message: Success message shown when a response was saved to a file -->
+    <string name="message_response_saved_to_file">"Risposta salvata su file"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options to get information about the selected files -->
+    <string name="dialog_code_snippet_files">"File selezionati"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
+    <string name="dialog_code_snippet_get_file_name">"Ottieni il nome del file selezionato"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->
+    <string name="dialog_code_snippet_get_file_type">"Ottieni il tipo del file selezionato"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the size of a selected file -->
+    <string name="dialog_code_snippet_get_file_size">"Ottieni la dimensione del file selezionato (in byte)"</string>
+
+    <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, ...) -->
+    <string name="title_about">"Riguardo"</string>
+
+    <!-- Title of option in settings screen: links the user to an external documentation page -->
+    <string name="settings_documentation">"Documentazione"</string>
+
+    <!-- Subtitle of option in settings screen: links the user to an external documentation page -->
+    <string name="settings_documentation_summary">"FAQ, riferimenti, esempi, …"</string>
+
+    <!-- Instructions shown below the "Allow Share..." checkbox in the variable editor -->
+    <string name="message_allow_share_instructions">"L'abilitazione di questa opzione consente di condividere testo da altre app e utilizzare quel testo condiviso come valore temporaneo per questa variabile."</string>
+
+    <!-- Dialog title: Shown in progress dialog while a file is being saved -->
+    <string name="saving_in_progress">"Salvo…"</string>
+
+    <!-- Title: Shown above cropper/resizer tool when picking a custom icon -->
+    <string name="title_edit_custom_icon">"Modifica icona"</string>
+
+    <!-- Error message: Shown in dialog when user tries to enter an invalid URL for the remote edit feature -->
+    <string name="error_invalid_remote_edit_host_url">"URL non valido. Deve essere http(s)."</string>
+
+    <!-- Dialog option, for exporting a single shortcut as a file -->
+    <string name="action_export_as_file">"File"</string>
+
+    <!-- Title of import/export page, for importing and exporting shortcuts and variables -->
+    <string name="title_import_export">"Importa / Esporta"</string>
+
+    <!-- Button in settings page to start import of shortcuts from a file -->
+    <string name="settings_import_from_file">"Importa da file"</string>
+
+    <!-- Button in settings page to start import of shortcuts from a url -->
+    <string name="settings_import_from_url">"Importa da URL"</string>
+
+    <!-- Section title on import/export screen for options related to importing -->
+    <string name="settings_title_import">"Importa"</string>
+
+    <!-- Section title on import/export screen for options related to exporting -->
+    <string name="settings_title_export">"Esporta"</string>
+
+    <!-- Section title on import/export screen for options related to remote editing (i.e. editing on computer) -->
+    <string name="settings_title_remote_edit">"Modifica remota"</string>
+
+    <!-- Name of setting that allows the user to enable exporting using the legacy file format -->
+    <string name="settings_use_legacy_export_format">"Usa formato file legacy"</string>
+
+    <!-- Subtitle of setting that allows the user to enable exporting using the legacy file format -->
+    <string name="settings_use_legacy_export_format_summary">"Abilita l'esportazione di scorciatoie e variabili utilizzando il vecchio formato di file (ovvero un singolo file JSON). Non permette l'esportazione di icone di collegamento personalizzate."</string>
+
+    <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
+    <string name="label_subtitle_no_client_cert">"Fare clic per selezionare un certificato."</string>
+
+    <!-- Error: Shown to the user when any error occurred while trying to execute a shortcut that uses a client certificate -->
+    <string name="error_failed_to_use_client_cert">"Impossibile caricare o utilizzare il certificato client. È possibile che non sia supportato dal tuo dispositivo o che debba essere riconfigurato nelle impostazioni del collegamento."</string>
+
+    <!-- Error message: Shown when user tries to use an unsupported hmac function -->
+    <string name="error_unsupported_hmac_algorithm">"Algoritmo HMAC \"%1$s\" non supportato o chiave non valida. Usa %2$s."</string>
+
+    <!-- Button, shown on About page, to allow opening the app's F-Droid page -->
+    <string name="settings_f_droid">"Visualizza in F-Droid"</string>
+
+    <!-- Button subtitle for "View in F-Droid" button -->
+    <string name="settings_f_droid_summary">"Controlla aggiornamenti"</string>
+
+    <!-- Subtitle for button to select a client certificate, when a file based certificate has been selected -->
+    <string name="label_subtitle_client_cert_file_in_use">"Utilizzo il file del certificato. Fare clic per rimuovere."</string>
+
+    <!-- Title for dialog, when selecting a client certificate -->
+    <string name="title_client_cert">"Certificato cliente"</string>
+
+    <!-- Label, for option in dialog to pick a client certificate managed by the operating system -->
+    <string name="label_client_cert_from_os">"Gestito dal S.O."</string>
+
+    <!-- Subtitle for Label, for option in dialog to pick a client certificate managed by the operating system -->
+    <string name="label_client_cert_from_os_subtitle">"Raccomandato, più sicuro"</string>
+
+    <!-- Label, for option in dialog to pick a client certificate from a .p12 file -->
+    <string name="label_client_cert_from_file">"Importa dal file .p12"</string>
+
+    <!-- Subtitle for Label, for option in dialog to pick a client certificate from a .p12 file -->
+    <string name="label_client_cert_from_file_subtitle">"Una copia del file e della password verranno archiviate all'interno dell'app senza protezione speciale. Utilizza a tuo rischio."</string>
+
+    <!-- Message: instructions shown below a shortcut's deep-linking URL -->
+    <string name="message_deep_link_instructions">"Puoi attivare questa scorciatoia richiamando questo URL da un'altra app, ad esempio tramite uno scanner QR o un lettore NFC. Aggiungi i parametri di query all'URL per passare i valori delle variabili."</string>
+
+    <!-- Shortcut Action Title: Action that allows to play a (notification) sound effect -->
+    <string name="action_play_sound">"Riprodurre l'audio"</string>
+
+    <!-- Message: Hint to the user that additional/advanced options are available for response handling through scripting. -->
+    <string name="message_response_handling_scripting_hint">"Se hai bisogno di opzioni più avanzate per l'elaborazione e la visualizzazione della risposta, controlla la sezione '%s', che ti consente di definire la logica personalizzata utilizzando codice JavaScript."</string>
+
+    <!-- Menu button shown on response window, allows the user to execute the current shortcut again -->
+    <string name="action_rerun_shortcut">"Riesegui"</string>
+
+    <!-- Checkbox value, shown in variable editor, allows to enable multiline input for a text variable -->
+    <string name="label_multiline">"Multilinea"</string>
+
+    <!-- Instructions shown below the "JSON encode" checkbox in the variable editor -->
+    <string name="message_json_encode_instructions">"Abilitalo se stai utilizzando questa variabile all'interno di una stringa JSON, ad esempio nel corpo di una richiesta. I caratteri speciali verranno sfuggiti."</string>
+
+    <!-- Instructions shown below the "URL encode" checkbox in the variable editor -->
+    <!-- Fuzzy -->
+    <string name="message_url_encode_instructions">"Abilita questa opzione se stai utilizzando questa variabile all'interno di un URL, ad esempio come parte di una stringa di query. I caratteri speciali verranno marcati."</string>
+
+    <!-- Name of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
+    <string name="settings_allow_overlay">"Consenti visualizzazione sopra altre app"</string>
+
+    <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
+    <string name="settings_allow_overlay_summary">"Abilita se le scorciatoie non funzionano quando vengono attivate dal riquadro impostazioni rapide o da un'app di terze parti"</string>
+
+    <!-- Shortcut dropdown option: Enable moving shortcuts within a category by dragging -->
+    <string name="action_enable_moving">"Abilita lo spostamento all'interno della categoria"</string>
+
+    <!-- Message displayed in snackbar, to let the user know that moving via dragging was enabled. -->
+    <string name="message_moving_enabled">"Riordina le scorciatoie trascinandole."</string>
+
+    <!-- Category dropdown option: Place category on home screen -->
+    <string name="action_place_category">"Posiziona nella schermata principale"</string>
+
+    <!-- Error message: Shown when a JS error occurs. %d is a placeholder for the line number, %s is a placeholder for the more detailed error message. -->
+    <string name="error_js_pattern_with_line_number">"Errore JavaScript (alla linea %d):
+%s"</string>
+
+    <!-- label, shown in variable editor for Select Input variable, to allow the user to specify a separator when using multi-select -->
+    <string name="label_select_variable_separator">"Separatore"</string>
+
+    <!-- Checkbox value, shown in variable editor for Select variables, allows to enable multi select -->
+    <string name="label_select_variable_multi_select">"Permetti la selezione di opzioni multiple"</string>
+
+    <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails -->
+    <string name="error_action_type_send_wol_failed">"Impossibile inviare il pacchetto Wake-on-LAN: %s"</string>
+
+    <!-- Section subtitle, shown underneath "Trigger & Execution Settings" -->
+    <string name="label_execution_settings_subtitle">"Definisci quando e come la scorciatoia debba essere eseguita"</string>
+
+    <!-- Error message: Import failed due to the data being imported coming from a newer version of the app -->
+    <string name="import_failure_reason_data_version_mismatch">"Il file selezionato è stato esportato da una versione più recente dell'app. Assicurati di avere l'ultima versione dell'app installata."</string>
+
+    <!-- Shortcut Action Title: Allows converting a byte array into a string of hexadecimal codes using the Scripting feature -->
+    <string name="action_type_to_hex_string">"Byte in stringa esadecimale"</string>
+
+    <!-- Shortcut Action Title: Allows converting a byte array into a string using the Scripting feature -->
+    <string name="action_type_to_string">"Byte in stringa"</string>
+
+    <!-- Shortcut Action Description: Allows converting a byte array into a string of hexadecimal codes using the Scripting feature -->
+    <string name="action_type_to_hex_string_description">"Converte un Uint8Array in una stringa di cifre esadecimali"</string>
+
+    <!-- Shortcut Action Description: Allows converting a byte array into a string using the Scripting feature -->
+    <string name="action_type_to_string_description">"Converte un Uint8Array in una stringa"</string>
+
+    <!-- Description for Base64decode function in scripting -->
+    <string name="action_type_base64decode_description">"Converte una stringa codificata Base64 in un Unit8Array (byte array)"</string>
+
+    <!-- Description for Base64encode function in scripting -->
+    <string name="action_type_base64encode_description">"Converte una stringa o Uint8Array (byte array) in una stringa codificata Base64"</string>
+
+    <!-- Option in "Change Icon" dialog, allows user to select a custom image to use as a shortcut icon -->
+    <string name="choose_previously_used_image">"Immagine personalizzata esistente"</string>
+
+    <!-- Title of dialog that allows user to pick an icon from the previously used custom icon icons -->
+    <string name="title_choose_previously_used_icon">"Scegli immagine personalizzata"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option allows to get a specific HTTP response header -->
+    <string name="dialog_code_snippet_response_header">"Ottieni intestazione risposta per nome"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option allows to get a specific HTTP response cookie -->
+    <string name="dialog_code_snippet_response_cookie">"Ottieni cookie di risposta per nome"</string>
+
+    <!-- Error message: Shown to user when trying to select the "previously used custom icon" option while there are no custom icons yet -->
+    <string name="error_no_custom_icons">"Non hai ancora nessuna icona personalizzata."</string>
 </resources>

@@ -1155,7 +1155,7 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <string name="placeholder_javascript_code_failure">"Füge JavaScript-Code hier ein welcher ausgeführt wird wenn der Request fehlschlägt."</string>
 
     <!-- Section title in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger -->
-    <string name="label_trigger_shortcuts">"Shortcuts auslösen"</string>
+    <string name="label_trigger_shortcuts">"Shortcuts"</string>
 
     <!-- Section subtitle in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger. No shortcuts set. -->
     <string name="label_trigger_shortcuts_subtitle_none">"Keine Shortcuts ausgewählt"</string>
@@ -1372,7 +1372,7 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <string name="error_variable_not_found_read">"Variablen-Fehler: %s existiert nicht"</string>
 
     <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->
-    <string name="error_variable_not_found_write">"Variablen-Fehler: %s existiert nicht oder ist keine Konstante"</string>
+    <string name="error_variable_not_found_write">"Variablen-Fehler: %s existiert nicht"</string>
 
     <!-- Title of code editor for defining global scripting code (JS code that runs before every shortcut) -->
     <string name="title_global_scripting">"Globales Scripting"</string>

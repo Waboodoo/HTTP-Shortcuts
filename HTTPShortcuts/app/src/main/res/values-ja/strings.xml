@@ -79,7 +79,7 @@
     <string name="empty_state_variables">"変数がありません"</string>
 
     <!-- Empty state instructions, shown in list when there are no variables yet -->
-    <string name="empty_state_variables_instructions">"変数を使用すると、動的に値をショートカットに代入できます（例：URL、ヘッダー、リクエストBodyに保存する値を変数で指定する）ショートカット編集時に「{}」ボタンを押すと、使用できる変数から選択して変数名を記述できます。
+    <string name="empty_state_variables_instructions">"変数を使用すると、動的に値をショートカットに代入できます（例：URL、ヘッダー、リクエスト ボディに保存する値を変数で指定する）ショートカット編集時に「{}」ボタンを押すと、使用できる変数から選択して変数名を記述できます。
 
 変数を追加するには[＋] ボタンをクリックします。"</string>
 
@@ -171,25 +171,25 @@
     <string name="dialog_remove">"削除"</string>
 
     <!-- Section title in shortcut editor, for section that contains options to specify the headers of the HTTP request -->
-    <string name="section_request_headers">"リクエストHEADER"</string>
+    <string name="section_request_headers">"リクエスト ヘッダー"</string>
 
     <!-- Section title in shortcut editor, for section that contains options to specify the body of the HTTP request -->
-    <string name="section_request_body">"リクエストBODY／パラメーター"</string>
+    <string name="section_request_body">"リクエスト ボディ／パラメーター"</string>
 
     <!-- Title of dialog to edit a custom header of a shortcut -->
-    <string name="title_custom_header_edit">"HEADERを変更"</string>
+    <string name="title_custom_header_edit">"ヘッダーを変更"</string>
 
     <!-- Title of dialog to add a custom header to a shortcut -->
-    <string name="title_custom_header_add">"HEADERを追加"</string>
+    <string name="title_custom_header_add">"ヘッダーを追加"</string>
 
     <!-- Label of input field to provide name of custom header -->
     <string name="label_custom_header_key">"HEADER"</string>
 
     <!-- Label of input field to provide value of custom header -->
-    <string name="label_custom_header_value">"HEADER値"</string>
+    <string name="label_custom_header_value">"値"</string>
 
     <!-- Label of input field to provide request body of a shortcut -->
-    <string name="label_custom_body">"リクエストBody"</string>
+    <string name="label_custom_body">"リクエスト ボディ"</string>
 
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
     <string name="title_settings">"設定"</string>
@@ -364,13 +364,13 @@
     <string name="label_require_execution_confirmation">"実行前に確認をする"</string>
 
     <!-- Page title, for page listing all the libraries and 3rd party assets used in the app -->
-    <string name="title_licenses">"お知らせ"</string>
+    <string name="title_licenses">"感謝"</string>
 
     <!-- Button, for opening page listing all the libraries and 3rd party assets used in the app -->
-    <string name="settings_licenses">"お知らせ"</string>
+    <string name="settings_licenses">"感謝"</string>
 
     <!-- Button subtitle, for "Acknowledgements" button -->
-    <string name="settings_licenses_summary">"ライブラリ＆リソース使用"</string>
+    <string name="settings_licenses_summary">"ライブラリ＆リソース情報"</string>
 
     <!-- Page title, for page showing all configured categories -->
     <string name="title_categories">"カテゴリー"</string>
@@ -576,10 +576,10 @@
 ただし変数はまだ未定義のようですが。"</string>
 
     <!-- Instructions shown in code snippet picker when the user selects the "Get Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_get_variable_no_variable">"まだ定義済みの変数がありません。 下の[作成]ボタンをクリックして開始します。"</string>
+    <string name="help_text_code_snippet_get_variable_no_variable">"定義済みの変数がありません。 下の[作成]ボタンをクリックして開始します。"</string>
 
     <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_set_variable_no_variable">"このアクションで設定できる固定変数（定数）はまだありません。 下の[作成]ボタンをクリックして開始します。"</string>
+    <string name="help_text_code_snippet_set_variable_no_variable">"このアクションで設定できる固定変数（定数）がありません。 下の[作成]ボタンをクリックして開始します。"</string>
 
     <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
     <string name="button_create_first_variable">"作成する"</string>
@@ -626,7 +626,7 @@
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
     <string name="error_not_suitable_shortcuts">"適切なショートカットが見つかりません。
 
-この機能を使用するには、少なくとも次のショートカットが１つ必要です：「共有…」を許可する変数を使用しているショートカット、またはファイルパラメーター付きの、もしくはリクエストBodyにファイルを含んでいるショートカット。
+この機能を使用するには、少なくとも次のショートカットが１つ必要です：「共有…」を許可する変数を使用しているショートカット、またはファイルパラメーター付きの、もしくはリクエスト ボディにファイルを含んでいるショートカット。
 
 詳細については、変数セクションの［ヘルプ］ボタンをクリックしてください。"</string>
 
@@ -664,10 +664,10 @@
     <string name="button_export_send_to">"その他のアプリ（共有）"</string>
 
     <!-- Dialog title when creating a new shortcut, shows options below -->
-    <string name="title_create_new_shortcut_options_dialog">"新規ショートカットを作成"</string>
+    <string name="title_create_new_shortcut_options_dialog">"ショートカット新規作成"</string>
 
     <!-- Option 1 in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
-    <string name="button_create_new">"標準のHTTPショートカット"</string>
+    <string name="button_create_new">"標準 HTTPショートカット"</string>
 
     <!-- Option 2 in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
     <string name="button_curl_import">"cURLコマンドからインポート"</string>
@@ -706,7 +706,7 @@
     <string name="error_share_failed">"共有中にエラーが発生しました"</string>
 
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
-    <string name="error_not_supported">"この機能は、ご使用の機器でではサポートされていません。"</string>
+    <string name="error_not_supported">"この機能は、ご使用のスマホ機器ではサポートされていません。"</string>
 
     <!-- Generic error shown when something went wrong and there is no better error message available -->
     <string name="error_generic">"何か変でした…"</string>
@@ -742,7 +742,7 @@
     <string name="plugin_blurb_execute_task">"ショートカット「%1$s」を実行"</string>
 
     <!-- Label of dropdown to select the request body type in shortcut editor -->
-    <string name="label_request_body_type">"リクエストBodyのタイプ"</string>
+    <string name="label_request_body_type">"リクエスト ボディのタイプ"</string>
 
     <!-- Dropdown option for request body: form-data (i.e. list of parameters) -->
     <string name="request_body_option_form_data">"パラメーター (form-data)"</string>
@@ -850,7 +850,7 @@
     <string name="dialog_title_lock_app">"アプリロック"</string>
 
     <!-- Dialog text: Asks user to enter a password to lock the app's settings -->
-    <string name="dialog_text_lock_app">"アプリをロック解除するパスワードを入力してください。作成済みのショートカット編集が出来ないようにロック保護します。"</string>
+    <string name="dialog_text_lock_app">"アプリをロック解除するパスワードを入力してください。これで作成済みのショートカット編集が出来ないようにロック保護します。"</string>
 
     <!-- Dialog button: Lock the app (by entering a password) -->
     <string name="button_lock_app">"ロック"</string>
@@ -862,7 +862,7 @@
     <string name="message_app_unlocked">"アプリロック解除"</string>
 
     <!-- Warning dialog: Shown to user on startup to inform them that Android's "Data Saver" and/or "Battery Saver" modes may cause problems. -->
-    <string name="warning_data_saver_battery_saver_enabled">"使用の機器上で、「データ節約」モード、かつ／または、「バッテリー節約」モードが有効になっています。 ショートカットが機能しない問題が発生した場合は、それらのモードを無効にしてみてください。"</string>
+    <string name="warning_data_saver_battery_saver_enabled">"使用のスマホ機器上で「データ節約」モード、かつ／または、「バッテリー節約」モードが有効になっています。 ショートカットが機能しない問題が発生した場合は、それらのモードを無効にしてお試しください。"</string>
 
     <!-- Message: Shown as a snackbar popup when a variable was duplicated. -->
     <string name="message_variable_duplicated">"「%1$s」複製しました"</string>
@@ -905,10 +905,10 @@
     </plurals>
 
     <!-- Section subtitle, shown in shortcut editor when no custom request body is set -->
-    <string name="subtitle_request_body_none">"リクエストBodyの設定なし"</string>
+    <string name="subtitle_request_body_none">"リクエスト ボディの設定なし"</string>
 
     <!-- Section subtitle, shown in shortcut editor when a custom request body is set. %s is a placeholder for the data type, e.g. application/json -->
-    <string name="subtitle_request_body_custom">"リクエスト Bodyのカスタム設定 (%s)"</string>
+    <string name="subtitle_request_body_custom">"リクエスト ボディのカスタム設定 (%s)"</string>
 
     <!-- Section subtitle, shown for "Custom Request Body" option when it is not available because the selected HTTP method (%1$s) does not support a request body -->
     <string name="subtitle_request_body_not_available">"%1$s に適用できません"</string>
@@ -917,7 +917,7 @@
     <string name="empty_state_request_headers">"ヘッダー設定なし"</string>
 
     <!-- Empty state instructions, shown in list when there are no custom request headers yet -->
-    <string name="empty_state_request_headers_instructions">"リクエストHeaderを追加するには［＋］ボタンをクリック"</string>
+    <string name="empty_state_request_headers_instructions">"リクエスト ヘッダーを追加するには［＋］ボタンをクリック"</string>
 
     <!-- Empty state, shown in list when there are no request parameters yet -->
     <string name="empty_state_request_parameters">"パラメーター設定なし"</string>
@@ -944,10 +944,10 @@
     <string name="error_js_pattern">"JavaScriptエラー：%s"</string>
 
     <!-- Button: Shown below JavaScript editor (for pre-request and post-request actions), allows to add snippets of JS code -->
-    <string name="button_add_code_snippet">"コードスニペット (code snippet)を追加"</string>
+    <string name="button_add_code_snippet">"コードスニペットを追加"</string>
 
     <!-- Title: Shown on menu dialog (for pre-request and post-request actions), allows to add snippets of JS code -->
-    <string name="title_add_code_snippet">"コードスニペット (code snippet)を追加"</string>
+    <string name="title_add_code_snippet">"コードスニペットを追加"</string>
 
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the HTTP response -->
     <string name="dialog_code_snippet_handle_response">"レスポンスの取り扱い"</string>
@@ -959,7 +959,7 @@
     <string name="dialog_code_snippet_response_body">"文字列としてレスポンスBodyを取得する"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response headers -->
-    <string name="dialog_code_snippet_response_headers">"レスポンスHeaderを取得する"</string>
+    <string name="dialog_code_snippet_response_headers">"レスポンス ヘッダーを取得する"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response status code -->
     <string name="dialog_code_snippet_response_status_code">"レスポンスのステータスコードを取得する"</string>
@@ -974,7 +974,7 @@
     <string name="dialog_code_snippet_get_variable">"変数を取得する"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to set the value of a variable -->
-    <string name="dialog_code_snippet_set_variable">"変数（定数）を取得する"</string>
+    <string name="dialog_code_snippet_set_variable">"変数を取得する"</string>
 
     <!-- Error message: Shown in toast when "Trigger Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_triggering">"ショートカット「%1$s」が存在しないためトリガーできませんでした。"</string>
@@ -1016,9 +1016,9 @@
     <string name="action_quick_settings_tile_trigger">"トリガー ショートカット"</string>
 
     <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
-    <string name="instructions_quick_settings_tile">"「クイック設定タイル」でトリガーできるショートカットはまだありません。
+    <string name="instructions_quick_settings_tile">"「クイック設定タイル」でトリガーできるショートカットがありません。
 
-この機能を有効にするには、ショートカットの編集で、「%2$ s」にある「%1$ s」チェックボックスを選択してください。"</string>
+この機能を有効にするには、ショートカットの編集で、「%2$s」にある「%1$s」チェックボックスを選択してください。"</string>
 
     <!-- Label: Status code, shows the HTTP status code of the response -->
     <string name="label_status_code">"ステータスコード"</string>
@@ -1082,7 +1082,7 @@
 
     <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
     <plurals name="warning_variable_still_in_use_in_shortcuts">
-        <item quantity="other">"この変数は %2$d つのショートカットでまだ使用中です：%1$s"</item>
+        <item quantity="other">"この変数は %2$d つのショートカットで使用中です：%1$s"</item>
     </plurals>
 
     <!-- dialog title, shown when creating new variable and user is prompted to select the type of the variable -->
@@ -1128,7 +1128,7 @@
     <string name="subtitle_editor_toolbar_trigger_shortcut">"複数のショートカット"</string>
 
     <!-- Section subtitle, shown in shortcut editor when request body is set to 'File' -->
-    <string name="subtitle_request_body_file">"リクエストBody設定ファイル"</string>
+    <string name="subtitle_request_body_file">"リクエスト ボディ設定ファイル"</string>
 
     <!-- Error: Shown when the text-to-speech action fails to speak a piece of text -->
     <string name="error_tts_failed">"テキスト読み上げに失敗"</string>
@@ -1140,7 +1140,7 @@
     <string name="placeholder_javascript_code_generic">"ここにJavaScriptコードを追加"</string>
 
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the shortcut -->
-    <string name="placeholder_javascript_code_before">"ここにJavaScriptコードを追加すると、ショートカットが実行される前にこのスクリプトを実行します。例：いくつか変数を事前に準備する。"</string>
+    <string name="placeholder_javascript_code_before">"ここにJavaScriptコードを追加すると、ショートカットが実行される前にこのスクリプトを実行します。（例：事前に変数を準備する）"</string>
 
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs after the shortcut on success -->
     <string name="placeholder_javascript_code_success">"ここにJavaScriptコードを追加すると、ショートカットが実行される後にこのスクリプトを実行します。例：レスポンスの戻り値の処理など。"</string>
@@ -1152,7 +1152,7 @@
     <string name="label_trigger_shortcuts">"トリガーショートカット"</string>
 
     <!-- Section subtitle in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger. No shortcuts set. -->
-    <string name="label_trigger_shortcuts_subtitle_none">"まだショートカットの選択なし"</string>
+    <string name="label_trigger_shortcuts_subtitle_none">"ショートカットの選択なし"</string>
     <plurals name="label_trigger_shortcuts_subtitle">
         <item quantity="other">"%d つのショートカットが選択されました"</item>
     </plurals>
@@ -1236,7 +1236,7 @@
     <string name="label_response_on_failure">"失敗の時"</string>
 
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
-    <string name="label_include_meta_information">"メタ情報を表示（例：レスポンスHeader）"</string>
+    <string name="label_include_meta_information">"メタ情報を表示（例：レスポンス ヘッダー）"</string>
 
     <!-- Label for dropdown in shortcut editor, for picking how the response should be displayed -->
     <string name="label_response_handling_type">"表示タイプ"</string>
@@ -1308,7 +1308,7 @@
     <string name="settings_remote_edit">"パソコンで編集"</string>
 
     <!-- Instructions on how to edit shortcuts remotely from a computer -->
-    <string name="instructions_remote_edit">"この機能を使用すると、使いやすいコンピューター上のブラウザからショートカットを編集できます。 開始する前にアプリのプライバシーポリシーをお読みになり、次の手順に従ってください。"</string>
+    <string name="instructions_remote_edit">"この機能を使用すると、使いやすいコンピューター上のブラウザからショートカットを編集できます。 開始する前にアプリのプライバシーポリシーを読んでから、次の手順に従ってください。"</string>
 
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->
     <string name="instructions_remote_edit_step_1">"上記の項目にパスワードを入力"</string>
@@ -1478,7 +1478,7 @@
     <string name="settings_use_legacy_export_format">"レガシー(旧式)のファイル形式を使用"</string>
 
     <!-- Subtitle of setting that allows the user to enable exporting using the legacy file format -->
-    <string name="settings_use_legacy_export_format_summary">"古いファイル形式（つまり、単一のJSONファイル）を使用してショートカットと変数をエクスポートできるようにします。 これにより、カスタム ショートカット アイコンのエクスポートが防止されます。"</string>
+    <string name="settings_use_legacy_export_format_summary">"古いファイル形式（つまり、JSONファイル１つ）を使用してショートカットと変数をエクスポートできるようにします。 これにより、カスタム ショートカット アイコンのエクスポートを防止します。"</string>
 
     <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
     <string name="label_client_cert">"クライアント証明認証"</string>
@@ -1547,7 +1547,7 @@
     <string name="label_multiline">"複数行"</string>
 
     <!-- Instructions shown below the "JSON encode" checkbox in the variable editor -->
-    <string name="message_json_encode_instructions">"リクエストBodyなど、JSON文字列内でこの変数を使用している場合は、これを有効にしてください。特殊文字はエスケープされます。"</string>
+    <string name="message_json_encode_instructions">"リクエスト ボディなど、JSON文字列内でこの変数を使用している場合は、これを有効にしてください。特殊文字はエスケープされます。"</string>
 
     <!-- Instructions shown below the "URL encode" checkbox in the variable editor -->
     <string name="message_url_encode_instructions">"この変数をURL内で使用している場合、例えば、クエリー文字列の一部として使用している場合は、これを有効にしてください。特殊文字はエスケープされます。"</string>
@@ -1593,7 +1593,7 @@
     <string name="label_execution_settings_subtitle">"いつ、どのように、ショートカットを実行するか、定義します"</string>
 
     <!-- Error message: Import failed due to the data being imported coming from a newer version of the app -->
-    <string name="import_failure_reason_data_version_mismatch">"選択したファイルは、アプリの新しいバージョンでエクスポートされました。 お手元のスマホ機器にアプリの最新バージョンがインストールされていることを確認してください。"</string>
+    <string name="import_failure_reason_data_version_mismatch">"選択したファイルは、アプリの新しいバージョンでエクスポートされました。 現在のスマホ機器に最新バージョンのアプリがインストールされていることを確認してください。"</string>
 
     <!-- Shortcut Action Title: Allows converting a byte array into a string of hexadecimal codes using the Scripting feature -->
     <string name="action_type_to_hex_string">"バイトから16進数(Hex)文字列へ"</string>
@@ -1620,7 +1620,7 @@
     <string name="title_choose_previously_used_icon">"組み込みの画像を選択"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get a specific HTTP response header -->
-    <string name="dialog_code_snippet_response_header">"名前でレスポンスHeaderを取得"</string>
+    <string name="dialog_code_snippet_response_header">"名前でレスポンス ヘッダーを取得"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get a specific HTTP response cookie -->
     <string name="dialog_code_snippet_response_cookie">"名前でレスポンス クッキー(Cookie)を取得"</string>

@@ -1175,7 +1175,7 @@ Voir la documentation dans la section variable pour plus d'informations."</strin
     <string name="error_variable_not_found_read">"Erreur de variable : tentative de récupérer la valeur d'une variable qui n'existe pas : %s"</string>
 
     <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->
-    <string name="error_variable_not_found_write">"Erreur de variable : tentative de définir la valeur d'une variable qui n'existe pas ou qui n'est pas statique (constante) : %s"</string>
+    <string name="error_variable_not_found_write">"Erreur de variable : tentative de définir la valeur d'une variable qui n'existe pas: %s"</string>
 
     <!-- Subtitle of button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
     <string name="settings_global_scripting_summary">"Exécuter le code JavaScript avant chaque exécution du raccourci"</string>

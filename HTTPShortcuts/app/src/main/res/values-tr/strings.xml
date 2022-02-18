@@ -983,7 +983,7 @@ Daha fazla bilgi için değişken bölümündeki yardım düğmesine tıklayın.
     <string name="dialog_code_snippet_get_variable">"Değişken Al"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to set the value of a variable -->
-    <string name="dialog_code_snippet_set_variable">"Değişken Ayarla (Sabit)"</string>
+    <string name="dialog_code_snippet_set_variable">"Değişken Ayarla"</string>
 
     <!-- Error message: Shown in toast when "Trigger Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_triggering">"\"%1$s\" kısayolu mevcut olmadığı için tetiklenemedi."</string>

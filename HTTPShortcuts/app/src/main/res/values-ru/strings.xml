@@ -944,7 +944,7 @@
     <string name="dialog_code_snippet_get_variable">"Получить переменную"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to set the value of a variable -->
-    <string name="dialog_code_snippet_set_variable">"Задать переменную (константу)"</string>
+    <string name="dialog_code_snippet_set_variable">"Задать переменную"</string>
 
     <!-- Error message: Shown in toast when "Trigger Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_triggering">"Не удалось запустить ярлык \"%1$s\", поскольку его не существует."</string>
