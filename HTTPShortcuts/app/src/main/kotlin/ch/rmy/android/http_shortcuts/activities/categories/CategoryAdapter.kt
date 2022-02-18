@@ -1,56 +1,71 @@
 package ch.rmy.android.http_shortcuts.activities.categories
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.recyclerview.widget.RecyclerView
+import ch.rmy.android.framework.extensions.context
+import ch.rmy.android.framework.extensions.dimen
+import ch.rmy.android.framework.extensions.setText
+import ch.rmy.android.framework.extensions.visible
+import ch.rmy.android.framework.ui.BaseAdapter
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.BaseAdapter
-import ch.rmy.android.http_shortcuts.activities.BaseViewHolder
-import ch.rmy.android.http_shortcuts.data.livedata.ListLiveData
-import ch.rmy.android.http_shortcuts.data.models.Category
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.databinding.ListItemCategoryBinding
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
-import ch.rmy.android.http_shortcuts.extensions.dimen
-import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.icons.IconView
-import kotlin.math.min
+import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
 
-class CategoryAdapter(context: Context, categories: ListLiveData<Category>) : BaseAdapter<Category>(context, categories) {
+class CategoryAdapter : BaseAdapter<CategoryListItem>() {
 
-    override fun createViewHolder(parentView: ViewGroup) =
-        CategoryViewHolder(ListItemCategoryBinding.inflate(LayoutInflater.from(parentView.context), parentView, false))
+    sealed interface UserEvent {
+        data class CategoryClicked(val id: String) : UserEvent
+    }
+
+    private val userEventSubject = PublishSubject.create<UserEvent>()
+
+    val userEvents: Observable<UserEvent>
+        get() = userEventSubject
+
+    override fun areItemsTheSame(oldItem: CategoryListItem, newItem: CategoryListItem): Boolean =
+        oldItem.id == newItem.id
+
+    override fun createViewHolder(viewType: Int, parent: ViewGroup, layoutInflater: LayoutInflater): RecyclerView.ViewHolder =
+        CategoryViewHolder(ListItemCategoryBinding.inflate(layoutInflater, parent, false))
+
+    override fun bindViewHolder(holder: RecyclerView.ViewHolder, position: Int, item: CategoryListItem) {
+        (holder as CategoryViewHolder).setItem(item)
+    }
 
     inner class CategoryViewHolder(
         private val binding: ListItemCategoryBinding,
-    ) : BaseViewHolder<Category>(
-        binding.root,
-        this@CategoryAdapter,
-    ) {
+    ) : RecyclerView.ViewHolder(binding.root) {
 
-        override fun updateViews(item: Category) {
-            binding.name.text = getName(item)
-            val count = item.shortcuts.size
-            binding.description.text = context.resources.getQuantityString(R.plurals.shortcut_count, count, count)
+        private lateinit var categoryId: String
 
-            updateIcons(item.shortcuts)
-            updateLayoutTypeIcon(item.layoutType.takeUnless { item.hidden })
+        init {
+            binding.root.setOnClickListener {
+                userEventSubject.onNext(UserEvent.CategoryClicked(categoryId))
+            }
         }
 
-        private fun getName(category: Category): String = if (category.hidden) {
-            context.getString(R.string.label_category_hidden, category.name)
-        } else {
-            category.name
+        fun setItem(item: CategoryListItem) {
+            categoryId = item.id
+            binding.name.setText(item.name)
+            binding.description.setText(item.description)
+
+            updateIcons(item.icons)
+            updateLayoutTypeIcon(item.layoutType)
         }
 
-        private fun updateIcons(shortcuts: List<Shortcut>) {
-            updateIconNumber(min(shortcuts.size, MAX_ICONS))
-            shortcuts
-                .take(MAX_ICONS)
-                .forEachIndexed { index, shortcut ->
-                    val icon = binding.smallIcons.getChildAt(index) as IconView
-                    icon.setIcon(shortcut.icon)
+        private fun updateIcons(icons: List<ShortcutIcon>) {
+            updateIconNumber(icons.size)
+            icons
+                .forEachIndexed { index, shortcutIcon ->
+                    val iconView = binding.smallIcons.getChildAt(index) as IconView
+                    iconView.setIcon(shortcutIcon)
                 }
         }
 
@@ -66,24 +81,19 @@ class CategoryAdapter(context: Context, categories: ListLiveData<Category>) : Ba
             }
         }
 
-        private fun updateLayoutTypeIcon(layoutType: String?) {
+        private fun updateLayoutTypeIcon(layoutType: CategoryLayoutType?) {
             if (layoutType == null) {
                 binding.layoutTypeIcon.visible = false
             } else {
                 binding.layoutTypeIcon.visible = true
                 binding.layoutTypeIcon.setImageResource(
                     when (layoutType) {
-                        Category.LAYOUT_GRID -> R.drawable.ic_grid
-                        else -> R.drawable.ic_list
+                        CategoryLayoutType.GRID -> R.drawable.ic_grid
+                        CategoryLayoutType.LINEAR_LIST -> R.drawable.ic_list
                     }
                 )
                 binding.layoutTypeIcon.applyTheme()
             }
         }
-    }
-
-    companion object {
-
-        private const val MAX_ICONS = 5
     }
 }

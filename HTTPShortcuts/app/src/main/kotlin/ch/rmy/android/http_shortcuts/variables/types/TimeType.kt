@@ -3,10 +3,10 @@ package ch.rmy.android.http_shortcuts.variables.types
 import android.app.TimePickerDialog
 import android.content.Context
 import android.text.format.DateFormat
-import ch.rmy.android.http_shortcuts.data.Commons
+import ch.rmy.android.framework.extensions.showIfPossible
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.cancel
-import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import io.reactivex.Completable
 import io.reactivex.Single
 import java.text.ParseException
@@ -16,6 +16,8 @@ import java.util.Date
 import java.util.Locale
 
 internal class TimeType : BaseVariableType() {
+
+    private val variablesRepository = VariableRepository()
 
     override fun resolveValue(context: Context, variable: Variable): Single<String> =
         Single.create<Date> { emitter ->
@@ -42,7 +44,7 @@ internal class TimeType : BaseVariableType() {
         }
             .flatMap { resolvedDate ->
                 if (variable.rememberValue) {
-                    Commons.setVariableValue(variable.id, DATE_FORMAT.format(resolvedDate.time))
+                    variablesRepository.setVariableValue(variable.id, DATE_FORMAT.format(resolvedDate.time))
                 } else {
                     Completable.complete()
                 }
@@ -65,8 +67,6 @@ internal class TimeType : BaseVariableType() {
                     }
                 }
             }
-
-    override fun createEditorFragment() = TimeEditorFragment()
 
     companion object {
 

@@ -8,56 +8,51 @@ import android.graphics.Color
 import android.os.Build
 import android.view.View
 import android.widget.RemoteViews
+import androidx.annotation.CheckResult
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
-import ch.rmy.android.http_shortcuts.data.Controller
-import ch.rmy.android.http_shortcuts.data.Repository
-import ch.rmy.android.http_shortcuts.data.Transactions
+import ch.rmy.android.http_shortcuts.data.domains.widgets.WidgetsRepository
 import ch.rmy.android.http_shortcuts.data.models.Widget
 import ch.rmy.android.http_shortcuts.utils.IconUtil
+import io.reactivex.Completable
 
-object WidgetManager {
+class WidgetManager {
 
+    private val widgetsRepository = WidgetsRepository()
+
+    @CheckResult
     fun createWidget(widgetId: Int, shortcutId: String, showLabel: Boolean, labelColor: String?) =
-        Transactions.commit { realm ->
-            realm.copyToRealmOrUpdate(
-                Widget(
-                    widgetId = widgetId,
-                    shortcut = Repository.getShortcutById(realm, shortcutId),
-                    showLabel = showLabel,
-                    labelColor = labelColor,
-                )
-            )
-        }
+        widgetsRepository.createWidget(widgetId, shortcutId, showLabel, labelColor)
 
-    fun updateWidgets(context: Context, widgetIds: Array<Int>) {
-        if (widgetIds.isEmpty()) {
-            return
-        }
-        Controller().use { controller ->
-            controller.getWidgetsByIds(widgetIds)
-                .forEach { widget ->
-                    updateWidget(context, widget)
+    @CheckResult
+    fun updateWidgets(context: Context, widgetIds: List<Int>): Completable =
+        widgetsRepository.getWidgetsByIds(widgetIds)
+            .flatMapCompletable { widgets ->
+                Completable.fromAction {
+                    widgets.forEach { widget ->
+                        updateWidget(context, widget)
+                    }
                 }
-        }
-    }
+            }
 
-    fun updateWidgets(context: Context, shortcutId: String) {
-        Controller().use { controller ->
-            controller.getWidgetsForShortcut(shortcutId)
-                .forEach { widget ->
-                    updateWidget(context, widget)
+    @CheckResult
+    fun updateWidgets(context: Context, shortcutId: String): Completable =
+        widgetsRepository.getWidgetsByShortcutId(shortcutId)
+            .flatMapCompletable { widgets ->
+                Completable.fromAction {
+                    widgets.forEach { widget ->
+                        updateWidget(context, widget)
+                    }
                 }
-        }
-    }
+            }
 
     private fun updateWidget(context: Context, widget: Widget) {
         val shortcut = widget.shortcut ?: return
         RemoteViews(context.packageName, R.layout.widget).also { views ->
             views.setOnClickPendingIntent(
                 R.id.widget_base,
-                ExecuteActivity.IntentBuilder(context, shortcut.id)
-                    .build()
+                ExecuteActivity.IntentBuilder(shortcut.id)
+                    .build(context)
                     .let { intent ->
                         val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                             PendingIntent.FLAG_IMMUTABLE
@@ -83,14 +78,24 @@ object WidgetManager {
         }
     }
 
-    fun getIntent(widgetId: Int) =
-        Intent().apply {
-            putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
-        }
+    fun deleteWidgets(widgetIds: List<Int>): Completable =
+        widgetsRepository.deleteDeadWidgets()
+            .andThen(widgetsRepository.deleteWidgets(widgetIds))
 
-    fun getWidgetIdFromIntent(intent: Intent): Int =
-        intent.extras?.getInt(
-            AppWidgetManager.EXTRA_APPWIDGET_ID,
-            AppWidgetManager.INVALID_APPWIDGET_ID,
-        ) ?: AppWidgetManager.INVALID_APPWIDGET_ID
+    companion object {
+
+        fun getIntent(widgetId: Int) =
+            Intent().apply {
+                putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
+            }
+
+        fun getWidgetIdFromIntent(intent: Intent): Int? =
+            intent.extras?.getInt(
+                AppWidgetManager.EXTRA_APPWIDGET_ID,
+                AppWidgetManager.INVALID_APPWIDGET_ID,
+            )
+                ?.takeUnless {
+                    it == AppWidgetManager.INVALID_APPWIDGET_ID
+                }
+    }
 }

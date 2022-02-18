@@ -7,10 +7,10 @@ import android.net.Uri
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.widget.ImageViewCompat
+import ch.rmy.android.framework.extensions.isDarkThemeEnabled
+import ch.rmy.android.framework.extensions.zoomSwap
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.extensions.isDarkThemeEnabled
 import ch.rmy.android.http_shortcuts.extensions.loadImage
-import ch.rmy.android.http_shortcuts.utils.Animations
 import com.squareup.picasso.Picasso
 
 class IconView : AppCompatImageView {
@@ -38,7 +38,7 @@ class IconView : AppCompatImageView {
             applyImageURI(uri, tint)
         } else {
             this.icon = icon
-            Animations.zoomSwap(this) {
+            zoomSwap {
                 applyImageURI(uri, tint)
             }
         }

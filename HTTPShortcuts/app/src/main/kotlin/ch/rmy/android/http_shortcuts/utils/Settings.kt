@@ -1,18 +1,16 @@
 package ch.rmy.android.http_shortcuts.utils
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.net.Uri
 import androidx.core.net.toUri
-import androidx.preference.PreferenceManager
-import ch.rmy.android.http_shortcuts.extensions.takeUnlessEmpty
+import ch.rmy.android.framework.extensions.takeUnlessEmpty
+import ch.rmy.android.framework.utils.PreferencesStore
+import ch.rmy.android.framework.utils.UUIDUtils
 
-class Settings(context: Context) {
-
-    private val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+class Settings(context: Context) : PreferencesStore(context) {
 
     val userId: String
-        get() = preferences.getString(KEY_USER_ID, null)
+        get() = getString(KEY_USER_ID)
             ?: run {
                 UUIDUtils.newUUID()
                     .also {
@@ -21,72 +19,60 @@ class Settings(context: Context) {
             }
 
     val language: String?
-        get() = preferences.getString(KEY_LANGUAGE, LANGUAGE_DEFAULT)?.takeUnless { it == LANGUAGE_DEFAULT }
+        get() = getString(KEY_LANGUAGE)?.takeUnless { it == LANGUAGE_DEFAULT }
 
     val clickBehavior: String
-        get() = preferences.getString(KEY_CLICK_BEHAVIOR, CLICK_BEHAVIOR_RUN)!!
+        get() = getString(KEY_CLICK_BEHAVIOR) ?: CLICK_BEHAVIOR_RUN
 
+    @Suppress("unused")
     val isCrashReportingAllowed: Boolean
-        get() = preferences.getString(KEY_CRASH_REPORTING, "true") != "false"
+        get() = (getString(KEY_CRASH_REPORTING) ?: "true") != "false"
 
     var importUrl: Uri?
-        get() = preferences.getString(KEY_IMPORT_URL, "")?.takeUnlessEmpty()?.toUri()
+        get() = getString(KEY_IMPORT_URL)?.takeUnlessEmpty()?.toUri()
         set(url) = putString(KEY_IMPORT_URL, url.toString())
 
     var isChangeLogPermanentlyHidden: Boolean
-        get() = preferences.getBoolean(KEY_CHANGE_LOG_PERMANENTLY_HIDDEN, false)
+        get() = getBoolean(KEY_CHANGE_LOG_PERMANENTLY_HIDDEN)
         set(hidden) = putBoolean(KEY_CHANGE_LOG_PERMANENTLY_HIDDEN, hidden)
 
     var isNetworkRestrictionWarningPermanentlyHidden: Boolean
-        get() = preferences.getBoolean(KEY_NETWORK_RESTRICTION_PERMANENTLY_HIDDEN, false)
+        get() = getBoolean(KEY_NETWORK_RESTRICTION_PERMANENTLY_HIDDEN)
         set(hidden) = putBoolean(KEY_NETWORK_RESTRICTION_PERMANENTLY_HIDDEN, hidden)
 
     var changeLogLastVersion: Long?
         get() = try {
-            preferences.getLong(KEY_CHANGE_LOG_LAST_VERSION, -1L)
+            getLong(KEY_CHANGE_LOG_LAST_VERSION)
         } catch (e: ClassCastException) {
-            preferences.getInt(KEY_CHANGE_LOG_LAST_VERSION, -1).toLong()
+            getInt(KEY_CHANGE_LOG_LAST_VERSION)?.toLong()
         }
-            .takeUnless { it == -1L }
-        set(version) = putLong(KEY_CHANGE_LOG_LAST_VERSION, version ?: -1L)
+        set(version) = putLong(KEY_CHANGE_LOG_LAST_VERSION, version)
 
     var theme: String
-        get() = preferences.getString(KEY_THEME, THEME_BLUE)!!
+        get() = getString(KEY_THEME) ?: THEME_BLUE
         set(theme) = putString(KEY_THEME, theme)
 
     val darkThemeSetting: String
-        get() = preferences.getString(KEY_DARK_THEME, DARK_THEME_AUTO)!!
+        get() = getString(KEY_DARK_THEME) ?: DARK_THEME_AUTO
 
     var isForceForegroundEnabled: Boolean
-        get() = preferences.getBoolean(KEY_FORCE_FOREGROUND, false)
+        get() = getBoolean(KEY_FORCE_FOREGROUND)
         set(value) = putBoolean(KEY_FORCE_FOREGROUND, value)
 
     val useLegacyExportFormat: Boolean
-        get() = preferences.getBoolean(KEY_LEGACY_EXPORT_FORMAT, false)
+        get() = getBoolean(KEY_LEGACY_EXPORT_FORMAT)
 
     var remoteEditServerUrl: String?
-        get() = preferences.getString(KEY_REMOTE_EDIT_SERVER, null)?.takeUnlessEmpty()
+        get() = getString(KEY_REMOTE_EDIT_SERVER)?.takeUnlessEmpty()
         set(value) = putString(KEY_REMOTE_EDIT_SERVER, value ?: "")
 
     var remoteEditDeviceId: String?
-        get() = preferences.getString(KEY_REMOTE_EDIT_DEVICE_ID, null)?.takeUnlessEmpty()
+        get() = getString(KEY_REMOTE_EDIT_DEVICE_ID)?.takeUnlessEmpty()
         set(value) = putString(KEY_REMOTE_EDIT_DEVICE_ID, value ?: "")
 
     var remoteEditPassword: String?
-        get() = preferences.getString(KEY_REMOTE_EDIT_PASSWORD, null)?.takeUnlessEmpty()
+        get() = getString(KEY_REMOTE_EDIT_PASSWORD)?.takeUnlessEmpty()
         set(value) = putString(KEY_REMOTE_EDIT_PASSWORD, value ?: "")
-
-    private fun putString(key: String, value: String) {
-        preferences.edit().putString(key, value).apply()
-    }
-
-    private fun putBoolean(key: String, value: Boolean) {
-        preferences.edit().putBoolean(key, value).apply()
-    }
-
-    private fun putLong(key: String, value: Long) {
-        preferences.edit().putLong(key, value).apply()
-    }
 
     companion object {
 

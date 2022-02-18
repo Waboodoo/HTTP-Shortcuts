@@ -32,7 +32,7 @@ class TriggerShortcutManagerTest {
             triggerShortcut(/*[shortcut]*/"1234"/*[/shortcut]*/);
             triggerShortcut(/*[shortcut]*/"5678"/*[/shortcut]*/);
         """.trimIndent()
-        val actual = TriggerShortcutManager.getCodeFromTriggeredShortcuts(target)
+        val actual = TriggerShortcutManager.getCodeFromTriggeredShortcutIds(target)
         assertThat(actual, equalTo(expected))
     }
 }

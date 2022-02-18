@@ -3,26 +3,30 @@ package ch.rmy.android.http_shortcuts.activities.main
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.data.models.Category
-import ch.rmy.android.http_shortcuts.utils.SelectionMode
+import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 
 class CategoryPagerAdapter(
     private val fragmentManager: FragmentManager,
-    private val selectionMode: SelectionMode,
 ) : FragmentPagerAdapter(
     fragmentManager,
     BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
 ) {
 
-    private var fragments: List<Pair<String, ListFragment>> = emptyList()
+    private var fragments: List<Pair<String, ShortcutListFragment>> = emptyList()
 
-    fun setCategories(categories: List<Category>) {
+    private var previousCategories: List<CategoryTabItem>? = null
+
+    fun setCategories(categories: List<CategoryTabItem>, selectionMode: SelectionMode) {
+        if (categories == previousCategories) {
+            return
+        }
+        previousCategories = categories
         fragments = categories
             .mapIndexed { index, category ->
                 val fragment = fragmentManager.findFragmentByTag(makeFragmentName(index))
-                    ?.let { it as? ListFragment }
-                    ?.takeIf { it.categoryId == category.id }
-                    ?: ListFragment.create(category.id, selectionMode)
+                    ?.let { it as? ShortcutListFragment }
+                    ?.takeIf { it.categoryId == category.categoryId && it.layoutType == category.layoutType && it.selectionMode == selectionMode }
+                    ?: ShortcutListFragment.create(category.categoryId, category.layoutType, selectionMode)
                 category.name to fragment
             }
         notifyDataSetChanged()

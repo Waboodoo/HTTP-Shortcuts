@@ -1,6 +1,6 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
-import ch.rmy.android.http_shortcuts.extensions.takeUnlessEmpty
+import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionDTO
 import kotlin.math.min

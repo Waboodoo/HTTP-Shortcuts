@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.variables
 
+import ch.rmy.android.framework.extensions.mapIf
 import ch.rmy.android.http_shortcuts.data.models.Variable
-import ch.rmy.android.http_shortcuts.extensions.mapIf
 import org.json.JSONObject
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder

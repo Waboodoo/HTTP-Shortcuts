@@ -16,6 +16,14 @@
         android:layout_centerHorizontal="true"
         android:contentDescription="@string/icon_description" />
 
+    <ImageView
+        android:id="@+id/waiting_icon"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_alignEnd="@id/icon"
+        android:layout_alignBottom="@id/icon"
+        android:src="@drawable/black_hour_glass" />
+
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"

@@ -1,13 +1,22 @@
 package ch.rmy.android.http_shortcuts.logging
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
+import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.http_shortcuts.BuildConfig
 
+@SuppressLint("StaticFieldLeak")
 object Logging {
 
-    @Suppress("UNUSED_PARAMETER")
+    private var context: Context? = null
+
     fun initCrashReporting(context: Context) {
+        if (BuildConfig.DEBUG) {
+            this.context = context
+        }
     }
 
     @Suppress("UNUSED_PARAMETER")
@@ -20,6 +29,9 @@ object Logging {
         if (BuildConfig.DEBUG) {
             Log.e(origin, "An error occurred", e)
             e.printStackTrace()
+            Handler(Looper.getMainLooper()).post {
+                context?.showToast("Error: $e", long = true)
+            }
         }
     }
 

@@ -2,30 +2,27 @@ package ch.rmy.android.http_shortcuts.activities.remote_edit
 
 import android.app.Activity
 import android.app.ProgressDialog
-import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.core.net.toUri
+import ch.rmy.android.framework.extensions.attachTo
+import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.consume
+import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.observeTextChanges
+import ch.rmy.android.framework.extensions.showSnackbar
+import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.databinding.ActivityRemoteEditBinding
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
-import ch.rmy.android.http_shortcuts.extensions.attachTo
-import ch.rmy.android.http_shortcuts.extensions.bindViewModel
-import ch.rmy.android.http_shortcuts.extensions.consume
-import ch.rmy.android.http_shortcuts.extensions.logException
-import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
 import ch.rmy.android.http_shortcuts.extensions.showMessageDialog
-import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.import_export.ImportException
-import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 import ch.rmy.android.http_shortcuts.utils.StringUtils
 import ch.rmy.android.http_shortcuts.utils.Validation
 import io.reactivex.android.schedulers.AndroidSchedulers
-import java.util.concurrent.TimeUnit
 
 class RemoteEditActivity : BaseActivity() {
 
@@ -33,22 +30,22 @@ class RemoteEditActivity : BaseActivity() {
 
     private lateinit var binding: ActivityRemoteEditBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreate() {
         binding = applyBinding(ActivityRemoteEditBinding.inflate(layoutInflater))
 
         binding.remoteEditDeviceId.text = viewModel.deviceId
         binding.inputPassword.setText(viewModel.password)
         updateInstructions()
 
-        binding.inputPassword.observeTextChanges()
+        binding.inputPassword
+            .observeTextChanges()
             .subscribe {
                 updateViews()
             }
             .attachTo(destroyer)
 
-        binding.inputPassword.observeTextChanges()
-            .debounce(300, TimeUnit.MILLISECONDS)
+        binding.inputPassword
+            .observeTextChanges()
             .subscribe {
                 viewModel.password = it.toString()
             }
@@ -180,7 +177,7 @@ class RemoteEditActivity : BaseActivity() {
         updateInstructions()
     }
 
-    class IntentBuilder(context: Context) : BaseIntentBuilder(context, RemoteEditActivity::class.java)
+    class IntentBuilder : BaseIntentBuilder(RemoteEditActivity::class.java)
 
     companion object {
         const val EXTRA_CHANGES_IMPORTED = "changes_imported"

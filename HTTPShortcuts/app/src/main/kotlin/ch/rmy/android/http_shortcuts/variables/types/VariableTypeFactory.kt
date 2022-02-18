@@ -1,19 +1,19 @@
 package ch.rmy.android.http_shortcuts.variables.types
 
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.enums.VariableType
 
 object VariableTypeFactory {
 
-    fun getType(type: String): BaseVariableType = when (type) {
-        Variable.TYPE_TEXT -> TextType()
-        Variable.TYPE_NUMBER -> NumberType()
-        Variable.TYPE_PASSWORD -> PasswordType()
-        Variable.TYPE_TOGGLE -> ToggleType()
-        Variable.TYPE_SELECT -> SelectType()
-        Variable.TYPE_COLOR -> ColorType()
-        Variable.TYPE_DATE -> DateType()
-        Variable.TYPE_TIME -> TimeType()
-        Variable.TYPE_SLIDER -> SliderType()
-        else -> ConstantType()
+    fun getType(type: VariableType): BaseVariableType = when (type) {
+        VariableType.CONSTANT -> ConstantType()
+        VariableType.TEXT -> TextType()
+        VariableType.NUMBER -> NumberType()
+        VariableType.PASSWORD -> PasswordType()
+        VariableType.TOGGLE -> ToggleType()
+        VariableType.SELECT -> SelectType()
+        VariableType.COLOR -> ColorType()
+        VariableType.DATE -> DateType()
+        VariableType.TIME -> TimeType()
+        VariableType.SLIDER -> SliderType()
     }
 }

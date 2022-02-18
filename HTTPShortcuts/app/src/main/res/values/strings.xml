@@ -70,6 +70,10 @@
     <string name="empty_state_shortcuts">You don\'t have any shortcuts yet.</string>
     <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts_instructions">A shortcut allows you to send a single HTTP request, optionally processing and displaying the response.\n\nClick the + button to get started, or check the Documentation in the About section.</string>
+    <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
+    <string name="empty_state_trigger_shortcuts">You haven\'t added any shortcuts to trigger yet.</string>
+    <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
+    <string name="empty_state_trigger_shortcuts_instructions">Add all the shortcuts to this list that you want to trigger as part of this multi-shortcut.\n\nClick the + button to get started.</string>
     <!-- Empty state, shown in list when there are no variables yet -->
     <string name="empty_state_variables">You don\'t have any variables yet.</string>
     <!-- Empty state instructions, shown in list when there are no variables yet -->
@@ -89,7 +93,7 @@
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
     <string name="validation_name_not_empty">Please enter a name.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
-    <string name="validation_url_invalid">Please enter a HTTP(S) url.</string>
+    <string name="validation_url_invalid">Please enter an HTTP(S) url.</string>
     <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
     <string name="error_http">%1$s failed with status code %2$d (%3$s).</string>
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
@@ -247,7 +251,7 @@
     <!-- Label, for option in dialog to pick a client certificate from a .p12 file -->
     <string name="label_client_cert_from_file">Import from .p12 File</string>
     <!-- Subtitle for Label, for option in dialog to pick a client certificate from a .p12 file -->
-    <string name="label_client_cert_from_file_subtitle">A copy of the file and password will be stored inside the app without special protected. Use at your own risk.</string>
+    <string name="label_client_cert_from_file_subtitle">A copy of the file and password will be stored inside the app without special protection. Use at your own risk.</string>
     <!-- Title of dialog, for entering the password for a client cert file -->
     <string name="title_client_cert_file_password">Password</string>
     <!-- Used in various places to indicate a number of seconds, e.g. for a delay. %s is a placeholder for the actual number. -->
@@ -515,9 +519,9 @@
     <!-- Feature label for sharing text into the app, to be used in a specific variable for a configured shortcut -->
     <string name="action_send_to">Send to…</string>
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
-    <string name="error_not_suitable_shortcuts">No suitable shortcuts found.\n\nTo use this feature you need to have at least one shortcut that uses a variable that allows \'Share …\', or a shortcut that has a file parameter or uses a file as its request body.\n\nClick the help button in the variable section for more information.</string>
+    <string name="error_not_suitable_shortcuts">No suitable shortcuts found.\n\nTo use this feature you need to have at least one shortcut that uses a variable that allows receiving the shared text as its value, or a shortcut that has a file parameter or uses a file as its request body.\n\nClick the help button in the variable section for more information.</string>
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
-    <string name="label_allow_share_into">Allow \'Share …\'</string>
+    <string name="label_allow_share_into">Allow Receiving Value from Share Dialog</string>
     <!-- Instructions shown below the "Allow Share…" checkbox in the variable editor -->
     <string name="message_allow_share_instructions">Enabling this allows you to share text from other apps and use that shared text as the temporary value for this variable.</string>
     <!-- Instructions shown below the "JSON encode" checkbox in the variable editor -->
@@ -631,7 +635,7 @@
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before or after shortcut execution -->
     <string name="label_scripting_subtitle">Run JavaScript code before or after execution</string>
     <!-- Section title in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger -->
-    <string name="label_trigger_shortcuts">Trigger Shortcuts</string>
+    <string name="label_trigger_shortcuts">Shortcuts</string>
     <!-- Section subtitle in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger. No shortcuts set. -->
     <string name="label_trigger_shortcuts_subtitle_none">No shortcuts selected yet</string>
     <plurals name="label_trigger_shortcuts_subtitle">

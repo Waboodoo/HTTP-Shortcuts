@@ -2,10 +2,10 @@ package ch.rmy.android.http_shortcuts.utils
 
 import android.content.Context
 import android.content.Intent
+import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.showToast
+import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.extensions.logException
-import ch.rmy.android.http_shortcuts.extensions.showToast
-import ch.rmy.android.http_shortcuts.extensions.startActivity
 
 object ShareUtil {
 

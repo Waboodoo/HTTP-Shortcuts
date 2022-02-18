@@ -1,6 +1,8 @@
 package ch.rmy.android.http_shortcuts.data.models
 
-import ch.rmy.android.http_shortcuts.utils.UUIDUtils
+import ch.rmy.android.framework.utils.UUIDUtils.isUUID
+import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
+import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
@@ -9,28 +11,41 @@ import io.realm.annotations.Required
 open class Category(
     @Required
     var name: String = "",
-) : RealmObject(), HasId {
+) : RealmObject() {
 
     @PrimaryKey
-    override var id: String = ""
+    var id: String = ""
     var shortcuts: RealmList<Shortcut> = RealmList()
 
     @Required
-    var layoutType: String = LAYOUT_LINEAR_LIST
+    private var layoutType: String = CategoryLayoutType.LINEAR_LIST.type
 
-    var background: String = BACKGROUND_TYPE_WHITE
+    @Required
+    private var background: String = CategoryBackgroundType.WHITE.type
     var hidden: Boolean = false
 
+    var categoryLayoutType
+        get() = CategoryLayoutType.parse(layoutType)
+        set(value) {
+            layoutType = value.type
+        }
+
+    var categoryBackgroundType
+        get() = CategoryBackgroundType.parse(background)
+        set(value) {
+            background = value.type
+        }
+
     fun validate() {
-        if (!UUIDUtils.isUUID(id) && id.toIntOrNull() == null) {
+        if (!isUUID(id) && id.toIntOrNull() == null) {
             throw IllegalArgumentException("Invalid category ID found, must be UUID: $id")
         }
 
-        if (layoutType !in setOf(LAYOUT_GRID, LAYOUT_LINEAR_LIST)) {
+        if (CategoryLayoutType.values().none { it.type == layoutType }) {
             throw IllegalArgumentException("Invalid layout type: $layoutType")
         }
 
-        if (background !in setOf(BACKGROUND_TYPE_WHITE, BACKGROUND_TYPE_BLACK, BACKGROUND_TYPE_WALLPAPER)) {
+        if (CategoryBackgroundType.values().none { it.type == background }) {
             throw IllegalArgumentException("Invalid background: $background")
         }
 
@@ -38,12 +53,6 @@ open class Category(
     }
 
     companion object {
-
-        const val LAYOUT_LINEAR_LIST = "linear_list"
-        const val LAYOUT_GRID = "grid"
-
-        const val BACKGROUND_TYPE_WHITE = "white"
-        const val BACKGROUND_TYPE_BLACK = "black"
-        const val BACKGROUND_TYPE_WALLPAPER = "wallpaper"
+        const val FIELD_ID = "id"
     }
 }

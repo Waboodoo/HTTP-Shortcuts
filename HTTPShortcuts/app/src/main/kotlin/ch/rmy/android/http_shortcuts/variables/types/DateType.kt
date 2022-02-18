@@ -3,11 +3,11 @@ package ch.rmy.android.http_shortcuts.variables.types
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.DialogInterface
+import ch.rmy.android.framework.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.data.Commons
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.cancel
-import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import io.reactivex.Completable
 import io.reactivex.Single
 import java.text.ParseException
@@ -17,6 +17,8 @@ import java.util.Date
 import java.util.Locale
 
 internal class DateType : BaseVariableType() {
+
+    private val variablesRepository = VariableRepository()
 
     override fun resolveValue(context: Context, variable: Variable): Single<String> =
         Single.create<Date> { emitter ->
@@ -52,7 +54,7 @@ internal class DateType : BaseVariableType() {
         }
             .flatMap { resolvedDate ->
                 if (variable.rememberValue) {
-                    Commons.setVariableValue(variable.id, DATE_FORMAT.format(resolvedDate.time))
+                    variablesRepository.setVariableValue(variable.id, DATE_FORMAT.format(resolvedDate.time))
                 } else {
                     Completable.complete()
                 }
@@ -76,13 +78,12 @@ internal class DateType : BaseVariableType() {
         return calendar
     }
 
-    override fun createEditorFragment() = DateEditorFragment()
-
     companion object {
 
         const val KEY_FORMAT = "format"
         const val DEFAULT_FORMAT = "yyyy-MM-dd"
 
-        private val DATE_FORMAT = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+        private val DATE_FORMAT
+            get() = SimpleDateFormat(DEFAULT_FORMAT, Locale.US)
     }
 }

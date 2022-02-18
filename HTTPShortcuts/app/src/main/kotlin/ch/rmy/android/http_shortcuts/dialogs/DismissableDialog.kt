@@ -3,9 +3,9 @@ package ch.rmy.android.http_shortcuts.dialogs
 import android.content.Context
 import android.widget.CheckBox
 import android.widget.TextView
+import ch.rmy.android.framework.extensions.mapIf
+import ch.rmy.android.framework.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.extensions.mapIf
-import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import io.reactivex.Single
 import io.reactivex.subjects.SingleSubject
 

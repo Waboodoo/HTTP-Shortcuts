@@ -1,58 +1,108 @@
 package ch.rmy.android.http_shortcuts.activities.editor.body
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import ch.rmy.android.framework.extensions.color
+import ch.rmy.android.framework.extensions.context
+import ch.rmy.android.framework.extensions.setText
+import ch.rmy.android.framework.ui.BaseAdapter
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.BaseAdapter
-import ch.rmy.android.http_shortcuts.activities.BaseViewHolder
-import ch.rmy.android.http_shortcuts.data.livedata.ListLiveData
-import ch.rmy.android.http_shortcuts.data.models.Parameter
+import ch.rmy.android.http_shortcuts.databinding.ListEmptyItemBinding
 import ch.rmy.android.http_shortcuts.databinding.ListItemParameterBinding
-import ch.rmy.android.http_shortcuts.extensions.color
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
 
-class ParameterAdapter(context: Context, parameters: ListLiveData<Parameter>, val variablePlaceholderProvider: VariablePlaceholderProvider) :
-    BaseAdapter<Parameter>(context, parameters) {
+class ParameterAdapter(
+    private val variablePlaceholderProvider: VariablePlaceholderProvider,
+) :
+    BaseAdapter<ParameterListItem>() {
 
-    private val variablePlaceholderColor by lazy {
-        color(context, R.color.variable)
+    sealed interface UserEvent {
+        data class ParameterClicked(val id: String) : UserEvent
     }
 
-    override val emptyMarker = EmptyMarker(
-        context.getString(R.string.empty_state_request_parameters),
-        context.getString(R.string.empty_state_request_parameters_instructions),
-    )
+    private val userEventSubject = PublishSubject.create<UserEvent>()
 
-    override fun createViewHolder(parentView: ViewGroup) =
-        ParameterViewHolder(ListItemParameterBinding.inflate(LayoutInflater.from(parentView.context), parentView, false))
+    val userEvents: Observable<UserEvent>
+        get() = userEventSubject
 
-    inner class ParameterViewHolder(private val binding: ListItemParameterBinding) :
-        BaseViewHolder<Parameter>(binding.root, this@ParameterAdapter) {
+    override fun areItemsTheSame(oldItem: ParameterListItem, newItem: ParameterListItem): Boolean =
+        when (oldItem) {
+            is ParameterListItem.Parameter -> (newItem as? ParameterListItem.Parameter)?.id == oldItem.id
+            is ParameterListItem.EmptyState -> newItem is ParameterListItem.EmptyState
+        }
 
-        override fun updateViews(item: Parameter) {
+    override fun getItemViewType(position: Int): Int =
+        when (items[position]) {
+            is ParameterListItem.Parameter -> VIEW_TYPE_PARAMETER
+            is ParameterListItem.EmptyState -> VIEW_TYPE_EMPTY_STATE
+        }
+
+    override fun createViewHolder(viewType: Int, parent: ViewGroup, layoutInflater: LayoutInflater): RecyclerView.ViewHolder? =
+        when (viewType) {
+            VIEW_TYPE_PARAMETER -> ParameterViewHolder(ListItemParameterBinding.inflate(layoutInflater, parent, false))
+            VIEW_TYPE_EMPTY_STATE -> EmptyStateViewHolder(ListEmptyItemBinding.inflate(layoutInflater, parent, false))
+            else -> null
+        }
+
+    override fun bindViewHolder(holder: RecyclerView.ViewHolder, position: Int, item: ParameterListItem) {
+        when (holder) {
+            is ParameterViewHolder -> holder.setItem(item as ParameterListItem.Parameter)
+            is EmptyStateViewHolder -> holder.setItem(item as ParameterListItem.EmptyState)
+        }
+    }
+
+    inner class ParameterViewHolder(
+        private val binding: ListItemParameterBinding,
+    ) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        private lateinit var parameterId: String
+
+        init {
+            binding.root.setOnClickListener {
+                userEventSubject.onNext(UserEvent.ParameterClicked(parameterId))
+            }
+        }
+
+        private val variablePlaceholderColor by lazy {
+            color(context, R.color.variable)
+        }
+
+        fun setItem(item: ParameterListItem.Parameter) {
+            parameterId = item.id
             binding.parameterKey.text = Variables.rawPlaceholdersToVariableSpans(
                 item.key,
                 variablePlaceholderProvider,
                 variablePlaceholderColor,
             )
-            binding.parameterValue.text = getParameterValue(item)
+            binding.parameterValue.text = item.value
+                ?.let { value ->
+                    Variables.rawPlaceholdersToVariableSpans(
+                        value,
+                        variablePlaceholderProvider,
+                        variablePlaceholderColor,
+                    )
+                }
+                ?: item.label?.localize(context)
         }
+    }
 
-        private fun getParameterValue(parameter: Parameter): CharSequence =
-            when {
-                parameter.isFileParameter -> {
-                    context.getString(R.string.subtitle_parameter_value_file)
-                }
-                parameter.isFilesParameter -> {
-                    context.getString(R.string.subtitle_parameter_value_files)
-                }
-                else -> Variables.rawPlaceholdersToVariableSpans(
-                    parameter.value,
-                    variablePlaceholderProvider,
-                    variablePlaceholderColor,
-                )
-            }
+    inner class EmptyStateViewHolder(
+        private val binding: ListEmptyItemBinding,
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun setItem(item: ParameterListItem.EmptyState) {
+            binding.emptyMarker.setText(item.title)
+            binding.emptyMarkerInstructions.setText(item.instructions)
+        }
+    }
+
+    companion object {
+        private const val VIEW_TYPE_PARAMETER = 1
+        private const val VIEW_TYPE_EMPTY_STATE = 2
     }
 }

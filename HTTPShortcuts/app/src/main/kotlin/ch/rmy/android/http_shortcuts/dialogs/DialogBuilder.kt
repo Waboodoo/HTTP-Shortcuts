@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.dialogs
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.content.res.ColorStateList
@@ -17,11 +18,12 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.core.widget.ImageViewCompat
+import ch.rmy.android.framework.extensions.color
+import ch.rmy.android.framework.extensions.mapIf
+import ch.rmy.android.framework.extensions.showIfPossible
+import ch.rmy.android.framework.extensions.visible
+import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.extensions.color
-import ch.rmy.android.http_shortcuts.extensions.mapIf
-import ch.rmy.android.http_shortcuts.extensions.showIfPossible
-import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.icons.IconView
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import com.afollestad.materialdialogs.MaterialDialog
@@ -42,6 +44,10 @@ open class DialogBuilder(val context: Context) {
         if (title?.isNotEmpty() == true) {
             dialog.title(text = title)
         }
+    }
+
+    fun title(title: Localizable?) = also {
+        title(title?.localize(context)?.toString())
     }
 
     fun item(
@@ -86,10 +92,13 @@ open class DialogBuilder(val context: Context) {
         items.add(MenuItem.Separator)
     }
 
-    open fun message(@StringRes text: Int, isHtml: Boolean = false) =
+    fun message(text: Localizable) =
+        message(text.localize(context))
+
+    fun message(@StringRes text: Int, isHtml: Boolean = false) =
         message(context.getString(text), isHtml)
 
-    open fun message(text: CharSequence, isHtml: Boolean = false) = also {
+    fun message(text: CharSequence, isHtml: Boolean = false) = also {
         dialog.message(text = text) {
             messageTextView.movementMethod = LinkMovementMethod.getInstance()
             if (isHtml) {
@@ -137,6 +146,7 @@ open class DialogBuilder(val context: Context) {
         })
     }
 
+    @SuppressLint("CheckResult")
     fun textInput(
         prefill: String = "",
         hint: String = "",

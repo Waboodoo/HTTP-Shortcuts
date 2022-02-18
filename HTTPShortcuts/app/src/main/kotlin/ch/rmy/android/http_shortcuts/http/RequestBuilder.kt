@@ -1,9 +1,9 @@
 package ch.rmy.android.http_shortcuts.http
 
+import ch.rmy.android.framework.extensions.mapIfNotNull
 import ch.rmy.android.http_shortcuts.exceptions.InvalidBearerAuthException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidHeaderException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidUrlException
-import ch.rmy.android.http_shortcuts.extensions.mapIfNotNull
 import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_MULTIPART_CONTENT_TYPE
 import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_URLENCODE_CONTENT_TYPE
 import ch.rmy.android.http_shortcuts.http.RequestUtil.encode

@@ -5,9 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.net.wifi.WifiManager
 import androidx.appcompat.app.AppCompatActivity
+import ch.rmy.android.framework.extensions.showToast
+import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.extensions.showToast
-import ch.rmy.android.http_shortcuts.extensions.startActivity
 
 object WifiUtil {
 

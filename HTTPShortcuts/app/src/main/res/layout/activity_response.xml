@@ -17,7 +17,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <ch.rmy.android.http_shortcuts.views.LabelledSpinner
+            <ch.rmy.android.framework.ui.views.LabelledSpinner
                 android:id="@+id/input_response_success_output"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -56,14 +56,14 @@
 
             </RelativeLayout>
 
-            <ch.rmy.android.http_shortcuts.views.LabelledSpinner
+            <ch.rmy.android.framework.ui.views.LabelledSpinner
                 android:id="@+id/input_response_failure_output"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:text="@string/label_response_on_failure" />
 
-            <ch.rmy.android.http_shortcuts.views.LabelledSpinner
+            <ch.rmy.android.framework.ui.views.LabelledSpinner
                 android:id="@+id/input_response_ui_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

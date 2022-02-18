@@ -6,8 +6,6 @@ import io.reactivex.Single
 
 internal class ConstantType : BaseVariableType() {
 
-    override fun createEditorFragment() = ConstantEditorFragment()
-
     override fun resolveValue(context: Context, variable: Variable) =
         Single.fromCallable {
             variable.value!!

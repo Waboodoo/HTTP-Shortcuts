@@ -2,11 +2,11 @@ package ch.rmy.android.http_shortcuts.utils
 
 import android.content.Context
 import androidx.annotation.StringRes
+import ch.rmy.android.framework.extensions.mapIf
+import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.ResponseTooLargeException
 import ch.rmy.android.http_shortcuts.exceptions.UserException
-import ch.rmy.android.http_shortcuts.extensions.mapIf
-import ch.rmy.android.http_shortcuts.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.HttpStatus
 import io.reactivex.exceptions.CompositeException

@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import androidx.core.net.toUri
-import ch.rmy.android.http_shortcuts.extensions.mapIf
+import ch.rmy.android.framework.extensions.mapIf
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionDTO
 

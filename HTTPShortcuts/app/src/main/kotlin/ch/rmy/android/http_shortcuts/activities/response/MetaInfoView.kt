@@ -3,13 +3,13 @@ package ch.rmy.android.http_shortcuts.activities.response
 import android.content.Context
 import android.graphics.Typeface
 import android.text.SpannableStringBuilder
-import android.text.style.TypefaceSpan
+import android.text.style.StyleSpan
 import android.util.AttributeSet
 import android.widget.FrameLayout
+import ch.rmy.android.framework.extensions.layoutInflater
+import ch.rmy.android.framework.extensions.tryOrIgnore
+import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.http_shortcuts.databinding.ViewMetaInfoBinding
-import ch.rmy.android.http_shortcuts.extensions.layoutInflater
-import ch.rmy.android.http_shortcuts.extensions.tryOrIgnore
-import ch.rmy.android.http_shortcuts.extensions.visible
 
 class MetaInfoView @JvmOverloads constructor(
     context: Context,
@@ -42,7 +42,7 @@ class MetaInfoView @JvmOverloads constructor(
                 val line = "$name: $value"
                 builder.append(line)
                 tryOrIgnore {
-                    builder.setSpan(TypefaceSpan(Typeface.create(Typeface.DEFAULT, Typeface.BOLD)), offset, offset + name.length + 1, 0)
+                    builder.setSpan(StyleSpan(Typeface.BOLD), offset, offset + name.length + 1, 0)
                 }
                 offset += line.length
             }

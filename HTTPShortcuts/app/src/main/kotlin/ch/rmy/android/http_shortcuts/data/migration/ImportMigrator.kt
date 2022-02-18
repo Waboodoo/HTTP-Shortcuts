@@ -1,12 +1,12 @@
 package ch.rmy.android.http_shortcuts.data.migration
 
+import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ParameterTypeMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.RemoveLegacyActionsMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceActionsWithScriptsMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceVariableKeysWithIdsMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ResponseHandlingMigration
 import ch.rmy.android.http_shortcuts.extensions.getArrayOrEmpty
-import ch.rmy.android.http_shortcuts.utils.UUIDUtils.newUUID
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 

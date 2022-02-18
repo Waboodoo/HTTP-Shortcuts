@@ -1,42 +1,42 @@
 package ch.rmy.android.http_shortcuts.activities.editor.advancedsettings
 
 import android.content.ActivityNotFoundException
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
 import android.text.InputType
 import android.view.LayoutInflater
-import android.widget.EditText
 import android.widget.SeekBar
 import android.widget.TextView
+import ch.rmy.android.framework.extensions.attachTo
+import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.initialize
+import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.observe
+import ch.rmy.android.framework.extensions.observeChecked
+import ch.rmy.android.framework.extensions.observeTextChanges
+import ch.rmy.android.framework.extensions.setSubtitle
+import ch.rmy.android.framework.extensions.setText
+import ch.rmy.android.framework.extensions.setTextSafely
+import ch.rmy.android.framework.extensions.showSnackbar
+import ch.rmy.android.framework.extensions.showToast
+import ch.rmy.android.framework.extensions.startActivity
+import ch.rmy.android.framework.ui.BaseIntentBuilder
+import ch.rmy.android.framework.utils.FilePickerUtil
+import ch.rmy.android.framework.utils.RxUtils
+import ch.rmy.android.framework.utils.SimpleOnSeekBarChangeListener
+import ch.rmy.android.framework.utils.UUIDUtils.newUUID
+import ch.rmy.android.framework.utils.localization.Localizable
+import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.data.models.ClientCertParams
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.databinding.ActivityAdvancedSettingsBinding
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
-import ch.rmy.android.http_shortcuts.extensions.attachTo
-import ch.rmy.android.http_shortcuts.extensions.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.cancel
-import ch.rmy.android.http_shortcuts.extensions.logException
-import ch.rmy.android.http_shortcuts.extensions.observeChecked
-import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
-import ch.rmy.android.http_shortcuts.extensions.showSnackbar
-import ch.rmy.android.http_shortcuts.extensions.showToast
-import ch.rmy.android.http_shortcuts.extensions.startActivity
-import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.utils.ClientCertUtil
-import ch.rmy.android.http_shortcuts.utils.FilePickerUtil
-import ch.rmy.android.http_shortcuts.utils.RxUtils
-import ch.rmy.android.http_shortcuts.utils.SimpleOnSeekBarChangeListener
-import ch.rmy.android.http_shortcuts.utils.UUIDUtils
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
-import io.reactivex.Completable
 import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import java.util.concurrent.TimeUnit
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
@@ -45,113 +45,89 @@ import kotlin.time.Duration.Companion.seconds
 class AdvancedSettingsActivity : BaseActivity() {
 
     private val viewModel: AdvancedSettingsViewModel by bindViewModel()
-    private val shortcutData by lazy {
-        viewModel.shortcut
-    }
-    private val variablesData by lazy {
-        viewModel.variables
-    }
-    private val variablePlaceholderProvider by lazy {
-        VariablePlaceholderProvider(variablesData)
-    }
+    private val variablePlaceholderProvider = VariablePlaceholderProvider()
 
     private lateinit var binding: ActivityAdvancedSettingsBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = applyBinding(ActivityAdvancedSettingsBinding.inflate(layoutInflater))
-        setTitle(R.string.label_advanced_technical_settings)
-
+    override fun onCreate() {
+        viewModel.initialize()
         initViews()
-        bindViewsToViewModel()
+        initUserInputBindings()
+        initViewModelBindings()
     }
 
     private fun initViews() {
+        binding = applyBinding(ActivityAdvancedSettingsBinding.inflate(layoutInflater))
+        setTitle(R.string.label_advanced_technical_settings)
+    }
+
+    private fun initUserInputBindings() {
         binding.inputFollowRedirects
             .observeChecked()
-            .concatMapCompletable { isChecked ->
-                viewModel.setFollowRedirects(isChecked)
-            }
-            .subscribe()
+            .subscribe(viewModel::onFollowRedirectsChanged)
             .attachTo(destroyer)
         binding.inputAcceptCertificates
             .observeChecked()
-            .concatMapCompletable { isChecked ->
-                viewModel.setAcceptAllCertificates(isChecked)
-            }
-            .subscribe()
+            .subscribe(viewModel::onAcceptAllCertificatesChanged)
             .attachTo(destroyer)
         binding.inputAcceptCookies
             .observeChecked()
-            .concatMapCompletable { isChecked ->
-                viewModel.setAcceptCookies(isChecked)
+            .subscribe(viewModel::onAcceptCookiesChanged)
+            .attachTo(destroyer)
+
+        binding.inputProxyHost.observeTextChanges()
+            .subscribe {
+                viewModel.onProxyHostChanged(binding.inputProxyHost.rawString)
             }
-            .subscribe()
+            .attachTo(destroyer)
+        binding.inputProxyPort.observeTextChanges()
+            .subscribe {
+                viewModel.onProxyPortChanged(it.toString().toIntOrNull())
+            }
+            .attachTo(destroyer)
+        binding.inputSsid.observeTextChanges()
+            .subscribe {
+                viewModel.onWifiSsidChanged(it.toString())
+            }
             .attachTo(destroyer)
 
         binding.buttonClientCert.setOnClickListener {
-            onClientCertButtonClicked()
+            viewModel.onClientCertButtonClicked()
         }
 
         binding.inputTimeout.setOnClickListener {
-            showTimeoutDialog()
+            viewModel.onTimeoutButtonClicked()
         }
 
         VariableViewUtils.bindVariableViews(binding.inputProxyHost, binding.variableButtonProxyHost, variablePlaceholderProvider)
             .attachTo(destroyer)
     }
 
-    // TODO: This gets hackier and hackier. Let's refactor this, maybe let's use MVVI
-    private var viewStatesInitialized = false
-
-    private fun bindViewsToViewModel() {
-        shortcutData.observe(this) {
-            val shortcut = shortcutData.value ?: return@observe
-            updateShortcutViews(shortcut, !viewStatesInitialized)
-            viewStatesInitialized = true
+    private fun initViewModelBindings() {
+        viewModel.viewState.observe(this) { viewState ->
+            binding.inputFollowRedirects.isChecked = viewState.followRedirects
+            binding.inputAcceptCertificates.isChecked = viewState.acceptAllCertificates
+            binding.buttonClientCert.isEnabled = viewState.isClientCertButtonEnabled
+            binding.buttonClientCert.setSubtitle(viewState.clientCertSubtitle)
+            binding.inputAcceptCookies.isChecked = viewState.acceptCookies
+            binding.inputTimeout.setSubtitle(viewState.timeoutSubtitle)
+            binding.inputProxyHost.rawString = viewState.proxyHost
+            binding.inputProxyPort.setTextSafely(viewState.proxyPort)
+            binding.inputSsid.setTextSafely(viewState.wifiSsid)
+            viewState.variables?.let(variablePlaceholderProvider::applyVariables)
         }
-        bindTextChangeListener(binding.inputProxyHost) { shortcutData.value?.proxyHost ?: "" }
-        bindTextChangeListener(binding.inputProxyPort) { shortcutData.value?.proxyPort?.toString() ?: "" }
-        bindTextChangeListener(binding.inputSsid) { shortcutData.value?.wifiSsid ?: "" }
+        viewModel.events.observe(this, ::handleEvent)
     }
 
-    private fun bindTextChangeListener(textView: EditText, currentValueProvider: () -> String?) {
-        textView.observeTextChanges()
-            .debounce(300, TimeUnit.MILLISECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .filter { it.toString() != currentValueProvider.invoke() }
-            .concatMapCompletable { updateViewModelFromViews() }
-            .subscribe()
-            .attachTo(destroyer)
-    }
-
-    private fun updateViewModelFromViews(): Completable =
-        viewModel.setAdvancedSettings(
-            binding.inputProxyHost.rawString,
-            binding.inputProxyPort.text.toString().toIntOrNull(),
-            binding.inputSsid.text.toString(),
-        )
-
-    private fun updateShortcutViews(shortcut: Shortcut, isInitial: Boolean) {
-        binding.inputFollowRedirects.isChecked = shortcut.followRedirects
-        binding.inputAcceptCertificates.isChecked = shortcut.acceptAllCertificates
-        binding.buttonClientCert.isEnabled = !shortcut.acceptAllCertificates
-        binding.buttonClientCert.subtitle = viewModel.getClientCertSubtitle(shortcut)
-        binding.inputAcceptCookies.isChecked = shortcut.acceptCookies
-        binding.inputTimeout.subtitle = viewModel.getTimeoutSubtitle(shortcut)
-        if (isInitial) {
-            binding.inputProxyHost.rawString = shortcut.proxyHost ?: ""
-            binding.inputProxyPort.setText(shortcut.proxyPort?.toString() ?: "")
-            binding.inputSsid.setText(shortcut.wifiSsid)
-        }
-    }
-
-    private fun onClientCertButtonClicked() {
-        val shortcut = shortcutData.value ?: return
-        if (shortcut.clientCertParams == null) {
-            openClientCertDialog()
-        } else {
-            setClientCertParams(null)
+    override fun handleEvent(event: ViewModelEvent) {
+        when (event) {
+            is AdvancedSettingsEvent.ShowClientCertDialog -> {
+                openClientCertDialog()
+            }
+            is AdvancedSettingsEvent.ShowTimeoutDialog -> {
+                showTimeoutDialog(event.timeout, event.getLabel)
+            }
+            else -> super.handleEvent(event)
         }
     }
 
@@ -170,7 +146,9 @@ class AdvancedSettingsActivity : BaseActivity() {
     private fun promptForClientCertAlias() {
         try {
             ClientCertUtil.promptForAlias(this) { alias ->
-                setClientCertParams(ClientCertParams.Alias(alias))
+                viewModel.onClientCertParamsChanged(
+                    ClientCertParams.Alias(alias)
+                )
             }
         } catch (e: ActivityNotFoundException) {
             showToast(R.string.error_not_supported)
@@ -186,15 +164,8 @@ class AdvancedSettingsActivity : BaseActivity() {
         }
     }
 
-    private fun setClientCertParams(clientCertParams: ClientCertParams?) {
-        viewModel.setClientCertParams(clientCertParams)
-            .subscribe()
-            .attachTo(destroyer)
-    }
-
-    private fun showTimeoutDialog() {
-        // TODO: Move this out into its own class
-        val shortcut = shortcutData.value ?: return
+    // TODO: Move this out into its own class?
+    private fun showTimeoutDialog(timeout: Duration, getLabel: (Duration) -> Localizable) {
         val view = LayoutInflater.from(context).inflate(R.layout.dialog_time_picker, null)
 
         val slider = view.findViewById<SeekBar>(R.id.slider)
@@ -204,19 +175,17 @@ class AdvancedSettingsActivity : BaseActivity() {
 
         slider.setOnSeekBarChangeListener(object : SimpleOnSeekBarChangeListener() {
             override fun onProgressChanged(slider: SeekBar, progress: Int, fromUser: Boolean) {
-                label.text = viewModel.getTimeoutText(progressToTimeout(progress))
+                label.text = getLabel(progressToTimeout(progress)).localize(context)
             }
         })
-        label.text = viewModel.getTimeoutText(shortcut.timeout.milliseconds)
-        slider.progress = timeoutToProgress(shortcut.timeout.milliseconds)
+        label.setText(getLabel(timeout))
+        slider.progress = timeoutToProgress(timeout)
 
         DialogBuilder(context)
             .title(R.string.label_timeout)
             .view(view)
             .positive(R.string.dialog_ok) {
-                viewModel.setTimeout(progressToTimeout(slider.progress))
-                    .subscribe()
-                    .attachTo(destroyer)
+                viewModel.onTimeoutChanged(progressToTimeout(slider.progress))
             }
             .showIfPossible()
     }
@@ -242,7 +211,7 @@ class AdvancedSettingsActivity : BaseActivity() {
                     }
             }
             .subscribe(
-                ::setClientCertParams,
+                viewModel::onClientCertParamsChanged,
             ) { e ->
                 logException(e)
                 showSnackbar(R.string.error_generic)
@@ -252,7 +221,7 @@ class AdvancedSettingsActivity : BaseActivity() {
 
     private fun copyCertificateFile(file: Uri): Single<String> =
         RxUtils.single {
-            val fileName = "${UUIDUtils.newUUID()}.p12"
+            val fileName = "${newUUID()}.p12"
             contentResolver.openInputStream(file)!!.use { inputStream ->
                 context.openFileOutput(fileName, MODE_PRIVATE).use { outputStream ->
                     inputStream.copyTo(outputStream)
@@ -276,7 +245,11 @@ class AdvancedSettingsActivity : BaseActivity() {
                 .showIfPossible()
         }
 
-    class IntentBuilder(context: Context) : BaseIntentBuilder(context, AdvancedSettingsActivity::class.java)
+    override fun onBackPressed() {
+        viewModel.onBackPressed()
+    }
+
+    class IntentBuilder : BaseIntentBuilder(AdvancedSettingsActivity::class.java)
 
     companion object {
 

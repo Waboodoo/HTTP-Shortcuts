@@ -1,24 +1,15 @@
 package ch.rmy.android.http_shortcuts.variables.types
 
 import android.content.Context
-import androidx.fragment.app.FragmentManager
+import ch.rmy.android.framework.extensions.mapIf
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.cancel
-import ch.rmy.android.http_shortcuts.extensions.mapIf
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
 
 abstract class BaseVariableType {
-
-    val tag: String
-        get() = javaClass.simpleName
-
-    fun getEditorFragment(fragmentManager: FragmentManager): VariableEditorFragment<*> =
-        fragmentManager.findFragmentByTag(tag) as? VariableEditorFragment<*>?
-            ?: createEditorFragment()
-
-    protected abstract fun createEditorFragment(): VariableEditorFragment<*>
 
     abstract fun resolveValue(context: Context, variable: Variable): Single<String>
 
@@ -36,5 +27,13 @@ abstract class BaseVariableType {
                 .dismissListener {
                     emitter.cancel()
                 }
+
+        internal fun Single<String>.storeValueIfNeeded(variable: Variable, variablesRepository: VariableRepository): Single<String> =
+            mapIf(variable.rememberValue) {
+                flatMap { resolvedValue ->
+                    variablesRepository.setVariableValue(variable.id, resolvedValue)
+                        .toSingle { resolvedValue }
+                }
+            }
     }
 }

@@ -1,50 +1,38 @@
 package ch.rmy.android.http_shortcuts.activities.editor.basicsettings
 
-import android.content.Context
-import android.os.Bundle
-import android.widget.EditText
+import ch.rmy.android.framework.extensions.attachTo
+import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.initialize
+import ch.rmy.android.framework.extensions.observe
+import ch.rmy.android.framework.extensions.observeTextChanges
+import ch.rmy.android.framework.extensions.visible
+import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
-import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.databinding.ActivityBasicRequestSettingsBinding
-import ch.rmy.android.http_shortcuts.extensions.attachTo
-import ch.rmy.android.http_shortcuts.extensions.bindViewModel
-import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
-import ch.rmy.android.http_shortcuts.extensions.type
-import ch.rmy.android.http_shortcuts.extensions.visible
-import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils.bindVariableViews
-import io.reactivex.Completable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import java.util.concurrent.TimeUnit
 
 class BasicRequestSettingsActivity : BaseActivity() {
 
     private val viewModel: BasicRequestSettingsViewModel by bindViewModel()
-    private val shortcutData by lazy {
-        viewModel.shortcut
-    }
-    private val variablesData by lazy {
-        viewModel.variables
-    }
-    private val variablePlaceholderProvider by lazy {
-        VariablePlaceholderProvider(variablesData)
-    }
+
+    private val variablePlaceholderProvider = VariablePlaceholderProvider()
 
     private lateinit var binding: ActivityBasicRequestSettingsBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = applyBinding(ActivityBasicRequestSettingsBinding.inflate(layoutInflater))
-        setTitle(R.string.section_basic_request)
-
+    override fun onCreate() {
+        viewModel.initialize()
         initViews()
-        bindViewsToViewModel()
+        initUserInputBindings()
+        initViewModelBindings()
     }
 
     private fun initViews() {
+        binding = applyBinding(ActivityBasicRequestSettingsBinding.inflate(layoutInflater))
+        setTitle(R.string.section_basic_request)
+
         binding.inputMethod.setItemsFromPairs(
             METHODS.map {
                 it to it
@@ -54,51 +42,35 @@ class BasicRequestSettingsActivity : BaseActivity() {
             .attachTo(destroyer)
     }
 
-    private fun bindViewsToViewModel() {
-        shortcutData.observe(this) {
-            updateShortcutViews()
-        }
-        variablesData.observe(this) {
-            updateShortcutViews()
-        }
-
+    private fun initUserInputBindings() {
         binding.inputMethod.selectionChanges
-            .concatMapCompletable { method -> viewModel.setMethod(method) }
-            .subscribe()
+            .subscribe(viewModel::onMethodChanged)
             .attachTo(destroyer)
-        bindTextChangeListener(binding.inputUrl) { shortcutData.value?.url }
-    }
 
-    private fun bindTextChangeListener(textView: EditText, currentValueProvider: () -> String?) {
-        textView.observeTextChanges()
-            .debounce(300, TimeUnit.MILLISECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .filter { it.toString() != currentValueProvider.invoke() }
-            .concatMapCompletable { updateViewModelFromUrlView() }
-            .subscribe()
-            .attachTo(destroyer)
-    }
-
-    private fun updateViewModelFromUrlView(): Completable =
-        viewModel.setUrl(binding.inputUrl.rawString)
-
-    private fun updateShortcutViews() {
-        val shortcut = shortcutData.value ?: return
-
-        binding.inputMethod.visible = shortcut.type == ShortcutExecutionType.APP
-        binding.inputMethod.selectedItem = shortcut.method
-        binding.inputUrl.rawString = shortcut.url
-    }
-
-    override fun onBackPressed() {
-        updateViewModelFromUrlView()
+        binding.inputUrl
+            .observeTextChanges()
             .subscribe {
-                finish()
+                viewModel.onUrlChanged(binding.inputUrl.rawString)
             }
             .attachTo(destroyer)
     }
 
-    class IntentBuilder(context: Context) : BaseIntentBuilder(context, BasicRequestSettingsActivity::class.java)
+    private fun initViewModelBindings() {
+        viewModel.viewState.observe(this) { viewState ->
+            binding.inputMethod.visible = viewState.methodVisible
+            binding.inputMethod.selectedItem = viewState.method
+            binding.inputUrl.rawString = viewState.url
+
+            viewState.variables?.let(variablePlaceholderProvider::applyVariables)
+        }
+        viewModel.events.observe(this, ::handleEvent)
+    }
+
+    override fun onBackPressed() {
+        viewModel.onBackPressed()
+    }
+
+    class IntentBuilder : BaseIntentBuilder(BasicRequestSettingsActivity::class.java)
 
     companion object {
 

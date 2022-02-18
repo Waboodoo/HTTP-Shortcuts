@@ -3,9 +3,9 @@ package ch.rmy.android.http_shortcuts.activities.settings
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import ch.rmy.android.framework.extensions.showSnackbar
+import ch.rmy.android.framework.utils.Destroyer
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
-import ch.rmy.android.http_shortcuts.extensions.showSnackbar
-import ch.rmy.android.http_shortcuts.utils.Destroyer
 
 abstract class BaseSettingsFragment : PreferenceFragmentCompat() {
 

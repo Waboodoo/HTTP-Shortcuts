@@ -4,7 +4,7 @@ import android.content.ContentResolver
 import android.content.res.AssetFileDescriptor
 import android.net.Uri
 import android.webkit.MimeTypeMap
-import ch.rmy.android.http_shortcuts.extensions.tryOrLog
+import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.utils.FileUtil
 import java.io.FileNotFoundException
 

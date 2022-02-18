@@ -4,7 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.net.nsd.NsdManager
 import android.net.nsd.NsdServiceInfo
-import ch.rmy.android.http_shortcuts.extensions.logInfo
+import ch.rmy.android.framework.extensions.logInfo
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers

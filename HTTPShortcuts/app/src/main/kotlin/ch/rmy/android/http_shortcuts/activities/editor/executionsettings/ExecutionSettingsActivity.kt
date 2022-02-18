@@ -1,100 +1,92 @@
 package ch.rmy.android.http_shortcuts.activities.editor.executionsettings
 
-import android.content.Context
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.SeekBar
 import android.widget.TextView
+import ch.rmy.android.framework.extensions.attachTo
+import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.initialize
+import ch.rmy.android.framework.extensions.observe
+import ch.rmy.android.framework.extensions.observeChecked
+import ch.rmy.android.framework.extensions.setSubtitle
+import ch.rmy.android.framework.extensions.visible
+import ch.rmy.android.framework.ui.BaseIntentBuilder
+import ch.rmy.android.framework.utils.SimpleOnSeekBarChangeListener
+import ch.rmy.android.framework.utils.localization.Localizable
+import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.databinding.ActivityExecutionSettingsBinding
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
-import ch.rmy.android.http_shortcuts.extensions.attachTo
-import ch.rmy.android.http_shortcuts.extensions.bindViewModel
-import ch.rmy.android.http_shortcuts.extensions.observeChecked
-import ch.rmy.android.http_shortcuts.extensions.visible
-import ch.rmy.android.http_shortcuts.tiles.QuickSettingsTileManager
-import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
-import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
-import ch.rmy.android.http_shortcuts.utils.SimpleOnSeekBarChangeListener
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
-
 class ExecutionSettingsActivity : BaseActivity() {
 
     private val viewModel: ExecutionSettingsViewModel by bindViewModel()
-    private val shortcutData by lazy {
-        viewModel.shortcut
-    }
 
     private lateinit var binding: ActivityExecutionSettingsBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = applyBinding(ActivityExecutionSettingsBinding.inflate(layoutInflater))
-        setTitle(R.string.label_execution_settings)
-
+    override fun onCreate() {
+        viewModel.initialize()
         initViews()
-        bindViewsToViewModel()
+        initUserInputBindings()
+        initViewModelBindings()
     }
 
     private fun initViews() {
+        binding = applyBinding(ActivityExecutionSettingsBinding.inflate(layoutInflater))
+        setTitle(R.string.label_execution_settings)
+    }
+
+    private fun initUserInputBindings() {
         binding.inputRequireConfirmation
             .observeChecked()
-            .concatMapCompletable { isChecked ->
-                viewModel.setRequireConfirmation(isChecked)
-            }
-            .subscribe()
+            .subscribe(viewModel::onRequireConfirmationChanged)
             .attachTo(destroyer)
         binding.inputLauncherShortcut
             .observeChecked()
-            .concatMapCompletable { isChecked ->
-                viewModel.setLauncherShortcut(isChecked)
-            }
-            .subscribe()
+            .subscribe(viewModel::onLauncherShortcutChanged)
             .attachTo(destroyer)
         binding.inputQuickTileShortcut
             .observeChecked()
-            .concatMapCompletable { isChecked ->
-                viewModel.setQuickSettingsTileShortcut(isChecked)
-            }
-            .subscribe()
+            .subscribe(viewModel::onQuickSettingsTileShortcutChanged)
             .attachTo(destroyer)
         binding.inputWaitForConnection
             .observeChecked()
-            .concatMapCompletable { isChecked ->
-                viewModel.setWaitForConnection(isChecked)
-            }
-            .subscribe()
+            .subscribe(viewModel::onWaitForConnectionChanged)
             .attachTo(destroyer)
         binding.inputDelay.setOnClickListener {
-            showDelayDialog()
+            viewModel.onDelayButtonClicked()
         }
     }
 
-    private fun bindViewsToViewModel() {
-        shortcutData.observe(this) {
-            updateShortcutViews()
+    private fun initViewModelBindings() {
+        viewModel.viewState.observe(this) { viewState ->
+            binding.inputRequireConfirmation.isChecked = viewState.requireConfirmation
+            binding.inputLauncherShortcut.visible = viewState.launcherShortcutOptionVisible
+            binding.inputLauncherShortcut.isChecked = viewState.launcherShortcut
+            binding.inputQuickTileShortcut.visible = viewState.quickSettingsTileShortcutOptionVisible
+            binding.inputQuickTileShortcut.isChecked = viewState.quickSettingsTileShortcut
+            binding.inputWaitForConnection.isChecked = viewState.waitForConnection
+            binding.inputDelay.setSubtitle(viewState.delaySubtitle)
+        }
+        viewModel.events.observe(this, ::handleEvent)
+    }
+
+    override fun handleEvent(event: ViewModelEvent) {
+        when (event) {
+            is ExecutionSettingsEvent.ShowDelayDialog -> {
+                showDelayDialog(event.delay, event.getLabel)
+            }
+            else -> super.handleEvent(event)
         }
     }
 
-    private fun updateShortcutViews() {
-        val shortcut = shortcutData.value ?: return
-        binding.inputRequireConfirmation.isChecked = shortcut.requireConfirmation
-        binding.inputLauncherShortcut.visible = LauncherShortcutManager.supportsLauncherShortcuts()
-        binding.inputLauncherShortcut.isChecked = shortcut.launcherShortcut
-        binding.inputQuickTileShortcut.visible = QuickSettingsTileManager.supportsQuickSettingsTiles()
-        binding.inputQuickTileShortcut.isChecked = shortcut.quickSettingsTileShortcut
-        binding.inputWaitForConnection.isChecked = shortcut.isWaitForNetwork
-        binding.inputDelay.subtitle = viewModel.getDelaySubtitle(shortcut)
-    }
-
-    private fun showDelayDialog() {
-        // TODO: Move this out into its own class
-        val shortcut = shortcutData.value ?: return
+    // TODO: Move this out into its own class?
+    private fun showDelayDialog(delay: Duration, getDelayText: (Duration) -> Localizable) {
         val view = LayoutInflater.from(context).inflate(R.layout.dialog_time_picker, null)
 
         val slider = view.findViewById<SeekBar>(R.id.slider)
@@ -104,24 +96,26 @@ class ExecutionSettingsActivity : BaseActivity() {
 
         slider.setOnSeekBarChangeListener(object : SimpleOnSeekBarChangeListener() {
             override fun onProgressChanged(slider: SeekBar, progress: Int, fromUser: Boolean) {
-                label.text = viewModel.getDelayText(progressToDelay(progress))
+                label.text = getDelayText(progressToDelay(progress)).localize(context)
             }
         })
-        label.text = viewModel.getDelayText(shortcut.delay.milliseconds)
-        slider.progress = delayToProgress(shortcut.delay.milliseconds)
+        label.text = getDelayText(delay).localize(context)
+        slider.progress = delayToProgress(delay)
 
         DialogBuilder(context)
             .title(R.string.label_delay_execution)
             .view(view)
             .positive(R.string.dialog_ok) {
-                viewModel.setDelay(progressToDelay(slider.progress))
-                    .subscribe()
-                    .attachTo(destroyer)
+                viewModel.onDelayChanged(progressToDelay(slider.progress))
             }
             .showIfPossible()
     }
 
-    class IntentBuilder(context: Context) : BaseIntentBuilder(context, ExecutionSettingsActivity::class.java)
+    override fun onBackPressed() {
+        viewModel.onBackPressed()
+    }
+
+    class IntentBuilder : BaseIntentBuilder(ExecutionSettingsActivity::class.java)
 
     companion object {
 

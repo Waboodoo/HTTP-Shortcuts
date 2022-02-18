@@ -1,12 +1,12 @@
 package ch.rmy.android.http_shortcuts.http
 
 import android.content.Context
+import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.mapIf
+import ch.rmy.android.framework.extensions.mapIfNotNull
 import ch.rmy.android.http_shortcuts.data.models.ClientCertParams
 import ch.rmy.android.http_shortcuts.exceptions.ClientCertException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidProxyException
-import ch.rmy.android.http_shortcuts.extensions.logException
-import ch.rmy.android.http_shortcuts.extensions.mapIf
-import ch.rmy.android.http_shortcuts.extensions.mapIfNotNull
 import com.burgstaller.okhttp.digest.Credentials
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import okhttp3.ConnectionSpec

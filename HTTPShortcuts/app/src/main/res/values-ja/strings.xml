@@ -1018,7 +1018,7 @@
     <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
     <string name="instructions_quick_settings_tile">"「クイック設定タイル」でトリガーできるショートカットはまだありません。
 
-この機能を有効にするには、ショートカットの編集で、「％2 $ s」にある「％1 $ s」チェックボックスを選択してください。"</string>
+この機能を有効にするには、ショートカットの編集で、「%2$ s」にある「%1$ s」チェックボックスを選択してください。"</string>
 
     <!-- Label: Status code, shows the HTTP status code of the response -->
     <string name="label_status_code">"ステータスコード"</string>
@@ -1317,7 +1317,7 @@
     <string name="instructions_remote_edit_step_2">"「&lt;pre&gt;サーバーへ送る&lt;/pre&gt;」ボタンをクリック"</string>
 
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
-    <string name="instructions_remote_edit_step_3">"コンピューターのブラウザーで ％s を開き、デバイスIDとパスワードを入力して、編集を開始します。"</string>
+    <string name="instructions_remote_edit_step_3">"コンピューターのブラウザーで %s を開き、デバイスIDとパスワードを入力して、編集を開始します。"</string>
 
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
     <string name="instructions_remote_edit_step_4">"編集作業が完了して変更を保存したら、下記の「&lt;pre&gt;変更を取り込む&lt;/ pre&gt;」ボタンをクリックして、変更をダウンロードしてアプリに取り込みます。"</string>

@@ -1,38 +1,32 @@
 package ch.rmy.android.http_shortcuts.activities.editor.scripting
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
+import ch.rmy.android.framework.extensions.attachTo
+import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.color
+import ch.rmy.android.framework.extensions.consume
+import ch.rmy.android.framework.extensions.initialize
+import ch.rmy.android.framework.extensions.insertAroundCursor
+import ch.rmy.android.framework.extensions.observe
+import ch.rmy.android.framework.extensions.observeTextChanges
+import ch.rmy.android.framework.extensions.setHint
+import ch.rmy.android.framework.extensions.setTextSafely
+import ch.rmy.android.framework.extensions.visible
+import ch.rmy.android.framework.ui.BaseIntentBuilder
+import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
-import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.databinding.ActivityScriptingBinding
-import ch.rmy.android.http_shortcuts.extensions.attachTo
-import ch.rmy.android.http_shortcuts.extensions.bindViewModel
-import ch.rmy.android.http_shortcuts.extensions.color
-import ch.rmy.android.http_shortcuts.extensions.consume
-import ch.rmy.android.http_shortcuts.extensions.insertAroundCursor
-import ch.rmy.android.http_shortcuts.extensions.observeTextChanges
-import ch.rmy.android.http_shortcuts.extensions.openURL
-import ch.rmy.android.http_shortcuts.extensions.setTextSafely
-import ch.rmy.android.http_shortcuts.extensions.type
-import ch.rmy.android.http_shortcuts.extensions.visible
 import ch.rmy.android.http_shortcuts.icons.IconPicker
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholderProvider
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutSpanManager
-import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
-import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
-import io.reactivex.Completable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import java.util.concurrent.TimeUnit
 
 class ScriptingActivity : BaseActivity() {
 
@@ -41,30 +35,17 @@ class ScriptingActivity : BaseActivity() {
     }
 
     private val viewModel: ScriptingViewModel by bindViewModel()
-    private val shortcutData by lazy {
-        viewModel.shortcut
-    }
-    private val variablesData by lazy {
-        viewModel.variables
-    }
-    private val variablePlaceholderProvider by lazy {
-        VariablePlaceholderProvider(variablesData)
-    }
-    private val shortcutsData by lazy {
-        viewModel.shortcuts
-    }
-    private val shortcutPlaceholderProvider by lazy {
-        ShortcutPlaceholderProvider(shortcutsData)
-    }
+
+    private val shortcutPlaceholderProvider = ShortcutPlaceholderProvider()
+    private val variablePlaceholderProvider = VariablePlaceholderProvider()
+
     private val iconPicker: IconPicker by lazy {
         IconPicker(this) { icon ->
-            Completable.fromAction {
-                codeSnippetPicker.insertChangeIconSnippet(
-                    viewModel.iconPickerShortcutPlaceholder ?: return@fromAction,
-                    getCodeInsertion(lastActiveCodeInput ?: return@fromAction),
-                    icon,
-                )
-            }
+            codeSnippetPicker.insertChangeIconSnippet(
+                viewModel.iconPickerShortcutPlaceholder ?: return@IconPicker,
+                getCodeInsertion(lastActiveCodeInput ?: binding.inputCodePrepare),
+                icon,
+            )
         }
     }
     private val codeSnippetPicker by lazy {
@@ -89,78 +70,48 @@ class ScriptingActivity : BaseActivity() {
 
     private var lastActiveCodeInput: EditText? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = applyBinding(ActivityScriptingBinding.inflate(layoutInflater))
-        setTitle(R.string.label_scripting)
-
+    override fun onCreate() {
+        viewModel.initialize()
         initViews()
-        bindViewsToViewModel()
+        initUserInputBindings()
+        initViewModelBindings()
     }
 
     private fun initViews() {
+        binding = applyBinding(ActivityScriptingBinding.inflate(layoutInflater))
+        setTitle(R.string.label_scripting)
+    }
+
+    private fun initUserInputBindings() {
         binding.buttonAddCodeSnippetPre.setOnClickListener {
-            lastActiveCodeInput = binding.inputCodePrepare
-            codeSnippetPicker.showCodeSnippetPicker(
-                getCodeInsertion(binding.inputCodePrepare),
-                includeResponseOptions = false,
-                includeFileOptions = shortcutData.value?.type != ShortcutExecutionType.SCRIPTING,
-            )
+            viewModel.onAddCodeSnippetPrepareButtonClicked()
         }
         binding.buttonAddCodeSnippetSuccess.setOnClickListener {
-            lastActiveCodeInput = binding.inputCodeSuccess
-            codeSnippetPicker.showCodeSnippetPicker(getCodeInsertion(binding.inputCodeSuccess))
+            viewModel.onAddCodeSnippetSuccessButtonClicked()
         }
         binding.buttonAddCodeSnippetFailure.setOnClickListener {
             lastActiveCodeInput = binding.inputCodeFailure
-            codeSnippetPicker.showCodeSnippetPicker(getCodeInsertion(binding.inputCodeFailure), includeNetworkErrorOption = true)
-        }
-    }
-
-    private fun getCodeInsertion(codeInput: EditText): InsertText =
-        { before, after ->
-            codeInput.insertAroundCursor(before, after)
-            Variables.applyVariableFormattingToJS(codeInput.text, variablePlaceholderProvider, variablePlaceholderColor)
-            ShortcutSpanManager.applyShortcutFormattingToJS(codeInput.text, shortcutPlaceholderProvider, shortcutPlaceholderColor)
+            viewModel.onAddCodeSnippetFailureButtonClicked()
         }
 
-    private fun bindViewsToViewModel() {
-        shortcutData.observe(this) {
-            val shortcut = shortcutData.value ?: return@observe
-            updateShortcutViews(shortcut)
-            shortcutData.removeObservers(this)
-        }
-        bindTextChangeListener(binding.inputCodePrepare) { shortcutData.value?.codeOnPrepare }
-        bindTextChangeListener(binding.inputCodeSuccess) { shortcutData.value?.codeOnSuccess }
-        bindTextChangeListener(binding.inputCodeFailure) { shortcutData.value?.codeOnFailure }
-    }
-
-    private fun bindTextChangeListener(textView: EditText, currentValueProvider: () -> String?) {
-        textView.observeTextChanges()
-            .debounce(300, TimeUnit.MILLISECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .filter { it != currentValueProvider.invoke() }
-            .concatMapCompletable { updateViewModelFromViews() }
-            .subscribe()
+        binding.inputCodePrepare
+            .observeTextChanges()
+            .subscribe {
+                viewModel.onCodePrepareChanged(it.toString())
+            }
             .attachTo(destroyer)
-    }
-
-    private fun updateViewModelFromViews(): Completable =
-        viewModel.setCode(
-            prepareCode = binding.inputCodePrepare.text.toString(),
-            successCode = binding.inputCodeSuccess.text.toString(),
-            failureCode = binding.inputCodeFailure.text.toString(),
-        )
-
-    private fun updateShortcutViews(shortcut: Shortcut) {
-        val type = shortcut.type
-        binding.inputCodePrepare.minLines = getMinLinesForCode(type)
-        binding.inputCodePrepare.setHint(getHintText(type))
-        binding.labelCodePrepare.visible = type != ShortcutExecutionType.SCRIPTING
-        binding.containerPostRequestScripting.visible = type.usesResponse
-        binding.inputCodeSuccess.setTextSafely(processTextForView(shortcut.codeOnSuccess))
-        binding.inputCodeFailure.setTextSafely(processTextForView(shortcut.codeOnFailure))
-        binding.inputCodePrepare.setTextSafely(processTextForView(shortcut.codeOnPrepare))
+        binding.inputCodeSuccess
+            .observeTextChanges()
+            .subscribe {
+                viewModel.onCodeSuccessChanged(it.toString())
+            }
+            .attachTo(destroyer)
+        binding.inputCodeFailure
+            .observeTextChanges()
+            .subscribe {
+                viewModel.onCodeFailureChanged(it.toString())
+            }
+            .attachTo(destroyer)
     }
 
     private fun processTextForView(input: String): CharSequence {
@@ -178,33 +129,84 @@ class ScriptingActivity : BaseActivity() {
         return text
     }
 
-    override fun onBackPressed() {
-        updateViewModelFromViews()
-            .subscribe {
-                finish()
-            }
-            .attachTo(destroyer)
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.scripting_activity_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.action_show_help -> consume { showHelp() }
+        R.id.action_show_help -> consume { viewModel.onHelpButtonClicked() }
         else -> super.onOptionsItemSelected(item)
     }
 
-    private fun showHelp() {
-        openURL(ExternalURLs.SCRIPTING_DOCUMENTATION)
+    private fun initViewModelBindings() {
+        viewModel.viewState.observe(this) { viewState ->
+            binding.inputCodePrepare.minLines = viewState.codePrepareMinLines
+            binding.inputCodePrepare.setHint(viewState.codePrepareHint)
+            binding.labelCodePrepare.visible = viewState.codePrepareVisible
+            binding.containerPostRequestScripting.visible = viewState.postRequestScriptingVisible
+            binding.inputCodeSuccess.setTextSafely(processTextForView(viewState.codeOnSuccess))
+            binding.inputCodeFailure.setTextSafely(processTextForView(viewState.codeOnFailure))
+            binding.inputCodePrepare.setTextSafely(processTextForView(viewState.codeOnPrepare))
+
+            shortcutPlaceholderProvider.applyShortcuts(viewState.shortcuts)
+            viewState.variables?.let(variablePlaceholderProvider::applyVariables)
+        }
+        viewModel.events.observe(this, ::handleEvent)
     }
+
+    override fun handleEvent(event: ViewModelEvent) {
+        when (event) {
+            is ScriptingEvent.ShowCodeSnippetPicker -> {
+                val view = when (event.target) {
+                    ScriptingEvent.ShowCodeSnippetPicker.Target.PREPARE -> {
+                        binding.inputCodePrepare
+                    }
+                    ScriptingEvent.ShowCodeSnippetPicker.Target.SUCCESS -> {
+                        binding.inputCodeSuccess
+                    }
+                    ScriptingEvent.ShowCodeSnippetPicker.Target.FAILURE -> {
+                        binding.inputCodeFailure
+                    }
+                }
+                showCodeSnippetPicker(
+                    view,
+                    includeFileOptions = event.includeFileOptions,
+                    includeResponseOptions = event.includeResponseOptions,
+                    includeNetworkErrorOption = event.includeNetworkErrorOption,
+                )
+            }
+            else -> super.handleEvent(event)
+        }
+    }
+
+    private fun showCodeSnippetPicker(
+        editText: EditText,
+        includeFileOptions: Boolean,
+        includeResponseOptions: Boolean,
+        includeNetworkErrorOption: Boolean,
+    ) {
+        lastActiveCodeInput = editText
+        codeSnippetPicker.showCodeSnippetPicker(
+            getCodeInsertion(editText),
+            includeResponseOptions = includeResponseOptions,
+            includeFileOptions = includeFileOptions,
+            includeNetworkErrorOption = includeNetworkErrorOption,
+        )
+    }
+
+    private fun getCodeInsertion(codeInput: EditText): InsertText =
+        { before, after ->
+            codeInput.insertAroundCursor(before, after)
+            Variables.applyVariableFormattingToJS(codeInput.text, variablePlaceholderProvider, variablePlaceholderColor)
+            ShortcutSpanManager.applyShortcutFormattingToJS(codeInput.text, shortcutPlaceholderProvider, shortcutPlaceholderColor)
+        }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             codeSnippetPicker.handleRequestResult(
-                getCodeInsertion(lastActiveCodeInput ?: return),
+                getCodeInsertion(lastActiveCodeInput ?: binding.inputCodePrepare),
                 requestCode,
                 data,
             )
@@ -212,7 +214,11 @@ class ScriptingActivity : BaseActivity() {
         iconPicker.handleResult(requestCode, resultCode, data)
     }
 
-    class IntentBuilder(context: Context) : BaseIntentBuilder(context, ScriptingActivity::class.java) {
+    override fun onBackPressed() {
+        viewModel.onBackPressed()
+    }
+
+    class IntentBuilder : BaseIntentBuilder(ScriptingActivity::class.java) {
 
         fun shortcutId(shortcutId: String?) = also {
             intent.putExtra(EXTRA_SHORTCUT_ID, shortcutId)
@@ -221,17 +227,5 @@ class ScriptingActivity : BaseActivity() {
 
     companion object {
         private const val EXTRA_SHORTCUT_ID = "shortcutId"
-
-        private fun getMinLinesForCode(type: ShortcutExecutionType) = if (type == ShortcutExecutionType.SCRIPTING) {
-            18
-        } else {
-            6
-        }
-
-        private fun getHintText(type: ShortcutExecutionType) = if (type == ShortcutExecutionType.SCRIPTING) {
-            R.string.placeholder_javascript_code_generic
-        } else {
-            R.string.placeholder_javascript_code_before
-        }
     }
 }

@@ -1,6 +1,6 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
-import ch.rmy.android.http_shortcuts.extensions.toHexString
+import ch.rmy.android.framework.extensions.toHexString
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import io.reactivex.Single
 

@@ -3,15 +3,16 @@ package ch.rmy.android.http_shortcuts.variables.types
 import android.content.Context
 import android.graphics.Color
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.data.Commons
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.cancel
-import ch.rmy.android.http_shortcuts.extensions.mapIf
 import com.skydoves.colorpickerview.ColorPickerDialog
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
 import io.reactivex.Single
 
 internal class ColorType : BaseVariableType() {
+
+    private val variablesRepository = VariableRepository()
 
     override fun resolveValue(context: Context, variable: Variable): Single<String> =
         Single.create<String> { emitter ->
@@ -41,20 +42,11 @@ internal class ColorType : BaseVariableType() {
                 }
                 .show()
         }
-            .mapIf(variable.rememberValue) {
-                flatMap { variableValue ->
-                    Commons.setVariableValue(variable.id, variableValue)
-                        .toSingle { variableValue }
-                }
-            }
+            .storeValueIfNeeded(variable, variablesRepository)
 
-    private fun getInitialColor(variable: Variable): Int {
-        if (variable.rememberValue && variable.value!!.length == 6) {
+    private fun getInitialColor(variable: Variable): Int =
+        if (variable.rememberValue && variable.value?.length == 6) {
             val color = variable.value?.toIntOrNull(16) ?: Color.BLACK
-            return color + 0xff000000.toInt()
-        }
-        return Color.BLACK
-    }
-
-    override fun createEditorFragment() = ColorEditorFragment()
+            color + 0xff000000.toInt()
+        } else Color.BLACK
 }

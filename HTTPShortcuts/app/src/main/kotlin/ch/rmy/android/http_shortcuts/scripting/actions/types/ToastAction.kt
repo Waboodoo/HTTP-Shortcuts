@@ -1,6 +1,6 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
-import ch.rmy.android.http_shortcuts.extensions.showToast
+import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.variables.Variables
 import io.reactivex.Completable

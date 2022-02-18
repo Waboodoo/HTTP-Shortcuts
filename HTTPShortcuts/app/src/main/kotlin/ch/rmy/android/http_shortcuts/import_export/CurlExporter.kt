@@ -1,32 +1,34 @@
 package ch.rmy.android.http_shortcuts.import_export
 
 import android.content.Context
-import ch.rmy.android.http_shortcuts.data.Controller
+import ch.rmy.android.framework.extensions.detachFromRealm
+import ch.rmy.android.framework.extensions.mapFor
+import ch.rmy.android.framework.extensions.mapIf
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
+import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.extensions.detachFromRealm
-import ch.rmy.android.http_shortcuts.extensions.mapFor
-import ch.rmy.android.http_shortcuts.extensions.mapIf
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import ch.rmy.android.http_shortcuts.variables.Variables.rawPlaceholdersToResolvedValues
 import ch.rmy.curlcommand.CurlCommand
 import io.reactivex.Single
 
-object CurlExporter {
+class CurlExporter(val context: Context) {
 
-    fun generateCommand(context: Context, shortcut: Shortcut): Single<CurlCommand> {
+    fun generateCommand(shortcut: Shortcut): Single<CurlCommand> {
         val detachedShortcut = shortcut.detachFromRealm()
-        return resolveVariables(context, detachedShortcut)
+        return resolveVariables(detachedShortcut)
             .map { variableManager ->
                 generateCommand(detachedShortcut, variableManager.getVariableValuesByIds())
             }
     }
 
-    private fun resolveVariables(context: Context, shortcut: Shortcut) =
-        Controller().use { controller ->
-            VariableResolver(context)
-                .resolve(controller.getVariables().detachFromRealm(), shortcut)
-        }
+    private fun resolveVariables(shortcut: Shortcut) =
+        VariableRepository().getVariables()
+            .flatMap { variables ->
+                VariableResolver(context)
+                    .resolve(variables, shortcut)
+            }
 
     private fun generateCommand(shortcut: Shortcut, variableValues: Map<String, String>): CurlCommand =
         CurlCommand.Builder()
@@ -42,7 +44,9 @@ object CurlExporter {
                 proxy(shortcut.proxyHost!!, shortcut.proxyPort!!)
             }
             .method(shortcut.method)
-            .timeout(shortcut.timeout)
+            .mapIf(shortcut.timeout != 10000) {
+                timeout(shortcut.timeout)
+            }
             .mapFor(shortcut.headers) { header ->
                 header(
                     rawPlaceholdersToResolvedValues(header.key, variableValues),
@@ -53,7 +57,7 @@ object CurlExporter {
                 usesBinaryData()
             }
             .mapIf(shortcut.usesRequestParameters()) {
-                if (shortcut.requestBodyType == Shortcut.REQUEST_BODY_TYPE_FORM_DATA) {
+                if (shortcut.bodyType == RequestBodyType.FORM_DATA) {
                     isFormData()
                         .mapFor(shortcut.parameters) { parameter ->
                             if (parameter.isFileParameter || parameter.isFilesParameter) {

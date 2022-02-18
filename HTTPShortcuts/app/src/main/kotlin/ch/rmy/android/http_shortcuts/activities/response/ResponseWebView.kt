@@ -7,10 +7,10 @@ import android.webkit.WebResourceResponse
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import ch.rmy.android.http_shortcuts.extensions.consume
-import ch.rmy.android.http_shortcuts.extensions.mapIf
-import ch.rmy.android.http_shortcuts.extensions.openURL
-import ch.rmy.android.http_shortcuts.extensions.tryOrIgnore
+import ch.rmy.android.framework.extensions.consume
+import ch.rmy.android.framework.extensions.mapIf
+import ch.rmy.android.framework.extensions.openURL
+import ch.rmy.android.framework.extensions.tryOrIgnore
 import ch.rmy.android.http_shortcuts.utils.UserAgentUtil
 
 class ResponseWebView @JvmOverloads constructor(

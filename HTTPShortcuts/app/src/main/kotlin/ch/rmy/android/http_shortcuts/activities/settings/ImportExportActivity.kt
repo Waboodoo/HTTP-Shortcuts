@@ -1,39 +1,35 @@
 package ch.rmy.android.http_shortcuts.activities.settings
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ProgressDialog
 import android.content.ActivityNotFoundException
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.core.net.toUri
+import ch.rmy.android.framework.extensions.attachTo
+import ch.rmy.android.framework.extensions.isWebUrl
+import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.showToast
+import ch.rmy.android.framework.extensions.startActivity
+import ch.rmy.android.framework.ui.BaseIntentBuilder
+import ch.rmy.android.framework.utils.FilePickerUtil
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.remote_edit.RemoteEditActivity
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.dialogs.SpecialWarnings
-import ch.rmy.android.http_shortcuts.extensions.attachTo
-import ch.rmy.android.http_shortcuts.extensions.isWebUrl
-import ch.rmy.android.http_shortcuts.extensions.logException
 import ch.rmy.android.http_shortcuts.extensions.showMessageDialog
-import ch.rmy.android.http_shortcuts.extensions.showToast
-import ch.rmy.android.http_shortcuts.extensions.startActivity
 import ch.rmy.android.http_shortcuts.import_export.ExportFormat
 import ch.rmy.android.http_shortcuts.import_export.ExportUI
 import ch.rmy.android.http_shortcuts.import_export.ImportException
 import ch.rmy.android.http_shortcuts.import_export.Importer
-import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
-import ch.rmy.android.http_shortcuts.utils.FilePickerUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
 import io.reactivex.android.schedulers.AndroidSchedulers
 
 class ImportExportActivity : BaseActivity() {
 
-    @SuppressLint("NewApi")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreate() {
         setContentView(R.layout.activity_import_export)
         setTitle(R.string.title_import_export)
         supportFragmentManager
@@ -60,7 +56,8 @@ class ImportExportActivity : BaseActivity() {
             }
 
             initPreference("export") {
-                exportUI.showExportOptions(format = ExportFormat.getPreferredFormat(requireContext())) { intent ->
+
+                exportUI.showExportOptions(format = getExportFormat()) { intent ->
                     try {
                         intent.startActivity(this, REQUEST_EXPORT_TO_DOCUMENTS)
                     } catch (e: ActivityNotFoundException) {
@@ -73,6 +70,9 @@ class ImportExportActivity : BaseActivity() {
                 openRemoteEditor()
             }
         }
+
+        private fun getExportFormat() =
+            if (Settings(requireContext()).useLegacyExportFormat) ExportFormat.LEGACY_JSON else ExportFormat.ZIP
 
         private fun openGeneralPickerForImport() {
             try {
@@ -106,7 +106,7 @@ class ImportExportActivity : BaseActivity() {
         }
 
         private fun openRemoteEditor() {
-            RemoteEditActivity.IntentBuilder(requireContext())
+            RemoteEditActivity.IntentBuilder()
                 .startActivity(this, REQUEST_REMOTE_EDIT)
         }
 
@@ -118,7 +118,7 @@ class ImportExportActivity : BaseActivity() {
                 REQUEST_EXPORT_TO_DOCUMENTS -> {
                     exportUI.startExport(
                         intent.data ?: return,
-                        format = ExportFormat.getPreferredFormat(requireContext()),
+                        format = getExportFormat(),
                     )
                 }
                 REQUEST_IMPORT_FROM_DOCUMENTS -> {
@@ -185,7 +185,7 @@ class ImportExportActivity : BaseActivity() {
         }
     }
 
-    class IntentBuilder(context: Context) : BaseIntentBuilder(context, ImportExportActivity::class.java)
+    class IntentBuilder : BaseIntentBuilder(ImportExportActivity::class.java)
 
     companion object {
 

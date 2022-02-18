@@ -6,24 +6,23 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
+import ch.rmy.android.framework.extensions.attachTo
+import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.showSnackbar
+import ch.rmy.android.framework.extensions.startActivity
+import ch.rmy.android.framework.utils.Destroyer
+import ch.rmy.android.framework.utils.FilePickerUtil
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
-import ch.rmy.android.http_shortcuts.extensions.attachTo
-import ch.rmy.android.http_shortcuts.extensions.logException
-import ch.rmy.android.http_shortcuts.extensions.showSnackbar
-import ch.rmy.android.http_shortcuts.extensions.startActivity
-import ch.rmy.android.http_shortcuts.utils.Destroyer
-import ch.rmy.android.http_shortcuts.utils.FilePickerUtil
 import ch.rmy.android.http_shortcuts.utils.IconUtil
 import ch.rmy.android.http_shortcuts.utils.IpackUtil
 import com.yalantis.ucrop.UCrop
-import io.reactivex.Completable
 import java.io.File
 
 class IconPicker(
     private val activity: BaseActivity,
-    private val iconSelected: (ShortcutIcon) -> Completable,
+    private val iconSelected: (ShortcutIcon) -> Unit,
 ) {
 
     private val context: Context
@@ -45,10 +44,9 @@ class IconPicker(
     private fun openBuiltInIconSelectionDialog() {
         BuiltInIconSelector(context)
             .show()
-            .flatMapCompletable { icon ->
+            .subscribe { icon ->
                 iconSelected(icon)
             }
-            .subscribe()
             .attachTo(destroyer)
     }
 
@@ -64,10 +62,9 @@ class IconPicker(
     private fun openPreviouslyUsedCustomInIconSelectionDialog() {
         CustomIconSelector(context)
             .show()
-            .flatMapCompletable { icon ->
+            .subscribe { icon ->
                 iconSelected(icon)
             }
-            .subscribe()
             .attachTo(destroyer)
     }
 
@@ -97,7 +94,7 @@ class IconPicker(
             REQUEST_CROP_IMAGE -> {
                 try {
                     if (resultCode == RESULT_OK && intent != null) {
-                        updateIcon(ShortcutIcon.CustomIcon(UCrop.getOutput(intent)!!.lastPathSegment!!))
+                        iconSelected(ShortcutIcon.CustomIcon(UCrop.getOutput(intent)!!.lastPathSegment!!))
                     } else if (resultCode == UCrop.RESULT_ERROR) {
                         activity.showSnackbar(R.string.error_set_image, long = true)
                     }
@@ -108,7 +105,7 @@ class IconPicker(
             }
             REQUEST_SELECT_IPACK_ICON -> {
                 if (resultCode == RESULT_OK && intent != null) {
-                    updateIcon(ShortcutIcon.ExternalResourceIcon(IpackUtil.getIpackUri(intent)))
+                    iconSelected(ShortcutIcon.ExternalResourceIcon(IpackUtil.getIpackUri(intent)))
                 }
             }
         }
@@ -116,12 +113,6 @@ class IconPicker(
 
     private fun createNewIconFile(): Uri =
         Uri.fromFile(File(context.filesDir, IconUtil.generateCustomIconName()))
-
-    private fun updateIcon(icon: ShortcutIcon) {
-        iconSelected(icon)
-            .subscribe()
-            .attachTo(destroyer)
-    }
 
     companion object {
         private const val REQUEST_SELECT_IMAGE = 1

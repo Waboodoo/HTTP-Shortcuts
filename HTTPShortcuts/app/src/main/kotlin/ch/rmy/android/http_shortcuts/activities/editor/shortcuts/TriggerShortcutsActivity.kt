@@ -1,22 +1,19 @@
 package ch.rmy.android.http_shortcuts.activities.editor.shortcuts
 
-import android.content.Context
-import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
+import ch.rmy.android.framework.extensions.attachTo
+import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.mapFor
+import ch.rmy.android.framework.extensions.observe
+import ch.rmy.android.framework.ui.BaseIntentBuilder
+import ch.rmy.android.framework.utils.DragOrderingHelper
+import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.databinding.ActivityTriggerShortcutsBinding
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
-import ch.rmy.android.http_shortcuts.extensions.attachTo
-import ch.rmy.android.http_shortcuts.extensions.bindViewModel
-import ch.rmy.android.http_shortcuts.extensions.logException
-import ch.rmy.android.http_shortcuts.extensions.mapFor
-import ch.rmy.android.http_shortcuts.extensions.showSnackbar
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholder
-import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholderProvider
-import ch.rmy.android.http_shortcuts.utils.BaseIntentBuilder
-import ch.rmy.android.http_shortcuts.utils.DragOrderingHelper
 
 class TriggerShortcutsActivity : BaseActivity() {
 
@@ -27,116 +24,101 @@ class TriggerShortcutsActivity : BaseActivity() {
     private val viewModel: TriggerShortcutsViewModel by bindViewModel()
 
     private lateinit var binding: ActivityTriggerShortcutsBinding
+    private lateinit var adapter: ShortcutsAdapter
 
-    private val shortcutsData by lazy {
-        viewModel.shortcuts
-    }
-    private val shortcutPlaceholderProvider by lazy {
-        ShortcutPlaceholderProvider(shortcutsData)
-    }
+    private var isDraggingEnabled = false
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = applyBinding(ActivityTriggerShortcutsBinding.inflate(layoutInflater))
-        setTitle(R.string.label_trigger_shortcuts)
-
+    override fun onCreate() {
+        viewModel.initialize(TriggerShortcutsViewModel.InitData(currentShortcutId))
         initViews()
+        initUserInputBindings()
+        initViewModelBindings()
     }
 
     private fun initViews() {
+        binding = applyBinding(ActivityTriggerShortcutsBinding.inflate(layoutInflater))
+        setTitle(R.string.label_trigger_shortcuts)
+
         binding.buttonAddTrigger.applyTheme(themeHelper)
-        binding.buttonAddTrigger.setOnClickListener {
-            openShortcutPickerForAdding()
-        }
 
         val manager = LinearLayoutManager(context)
         binding.triggerShortcutsList.layoutManager = manager
         binding.triggerShortcutsList.setHasFixedSize(true)
 
-        val adapter = ShortcutsAdapter(this, viewModel.triggerShortcuts)
-        adapter.itemClickListener = ::showRemoveShortcutDialog
+        adapter = ShortcutsAdapter()
         binding.triggerShortcutsList.adapter = adapter
+    }
 
+    private fun initUserInputBindings() {
+        adapter.userEvents
+            .subscribe { event ->
+                when (event) {
+                    is ShortcutsAdapter.UserEvent.ShortcutClicked -> {
+                        viewModel.onShortcutClicked(event.id)
+                    }
+                }
+            }
+            .attachTo(destroyer)
+
+        binding.buttonAddTrigger.setOnClickListener {
+            viewModel.onAddButtonClicked()
+        }
         initDragOrdering()
     }
 
     private fun initDragOrdering() {
-        val dragOrderingHelper = DragOrderingHelper { viewModel.triggerShortcuts.size > 1 }
+        val dragOrderingHelper = DragOrderingHelper { isDraggingEnabled }
         dragOrderingHelper.attachTo(binding.triggerShortcutsList)
         dragOrderingHelper.positionChangeSource
-            .concatMapCompletable { (oldPosition, newPosition) ->
-                viewModel.changeShortcutPosition(oldPosition, newPosition)
+            .subscribe { (oldPosition, newPosition) ->
+                viewModel.onShortcutMoved(oldPosition, newPosition)
             }
-            .subscribe(
-                {},
-                { e ->
-                    logException(e)
-                    showSnackbar(R.string.error_generic)
-                },
-            )
             .attachTo(destroyer)
     }
 
-    private fun openShortcutPickerForAdding() {
-        val shortcutIdsInUse = viewModel.triggerShortcuts.value?.map { it.id } ?: emptyList()
-        val placeholders = shortcutPlaceholderProvider.placeholders
-            .filter { it.id != currentShortcutId && it.id !in shortcutIdsInUse }
-
-        if (placeholders.isEmpty()) {
-            DialogBuilder(context)
-                .title(R.string.title_add_trigger_shortcut)
-                .message(R.string.error_add_trigger_shortcut_no_shortcuts)
-                .positive(R.string.dialog_ok)
-                .showIfPossible()
-            return
+    private fun initViewModelBindings() {
+        viewModel.viewState.observe(this) { viewState ->
+            adapter.items = viewState.shortcuts
+            isDraggingEnabled = viewState.isDraggingEnabled
         }
+        viewModel.events.observe(this, ::handleEvent)
+    }
 
+    override fun handleEvent(event: ViewModelEvent) {
+        when (event) {
+            is TriggerShortcutsEvent.ShowShortcutPickerForAdding -> {
+                showShortcutPickerForAdding(event.placeholders)
+            }
+            is TriggerShortcutsEvent.ShowRemoveShortcutDialog -> {
+                showRemoveShortcutDialog(event.shortcutId, event.shortcutName)
+            }
+            else -> super.handleEvent(event)
+        }
+    }
+
+    private fun showShortcutPickerForAdding(placeholders: List<ShortcutPlaceholder>) {
         DialogBuilder(context)
             .title(R.string.title_add_trigger_shortcut)
             .mapFor(placeholders) { shortcut ->
                 item(name = shortcut.name, shortcutIcon = shortcut.icon) {
-                    addShortcut(shortcut.id)
+                    viewModel.onAddShortcutDialogConfirmed(shortcut.id)
                 }
             }
             .showIfPossible()
     }
 
-    private fun addShortcut(shortcutId: String) {
-        viewModel.addShortcut(shortcutId)
-            .subscribe(
-                {},
-                { e ->
-                    logException(e)
-                    showSnackbar(R.string.error_generic)
-                },
-            )
-            .attachTo(destroyer)
-    }
-
-    private fun showRemoveShortcutDialog(shortcut: ShortcutPlaceholder) {
+    private fun showRemoveShortcutDialog(shortcutId: String, shortcutName: String) {
         DialogBuilder(context)
             .title(R.string.title_remove_trigger_shortcut)
-            .message(getString(R.string.message_remove_trigger_shortcut, shortcut.name))
+            .message(getString(R.string.message_remove_trigger_shortcut, shortcutName))
             .positive(R.string.dialog_remove) {
-                removeShortcut(shortcut.id)
+                viewModel.onRemoveShortcutDialogConfirmed(shortcutId)
             }
             .negative(R.string.dialog_cancel)
             .showIfPossible()
     }
 
-    private fun removeShortcut(shortcutId: String) {
-        viewModel.removeShortcut(shortcutId)
-            .subscribe(
-                {},
-                { e ->
-                    logException(e)
-                    showSnackbar(R.string.error_generic)
-                },
-            )
-            .attachTo(destroyer)
-    }
-
-    class IntentBuilder(context: Context) : BaseIntentBuilder(context, TriggerShortcutsActivity::class.java) {
+    class IntentBuilder : BaseIntentBuilder(TriggerShortcutsActivity::class.java) {
 
         fun shortcutId(shortcutId: String?) = also {
             intent.putExtra(EXTRA_SHORTCUT_ID, shortcutId)
