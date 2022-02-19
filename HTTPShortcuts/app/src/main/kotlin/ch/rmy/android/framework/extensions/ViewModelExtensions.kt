@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import kotlin.properties.ReadOnlyProperty
+import kotlin.reflect.KProperty
 
 inline fun <reified V : ViewModel> FragmentActivity.bindViewModel(): ReadOnlyProperty<FragmentActivity, V> =
     bindViewModelOf(V::class.java)
@@ -39,6 +40,19 @@ private fun <T, V : ViewModel> bind(clazz: Class<V>, finder: T.() -> ViewModelPr
             }
         }
     }
+
+private class LazyWithTarget<in T, out V : Any>(private val initializer: (T, KProperty<*>) -> V) : ReadOnlyProperty<T, V> {
+
+    private var value: V? = null
+
+    override fun getValue(thisRef: T, property: KProperty<*>): V {
+        if (value == null) {
+            value = initializer(thisRef, property)
+        }
+        return value!!
+    }
+}
+
 
 @Deprecated("Avoid using context in a view model")
 val AndroidViewModel.context: Context
