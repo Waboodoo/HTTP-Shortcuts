@@ -127,7 +127,6 @@ class ShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
                 headers.forEach { header ->
                     header.id = newUUID()
                 }
-                responseHandling?.id = newUUID()
             }
             .let(::copyOrUpdate)
 

@@ -1,15 +1,10 @@
 package ch.rmy.android.http_shortcuts.data.models
 
-import ch.rmy.android.framework.utils.UUIDUtils.isUUID
-import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import io.realm.RealmObject
-import io.realm.annotations.PrimaryKey
-import io.realm.annotations.Required
+import io.realm.annotations.RealmClass
 
+@RealmClass(embedded = true)
 open class ResponseHandling(
-    @PrimaryKey
-    @Required
-    var id: String = newUUID(),
     var uiType: String = UI_TYPE_WINDOW,
     var successOutput: String = SUCCESS_OUTPUT_RESPONSE,
     var failureOutput: String = FAILURE_OUTPUT_DETAILED,
@@ -18,10 +13,6 @@ open class ResponseHandling(
 ) : RealmObject() {
 
     fun validate() {
-        if (!isUUID(id) && id.toIntOrNull() == null) {
-            throw IllegalArgumentException("Invalid response handling ID found, must be UUID: $id")
-        }
-
         if (uiType !in setOf(UI_TYPE_WINDOW, UI_TYPE_DIALOG, UI_TYPE_TOAST)) {
             throw IllegalArgumentException("Invalid response handling type: $uiType")
         }

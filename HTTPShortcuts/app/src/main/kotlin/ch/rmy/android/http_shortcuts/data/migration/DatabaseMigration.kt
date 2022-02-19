@@ -343,6 +343,27 @@ class DatabaseMigration : RealmMigration {
                 }
                 schema.get("Shortcut")!!.removeField("clientCertAlias")
             }
+            46L -> { // 2.13.0
+                val idsInUse = realm.where("Shortcut")
+                    .findAll()
+                    .map {
+                        it.getObject("responseHandling")
+                            ?.getString("id")
+                    }
+                realm.where("ResponseHandling")
+                    .findAll()
+                    .forEach { responseHandling ->
+                        if (responseHandling.getString("id") !in idsInUse) {
+                            responseHandling.deleteFromRealm()
+                        }
+                    }
+                schema.get("ResponseHandling")!!
+                    .apply {
+                        removePrimaryKey()
+                        removeField("id")
+                        isEmbedded = true
+                    }
+            }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -368,6 +389,6 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 45L
+        const val VERSION = 46L
     }
 }
