@@ -63,11 +63,14 @@ class RequestHeadersActivity : BaseActivity() {
     }
 
     private fun initDragOrdering() {
-        val dragOrderingHelper = DragOrderingHelper { isDraggingEnabled }
+        val dragOrderingHelper = DragOrderingHelper(
+            isEnabledCallback = { isDraggingEnabled },
+            getId = { (it as? RequestHeadersAdapter.HeaderViewHolder)?.headerId },
+        )
         dragOrderingHelper.attachTo(binding.headerList)
-        dragOrderingHelper.positionChangeSource
-            .subscribe { (oldPosition, newPosition) ->
-                viewModel.onHeaderMoved(oldPosition, newPosition)
+        dragOrderingHelper.movementSource
+            .subscribe { (headerId1, headerId2) ->
+                viewModel.onHeaderMoved(headerId1, headerId2)
             }
             .attachTo(destroyer)
     }

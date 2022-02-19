@@ -66,10 +66,13 @@ class CategoriesActivity : BaseActivity() {
     }
 
     private fun initDragOrdering() {
-        val dragOrderingHelper = DragOrderingHelper { isDraggingEnabled }
+        val dragOrderingHelper = DragOrderingHelper(
+            isEnabledCallback = { isDraggingEnabled },
+            getId = { (it as? CategoryAdapter.CategoryViewHolder)?.categoryId },
+        )
         dragOrderingHelper.attachTo(binding.categoryList)
-        dragOrderingHelper.positionChangeSource.observe(this) { (oldPosition, newPosition) ->
-            viewModel.onCategoryMoved(oldPosition, newPosition)
+        dragOrderingHelper.movementSource.observe(this) { (categoryId1, categoryId2) ->
+            viewModel.onCategoryMoved(categoryId1, categoryId2)
         }
     }
 

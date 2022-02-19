@@ -105,11 +105,14 @@ class RequestBodyActivity : BaseActivity() {
     }
 
     private fun initDragOrdering() {
-        val dragOrderingHelper = DragOrderingHelper { isDraggingEnabled }
+        val dragOrderingHelper = DragOrderingHelper(
+            isEnabledCallback = { isDraggingEnabled },
+            getId = { (it as? ParameterAdapter.ParameterViewHolder)?.parameterId },
+        )
         dragOrderingHelper.attachTo(binding.parameterList)
-        dragOrderingHelper.positionChangeSource
-            .subscribe { (oldPosition, newPosition) ->
-                viewModel.onParameterMoved(oldPosition, newPosition)
+        dragOrderingHelper.movementSource
+            .subscribe { (parameterId1, parameterId2) ->
+                viewModel.onParameterMoved(parameterId1, parameterId2)
             }
             .attachTo(destroyer)
     }

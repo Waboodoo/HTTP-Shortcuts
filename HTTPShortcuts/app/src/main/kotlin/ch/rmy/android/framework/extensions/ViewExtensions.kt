@@ -19,6 +19,7 @@ import ch.rmy.android.framework.utils.SimpleTextWatcher
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.http_shortcuts.R
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 import kotlin.math.min
@@ -130,6 +131,7 @@ fun EditText.observeTextChanges(): Observable<CharSequence> {
             removeTextChangedListener(watcher)
         }
         .throttleLatest(200, TimeUnit.MILLISECONDS, true)
+        .observeOn(AndroidSchedulers.mainThread())
 }
 
 fun EditText.setTextSafely(text: CharSequence) {

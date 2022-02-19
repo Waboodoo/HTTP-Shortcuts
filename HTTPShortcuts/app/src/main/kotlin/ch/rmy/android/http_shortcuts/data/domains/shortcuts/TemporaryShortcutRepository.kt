@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.data.domains.shortcuts
 import ch.rmy.android.framework.data.BaseRepository
 import ch.rmy.android.framework.data.RealmTransactionContext
 import ch.rmy.android.framework.extensions.getCaseInsensitive
+import ch.rmy.android.framework.extensions.swap
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryShortcut
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
@@ -92,10 +93,9 @@ class TemporaryShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
             shortcut.authToken = token
         }
 
-    fun moveHeader(oldPosition: Int, newPosition: Int) =
+    fun moveHeader(headerId1: String, headerId2: String) =
         commitTransactionForShortcut { shortcut ->
-            val headers = shortcut.headers
-            headers.move(oldPosition, newPosition)
+            shortcut.headers.swap(headerId1, headerId2) { id }
         }
 
     fun addHeader(key: String, value: String) =
@@ -140,9 +140,9 @@ class TemporaryShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
             }
         }
 
-    fun moveParameter(oldPosition: Int, newPosition: Int): Completable =
+    fun moveParameter(parameterId1: String, parameterId2: String): Completable =
         commitTransactionForShortcut { shortcut ->
-            shortcut.parameters.move(oldPosition, newPosition)
+            shortcut.parameters.swap(parameterId1, parameterId2) { id }
         }
 
     fun addStringParameter(key: String, value: String) =

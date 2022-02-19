@@ -5,7 +5,7 @@ import android.app.Application
 import android.content.Intent
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.context
-import ch.rmy.android.framework.extensions.move
+import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.framework.utils.localization.QuantityStringLocalizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
@@ -82,13 +82,11 @@ class CategoriesViewModel(application: Application) : BaseViewModel<Unit, Catego
     private fun getCategory(categoryId: String) =
         categories.firstOrNull { it.id == categoryId }
 
-    fun onCategoryMoved(oldPosition: Int, newPosition: Int) {
-        val categoryListItem = currentViewState.categories[oldPosition]
-        val categoryId = categoryListItem.id
+    fun onCategoryMoved(categoryId1: String, categoryId2: String) {
         updateViewState {
-            copy(categories = categories.move(oldPosition, newPosition))
+            copy(categories = categories.swapped(categoryId1, categoryId2) { id })
         }
-        performOperation(categoryRepository.moveCategory(categoryId, newPosition)) {
+        performOperation(categoryRepository.moveCategory(categoryId1, categoryId2)) {
             hasChanged = true
         }
     }

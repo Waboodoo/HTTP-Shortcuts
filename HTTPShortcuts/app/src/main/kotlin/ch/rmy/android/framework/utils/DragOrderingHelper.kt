@@ -5,28 +5,26 @@ import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
-class DragOrderingHelper(
+class DragOrderingHelper<ID : Any>(
     allowHorizontalDragging: Boolean = false,
     isEnabledCallback: () -> Boolean = { true },
+    getId: (viewHolder: RecyclerView.ViewHolder) -> ID?,
 ) {
 
-    val positionChangeSource: Observable<Pair<Int, Int>>
-        get() = positionChangeSubject
+    val movementSource: Observable<Pair<ID, ID>>
+        get() = movementSubject
 
-    private val positionChangeSubject = PublishSubject.create<Pair<Int, Int>>()
+    private val movementSubject = PublishSubject.create<Pair<ID, ID>>()
 
     private val directions = ItemTouchHelper.UP or ItemTouchHelper.DOWN or
         (if (allowHorizontalDragging) ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT else 0)
 
     private val callback = object : ItemTouchHelper.SimpleCallback(directions, 0) {
         override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-            val oldPosition = viewHolder.bindingAdapterPosition
-            val newPosition = target.bindingAdapterPosition
-            if (oldPosition == RecyclerView.NO_POSITION || newPosition == RecyclerView.NO_POSITION) {
-                return false
-            }
-            positionChangeSubject.onNext(oldPosition to newPosition)
-            return true
+            val id1 = getId(viewHolder) ?: return false
+            val id2 = getId(target) ?: return false
+            movementSubject.onNext(id1 to id2)
+            return false
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) = Unit

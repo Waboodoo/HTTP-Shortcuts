@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.data.domains.variables
 
 import ch.rmy.android.framework.data.BaseRepository
 import ch.rmy.android.framework.data.RealmTransactionContext
+import ch.rmy.android.framework.extensions.swap
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryVariable
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
@@ -82,10 +83,9 @@ class TemporaryVariableRepository : BaseRepository(RealmFactory.getInstance()) {
             )
         }
 
-    fun moveOption(oldPosition: Int, newPosition: Int) =
+    fun moveOption(optionId1: String, optionId2: String) =
         commitTransactionForVariable { variable ->
-            val options = variable.options!!
-            options.move(oldPosition, newPosition)
+            variable.options?.swap(optionId1, optionId2) { id }
         }
 
     fun addOption(label: String, value: String) =

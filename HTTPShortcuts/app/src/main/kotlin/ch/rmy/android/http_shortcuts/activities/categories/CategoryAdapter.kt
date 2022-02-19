@@ -43,7 +43,8 @@ class CategoryAdapter : BaseAdapter<CategoryListItem>() {
         private val binding: ListItemCategoryBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        private lateinit var categoryId: String
+        lateinit var categoryId: String
+            private set
 
         init {
             binding.root.setOnClickListener {

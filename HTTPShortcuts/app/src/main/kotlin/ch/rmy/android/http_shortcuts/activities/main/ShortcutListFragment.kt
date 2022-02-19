@@ -104,11 +104,15 @@ class ShortcutListFragment : BaseFragment<FragmentListBinding>() {
     }
 
     private fun initDragOrdering() {
-        val dragOrderingHelper = DragOrderingHelper(allowHorizontalDragging = layoutType == CategoryLayoutType.GRID) { isDraggingEnabled }
+        val dragOrderingHelper = DragOrderingHelper(
+            allowHorizontalDragging = layoutType == CategoryLayoutType.GRID,
+            isEnabledCallback = { isDraggingEnabled },
+            getId = { (it as? BaseShortcutAdapter.BaseShortcutViewHolder)?.shortcutId },
+        )
         dragOrderingHelper.attachTo(binding.shortcutList)
-        dragOrderingHelper.positionChangeSource
-            .subscribe { (oldPosition, newPosition) ->
-                viewModel.onShortcutMoved(oldPosition, newPosition)
+        dragOrderingHelper.movementSource
+            .subscribe { (shortcutId1, shortcutId2) ->
+                viewModel.onShortcutMoved(shortcutId1, shortcutId2)
             }
             .attachTo(destroyer)
     }

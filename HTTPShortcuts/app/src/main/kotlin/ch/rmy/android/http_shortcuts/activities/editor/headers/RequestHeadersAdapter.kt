@@ -59,7 +59,8 @@ class RequestHeadersAdapter(
         private val binding: ListItemHeaderBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        private lateinit var headerId: String
+        lateinit var headerId: String
+            private set
 
         init {
             binding.root.setOnClickListener {

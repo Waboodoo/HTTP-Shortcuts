@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.main
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.framework.extensions.color
@@ -48,13 +49,11 @@ abstract class BaseShortcutAdapter : BaseAdapter<ShortcutListItem>() {
     override fun bindViewHolder(holder: RecyclerView.ViewHolder, position: Int, item: ShortcutListItem) {
         when (holder) {
             is EmptyStateViewHolder -> holder.setItem(item as ShortcutListItem.EmptyState)
-            else -> bindViewHolder(holder, item as ShortcutListItem.Shortcut)
+            else -> (holder as BaseShortcutViewHolder).setItem(item as ShortcutListItem.Shortcut)
         }
     }
 
-    protected abstract fun createViewHolder(parent: ViewGroup, layoutInflater: LayoutInflater): RecyclerView.ViewHolder
-
-    protected abstract fun bindViewHolder(holder: RecyclerView.ViewHolder, item: ShortcutListItem.Shortcut)
+    protected abstract fun createViewHolder(parent: ViewGroup, layoutInflater: LayoutInflater): BaseShortcutViewHolder
 
     protected fun getPrimaryTextColor(context: Context, textColor: ShortcutListItem.TextColor) =
         when (textColor) {
@@ -67,6 +66,12 @@ abstract class BaseShortcutAdapter : BaseAdapter<ShortcutListItem>() {
             ShortcutListItem.TextColor.BRIGHT -> color(context, R.color.text_color_secondary_bright)
             ShortcutListItem.TextColor.DARK -> color(context, R.color.text_color_secondary_dark)
         }
+
+    abstract class BaseShortcutViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        abstract val shortcutId: String
+
+        abstract fun setItem(item: ShortcutListItem.Shortcut)
+    }
 
     inner class EmptyStateViewHolder(
         private val binding: ListEmptyItemBinding,

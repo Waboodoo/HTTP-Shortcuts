@@ -52,10 +52,9 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
                 listOf(VariableListItem.EmptyState)
             }
 
-    fun onVariableMoved(oldPosition: Int, newPosition: Int) {
-        val variable = variables.getOrNull(oldPosition) ?: return
+    fun onVariableMoved(variableId1: String, variableId2: String) {
         performOperation(
-            variableRepository.moveVariable(variable.id, newPosition)
+            variableRepository.moveVariable(variableId1, variableId2)
         )
     }
 

@@ -5,7 +5,7 @@ import android.graphics.Typeface
 import android.text.SpannableString
 import android.text.style.StyleSpan
 import ch.rmy.android.framework.extensions.attachTo
-import ch.rmy.android.framework.extensions.move
+import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
@@ -101,8 +101,8 @@ class TriggerShortcutsViewModel(application: Application) :
         finish()
     }
 
-    fun onShortcutMoved(oldPosition: Int, newPosition: Int) {
-        shortcutIdsInUse = shortcutIdsInUse.move(oldPosition, newPosition)
+    fun onShortcutMoved(shortcutId1: String, shortcutId2: String) {
+        shortcutIdsInUse = shortcutIdsInUse.swapped(shortcutId1, shortcutId2) { this }
     }
 
     fun onAddButtonClicked() {

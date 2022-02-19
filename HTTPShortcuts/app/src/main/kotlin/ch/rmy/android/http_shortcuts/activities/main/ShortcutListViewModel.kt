@@ -5,7 +5,7 @@ import android.net.Uri
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logException
-import ch.rmy.android.framework.extensions.move
+import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
@@ -163,13 +163,12 @@ class ShortcutListViewModel(application: Application) : BaseViewModel<ShortcutLi
         eventBridge.submit(ChildViewModelEvent.MovingModeChanged(false))
     }
 
-    fun onShortcutMoved(oldPosition: Int, newPosition: Int) {
-        val shortcutListItem = currentViewState.shortcuts[oldPosition] as? ShortcutListItem.Shortcut ?: return
+    fun onShortcutMoved(shortcutId1: String, shortcutId2: String) {
         updateViewState {
-            copy(shortcuts = shortcuts.move(oldPosition, newPosition))
+            copy(shortcuts = shortcuts.swapped(shortcutId1, shortcutId2) { (this as? ShortcutListItem.Shortcut)?.id })
         }
         performOperation(
-            shortcutRepository.moveShortcut(shortcutListItem.id, newPosition)
+            shortcutRepository.swapShortcutPositions(category.id, shortcutId1, shortcutId2)
         )
     }
 
@@ -380,7 +379,7 @@ class ShortcutListViewModel(application: Application) : BaseViewModel<ShortcutLi
     fun onMoveTargetCategorySelected(shortcutId: String, categoryId: String) {
         val shortcut = getShortcutById(shortcutId) ?: return
         performOperation(
-            shortcutRepository.moveShortcut(shortcutId, targetCategoryId = categoryId)
+            shortcutRepository.moveShortcutToCategory(shortcutId, categoryId)
         ) {
             showSnackbar(StringResLocalizable(R.string.shortcut_moved, shortcut.name))
         }

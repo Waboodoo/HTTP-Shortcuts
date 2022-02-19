@@ -67,11 +67,14 @@ class TriggerShortcutsActivity : BaseActivity() {
     }
 
     private fun initDragOrdering() {
-        val dragOrderingHelper = DragOrderingHelper { isDraggingEnabled }
+        val dragOrderingHelper = DragOrderingHelper(
+            isEnabledCallback = { isDraggingEnabled },
+            getId = { (it as? ShortcutsAdapter.ShortcutViewHolder)?.shortcutId },
+        )
         dragOrderingHelper.attachTo(binding.triggerShortcutsList)
-        dragOrderingHelper.positionChangeSource
-            .subscribe { (oldPosition, newPosition) ->
-                viewModel.onShortcutMoved(oldPosition, newPosition)
+        dragOrderingHelper.movementSource
+            .subscribe { (shortcutId1, shortcutId2) ->
+                viewModel.onShortcutMoved(shortcutId1, shortcutId2)
             }
             .attachTo(destroyer)
     }

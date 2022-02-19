@@ -51,7 +51,8 @@ class ShortcutsAdapter : BaseAdapter<ShortcutListItem>() {
         private val binding: ListItemShortcutTriggerBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        private lateinit var shortcutId: String
+        lateinit var shortcutId: String
+            private set
 
         init {
             binding.root.setOnClickListener {

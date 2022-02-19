@@ -33,7 +33,8 @@ class SelectVariableOptionsAdapter : BaseAdapter<OptionItem>() {
         private val binding: SelectOptionBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        private lateinit var optionId: String
+        lateinit var optionId: String
+            private set
 
         init {
             binding.root.setOnClickListener {

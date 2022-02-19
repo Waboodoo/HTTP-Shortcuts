@@ -60,7 +60,8 @@ class ParameterAdapter(
     ) :
         RecyclerView.ViewHolder(binding.root) {
 
-        private lateinit var parameterId: String
+        lateinit var parameterId: String
+            private set
 
         init {
             binding.root.setOnClickListener {

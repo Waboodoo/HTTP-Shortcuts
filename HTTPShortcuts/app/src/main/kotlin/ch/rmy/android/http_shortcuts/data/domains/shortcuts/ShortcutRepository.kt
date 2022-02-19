@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.data.domains.shortcuts
 import ch.rmy.android.framework.data.BaseRepository
 import ch.rmy.android.framework.data.RealmTransactionContext
 import ch.rmy.android.framework.extensions.detachFromRealm
+import ch.rmy.android.framework.extensions.swap
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.domains.getBase
@@ -48,9 +49,17 @@ class ShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
                 base.shortcuts
             }
 
-    fun moveShortcut(shortcutId: String, targetPosition: Int? = null, targetCategoryId: String? = null) =
+    fun moveShortcutToCategory(shortcutId: String, targetCategoryId: String) =
         commitTransaction {
-            moveShortcut(shortcutId, targetPosition, targetCategoryId)
+            moveShortcut(shortcutId, targetCategoryId = targetCategoryId)
+        }
+
+    fun swapShortcutPositions(categoryId: String, shortcutId1: String, shortcutId2: String) =
+        commitTransaction {
+            getCategoryById(categoryId)
+                .findFirst()
+                ?.shortcuts
+                ?.swap(shortcutId1, shortcutId2) { id }
         }
 
     private fun RealmTransactionContext.moveShortcut(shortcutId: String, targetPosition: Int? = null, targetCategoryId: String? = null) {

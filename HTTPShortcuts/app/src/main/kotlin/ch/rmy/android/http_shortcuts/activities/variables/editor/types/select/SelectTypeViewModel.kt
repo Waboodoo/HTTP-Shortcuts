@@ -48,9 +48,9 @@ class SelectTypeViewModel(application: Application) : BaseVariableTypeViewModel<
         )
     }
 
-    fun onOptionMoved(oldPosition: Int, newPosition: Int) {
+    fun onOptionMoved(optionId1: String, optionId2: String) {
         performOperation(
-            temporaryVariableRepository.moveOption(oldPosition, newPosition)
+            temporaryVariableRepository.moveOption(optionId1, optionId2)
         )
     }
 

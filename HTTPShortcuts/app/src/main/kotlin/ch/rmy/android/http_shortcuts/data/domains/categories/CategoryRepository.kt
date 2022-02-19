@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.data.domains.categories
 
 import ch.rmy.android.framework.data.BaseRepository
+import ch.rmy.android.framework.extensions.swap
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.domains.getBase
@@ -84,12 +85,10 @@ class CategoryRepository : BaseRepository(RealmFactory.getInstance()) {
                 ?.categoryLayoutType = layoutType
         }
 
-    fun moveCategory(categoryId: String, position: Int): Completable =
+    fun moveCategory(categoryId1: String, categoryId2: String): Completable =
         commitTransaction {
-            val base = getBase().findFirst() ?: return@commitTransaction
-            val category = getCategoryById(categoryId).findFirst() ?: return@commitTransaction
-            val categories = base.categories
-            val oldPosition = categories.indexOf(category)
-            categories.move(oldPosition, position)
+            getBase().findFirst()
+                ?.categories
+                ?.swap(categoryId1, categoryId2) { id }
         }
 }

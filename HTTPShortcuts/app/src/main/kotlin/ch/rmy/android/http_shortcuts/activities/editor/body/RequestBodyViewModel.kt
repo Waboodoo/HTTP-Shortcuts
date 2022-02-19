@@ -2,7 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.editor.body
 
 import android.app.Application
 import ch.rmy.android.framework.extensions.attachTo
-import ch.rmy.android.framework.extensions.move
+import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
@@ -78,10 +78,10 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
         )
     }
 
-    fun onParameterMoved(oldPosition: Int, newPosition: Int) {
-        parameters = parameters.move(oldPosition, newPosition)
+    fun onParameterMoved(parameterId1: String, parameterId2: String) {
+        parameters = parameters.swapped(parameterId1, parameterId2) { id }
         performOperation(
-            temporaryShortcutRepository.moveParameter(oldPosition, newPosition)
+            temporaryShortcutRepository.moveParameter(parameterId1, parameterId2)
         )
     }
 

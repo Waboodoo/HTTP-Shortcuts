@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.data.domains.variables
 import ch.rmy.android.framework.data.BaseRepository
 import ch.rmy.android.framework.data.RealmTransactionContext
 import ch.rmy.android.framework.extensions.detachFromRealm
+import ch.rmy.android.framework.extensions.swap
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.domains.getBase
@@ -41,16 +42,12 @@ class VariableRepository : BaseRepository(RealmFactory.getInstance()) {
                 ?.value = value
         }
 
-    fun moveVariable(variableId: String, position: Int) =
+    fun moveVariable(variableId1: String, variableId2: String) =
         commitTransaction {
-            val variable = getVariableById(variableId)
+            getBase()
                 .findFirst()
-                ?: return@commitTransaction
-            val variables = getBase()
-                .findFirst()
-                ?.variables ?: return@commitTransaction
-            val oldPosition = variables.indexOf(variable)
-            variables.move(oldPosition, position)
+                ?.variables
+                ?.swap(variableId1, variableId2) { id }
         }
 
     fun duplicateVariable(variableId: String, newKey: String) =

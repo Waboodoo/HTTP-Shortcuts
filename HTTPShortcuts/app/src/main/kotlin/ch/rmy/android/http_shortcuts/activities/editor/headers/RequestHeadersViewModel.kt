@@ -2,7 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.editor.headers
 
 import android.app.Application
 import ch.rmy.android.framework.extensions.attachTo
-import ch.rmy.android.framework.extensions.move
+import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
@@ -52,10 +52,10 @@ class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, Re
         finish()
     }
 
-    fun onHeaderMoved(oldPosition: Int, newPosition: Int) {
-        headers = headers.move(oldPosition, newPosition)
+    fun onHeaderMoved(headerId1: String, headerId2: String) {
+        headers = headers.swapped(headerId1, headerId2) { id }
         performOperation(
-            temporaryShortcutRepository.moveHeader(oldPosition, newPosition)
+            temporaryShortcutRepository.moveHeader(headerId1, headerId2)
         )
     }
 

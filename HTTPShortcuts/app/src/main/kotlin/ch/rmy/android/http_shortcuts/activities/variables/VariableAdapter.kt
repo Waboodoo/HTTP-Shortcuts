@@ -51,7 +51,8 @@ class VariableAdapter : BaseAdapter<VariableListItem>() {
         private val binding: ListItemVariableBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        private lateinit var variableId: String
+        lateinit var variableId: String
+            private set
 
         init {
             binding.root.setOnClickListener {

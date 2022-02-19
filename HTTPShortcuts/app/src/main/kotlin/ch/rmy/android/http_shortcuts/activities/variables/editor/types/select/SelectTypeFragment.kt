@@ -72,10 +72,13 @@ class SelectTypeFragment : BaseFragment<VariableEditorSelectBinding>() {
     }
 
     private fun initDragOrdering() {
-        val dragOrderingHelper = DragOrderingHelper { isDraggingEnabled }
-        dragOrderingHelper.positionChangeSource
-            .subscribe { (oldPosition, newPosition) ->
-                viewModel.onOptionMoved(oldPosition, newPosition)
+        val dragOrderingHelper = DragOrderingHelper(
+            isEnabledCallback = { isDraggingEnabled },
+            getId = { (it as? SelectVariableOptionsAdapter.SelectOptionViewHolder)?.optionId },
+        )
+        dragOrderingHelper.movementSource
+            .subscribe { (optionId1, optionId2) ->
+                viewModel.onOptionMoved(optionId1, optionId2)
             }
             .attachTo(destroyer)
         dragOrderingHelper.attachTo(binding.selectOptionsList)

@@ -61,10 +61,13 @@ class VariablesActivity : BaseActivity() {
     }
 
     private fun initDragOrdering() {
-        val dragOrderingHelper = DragOrderingHelper { isDraggingEnabled }
+        val dragOrderingHelper = DragOrderingHelper(
+            isEnabledCallback = { isDraggingEnabled },
+            getId = { (it as? VariableAdapter.VariableViewHolder)?.variableId },
+        )
         dragOrderingHelper.attachTo(binding.variableList)
-        dragOrderingHelper.positionChangeSource.observe(this) { (oldPosition, newPosition) ->
-            viewModel.onVariableMoved(oldPosition, newPosition)
+        dragOrderingHelper.movementSource.observe(this) { (variableId1, variableId2) ->
+            viewModel.onVariableMoved(variableId1, variableId2)
         }
     }
 

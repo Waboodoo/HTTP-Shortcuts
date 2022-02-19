@@ -3,6 +3,7 @@ package ch.rmy.android.framework.extensions
 import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
+import androidx.annotation.CheckResult
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
@@ -86,8 +87,12 @@ fun <T> MutableCollection<T>.safeRemoveIf(predicate: Predicate<T>) {
 fun <T> T.takeUnlessEmpty(): T? where T : Collection<*> =
     takeUnless { it.isEmpty() }
 
-fun <T> List<T>.move(oldPosition: Int, newPosition: Int): List<T> =
-    toMutableList()
+@CheckResult
+fun <T, ID : Any> List<T>.swapped(id1: ID, id2: ID, getId: T.() -> ID?): List<T> {
+    val oldPosition = indexOfFirst { it.getId() == id1 }.takeUnless { it == -1 } ?: return this
+    val newPosition = indexOfFirst { it.getId() == id2 }.takeUnless { it == -1 } ?: return this
+    return toMutableList()
         .also { list ->
             list.add(newPosition, list.removeAt(oldPosition))
         }
+}
