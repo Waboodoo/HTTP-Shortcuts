@@ -49,6 +49,7 @@ class RealmFactory private constructor() : ch.rmy.android.framework.data.RealmFa
                     setupBase(context, realm)
                 }
                 .name(DB_NAME)
+                .compactOnLaunch()
                 .build()
 
         private fun setupBase(context: Context, realm: Realm) {
