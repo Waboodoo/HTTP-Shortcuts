@@ -32,6 +32,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRep
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
+import ch.rmy.android.http_shortcuts.data.maintenance.CleanUpWorker
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Shortcut.Companion.TEMPORARY_ID
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
@@ -331,6 +332,7 @@ class ShortcutEditorViewModel(application: Application) : BaseViewModel<Shortcut
         LauncherShortcutManager.updatePinnedShortcut(context, shortcutId, shortcut.name, shortcut.icon)
         performOperation(widgetManager.updateWidgets(context, shortcutId))
         waitForOperationsToFinish {
+            CleanUpWorker.schedule(context)
             finish(result = RESULT_OK, intent = Intent().putExtra(RESULT_SHORTCUT_ID, shortcutId))
         }
     }
@@ -360,6 +362,7 @@ class ShortcutEditorViewModel(application: Application) : BaseViewModel<Shortcut
     private fun onDiscardDialogConfirmed() {
         performOperation(temporaryShortcutRepository.deleteTemporaryShortcut())
         waitForOperationsToFinish {
+            CleanUpWorker.schedule(context)
             finish(result = Activity.RESULT_CANCELED)
         }
     }

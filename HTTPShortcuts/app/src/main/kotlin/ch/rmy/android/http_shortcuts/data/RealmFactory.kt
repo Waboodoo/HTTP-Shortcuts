@@ -10,7 +10,6 @@ import ch.rmy.android.http_shortcuts.data.models.Category
 import com.getkeepsafe.relinker.MissingLibraryException
 import io.realm.Realm
 import io.realm.RealmConfiguration
-import io.realm.RealmList
 
 class RealmFactory private constructor() : ch.rmy.android.framework.data.RealmFactory {
 
@@ -58,8 +57,6 @@ class RealmFactory private constructor() : ch.rmy.android.framework.data.RealmFa
             defaultCategory.id = newUUID()
 
             val newBase = Base().apply {
-                categories = RealmList()
-                variables = RealmList()
                 categories.add(defaultCategory)
                 version = DatabaseMigration.VERSION
             }

@@ -364,6 +364,12 @@ class DatabaseMigration : RealmMigration {
                         isEmbedded = true
                     }
             }
+            47L -> { // 2.13.0
+                schema.get("ResolvedVariable")!!
+                    .addField("id", String::class.java)
+                    .setRequired("id", true)
+                    .addPrimaryKey("id")
+            }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -389,6 +395,6 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 46L
+        const val VERSION = 47L
     }
 }

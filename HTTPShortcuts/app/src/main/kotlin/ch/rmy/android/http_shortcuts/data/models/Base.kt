@@ -7,7 +7,9 @@ open class Base : RealmObject() {
 
     var version: Long = 4
     var categories: RealmList<Category> = RealmList()
+        private set
     var variables: RealmList<Variable> = RealmList()
+        private set
     var title: String? = null
     var globalCode: String? = null
 
