@@ -83,7 +83,9 @@ class ShortcutListViewModel(application: Application) : BaseViewModel<ShortcutLi
         pendingExecutionsRepository.getObservablePendingExecutions()
             .subscribe { pendingShortcuts ->
                 this.pendingShortcuts = pendingShortcuts
-                recomputeShortcutList()
+                if (isInitialized) {
+                    recomputeShortcutList()
+                }
             }
             .attachTo(destroyer)
 
