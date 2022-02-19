@@ -209,7 +209,9 @@
                 <action android:name="ch.rmy.android.http_shortcuts.execute" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.response.DisplayResponseActivity" />
+        <activity
+            android:name=".activities.response.DisplayResponseActivity"
+            android:configChanges="orientation|screenSize" />
         <activity
             android:name=".activities.misc.AcknowledgmentActivity"
             android:label="@string/title_licenses"

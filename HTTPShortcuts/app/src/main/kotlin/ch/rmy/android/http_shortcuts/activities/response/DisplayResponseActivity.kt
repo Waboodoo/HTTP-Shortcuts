@@ -5,6 +5,8 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Typeface
 import android.net.Uri
+import android.os.Handler
+import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
@@ -298,6 +300,24 @@ class DisplayResponseActivity : BaseActivity() {
 
     override val navigateUpIcon = R.drawable.ic_clear
 
+    private val handler = Handler(Looper.getMainLooper())
+    private val finishRunnable = Runnable { finish() }
+
+    override fun onStart() {
+        super.onStart()
+        handler.removeCallbacks(finishRunnable)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        handler.postDelayed(finishRunnable, FINISH_DELAY)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacks(finishRunnable)
+    }
+
     class IntentBuilder(shortcutId: String) : BaseIntentBuilder(DisplayResponseActivity::class.java) {
 
         init {
@@ -366,5 +386,6 @@ class DisplayResponseActivity : BaseActivity() {
 
         private const val MAX_TEXT_LENGTH = 700000
         private const val MAX_SHARE_LENGTH = 300000
+        private const val FINISH_DELAY = 8000L
     }
 }
