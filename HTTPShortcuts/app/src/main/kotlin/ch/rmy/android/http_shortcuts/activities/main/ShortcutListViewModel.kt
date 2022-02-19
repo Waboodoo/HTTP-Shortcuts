@@ -5,6 +5,7 @@ import android.net.Uri
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
@@ -175,6 +176,7 @@ class ShortcutListViewModel(application: Application) : BaseViewModel<ShortcutLi
     }
 
     fun onShortcutClicked(shortcutId: String) {
+        logInfo("Shortcut clicked")
         if (currentViewState.isInMovingMode) {
             showSnackbar(R.string.message_moving_enabled)
             return
@@ -199,10 +201,12 @@ class ShortcutListViewModel(application: Application) : BaseViewModel<ShortcutLi
     }
 
     private fun executeShortcut(shortcutId: String) {
+        logInfo("Preparing to execute shortcut")
         openActivity(ExecuteActivity.IntentBuilder(shortcutId))
     }
 
     private fun editShortcut(shortcutId: String) {
+        logInfo("Preparing to edit shortcut")
         openActivity(
             ShortcutEditorActivity.IntentBuilder()
                 .categoryId(category.id)
@@ -388,6 +392,7 @@ class ShortcutListViewModel(application: Application) : BaseViewModel<ShortcutLi
     }
 
     fun onShortcutEdited() {
+        logInfo("Shortcut editing completed")
         eventBridge.submit(ChildViewModelEvent.ShortcutEdited)
     }
 

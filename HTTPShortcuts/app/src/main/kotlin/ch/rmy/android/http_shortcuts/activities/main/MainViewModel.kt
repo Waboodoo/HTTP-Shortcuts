@@ -5,6 +5,7 @@ import android.app.Application
 import android.content.Intent
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.context
+import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.mapIf
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
@@ -206,6 +207,7 @@ class MainViewModel(application: Application) : BaseViewModel<Unit, MainViewStat
     }
 
     fun onCreationDialogOptionSelected(executionType: ShortcutExecutionType) {
+        logInfo("Preparing to open editor for creating shortcut of type $executionType")
         openActivity(
             ShortcutEditorActivity.IntentBuilder()
                 .categoryId(currentViewState.activeCategoryId)
