@@ -13,7 +13,7 @@ import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.FileUploadManager
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionDTO
-import ch.rmy.android.http_shortcuts.scripting.actions.types.ActionFactory
+import ch.rmy.android.http_shortcuts.scripting.actions.ActionFactory
 import ch.rmy.android.http_shortcuts.scripting.actions.types.BaseAction
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import io.reactivex.Completable

@@ -52,7 +52,7 @@ import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.plugin.SessionMonitor
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.scripting.ScriptExecutor
-import ch.rmy.android.http_shortcuts.scripting.actions.types.ActionFactory
+import ch.rmy.android.http_shortcuts.scripting.actions.ActionFactory
 import ch.rmy.android.http_shortcuts.utils.ErrorFormatter
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil.isImage
 import ch.rmy.android.http_shortcuts.utils.FileUtil

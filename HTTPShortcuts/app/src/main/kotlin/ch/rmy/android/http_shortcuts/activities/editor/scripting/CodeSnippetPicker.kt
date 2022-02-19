@@ -313,6 +313,12 @@ class CodeSnippetPicker(
             .item(R.string.action_type_get_wifi_ip_address) {
                 insertText("getWifiIPAddress();\n", "")
             }
+            .item(R.string.action_type_open_url_title) {
+                insertText("openUrl(\"https://", "\");\n")
+            }
+            .item(R.string.action_type_open_app_title) {
+                insertText("openApp(\"com.example.packagename", "\");\n")
+            }
             .item(R.string.action_type_send_intent_title) {
                 insertText("sendIntent({", "});\n")
             }
