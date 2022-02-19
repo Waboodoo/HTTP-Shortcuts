@@ -141,6 +141,7 @@ class ScriptingActivity : BaseActivity() {
 
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
+            viewState.variables?.let(variablePlaceholderProvider::applyVariables)
             binding.inputCodePrepare.minLines = viewState.codePrepareMinLines
             binding.inputCodePrepare.setHint(viewState.codePrepareHint)
             binding.labelCodePrepare.visible = viewState.codePrepareVisible
@@ -148,9 +149,7 @@ class ScriptingActivity : BaseActivity() {
             binding.inputCodeSuccess.setTextSafely(processTextForView(viewState.codeOnSuccess))
             binding.inputCodeFailure.setTextSafely(processTextForView(viewState.codeOnFailure))
             binding.inputCodePrepare.setTextSafely(processTextForView(viewState.codeOnPrepare))
-
             shortcutPlaceholderProvider.applyShortcuts(viewState.shortcuts)
-            viewState.variables?.let(variablePlaceholderProvider::applyVariables)
         }
         viewModel.events.observe(this, ::handleEvent)
     }

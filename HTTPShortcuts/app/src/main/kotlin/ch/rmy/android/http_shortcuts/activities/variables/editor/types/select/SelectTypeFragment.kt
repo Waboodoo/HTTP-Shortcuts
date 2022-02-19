@@ -44,6 +44,7 @@ class SelectTypeFragment : BaseFragment<VariableEditorSelectBinding>() {
 
     private fun initViews() {
         adapter = SelectVariableOptionsAdapter()
+        adapter.variablePlaceholderProvider = variablePlaceholderProvider
         binding.selectOptionsList.layoutManager = LinearLayoutManager(context)
         binding.selectOptionsList.adapter = adapter
     }
@@ -86,12 +87,12 @@ class SelectTypeFragment : BaseFragment<VariableEditorSelectBinding>() {
 
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
+            viewState.variables?.let(variablePlaceholderProvider::applyVariables)
             adapter.items = viewState.options
             binding.inputSeparator.setTextSafely(viewState.separator)
             binding.inputSeparator.isEnabled = viewState.separatorEnabled
             binding.inputMultiSelect.isChecked = viewState.isMultiSelect
             isDraggingEnabled = viewState.isDraggingEnabled
-            viewState.variables?.let(variablePlaceholderProvider::applyVariables)
         }
         viewModel.events.observe(this, ::handleEvent)
     }

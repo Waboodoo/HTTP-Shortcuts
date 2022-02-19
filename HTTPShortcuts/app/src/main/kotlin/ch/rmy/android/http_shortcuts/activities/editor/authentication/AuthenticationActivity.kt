@@ -71,16 +71,14 @@ class AuthenticationActivity : BaseActivity() {
 
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
+            viewState.variables?.let(variablePlaceholderProvider::applyVariables)
             binding.containerUsername.visible = viewState.isUsernameAndPasswordVisible
             binding.containerPassword.visible = viewState.isUsernameAndPasswordVisible
             binding.containerToken.visible = viewState.isTokenVisible
-
             binding.inputAuthenticationMethod.selectedItem = viewState.authenticationMethod
             binding.inputUsername.rawString = viewState.username
             binding.inputPassword.rawString = viewState.password
             binding.inputToken.rawString = viewState.token
-
-            viewState.variables?.let(variablePlaceholderProvider::applyVariables)
         }
         viewModel.events.observe(this, ::handleEvent)
     }

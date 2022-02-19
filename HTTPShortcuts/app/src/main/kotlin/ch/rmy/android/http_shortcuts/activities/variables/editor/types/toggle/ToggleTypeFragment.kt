@@ -74,9 +74,9 @@ class ToggleTypeFragment : BaseFragment<VariableEditorToggleBinding>() {
 
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
+            viewState.variables?.let(variablePlaceholderProvider::applyVariables)
             adapter.items = viewState.options
             isDraggingEnabled = viewState.isDraggingEnabled
-            viewState.variables?.let(variablePlaceholderProvider::applyVariables)
         }
         viewModel.events.observe(this, ::handleEvent)
     }

@@ -3,7 +3,10 @@ package ch.rmy.android.http_shortcuts.activities.variables.editor.types.toggle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import ch.rmy.android.framework.extensions.color
+import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.ui.BaseAdapter
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.databinding.ToggleOptionBinding
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
@@ -37,6 +40,10 @@ class ToggleVariableOptionsAdapter : BaseAdapter<OptionItem>() {
         private val binding: ToggleOptionBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
+        private val variablePlaceholderColor by lazy {
+            color(context, R.color.variable)
+        }
+
         lateinit var optionId: String
             private set
 
@@ -48,7 +55,11 @@ class ToggleVariableOptionsAdapter : BaseAdapter<OptionItem>() {
 
         fun setItem(item: OptionItem) {
             optionId = item.id
-            binding.toggleOptionValue.text = Variables.rawPlaceholdersToVariableSpans(item.text, variablePlaceholderProvider, 0)
+            binding.toggleOptionValue.text = Variables.rawPlaceholdersToVariableSpans(
+                item.text,
+                variablePlaceholderProvider,
+                variablePlaceholderColor,
+            )
         }
     }
 }

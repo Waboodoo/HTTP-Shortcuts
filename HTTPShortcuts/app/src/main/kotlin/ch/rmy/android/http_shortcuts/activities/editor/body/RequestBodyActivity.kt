@@ -119,9 +119,9 @@ class RequestBodyActivity : BaseActivity() {
 
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
+            viewState.variables?.let(variablePlaceholderProvider::applyVariables)
             adapter.items = viewState.parameters
             isDraggingEnabled = viewState.isDraggingEnabled
-
             binding.inputRequestBodyType.selectedItem = viewState.requestBodyType.type
             binding.inputContentType.setTextSafely(viewState.contentType)
             binding.inputBodyContent.rawString = viewState.bodyContent
@@ -129,8 +129,6 @@ class RequestBodyActivity : BaseActivity() {
             binding.buttonAddParameter.visible = viewState.addParameterButtonVisible
             binding.containerInputContentType.visible = viewState.contentTypeVisible
             binding.containerInputBodyContent.visible = viewState.bodyContentVisible
-
-            viewState.variables?.let(variablePlaceholderProvider::applyVariables)
         }
         viewModel.events.observe(this, ::handleEvent)
     }

@@ -105,6 +105,7 @@ class AdvancedSettingsActivity : BaseActivity() {
 
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
+            viewState.variables?.let(variablePlaceholderProvider::applyVariables)
             binding.inputFollowRedirects.isChecked = viewState.followRedirects
             binding.inputAcceptCertificates.isChecked = viewState.acceptAllCertificates
             binding.buttonClientCert.isEnabled = viewState.isClientCertButtonEnabled
@@ -114,7 +115,6 @@ class AdvancedSettingsActivity : BaseActivity() {
             binding.inputProxyHost.rawString = viewState.proxyHost
             binding.inputProxyPort.setTextSafely(viewState.proxyPort)
             binding.inputSsid.setTextSafely(viewState.wifiSsid)
-            viewState.variables?.let(variablePlaceholderProvider::applyVariables)
         }
         viewModel.events.observe(this, ::handleEvent)
     }

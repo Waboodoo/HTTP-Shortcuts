@@ -48,8 +48,8 @@ class ConstantTypeFragment private constructor() : BaseFragment<VariableEditorCo
 
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
-            binding.inputVariableValue.rawString = viewState.value
             viewState.variables?.let(variablePlaceholderProvider::applyVariables)
+            binding.inputVariableValue.rawString = viewState.value
         }
         viewModel.events.observe(this, ::handleEvent)
     }

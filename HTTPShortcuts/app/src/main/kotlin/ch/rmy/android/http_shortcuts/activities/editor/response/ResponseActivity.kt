@@ -81,6 +81,7 @@ class ResponseActivity : BaseActivity() {
 
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
+            viewState.variables?.let(variablePlaceholderProvider::applyVariables)
             binding.inputSuccessMessage.setHint(viewState.successMessageHint)
             binding.inputResponseUiType.selectedItem = viewState.responseUiType
             binding.inputResponseSuccessOutput.selectedItem = viewState.responseSuccessOutput
@@ -90,7 +91,6 @@ class ResponseActivity : BaseActivity() {
             binding.inputResponseUiType.visible = viewState.responseUiTypeVisible
             binding.containerInputSuccessMessage.visible = viewState.successMessageVisible
             binding.inputIncludeMetaInformation.visible = viewState.includeMetaInformationVisible
-            viewState.variables?.let(variablePlaceholderProvider::applyVariables)
         }
         viewModel.events.observe(this, ::handleEvent)
     }

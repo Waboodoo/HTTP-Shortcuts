@@ -57,11 +57,10 @@ class BasicRequestSettingsActivity : BaseActivity() {
 
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
+            viewState.variables?.let(variablePlaceholderProvider::applyVariables)
             binding.inputMethod.visible = viewState.methodVisible
             binding.inputMethod.selectedItem = viewState.method
             binding.inputUrl.rawString = viewState.url
-
-            viewState.variables?.let(variablePlaceholderProvider::applyVariables)
         }
         viewModel.events.observe(this, ::handleEvent)
     }
