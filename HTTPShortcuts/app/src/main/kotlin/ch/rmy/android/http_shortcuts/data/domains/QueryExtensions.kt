@@ -45,7 +45,11 @@ fun RealmContext.getVariableById(variableId: String): RealmQuery<Variable> =
 fun RealmContext.getVariableByKeyOrId(keyOrId: String): RealmQuery<Variable> =
     realmInstance
         .where<Variable>()
+        .beginGroup()
         .equalTo(Variable.FIELD_KEY, keyOrId)
+        .and()
+        .notEqualTo(Variable.FIELD_ID, Variable.TEMPORARY_ID)
+        .endGroup()
         .or()
         .equalTo(Variable.FIELD_ID, keyOrId)
 

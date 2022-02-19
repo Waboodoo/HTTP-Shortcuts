@@ -213,6 +213,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                     logException(error)
                 }
             }
+            .observeOn(AndroidSchedulers.mainThread())
             .onErrorResumeNext { error ->
                 when (error) {
                     is ResumeLaterException -> {

@@ -5,6 +5,7 @@ import android.text.InputType
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 
 internal class NumberType : TextType() {
 
@@ -21,6 +22,7 @@ internal class NumberType : TextType() {
                 )
                 .showIfPossible()
         }
+            .subscribeOn(AndroidSchedulers.mainThread())
             .map(::sanitize)
             .storeValueIfNeeded(variable, variablesRepository)
 

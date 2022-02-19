@@ -5,6 +5,7 @@ import android.text.InputType
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 
 class PasswordType : TextType() {
 
@@ -20,5 +21,6 @@ class PasswordType : TextType() {
                 )
                 .showIfPossible()
         }
+            .subscribeOn(AndroidSchedulers.mainThread())
             .storeValueIfNeeded(variable, variablesRepository)
 }

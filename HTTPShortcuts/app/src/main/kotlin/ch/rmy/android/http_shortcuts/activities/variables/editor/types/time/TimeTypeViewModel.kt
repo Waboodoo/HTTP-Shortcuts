@@ -10,7 +10,7 @@ import java.util.Locale
 class TimeTypeViewModel(application: Application) : BaseVariableTypeViewModel<Unit, TimeTypeViewState>(application) {
 
     override fun initViewState() = TimeTypeViewState(
-        timeFormat = variable.dataForType[TimeType.KEY_FORMAT] ?: TimeType.DEFAULT_FORMAT,
+        timeFormat = TimeType.getTimeFormat(variable),
         rememberValue = variable.rememberValue,
     )
 
@@ -30,7 +30,7 @@ class TimeTypeViewModel(application: Application) : BaseVariableTypeViewModel<Un
 
     override fun validate(): Boolean {
         try {
-            SimpleDateFormat(variable.dataForType[TimeType.KEY_FORMAT], Locale.US)
+            SimpleDateFormat(TimeType.getTimeFormat(variable), Locale.US)
         } catch (e: IllegalArgumentException) {
             showSnackbar(R.string.error_invalid_time_format)
             return false

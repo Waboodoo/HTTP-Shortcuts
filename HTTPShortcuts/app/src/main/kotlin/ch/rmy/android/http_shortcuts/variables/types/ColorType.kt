@@ -9,6 +9,7 @@ import ch.rmy.android.http_shortcuts.extensions.cancel
 import com.skydoves.colorpickerview.ColorPickerDialog
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 
 internal class ColorType : BaseVariableType() {
 
@@ -42,6 +43,7 @@ internal class ColorType : BaseVariableType() {
                 }
                 .show()
         }
+            .subscribeOn(AndroidSchedulers.mainThread())
             .storeValueIfNeeded(variable, variablesRepository)
 
     private fun getInitialColor(variable: Variable): Int =

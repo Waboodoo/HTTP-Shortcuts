@@ -10,6 +10,7 @@ import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.cancel
 import io.reactivex.Completable
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -52,6 +53,7 @@ internal class DateType : BaseVariableType() {
                 emitter.cancel()
             }
         }
+            .subscribeOn(AndroidSchedulers.mainThread())
             .flatMap { resolvedDate ->
                 if (variable.rememberValue) {
                     variablesRepository.setVariableValue(variable.id, DATE_FORMAT.format(resolvedDate.time))
@@ -59,11 +61,8 @@ internal class DateType : BaseVariableType() {
                     Completable.complete()
                 }
                     .toSingle {
-                        val dateFormat = SimpleDateFormat(
-                            variable.dataForType[KEY_FORMAT] ?: DEFAULT_FORMAT,
-                            Locale.US,
-                        )
-                        dateFormat.format(resolvedDate.time)
+                        SimpleDateFormat(getDateFormat(variable), Locale.US)
+                            .format(resolvedDate.time)
                     }
             }
 
@@ -81,9 +80,12 @@ internal class DateType : BaseVariableType() {
     companion object {
 
         const val KEY_FORMAT = "format"
-        const val DEFAULT_FORMAT = "yyyy-MM-dd"
+        private const val DEFAULT_FORMAT = "yyyy-MM-dd"
 
         private val DATE_FORMAT
             get() = SimpleDateFormat(DEFAULT_FORMAT, Locale.US)
+
+        fun getDateFormat(variable: Variable) =
+            variable.dataForType[KEY_FORMAT] ?: DEFAULT_FORMAT
     }
 }

@@ -9,6 +9,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 
 internal class SliderType : BaseVariableType() {
 
@@ -49,6 +50,7 @@ internal class SliderType : BaseVariableType() {
                 .negative(R.string.dialog_cancel)
                 .showIfPossible()
         }
+            .subscribeOn(AndroidSchedulers.mainThread())
             .storeValueIfNeeded(variable, variablesRepository)
 
     private fun findSliderMax(variable: Variable): Int =

@@ -10,7 +10,7 @@ import java.util.Locale
 class DateTypeViewModel(application: Application) : BaseVariableTypeViewModel<Unit, DateTypeViewState>(application) {
 
     override fun initViewState() = DateTypeViewState(
-        dateFormat = variable.dataForType[DateType.KEY_FORMAT] ?: DateType.DEFAULT_FORMAT,
+        dateFormat = DateType.getDateFormat(variable),
         rememberValue = variable.rememberValue,
     )
 
@@ -30,7 +30,7 @@ class DateTypeViewModel(application: Application) : BaseVariableTypeViewModel<Un
 
     override fun validate(): Boolean {
         try {
-            SimpleDateFormat(variable.dataForType[DateType.KEY_FORMAT], Locale.US)
+            SimpleDateFormat(DateType.getDateFormat(variable), Locale.US)
         } catch (e: IllegalArgumentException) {
             showSnackbar(R.string.error_invalid_date_format)
             return false

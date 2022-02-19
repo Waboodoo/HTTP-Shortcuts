@@ -166,7 +166,7 @@ class RemoteEditActivity : BaseActivity() {
     }
 
     private fun setRemoteHost(value: String) {
-        if (!Validation.isValidHttpUrl(value.toUri())) {
+        if (value.isNotEmpty() && !Validation.isValidHttpUrl(value.toUri())) {
             DialogBuilder(context)
                 .message(R.string.error_invalid_remote_edit_host_url)
                 .positive(R.string.dialog_ok)
