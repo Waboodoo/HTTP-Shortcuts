@@ -88,7 +88,7 @@ class VariablesActivity : BaseActivity() {
                 showContextMenu(event.variableId, event.title)
             }
             is VariablesEvent.ShowDeletionDialog -> {
-                showDeletionDialog(event.variableId, event.message)
+                showDeletionDialog(event.variableId, event.title, event.message)
             }
             else -> super.handleEvent(event)
         }
@@ -125,8 +125,9 @@ class VariablesActivity : BaseActivity() {
             .showIfPossible()
     }
 
-    private fun showDeletionDialog(variableId: String, message: Localizable) {
+    private fun showDeletionDialog(variableId: String, title: String, message: Localizable) {
         DialogBuilder(context)
+            .title(title)
             .message(message)
             .positive(R.string.dialog_delete) {
                 viewModel.onDeletionConfirmed(variableId)

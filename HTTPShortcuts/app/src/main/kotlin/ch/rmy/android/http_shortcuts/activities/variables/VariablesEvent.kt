@@ -21,6 +21,7 @@ abstract class VariablesEvent : ViewModelEvent() {
 
     data class ShowDeletionDialog(
         val variableId: String,
+        val title: String,
         val message: Localizable,
     ) : VariablesEvent()
 }

@@ -131,11 +131,13 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
         variables.any { it.key == key }
 
     fun onDeletionOptionSelected(variableId: String) {
+        val variable = getVariable(variableId) ?: return
         getShortcutNamesWhereVariableIsInUse(variableId)
             .subscribe { shortcutNames ->
                 emitEvent(
                     VariablesEvent.ShowDeletionDialog(
                         variableId = variableId,
+                        title = variable.key,
                         message = getDeletionMessage(shortcutNames),
                     )
                 )
