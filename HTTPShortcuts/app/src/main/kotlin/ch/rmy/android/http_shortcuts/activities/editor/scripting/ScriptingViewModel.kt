@@ -23,6 +23,10 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
 
     private lateinit var shortcut: Shortcut
 
+    override fun onInitializationStarted(data: Unit) {
+        finalizeInitialization(silent = true)
+    }
+
     override fun initViewState() = ScriptingViewState()
 
     override fun onInitialized() {

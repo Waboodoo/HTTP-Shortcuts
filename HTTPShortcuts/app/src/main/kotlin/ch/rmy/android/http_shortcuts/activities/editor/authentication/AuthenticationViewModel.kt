@@ -12,6 +12,10 @@ class AuthenticationViewModel(application: Application) : BaseViewModel<Unit, Au
     private val temporaryShortcutRepository = TemporaryShortcutRepository()
     private val variableRepository = VariableRepository()
 
+    override fun onInitializationStarted(data: Unit) {
+        finalizeInitialization(silent = true)
+    }
+
     override fun initViewState() = AuthenticationViewState()
 
     override fun onInitialized() {

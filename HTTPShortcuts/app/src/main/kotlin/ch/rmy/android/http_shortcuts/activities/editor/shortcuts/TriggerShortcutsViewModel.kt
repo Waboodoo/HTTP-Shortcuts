@@ -48,11 +48,11 @@ class TriggerShortcutsViewModel(application: Application) :
             )
         }
 
-    override fun initViewState() = TriggerShortcutsViewState()
-
     override fun onInitializationStarted(data: InitData) {
         finalizeInitialization(silent = true)
     }
+
+    override fun initViewState() = TriggerShortcutsViewState()
 
     override fun onInitialized() {
         shortcutRepository.getObservableShortcuts()

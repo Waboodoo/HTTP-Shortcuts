@@ -24,6 +24,10 @@ class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, Re
             }
         }
 
+    override fun onInitializationStarted(data: Unit) {
+        finalizeInitialization(silent = true)
+    }
+
     override fun initViewState() = RequestHeadersViewState()
 
     override fun onInitialized() {

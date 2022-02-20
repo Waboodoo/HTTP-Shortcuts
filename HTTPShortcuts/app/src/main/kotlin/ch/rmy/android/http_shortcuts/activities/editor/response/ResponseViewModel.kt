@@ -15,6 +15,10 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
     private val temporaryShortcutRepository = TemporaryShortcutRepository()
     private val variableRepository = VariableRepository()
 
+    override fun onInitializationStarted(data: Unit) {
+        finalizeInitialization(silent = true)
+    }
+
     override fun initViewState() = ResponseViewState()
 
     override fun onInitialized() {

@@ -14,11 +14,11 @@ class BasicRequestSettingsViewModel(application: Application) : BaseViewModel<Un
     private val temporaryShortcutRepository = TemporaryShortcutRepository()
     private val variableRepository = VariableRepository()
 
-    override fun initViewState() = BasicRequestSettingsViewState()
-
     override fun onInitializationStarted(data: Unit) {
         finalizeInitialization(silent = true)
     }
+
+    override fun initViewState() = BasicRequestSettingsViewState()
 
     override fun onInitialized() {
         temporaryShortcutRepository.getTemporaryShortcut()

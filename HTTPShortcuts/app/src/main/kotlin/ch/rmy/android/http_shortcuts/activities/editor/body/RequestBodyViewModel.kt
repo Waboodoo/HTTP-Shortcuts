@@ -27,6 +27,10 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
             }
         }
 
+    override fun onInitializationStarted(data: Unit) {
+        finalizeInitialization(silent = true)
+    }
+
     override fun initViewState() = RequestBodyViewState()
 
     override fun onInitialized() {

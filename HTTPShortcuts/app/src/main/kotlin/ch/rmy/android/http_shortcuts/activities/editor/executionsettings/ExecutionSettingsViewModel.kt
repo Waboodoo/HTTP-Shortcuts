@@ -15,6 +15,10 @@ class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit,
 
     private val temporaryShortcutRepository = TemporaryShortcutRepository()
 
+    override fun onInitializationStarted(data: Unit) {
+        finalizeInitialization(silent = true)
+    }
+
     override fun initViewState() = ExecutionSettingsViewState(
         launcherShortcutOptionVisible = LauncherShortcutManager.supportsLauncherShortcuts(),
         quickSettingsTileShortcutOptionVisible = QuickSettingsTileManager.supportsQuickSettingsTiles(),

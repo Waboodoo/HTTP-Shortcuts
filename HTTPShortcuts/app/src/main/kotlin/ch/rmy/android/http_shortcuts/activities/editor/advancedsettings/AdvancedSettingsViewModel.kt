@@ -16,6 +16,10 @@ class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, 
     private val temporaryShortcutRepository = TemporaryShortcutRepository()
     private val variableRepository = VariableRepository()
 
+    override fun onInitializationStarted(data: Unit) {
+        finalizeInitialization(silent = true)
+    }
+
     override fun initViewState() = AdvancedSettingsViewState()
 
     override fun onInitialized() {
