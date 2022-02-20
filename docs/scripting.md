@@ -334,10 +334,35 @@ copyToClipboard('Hello World');
 <a name="get-wifi-ip-address"></a>
 ### getWifiIPAddress
 
-With this function you can retrieve the IPv4 address of the device on the current wifi. It will return `null` if there is currently no wifi connection.
+With this function you can retrieve the IPv4 address of the device on the current Wi-Fi. It will return `null` if there is currently no Wi-Fi connection.
 
 ```js
 const myIP = getWifiIPAddress();
+```
+
+<a name="get-wifi-ssid"></a>
+### getWifiSSID
+
+With this function you can retrieve the SSID (i.e., the name) of the Wi-Fi network the device is currently connected to. It will return `null` if there is currently no Wi-Fi connection.
+
+```js
+const mySSID = getWifiSSID();
+```
+
+### openApp
+
+The `openApp` function allows you to open another app via its package name. If no app with the given package name is installed, an error is displayed.
+
+```js
+openApp('com.github.android'); // Opens the Github app
+```
+
+### openUrl
+
+This function allows you to open a URL in an other app. This typically opens a browser, but it can also be used to invoke a deep-link into another app. An error message is displayed if the URL is malformed or if there is no app installed that can handle the URL.
+
+```js
+openUrl('https://www.wikipedia.org/');
 ```
 
 <a name="send-intent"></a>
