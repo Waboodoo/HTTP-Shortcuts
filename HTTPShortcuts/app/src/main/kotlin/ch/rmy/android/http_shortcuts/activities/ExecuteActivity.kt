@@ -435,11 +435,13 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
 
     private fun showRequestPermissionRationalIfNeeded(): Completable =
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-            DialogBuilder(context)
-                .title(getString(R.string.title_permission_dialog))
-                .message(getString(R.string.message_permission_rational))
-                .positive(R.string.dialog_ok)
-                .showAsCompletable()
+            Completable.defer {
+                DialogBuilder(context)
+                    .title(getString(R.string.title_permission_dialog))
+                    .message(getString(R.string.message_permission_rational))
+                    .positive(R.string.dialog_ok)
+                    .showAsCompletable()
+            }
         } else {
             Completable.complete()
         }
