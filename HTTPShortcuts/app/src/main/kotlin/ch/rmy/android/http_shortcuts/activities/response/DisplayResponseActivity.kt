@@ -241,6 +241,7 @@ class DisplayResponseActivity : BaseActivity() {
         !isImage(type) && text.length < MAX_SHARE_LENGTH
 
     private fun openFilePicker() {
+        suppressAutoClose = true
         try {
             Intent(Intent.ACTION_CREATE_DOCUMENT)
                 .addCategory(Intent.CATEGORY_OPENABLE)
@@ -302,15 +303,19 @@ class DisplayResponseActivity : BaseActivity() {
 
     private val handler = Handler(Looper.getMainLooper())
     private val finishRunnable = Runnable { finish() }
+    private var suppressAutoClose = false
 
     override fun onStart() {
         super.onStart()
+        suppressAutoClose = false
         handler.removeCallbacks(finishRunnable)
     }
 
     override fun onStop() {
         super.onStop()
-        handler.postDelayed(finishRunnable, FINISH_DELAY)
+        if (!suppressAutoClose) {
+            handler.postDelayed(finishRunnable, FINISH_DELAY)
+        }
     }
 
     override fun onDestroy() {
