@@ -125,7 +125,12 @@ class MainViewModel(application: Application) : BaseViewModel<Unit, MainViewStat
                 }
             }
             is ChildViewModelEvent.ShortcutEdited -> {
-                updateLauncherShortcuts()
+                categoryRepository.getCategories()
+                    .subscribe { categories ->
+                        this.categories = categories
+                        updateLauncherShortcuts()
+                    }
+                    .attachTo(destroyer)
             }
             is ChildViewModelEvent.PlaceShortcutOnHomeScreen -> placeShortcutOnHomeScreen(event.shortcut)
             is ChildViewModelEvent.RemoveShortcutFromHomeScreen -> removeShortcutFromHomeScreen(event.shortcut)
