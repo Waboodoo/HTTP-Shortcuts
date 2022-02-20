@@ -1186,7 +1186,7 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <string name="action_type_wait">"Warten"</string>
 
     <!-- Shortcut Action Title: Get the IP Address of the current WiFi -->
-    <string name="action_type_get_wifi_ip_address">"WiFi-IP-Adresse abrufen"</string>
+    <string name="action_type_get_wifi_ip_address">"WLAN-IP-Adresse abrufen"</string>
 
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the current shortcut itself -->
     <string name="dialog_code_snippet_shortcut_info">"Shortcut-Info"</string>
@@ -1404,16 +1404,16 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <string name="button_save_response_as_file">"Als Datei speichern"</string>
 
     <!-- Label: Wifi network selection config in shortcut settings -->
-    <string name="label_ssid">"Erforderliche Wifi-SSID"</string>
+    <string name="label_ssid">"Erforderliche WLAN-SSID"</string>
 
     <!-- Dialog title: Permission request for wifi/ssid check -->
     <string name="title_permission_dialog">"Berechtigung notwendig"</string>
 
     <!-- Message: Rational given for location permission in wifi/ssid check -->
-    <string name="message_permission_rational">"Standort-Berechtigungen sind erforderlich um sicherzustellen dass der Shortcut nur auf dem angegebenen Wifi ausgeführt werden kann. Diese Bedingung ist vom Android Betriebsystem vorgegeben. Deine Standort-Daten werden nicht direkt abgefragt."</string>
+    <string name="message_permission_rational">"Standort-Berechtigungen sind erforderlich um den Namen (SSID) des aktuellen WLANs zu bestimmen. Diese Bedingung ist vom Android Betriebsystem vorgegeben. Deine Standort-Daten werden nicht direkt abgefragt."</string>
 
     <!-- Message: Shown to the user when connected to a different wifi network than the one given in the config -->
-    <string name="message_wrong_wifi_network">"Es besteht keine Verbindung zum erforderlichen Wifi-Netzwerk \"%1$s\". Anderes Netzwerk wählen?"</string>
+    <string name="message_wrong_wifi_network">"Es besteht keine Verbindung zum erforderlichen WLAN-Netzwerk \"%1$s\". Anderes Netzwerk wählen?"</string>
 
     <!-- Action label: Shown on wifi check dialog to open the wifi picker -->
     <string name="action_label_select">"Wählen"</string>
@@ -1634,4 +1634,33 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
 
     <!-- Error message: Shown to user when trying to select the "previously used custom icon" option while there are no custom icons yet -->
     <string name="error_no_custom_icons">"Es sind noch keine Bilder vorhanden."</string>
+
+    <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
+    <string name="empty_state_trigger_shortcuts">"noch keine Shortcuts ausgewählt"</string>
+
+    <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
+    <string name="empty_state_trigger_shortcuts_instructions">"Füge hier diejenigen Shortcuts ein, welche du als Teil des Multi-Shortcuts aufrufen möchtest.
+
+Klicke den + Button um loszulegen."</string>
+
+    <!-- Shortcut Action Title: Open a URL (e.g. in a browser) -->
+    <string name="action_type_open_url_title">"URL öffnen"</string>
+
+    <!-- Shortcut Action Title: Open another app (via its package name) -->
+    <string name="action_type_open_app_title">"App öffnen"</string>
+
+    <!-- Shortcut Action Title: Get the SSID of the current Wi-Fi -->
+    <string name="action_type_get_wifi_ssid">"WLAN-SSID abrufen"</string>
+
+    <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
+    <string name="error_no_app_found_for_url">"Es wurde keine App gefunden welche die URL %s öffnen kann."</string>
+
+    <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->
+    <string name="error_no_app_found">"Es wurde keine App mit dem Package-Name %s gefunden."</string>
+
+    <!-- Error message: Shown to the user when they try to base64-decode a string which is not valid base64. %s is a placeholder for the string -->
+    <string name="error_invalid_base64">"Ungültiges Base64: %s"</string>
+
+    <!-- Error message: Shown to the user when the app tries to determine the SSID (name) of the current Wi-Fi but failed, e.g. because of a missing permission -->
+    <string name="error_failed_to_get_wifi_ssid">"Abrufen der WLAN-SSID fehlgeschlagen."</string>
 </resources>
