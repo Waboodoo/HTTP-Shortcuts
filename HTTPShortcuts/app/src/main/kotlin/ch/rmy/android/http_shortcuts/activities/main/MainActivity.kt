@@ -174,7 +174,7 @@ class MainActivity : BaseActivity(), Entrypoint {
             ) {
                 viewModel.onCreationDialogOptionSelected(ShortcutExecutionType.SCRIPTING)
             }
-            .positive(R.string.dialog_help) {
+            .neutral(R.string.dialog_help) {
                 viewModel.onCreationDialogHelpButtonClicked()
             }
             .showIfPossible()
