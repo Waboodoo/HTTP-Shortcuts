@@ -4,14 +4,19 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 
 class ShortcutPlaceholderProvider {
 
-    var placeholders: List<ShortcutPlaceholder> = emptyList()
-        private set
-
     fun applyShortcuts(shortcuts: Collection<Shortcut>) {
         placeholders = shortcuts.map(ShortcutPlaceholder::fromShortcut)
+        cache = placeholders
     }
+
+    var placeholders: List<ShortcutPlaceholder> = cache
+        private set
 
     fun findPlaceholderById(shortcutId: String): ShortcutPlaceholder? =
         placeholders
             .firstOrNull { it.id == shortcutId }
+
+    companion object {
+        private var cache: List<ShortcutPlaceholder> = emptyList()
+    }
 }

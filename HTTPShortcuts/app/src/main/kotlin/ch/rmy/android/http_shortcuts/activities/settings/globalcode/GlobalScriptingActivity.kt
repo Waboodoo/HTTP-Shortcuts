@@ -92,9 +92,9 @@ class GlobalScriptingActivity : BaseActivity() {
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
             viewState.variables?.let(variablePlaceholderProvider::applyVariables)
+            viewState.shortcuts?.let(shortcutPlaceholderProvider::applyShortcuts)
             binding.inputCode.setTextSafely(processTextForView(viewState.globalCode))
             saveButton?.isVisible = viewState.saveButtonVisible
-            shortcutPlaceholderProvider.applyShortcuts(viewState.shortcuts)
         }
         viewModel.events.observe(this, ::handleEvent)
     }

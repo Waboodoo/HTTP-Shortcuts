@@ -7,5 +7,5 @@ data class GlobalScriptingViewState(
     val globalCode: String = "",
     val saveButtonVisible: Boolean = false,
     val variables: List<Variable>? = null,
-    val shortcuts: List<Shortcut> = emptyList(),
+    val shortcuts: List<Shortcut>? = null,
 )

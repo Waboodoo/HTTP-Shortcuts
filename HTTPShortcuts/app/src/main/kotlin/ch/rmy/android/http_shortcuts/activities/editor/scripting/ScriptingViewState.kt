@@ -5,7 +5,7 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
 
 data class ScriptingViewState(
-    val shortcuts: List<Shortcut> = emptyList(),
+    val shortcuts: List<Shortcut>? = null,
     val variables: List<Variable>? = null,
     val codeOnPrepare: String = "",
     val codeOnSuccess: String = "",
