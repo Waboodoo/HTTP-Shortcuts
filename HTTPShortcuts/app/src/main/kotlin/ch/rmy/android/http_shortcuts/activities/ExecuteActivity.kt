@@ -51,6 +51,7 @@ import ch.rmy.android.http_shortcuts.http.ResponseFileStorage
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.plugin.SessionMonitor
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
+import ch.rmy.android.http_shortcuts.scheduling.ExecutionsWorker
 import ch.rmy.android.http_shortcuts.scripting.ScriptExecutor
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionFactory
 import ch.rmy.android.http_shortcuts.utils.ErrorFormatter
@@ -195,8 +196,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
             if (fileUploadManager != null) {
                 FileUtil.deleteOldCacheFiles(context)
             }
-            executionScheduler.schedule()
-                .blockingAwait() // TODO: Avoid blocking the UI thread
+            ExecutionsWorker.schedule(context)
         }
 
         subscribeAndFinishAfterIfNeeded(
