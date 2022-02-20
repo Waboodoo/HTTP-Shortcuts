@@ -195,7 +195,7 @@ dependencies {
     /* RX */
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.21'
-    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+    implementation 'com.github.tbruyelle:rxpermissions:0.11'
     implementation 'com.victorrendina:rxqueue2:2.0.0'
 
     /* Testing */
