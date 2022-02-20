@@ -153,7 +153,7 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
 
     companion object {
         private fun getMinLinesForCode(type: ShortcutExecutionType) = if (type == ShortcutExecutionType.SCRIPTING) {
-            18
+            14
         } else {
             6
         }
