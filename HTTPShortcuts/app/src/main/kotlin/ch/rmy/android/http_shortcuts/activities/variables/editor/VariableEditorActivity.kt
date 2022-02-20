@@ -58,6 +58,8 @@ class VariableEditorActivity : BaseActivity() {
 
     private fun initViews() {
         binding = applyBinding(ActivityVariableEditorBinding.inflate(layoutInflater))
+        binding.mainView.visible = false
+        title = ""
 
         defaultColor = binding.inputVariableKey.textColors
 
@@ -122,6 +124,7 @@ class VariableEditorActivity : BaseActivity() {
 
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
+            binding.mainView.visible = true
             setTitle(viewState.title)
             setSubtitle(viewState.subtitle)
             binding.dialogTitleContainer.visible = viewState.titleInputVisible

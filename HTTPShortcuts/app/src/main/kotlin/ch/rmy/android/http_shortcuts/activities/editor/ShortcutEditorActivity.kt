@@ -57,6 +57,8 @@ class ShortcutEditorActivity : BaseActivity() {
     private fun initViews() {
         binding = applyBinding(ActivityShortcutEditorOverviewBinding.inflate(layoutInflater))
         binding.inputShortcutName.setMaxLength(Shortcut.NAME_MAX_LENGTH)
+        binding.mainView.visible = false
+        title = ""
     }
 
     private fun initUserInputBindings() {
@@ -107,6 +109,7 @@ class ShortcutEditorActivity : BaseActivity() {
 
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
+            binding.mainView.visible = true
             val type = viewState.shortcutExecutionType
             setTitle(viewState.toolbarTitle)
             setSubtitle(viewState.toolbarSubtitle)
