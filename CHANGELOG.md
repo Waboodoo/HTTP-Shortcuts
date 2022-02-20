@@ -1,6 +1,22 @@
 ## Version 2.13.0
 
-Under development
+This version includes a massive refactoring under the hood, so there's a good chance that some new bugs or small changes in behavior were introduced. Please let me know if you find something unusual.
+
+### Scripting
+- The `setVariable` function can now be used to set the stored value of any type of variable, not only static/constant variables. This allows you to set the remembered value of a variable where the 'Remember value' option is enabled.
+- Added functions `openApp` and `openUrl` to allow opening external apps more conveniently than by using `sendIntent` or a browser shortcut
+- Added `getWifiSSID` function to allow querying the SSID of the currently connected Wi-Fi network
+
+### Miscellaneous
+- Improved the internal data store, so that the app should take up a bit less storage on the device
+- Added Indonesian translation
+
+### Bugfixes
+- Quick Settings Tile shortcuts are now sorted alphabetically instead of appearing in no particular order
+- Custom icons are now loaded asynchronously and more memory-efficiently, which should reduce the risk of running out of memory when loading many icons at once
+- Fixed a deadlock that would happen when calling the `wait` function too many times
+- Fixed crash on Android 12 when trying to open Wi-Fi selection screen
+- Reduced likelihood of old response window showing up again when triggering a new shortcut
 
 ## Version 2.12.0
 
