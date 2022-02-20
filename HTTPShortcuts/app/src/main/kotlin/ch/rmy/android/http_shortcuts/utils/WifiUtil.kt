@@ -11,12 +11,11 @@ import ch.rmy.android.http_shortcuts.R
 
 object WifiUtil {
 
-    fun getCurrentSsid(context: Context): String =
+    fun getCurrentSsid(context: Context): String? =
         (context.applicationContext.getSystemService(AppCompatActivity.WIFI_SERVICE) as WifiManager)
             .connectionInfo
             .ssid
             ?.trim('"')
-            ?: ""
 
     fun showWifiPicker(activity: AppCompatActivity) {
         try {

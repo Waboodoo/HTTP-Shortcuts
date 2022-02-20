@@ -30,6 +30,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.VibrateActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.WaitActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.WakeOnLanActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.WifiIPActionType
+import ch.rmy.android.http_shortcuts.scripting.actions.types.WifiSSIDActionType
 
 class ActionFactory {
 
@@ -76,6 +77,7 @@ class ActionFactory {
                 WaitActionType(),
                 WakeOnLanActionType(),
                 WifiIPActionType(),
+                WifiSSIDActionType(),
             )
         }
     }

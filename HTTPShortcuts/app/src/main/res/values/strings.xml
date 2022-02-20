@@ -698,8 +698,10 @@
     <string name="action_type_abort_execution">Abort Execution</string>
     <!-- Shortcut Action Title: Wait for a number of milliseconds before continuing with the script execution -->
     <string name="action_type_wait">Wait</string>
-    <!-- Shortcut Action Title: Get the IP Address of the current WiFi -->
-    <string name="action_type_get_wifi_ip_address">Get IP Address on WiFi</string>
+    <!-- Shortcut Action Title: Get the IP Address of the current Wi-Fi -->
+    <string name="action_type_get_wifi_ip_address">Get IP Address on Wi-Fi</string>
+    <!-- Shortcut Action Title: Get the SSID of the current Wi-Fi -->
+    <string name="action_type_get_wifi_ssid">Get SSID of Wi-Fi</string>
     <!-- Shortcut error message: Maximum recursion depth reached, i.e., a potential infinite loop was detected and stopped -->
     <string name="action_type_trigger_shortcut_error_recursion_depth_reached">Maximum recursion depth reached. Shortcut will not be triggered.</string>
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid URL -->
@@ -1045,18 +1047,18 @@
     <string name="instructions_deep_linking">To use the deep-linking feature, make sure to use a valid URL of the form:\n\n%s</string>
     <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
     <string name="placeholder_deleted_shortcut">Deleted Shortcut</string>
-    <!-- Label: Wifi network selection config in shortcut settings -->
-    <string name="label_ssid">Required Wifi SSID</string>
-    <!-- Dialog title: Permission request for wifi/ssid check -->
+    <!-- Label: Wi-Fi network selection config in shortcut settings -->
+    <string name="label_ssid">Required Wi-Fi SSID</string>
+    <!-- Dialog title: Permission request for Wi-Fi/SSID check -->
     <string name="title_permission_dialog">Permissions required</string>
-    <!-- Message: Rational given for location permission in wifi/ssid check  -->
-    <string name="message_permission_rational">Location permissions are required to check if the shortcut is executed on the configured wifi network. This is a requirement imposed by the Android OS. Your location data is not accessed directly.</string>
-    <!-- Message: Shown to the user when connected to a different wifi network than the one given in the config -->
-    <string name="message_wrong_wifi_network">Not connected to the wifi network configured for this shortcut \"%1$s\". Select another wifi network now?</string>
-    <!-- Action label: Shown on wifi check dialog to open the wifi picker -->
+    <!-- Message: Rational given for location permission in Wi-Fi/SSID check  -->
+    <string name="message_permission_rational">Location permissions are required to check the name (SSID) of the current Wi-Fi network. This is a requirement imposed by the Android OS. Your location data is not accessed directly.</string>
+    <!-- Message: Shown to the user when connected to a different Wi-Fi network than the one given in the config -->
+    <string name="message_wrong_wifi_network">Not connected to the Wi-Fi network configured for this shortcut \"%1$s\". Select another Wi-Fi network now?</string>
+    <!-- Action label: Shown on wifi check dialog to open the Wi-Fi picker -->
     <string name="action_label_select">Select</string>
-    <!-- Error message, shown when user declines location permission for wifi check -->
-    <string name="error_missing_location_permission">Failed to determine the current wifi\'s SSID. Location permission is required.</string>
+    <!-- Error message, shown when user declines location permission for Wi-Fi check -->
+    <string name="error_missing_location_permission">Failed to determine the current Wi-Fi\'s SSID. Location permission is required.</string>
     <!-- Message: Success message shown when a response was saved to a file -->
     <string name="message_response_saved_to_file">Response saved to file.</string>
     <!-- Dialog title: Shown in progress dialog while a file is being saved -->
@@ -1103,4 +1105,6 @@
     <string name="error_no_app_found">No app was found was found with package name %s.</string>
     <!-- Error message: Shown to the user when they try to base64-decode a string which is not valid base64. %s is a placeholder for the string -->
     <string name="error_invalid_base64">Invalid Base64: %s</string>
+    <!-- Error message: Shown to the user when the app tries to determine the SSID (name) of the current Wi-Fi but failed, e.g. because of a missing permission -->
+    <string name="error_failed_to_get_wifi_ssid">Failed to determine the SSID of the current Wi-Fi.</string>
 </resources>

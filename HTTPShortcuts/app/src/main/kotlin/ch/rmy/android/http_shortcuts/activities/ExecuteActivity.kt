@@ -394,7 +394,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         }
 
     private fun checkWifiNetworkSsid(): Completable =
-        if (shortcut.wifiSsid.isEmpty() || WifiUtil.getCurrentSsid(context) == shortcut.wifiSsid) {
+        if (shortcut.wifiSsid.isEmpty() || WifiUtil.getCurrentSsid(context).orEmpty() == shortcut.wifiSsid) {
             Completable.fromAction {
                 finishActivityIfNeeded()
             }
