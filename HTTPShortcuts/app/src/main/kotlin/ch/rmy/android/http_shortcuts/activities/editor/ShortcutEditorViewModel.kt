@@ -205,7 +205,7 @@ class ShortcutEditorViewModel(application: Application) : BaseViewModel<Shortcut
                 else -> if (shortcut.bodyContent.isBlank()) {
                     StringResLocalizable(R.string.subtitle_request_body_none)
                 } else {
-                    StringResLocalizable(R.string.subtitle_request_body_custom, shortcut.contentType)
+                    StringResLocalizable(R.string.subtitle_request_body_custom, shortcut.contentType.ifEmpty { Shortcut.DEFAULT_CONTENT_TYPE })
                 }
             }
         } else {

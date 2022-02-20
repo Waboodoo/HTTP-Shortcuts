@@ -179,6 +179,9 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
     }
 
     fun onBodyContentChanged(bodyContent: String) {
+        if (currentViewState.contentType.isEmpty() && bodyContent.isJsonObjectStart()) {
+            onContentTypeChanged("application/json")
+        }
         updateViewState {
             copy(bodyContent = bodyContent)
         }
@@ -214,5 +217,10 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
                 .ifEmpty {
                     listOf(ParameterListItem.EmptyState)
                 }
+
+        private val JSON_OBJECT_START = "^\\s*\\{\\s*\".*".toRegex()
+
+        private fun String.isJsonObjectStart() =
+            matches(JSON_OBJECT_START)
     }
 }

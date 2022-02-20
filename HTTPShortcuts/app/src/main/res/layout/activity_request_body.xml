@@ -69,11 +69,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/label_body_content"
+                android:hint="@string/placeholder_request_body_content"
                 android:importantForAutofill="no"
                 android:inputType="textMultiLine"
                 android:minLines="5"
+                android:gravity="top"
                 android:paddingLeft="16dp"
-                android:paddingRight="@dimen/variable_button_spacing" />
+                android:paddingRight="@dimen/variable_button_spacing"
+                android:textSize="@dimen/request_body_content_font_size"
+                android:typeface="monospace" />
 
             <ch.rmy.android.http_shortcuts.variables.VariableButton
                 android:id="@+id/variable_button_body_content"

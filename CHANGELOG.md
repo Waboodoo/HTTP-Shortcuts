@@ -8,6 +8,7 @@ This version includes a massive refactoring under the hood, so there's a good ch
 - Added `getWifiSSID` function to allow querying the SSID of the currently connected Wi-Fi network
 
 ### Miscellaneous
+- Improved the UX for the Request Body input box
 - Improved the internal data store, so that the app should take up a bit less storage on the device
 - Added Indonesian translation
 

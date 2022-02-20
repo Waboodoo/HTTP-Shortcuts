@@ -1107,4 +1107,6 @@
     <string name="error_invalid_base64">Invalid Base64: %s</string>
     <!-- Error message: Shown to the user when the app tries to determine the SSID (name) of the current Wi-Fi but failed, e.g. because of a missing permission -->
     <string name="error_failed_to_get_wifi_ssid">Failed to determine the SSID of the current Wi-Fi.</string>
+    <!-- Placeholder: help text shown for body content input field, where the user can define the HTTP request body -->
+    <string name="placeholder_request_body_content">Enter the raw HTTP request body here. You can add variable placeholders via the \"{}\" button.</string>
 </resources>
