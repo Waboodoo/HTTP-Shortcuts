@@ -56,6 +56,7 @@ class ShortcutListViewModel(application: Application) : BaseViewModel<ShortcutLi
     private var pendingShortcuts: List<PendingExecution> = emptyList()
 
     private var exportingShortcutId: String? = null
+    private var isAppLocked = false
 
     override fun onInitializationStarted(data: InitData) {
         categoryRepository.getObservableCategory(data.categoryId)
@@ -92,14 +93,18 @@ class ShortcutListViewModel(application: Application) : BaseViewModel<ShortcutLi
 
         appRepository.getObservableLock()
             .subscribe { lockOptional ->
-                updateViewState {
-                    copy(isAppLocked = lockOptional.value != null)
+                isAppLocked = lockOptional.value != null
+                if (isInitialized) {
+                    updateViewState {
+                        copy(isAppLocked = isAppLocked)
+                    }
                 }
             }
             .attachTo(destroyer)
     }
 
     override fun initViewState() = ShortcutListViewState(
+        isAppLocked = isAppLocked,
         shortcuts = mapShortcuts(),
         background = category.categoryBackgroundType,
     )
