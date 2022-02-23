@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.main
 
 import android.app.Activity
+import android.appwidget.AppWidgetManager
 import android.content.Intent
 import android.text.InputType
 import android.view.Menu
@@ -34,6 +35,7 @@ import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.dialogs.NetworkRestrictionWarningDialog
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
+import ch.rmy.android.http_shortcuts.plugin.PluginEditActivity
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
@@ -60,13 +62,20 @@ class MainActivity : BaseActivity(), Entrypoint {
 
     override fun onCreate() {
         viewModel.initialize(
-            selectionMode = SelectionMode.determineMode(intent.action),
+            selectionMode = determineMode(intent.action),
             initialCategoryId = intent?.extras?.getString(EXTRA_CATEGORY_ID),
             widgetId = WidgetManager.getWidgetIdFromIntent(intent),
         )
         initViews()
         initUserInputBindings()
         initViewModelBindings()
+    }
+
+    private fun determineMode(action: String?) = when (action) {
+        Intent.ACTION_CREATE_SHORTCUT -> SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT
+        AppWidgetManager.ACTION_APPWIDGET_CONFIGURE -> SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT
+        PluginEditActivity.ACTION_SELECT_SHORTCUT_FOR_PLUGIN -> SelectionMode.PLUGIN
+        else -> SelectionMode.NORMAL
     }
 
     private fun initViews() {
