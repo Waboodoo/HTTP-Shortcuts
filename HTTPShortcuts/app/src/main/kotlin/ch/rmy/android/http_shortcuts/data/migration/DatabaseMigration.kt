@@ -367,6 +367,12 @@ class DatabaseMigration : RealmMigration {
             47L -> { // 2.13.0
                 schema.get("ResolvedVariable")!!
                     .addField("id", String::class.java)
+                realm.where("ResolvedVariable")
+                    .findAll()
+                    .forEach { resolvedVariable ->
+                        resolvedVariable.setString("id", newUUID())
+                    }
+                schema.get("ResolvedVariable")!!
                     .setRequired("id", true)
                     .addPrimaryKey("id")
             }
