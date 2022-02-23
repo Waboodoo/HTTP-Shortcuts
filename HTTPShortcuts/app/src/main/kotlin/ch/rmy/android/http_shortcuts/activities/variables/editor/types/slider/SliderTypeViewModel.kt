@@ -45,7 +45,11 @@ class SliderTypeViewModel(application: Application) : BaseVariableTypeViewModel<
         with(currentViewState) {
             performOperation(
                 temporaryVariableRepository.setDataForType(
-                    SliderType.getData(minValue, maxValue, stepSize)
+                    SliderType.getData(
+                        maxValue = maxValue,
+                        minValue = minValue,
+                        stepValue = stepSize,
+                    )
                 )
             )
         }
