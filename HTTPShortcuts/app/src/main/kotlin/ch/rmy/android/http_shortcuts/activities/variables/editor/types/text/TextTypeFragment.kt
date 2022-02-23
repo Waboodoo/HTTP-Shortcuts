@@ -8,6 +8,7 @@ import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.initialize
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.observeChecked
+import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.framework.ui.BaseFragment
 import ch.rmy.android.http_shortcuts.databinding.VariableEditorTextBinding
 
@@ -43,6 +44,7 @@ class TextTypeFragment : BaseFragment<VariableEditorTextBinding>() {
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
             binding.inputRememberValue.isChecked = viewState.rememberValue
+            binding.inputMultiline.visible = viewState.isMultilineCheckboxVisible
             binding.inputMultiline.isChecked = viewState.isMultiline
         }
         viewModel.events.observe(this, ::handleEvent)
