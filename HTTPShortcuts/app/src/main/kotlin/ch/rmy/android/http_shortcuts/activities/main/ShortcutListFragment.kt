@@ -6,6 +6,7 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -71,8 +72,12 @@ class ShortcutListFragment : BaseFragment<FragmentListBinding>() {
     override fun getBinding(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentListBinding.inflate(inflater, container, false)
 
-    override fun setupViews() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         viewModel.initialize(ShortcutListViewModel.InitData(categoryId, selectionMode))
+    }
+
+    override fun setupViews() {
         initViews()
         initUserInputBindings()
         initViewModelBindings()

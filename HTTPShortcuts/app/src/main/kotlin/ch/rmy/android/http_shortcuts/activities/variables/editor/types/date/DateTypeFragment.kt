@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.variables.editor.types.date
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import ch.rmy.android.framework.extensions.attachTo
@@ -16,11 +17,15 @@ class DateTypeFragment : BaseFragment<VariableEditorDateBinding>() {
 
     private val viewModel: DateTypeViewModel by bindViewModel()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.initialize()
+    }
+
     override fun getBinding(inflater: LayoutInflater, container: ViewGroup?) =
         VariableEditorDateBinding.inflate(inflater, container, false)
 
     override fun setupViews() {
-        viewModel.initialize()
         initUserInputBindings()
         initViewModelBindings()
     }

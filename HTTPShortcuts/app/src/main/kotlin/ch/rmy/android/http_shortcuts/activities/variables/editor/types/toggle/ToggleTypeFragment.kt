@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.variables.editor.types.toggle
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,11 +29,15 @@ class ToggleTypeFragment : BaseFragment<VariableEditorToggleBinding>() {
 
     private var isDraggingEnabled = false
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.initialize()
+    }
+
     override fun getBinding(inflater: LayoutInflater, container: ViewGroup?) =
         VariableEditorToggleBinding.inflate(inflater, container, false)
 
     override fun setupViews() {
-        viewModel.initialize()
         initViews()
         initUserInputBindings()
         initViewModelBindings()

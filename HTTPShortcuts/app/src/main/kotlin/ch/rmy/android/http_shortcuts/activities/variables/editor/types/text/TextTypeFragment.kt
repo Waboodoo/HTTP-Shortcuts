@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.variables.editor.types.text
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import ch.rmy.android.framework.extensions.attachTo
@@ -14,11 +15,15 @@ class TextTypeFragment : BaseFragment<VariableEditorTextBinding>() {
 
     private val viewModel: TextTypeViewModel by bindViewModel()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.initialize()
+    }
+
     override fun getBinding(inflater: LayoutInflater, container: ViewGroup?) =
         VariableEditorTextBinding.inflate(inflater, container, false)
 
     override fun setupViews() {
-        viewModel.initialize()
         initUserInputBindings()
         initViewModelBindings()
     }

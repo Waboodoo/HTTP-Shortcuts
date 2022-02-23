@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.variables.editor.types.select
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.EditText
@@ -32,11 +33,15 @@ class SelectTypeFragment : BaseFragment<VariableEditorSelectBinding>() {
 
     private var isDraggingEnabled = false
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.initialize()
+    }
+
     override fun getBinding(inflater: LayoutInflater, container: ViewGroup?) =
         VariableEditorSelectBinding.inflate(inflater, container, false)
 
     override fun setupViews() {
-        viewModel.initialize()
         initViews()
         initUserInputBindings()
         initViewModelBindings()

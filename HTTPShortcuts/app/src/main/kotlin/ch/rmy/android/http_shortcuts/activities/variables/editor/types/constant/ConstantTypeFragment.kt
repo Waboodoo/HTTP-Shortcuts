@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.variables.editor.types.constant
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import ch.rmy.android.framework.extensions.addArguments
@@ -18,15 +19,19 @@ class ConstantTypeFragment private constructor() : BaseFragment<VariableEditorCo
 
     private val variablePlaceholderProvider = VariablePlaceholderProvider()
 
-    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?) =
-        VariableEditorConstantBinding.inflate(inflater, container, false)
-
-    override fun setupViews() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         viewModel.initialize(
             ConstantTypeViewModel.InitData(
                 variableId = args.getString(ARG_VARIABLE_ID),
             )
         )
+    }
+
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?) =
+        VariableEditorConstantBinding.inflate(inflater, container, false)
+
+    override fun setupViews() {
         initViews()
         initUserInputBindings()
         initViewModelBindings()

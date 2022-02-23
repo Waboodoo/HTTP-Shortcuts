@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.variables.editor.types.color
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import ch.rmy.android.framework.extensions.attachTo
@@ -17,8 +18,12 @@ class ColorTypeFragment : BaseFragment<VariableEditorColorBinding>() {
     override fun getBinding(inflater: LayoutInflater, container: ViewGroup?) =
         VariableEditorColorBinding.inflate(inflater, container, false)
 
-    override fun setupViews() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         viewModel.initialize()
+    }
+
+    override fun setupViews() {
         initUserInputBindings()
         initViewModelBindings()
     }
