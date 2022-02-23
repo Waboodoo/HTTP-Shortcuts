@@ -848,6 +848,9 @@ Voir la documentation dans la section variable pour plus d'informations."</strin
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
     <string name="subtitle_basic_request_settings_url_only_prompt">"Définir l'URL du raccourci"</string>
 
+    <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings". Pattern for Method and URL -->
+    <string name="subtitle_basic_request_settings_pattern">"%1$s %2$s"</string>
+
     <!-- Section subtitle, shown in shortcut editor when the shortcut has no custom HTTP headers -->
     <string name="subtitle_request_headers_none">"Aucune en-têtes définis"</string>
 
