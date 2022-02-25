@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.consume
+import ch.rmy.android.framework.extensions.focus
 import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.R
@@ -34,6 +35,11 @@ class CurlImportActivity : BaseActivity() {
                 commandEmpty = text.isEmpty()
             }
             .attachTo(destroyer)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.curlImportCommand.focus()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

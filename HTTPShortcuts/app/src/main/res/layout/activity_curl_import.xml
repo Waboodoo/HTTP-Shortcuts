@@ -9,34 +9,35 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="6dp"
-        android:paddingBottom="10dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="16dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <TextView
             android:id="@+id/curl_import_instructions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="4dp"
-            android:text="@string/instructions_curl_import" />
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="8dp"
+            android:text="@string/instructions_curl_import"
+            android:textSize="16sp" />
 
         <EditText
             android:id="@+id/curl_import_command"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/curl_import_instructions"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="10dp"
             android:background="@color/textarea_background"
             android:fontFamily="monospace"
             android:gravity="top"
             android:inputType="textMultiLine|textNoSuggestions"
-            android:paddingLeft="4dp"
-            android:paddingTop="4dp"
-            android:paddingRight="4dp"
-            android:paddingBottom="4dp" />
+            android:paddingStart="8dp"
+            android:paddingTop="6dp"
+            android:paddingEnd="8dp" />
 
     </RelativeLayout>
 
