@@ -143,7 +143,7 @@ class ShortcutEditorViewModel(application: Application) : BaseViewModel<Shortcut
     }
 
     private fun hasChanges() =
-        oldShortcut?.isSameAs(shortcut) == false
+        oldShortcut?.isSameAs(shortcut) == false || initData.curlCommand != null
 
     private fun canExecute() =
         !shortcut.type.usesUrl ||
