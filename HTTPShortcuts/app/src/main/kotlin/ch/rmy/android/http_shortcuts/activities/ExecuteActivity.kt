@@ -635,6 +635,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                     .showAsCompletable()
             }
             ResponseHandling.UI_TYPE_WINDOW -> {
+                progressIndicator.hideProgress()
                 DisplayResponseActivity.IntentBuilder(shortcutId)
                     .name(shortcutName)
                     .type(response?.contentType)

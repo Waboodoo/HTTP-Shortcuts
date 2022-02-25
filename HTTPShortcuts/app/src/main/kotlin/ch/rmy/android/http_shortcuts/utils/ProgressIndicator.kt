@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.utils
 import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
+import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 
@@ -27,5 +28,12 @@ class ProgressIndicator(private val activity: BaseActivity) {
     fun showProgressDelayed(delay: Long) {
         handler.removeCallbacks(showProgressRunnable)
         handler.postDelayed(showProgressRunnable, delay)
+    }
+
+    fun hideProgress() {
+        handler.removeCallbacks(showProgressRunnable)
+        if (layoutLoaded) {
+            activity.baseView?.visible = false
+        }
     }
 }
