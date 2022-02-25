@@ -108,10 +108,11 @@
     <string name="validation_url_invalid">"HTTP(S)のURLを入力してください"</string>
 
     <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
-    <string name="error_http">"失敗：ショートカット名「%1$s 」、エラーコード： %2$d (%3$s)"</string>
+    <string name="error_http">"%1$s 失敗：ステータスコード %2$d (%3$s)"</string>
 
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
-    <string name="error_other">"失敗：ショートカット名「%1$s」、エラー：%2$s"</string>
+    <string name="error_other">"%1$s 失敗: %2$s
+"</string>
 
     <!-- Error shown when the HTTP response is too large to be loaded into memory. %s is a placeholder for the size limit, e.g. "1 MB") -->
     <string name="error_response_too_large">"レスポンスが長すぎて表示不可 (上限：%s)"</string>
@@ -135,10 +136,10 @@
     <string name="choose_ipack_icon">"Ipackアイコン"</string>
 
     <!-- Option in "Change Icon" dialog, allows user to select one of the built-in icons to use as a shortcut icon -->
-    <string name="choose_icon">"組み込みのアイコン"</string>
+    <string name="choose_icon">"組み込みアイコン"</string>
 
     <!-- Title of dialog that allows user to pick an icon from the built-in icons -->
-    <string name="title_choose_icon">"組み込みのアイコンを選択"</string>
+    <string name="title_choose_icon">"組み込みアイコンを選択"</string>
 
     <!-- Title of dialog to edit a parameter on a shortcut -->
     <string name="title_post_param_edit">"パラメーターを編集"</string>
@@ -183,7 +184,7 @@
     <string name="title_custom_header_add">"ヘッダーを追加"</string>
 
     <!-- Label of input field to provide name of custom header -->
-    <string name="label_custom_header_key">"HEADER"</string>
+    <string name="label_custom_header_key">"ヘッダー"</string>
 
     <!-- Label of input field to provide value of custom header -->
     <string name="label_custom_header_value">"値"</string>
@@ -228,7 +229,7 @@
     <string name="settings_crash_reporting_allow">"アプリの改善にクラッシュレポートを送信"</string>
 
     <!-- Option for crash reporting opt out -->
-    <string name="settings_crash_reporting_disallow">"何もレポートを送信しない"</string>
+    <string name="settings_crash_reporting_disallow">"レポートを送信しない"</string>
 
     <!-- Button in settings page to start export of shortcuts -->
     <string name="settings_export">"ショートカットと変数をエクスポート"</string>
@@ -295,16 +296,16 @@
     <string name="settings_mail">"開発者へ連絡"</string>
 
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
-    <string name="settings_mail_summary">"質問、新機能のリクエスト、ユーザーの声をフィードバック…"</string>
+    <string name="settings_mail_summary">"質問、新機能リクエスト、ユーザーの声をフィードバック…"</string>
 
     <!-- Button title, for option to open the app's Github page in a browser -->
     <string name="settings_github">"Githubを閲覧"</string>
 
     <!-- Button subtitle for "View on Github" button -->
-    <string name="settings_github_summary">"そう、このアプリはオープンソースです"</string>
+    <string name="settings_github_summary">"そのとおり！このアプリはオープンソースです"</string>
 
     <!-- Dialog title, for changelog, shown when a new version of the app is released -->
-    <string name="changelog_title_whats_new">"更新の内容は？"</string>
+    <string name="changelog_title_whats_new">"最新情報は？"</string>
 
     <!-- Dialog title, for changelog, showing what's new in a release -->
     <string name="changelog_title">"変更履歴"</string>
@@ -316,7 +317,7 @@
     <string name="execution_delayed">"インターネットへの接続が有効になると、%1$s が実行されます。"</string>
 
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor -->
-    <string name="label_wait_for_connection">"オフライン時は接続を待つ"</string>
+    <string name="label_wait_for_connection">"オフライン時に接続を待つ"</string>
 
     <!-- Label: Shown on button that allows to enable execution delay of a shortcut -->
     <string name="label_delay_execution">"実行を遅延する"</string>
@@ -591,10 +592,10 @@
     <string name="label_edit_variables">"変数を編集"</string>
 
     <!-- Error message, shown in variable editor when the user didn't add enough options -->
-    <string name="error_not_enough_toggle_values">"少なくとも２つの値を入力してください。"</string>
+    <string name="error_not_enough_toggle_values">"少なくとも２つの値を追加してください。"</string>
 
     <!-- Error message, shown in variable editor when the user didn't add enough options -->
-    <string name="error_not_enough_select_values">"少なくとも１つの選択肢を入力してください。"</string>
+    <string name="error_not_enough_select_values">"少なくとも１つの選択肢を追加してください。"</string>
 
     <!-- Error message, shown in variable editor when an invalid date format is entered -->
     <string name="error_invalid_date_format">"日付の形式が無効です"</string>
@@ -856,7 +857,7 @@
     <string name="button_lock_app">"ロック"</string>
 
     <!-- Snackbar message: App was locked (settings can no longer be changed) -->
-    <string name="message_app_locked">"アプリがロックされています"</string>
+    <string name="message_app_locked">"アプリをロック"</string>
 
     <!-- Snackbar message: App was unlocked (settings can be changed again) -->
     <string name="message_app_unlocked">"アプリロック解除"</string>
@@ -881,7 +882,7 @@
 
     <!-- Section subtitle, shown in shortcut editor when the shortcut has one or more custom HTTP headers -->
     <plurals name="subtitle_request_headers_pattern">
-        <item quantity="other">"%d つのヘッダーが設定"</item>
+        <item quantity="other">"%d つのヘッダー設定"</item>
     </plurals>
 
     <!-- Section subtitle, shown in shortcut editor when no authentication behavior is defined -->
@@ -901,7 +902,7 @@
 
     <!-- Section subtitle, shown in shortcut editor when one or more (POST) parameters are set -->
     <plurals name="subtitle_request_body_params_pattern">
-        <item quantity="other">"%d つのパラメーターが設定"</item>
+        <item quantity="other">"%d つのパラメーター設定"</item>
     </plurals>
 
     <!-- Section subtitle, shown in shortcut editor when no custom request body is set -->
@@ -926,7 +927,7 @@
     <string name="empty_state_request_parameters_instructions">"パラメーターを追加するには［＋］ボタンをクリック"</string>
 
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor. -->
-    <string name="label_follow_redirects">"リダイレクトをフォローする"</string>
+    <string name="label_follow_redirects">"リダイレクトを許諾する"</string>
 
     <!-- Label: shown above input box that lets user define JS code to be executed before shortcut -->
     <string name="label_pre_request_script">"実行前のスクリプト動作"</string>
@@ -974,7 +975,7 @@
     <string name="dialog_code_snippet_get_variable">"変数を取得する"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to set the value of a variable -->
-    <string name="dialog_code_snippet_set_variable">"変数を取得する"</string>
+    <string name="dialog_code_snippet_set_variable">"変数を設定する"</string>
 
     <!-- Error message: Shown in toast when "Trigger Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_triggering">"ショートカット「%1$s」が存在しないためトリガーできませんでした。"</string>
@@ -1042,7 +1043,7 @@
     <string name="option_parameter_type_string">"文字列(デフォルト)"</string>
 
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for file parameter -->
-    <string name="option_parameter_type_file">"単一のファイル"</string>
+    <string name="option_parameter_type_file">"1つのファイル"</string>
 
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for files parameter -->
     <string name="option_parameter_type_files">"複数のファイル"</string>
@@ -1057,7 +1058,7 @@
     <string name="language_default">"システムの既定値"</string>
 
     <!-- Error: Shown in toast when user tries to add a variable placeholder to a text beyond its maximum size -->
-    <string name="error_text_too_long_for_variable">"%d 文字数を超えています。変数のプレースホルダーを挿入できません。"</string>
+    <string name="error_text_too_long_for_variable">"%d 文字数を超えています。変数プレースホルダーを挿入できません。"</string>
 
     <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->
     <string name="instructions_select_shortcut_for_home_screen">"ホーム画面に配置するには、ショートカットを選択するか、作成してください。"</string>
@@ -1302,7 +1303,7 @@
     <string name="dialog_code_snippet_text_processing">"テキスト処理"</string>
 
     <!-- Error message: Shown when user tries to use an unsupported hash function -->
-    <string name="error_unsupported_hash_algorithm">"サポートされていないハッシュ アルゴリズム「%1$s」です。「%2$s」を使用してください。"</string>
+    <string name="error_unsupported_hash_algorithm">"サポートされてないハッシュ アルゴリズム「%1$s」です。「%2$s」を使用してください。"</string>
 
     <!-- Button in settings page to start editing shortcuts from a connected computer -->
     <string name="settings_remote_edit">"パソコンで編集"</string>
@@ -1317,7 +1318,7 @@
     <string name="instructions_remote_edit_step_2">"「&lt;pre&gt;サーバーへ送る&lt;/pre&gt;」ボタンをクリック"</string>
 
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
-    <string name="instructions_remote_edit_step_3">"コンピューターのブラウザーで %s を開き、デバイスIDとパスワードを入力して、編集を開始します。"</string>
+    <string name="instructions_remote_edit_step_3">"コンピューターのブラウザで %s を開き、デバイスIDとパスワードを入力して、編集を開始します。"</string>
 
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
     <string name="instructions_remote_edit_step_4">"編集作業が完了して変更を保存したら、下記の「&lt;pre&gt;変更を取り込む&lt;/ pre&gt;」ボタンをクリックして、変更をダウンロードしてアプリに取り込みます。"</string>
@@ -1412,7 +1413,7 @@
     <string name="action_label_select">"選択"</string>
 
     <!-- Error message, shown when user declines location permission for wifi check -->
-    <string name="error_missing_location_permission">"位置情報アクセス権を取得できませんでした。リクエストを中止…"</string>
+    <string name="error_missing_location_permission">"現在のWiFi SSID 取得失敗。位置情報へのアクセス許可が必要です。"</string>
 
     <!-- Message: Success message shown when a response was saved to a file -->
     <string name="message_response_saved_to_file">"ファイルへ保存されたレスポンス"</string>
@@ -1553,7 +1554,7 @@
     <string name="message_url_encode_instructions">"この変数をURL内で使用している場合、例えば、クエリー文字列の一部として使用している場合は、これを有効にしてください。特殊文字はエスケープされます。"</string>
 
     <!-- Name of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
-    <string name="settings_allow_overlay">"他のアプリ上に被せてフロート表示を許可"</string>
+    <string name="settings_allow_overlay">"他のアプリ上にフロート表示を許可"</string>
 
     <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
     <string name="settings_allow_overlay_summary">"クイック設定タイルから、または、サードパーティーのアプリからトリガーされた時に、ショートカットが動作しない場合に有効にしてください。"</string>
@@ -1617,7 +1618,7 @@
     <string name="choose_previously_used_image">"カスタム画像が既存しています"</string>
 
     <!-- Title of dialog that allows user to pick an icon from the previously used custom icon icons -->
-    <string name="title_choose_previously_used_icon">"組み込みの画像を選択"</string>
+    <string name="title_choose_previously_used_icon">"カスタム画像を選択"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get a specific HTTP response header -->
     <string name="dialog_code_snippet_response_header">"名前でレスポンス ヘッダーを取得"</string>
@@ -1627,4 +1628,36 @@
 
     <!-- Error message: Shown to user when trying to select the "previously used custom icon" option while there are no custom icons yet -->
     <string name="error_no_custom_icons">"カスタム アイコンなし"</string>
+
+    <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
+    <string name="empty_state_trigger_shortcuts">"トリガーするショートカットはまだ追加していません。"</string>
+
+    <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
+    <string name="empty_state_trigger_shortcuts_instructions">"このマルチショートカットの一部としてトリガーする全てのショートカットをこのリストに追加します。
+
+［＋］ボタンをクリックして開始します"</string>
+
+    <!-- Shortcut Action Title: Open a URL (e.g. in a browser) -->
+    <string name="action_type_open_url_title">"URLを開く"</string>
+
+    <!-- Shortcut Action Title: Open another app (via its package name) -->
+    <string name="action_type_open_app_title">"アプリを開く"</string>
+
+    <!-- Shortcut Action Title: Get the SSID of the current Wi-Fi -->
+    <string name="action_type_get_wifi_ssid">"WiFiのSSIDを取得"</string>
+
+    <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
+    <string name="error_no_app_found_for_url">"URL %s を開けるアプリが見つかりませんでした。"</string>
+
+    <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->
+    <string name="error_no_app_found">"パッケージ名 %s アプリが見つかりませんでした。"</string>
+
+    <!-- Error message: Shown to the user when they try to base64-decode a string which is not valid base64. %s is a placeholder for the string -->
+    <string name="error_invalid_base64">"無効なBase64: %s"</string>
+
+    <!-- Error message: Shown to the user when the app tries to determine the SSID (name) of the current Wi-Fi but failed, e.g. because of a missing permission -->
+    <string name="error_failed_to_get_wifi_ssid">"現在のWiFiのSSIDを特定できませんでした。"</string>
+
+    <!-- Placeholder: help text shown for body content input field, where the user can define the HTTP request body -->
+    <string name="placeholder_request_body_content">"ここに生のHTTPリクエスト本文を入力します。「{}」ボタンで変数のプレースホルダーを追加できます。"</string>
 </resources>

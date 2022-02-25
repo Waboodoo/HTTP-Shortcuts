@@ -1384,6 +1384,12 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
     <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->
     <string name="error_variable_not_found_write">"Errore nella variabile: tentato di impostare il valore di una variabile che non esiste: %s"</string>
 
+    <!-- Title of code editor for defining global scripting code (JS code that runs before every shortcut) -->
+    <string name="title_global_scripting">"Scripting Globale"</string>
+
+    <!-- Button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
+    <string name="settings_global_scripting">"Scripting Globale"</string>
+
     <!-- Subtitle of button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
     <string name="settings_global_scripting_summary">"Esegui codice JavaScript prima di eseguire ogni scorciatoia"</string>
 
@@ -1469,6 +1475,9 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
     <!-- Title of import/export page, for importing and exporting shortcuts and variables -->
     <string name="title_import_export">"Importa / Esporta"</string>
 
+    <!-- Section title on settings screen for options related to Scripting (i.e., custom workflow code in JavaScript) -->
+    <string name="settings_title_scripting">"Scripting"</string>
+
     <!-- Button in settings page to start import of shortcuts from a file -->
     <string name="settings_import_from_file">"Importa da file"</string>
 
@@ -1490,8 +1499,14 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
     <!-- Subtitle of setting that allows the user to enable exporting using the legacy file format -->
     <string name="settings_use_legacy_export_format_summary">"Abilita l'esportazione di scorciatoie e variabili utilizzando il vecchio formato di file (ovvero un singolo file JSON). Non permette l'esportazione di icone di collegamento personalizzate."</string>
 
+    <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
+    <string name="label_client_cert">"Autenticazione del certificato del cliente"</string>
+
     <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
     <string name="label_subtitle_no_client_cert">"Fare clic per selezionare un certificato."</string>
+
+    <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
+    <string name="label_subtitle_client_cert_in_use">"Uso il certificato \"%s\". Fai clic per rimuoverlo."</string>
 
     <!-- Error: Shown to the user when any error occurred while trying to execute a shortcut that uses a client certificate -->
     <string name="error_failed_to_use_client_cert">"Impossibile caricare o utilizzare il certificato client. È possibile che non sia supportato dal tuo dispositivo o che debba essere riconfigurato nelle impostazioni del collegamento."</string>
@@ -1522,6 +1537,18 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
 
     <!-- Subtitle for Label, for option in dialog to pick a client certificate from a .p12 file -->
     <string name="label_client_cert_from_file_subtitle">"Una copia del file e della password verranno archiviate all'interno dell'app senza protezione speciale. Utilizza a tuo rischio."</string>
+
+    <!-- Title of dialog, for entering the password for a client cert file -->
+    <string name="title_client_cert_file_password">"Password"</string>
+
+    <!-- Shortcut dropdown option: display information about the shortcut -->
+    <string name="action_shortcut_information">"Mostra Info"</string>
+
+    <!-- Label shown above a text field showing a shortcut's ID -->
+    <string name="label_shortcut_id">"ID Scorciatoia"</string>
+
+    <!-- Label shown above a text field showing a shortcut's deep link URL -->
+    <string name="label_deep_link_url">"Deep-Linking URL"</string>
 
     <!-- Message: instructions shown below a shortcut's deep-linking URL -->
     <string name="message_deep_link_instructions">"Puoi attivare questa scorciatoia richiamando questo URL da un'altra app, ad esempio tramite uno scanner QR o un lettore NFC. Aggiungi i parametri di query all'URL per passare i valori delle variabili."</string>
@@ -1560,6 +1587,9 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
     <!-- Category dropdown option: Place category on home screen -->
     <string name="action_place_category">"Posiziona nella schermata principale"</string>
 
+    <!-- Shortcut Action Title: Send a Wake-on-LAN packet to remotely turn on a computer -->
+    <string name="action_type_wake_on_lan">"Wake-on-LAN"</string>
+
     <!-- Error message: Shown when a JS error occurs. %d is a placeholder for the line number, %s is a placeholder for the more detailed error message. -->
     <string name="error_js_pattern_with_line_number">"Errore JavaScript (alla linea %d):
 %s"</string>
@@ -1572,6 +1602,12 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
 
     <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails -->
     <string name="error_action_type_send_wol_failed">"Impossibile inviare il pacchetto Wake-on-LAN: %s"</string>
+
+    <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails because on an invalid MAC address -->
+    <string name="error_action_type_send_wol_invalid_mac_address">"MAC address non valido: %s"</string>
+
+    <!-- Section title in shortcut editor, groups together settings related to triggering, scheduling and executing a shortcut -->
+    <string name="label_execution_settings">"Impostazioni Attivazione ed Esecuzione"</string>
 
     <!-- Section subtitle, shown underneath "Trigger & Execution Settings" -->
     <string name="label_execution_settings_subtitle">"Definisci quando e come la scorciatoia debba essere eseguita"</string>
@@ -1611,4 +1647,36 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
 
     <!-- Error message: Shown to user when trying to select the "previously used custom icon" option while there are no custom icons yet -->
     <string name="error_no_custom_icons">"Non hai ancora nessuna icona personalizzata."</string>
+
+    <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
+    <string name="empty_state_trigger_shortcuts">"Non hai ancora aggiunto una scorciatoia da attivare."</string>
+
+    <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
+    <string name="empty_state_trigger_shortcuts_instructions">"Aggiungi tutte le scorciatoie a questa lista che desideri attivare come parte di questa scorciatoia multipla.
+
+Fai clic sul pulsante + per iniziare."</string>
+
+    <!-- Shortcut Action Title: Open a URL (e.g. in a browser) -->
+    <string name="action_type_open_url_title">"Apri URL"</string>
+
+    <!-- Shortcut Action Title: Open another app (via its package name) -->
+    <string name="action_type_open_app_title">"Apri App"</string>
+
+    <!-- Shortcut Action Title: Get the SSID of the current Wi-Fi -->
+    <string name="action_type_get_wifi_ssid">"Scegli SSID del Wi-Fi"</string>
+
+    <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
+    <string name="error_no_app_found_for_url">"Nessuna app trovata per aprire la URL %s."</string>
+
+    <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->
+    <string name="error_no_app_found">"Nessuna app trovata con package name %s."</string>
+
+    <!-- Error message: Shown to the user when they try to base64-decode a string which is not valid base64. %s is a placeholder for the string -->
+    <string name="error_invalid_base64">"Base64 non valido: %s"</string>
+
+    <!-- Error message: Shown to the user when the app tries to determine the SSID (name) of the current Wi-Fi but failed, e.g. because of a missing permission -->
+    <string name="error_failed_to_get_wifi_ssid">"Errore nel determinare il SSID della connessione Wi-Fi."</string>
+
+    <!-- Placeholder: help text shown for body content input field, where the user can define the HTTP request body -->
+    <string name="placeholder_request_body_content">"Inserisci qui il raw HTTP request body. Puoi aggiungere il segnaposto di una variabile con il pulsante \"{}\"."</string>
 </resources>
