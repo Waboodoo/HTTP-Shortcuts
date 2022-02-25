@@ -3,8 +3,8 @@ package ch.rmy.android.http_shortcuts.data.enums
 enum class VariableType(val type: String, val hasDialogTitle: Boolean = false) {
     CONSTANT("constant"),
     TEXT("text", hasDialogTitle = true),
-    NUMBER("number"),
-    PASSWORD("password"),
+    NUMBER("number", hasDialogTitle = true),
+    PASSWORD("password", hasDialogTitle = true),
     SELECT("select", hasDialogTitle = true),
     TOGGLE("toggle"),
     COLOR("color"),
