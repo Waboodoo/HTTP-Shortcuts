@@ -10,6 +10,7 @@ This version includes a massive refactoring under the hood, so there's a good ch
 ### Miscellaneous
 - Improved the UX for the Request Body input box
 - Improved the internal data store, so that the app should take up a bit less storage on the device
+- Improved text sizes and colors for better readability in various places
 - Added Indonesian translation
 
 ### Bugfixes
@@ -18,6 +19,7 @@ This version includes a massive refactoring under the hood, so there's a good ch
 - Fixed a deadlock that would happen when calling the `wait` function too many times
 - Fixed crash on Android 12 when trying to open Wi-Fi selection screen
 - Reduced likelihood of old response window showing up again when triggering a new shortcut
+- Removed "Multline" checkbox from Number Input and Password Input variable types as it had no effect and was never supposed to be there
 
 ## Version 2.12.0
 
