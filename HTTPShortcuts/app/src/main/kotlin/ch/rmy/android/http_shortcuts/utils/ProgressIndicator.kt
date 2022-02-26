@@ -4,10 +4,11 @@ import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
 import ch.rmy.android.framework.extensions.visible
+import ch.rmy.android.framework.utils.Destroyable
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 
-class ProgressIndicator(private val activity: BaseActivity) {
+class ProgressIndicator(private val activity: BaseActivity) : Destroyable {
 
     private var layoutLoaded = false
     private val showProgressRunnable = Runnable {
@@ -35,5 +36,9 @@ class ProgressIndicator(private val activity: BaseActivity) {
         if (layoutLoaded) {
             activity.baseView?.visible = false
         }
+    }
+
+    override fun destroy() {
+        handler.removeCallbacks(showProgressRunnable)
     }
 }

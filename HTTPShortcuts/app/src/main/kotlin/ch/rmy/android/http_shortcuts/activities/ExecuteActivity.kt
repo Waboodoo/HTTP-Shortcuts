@@ -93,7 +93,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     private lateinit var globalCode: String
 
     private val progressIndicator: ProgressIndicator by lazy {
-        ProgressIndicator(this)
+        destroyer.own(ProgressIndicator(this))
     }
 
     private val scriptExecutor: ScriptExecutor by lazy {
