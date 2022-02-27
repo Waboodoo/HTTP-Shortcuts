@@ -24,9 +24,13 @@ class ExecutionWorker(private val context: Context, workerParams: WorkerParamete
             runPendingExecution(context, executionId)
                 .toSingleDefault(Result.success())
         }
-            .onErrorReturn { error ->
-                logException(error)
-                Result.failure()
+            .onErrorResumeNext { error ->
+                if (error is NoSuchElementException) {
+                    Single.just(Result.success())
+                } else {
+                    logException(error)
+                    Single.just(Result.failure())
+                }
             }
 
     private fun runPendingExecution(context: Context, id: String): Completable =
