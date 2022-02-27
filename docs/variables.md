@@ -1,6 +1,6 @@
 # Variables
 
-Variables allow you to inject pieces of information dynamically into your shortcuts when executing them. A variable consists of a name and a value which is resolved at execution time, based on its type. For some variable types this means that a prompt dialog is shown that asks for a value, others can be resolved without user input.
+Variables allow you to inject pieces of information dynamically into your shortcuts when executing them. A variable consists of a name and a value which is resolved at execution time, based on its type. For some variable types this means that a prompt dialog is shown that asks for a value, others can be resolved without user input. They are global, meaning that they do not belong to a specific shortcut but can be used by all of them.
 
 For more details on when variables are resolved see the [Execution Flow](execution-flow.md) documentation.
 
@@ -17,9 +17,9 @@ You can also insert these placeholders into some of your variables, i.e., you ca
 When creating a variable, you have to select its type. The type dictates how the variable will receive its value, and what types of values it supports.
 
 <a name="constant"></a>
-### Static Variable (Constant)
+### Static Variable
 
-A *static variable* or *constant* stores a static value, until explicitly changed. It can be used to store a piece of information that is shared across multiple shortcut, such as an authentication token or a domain name. This way it can easily be changed.
+A *static variable* (formerly called *constant*) stores a static value, until explicitly changed. It can be used to store a piece of information that is shared across multiple shortcut, such as an authentication token or a domain name. This way it can easily be changed.
 
 It is also possible to change the value of a static variable programmatically before or after a shortcut runs, e.g. to store parts of a HTTP response into it. See the [Scripting](scripting.md#variables) documentation for more details.
 

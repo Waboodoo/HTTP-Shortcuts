@@ -415,7 +415,7 @@
     <!-- label, shown in variable editor for Select Input variable, to allow the user to specify a separator when using multi-select -->
     <string name="label_select_variable_separator">Separator</string>
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
-    <string name="variable_type_constant">Static Variable (Constant)</string>
+    <string name="variable_type_constant">Static Variable</string>
     <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
     <string name="variable_type_text">Text Input</string>
     <!-- Type of variable: Number Input, i.e., a dialog that asks user to enter a number -->
@@ -481,7 +481,7 @@
     <!-- Instructions shown in code snippet picker when the user selects the "Get Variable" option and there are no variables yet -->
     <string name="help_text_code_snippet_get_variable_no_variable">You don\'t have any variables yet. Click the CREATE button below to get started.</string>
     <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_set_variable_no_variable">You don\'t have any static variables (constants) yet that can be set by this action. Click the CREATE button below to get started.</string>
+    <string name="help_text_code_snippet_set_variable_no_variable">You don\'t have any static variables yet that can be set by this action. Click the CREATE button below to get started.</string>
     <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
     <string name="button_create_first_variable">Create</string>
     <!-- Title of dialog that allows users to pick a variable from a list to insert its placeholder somewhere -->

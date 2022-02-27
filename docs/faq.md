@@ -29,9 +29,9 @@ Alternatively, you can invoke a shortcut via a deep-linking URL, which is partic
 
 ## Can I send multiple requests with one shortcut?
 
-A normal shortcut corresponds to a single request. You can, however, have one shortcut trigger one or more other shortcuts. The easiest way to achieve that is by creating a "Multi-Shortcut", which allows you to pick one or more shortcuts which are then all triggered when the multi-shortcut itself is executed. 
+A normal shortcut corresponds to a single request. You can, however, have one shortcut trigger one or more other shortcuts. The easiest way to achieve that is by creating a "Multi-Shortcut", which allows you to pick one or more shortcuts which are then all triggered when the multi-shortcut itself is executed, one after the other. 
 
-In some cases using a multi-shortcut might not be enough, e.g., when you want to trigger the same shortcut twice, want to trigger it only under certain conditions or if you want to pass variable values to it. In this case you can create a "Scripting" shortcut instead and add one or more instances of the "triggerShortcut" action to it. When creating or editing your scripting shortcut, open the section "Scripting" and then click the button "Add Code Snippet" underneath the textarea. In the dialog that opens select "Actions" and then "Trigger Shortcut". This way, whenever you run your first shortcut, it will trigger the selected other one after it completed. See [Code Execution](scripting.md#trigger-shortcut) for more information.
+In some cases using a multi-shortcut might not be enough, e.g., when you want to trigger the same shortcut twice, want to trigger it only under certain conditions or if you want to pass variable values to it. In this case you can create a "Scripting" shortcut instead and add one or more instances of the "enqueueShortcut" action to it. When creating or editing your scripting shortcut, open the section "Scripting" and then click the button "Add Code Snippet" underneath the textarea. In the dialog that opens select "Miscellaneous" and then "Enqueue Shortcut". This way, whenever you run your first shortcut, it will trigger the selected other one after it completed. See [the Scripting documentation](scripting.md#trigger-shortcut) for more information.
 
 ## Can I schedule requests to be sent periodically or at a specific time?
 

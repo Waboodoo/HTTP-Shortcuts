@@ -297,18 +297,18 @@ const result = toString(myValue);
 This section lists all of the built-in functions which do not fall into a specific category.
 
 <a name="trigger-shortcut"></a>
-### triggerShortcut
+### enqueueShortcut
 
-With this function you can trigger a shortcut to execute after the current one. Simply pass the name or ID of a shortcut as the first parameter.
+With this function you can enqueue a shortcut to execute after the current one. Simply pass the name or ID of a shortcut as the first parameter.
 
 ```js
-triggerShortcut('My Other Shortcut');
+enqueueShortcut('My Other Shortcut');
 ```
 
 Optionally you can pass an object as the second parameter to provide values for variables. This will not change the stored value of the variable but they will assume the specified value when the other shortcut is executed. This is particularly useful for dynamic variable types (such as *"Text Input"* or *"Multiple Choice Selection"*).
 
 ```js
-triggerShortcut('My Other Shortcut', {
+enqueueShortcut('My Other Shortcut', {
     'My_Variable1': 'Hello World',
     'My_Variable2': ':D',
 });
@@ -317,10 +317,10 @@ triggerShortcut('My Other Shortcut', {
 As an optional third parameter, you can pass the number of milliseconds by which to delay the execution. This way you can schedule a shortcut to run at a later point in time. Please note that the delay will not be exact.
 
 ```js
-triggerShortcut('My Other Shortcut', null, 10 * 60 * 1000); // runs in 10 minutes
+enqueueShortcut('My Other Shortcut', null, 10 * 60 * 1000); // runs in 10 minutes
 ```
 
-Note that triggering a shortcut means its execution is enqueued. This means that it will only be executed once the current shortcut (and all shortcuts that have been enqueued before it) has finished executing. It will *not* execute it immediately.
+Note that the shortcut will only be executed once the current shortcut (and all shortcuts that have been enqueued before it) has finished executing. It will *not* be executed immediately.
 
 <a name="copy-to-clipboard"></a>
 ### copyToClipboard
