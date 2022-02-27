@@ -462,8 +462,9 @@ Here's an example on how to parse the response of your shortcut, and display the
 
 ```js
 const temperature = JSON.parse(response.body).temperature;
+showDialog(`The current temperature is ${temperature}°C`, 'Temperature');
+
 setVariable('temperature', temperature);
-showDialog('The current temperature is '+temperature+'°C', 'Temperature');
 ```
 
 ### Change icon and label based on response
@@ -491,6 +492,18 @@ if (!confirm('Should I do the thing?')) {
 }
 ```
 
+Or you might want to bypass the confirmation step if you are in your home network:
+
+```js
+if (getWifiSSID() != 'My Home Network') {
+    if (!confirm('Should I do the thing?')) {
+        showToast('Not doing the thing.');
+        abort();
+    }
+}
+```
+
+
 ### Read the response out loud
 
 This example shows how you can have the received response be read out loud (using text-to-speech). The example assumes that the response is in plain-text (i.e., not HTML, JSON, ...).
@@ -510,6 +523,8 @@ sendIntent({
     dataUri: 'https://example.com',
 });
 ```
+The above example is equivalent to calling `openUrl('https://example.com')`.
+
 
 If you want to just open a specific app without sending any data to it, you can do so by specifying the app's package name and using the `android.intent.action.MAIN` action. The following example will just open Google Chrome:
 
@@ -520,4 +535,6 @@ sendIntent({
     packageName: 'com.android.chrome',
 });
 ```
+
+The above example is equivalent to calling `openApp('com.android.chrome')`.
 
