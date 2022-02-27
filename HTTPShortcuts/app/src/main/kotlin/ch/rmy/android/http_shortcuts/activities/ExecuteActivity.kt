@@ -15,6 +15,7 @@ import ch.rmy.android.framework.extensions.finishWithoutAnimation
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.mapFor
 import ch.rmy.android.framework.extensions.mapIf
+import ch.rmy.android.framework.extensions.mapIfNotNull
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
@@ -36,7 +37,6 @@ import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.exceptions.CanceledByUserException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidUrlException
 import ch.rmy.android.http_shortcuts.exceptions.MissingLocationPermissionException
-import ch.rmy.android.http_shortcuts.exceptions.ResponseTooLargeException
 import ch.rmy.android.http_shortcuts.exceptions.ResumeLaterException
 import ch.rmy.android.http_shortcuts.exceptions.UnsupportedFeatureException
 import ch.rmy.android.http_shortcuts.exceptions.UserException
@@ -553,20 +553,20 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                     .toSingle { response }
             }
             .flatMapCompletable { response ->
-                val outputType = shortcut.responseHandling?.successOutput
-                if (outputType == ResponseHandling.SUCCESS_OUTPUT_NONE) {
-                    Completable.complete()
-                } else {
-                    val output = if (outputType == ResponseHandling.SUCCESS_OUTPUT_MESSAGE) {
-                        shortcut.responseHandling
-                            ?.successMessage
-                            ?.takeUnlessEmpty()
-                            ?.let(::injectVariables)
-                            ?: String.format(getString(R.string.executed), shortcutName)
-                    } else {
-                        generateOutputFromResponse(response)
+                when (shortcut.responseHandling?.successOutput) {
+                    ResponseHandling.SUCCESS_OUTPUT_MESSAGE -> {
+                        displayOutput(
+                            output = shortcut.responseHandling
+                                ?.successMessage
+                                ?.takeUnlessEmpty()
+                                ?.let(::injectVariables)
+                                ?: String.format(getString(R.string.executed), shortcutName),
+                            response = response,
+                        )
                     }
-                    displayOutput(output, response)
+                    ResponseHandling.SUCCESS_OUTPUT_RESPONSE -> displayOutput(output = null, response)
+                    ResponseHandling.SUCCESS_OUTPUT_NONE -> Completable.complete()
+                    else -> Completable.complete()
                 }
             }
 
@@ -586,14 +586,8 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
             Completable.complete()
         }
 
-    private fun calculateDelay() = RETRY_BACKOFF.pow(tryNumber.toDouble()).toInt() * 1000
-
-    private fun generateOutputFromResponse(response: ShortcutResponse) =
-        try {
-            response.getContentAsString(context)
-        } catch (e: ResponseTooLargeException) {
-            e.getLocalizedMessage(context)
-        }
+    private fun calculateDelay() =
+        RETRY_BACKOFF.pow(tryNumber.toDouble()).toInt() * 1000
 
     private fun generateOutputFromError(error: Throwable, simple: Boolean = false) =
         ErrorFormatter(context).getPrettyError(error, shortcutName, includeBody = !simple)
@@ -606,13 +600,13 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         }
     }
 
-    private fun displayOutput(output: String, response: ShortcutResponse? = null): Completable =
+    private fun displayOutput(output: String?, response: ShortcutResponse? = null): Completable =
         when (shortcut.responseHandling?.uiType) {
             ResponseHandling.UI_TYPE_TOAST,
             null,
             -> {
                 showToast(
-                    output
+                    (output ?: response?.getContentAsString(context) ?: "")
                         .truncate(maxLength = TOAST_MAX_LENGTH)
                         .let(HTMLUtil::format)
                         .ifBlank { getString(R.string.message_blank_response) },
@@ -624,12 +618,15 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                 DialogBuilder(context)
                     .title(shortcutName)
                     .let { builder ->
-                        if (isImage(response?.contentType)) {
+                        if (output == null && isImage(response?.contentType)) {
                             val imageView = ImageView(context)
                             imageView.loadImage(response!!.contentFile!!, preventMemoryCache = true)
                             builder.view(imageView)
                         } else {
-                            builder.message(HTMLUtil.format(output.ifBlank { getString(R.string.message_blank_response) }))
+                            val finalOutput = (output ?: response?.getContentAsString(context) ?: "")
+                                .ifBlank { getString(R.string.message_blank_response) }
+                                .let(HTMLUtil::format)
+                            builder.message(finalOutput)
                         }
                     }
                     .positive(R.string.dialog_ok)
@@ -640,9 +637,15 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                 DisplayResponseActivity.IntentBuilder(shortcutId)
                     .name(shortcutName)
                     .type(response?.contentType)
-                    .text(output)
-                    .responseFileUri(response?.contentFile)
-                    .url(response?.url)
+                    .mapIfNotNull(output) {
+                        text(it)
+                    }
+                    .mapIfNotNull(response?.contentFile) {
+                        responseFileUri(it)
+                    }
+                    .mapIfNotNull(response?.url) {
+                        url(it)
+                    }
                     .mapIf(shortcut.responseHandling?.includeMetaInfo == true) {
                         showDetails(true)
                             .timing(response?.timing)

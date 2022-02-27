@@ -22,6 +22,7 @@ This version includes a massive refactoring under the hood, so there's a good ch
 - Fixed crash on Android 12 when trying to open Wi-Fi selection screen
 - Reduced likelihood of old response window showing up again when triggering a new shortcut
 - Removed "Multline" checkbox from Number Input and Password Input variable types as it had no effect and was never supposed to be there
+- Improved the handling of large HTTP responses. The app is now less likely to crash when encountering these
 
 ## Version 2.12.0
 

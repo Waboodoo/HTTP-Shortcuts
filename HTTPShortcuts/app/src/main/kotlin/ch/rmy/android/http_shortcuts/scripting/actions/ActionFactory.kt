@@ -9,6 +9,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.ChangeIconActionTyp
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ConfirmActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.CopyToClipboardActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.DialogActionType
+import ch.rmy.android.http_shortcuts.scripting.actions.types.EnqueueShortcutActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.GetVariableActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.HashActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.HmacActionType
@@ -24,7 +25,6 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.TextToSpeechActionT
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ToHexStringActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ToStringActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ToastActionType
-import ch.rmy.android.http_shortcuts.scripting.actions.types.EnqueueShortcutActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.TriggerTaskerTaskActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.VibrateActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.WaitActionType

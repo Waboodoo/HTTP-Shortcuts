@@ -28,7 +28,9 @@ import ch.rmy.android.http_shortcuts.databinding.ActivityDisplayResponseSyntaxHi
 import ch.rmy.android.http_shortcuts.databinding.ActivityDisplayResponseSyntaxHighlightingWithDetailsBinding
 import ch.rmy.android.http_shortcuts.databinding.ActivityDisplayResponseWebviewBinding
 import ch.rmy.android.http_shortcuts.databinding.ActivityDisplayResponseWebviewWithDetailsBinding
+import ch.rmy.android.http_shortcuts.exceptions.ResponseTooLargeException
 import ch.rmy.android.http_shortcuts.extensions.loadImage
+import ch.rmy.android.http_shortcuts.extensions.readIntoString
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.http.HttpStatus
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil.TYPE_HTML
@@ -38,6 +40,7 @@ import ch.rmy.android.http_shortcuts.utils.FileTypeUtil.TYPE_YAML
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil.TYPE_YAML_ALT
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil.isImage
 import ch.rmy.android.http_shortcuts.utils.ShareUtil
+import ch.rmy.android.http_shortcuts.utils.SizeLimitedReader
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -51,7 +54,14 @@ class DisplayResponseActivity : BaseActivity() {
         intent?.extras?.getString(EXTRA_NAME) ?: ""
     }
     private val text: String by lazy {
-        intent?.extras?.getString(EXTRA_TEXT) ?: ""
+        intent?.extras?.getString(EXTRA_TEXT)
+            ?: try {
+                // TODO: Avoid loading the file on the UI thread
+                responseFileUri?.readIntoString(context, CONTENT_SIZE_LIMIT)
+            } catch (e: SizeLimitedReader.LimitReachedException) {
+                ResponseTooLargeException(e.limit).getLocalizedMessage(context)
+            }
+            ?: ""
     }
     private val responseFileUri: Uri? by lazy {
         intent?.extras?.getParcelable(EXTRA_RESPONSE_FILE_URI)
@@ -341,11 +351,11 @@ class DisplayResponseActivity : BaseActivity() {
             intent.putExtra(EXTRA_TEXT, text.truncate(MAX_TEXT_LENGTH))
         }
 
-        fun responseFileUri(uri: Uri?) = also {
+        fun responseFileUri(uri: Uri) = also {
             intent.putExtra(EXTRA_RESPONSE_FILE_URI, uri)
         }
 
-        fun url(url: String?) = also {
+        fun url(url: String) = also {
             intent.putExtra(EXTRA_URL, url)
         }
 
@@ -392,5 +402,7 @@ class DisplayResponseActivity : BaseActivity() {
         private const val MAX_TEXT_LENGTH = 700000
         private const val MAX_SHARE_LENGTH = 300000
         private const val FINISH_DELAY = 8000L
+
+        private const val CONTENT_SIZE_LIMIT = 2 * 1000L * 1000L
     }
 }

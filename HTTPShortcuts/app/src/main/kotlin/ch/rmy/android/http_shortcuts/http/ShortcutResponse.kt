@@ -3,9 +3,8 @@ package ch.rmy.android.http_shortcuts.http
 import android.content.Context
 import android.net.Uri
 import ch.rmy.android.http_shortcuts.exceptions.ResponseTooLargeException
+import ch.rmy.android.http_shortcuts.extensions.readIntoString
 import ch.rmy.android.http_shortcuts.utils.SizeLimitedReader
-import java.io.BufferedReader
-import java.io.InputStreamReader
 import java.util.Locale
 
 class ShortcutResponse internal constructor(
@@ -53,28 +52,21 @@ class ShortcutResponse internal constructor(
         } else {
             cachedContentAsString
                 ?: run {
-                    contentFile?.let {
-                        InputStreamReader(context.contentResolver.openInputStream(it)).use { reader ->
-                            try {
-                                BufferedReader(SizeLimitedReader(reader, CONTENT_SIZE_LIMIT), BUFFER_SIZE)
-                                    .use(BufferedReader::readText)
-                            } catch (e: SizeLimitedReader.LimitReachedException) {
-                                responseTooLarge = true
-                                throw ResponseTooLargeException(e.limit)
-                            }
-                        }
+                    try {
+                        contentFile
+                            ?.readIntoString(context, CONTENT_SIZE_LIMIT)
+                    } catch (e: SizeLimitedReader.LimitReachedException) {
+                        responseTooLarge = true
+                        throw ResponseTooLargeException(e.limit)
                     }
                         ?: ""
                 }
-                    .also {
-                        cachedContentAsString = it
-                    }
         }
+            .also {
+                cachedContentAsString = it
+            }
 
     companion object {
-
-        private const val BUFFER_SIZE = 16384
-
         private const val CONTENT_SIZE_LIMIT = 1 * 1000L * 1000L
     }
 }
