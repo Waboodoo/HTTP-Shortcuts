@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.variables
 
+import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import org.hamcrest.MatcherAssert.assertThat
@@ -153,7 +154,7 @@ class VariableResolverTest {
         private fun withContent(content: String) =
             Shortcut().apply {
                 method = Shortcut.METHOD_POST
-                requestBodyType = Shortcut.REQUEST_BODY_TYPE_CUSTOM_TEXT
+                bodyType = RequestBodyType.CUSTOM_TEXT
                 bodyContent = content
             }
 
