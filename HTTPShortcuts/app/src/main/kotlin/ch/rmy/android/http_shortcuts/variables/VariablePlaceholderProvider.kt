@@ -28,6 +28,7 @@ class VariablePlaceholderProvider {
             VariablePlaceholder(
                 variableId = variable.id,
                 variableKey = variable.key,
+                variableType = variable.variableType,
             )
     }
 }

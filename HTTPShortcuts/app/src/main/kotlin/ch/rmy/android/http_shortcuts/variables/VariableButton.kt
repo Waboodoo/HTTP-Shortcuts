@@ -9,6 +9,7 @@ import ch.rmy.android.framework.extensions.mapFor
 import ch.rmy.android.framework.extensions.mapIf
 import ch.rmy.android.framework.extensions.setTintCompat
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.variables.VariableTypeMappings
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.data.dtos.VariablePlaceholder
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
@@ -64,7 +65,7 @@ class VariableButton : AppCompatImageButton {
         DialogBuilder(context)
             .title(R.string.dialog_title_variable_selection)
             .mapFor(variablePlaceholderProvider.placeholders) { placeholder ->
-                item(name = placeholder.variableKey) {
+                item(name = placeholder.variableKey, descriptionRes = VariableTypeMappings.getTypeName(placeholder.variableType)) {
                     variableSubject.onNext(placeholder)
                 }
             }
