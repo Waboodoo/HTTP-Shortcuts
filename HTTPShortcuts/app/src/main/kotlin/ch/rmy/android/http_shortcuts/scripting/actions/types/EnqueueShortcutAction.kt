@@ -8,7 +8,7 @@ import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import io.reactivex.Completable
 
-class TriggerShortcutAction(
+class EnqueueShortcutAction(
     private val shortcutNameOrId: String?,
     private val variableValues: Map<String, Any?>?,
     private val delay: Int?,

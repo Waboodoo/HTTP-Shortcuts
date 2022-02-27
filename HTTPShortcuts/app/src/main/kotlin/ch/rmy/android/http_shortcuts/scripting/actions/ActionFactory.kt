@@ -24,7 +24,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.TextToSpeechActionT
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ToHexStringActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ToStringActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ToastActionType
-import ch.rmy.android.http_shortcuts.scripting.actions.types.TriggerShortcutActionType
+import ch.rmy.android.http_shortcuts.scripting.actions.types.EnqueueShortcutActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.TriggerTaskerTaskActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.VibrateActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.WaitActionType
@@ -56,6 +56,7 @@ class ActionFactory {
                 ConfirmActionType(),
                 CopyToClipboardActionType(),
                 DialogActionType(),
+                EnqueueShortcutActionType(),
                 GetVariableActionType(),
                 HashActionType(),
                 HmacActionType(),
@@ -71,7 +72,6 @@ class ActionFactory {
                 ToastActionType(),
                 ToHexStringActionType(),
                 ToStringActionType(),
-                TriggerShortcutActionType(),
                 TriggerTaskerTaskActionType(),
                 VibrateActionType(),
                 WaitActionType(),

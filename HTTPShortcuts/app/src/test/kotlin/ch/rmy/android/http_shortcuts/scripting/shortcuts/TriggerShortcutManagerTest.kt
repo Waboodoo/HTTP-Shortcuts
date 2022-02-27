@@ -10,10 +10,23 @@ import org.robolectric.RobolectricTestRunner
 class TriggerShortcutManagerTest {
 
     @Test
-    fun testParseTriggerShortcutsCode() {
+    fun testParseTriggerShortcutsLegacyCode() {
         val target = """
             triggerShortcut(/*[shortcut]*/"1234"/*[/shortcut]*/);
             triggerShortcut(/*[shortcut]*/"5678"/*[/shortcut]*/);
+        """.trimIndent()
+
+        val actual = TriggerShortcutManager.getTriggeredShortcutIdsFromCode(target)
+        assertThat(actual.size, equalTo(2))
+        assertThat(actual[0], equalTo("1234"))
+        assertThat(actual[1], equalTo("5678"))
+    }
+
+    @Test
+    fun testParseTriggerShortcutsCode() {
+        val target = """
+            enqueueShortcut(/*[shortcut]*/"1234"/*[/shortcut]*/);
+            enqueueShortcut(/*[shortcut]*/"5678"/*[/shortcut]*/);
         """.trimIndent()
 
         val actual = TriggerShortcutManager.getTriggeredShortcutIdsFromCode(target)
@@ -29,8 +42,8 @@ class TriggerShortcutManagerTest {
             "5678",
         )
         val expected = """
-            triggerShortcut(/*[shortcut]*/"1234"/*[/shortcut]*/);
-            triggerShortcut(/*[shortcut]*/"5678"/*[/shortcut]*/);
+            enqueueShortcut(/*[shortcut]*/"1234"/*[/shortcut]*/);
+            enqueueShortcut(/*[shortcut]*/"5678"/*[/shortcut]*/);
         """.trimIndent()
         val actual = TriggerShortcutManager.getCodeFromTriggeredShortcutIds(target)
         assertThat(actual, equalTo(expected))

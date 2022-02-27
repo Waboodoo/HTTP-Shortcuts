@@ -5,11 +5,11 @@ import ch.rmy.android.http_shortcuts.scripting.ActionAlias
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionDTO
 import kotlin.math.min
 
-class TriggerShortcutActionType : BaseActionType() {
+class EnqueueShortcutActionType : BaseActionType() {
 
     override val type = TYPE
 
-    override fun fromDTO(actionDTO: ActionDTO) = TriggerShortcutAction(
+    override fun fromDTO(actionDTO: ActionDTO) = EnqueueShortcutAction(
         shortcutNameOrId = actionDTO.getString(KEY_SHORTCUT_NAME_OR_ID)?.takeUnlessEmpty(),
         variableValues = actionDTO.getObject(KEY_VARIABLE_VALUES),
         delay = actionDTO.getInt(KEY_DELAY)?.takeUnless { it < 0 }?.let { min(it, MAX_DELAY) },
@@ -21,13 +21,14 @@ class TriggerShortcutActionType : BaseActionType() {
             KEY_SHORTCUT_NAME_OR_ID,
             KEY_VARIABLE_VALUES,
             KEY_DELAY,
-        )
+        ),
+        functionNameAliases = setOf("triggerShortcut"),
     )
 
     companion object {
 
-        const val TYPE = "trigger_shortcut"
-        const val FUNCTION_NAME = "triggerShortcut"
+        const val TYPE = "enqueue_shortcut"
+        const val FUNCTION_NAME = "enqueueShortcut"
 
         const val KEY_SHORTCUT_NAME_OR_ID = "shortcutId"
         const val KEY_VARIABLE_VALUES = "variables"

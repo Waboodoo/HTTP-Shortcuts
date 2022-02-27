@@ -302,9 +302,9 @@ class CodeSnippetPicker(
 
     private fun showMiscPicker(insertText: InsertText) {
         DialogBuilder(context)
-            .item(R.string.action_type_trigger_shortcut_title) {
+            .item(R.string.action_type_trigger_shortcut_title, descriptionRes = R.string.action_type_trigger_shortcut_description) {
                 actionWithShortcut(R.string.action_type_trigger_shortcut_title) { shortcutPlaceholder ->
-                    insertText("triggerShortcut($shortcutPlaceholder);\n", "")
+                    insertText("enqueueShortcut($shortcutPlaceholder);\n", "")
                 }
             }
             .item(R.string.action_copy_to_clipboard_title) {

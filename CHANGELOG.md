@@ -6,6 +6,7 @@ This version includes a massive refactoring under the hood, so there's a good ch
 - The `setVariable` function can now be used to set the stored value of any type of variable, not only static/constant variables. This allows you to set the remembered value of a variable where the 'Remember value' option is enabled.
 - Added functions `openApp` and `openUrl` to allow opening external apps more conveniently than by using `sendIntent` or a browser shortcut
 - Added `getWifiSSID` function to allow querying the SSID of the currently connected Wi-Fi network
+- Renamed `triggerShortcut` to `enqueueShortcut` to make it clearer what it does
 
 ### Miscellaneous
 - Improved the UX for the Request Body input box

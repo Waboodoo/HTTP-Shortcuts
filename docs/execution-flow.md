@@ -54,3 +54,7 @@ For more details see the documentation on [Scripting](scripting.md).
 ## 8. Display Result
 
 Depending on what options you picked in the *"Response Handling"* section of your shortcut, the response or a pre-defined message will be displayed in this final step, either as a toast, in a dialog window or a fullscreen window.
+
+## 9. Execute Next Shortcut
+
+If you called `enqueueShortcut` at any point in the Scripting of your shortcut, that enqueued shortcut will now be executed, possibly after a delay if you specified one.
