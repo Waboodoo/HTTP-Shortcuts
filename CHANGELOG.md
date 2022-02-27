@@ -9,6 +9,7 @@ This version includes a massive refactoring under the hood, so there's a good ch
 - Renamed `triggerShortcut` to `enqueueShortcut` to make it clearer what it does
 
 ### Miscellaneous
+- Toast messages now support basic HTML tags for formatting
 - Improved the UX for the Request Body input box
 - Improved the internal data store, so that the app should take up a bit less storage on the device
 - Improved text sizes and colors for better readability in various places

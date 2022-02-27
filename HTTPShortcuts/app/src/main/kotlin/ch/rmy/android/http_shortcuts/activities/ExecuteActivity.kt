@@ -614,6 +614,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                 showToast(
                     output
                         .truncate(maxLength = TOAST_MAX_LENGTH)
+                        .let(HTMLUtil::format)
                         .ifBlank { getString(R.string.message_blank_response) },
                     long = shortcut.responseHandling?.successOutput == ResponseHandling.SUCCESS_OUTPUT_RESPONSE
                 )

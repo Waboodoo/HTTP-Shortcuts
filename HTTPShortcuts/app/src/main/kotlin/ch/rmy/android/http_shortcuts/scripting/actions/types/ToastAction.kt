@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
+import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 import ch.rmy.android.http_shortcuts.variables.Variables
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -16,7 +17,7 @@ class ToastAction(private val message: String) : BaseAction() {
         return if (finalMessage.isNotEmpty()) {
             Completable
                 .fromAction {
-                    executionContext.context.showToast(finalMessage, long = true)
+                    executionContext.context.showToast(HTMLUtil.format(finalMessage), long = true)
                 }
                 .subscribeOn(AndroidSchedulers.mainThread())
         } else {

@@ -10,7 +10,7 @@ import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import ch.rmy.android.http_shortcuts.R
 
-fun Context.showToast(message: String, long: Boolean = false) {
+fun Context.showToast(message: CharSequence, long: Boolean = false) {
     Toast.makeText(this, message, if (long) Toast.LENGTH_LONG else Toast.LENGTH_SHORT).show()
 }
 
