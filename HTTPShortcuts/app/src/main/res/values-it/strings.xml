@@ -480,7 +480,7 @@ Tutte le scorciatoie contenute all'interno verranno eliminate."</string>
     <string name="label_variable_time_format">"Formato ora"</string>
 
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
-    <string name="variable_type_constant">"Variabile Statica (Costante)"</string>
+    <string name="variable_type_constant">"Variabile Statica"</string>
 
     <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
     <string name="variable_type_text">"Inserimento Testo"</string>

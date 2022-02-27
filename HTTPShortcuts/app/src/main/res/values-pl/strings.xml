@@ -507,7 +507,7 @@ Wszystkie zawarte w nim skróty zostaną usunięte."</string>
     <string name="label_variable_time_format">"Format czasu"</string>
 
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
-    <string name="variable_type_constant">"Zmienna statyczna (stała)"</string>
+    <string name="variable_type_constant">"Zmienna statyczna"</string>
 
     <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
     <string name="variable_type_text">"Zmienna tekstowa"</string>

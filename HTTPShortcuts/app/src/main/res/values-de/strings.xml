@@ -479,7 +479,7 @@ Alle darin enthaltenen Shortcuts werden gelöscht."</string>
     <string name="label_variable_time_format">"Zeitformat"</string>
 
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
-    <string name="variable_type_constant">"Statische Variable (Konstante)"</string>
+    <string name="variable_type_constant">"Statische Variable"</string>
 
     <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
     <string name="variable_type_text">"Texteingabe"</string>
@@ -582,7 +582,7 @@ Du hast jedoch noch keine Variablen konfiguriert."</string>
     <string name="help_text_code_snippet_get_variable_no_variable">"Du hast noch keine Variablen erstellt. Klicke den ERSTELLEN-Knopf um loszulegen."</string>
 
     <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_set_variable_no_variable">"Du hast noch keine statischen Variablen (Konstanten) erstellt dessen Wert verändert werden könnte. Klicke den ERSTELLEN-Knopf um loszulegen."</string>
+    <string name="help_text_code_snippet_set_variable_no_variable">"Du hast noch keine statischen Variablen erstellt dessen Wert verändert werden könnte. Klicke den ERSTELLEN-Knopf um loszulegen."</string>
 
     <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
     <string name="button_create_first_variable">"Erstellen"</string>
@@ -1666,4 +1666,7 @@ Klicke den + Knopf um loszulegen."</string>
 
     <!-- Placeholder: help text shown for body content input field, where the user can define the HTTP request body -->
     <string name="placeholder_request_body_content">"Gib hier den HTTP Request-Body ein. Mit dem \"{}\"-Knopf kannst Variablen-Platzhalter einfügen."</string>
+
+    <!-- Shortcut Action Description: Enqueue a shortcut, i.e., execute it after the current one finishes -->
+    <string name="action_type_trigger_shortcut_description">"Führe einen anderen Shortcut nach dem aktuellen aus"</string>
 </resources>

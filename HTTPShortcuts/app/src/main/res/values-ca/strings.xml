@@ -64,6 +64,12 @@
     <!-- Shortcut dropdown option: Move the shortcut to a different category -->
     <string name="action_move_to_category">"Moure categoria…"</string>
 
+    <!-- Empty state, shown in list when there are no shortcuts yet -->
+    <string name="empty_state_shortcuts">"No teniu cap drecera encara."</string>
+
+    <!-- Empty state, shown in list when there are no variables yet -->
+    <string name="empty_state_variables">"No teniu cap variable encara."</string>
+
     <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
     <string name="confirm_delete_shortcut_message">"Esborrar aquesta drecera?"</string>
 
@@ -200,8 +206,17 @@
     <!-- Fuzzy -->
     <string name="settings_export">"Exporta dreceres"</string>
 
+    <!-- Success message, shown in snackbar when export of shortcuts is successful -->
+    <plurals name="shortcut_export_success">
+        <item quantity="one">"1 drecera exportada."</item>
+        <item quantity="other">"%d dreceres exportades."</item>
+    </plurals>
+
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
     <string name="export_in_progress">"Exportant…"</string>
+
+    <!-- Error message: Import failed due to invalid JSON syntax in the import file -->
+    <string name="import_failure_reason_invalid_json">"JSON no vàlid"</string>
 
     <!-- Message shown in progress dialog while shortcuts are being imported -->
     <string name="import_in_progress">"En curs d'importació…"</string>
@@ -213,6 +228,12 @@
     <plurals name="seconds">
         <item quantity="one">"%d segon"</item>
         <item quantity="other">"%d segons"</item>
+    </plurals>
+
+    <!-- Used in various places to indicate a number of milliseconds, e.g. for a delay. %s is a placeholder for the actual number. -->
+    <plurals name="milliseconds">
+        <item quantity="one">"%d milisegon"</item>
+        <item quantity="other">"%d milisegons"</item>
     </plurals>
 
     <!-- Used in various places to indicate a number of minutes, e.g. for a delay. %s is a placeholder for the actual number. -->
@@ -715,4 +736,58 @@ Per a més informació consulteu la documentació a la secció de variables."</s
 
     <!-- Snackbar message: App was unlocked (settings can be changed again) -->
     <string name="message_app_unlocked">"Aplicació desbloquejada"</string>
+
+    <!-- Title of dark mode theme settings (which allows user to pick how/when the app should use dark mode) -->
+    <string name="settings_dark_theme">"Mode fosc"</string>
+
+    <!-- Section title in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger -->
+    <string name="label_trigger_shortcuts">"Dreceres"</string>
+
+    <!-- Section subtitle in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger. No shortcuts set. -->
+    <string name="label_trigger_shortcuts_subtitle_none">"Cap drecera seleccionada encara"</string>
+
+    <!-- Shortcut Action Title: Wait for a number of milliseconds before continuing with the script execution -->
+    <string name="action_type_wait">"Espera"</string>
+
+    <!-- Label for text area in shortcut editor that allows to enter a custom message which should be displayed when the request succeeds -->
+    <string name="label_response_handling_success_message">"Missatge"</string>
+
+    <!-- Name of button in settings screen that allows to clear all HTTP cookies -->
+    <string name="settings_clear_cookies">"Esborra galetes"</string>
+
+    <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor, to decide whether cookies should be stored for the HTTP request -->
+    <string name="label_accept_cookies">"Guarda galetes"</string>
+
+    <!-- Message, shown in dialog, to ask the user to confirm the deletion of all cookies -->
+    <string name="confirm_clear_cookies_message">"Esborra totes les galetes guardades?"</string>
+
+    <!-- Action label: Shown on menu button to save changes in the Global Scripting editor -->
+    <string name="action_save_global_scripting">"Desa els canvis"</string>
+
+    <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
+    <string name="placeholder_deleted_shortcut">"Drecera esborrada"</string>
+
+    <!-- Title of option in settings screen: links the user to an external documentation page -->
+    <string name="settings_documentation">"Documentació"</string>
+
+    <!-- Dialog title: Shown in progress dialog while a file is being saved -->
+    <string name="saving_in_progress">"Desant…"</string>
+
+    <!-- Section title on import/export screen for options related to importing -->
+    <string name="settings_title_import">"Importa"</string>
+
+    <!-- Section title on import/export screen for options related to exporting -->
+    <string name="settings_title_export">"Exporta"</string>
+
+    <!-- Title of dialog, for entering the password for a client cert file -->
+    <string name="title_client_cert_file_password">"Contrasenya"</string>
+
+    <!-- label, shown in variable editor for Select Input variable, to allow the user to specify a separator when using multi-select -->
+    <string name="label_select_variable_separator">"Separador"</string>
+
+    <!-- Shortcut Action Title: Open a URL (e.g. in a browser) -->
+    <string name="action_type_open_url_title">"Obre URL"</string>
+
+    <!-- Shortcut Action Title: Open another app (via its package name) -->
+    <string name="action_type_open_app_title">"Obre app"</string>
 </resources>

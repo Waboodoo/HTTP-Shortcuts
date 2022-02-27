@@ -485,7 +485,7 @@ Başlamak için + düğmesini tıklayın veya Hakkında bölümündeki Belgeleri
     <string name="label_variable_time_format">"Zaman formatı"</string>
 
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
-    <string name="variable_type_constant">"Statik Değişken (Sabit)"</string>
+    <string name="variable_type_constant">"Statik Değişken"</string>
 
     <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
     <string name="variable_type_text">"Metin Girişi"</string>

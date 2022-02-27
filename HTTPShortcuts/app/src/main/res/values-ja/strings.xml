@@ -477,7 +477,7 @@
     <string name="label_variable_time_format">"時刻の形式"</string>
 
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
-    <string name="variable_type_constant">"固定変数（定数）"</string>
+    <string name="variable_type_constant">"固定変数"</string>
 
     <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
     <string name="variable_type_text">"テキスト入力"</string>

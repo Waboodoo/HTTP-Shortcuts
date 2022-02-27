@@ -480,7 +480,7 @@ Tous les raccourcis contenus dans cette catégorie seront supprimés."</string>
 
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
     <!-- Fuzzy -->
-    <string name="variable_type_constant">"Constante"</string>
+    <string name="variable_type_constant">"Variable statique"</string>
 
     <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
     <string name="variable_type_text">"Saisie de texte"</string>

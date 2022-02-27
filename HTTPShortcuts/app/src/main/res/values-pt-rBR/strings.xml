@@ -385,7 +385,7 @@ Todos os atalhos contidos nela serão excluídos."</string>
 
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
     <!-- Fuzzy -->
-    <string name="variable_type_constant">"Constante"</string>
+    <string name="variable_type_constant">"Variável estática"</string>
 
     <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
     <string name="variable_type_text">"Campo de Texto"</string>

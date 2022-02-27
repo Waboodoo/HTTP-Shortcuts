@@ -476,7 +476,7 @@ Az összes benne található parancsikon törlődik."</string>
     <string name="label_variable_time_format">"Idő formátum"</string>
 
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
-    <string name="variable_type_constant">"Statikus változó (állandó)"</string>
+    <string name="variable_type_constant">"Statikus változó"</string>
 
     <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
     <string name="variable_type_text">"Szöveg bevitele"</string>
