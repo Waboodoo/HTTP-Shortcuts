@@ -178,7 +178,9 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                     onDataLoaded()
                 },
                 { error ->
-                    logException(error)
+                    if (error !is NoSuchElementException) {
+                        logException(error)
+                    }
                     showToast(getString(R.string.shortcut_not_found), long = true)
                     finishWithoutAnimation()
                 },
