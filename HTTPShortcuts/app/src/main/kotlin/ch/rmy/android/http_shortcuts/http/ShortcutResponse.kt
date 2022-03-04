@@ -27,7 +27,7 @@ class ShortcutResponse internal constructor(
             .flatten()
             .map { it.split(';', limit = 2).first() }
             .map { it.split('=', limit = 2) }
-            .map { it[0] to it[1] }
+            .map { it[0] to it.getOrElse(1) { "" } }
             .let { cookies ->
                 mutableMapOf<String, MutableList<String>>()
                     .apply {
