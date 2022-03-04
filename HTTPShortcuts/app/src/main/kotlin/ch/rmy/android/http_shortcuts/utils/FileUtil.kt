@@ -22,7 +22,7 @@ object FileUtil {
         getUriFromFile(context, File(context.cacheDir, file))
 
     fun getOutputStream(context: Context, uri: Uri) =
-        context.contentResolver.openOutputStream(uri, "w")!!
+        context.contentResolver.openOutputStream(uri, "wt")!!
 
     fun getWriter(context: Context, uri: Uri) =
         BufferedWriter(OutputStreamWriter(getOutputStream(context, uri)))
