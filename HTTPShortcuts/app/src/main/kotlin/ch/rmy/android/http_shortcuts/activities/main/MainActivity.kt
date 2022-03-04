@@ -62,9 +62,11 @@ class MainActivity : BaseActivity(), Entrypoint {
 
     override fun onCreate() {
         viewModel.initialize(
-            selectionMode = determineMode(intent.action),
-            initialCategoryId = intent?.extras?.getString(EXTRA_CATEGORY_ID),
-            widgetId = WidgetManager.getWidgetIdFromIntent(intent),
+            MainViewModel.InitData(
+                selectionMode = determineMode(intent.action),
+                initialCategoryId = intent?.extras?.getString(EXTRA_CATEGORY_ID),
+                widgetId = WidgetManager.getWidgetIdFromIntent(intent),
+            )
         )
         initViews()
         initUserInputBindings()
@@ -110,6 +112,7 @@ class MainActivity : BaseActivity(), Entrypoint {
 
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
+            binding.loadingIndicator.visible = false
             setTitle(viewState.toolbarTitleLocalizable)
             adapter.setCategories(viewState.categoryTabItems, viewState.selectionMode)
             setTabLongPressListener()

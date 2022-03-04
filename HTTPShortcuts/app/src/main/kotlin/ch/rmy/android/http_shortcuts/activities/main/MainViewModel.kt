@@ -36,29 +36,19 @@ import ch.rmy.curlcommand.CurlCommand
 import io.reactivex.Single
 import org.mindrot.jbcrypt.BCrypt
 
-class MainViewModel(application: Application) : BaseViewModel<Unit, MainViewState>(application) {
+class MainViewModel(application: Application) : BaseViewModel<MainViewModel.InitData, MainViewState>(application) {
 
     private val categoryRepository: CategoryRepository = CategoryRepository()
     private val appRepository: AppRepository = AppRepository()
     private val launcherShortcutMapper: LauncherShortcutMapper = LauncherShortcutMapper()
     private val eventBridge = EventBridge(ChildViewModelEvent::class.java)
 
-    private var initialized = false
-    private var initialCategoryId: String? = null
-    private var widgetId: Int? = null
     private lateinit var categories: List<Category>
 
-    private lateinit var selectionMode: SelectionMode
+    private val selectionMode
+        get() = initData.selectionMode
 
-    fun initialize(selectionMode: SelectionMode, initialCategoryId: String?, widgetId: Int?) {
-        if (initialized) {
-            return
-        }
-        initialized = true
-        this.selectionMode = selectionMode
-        this.initialCategoryId = initialCategoryId
-        this.widgetId = widgetId
-
+    override fun onInitializationStarted(data: InitData) {
         categoryRepository.getCategories()
             .subscribe { categories ->
                 this.categories = categories
@@ -70,7 +60,7 @@ class MainViewModel(application: Application) : BaseViewModel<Unit, MainViewStat
     override fun initViewState() = MainViewState(
         selectionMode = selectionMode,
         categoryTabItems = getCategoryTabItems(),
-        activeCategoryId = initialCategoryId ?: categories.first().id,
+        activeCategoryId = initData.initialCategoryId ?: categories.first().id,
         isInMovingMode = false,
         isLocked = false,
     )
@@ -99,8 +89,8 @@ class MainViewModel(application: Application) : BaseViewModel<Unit, MainViewStat
         if (selectionMode === SelectionMode.NORMAL) {
             emitEvent(MainEvent.ShowChangeLogDialogIfNeeded)
         } else {
-            if (selectionMode == SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT && widgetId != null) {
-                emitEvent(ViewModelEvent.SetResult(Activity.RESULT_CANCELED, WidgetManager.getIntent(widgetId!!)))
+            if (selectionMode == SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT && initData.widgetId != null) {
+                emitEvent(ViewModelEvent.SetResult(Activity.RESULT_CANCELED, WidgetManager.getIntent(initData.widgetId!!)))
             }
             if (
                 selectionMode == SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT ||
@@ -325,7 +315,7 @@ class MainViewModel(application: Application) : BaseViewModel<Unit, MainViewStat
     }
 
     private fun returnForHomeScreenWidgetPlacement(shortcutId: String, showLabel: Boolean, labelColor: String?) {
-        val widgetId = widgetId ?: return
+        val widgetId = initData.widgetId ?: return
         val widgetManager = WidgetManager()
         widgetManager
             .createWidget(widgetId, shortcutId, showLabel, labelColor)
@@ -395,4 +385,10 @@ class MainViewModel(application: Application) : BaseViewModel<Unit, MainViewStat
             intent = intent,
         )
     }
+
+    data class InitData(
+        val selectionMode: SelectionMode,
+        val initialCategoryId: String?,
+        val widgetId: Int?,
+    )
 }

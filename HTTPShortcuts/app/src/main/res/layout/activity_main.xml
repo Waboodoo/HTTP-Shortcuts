@@ -40,4 +40,11 @@
         android:layout_margin="16dp"
         android:visibility="gone"
         app:srcCompat="@drawable/ic_create" />
+
+    <include
+        android:id="@+id/loading_indicator"
+        layout="@layout/loading_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
