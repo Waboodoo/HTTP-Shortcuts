@@ -124,6 +124,7 @@ class VariableEditorActivity : BaseActivity() {
 
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
+            binding.loadingIndicator.visible = false
             binding.mainView.visible = true
             setTitle(viewState.title)
             setSubtitle(viewState.subtitle)

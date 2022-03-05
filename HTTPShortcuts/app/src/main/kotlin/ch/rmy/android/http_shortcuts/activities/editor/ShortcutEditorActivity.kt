@@ -109,6 +109,7 @@ class ShortcutEditorActivity : BaseActivity() {
 
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
+            binding.loadingIndicator.visible = false
             binding.mainView.visible = true
             val type = viewState.shortcutExecutionType
             setTitle(viewState.toolbarTitle)
