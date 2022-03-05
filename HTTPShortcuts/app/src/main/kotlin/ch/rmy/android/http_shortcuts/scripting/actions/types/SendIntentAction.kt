@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.FileUriExposedException
 import androidx.core.net.toUri
-import ch.rmy.android.framework.extensions.ifTrue
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.R
@@ -115,22 +114,18 @@ class SendIntentAction(private val jsonData: String) : BaseAction() {
                                 `package` = packageName
                             }
                     }
-                parameters.optBoolean(KEY_FLAG_CLEAR_TASK)
-                    .ifTrue {
-                        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                    }
-                parameters.optBoolean(KEY_FLAG_EXCLUDE_FROM_RECENTS)
-                    .ifTrue {
-                        addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS)
-                    }
-                parameters.optBoolean(KEY_FLAG_NEW_TASK)
-                    .ifTrue {
-                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    }
-                parameters.optBoolean(KEY_FLAG_NO_HISTORY)
-                    .ifTrue {
-                        addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
-                    }
+                if (parameters.optBoolean(KEY_FLAG_CLEAR_TASK)) {
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                }
+                if (parameters.optBoolean(KEY_FLAG_EXCLUDE_FROM_RECENTS)) {
+                    addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS)
+                }
+                if (parameters.optBoolean(KEY_FLAG_NEW_TASK)) {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }
+                if (parameters.optBoolean(KEY_FLAG_NO_HISTORY)) {
+                    addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+                }
                 parameters.optJSONArray(KEY_EXTRAS)
                     ?.toListOfObjects()
                     ?.forEach { extra ->

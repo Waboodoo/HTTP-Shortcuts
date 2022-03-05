@@ -22,7 +22,8 @@ fun color(context: Context, @ColorRes colorRes: Int): Int =
 fun drawable(context: Context, @DrawableRes drawableRes: Int): Drawable? =
     AppCompatResources.getDrawable(context, drawableRes)
 
-fun Activity.dimen(@DimenRes dimenRes: Int) = dimen(this, dimenRes)
+fun Activity.dimen(@DimenRes dimenRes: Int) =
+    dimen(this, dimenRes)
 
 fun dimen(context: Context, @DimenRes dimenRes: Int) =
     context.resources.getDimensionPixelSize(dimenRes)
@@ -62,13 +63,6 @@ fun Disposable.attachTo(destroyer: Destroyer) {
 
 fun <T> Map<String, T>.getCaseInsensitive(key: String): T? =
     entries.firstOrNull { it.key.equals(key, ignoreCase = true) }?.value
-
-inline fun <T> Boolean.ifTrue(block: () -> T): T? =
-    if (this) {
-        block.invoke()
-    } else {
-        null
-    }
 
 fun <T> MutableCollection<T>.safeRemoveIf(predicate: Predicate<T>) {
     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
