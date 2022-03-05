@@ -2,6 +2,7 @@ package ch.rmy.android.framework.utils.localization
 
 import android.content.Context
 import androidx.annotation.PluralsRes
+import ch.rmy.android.framework.extensions.logException
 
 class QuantityStringLocalizable(
     @PluralsRes val pluralsRes: Int,
@@ -11,7 +12,12 @@ class QuantityStringLocalizable(
     private val arguments = args.ifEmpty { arrayOf(count) }
 
     override fun localize(context: Context): CharSequence =
-        context.resources.getQuantityString(pluralsRes, count, *localizeArguments(context))
+        try {
+            context.resources.getQuantityString(pluralsRes, count, *localizeArguments(context))
+        } catch (e: Exception) {
+            logException(e)
+            "-- error --"
+        }
 
     private fun localizeArguments(context: Context) =
         arguments

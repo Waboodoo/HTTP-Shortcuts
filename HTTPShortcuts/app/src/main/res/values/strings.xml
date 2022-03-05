@@ -254,17 +254,17 @@
     <string name="label_client_cert_from_file_subtitle">A copy of the file and password will be stored inside the app without special protection. Use at your own risk.</string>
     <!-- Title of dialog, for entering the password for a client cert file -->
     <string name="title_client_cert_file_password">Password</string>
-    <!-- Used in various places to indicate a number of seconds, e.g. for a delay. %s is a placeholder for the actual number. -->
+    <!-- Used in various places to indicate a number of seconds, e.g. for a delay. %d is a placeholder for the actual number. -->
     <plurals name="seconds">
         <item quantity="one">%d second</item>
         <item quantity="other">%d seconds</item>
     </plurals>
-    <!-- Used in various places to indicate a number of milliseconds, e.g. for a delay. %s is a placeholder for the actual number. -->
+    <!-- Used in various places to indicate a number of milliseconds, e.g. for a delay. %d is a placeholder for the actual number. -->
     <plurals name="milliseconds">
         <item quantity="one">%d millisecond</item>
         <item quantity="other">%d milliseconds</item>
     </plurals>
-    <!-- Used in various places to indicate a number of minutes, e.g. for a delay. %s is a placeholder for the actual number. -->
+    <!-- Used in various places to indicate a number of minutes, e.g. for a delay. %d is a placeholder for the actual number. -->
     <plurals name="minutes">
         <item quantity="one">%d minute</item>
         <item quantity="other">%d minutes</item>

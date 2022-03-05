@@ -2,6 +2,7 @@ package ch.rmy.android.framework.utils.localization
 
 import android.content.Context
 import androidx.annotation.StringRes
+import ch.rmy.android.framework.extensions.logException
 
 class StringResLocalizable(
     @StringRes
@@ -11,7 +12,12 @@ class StringResLocalizable(
     private val arguments = args
 
     override fun localize(context: Context) =
-        context.getString(stringRes, *localizeArguments(context))
+        try {
+            context.getString(stringRes, *localizeArguments(context))
+        } catch (e: Exception) {
+            logException(e)
+            "-- error --"
+        }
 
     private fun localizeArguments(context: Context) =
         arguments
