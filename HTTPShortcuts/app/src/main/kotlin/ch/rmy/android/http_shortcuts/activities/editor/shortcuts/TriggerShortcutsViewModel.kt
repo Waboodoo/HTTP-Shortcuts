@@ -8,6 +8,7 @@ import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.framework.utils.localization.Localizable
+import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
@@ -139,10 +140,13 @@ class TriggerShortcutsViewModel(application: Application) :
     }
 
     fun onShortcutClicked(shortcutId: String) {
-        val shortcut = shortcuts
+        val message = shortcuts
             .firstOrNull { it.id == shortcutId }
-            ?: return
-        emitEvent(TriggerShortcutsEvent.ShowRemoveShortcutDialog(shortcutId, shortcut.name))
+            ?.let { shortcut ->
+                StringResLocalizable(R.string.message_remove_trigger_shortcut, shortcut.name)
+            }
+            ?: StringResLocalizable(R.string.message_remove_deleted_trigger_shortcut)
+        emitEvent(TriggerShortcutsEvent.ShowRemoveShortcutDialog(shortcutId, message))
     }
 
     data class InitData(

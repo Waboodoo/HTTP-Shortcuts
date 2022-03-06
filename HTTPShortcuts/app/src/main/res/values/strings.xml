@@ -971,6 +971,8 @@
     <string name="title_remove_trigger_shortcut">Remove Shortcut</string>
     <!-- Dialog message: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
     <string name="message_remove_trigger_shortcut">Remove shortcut \"%s\" from the list of triggered shortcuts?</string>
+    <!-- Dialog message: Shown in dialog when removing a deleted shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
+    <string name="message_remove_deleted_trigger_shortcut">Remove deleted shortcut from the list of triggered shortcuts?</string>
     <!-- Label for dropdown in shortcut editor, for picking how the response should be displayed -->
     <string name="label_response_handling_type">Display Type</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Toast popup -->

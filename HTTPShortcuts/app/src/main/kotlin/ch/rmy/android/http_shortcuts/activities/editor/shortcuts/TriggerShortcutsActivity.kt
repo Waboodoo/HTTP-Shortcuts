@@ -7,6 +7,7 @@ import ch.rmy.android.framework.extensions.mapFor
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.utils.DragOrderingHelper
+import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
@@ -93,7 +94,7 @@ class TriggerShortcutsActivity : BaseActivity() {
                 showShortcutPickerForAdding(event.placeholders)
             }
             is TriggerShortcutsEvent.ShowRemoveShortcutDialog -> {
-                showRemoveShortcutDialog(event.shortcutId, event.shortcutName)
+                showRemoveShortcutDialog(event.shortcutId, event.message)
             }
             else -> super.handleEvent(event)
         }
@@ -110,10 +111,10 @@ class TriggerShortcutsActivity : BaseActivity() {
             .showIfPossible()
     }
 
-    private fun showRemoveShortcutDialog(shortcutId: String, shortcutName: String) {
+    private fun showRemoveShortcutDialog(shortcutId: String, message: Localizable) {
         DialogBuilder(context)
             .title(R.string.title_remove_trigger_shortcut)
-            .message(getString(R.string.message_remove_trigger_shortcut, shortcutName))
+            .message(message)
             .positive(R.string.dialog_remove) {
                 viewModel.onRemoveShortcutDialogConfirmed(shortcutId)
             }
