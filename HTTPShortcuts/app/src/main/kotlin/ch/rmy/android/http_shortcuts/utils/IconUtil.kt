@@ -26,6 +26,8 @@ object IconUtil {
     private const val CUSTOM_ICON_NAME_SUFFIX = ".png"
     private const val CUSTOM_ICON_NAME_ALTERNATIVE_SUFFIX = ".jpg"
 
+    private const val CUSTOM_ICON_MAX_FILE_SIZE = 6 * 1024 * 1024
+
     private val CUSTOM_ICON_NAME_REGEX = "${quote(CUSTOM_ICON_NAME_PREFIX)}($UUID_REGEX)" +
         "(${quote(CUSTOM_ICON_NAME_SUFFIX)}|${quote(CUSTOM_ICON_NAME_ALTERNATIVE_SUFFIX)})"
     private val CUSTOM_ICON_NAME_PATTERN = CUSTOM_ICON_NAME_REGEX.toPattern(Pattern.CASE_INSENSITIVE)
@@ -129,8 +131,9 @@ object IconUtil {
     fun getCustomIconNamesInApp(context: Context): List<String> =
         context.filesDir
             .listFiles { file ->
-                file.name.matches(CUSTOM_ICON_NAME_REGEX.toRegex())
+                file.name.matches(CUSTOM_ICON_NAME_REGEX.toRegex()) && file.length() < CUSTOM_ICON_MAX_FILE_SIZE
             }
             ?.map { it.name }
+            ?.sorted()
             ?: emptyList()
 }
