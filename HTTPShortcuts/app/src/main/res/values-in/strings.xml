@@ -275,7 +275,7 @@ Klik tombol + untuk menambah variabel."</string>
 
     <!-- Used in various places to indicate a number of milliseconds, e.g. for a delay. %s is a placeholder for the actual number. -->
     <plurals name="milliseconds">
-        <item quantity="other">"% milidetik"</item>
+        <item quantity="other">"%d milidetik"</item>
     </plurals>
 
     <!-- Used in various places to indicate a number of minutes, e.g. for a delay. %s is a placeholder for the actual number. -->

@@ -71,13 +71,17 @@
     <string name="empty_state_shortcuts">"noch keine Shortcuts vorhanden"</string>
 
     <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
-    <string name="empty_state_shortcuts_instructions">"Klicke den + Knopf um loszulegen."</string>
+    <string name="empty_state_shortcuts_instructions">"Ein Shortcut ermöglicht es dir, einen einzelnen HTTP-Request zu senden, und nach Bedarf die Response zu verarbeiten und anzuzeigen.
+
+Drücke den + Knopf um loszulegen."</string>
 
     <!-- Empty state, shown in list when there are no variables yet -->
     <string name="empty_state_variables">"noch keine Variablen vorhanden"</string>
 
     <!-- Empty state instructions, shown in list when there are no variables yet -->
-    <string name="empty_state_variables_instructions">"Klicke den + Knopf um eine Variable zu erstellen."</string>
+    <string name="empty_state_variables_instructions">"Variablen ermöglichen es, dynamisch Werte in deine Shortcuts einzufügen, z.B. in die URL, die Header oder den Request-Body. Halte nach dem \"{}\"-Knopf Ausschau um zu sehen wo du Variablen verwenden kannst.
+
+Drücke den + Knopf um eine Variable zu erstellen."</string>
 
     <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
     <string name="confirm_delete_shortcut_message">"Diesen Shortcut wirklich löschen?"</string>
@@ -571,7 +575,7 @@ Alle darin enthaltenen Shortcuts werden gelöscht."</string>
     <!-- Instructions shown in dialog when user clicks the variables button in the shortcut editor but doesn't have any variables configured yet -->
     <string name="help_text_variable_button">"Dieser Knopf ermöglicht es dir, Variablenplatzhalter einzufügen. Mit diesen kannst du dynamische Werte einbinden.
 
-Du hast jedoch noch keine Variablen konfiguriert. Klicke auf den ERSTELLEN-Knopf unten um loszulegen."</string>
+Du hast jedoch noch keine Variablen konfiguriert. Drücke den ERSTELLEN-Knopf unten um loszulegen."</string>
 
     <!-- Instructions shown in dialog when user clicks the variables button in the variable editor but doesn't have any variables configured yet -->
     <string name="help_text_variable_button_for_variables">"Dieser Knopf ermöglicht es dir, Variablenplatzhalter einzufügen welche auf andere Variablen verweisen.
@@ -579,10 +583,10 @@ Du hast jedoch noch keine Variablen konfiguriert. Klicke auf den ERSTELLEN-Knopf
 Du hast jedoch noch keine Variablen konfiguriert."</string>
 
     <!-- Instructions shown in code snippet picker when the user selects the "Get Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_get_variable_no_variable">"Du hast noch keine Variablen erstellt. Klicke den ERSTELLEN-Knopf um loszulegen."</string>
+    <string name="help_text_code_snippet_get_variable_no_variable">"Du hast noch keine Variablen erstellt. Drücke den ERSTELLEN-Knopf um loszulegen."</string>
 
     <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_set_variable_no_variable">"Du hast noch keine statischen Variablen erstellt dessen Wert verändert werden könnte. Klicke den ERSTELLEN-Knopf um loszulegen."</string>
+    <string name="help_text_code_snippet_set_variable_no_variable">"Du hast noch keine statischen Variablen erstellt dessen Wert verändert werden könnte. Drücke den ERSTELLEN-Knopf um loszulegen."</string>
 
     <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
     <string name="button_create_first_variable">"Erstellen"</string>
@@ -922,13 +926,13 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
     <string name="empty_state_request_headers">"Keine Headers gesetzt"</string>
 
     <!-- Empty state instructions, shown in list when there are no custom request headers yet -->
-    <string name="empty_state_request_headers_instructions">"Klicke den + Knopf um Header hinzuzufügen."</string>
+    <string name="empty_state_request_headers_instructions">"Drücke den + Knopf um Header hinzuzufügen."</string>
 
     <!-- Empty state, shown in list when there are no request parameters yet -->
     <string name="empty_state_request_parameters">"Keine Parameter gesetzt"</string>
 
     <!-- Empty state instructions, shown in list when there are no parameters yet -->
-    <string name="empty_state_request_parameters_instructions">"Klicke den + Knopf um Header hinzuzufügen."</string>
+    <string name="empty_state_request_parameters_instructions">"Drücke den + Knopf um Header hinzuzufügen."</string>
 
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor. -->
     <string name="label_follow_redirects">"Weiterleitungen folgen"</string>
@@ -1321,13 +1325,13 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <string name="instructions_remote_edit_step_1">"Gib ein Passwort in das Textfeld oben ein."</string>
 
     <!-- Instruction step for editing shortcuts remotely from a computer: click the push button -->
-    <string name="instructions_remote_edit_step_2">"Klicke den &lt;pre&gt;\"Hochladen\"&lt;/pre&gt;-Knopf."</string>
+    <string name="instructions_remote_edit_step_2">"Drücke den &lt;pre&gt;\"Hochladen\"&lt;/pre&gt;-Knopf."</string>
 
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
     <string name="instructions_remote_edit_step_3">"Öffne %s in einem Browser auf deinem Computer, gib die Geräte-ID und dein Passwort ein und du kannst mit Änderungen loslegen."</string>
 
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
-    <string name="instructions_remote_edit_step_4">"Wenn du fertig bist und deine Änderungen gespeichert hast, klicke den &lt;pre&gt;\"Änderungen herunterladen\"&lt;/pre&gt;-Knopf unten."</string>
+    <string name="instructions_remote_edit_step_4">"Wenn du fertig bist und deine Änderungen gespeichert hast, drücke den &lt;pre&gt;\"Änderungen herunterladen\"&lt;/pre&gt;-Knopf unten."</string>
 
     <!-- Button label: Shown in "Edit on Computer" feature, allows to push all shortcuts and variables to the editing server -->
     <string name="button_remote_edit_upload">"Hochladen"</string>
@@ -1641,7 +1645,7 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts_instructions">"Füge hier diejenigen Shortcuts ein, welche du als Teil des Multi-Shortcuts aufrufen möchtest.
 
-Klicke den + Knopf um loszulegen."</string>
+Drücke den + Knopf um loszulegen."</string>
 
     <!-- Shortcut Action Title: Open a URL (e.g. in a browser) -->
     <string name="action_type_open_url_title">"URL öffnen"</string>
@@ -1669,4 +1673,7 @@ Klicke den + Knopf um loszulegen."</string>
 
     <!-- Shortcut Action Description: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_description">"Führe einen anderen Shortcut nach dem aktuellen aus"</string>
+
+    <!-- Dialog message: Shown in dialog when removing a deleted shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
+    <string name="message_remove_deleted_trigger_shortcut">"Gelöschten Shortcut aus Liste der auszulösenden Shortcuts entfernen?"</string>
 </resources>
