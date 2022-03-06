@@ -29,7 +29,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 
 class ImportExportActivity : BaseActivity() {
 
-    override fun onCreate() {
+    override fun onCreated(savedState: Bundle?) {
         setContentView(R.layout.activity_import_export)
         setTitle(R.string.title_import_export)
         supportFragmentManager

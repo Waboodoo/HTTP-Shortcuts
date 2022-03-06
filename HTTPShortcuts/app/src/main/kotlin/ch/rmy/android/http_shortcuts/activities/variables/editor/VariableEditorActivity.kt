@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.variables.editor
 
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import ch.rmy.android.framework.extensions.attachTo
@@ -44,7 +45,7 @@ class VariableEditorActivity : BaseActivity() {
 
     private lateinit var binding: ActivityVariableEditorBinding
 
-    override fun onCreate() {
+    override fun onCreated(savedState: Bundle?) {
         viewModel.initialize(
             VariableEditorViewModel.InitData(
                 variableId = variableId,

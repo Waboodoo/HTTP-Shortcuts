@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.misc
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import ch.rmy.android.framework.extensions.attachTo
@@ -26,7 +27,7 @@ class CurlImportActivity : BaseActivity() {
 
     private lateinit var binding: ActivityCurlImportBinding
 
-    override fun onCreate() {
+    override fun onCreated(savedState: Bundle?) {
         binding = applyBinding(ActivityCurlImportBinding.inflate(layoutInflater))
         setTitle(R.string.title_curl_import)
 

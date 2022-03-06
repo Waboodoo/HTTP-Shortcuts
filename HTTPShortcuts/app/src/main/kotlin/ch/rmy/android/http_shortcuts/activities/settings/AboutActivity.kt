@@ -16,7 +16,7 @@ import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 
 class AboutActivity : BaseActivity() {
 
-    override fun onCreate() {
+    override fun onCreated(savedState: Bundle?) {
         setContentView(R.layout.activity_about)
         setTitle(R.string.title_about)
         supportFragmentManager

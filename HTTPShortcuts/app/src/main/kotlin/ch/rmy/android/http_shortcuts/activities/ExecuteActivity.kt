@@ -7,6 +7,7 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import android.widget.ImageView
 import androidx.core.app.ActivityCompat
 import androidx.core.net.toUri
@@ -147,7 +148,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
             .attachTo(destroyer)
     }
 
-    override fun onCreate() {
+    override fun onCreated(savedState: Bundle?) {
         SessionMonitor.onSessionStarted()
 
         appRepository.getGlobalCode()

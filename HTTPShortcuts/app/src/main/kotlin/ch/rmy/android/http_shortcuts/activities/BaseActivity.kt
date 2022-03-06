@@ -30,7 +30,7 @@ abstract class BaseActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         try {
             RealmFactory.init(applicationContext)
-            onCreate()
+            onCreated(savedInstanceState)
         } catch (e: RealmFactory.RealmNotFoundException) {
             if (this is Entrypoint) {
                 showRealmError()
@@ -40,7 +40,7 @@ abstract class BaseActivity : BaseActivity() {
         }
     }
 
-    protected open fun onCreate() {
+    protected open fun onCreated(savedState: Bundle?) {
         // intentionally left blank
     }
 

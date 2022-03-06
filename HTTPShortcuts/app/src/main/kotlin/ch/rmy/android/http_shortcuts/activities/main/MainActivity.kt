@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.activities.main
 import android.app.Activity
 import android.appwidget.AppWidgetManager
 import android.content.Intent
+import android.os.Bundle
 import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
@@ -60,7 +61,7 @@ class MainActivity : BaseActivity(), Entrypoint {
     private var menuItemVariables: MenuItem? = null
     private var menuItemUnlock: MenuItem? = null
 
-    override fun onCreate() {
+    override fun onCreated(savedState: Bundle?) {
         viewModel.initialize(
             MainViewModel.InitData(
                 selectionMode = determineMode(intent.action),

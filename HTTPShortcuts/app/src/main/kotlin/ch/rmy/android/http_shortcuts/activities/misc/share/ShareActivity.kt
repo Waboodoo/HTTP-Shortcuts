@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.activities.misc.share
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.finishWithoutAnimation
@@ -25,7 +26,7 @@ class ShareActivity : BaseActivity(), Entrypoint {
 
     private val viewModel: ShareViewModel by bindViewModel()
 
-    override fun onCreate() {
+    override fun onCreated(savedState: Bundle?) {
         val text = intent.getStringExtra(Intent.EXTRA_TEXT)
         cacheFiles(getFileUris()) { cachedFiles ->
             viewModel.initialize(ShareViewModel.InitData(text, cachedFiles))

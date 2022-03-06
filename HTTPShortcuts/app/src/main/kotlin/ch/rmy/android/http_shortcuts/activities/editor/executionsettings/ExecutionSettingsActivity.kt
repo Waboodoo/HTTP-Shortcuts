@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.editor.executionsettings
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.SeekBar
 import android.widget.TextView
@@ -29,7 +30,7 @@ class ExecutionSettingsActivity : BaseActivity() {
 
     private lateinit var binding: ActivityExecutionSettingsBinding
 
-    override fun onCreate() {
+    override fun onCreated(savedState: Bundle?) {
         viewModel.initialize()
         initViews()
         initUserInputBindings()

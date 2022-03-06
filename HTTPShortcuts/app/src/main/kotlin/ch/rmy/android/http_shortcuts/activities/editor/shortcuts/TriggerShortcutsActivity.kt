@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.editor.shortcuts
 
+import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
@@ -29,7 +30,7 @@ class TriggerShortcutsActivity : BaseActivity() {
 
     private var isDraggingEnabled = false
 
-    override fun onCreate() {
+    override fun onCreated(savedState: Bundle?) {
         viewModel.initialize(TriggerShortcutsViewModel.InitData(currentShortcutId))
         initViews()
         initUserInputBindings()

@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.editor.headers
 
 import android.content.Context
+import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
@@ -25,7 +26,7 @@ class RequestHeadersActivity : BaseActivity() {
     private lateinit var adapter: RequestHeadersAdapter
     private var isDraggingEnabled = false
 
-    override fun onCreate() {
+    override fun onCreated(savedState: Bundle?) {
         viewModel.initialize()
         initViews()
         initUserInputBindings()

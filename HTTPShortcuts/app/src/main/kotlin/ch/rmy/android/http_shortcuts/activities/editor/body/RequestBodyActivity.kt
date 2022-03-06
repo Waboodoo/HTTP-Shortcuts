@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.editor.body
 
+import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import ch.rmy.android.framework.extensions.attachTo
@@ -32,7 +33,7 @@ class RequestBodyActivity : BaseActivity() {
 
     private var isDraggingEnabled = false
 
-    override fun onCreate() {
+    override fun onCreated(savedState: Bundle?) {
         viewModel.initialize()
         initViews()
         initUserInputBindings()

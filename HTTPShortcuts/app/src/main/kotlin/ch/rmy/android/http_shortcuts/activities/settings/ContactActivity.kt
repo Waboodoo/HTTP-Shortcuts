@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.core.net.toUri
@@ -35,7 +36,7 @@ class ContactActivity : BaseActivity() {
             }
         }
 
-    override fun onCreate() {
+    override fun onCreated(savedState: Bundle?) {
         binding = applyBinding(ActivityContactBinding.inflate(layoutInflater))
         setTitle(R.string.title_contact)
 

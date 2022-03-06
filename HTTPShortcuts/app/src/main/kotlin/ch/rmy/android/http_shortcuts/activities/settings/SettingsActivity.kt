@@ -24,7 +24,7 @@ class SettingsActivity : BaseActivity() {
 
     private val viewModel: SettingsViewModel by bindViewModel()
 
-    override fun onCreate() {
+    override fun onCreated(savedState: Bundle?) {
         setContentView(R.layout.activity_settings)
         setTitle(R.string.title_settings)
         supportFragmentManager

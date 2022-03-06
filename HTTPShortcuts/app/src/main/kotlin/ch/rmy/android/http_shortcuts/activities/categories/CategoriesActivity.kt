@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.categories
 
+import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,7 +29,7 @@ class CategoriesActivity : BaseActivity() {
     private lateinit var adapter: CategoryAdapter
     private var isDraggingEnabled = false
 
-    override fun onCreate() {
+    override fun onCreated(savedState: Bundle?) {
         viewModel.initialize()
         initViews()
         initUserInputBindings()

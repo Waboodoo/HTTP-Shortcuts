@@ -5,6 +5,7 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Typeface
 import android.net.Uri
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.Menu
@@ -85,7 +86,7 @@ class DisplayResponseActivity : BaseActivity() {
         intent?.extras?.getBoolean(EXTRA_DETAILS, false) ?: false
     }
 
-    override fun onCreate() {
+    override fun onCreated(savedState: Bundle?) {
         title = shortcutName
         updateViews()
     }

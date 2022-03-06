@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.activities.editor.advancedsettings
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import android.text.InputType
 import android.view.LayoutInflater
 import android.widget.SeekBar
@@ -49,7 +50,7 @@ class AdvancedSettingsActivity : BaseActivity() {
 
     private lateinit var binding: ActivityAdvancedSettingsBinding
 
-    override fun onCreate() {
+    override fun onCreated(savedState: Bundle?) {
         viewModel.initialize()
         initViews()
         initUserInputBindings()

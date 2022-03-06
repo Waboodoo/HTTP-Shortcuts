@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.widget
 
 import android.content.Intent
+import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import ch.rmy.android.framework.extensions.bindViewModel
@@ -23,7 +24,7 @@ class WidgetSettingsActivity : BaseActivity() {
 
     private val viewModel: WidgetSettingsViewModel by bindViewModel()
 
-    override fun onCreate() {
+    override fun onCreated(savedState: Bundle?) {
         viewModel.initialize(
             WidgetSettingsViewModel.InitData(
                 shortcutId = intent.getStringExtra(EXTRA_SHORTCUT_ID)!!,

@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.editor.scripting
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.view.Menu
 import android.view.MenuItem
@@ -70,7 +71,7 @@ class ScriptingActivity : BaseActivity() {
 
     private var lastActiveCodeInput: EditText? = null
 
-    override fun onCreate() {
+    override fun onCreated(savedState: Bundle?) {
         viewModel.initialize()
         initViews()
         initUserInputBindings()

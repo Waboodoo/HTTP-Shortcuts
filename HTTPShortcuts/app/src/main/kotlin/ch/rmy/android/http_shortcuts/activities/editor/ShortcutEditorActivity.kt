@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.editor
 
 import android.content.Intent
+import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import ch.rmy.android.framework.extensions.attachTo
@@ -38,7 +39,7 @@ class ShortcutEditorActivity : BaseActivity() {
         }
     }
 
-    override fun onCreate() {
+    override fun onCreated(savedState: Bundle?) {
         viewModel.initialize(
             ShortcutEditorViewModel.InitData(
                 categoryId = intent.getStringExtra(EXTRA_CATEGORY_ID),

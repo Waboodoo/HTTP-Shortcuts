@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.variables
 
+import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,7 +28,7 @@ class VariablesActivity : BaseActivity() {
 
     private var isDraggingEnabled = false
 
-    override fun onCreate() {
+    override fun onCreated(savedState: Bundle?) {
         viewModel.initialize()
         initViews()
         initUserInputBindings()

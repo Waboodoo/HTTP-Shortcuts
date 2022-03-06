@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.plugin
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Bundle
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.ui.Entrypoint
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
@@ -18,7 +19,7 @@ class PluginEditActivity : BaseActivity(), TaskerPluginConfig<Input>, Entrypoint
 
     private val variableRepository = VariableRepository()
 
-    override fun onCreate() {
+    override fun onCreated(savedState: Bundle?) {
         Intent(this, MainActivity::class.java)
             .setAction(ACTION_SELECT_SHORTCUT_FOR_PLUGIN)
             .startActivity(this, REQUEST_SELECT)

@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.editor.basicsettings
 
+import android.os.Bundle
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.initialize
@@ -22,7 +23,7 @@ class BasicRequestSettingsActivity : BaseActivity() {
 
     private lateinit var binding: ActivityBasicRequestSettingsBinding
 
-    override fun onCreate() {
+    override fun onCreated(savedState: Bundle?) {
         viewModel.initialize()
         initViews()
         initUserInputBindings()

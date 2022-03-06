@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.misc.deeplink
 
+import android.os.Bundle
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.ui.Entrypoint
@@ -12,7 +13,7 @@ class DeepLinkActivity : BaseActivity(), Entrypoint {
 
     private val viewModel: DeepLinkViewModel by bindViewModel()
 
-    override fun onCreate() {
+    override fun onCreated(savedState: Bundle?) {
         viewModel.initialize(DeepLinkViewModel.InitData(intent.data))
         initViewModelBindings()
     }

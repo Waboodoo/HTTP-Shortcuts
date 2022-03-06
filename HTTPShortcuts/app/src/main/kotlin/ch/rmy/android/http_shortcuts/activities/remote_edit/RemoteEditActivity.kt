@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.activities.remote_edit
 import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
+import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.core.net.toUri
@@ -30,7 +31,7 @@ class RemoteEditActivity : BaseActivity() {
 
     private lateinit var binding: ActivityRemoteEditBinding
 
-    override fun onCreate() {
+    override fun onCreated(savedState: Bundle?) {
         binding = applyBinding(ActivityRemoteEditBinding.inflate(layoutInflater))
 
         binding.remoteEditDeviceId.text = viewModel.deviceId

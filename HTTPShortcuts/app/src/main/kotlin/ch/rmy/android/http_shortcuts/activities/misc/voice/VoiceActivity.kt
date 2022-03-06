@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.misc.voice
 
 import android.app.SearchManager
+import android.os.Bundle
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.ui.Entrypoint
@@ -13,7 +14,7 @@ class VoiceActivity : BaseActivity(), Entrypoint {
 
     private val viewModel: VoiceViewModel by bindViewModel()
 
-    override fun onCreate() {
+    override fun onCreated(savedState: Bundle?) {
         viewModel.initialize(VoiceViewModel.InitData(intent.getStringExtra(SearchManager.QUERY)))
         initViewModelBindings()
     }

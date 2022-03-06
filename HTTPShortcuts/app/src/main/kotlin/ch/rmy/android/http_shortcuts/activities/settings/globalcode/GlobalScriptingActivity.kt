@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.settings.globalcode
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.view.Menu
 import android.view.MenuItem
@@ -64,7 +65,7 @@ class GlobalScriptingActivity : BaseActivity() {
     private lateinit var binding: ActivityGlobalScriptingBinding
     private var saveButton: MenuItem? = null
 
-    override fun onCreate() {
+    override fun onCreated(savedState: Bundle?) {
         viewModel.initialize()
         initViews()
         initUserInputBindings()

@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.editor.response
 
+import android.os.Bundle
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.initialize
@@ -23,7 +24,7 @@ class ResponseActivity : BaseActivity() {
 
     private lateinit var binding: ActivityResponseBinding
 
-    override fun onCreate() {
+    override fun onCreated(savedState: Bundle?) {
         viewModel.initialize()
         initViews()
         initUserInputBindings()
