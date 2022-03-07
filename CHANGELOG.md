@@ -1,3 +1,15 @@
+## Version 2.13.1
+
+### Bugfixes
+- Deleted shortcuts can now be removed again from Multi-Shortcuts
+- When exporting shortcuts and overwriting a file, the exported file no longer gets corrupted
+- App no longer crashes when encountering a cookie without a value
+- Added missing error handling for large responses
+- Added missing loading states to some screens
+- Improved resilience against crashes due to very large custom icons
+- Fixed an issue with Indonesian translations and improved resilience against similar issues
+- The state of the Acknowledgements screen is now preserved when the screen orientation changes
+
 ## Version 2.13.0
 
 This version includes a massive refactoring under the hood, so there's a good chance that some new bugs or small changes in behavior were introduced. Please let me know if you find something unusual.
