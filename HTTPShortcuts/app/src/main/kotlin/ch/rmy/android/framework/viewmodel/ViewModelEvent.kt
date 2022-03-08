@@ -31,7 +31,7 @@ abstract class ViewModelEvent {
         val intent: Intent,
     ) : ViewModelEvent()
 
-    // TODO: Refactor this so that it does not depend on actual view classes, and only contains data
+    @Deprecated("Use DialogState instead")
     class ShowDialog(val dialogBuilder: (context: Context) -> Dialog?) : ViewModelEvent()
 
     class ShowSnackbar(

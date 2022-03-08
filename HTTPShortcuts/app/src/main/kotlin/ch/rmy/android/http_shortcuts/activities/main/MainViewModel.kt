@@ -3,14 +3,18 @@ package ch.rmy.android.http_shortcuts.activities.main
 import android.app.Activity
 import android.app.Application
 import android.content.Intent
+import android.text.InputType
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.mapIf
+import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.EventBridge
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
+import ch.rmy.android.framework.viewmodel.WithDialog
+import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.categories.CategoriesActivity
 import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
@@ -36,7 +40,7 @@ import ch.rmy.curlcommand.CurlCommand
 import io.reactivex.Single
 import org.mindrot.jbcrypt.BCrypt
 
-class MainViewModel(application: Application) : BaseViewModel<MainViewModel.InitData, MainViewState>(application) {
+class MainViewModel(application: Application) : BaseViewModel<MainViewModel.InitData, MainViewState>(application), WithDialog {
 
     private val categoryRepository: CategoryRepository = CategoryRepository()
     private val appRepository: AppRepository = AppRepository()
@@ -197,8 +201,12 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
 
     fun onToolbarTitleClicked() {
         if (selectionMode == SelectionMode.NORMAL && !currentViewState.isLocked) {
-            emitEvent(MainEvent.ShowToolbarTitleChangeDialog(currentViewState.toolbarTitle))
+            showToolbarTitleChangeDialog(currentViewState.toolbarTitle)
         }
+    }
+
+    private fun showToolbarTitleChangeDialog(oldTitle: String) {
+        setDialogState(createToolbarTitleChangeDialog(this, oldTitle))
     }
 
     fun onCreationDialogOptionSelected(executionType: ShortcutExecutionType) {
@@ -216,7 +224,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     fun onCreateShortcutButtonClicked() {
-        emitEvent(MainEvent.ShowCreationDialog)
+        setDialogState(createShortcutCreationDialog(this))
     }
 
     fun onToolbarTitleChangeSubmitted(newTitle: String) {
@@ -237,7 +245,11 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     fun onUnlockButtonClicked() {
-        emitEvent(MainEvent.ShowUnlockDialog(StringResLocalizable(R.string.dialog_text_unlock_app)))
+        showUnlockDialog(StringResLocalizable(R.string.dialog_text_unlock_app))
+    }
+
+    private fun showUnlockDialog(message: Localizable) {
+        setDialogState(createUnlockDialog(this, message))
     }
 
     fun onAppLocked() {
@@ -260,7 +272,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
                     if (unlocked) {
                         showSnackbar(R.string.message_app_unlocked)
                     } else {
-                        emitEvent(MainEvent.ShowUnlockDialog(StringResLocalizable(R.string.dialog_text_unlock_app_retry)))
+                        showUnlockDialog(StringResLocalizable(R.string.dialog_text_unlock_app_retry))
                     }
                 }
                 .ignoreElement()
@@ -304,7 +316,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
 
     private fun returnForHomeScreenShortcutPlacement(shortcutId: String) {
         if (LauncherShortcutManager.supportsPinning(context)) {
-            emitEvent(MainEvent.ShowShortcutPlacementDialog(shortcutId))
+            showShortcutPlacementDialog(this, shortcutId)
         } else {
             placeShortcutOnHomeScreenAndFinish(shortcutId)
         }
@@ -386,9 +398,91 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         )
     }
 
+    override fun onDialogDismissed() {
+        setDialogState(null)
+    }
+
+    private fun setDialogState(dialogState: DialogState?) {
+        updateViewState {
+            copy(dialogState = dialogState)
+        }
+    }
+
     data class InitData(
         val selectionMode: SelectionMode,
         val initialCategoryId: String?,
         val widgetId: Int?,
     )
+
+    companion object {
+        private const val TITLE_MAX_LENGTH = 50
+
+        private fun createShortcutCreationDialog(viewModel: MainViewModel): DialogState =
+            DialogState.create {
+                title(R.string.title_create_new_shortcut_options_dialog)
+                    .item(R.string.button_create_new) {
+                        viewModel.onCreationDialogOptionSelected(ShortcutExecutionType.APP)
+                    }
+                    .item(R.string.button_curl_import) {
+                        viewModel.onCurlImportOptionSelected()
+                    }
+                    .separator()
+                    .item(
+                        nameRes = R.string.button_create_trigger_shortcut,
+                        descriptionRes = R.string.button_description_create_trigger_shortcut,
+                    ) {
+                        viewModel.onCreationDialogOptionSelected(ShortcutExecutionType.TRIGGER)
+                    }
+                    .item(
+                        nameRes = R.string.button_create_browser_shortcut,
+                        descriptionRes = R.string.button_description_create_browser_shortcut,
+                    ) {
+                        viewModel.onCreationDialogOptionSelected(ShortcutExecutionType.BROWSER)
+                    }
+                    .item(
+                        nameRes = R.string.button_create_scripting_shortcut,
+                        descriptionRes = R.string.button_description_create_scripting_shortcut,
+                    ) {
+                        viewModel.onCreationDialogOptionSelected(ShortcutExecutionType.SCRIPTING)
+                    }
+                    .neutral(R.string.dialog_help) {
+                        viewModel.onCreationDialogHelpButtonClicked()
+                    }
+            }
+
+        private fun createUnlockDialog(viewModel: MainViewModel, message: Localizable) =
+            DialogState.create {
+                title(R.string.dialog_title_unlock_app)
+                    .message(message)
+                    .positive(R.string.button_unlock_app)
+                    .textInput(inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD) { input ->
+                        viewModel.onUnlockDialogSubmitted(input)
+                    }
+                    .negative(R.string.dialog_cancel)
+            }
+
+        private fun createToolbarTitleChangeDialog(viewModel: MainViewModel, oldTitle: String) =
+            DialogState.create {
+                title(R.string.title_set_title)
+                    .textInput(
+                        prefill = oldTitle,
+                        allowEmpty = true,
+                        maxLength = TITLE_MAX_LENGTH,
+                    ) { newTitle ->
+                        viewModel.onToolbarTitleChangeSubmitted(newTitle)
+                    }
+            }
+
+        private fun showShortcutPlacementDialog(viewModel: MainViewModel, shortcutId: String) =
+            DialogState.create {
+                title(R.string.title_select_placement_method)
+                    .message(R.string.description_select_placement_method)
+                    .positive(R.string.label_placement_method_default) {
+                        viewModel.onShortcutPlacementConfirmed(shortcutId, useLegacyMethod = false)
+                    }
+                    .negative(R.string.label_placement_method_legacy) {
+                        viewModel.onShortcutPlacementConfirmed(shortcutId, useLegacyMethod = true)
+                    }
+            }
+    }
 }

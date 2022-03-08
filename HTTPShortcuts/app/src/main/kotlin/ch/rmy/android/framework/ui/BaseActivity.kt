@@ -1,8 +1,10 @@
 package ch.rmy.android.framework.ui
 
+import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.graphics.Color
+import android.os.Bundle
 import android.view.MenuItem
 import android.view.ViewGroup
 import android.view.WindowManager
@@ -18,12 +20,15 @@ import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.openURL
 import ch.rmy.android.framework.extensions.setSubtitle
 import ch.rmy.android.framework.extensions.setTintCompat
+import ch.rmy.android.framework.extensions.showIfPossible
 import ch.rmy.android.framework.extensions.showSnackbar
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.utils.Destroyer
 import ch.rmy.android.framework.utils.SnackbarManager
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
+import ch.rmy.android.framework.viewmodel.WithDialog
+import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -34,6 +39,15 @@ abstract class BaseActivity : AppCompatActivity() {
 
     val baseView: ViewGroup?
         get() = (findViewById<ViewGroup>(android.R.id.content))?.getChildAt(0) as ViewGroup?
+
+    private var currentDialogState: DialogState? = null
+    private var currentDialog: Dialog? = null
+    private var savedDialogState: Bundle? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        savedDialogState = savedInstanceState?.getBundle(EXTRA_DIALOG_INSTANCE_STATE)
+    }
 
     override fun onStart() {
         super.onStart()
@@ -142,8 +156,31 @@ abstract class BaseActivity : AppCompatActivity() {
         toolbar?.setSubtitle(subtitle)
     }
 
+    protected fun setDialogState(dialogState: DialogState?, viewModel: WithDialog) {
+        if (currentDialogState == dialogState) {
+            return
+        }
+        currentDialog?.dismiss()
+        currentDialogState = dialogState
+        currentDialog = dialogState?.createDialog(context, viewModel)
+        currentDialog?.showIfPossible()
+        savedDialogState?.let { currentDialog?.onRestoreInstanceState(it) }
+        savedDialogState = null
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        currentDialog?.let { dialog ->
+            outState.putBundle(EXTRA_DIALOG_INSTANCE_STATE, dialog.onSaveInstanceState())
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         destroyer.destroy()
+    }
+
+    companion object {
+        private const val EXTRA_DIALOG_INSTANCE_STATE = "dialog-instance-state"
     }
 }

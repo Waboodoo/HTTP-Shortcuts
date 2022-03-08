@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.dialogs
 
 import io.reactivex.Single
 
+@Deprecated("Split dialogs into DialogState and a helper class for determining whether it should be shown")
 interface Dialog {
 
     fun shouldShow(): Boolean

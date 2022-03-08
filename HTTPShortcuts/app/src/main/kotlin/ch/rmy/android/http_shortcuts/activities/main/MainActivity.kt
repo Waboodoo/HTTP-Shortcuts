@@ -4,7 +4,6 @@ import android.app.Activity
 import android.appwidget.AppWidgetManager
 import android.content.Intent
 import android.os.Bundle
-import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
 import androidx.viewpager.widget.ViewPager
@@ -18,7 +17,6 @@ import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.framework.ui.BaseFragment
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.ui.Entrypoint
-import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
@@ -30,10 +28,8 @@ import ch.rmy.android.http_shortcuts.activities.settings.SettingsActivity
 import ch.rmy.android.http_shortcuts.activities.widget.WidgetSettingsActivity
 import ch.rmy.android.http_shortcuts.data.dtos.LauncherShortcut
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
-import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.databinding.ActivityMainBinding
 import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog
-import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.dialogs.NetworkRestrictionWarningDialog
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.plugin.PluginEditActivity
@@ -127,6 +123,7 @@ class MainActivity : BaseActivity(), Entrypoint {
             menuItemVariables?.isVisible = viewState.isRegularMenuButtonVisible
             menuItemUnlock?.isVisible = viewState.isUnlockButtonVisible
             setToolbarScrolling(viewState.isToolbarScrollable)
+            setDialogState(viewState.dialogState, viewModel)
         }
         viewModel.events.observe(this, ::handleEvent)
     }
@@ -142,13 +139,9 @@ class MainActivity : BaseActivity(), Entrypoint {
 
     override fun handleEvent(event: ViewModelEvent) {
         when (event) {
-            is MainEvent.ShowCreationDialog -> showCreationDialog()
-            is MainEvent.ShowToolbarTitleChangeDialog -> showToolbarTitleChangeDialog(event.oldTitle)
             is MainEvent.ScheduleExecutions -> scheduleExecutions()
             is MainEvent.UpdateLauncherShortcuts -> updateLauncherShortcuts(event.shortcuts)
             is MainEvent.ShowChangeLogDialogIfNeeded -> showChangeLogDialogIfNeeded()
-            is MainEvent.ShowUnlockDialog -> showUnlockDialog(event.message)
-            is MainEvent.ShowShortcutPlacementDialog -> showShortcutPlacementDialog(event.shortcutId)
             else -> super.handleEvent(event)
         }
     }
@@ -157,53 +150,6 @@ class MainActivity : BaseActivity(), Entrypoint {
         executionScheduler.schedule()
             .subscribe()
             .attachTo(destroyer)
-    }
-
-    private fun showCreationDialog() {
-        DialogBuilder(context)
-            .title(R.string.title_create_new_shortcut_options_dialog)
-            .item(R.string.button_create_new) {
-                viewModel.onCreationDialogOptionSelected(ShortcutExecutionType.APP)
-            }
-            .item(R.string.button_curl_import) {
-                viewModel.onCurlImportOptionSelected()
-            }
-            .separator()
-            .item(
-                nameRes = R.string.button_create_trigger_shortcut,
-                descriptionRes = R.string.button_description_create_trigger_shortcut,
-            ) {
-                viewModel.onCreationDialogOptionSelected(ShortcutExecutionType.TRIGGER)
-            }
-            .item(
-                nameRes = R.string.button_create_browser_shortcut,
-                descriptionRes = R.string.button_description_create_browser_shortcut,
-            ) {
-                viewModel.onCreationDialogOptionSelected(ShortcutExecutionType.BROWSER)
-            }
-            .item(
-                nameRes = R.string.button_create_scripting_shortcut,
-                descriptionRes = R.string.button_description_create_scripting_shortcut,
-            ) {
-                viewModel.onCreationDialogOptionSelected(ShortcutExecutionType.SCRIPTING)
-            }
-            .neutral(R.string.dialog_help) {
-                viewModel.onCreationDialogHelpButtonClicked()
-            }
-            .showIfPossible()
-    }
-
-    private fun showToolbarTitleChangeDialog(oldTitle: String) {
-        DialogBuilder(context)
-            .title(R.string.title_set_title)
-            .textInput(
-                prefill = oldTitle,
-                allowEmpty = true,
-                maxLength = TITLE_MAX_LENGTH,
-            ) { newTitle ->
-                viewModel.onToolbarTitleChangeSubmitted(newTitle)
-            }
-            .showIfPossible()
     }
 
     private fun updateLauncherShortcuts(shortcuts: List<LauncherShortcut>) {
@@ -220,31 +166,6 @@ class MainActivity : BaseActivity(), Entrypoint {
             )
             .subscribe({}, {})
             .attachTo(destroyer)
-    }
-
-    private fun showUnlockDialog(message: Localizable) {
-        DialogBuilder(context)
-            .title(R.string.dialog_title_unlock_app)
-            .message(message)
-            .positive(R.string.button_unlock_app)
-            .textInput(inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD) { input ->
-                viewModel.onUnlockDialogSubmitted(input)
-            }
-            .negative(R.string.dialog_cancel)
-            .showIfPossible()
-    }
-
-    private fun showShortcutPlacementDialog(shortcutId: String) {
-        DialogBuilder(context)
-            .title(R.string.title_select_placement_method)
-            .message(R.string.description_select_placement_method)
-            .positive(R.string.label_placement_method_default) {
-                viewModel.onShortcutPlacementConfirmed(shortcutId, useLegacyMethod = false)
-            }
-            .negative(R.string.label_placement_method_legacy) {
-                viewModel.onShortcutPlacementConfirmed(shortcutId, useLegacyMethod = true)
-            }
-            .showIfPossible()
     }
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
@@ -370,7 +291,5 @@ class MainActivity : BaseActivity(), Entrypoint {
         const val REQUEST_CATEGORIES = 4
         const val REQUEST_WIDGET_SETTINGS = 5
         const val REQUEST_IMPORT_EXPORT = 6
-
-        private const val TITLE_MAX_LENGTH = 50
     }
 }
