@@ -24,4 +24,7 @@ abstract class BaseIntentBuilder(private val clazz: Class<*>) {
     fun startActivity(context: Context, requestCode: Int? = null) {
         build(context).startActivity(context, requestCode)
     }
+
+    override fun toString() =
+        "IntentBuilder(${clazz.simpleName})"
 }

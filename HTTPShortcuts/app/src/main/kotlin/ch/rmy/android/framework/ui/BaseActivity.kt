@@ -13,6 +13,7 @@ import ch.rmy.android.framework.extensions.color
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.drawable
 import ch.rmy.android.framework.extensions.finishWithoutAnimation
+import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.openURL
 import ch.rmy.android.framework.extensions.setSubtitle
@@ -91,6 +92,7 @@ abstract class BaseActivity : AppCompatActivity() {
     open fun handleEvent(event: ViewModelEvent) {
         when (event) {
             is ViewModelEvent.OpenActivity -> {
+                logInfo("handleEvent: Opening activity for ${event.intentBuilder}")
                 try {
                     event.intentBuilder.startActivity(this, event.requestCode)
                 } catch (e: ActivityNotFoundException) {
@@ -101,9 +103,11 @@ abstract class BaseActivity : AppCompatActivity() {
                 sendBroadcast(event.intent)
             }
             is ViewModelEvent.OpenURL -> {
+                logInfo("handleEvent: Opening URL ${event.url}")
                 openURL(event.url)
             }
             is ViewModelEvent.Finish -> {
+                logInfo("handleEvent: Finishing (result=${event.result}, skipAnimation=${event.skipAnimation})")
                 if (event.result != null) {
                     setResult(event.result, event.intent)
                 }
@@ -114,6 +118,7 @@ abstract class BaseActivity : AppCompatActivity() {
                 }
             }
             is ViewModelEvent.SetResult -> {
+                logInfo("handleEvent: Setting result (result=${event.result})")
                 setResult(event.result, event.intent)
             }
             is ViewModelEvent.ShowDialog -> {
@@ -125,7 +130,7 @@ abstract class BaseActivity : AppCompatActivity() {
             is ViewModelEvent.ShowToast -> {
                 showToast(event.message.localize(context).toString(), long = event.long)
             }
-            else -> logInfo("Unhandled event: $event")
+            else -> logException(IllegalArgumentException("Unhandled event: $event"))
         }
     }
 

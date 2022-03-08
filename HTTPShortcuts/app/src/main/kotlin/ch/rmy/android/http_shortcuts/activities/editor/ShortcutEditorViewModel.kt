@@ -92,9 +92,9 @@ class ShortcutEditorViewModel(application: Application) : BaseViewModel<Shortcut
                 {
                     observeTemporaryShortcut()
                 },
-                {
+                { error ->
                     finish()
-                    showSnackbar(R.string.error_generic)
+                    handleUnexpectedError(error)
                 },
             )
             .attachTo(destroyer)
