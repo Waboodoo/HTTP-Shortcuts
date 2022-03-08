@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.icons
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.Canvas
 import android.graphics.Color
 import android.net.Uri
 import android.util.AttributeSet
@@ -71,5 +72,13 @@ class IconView : AppCompatImageView {
         tint == Color.BLACK
     } else {
         tint == Color.WHITE
+    }
+
+    override fun onDraw(canvas: Canvas?) {
+        try {
+            super.onDraw(canvas)
+        } catch (e: RuntimeException) {
+            setImageResource(R.drawable.bitsies_cancel)
+        }
     }
 }
