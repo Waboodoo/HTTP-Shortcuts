@@ -1,6 +1,8 @@
 package ch.rmy.android.http_shortcuts.activities.misc
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import ch.rmy.android.framework.extensions.isDarkThemeEnabled
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.framework.ui.BaseIntentBuilder
@@ -12,15 +14,23 @@ class AcknowledgmentActivity : BaseActivity() {
 
     private lateinit var binding: ActivityAcknowledgmentsBinding
 
+    @SuppressLint("SetJavaScriptEnabled")
     override fun onCreated(savedState: Bundle?) {
         tryOrLog {
             binding = applyBinding(ActivityAcknowledgmentsBinding.inflate(layoutInflater))
             setTitle(R.string.title_licenses)
             with(binding.acknowledgmentsWebview) {
+                settings.javaScriptEnabled = true
                 if (savedState != null) {
                     restoreState(savedState)
                 } else {
-                    loadUrl(ACKNOWLEDGMENTS_ASSET_URL)
+                    loadUrl(
+                        if (context.isDarkThemeEnabled()) {
+                            ACKNOWLEDGMENTS_ASSET_URL_DARK_MODE
+                        } else {
+                            ACKNOWLEDGMENTS_ASSET_URL
+                        },
+                    )
                 }
             }
         }
@@ -40,5 +50,6 @@ class AcknowledgmentActivity : BaseActivity() {
     companion object {
 
         private const val ACKNOWLEDGMENTS_ASSET_URL = "file:///android_asset/acknowledgments.html"
+        private const val ACKNOWLEDGMENTS_ASSET_URL_DARK_MODE = "$ACKNOWLEDGMENTS_ASSET_URL?dark"
     }
 }
