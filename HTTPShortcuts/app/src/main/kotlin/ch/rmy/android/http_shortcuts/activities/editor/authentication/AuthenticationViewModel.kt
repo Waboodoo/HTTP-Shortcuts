@@ -79,7 +79,7 @@ class AuthenticationViewModel(application: Application) : BaseViewModel<Unit, Au
 
     fun onPasswordChanged(password: String) {
         updateViewState {
-            copy(username = username)
+            copy(password = password)
         }
 
         performOperation(
@@ -89,7 +89,7 @@ class AuthenticationViewModel(application: Application) : BaseViewModel<Unit, Au
 
     fun onTokenChanged(token: String) {
         updateViewState {
-            copy(username = username)
+            copy(token = token)
         }
 
         performOperation(
