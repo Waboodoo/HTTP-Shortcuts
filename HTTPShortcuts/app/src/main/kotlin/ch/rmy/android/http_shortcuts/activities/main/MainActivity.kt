@@ -29,8 +29,6 @@ import ch.rmy.android.http_shortcuts.activities.widget.WidgetSettingsActivity
 import ch.rmy.android.http_shortcuts.data.dtos.LauncherShortcut
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.databinding.ActivityMainBinding
-import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog
-import ch.rmy.android.http_shortcuts.dialogs.NetworkRestrictionWarningDialog
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.plugin.PluginEditActivity
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
@@ -141,7 +139,6 @@ class MainActivity : BaseActivity(), Entrypoint {
         when (event) {
             is MainEvent.ScheduleExecutions -> scheduleExecutions()
             is MainEvent.UpdateLauncherShortcuts -> updateLauncherShortcuts(event.shortcuts)
-            is MainEvent.ShowChangeLogDialogIfNeeded -> showChangeLogDialogIfNeeded()
             else -> super.handleEvent(event)
         }
     }
@@ -154,18 +151,6 @@ class MainActivity : BaseActivity(), Entrypoint {
 
     private fun updateLauncherShortcuts(shortcuts: List<LauncherShortcut>) {
         LauncherShortcutManager.updateAppShortcuts(context, shortcuts)
-    }
-
-    private fun showChangeLogDialogIfNeeded() {
-        ChangeLogDialog(context, whatsNew = true)
-            .showIfNeeded()
-            .ignoreElement()
-            .andThen(
-                NetworkRestrictionWarningDialog(context)
-                    .showIfNeeded()
-            )
-            .subscribe({}, {})
-            .attachTo(destroyer)
     }
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {

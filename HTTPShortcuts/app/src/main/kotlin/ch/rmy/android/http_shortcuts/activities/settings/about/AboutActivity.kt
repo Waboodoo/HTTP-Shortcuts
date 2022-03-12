@@ -1,22 +1,32 @@
-package ch.rmy.android.http_shortcuts.activities.settings
+package ch.rmy.android.http_shortcuts.activities.settings.about
 
-import android.content.pm.PackageManager.NameNotFoundException
 import android.os.Bundle
 import androidx.preference.Preference
-import ch.rmy.android.framework.extensions.attachTo
+import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.initialize
+import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.openURL
-import ch.rmy.android.framework.extensions.showSnackbar
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.utils.InstallUtil
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.misc.AcknowledgmentActivity
-import ch.rmy.android.http_shortcuts.dialogs.ChangeLogDialog
+import ch.rmy.android.http_shortcuts.activities.settings.BaseSettingsFragment
+import ch.rmy.android.http_shortcuts.activities.settings.ContactActivity
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
+import ch.rmy.android.http_shortcuts.utils.VersionUtil
 
 class AboutActivity : BaseActivity() {
 
+    val viewModel: AboutViewModel by bindViewModel()
+
     override fun onCreated(savedState: Bundle?) {
+        viewModel.initialize()
+        initViews()
+        initViewModelBindings()
+    }
+
+    private fun initViews() {
         setContentView(R.layout.activity_about)
         setTitle(R.string.title_about)
         supportFragmentManager
@@ -25,18 +35,23 @@ class AboutActivity : BaseActivity() {
             .commit()
     }
 
+    private fun initViewModelBindings() {
+        viewModel.viewState.observe(this) { viewState ->
+            setDialogState(viewState.dialogState, viewModel)
+        }
+        viewModel.events.observe(this, ::handleEvent)
+    }
+
     class AboutFragment : BaseSettingsFragment() {
+
+        private val viewModel: AboutViewModel
+            get() = (activity as AboutActivity).viewModel
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.about, rootKey)
 
             initPreference("changelog") {
-                ChangeLogDialog(requireContext(), false)
-                    .show()
-                    .subscribe({}, {
-                        showSnackbar(R.string.error_generic, long = true)
-                    })
-                    .attachTo(destroyer)
+                viewModel.onChangeLogButtonClicked()
             }
                 .summary = getString(R.string.settings_changelog_summary, versionName)
 
@@ -78,11 +93,7 @@ class AboutActivity : BaseActivity() {
         }
 
         private val versionName: String
-            get() = try {
-                requireContext().packageManager.getPackageInfo(requireContext().packageName, 0).versionName
-            } catch (e: NameNotFoundException) {
-                "???"
-            }
+            get() = VersionUtil.getVersionName(requireContext())
 
         private fun contactDeveloper() {
             ContactActivity.IntentBuilder()

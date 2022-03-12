@@ -180,7 +180,7 @@
                 android:value=".activities.main.MainActivity" />
         </activity>
         <activity
-            android:name=".activities.settings.AboutActivity"
+            android:name=".activities.settings.about.AboutActivity"
             android:label="@string/title_about"
             android:parentActivityName=".activities.main.MainActivity"
             android:windowSoftInputMode="adjustResize">

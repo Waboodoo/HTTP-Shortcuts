@@ -7,6 +7,4 @@ abstract class MainEvent : ViewModelEvent() {
     object ScheduleExecutions : MainEvent()
 
     data class UpdateLauncherShortcuts(val shortcuts: List<LauncherShortcut>) : MainEvent()
-
-    object ShowChangeLogDialogIfNeeded : MainEvent()
 }

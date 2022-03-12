@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts.activities.main
 import android.app.Activity
 import android.app.Application
 import android.content.Intent
-import android.text.InputType
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logInfo
@@ -18,10 +17,17 @@ import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.categories.CategoriesActivity
 import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
+import ch.rmy.android.http_shortcuts.activities.main.usecases.GetNetworkRestrictionDialogUseCase
+import ch.rmy.android.http_shortcuts.activities.main.usecases.GetShortcutCreationDialogUseCase
+import ch.rmy.android.http_shortcuts.activities.main.usecases.GetShortcutPlacementDialogUseCase
+import ch.rmy.android.http_shortcuts.activities.main.usecases.GetToolbarTitleChangeDialogUseCase
+import ch.rmy.android.http_shortcuts.activities.main.usecases.GetUnlockDialogUseCase
+import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowChangeLogDialogUseCase
+import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowNetworkRestrictionDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.misc.CurlImportActivity
-import ch.rmy.android.http_shortcuts.activities.settings.AboutActivity
 import ch.rmy.android.http_shortcuts.activities.settings.ImportExportActivity
 import ch.rmy.android.http_shortcuts.activities.settings.SettingsActivity
+import ch.rmy.android.http_shortcuts.activities.settings.about.AboutActivity
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.activities.widget.WidgetSettingsActivity
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
@@ -32,9 +38,11 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.toLauncherShortcut
+import ch.rmy.android.http_shortcuts.usecases.GetChangeLogDialogUseCase
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
+import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
 import ch.rmy.curlcommand.CurlCommand
 import io.reactivex.Single
@@ -46,6 +54,15 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     private val appRepository: AppRepository = AppRepository()
     private val launcherShortcutMapper: LauncherShortcutMapper = LauncherShortcutMapper()
     private val eventBridge = EventBridge(ChildViewModelEvent::class.java)
+    private val shouldShowChangeLogDialog = ShouldShowChangeLogDialogUseCase(context)
+    private val settings = Settings(context)
+    private val getChangeLogDialog = GetChangeLogDialogUseCase(settings)
+    private val getToolbarTitleChangeDialog = GetToolbarTitleChangeDialogUseCase()
+    private val getShortcutPlacementDialog = GetShortcutPlacementDialogUseCase()
+    private val getUnlockDialog = GetUnlockDialogUseCase()
+    private val getShortcutCreationDialog = GetShortcutCreationDialogUseCase()
+    private val getNetworkRestrictionDialog = GetNetworkRestrictionDialogUseCase(settings)
+    private val shouldShowNetworkRestrictionDialog = ShouldShowNetworkRestrictionDialogUseCase(context, settings)
 
     private lateinit var categories: List<Category>
 
@@ -91,7 +108,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         updateLauncherShortcuts()
 
         if (selectionMode === SelectionMode.NORMAL) {
-            emitEvent(MainEvent.ShowChangeLogDialogIfNeeded)
+            showStartupDialogsIfNeeded()
         } else {
             if (selectionMode == SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT && initData.widgetId != null) {
                 emitEvent(ViewModelEvent.SetResult(Activity.RESULT_CANCELED, WidgetManager.getIntent(initData.widgetId!!)))
@@ -103,6 +120,20 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
             ) {
                 showToast(R.string.instructions_select_shortcut_for_home_screen, long = true)
             }
+        }
+    }
+
+    private fun showStartupDialogsIfNeeded() {
+        if (shouldShowChangeLogDialog()) {
+            setDialogState(getChangeLogDialog(whatsNew = true))
+        } else {
+            showNetworkRestrictionWarningDialogIfNeeded()
+        }
+    }
+
+    private fun showNetworkRestrictionWarningDialogIfNeeded() {
+        if (shouldShowNetworkRestrictionDialog()) {
+            setDialogState(getNetworkRestrictionDialog())
         }
     }
 
@@ -206,7 +237,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     private fun showToolbarTitleChangeDialog(oldTitle: String) {
-        setDialogState(createToolbarTitleChangeDialog(this, oldTitle))
+        setDialogState(getToolbarTitleChangeDialog(this, oldTitle))
     }
 
     fun onCreationDialogOptionSelected(executionType: ShortcutExecutionType) {
@@ -224,7 +255,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     fun onCreateShortcutButtonClicked() {
-        setDialogState(createShortcutCreationDialog(this))
+        setDialogState(getShortcutCreationDialog(this))
     }
 
     fun onToolbarTitleChangeSubmitted(newTitle: String) {
@@ -249,7 +280,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     private fun showUnlockDialog(message: Localizable) {
-        setDialogState(createUnlockDialog(this, message))
+        setDialogState(getUnlockDialog(this, message))
     }
 
     fun onAppLocked() {
@@ -316,7 +347,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
 
     private fun returnForHomeScreenShortcutPlacement(shortcutId: String) {
         if (LauncherShortcutManager.supportsPinning(context)) {
-            showShortcutPlacementDialog(this, shortcutId)
+            setDialogState(getShortcutPlacementDialog(this, shortcutId))
         } else {
             placeShortcutOnHomeScreenAndFinish(shortcutId)
         }
@@ -398,8 +429,13 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         )
     }
 
-    override fun onDialogDismissed() {
-        setDialogState(null)
+    override fun onDialogDismissed(id: String?) {
+        atomicallyUpdateViewState {
+            setDialogState(null)
+            if (id == GetChangeLogDialogUseCase.DIALOG_ID) {
+                showNetworkRestrictionWarningDialogIfNeeded()
+            }
+        }
     }
 
     private fun setDialogState(dialogState: DialogState?) {
@@ -413,76 +449,4 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         val initialCategoryId: String?,
         val widgetId: Int?,
     )
-
-    companion object {
-        private const val TITLE_MAX_LENGTH = 50
-
-        private fun createShortcutCreationDialog(viewModel: MainViewModel): DialogState =
-            DialogState.create {
-                title(R.string.title_create_new_shortcut_options_dialog)
-                    .item(R.string.button_create_new) {
-                        viewModel.onCreationDialogOptionSelected(ShortcutExecutionType.APP)
-                    }
-                    .item(R.string.button_curl_import) {
-                        viewModel.onCurlImportOptionSelected()
-                    }
-                    .separator()
-                    .item(
-                        nameRes = R.string.button_create_trigger_shortcut,
-                        descriptionRes = R.string.button_description_create_trigger_shortcut,
-                    ) {
-                        viewModel.onCreationDialogOptionSelected(ShortcutExecutionType.TRIGGER)
-                    }
-                    .item(
-                        nameRes = R.string.button_create_browser_shortcut,
-                        descriptionRes = R.string.button_description_create_browser_shortcut,
-                    ) {
-                        viewModel.onCreationDialogOptionSelected(ShortcutExecutionType.BROWSER)
-                    }
-                    .item(
-                        nameRes = R.string.button_create_scripting_shortcut,
-                        descriptionRes = R.string.button_description_create_scripting_shortcut,
-                    ) {
-                        viewModel.onCreationDialogOptionSelected(ShortcutExecutionType.SCRIPTING)
-                    }
-                    .neutral(R.string.dialog_help) {
-                        viewModel.onCreationDialogHelpButtonClicked()
-                    }
-            }
-
-        private fun createUnlockDialog(viewModel: MainViewModel, message: Localizable) =
-            DialogState.create {
-                title(R.string.dialog_title_unlock_app)
-                    .message(message)
-                    .positive(R.string.button_unlock_app)
-                    .textInput(inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD) { input ->
-                        viewModel.onUnlockDialogSubmitted(input)
-                    }
-                    .negative(R.string.dialog_cancel)
-            }
-
-        private fun createToolbarTitleChangeDialog(viewModel: MainViewModel, oldTitle: String) =
-            DialogState.create {
-                title(R.string.title_set_title)
-                    .textInput(
-                        prefill = oldTitle,
-                        allowEmpty = true,
-                        maxLength = TITLE_MAX_LENGTH,
-                    ) { newTitle ->
-                        viewModel.onToolbarTitleChangeSubmitted(newTitle)
-                    }
-            }
-
-        private fun showShortcutPlacementDialog(viewModel: MainViewModel, shortcutId: String) =
-            DialogState.create {
-                title(R.string.title_select_placement_method)
-                    .message(R.string.description_select_placement_method)
-                    .positive(R.string.label_placement_method_default) {
-                        viewModel.onShortcutPlacementConfirmed(shortcutId, useLegacyMethod = false)
-                    }
-                    .negative(R.string.label_placement_method_legacy) {
-                        viewModel.onShortcutPlacementConfirmed(shortcutId, useLegacyMethod = true)
-                    }
-            }
-    }
 }

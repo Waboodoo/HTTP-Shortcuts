@@ -1,5 +1,5 @@
 package ch.rmy.android.framework.viewmodel
 
 interface WithDialog {
-    fun onDialogDismissed()
+    fun onDialogDismissed(id: String?)
 }

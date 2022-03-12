@@ -164,14 +164,20 @@ abstract class BaseActivity : AppCompatActivity() {
         currentDialogState = dialogState
         currentDialog = dialogState?.createDialog(context, viewModel)
         currentDialog?.showIfPossible()
-        savedDialogState?.let { currentDialog?.onRestoreInstanceState(it) }
+        currentDialog?.let { dialog ->
+            savedDialogState?.let { dialogState ->
+                currentDialogState?.restoreInstanceState(dialog, dialogState)
+            }
+        }
         savedDialogState = null
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         currentDialog?.let { dialog ->
-            outState.putBundle(EXTRA_DIALOG_INSTANCE_STATE, dialog.onSaveInstanceState())
+            currentDialogState?.let { dialogState ->
+                outState.putBundle(EXTRA_DIALOG_INSTANCE_STATE, dialogState.saveInstanceState(dialog))
+            }
         }
     }
 
