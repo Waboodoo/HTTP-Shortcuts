@@ -21,7 +21,6 @@ import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.ui.BaseFragment
 import ch.rmy.android.framework.utils.DragOrderingHelper
-import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
@@ -170,12 +169,9 @@ class ShortcutListFragment : BaseFragment<FragmentListBinding>() {
                 event.isPending,
                 event.isMovable,
             )
-            is ShortcutListEvent.ShowMoveOptionsDialog -> showMoveDialog(event.shortcutId)
             is ShortcutListEvent.ShowMoveToCategoryDialog -> showMoveToCategoryDialog(event.shortcutId, event.categoryOptions)
-            is ShortcutListEvent.ShowExportOptionsDialog -> showExportOptionsDialog(event.shortcutId)
             is ShortcutListEvent.ShowFileExportDialog -> showFileExportDialog(event.shortcutId, event.format, event.variableIds)
             is ShortcutListEvent.StartExport -> startExport(event.shortcutId, event.uri, event.format, event.variableIds)
-            is ShortcutListEvent.ShowDeleteDialog -> showDeleteDialog(event.shortcutId, event.title)
             else -> super.handleEvent(event)
         }
     }
@@ -219,17 +215,6 @@ class ShortcutListFragment : BaseFragment<FragmentListBinding>() {
             .showIfPossible()
     }
 
-    private fun showMoveDialog(shortcutId: String) {
-        DialogBuilder(requireContext())
-            .item(R.string.action_enable_moving) {
-                viewModel.onMoveModeOptionSelected()
-            }
-            .item(R.string.action_move_to_category) {
-                viewModel.onMoveToCategoryOptionSelected(shortcutId)
-            }
-            .showIfPossible()
-    }
-
     private fun showMoveToCategoryDialog(shortcutId: String, categoryOptions: List<ShortcutListEvent.ShowMoveToCategoryDialog.CategoryOption>) {
         DialogBuilder(requireContext())
             .title(R.string.title_move_to_category)
@@ -237,18 +222,6 @@ class ShortcutListFragment : BaseFragment<FragmentListBinding>() {
                 item(name = categoryOption.name) {
                     viewModel.onMoveTargetCategorySelected(shortcutId, categoryOption.categoryId)
                 }
-            }
-            .showIfPossible()
-    }
-
-    private fun showExportOptionsDialog(shortcutId: String) {
-        DialogBuilder(requireContext())
-            .title(R.string.title_export_shortcut_as)
-            .item(R.string.action_export_as_curl) {
-                viewModel.onExportAsCurlOptionSelected(shortcutId)
-            }
-            .item(R.string.action_export_as_file) {
-                viewModel.onExportAsFileOptionSelected(shortcutId)
             }
             .showIfPossible()
     }
@@ -266,17 +239,6 @@ class ShortcutListFragment : BaseFragment<FragmentListBinding>() {
 
     private fun startExport(shortcutId: String, uri: Uri, format: ExportFormat, variableIds: Collection<String>) {
         exportUI.startExport(uri, format = format, shortcutId = shortcutId, variableIds = variableIds)
-    }
-
-    private fun showDeleteDialog(shortcutId: String, title: Localizable) {
-        DialogBuilder(requireContext())
-            .title(title)
-            .message(R.string.confirm_delete_shortcut_message)
-            .positive(R.string.dialog_delete) {
-                viewModel.onDeletionConfirmed(shortcutId)
-            }
-            .negative(R.string.dialog_cancel)
-            .showIfPossible()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {

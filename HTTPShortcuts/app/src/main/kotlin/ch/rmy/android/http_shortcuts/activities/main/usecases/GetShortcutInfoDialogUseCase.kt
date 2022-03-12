@@ -15,11 +15,9 @@ class GetShortcutInfoDialogUseCase {
                 .view(R.layout.shortcut_info_dialog)
                 .positive(android.R.string.ok)
                 .build()
-                .apply {
-                    onShow {
-                        it.findViewById<TextView>(R.id.shortcut_id).text = shortcutId
-                        it.findViewById<TextView>(R.id.deep_link_url).text = getDeepLinkUrl(shortcutId)
-                    }
+                .onShow { dialog ->
+                    dialog.findViewById<TextView>(R.id.shortcut_id).text = shortcutId
+                    dialog.findViewById<TextView>(R.id.deep_link_url).text = getDeepLinkUrl(shortcutId)
                 }
         }
 

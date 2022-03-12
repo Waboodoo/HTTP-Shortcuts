@@ -17,6 +17,9 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetCurlExportDialogUseCase
+import ch.rmy.android.http_shortcuts.activities.main.usecases.GetExportOptionsDialogUseCase
+import ch.rmy.android.http_shortcuts.activities.main.usecases.GetMoveOptionsDialogUseCase
+import ch.rmy.android.http_shortcuts.activities.main.usecases.GetShortcutDeletionDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetShortcutInfoDialogUseCase
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
@@ -57,6 +60,9 @@ class ShortcutListViewModel(
     private val settings = Settings(context)
     private val getCurlExportDialog = GetCurlExportDialogUseCase()
     private val getShortcutInfoDialog = GetShortcutInfoDialogUseCase()
+    private val getShortcutDeletionDialog = GetShortcutDeletionDialogUseCase()
+    private val getExportOptionsDialog = GetExportOptionsDialogUseCase()
+    private val getMoveOptionsDialog = GetMoveOptionsDialogUseCase()
 
     private lateinit var category: Category
     private var categories: List<Category> = emptyList()
@@ -286,10 +292,14 @@ class ShortcutListViewModel(
         val canMoveWithinCategory = canMoveWithinCategory()
         val canMoveAcrossCategories = canMoveAcrossCategories()
         when {
-            canMoveWithinCategory && canMoveAcrossCategories -> emitEvent(ShortcutListEvent.ShowMoveOptionsDialog(shortcutId))
+            canMoveWithinCategory && canMoveAcrossCategories -> showMoveOptionsDialog(shortcutId)
             canMoveWithinCategory -> enableMovingMode()
             canMoveAcrossCategories -> onMoveToCategoryOptionSelected(shortcutId)
         }
+    }
+
+    private fun showMoveOptionsDialog(shortcutId: String) {
+        setDialogState(getMoveOptionsDialog(shortcutId, this))
     }
 
     fun onDuplicateOptionSelected(shortcutId: String) {
@@ -315,8 +325,11 @@ class ShortcutListViewModel(
     }
 
     fun onDeleteOptionSelected(shortcutId: String) {
-        val shortcut = getShortcutById(shortcutId) ?: return
-        emitEvent(ShortcutListEvent.ShowDeleteDialog(shortcutId, shortcut.name.toLocalizable()))
+        showDeletionDialog(getShortcutById(shortcutId) ?: return)
+    }
+
+    private fun showDeletionDialog(shortcut: Shortcut) {
+        setDialogState(getShortcutDeletionDialog(shortcut.id, shortcut.name.toLocalizable(), this))
     }
 
     fun onShowInfoOptionSelected(shortcutId: String) {
@@ -331,10 +344,14 @@ class ShortcutListViewModel(
         val shortcut = getShortcutById(shortcutId) ?: return
 
         if (shortcut.type.usesUrl) {
-            emitEvent(ShortcutListEvent.ShowExportOptionsDialog(shortcutId))
+            showExportOptionsDialog(shortcutId)
         } else {
             showFileExportDialog(shortcutId)
         }
+    }
+
+    private fun showExportOptionsDialog(shortcutId: String) {
+        setDialogState(getExportOptionsDialog(shortcutId, this))
     }
 
     fun onExportAsCurlOptionSelected(shortcutId: String) {

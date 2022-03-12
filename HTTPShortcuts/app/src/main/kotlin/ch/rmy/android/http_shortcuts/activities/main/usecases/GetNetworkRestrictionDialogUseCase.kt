@@ -5,6 +5,7 @@ import android.widget.TextView
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.utils.Settings
+import com.afollestad.materialdialogs.callbacks.onShow
 
 class GetNetworkRestrictionDialogUseCase(
     private val settings: Settings,
@@ -22,10 +23,10 @@ class GetNetworkRestrictionDialogUseCase(
                     viewModel.onDialogDismissed(null)
                 }
                 .build()
-                .also {
-                    val messageView = it.findViewById(R.id.dialog_message) as TextView
+                .onShow { dialog ->
+                    val messageView = dialog.findViewById(R.id.dialog_message) as TextView
                     messageView.setText(R.string.warning_data_saver_battery_saver_enabled)
-                    val checkBox = it.findViewById(R.id.checkbox_do_not_show_again) as CheckBox
+                    val checkBox = dialog.findViewById(R.id.checkbox_do_not_show_again) as CheckBox
                     checkBox.setOnCheckedChangeListener { _, isChecked ->
                         doNotShowAgain = isChecked
                     }
