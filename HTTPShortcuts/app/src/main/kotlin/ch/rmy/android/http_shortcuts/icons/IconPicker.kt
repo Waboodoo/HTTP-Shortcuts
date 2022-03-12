@@ -1,24 +1,16 @@
 package ch.rmy.android.http_shortcuts.icons
 
 import android.app.Activity.RESULT_OK
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.net.Uri
 import ch.rmy.android.framework.extensions.attachTo
-import ch.rmy.android.framework.extensions.logException
-import ch.rmy.android.framework.extensions.showSnackbar
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.utils.Destroyer
-import ch.rmy.android.framework.utils.FilePickerUtil
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.activities.icons.IconPickerActivity
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
-import ch.rmy.android.http_shortcuts.utils.IconUtil
 import ch.rmy.android.http_shortcuts.utils.IpackUtil
-import com.yalantis.ucrop.UCrop
-import java.io.File
 
 class IconPicker(
     private val activity: BaseActivity,
@@ -35,8 +27,7 @@ class IconPicker(
         DialogBuilder(context)
             .title(R.string.change_icon)
             .item(R.string.choose_icon, action = ::openBuiltInIconSelectionDialog)
-            .item(R.string.choose_image, action = ::openImagePicker)
-            .item(R.string.choose_previously_used_image, action = ::openPreviouslyUsedCustomInIconSelectionDialog)
+            .item(R.string.choose_image, action = ::openCustomIconPicker)
             .item(R.string.choose_ipack_icon, action = ::openIpackPicker)
             .showIfPossible()
     }
@@ -50,22 +41,9 @@ class IconPicker(
             .attachTo(destroyer)
     }
 
-    private fun openImagePicker() {
-        try {
-            FilePickerUtil.createIntent(type = "image/*")
-                .startActivity(activity, REQUEST_SELECT_IMAGE)
-        } catch (e: ActivityNotFoundException) {
-            activity.showSnackbar(R.string.error_not_supported)
-        }
-    }
-
-    private fun openPreviouslyUsedCustomInIconSelectionDialog() {
-        CustomIconSelector(context)
-            .show()
-            .subscribe { icon ->
-                iconSelected(icon)
-            }
-            .attachTo(destroyer)
+    private fun openCustomIconPicker() {
+        IconPickerActivity.IntentBuilder()
+            .startActivity(activity, REQUEST_CUSTOM_ICON)
     }
 
     private fun openIpackPicker() {
@@ -75,32 +53,12 @@ class IconPicker(
 
     fun handleResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         when (requestCode) {
-            REQUEST_SELECT_IMAGE -> {
-                if (resultCode == RESULT_OK && intent?.data != null) {
-                    val iconSize = IconUtil.getIconSize(context)
-                    UCrop.of(intent.data!!, createNewIconFile())
-                        .withOptions(
-                            UCrop.Options().apply {
-                                setToolbarTitle(activity.getString(R.string.title_edit_custom_icon))
-                                setCompressionQuality(100)
-                                setCompressionFormat(Bitmap.CompressFormat.PNG)
-                            }
-                        )
-                        .withAspectRatio(1f, 1f)
-                        .withMaxResultSize(iconSize, iconSize)
-                        .start(activity, REQUEST_CROP_IMAGE)
-                }
-            }
-            REQUEST_CROP_IMAGE -> {
-                try {
-                    if (resultCode == RESULT_OK && intent != null) {
-                        iconSelected(ShortcutIcon.CustomIcon(UCrop.getOutput(intent)!!.lastPathSegment!!))
-                    } else if (resultCode == UCrop.RESULT_ERROR) {
-                        activity.showSnackbar(R.string.error_set_image, long = true)
-                    }
-                } catch (e: Exception) {
-                    logException(e)
-                    activity.showSnackbar(R.string.error_set_image, long = true)
+            REQUEST_CUSTOM_ICON -> {
+                if (intent != null) {
+                    IconPickerActivity.Result.getIcon(intent)
+                        ?.let { icon ->
+                            iconSelected(icon)
+                        }
                 }
             }
             REQUEST_SELECT_IPACK_ICON -> {
@@ -111,12 +69,8 @@ class IconPicker(
         }
     }
 
-    private fun createNewIconFile(): Uri =
-        Uri.fromFile(File(context.filesDir, IconUtil.generateCustomIconName()))
-
     companion object {
-        private const val REQUEST_SELECT_IMAGE = 1
-        private const val REQUEST_CROP_IMAGE = 2
-        private const val REQUEST_SELECT_IPACK_ICON = 3
+        private const val REQUEST_CUSTOM_ICON = 1
+        private const val REQUEST_SELECT_IPACK_ICON = 2
     }
 }

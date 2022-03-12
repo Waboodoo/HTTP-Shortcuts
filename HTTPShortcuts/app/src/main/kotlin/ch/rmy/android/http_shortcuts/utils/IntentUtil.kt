@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.provider.MediaStore
+import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.data.dtos.LauncherShortcut
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
@@ -32,10 +33,11 @@ object IntentUtil {
     fun getLegacyShortcutPlacementIntent(context: Context, shortcut: LauncherShortcut, install: Boolean): Intent {
         val shortcutIntent = ExecuteActivity.IntentBuilder(shortcut.id)
             .build(context)
-        val addIntent = Intent()
-            .putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent)
-            .putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcut.name)
-            .putExtra(EXTRA_SHORTCUT_DUPLICATE, true)
+        val addIntent = createIntent {
+            putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent)
+            putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcut.name)
+            putExtra(EXTRA_SHORTCUT_DUPLICATE, true)
+        }
 
         try {
             val iconUri = shortcut.icon.getIconURI(context, external = true)

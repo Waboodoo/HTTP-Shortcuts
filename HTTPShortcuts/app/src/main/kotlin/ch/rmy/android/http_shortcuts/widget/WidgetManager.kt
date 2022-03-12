@@ -9,6 +9,7 @@ import android.os.Build
 import android.view.View
 import android.widget.RemoteViews
 import androidx.annotation.CheckResult
+import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.data.domains.widgets.WidgetsRepository
@@ -85,7 +86,7 @@ class WidgetManager {
     companion object {
 
         fun getIntent(widgetId: Int) =
-            Intent().apply {
+            createIntent {
                 putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
             }
 

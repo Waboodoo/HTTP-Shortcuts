@@ -87,7 +87,7 @@ class ShortcutListFragment : BaseFragment<FragmentListBinding>() {
         }
 
         binding.shortcutList.layoutManager = when (layoutType) {
-            CategoryLayoutType.GRID -> GridLayoutManager(requireContext())
+            CategoryLayoutType.GRID -> GridLayoutManager(requireContext(), R.dimen.grid_layout_shortcut_width)
             CategoryLayoutType.LINEAR_LIST -> LinearLayoutManager(context)
         }
         binding.shortcutList.adapter = adapter

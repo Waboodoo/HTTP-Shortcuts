@@ -153,6 +153,9 @@
                 android:value=".activities.main.MainActivity" />
         </activity>
         <activity
+            android:name=".activities.icons.IconPickerActivity"
+            android:label="@string/title_custom_icons" />
+        <activity
             android:name=".activities.variables.VariablesActivity"
             android:label="@string/title_variables"
             android:parentActivityName=".activities.main.MainActivity"

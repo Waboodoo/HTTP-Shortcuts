@@ -4,7 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import androidx.annotation.StringRes
-import ch.rmy.android.framework.ui.BaseIntentBuilder
+import ch.rmy.android.framework.ui.IntentBuilder
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 
@@ -23,7 +23,7 @@ abstract class ViewModelEvent {
     data class OpenURL(val url: String) : ViewModelEvent()
 
     data class OpenActivity(
-        val intentBuilder: BaseIntentBuilder,
+        val intentBuilder: IntentBuilder,
         val requestCode: Int? = null,
     ) : ViewModelEvent()
 

@@ -1,12 +1,12 @@
 package ch.rmy.android.http_shortcuts.activities.misc
 
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.consume
+import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.focus
 import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.ui.BaseIntentBuilder
@@ -58,9 +58,12 @@ class CurlImportActivity : BaseActivity() {
         val commandString = binding.curlImportCommand.text.toString()
         val command = CurlParser.parse(commandString)
 
-        val intent = Intent()
-            .putExtra(EXTRA_CURL_COMMAND, command)
-        setResult(Activity.RESULT_OK, intent)
+        setResult(
+            Activity.RESULT_OK,
+            createIntent {
+                putExtra(EXTRA_CURL_COMMAND, command)
+            },
+        )
         finish()
     }
 

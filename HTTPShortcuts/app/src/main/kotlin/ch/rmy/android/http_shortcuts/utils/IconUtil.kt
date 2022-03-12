@@ -10,10 +10,9 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.appcompat.content.res.AppCompatResources
 import ch.rmy.android.framework.extensions.setTintCompat
-import ch.rmy.android.framework.utils.UUIDUtils.UUID_REGEX
-import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import java.io.File
+import java.util.Date
 import java.util.regex.Pattern
 import java.util.regex.Pattern.quote
 import kotlin.math.max
@@ -26,9 +25,9 @@ object IconUtil {
     private const val CUSTOM_ICON_NAME_SUFFIX = ".png"
     private const val CUSTOM_ICON_NAME_ALTERNATIVE_SUFFIX = ".jpg"
 
-    private const val CUSTOM_ICON_MAX_FILE_SIZE = 6 * 1024 * 1024
+    private const val CUSTOM_ICON_MAX_FILE_SIZE = 8 * 1024 * 1024
 
-    private val CUSTOM_ICON_NAME_REGEX = "${quote(CUSTOM_ICON_NAME_PREFIX)}($UUID_REGEX)" +
+    private val CUSTOM_ICON_NAME_REGEX = "${quote(CUSTOM_ICON_NAME_PREFIX)}([A-Za-z0-9_-]{1,36})" +
         "(${quote(CUSTOM_ICON_NAME_SUFFIX)}|${quote(CUSTOM_ICON_NAME_ALTERNATIVE_SUFFIX)})"
     private val CUSTOM_ICON_NAME_PATTERN = CUSTOM_ICON_NAME_REGEX.toPattern(Pattern.CASE_INSENSITIVE)
 
@@ -117,7 +116,7 @@ object IconUtil {
         string.matches(CUSTOM_ICON_NAME_REGEX.toRegex())
 
     fun generateCustomIconName(): String =
-        "$CUSTOM_ICON_NAME_PREFIX${newUUID()}$CUSTOM_ICON_NAME_SUFFIX"
+        "${CUSTOM_ICON_NAME_PREFIX}x${Date().time}$CUSTOM_ICON_NAME_SUFFIX"
 
     fun extractCustomIconNames(string: String): Set<String> {
         val result = mutableSetOf<String>()
@@ -134,6 +133,5 @@ object IconUtil {
                 file.name.matches(CUSTOM_ICON_NAME_REGEX.toRegex()) && file.length() < CUSTOM_ICON_MAX_FILE_SIZE
             }
             ?.map { it.name }
-            ?.sorted()
             ?: emptyList()
 }
