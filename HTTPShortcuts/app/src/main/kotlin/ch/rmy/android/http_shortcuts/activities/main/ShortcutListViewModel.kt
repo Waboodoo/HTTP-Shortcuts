@@ -16,9 +16,11 @@ import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
+import ch.rmy.android.http_shortcuts.activities.main.usecases.GetContextMenuDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetCurlExportDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetExportOptionsDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetMoveOptionsDialogUseCase
+import ch.rmy.android.http_shortcuts.activities.main.usecases.GetMoveToCategoryDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetShortcutDeletionDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetShortcutInfoDialogUseCase
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
@@ -63,6 +65,8 @@ class ShortcutListViewModel(
     private val getShortcutDeletionDialog = GetShortcutDeletionDialogUseCase()
     private val getExportOptionsDialog = GetExportOptionsDialogUseCase()
     private val getMoveOptionsDialog = GetMoveOptionsDialogUseCase()
+    private val getContextMenuDialog = GetContextMenuDialogUseCase()
+    private val getMoveToCategoryDialog = GetMoveToCategoryDialogUseCase()
 
     private lateinit var category: Category
     private var categories: List<Category> = emptyList()
@@ -244,13 +248,12 @@ class ShortcutListViewModel(
 
     private fun showContextMenu(shortcutId: String) {
         val shortcut = getShortcutById(shortcutId) ?: return
-        emitEvent(
-            ShortcutListEvent.ShowContextMenu(
-                shortcutId,
-                title = shortcut.name,
-                isPending = pendingShortcuts.any { it.shortcutId == shortcut.id },
-                isMovable = canMoveWithinCategory() || canMoveAcrossCategories(),
-            )
+        dialogState = getContextMenuDialog(
+            shortcutId,
+            title = shortcut.name,
+            isPending = pendingShortcuts.any { it.shortcutId == shortcut.id },
+            isMovable = canMoveWithinCategory() || canMoveAcrossCategories(),
+            viewModel = this,
         )
     }
 
@@ -415,15 +418,14 @@ class ShortcutListViewModel(
         if (settings.useLegacyExportFormat) ExportFormat.LEGACY_JSON else ExportFormat.ZIP
 
     fun onMoveToCategoryOptionSelected(shortcutId: String) {
-        emitEvent(
-            ShortcutListEvent.ShowMoveToCategoryDialog(
-                shortcutId,
-                categoryOptions = categories
-                    .filter { it.id != category.id }
-                    .map { category ->
-                        ShortcutListEvent.ShowMoveToCategoryDialog.CategoryOption(category.id, category.name)
-                    }
-            )
+        dialogState = getMoveToCategoryDialog(
+            shortcutId,
+            categoryOptions = categories
+                .filter { it.id != category.id }
+                .map { category ->
+                    GetMoveToCategoryDialogUseCase.CategoryOption(category.id, category.name)
+                },
+            viewModel = this,
         )
     }
 

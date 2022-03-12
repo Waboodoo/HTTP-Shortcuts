@@ -14,8 +14,6 @@ import ch.rmy.android.framework.extensions.addArguments
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.color
-import ch.rmy.android.framework.extensions.mapFor
-import ch.rmy.android.framework.extensions.mapIf
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.startActivity
@@ -27,7 +25,6 @@ import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.databinding.FragmentListBinding
-import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.import_export.ExportFormat
 import ch.rmy.android.http_shortcuts.import_export.ExportUI
 import ch.rmy.android.http_shortcuts.utils.GridLayoutManager
@@ -163,67 +160,10 @@ class ShortcutListFragment : BaseFragment<FragmentListBinding>() {
 
     override fun handleEvent(event: ViewModelEvent) {
         when (event) {
-            is ShortcutListEvent.ShowContextMenu -> showContextMenu(
-                event.shortcutId,
-                event.title,
-                event.isPending,
-                event.isMovable,
-            )
-            is ShortcutListEvent.ShowMoveToCategoryDialog -> showMoveToCategoryDialog(event.shortcutId, event.categoryOptions)
             is ShortcutListEvent.ShowFileExportDialog -> showFileExportDialog(event.shortcutId, event.format, event.variableIds)
             is ShortcutListEvent.StartExport -> startExport(event.shortcutId, event.uri, event.format, event.variableIds)
             else -> super.handleEvent(event)
         }
-    }
-
-    private fun showContextMenu(shortcutId: String, title: String, isPending: Boolean, isMovable: Boolean) {
-        DialogBuilder(requireContext())
-            .title(title)
-            .item(R.string.action_place) {
-                viewModel.onPlaceOnHomeScreenOptionSelected(shortcutId)
-            }
-            .item(R.string.action_run) {
-                viewModel.onExecuteOptionSelected(shortcutId)
-            }
-            .mapIf(isPending) {
-                item(R.string.action_cancel_pending) {
-                    viewModel.onCancelPendingExecutionOptionSelected(shortcutId)
-                }
-            }
-            .separator()
-            .item(R.string.action_edit) {
-                viewModel.onEditOptionSelected(shortcutId)
-            }
-            .mapIf(isMovable) {
-                item(R.string.action_move) {
-                    viewModel.onMoveOptionSelected(shortcutId)
-                }
-            }
-            .item(R.string.action_duplicate) {
-                viewModel.onDuplicateOptionSelected(shortcutId)
-            }
-            .item(R.string.action_delete) {
-                viewModel.onDeleteOptionSelected(shortcutId)
-            }
-            .separator()
-            .item(R.string.action_shortcut_information) {
-                viewModel.onShowInfoOptionSelected(shortcutId)
-            }
-            .item(R.string.action_export) {
-                viewModel.onExportOptionSelected(shortcutId)
-            }
-            .showIfPossible()
-    }
-
-    private fun showMoveToCategoryDialog(shortcutId: String, categoryOptions: List<ShortcutListEvent.ShowMoveToCategoryDialog.CategoryOption>) {
-        DialogBuilder(requireContext())
-            .title(R.string.title_move_to_category)
-            .mapFor(categoryOptions) { categoryOption ->
-                item(name = categoryOption.name) {
-                    viewModel.onMoveTargetCategorySelected(shortcutId, categoryOption.categoryId)
-                }
-            }
-            .showIfPossible()
     }
 
     private fun showFileExportDialog(shortcutId: String, format: ExportFormat, variableIds: Collection<String>) {
