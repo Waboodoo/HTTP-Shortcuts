@@ -1,5 +1,6 @@
 package ch.rmy.android.framework.ui
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,8 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import ch.rmy.android.framework.extensions.logInfo
+import ch.rmy.android.framework.extensions.showIfPossible
 import ch.rmy.android.framework.utils.Destroyer
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
+import ch.rmy.android.framework.viewmodel.WithDialog
+import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 
 abstract class BaseFragment<Binding : ViewBinding> : Fragment() {
 
@@ -25,6 +29,10 @@ abstract class BaseFragment<Binding : ViewBinding> : Fragment() {
     private var _binding: Binding? = null
     protected val binding: Binding
         get() = _binding!!
+
+    private var currentDialogState: DialogState? = null
+    private var currentDialog: Dialog? = null
+    private var savedDialogState: Bundle? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = getBinding(inflater, container)
@@ -57,5 +65,34 @@ abstract class BaseFragment<Binding : ViewBinding> : Fragment() {
             }
             else -> (requireActivity() as BaseActivity).handleEvent(event)
         }
+    }
+
+    fun setDialogState(dialogState: DialogState?, viewModel: WithDialog) {
+        if (currentDialogState == dialogState) {
+            return
+        }
+        currentDialog?.dismiss()
+        currentDialogState = dialogState
+        currentDialog = dialogState?.createDialog(requireContext(), viewModel)
+        currentDialog?.showIfPossible()
+        currentDialog?.let { dialog ->
+            savedDialogState?.let { dialogState ->
+                currentDialogState?.restoreInstanceState(dialog, dialogState)
+            }
+        }
+        savedDialogState = null
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        currentDialog?.let { dialog ->
+            currentDialogState?.let { dialogState ->
+                outState.putBundle(EXTRA_DIALOG_INSTANCE_STATE, dialogState.saveInstanceState(dialog))
+            }
+        }
+    }
+
+    companion object {
+        private const val EXTRA_DIALOG_INSTANCE_STATE = "dialog-instance-state"
     }
 }

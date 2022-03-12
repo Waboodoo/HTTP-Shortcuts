@@ -23,8 +23,6 @@ abstract class ShortcutListEvent : ViewModelEvent() {
 
     data class ShowExportOptionsDialog(val shortcutId: String) : ViewModelEvent()
 
-    data class ShowCurlExportDialog(val shortcutName: String, val command: String) : ViewModelEvent()
-
     data class ShowFileExportDialog(val shortcutId: String, val format: ExportFormat, val variableIds: Collection<String>) : ViewModelEvent()
 
     data class StartExport(val shortcutId: String, val uri: Uri, val format: ExportFormat, val variableIds: Collection<String>) : ViewModelEvent()

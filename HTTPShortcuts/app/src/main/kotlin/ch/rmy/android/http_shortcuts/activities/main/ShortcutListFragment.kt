@@ -28,7 +28,6 @@ import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.databinding.FragmentListBinding
-import ch.rmy.android.http_shortcuts.dialogs.CurlExportDialog
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.dialogs.ShortcutInfoDialog
 import ch.rmy.android.http_shortcuts.import_export.ExportFormat
@@ -130,6 +129,7 @@ class ShortcutListFragment : BaseFragment<FragmentListBinding>() {
             (binding.shortcutList.layoutManager as? GridLayoutManager)?.setEmpty(viewState.isEmptyStateVisible)
             isDraggingEnabled = viewState.isDraggingEnabled
             updateBackground(viewState.background)
+            setDialogState(viewState.dialogState, viewModel)
         }
         viewModel.events.observe(this, ::handleEvent)
     }
@@ -175,7 +175,6 @@ class ShortcutListFragment : BaseFragment<FragmentListBinding>() {
             is ShortcutListEvent.ShowMoveToCategoryDialog -> showMoveToCategoryDialog(event.shortcutId, event.categoryOptions)
             is ShortcutListEvent.ShowShortcutInfoDialog -> showShortcutInfoDialog(event.shortcutId, event.shortcutName)
             is ShortcutListEvent.ShowExportOptionsDialog -> showExportOptionsDialog(event.shortcutId)
-            is ShortcutListEvent.ShowCurlExportDialog -> showCurlExportDialog(event.shortcutName, event.command)
             is ShortcutListEvent.ShowFileExportDialog -> showFileExportDialog(event.shortcutId, event.format, event.variableIds)
             is ShortcutListEvent.StartExport -> startExport(event.shortcutId, event.uri, event.format, event.variableIds)
             is ShortcutListEvent.ShowDeleteDialog -> showDeleteDialog(event.shortcutId, event.title)
@@ -259,11 +258,6 @@ class ShortcutListFragment : BaseFragment<FragmentListBinding>() {
                 viewModel.onExportAsFileOptionSelected(shortcutId)
             }
             .showIfPossible()
-    }
-
-    private fun showCurlExportDialog(shortcutName: String, command: String) {
-        CurlExportDialog(requireContext(), shortcutName, command)
-            .show()
     }
 
     private fun showFileExportDialog(shortcutId: String, format: ExportFormat, variableIds: Collection<String>) {

@@ -11,9 +11,11 @@ import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.EventBridge
+import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
+import ch.rmy.android.http_shortcuts.activities.main.usecases.GetCurlExportDialogUseCase
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
@@ -35,9 +37,11 @@ import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
-import ch.rmy.curlcommand.CurlConstructor
+import ch.rmy.curlcommand.CurlCommand
 
-class ShortcutListViewModel(application: Application) : BaseViewModel<ShortcutListViewModel.InitData, ShortcutListViewState>(application) {
+class ShortcutListViewModel(
+    application: Application,
+) : BaseViewModel<ShortcutListViewModel.InitData, ShortcutListViewState>(application), WithDialog {
 
     private val appRepository = AppRepository()
     private val shortcutRepository = ShortcutRepository()
@@ -49,6 +53,7 @@ class ShortcutListViewModel(application: Application) : BaseViewModel<ShortcutLi
     private val eventBridge = EventBridge(ChildViewModelEvent::class.java)
     private val executionScheduler = ExecutionScheduler(application)
     private val settings = Settings(context)
+    private val getCurlExportDialog = GetCurlExportDialogUseCase()
 
     private lateinit var category: Category
     private var categories: List<Category> = emptyList()
@@ -331,7 +336,7 @@ class ShortcutListViewModel(application: Application) : BaseViewModel<ShortcutLi
         curlExporter.generateCommand(shortcut)
             .subscribe(
                 { command ->
-                    emitEvent(ShortcutListEvent.ShowCurlExportDialog(shortcut.name, CurlConstructor.toCurlCommandString(command)))
+                    showCurlExportDialog(shortcut.name, command)
                 },
                 { e ->
                     if (e !is CanceledByUserException) {
@@ -341,6 +346,12 @@ class ShortcutListViewModel(application: Application) : BaseViewModel<ShortcutLi
                 },
             )
             .attachTo(destroyer)
+    }
+
+    private fun showCurlExportDialog(name: String, command: CurlCommand) {
+        updateViewState {
+            copy(dialogState = getCurlExportDialog(name, command))
+        }
     }
 
     fun onExportAsFileOptionSelected(shortcutId: String) {
@@ -421,6 +432,12 @@ class ShortcutListViewModel(application: Application) : BaseViewModel<ShortcutLi
         ) {
             showSnackbar(StringResLocalizable(R.string.shortcut_deleted, shortcut.name))
             eventBridge.submit(ChildViewModelEvent.RemoveShortcutFromHomeScreen(shortcut.toLauncherShortcut()))
+        }
+    }
+
+    override fun onDialogDismissed(id: String?) {
+        updateViewState {
+            copy(dialogState = null)
         }
     }
 
