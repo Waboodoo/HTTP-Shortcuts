@@ -2,12 +2,16 @@ package ch.rmy.android.http_shortcuts.activities.variables
 
 import android.app.Application
 import ch.rmy.android.framework.extensions.attachTo
-import ch.rmy.android.framework.extensions.mapIf
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
+import ch.rmy.android.framework.viewmodel.WithDialog
+import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.editor.VariableEditorActivity
+import ch.rmy.android.http_shortcuts.activities.variables.editor.usecases.GetContextMenuDialogUseCase
+import ch.rmy.android.http_shortcuts.activities.variables.editor.usecases.GetCreationDialogUseCase
+import ch.rmy.android.http_shortcuts.activities.variables.editor.usecases.GetDeletionDialogUseCase
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
@@ -20,12 +24,23 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class VariablesViewModel(application: Application) : BaseViewModel<Unit, VariablesViewState>(application) {
+class VariablesViewModel(application: Application) : BaseViewModel<Unit, VariablesViewState>(application), WithDialog {
 
     private val variableRepository = VariableRepository()
     private val shortcutRepository = ShortcutRepository()
+    private val getDeletionDialog = GetDeletionDialogUseCase()
+    private val getContextMenuDialog = GetContextMenuDialogUseCase()
+    private val getCreationDialog = GetCreationDialogUseCase()
 
     private var variables: List<Variable> = emptyList()
+
+    override var dialogState: DialogState?
+        get() = currentViewState.dialogState
+        set(value) {
+            updateViewState {
+                copy(dialogState = value)
+            }
+        }
 
     override fun initViewState() = VariablesViewState()
 
@@ -59,21 +74,7 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
     }
 
     fun onCreateButtonClicked() {
-        emitEvent(
-            VariablesEvent.ShowCreationDialog(
-                VariableTypeMappings.TYPES.flatMap { typeMapping ->
-                    listOf<VariablesEvent.ShowCreationDialog.VariableTypeOption>(
-                        VariablesEvent.ShowCreationDialog.VariableTypeOption.Variable(
-                            name = StringResLocalizable(typeMapping.name),
-                            type = typeMapping.type,
-                        )
-                    )
-                        .mapIf(typeMapping.type == VariableType.CONSTANT) {
-                            plusElement(VariablesEvent.ShowCreationDialog.VariableTypeOption.Separator)
-                        }
-                }
-            )
-        )
+        dialogState = getCreationDialog(this)
     }
 
     fun onHelpButtonClicked() {
@@ -82,7 +83,7 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
 
     fun onVariableClicked(variableId: String) {
         val variable = getVariable(variableId) ?: return
-        emitEvent(VariablesEvent.ShowContextMenu(variableId, StringResLocalizable(VariableTypeMappings.getTypeName(variable.variableType))))
+        dialogState = getContextMenuDialog(variableId, StringResLocalizable(VariableTypeMappings.getTypeName(variable.variableType)), this)
     }
 
     private fun getVariable(variableId: String) =
@@ -134,12 +135,11 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
         val variable = getVariable(variableId) ?: return
         getShortcutNamesWhereVariableIsInUse(variableId)
             .subscribe { shortcutNames ->
-                emitEvent(
-                    VariablesEvent.ShowDeletionDialog(
-                        variableId = variableId,
-                        title = variable.key,
-                        message = getDeletionMessage(shortcutNames),
-                    )
+                dialogState = getDeletionDialog(
+                    variableId = variableId,
+                    title = variable.key,
+                    message = getDeletionMessage(shortcutNames),
+                    viewModel = this,
                 )
             }
             .attachTo(destroyer)
