@@ -135,17 +135,22 @@ fun EditText.observeTextChanges(): Observable<CharSequence> {
 }
 
 fun EditText.setTextSafely(text: CharSequence) {
-    if (isFocused || this.text.toString() == text.toString()) {
+    if ((isFocused && this.text.isNotEmpty()) || this.text.toString() == text.toString()) {
         return
     }
     try {
         setTag(R.string.edit_text_suppress_listeners, true)
+        val wasEmpty = this.text.isEmpty()
         val start = selectionStart
         val end = selectionEnd
         setText(text)
         if (start != -1 && end != -1) {
             val length = length()
-            setSelection(min(start, length), min(end, length))
+            if (wasEmpty && start == 0 && end == 0) {
+                setSelection(length, length)
+            } else {
+                setSelection(min(start, length), min(end, length))
+            }
         }
     } finally {
         setTag(R.string.edit_text_suppress_listeners, false)

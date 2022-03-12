@@ -12,6 +12,7 @@ import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.observeTextChanges
+import ch.rmy.android.framework.extensions.setTextSafely
 import ch.rmy.android.framework.extensions.showSnackbar
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.R
@@ -35,7 +36,7 @@ class RemoteEditActivity : BaseActivity() {
         binding = applyBinding(ActivityRemoteEditBinding.inflate(layoutInflater))
 
         binding.remoteEditDeviceId.text = viewModel.deviceId
-        binding.inputPassword.setText(viewModel.password)
+        binding.inputPassword.setTextSafely(viewModel.password)
         updateInstructions()
 
         binding.inputPassword
