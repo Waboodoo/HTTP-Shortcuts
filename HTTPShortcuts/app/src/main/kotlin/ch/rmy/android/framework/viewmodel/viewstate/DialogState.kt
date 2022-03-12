@@ -19,7 +19,7 @@ interface DialogState {
     }
 
     companion object {
-        fun create(id: String? = null, transform: DialogBuilder.(WithDialog) -> Dialog): DialogState =
+        fun create(id: String? = null, transform: DialogBuilder.() -> Dialog): DialogState =
             object : DialogState {
                 override val id: String?
                     get() = id
@@ -27,9 +27,9 @@ interface DialogState {
                 override fun createDialog(context: Context, viewModel: WithDialog) =
                     DialogBuilder(context)
                         .dismissListener {
-                            viewModel.onDialogDismissed(id)
+                            viewModel.onDialogDismissed(this)
                         }
-                        .transform(viewModel)
+                        .transform()
             }
     }
 }

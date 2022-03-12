@@ -12,23 +12,16 @@ class GetNetworkRestrictionDialogUseCase(
 ) {
 
     operator fun invoke(): DialogState =
-        DialogState.create { viewModel ->
-            var doNotShowAgain = false
-
-            this
-                .positive(R.string.dialog_ok)
+        DialogState.create {
+            positive(R.string.dialog_ok)
                 .view(R.layout.dismissable_dialog)
-                .dismissListener {
-                    settings.isNetworkRestrictionWarningPermanentlyHidden = doNotShowAgain
-                    viewModel.onDialogDismissed(null)
-                }
                 .build()
                 .onShow { dialog ->
                     val messageView = dialog.findViewById(R.id.dialog_message) as TextView
                     messageView.setText(R.string.warning_data_saver_battery_saver_enabled)
                     val checkBox = dialog.findViewById(R.id.checkbox_do_not_show_again) as CheckBox
                     checkBox.setOnCheckedChangeListener { _, isChecked ->
-                        doNotShowAgain = isChecked
+                        settings.isNetworkRestrictionWarningPermanentlyHidden = isChecked
                     }
                 }
         }

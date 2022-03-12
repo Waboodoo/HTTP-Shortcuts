@@ -70,6 +70,14 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     private val selectionMode
         get() = initData.selectionMode
 
+    override var dialogState: DialogState?
+        get() = currentViewState.dialogState
+        set(value) {
+            updateViewState {
+                copy(dialogState = value)
+            }
+        }
+
     override fun onInitializationStarted(data: InitData) {
         categoryRepository.getCategories()
             .subscribe { categories ->
@@ -126,7 +134,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
 
     private fun showStartupDialogsIfNeeded() {
         if (shouldShowChangeLogDialog()) {
-            setDialogState(getChangeLogDialog(whatsNew = true))
+            dialogState = getChangeLogDialog(whatsNew = true)
         } else {
             showNetworkRestrictionWarningDialogIfNeeded()
         }
@@ -134,7 +142,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
 
     private fun showNetworkRestrictionWarningDialogIfNeeded() {
         if (shouldShowNetworkRestrictionDialog()) {
-            setDialogState(getNetworkRestrictionDialog())
+            dialogState = getNetworkRestrictionDialog()
         }
     }
 
@@ -238,7 +246,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     private fun showToolbarTitleChangeDialog(oldTitle: String) {
-        setDialogState(getToolbarTitleChangeDialog(this, oldTitle))
+        dialogState = getToolbarTitleChangeDialog(this, oldTitle)
     }
 
     fun onCreationDialogOptionSelected(executionType: ShortcutExecutionType) {
@@ -256,7 +264,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     fun onCreateShortcutButtonClicked() {
-        setDialogState(getShortcutCreationDialog(this))
+        dialogState = getShortcutCreationDialog(this)
     }
 
     fun onToolbarTitleChangeSubmitted(newTitle: String) {
@@ -281,7 +289,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     private fun showUnlockDialog(message: Localizable) {
-        setDialogState(getUnlockDialog(this, message))
+        dialogState = getUnlockDialog(this, message)
     }
 
     fun onAppLocked() {
@@ -348,7 +356,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
 
     private fun returnForHomeScreenShortcutPlacement(shortcutId: String) {
         if (LauncherShortcutManager.supportsPinning(context)) {
-            setDialogState(getShortcutPlacementDialog(this, shortcutId))
+            dialogState = getShortcutPlacementDialog(this, shortcutId)
         } else {
             placeShortcutOnHomeScreenAndFinish(shortcutId)
         }
@@ -431,18 +439,12 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         )
     }
 
-    override fun onDialogDismissed(id: String?) {
+    override fun onDialogDismissed(dialogState: DialogState) {
         atomicallyUpdateViewState {
-            setDialogState(null)
-            if (id == GetChangeLogDialogUseCase.DIALOG_ID) {
+            super.onDialogDismissed(dialogState)
+            if (dialogState.id == GetChangeLogDialogUseCase.DIALOG_ID) {
                 showNetworkRestrictionWarningDialogIfNeeded()
             }
-        }
-    }
-
-    private fun setDialogState(dialogState: DialogState?) {
-        updateViewState {
-            copy(dialogState = dialogState)
         }
     }
 

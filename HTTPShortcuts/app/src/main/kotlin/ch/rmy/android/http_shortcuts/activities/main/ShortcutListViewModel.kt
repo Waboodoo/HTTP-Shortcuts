@@ -72,6 +72,14 @@ class ShortcutListViewModel(
     private var exportingShortcutId: String? = null
     private var isAppLocked = false
 
+    override var dialogState: DialogState?
+        get() = currentViewState.dialogState
+        set(value) {
+            updateViewState {
+                copy(dialogState = value)
+            }
+        }
+
     override fun onInitializationStarted(data: InitData) {
         categoryRepository.getObservableCategory(data.categoryId)
             .subscribe { category ->
@@ -299,7 +307,7 @@ class ShortcutListViewModel(
     }
 
     private fun showMoveOptionsDialog(shortcutId: String) {
-        setDialogState(getMoveOptionsDialog(shortcutId, this))
+        dialogState = getMoveOptionsDialog(shortcutId, this)
     }
 
     fun onDuplicateOptionSelected(shortcutId: String) {
@@ -329,7 +337,7 @@ class ShortcutListViewModel(
     }
 
     private fun showDeletionDialog(shortcut: Shortcut) {
-        setDialogState(getShortcutDeletionDialog(shortcut.id, shortcut.name.toLocalizable(), this))
+        dialogState = getShortcutDeletionDialog(shortcut.id, shortcut.name.toLocalizable(), this)
     }
 
     fun onShowInfoOptionSelected(shortcutId: String) {
@@ -337,7 +345,7 @@ class ShortcutListViewModel(
     }
 
     private fun showShortcutInfoDialog(shortcut: Shortcut) {
-        setDialogState(getShortcutInfoDialog(shortcut.id, shortcut.name))
+        dialogState = getShortcutInfoDialog(shortcut.id, shortcut.name)
     }
 
     fun onExportOptionSelected(shortcutId: String) {
@@ -351,7 +359,7 @@ class ShortcutListViewModel(
     }
 
     private fun showExportOptionsDialog(shortcutId: String) {
-        setDialogState(getExportOptionsDialog(shortcutId, this))
+        dialogState = getExportOptionsDialog(shortcutId, this)
     }
 
     fun onExportAsCurlOptionSelected(shortcutId: String) {
@@ -372,7 +380,7 @@ class ShortcutListViewModel(
     }
 
     private fun showCurlExportDialog(name: String, command: CurlCommand) {
-        setDialogState(getCurlExportDialog(name, command))
+        dialogState = getCurlExportDialog(name, command)
     }
 
     fun onExportAsFileOptionSelected(shortcutId: String) {
@@ -453,16 +461,6 @@ class ShortcutListViewModel(
         ) {
             showSnackbar(StringResLocalizable(R.string.shortcut_deleted, shortcut.name))
             eventBridge.submit(ChildViewModelEvent.RemoveShortcutFromHomeScreen(shortcut.toLauncherShortcut()))
-        }
-    }
-
-    override fun onDialogDismissed(id: String?) {
-        setDialogState(null)
-    }
-
-    private fun setDialogState(dialogState: DialogState?) {
-        updateViewState {
-            copy(dialogState = dialogState)
         }
     }
 

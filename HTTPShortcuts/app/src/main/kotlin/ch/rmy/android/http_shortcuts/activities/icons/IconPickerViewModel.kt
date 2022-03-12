@@ -13,6 +13,7 @@ import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.framework.viewmodel.WithDialog
+import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.icons.usecases.GetBulkDeletionDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.icons.usecases.GetDeletionDialogUseCase
@@ -37,6 +38,14 @@ class IconPickerViewModel(application: Application) : BaseViewModel<Unit, IconPi
     private val getBulkDeletionDialog = GetBulkDeletionDialogUseCase()
 
     private lateinit var icons: List<IconPickerListItem>
+
+    override var dialogState: DialogState?
+        get() = currentViewState.dialogState
+        set(value) {
+            updateViewState {
+                copy(dialogState = value)
+            }
+        }
 
     override fun onInitializationStarted(data: Unit) {
         getIconListItems()
@@ -148,12 +157,6 @@ class IconPickerViewModel(application: Application) : BaseViewModel<Unit, IconPi
             copy(
                 icons = icons.filter { it.icon != icon },
             )
-        }
-    }
-
-    override fun onDialogDismissed(id: String?) {
-        updateViewState {
-            copy(dialogState = null)
         }
     }
 
