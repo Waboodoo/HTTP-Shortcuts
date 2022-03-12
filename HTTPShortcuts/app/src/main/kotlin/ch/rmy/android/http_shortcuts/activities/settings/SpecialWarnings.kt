@@ -1,7 +1,8 @@
-package ch.rmy.android.http_shortcuts.dialogs
+package ch.rmy.android.http_shortcuts.activities.settings
 
 import android.content.Context
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 
 /**
  * This class deals with showing a warning message to Russian users of the app. I know

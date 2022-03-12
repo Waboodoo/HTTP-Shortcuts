@@ -29,7 +29,6 @@ import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.databinding.FragmentListBinding
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
-import ch.rmy.android.http_shortcuts.dialogs.ShortcutInfoDialog
 import ch.rmy.android.http_shortcuts.import_export.ExportFormat
 import ch.rmy.android.http_shortcuts.import_export.ExportUI
 import ch.rmy.android.http_shortcuts.utils.GridLayoutManager
@@ -173,7 +172,6 @@ class ShortcutListFragment : BaseFragment<FragmentListBinding>() {
             )
             is ShortcutListEvent.ShowMoveOptionsDialog -> showMoveDialog(event.shortcutId)
             is ShortcutListEvent.ShowMoveToCategoryDialog -> showMoveToCategoryDialog(event.shortcutId, event.categoryOptions)
-            is ShortcutListEvent.ShowShortcutInfoDialog -> showShortcutInfoDialog(event.shortcutId, event.shortcutName)
             is ShortcutListEvent.ShowExportOptionsDialog -> showExportOptionsDialog(event.shortcutId)
             is ShortcutListEvent.ShowFileExportDialog -> showFileExportDialog(event.shortcutId, event.format, event.variableIds)
             is ShortcutListEvent.StartExport -> startExport(event.shortcutId, event.uri, event.format, event.variableIds)
@@ -241,11 +239,6 @@ class ShortcutListFragment : BaseFragment<FragmentListBinding>() {
                 }
             }
             .showIfPossible()
-    }
-
-    private fun showShortcutInfoDialog(shortcutId: String, shortcutName: String) {
-        ShortcutInfoDialog(requireContext(), shortcutId, shortcutName)
-            .show()
     }
 
     private fun showExportOptionsDialog(shortcutId: String) {

@@ -19,8 +19,6 @@ abstract class ShortcutListEvent : ViewModelEvent() {
         data class CategoryOption(val categoryId: String, val name: String)
     }
 
-    data class ShowShortcutInfoDialog(val shortcutId: String, val shortcutName: String) : ViewModelEvent()
-
     data class ShowExportOptionsDialog(val shortcutId: String) : ViewModelEvent()
 
     data class ShowFileExportDialog(val shortcutId: String, val format: ExportFormat, val variableIds: Collection<String>) : ViewModelEvent()

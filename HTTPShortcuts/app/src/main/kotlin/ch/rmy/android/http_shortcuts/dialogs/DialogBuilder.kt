@@ -168,10 +168,6 @@ open class DialogBuilder(val context: Context) {
         dialog.cancelOnTouchOutside(cancelable)
     }
 
-    fun cancelable(cancelable: Boolean) = also {
-        dialog.cancelable(cancelable)
-    }
-
     fun build(): MaterialDialog =
         dialog.mapIf(items.isNotEmpty()) {
             val listView = (LayoutInflater.from(context).inflate(R.layout.menu_dialog, null, false) as ListView)

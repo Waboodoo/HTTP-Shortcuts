@@ -12,10 +12,12 @@ import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.EventBridge
 import ch.rmy.android.framework.viewmodel.WithDialog
+import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetCurlExportDialogUseCase
+import ch.rmy.android.http_shortcuts.activities.main.usecases.GetShortcutInfoDialogUseCase
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
@@ -54,6 +56,7 @@ class ShortcutListViewModel(
     private val executionScheduler = ExecutionScheduler(application)
     private val settings = Settings(context)
     private val getCurlExportDialog = GetCurlExportDialogUseCase()
+    private val getShortcutInfoDialog = GetShortcutInfoDialogUseCase()
 
     private lateinit var category: Category
     private var categories: List<Category> = emptyList()
@@ -317,8 +320,11 @@ class ShortcutListViewModel(
     }
 
     fun onShowInfoOptionSelected(shortcutId: String) {
-        val shortcut = getShortcutById(shortcutId) ?: return
-        emitEvent(ShortcutListEvent.ShowShortcutInfoDialog(shortcut.id, shortcut.name))
+        showShortcutInfoDialog(getShortcutById(shortcutId) ?: return)
+    }
+
+    private fun showShortcutInfoDialog(shortcut: Shortcut) {
+        setDialogState(getShortcutInfoDialog(shortcut.id, shortcut.name))
     }
 
     fun onExportOptionSelected(shortcutId: String) {
@@ -349,9 +355,7 @@ class ShortcutListViewModel(
     }
 
     private fun showCurlExportDialog(name: String, command: CurlCommand) {
-        updateViewState {
-            copy(dialogState = getCurlExportDialog(name, command))
-        }
+        setDialogState(getCurlExportDialog(name, command))
     }
 
     fun onExportAsFileOptionSelected(shortcutId: String) {
@@ -436,8 +440,12 @@ class ShortcutListViewModel(
     }
 
     override fun onDialogDismissed(id: String?) {
+        setDialogState(null)
+    }
+
+    private fun setDialogState(dialogState: DialogState?) {
         updateViewState {
-            copy(dialogState = null)
+            copy(dialogState = dialogState)
         }
     }
 
