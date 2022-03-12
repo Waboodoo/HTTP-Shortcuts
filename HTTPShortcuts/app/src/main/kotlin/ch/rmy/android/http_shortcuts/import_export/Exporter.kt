@@ -8,6 +8,7 @@ import ch.rmy.android.framework.extensions.mapFor
 import ch.rmy.android.framework.extensions.mapIf
 import ch.rmy.android.framework.extensions.safeRemoveIf
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.ClientCertParams
@@ -17,10 +18,9 @@ import ch.rmy.android.http_shortcuts.data.models.Parameter
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
-import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
+import ch.rmy.android.http_shortcuts.usecases.GetUsedCustomIconsUseCase
 import ch.rmy.android.http_shortcuts.utils.FileUtil
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
-import ch.rmy.android.http_shortcuts.utils.IconUtil
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import java.io.File
@@ -31,6 +31,8 @@ import java.util.zip.ZipOutputStream
 class Exporter(private val context: Context) {
 
     private val appRepository = AppRepository()
+    private val temporaryShortcutRepository = TemporaryShortcutRepository()
+    private val getUsedCustomIcons = GetUsedCustomIconsUseCase(appRepository, temporaryShortcutRepository)
 
     fun exportToUri(
         uri: Uri,
@@ -119,34 +121,17 @@ class Exporter(private val context: Context) {
     }
 
     private fun getFilesToExport(context: Context, base: Base): List<File> =
-        getShortcutIconFiles(context, base)
+        getShortcutIconFiles(context)
             .plus(getClientCertFiles(context, base))
             .filter { it.exists() }
             .toList()
 
-    private fun getShortcutIconFiles(context: Context, base: Base) =
-        base.shortcuts.asSequence()
-            .map { it.icon }
-            .filterIsInstance(ShortcutIcon.CustomIcon::class.java)
-            .plus(
-                getReferencedIconNames(base)
-                    .map { fileName ->
-                        ShortcutIcon.CustomIcon(fileName)
-                    }
-            )
-            .distinct()
+    private fun getShortcutIconFiles(context: Context) =
+        getUsedCustomIcons()
+            .blockingGet()
             .mapNotNull {
                 it.getFile(context)
             }
-
-    private fun getReferencedIconNames(base: Base): Set<String> =
-        IconUtil.extractCustomIconNames(base.globalCode ?: "")
-            .plus(base.shortcuts.flatMap(::getReferencedIconNames))
-
-    private fun getReferencedIconNames(shortcut: Shortcut): Set<String> =
-        IconUtil.extractCustomIconNames(shortcut.codeOnSuccess)
-            .plus(IconUtil.extractCustomIconNames(shortcut.codeOnFailure))
-            .plus(IconUtil.extractCustomIconNames(shortcut.codeOnPrepare))
 
     private fun getClientCertFiles(context: Context, base: Base) =
         base.shortcuts.asSequence()

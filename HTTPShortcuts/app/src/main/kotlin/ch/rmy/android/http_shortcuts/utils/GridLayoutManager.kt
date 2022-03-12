@@ -1,9 +1,11 @@
 package ch.rmy.android.http_shortcuts.utils
 
 import android.content.Context
+import androidx.annotation.DimenRes
 import androidx.recyclerview.widget.GridLayoutManager
+import ch.rmy.android.framework.extensions.dimen
 
-class GridLayoutManager(context: Context) : GridLayoutManager(context, getNumberOfColumns(context)) {
+class GridLayoutManager(context: Context, @DimenRes itemWidth: Int) : GridLayoutManager(context, getNumberOfColumns(context, itemWidth)) {
 
     private var empty: Boolean = false
 
@@ -20,10 +22,10 @@ class GridLayoutManager(context: Context) : GridLayoutManager(context, getNumber
 
     companion object {
 
-        fun getNumberOfColumns(context: Context): Int {
+        fun getNumberOfColumns(context: Context, @DimenRes itemWidth: Int): Int {
             val displayMetrics = context.resources.displayMetrics
             val dpWidth = displayMetrics.widthPixels / displayMetrics.density
-            return (dpWidth / 90).toInt()
+            return (dpWidth / dimen(context, itemWidth)).toInt()
         }
     }
 }

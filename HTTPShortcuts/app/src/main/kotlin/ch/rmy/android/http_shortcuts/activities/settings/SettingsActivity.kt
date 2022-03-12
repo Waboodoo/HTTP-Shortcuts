@@ -9,6 +9,7 @@ import android.provider.Settings
 import androidx.preference.Preference
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.showSnackbar
 import ch.rmy.android.framework.ui.BaseIntentBuilder
@@ -92,7 +93,7 @@ class SettingsActivity : BaseActivity() {
         }
 
         private fun restartToApplyThemeChanges() {
-            val returnIntent = Intent().apply {
+            val returnIntent = createIntent {
                 putExtra(EXTRA_THEME_CHANGED, true)
             }
             requireActivity().apply {
@@ -118,7 +119,7 @@ class SettingsActivity : BaseActivity() {
             viewModel.setAppLock(password)
                 .subscribe(
                     {
-                        val returnIntent = Intent().apply {
+                        val returnIntent = createIntent {
                             putExtra(EXTRA_APP_LOCKED, true)
                         }
                         requireActivity().apply {

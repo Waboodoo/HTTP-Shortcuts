@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.attachTo
+import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.isWebUrl
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.showToast
@@ -172,9 +173,9 @@ class ImportExportActivity : BaseActivity() {
         private fun reloadCategoriesWhenLeaving() {
             requireActivity().setResult(
                 Activity.RESULT_OK,
-                Intent().apply {
+                createIntent {
                     putExtra(EXTRA_CATEGORIES_CHANGED, true)
-                }
+                },
             )
         }
 

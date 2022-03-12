@@ -2,8 +2,8 @@ package ch.rmy.android.http_shortcuts.activities.widget
 
 import android.app.Activity
 import android.app.Application
-import android.content.Intent
 import android.graphics.Color
+import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
@@ -48,10 +48,11 @@ class WidgetSettingsViewModel(application: Application) : BaseViewModel<WidgetSe
     fun onCreateButtonClicked() {
         finish(
             Activity.RESULT_OK,
-            Intent()
-                .putExtra(WidgetSettingsActivity.EXTRA_SHORTCUT_ID, shortcutId)
-                .putExtra(WidgetSettingsActivity.EXTRA_SHOW_LABEL, currentViewState.showLabel)
-                .putExtra(WidgetSettingsActivity.EXTRA_LABEL_COLOR, currentViewState.labelColorFormatted)
+            createIntent {
+                putExtra(WidgetSettingsActivity.EXTRA_SHORTCUT_ID, shortcutId)
+                putExtra(WidgetSettingsActivity.EXTRA_SHOW_LABEL, currentViewState.showLabel)
+                putExtra(WidgetSettingsActivity.EXTRA_LABEL_COLOR, currentViewState.labelColorFormatted)
+            },
         )
     }
 }

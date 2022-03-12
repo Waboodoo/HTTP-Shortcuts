@@ -5,6 +5,7 @@ import android.app.Application
 import android.content.Intent
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.context
+import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.mapIf
 import ch.rmy.android.framework.utils.localization.Localizable
@@ -392,9 +393,10 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     private fun returnForPlugin(shortcutId: String) {
         val shortcut = getShortcutById(shortcutId) ?: return
         finishWithOkResult(
-            Intent()
-                .putExtra(MainActivity.EXTRA_SELECTION_ID, shortcut.id)
-                .putExtra(MainActivity.EXTRA_SELECTION_NAME, shortcut.name)
+            createIntent {
+                putExtra(MainActivity.EXTRA_SELECTION_ID, shortcut.id)
+                putExtra(MainActivity.EXTRA_SELECTION_NAME, shortcut.name)
+            },
         )
     }
 

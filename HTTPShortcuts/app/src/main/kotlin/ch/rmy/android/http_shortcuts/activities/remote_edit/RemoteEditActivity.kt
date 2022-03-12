@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.activities.remote_edit
 
 import android.app.Activity
 import android.app.ProgressDialog
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -10,6 +9,7 @@ import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.consume
+import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.extensions.showSnackbar
@@ -116,7 +116,7 @@ class RemoteEditActivity : BaseActivity() {
                 {
                     setResult(
                         Activity.RESULT_OK,
-                        Intent().apply {
+                        createIntent {
                             putExtra(EXTRA_CHANGES_IMPORTED, true)
                         },
                     )
