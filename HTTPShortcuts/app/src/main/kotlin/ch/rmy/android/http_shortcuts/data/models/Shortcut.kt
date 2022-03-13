@@ -94,6 +94,9 @@ open class Shortcut(
     @Required
     var codeOnFailure: String = ""
 
+    @Required
+    var browserPackageName: String = ""
+
     var icon: ShortcutIcon
         get() = ShortcutIcon.fromName(iconName)
         set(value) {

@@ -41,8 +41,10 @@ class BasicRequestSettingsViewModel(application: Application) : BaseViewModel<Un
         updateViewState {
             copy(
                 methodVisible = shortcut.type == ShortcutExecutionType.APP,
+                browserPackageNameVisible = shortcut.type == ShortcutExecutionType.BROWSER,
                 method = shortcut.method,
                 url = shortcut.url,
+                browserPackageName = shortcut.browserPackageName,
             )
         }
     }
@@ -73,6 +75,15 @@ class BasicRequestSettingsViewModel(application: Application) : BaseViewModel<Un
         }
         performOperation(
             temporaryShortcutRepository.setMethod(method)
+        )
+    }
+
+    fun onBrowserPackageNameChanged(packageName: String) {
+        updateViewState {
+            copy(browserPackageName = packageName)
+        }
+        performOperation(
+            temporaryShortcutRepository.setBrowserPackageName(packageName)
         )
     }
 }

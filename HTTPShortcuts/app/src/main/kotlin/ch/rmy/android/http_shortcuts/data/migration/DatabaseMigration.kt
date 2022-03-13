@@ -376,6 +376,11 @@ class DatabaseMigration : RealmMigration {
                     .setRequired("id", true)
                     .addPrimaryKey("id")
             }
+            48L -> { // 2.14.0
+                schema.get("Shortcut")!!
+                    .addField("browserPackageName", String::class.java)
+                    .setRequired("browserPackageName", true)
+            }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -401,6 +406,6 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 47L
+        const val VERSION = 48L
     }
 }

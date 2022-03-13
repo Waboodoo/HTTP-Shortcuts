@@ -73,6 +73,11 @@ class TemporaryShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
             shortcut.url = url.trim()
         }
 
+    fun setBrowserPackageName(packageName: String): Completable =
+        commitTransactionForShortcut { shortcut ->
+            shortcut.browserPackageName = packageName.trim()
+        }
+
     fun setAuthenticationMethod(authenticationMethod: String): Completable =
         commitTransactionForShortcut { shortcut ->
             shortcut.authentication = authenticationMethod

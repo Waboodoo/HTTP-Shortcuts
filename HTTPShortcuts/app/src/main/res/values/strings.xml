@@ -18,6 +18,10 @@
     <string name="label_description">Description</string>
     <!-- Label above input field in editor, for shortcut URL -->
     <string name="label_url">URL</string>
+    <!-- Label above input field in editor, for entering the package name of the browser with which to open the URL -->
+    <string name="label_browser_package_name">Browser Package Name</string>
+    <!-- Placeholder for input field in editor, for entering the package name of the browser with which to open the URL -->
+    <string name="placeholder_browser_package_name">Leave empty for default browser</string>
     <!-- Button to save changes made to shortcut/variable -->
     <string name="save_button">Save</string>
     <!-- Button to test changes made to shortcut -->
@@ -588,6 +592,8 @@
     <string name="error_share_failed">An error occurred while sharing.</string>
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
     <string name="error_not_supported">This feature is not supported on your device.</string>
+    <!-- Error shown when a browser shortcut fails because the browser with the configured package name was not found (it might not be installed) -->
+    <string name="error_browser_not_found">Browser with package name "%s" not found</string>
     <!-- Generic error shown when something went wrong and there is no better error message available -->
     <string name="error_generic">Something went wrong…</string>
     <!-- Title of section in settings that allows user to click to open privacy policy dialog -->

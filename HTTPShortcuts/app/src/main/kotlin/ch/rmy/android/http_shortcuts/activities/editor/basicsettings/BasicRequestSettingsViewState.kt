@@ -7,4 +7,6 @@ data class BasicRequestSettingsViewState(
     val method: String = "GET",
     val url: String = "",
     val variables: List<Variable>? = null,
+    val browserPackageName: String = "",
+    val browserPackageNameVisible: Boolean = false,
 )

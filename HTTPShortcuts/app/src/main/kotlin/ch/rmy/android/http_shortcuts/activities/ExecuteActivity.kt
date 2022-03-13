@@ -35,6 +35,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
+import ch.rmy.android.http_shortcuts.exceptions.BrowserNotFoundException
 import ch.rmy.android.http_shortcuts.exceptions.CanceledByUserException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidUrlException
 import ch.rmy.android.http_shortcuts.exceptions.MissingLocationPermissionException
@@ -503,8 +504,14 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                 throw InvalidUrlException(url)
             }
             Intent(Intent.ACTION_VIEW, uri)
+                .mapIf(shortcut.browserPackageName.isNotEmpty()) {
+                    setPackage(shortcut.browserPackageName)
+                }
                 .startActivity(this)
         } catch (e: ActivityNotFoundException) {
+            if (shortcut.browserPackageName.isNotEmpty()) {
+                throw BrowserNotFoundException(shortcut.browserPackageName)
+            }
             throw UnsupportedFeatureException()
         }
     }

@@ -6,6 +6,7 @@ import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.initialize
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.observeTextChanges
+import ch.rmy.android.framework.extensions.setTextSafely
 import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.R
@@ -54,6 +55,13 @@ class BasicRequestSettingsActivity : BaseActivity() {
                 viewModel.onUrlChanged(binding.inputUrl.rawString)
             }
             .attachTo(destroyer)
+
+        binding.inputBrowserPackageName
+            .observeTextChanges()
+            .subscribe {
+                viewModel.onBrowserPackageNameChanged(it.toString())
+            }
+            .attachTo(destroyer)
     }
 
     private fun initViewModelBindings() {
@@ -62,6 +70,9 @@ class BasicRequestSettingsActivity : BaseActivity() {
             binding.inputMethod.visible = viewState.methodVisible
             binding.inputMethod.selectedItem = viewState.method
             binding.inputUrl.rawString = viewState.url
+            binding.inputBrowserPackageName.setTextSafely(viewState.browserPackageName)
+            binding.inputBrowserPackageName.visible = viewState.browserPackageNameVisible
+            binding.labelBrowserPackageName.visible = viewState.browserPackageNameVisible
         }
         viewModel.events.observe(this, ::handleEvent)
     }

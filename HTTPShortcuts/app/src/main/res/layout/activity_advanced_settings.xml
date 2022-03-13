@@ -99,14 +99,13 @@
                     android:layout_below="@+id/label_proxy_host"
                     android:inputType="textNoSuggestions"
                     android:lines="1"
-                    android:paddingRight="@dimen/variable_button_spacing" />
+                    android:paddingEnd="@dimen/variable_button_spacing" />
 
                 <ch.rmy.android.http_shortcuts.variables.VariableButton
                     android:id="@+id/variable_button_proxy_host"
                     style="@style/VariableButton"
                     android:layout_below="@+id/label_proxy_host"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true" />
+                    android:layout_alignParentEnd="true" />
             </RelativeLayout>
 
             <LinearLayout
