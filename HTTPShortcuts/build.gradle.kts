@@ -14,6 +14,7 @@ buildscript {
 
 plugins {
     id("com.diffplug.spotless") version "5.17.0"
+    id("org.jetbrains.kotlin.jvm") version "1.6.10" apply false
 }
 
 ext {

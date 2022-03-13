@@ -34,7 +34,7 @@ class ShortcutEditorActivity : BaseActivity() {
     private var testMenuItem: MenuItem? = null
 
     private val iconPicker by lazy {
-        IconPicker(this) { icon ->
+        IconPicker(this, fetchFavicon = viewModel::onFetchFaviconOptionSelected) { icon ->
             viewModel.onShortcutIconChanged(icon)
         }
     }
@@ -64,7 +64,7 @@ class ShortcutEditorActivity : BaseActivity() {
 
     private fun initUserInputBindings() {
         binding.iconContainer.setOnClickListener {
-            iconPicker.openIconSelectionDialog()
+            viewModel.onIconClicked()
         }
         binding.buttonBasicRequestSettings.setOnClickListener {
             viewModel.onBasicRequestSettingsButtonClicked()
@@ -116,6 +116,9 @@ class ShortcutEditorActivity : BaseActivity() {
             setTitle(viewState.toolbarTitle)
             setSubtitle(viewState.toolbarSubtitle)
             binding.inputIcon.setIcon(viewState.shortcutIcon, animated = true)
+            binding.inputIcon.alpha = if (viewState.iconLoading) 0.7f else 1f
+            binding.iconContainer.isClickable = viewState.isIconClickable
+            binding.iconLoadingIndicator.visible = viewState.iconLoading
             binding.inputShortcutName.setTextSafely(viewState.shortcutName)
             binding.inputDescription.setTextSafely(viewState.shortcutDescription)
             binding.buttonBasicRequestSettings.visible = type.usesUrl
@@ -170,6 +173,9 @@ class ShortcutEditorActivity : BaseActivity() {
         when (event) {
             is ShortcutEditorEvent.FocusNameInputField -> {
                 binding.inputShortcutName.focus()
+            }
+            is ShortcutEditorEvent.ShowIconPickerDialog -> {
+                iconPicker.openIconSelectionDialog(event.includeFaviconOption)
             }
             else -> super.handleEvent(event)
         }

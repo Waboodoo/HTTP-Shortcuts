@@ -4,6 +4,7 @@ import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
 import ch.rmy.android.framework.extensions.attachTo
+import ch.rmy.android.framework.extensions.mapIf
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.utils.Destroyer
 import ch.rmy.android.http_shortcuts.R
@@ -14,6 +15,7 @@ import ch.rmy.android.http_shortcuts.utils.IpackUtil
 
 class IconPicker(
     private val activity: BaseActivity,
+    private val fetchFavicon: () -> Unit = {},
     private val iconSelected: (ShortcutIcon) -> Unit,
 ) {
 
@@ -23,11 +25,14 @@ class IconPicker(
     private val destroyer: Destroyer
         get() = activity.destroyer
 
-    fun openIconSelectionDialog() {
+    fun openIconSelectionDialog(includeFaviconOption: Boolean = false) {
         DialogBuilder(context)
             .title(R.string.change_icon)
             .item(R.string.choose_icon, action = ::openBuiltInIconSelectionDialog)
             .item(R.string.choose_image, action = ::openCustomIconPicker)
+            .mapIf(includeFaviconOption) {
+                item(R.string.choose_page_favicon, action = fetchFavicon)
+            }
             .item(R.string.choose_ipack_icon, action = ::openIpackPicker)
             .showIfPossible()
     }

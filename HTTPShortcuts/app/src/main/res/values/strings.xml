@@ -110,6 +110,8 @@
     <string name="change_icon">Change Icon</string>
     <!-- Option in "Change Icon" dialog, allows user to select a custom image to use as a shortcut icon -->
     <string name="choose_image">Custom Image</string>
+    <!-- Option in "Change Icon" dialog, allows user to fetch the favicon of the shortcut's URL to use as a shortcut icon -->
+    <string name="choose_page_favicon">Fetch Page Favicon</string>
     <!-- Option in "Change Icon" dialog, allows user to select an icon from an Ipack icon set (from a third-party icon app) -->
     <string name="choose_ipack_icon">Ipack Icon</string>
     <!-- Option in "Change Icon" dialog, allows user to select one of the built-in icons to use as a shortcut icon -->
@@ -1119,4 +1121,6 @@
     <string name="button_delete_all_unused_icons">Delete unused icons</string>
     <!-- Dialog prompt to ask user to confirm deletion of all unused custom icons -->
     <string name="confirm_delete_all_unused_custom_icons_message">Delete all unused icons?</string>
+    <!-- Error message, shown in snackbar when the user tried to fetch a page's favicon but it failed -->
+    <string name="error_failed_to_fetch_favicon">Failed to fetch icon. This website might not have a suitable one.</string>
 </resources>

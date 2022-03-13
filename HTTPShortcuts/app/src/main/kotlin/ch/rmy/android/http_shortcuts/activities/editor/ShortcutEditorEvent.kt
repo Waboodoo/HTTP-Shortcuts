@@ -4,4 +4,5 @@ import ch.rmy.android.framework.viewmodel.ViewModelEvent
 
 abstract class ShortcutEditorEvent : ViewModelEvent() {
     object FocusNameInputField : ShortcutEditorEvent()
+    data class ShowIconPickerDialog(val includeFaviconOption: Boolean) : ShortcutEditorEvent()
 }

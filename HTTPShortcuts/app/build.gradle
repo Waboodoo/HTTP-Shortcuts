@@ -189,6 +189,9 @@ dependencies {
     /* cURL import & export */
     implementation project(path: ':curl_command')
 
+    /* Favicon fetching */
+    implementation project(path: ':favicon_grabber')
+
     /* JSON serialization & deserialization */
     implementation 'com.google.code.gson:gson:2.8.9'
 

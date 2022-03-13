@@ -21,4 +21,8 @@ data class ShortcutEditorViewState(
     val authenticationSettingsSubtitle: Localizable = Localizable.EMPTY,
     val scriptingSubtitle: Localizable = Localizable.EMPTY,
     val triggerShortcutsSubtitle: Localizable = Localizable.EMPTY,
-)
+    val iconLoading: Boolean = false,
+) {
+    val isIconClickable
+        get() = !iconLoading
+}

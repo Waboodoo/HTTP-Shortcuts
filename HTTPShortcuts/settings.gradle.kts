@@ -1,1 +1,3 @@
-include(":app", ":curl_command")
+include(":app")
+include(":curl_command")
+include(":favicon_grabber")

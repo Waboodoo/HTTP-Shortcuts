@@ -27,6 +27,7 @@ import ch.rmy.android.http_shortcuts.activities.editor.headers.RequestHeadersAct
 import ch.rmy.android.http_shortcuts.activities.editor.response.ResponseActivity
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.ScriptingActivity
 import ch.rmy.android.http_shortcuts.activities.editor.shortcuts.TriggerShortcutsActivity
+import ch.rmy.android.http_shortcuts.activities.editor.usecases.FetchFaviconUseCase
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
@@ -47,6 +48,8 @@ import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
 import ch.rmy.curlcommand.CurlCommand
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 class ShortcutEditorViewModel(application: Application) : BaseViewModel<ShortcutEditorViewModel.InitData, ShortcutEditorViewState>(application) {
 
@@ -54,6 +57,7 @@ class ShortcutEditorViewModel(application: Application) : BaseViewModel<Shortcut
     private val temporaryShortcutRepository = TemporaryShortcutRepository()
     private val variableRepository = VariableRepository()
     private val widgetManager = WidgetManager()
+    private val fetchFavicon = FetchFaviconUseCase(context)
 
     private val variablePlaceholderProvider = VariablePlaceholderProvider()
 
@@ -161,13 +165,13 @@ class ShortcutEditorViewModel(application: Application) : BaseViewModel<Shortcut
     private fun getBasicSettingsSubtitle(): Localizable =
         enhancedWithVariables(
             if (shortcut.type == ShortcutExecutionType.BROWSER) {
-                if (shortcut.url.let { it.isEmpty() || it == "http://" || it == "https://" }) {
+                if (!hasUrl()) {
                     StringResLocalizable(R.string.subtitle_basic_request_settings_url_only_prompt)
                 } else {
                     shortcut.url.toLocalizable()
                 }
             } else {
-                if (shortcut.url.let { it.isEmpty() || it == "http://" || it == "https://" }) {
+                if (!hasUrl()) {
                     StringResLocalizable(R.string.subtitle_basic_request_settings_prompt)
                 } else {
                     StringResLocalizable(
@@ -178,6 +182,9 @@ class ShortcutEditorViewModel(application: Application) : BaseViewModel<Shortcut
                 }
             }
         )
+
+    private fun hasUrl() =
+        shortcut.url.let { it.isNotEmpty() && it != "http://" && it != "https://" }
 
     private fun getHeadersSubtitle(): Localizable {
         val count = shortcut.headers.size
@@ -407,6 +414,38 @@ class ShortcutEditorViewModel(application: Application) : BaseViewModel<Shortcut
 
     fun onAdvancedSettingsButtonClicked() {
         openActivity(AdvancedSettingsActivity.IntentBuilder())
+    }
+
+    fun onIconClicked() {
+        emitEvent(ShortcutEditorEvent.ShowIconPickerDialog(includeFaviconOption = hasUrl()))
+    }
+
+    fun onFetchFaviconOptionSelected() {
+        fetchFavicon(shortcut.url)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe {
+                updateViewState {
+                    copy(iconLoading = true)
+                }
+            }
+            .doFinally {
+                updateViewState {
+                    copy(iconLoading = false)
+                }
+            }
+            .subscribe(
+                { iconOptional ->
+                    val icon = iconOptional.value
+                    if (icon != null) {
+                        onShortcutIconChanged(icon)
+                    } else {
+                        showSnackbar(R.string.error_failed_to_fetch_favicon)
+                    }
+                },
+                ::handleUnexpectedError,
+            )
+            .attachTo(destroyer)
     }
 
     data class InitData(

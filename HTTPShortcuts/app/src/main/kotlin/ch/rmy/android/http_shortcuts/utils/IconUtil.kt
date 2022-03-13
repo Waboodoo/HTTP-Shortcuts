@@ -9,9 +9,11 @@ import android.graphics.drawable.Icon
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.graphics.scale
 import ch.rmy.android.framework.extensions.setTintCompat
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import java.io.File
+import java.io.InputStream
 import java.util.Date
 import java.util.regex.Pattern
 import java.util.regex.Pattern.quote
@@ -94,6 +96,21 @@ object IconUtil {
         }
         drawable.draw(canvas)
         return bitmap
+    }
+
+    fun createIconFromStream(context: Context, inStream: InputStream): ShortcutIcon? {
+        val bitmap = BitmapFactory.decodeStream(inStream)
+            ?: return null
+        val iconSize = getIconSize(context)
+        val scaledBitmap = bitmap.scale(iconSize, iconSize)
+        val iconName = generateCustomIconName()
+        context.openFileOutput(iconName, 0).use {
+            scaledBitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
+            it.flush()
+        }
+        scaledBitmap.recycle()
+        bitmap.recycle()
+        return ShortcutIcon.CustomIcon(iconName)
     }
 
     fun getIconSize(context: Context, scaled: Boolean = true): Int {
