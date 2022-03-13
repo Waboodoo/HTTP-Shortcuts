@@ -297,6 +297,9 @@ class CodeSnippetPicker(
             .item(R.string.action_type_to_hex_string, descriptionRes = R.string.action_type_to_hex_string_description) {
                 insertText("toHexString(", ");\n")
             }
+            .item(R.string.action_type_trim_string, descriptionRes = R.string.action_type_trim_string_description) {
+                insertText("", ".trim()")
+            }
             .showIfPossible()
     }
 
