@@ -122,7 +122,7 @@ class ShortcutListViewModel(
                 isAppLocked = lockOptional.value != null
                 if (isInitialized) {
                     updateViewState {
-                        copy(isAppLocked = isAppLocked)
+                        copy(isAppLocked = this@ShortcutListViewModel.isAppLocked)
                     }
                 }
             }
