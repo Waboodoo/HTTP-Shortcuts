@@ -109,6 +109,13 @@
                 android:layout_height="wrap_content"
                 android:text="@string/message_allow_share_instructions" />
 
+            <ch.rmy.android.framework.ui.views.LabelledSpinner
+                android:id="@+id/input_share_support"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="@string/label_share_support" />
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

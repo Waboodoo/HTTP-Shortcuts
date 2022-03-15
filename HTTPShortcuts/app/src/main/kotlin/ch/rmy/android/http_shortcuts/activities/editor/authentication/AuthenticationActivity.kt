@@ -47,7 +47,8 @@ class AuthenticationActivity : BaseActivity() {
         VariableViewUtils.bindVariableViews(binding.inputToken, binding.variableButtonToken, variablePlaceholderProvider)
             .attachTo(destroyer)
 
-        binding.inputAuthenticationMethod.selectionChanges
+        binding.inputAuthenticationMethod
+            .selectionChanges
             .subscribe(viewModel::onAuthenticationMethodChanged)
             .attachTo(destroyer)
 

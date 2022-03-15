@@ -49,9 +49,10 @@ class TemporaryVariableRepository : BaseRepository(RealmFactory.getInstance()) {
             variable.jsonEncode = enabled
         }
 
-    fun setShareText(enabled: Boolean): Completable =
+    fun setSharingSupport(shareText: Boolean, shareTitle: Boolean): Completable =
         commitTransactionForVariable { variable ->
-            variable.isShareText = enabled
+            variable.isShareText = shareText
+            variable.isShareTitle = shareTitle
         }
 
     fun setRememberValue(enabled: Boolean): Completable =

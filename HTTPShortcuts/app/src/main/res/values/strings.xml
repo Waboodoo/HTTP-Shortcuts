@@ -1135,4 +1135,12 @@
     <string name="action_type_trim_string">Trim String</string>
     <!-- Shortcut Action Description: Allows removing leading and trailing whitespace characters from a string -->
     <string name="action_type_trim_string_description">Remove leading and trailing whitespace characters</string>
+    <!-- Label of dropdown menu, for selecting which type of data to receive from the share dialog to use as the value of a variable -->
+    <string name="label_share_support">Data to Receive from Sharing</string>
+    <!-- Label of an option in the share dialog, for receiving only the text -->
+    <string name="label_share_support_option_text">Text only</string>
+    <!-- Label of an option in the share dialog, for receiving only the title (subject) -->
+    <string name="label_share_support_option_title">Title only</string>
+    <!-- Label of an option in the share dialog, for receiving the title (subject) and the text -->
+    <string name="label_share_support_option_title_and_text">Title and Text</string>
 </resources>

@@ -97,7 +97,8 @@ class VariableEditorViewModel(application: Application) : BaseViewModel<Variable
                         variableTitle = variable.title,
                         urlEncodeChecked = variable.urlEncode,
                         jsonEncodeChecked = variable.jsonEncode,
-                        allowShareChecked = variable.isShareText,
+                        allowShareChecked = variable.isShareText || variable.isShareTitle,
+                        shareSupport = variable.getShareSupport(),
                     )
                 }
             }
@@ -234,8 +235,30 @@ class VariableEditorViewModel(application: Application) : BaseViewModel<Variable
 
     fun onAllowShareChanged(enabled: Boolean) {
         performOperation(
-            temporaryVariableRepository.setShareText(enabled)
+            temporaryVariableRepository.setSharingSupport(
+                shareText = enabled && currentViewState.shareSupport.text,
+                shareTitle = enabled && currentViewState.shareSupport.title,
+            )
         )
+    }
+
+    fun onShareSupportChanged(shareSupport: VariableEditorViewState.ShareSupport) {
+        performOperation(
+            temporaryVariableRepository.setSharingSupport(
+                shareText = shareSupport.text,
+                shareTitle = shareSupport.title,
+            )
+        )
+    }
+
+    private fun Variable.getShareSupport(): VariableEditorViewState.ShareSupport {
+        if (isShareTitle) {
+            if (isShareText) {
+                return VariableEditorViewState.ShareSupport.TITLE_AND_TEXT
+            }
+            return VariableEditorViewState.ShareSupport.TITLE
+        }
+        return VariableEditorViewState.ShareSupport.TEXT
     }
 
     data class InitData(

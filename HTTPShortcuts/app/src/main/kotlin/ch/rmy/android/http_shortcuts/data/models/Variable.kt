@@ -55,6 +55,16 @@ open class Variable(
             }
         }
 
+    var isShareTitle: Boolean
+        get() = flags and FLAG_SHARE_TITLE != 0
+        set(value) {
+            flags = if (value) {
+                flags or FLAG_SHARE_TITLE
+            } else {
+                flags and FLAG_SHARE_TITLE.inv()
+            }
+        }
+
     var isMultiline: Boolean
         get() = flags and FLAG_MULTILINE != 0
         set(value) {
@@ -118,5 +128,6 @@ open class Variable(
 
         private const val FLAG_SHARE_TEXT = 0x1
         private const val FLAG_MULTILINE = 0x2
+        private const val FLAG_SHARE_TITLE = 0x4
     }
 }

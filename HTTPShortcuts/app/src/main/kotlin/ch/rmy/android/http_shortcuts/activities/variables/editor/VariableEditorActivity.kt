@@ -64,6 +64,12 @@ class VariableEditorActivity : BaseActivity() {
 
         defaultColor = binding.inputVariableKey.textColors
 
+        binding.inputShareSupport.setItemsFromPairs(
+            SHARE_SUPPORT_OPTIONS.map {
+                it.first.name to getString(it.second)
+            }
+        )
+
         initVariableTypeFragment()
     }
 
@@ -121,6 +127,13 @@ class VariableEditorActivity : BaseActivity() {
             .observeChecked()
             .subscribe(viewModel::onAllowShareChanged)
             .attachTo(destroyer)
+
+        binding.inputShareSupport
+            .selectionChanges
+            .subscribe { selectedOption ->
+                viewModel.onShareSupportChanged(VariableEditorViewState.ShareSupport.valueOf(selectedOption))
+            }
+            .attachTo(destroyer)
     }
 
     private fun initViewModelBindings() {
@@ -141,6 +154,10 @@ class VariableEditorActivity : BaseActivity() {
             binding.inputUrlEncode.isChecked = viewState.urlEncodeChecked
             binding.inputJsonEncode.isChecked = viewState.jsonEncodeChecked
             binding.inputAllowShare.isChecked = viewState.allowShareChecked
+            if (viewState.shareSupportVisible) {
+                binding.inputShareSupport.selectedItem = viewState.shareSupport.name
+            }
+            binding.inputShareSupport.visible = viewState.shareSupportVisible
         }
         viewModel.events.observe(this, ::handleEvent)
     }
@@ -183,5 +200,11 @@ class VariableEditorActivity : BaseActivity() {
 
         private const val EXTRA_VARIABLE_ID = "ch.rmy.android.http_shortcuts.activities.variables.editor.VariableEditorActivity.variable_id"
         private const val EXTRA_VARIABLE_TYPE = "ch.rmy.android.http_shortcuts.activities.variables.editor.VariableEditorActivity.variable_type"
+
+        private val SHARE_SUPPORT_OPTIONS = listOf(
+            VariableEditorViewState.ShareSupport.TEXT to R.string.label_share_support_option_text,
+            VariableEditorViewState.ShareSupport.TITLE to R.string.label_share_support_option_title,
+            VariableEditorViewState.ShareSupport.TITLE_AND_TEXT to R.string.label_share_support_option_title_and_text,
+        )
     }
 }

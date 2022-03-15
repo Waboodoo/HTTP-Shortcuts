@@ -28,9 +28,10 @@ class ShareActivity : BaseActivity(), Entrypoint {
 
     override fun onCreated(savedState: Bundle?) {
         val text = intent.getStringExtra(Intent.EXTRA_TEXT)
+        val title = intent.getStringExtra(Intent.EXTRA_SUBJECT)
         if (savedState == null) {
             cacheFiles(getFileUris()) { cachedFiles ->
-                viewModel.initialize(ShareViewModel.InitData(text, cachedFiles))
+                viewModel.initialize(ShareViewModel.InitData(text, title, cachedFiles))
             }
         }
         initViewModelBindings()

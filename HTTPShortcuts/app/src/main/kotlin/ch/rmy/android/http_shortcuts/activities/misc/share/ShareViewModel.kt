@@ -28,6 +28,8 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
 
     private val text: String
         get() = initData.text ?: ""
+    private val title: String
+        get() = initData.title ?: ""
     private val fileUris: List<Uri>
         get() = initData.fileUris
 
@@ -61,7 +63,13 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
         val variableIds = variables.map { it.id }.toSet()
         val shortcuts = getTargetableShortcutsForTextSharing(variableIds, variableLookup)
 
-        val variableValues = variables.associate { variable -> variable.key to text }
+        val variableValues = variables.associate { variable ->
+            variable.key to when {
+                variable.isShareText && variable.isShareTitle -> "$title - $text"
+                variable.isShareTitle -> title
+                else -> text
+            }
+        }
         when (shortcuts.size) {
             0 -> showInstructions(R.string.error_not_suitable_shortcuts)
             1 -> {
@@ -76,7 +84,7 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
 
     private fun getTargetableVariablesForTextSharing() =
         variables
-            .filter { it.isShareText }
+            .filter { it.isShareText || it.isShareTitle }
             .toSet()
 
     private fun getTargetableShortcutsForTextSharing(variableIds: Set<String>, variableLookup: VariableLookup): List<Shortcut> =
@@ -150,6 +158,7 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
 
     data class InitData(
         val text: String?,
+        val title: String?,
         val fileUris: List<Uri>,
     )
 
