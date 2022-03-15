@@ -151,6 +151,7 @@ if (confirm('Are you sure?')) {
 const myName = prompt('What is your name?');
 ```
 
+<a name="show-selection"></a>
 ### showSelection
 
 This function allows you to display a multiple-choice dialog from which an option can be picked. It takes one argument, which must be either an object consisting of key-value string pairs, or a list of strings. It returns the selected value as a string, or `null` if the dialog is closed without a selection (e.g. by pressing the back button).

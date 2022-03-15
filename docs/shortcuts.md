@@ -11,7 +11,7 @@ Get started by clicking the *plus button* at the bottom right when opening the a
 
 The main purpose of the app is to make it easy to send HTTP requests, so the main type of shortcut is a regular HTTP shortcut. For this at the very least you need to specify an HTTP method (e.g. GET, POST, PUT, ...) and the URL that you want to reach (e.g. an API endpoint, a hosted text document or a website).
 
-You will also find a number of options, such as custom request headers, request body settings, or how the response should be display. You will also find more advanced features like proxy settings or [scripting](scripting.md).
+You will also find a number of options, such as custom request headers, request body settings, or how the response should be displayed. You will also find more advanced features like proxy settings or [scripting](scripting.md).
 
 See the [Execution Flow](execution-flow.md) page for more information on how a shortcut is executed.
 
