@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.variables
 
 import android.app.Application
 import ch.rmy.android.framework.extensions.attachTo
+import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
@@ -12,6 +13,7 @@ import ch.rmy.android.http_shortcuts.activities.variables.editor.VariableEditorA
 import ch.rmy.android.http_shortcuts.activities.variables.editor.usecases.GetContextMenuDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.variables.editor.usecases.GetCreationDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.variables.editor.usecases.GetDeletionDialogUseCase
+import ch.rmy.android.http_shortcuts.activities.variables.usecases.GetUsedVariableIdsUseCase
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
@@ -31,8 +33,16 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
     private val getDeletionDialog = GetDeletionDialogUseCase()
     private val getContextMenuDialog = GetContextMenuDialogUseCase()
     private val getCreationDialog = GetCreationDialogUseCase()
+    private val getUsedVariableIdsUseCase = GetUsedVariableIdsUseCase(shortcutRepository, variableRepository)
 
     private var variables: List<Variable> = emptyList()
+    private var usedVariableIds: Set<String>? = null
+        set(value) {
+            if (field != value) {
+                field = value
+                recomputeVariablesInViewState()
+            }
+        }
 
     override var dialogState: DialogState?
         get() = currentViewState.dialogState
@@ -42,17 +52,25 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
             }
         }
 
+    override fun onInitializationStarted(data: Unit) {
+        finalizeInitialization(silent = true)
+    }
+
     override fun initViewState() = VariablesViewState()
 
     override fun onInitialized() {
         variableRepository.getObservableVariables()
             .subscribe { variables ->
                 this.variables = variables
-                updateViewState {
-                    copy(variables = mapVariables(variables))
-                }
+                recomputeVariablesInViewState()
             }
             .attachTo(destroyer)
+    }
+
+    private fun recomputeVariablesInViewState() {
+        updateViewState {
+            copy(variables = mapVariables(this@VariablesViewModel.variables))
+        }
     }
 
     private fun mapVariables(variables: List<Variable>): List<VariableListItem> =
@@ -61,6 +79,7 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
                 id = variable.id,
                 key = variable.key,
                 type = StringResLocalizable(VariableTypeMappings.getTypeName(variable.variableType)),
+                isUnused = usedVariableIds?.contains(variable.id) == false,
             )
         }
             .ifEmpty {
@@ -185,6 +204,7 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
         val variable = getVariable(variableId) ?: return
         performOperation(variableRepository.deleteVariable(variableId)) {
             showSnackbar(StringResLocalizable(R.string.variable_deleted, variable.key))
+            recomputeUsedVariableIds()
         }
     }
 
@@ -192,5 +212,22 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
         waitForOperationsToFinish {
             finish()
         }
+    }
+
+    fun onStart() {
+        recomputeUsedVariableIds()
+    }
+
+    private fun recomputeUsedVariableIds() {
+        getUsedVariableIdsUseCase()
+            .subscribe(
+                {
+                    usedVariableIds = it
+                },
+                { error ->
+                    logException(error)
+                },
+            )
+            .attachTo(destroyer)
     }
 }

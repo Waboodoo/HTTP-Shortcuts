@@ -9,6 +9,7 @@ sealed interface VariableListItem {
         val id: String,
         val key: String,
         val type: Localizable,
+        val isUnused: Boolean,
     ) : VariableListItem
 
     object EmptyState : VariableListItem {

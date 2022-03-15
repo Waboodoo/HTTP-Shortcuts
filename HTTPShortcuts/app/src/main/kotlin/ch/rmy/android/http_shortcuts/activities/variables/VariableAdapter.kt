@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.framework.extensions.setText
+import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.framework.ui.BaseAdapter
 import ch.rmy.android.http_shortcuts.databinding.ListEmptyItemBinding
 import ch.rmy.android.http_shortcuts.databinding.ListItemVariableBinding
@@ -64,6 +65,7 @@ class VariableAdapter : BaseAdapter<VariableListItem>() {
             variableId = item.id
             binding.name.text = item.key
             binding.type.setText(item.type)
+            binding.unused.visible = item.isUnused
         }
     }
 

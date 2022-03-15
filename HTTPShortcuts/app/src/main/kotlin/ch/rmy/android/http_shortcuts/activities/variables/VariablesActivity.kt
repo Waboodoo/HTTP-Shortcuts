@@ -90,6 +90,11 @@ class VariablesActivity : BaseActivity() {
         else -> super.onOptionsItemSelected(item)
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.onStart()
+    }
+
     override fun onBackPressed() {
         viewModel.onBackPressed()
     }
