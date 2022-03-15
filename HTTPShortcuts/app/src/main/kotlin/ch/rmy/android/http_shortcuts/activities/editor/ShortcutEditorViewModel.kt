@@ -14,7 +14,8 @@ import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.QuantityStringLocalizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
-import ch.rmy.android.framework.viewmodel.ViewModelEvent
+import ch.rmy.android.framework.viewmodel.WithDialog
+import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity.Companion.RESULT_SHORTCUT_ID
@@ -36,7 +37,6 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.maintenance.CleanUpWorker
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Shortcut.Companion.TEMPORARY_ID
-import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.icons.Icons
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
@@ -51,7 +51,9 @@ import ch.rmy.curlcommand.CurlCommand
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class ShortcutEditorViewModel(application: Application) : BaseViewModel<ShortcutEditorViewModel.InitData, ShortcutEditorViewState>(application) {
+class ShortcutEditorViewModel(
+    application: Application,
+) : BaseViewModel<ShortcutEditorViewModel.InitData, ShortcutEditorViewState>(application), WithDialog {
 
     private val shortcutRepository = ShortcutRepository()
     private val temporaryShortcutRepository = TemporaryShortcutRepository()
@@ -79,6 +81,14 @@ class ShortcutEditorViewModel(application: Application) : BaseViewModel<Shortcut
 
     private val executionType
         get() = initData.executionType
+
+    override var dialogState: DialogState?
+        get() = currentViewState.dialogState
+        set(value) {
+            updateViewState {
+                copy(dialogState = value)
+            }
+        }
 
     override fun onInitializationStarted(data: InitData) {
         if (data.shortcutId == null) {
@@ -355,15 +365,12 @@ class ShortcutEditorViewModel(application: Application) : BaseViewModel<Shortcut
     }
 
     private fun showDiscardDialog() {
-        emitEvent(
-            ViewModelEvent.ShowDialog { context ->
-                DialogBuilder(context)
-                    .message(R.string.confirm_discard_changes_message)
-                    .positive(R.string.dialog_discard) { onDiscardDialogConfirmed() }
-                    .negative(R.string.dialog_cancel)
-                    .showIfPossible()
-            }
-        )
+        dialogState = DialogState.create {
+            message(R.string.confirm_discard_changes_message)
+                .positive(R.string.dialog_discard) { onDiscardDialogConfirmed() }
+                .negative(R.string.dialog_cancel)
+                .build()
+        }
     }
 
     private fun onDiscardDialogConfirmed() {

@@ -143,6 +143,7 @@ class ShortcutEditorActivity : BaseActivity() {
             binding.buttonRequestBody.isEnabled = viewState.requestBodyButtonEnabled
             testMenuItem?.isVisible = viewState.testButtonVisible
             saveMenuItem?.isVisible = viewState.saveButtonVisible
+            setDialogState(viewState.dialogState, viewModel)
         }
         viewModel.events.observe(this, ::handleEvent)
     }

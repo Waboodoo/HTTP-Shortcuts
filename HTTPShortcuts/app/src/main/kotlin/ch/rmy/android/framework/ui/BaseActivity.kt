@@ -135,9 +135,6 @@ abstract class BaseActivity : AppCompatActivity() {
                 logInfo("handleEvent: Setting result (result=${event.result})")
                 setResult(event.result, event.intent)
             }
-            is ViewModelEvent.ShowDialog -> {
-                event.dialogBuilder(context)
-            }
             is ViewModelEvent.ShowSnackbar -> {
                 showSnackbar(event.message.localize(context), long = event.long)
             }

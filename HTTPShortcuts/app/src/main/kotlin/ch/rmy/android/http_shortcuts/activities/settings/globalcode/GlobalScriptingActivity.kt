@@ -96,6 +96,7 @@ class GlobalScriptingActivity : BaseActivity() {
             viewState.shortcuts?.let(shortcutPlaceholderProvider::applyShortcuts)
             binding.inputCode.setTextSafely(processTextForView(viewState.globalCode))
             saveButton?.isVisible = viewState.saveButtonVisible
+            setDialogState(viewState.dialogState, viewModel)
         }
         viewModel.events.observe(this, ::handleEvent)
     }

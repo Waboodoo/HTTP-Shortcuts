@@ -158,6 +158,7 @@ class VariableEditorActivity : BaseActivity() {
                 binding.inputShareSupport.selectedItem = viewState.shareSupport.name
             }
             binding.inputShareSupport.visible = viewState.shareSupportVisible
+            setDialogState(viewState.dialogState, viewModel)
         }
         viewModel.events.observe(this, ::handleEvent)
     }

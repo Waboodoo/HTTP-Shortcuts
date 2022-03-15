@@ -85,6 +85,7 @@ class TriggerShortcutsActivity : BaseActivity() {
         viewModel.viewState.observe(this) { viewState ->
             adapter.items = viewState.shortcuts
             isDraggingEnabled = viewState.isDraggingEnabled
+            setDialogState(viewState.dialogState, viewModel)
         }
         viewModel.events.observe(this, ::handleEvent)
     }

@@ -7,17 +7,19 @@ import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.EventBridge
-import ch.rmy.android.framework.viewmodel.ViewModelEvent
+import ch.rmy.android.framework.viewmodel.WithDialog
+import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.VariableTypeMappings
 import ch.rmy.android.http_shortcuts.data.domains.variables.TemporaryVariableRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.data.models.Variable
-import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.variables.Variables
 
-class VariableEditorViewModel(application: Application) : BaseViewModel<VariableEditorViewModel.InitData, VariableEditorViewState>(application) {
+class VariableEditorViewModel(
+    application: Application,
+) : BaseViewModel<VariableEditorViewModel.InitData, VariableEditorViewState>(application), WithDialog {
 
     private val variableRepository = VariableRepository()
     private val temporaryVariableRepository = TemporaryVariableRepository()
@@ -46,6 +48,14 @@ class VariableEditorViewModel(application: Application) : BaseViewModel<Variable
                 if (value != null) {
                     emitEvent(VariableEditorEvent.FocusVariableKeyInput)
                 }
+            }
+        }
+
+    override var dialogState: DialogState?
+        get() = currentViewState.dialogState
+        set(value) {
+            updateViewState {
+                copy(dialogState = value)
             }
         }
 
@@ -185,15 +195,12 @@ class VariableEditorViewModel(application: Application) : BaseViewModel<Variable
         oldVariable?.isSameAs(variable) == false
 
     private fun showDiscardDialog() {
-        emitEvent(
-            ViewModelEvent.ShowDialog { context ->
-                DialogBuilder(context)
-                    .message(R.string.confirm_discard_changes_message)
-                    .positive(R.string.dialog_discard) { onDiscardDialogConfirmed() }
-                    .negative(R.string.dialog_cancel)
-                    .showIfPossible()
-            }
-        )
+        dialogState = DialogState.create {
+            message(R.string.confirm_discard_changes_message)
+                .positive(R.string.dialog_discard) { onDiscardDialogConfirmed() }
+                .negative(R.string.dialog_cancel)
+                .build()
+        }
     }
 
     private fun onDiscardDialogConfirmed() {

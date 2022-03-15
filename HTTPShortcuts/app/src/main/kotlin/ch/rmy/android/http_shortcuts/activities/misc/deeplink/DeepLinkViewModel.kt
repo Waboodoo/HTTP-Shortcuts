@@ -6,21 +6,30 @@ import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
-import ch.rmy.android.framework.viewmodel.ViewModelEvent
+import ch.rmy.android.framework.viewmodel.WithDialog
+import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
-import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.utils.HTMLUtil
+import com.afollestad.materialdialogs.callbacks.onCancel
 
-class DeepLinkViewModel(application: Application) : BaseViewModel<DeepLinkViewModel.InitData, Unit>(application) {
+class DeepLinkViewModel(application: Application) : BaseViewModel<DeepLinkViewModel.InitData, DeepLinkViewState>(application), WithDialog {
 
     private val shortcutRepository = ShortcutRepository()
 
-    override fun initViewState() = Unit
+    override fun initViewState() = DeepLinkViewState()
 
     private val url: Uri
         get() = initData.url!!
+
+    override var dialogState: DialogState?
+        get() = currentViewState.dialogState
+        set(value) {
+            updateViewState {
+                copy(dialogState = value)
+            }
+        }
 
     override fun onInitializationStarted(data: InitData) {
         if (data.url == null) {
@@ -35,20 +44,19 @@ class DeepLinkViewModel(application: Application) : BaseViewModel<DeepLinkViewMo
     }
 
     private fun showMessageDialog(message: Localizable) {
-        emitEvent(
-            ViewModelEvent.ShowDialog { context ->
-                DialogBuilder(context)
-                    .message(message)
-                    .positive(R.string.dialog_ok)
-                    .dismissListener {
-                        onMessageDialogDismissed()
-                    }
-                    .showIfPossible()
-            }
-        )
+        dialogState = DialogState.create {
+            message(message)
+                .positive(R.string.dialog_ok) {
+                    onMessageDialogCanceled()
+                }
+                .build()
+                .onCancel {
+                    onMessageDialogCanceled()
+                }
+        }
     }
 
-    private fun onMessageDialogDismissed() {
+    private fun onMessageDialogCanceled() {
         finish(skipAnimation = true)
     }
 
@@ -59,7 +67,6 @@ class DeepLinkViewModel(application: Application) : BaseViewModel<DeepLinkViewMo
             .subscribe(
                 { shortcut ->
                     executeShortcut(shortcut.id, getVariableValues())
-                    finish(skipAnimation = true)
                 },
                 {
                     showMessageDialog(StringResLocalizable(R.string.error_shortcut_not_found_for_deep_link, shortcutIdOrName))
@@ -73,6 +80,7 @@ class DeepLinkViewModel(application: Application) : BaseViewModel<DeepLinkViewMo
             ExecuteActivity.IntentBuilder(shortcutId)
                 .variableValues(variableValues)
         )
+        finish(skipAnimation = true)
     }
 
     private fun getShortcutNameOrId(): String =

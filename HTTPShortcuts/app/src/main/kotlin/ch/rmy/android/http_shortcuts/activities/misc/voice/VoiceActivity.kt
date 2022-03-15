@@ -20,6 +20,9 @@ class VoiceActivity : BaseActivity(), Entrypoint {
     }
 
     private fun initViewModelBindings() {
+        viewModel.viewState.observe(this) { viewState ->
+            setDialogState(viewState.dialogState, viewModel)
+        }
         viewModel.events.observe(this, ::handleEvent)
     }
 }

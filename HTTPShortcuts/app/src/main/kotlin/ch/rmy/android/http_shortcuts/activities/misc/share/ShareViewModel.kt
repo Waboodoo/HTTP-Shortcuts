@@ -6,19 +6,20 @@ import androidx.annotation.StringRes
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.mapFor
 import ch.rmy.android.framework.viewmodel.BaseViewModel
-import ch.rmy.android.framework.viewmodel.ViewModelEvent
+import ch.rmy.android.framework.viewmodel.WithDialog
+import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
-import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.variables.VariableLookup
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
+import com.afollestad.materialdialogs.callbacks.onCancel
 
-class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.InitData, Unit>(application) {
+class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.InitData, ShareViewState>(application), WithDialog {
 
     private val shortcutRepository = ShortcutRepository()
     private val variableRepository = VariableRepository()
@@ -33,7 +34,15 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
     private val fileUris: List<Uri>
         get() = initData.fileUris
 
-    override fun initViewState() = Unit
+    override var dialogState: DialogState?
+        get() = currentViewState.dialogState
+        set(value) {
+            updateViewState {
+                copy(dialogState = value)
+            }
+        }
+
+    override fun initViewState() = ShareViewState()
 
     override fun onInitializationStarted(data: InitData) {
         shortcutRepository.getShortcuts()
@@ -74,7 +83,6 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
             0 -> showInstructions(R.string.error_not_suitable_shortcuts)
             1 -> {
                 executeShortcut(shortcuts[0].id, variableValues = variableValues)
-                finish(skipAnimation = true)
             }
             else -> {
                 showShortcutSelection(shortcuts, variableValues = variableValues)
@@ -103,7 +111,6 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
             }
             1 -> {
                 executeShortcut(shortcutsForFileSharing[0].id)
-                finish(skipAnimation = true)
             }
             else -> showShortcutSelection(shortcutsForFileSharing)
         }
@@ -115,44 +122,41 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
                 .variableValues(variableValues)
                 .files(fileUris)
         )
+        finish(skipAnimation = true)
     }
 
     private fun showInstructions(@StringRes text: Int) {
-        emitEvent(
-            ViewModelEvent.ShowDialog { context ->
-                DialogBuilder(context)
-                    .message(text)
-                    .dismissListener {
-                        onInstructionsDismissed()
-                    }
-                    .positive(R.string.dialog_ok)
-                    .showIfPossible()
-            }
-        )
+        dialogState = DialogState.create {
+            message(text)
+                .positive(R.string.dialog_ok) {
+                    onInstructionsCanceled()
+                }
+                .build()
+                .onCancel {
+                    onInstructionsCanceled()
+                }
+        }
     }
 
-    private fun onInstructionsDismissed() {
+    private fun onInstructionsCanceled() {
         finish(skipAnimation = true)
     }
 
     private fun showShortcutSelection(shortcuts: List<Shortcut>, variableValues: Map<String, String> = emptyMap()) {
-        emitEvent(
-            ViewModelEvent.ShowDialog { context ->
-                DialogBuilder(context)
-                    .mapFor(shortcuts) { shortcut ->
-                        item(name = shortcut.name, shortcutIcon = shortcut.icon) {
-                            executeShortcut(shortcut.id, variableValues)
-                        }
-                    }
-                    .dismissListener {
-                        onShortcutSelectionDismissed()
-                    }
-                    .showIfPossible()
+        dialogState = DialogState.create {
+            mapFor(shortcuts) { shortcut ->
+                item(name = shortcut.name, shortcutIcon = shortcut.icon) {
+                    executeShortcut(shortcut.id, variableValues)
+                }
             }
-        )
+                .build()
+                .onCancel {
+                    onShortcutSelectionCanceled()
+                }
+        }
     }
 
-    private fun onShortcutSelectionDismissed() {
+    private fun onShortcutSelectionCanceled() {
         finish(skipAnimation = true)
     }
 

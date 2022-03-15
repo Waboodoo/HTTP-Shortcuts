@@ -4,16 +4,16 @@ import android.app.Application
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.viewmodel.BaseViewModel
-import ch.rmy.android.framework.viewmodel.ViewModelEvent
+import ch.rmy.android.framework.viewmodel.WithDialog
+import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
-import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import io.reactivex.android.schedulers.AndroidSchedulers
 
-class GlobalScriptingViewModel(application: Application) : BaseViewModel<Unit, GlobalScriptingViewState>(application) {
+class GlobalScriptingViewModel(application: Application) : BaseViewModel<Unit, GlobalScriptingViewState>(application), WithDialog {
 
     private val appRepository = AppRepository()
     private val shortcutRepository = ShortcutRepository()
@@ -24,6 +24,14 @@ class GlobalScriptingViewModel(application: Application) : BaseViewModel<Unit, G
     private var globalCodeInitialized = false
 
     var iconPickerShortcutPlaceholder: String? = null
+
+    override var dialogState: DialogState?
+        get() = currentViewState.dialogState
+        set(value) {
+            updateViewState {
+                copy(dialogState = value)
+            }
+        }
 
     override fun initViewState() = GlobalScriptingViewState()
 
@@ -68,15 +76,12 @@ class GlobalScriptingViewModel(application: Application) : BaseViewModel<Unit, G
 
     fun onBackPressed() {
         if (currentViewState.saveButtonVisible) {
-            emitEvent(
-                ViewModelEvent.ShowDialog { context ->
-                    DialogBuilder(context)
-                        .message(R.string.confirm_discard_changes_message)
-                        .positive(R.string.dialog_discard) { onDiscardDialogConfirmed() }
-                        .negative(R.string.dialog_cancel)
-                        .showIfPossible()
-                }
-            )
+            dialogState = DialogState.create {
+                message(R.string.confirm_discard_changes_message)
+                    .positive(R.string.dialog_discard) { onDiscardDialogConfirmed() }
+                    .negative(R.string.dialog_cancel)
+                    .build()
+            }
         } else {
             finish()
         }

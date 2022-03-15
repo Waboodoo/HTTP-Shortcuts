@@ -1,7 +1,5 @@
 package ch.rmy.android.framework.viewmodel
 
-import android.app.Dialog
-import android.content.Context
 import android.content.Intent
 import androidx.annotation.StringRes
 import ch.rmy.android.framework.ui.IntentBuilder
@@ -30,9 +28,6 @@ abstract class ViewModelEvent {
     data class SendBroadcast(
         val intent: Intent,
     ) : ViewModelEvent()
-
-    @Deprecated("Use DialogState instead")
-    class ShowDialog(val dialogBuilder: (context: Context) -> Dialog?) : ViewModelEvent()
 
     class ShowSnackbar(
         val message: Localizable,

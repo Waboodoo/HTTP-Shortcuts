@@ -1,8 +1,10 @@
 package ch.rmy.android.http_shortcuts.activities.variables.editor
 
 import ch.rmy.android.framework.utils.localization.Localizable
+import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 
 data class VariableEditorViewState(
+    val dialogState: DialogState? = null,
     val title: Localizable,
     val subtitle: Localizable,
     val titleInputVisible: Boolean,
