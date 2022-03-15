@@ -22,17 +22,19 @@ class AboutActivity : BaseActivity() {
 
     override fun onCreated(savedState: Bundle?) {
         viewModel.initialize()
-        initViews()
+        initViews(savedState == null)
         initViewModelBindings()
     }
 
-    private fun initViews() {
+    private fun initViews(firstInit: Boolean) {
         setContentView(R.layout.activity_about)
         setTitle(R.string.title_about)
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.settings_view, AboutFragment())
-            .commit()
+        if (firstInit) {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.settings_view, AboutFragment())
+                .commit()
+        }
     }
 
     private fun initViewModelBindings() {

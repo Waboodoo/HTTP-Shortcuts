@@ -28,10 +28,12 @@ class SettingsActivity : BaseActivity() {
     override fun onCreated(savedState: Bundle?) {
         setContentView(R.layout.activity_settings)
         setTitle(R.string.title_settings)
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.settings_view, SettingsFragment())
-            .commit()
+        if (savedState == null) {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.settings_view, SettingsFragment())
+                .commit()
+        }
     }
 
     class SettingsFragment : BaseSettingsFragment() {
