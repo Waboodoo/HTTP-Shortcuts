@@ -8,6 +8,7 @@ import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.initialize
 import ch.rmy.android.framework.extensions.observe
+import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.utils.DragOrderingHelper
 import ch.rmy.android.http_shortcuts.R
@@ -70,6 +71,8 @@ class VariablesActivity : BaseActivity() {
 
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
+            binding.loadingIndicator.visible = false
+            binding.buttonCreateVariable.visible = true
             adapter.items = viewState.variables
             isDraggingEnabled = viewState.isDraggingEnabled
             setDialogState(viewState.dialogState, viewModel)

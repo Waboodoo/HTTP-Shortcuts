@@ -65,6 +65,9 @@ class SelectTypeViewModel(application: Application) : BaseVariableTypeViewModel<
     }
 
     fun onMultilineChanged(enabled: Boolean) {
+        if (!isInitialized) {
+            return
+        }
         updateViewState {
             copy(isMultiSelect = enabled)
         }
@@ -72,6 +75,9 @@ class SelectTypeViewModel(application: Application) : BaseVariableTypeViewModel<
     }
 
     fun onSeparatorChanged(separator: String) {
+        if (!isInitialized) {
+            return
+        }
         updateViewState {
             copy(separator = separator)
         }
