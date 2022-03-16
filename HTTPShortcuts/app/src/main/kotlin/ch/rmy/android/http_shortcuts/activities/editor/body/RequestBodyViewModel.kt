@@ -5,6 +5,8 @@ import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
+import ch.rmy.android.framework.viewmodel.WithDialog
+import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
@@ -12,7 +14,7 @@ import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.models.Parameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 
-class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, RequestBodyViewState>(application) {
+class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, RequestBodyViewState>(application), WithDialog {
 
     private val temporaryShortcutRepository = TemporaryShortcutRepository()
     private val variableRepository = VariableRepository()
@@ -24,6 +26,14 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
                 copy(
                     parameters = mapParameters(value),
                 )
+            }
+        }
+
+    override var dialogState: DialogState?
+        get() = currentViewState.dialogState
+        set(value) {
+            updateViewState {
+                copy(dialogState = value)
             }
         }
 
@@ -139,9 +149,25 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
 
     fun onAddParameterButtonClicked() {
         if (currentViewState.requestBodyType == RequestBodyType.FORM_DATA) {
-            emitEvent(RequestBodyEvent.ShowAddParameterTypeSelectionDialog)
+            showParameterTypeDialog()
         } else {
             emitEvent(RequestBodyEvent.ShowAddParameterForStringDialog)
+        }
+    }
+
+    private fun showParameterTypeDialog() {
+        dialogState = DialogState.create {
+            title(R.string.dialog_title_parameter_type)
+                .item(R.string.option_parameter_type_string) {
+                    emitEvent(RequestBodyEvent.ShowAddParameterForStringDialog)
+                }
+                .item(R.string.option_parameter_type_file) {
+                    emitEvent(RequestBodyEvent.ShowAddParameterForFileDialog(multiple = false))
+                }
+                .item(R.string.option_parameter_type_files) {
+                    emitEvent(RequestBodyEvent.ShowAddParameterForFileDialog(multiple = true))
+                }
+                .build()
         }
     }
 

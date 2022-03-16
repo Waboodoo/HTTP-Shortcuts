@@ -3,8 +3,6 @@ package ch.rmy.android.http_shortcuts.activities.editor.body
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 
 abstract class RequestBodyEvent : ViewModelEvent() {
-    object ShowAddParameterTypeSelectionDialog : RequestBodyEvent()
-
     object ShowAddParameterForStringDialog : RequestBodyEvent()
 
     data class ShowAddParameterForFileDialog(val multiple: Boolean) : RequestBodyEvent()

@@ -4,6 +4,9 @@ import android.app.Application
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.utils.localization.DurationLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
+import ch.rmy.android.framework.viewmodel.WithDialog
+import ch.rmy.android.framework.viewmodel.viewstate.DialogState
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.ClientCertParams
@@ -11,10 +14,18 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
-class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, AdvancedSettingsViewState>(application) {
+class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, AdvancedSettingsViewState>(application), WithDialog {
 
     private val temporaryShortcutRepository = TemporaryShortcutRepository()
     private val variableRepository = VariableRepository()
+
+    override var dialogState: DialogState?
+        get() = currentViewState.dialogState
+        set(value) {
+            updateViewState {
+                copy(dialogState = value)
+            }
+        }
 
     override fun onInitializationStarted(data: Unit) {
         finalizeInitialization(silent = true)
@@ -133,10 +144,31 @@ class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, 
 
     fun onClientCertButtonClicked() {
         if (currentViewState.clientCertParams == null) {
-            emitEvent(AdvancedSettingsEvent.ShowClientCertDialog)
+            showClientCertDialog()
         } else {
             onClientCertParamsChanged(null)
         }
+    }
+
+    private fun showClientCertDialog() {
+        dialogState = DialogState.create {
+            title(R.string.title_client_cert)
+                .item(R.string.label_client_cert_from_os, descriptionRes = R.string.label_client_cert_from_os_subtitle) {
+                    promptForClientCertAlias()
+                }
+                .item(R.string.label_client_cert_from_file, descriptionRes = R.string.label_client_cert_from_file_subtitle) {
+                    openCertificateFilePicker()
+                }
+                .build()
+        }
+    }
+
+    private fun promptForClientCertAlias() {
+        emitEvent(AdvancedSettingsEvent.PromptForClientCertAlias)
+    }
+
+    private fun openCertificateFilePicker() {
+        emitEvent(AdvancedSettingsEvent.OpenCertificateFilePicker)
     }
 
     fun onTimeoutButtonClicked() {

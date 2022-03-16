@@ -116,32 +116,24 @@ class AdvancedSettingsActivity : BaseActivity() {
             binding.inputProxyHost.rawString = viewState.proxyHost
             binding.inputProxyPort.setTextSafely(viewState.proxyPort)
             binding.inputSsid.setTextSafely(viewState.wifiSsid)
+            setDialogState(viewState.dialogState, viewModel)
         }
         viewModel.events.observe(this, ::handleEvent)
     }
 
     override fun handleEvent(event: ViewModelEvent) {
         when (event) {
-            is AdvancedSettingsEvent.ShowClientCertDialog -> {
-                openClientCertDialog()
+            is AdvancedSettingsEvent.PromptForClientCertAlias -> {
+                promptForClientCertAlias()
+            }
+            is AdvancedSettingsEvent.OpenCertificateFilePicker -> {
+                openCertificateFilePicker()
             }
             is AdvancedSettingsEvent.ShowTimeoutDialog -> {
                 showTimeoutDialog(event.timeout, event.getLabel)
             }
             else -> super.handleEvent(event)
         }
-    }
-
-    private fun openClientCertDialog() {
-        DialogBuilder(context)
-            .title(R.string.title_client_cert)
-            .item(R.string.label_client_cert_from_os, descriptionRes = R.string.label_client_cert_from_os_subtitle) {
-                promptForClientCertAlias()
-            }
-            .item(R.string.label_client_cert_from_file, descriptionRes = R.string.label_client_cert_from_file_subtitle) {
-                openCertificateFilePicker()
-            }
-            .showIfPossible()
     }
 
     private fun promptForClientCertAlias() {

@@ -17,7 +17,6 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.databinding.ActivityRequestBodyBinding
-import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.dialogs.KeyValueDialog
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
@@ -130,15 +129,13 @@ class RequestBodyActivity : BaseActivity() {
             binding.buttonAddParameter.visible = viewState.addParameterButtonVisible
             binding.containerInputContentType.visible = viewState.contentTypeVisible
             binding.containerInputBodyContent.visible = viewState.bodyContentVisible
+            setDialogState(viewState.dialogState, viewModel)
         }
         viewModel.events.observe(this, ::handleEvent)
     }
 
     override fun handleEvent(event: ViewModelEvent) {
         when (event) {
-            is RequestBodyEvent.ShowAddParameterTypeSelectionDialog -> {
-                showParameterTypeDialog()
-            }
             is RequestBodyEvent.ShowAddParameterForStringDialog -> {
                 showAddDialogForStringParameter()
             }
@@ -153,21 +150,6 @@ class RequestBodyActivity : BaseActivity() {
             }
             else -> super.handleEvent(event)
         }
-    }
-
-    private fun showParameterTypeDialog() {
-        DialogBuilder(context)
-            .title(R.string.dialog_title_parameter_type)
-            .item(R.string.option_parameter_type_string) {
-                showAddDialogForStringParameter()
-            }
-            .item(R.string.option_parameter_type_file) {
-                showAddDialogForFileParameter(multiple = false)
-            }
-            .item(R.string.option_parameter_type_files) {
-                showAddDialogForFileParameter(multiple = true)
-            }
-            .showIfPossible()
     }
 
     private fun showAddDialogForStringParameter() {
@@ -191,7 +173,7 @@ class RequestBodyActivity : BaseActivity() {
     private fun showAddDialogForFileParameter(multiple: Boolean) {
         FileParameterDialog(
             variablePlaceholderProvider = variablePlaceholderProvider,
-            title = getString(R.string.title_post_param_add_file),
+            title = getString(if (multiple) R.string.title_post_param_add_files else R.string.title_post_param_add_file),
             showFileNameOption = !multiple,
         )
             .show(context)

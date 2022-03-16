@@ -6,5 +6,6 @@ import kotlin.time.Duration
 
 abstract class AdvancedSettingsEvent : ViewModelEvent() {
     class ShowTimeoutDialog(val timeout: Duration, val getLabel: (Duration) -> Localizable) : AdvancedSettingsEvent()
-    object ShowClientCertDialog : AdvancedSettingsEvent()
+    object PromptForClientCertAlias : AdvancedSettingsEvent()
+    object OpenCertificateFilePicker : AdvancedSettingsEvent()
 }
