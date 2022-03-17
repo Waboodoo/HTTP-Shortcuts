@@ -44,8 +44,17 @@ class GetChangeLogDialogUseCase(
                         webView.settings.javaScriptEnabled = true
                         webView.webViewClient = object : WebViewClient() {
                             override fun onPageFinished(view: WebView?, url: String?) {
-                                super.onPageFinished(view, url)
-                                webView.visible = true
+                                if (context.isDarkThemeEnabled()) {
+                                    webView.evaluateJavascript(
+                                        """
+                                        document.getElementById('root').className = 'dark';
+                                    """
+                                    ) {
+                                        webView.visible = true
+                                    }
+                                } else {
+                                    webView.visible = true
+                                }
                             }
 
                             override fun shouldOverrideUrlLoading(view: WebView, url: String) = consume {
@@ -54,13 +63,7 @@ class GetChangeLogDialogUseCase(
                         }
 
                         if (!stateRestored) {
-                            webView.loadUrl(
-                                if (context.isDarkThemeEnabled()) {
-                                    CHANGELOG_ASSET_URL_DARK_MODE
-                                } else {
-                                    CHANGELOG_ASSET_URL
-                                },
-                            )
+                            webView.loadUrl(CHANGELOG_ASSET_URL)
                         }
 
                         showAtStartupCheckbox.isChecked = !settings.isChangeLogPermanentlyHidden
@@ -89,6 +92,5 @@ class GetChangeLogDialogUseCase(
         const val DIALOG_ID = "change_log"
 
         private const val CHANGELOG_ASSET_URL = "file:///android_asset/changelog.html"
-        private const val CHANGELOG_ASSET_URL_DARK_MODE = "$CHANGELOG_ASSET_URL?dark"
     }
 }
