@@ -1620,12 +1620,6 @@
     <!-- Description for Base64encode function in scripting -->
     <string name="action_type_base64encode_description">"将字符串或 Uint8Array (字节数组)转换为 Base64 编码的字符串"</string>
 
-    <!-- Option in "Change Icon" dialog, allows user to select a custom image to use as a shortcut icon -->
-    <string name="choose_previously_used_image">"现有的自定义图像"</string>
-
-    <!-- Title of dialog that allows user to pick an icon from the previously used custom icon icons -->
-    <string name="title_choose_previously_used_icon">"选择自定义图像"</string>
-
     <!-- Dialog option: shown in code snippet picker, option allows to get a specific HTTP response header -->
     <string name="dialog_code_snippet_response_header">"按名称获取响应标头"</string>
 
@@ -1666,4 +1660,10 @@
 
     <!-- Placeholder: help text shown for body content input field, where the user can define the HTTP request body -->
     <string name="placeholder_request_body_content">"在这里输入原始 HTTP 请求体。你可以通过“{}”按钮添加变量占位符。"</string>
+
+    <!-- Shortcut Action Description: Enqueue a shortcut, i.e., execute it after the current one finishes -->
+    <string name="action_type_trigger_shortcut_description">"安排另一个快捷方式在当前快捷方式完成运行后运行"</string>
+
+    <!-- Dialog message: Shown in dialog when removing a deleted shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
+    <string name="message_remove_deleted_trigger_shortcut">"是否从触发快捷方式列表中移除已删除的快捷方式？"</string>
 </resources>

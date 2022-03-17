@@ -139,7 +139,7 @@
     <string name="change_icon">"Zmień ikonę"</string>
 
     <!-- Option in "Change Icon" dialog, allows user to select a custom image to use as a shortcut icon -->
-    <string name="choose_image">"Wybierz własny obrazek"</string>
+    <string name="choose_image">"Własny obrazek"</string>
 
     <!-- Option in "Change Icon" dialog, allows user to select an icon from an Ipack icon set (from a third-party icon app) -->
     <string name="choose_ipack_icon">"Wybierz ikonę lpack"</string>
@@ -1639,11 +1639,6 @@ Możesz włączyć tę funkcję, edytując skrót i zaznaczając pole wyboru \"%
     <!-- Error message: Import failed due to the data being imported coming from a newer version of the app -->
     <string name="import_failure_reason_data_version_mismatch">"Wybrany plik został wyeksportowany przez nowszą wersję aplikacji.
 Upewnij się, że masz zainstalowaną najnowszą wersję aplikacji."</string>
-
-    <!-- Title of dialog that allows user to pick an icon from the previously used custom icon icons -->
-    <string name="title_choose_previously_used_icon">"Dodaj do tej listy wszystkie skróty, które chcesz uruchomić w ramach tego multi-skrótu.
-
-Kliknij przycisk +, aby rozpocząć."</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get a specific HTTP response header -->
     <string name="dialog_code_snippet_response_header">"Uzyskaj nagłówek odpowiedzi według nazwy"</string>

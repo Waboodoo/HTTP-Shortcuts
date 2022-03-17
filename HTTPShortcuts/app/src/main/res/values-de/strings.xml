@@ -129,7 +129,7 @@ Drücke den + Knopf um eine Variable zu erstellen."</string>
     <string name="change_icon">"Symbol ändern"</string>
 
     <!-- Option in "Change Icon" dialog, allows user to select a custom image to use as a shortcut icon -->
-    <string name="choose_image">"Neues eigenes Bild"</string>
+    <string name="choose_image">"Eigenes Bild"</string>
 
     <!-- Option in "Change Icon" dialog, allows user to select an icon from an Ipack icon set (from a third-party icon app) -->
     <string name="choose_ipack_icon">"Ipack-Symbol"</string>
@@ -1624,12 +1624,6 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <!-- Description for Base64encode function in scripting -->
     <string name="action_type_base64encode_description">"Wandelt einen String oder ein Uint8Array (Byte-Array) in einen Base64-codierten String um"</string>
 
-    <!-- Option in "Change Icon" dialog, allows user to select a custom image to use as a shortcut icon -->
-    <string name="choose_previously_used_image">"Bestehendes eigenes Bild"</string>
-
-    <!-- Title of dialog that allows user to pick an icon from the previously used custom icon icons -->
-    <string name="title_choose_previously_used_icon">"Eigenes Bild wählen"</string>
-
     <!-- Dialog option: shown in code snippet picker, option allows to get a specific HTTP response header -->
     <string name="dialog_code_snippet_response_header">"Response-Header nach Namen auslesen"</string>
 
@@ -1676,4 +1670,60 @@ Drücke den + Knopf um loszulegen."</string>
 
     <!-- Dialog message: Shown in dialog when removing a deleted shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
     <string name="message_remove_deleted_trigger_shortcut">"Gelöschten Shortcut aus Liste der auszulösenden Shortcuts entfernen?"</string>
+
+    <!-- Label above input field in editor, for entering the package name of the browser with which to open the URL -->
+    <string name="label_browser_package_name">"Package-Name des Browsers"</string>
+
+    <!-- Placeholder for input field in editor, for entering the package name of the browser with which to open the URL -->
+    <string name="placeholder_browser_package_name">"Leer lassen um Standardbrowser zu verwenden"</string>
+
+    <!-- Option in "Change Icon" dialog, allows user to fetch the favicon of the shortcut's URL to use as a shortcut icon -->
+    <string name="choose_page_favicon">"Favicon der Seite herunterladen"</string>
+
+    <!-- Title of window for managing and selecting custom icons -->
+    <string name="title_custom_icons">"Benutzerdefinierte Symbole"</string>
+
+    <!-- Error shown when a browser shortcut fails because the browser with the configured package name was not found (it might not be installed) -->
+    <string name="error_browser_not_found">"Browser mit Package-Name %s nicht gefunden"</string>
+
+    <!-- Dialog prompt to ask user to confirm deletion of a custom icon -->
+    <string name="confirm_delete_custom_icon_message">"Dieses Symbol löschen?"</string>
+
+    <!-- Dialog prompt to ask user to confirm deletion of a custom icon, which is still in use -->
+    <string name="confirm_delete_custom_icon_still_in_use_message">"Dieses Symbol wird noch von mindestens 1 Shortcut verwendet. Es zu löschen kann Probleme verursachen.
+
+Trotzdem löschen?"</string>
+
+    <!-- Option for menu in icon picker screen, to delete all unused custom icons -->
+    <string name="button_delete_all_unused_icons">"Unbenutzte Symbole löschen"</string>
+
+    <!-- Dialog prompt to ask user to confirm deletion of all unused custom icons -->
+    <string name="confirm_delete_all_unused_custom_icons_message">"Alle unbenutzten Symbole löschen?"</string>
+
+    <!-- Error message, shown in snackbar when the user tried to fetch a page's favicon but it failed -->
+    <string name="error_failed_to_fetch_favicon">"Herunterladen des Favicon fehlgeschlagen. Die Website hat möglicherweise kein passendes Favicon."</string>
+
+    <!-- Shortcut Action Title: Allows removing leading and trailing whitespace characters from a string -->
+    <string name="action_type_trim_string">"String trimmen"</string>
+
+    <!-- Shortcut Action Description: Allows removing leading and trailing whitespace characters from a string -->
+    <string name="action_type_trim_string_description">"Leerzeichen am Anfang und Ende des Strings entfernen"</string>
+
+    <!-- label, displayed next to variable in variables list when a variable is not used anywhere -->
+    <string name="label_variable_unused">"unbenutzt"</string>
+
+    <!-- Label of dropdown menu, for selecting which type of data to receive from the share dialog to use as the value of a variable -->
+    <string name="label_share_support">"Art der geteilten Daten"</string>
+
+    <!-- Label of an option in the share dialog, for receiving only the text -->
+    <string name="label_share_support_option_text">"Nur Text"</string>
+
+    <!-- Label of an option in the share dialog, for receiving only the title (subject) -->
+    <string name="label_share_support_option_title">"Nur Titel"</string>
+
+    <!-- Label of an option in the share dialog, for receiving the title (subject) and the text -->
+    <string name="label_share_support_option_title_and_text">"Titel und Text"</string>
+
+    <!-- Title of dialog to add a new files parameter to a shortcut -->
+    <string name="title_post_param_add_files">"Datei-Parameter hinzufügen"</string>
 </resources>

@@ -129,7 +129,7 @@
     <string name="change_icon">"שנה אייקון"</string>
 
     <!-- Option in "Change Icon" dialog, allows user to select a custom image to use as a shortcut icon -->
-    <string name="choose_image">"בחר תמונה מותאמת אישית"</string>
+    <string name="choose_image">"תמונה מותאמת אישית"</string>
 
     <!-- Option in "Change Icon" dialog, allows user to select an icon from an Ipack icon set (from a third-party icon app) -->
     <string name="choose_ipack_icon">"בחר אייקון Ipack"</string>

@@ -129,7 +129,7 @@ Klik tombol + untuk menambah variabel."</string>
     <string name="change_icon">"Ubah Ikon"</string>
 
     <!-- Option in "Change Icon" dialog, allows user to select a custom image to use as a shortcut icon -->
-    <string name="choose_image">"Gambar Kustom Baru"</string>
+    <string name="choose_image">"Gambar Kustom"</string>
 
     <!-- Option in "Change Icon" dialog, allows user to select an icon from an Ipack icon set (from a third-party icon app) -->
     <string name="choose_ipack_icon">"Ikon lpack"</string>

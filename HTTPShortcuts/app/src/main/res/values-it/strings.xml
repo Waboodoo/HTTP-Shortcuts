@@ -125,7 +125,7 @@
     <string name="change_icon">"Cambia Icona"</string>
 
     <!-- Option in "Change Icon" dialog, allows user to select a custom image to use as a shortcut icon -->
-    <string name="choose_image">"Seleziona immagine personalizzata"</string>
+    <string name="choose_image">"Immagine personalizzata"</string>
 
     <!-- Option in "Change Icon" dialog, allows user to select an icon from an Ipack icon set (from a third-party icon app) -->
     <string name="choose_ipack_icon">"Seleziona un icona dell'Ipack"</string>
@@ -1632,12 +1632,6 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
 
     <!-- Description for Base64encode function in scripting -->
     <string name="action_type_base64encode_description">"Converte una stringa o Uint8Array (byte array) in una stringa codificata Base64"</string>
-
-    <!-- Option in "Change Icon" dialog, allows user to select a custom image to use as a shortcut icon -->
-    <string name="choose_previously_used_image">"Immagine personalizzata esistente"</string>
-
-    <!-- Title of dialog that allows user to pick an icon from the previously used custom icon icons -->
-    <string name="title_choose_previously_used_icon">"Scegli immagine personalizzata"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get a specific HTTP response header -->
     <string name="dialog_code_snippet_response_header">"Ottieni intestazione risposta per nome"</string>

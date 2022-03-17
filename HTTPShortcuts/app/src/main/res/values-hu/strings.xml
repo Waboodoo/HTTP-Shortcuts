@@ -125,7 +125,7 @@
     <string name="change_icon">"Ikon változtatása"</string>
 
     <!-- Option in "Change Icon" dialog, allows user to select a custom image to use as a shortcut icon -->
-    <string name="choose_image">"Egyéni ikon választása"</string>
+    <string name="choose_image">"Egyéni ikon"</string>
 
     <!-- Option in "Change Icon" dialog, allows user to select an icon from an Ipack icon set (from a third-party icon app) -->
     <string name="choose_ipack_icon">"Ipack ikon választása"</string>

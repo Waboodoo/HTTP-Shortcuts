@@ -707,7 +707,7 @@
     <string name="error_share_failed">"共有中にエラーが発生しました"</string>
 
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
-    <string name="error_not_supported">"この機能は、ご使用のスマホ機器ではサポートされていません。"</string>
+    <string name="error_not_supported">"この機能は、ご使用のスマホではサポートされていません。"</string>
 
     <!-- Generic error shown when something went wrong and there is no better error message available -->
     <string name="error_generic">"何か変でした…"</string>
@@ -863,7 +863,7 @@
     <string name="message_app_unlocked">"アプリロック解除"</string>
 
     <!-- Warning dialog: Shown to user on startup to inform them that Android's "Data Saver" and/or "Battery Saver" modes may cause problems. -->
-    <string name="warning_data_saver_battery_saver_enabled">"使用のスマホ機器上で「データ節約」モード、かつ／または、「バッテリー節約」モードが有効になっています。 ショートカットが機能しない問題が発生した場合は、それらのモードを無効にしてお試しください。"</string>
+    <string name="warning_data_saver_battery_saver_enabled">"使用のスマホ上で「データ節約」モード、かつ／または、「バッテリー節約」モードが有効になっています。 このHTTP Shortcut アプリが機能しない問題が発生した場合は、それらのモードを無効にしてお試しください。"</string>
 
     <!-- Message: Shown as a snackbar popup when a variable was duplicated. -->
     <string name="message_variable_duplicated">"「%1$s」複製しました"</string>
@@ -1491,7 +1491,7 @@
     <string name="label_subtitle_client_cert_in_use">"証明「%s」を利用しています。クリックで削除します。"</string>
 
     <!-- Error: Shown to the user when any error occurred while trying to execute a shortcut that uses a client certificate -->
-    <string name="error_failed_to_use_client_cert">"クライアント証明書の読み込み、または証明書の使用に失敗しました。 これは使用しているスマホ機器でサポートされていないか、ショートカットの設定を見直して再構成すれば解決するかもしれません。"</string>
+    <string name="error_failed_to_use_client_cert">"クライアント証明書の読み込み、または証明書の使用に失敗しました。 これは使用しているスマホでサポートされていないか、ショートカットの設定を見直して再構成すれば解決するかもしれません。"</string>
 
     <!-- Error message: Shown when user tries to use an unsupported hmac function -->
     <string name="error_unsupported_hmac_algorithm">"サポートされていないHMACアルゴリズム「%1$s」または無効なキーです。「%2$s」を使用してください。"</string>
@@ -1594,7 +1594,7 @@
     <string name="label_execution_settings_subtitle">"いつ、どのように、ショートカットを実行するか、定義します"</string>
 
     <!-- Error message: Import failed due to the data being imported coming from a newer version of the app -->
-    <string name="import_failure_reason_data_version_mismatch">"選択したファイルは、アプリの新しいバージョンでエクスポートされました。 現在のスマホ機器に最新バージョンのアプリがインストールされていることを確認してください。"</string>
+    <string name="import_failure_reason_data_version_mismatch">"選択したファイルは、アプリの新しいバージョンでエクスポートされました。 現在のスマホに最新バージョンのアプリがインストールされていることを確認してください。"</string>
 
     <!-- Shortcut Action Title: Allows converting a byte array into a string of hexadecimal codes using the Scripting feature -->
     <string name="action_type_to_hex_string">"バイトから16進数(Hex)文字列へ"</string>
@@ -1613,12 +1613,6 @@
 
     <!-- Description for Base64encode function in scripting -->
     <string name="action_type_base64encode_description">"文字列または「Unit8Array」(バイト配列) をBase64でエンコードされた文字列に変換します"</string>
-
-    <!-- Option in "Change Icon" dialog, allows user to select a custom image to use as a shortcut icon -->
-    <string name="choose_previously_used_image">"カスタム画像が既存しています"</string>
-
-    <!-- Title of dialog that allows user to pick an icon from the previously used custom icon icons -->
-    <string name="title_choose_previously_used_icon">"カスタム画像を選択"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get a specific HTTP response header -->
     <string name="dialog_code_snippet_response_header">"名前でレスポンス ヘッダーを取得"</string>
@@ -1660,4 +1654,10 @@
 
     <!-- Placeholder: help text shown for body content input field, where the user can define the HTTP request body -->
     <string name="placeholder_request_body_content">"ここに生のHTTPリクエスト本文を入力します。「{}」ボタンで変数のプレースホルダーを追加できます。"</string>
+
+    <!-- Shortcut Action Description: Enqueue a shortcut, i.e., execute it after the current one finishes -->
+    <string name="action_type_trigger_shortcut_description">"現在のものが完了したら、他のショットカット実行を予約する"</string>
+
+    <!-- Dialog message: Shown in dialog when removing a deleted shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
+    <string name="message_remove_deleted_trigger_shortcut">"削除したショートカットを「トリガー ショートカット」リストから消去しますか？"</string>
 </resources>

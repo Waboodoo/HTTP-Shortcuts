@@ -113,7 +113,7 @@
     <string name="change_icon">"Cambiar icono"</string>
 
     <!-- Option in "Change Icon" dialog, allows user to select a custom image to use as a shortcut icon -->
-    <string name="choose_image">"Elegir una imagen personalizada"</string>
+    <string name="choose_image">"Imagen personalizada"</string>
 
     <!-- Option in "Change Icon" dialog, allows user to select an icon from an Ipack icon set (from a third-party icon app) -->
     <string name="choose_ipack_icon">"Elegir un icono Ipack"</string>
