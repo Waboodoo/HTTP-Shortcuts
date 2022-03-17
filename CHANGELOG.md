@@ -1,3 +1,21 @@
+## Version 2.14.0
+
+### Custom Icons
+The app now gives you more control over your custom icons. It now includes a new icon picker screen, which allows you to see all the icons you have used before and gives you the option to delete the ones you don't need anymore. In addition, you now have to open to download the favicon of a webpage and use that as the icon for your shortcut.
+
+### Improvements
+- In the Variables screen, it is now easier to find out which variables are unused.
+- The Code Snippet Picker now contains an entry for the "trim()" function.
+- When sharing text into variables, it is now possible to also receive the title being shared, not only the text.
+
+### Bugfixes
+- Some text fields in the shortcut editor were misbehaving or not properly initialized. This is now fixed.
+- Unusually large custom icons now just display an error instead of crashing the app
+- In most places (not all yet, still work in progress) when a dialog is displayed and then the screen orientation changes, the dialog persists instead of being closed
+- The Acknowledgments screen now respects dark mode
+- Long pressing on shortcuts now no longer brings up the context menu while the app is locked
+- The Settings screen no longer crashes when the screen orientation changes while a dialog is visible
+
 ## Version 2.13.1
 
 ### Bugfixes
