@@ -24,8 +24,7 @@ class GridLayoutManager(context: Context, @DimenRes itemWidth: Int) : GridLayout
 
         fun getNumberOfColumns(context: Context, @DimenRes itemWidth: Int): Int {
             val displayMetrics = context.resources.displayMetrics
-            val dpWidth = displayMetrics.widthPixels / displayMetrics.density
-            return (dpWidth / dimen(context, itemWidth)).toInt()
+            return displayMetrics.widthPixels / dimen(context, itemWidth)
         }
     }
 }

@@ -6,6 +6,6 @@
     <dimen name="response_font_size">18sp</dimen>
     <dimen name="small_icon_size">20dp</dimen>
     <dimen name="variable_button_spacing">44dp</dimen>
-    <dimen name="grid_layout_shortcut_width">36dp</dimen>
-    <dimen name="grid_layout_icon_width">24dp</dimen>
+    <dimen name="grid_layout_shortcut_width">94dp</dimen>
+    <dimen name="grid_layout_icon_width">66dp</dimen>
 </resources>
