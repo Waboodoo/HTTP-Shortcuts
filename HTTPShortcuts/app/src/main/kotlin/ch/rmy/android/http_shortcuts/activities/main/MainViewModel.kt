@@ -27,8 +27,8 @@ import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowChangeLo
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowNetworkRestrictionDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.misc.CurlImportActivity
 import ch.rmy.android.http_shortcuts.activities.settings.ImportExportActivity
-import ch.rmy.android.http_shortcuts.activities.settings.SettingsActivity
 import ch.rmy.android.http_shortcuts.activities.settings.about.AboutActivity
+import ch.rmy.android.http_shortcuts.activities.settings.settings.SettingsActivity
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.activities.widget.WidgetSettingsActivity
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository

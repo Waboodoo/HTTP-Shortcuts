@@ -174,7 +174,7 @@
                 android:value=".activities.variables.VariablesActivity" />
         </activity>
         <activity
-            android:name=".activities.settings.SettingsActivity"
+            android:name=".activities.settings.settings.SettingsActivity"
             android:label="@string/title_settings"
             android:parentActivityName=".activities.main.MainActivity"
             android:windowSoftInputMode="adjustResize">

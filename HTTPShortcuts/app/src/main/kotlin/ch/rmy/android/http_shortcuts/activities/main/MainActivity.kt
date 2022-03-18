@@ -24,7 +24,7 @@ import ch.rmy.android.http_shortcuts.activities.categories.CategoriesActivity
 import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
 import ch.rmy.android.http_shortcuts.activities.misc.CurlImportActivity
 import ch.rmy.android.http_shortcuts.activities.settings.ImportExportActivity
-import ch.rmy.android.http_shortcuts.activities.settings.SettingsActivity
+import ch.rmy.android.http_shortcuts.activities.settings.settings.SettingsActivity
 import ch.rmy.android.http_shortcuts.activities.widget.WidgetSettingsActivity
 import ch.rmy.android.http_shortcuts.data.dtos.LauncherShortcut
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
