@@ -8,15 +8,14 @@ apply plugin: 'com.bugsnag.android.gradle'
 
 android {
     compileSdkVersion 31
-    buildToolsVersion '30.0.2'
 
     kotlinOptions {
         languageVersion = '1.6'
     }
 
-    lintOptions {
-        disable 'MissingTranslation'
+    lint {
         abortOnError false
+        disable 'MissingTranslation'
     }
 
     defaultConfig {
@@ -79,6 +78,7 @@ android {
             universalApk true
         }
     }
+
     bundle {
         language {
             enableSplit = false
@@ -90,6 +90,7 @@ android {
             enableSplit = true
         }
     }
+
     buildFeatures {
         buildConfig = true
         viewBinding = true
@@ -101,8 +102,14 @@ android {
     }
 
     packagingOptions {
-        exclude 'META-INF/*'
+        jniLibs {
+            excludes += ['META-INF/*']
+        }
+        resources {
+            excludes += ['META-INF/*']
+        }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
