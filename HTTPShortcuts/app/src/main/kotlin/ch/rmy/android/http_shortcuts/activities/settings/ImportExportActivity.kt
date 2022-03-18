@@ -87,7 +87,6 @@ class ImportExportActivity : BaseActivity() {
             DialogBuilder(requireContext())
                 .title(R.string.dialog_title_import_from_url)
                 .textInput(
-                    hint = "https://",
                     prefill = Settings(requireContext()).importUrl?.toString() ?: "",
                     allowEmpty = false,
                     callback = ::startImportFromURL,
