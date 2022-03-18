@@ -9,8 +9,7 @@ This app is open-source and can be found on [Github](https://github.com/Waboodoo
 Runs on Android 5 (Lollipop) or newer. For Android 4.0 - Android 4.4.4, download and [install the APK of version 2.9.0](https://github.com/Waboodoo/HTTP-Shortcuts/releases/tag/v2.9.0).
 
 ## Features
-- HTTP and HTTPS
-- GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS and TRACE
+- Supports HTTP and HTTPS (TLSv1.3), and methods GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS and TRACE
 - Basic Authentication, Digest Authentication & Bearer Authentication
 - Custom request headers
 - Custom request body (text only)
@@ -23,7 +22,6 @@ Runs on Android 5 (Lollipop) or newer. For Android 4.0 - Android 4.4.4, download
 - Run [JavaScript code](scripting.md) before & after execution and invoke actions (e.g., vibrate, show toast, parse JSON response…), allowing to create powerful workflows
 - Import & Export in JSON or cURL format
 - 3rd party integration (e.g. Tasker)
-- Option to accept all certificates (if you know what you're doing)
 - Configure it from your browser using the [Web Editor](https://http-shortcuts.rmy.ch/editor)
 - Completely free, and no ads!
 

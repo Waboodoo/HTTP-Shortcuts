@@ -23,8 +23,7 @@ Find more information and documentation on the [official website](https://http-s
 [Support this app](https://http-shortcuts.rmy.ch/support-me) by helping me [translate it](https://poeditor.com/join/project/8tHhwOTzVZ) or by becoming a [Beta Tester](https://play.google.com/apps/testing/ch.rmy.android.http_shortcuts)!
 
 ## Features
-- HTTP and HTTPS
-- GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS and TRACE
+- Supports HTTP and HTTPS, and methods GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS and TRACE
 - Basic Authentication, Digest Authentication & Bearer Authentication
 - Custom request headers
 - Custom request body (text or from file)
