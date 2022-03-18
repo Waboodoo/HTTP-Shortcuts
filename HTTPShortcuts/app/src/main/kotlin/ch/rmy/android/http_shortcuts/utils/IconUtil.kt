@@ -135,14 +135,13 @@ object IconUtil {
     fun generateCustomIconName(): String =
         "${CUSTOM_ICON_NAME_PREFIX}x${Date().time}$CUSTOM_ICON_NAME_SUFFIX"
 
-    fun extractCustomIconNames(string: String): Set<String> {
-        val result = mutableSetOf<String>()
-        val matcher = CUSTOM_ICON_NAME_PATTERN.matcher(string)
-        while (matcher.find()) {
-            result.add(matcher.group())
+    fun extractCustomIconNames(string: String): Set<String> =
+        buildSet {
+            val matcher = CUSTOM_ICON_NAME_PATTERN.matcher(string)
+            while (matcher.find()) {
+                add(matcher.group())
+            }
         }
-        return result
-    }
 
     fun getCustomIconNamesInApp(context: Context): List<String> =
         context.filesDir

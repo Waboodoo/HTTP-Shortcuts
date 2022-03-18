@@ -16,7 +16,7 @@ object FilePickerUtil {
     fun extractUris(intent: Intent): List<Uri>? =
         intent.clipData
             ?.let { data ->
-                mutableListOf<Uri>().apply {
+                buildList {
                     for (i in 0 until data.itemCount) {
                         val uri = data.getItemAt(i).uri
                         add(uri)

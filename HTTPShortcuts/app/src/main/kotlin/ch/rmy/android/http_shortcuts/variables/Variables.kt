@@ -52,14 +52,13 @@ object Variables {
     /**
      * Searches for variable placeholders and returns all variable IDs found in them.
      */
-    internal fun extractVariableIds(string: String): Set<String> {
-        val discoveredVariables = mutableSetOf<String>()
-        val matcher = match(string)
-        while (matcher.find()) {
-            discoveredVariables.add(matcher.group(1)!!)
+    internal fun extractVariableIds(string: String): Set<String> =
+        buildSet {
+            val matcher = match(string)
+            while (matcher.find()) {
+                add(matcher.group(1)!!)
+            }
         }
-        return discoveredVariables
-    }
 
     private fun match(s: CharSequence): Matcher = PATTERN.matcher(s)
 
@@ -124,23 +123,21 @@ object Variables {
     /**
      * Searches for variable placeholders in JS code and returns all variable IDs found in them.
      */
-    internal fun extractVariableIdsFromJS(string: String): Set<String> {
-        val discoveredVariables = mutableSetOf<String>()
-        val matcher = JS_PATTERN.matcher(string)
-        while (matcher.find()) {
-            discoveredVariables.add(matcher.group(1)!!)
+    internal fun extractVariableIdsFromJS(string: String): Set<String> =
+        buildSet {
+            val matcher = JS_PATTERN.matcher(string)
+            while (matcher.find()) {
+                add(matcher.group(1)!!)
+            }
         }
-        return discoveredVariables
-    }
 
-    internal fun extractVariableKeysFromJS(string: String): Set<String> {
-        val discoveredVariables = mutableSetOf<String>()
-        val matcher = JS_PATTERN2.matcher(string)
-        while (matcher.find()) {
-            discoveredVariables.add(matcher.group(1)!!)
+    internal fun extractVariableKeysFromJS(string: String): Set<String> =
+        buildSet {
+            val matcher = JS_PATTERN2.matcher(string)
+            while (matcher.find()) {
+                add(matcher.group(1)!!)
+            }
         }
-        return discoveredVariables
-    }
 
     private fun toRawPlaceholder(variableId: String) = "$RAW_PLACEHOLDER_PREFIX$variableId$RAW_PLACEHOLDER_SUFFIX"
 

@@ -7,10 +7,10 @@ import org.json.JSONException
 import org.json.JSONObject
 
 fun JSONArray.toListOfStrings(): List<String> =
-    mutableListOf<String>().also { list ->
+    buildList {
         for (i in 0..length()) {
             try {
-                list.add(getString(i))
+                add(getString(i))
             } catch (e: JSONException) {
                 // ignore
             }
@@ -18,10 +18,10 @@ fun JSONArray.toListOfStrings(): List<String> =
     }
 
 fun JSONArray.toListOfObjects(): List<JSONObject> =
-    mutableListOf<JSONObject>().also { list ->
+    buildList {
         for (i in 0..length()) {
             optJSONObject(i)?.let { element ->
-                list.add(element)
+                add(element)
             }
         }
     }

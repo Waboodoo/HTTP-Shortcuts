@@ -99,25 +99,24 @@ class DisplayResponseActivity : BaseActivity() {
     }
 
     private fun displayMetaInfo() {
-        val processedGeneralData = mutableListOf<Pair<String, String>>()
-            .apply {
-                if (statusCode != null) {
-                    add(context.getString(R.string.label_status_code) to "$statusCode (${HttpStatus.getMessage(statusCode!!)})")
-                }
-                if (url != null) {
-                    add(context.getString(R.string.label_response_url) to url!!)
-                }
-                if (timing != null) {
-                    val milliseconds = timing!!.toInt()
-                    add(
-                        context.getString(R.string.label_response_timing) to context.resources.getQuantityString(
-                            R.plurals.milliseconds,
-                            milliseconds,
-                            milliseconds,
-                        )
-                    )
-                }
+        val processedGeneralData = buildList {
+            if (statusCode != null) {
+                add(context.getString(R.string.label_status_code) to "$statusCode (${HttpStatus.getMessage(statusCode!!)})")
             }
+            if (url != null) {
+                add(context.getString(R.string.label_response_url) to url!!)
+            }
+            if (timing != null) {
+                val milliseconds = timing!!.toInt()
+                add(
+                    context.getString(R.string.label_response_timing) to context.resources.getQuantityString(
+                        R.plurals.milliseconds,
+                        milliseconds,
+                        milliseconds,
+                    )
+                )
+            }
+        }
 
         val processedHeaders = headers.entries
             .flatMap { entry ->
