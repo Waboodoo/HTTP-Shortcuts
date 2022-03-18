@@ -279,6 +279,9 @@ class ShortcutEditorViewModel(
     }
 
     fun onShortcutNameChanged(name: String) {
+        if (!isInitialized) {
+            return
+        }
         updateViewState {
             copy(shortcutName = name)
         }
@@ -288,6 +291,9 @@ class ShortcutEditorViewModel(
     }
 
     fun onShortcutDescriptionChanged(description: String) {
+        if (!isInitialized) {
+            return
+        }
         updateViewState {
             copy(shortcutDescription = description)
         }
