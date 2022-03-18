@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.variables
 
 import android.content.Context
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
@@ -120,13 +121,13 @@ class VariableResolver(private val context: Context) {
         private const val MAX_RECURSION_DEPTH = 3
 
         fun extractVariableIds(shortcut: ShortcutModel, variableLookup: VariableLookup): Set<String> =
-            mutableSetOf<String>().apply {
+            buildSet {
                 addAll(Variables.extractVariableIds(shortcut.url))
-                if (shortcut.usesBasicAuthentication() || shortcut.usesDigestAuthentication()) {
+                if (shortcut.authenticationType.usesUsernameAndPassword) {
                     addAll(Variables.extractVariableIds(shortcut.username))
                     addAll(Variables.extractVariableIds(shortcut.password))
                 }
-                if (shortcut.usesBearerAuthentication()) {
+                if (shortcut.authenticationType == ShortcutAuthenticationType.BEARER) {
                     addAll(Variables.extractVariableIds(shortcut.authToken))
                 }
                 if (shortcut.usesCustomBody()) {

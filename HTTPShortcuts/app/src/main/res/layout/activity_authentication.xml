@@ -18,7 +18,7 @@
             android:padding="16dp">
 
             <ch.rmy.android.framework.ui.views.LabelledSpinner
-                android:id="@+id/input_authentication_method"
+                android:id="@+id/input_authentication_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/label_authentication_method" />

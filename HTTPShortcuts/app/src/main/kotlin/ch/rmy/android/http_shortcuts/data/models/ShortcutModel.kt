@@ -4,6 +4,7 @@ import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.utils.UUIDUtils
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
@@ -59,7 +60,7 @@ open class ShortcutModel(
 
     var acceptAllCertificates: Boolean = false
 
-    var authentication: String? = AUTHENTICATION_NONE
+    private var authentication: String? = ShortcutAuthenticationType.NONE.type
 
     var launcherShortcut: Boolean = false
 
@@ -118,18 +119,18 @@ open class ShortcutModel(
             requestBodyType = value.type
         }
 
+    var authenticationType: ShortcutAuthenticationType
+        get() = ShortcutAuthenticationType.parse(authentication)
+        set(value) {
+            authentication = value.type
+        }
+
     fun allowsBody(): Boolean =
         METHOD_POST == method ||
             METHOD_PUT == method ||
             METHOD_DELETE == method ||
             METHOD_PATCH == method ||
             METHOD_OPTIONS == method
-
-    fun usesBasicAuthentication() = authentication == AUTHENTICATION_BASIC
-
-    fun usesDigestAuthentication() = authentication == AUTHENTICATION_DIGEST
-
-    fun usesBearerAuthentication() = authentication == AUTHENTICATION_BEARER
 
     fun usesRequestParameters() =
         allowsBody() &&
@@ -240,7 +241,7 @@ open class ShortcutModel(
             throw IllegalArgumentException("Invalid request body type: $requestBodyType")
         }
 
-        if (authentication !in setOf(AUTHENTICATION_NONE, AUTHENTICATION_BASIC, AUTHENTICATION_DIGEST, AUTHENTICATION_BEARER)) {
+        if (ShortcutAuthenticationType.values().none { it.type == authentication }) {
             throw IllegalArgumentException("Invalid authentication: $authentication")
         }
 
@@ -275,11 +276,6 @@ open class ShortcutModel(
 
         private const val RETRY_POLICY_NONE = "none"
         private const val RETRY_POLICY_WAIT_FOR_INTERNET = "wait_for_internet"
-
-        const val AUTHENTICATION_NONE = "none"
-        const val AUTHENTICATION_BASIC = "basic"
-        const val AUTHENTICATION_DIGEST = "digest"
-        const val AUTHENTICATION_BEARER = "bearer"
 
         const val DEFAULT_CONTENT_TYPE = "text/plain"
     }

@@ -33,6 +33,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.maintenance.CleanUpWorker
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
@@ -235,11 +236,11 @@ class ShortcutEditorViewModel(
 
     private fun getAuthenticationSubtitle(): Localizable =
         StringResLocalizable(
-            when (shortcut.authentication) {
-                ShortcutModel.AUTHENTICATION_BASIC -> R.string.subtitle_authentication_basic
-                ShortcutModel.AUTHENTICATION_DIGEST -> R.string.subtitle_authentication_digest
-                ShortcutModel.AUTHENTICATION_BEARER -> R.string.subtitle_authentication_bearer
-                else -> R.string.subtitle_authentication_none
+            when (shortcut.authenticationType) {
+                ShortcutAuthenticationType.BASIC -> R.string.subtitle_authentication_basic
+                ShortcutAuthenticationType.DIGEST -> R.string.subtitle_authentication_digest
+                ShortcutAuthenticationType.BEARER -> R.string.subtitle_authentication_bearer
+                ShortcutAuthenticationType.NONE -> R.string.subtitle_authentication_none
             }
         )
 

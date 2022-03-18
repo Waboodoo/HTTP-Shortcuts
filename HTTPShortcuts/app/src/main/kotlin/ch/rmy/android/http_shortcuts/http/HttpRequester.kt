@@ -8,6 +8,7 @@ import ch.rmy.android.framework.extensions.mapIf
 import ch.rmy.android.framework.extensions.mapIfNotNull
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_MULTIPART_CONTENT_TYPE
 import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_URLENCODE_CONTENT_TYPE
@@ -89,12 +90,13 @@ class HttpRequester(private val contentResolver: ContentResolver) {
         Single
             .create<ShortcutResponse> { emitter ->
                 val variables = variableManager.getVariableValuesByIds()
+                val useDigestAuth = shortcut.authenticationType == ShortcutAuthenticationType.DIGEST
                 val client = HttpClients.getClient(
                     context = context,
                     clientCertParams = shortcut.clientCertParams,
                     acceptAllCertificates = shortcut.acceptAllCertificates,
-                    username = requestData.username.takeIf { shortcut.usesDigestAuthentication() },
-                    password = requestData.password.takeIf { shortcut.usesDigestAuthentication() },
+                    username = requestData.username.takeIf { useDigestAuth },
+                    password = requestData.password.takeIf { useDigestAuth },
                     followRedirects = shortcut.followRedirects,
                     timeout = shortcut.timeout.toLong(),
                     proxyHost = requestData.proxyHost,
@@ -128,10 +130,10 @@ class HttpRequester(private val contentResolver: ContentResolver) {
                             Variables.rawPlaceholdersToResolvedValues(header.value, variables)
                         )
                     }
-                    .mapIf(shortcut.usesBasicAuthentication()) {
+                    .mapIf(shortcut.authenticationType == ShortcutAuthenticationType.BASIC) {
                         basicAuth(requestData.username, requestData.password)
                     }
-                    .mapIf(shortcut.usesBearerAuthentication()) {
+                    .mapIf(shortcut.authenticationType == ShortcutAuthenticationType.BEARER) {
                         bearerAuth(requestData.authToken)
                     }
                     .build()

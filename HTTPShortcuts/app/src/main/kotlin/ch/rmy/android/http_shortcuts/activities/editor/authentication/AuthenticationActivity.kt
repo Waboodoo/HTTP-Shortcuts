@@ -10,7 +10,7 @@ import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
-import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.databinding.ActivityAuthenticationBinding
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
@@ -32,9 +32,9 @@ class AuthenticationActivity : BaseActivity() {
     private fun initViews() {
         binding = applyBinding(ActivityAuthenticationBinding.inflate(layoutInflater))
         setTitle(R.string.section_authentication)
-        binding.inputAuthenticationMethod.setItemsFromPairs(
+        binding.inputAuthenticationType.setItemsFromPairs(
             AUTHENTICATION_METHODS.map {
-                it.first to getString(it.second)
+                it.first.type to getString(it.second)
             }
         )
     }
@@ -47,9 +47,11 @@ class AuthenticationActivity : BaseActivity() {
         VariableViewUtils.bindVariableViews(binding.inputToken, binding.variableButtonToken, variablePlaceholderProvider)
             .attachTo(destroyer)
 
-        binding.inputAuthenticationMethod
+        binding.inputAuthenticationType
             .selectionChanges
-            .subscribe(viewModel::onAuthenticationMethodChanged)
+            .subscribe {
+                viewModel.onAuthenticationTypeChanged(ShortcutAuthenticationType.parse(it))
+            }
             .attachTo(destroyer)
 
         binding.inputUsername.observeTextChanges()
@@ -77,7 +79,7 @@ class AuthenticationActivity : BaseActivity() {
             binding.containerUsername.visible = viewState.isUsernameAndPasswordVisible
             binding.containerPassword.visible = viewState.isUsernameAndPasswordVisible
             binding.containerToken.visible = viewState.isTokenVisible
-            binding.inputAuthenticationMethod.selectedItem = viewState.authenticationMethod
+            binding.inputAuthenticationType.selectedItem = viewState.authenticationType.type
             binding.inputUsername.rawString = viewState.username
             binding.inputPassword.rawString = viewState.password
             binding.inputToken.rawString = viewState.token
@@ -94,10 +96,10 @@ class AuthenticationActivity : BaseActivity() {
     companion object {
 
         private val AUTHENTICATION_METHODS = listOf(
-            ShortcutModel.AUTHENTICATION_NONE to R.string.authentication_none,
-            ShortcutModel.AUTHENTICATION_BASIC to R.string.authentication_basic,
-            ShortcutModel.AUTHENTICATION_DIGEST to R.string.authentication_digest,
-            ShortcutModel.AUTHENTICATION_BEARER to R.string.authentication_bearer,
+            ShortcutAuthenticationType.NONE to R.string.authentication_none,
+            ShortcutAuthenticationType.BASIC to R.string.authentication_basic,
+            ShortcutAuthenticationType.DIGEST to R.string.authentication_digest,
+            ShortcutAuthenticationType.BEARER to R.string.authentication_bearer,
         )
     }
 }

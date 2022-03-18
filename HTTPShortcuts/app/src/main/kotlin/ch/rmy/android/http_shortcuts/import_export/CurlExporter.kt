@@ -6,6 +6,7 @@ import ch.rmy.android.framework.extensions.mapFor
 import ch.rmy.android.framework.extensions.mapIf
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
@@ -33,11 +34,11 @@ class CurlExporter(val context: Context) {
     private fun generateCommand(shortcut: ShortcutModel, variableValues: Map<String, String>): CurlCommand =
         CurlCommand.Builder()
             .url(rawPlaceholdersToResolvedValues(shortcut.url, variableValues))
-            .mapIf(shortcut.usesBasicAuthentication() || shortcut.usesDigestAuthentication()) {
+            .mapIf(shortcut.authenticationType.usesUsernameAndPassword) {
                 username(rawPlaceholdersToResolvedValues(shortcut.username, variableValues))
                     .password(rawPlaceholdersToResolvedValues(shortcut.password, variableValues))
             }
-            .mapIf(shortcut.usesBearerAuthentication()) {
+            .mapIf(shortcut.authenticationType == ShortcutAuthenticationType.BEARER) {
                 header(HttpHeaders.AUTHORIZATION, "Bearer ${shortcut.authToken}")
             }
             .mapIf(!shortcut.proxyHost.isNullOrEmpty() && shortcut.proxyPort != null) {

@@ -5,6 +5,7 @@ import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 
 class AuthenticationViewModel(application: Application) : BaseViewModel<Unit, AuthenticationViewState>(application) {
@@ -37,11 +38,8 @@ class AuthenticationViewModel(application: Application) : BaseViewModel<Unit, Au
 
     private fun initViewStateFromShortcut(shortcut: ShortcutModel) {
         updateViewState {
-            val authenticationMethod = shortcut.authentication ?: ShortcutModel.AUTHENTICATION_NONE
             copy(
-                authenticationMethod = authenticationMethod,
-                isUsernameAndPasswordVisible = isUsernameAndPasswordVisible(authenticationMethod),
-                isTokenVisible = isTokenVisible(authenticationMethod),
+                authenticationType = shortcut.authenticationType,
                 username = shortcut.username,
                 password = shortcut.password,
                 token = shortcut.authToken,
@@ -54,16 +52,14 @@ class AuthenticationViewModel(application: Application) : BaseViewModel<Unit, Au
         finish()
     }
 
-    fun onAuthenticationMethodChanged(authenticationMethod: String) {
+    fun onAuthenticationTypeChanged(authenticationType: ShortcutAuthenticationType) {
         updateViewState {
             copy(
-                authenticationMethod = authenticationMethod,
-                isUsernameAndPasswordVisible = isUsernameAndPasswordVisible(authenticationMethod),
-                isTokenVisible = isTokenVisible(authenticationMethod),
+                authenticationType = authenticationType,
             )
         }
         performOperation(
-            temporaryShortcutRepository.setAuthenticationMethod(authenticationMethod)
+            temporaryShortcutRepository.setAuthenticationType(authenticationType)
         )
     }
 
@@ -101,18 +97,5 @@ class AuthenticationViewModel(application: Application) : BaseViewModel<Unit, Au
         waitForOperationsToFinish {
             finish()
         }
-    }
-
-    companion object {
-        private fun isUsernameAndPasswordVisible(authenticationMethod: String) =
-            when (authenticationMethod) {
-                ShortcutModel.AUTHENTICATION_BASIC,
-                ShortcutModel.AUTHENTICATION_DIGEST,
-                -> true
-                else -> false
-            }
-
-        private fun isTokenVisible(authenticationMethod: String) =
-            authenticationMethod == ShortcutModel.AUTHENTICATION_BEARER
     }
 }

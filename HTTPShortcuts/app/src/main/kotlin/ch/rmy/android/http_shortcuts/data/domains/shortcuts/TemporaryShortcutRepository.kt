@@ -8,6 +8,7 @@ import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryShortcut
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.HeaderModel
 import ch.rmy.android.http_shortcuts.data.models.ParameterModel
@@ -78,9 +79,9 @@ class TemporaryShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
             shortcut.browserPackageName = packageName.trim()
         }
 
-    fun setAuthenticationMethod(authenticationMethod: String): Completable =
+    fun setAuthenticationType(authenticationType: ShortcutAuthenticationType): Completable =
         commitTransactionForShortcut { shortcut ->
-            shortcut.authentication = authenticationMethod
+            shortcut.authenticationType = authenticationType
         }
 
     fun setUsername(username: String): Completable =
@@ -319,7 +320,7 @@ class TemporaryShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
             shortcut.username = curlCommand.username
             shortcut.password = curlCommand.password
             if (curlCommand.username.isNotEmpty() || curlCommand.password.isNotEmpty()) {
-                shortcut.authentication = ShortcutModel.AUTHENTICATION_BASIC
+                shortcut.authenticationType = ShortcutAuthenticationType.BASIC
             }
             shortcut.timeout = curlCommand.timeout
 
