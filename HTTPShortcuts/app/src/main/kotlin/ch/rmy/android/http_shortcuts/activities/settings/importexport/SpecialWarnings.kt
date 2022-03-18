@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.activities.settings
+package ch.rmy.android.http_shortcuts.activities.settings.importexport
 
 import android.content.Context
 import ch.rmy.android.http_shortcuts.R

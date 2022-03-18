@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.activities.settings
+package ch.rmy.android.http_shortcuts.activities.settings.importexport
 
 import android.app.Activity
 import android.app.ProgressDialog
@@ -8,18 +8,21 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.attachTo
+import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.createIntent
+import ch.rmy.android.framework.extensions.initialize
 import ch.rmy.android.framework.extensions.isWebUrl
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.utils.FilePickerUtil
+import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.remote_edit.RemoteEditActivity
-import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
-import ch.rmy.android.http_shortcuts.extensions.showMessageDialog
+import ch.rmy.android.http_shortcuts.activities.settings.BaseSettingsFragment
 import ch.rmy.android.http_shortcuts.import_export.ExportFormat
 import ch.rmy.android.http_shortcuts.import_export.ExportUI
 import ch.rmy.android.http_shortcuts.import_export.ImportException
@@ -29,16 +32,47 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 
 class ImportExportActivity : BaseActivity() {
 
+    private val viewModel: ImportExportViewModel by bindViewModel()
+    private lateinit var fragment: ImportExportFragment
+
     override fun onCreated(savedState: Bundle?) {
+        viewModel.initialize()
+        initViews(savedState == null)
+        initViewModelBindings()
+    }
+
+    private fun initViews(firstInit: Boolean) {
         setContentView(R.layout.activity_import_export)
         setTitle(R.string.title_import_export)
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.settings_view, ImportExportFragment())
-            .commit()
+        if (firstInit) {
+            fragment = ImportExportFragment()
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.settings_view, fragment)
+                .commit()
+        } else {
+            fragment = supportFragmentManager.findFragmentById(R.id.settings_view) as ImportExportFragment
+        }
+    }
+
+    private fun initViewModelBindings() {
+        viewModel.viewState.observe(this) { viewState ->
+            setDialogState(viewState.dialogState, viewModel)
+        }
+        viewModel.events.observe(this, ::handleEvent)
+    }
+
+    override fun handleEvent(event: ViewModelEvent) {
+        when (event) {
+            is ImportExportEvent.StartImportFromURL -> fragment.startImportFromURL(event.url)
+            else -> super.handleEvent(event)
+        }
     }
 
     class ImportExportFragment : BaseSettingsFragment() {
+
+        private val viewModel: ImportExportViewModel
+            get() = (activity as ImportExportActivity).viewModel
 
         private val exportUI by lazy {
             destroyer.own(ExportUI(requireActivity()))
@@ -52,7 +86,7 @@ class ImportExportActivity : BaseActivity() {
             }
 
             initPreference("import_from_url") {
-                openImportUrlDialog()
+                viewModel.onImportFromURLButtonClicked()
             }
 
             initPreference("export") {
@@ -83,24 +117,13 @@ class ImportExportActivity : BaseActivity() {
             }
         }
 
-        private fun openImportUrlDialog() {
-            DialogBuilder(requireContext())
-                .title(R.string.dialog_title_import_from_url)
-                .textInput(
-                    prefill = Settings(requireContext()).importUrl?.toString() ?: "",
-                    allowEmpty = false,
-                    callback = ::startImportFromURL,
-                )
-                .showIfPossible()
-        }
-
-        private fun startImportFromURL(url: String) {
+        fun startImportFromURL(url: String) {
             val uri = url.toUri()
             persistImportUrl(uri)
             if (uri.isWebUrl) {
                 startImport(uri)
             } else {
-                showMessageDialog(getString(R.string.import_failed_with_reason, getString(R.string.error_can_only_import_from_http_url)))
+                viewModel.onImportFailedDueToInvalidUrl()
             }
         }
 
@@ -164,7 +187,7 @@ class ImportExportActivity : BaseActivity() {
                     if (e !is ImportException) {
                         logException(e)
                     }
-                    showMessageDialog(getString(R.string.import_failed_with_reason, e.message))
+                    viewModel.onImportFailed(e.message ?: e::class.java.simpleName)
                 })
                 .attachTo(destroyer)
         }

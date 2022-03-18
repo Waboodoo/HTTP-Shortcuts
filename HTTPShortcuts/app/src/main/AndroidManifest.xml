@@ -192,7 +192,7 @@
                 android:value=".activities.main.MainActivity" />
         </activity>
         <activity
-            android:name=".activities.settings.ImportExportActivity"
+            android:name=".activities.settings.importexport.ImportExportActivity"
             android:label="@string/title_import_export"
             android:parentActivityName=".activities.main.MainActivity"
             android:windowSoftInputMode="adjustResize">
