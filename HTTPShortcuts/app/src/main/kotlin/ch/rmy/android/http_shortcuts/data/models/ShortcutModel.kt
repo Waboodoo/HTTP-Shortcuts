@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.data.models
 
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.utils.UUIDUtils
+import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.extensions.type
@@ -9,14 +10,16 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
+import io.realm.annotations.RealmClass
 import io.realm.annotations.Required
 
-open class Shortcut(
+@RealmClass(name = "Shortcut")
+open class ShortcutModel(
     @PrimaryKey
     var id: String = "",
     icon: ShortcutIcon = ShortcutIcon.NoIcon,
     var executionType: String? = ShortcutExecutionType.APP.type,
-    var responseHandling: ResponseHandling? = null,
+    var responseHandling: ResponseHandlingModel? = null,
 ) : RealmObject() {
 
     @Required
@@ -50,9 +53,9 @@ open class Shortcut(
     @Required
     private var retryPolicy: String = RETRY_POLICY_NONE
 
-    var headers: RealmList<Header> = RealmList()
+    var headers: RealmList<HeaderModel> = RealmList()
 
-    var parameters: RealmList<Parameter> = RealmList()
+    var parameters: RealmList<ParameterModel> = RealmList()
 
     var acceptAllCertificates: Boolean = false
 
@@ -136,7 +139,7 @@ open class Shortcut(
 
     fun usesFileBody() = allowsBody() && bodyType == RequestBodyType.FILE
 
-    fun isSameAs(other: Shortcut): Boolean {
+    fun isSameAs(other: ShortcutModel): Boolean {
         if (other.name != name ||
             other.bodyContent != bodyContent ||
             other.description != description ||
@@ -187,10 +190,10 @@ open class Shortcut(
         get() = isFeedbackInWindow || isFeedbackInDialog
 
     val isFeedbackInWindow
-        get() = type.usesResponse && responseHandling?.uiType == ResponseHandling.UI_TYPE_WINDOW
+        get() = type.usesResponse && responseHandling?.uiType == ResponseHandlingModel.UI_TYPE_WINDOW
 
     val isFeedbackInDialog
-        get() = type.usesResponse && responseHandling?.uiType == ResponseHandling.UI_TYPE_DIALOG
+        get() = type.usesResponse && responseHandling?.uiType == ResponseHandlingModel.UI_TYPE_DIALOG
 
     var isWaitForNetwork
         get() = retryPolicy == RETRY_POLICY_WAIT_FOR_INTERNET
@@ -202,8 +205,8 @@ open class Shortcut(
         get() = type.usesResponse &&
             (
                 (
-                    responseHandling?.successOutput == ResponseHandling.SUCCESS_OUTPUT_RESPONSE ||
-                        responseHandling?.failureOutput == ResponseHandling.FAILURE_OUTPUT_DETAILED
+                    responseHandling?.successOutput == ResponseHandlingModel.SUCCESS_OUTPUT_RESPONSE ||
+                        responseHandling?.failureOutput == ResponseHandlingModel.FAILURE_OUTPUT_DETAILED
                     ) ||
                     codeOnSuccess.isNotEmpty() || codeOnFailure.isNotEmpty()
                 )
@@ -249,7 +252,7 @@ open class Shortcut(
             throw IllegalArgumentException("Invalid delay: $delay")
         }
 
-        parameters.forEach(Parameter::validate)
+        parameters.forEach(ParameterModel::validate)
         responseHandling?.validate()
     }
 

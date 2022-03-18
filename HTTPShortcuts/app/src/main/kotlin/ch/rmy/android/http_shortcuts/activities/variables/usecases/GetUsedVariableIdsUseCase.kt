@@ -3,8 +3,8 @@ package ch.rmy.android.http_shortcuts.activities.variables.usecases
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import ch.rmy.android.http_shortcuts.variables.Variables
@@ -27,7 +27,7 @@ class GetUsedVariableIdsUseCase(
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
 
-    private fun determineVariablesInUse(variables: List<Variable>, shortcuts: List<Shortcut>): Set<String> {
+    private fun determineVariablesInUse(variables: List<VariableModel>, shortcuts: List<ShortcutModel>): Set<String> {
         val variableManager = VariableManager(variables)
         return shortcuts
             .flatMap { shortcut ->
@@ -37,10 +37,10 @@ class GetUsedVariableIdsUseCase(
             .toSet()
     }
 
-    private fun getVariablesInUseInVariables(variables: List<Variable>): List<String> =
+    private fun getVariablesInUseInVariables(variables: List<VariableModel>): List<String> =
         variables.flatMap(::getVariablesInUseInVariable)
 
-    private fun getVariablesInUseInVariable(variable: Variable): Set<String> =
+    private fun getVariablesInUseInVariable(variable: VariableModel): Set<String> =
         when (variable.variableType) {
             VariableType.CONSTANT -> variable.value?.let(Variables::extractVariableIds) ?: emptySet()
             VariableType.SELECT,

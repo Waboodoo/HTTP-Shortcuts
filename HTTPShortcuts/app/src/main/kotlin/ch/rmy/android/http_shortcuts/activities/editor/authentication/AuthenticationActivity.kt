@@ -10,7 +10,7 @@ import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.databinding.ActivityAuthenticationBinding
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
@@ -94,10 +94,10 @@ class AuthenticationActivity : BaseActivity() {
     companion object {
 
         private val AUTHENTICATION_METHODS = listOf(
-            Shortcut.AUTHENTICATION_NONE to R.string.authentication_none,
-            Shortcut.AUTHENTICATION_BASIC to R.string.authentication_basic,
-            Shortcut.AUTHENTICATION_DIGEST to R.string.authentication_digest,
-            Shortcut.AUTHENTICATION_BEARER to R.string.authentication_bearer,
+            ShortcutModel.AUTHENTICATION_NONE to R.string.authentication_none,
+            ShortcutModel.AUTHENTICATION_BASIC to R.string.authentication_basic,
+            ShortcutModel.AUTHENTICATION_DIGEST to R.string.authentication_digest,
+            ShortcutModel.AUTHENTICATION_BEARER to R.string.authentication_bearer,
         )
     }
 }

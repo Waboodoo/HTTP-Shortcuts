@@ -9,8 +9,8 @@ import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
-import ch.rmy.android.http_shortcuts.data.models.ClientCertParams
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
+import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -50,7 +50,7 @@ class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, 
             .attachTo(destroyer)
     }
 
-    private fun initViewStateFromShortcut(shortcut: Shortcut) {
+    private fun initViewStateFromShortcut(shortcut: ShortcutModel) {
         updateViewState {
             copy(
                 followRedirects = shortcut.followRedirects,

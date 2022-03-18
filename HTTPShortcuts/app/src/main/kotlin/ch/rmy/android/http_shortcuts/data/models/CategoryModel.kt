@@ -6,16 +6,18 @@ import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
+import io.realm.annotations.RealmClass
 import io.realm.annotations.Required
 
-open class Category(
+@RealmClass(name = "Category")
+open class CategoryModel(
     @Required
     var name: String = "",
 ) : RealmObject() {
 
     @PrimaryKey
     var id: String = ""
-    var shortcuts: RealmList<Shortcut> = RealmList()
+    var shortcuts: RealmList<ShortcutModel> = RealmList()
 
     @Required
     private var layoutType: String = CategoryLayoutType.LINEAR_LIST.type
@@ -49,7 +51,7 @@ open class Category(
             throw IllegalArgumentException("Invalid background: $background")
         }
 
-        shortcuts.forEach(Shortcut::validate)
+        shortcuts.forEach(ShortcutModel::validate)
     }
 
     companion object {

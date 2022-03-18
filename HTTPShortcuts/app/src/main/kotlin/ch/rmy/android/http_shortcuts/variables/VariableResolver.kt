@@ -1,9 +1,9 @@
 package ch.rmy.android.http_shortcuts.variables
 
 import android.content.Context
-import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel
+import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import ch.rmy.android.http_shortcuts.variables.types.VariableTypeFactory
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -11,8 +11,8 @@ import io.reactivex.Single
 class VariableResolver(private val context: Context) {
 
     fun resolve(
-        variables: List<Variable>,
-        shortcut: Shortcut,
+        variables: List<VariableModel>,
+        shortcut: ShortcutModel,
         globalCode: String = "",
         preResolvedValues: Map<String, String> = emptyMap(),
     ): Single<VariableManager> {
@@ -21,7 +21,7 @@ class VariableResolver(private val context: Context) {
             .plus(extractVariableIdsFromJS(globalCode, variableManager))
             .toMutableSet()
 
-        val preResolvedVariables = mutableMapOf<Variable, String>()
+        val preResolvedVariables = mutableMapOf<VariableModel, String>()
         preResolvedValues
             .forEach { (variableKey, value) ->
                 variableManager.getVariableByKeyOrId(variableKey)?.let { variable ->
@@ -49,9 +49,9 @@ class VariableResolver(private val context: Context) {
 
     private fun resolveRecursiveVariables(
         variableLookup: VariableLookup,
-        preResolvedValues: Map<Variable, String>,
+        preResolvedValues: Map<VariableModel, String>,
         recursionDepth: Int = 0,
-    ): Single<Map<Variable, String>> {
+    ): Single<Map<VariableModel, String>> {
         val requiredVariableIds = mutableSetOf<String>()
         preResolvedValues.values.forEach { value ->
             requiredVariableIds.addAll(Variables.extractVariableIds(value))
@@ -82,9 +82,9 @@ class VariableResolver(private val context: Context) {
     }
 
     fun resolveVariables(
-        variablesToResolve: List<Variable>,
-        preResolvedValues: Map<Variable, String> = emptyMap(),
-    ): Single<Map<Variable, String>> {
+        variablesToResolve: List<VariableModel>,
+        preResolvedValues: Map<VariableModel, String> = emptyMap(),
+    ): Single<Map<VariableModel, String>> {
         var completable = Completable.complete()
         val resolvedVariables = preResolvedValues.toMutableMap()
 
@@ -119,7 +119,7 @@ class VariableResolver(private val context: Context) {
 
         private const val MAX_RECURSION_DEPTH = 3
 
-        fun extractVariableIds(shortcut: Shortcut, variableLookup: VariableLookup): Set<String> =
+        fun extractVariableIds(shortcut: ShortcutModel, variableLookup: VariableLookup): Set<String> =
             mutableSetOf<String>().apply {
                 addAll(Variables.extractVariableIds(shortcut.url))
                 if (shortcut.usesBasicAuthentication() || shortcut.usesDigestAuthentication()) {
@@ -154,7 +154,7 @@ class VariableResolver(private val context: Context) {
                 addAll(Variables.extractVariableIds(shortcut.codeOnSuccess))
                 addAll(Variables.extractVariableIds(shortcut.codeOnFailure))
 
-                if (shortcut.responseHandling != null && shortcut.responseHandling!!.successOutput == ResponseHandling.SUCCESS_OUTPUT_MESSAGE) {
+                if (shortcut.responseHandling != null && shortcut.responseHandling!!.successOutput == ResponseHandlingModel.SUCCESS_OUTPUT_MESSAGE) {
                     addAll(Variables.extractVariableIds(shortcut.responseHandling!!.successMessage))
                 }
             }

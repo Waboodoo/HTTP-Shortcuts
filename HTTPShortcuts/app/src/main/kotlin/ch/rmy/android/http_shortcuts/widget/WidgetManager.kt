@@ -13,7 +13,7 @@ import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.data.domains.widgets.WidgetsRepository
-import ch.rmy.android.http_shortcuts.data.models.Widget
+import ch.rmy.android.http_shortcuts.data.models.WidgetModel
 import ch.rmy.android.http_shortcuts.utils.IconUtil
 import io.reactivex.Completable
 
@@ -47,7 +47,7 @@ class WidgetManager {
                 }
             }
 
-    private fun updateWidget(context: Context, widget: Widget) {
+    private fun updateWidget(context: Context, widget: WidgetModel) {
         val shortcut = widget.shortcut ?: return
         RemoteViews(context.packageName, R.layout.widget).also { views ->
             views.setOnClickPendingIntent(

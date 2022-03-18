@@ -7,7 +7,7 @@ import android.widget.TextView
 import ch.rmy.android.framework.utils.SimpleOnSeekBarChangeListener
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 
@@ -15,7 +15,7 @@ internal class SliderType : BaseVariableType() {
 
     private val variablesRepository = VariableRepository()
 
-    override fun resolveValue(context: Context, variable: Variable): Single<String> =
+    override fun resolveValue(context: Context, variable: VariableModel): Single<String> =
         Single.create<String> { emitter ->
             val view = LayoutInflater.from(context).inflate(R.layout.variable_dialog_slider, null)
 
@@ -53,10 +53,10 @@ internal class SliderType : BaseVariableType() {
             .subscribeOn(AndroidSchedulers.mainThread())
             .storeValueIfNeeded(variable, variablesRepository)
 
-    private fun findSliderMax(variable: Variable): Int =
+    private fun findSliderMax(variable: VariableModel): Int =
         ((findMax(variable) - findMin(variable)) / findStep(variable))
 
-    private fun findValue(slider: SeekBar, variable: Variable): String =
+    private fun findValue(slider: SeekBar, variable: VariableModel): String =
         (slider.progress * findStep(variable) + findMin(variable)).toString()
 
     companion object {
@@ -69,13 +69,13 @@ internal class SliderType : BaseVariableType() {
         const val DEFAULT_MAX = 100
         const val DEFAULT_STEP = 1
 
-        fun findMax(variable: Variable): Int =
+        fun findMax(variable: VariableModel): Int =
             variable.dataForType[KEY_MAX]?.toDoubleOrNull()?.toInt() ?: DEFAULT_MAX
 
-        fun findMin(variable: Variable): Int =
+        fun findMin(variable: VariableModel): Int =
             variable.dataForType[KEY_MIN]?.toDoubleOrNull()?.toInt() ?: DEFAULT_MIN
 
-        fun findStep(variable: Variable): Int =
+        fun findStep(variable: VariableModel): Int =
             variable.dataForType[KEY_STEP]?.toDoubleOrNull()?.toInt() ?: DEFAULT_STEP
 
         fun getData(maxValue: Int, minValue: Int, stepValue: Int) = mapOf(

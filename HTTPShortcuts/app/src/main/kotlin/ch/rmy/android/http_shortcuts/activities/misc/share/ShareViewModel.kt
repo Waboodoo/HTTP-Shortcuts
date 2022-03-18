@@ -12,8 +12,8 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import ch.rmy.android.http_shortcuts.variables.VariableLookup
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
@@ -24,8 +24,8 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
     private val shortcutRepository = ShortcutRepository()
     private val variableRepository = VariableRepository()
 
-    private lateinit var shortcuts: List<Shortcut>
-    private lateinit var variables: List<Variable>
+    private lateinit var shortcuts: List<ShortcutModel>
+    private lateinit var variables: List<VariableModel>
 
     private val text: String
         get() = initData.text ?: ""
@@ -95,11 +95,11 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
             .filter { it.isShareText || it.isShareTitle }
             .toSet()
 
-    private fun getTargetableShortcutsForTextSharing(variableIds: Set<String>, variableLookup: VariableLookup): List<Shortcut> =
+    private fun getTargetableShortcutsForTextSharing(variableIds: Set<String>, variableLookup: VariableLookup): List<ShortcutModel> =
         shortcuts
             .filter { it.hasShareVariable(variableIds, variableLookup) }
 
-    private fun getTargetableShortcutsForFileSharing(): List<Shortcut> =
+    private fun getTargetableShortcutsForFileSharing(): List<ShortcutModel> =
         shortcuts
             .filter { it.hasFileParameter() || it.usesFileBody() }
 
@@ -142,7 +142,7 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
         finish(skipAnimation = true)
     }
 
-    private fun showShortcutSelection(shortcuts: List<Shortcut>, variableValues: Map<String, String> = emptyMap()) {
+    private fun showShortcutSelection(shortcuts: List<ShortcutModel>, variableValues: Map<String, String> = emptyMap()) {
         dialogState = DialogState.create {
             mapFor(shortcuts) { shortcut ->
                 item(name = shortcut.name, shortcutIcon = shortcut.icon) {
@@ -168,12 +168,12 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
 
     companion object {
 
-        private fun Shortcut.hasShareVariable(variableIds: Set<String>, variableLookup: VariableLookup): Boolean {
+        private fun ShortcutModel.hasShareVariable(variableIds: Set<String>, variableLookup: VariableLookup): Boolean {
             val variableIdsInShortcut = VariableResolver.extractVariableIds(this, variableLookup)
             return variableIds.any { variableIdsInShortcut.contains(it) }
         }
 
-        private fun Shortcut.hasFileParameter(): Boolean =
+        private fun ShortcutModel.hasFileParameter(): Boolean =
             parameters.any { it.isFileParameter || it.isFilesParameter }
     }
 }

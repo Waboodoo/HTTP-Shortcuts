@@ -4,7 +4,7 @@ import android.content.Context
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.mapIf
 import ch.rmy.android.framework.extensions.mapIfNotNull
-import ch.rmy.android.http_shortcuts.data.models.ClientCertParams
+import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.exceptions.ClientCertException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidProxyException
 import com.burgstaller.okhttp.digest.Credentials

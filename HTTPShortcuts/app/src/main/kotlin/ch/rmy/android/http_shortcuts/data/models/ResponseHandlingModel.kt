@@ -3,8 +3,8 @@ package ch.rmy.android.http_shortcuts.data.models
 import io.realm.RealmObject
 import io.realm.annotations.RealmClass
 
-@RealmClass(embedded = true)
-open class ResponseHandling(
+@RealmClass(name = "ResponseHandling", embedded = true)
+open class ResponseHandlingModel(
     var uiType: String = UI_TYPE_WINDOW,
     var successOutput: String = SUCCESS_OUTPUT_RESPONSE,
     var failureOutput: String = FAILURE_OUTPUT_DETAILED,
@@ -26,7 +26,7 @@ open class ResponseHandling(
         }
     }
 
-    fun isSameAs(other: ResponseHandling?) =
+    fun isSameAs(other: ResponseHandlingModel?) =
         other?.uiType == uiType &&
             other.successOutput == successOutput &&
             other.failureOutput == failureOutput &&

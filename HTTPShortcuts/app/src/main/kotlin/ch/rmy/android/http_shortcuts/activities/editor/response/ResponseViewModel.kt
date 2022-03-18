@@ -8,7 +8,7 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 
 class ResponseViewModel(application: Application) : BaseViewModel<Unit, ResponseViewState>(application) {
 
@@ -38,7 +38,7 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
             .attachTo(destroyer)
     }
 
-    private fun initViewStateFromShortcut(shortcut: Shortcut) {
+    private fun initViewStateFromShortcut(shortcut: ShortcutModel) {
         val responseHandling = shortcut.responseHandling!!
         updateViewState {
             copy(
@@ -52,7 +52,7 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
         }
     }
 
-    private fun getSuccessMessageHint(shortcut: Shortcut): Localizable =
+    private fun getSuccessMessageHint(shortcut: ShortcutModel): Localizable =
         StringResLocalizable(
             R.string.executed,
             Localizable.create { context ->

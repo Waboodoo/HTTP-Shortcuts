@@ -1,8 +1,8 @@
 package ch.rmy.android.http_shortcuts.variables
 
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
 import org.junit.Test
@@ -20,7 +20,7 @@ class VariableResolverTest {
         val variableManager = VariableResolver(context)
             .resolve(
                 variables = listOf(
-                    Variable(id = "1234", key = "myVariable", value = "Hello World")
+                    VariableModel(id = "1234", key = "myVariable", value = "Hello World")
                 ),
                 shortcut = withContent("{{1234}}")
             )
@@ -49,8 +49,8 @@ class VariableResolverTest {
         val variableManager = VariableResolver(context)
             .resolve(
                 variables = listOf(
-                    Variable(id = "1234", key = "myVariable1", value = "Hello {{5678}}"),
-                    Variable(id = "5678", key = "myVariable2", value = "World")
+                    VariableModel(id = "1234", key = "myVariable1", value = "Hello {{5678}}"),
+                    VariableModel(id = "5678", key = "myVariable2", value = "World")
                 ),
                 shortcut = withContent("{{1234}}")
             )
@@ -96,7 +96,7 @@ class VariableResolverTest {
         val variableManager = VariableResolver(context)
             .resolve(
                 variables = listOf(
-                    Variable(id = "1234", key = "myVariable", value = "Hello World")
+                    VariableModel(id = "1234", key = "myVariable", value = "Hello World")
                 ),
                 shortcut = withJSContent("getVariable(\"myVariable\")")
             )
@@ -125,7 +125,7 @@ class VariableResolverTest {
         val variableManager = VariableResolver(context)
             .resolve(
                 variables = listOf(
-                    Variable(id = "1234", key = "myVariable", value = "Hello World")
+                    VariableModel(id = "1234", key = "myVariable", value = "Hello World")
                 ),
                 shortcut = withJSContent("getVariable(/*[variable]*/\"1234\"/*[/variable]*/)")
             )
@@ -152,14 +152,14 @@ class VariableResolverTest {
     companion object {
 
         private fun withContent(content: String) =
-            Shortcut().apply {
-                method = Shortcut.METHOD_POST
+            ShortcutModel().apply {
+                method = ShortcutModel.METHOD_POST
                 bodyType = RequestBodyType.CUSTOM_TEXT
                 bodyContent = content
             }
 
         private fun withJSContent(content: String) =
-            Shortcut().apply {
+            ShortcutModel().apply {
                 codeOnSuccess = content
             }
     }

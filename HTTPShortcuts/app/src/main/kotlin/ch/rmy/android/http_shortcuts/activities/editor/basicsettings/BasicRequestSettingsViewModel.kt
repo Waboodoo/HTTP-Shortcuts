@@ -6,7 +6,7 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.extensions.type
 
 class BasicRequestSettingsViewModel(application: Application) : BaseViewModel<Unit, BasicRequestSettingsViewState>(application) {
@@ -37,7 +37,7 @@ class BasicRequestSettingsViewModel(application: Application) : BaseViewModel<Un
             .attachTo(destroyer)
     }
 
-    private fun initViewStateFromShortcut(shortcut: Shortcut) {
+    private fun initViewStateFromShortcut(shortcut: ShortcutModel) {
         updateViewState {
             copy(
                 methodVisible = shortcut.type == ShortcutExecutionType.APP,

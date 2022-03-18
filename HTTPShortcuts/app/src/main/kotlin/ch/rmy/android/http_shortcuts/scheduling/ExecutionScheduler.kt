@@ -10,7 +10,7 @@ import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.mapIf
 import ch.rmy.android.framework.extensions.mapIfNotNull
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
-import ch.rmy.android.http_shortcuts.data.models.PendingExecution
+import ch.rmy.android.http_shortcuts.data.models.PendingExecutionModel
 import io.reactivex.Completable
 import java.util.Calendar
 import java.util.Date
@@ -43,7 +43,7 @@ class ExecutionScheduler(private val context: Context) {
                 }
             }
 
-    private fun scheduleService(pendingExecution: PendingExecution, delay: Long?, withNetworkConstraints: Boolean) {
+    private fun scheduleService(pendingExecution: PendingExecutionModel, delay: Long?, withNetworkConstraints: Boolean) {
         with(WorkManager.getInstance(context)) {
             cancelAllWorkByTag(TAG)
             enqueue(

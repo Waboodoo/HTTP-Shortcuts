@@ -2,12 +2,12 @@ package ch.rmy.android.http_shortcuts.extensions
 
 import ch.rmy.android.http_shortcuts.data.dtos.LauncherShortcut
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 
-val Shortcut.type: ShortcutExecutionType
+val ShortcutModel.type: ShortcutExecutionType
     get() = ShortcutExecutionType.get(executionType!!)
 
-fun Shortcut.toLauncherShortcut() =
+fun ShortcutModel.toLauncherShortcut() =
     LauncherShortcut(
         id = id,
         name = name,

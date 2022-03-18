@@ -22,7 +22,7 @@ import ch.rmy.android.http_shortcuts.activities.categories.usecases.GetRenameDia
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
-import ch.rmy.android.http_shortcuts.data.models.Category
+import ch.rmy.android.http_shortcuts.data.models.CategoryModel
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 
@@ -37,7 +37,7 @@ class CategoriesViewModel(application: Application) : BaseViewModel<Unit, Catego
     private val getRenameDialog = GetRenameDialogUseCase()
     private val getCreationDialog = GetCreationDialogUseCase()
 
-    private lateinit var categories: List<Category>
+    private lateinit var categories: List<CategoryModel>
     private var hasChanged = false
 
     override var dialogState: DialogState?
@@ -200,7 +200,7 @@ class CategoriesViewModel(application: Application) : BaseViewModel<Unit, Catego
     companion object {
         private const val MAX_ICONS = 5
 
-        private fun mapCategories(categories: List<Category>): List<CategoryListItem> =
+        private fun mapCategories(categories: List<CategoryModel>): List<CategoryListItem> =
             categories.map { category ->
                 CategoryListItem(
                     id = category.id,

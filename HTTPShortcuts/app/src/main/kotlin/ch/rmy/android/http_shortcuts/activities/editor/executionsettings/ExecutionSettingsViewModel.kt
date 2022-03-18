@@ -5,7 +5,7 @@ import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.utils.localization.DurationLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.tiles.QuickSettingsTileManager
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import kotlin.time.Duration
@@ -33,7 +33,7 @@ class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit,
             .attachTo(destroyer)
     }
 
-    private fun initViewStateFromShortcut(shortcut: Shortcut) {
+    private fun initViewStateFromShortcut(shortcut: ShortcutModel) {
         updateViewState {
             copy(
                 waitForConnection = shortcut.isWaitForNetwork,

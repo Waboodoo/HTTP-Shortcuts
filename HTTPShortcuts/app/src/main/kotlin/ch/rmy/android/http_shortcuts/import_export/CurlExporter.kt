@@ -6,7 +6,7 @@ import ch.rmy.android.framework.extensions.mapFor
 import ch.rmy.android.framework.extensions.mapIf
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import ch.rmy.android.http_shortcuts.variables.Variables.rawPlaceholdersToResolvedValues
@@ -15,7 +15,7 @@ import io.reactivex.Single
 
 class CurlExporter(val context: Context) {
 
-    fun generateCommand(shortcut: Shortcut): Single<CurlCommand> {
+    fun generateCommand(shortcut: ShortcutModel): Single<CurlCommand> {
         val detachedShortcut = shortcut.detachFromRealm()
         return resolveVariables(detachedShortcut)
             .map { variableManager ->
@@ -23,14 +23,14 @@ class CurlExporter(val context: Context) {
             }
     }
 
-    private fun resolveVariables(shortcut: Shortcut) =
+    private fun resolveVariables(shortcut: ShortcutModel) =
         VariableRepository().getVariables()
             .flatMap { variables ->
                 VariableResolver(context)
                     .resolve(variables, shortcut)
             }
 
-    private fun generateCommand(shortcut: Shortcut, variableValues: Map<String, String>): CurlCommand =
+    private fun generateCommand(shortcut: ShortcutModel, variableValues: Map<String, String>): CurlCommand =
         CurlCommand.Builder()
             .url(rawPlaceholdersToResolvedValues(shortcut.url, variableValues))
             .mapIf(shortcut.usesBasicAuthentication() || shortcut.usesDigestAuthentication()) {
@@ -81,7 +81,7 @@ class CurlExporter(val context: Context) {
                 }
             }
             .mapIf(shortcut.usesCustomBody()) {
-                header(HttpHeaders.CONTENT_TYPE, shortcut.contentType.ifEmpty { Shortcut.DEFAULT_CONTENT_TYPE })
+                header(HttpHeaders.CONTENT_TYPE, shortcut.contentType.ifEmpty { ShortcutModel.DEFAULT_CONTENT_TYPE })
                     .data(rawPlaceholdersToResolvedValues(shortcut.bodyContent, variableValues))
             }
             .build()

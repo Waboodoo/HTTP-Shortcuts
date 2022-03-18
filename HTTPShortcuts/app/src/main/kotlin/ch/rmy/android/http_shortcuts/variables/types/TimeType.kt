@@ -5,7 +5,7 @@ import android.content.Context
 import android.text.format.DateFormat
 import ch.rmy.android.framework.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import ch.rmy.android.http_shortcuts.extensions.cancel
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -20,7 +20,7 @@ internal class TimeType : BaseVariableType() {
 
     private val variablesRepository = VariableRepository()
 
-    override fun resolveValue(context: Context, variable: Variable): Single<String> =
+    override fun resolveValue(context: Context, variable: VariableModel): Single<String> =
         Single.create<Date> { emitter ->
             val calendar = getInitialTime(variable.value)
             val timePicker = TimePickerDialog(
@@ -74,7 +74,7 @@ internal class TimeType : BaseVariableType() {
 
         private val DATE_FORMAT = SimpleDateFormat("HH-mm", Locale.US)
 
-        fun getTimeFormat(variable: Variable) =
+        fun getTimeFormat(variable: VariableModel) =
             variable.dataForType[DateType.KEY_FORMAT] ?: DEFAULT_FORMAT
     }
 }

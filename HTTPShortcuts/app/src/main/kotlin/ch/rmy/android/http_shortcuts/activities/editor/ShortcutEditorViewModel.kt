@@ -35,8 +35,8 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.maintenance.CleanUpWorker
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.data.models.Shortcut.Companion.TEMPORARY_ID
+import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.data.models.ShortcutModel.Companion.TEMPORARY_ID
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.icons.Icons
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
@@ -69,9 +69,9 @@ class ShortcutEditorViewModel(
 
     private var isSaving = false
 
-    private var oldShortcut: Shortcut? = null
+    private var oldShortcut: ShortcutModel? = null
 
-    private lateinit var shortcut: Shortcut
+    private lateinit var shortcut: ShortcutModel
 
     private val categoryId
         get() = initData.categoryId
@@ -222,7 +222,11 @@ class ShortcutEditorViewModel(
                 else -> if (shortcut.bodyContent.isBlank()) {
                     StringResLocalizable(R.string.subtitle_request_body_none)
                 } else {
-                    StringResLocalizable(R.string.subtitle_request_body_custom, shortcut.contentType.ifEmpty { Shortcut.DEFAULT_CONTENT_TYPE })
+                    StringResLocalizable(
+                        R.string.subtitle_request_body_custom,
+                        shortcut.contentType
+                            .ifEmpty { ShortcutModel.DEFAULT_CONTENT_TYPE },
+                    )
                 }
             }
         } else {
@@ -232,9 +236,9 @@ class ShortcutEditorViewModel(
     private fun getAuthenticationSubtitle(): Localizable =
         StringResLocalizable(
             when (shortcut.authentication) {
-                Shortcut.AUTHENTICATION_BASIC -> R.string.subtitle_authentication_basic
-                Shortcut.AUTHENTICATION_DIGEST -> R.string.subtitle_authentication_digest
-                Shortcut.AUTHENTICATION_BEARER -> R.string.subtitle_authentication_bearer
+                ShortcutModel.AUTHENTICATION_BASIC -> R.string.subtitle_authentication_basic
+                ShortcutModel.AUTHENTICATION_DIGEST -> R.string.subtitle_authentication_digest
+                ShortcutModel.AUTHENTICATION_BEARER -> R.string.subtitle_authentication_bearer
                 else -> R.string.subtitle_authentication_none
             }
         )

@@ -4,7 +4,7 @@ import android.content.Context
 import ch.rmy.android.framework.extensions.mapFor
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 
@@ -12,7 +12,7 @@ internal class SelectType : BaseVariableType() {
 
     private val variablesRepository = VariableRepository()
 
-    override fun resolveValue(context: Context, variable: Variable): Single<String> =
+    override fun resolveValue(context: Context, variable: VariableModel): Single<String> =
         Single
             .create<String> { emitter ->
                 createDialogBuilder(context, variable, emitter)
@@ -54,10 +54,10 @@ internal class SelectType : BaseVariableType() {
         const val KEY_MULTI_SELECT = "multi_select"
         const val KEY_SEPARATOR = "separator"
 
-        fun isMultiSelect(variable: Variable) =
+        fun isMultiSelect(variable: VariableModel) =
             variable.dataForType[KEY_MULTI_SELECT]?.toBoolean() ?: false
 
-        fun getSeparator(variable: Variable) =
+        fun getSeparator(variable: VariableModel) =
             variable.dataForType[KEY_SEPARATOR] ?: ","
     }
 }

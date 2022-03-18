@@ -12,7 +12,7 @@ import ch.rmy.android.framework.extensions.mapFor
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.utils.ThemeHelper
 
@@ -58,7 +58,7 @@ class QuickTileService : TileService() {
         show(dialog)
     }
 
-    private fun showPickerDialog(shortcuts: List<Shortcut>) {
+    private fun showPickerDialog(shortcuts: List<ShortcutModel>) {
         applyTheme()
         val dialog = DialogBuilder(context)
             .mapFor(shortcuts) { shortcut ->

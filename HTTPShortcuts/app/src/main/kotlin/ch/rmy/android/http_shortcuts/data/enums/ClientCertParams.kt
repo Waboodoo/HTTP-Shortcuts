@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.data.models
+package ch.rmy.android.http_shortcuts.data.enums
 
 import android.content.Context
 

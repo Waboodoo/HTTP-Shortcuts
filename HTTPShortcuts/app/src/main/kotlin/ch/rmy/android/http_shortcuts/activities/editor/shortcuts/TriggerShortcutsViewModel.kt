@@ -15,7 +15,7 @@ import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.TriggerShortcutManager.getCodeFromTriggeredShortcutIds
@@ -28,7 +28,7 @@ class TriggerShortcutsViewModel(application: Application) :
         get() = initData.currentShortcutId
 
     private var shortcutInitialized = false
-    private lateinit var shortcuts: List<Shortcut>
+    private lateinit var shortcuts: List<ShortcutModel>
 
     private val temporaryShortcutRepository = TemporaryShortcutRepository()
     private val shortcutRepository = ShortcutRepository()
@@ -80,7 +80,7 @@ class TriggerShortcutsViewModel(application: Application) :
             .attachTo(destroyer)
     }
 
-    private fun initViewStateFromShortcut(shortcut: Shortcut) {
+    private fun initViewStateFromShortcut(shortcut: ShortcutModel) {
         shortcutIdsInUse = getTriggeredShortcutIdsFromCode(shortcut.codeOnPrepare)
     }
 

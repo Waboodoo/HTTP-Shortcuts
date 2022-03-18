@@ -11,7 +11,7 @@ import ch.rmy.android.http_shortcuts.data.domains.getCategoryById
 import ch.rmy.android.http_shortcuts.data.domains.getShortcutById
 import ch.rmy.android.http_shortcuts.data.domains.getShortcutByNameOrId
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryShortcut
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -19,19 +19,19 @@ import io.reactivex.Single
 
 class ShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
 
-    fun getShortcutById(shortcutId: String): Single<Shortcut> =
+    fun getShortcutById(shortcutId: String): Single<ShortcutModel> =
         query {
             getShortcutById(shortcutId)
         }
             .map { it.first() }
 
-    fun getShortcutByNameOrId(shortcutNameOrId: String): Single<Shortcut> =
+    fun getShortcutByNameOrId(shortcutNameOrId: String): Single<ShortcutModel> =
         query {
             getShortcutByNameOrId(shortcutNameOrId)
         }
             .map { it.first() }
 
-    fun getObservableShortcuts(): Observable<List<Shortcut>> =
+    fun getObservableShortcuts(): Observable<List<ShortcutModel>> =
         observeList {
             getBase().findFirst()!!.categories
         }
@@ -41,7 +41,7 @@ class ShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
                 }
             }
 
-    fun getShortcuts(): Single<List<Shortcut>> =
+    fun getShortcuts(): Single<List<ShortcutModel>> =
         queryItem {
             getBase()
         }
@@ -99,7 +99,7 @@ class ShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
         commitTransaction {
             val shortcut = getShortcutById(shortcutId)
                 .findFirst()!!
-            copyShortcut(shortcut, Shortcut.TEMPORARY_ID)
+            copyShortcut(shortcut, ShortcutModel.TEMPORARY_ID)
         }
 
     fun copyTemporaryShortcutToShortcut(shortcutId: String, categoryId: String?) =
@@ -117,7 +117,7 @@ class ShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
             }
         }
 
-    private fun RealmTransactionContext.copyShortcut(sourceShortcut: Shortcut, targetShortcutId: String): Shortcut =
+    private fun RealmTransactionContext.copyShortcut(sourceShortcut: ShortcutModel, targetShortcutId: String): ShortcutModel =
         sourceShortcut.detachFromRealm()
             .apply {
                 id = targetShortcutId

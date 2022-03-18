@@ -1,12 +1,12 @@
 package ch.rmy.android.http_shortcuts.variables
 
 import ch.rmy.android.framework.extensions.mapIf
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import org.json.JSONObject
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
 
-class VariableManager(variables: List<Variable>) : VariableLookup {
+class VariableManager(variables: List<VariableModel>) : VariableLookup {
 
     private val variablesById = variables.associateBy { it.id }
 
@@ -14,13 +14,13 @@ class VariableManager(variables: List<Variable>) : VariableLookup {
 
     private val variableValuesById = mutableMapOf<String, String>()
 
-    override fun getVariableById(id: String): Variable? =
+    override fun getVariableById(id: String): VariableModel? =
         variablesById[id]
 
-    override fun getVariableByKey(key: String): Variable? =
+    override fun getVariableByKey(key: String): VariableModel? =
         variablesByKey[key]
 
-    fun getVariableByKeyOrId(keyOrId: String): Variable? =
+    fun getVariableByKeyOrId(keyOrId: String): VariableModel? =
         if (variablesById.containsKey(keyOrId)) {
             getVariableById(keyOrId)
         } else {
@@ -42,7 +42,7 @@ class VariableManager(variables: List<Variable>) : VariableLookup {
                 getVariableValueById(variableId)
             }
 
-    fun setVariableValue(variable: Variable, value: String) {
+    fun setVariableValue(variable: VariableModel, value: String) {
         variableValuesById[variable.id] = encodeValue(variable, value)
     }
 
@@ -62,14 +62,14 @@ class VariableManager(variables: List<Variable>) : VariableLookup {
                 getVariableById(entry.key)!!.key
             }
 
-    fun getVariableValues(): Map<Variable, String> =
+    fun getVariableValues(): Map<VariableModel, String> =
         variableValuesById
             .mapKeys { entry ->
                 getVariableById(entry.key)!!
             }
 
     companion object {
-        private fun encodeValue(variable: Variable, value: String) =
+        private fun encodeValue(variable: VariableModel, value: String) =
             value
                 .mapIf(variable.jsonEncode) {
                     JSONObject.quote(this).drop(1).dropLast(1)

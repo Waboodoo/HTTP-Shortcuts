@@ -32,8 +32,8 @@ import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExec
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
-import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel
+import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.exceptions.BrowserNotFoundException
 import ch.rmy.android.http_shortcuts.exceptions.CanceledByUserException
@@ -91,7 +91,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     private val appRepository = AppRepository()
     private val pendingExecutionsRepository = PendingExecutionsRepository()
 
-    private lateinit var shortcut: Shortcut
+    private lateinit var shortcut: ShortcutModel
     private lateinit var globalCode: String
 
     private val progressIndicator: ProgressIndicator by lazy {
@@ -231,7 +231,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                     }
                     else -> {
                         if (shouldReschedule(error)) {
-                            if (shortcut.responseHandling?.successOutput != ResponseHandling.SUCCESS_OUTPUT_NONE && tryNumber == 0) {
+                            if (shortcut.responseHandling?.successOutput != ResponseHandlingModel.SUCCESS_OUTPUT_NONE && tryNumber == 0) {
                                 showToast(
                                     String.format(
                                         context.getString(R.string.execution_delayed),
@@ -243,7 +243,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                             rescheduleExecution()
                                 .andThen(executionScheduler.schedule())
                         } else {
-                            val simple = shortcut.responseHandling?.failureOutput == ResponseHandling.FAILURE_OUTPUT_SIMPLE
+                            val simple = shortcut.responseHandling?.failureOutput == ResponseHandlingModel.FAILURE_OUTPUT_SIMPLE
                             displayOutput(
                                 generateOutputFromError(error, simple),
                                 response = (error as? ErrorResponse)?.shortcutResponse
@@ -564,7 +564,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
             }
             .flatMapCompletable { response ->
                 when (shortcut.responseHandling?.successOutput) {
-                    ResponseHandling.SUCCESS_OUTPUT_MESSAGE -> {
+                    ResponseHandlingModel.SUCCESS_OUTPUT_MESSAGE -> {
                         displayOutput(
                             output = shortcut.responseHandling
                                 ?.successMessage
@@ -574,8 +574,8 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                             response = response,
                         )
                     }
-                    ResponseHandling.SUCCESS_OUTPUT_RESPONSE -> displayOutput(output = null, response)
-                    ResponseHandling.SUCCESS_OUTPUT_NONE -> Completable.complete()
+                    ResponseHandlingModel.SUCCESS_OUTPUT_RESPONSE -> displayOutput(output = null, response)
+                    ResponseHandlingModel.SUCCESS_OUTPUT_NONE -> Completable.complete()
                     else -> Completable.complete()
                 }
             }
@@ -612,7 +612,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
 
     private fun displayOutput(output: String?, response: ShortcutResponse? = null): Completable =
         when (shortcut.responseHandling?.uiType) {
-            ResponseHandling.UI_TYPE_TOAST,
+            ResponseHandlingModel.UI_TYPE_TOAST,
             null,
             -> {
                 showToast(
@@ -620,11 +620,11 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                         .truncate(maxLength = TOAST_MAX_LENGTH)
                         .let(HTMLUtil::format)
                         .ifBlank { getString(R.string.message_blank_response) },
-                    long = shortcut.responseHandling?.successOutput == ResponseHandling.SUCCESS_OUTPUT_RESPONSE
+                    long = shortcut.responseHandling?.successOutput == ResponseHandlingModel.SUCCESS_OUTPUT_RESPONSE
                 )
                 Completable.complete()
             }
-            ResponseHandling.UI_TYPE_DIALOG -> {
+            ResponseHandlingModel.UI_TYPE_DIALOG -> {
                 DialogBuilder(context)
                     .title(shortcutName)
                     .let { builder ->
@@ -642,7 +642,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                     .positive(R.string.dialog_ok)
                     .showAsCompletable()
             }
-            ResponseHandling.UI_TYPE_WINDOW -> {
+            ResponseHandlingModel.UI_TYPE_WINDOW -> {
                 progressIndicator.hideProgress()
                 DisplayResponseActivity.IntentBuilder(shortcutId)
                     .name(shortcutName)

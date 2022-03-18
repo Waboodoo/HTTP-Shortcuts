@@ -36,8 +36,8 @@ import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.dtos.LauncherShortcut
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
-import ch.rmy.android.http_shortcuts.data.models.Category
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.CategoryModel
+import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.extensions.toLauncherShortcut
 import ch.rmy.android.http_shortcuts.usecases.GetChangeLogDialogUseCase
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
@@ -65,7 +65,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     private val getNetworkRestrictionDialog = GetNetworkRestrictionDialogUseCase(settings)
     private val shouldShowNetworkRestrictionDialog = ShouldShowNetworkRestrictionDialogUseCase(context, settings)
 
-    private lateinit var categories: List<Category>
+    private lateinit var categories: List<CategoryModel>
 
     private val selectionMode
         get() = initData.selectionMode
@@ -417,7 +417,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         )
     }
 
-    private fun getShortcutById(shortcutId: String): Shortcut? {
+    private fun getShortcutById(shortcutId: String): ShortcutModel? {
         for (category in categories) {
             for (shortcut in category.shortcuts) {
                 if (shortcut.id == shortcutId) {

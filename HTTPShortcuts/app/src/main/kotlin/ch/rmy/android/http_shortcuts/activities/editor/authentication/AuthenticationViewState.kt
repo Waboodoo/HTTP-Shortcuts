@@ -1,6 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.editor.authentication
 
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.models.VariableModel
 
 data class AuthenticationViewState(
     val authenticationMethod: String = "",
@@ -9,5 +9,5 @@ data class AuthenticationViewState(
     val username: String = "",
     val password: String = "",
     val token: String = "",
-    val variables: List<Variable>? = null,
+    val variables: List<VariableModel>? = null,
 )

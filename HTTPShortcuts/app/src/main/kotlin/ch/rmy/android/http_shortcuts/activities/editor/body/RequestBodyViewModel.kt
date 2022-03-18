@@ -11,15 +11,15 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
-import ch.rmy.android.http_shortcuts.data.models.Parameter
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.ParameterModel
+import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 
 class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, RequestBodyViewState>(application), WithDialog {
 
     private val temporaryShortcutRepository = TemporaryShortcutRepository()
     private val variableRepository = VariableRepository()
 
-    private var parameters: List<Parameter> = emptyList()
+    private var parameters: List<ParameterModel> = emptyList()
         set(value) {
             field = value
             updateViewState {
@@ -60,7 +60,7 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
             .attachTo(destroyer)
     }
 
-    private fun initViewStateFromShortcut(shortcut: Shortcut) {
+    private fun initViewStateFromShortcut(shortcut: ShortcutModel) {
         atomicallyUpdateViewState {
             this.parameters = shortcut.parameters
             updateViewState {
@@ -121,7 +121,7 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
         parameters = parameters
             .map { parameter ->
                 if (parameter.id == parameterId) {
-                    Parameter(
+                    ParameterModel(
                         id = parameterId,
                         key = key,
                         value = value,
@@ -223,7 +223,7 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
     }
 
     companion object {
-        private fun mapParameters(parameters: List<Parameter>): List<ParameterListItem> =
+        private fun mapParameters(parameters: List<ParameterModel>): List<ParameterListItem> =
             parameters.map { parameter ->
                 ParameterListItem.Parameter(
                     id = parameter.id,

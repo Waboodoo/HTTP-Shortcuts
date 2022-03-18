@@ -20,7 +20,7 @@ import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.databinding.ActivityShortcutEditorOverviewBinding
 import ch.rmy.android.http_shortcuts.icons.IconPicker
 import ch.rmy.curlcommand.CurlCommand
@@ -57,7 +57,7 @@ class ShortcutEditorActivity : BaseActivity() {
 
     private fun initViews() {
         binding = applyBinding(ActivityShortcutEditorOverviewBinding.inflate(layoutInflater))
-        binding.inputShortcutName.setMaxLength(Shortcut.NAME_MAX_LENGTH)
+        binding.inputShortcutName.setMaxLength(ShortcutModel.NAME_MAX_LENGTH)
         binding.mainView.visible = false
         title = ""
     }

@@ -6,15 +6,15 @@ import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
-import ch.rmy.android.http_shortcuts.data.models.Header
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.HeaderModel
+import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 
 class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, RequestHeadersViewState>(application) {
 
     private val temporaryShortcutRepository = TemporaryShortcutRepository()
     private val variableRepository = VariableRepository()
 
-    private var headers: List<Header> = emptyList()
+    private var headers: List<HeaderModel> = emptyList()
         set(value) {
             field = value
             updateViewState {
@@ -47,7 +47,7 @@ class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, Re
             .attachTo(destroyer)
     }
 
-    private fun initViewStateFromShortcut(shortcut: Shortcut) {
+    private fun initViewStateFromShortcut(shortcut: ShortcutModel) {
         headers = shortcut.headers
     }
 
@@ -80,7 +80,7 @@ class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, Re
         headers = headers
             .map { header ->
                 if (header.id == headerId) {
-                    Header(headerId, key, value)
+                    HeaderModel(headerId, key, value)
                 } else {
                     header
                 }
@@ -115,7 +115,7 @@ class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, Re
     }
 
     companion object {
-        private fun mapHeaders(headers: List<Header>): List<HeaderListItem> =
+        private fun mapHeaders(headers: List<HeaderModel>): List<HeaderListItem> =
             headers.map { header ->
                 HeaderListItem.Header(
                     id = header.id,

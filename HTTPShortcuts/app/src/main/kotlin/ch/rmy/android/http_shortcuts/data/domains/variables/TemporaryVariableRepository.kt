@@ -6,15 +6,15 @@ import ch.rmy.android.framework.extensions.swap
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryVariable
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
-import ch.rmy.android.http_shortcuts.data.models.Option
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.models.OptionModel
+import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.realm.RealmList
 
 class TemporaryVariableRepository : BaseRepository(RealmFactory.getInstance()) {
 
-    fun getObservableTemporaryVariable(): Observable<Variable> =
+    fun getObservableTemporaryVariable(): Observable<VariableModel> =
         observeItem {
             getTemporaryVariable()
         }
@@ -22,8 +22,8 @@ class TemporaryVariableRepository : BaseRepository(RealmFactory.getInstance()) {
     fun createNewTemporaryVariable(type: VariableType): Completable =
         commitTransaction {
             copyOrUpdate(
-                Variable(
-                    id = Variable.TEMPORARY_ID,
+                VariableModel(
+                    id = VariableModel.TEMPORARY_ID,
                     variableType = type,
                 )
             )
@@ -75,7 +75,7 @@ class TemporaryVariableRepository : BaseRepository(RealmFactory.getInstance()) {
             variable.dataForType = data
         }
 
-    private fun commitTransactionForVariable(transaction: RealmTransactionContext.(Variable) -> Unit) =
+    private fun commitTransactionForVariable(transaction: RealmTransactionContext.(VariableModel) -> Unit) =
         commitTransaction {
             transaction(
                 getTemporaryVariable()
@@ -96,7 +96,7 @@ class TemporaryVariableRepository : BaseRepository(RealmFactory.getInstance()) {
             }
             variable.options!!.add(
                 copy(
-                    Option(
+                    OptionModel(
                         label = label,
                         value = value,
                     )

@@ -9,15 +9,15 @@ import ch.rmy.android.framework.extensions.mapIf
 import ch.rmy.android.framework.extensions.safeRemoveIf
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
-import ch.rmy.android.http_shortcuts.data.models.Base
-import ch.rmy.android.http_shortcuts.data.models.Category
-import ch.rmy.android.http_shortcuts.data.models.ClientCertParams
-import ch.rmy.android.http_shortcuts.data.models.Header
-import ch.rmy.android.http_shortcuts.data.models.Option
-import ch.rmy.android.http_shortcuts.data.models.Parameter
-import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
+import ch.rmy.android.http_shortcuts.data.models.BaseModel
+import ch.rmy.android.http_shortcuts.data.models.CategoryModel
+import ch.rmy.android.http_shortcuts.data.models.HeaderModel
+import ch.rmy.android.http_shortcuts.data.models.OptionModel
+import ch.rmy.android.http_shortcuts.data.models.ParameterModel
+import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel
+import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import ch.rmy.android.http_shortcuts.usecases.GetUsedCustomIconsUseCase
 import ch.rmy.android.http_shortcuts.utils.FileUtil
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
@@ -73,14 +73,14 @@ class Exporter(private val context: Context) {
 
     private fun export(
         writer: Appendable,
-        base: Base,
+        base: BaseModel,
         excludeDefaults: Boolean = false,
     ): ExportStatus {
         exportData(base, writer, excludeDefaults)
         return ExportStatus(exportedShortcuts = base.shortcuts.size)
     }
 
-    private fun getBase(shortcutId: String?, variableIds: Collection<String>?): Single<Base> =
+    private fun getBase(shortcutId: String?, variableIds: Collection<String>?): Single<BaseModel> =
         appRepository.getBase()
             .map { base ->
                 base.applyIf(shortcutId != null) {
@@ -95,7 +95,7 @@ class Exporter(private val context: Context) {
                     }
             }
 
-    private fun exportData(base: Base, writer: Appendable, excludeDefaults: Boolean = false) {
+    private fun exportData(base: BaseModel, writer: Appendable, excludeDefaults: Boolean = false) {
         try {
             val serializer = ModelSerializer()
             GsonUtil.gson
@@ -120,7 +120,7 @@ class Exporter(private val context: Context) {
         }
     }
 
-    private fun getFilesToExport(context: Context, base: Base): List<File> =
+    private fun getFilesToExport(context: Context, base: BaseModel): List<File> =
         getShortcutIconFiles(context)
             .plus(getClientCertFiles(context, base))
             .filter { it.exists() }
@@ -133,7 +133,7 @@ class Exporter(private val context: Context) {
                 it.getFile(context)
             }
 
-    private fun getClientCertFiles(context: Context, base: Base) =
+    private fun getClientCertFiles(context: Context, base: BaseModel) =
         base.shortcuts.asSequence()
             .mapNotNull { (it.clientCertParams as? ClientCertParams.File) }
             .map { it.getFile(context) }
@@ -144,14 +144,14 @@ class Exporter(private val context: Context) {
         const val JSON_FILE = "shortcuts.json"
 
         private val MODEL_CLASSES = setOf(
-            Base::class.java,
-            Header::class.java,
-            Parameter::class.java,
-            Shortcut::class.java,
-            Option::class.java,
-            Variable::class.java,
-            Category::class.java,
-            ResponseHandling::class.java,
+            BaseModel::class.java,
+            HeaderModel::class.java,
+            ParameterModel::class.java,
+            ShortcutModel::class.java,
+            OptionModel::class.java,
+            VariableModel::class.java,
+            CategoryModel::class.java,
+            ResponseHandlingModel::class.java,
         )
     }
 }

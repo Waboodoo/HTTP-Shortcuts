@@ -5,7 +5,7 @@ import androidx.annotation.Keep
 import ch.rmy.android.framework.extensions.getCaseInsensitive
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.tryOrLog
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.exceptions.CanceledByUserException
 import ch.rmy.android.http_shortcuts.exceptions.JavaScriptException
 import ch.rmy.android.http_shortcuts.exceptions.ResponseTooLargeException
@@ -39,7 +39,7 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
 
     fun execute(
         script: String,
-        shortcut: Shortcut,
+        shortcut: ShortcutModel,
         variableManager: VariableManager,
         fileUploadManager: FileUploadManager?,
         response: ShortcutResponse? = null,
@@ -80,7 +80,7 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
                 }
         }
 
-    private fun registerShortcut(shortcut: Shortcut) {
+    private fun registerShortcut(shortcut: ShortcutModel) {
         jsContext.property(
             "shortcut",
             mapOf(

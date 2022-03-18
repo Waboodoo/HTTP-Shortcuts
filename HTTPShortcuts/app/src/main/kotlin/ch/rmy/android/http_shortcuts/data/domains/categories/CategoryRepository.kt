@@ -8,14 +8,14 @@ import ch.rmy.android.http_shortcuts.data.domains.getBase
 import ch.rmy.android.http_shortcuts.data.domains.getCategoryById
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
-import ch.rmy.android.http_shortcuts.data.models.Category
+import ch.rmy.android.http_shortcuts.data.models.CategoryModel
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 
 class CategoryRepository : BaseRepository(RealmFactory.getInstance()) {
 
-    fun getCategories(): Single<List<Category>> =
+    fun getCategories(): Single<List<CategoryModel>> =
         queryItem {
             getBase()
         }
@@ -23,12 +23,12 @@ class CategoryRepository : BaseRepository(RealmFactory.getInstance()) {
                 base.categories
             }
 
-    fun getObservableCategories(): Observable<List<Category>> =
+    fun getObservableCategories(): Observable<List<CategoryModel>> =
         observeList {
             getBase().findFirst()!!.categories
         }
 
-    fun getObservableCategory(categoryId: String): Observable<Category> =
+    fun getObservableCategory(categoryId: String): Observable<CategoryModel> =
         observeItem {
             getCategoryById(categoryId)
         }
@@ -39,7 +39,7 @@ class CategoryRepository : BaseRepository(RealmFactory.getInstance()) {
                 .findFirst()
                 ?: return@commitTransaction
             val categories = base.categories
-            val category = Category(name)
+            val category = CategoryModel(name)
             category.id = newUUID()
             categories.add(copy(category))
         }

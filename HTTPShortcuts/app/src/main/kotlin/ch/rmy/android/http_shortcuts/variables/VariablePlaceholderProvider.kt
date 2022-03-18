@@ -1,11 +1,11 @@
 package ch.rmy.android.http_shortcuts.variables
 
 import ch.rmy.android.http_shortcuts.data.dtos.VariablePlaceholder
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.models.VariableModel
 
 class VariablePlaceholderProvider {
 
-    fun applyVariables(variables: List<Variable>) {
+    fun applyVariables(variables: List<VariableModel>) {
         placeholders = variables.map(::toPlaceholder)
         cache = placeholders
     }
@@ -24,7 +24,7 @@ class VariablePlaceholderProvider {
 
         private var cache: List<VariablePlaceholder> = emptyList()
 
-        private fun toPlaceholder(variable: Variable) =
+        private fun toPlaceholder(variable: VariableModel) =
             VariablePlaceholder(
                 variableId = variable.id,
                 variableKey = variable.key,

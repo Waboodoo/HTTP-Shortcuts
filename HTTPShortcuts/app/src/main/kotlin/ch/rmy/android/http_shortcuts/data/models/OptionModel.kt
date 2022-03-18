@@ -3,9 +3,11 @@ package ch.rmy.android.http_shortcuts.data.models
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
+import io.realm.annotations.RealmClass
 import io.realm.annotations.Required
 
-open class Option(
+@RealmClass(name = "Option")
+open class OptionModel(
     @PrimaryKey
     @Required
     var id: String = newUUID(),
@@ -20,5 +22,5 @@ open class Option(
             .ifEmpty { value }
             .ifEmpty { "-" }
 
-    fun isSameAs(other: Option) = other.label == label && other.value == value
+    fun isSameAs(other: OptionModel) = other.label == label && other.value == value
 }

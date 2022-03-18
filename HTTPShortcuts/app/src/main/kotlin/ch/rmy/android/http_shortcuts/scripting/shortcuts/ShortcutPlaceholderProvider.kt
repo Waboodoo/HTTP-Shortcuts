@@ -1,10 +1,10 @@
 package ch.rmy.android.http_shortcuts.scripting.shortcuts
 
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 
 class ShortcutPlaceholderProvider {
 
-    fun applyShortcuts(shortcuts: Collection<Shortcut>) {
+    fun applyShortcuts(shortcuts: Collection<ShortcutModel>) {
         placeholders = shortcuts.map(ShortcutPlaceholder::fromShortcut)
         cache = placeholders
     }

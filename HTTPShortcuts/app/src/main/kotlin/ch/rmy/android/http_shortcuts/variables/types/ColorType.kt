@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import ch.rmy.android.http_shortcuts.extensions.cancel
 import com.skydoves.colorpickerview.ColorPickerDialog
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
@@ -15,7 +15,7 @@ internal class ColorType : BaseVariableType() {
 
     private val variablesRepository = VariableRepository()
 
-    override fun resolveValue(context: Context, variable: Variable): Single<String> =
+    override fun resolveValue(context: Context, variable: VariableModel): Single<String> =
         Single.create<String> { emitter ->
             ColorPickerDialog.Builder(context)
                 .setPositiveButton(
@@ -46,7 +46,7 @@ internal class ColorType : BaseVariableType() {
             .subscribeOn(AndroidSchedulers.mainThread())
             .storeValueIfNeeded(variable, variablesRepository)
 
-    private fun getInitialColor(variable: Variable): Int =
+    private fun getInitialColor(variable: VariableModel): Int =
         if (variable.rememberValue && variable.value?.length == 6) {
             val color = variable.value?.toIntOrNull(16) ?: Color.BLACK
             color + 0xff000000.toInt()

@@ -9,16 +9,16 @@ import ch.rmy.android.http_shortcuts.data.domains.getAppLock
 import ch.rmy.android.http_shortcuts.data.domains.getBase
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryShortcut
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryVariable
-import ch.rmy.android.http_shortcuts.data.models.AppLock
-import ch.rmy.android.http_shortcuts.data.models.Base
-import ch.rmy.android.http_shortcuts.data.models.Category
-import ch.rmy.android.http_shortcuts.data.models.Header
-import ch.rmy.android.http_shortcuts.data.models.Option
-import ch.rmy.android.http_shortcuts.data.models.Parameter
-import ch.rmy.android.http_shortcuts.data.models.PendingExecution
-import ch.rmy.android.http_shortcuts.data.models.ResolvedVariable
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.models.AppLockModel
+import ch.rmy.android.http_shortcuts.data.models.BaseModel
+import ch.rmy.android.http_shortcuts.data.models.CategoryModel
+import ch.rmy.android.http_shortcuts.data.models.HeaderModel
+import ch.rmy.android.http_shortcuts.data.models.OptionModel
+import ch.rmy.android.http_shortcuts.data.models.ParameterModel
+import ch.rmy.android.http_shortcuts.data.models.PendingExecutionModel
+import ch.rmy.android.http_shortcuts.data.models.ResolvedVariableModel
+import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import ch.rmy.android.http_shortcuts.import_export.Importer
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -28,7 +28,7 @@ import io.realm.kotlin.where
 
 class AppRepository : BaseRepository(RealmFactory.getInstance()) {
 
-    fun getBase(): Single<Base> =
+    fun getBase(): Single<BaseModel> =
         queryItem {
             getBase()
         }
@@ -67,7 +67,7 @@ class AppRepository : BaseRepository(RealmFactory.getInstance()) {
                 }
         }
 
-    fun getLock(): Single<Optional<AppLock>> =
+    fun getLock(): Single<Optional<AppLockModel>> =
         query {
             getAppLock()
         }
@@ -75,7 +75,7 @@ class AppRepository : BaseRepository(RealmFactory.getInstance()) {
                 Optional(it.firstOrNull())
             }
 
-    fun getObservableLock(): Observable<Optional<AppLock>> =
+    fun getObservableLock(): Observable<Optional<AppLockModel>> =
         observeQuery {
             getAppLock()
         }
@@ -85,7 +85,7 @@ class AppRepository : BaseRepository(RealmFactory.getInstance()) {
 
     fun setLock(passwordHash: String): Completable =
         commitTransaction {
-            copyOrUpdate(AppLock(passwordHash))
+            copyOrUpdate(AppLockModel(passwordHash))
         }
 
     fun removeLock(): Completable =
@@ -95,7 +95,7 @@ class AppRepository : BaseRepository(RealmFactory.getInstance()) {
                 .deleteAllFromRealm()
         }
 
-    fun importBase(base: Base, importMode: Importer.ImportMode) =
+    fun importBase(base: BaseModel, importMode: Importer.ImportMode) =
         commitTransaction {
             val oldBase = getBase().findFirst()!!
             if (base.title != null) {
@@ -128,7 +128,7 @@ class AppRepository : BaseRepository(RealmFactory.getInstance()) {
             }
         }
 
-    private fun importCategory(realmTransactionContext: RealmTransactionContext, base: Base, category: Category) {
+    private fun importCategory(realmTransactionContext: RealmTransactionContext, base: BaseModel, category: CategoryModel) {
         val oldCategory = base.categories.find { it.id == category.id }
         if (oldCategory == null) {
             base.categories.add(realmTransactionContext.copyOrUpdate(category))
@@ -143,7 +143,7 @@ class AppRepository : BaseRepository(RealmFactory.getInstance()) {
         }
     }
 
-    private fun importShortcut(realmTransactionContext: RealmTransactionContext, category: Category, shortcut: Shortcut) {
+    private fun importShortcut(realmTransactionContext: RealmTransactionContext, category: CategoryModel, shortcut: ShortcutModel) {
         val oldShortcut = category.shortcuts.find { it.id == shortcut.id }
         if (oldShortcut == null) {
             category.shortcuts.add(realmTransactionContext.copyOrUpdate(shortcut))
@@ -169,7 +169,7 @@ class AppRepository : BaseRepository(RealmFactory.getInstance()) {
 
             // Delete orphaned categories
             val usedCategoryIds = categories.map { it.id }
-            realmInstance.where<Category>()
+            realmInstance.where<CategoryModel>()
                 .findAll()
                 .filter {
                     it.id !in usedCategoryIds
@@ -178,8 +178,8 @@ class AppRepository : BaseRepository(RealmFactory.getInstance()) {
 
             // Delete orphaned shortcuts
             val usedShortcutIds = shortcuts.map { it.id }
-            realmInstance.where<Shortcut>()
-                .notEqualTo(Shortcut.FIELD_ID, Shortcut.TEMPORARY_ID)
+            realmInstance.where<ShortcutModel>()
+                .notEqualTo(ShortcutModel.FIELD_ID, ShortcutModel.TEMPORARY_ID)
                 .findAll()
                 .filter {
                     it.id !in usedShortcutIds
@@ -190,7 +190,7 @@ class AppRepository : BaseRepository(RealmFactory.getInstance()) {
             val usedHeaderIds = shortcuts
                 .flatMap { it.headers }
                 .map { header -> header.id }
-            realmInstance.where<Header>()
+            realmInstance.where<HeaderModel>()
                 .findAll()
                 .filter {
                     it.id !in usedHeaderIds
@@ -201,7 +201,7 @@ class AppRepository : BaseRepository(RealmFactory.getInstance()) {
             val usedParameterIds = shortcuts
                 .flatMap { it.parameters }
                 .map { parameter -> parameter.id }
-            realmInstance.where<Parameter>()
+            realmInstance.where<ParameterModel>()
                 .findAll()
                 .filter {
                     it.id !in usedParameterIds
@@ -210,8 +210,8 @@ class AppRepository : BaseRepository(RealmFactory.getInstance()) {
 
             // Delete orphaned variables
             val usedVariableIds = variables.map { it.id }
-            realmInstance.where<Variable>()
-                .notEqualTo(Variable.FIELD_ID, Variable.TEMPORARY_ID)
+            realmInstance.where<VariableModel>()
+                .notEqualTo(VariableModel.FIELD_ID, VariableModel.TEMPORARY_ID)
                 .findAll()
                 .filter {
                     it.id !in usedVariableIds
@@ -220,7 +220,7 @@ class AppRepository : BaseRepository(RealmFactory.getInstance()) {
 
             // Delete orphaned options
             val usedOptionIds = variables.flatMap { it.options ?: emptyList() }.map { it.id }
-            realmInstance.where<Option>()
+            realmInstance.where<OptionModel>()
                 .findAll()
                 .filter {
                     it.id !in usedOptionIds
@@ -228,11 +228,11 @@ class AppRepository : BaseRepository(RealmFactory.getInstance()) {
                 .deleteAllFromRealm()
 
             // Delete orphaned resolved variables
-            val usedResolvedVariableIds = realmInstance.where<PendingExecution>()
+            val usedResolvedVariableIds = realmInstance.where<PendingExecutionModel>()
                 .findAll()
                 .flatMap { it.resolvedVariables }
                 .map { it.id }
-            realmInstance.where<ResolvedVariable>()
+            realmInstance.where<ResolvedVariableModel>()
                 .findAll()
                 .filter {
                     it.id !in usedResolvedVariableIds

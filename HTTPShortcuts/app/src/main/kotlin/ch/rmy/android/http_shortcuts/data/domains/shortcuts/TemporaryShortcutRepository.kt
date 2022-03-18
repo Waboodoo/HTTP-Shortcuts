@@ -6,13 +6,13 @@ import ch.rmy.android.framework.extensions.getCaseInsensitive
 import ch.rmy.android.framework.extensions.swap
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryShortcut
+import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
-import ch.rmy.android.http_shortcuts.data.models.ClientCertParams
-import ch.rmy.android.http_shortcuts.data.models.Header
-import ch.rmy.android.http_shortcuts.data.models.Parameter
-import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.HeaderModel
+import ch.rmy.android.http_shortcuts.data.models.ParameterModel
+import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel
+import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.curlcommand.CurlCommand
@@ -24,7 +24,7 @@ import kotlin.time.Duration
 
 class TemporaryShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
 
-    fun getObservableTemporaryShortcut(): Observable<Shortcut> =
+    fun getObservableTemporaryShortcut(): Observable<ShortcutModel> =
         observeItem {
             getTemporaryShortcut()
         }
@@ -32,18 +32,18 @@ class TemporaryShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
     fun createNewTemporaryShortcut(initialIcon: ShortcutIcon, executionType: ShortcutExecutionType): Completable =
         commitTransaction {
             copyOrUpdate(
-                Shortcut(
-                    id = Shortcut.TEMPORARY_ID,
+                ShortcutModel(
+                    id = ShortcutModel.TEMPORARY_ID,
                     icon = initialIcon,
                     executionType = executionType.type,
                     responseHandling = if (executionType == ShortcutExecutionType.APP) {
-                        ResponseHandling()
+                        ResponseHandlingModel()
                     } else null,
                 )
             )
         }
 
-    fun getTemporaryShortcut(): Single<Shortcut> =
+    fun getTemporaryShortcut(): Single<ShortcutModel> =
         queryItem {
             getTemporaryShortcut()
         }
@@ -105,7 +105,7 @@ class TemporaryShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
 
     fun addHeader(key: String, value: String) =
         Single.defer {
-            val header = Header(
+            val header = HeaderModel(
                 key = key.trim(),
                 value = value,
             )
@@ -152,8 +152,8 @@ class TemporaryShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
 
     fun addStringParameter(key: String, value: String) =
         Single.defer {
-            val parameter = Parameter(
-                type = Parameter.TYPE_STRING,
+            val parameter = ParameterModel(
+                type = ParameterModel.TYPE_STRING,
                 key = key.trim(),
                 value = value,
             )
@@ -167,8 +167,8 @@ class TemporaryShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
 
     fun addFileParameter(key: String, fileName: String, multiple: Boolean) =
         Single.defer {
-            val parameter = Parameter(
-                type = if (multiple) Parameter.TYPE_FILES else Parameter.TYPE_FILE,
+            val parameter = ParameterModel(
+                type = if (multiple) ParameterModel.TYPE_FILES else ParameterModel.TYPE_FILE,
                 key = key.trim(),
                 fileName = fileName,
             )
@@ -319,7 +319,7 @@ class TemporaryShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
             shortcut.username = curlCommand.username
             shortcut.password = curlCommand.password
             if (curlCommand.username.isNotEmpty() || curlCommand.password.isNotEmpty()) {
-                shortcut.authentication = Shortcut.AUTHENTICATION_BASIC
+                shortcut.authentication = ShortcutModel.AUTHENTICATION_BASIC
             }
             shortcut.timeout = curlCommand.timeout
 
@@ -342,12 +342,12 @@ class TemporaryShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
                 }
             curlCommand.headers.forEach { (key, value) ->
                 if (!key.equals(HttpHeaders.CONTENT_TYPE, ignoreCase = true)) {
-                    shortcut.headers.add(copy(Header(key = key, value = value)))
+                    shortcut.headers.add(copy(HeaderModel(key = key, value = value)))
                 }
             }
         }
 
-    private fun RealmTransactionContext.prepareParameters(curlCommand: CurlCommand, shortcut: Shortcut) {
+    private fun RealmTransactionContext.prepareParameters(curlCommand: CurlCommand, shortcut: ShortcutModel) {
         curlCommand.data.forEach { potentialParameter ->
             potentialParameter.split("=")
                 .takeIf { it.size == 2 }
@@ -355,12 +355,12 @@ class TemporaryShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
                     val key = parameterParts[0]
                     val value = parameterParts[1]
                     val parameter = if (value.startsWith("@") && curlCommand.isFormData) {
-                        Parameter(
+                        ParameterModel(
                             key = decode(key),
-                            type = Parameter.TYPE_FILE,
+                            type = ParameterModel.TYPE_FILE,
                         )
                     } else {
-                        Parameter(
+                        ParameterModel(
                             key = decode(key),
                             value = decode(value),
                         )
@@ -370,7 +370,7 @@ class TemporaryShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
         }
     }
 
-    private fun commitTransactionForShortcut(transaction: RealmTransactionContext.(Shortcut) -> Unit) =
+    private fun commitTransactionForShortcut(transaction: RealmTransactionContext.(ShortcutModel) -> Unit) =
         commitTransaction {
             transaction(
                 getTemporaryShortcut()
@@ -380,7 +380,7 @@ class TemporaryShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
         }
 
     private fun commitTransactionForResponseHandling(
-        transaction: RealmTransactionContext.(ResponseHandling) -> Unit,
+        transaction: RealmTransactionContext.(ResponseHandlingModel) -> Unit,
     ): Completable =
         commitTransactionForShortcut { shortcut ->
             shortcut.responseHandling

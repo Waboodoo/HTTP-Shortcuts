@@ -8,7 +8,7 @@ import ch.rmy.android.framework.viewmodel.EventBridge
 import ch.rmy.android.http_shortcuts.activities.variables.editor.VariableEditorToVariableTypeEvent
 import ch.rmy.android.http_shortcuts.activities.variables.editor.VariableTypeToVariableEditorEvent
 import ch.rmy.android.http_shortcuts.data.domains.variables.TemporaryVariableRepository
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.models.VariableModel
 
 abstract class BaseVariableTypeViewModel<InitData : Any, ViewState : Any>(application: Application) :
     BaseViewModel<InitData, ViewState>(application) {
@@ -18,7 +18,7 @@ abstract class BaseVariableTypeViewModel<InitData : Any, ViewState : Any>(applic
     private val incomingEventBridge = EventBridge(VariableEditorToVariableTypeEvent::class.java)
     private val outgoingEventBridge = EventBridge(VariableTypeToVariableEditorEvent::class.java)
 
-    protected lateinit var variable: Variable
+    protected lateinit var variable: VariableModel
 
     override fun onInitializationStarted(data: InitData) {
         temporaryVariableRepository.getObservableTemporaryVariable()

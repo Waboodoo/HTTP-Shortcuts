@@ -7,7 +7,7 @@ import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
-import ch.rmy.android.http_shortcuts.data.models.PendingExecution
+import ch.rmy.android.http_shortcuts.data.models.PendingExecutionModel
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -45,7 +45,7 @@ class ExecutionWorker(private val context: Context, workerParams: WorkerParamete
     companion object {
         const val INPUT_EXECUTION_ID = "id"
 
-        fun runPendingExecution(context: Context, pendingExecution: PendingExecution) {
+        fun runPendingExecution(context: Context, pendingExecution: PendingExecutionModel) {
             ExecuteActivity.IntentBuilder(shortcutId = pendingExecution.shortcutId)
                 .variableValues(
                     pendingExecution.resolvedVariables

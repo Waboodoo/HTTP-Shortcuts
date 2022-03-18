@@ -5,19 +5,19 @@ import ch.rmy.android.framework.utils.Optional
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.domains.getPendingExecution
 import ch.rmy.android.http_shortcuts.data.domains.getPendingExecutions
-import ch.rmy.android.http_shortcuts.data.models.PendingExecution
+import ch.rmy.android.http_shortcuts.data.models.PendingExecutionModel
 import io.reactivex.Observable
 import io.reactivex.Single
 import java.util.Date
 
 class PendingExecutionsRepository : BaseRepository(RealmFactory.getInstance()) {
 
-    fun getPendingExecution(id: String): Single<PendingExecution> =
+    fun getPendingExecution(id: String): Single<PendingExecutionModel> =
         queryItem {
             getPendingExecution(id)
         }
 
-    fun getObservablePendingExecutions(): Observable<List<PendingExecution>> =
+    fun getObservablePendingExecutions(): Observable<List<PendingExecutionModel>> =
         observeQuery {
             getPendingExecutions()
         }
@@ -32,7 +32,7 @@ class PendingExecutionsRepository : BaseRepository(RealmFactory.getInstance()) {
     ) =
         commitTransaction {
             copy(
-                PendingExecution.createNew(
+                PendingExecutionModel.createNew(
                     shortcutId,
                     resolvedVariables,
                     tryNumber,
@@ -57,7 +57,7 @@ class PendingExecutionsRepository : BaseRepository(RealmFactory.getInstance()) {
                 .deleteAllFromRealm()
         }
 
-    fun getNextPendingExecution(withNetworkConstraints: Boolean): Single<Optional<PendingExecution>> =
+    fun getNextPendingExecution(withNetworkConstraints: Boolean): Single<Optional<PendingExecutionModel>> =
         query {
             getPendingExecutions(waitForNetwork = withNetworkConstraints)
         }

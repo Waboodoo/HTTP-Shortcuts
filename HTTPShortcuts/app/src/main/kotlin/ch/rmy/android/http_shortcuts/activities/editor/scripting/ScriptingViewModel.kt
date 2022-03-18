@@ -9,7 +9,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 
@@ -21,7 +21,7 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
 
     var iconPickerShortcutPlaceholder: String? = null
 
-    private lateinit var shortcut: Shortcut
+    private lateinit var shortcut: ShortcutModel
 
     override fun onInitializationStarted(data: Unit) {
         finalizeInitialization(silent = true)
@@ -54,7 +54,7 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
             .attachTo(destroyer)
     }
 
-    private fun initViewStateFromShortcut(shortcut: Shortcut) {
+    private fun initViewStateFromShortcut(shortcut: ShortcutModel) {
         this.shortcut = shortcut
         val type = shortcut.type
         updateViewState {

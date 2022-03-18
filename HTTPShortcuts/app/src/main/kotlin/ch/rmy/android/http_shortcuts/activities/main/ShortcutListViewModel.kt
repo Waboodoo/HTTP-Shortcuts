@@ -31,10 +31,10 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.domains.widgets.WidgetsRepository
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
-import ch.rmy.android.http_shortcuts.data.models.Category
-import ch.rmy.android.http_shortcuts.data.models.PendingExecution
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.models.CategoryModel
+import ch.rmy.android.http_shortcuts.data.models.PendingExecutionModel
+import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import ch.rmy.android.http_shortcuts.exceptions.CanceledByUserException
 import ch.rmy.android.http_shortcuts.extensions.toLauncherShortcut
 import ch.rmy.android.http_shortcuts.extensions.type
@@ -68,10 +68,10 @@ class ShortcutListViewModel(
     private val getContextMenuDialog = GetContextMenuDialogUseCase()
     private val getMoveToCategoryDialog = GetMoveToCategoryDialogUseCase()
 
-    private lateinit var category: Category
-    private var categories: List<Category> = emptyList()
-    private var variables: List<Variable> = emptyList()
-    private var pendingShortcuts: List<PendingExecution> = emptyList()
+    private lateinit var category: CategoryModel
+    private var categories: List<CategoryModel> = emptyList()
+    private var variables: List<VariableModel> = emptyList()
+    private var pendingShortcuts: List<PendingExecutionModel> = emptyList()
 
     private var exportingShortcutId: String? = null
     private var isAppLocked = false
@@ -269,7 +269,7 @@ class ShortcutListViewModel(
         }
     }
 
-    private fun getShortcutById(shortcutId: String): Shortcut? =
+    private fun getShortcutById(shortcutId: String): ShortcutModel? =
         category.shortcuts.firstOrNull { it.id == shortcutId }
 
     fun onPlaceOnHomeScreenOptionSelected(shortcutId: String) {
@@ -339,7 +339,7 @@ class ShortcutListViewModel(
         showDeletionDialog(getShortcutById(shortcutId) ?: return)
     }
 
-    private fun showDeletionDialog(shortcut: Shortcut) {
+    private fun showDeletionDialog(shortcut: ShortcutModel) {
         dialogState = getShortcutDeletionDialog(shortcut.id, shortcut.name.toLocalizable(), this)
     }
 
@@ -347,7 +347,7 @@ class ShortcutListViewModel(
         showShortcutInfoDialog(getShortcutById(shortcutId) ?: return)
     }
 
-    private fun showShortcutInfoDialog(shortcut: Shortcut) {
+    private fun showShortcutInfoDialog(shortcut: ShortcutModel) {
         dialogState = getShortcutInfoDialog(shortcut.id, shortcut.name)
     }
 
@@ -447,7 +447,7 @@ class ShortcutListViewModel(
         exportingShortcutId = shortcutId
     }
 
-    private fun getVariableIdsRequiredForExport(shortcut: Shortcut) =
+    private fun getVariableIdsRequiredForExport(shortcut: ShortcutModel) =
         // TODO: Recursively collect variables referenced by other variables
         VariableResolver.extractVariableIds(
             shortcut,

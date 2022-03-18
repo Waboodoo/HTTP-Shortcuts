@@ -8,7 +8,7 @@ import ch.rmy.android.framework.extensions.mapIf
 import ch.rmy.android.framework.extensions.mapIfNotNull
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_MULTIPART_CONTENT_TYPE
 import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_URLENCODE_CONTENT_TYPE
 import ch.rmy.android.http_shortcuts.utils.UserAgentUtil
@@ -24,7 +24,7 @@ class HttpRequester(private val contentResolver: ContentResolver) {
 
     fun executeShortcut(
         context: Context,
-        shortcut: Shortcut,
+        shortcut: ShortcutModel,
         variableManager: VariableManager,
         responseFileStorage: ResponseFileStorage,
         fileUploadManager: FileUploadManager? = null,
@@ -79,7 +79,7 @@ class HttpRequester(private val contentResolver: ContentResolver) {
 
     private fun makeRequest(
         context: Context,
-        shortcut: Shortcut,
+        shortcut: ShortcutModel,
         variableManager: VariableManager,
         requestData: RequestData,
         responseFileStorage: ResponseFileStorage,
@@ -159,7 +159,7 @@ class HttpRequester(private val contentResolver: ContentResolver) {
 
     private fun attachParameters(
         requestBuilder: RequestBuilder,
-        shortcut: Shortcut,
+        shortcut: ShortcutModel,
         variables: Map<String, String>,
         fileUploadManager: FileUploadManager?,
     ): RequestBuilder {
@@ -217,7 +217,7 @@ class HttpRequester(private val contentResolver: ContentResolver) {
                 timing = response.receivedResponseAtMillis - response.sentRequestAtMillis,
             )
 
-        private fun determineContentType(shortcut: Shortcut): String? =
+        private fun determineContentType(shortcut: ShortcutModel): String? =
             when (shortcut.bodyType) {
                 RequestBodyType.FORM_DATA -> FORM_MULTIPART_CONTENT_TYPE
                 RequestBodyType.X_WWW_FORM_URLENCODE -> FORM_URLENCODE_CONTENT_TYPE

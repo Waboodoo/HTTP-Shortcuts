@@ -5,7 +5,7 @@ import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 
 class AuthenticationViewModel(application: Application) : BaseViewModel<Unit, AuthenticationViewState>(application) {
 
@@ -35,9 +35,9 @@ class AuthenticationViewModel(application: Application) : BaseViewModel<Unit, Au
             .attachTo(destroyer)
     }
 
-    private fun initViewStateFromShortcut(shortcut: Shortcut) {
+    private fun initViewStateFromShortcut(shortcut: ShortcutModel) {
         updateViewState {
-            val authenticationMethod = shortcut.authentication ?: Shortcut.AUTHENTICATION_NONE
+            val authenticationMethod = shortcut.authentication ?: ShortcutModel.AUTHENTICATION_NONE
             copy(
                 authenticationMethod = authenticationMethod,
                 isUsernameAndPasswordVisible = isUsernameAndPasswordVisible(authenticationMethod),
@@ -106,13 +106,13 @@ class AuthenticationViewModel(application: Application) : BaseViewModel<Unit, Au
     companion object {
         private fun isUsernameAndPasswordVisible(authenticationMethod: String) =
             when (authenticationMethod) {
-                Shortcut.AUTHENTICATION_BASIC,
-                Shortcut.AUTHENTICATION_DIGEST,
+                ShortcutModel.AUTHENTICATION_BASIC,
+                ShortcutModel.AUTHENTICATION_DIGEST,
                 -> true
                 else -> false
             }
 
         private fun isTokenVisible(authenticationMethod: String) =
-            authenticationMethod == Shortcut.AUTHENTICATION_BEARER
+            authenticationMethod == ShortcutModel.AUTHENTICATION_BEARER
     }
 }

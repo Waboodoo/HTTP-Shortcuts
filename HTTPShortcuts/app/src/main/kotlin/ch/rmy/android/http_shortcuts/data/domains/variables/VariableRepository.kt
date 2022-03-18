@@ -10,24 +10,24 @@ import ch.rmy.android.http_shortcuts.data.domains.getBase
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryVariable
 import ch.rmy.android.http_shortcuts.data.domains.getVariableById
 import ch.rmy.android.http_shortcuts.data.domains.getVariableByKeyOrId
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 
 class VariableRepository : BaseRepository(RealmFactory.getInstance()) {
 
-    fun getVariableByKeyOrId(keyOrId: String): Single<Variable> =
+    fun getVariableByKeyOrId(keyOrId: String): Single<VariableModel> =
         queryItem {
             getVariableByKeyOrId(keyOrId)
         }
 
-    fun getObservableVariables(): Observable<List<Variable>> =
+    fun getObservableVariables(): Observable<List<VariableModel>> =
         observeList {
             getBase().findFirst()!!.variables
         }
 
-    fun getVariables(): Single<List<Variable>> =
+    fun getVariables(): Single<List<VariableModel>> =
         queryItem {
             getBase()
         }
@@ -84,7 +84,7 @@ class VariableRepository : BaseRepository(RealmFactory.getInstance()) {
         commitTransaction {
             val variable = getVariableById(variableId)
                 .findFirst()!!
-            copyVariable(variable, Variable.TEMPORARY_ID)
+            copyVariable(variable, VariableModel.TEMPORARY_ID)
         }
 
     fun copyTemporaryVariableToVariable(variableId: String) =
@@ -99,7 +99,7 @@ class VariableRepository : BaseRepository(RealmFactory.getInstance()) {
             }
         }
 
-    private fun RealmTransactionContext.copyVariable(sourceVariable: Variable, targetVariableId: String): Variable =
+    private fun RealmTransactionContext.copyVariable(sourceVariable: VariableModel, targetVariableId: String): VariableModel =
         sourceVariable.detachFromRealm()
             .apply {
                 id = targetVariableId

@@ -17,7 +17,7 @@ import ch.rmy.android.http_shortcuts.activities.variables.usecases.GetUsedVariab
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
@@ -35,7 +35,7 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
     private val getCreationDialog = GetCreationDialogUseCase()
     private val getUsedVariableIdsUseCase = GetUsedVariableIdsUseCase(shortcutRepository, variableRepository)
 
-    private var variables: List<Variable> = emptyList()
+    private var variables: List<VariableModel> = emptyList()
     private var usedVariableIds: Set<String>? = null
         set(value) {
             if (field != value) {
@@ -73,7 +73,7 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
         }
     }
 
-    private fun mapVariables(variables: List<Variable>): List<VariableListItem> =
+    private fun mapVariables(variables: List<VariableModel>): List<VariableListItem> =
         variables.map { variable ->
             VariableListItem.Variable(
                 id = variable.id,

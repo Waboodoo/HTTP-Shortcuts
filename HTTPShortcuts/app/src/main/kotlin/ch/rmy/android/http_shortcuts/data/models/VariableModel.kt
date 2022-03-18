@@ -7,9 +7,11 @@ import ch.rmy.android.http_shortcuts.variables.Variables
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
+import io.realm.annotations.RealmClass
 import io.realm.annotations.Required
 
-open class Variable(
+@RealmClass(name = "Variable")
+open class VariableModel(
     @PrimaryKey
     var id: String = "",
 
@@ -17,7 +19,7 @@ open class Variable(
     var key: String = "",
 
     var value: String? = "",
-    var options: RealmList<Option>? = RealmList(),
+    var options: RealmList<OptionModel>? = RealmList(),
 
     var rememberValue: Boolean = false,
     var urlEncode: Boolean = false,
@@ -75,7 +77,7 @@ open class Variable(
             }
         }
 
-    fun isSameAs(other: Variable): Boolean {
+    fun isSameAs(other: VariableModel): Boolean {
         if (other.key != key ||
             other.type != type ||
             other.value != value ||
