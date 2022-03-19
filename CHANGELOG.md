@@ -7,6 +7,7 @@ The app now gives you more control over your custom icons. It now includes a new
 - In the Variables screen, it is now easier to find out which variables are unused.
 - The Code Snippet Picker now contains an entry for the "trim()" function.
 - When sharing text into variables, it is now possible to also receive the title being shared, not only the text.
+- Changing the title in the app's main screen is now more discoverable via an option in the Settings screen
 
 ### Bugfixes
 - Some text fields in the shortcut editor were misbehaving or not properly initialized. This is now fixed.
