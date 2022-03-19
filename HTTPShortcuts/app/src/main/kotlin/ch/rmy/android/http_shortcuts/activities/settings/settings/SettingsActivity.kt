@@ -71,6 +71,10 @@ class SettingsActivity : BaseActivity() {
                 restartToApplyThemeChanges()
             }
 
+            initPreference("title") {
+                viewModel.onChangeTitleButtonClicked()
+            }
+
             initPreference("lock_settings") {
                 viewModel.onLockAppButtonClicked()
             }

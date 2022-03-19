@@ -43,6 +43,14 @@ class AppRepository : BaseRepository(RealmFactory.getInstance()) {
                     ?: ""
             }
 
+    fun getToolbarTitle(): Single<String> =
+        queryItem {
+            getBase()
+        }
+            .map { base ->
+                base.title?.takeUnless { it.isBlank() } ?: ""
+            }
+
     fun getObservableToolbarTitle(): Observable<String> =
         observeItem {
             getBase()

@@ -12,11 +12,13 @@ import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.http.CookieManager
+import ch.rmy.android.http_shortcuts.usecases.GetToolbarTitleChangeDialogUseCase
 import org.mindrot.jbcrypt.BCrypt
 
 class SettingsViewModel(application: Application) : BaseViewModel<Unit, SettingsViewState>(application), WithDialog {
 
     private val appRepository = AppRepository()
+    private val getToolbarTitleChangeDialog = GetToolbarTitleChangeDialogUseCase()
 
     override var dialogState: DialogState?
         get() = currentViewState.dialogState
@@ -83,5 +85,21 @@ class SettingsViewModel(application: Application) : BaseViewModel<Unit, Settings
     private fun onClearCookiesDialogConfirmed() {
         CookieManager.clearCookies(context)
         showSnackbar(R.string.message_cookies_cleared)
+    }
+
+    fun onChangeTitleButtonClicked() {
+        appRepository.getToolbarTitle()
+            .subscribe(::showToolbarTitleChangeDialog)
+            .attachTo(destroyer)
+    }
+
+    private fun showToolbarTitleChangeDialog(oldTitle: String) {
+        dialogState = getToolbarTitleChangeDialog(::onToolbarTitleChangeSubmitted, oldTitle)
+    }
+
+    private fun onToolbarTitleChangeSubmitted(newTitle: String) {
+        performOperation(appRepository.setToolbarTitle(newTitle)) {
+            showSnackbar(R.string.message_title_changed)
+        }
     }
 }

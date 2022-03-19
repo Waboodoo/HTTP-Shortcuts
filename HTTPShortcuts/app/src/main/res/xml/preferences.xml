@@ -39,6 +39,12 @@
             app:title="@string/settings_click_behavior" />
 
         <Preference
+            app:icon="@drawable/ic_title"
+            app:key="title"
+            app:summary="@string/settings_app_title_summary"
+            app:title="@string/settings_app_title_title" />
+
+        <Preference
             app:icon="@drawable/ic_lock_black"
             app:key="lock_settings"
             app:summary="@string/settings_lock_app_summary"
@@ -54,7 +60,9 @@
             app:title="@string/settings_global_scripting" />
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/settings_title_privacy" app:key="privacy">
+    <PreferenceCategory
+        app:key="privacy"
+        app:title="@string/settings_title_privacy">
 
         <ListPreference
             app:defaultValue="true"

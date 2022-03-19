@@ -20,7 +20,6 @@ import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetNetworkRestrictionDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetShortcutCreationDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetShortcutPlacementDialogUseCase
-import ch.rmy.android.http_shortcuts.activities.main.usecases.GetToolbarTitleChangeDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetUnlockDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowChangeLogDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowNetworkRestrictionDialogUseCase
@@ -39,6 +38,7 @@ import ch.rmy.android.http_shortcuts.data.models.CategoryModel
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.extensions.toLauncherShortcut
 import ch.rmy.android.http_shortcuts.usecases.GetChangeLogDialogUseCase
+import ch.rmy.android.http_shortcuts.usecases.GetToolbarTitleChangeDialogUseCase
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
@@ -245,7 +245,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     private fun showToolbarTitleChangeDialog(oldTitle: String) {
-        dialogState = getToolbarTitleChangeDialog(this, oldTitle)
+        dialogState = getToolbarTitleChangeDialog(::onToolbarTitleChangeSubmitted, oldTitle)
     }
 
     fun onCreationDialogOptionSelected(executionType: ShortcutExecutionType) {
@@ -266,7 +266,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         dialogState = getShortcutCreationDialog(this)
     }
 
-    fun onToolbarTitleChangeSubmitted(newTitle: String) {
+    private fun onToolbarTitleChangeSubmitted(newTitle: String) {
         performOperation(appRepository.setToolbarTitle(newTitle)) {
             showSnackbar(R.string.message_title_changed)
         }
