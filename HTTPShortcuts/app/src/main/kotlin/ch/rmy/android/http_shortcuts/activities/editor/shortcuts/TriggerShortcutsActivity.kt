@@ -4,18 +4,13 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
-import ch.rmy.android.framework.extensions.mapFor
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.utils.DragOrderingHelper
-import ch.rmy.android.framework.utils.localization.Localizable
-import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.databinding.ActivityTriggerShortcutsBinding
-import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
-import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholder
 
 class TriggerShortcutsActivity : BaseActivity() {
 
@@ -88,40 +83,6 @@ class TriggerShortcutsActivity : BaseActivity() {
             setDialogState(viewState.dialogState, viewModel)
         }
         viewModel.events.observe(this, ::handleEvent)
-    }
-
-    override fun handleEvent(event: ViewModelEvent) {
-        when (event) {
-            is TriggerShortcutsEvent.ShowShortcutPickerForAdding -> {
-                showShortcutPickerForAdding(event.placeholders)
-            }
-            is TriggerShortcutsEvent.ShowRemoveShortcutDialog -> {
-                showRemoveShortcutDialog(event.shortcutId, event.message)
-            }
-            else -> super.handleEvent(event)
-        }
-    }
-
-    private fun showShortcutPickerForAdding(placeholders: List<ShortcutPlaceholder>) {
-        DialogBuilder(context)
-            .title(R.string.title_add_trigger_shortcut)
-            .mapFor(placeholders) { shortcut ->
-                item(name = shortcut.name, shortcutIcon = shortcut.icon) {
-                    viewModel.onAddShortcutDialogConfirmed(shortcut.id)
-                }
-            }
-            .showIfPossible()
-    }
-
-    private fun showRemoveShortcutDialog(shortcutId: String, message: Localizable) {
-        DialogBuilder(context)
-            .title(R.string.title_remove_trigger_shortcut)
-            .message(message)
-            .positive(R.string.dialog_remove) {
-                viewModel.onRemoveShortcutDialogConfirmed(shortcutId)
-            }
-            .negative(R.string.dialog_cancel)
-            .showIfPossible()
     }
 
     class IntentBuilder : BaseIntentBuilder(TriggerShortcutsActivity::class.java) {

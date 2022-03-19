@@ -5,6 +5,7 @@ import android.graphics.Typeface
 import android.text.SpannableString
 import android.text.style.StyleSpan
 import ch.rmy.android.framework.extensions.attachTo
+import ch.rmy.android.framework.extensions.mapFor
 import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.framework.utils.localization.Localizable
@@ -123,7 +124,7 @@ class TriggerShortcutsViewModel(application: Application) :
         if (placeholders.isEmpty()) {
             showNoShortcutsError()
         } else {
-            emitEvent(TriggerShortcutsEvent.ShowShortcutPickerForAdding(placeholders))
+            showShortcutPickerForAdding(placeholders)
         }
     }
 
@@ -132,6 +133,18 @@ class TriggerShortcutsViewModel(application: Application) :
             title(R.string.title_add_trigger_shortcut)
                 .message(R.string.error_add_trigger_shortcut_no_shortcuts)
                 .positive(R.string.dialog_ok)
+                .build()
+        }
+    }
+
+    private fun showShortcutPickerForAdding(placeholders: List<ShortcutPlaceholder>) {
+        dialogState = DialogState.create {
+            title(R.string.title_add_trigger_shortcut)
+                .mapFor(placeholders) { shortcut ->
+                    item(name = shortcut.name, shortcutIcon = shortcut.icon) {
+                        onAddShortcutDialogConfirmed(shortcut.id)
+                    }
+                }
                 .build()
         }
     }
@@ -151,7 +164,19 @@ class TriggerShortcutsViewModel(application: Application) :
                 StringResLocalizable(R.string.message_remove_trigger_shortcut, shortcut.name)
             }
             ?: StringResLocalizable(R.string.message_remove_deleted_trigger_shortcut)
-        emitEvent(TriggerShortcutsEvent.ShowRemoveShortcutDialog(shortcutId, message))
+        showRemoveShortcutDialog(shortcutId, message)
+    }
+
+    private fun showRemoveShortcutDialog(shortcutId: String, message: Localizable) {
+        dialogState = DialogState.create {
+            title(R.string.title_remove_trigger_shortcut)
+                .message(message)
+                .positive(R.string.dialog_remove) {
+                    onRemoveShortcutDialogConfirmed(shortcutId)
+                }
+                .negative(R.string.dialog_cancel)
+                .build()
+        }
     }
 
     data class InitData(
