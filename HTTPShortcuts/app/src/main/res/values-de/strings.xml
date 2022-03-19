@@ -1726,4 +1726,10 @@ Trotzdem löschen?"</string>
 
     <!-- Title of dialog to add a new files parameter to a shortcut -->
     <string name="title_post_param_add_files">"Datei-Parameter hinzufügen"</string>
+
+    <!-- Title of section in settings that allows user to change the title of the app's main screen -->
+    <string name="settings_app_title_title">"App-Titel"</string>
+
+    <!-- Summary/subtitle of section in settings that allows user to change the title of the app's main screen -->
+    <string name="settings_app_title_summary">"Ändere den Titel der Startseite"</string>
 </resources>
