@@ -13,7 +13,6 @@ import ch.rmy.android.framework.utils.Destroyable
 import ch.rmy.android.framework.utils.Destroyer
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
-import ch.rmy.android.http_shortcuts.extensions.showMessageDialog
 import ch.rmy.android.http_shortcuts.utils.FileUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
 
@@ -73,7 +72,10 @@ class ExportUI(private val activity: FragmentActivity) : Destroyable {
                     )
                 )
             }, { e ->
-                activity.showMessageDialog(context.getString(R.string.export_failed_with_reason, e.message))
+                DialogBuilder(activity)
+                    .message(context.getString(R.string.export_failed_with_reason, e.message))
+                    .positive(R.string.dialog_ok)
+                    .showIfPossible()
                 logException(e)
             })
             .attachTo(destroyer)

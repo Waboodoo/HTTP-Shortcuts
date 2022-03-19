@@ -31,6 +31,7 @@
                 android:fontFamily="monospace"
                 android:padding="8dp"
                 android:textAlignment="center"
+                android:textIsSelectable="true"
                 android:textSize="22sp" />
 
             <TextView

@@ -10,6 +10,7 @@ interface DialogState {
     fun createDialog(context: Context, viewModel: WithDialog): Dialog
 
     val id: String?
+        get() = null
 
     fun saveInstanceState(dialog: Dialog): Bundle =
         dialog.onSaveInstanceState()

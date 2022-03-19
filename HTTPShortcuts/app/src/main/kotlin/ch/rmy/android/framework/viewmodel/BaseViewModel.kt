@@ -145,6 +145,10 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
         emitEvent(ViewModelEvent.Finish(result, intent, skipAnimation))
     }
 
+    protected fun setResult(result: Int, intent: Intent? = null) {
+        emitEvent(ViewModelEvent.SetResult(result, intent))
+    }
+
     protected fun openURL(url: String) {
         emitEvent(ViewModelEvent.OpenURL(url))
     }

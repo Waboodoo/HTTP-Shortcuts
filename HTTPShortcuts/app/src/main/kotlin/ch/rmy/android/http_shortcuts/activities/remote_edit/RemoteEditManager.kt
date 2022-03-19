@@ -48,7 +48,8 @@ class RemoteEditManager(
                         .method(
                             "POST",
                             object : RequestBody() {
-                                override fun contentType(): MediaType = "application/json".toMediaType()
+                                override fun contentType(): MediaType =
+                                    "application/json".toMediaType()
 
                                 override fun writeTo(sink: BufferedSink) {
                                     file.source().use {
@@ -56,7 +57,8 @@ class RemoteEditManager(
                                     }
                                 }
 
-                                override fun contentLength(): Long = file.length()
+                                override fun contentLength(): Long =
+                                    file.length()
                             },
                         )
                         .build()

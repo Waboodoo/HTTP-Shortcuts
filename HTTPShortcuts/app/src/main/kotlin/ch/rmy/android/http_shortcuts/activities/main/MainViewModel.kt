@@ -12,7 +12,6 @@ import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.EventBridge
-import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
@@ -120,7 +119,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
             showStartupDialogsIfNeeded()
         } else {
             if (selectionMode == SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT && initData.widgetId != null) {
-                emitEvent(ViewModelEvent.SetResult(Activity.RESULT_CANCELED, WidgetManager.getIntent(initData.widgetId!!)))
+                setResult(Activity.RESULT_CANCELED, WidgetManager.getIntent(initData.widgetId!!))
             }
             if (
                 selectionMode == SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT ||
