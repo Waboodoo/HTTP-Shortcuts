@@ -10,7 +10,7 @@ class GetContextMenuDialogUseCase {
 
     @CheckResult
     operator fun invoke(shortcutId: String, title: String, isPending: Boolean, isMovable: Boolean, viewModel: ShortcutListViewModel) =
-        DialogState.create {
+        DialogState.create(DIALOG_ID) {
             title(title)
                 .item(R.string.action_place) {
                     viewModel.onPlaceOnHomeScreenOptionSelected(shortcutId)
@@ -47,4 +47,8 @@ class GetContextMenuDialogUseCase {
                 }
                 .build()
         }
+
+    companion object {
+        private const val DIALOG_ID = "shortcut-context-menu"
+    }
 }

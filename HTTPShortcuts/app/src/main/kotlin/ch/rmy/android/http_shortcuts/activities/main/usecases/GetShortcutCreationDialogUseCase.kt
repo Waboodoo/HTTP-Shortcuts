@@ -10,7 +10,7 @@ class GetShortcutCreationDialogUseCase {
 
     @CheckResult
     operator fun invoke(viewModel: MainViewModel): DialogState =
-        DialogState.create {
+        DialogState.create(DIALOG_ID) {
             title(R.string.title_create_new_shortcut_options_dialog)
                 .item(R.string.button_create_new) {
                     viewModel.onCreationDialogOptionSelected(ShortcutExecutionType.APP)
@@ -42,4 +42,8 @@ class GetShortcutCreationDialogUseCase {
                 }
                 .build()
         }
+
+    companion object {
+        private const val DIALOG_ID = "shortcut-creation"
+    }
 }

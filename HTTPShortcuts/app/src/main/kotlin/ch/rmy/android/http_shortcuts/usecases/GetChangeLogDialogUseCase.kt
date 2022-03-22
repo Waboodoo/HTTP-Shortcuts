@@ -89,7 +89,7 @@ class GetChangeLogDialogUseCase(
         }
 
     companion object {
-        const val DIALOG_ID = "change_log"
+        const val DIALOG_ID = "change-log"
 
         private const val CHANGELOG_ASSET_URL = "file:///android_asset/changelog.html"
     }

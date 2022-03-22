@@ -71,6 +71,7 @@ abstract class BaseFragment<Binding : ViewBinding> : Fragment() {
         if (currentDialogState == dialogState) {
             return
         }
+        logInfo("Setting dialog state: ${dialogState?.let { it.id ?: "no-id" } ?: "no dialog"}")
         currentDialog?.dismiss()
         currentDialogState = dialogState
         currentDialog = dialogState?.createDialog(requireContext(), viewModel)

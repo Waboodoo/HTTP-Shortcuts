@@ -13,7 +13,7 @@ import com.afollestad.materialdialogs.callbacks.onShow
 class GetCurlExportDialogUseCase {
 
     operator fun invoke(title: String, command: CurlCommand): DialogState =
-        DialogState.create {
+        DialogState.create(DIALOG_ID) {
             val curlCommand = CurlConstructor.toCurlCommandString(command)
             this
                 .title(title)
@@ -33,5 +33,9 @@ class GetCurlExportDialogUseCase {
 
     private fun copyCurlExport(context: Context, curlCommand: String) {
         ClipboardUtil.copyToClipboard(context, curlCommand)
+    }
+
+    companion object {
+        private const val DIALOG_ID = "curl-export"
     }
 }
