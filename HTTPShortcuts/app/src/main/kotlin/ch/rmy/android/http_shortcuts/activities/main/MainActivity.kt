@@ -55,6 +55,14 @@ class MainActivity : BaseActivity(), Entrypoint {
     private var menuItemVariables: MenuItem? = null
     private var menuItemUnlock: MenuItem? = null
 
+    private var activeCategoryIndex: Int = 0
+        set(value) {
+            if (field != value) {
+                field = value
+                binding.viewPager.currentItem = value
+            }
+        }
+
     override fun onCreated(savedState: Bundle?) {
         viewModel.initialize(
             MainViewModel.InitData(
@@ -111,7 +119,7 @@ class MainActivity : BaseActivity(), Entrypoint {
             setTitle(viewState.toolbarTitleLocalizable)
             adapter.setCategories(viewState.categoryTabItems, viewState.selectionMode)
             setTabLongPressListener()
-            binding.viewPager.currentItem = viewState.activeCategoryIndex
+            activeCategoryIndex = viewState.activeCategoryIndex
             binding.tabs.visible = viewState.isTabBarVisible
             binding.buttonCreateShortcut.visible = viewState.isCreateButtonVisible
             menuItemSettings?.isVisible = viewState.isRegularMenuButtonVisible
