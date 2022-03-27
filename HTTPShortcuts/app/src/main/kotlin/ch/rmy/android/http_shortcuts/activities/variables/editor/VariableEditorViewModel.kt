@@ -241,6 +241,9 @@ class VariableEditorViewModel(
     }
 
     fun onAllowShareChanged(enabled: Boolean) {
+        if (!isInitialized) {
+            return
+        }
         performOperation(
             temporaryVariableRepository.setSharingSupport(
                 shareText = enabled && currentViewState.shareSupport.text,
