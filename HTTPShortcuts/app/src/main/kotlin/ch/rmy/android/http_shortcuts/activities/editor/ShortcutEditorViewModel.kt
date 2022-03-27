@@ -42,6 +42,8 @@ import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.icons.Icons
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.TriggerShortcutManager
+import ch.rmy.android.http_shortcuts.usecases.GetBuiltInIconPickerDialogUseCase
+import ch.rmy.android.http_shortcuts.usecases.GetIconPickerDialogUseCase
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.Validation.isAcceptableHttpUrl
 import ch.rmy.android.http_shortcuts.utils.Validation.isAcceptableUrl
@@ -61,6 +63,8 @@ class ShortcutEditorViewModel(
     private val variableRepository = VariableRepository()
     private val widgetManager = WidgetManager()
     private val fetchFavicon = FetchFaviconUseCase(context)
+    private val getIconPickerDialog = GetIconPickerDialogUseCase()
+    private val getBuiltInIconPickerDialog = GetBuiltInIconPickerDialogUseCase()
 
     private val variablePlaceholderProvider = VariablePlaceholderProvider()
 
@@ -435,7 +439,28 @@ class ShortcutEditorViewModel(
     }
 
     fun onIconClicked() {
-        emitEvent(ShortcutEditorEvent.ShowIconPickerDialog(includeFaviconOption = hasUrl()))
+        dialogState = getIconPickerDialog(
+            includeFaviconOption = hasUrl(),
+            callbacks = object : GetIconPickerDialogUseCase.Callbacks {
+                override fun openBuiltInIconSelectionDialog() {
+                    dialogState = getBuiltInIconPickerDialog { icon ->
+                        onShortcutIconChanged(icon)
+                    }
+                }
+
+                override fun openCustomIconPicker() {
+                    emitEvent(ShortcutEditorEvent.OpenCustomIconPicker)
+                }
+
+                override fun fetchFavicon() {
+                    onFetchFaviconOptionSelected()
+                }
+
+                override fun openIpackPicker() {
+                    emitEvent(ShortcutEditorEvent.OpenIpackIconPicker)
+                }
+            },
+        )
     }
 
     fun onFetchFaviconOptionSelected() {

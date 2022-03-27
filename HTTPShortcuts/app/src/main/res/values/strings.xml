@@ -1115,8 +1115,6 @@
     <string name="action_type_base64decode_description">Converts a Base64 encoded string into a Unit8Array (byte array)</string>
     <!-- Description for Base64encode function in scripting -->
     <string name="action_type_base64encode_description">Converts a string or Uint8Array (byte array) into a Base64 encoded string</string>
-    <!-- Error message: Shown to user when trying to select the "previously used custom icon" option while there are no custom icons yet -->
-    <string name="error_no_custom_icons">You don\'t have any custom icons yet.</string>
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">No app was found that can open the URL %s.</string>
     <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->

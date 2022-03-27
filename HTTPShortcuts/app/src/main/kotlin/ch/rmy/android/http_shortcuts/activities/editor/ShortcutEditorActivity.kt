@@ -14,15 +14,18 @@ import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.extensions.setMaxLength
 import ch.rmy.android.framework.extensions.setSubtitle
 import ch.rmy.android.framework.extensions.setTextSafely
+import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.activities.icons.IconPickerActivity
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.databinding.ActivityShortcutEditorOverviewBinding
-import ch.rmy.android.http_shortcuts.icons.IconPicker
+import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
+import ch.rmy.android.http_shortcuts.utils.IpackUtil
 import ch.rmy.curlcommand.CurlCommand
 
 class ShortcutEditorActivity : BaseActivity() {
@@ -32,12 +35,6 @@ class ShortcutEditorActivity : BaseActivity() {
     private lateinit var binding: ActivityShortcutEditorOverviewBinding
     private var saveMenuItem: MenuItem? = null
     private var testMenuItem: MenuItem? = null
-
-    private val iconPicker by lazy {
-        IconPicker(this, fetchFavicon = viewModel::onFetchFaviconOptionSelected) { icon ->
-            viewModel.onShortcutIconChanged(icon)
-        }
-    }
 
     override fun onCreated(savedState: Bundle?) {
         viewModel.initialize(
@@ -175,8 +172,13 @@ class ShortcutEditorActivity : BaseActivity() {
             is ShortcutEditorEvent.FocusNameInputField -> {
                 binding.inputShortcutName.focus()
             }
-            is ShortcutEditorEvent.ShowIconPickerDialog -> {
-                iconPicker.openIconSelectionDialog(event.includeFaviconOption)
+            is ShortcutEditorEvent.OpenCustomIconPicker -> {
+                IconPickerActivity.IntentBuilder()
+                    .startActivity(this, REQUEST_CUSTOM_ICON)
+            }
+            is ShortcutEditorEvent.OpenIpackIconPicker -> {
+                IpackUtil.getIpackIntent(context)
+                    .startActivity(this, REQUEST_SELECT_IPACK_ICON)
             }
             else -> super.handleEvent(event)
         }
@@ -184,7 +186,19 @@ class ShortcutEditorActivity : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
-        iconPicker.handleResult(requestCode, resultCode, intent)
+        when (requestCode) {
+            REQUEST_CUSTOM_ICON -> {
+                if (intent != null) {
+                    IconPickerActivity.Result.getIcon(intent)
+                        ?.let(viewModel::onShortcutIconChanged)
+                }
+            }
+            REQUEST_SELECT_IPACK_ICON -> {
+                if (resultCode == RESULT_OK && intent != null) {
+                    viewModel.onShortcutIconChanged(ShortcutIcon.ExternalResourceIcon(IpackUtil.getIpackUri(intent)))
+                }
+            }
+        }
     }
 
     override fun onBackPressed() {
@@ -216,6 +230,9 @@ class ShortcutEditorActivity : BaseActivity() {
         private const val EXTRA_CATEGORY_ID = "categoryId"
         private const val EXTRA_CURL_COMMAND = "curlCommand"
         private const val EXTRA_EXECUTION_TYPE = "executionType"
+
+        private const val REQUEST_CUSTOM_ICON = 1
+        private const val REQUEST_SELECT_IPACK_ICON = 2
 
         const val RESULT_SHORTCUT_ID = "shortcutId"
     }

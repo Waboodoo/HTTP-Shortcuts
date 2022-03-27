@@ -16,14 +16,18 @@ import ch.rmy.android.framework.extensions.insertAroundCursor
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.extensions.setTextSafely
+import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.ui.BaseIntentBuilder
+import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.CodeSnippetPicker
+import ch.rmy.android.http_shortcuts.activities.icons.IconPickerActivity
 import ch.rmy.android.http_shortcuts.databinding.ActivityGlobalScriptingBinding
-import ch.rmy.android.http_shortcuts.icons.IconPicker
+import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholderProvider
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutSpanManager
+import ch.rmy.android.http_shortcuts.utils.IpackUtil
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -35,15 +39,6 @@ class GlobalScriptingActivity : BaseActivity() {
 
     private val variablePlaceholderProvider = VariablePlaceholderProvider()
     private val shortcutPlaceholderProvider = ShortcutPlaceholderProvider()
-    private val iconPicker: IconPicker by lazy {
-        IconPicker(this) { iconName ->
-            codeSnippetPicker.insertChangeIconSnippet(
-                viewModel.iconPickerShortcutPlaceholder ?: return@IconPicker,
-                getCodeInsertion(),
-                iconName,
-            )
-        }
-    }
     private val codeSnippetPicker by lazy {
         CodeSnippetPicker(
             context,
@@ -51,8 +46,7 @@ class GlobalScriptingActivity : BaseActivity() {
             variablePlaceholderProvider,
             shortcutPlaceholderProvider,
         ) { shortcutPlaceholder ->
-            viewModel.iconPickerShortcutPlaceholder = shortcutPlaceholder
-            iconPicker.openIconSelectionDialog()
+            viewModel.onChangeIconOptionSelected(shortcutPlaceholder)
         }
     }
     private val variablePlaceholderColor by lazy {
@@ -75,7 +69,7 @@ class GlobalScriptingActivity : BaseActivity() {
     private fun initViews() {
         binding = applyBinding(ActivityGlobalScriptingBinding.inflate(layoutInflater))
         binding.buttonAddCodeSnippet.setOnClickListener {
-            codeSnippetPicker.showCodeSnippetPicker(getCodeInsertion(), includeResponseOptions = false)
+            viewModel.onCodeSnippetButtonClicked()
         }
     }
 
@@ -99,6 +93,26 @@ class GlobalScriptingActivity : BaseActivity() {
             setDialogState(viewState.dialogState, viewModel)
         }
         viewModel.events.observe(this, ::handleEvent)
+    }
+
+    override fun handleEvent(event: ViewModelEvent) {
+        when (event) {
+            is GlobalScriptingEvent.ShowCodeSnippetPicker -> {
+                codeSnippetPicker.showCodeSnippetPicker(getCodeInsertion(), includeResponseOptions = false)
+            }
+            is GlobalScriptingEvent.OpenCustomIconPicker -> {
+                IconPickerActivity.IntentBuilder()
+                    .startActivity(this, REQUEST_CUSTOM_ICON)
+            }
+            is GlobalScriptingEvent.OpenIpackIconPicker -> {
+                IpackUtil.getIpackIntent(context)
+                    .startActivity(this, REQUEST_SELECT_IPACK_ICON)
+            }
+            is GlobalScriptingEvent.InsertChangeIconSnippet -> {
+                insertChangeIconSnippet(event.shortcutPlaceholder, event.icon)
+            }
+            else -> super.handleEvent(event)
+        }
     }
 
     private fun processTextForView(input: String): CharSequence {
@@ -155,10 +169,35 @@ class GlobalScriptingActivity : BaseActivity() {
                 data,
             )
         }
-        iconPicker.handleResult(requestCode, resultCode, data)
+        when (requestCode) {
+            REQUEST_CUSTOM_ICON -> {
+                if (data != null) {
+                    IconPickerActivity.Result.getIcon(data)
+                        ?.let(viewModel::onIconSelected)
+                }
+            }
+            REQUEST_SELECT_IPACK_ICON -> {
+                if (resultCode == RESULT_OK && data != null) {
+                    viewModel.onIconSelected(ShortcutIcon.ExternalResourceIcon(IpackUtil.getIpackUri(data)))
+                }
+            }
+        }
+    }
+
+    private fun insertChangeIconSnippet(shortcutPlaceholder: String, icon: ShortcutIcon) {
+        codeSnippetPicker.insertChangeIconSnippet(
+            shortcutPlaceholder,
+            getCodeInsertion(),
+            icon,
+        )
     }
 
     override val navigateUpIcon = R.drawable.ic_clear
 
     class IntentBuilder : BaseIntentBuilder(GlobalScriptingActivity::class.java)
+
+    companion object {
+        private const val REQUEST_CUSTOM_ICON = 1
+        private const val REQUEST_SELECT_IPACK_ICON = 2
+    }
 }

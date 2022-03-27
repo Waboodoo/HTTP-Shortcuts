@@ -4,6 +4,8 @@ import android.app.Application
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
+import ch.rmy.android.framework.viewmodel.WithDialog
+import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
@@ -11,17 +13,30 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.extensions.type
+import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
+import ch.rmy.android.http_shortcuts.usecases.GetBuiltInIconPickerDialogUseCase
+import ch.rmy.android.http_shortcuts.usecases.GetIconPickerDialogUseCase
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 
-class ScriptingViewModel(application: Application) : BaseViewModel<Unit, ScriptingViewState>(application) {
+class ScriptingViewModel(application: Application) : BaseViewModel<Unit, ScriptingViewState>(application), WithDialog {
 
     private val temporaryShortcutRepository = TemporaryShortcutRepository()
     private val shortcutRepository = ShortcutRepository()
     private val variableRepository = VariableRepository()
+    private val getIconPickerDialog = GetIconPickerDialogUseCase()
+    private val getBuiltInIconPickerDialog = GetBuiltInIconPickerDialogUseCase()
 
-    var iconPickerShortcutPlaceholder: String? = null
+    private var iconPickerShortcutPlaceholder: String? = null
 
     private lateinit var shortcut: ShortcutModel
+
+    override var dialogState: DialogState?
+        get() = currentViewState.dialogState
+        set(value) {
+            updateViewState {
+                copy(dialogState = value)
+            }
+        }
 
     override fun onInitializationStarted(data: Unit) {
         finalizeInitialization(silent = true)
@@ -149,6 +164,30 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
         waitForOperationsToFinish {
             finish()
         }
+    }
+
+    fun onChangeIconOptionSelected(shortcutPlaceholder: String) {
+        iconPickerShortcutPlaceholder = shortcutPlaceholder
+        dialogState = getIconPickerDialog(
+            callbacks = object : GetIconPickerDialogUseCase.Callbacks {
+                override fun openBuiltInIconSelectionDialog() {
+                    dialogState = getBuiltInIconPickerDialog(::onIconSelected)
+                }
+
+                override fun openCustomIconPicker() {
+                    emitEvent(ScriptingEvent.OpenCustomIconPicker)
+                }
+
+                override fun openIpackPicker() {
+                    emitEvent(ScriptingEvent.OpenIpackIconPicker)
+                }
+            },
+        )
+    }
+
+    fun onIconSelected(icon: ShortcutIcon) {
+        emitEvent(ScriptingEvent.InsertChangeIconSnippet(iconPickerShortcutPlaceholder ?: return, icon))
+        iconPickerShortcutPlaceholder = null
     }
 
     companion object {
