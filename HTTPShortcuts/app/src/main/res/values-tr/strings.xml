@@ -1630,7 +1630,4 @@ Bu özelliği, bir kısayolu düzenleyerek ve \"%2$s\" içinde bulunan \"%1$s\" 
 
     <!-- Dialog option: shown in code snippet picker, option allows to get a specific HTTP response cookie -->
     <string name="dialog_code_snippet_response_cookie">"Yanıt Çerezi Al ada göre"</string>
-
-    <!-- Error message: Shown to user when trying to select the "previously used custom icon" option while there are no custom icons yet -->
-    <string name="error_no_custom_icons">"Henüz özel simgeniz yok."</string>
 </resources>

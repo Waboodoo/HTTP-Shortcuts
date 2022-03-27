@@ -1639,9 +1639,6 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
     <!-- Dialog option: shown in code snippet picker, option allows to get a specific HTTP response cookie -->
     <string name="dialog_code_snippet_response_cookie">"Ottieni cookie di risposta per nome"</string>
 
-    <!-- Error message: Shown to user when trying to select the "previously used custom icon" option while there are no custom icons yet -->
-    <string name="error_no_custom_icons">"Non hai ancora nessuna icona personalizzata."</string>
-
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts">"Non hai ancora aggiunto una scorciatoia da attivare."</string>
 
