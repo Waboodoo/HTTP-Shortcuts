@@ -1,3 +1,10 @@
+## Version 2.14.1
+
+### Bugfixes
+- The grid category layout now has the correct number of columns again
+- The app no longer freezes when switching tabs while shortcut moving is enabled
+- The icon picker dialogs are now properly preserved when screen orientation changes
+
 ## Version 2.14.0
 
 ### Custom Icons
