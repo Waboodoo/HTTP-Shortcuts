@@ -828,8 +828,8 @@
     <string name="dialog_title_error">Error</string>
     <!-- Error message: Shown when a JS error occurs. %s is a placeholder for the more detailed error message. -->
     <string name="error_js_pattern">JavaScript error:\n%s</string>
-    <!-- Error message: Shown when a JS error occurs. %d is a placeholder for the line number, %s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern_with_line_number">JavaScript error (at line %d):\n%s</string>
+    <!-- Error message: Shown when a JS error occurs. %1$d is a placeholder for the line number, %2$s is a placeholder for the more detailed error message. -->
+    <string name="error_js_pattern_with_line_number">JavaScript error (at line %1$d):\n%2$s</string>
     <!-- Error message: Shown when a script tries to read from a variable that does not exist. %s is a placeholder for the name of the variable. -->
     <string name="error_variable_not_found_read">Variable error: tried to get value of variable that doesn\'t exist: %s</string>
     <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->

@@ -1578,8 +1578,8 @@
     <string name="action_type_wake_on_lan">"网络唤醒"</string>
 
     <!-- Error message: Shown when a JS error occurs. %d is a placeholder for the line number, %s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern_with_line_number">"JavaScript错误(在第%d行):
-%s"</string>
+    <string name="error_js_pattern_with_line_number">"JavaScript错误(在第%1$d行):
+%2$s"</string>
 
     <!-- label, shown in variable editor for Select Input variable, to allow the user to specify a separator when using multi-select -->
     <string name="label_select_variable_separator">"分隔符"</string>

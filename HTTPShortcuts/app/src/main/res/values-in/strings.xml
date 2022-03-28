@@ -1446,8 +1446,8 @@ Untuk menggunakan fitur ini setidaknya Anda memiliki satu pintasan yang mengguna
     <string name="action_type_wake_on_lan">"Wake-on-LAN"</string>
 
     <!-- Error message: Shown when a JS error occurs. %d is a placeholder for the line number, %s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern_with_line_number">"Kesalahan JavaScript (di baris %d):
-%s"</string>
+    <string name="error_js_pattern_with_line_number">"Kesalahan JavaScript (di baris %1$d):
+%2$s"</string>
 
     <!-- label, shown in variable editor for Select Input variable, to allow the user to specify a separator when using multi-select -->
     <string name="label_select_variable_separator">"Pemisah"</string>

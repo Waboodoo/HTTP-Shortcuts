@@ -1302,8 +1302,8 @@ Voir la documentation dans la section variable pour plus d'informations."</strin
     <string name="action_place_category">"Placer sur l'écran d'accueil"</string>
 
     <!-- Error message: Shown when a JS error occurs. %d is a placeholder for the line number, %s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern_with_line_number">"Erreur JavaScript (à la ligne %d) :
-%s"</string>
+    <string name="error_js_pattern_with_line_number">"Erreur JavaScript (à la ligne %1$d) :
+%2$s"</string>
 
     <!-- label, shown in variable editor for Select Input variable, to allow the user to specify a separator when using multi-select -->
     <string name="label_select_variable_separator">"Séparateur"</string>
