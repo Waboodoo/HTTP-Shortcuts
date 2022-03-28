@@ -42,7 +42,7 @@ class GetUsedCustomIconsUseCase(
             .map { it.icon }
             .filterIsInstance(ShortcutIcon.CustomIcon::class.java)
             .plus(
-                getReferencedIconNames(base)
+                getReferencedIconNames(base, temporaryShortcut)
                     .map { fileName ->
                         ShortcutIcon.CustomIcon(fileName)
                     }
@@ -50,9 +50,13 @@ class GetUsedCustomIconsUseCase(
             .distinct()
             .toList()
 
-    private fun getReferencedIconNames(base: BaseModel): Set<String> =
+    private fun getReferencedIconNames(base: BaseModel, temporaryShortcut: ShortcutModel?): Set<String> =
         IconUtil.extractCustomIconNames(base.globalCode ?: "")
-            .plus(base.shortcuts.flatMap(::getReferencedIconNames))
+            .plus(
+                base.shortcuts
+                    .mapIfNotNull(temporaryShortcut, List<ShortcutModel>::plus)
+                    .flatMap(::getReferencedIconNames)
+            )
 
     private fun getReferencedIconNames(shortcut: ShortcutModel): Set<String> =
         IconUtil.extractCustomIconNames(shortcut.codeOnSuccess)
