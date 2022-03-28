@@ -91,6 +91,9 @@ abstract class BaseFragment<Binding : ViewBinding> : Fragment() {
                 outState.putBundle(EXTRA_DIALOG_INSTANCE_STATE, dialogState.saveInstanceState(dialog))
             }
         }
+        currentDialog?.setOnDismissListener(null)
+        currentDialog?.dismiss()
+        currentDialog = null
     }
 
     companion object {

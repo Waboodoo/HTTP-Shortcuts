@@ -177,6 +177,9 @@ abstract class BaseActivity : AppCompatActivity() {
                 outState.putBundle(EXTRA_DIALOG_INSTANCE_STATE, dialogState.saveInstanceState(dialog))
             }
         }
+        currentDialog?.setOnDismissListener(null)
+        currentDialog?.dismiss()
+        currentDialog = null
     }
 
     override fun onDestroy() {

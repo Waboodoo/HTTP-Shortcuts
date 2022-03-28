@@ -44,7 +44,7 @@ class IconPickerActivity : BaseActivity() {
     private fun initViews() {
         binding = applyBinding(ActivityIconPickerBinding.inflate(layoutInflater))
         adapter = IconPickerAdapter()
-        layoutManager = GridLayoutManager(context, R.dimen.grid_layout_icon_width)
+        layoutManager = GridLayoutManager(context, R.dimen.grid_layout_custom_icon_width)
         binding.iconList.layoutManager = layoutManager
         binding.iconList.setHasFixedSize(true)
         binding.iconList.adapter = adapter

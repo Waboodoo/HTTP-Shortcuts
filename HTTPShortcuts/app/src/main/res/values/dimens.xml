@@ -7,5 +7,6 @@
     <dimen name="small_icon_size">20dp</dimen>
     <dimen name="variable_button_spacing">44dp</dimen>
     <dimen name="grid_layout_shortcut_width">90dp</dimen>
-    <dimen name="grid_layout_icon_width">66dp</dimen>
+    <dimen name="grid_layout_custom_icon_width">66dp</dimen>
+    <dimen name="grid_layout_builtin_icon_width">56dp</dimen>
 </resources>

@@ -19,9 +19,11 @@ class GetBuiltInIconPickerDialogUseCase {
                 .show {
                     val grid = findViewById<RecyclerView>(R.id.icon_selector_grid)
                     grid.setHasFixedSize(true)
-                    val layoutManager = GridLayoutManager(context, R.dimen.grid_layout_icon_width)
+                    val layoutManager = GridLayoutManager(context, R.dimen.grid_layout_builtin_icon_width)
                     grid.layoutManager = layoutManager
-
+                    view.addOnLayoutChangeListener { view, _, _, _, _, _, _, _, _ ->
+                        layoutManager.setTotalWidth(view.width)
+                    }
                     val adapter = BuiltInIconAdapter(getIcons(context)) { icon ->
                         dismiss()
                         onIconSelected(icon)
