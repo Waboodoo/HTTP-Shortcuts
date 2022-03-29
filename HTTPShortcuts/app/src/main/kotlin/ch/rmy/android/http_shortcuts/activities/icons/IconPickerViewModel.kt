@@ -2,16 +2,12 @@ package ch.rmy.android.http_shortcuts.activities.icons
 
 import android.app.Activity
 import android.app.Application
-import android.content.Context
-import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
+import androidx.core.net.toFile
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.context
-import ch.rmy.android.framework.ui.IntentBuilder
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
-import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
@@ -23,7 +19,6 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRep
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.usecases.GetUsedCustomIconsUseCase
 import ch.rmy.android.http_shortcuts.utils.IconUtil
-import com.yalantis.ucrop.UCrop
 import io.reactivex.Completable
 import io.reactivex.schedulers.Schedulers
 import java.io.File
@@ -79,7 +74,7 @@ class IconPickerViewModel(application: Application) : BaseViewModel<Unit, IconPi
     private fun selectIcon(icon: ShortcutIcon.CustomIcon) {
         finish(
             result = Activity.RESULT_OK,
-            intent = IconPickerActivity.Result.create(icon),
+            intent = IconPickerActivity.PickIcon.createResult(icon),
         )
     }
 
@@ -96,32 +91,14 @@ class IconPickerViewModel(application: Application) : BaseViewModel<Unit, IconPi
     }
 
     fun onImageSelected(image: Uri) {
-        val iconSize = IconUtil.getIconSize(context)
-        emitEvent(
-            ViewModelEvent.OpenActivity(
-                object : IntentBuilder {
-                    override fun build(context: Context): Intent =
-                        UCrop.of(image, createNewIconFile())
-                            .withOptions(
-                                UCrop.Options().apply {
-                                    setToolbarTitle(context.getString(R.string.title_edit_custom_icon))
-                                    setCompressionQuality(100)
-                                    setCompressionFormat(Bitmap.CompressFormat.PNG)
-                                }
-                            )
-                            .withAspectRatio(1f, 1f)
-                            .withMaxResultSize(iconSize, iconSize)
-                            .getIntent(context)
-                },
-                requestCode = IconPickerActivity.REQUEST_CROP_IMAGE,
-            )
-        )
+        emitEvent(IconPickerEvent.ShowImageCropper(image))
     }
 
-    private fun createNewIconFile(): Uri =
-        Uri.fromFile(File(context.filesDir, IconUtil.generateCustomIconName()))
+    fun onIconCreated(iconUri: Uri) {
+        val iconName = IconUtil.generateCustomIconName()
+        iconUri.toFile().renameTo(File(context.filesDir, iconName))
+        val icon = ShortcutIcon.CustomIcon(iconName)
 
-    fun onIconCreated(icon: ShortcutIcon.CustomIcon) {
         val isFirstIcon = currentViewState.icons.isEmpty()
         updateViewState {
             copy(

@@ -7,6 +7,7 @@ import android.text.SpannableStringBuilder
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
+import androidx.activity.result.launch
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.color
@@ -16,7 +17,6 @@ import ch.rmy.android.framework.extensions.insertAroundCursor
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.extensions.setTextSafely
-import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
@@ -24,16 +24,23 @@ import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.CodeSnippetPicker
 import ch.rmy.android.http_shortcuts.activities.icons.IconPickerActivity
 import ch.rmy.android.http_shortcuts.databinding.ActivityGlobalScriptingBinding
+import ch.rmy.android.http_shortcuts.icons.IpackPickerContract
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholderProvider
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutSpanManager
-import ch.rmy.android.http_shortcuts.utils.IpackUtil
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
 import io.reactivex.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
 
 class GlobalScriptingActivity : BaseActivity() {
+
+    private val pickCustomIcon = registerForActivityResult(IconPickerActivity.PickIcon) { icon ->
+        icon?.let(viewModel::onIconSelected)
+    }
+    private val pickIpackIcon = registerForActivityResult(IpackPickerContract) { icon ->
+        icon?.let(viewModel::onIconSelected)
+    }
 
     private val viewModel: GlobalScriptingViewModel by bindViewModel()
 
@@ -101,12 +108,10 @@ class GlobalScriptingActivity : BaseActivity() {
                 codeSnippetPicker.showCodeSnippetPicker(getCodeInsertion(), includeResponseOptions = false)
             }
             is GlobalScriptingEvent.OpenCustomIconPicker -> {
-                IconPickerActivity.IntentBuilder()
-                    .startActivity(this, REQUEST_CUSTOM_ICON)
+                pickCustomIcon.launch()
             }
             is GlobalScriptingEvent.OpenIpackIconPicker -> {
-                IpackUtil.getIpackIntent(context)
-                    .startActivity(this, REQUEST_SELECT_IPACK_ICON)
+                pickIpackIcon.launch()
             }
             is GlobalScriptingEvent.InsertChangeIconSnippet -> {
                 insertChangeIconSnippet(event.shortcutPlaceholder, event.icon)
@@ -169,19 +174,6 @@ class GlobalScriptingActivity : BaseActivity() {
                 data,
             )
         }
-        when (requestCode) {
-            REQUEST_CUSTOM_ICON -> {
-                if (data != null) {
-                    IconPickerActivity.Result.getIcon(data)
-                        ?.let(viewModel::onIconSelected)
-                }
-            }
-            REQUEST_SELECT_IPACK_ICON -> {
-                if (resultCode == RESULT_OK && data != null) {
-                    viewModel.onIconSelected(ShortcutIcon.ExternalResourceIcon(IpackUtil.getIpackUri(data)))
-                }
-            }
-        }
     }
 
     private fun insertChangeIconSnippet(shortcutPlaceholder: String, icon: ShortcutIcon) {
@@ -195,9 +187,4 @@ class GlobalScriptingActivity : BaseActivity() {
     override val navigateUpIcon = R.drawable.ic_clear
 
     class IntentBuilder : BaseIntentBuilder(GlobalScriptingActivity::class.java)
-
-    companion object {
-        private const val REQUEST_CUSTOM_ICON = 1
-        private const val REQUEST_SELECT_IPACK_ICON = 2
-    }
 }
