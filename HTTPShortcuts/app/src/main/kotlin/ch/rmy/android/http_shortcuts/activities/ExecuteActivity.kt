@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.activities
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -130,6 +129,14 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     }
     private val shortcutName by lazy {
         shortcut.name.ifEmpty { getString(R.string.shortcut_safe_name) }
+    }
+
+    private val pickFiles = registerForActivityResult(FilePickerUtil.PickFiles) { files ->
+        if (files != null) {
+            resumeAfterFileRequest(fileUris = files)
+        } else {
+            finishWithoutAnimation()
+        }
     }
 
     /* Caches / State */
@@ -393,8 +400,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
 
     private fun openFilePickerForFileParameter(multiple: Boolean): Completable =
         try {
-            FilePickerUtil.createIntent(multiple)
-                .startActivity(this, REQUEST_PICK_FILES)
+            pickFiles.launch(multiple)
             Completable.error(ResumeLaterException())
         } catch (e: ActivityNotFoundException) {
             Completable.error(UnsupportedFeatureException())
@@ -671,19 +677,6 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
             else -> Completable.complete()
         }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            REQUEST_PICK_FILES -> {
-                if (resultCode != Activity.RESULT_OK || data == null) {
-                    finishWithoutAnimation()
-                    return
-                }
-                resumeAfterFileRequest(fileUris = FilePickerUtil.extractUris(data))
-            }
-        }
-    }
-
     private fun resumeAfterFileRequest(fileUris: List<Uri>?) {
         if (fileUploadManager == null) {
             // TODO: Handle edge case where variableManager is no longer set because activity was recreated
@@ -765,8 +758,6 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         const val EXTRA_RECURSION_DEPTH = "recursion_depth"
         const val EXTRA_FILES = "files"
         const val EXTRA_EXECUTION_SCHEDULE_ID = "schedule_id"
-
-        private const val REQUEST_PICK_FILES = 1
 
         private const val MAX_RETRY = 5
         private const val RETRY_BACKOFF = 2.4

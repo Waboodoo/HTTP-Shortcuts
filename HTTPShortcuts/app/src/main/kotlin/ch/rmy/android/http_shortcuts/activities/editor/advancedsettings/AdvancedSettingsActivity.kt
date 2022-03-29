@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.editor.advancedsettings
 
 import android.content.ActivityNotFoundException
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.InputType
@@ -16,7 +15,6 @@ import ch.rmy.android.framework.extensions.setSubtitle
 import ch.rmy.android.framework.extensions.setTextSafely
 import ch.rmy.android.framework.extensions.showSnackbar
 import ch.rmy.android.framework.extensions.showToast
-import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.utils.FilePickerUtil
 import ch.rmy.android.framework.utils.RxUtils
@@ -34,6 +32,10 @@ import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
 import io.reactivex.Single
 
 class AdvancedSettingsActivity : BaseActivity() {
+
+    private val openFilePickerForCertificate = registerForActivityResult(FilePickerUtil.PickFile) { fileUri ->
+        fileUri?.let(::onCertificateFileSelected)
+    }
 
     private val viewModel: AdvancedSettingsViewModel by bindViewModel()
     private val variablePlaceholderProvider = VariablePlaceholderProvider()
@@ -137,22 +139,9 @@ class AdvancedSettingsActivity : BaseActivity() {
 
     private fun openCertificateFilePicker() {
         try {
-            FilePickerUtil.createIntent(type = "application/x-pkcs12")
-                .startActivity(this, REQUEST_SELECT_CERTIFICATE_FILE)
+            openFilePickerForCertificate.launch("application/x-pkcs12")
         } catch (e: ActivityNotFoundException) {
             showToast(R.string.error_not_supported)
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
-        super.onActivityResult(requestCode, resultCode, intent)
-        if (resultCode != RESULT_OK || intent == null) {
-            return
-        }
-        when (requestCode) {
-            REQUEST_SELECT_CERTIFICATE_FILE -> {
-                onCertificateFileSelected(intent.data ?: return)
-            }
         }
     }
 
@@ -204,9 +193,4 @@ class AdvancedSettingsActivity : BaseActivity() {
     }
 
     class IntentBuilder : BaseIntentBuilder(AdvancedSettingsActivity::class.java)
-
-    companion object {
-
-        private const val REQUEST_SELECT_CERTIFICATE_FILE = 1
-    }
 }

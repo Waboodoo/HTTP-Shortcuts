@@ -71,6 +71,10 @@ class ImportExportActivity : BaseActivity() {
 
     class ImportExportFragment : BaseSettingsFragment() {
 
+        private val openFilePickerForImport = registerForActivityResult(FilePickerUtil.PickFile) { fileUri ->
+            fileUri?.let(::startImport)
+        }
+
         private val viewModel: ImportExportViewModel
             get() = (activity as ImportExportActivity).viewModel
 
@@ -110,8 +114,7 @@ class ImportExportActivity : BaseActivity() {
 
         private fun openGeneralPickerForImport() {
             try {
-                FilePickerUtil.createIntent()
-                    .startActivity(this, REQUEST_IMPORT_FROM_DOCUMENTS)
+                openFilePickerForImport.launch(null)
             } catch (e: ActivityNotFoundException) {
                 requireActivity().showToast(R.string.error_not_supported)
             }
@@ -142,9 +145,6 @@ class ImportExportActivity : BaseActivity() {
                         intent.data ?: return,
                         format = getExportFormat(),
                     )
-                }
-                REQUEST_IMPORT_FROM_DOCUMENTS -> {
-                    startImport(intent.data ?: return)
                 }
                 REQUEST_REMOTE_EDIT -> {
                     reloadCategoriesWhenLeaving()
@@ -214,7 +214,6 @@ class ImportExportActivity : BaseActivity() {
         const val EXTRA_CATEGORIES_CHANGED = "categories_changed"
 
         private const val REQUEST_EXPORT_TO_DOCUMENTS = 2
-        private const val REQUEST_IMPORT_FROM_DOCUMENTS = 3
         private const val REQUEST_REMOTE_EDIT = 4
     }
 }
