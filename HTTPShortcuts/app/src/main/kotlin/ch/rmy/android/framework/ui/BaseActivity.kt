@@ -40,6 +40,8 @@ abstract class BaseActivity : AppCompatActivity() {
     val baseView: ViewGroup?
         get() = (findViewById<ViewGroup>(android.R.id.content))?.getChildAt(0) as ViewGroup?
 
+    protected open val supportsSnackbars = true
+
     private var currentDialogState: DialogState? = null
     private var currentDialog: Dialog? = null
     private var savedDialogState: Bundle? = null
@@ -51,7 +53,9 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        SnackbarManager.showEnqueuedSnackbars(this)
+        if (supportsSnackbars) {
+            SnackbarManager.showEnqueuedSnackbars(this)
+        }
     }
 
     fun <T : ViewBinding> applyBinding(binding: T): T =

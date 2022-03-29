@@ -86,6 +86,9 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     override val initializeWithTheme: Boolean
         get() = false
 
+    override val supportsSnackbars: Boolean
+        get() = false
+
     private val shortcutRepository = ShortcutRepository()
     private val variableRepository = VariableRepository()
     private val appRepository = AppRepository()
