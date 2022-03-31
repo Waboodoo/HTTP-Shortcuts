@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.response
 
 import android.app.ProgressDialog
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
 import android.net.Uri
@@ -11,6 +12,7 @@ import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContract
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.finishWithoutAnimation
@@ -47,6 +49,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 class DisplayResponseActivity : BaseActivity() {
+
+    private val openFilePicker = registerForActivityResult(OpenFilePicker) { file ->
+        file?.let(::saveResponseToFile)
+    }
 
     private val shortcutId: String by lazy {
         intent?.extras?.getString(EXTRA_SHORTCUT_ID) ?: ""
@@ -253,25 +259,9 @@ class DisplayResponseActivity : BaseActivity() {
     private fun openFilePicker() {
         suppressAutoClose = true
         try {
-            Intent(Intent.ACTION_CREATE_DOCUMENT)
-                .addCategory(Intent.CATEGORY_OPENABLE)
-                .setType(type)
-                .putExtra(Intent.EXTRA_TITLE, shortcutName)
-                .startActivity(this, REQUEST_SAVE_FILE)
+            openFilePicker.launch(OpenFilePicker.Params(type = type, title = shortcutName))
         } catch (e: ActivityNotFoundException) {
             showSnackbar(R.string.error_not_supported)
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
-        super.onActivityResult(requestCode, resultCode, intent)
-        if (resultCode != RESULT_OK || intent == null) {
-            return
-        }
-        when (requestCode) {
-            REQUEST_SAVE_FILE -> {
-                saveResponseToFile(intent.data ?: return)
-            }
         }
     }
 
@@ -331,6 +321,20 @@ class DisplayResponseActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         handler.removeCallbacks(finishRunnable)
+    }
+
+    private object OpenFilePicker : ActivityResultContract<OpenFilePicker.Params, Uri?>() {
+
+        override fun createIntent(context: Context, input: Params): Intent =
+            Intent(Intent.ACTION_CREATE_DOCUMENT)
+                .addCategory(Intent.CATEGORY_OPENABLE)
+                .setType(input.type)
+                .putExtra(Intent.EXTRA_TITLE, input.title)
+
+        override fun parseResult(resultCode: Int, intent: Intent?): Uri? =
+            intent?.takeIf { resultCode == RESULT_OK }?.data
+
+        data class Params(val type: String?, val title: String)
     }
 
     class IntentBuilder(shortcutId: String) : BaseIntentBuilder(DisplayResponseActivity::class.java) {
@@ -396,8 +400,6 @@ class DisplayResponseActivity : BaseActivity() {
         private const val EXTRA_STATUS_CODE = "status_code"
         private const val EXTRA_TIMING = "timing"
         private const val EXTRA_DETAILS = "details"
-
-        private const val REQUEST_SAVE_FILE = 1
 
         private const val MAX_TEXT_LENGTH = 700000
         private const val MAX_SHARE_LENGTH = 300000
