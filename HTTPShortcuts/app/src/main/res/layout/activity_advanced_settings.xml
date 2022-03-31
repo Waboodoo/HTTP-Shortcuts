@@ -132,14 +132,6 @@
 
             <include layout="@layout/divider_line" />
 
-            <ch.rmy.android.framework.ui.views.PanelButton
-                android:id="@+id/button_client_cert"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:text="@string/label_client_cert" />
-
             <CheckBox
                 android:id="@+id/input_accept_certificates"
                 android:layout_width="match_parent"

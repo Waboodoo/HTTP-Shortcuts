@@ -785,6 +785,8 @@
     </plurals>
     <!-- Section subtitle, shown in shortcut editor when no authentication behavior is defined -->
     <string name="subtitle_authentication_none">No authentication</string>
+    <!-- Section subtitle, shown in shortcut editor when using a client certificate for authentication -->
+    <string name="subtitle_authentication_client_cert">Using client certificate</string>
     <!-- Section subtitle, shown in shortcut editor when no Basic Authentication is enabled -->
     <string name="subtitle_authentication_basic">Basic authentication with username and password</string>
     <!-- Section subtitle, shown in shortcut editor when Digest Authentication is enabled -->

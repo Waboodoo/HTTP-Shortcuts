@@ -244,7 +244,11 @@ class ShortcutEditorViewModel(
                 ShortcutAuthenticationType.BASIC -> R.string.subtitle_authentication_basic
                 ShortcutAuthenticationType.DIGEST -> R.string.subtitle_authentication_digest
                 ShortcutAuthenticationType.BEARER -> R.string.subtitle_authentication_bearer
-                ShortcutAuthenticationType.NONE -> R.string.subtitle_authentication_none
+                ShortcutAuthenticationType.NONE -> if (shortcut.clientCertParams != null && !shortcut.acceptAllCertificates) {
+                    R.string.subtitle_authentication_client_cert
+                } else {
+                    R.string.subtitle_authentication_none
+                }
             }
         )
 

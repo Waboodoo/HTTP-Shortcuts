@@ -15,19 +15,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp">
 
             <ch.rmy.android.framework.ui.views.LabelledSpinner
                 android:id="@+id/input_authentication_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 android:text="@string/label_authentication_method" />
 
             <RelativeLayout
                 android:id="@+id/container_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp">
+                android:layout_marginTop="16dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp">
 
                 <TextView
                     android:id="@+id/label_username"
@@ -55,7 +60,9 @@
             <RelativeLayout
                 android:id="@+id/container_password"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp">
 
                 <TextView
                     android:id="@+id/label_password"
@@ -83,7 +90,9 @@
             <RelativeLayout
                 android:id="@+id/container_token"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp">
 
                 <TextView
                     android:id="@+id/label_token"
@@ -107,6 +116,16 @@
                     android:layout_below="@+id/label_token"
                     android:layout_alignParentEnd="true" />
             </RelativeLayout>
+
+            <include layout="@layout/divider_line" />
+
+            <ch.rmy.android.framework.ui.views.PanelButton
+                android:id="@+id/button_client_cert"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:text="@string/label_client_cert" />
 
         </LinearLayout>
 

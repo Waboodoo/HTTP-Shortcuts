@@ -168,7 +168,10 @@ open class ShortcutModel(
             other.acceptCookies != acceptCookies ||
             other.proxyHost != proxyHost ||
             other.proxyPort != proxyPort ||
-            other.wifiSsid != wifiSsid
+            other.wifiSsid != wifiSsid ||
+            other.clientCert != clientCert ||
+            other.browserPackageName != browserPackageName
+
         ) {
             return false
         }
