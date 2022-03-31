@@ -12,6 +12,13 @@
         android:id="@+id/acknowledgments_webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="invisible"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <include
+        android:id="@+id/loading_indicator"
+        layout="@layout/loading_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

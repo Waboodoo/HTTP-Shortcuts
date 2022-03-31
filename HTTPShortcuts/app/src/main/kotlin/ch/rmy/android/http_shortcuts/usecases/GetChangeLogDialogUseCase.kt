@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.CheckBox
@@ -39,6 +40,7 @@ class GetChangeLogDialogUseCase(
                         settings.changeLogLastVersion = VersionUtil.getVersion(context)
 
                         val webView = dialog.findViewById<WebView>(R.id.changelog_webview)
+                        val loadingIndicator = dialog.findViewById<View>(R.id.loading_indicator)
                         val showAtStartupCheckbox = dialog.findViewById<CheckBox>(R.id.checkbox_show_at_startup)
 
                         webView.settings.javaScriptEnabled = true
@@ -51,9 +53,11 @@ class GetChangeLogDialogUseCase(
                                     """
                                     ) {
                                         webView.visible = true
+                                        loadingIndicator.visible = false
                                     }
                                 } else {
                                     webView.visible = true
+                                    loadingIndicator.visible = false
                                 }
                             }
 

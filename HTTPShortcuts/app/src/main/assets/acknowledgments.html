@@ -30,15 +30,15 @@
             padding-left: 1em;
             margin-top: 0.5em;
         }
-        a {
-            text-decoration: none;
-            color: #0277BD;
-        }
         .dark {
             background-color: #000000;
         }
         .dark * {
             color: #FFFFFF;
+        }
+        a, .dark a {
+            text-decoration: none;
+            color: #0277BD;
         }
     </style>
 </head>
@@ -170,9 +170,4 @@
         <li>Restrict shortcuts to a specific wifi SSID: <a href="https://github.com/crasu">crasu</a></li>
     </ul>
 </article>
-<script>
-if (location.search === '?dark') {
-    document.getElementById('root').className = 'dark';
-}
-</script>
 </body>

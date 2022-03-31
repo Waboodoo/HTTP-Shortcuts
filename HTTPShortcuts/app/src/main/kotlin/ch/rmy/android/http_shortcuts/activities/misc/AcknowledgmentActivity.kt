@@ -2,9 +2,14 @@ package ch.rmy.android.http_shortcuts.activities.misc
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.isDarkThemeEnabled
+import ch.rmy.android.framework.extensions.openURL
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.tryOrLog
+import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
@@ -20,17 +25,27 @@ class AcknowledgmentActivity : BaseActivity() {
             binding = applyBinding(ActivityAcknowledgmentsBinding.inflate(layoutInflater))
             setTitle(R.string.title_licenses)
             with(binding.acknowledgmentsWebview) {
+                webViewClient = object : WebViewClient() {
+                    override fun onPageFinished(view: WebView?, url: String?) {
+                        if (context.isDarkThemeEnabled()) {
+                            evaluateJavascript("document.getElementById('root').className = 'dark';") {
+                                reveal()
+                            }
+                        } else {
+                            reveal()
+                        }
+                    }
+
+                    override fun shouldOverrideUrlLoading(view: WebView, url: String) = consume {
+                        context.openURL(url)
+                    }
+                }
+
                 settings.javaScriptEnabled = true
                 if (savedState != null) {
                     restoreState(savedState)
                 } else {
-                    loadUrl(
-                        if (context.isDarkThemeEnabled()) {
-                            ACKNOWLEDGMENTS_ASSET_URL_DARK_MODE
-                        } else {
-                            ACKNOWLEDGMENTS_ASSET_URL
-                        },
-                    )
+                    loadUrl(ACKNOWLEDGMENTS_ASSET_URL)
                 }
             }
         }
@@ -38,6 +53,11 @@ class AcknowledgmentActivity : BaseActivity() {
                 showToast(R.string.error_generic)
                 finish()
             }
+    }
+
+    private fun reveal() {
+        binding.acknowledgmentsWebview.visible = true
+        binding.loadingIndicator.visible = false
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -50,6 +70,5 @@ class AcknowledgmentActivity : BaseActivity() {
     companion object {
 
         private const val ACKNOWLEDGMENTS_ASSET_URL = "file:///android_asset/acknowledgments.html"
-        private const val ACKNOWLEDGMENTS_ASSET_URL_DARK_MODE = "$ACKNOWLEDGMENTS_ASSET_URL?dark"
     }
 }
