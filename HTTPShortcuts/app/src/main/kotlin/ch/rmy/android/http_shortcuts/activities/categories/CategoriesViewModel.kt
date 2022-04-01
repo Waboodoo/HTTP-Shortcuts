@@ -27,7 +27,7 @@ import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 class CategoriesViewModel(application: Application) : BaseViewModel<Unit, CategoriesViewState>(application), WithDialog {
 
     private val categoryRepository: CategoryRepository = CategoryRepository()
-    private val launcherShortcutManager = LauncherShortcutManager
+    private val launcherShortcutManager = LauncherShortcutManager(context)
     private val getContextMenuDialog = GetContextMenuDialogUseCase()
     private val getLayoutTypeDialog = GetLayoutTypeDialogUseCase()
     private val getBackgroundTypeDialog = GetBackgroundTypeDialogUseCase()
@@ -89,7 +89,7 @@ class CategoriesViewModel(application: Application) : BaseViewModel<Unit, Catego
             hideOptionVisible = !category.hidden && categories.count { !it.hidden } > 1,
             showOptionVisible = category.hidden,
             changeLayoutTypeOptionVisible = !category.hidden,
-            placeOnHomeScreenOptionVisible = !category.hidden && launcherShortcutManager.supportsPinning(context),
+            placeOnHomeScreenOptionVisible = !category.hidden && launcherShortcutManager.supportsPinning(),
             deleteOptionVisible = category.hidden || categories.count { !it.hidden } > 1,
             viewModel = this,
         )
@@ -135,7 +135,7 @@ class CategoriesViewModel(application: Application) : BaseViewModel<Unit, Catego
             categoryRepository.renameCategory(categoryId, newName)
                 .doOnComplete {
                     hasChanged = true
-                    LauncherShortcutManager.updatePinnedCategoryShortcut(context, categoryId, newName)
+                    launcherShortcutManager.updatePinnedCategoryShortcut(categoryId, newName)
                     showSnackbar(R.string.message_category_renamed)
                 }
         )
@@ -166,7 +166,7 @@ class CategoriesViewModel(application: Application) : BaseViewModel<Unit, Catego
 
     fun onPlaceOnHomeScreenSelected(categoryId: String) {
         val category = getCategory(categoryId) ?: return
-        LauncherShortcutManager.pinCategory(context, category.id, category.name)
+        launcherShortcutManager.pinCategory(category.id, category.name)
     }
 
     fun onLayoutTypeChanged(categoryId: String, layoutType: CategoryLayoutType) {

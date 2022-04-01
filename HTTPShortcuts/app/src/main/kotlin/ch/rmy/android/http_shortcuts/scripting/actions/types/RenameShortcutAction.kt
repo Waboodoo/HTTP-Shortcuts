@@ -38,9 +38,9 @@ class RenameShortcutAction(private val name: String, private val shortcutNameOrI
                 shortcutRepository.setName(shortcut.id, newName)
                     .andThen(
                         Completable.fromAction {
-                            if (LauncherShortcutManager.supportsPinning(context)) {
-                                LauncherShortcutManager.updatePinnedShortcut(
-                                    context = context,
+                            val launcherShortcutManager = LauncherShortcutManager(context)
+                            if (launcherShortcutManager.supportsPinning()) {
+                                launcherShortcutManager.updatePinnedShortcut(
                                     shortcutId = shortcut.id,
                                     shortcutName = newName,
                                     shortcutIcon = shortcut.icon,

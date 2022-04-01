@@ -16,6 +16,4 @@ abstract class MainEvent : ViewModelEvent() {
     object OpenSettings : MainEvent()
 
     object OpenImportExport : MainEvent()
-
-    data class UpdateLauncherShortcuts(val shortcuts: List<LauncherShortcut>) : MainEvent()
 }

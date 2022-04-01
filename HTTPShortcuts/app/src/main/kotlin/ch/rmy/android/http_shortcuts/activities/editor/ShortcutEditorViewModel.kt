@@ -62,6 +62,7 @@ class ShortcutEditorViewModel(
     private val fetchFavicon = FetchFaviconUseCase(context)
     private val getIconPickerDialog = GetIconPickerDialogUseCase()
     private val getBuiltInIconPickerDialog = GetBuiltInIconPickerDialogUseCase()
+    private val launcherShortcutManager = LauncherShortcutManager(context)
 
     private val variablePlaceholderProvider = VariablePlaceholderProvider()
 
@@ -362,7 +363,7 @@ class ShortcutEditorViewModel(
     }
 
     private fun onSaveSuccessful(shortcutId: String) {
-        LauncherShortcutManager.updatePinnedShortcut(context, shortcutId, shortcut.name, shortcut.icon)
+        launcherShortcutManager.updatePinnedShortcut(shortcutId, shortcut.name, shortcut.icon)
         performOperation(widgetManager.updateWidgets(context, shortcutId))
         waitForOperationsToFinish {
             CleanUpWorker.schedule(context)

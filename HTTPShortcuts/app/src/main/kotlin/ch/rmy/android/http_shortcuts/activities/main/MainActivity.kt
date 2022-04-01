@@ -28,11 +28,9 @@ import ch.rmy.android.http_shortcuts.activities.misc.CurlImportActivity
 import ch.rmy.android.http_shortcuts.activities.settings.importexport.ImportExportActivity
 import ch.rmy.android.http_shortcuts.activities.settings.settings.SettingsActivity
 import ch.rmy.android.http_shortcuts.activities.widget.WidgetSettingsActivity
-import ch.rmy.android.http_shortcuts.data.dtos.LauncherShortcut
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.databinding.ActivityMainBinding
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
-import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
 import com.google.android.material.appbar.AppBarLayout
 
@@ -182,7 +180,6 @@ class MainActivity : BaseActivity(), Entrypoint {
 
     override fun handleEvent(event: ViewModelEvent) {
         when (event) {
-            is MainEvent.UpdateLauncherShortcuts -> updateLauncherShortcuts(event.shortcuts)
             is MainEvent.OpenCurlImport -> openCurlImport.launch()
             is MainEvent.OpenWidgetSettings -> openWidgetSettings.launch {
                 shortcut(event.shortcut)
@@ -193,10 +190,6 @@ class MainActivity : BaseActivity(), Entrypoint {
             is MainEvent.OpenImportExport -> openImportExport.launch()
             else -> super.handleEvent(event)
         }
-    }
-
-    private fun updateLauncherShortcuts(shortcuts: List<LauncherShortcut>) {
-        LauncherShortcutManager.updateAppShortcuts(context, shortcuts)
     }
 
     private fun openSettings() {

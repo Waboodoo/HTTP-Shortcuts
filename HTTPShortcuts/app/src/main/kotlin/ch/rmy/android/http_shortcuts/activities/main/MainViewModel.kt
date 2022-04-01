@@ -59,6 +59,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     private val getNetworkRestrictionDialog = GetNetworkRestrictionDialogUseCase(settings)
     private val shouldShowNetworkRestrictionDialog = ShouldShowNetworkRestrictionDialogUseCase(context, settings)
     private val executionScheduler = ExecutionScheduler(context)
+    private val launcherShortcutManager = LauncherShortcutManager(context)
 
     private lateinit var categories: List<CategoryModel>
 
@@ -109,7 +110,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         observeAppLock()
 
         scheduleExecutions()
-        updateLauncherShortcuts()
+        updateLauncherShortcuts(categories)
 
         if (selectionMode === SelectionMode.NORMAL) {
             showStartupDialogsIfNeeded()
@@ -163,7 +164,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
                 categoryRepository.getCategories()
                     .subscribe { categories ->
                         this.categories = categories
-                        updateLauncherShortcuts()
+                        updateLauncherShortcuts(categories)
                     }
                     .attachTo(destroyer)
             }
@@ -173,13 +174,13 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         }
     }
 
-    private fun updateLauncherShortcuts() {
-        emitEvent(MainEvent.UpdateLauncherShortcuts(launcherShortcutMapper(categories)))
+    private fun updateLauncherShortcuts(categories: List<CategoryModel>) {
+        launcherShortcutManager.updateAppShortcuts(launcherShortcutMapper(categories))
     }
 
     private fun placeShortcutOnHomeScreen(shortcut: LauncherShortcut) {
-        if (LauncherShortcutManager.supportsPinning(context)) {
-            LauncherShortcutManager.pinShortcut(context, shortcut)
+        if (launcherShortcutManager.supportsPinning()) {
+            launcherShortcutManager.pinShortcut(shortcut)
         } else {
             sendBroadcast(IntentUtil.getLegacyShortcutPlacementIntent(context, shortcut, install = true))
             showSnackbar(StringResLocalizable(R.string.shortcut_placed, shortcut.name))
@@ -329,7 +330,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         categoryRepository.getCategories()
             .subscribe { categories ->
                 this.categories = categories
-                emitEvent(MainEvent.UpdateLauncherShortcuts(launcherShortcutMapper(categories)))
+                updateLauncherShortcuts(categories)
                 selectShortcut(shortcutId)
             }
             .attachTo(destroyer)
@@ -350,7 +351,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     private fun returnForHomeScreenShortcutPlacement(shortcutId: String) {
-        if (LauncherShortcutManager.supportsPinning(context)) {
+        if (launcherShortcutManager.supportsPinning()) {
             dialogState = getShortcutPlacementDialog(this, shortcutId)
         } else {
             placeShortcutOnHomeScreenAndFinish(shortcutId)
@@ -385,7 +386,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
 
     private fun placeOnHomeScreenAndFinish(shortcutId: String) {
         val shortcut = getShortcutById(shortcutId) ?: return
-        finishWithOkResult(LauncherShortcutManager.createShortcutPinIntent(context, shortcut.toLauncherShortcut()))
+        finishWithOkResult(launcherShortcutManager.createShortcutPinIntent(shortcut.toLauncherShortcut()))
     }
 
     private fun placeOnHomeScreenWithLegacyAndFinish(shortcutId: String) {

@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.editor.executionsettings
 
 import android.app.Application
 import ch.rmy.android.framework.extensions.attachTo
+import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.utils.localization.DurationLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.WithDialog
@@ -18,6 +19,7 @@ class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit,
 
     private val temporaryShortcutRepository = TemporaryShortcutRepository()
     private val getDelayDialog = GetDelayDialogUseCase()
+    private val launcherShortcutManager = LauncherShortcutManager(context)
 
     override var dialogState: DialogState?
         get() = currentViewState.dialogState
@@ -32,7 +34,7 @@ class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit,
     }
 
     override fun initViewState() = ExecutionSettingsViewState(
-        launcherShortcutOptionVisible = LauncherShortcutManager.supportsLauncherShortcuts(),
+        launcherShortcutOptionVisible = launcherShortcutManager.supportsLauncherShortcuts(),
         quickSettingsTileShortcutOptionVisible = QuickSettingsTileManager.supportsQuickSettingsTiles(),
     )
 
