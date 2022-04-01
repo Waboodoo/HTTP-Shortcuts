@@ -8,20 +8,17 @@ class SelectionActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = SelectionAction(
-        dataObject = actionDTO.getObject(KEY_DATA),
-        dataList = actionDTO.getList(KEY_DATA),
+        dataObject = actionDTO.getObject(0),
+        dataList = actionDTO.getList(0),
     )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
-        parameters = listOf(KEY_DATA),
+        parameters = 1,
     )
 
     companion object {
-
-        const val TYPE = "show_selection"
-        const val FUNCTION_NAME = "showSelection"
-
-        const val KEY_DATA = "data"
+        private const val TYPE = "show_selection"
+        private const val FUNCTION_NAME = "showSelection"
     }
 }

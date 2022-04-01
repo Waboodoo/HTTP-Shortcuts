@@ -8,19 +8,16 @@ class SendIntentActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = SendIntentAction(
-        jsonData = actionDTO.getString(KEY_DATA) ?: "{}",
+        jsonData = actionDTO.getString(0) ?: "{}",
     )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
-        parameters = listOf(KEY_DATA),
+        parameters = 1,
     )
 
     companion object {
-
-        const val TYPE = "send_intent"
-        const val FUNCTION_NAME = "sendIntent"
-
-        const val KEY_DATA = "data"
+        private const val TYPE = "send_intent"
+        private const val FUNCTION_NAME = "sendIntent"
     }
 }

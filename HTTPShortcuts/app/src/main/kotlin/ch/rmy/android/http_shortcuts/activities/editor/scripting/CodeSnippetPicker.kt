@@ -382,14 +382,14 @@ class CodeSnippetPicker(
         when (requestCode) {
             REQUEST_CODE_SELECT_TASK -> {
                 val taskName = data?.dataString ?: return
-                insertText.invoke("${TriggerTaskerTaskActionType.FUNCTION_NAME}(\"${escape(taskName)}\");", "")
+                insertText.invoke("triggerTaskerTask(\"${escape(taskName)}\");", "")
             }
             REQUEST_CODE_SELECT_NOTIFICATION_SOUND -> {
                 val uri = data?.getParcelableExtra<Uri>(RingtoneManager.EXTRA_RINGTONE_PICKED_URI)
                     ?.toString()
                     ?.removePrefix(PlaySoundActionType.CONTENT_PREFIX)
                     ?: return
-                insertText.invoke("${PlaySoundActionType.FUNCTION_NAME}(\"${escape(uri)}\");", "")
+                insertText.invoke("playSound(\"${escape(uri)}\");", "")
             }
         }
     }

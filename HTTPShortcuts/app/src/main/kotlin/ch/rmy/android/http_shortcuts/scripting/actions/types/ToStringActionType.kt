@@ -8,19 +8,16 @@ class ToStringActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = ToStringAction(
-        data = actionDTO.getByteArray(KEY_DATA) ?: ByteArray(0),
+        data = actionDTO.getByteArray(0) ?: ByteArray(0),
     )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
-        parameters = listOf(KEY_DATA),
+        parameters = 1,
     )
 
     companion object {
-
-        const val TYPE = "to_string"
-        const val FUNCTION_NAME = "toString"
-
-        const val KEY_DATA = "data"
+        private const val TYPE = "to_string"
+        private const val FUNCTION_NAME = "toString"
     }
 }

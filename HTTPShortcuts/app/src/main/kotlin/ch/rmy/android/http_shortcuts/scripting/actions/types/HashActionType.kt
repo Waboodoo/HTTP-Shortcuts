@@ -8,21 +8,17 @@ class HashActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = HashAction(
-        algorithm = actionDTO.getString(KEY_ALGORITHM) ?: "",
-        text = actionDTO.getString(KEY_TEXT) ?: "",
+        algorithm = actionDTO.getString(0) ?: "",
+        text = actionDTO.getString(1) ?: "",
     )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
-        parameters = listOf(KEY_ALGORITHM, KEY_TEXT),
+        parameters = 2,
     )
 
     companion object {
-
-        const val TYPE = "hash"
-        const val FUNCTION_NAME = "hash"
-
-        const val KEY_ALGORITHM = "algorithm"
-        const val KEY_TEXT = "text"
+        private const val TYPE = "hash"
+        private const val FUNCTION_NAME = "hash"
     }
 }

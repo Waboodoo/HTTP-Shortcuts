@@ -8,19 +8,16 @@ class GetVariableActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = GetVariableAction(
-        variableKeyOrId = actionDTO.getString(KEY_VARIABLE) ?: "",
+        variableKeyOrId = actionDTO.getString(0) ?: "",
     )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
-        parameters = listOf(KEY_VARIABLE),
+        parameters = 1,
     )
 
     companion object {
-
-        const val TYPE = "get_variable"
-        const val FUNCTION_NAME = "getVariable"
-
-        const val KEY_VARIABLE = "variable"
+        private const val TYPE = "get_variable"
+        private const val FUNCTION_NAME = "getVariable"
     }
 }

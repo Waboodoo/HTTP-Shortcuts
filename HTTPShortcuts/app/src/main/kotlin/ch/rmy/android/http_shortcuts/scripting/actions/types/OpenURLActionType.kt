@@ -8,20 +8,17 @@ class OpenURLActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = OpenURLAction(
-        url = actionDTO.getString(KEY_URL) ?: "",
+        url = actionDTO.getString(0) ?: "",
     )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
-        parameters = listOf(KEY_URL),
         functionNameAliases = setOf("openURL"),
+        parameters = 1,
     )
 
     companion object {
-
-        const val TYPE = "open_url"
-        const val FUNCTION_NAME = "openUrl"
-
-        const val KEY_URL = "url"
+        private const val TYPE = "open_url"
+        private const val FUNCTION_NAME = "openUrl"
     }
 }

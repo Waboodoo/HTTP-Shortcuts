@@ -10,25 +10,19 @@ class TriggerTaskerTaskActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = TriggerTaskerTaskAction(
-        taskName = actionDTO.getString(KEY_TASK_NAME) ?: "",
-        variableValuesJson = actionDTO.getString(KEY_VARIABLE_VALUES) ?: "{}",
+        taskName = actionDTO.getString(0) ?: "",
+        variableValuesJson = actionDTO.getString(1) ?: "{}",
     )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
-        parameters = listOf(
-            KEY_TASK_NAME,
-            KEY_VARIABLE_VALUES,
-        )
+        parameters = 2,
     )
 
     companion object {
 
-        const val TYPE = "trigger_tasker_task"
-        const val FUNCTION_NAME = "triggerTaskerTask"
-
-        const val KEY_TASK_NAME = "taskName"
-        const val KEY_VARIABLE_VALUES = "variables"
+        private const val TYPE = "trigger_tasker_task"
+        private const val FUNCTION_NAME = "triggerTaskerTask"
 
         fun isTaskerAvailable(context: Context): Boolean =
             TaskerIntent.isTaskerInstalled(context)

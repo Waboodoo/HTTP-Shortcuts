@@ -179,7 +179,7 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
             object : JSFunction(jsContext, "run") {
                 @Suppress("unused")
                 @Keep
-                fun run(actionType: String, data: Map<String, JSValue>): JSValue? {
+                fun run(actionType: String, data: List<JSValue?>): JSValue? {
                     logInfo("Running action of type: $actionType")
                     val action = actionFactory.fromDTO(
                         ActionDTO(
@@ -233,17 +233,18 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
             )
             aliases
                 .forEach { (actionName, alias) ->
+                    val parameterNames = (0 until alias.parameters).map { "param$it" }
                     jsContext.evaluateScript(
                         """
-                        const ${alias.functionName} = (${alias.parameters.joinToString()}) => {
-                            const result = _runAction("$actionName", {
+                        const ${alias.functionName} = (${parameterNames.joinToString()}) => {
+                            const result = _runAction("$actionName", [
                                 ${
-                        alias.parameters.joinToString { parameter ->
+                        parameterNames.joinToString { parameter ->
                             // Cast numbers to strings to avoid rounding errors
-                            "\"$parameter\": typeof($parameter) === 'number' ? `\${$parameter}` : $parameter"
+                            "typeof($parameter) === 'number' ? `\${$parameter}` : $parameter"
                         }
                         }
-                            });
+                            ]);
                             return _convertResult(result);
                         };
                         """.trimIndent()

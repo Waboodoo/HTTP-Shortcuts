@@ -8,19 +8,16 @@ class ToastActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = ToastAction(
-        message = actionDTO.getString(KEY_TEXT) ?: "",
+        message = actionDTO.getString(0) ?: "",
     )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
-        parameters = listOf(KEY_TEXT),
+        parameters = 1,
     )
 
     companion object {
-
-        const val TYPE = "show_toast"
-        const val FUNCTION_NAME = "showToast"
-
-        const val KEY_TEXT = "text"
+        private const val TYPE = "show_toast"
+        private const val FUNCTION_NAME = "showToast"
     }
 }

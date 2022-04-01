@@ -10,23 +10,20 @@ class PlaySoundActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = PlaySoundAction(
-        soundUri = normalize(actionDTO.getString(KEY_SOUND_URI))?.toUri(),
+        soundUri = actionDTO.getString(0)?.normalize()?.toUri(),
     )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
-        parameters = listOf(KEY_SOUND_URI),
+        parameters = 1,
     )
 
     companion object {
+        private const val TYPE = "play_sound"
+        private const val FUNCTION_NAME = "playSound"
 
-        const val TYPE = "play_sound"
-        const val FUNCTION_NAME = "playSound"
-
-        const val KEY_SOUND_URI = "uri"
-
-        private fun normalize(uriString: String?): String? =
-            uriString?.mapIf(!uriString.contains("://")) {
+        private fun String.normalize(): String? =
+            mapIf(!contains("://")) {
                 CONTENT_PREFIX + this
             }
 

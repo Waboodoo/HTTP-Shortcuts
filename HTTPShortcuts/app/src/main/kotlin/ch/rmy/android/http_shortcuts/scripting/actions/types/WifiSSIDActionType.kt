@@ -9,11 +9,13 @@ class WifiSSIDActionType : BaseActionType() {
 
     override fun fromDTO(actionDTO: ActionDTO) = WifiSSIDAction()
 
-    override fun getAlias() = ActionAlias(FUNCTION_NAME)
+    override fun getAlias() = ActionAlias(
+        functionName = FUNCTION_NAME,
+        parameters = 1,
+    )
 
     companion object {
-
-        const val TYPE = "wifi_ssid"
-        const val FUNCTION_NAME = "getWifiSSID"
+        private const val TYPE = "wifi_ssid"
+        private const val FUNCTION_NAME = "getWifiSSID"
     }
 }

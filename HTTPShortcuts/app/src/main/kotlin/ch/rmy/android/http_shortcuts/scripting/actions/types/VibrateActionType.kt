@@ -8,21 +8,17 @@ class VibrateActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = VibrateAction(
-        patternId = actionDTO.getInt(KEY_PATTERN) ?: 0,
-        waitForCompletion = actionDTO.getBoolean(KEY_WAIT_FOR_COMPLETION) ?: false,
+        patternId = actionDTO.getInt(0) ?: 0,
+        waitForCompletion = actionDTO.getBoolean(1) ?: false,
     )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
-        parameters = listOf(KEY_PATTERN, KEY_WAIT_FOR_COMPLETION),
+        parameters = 2,
     )
 
     companion object {
-
-        const val TYPE = "vibrate"
-        const val FUNCTION_NAME = "vibrate"
-
-        const val KEY_PATTERN = "pattern"
-        const val KEY_WAIT_FOR_COMPLETION = "wait"
+        private const val TYPE = "vibrate"
+        private const val FUNCTION_NAME = "vibrate"
     }
 }

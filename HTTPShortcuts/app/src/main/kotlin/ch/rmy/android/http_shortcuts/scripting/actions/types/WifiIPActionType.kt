@@ -9,11 +9,13 @@ class WifiIPActionType : BaseActionType() {
 
     override fun fromDTO(actionDTO: ActionDTO) = WifiIPAction()
 
-    override fun getAlias() = ActionAlias(FUNCTION_NAME)
+    override fun getAlias() = ActionAlias(
+        functionName = FUNCTION_NAME,
+        parameters = 0,
+    )
 
     companion object {
-
-        const val TYPE = "wifi_ip"
-        const val FUNCTION_NAME = "getWifiIPAddress"
+        private const val TYPE = "wifi_ip"
+        private const val FUNCTION_NAME = "getWifiIPAddress"
     }
 }

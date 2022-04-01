@@ -8,19 +8,16 @@ class OpenAppActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = OpenAppAction(
-        packageName = actionDTO.getString(KEY_PACKAGE_NAME) ?: "",
+        packageName = actionDTO.getString(0) ?: "",
     )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
-        parameters = listOf(KEY_PACKAGE_NAME),
+        parameters = 1,
     )
 
     companion object {
-
-        const val TYPE = "open_app"
-        const val FUNCTION_NAME = "openApp"
-
-        const val KEY_PACKAGE_NAME = "packageName"
+        private const val TYPE = "open_app"
+        private const val FUNCTION_NAME = "openApp"
     }
 }

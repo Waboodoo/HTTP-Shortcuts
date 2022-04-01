@@ -8,21 +8,17 @@ class SetVariableActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = SetVariableAction(
-        variableKeyOrId = actionDTO.getString(KEY_VARIABLE) ?: "",
-        value = actionDTO.getString(KEY_VALUE) ?: "",
+        variableKeyOrId = actionDTO.getString(0) ?: "",
+        value = actionDTO.getString(1) ?: "",
     )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
-        parameters = listOf(KEY_VARIABLE, KEY_VALUE),
+        parameters = 2,
     )
 
     companion object {
-
-        const val TYPE = "set_variable"
-        const val FUNCTION_NAME = "setVariable"
-
-        const val KEY_VARIABLE = "variable"
-        const val KEY_VALUE = "value"
+        private const val TYPE = "set_variable"
+        private const val FUNCTION_NAME = "setVariable"
     }
 }

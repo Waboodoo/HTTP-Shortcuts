@@ -9,21 +9,17 @@ class RenameShortcutActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = RenameShortcutAction(
-        name = actionDTO.getString(KEY_NAME) ?: "",
-        shortcutNameOrId = actionDTO.getString(KEY_SHORTCUT_NAME_OR_ID)?.takeUnlessEmpty(),
+        shortcutNameOrId = actionDTO.getString(0)?.takeUnlessEmpty(),
+        name = actionDTO.getString(1) ?: "",
     )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
-        parameters = listOf(KEY_SHORTCUT_NAME_OR_ID, KEY_NAME),
+        parameters = 2,
     )
 
     companion object {
-
-        const val TYPE = "rename_shortcut"
-        const val FUNCTION_NAME = "renameShortcut"
-
-        const val KEY_NAME = "name"
-        const val KEY_SHORTCUT_NAME_OR_ID = "shortcut_id"
+        private const val TYPE = "rename_shortcut"
+        private const val FUNCTION_NAME = "renameShortcut"
     }
 }

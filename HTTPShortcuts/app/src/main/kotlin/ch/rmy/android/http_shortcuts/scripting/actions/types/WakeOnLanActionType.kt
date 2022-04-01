@@ -9,25 +9,20 @@ class WakeOnLanActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = WakeOnLanAction(
-        macAddress = actionDTO.getString(KEY_MAC_ADDRESS) ?: "",
-        ipAddress = actionDTO.getString(KEY_IP_ADDRESS)?.takeUnlessEmpty() ?: "255.255.255.255",
-        port = actionDTO.getInt(KEY_PORT) ?: 9,
+        macAddress = actionDTO.getString(0) ?: "",
+        ipAddress = actionDTO.getString(1)?.takeUnlessEmpty() ?: "255.255.255.255",
+        port = actionDTO.getInt(2) ?: 9,
     )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
         functionNameAliases = setOf(FUNCTION_NAME_ALIAS),
-        parameters = listOf(KEY_MAC_ADDRESS),
+        parameters = 3,
     )
 
     companion object {
-
-        const val TYPE = "wake_on_lan"
-        const val FUNCTION_NAME = "wakeOnLan"
-        const val FUNCTION_NAME_ALIAS = "wakeOnLAN"
-
-        const val KEY_MAC_ADDRESS = "mac_address"
-        const val KEY_IP_ADDRESS = "ip_address"
-        const val KEY_PORT = "port"
+        private const val TYPE = "wake_on_lan"
+        private const val FUNCTION_NAME = "wakeOnLan"
+        private const val FUNCTION_NAME_ALIAS = "wakeOnLAN"
     }
 }

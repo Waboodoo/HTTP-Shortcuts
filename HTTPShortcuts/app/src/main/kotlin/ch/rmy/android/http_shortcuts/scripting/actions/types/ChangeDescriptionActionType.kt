@@ -9,21 +9,17 @@ class ChangeDescriptionActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = ChangeDescriptionAction(
-        description = actionDTO.getString(KEY_DESCRIPTION) ?: "",
-        shortcutNameOrId = actionDTO.getString(KEY_SHORTCUT_NAME_OR_ID)?.takeUnlessEmpty(),
+        shortcutNameOrId = actionDTO.getString(0)?.takeUnlessEmpty(),
+        description = actionDTO.getString(1) ?: "",
     )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
-        parameters = listOf(KEY_SHORTCUT_NAME_OR_ID, KEY_DESCRIPTION),
+        parameters = 2,
     )
 
     companion object {
-
-        const val TYPE = "change_description"
-        const val FUNCTION_NAME = "changeDescription"
-
-        const val KEY_DESCRIPTION = "description"
-        const val KEY_SHORTCUT_NAME_OR_ID = "shortcut_id"
+        private const val TYPE = "change_description"
+        private const val FUNCTION_NAME = "changeDescription"
     }
 }

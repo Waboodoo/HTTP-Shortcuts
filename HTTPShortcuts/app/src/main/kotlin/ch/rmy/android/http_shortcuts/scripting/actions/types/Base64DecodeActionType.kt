@@ -8,20 +8,17 @@ class Base64DecodeActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = Base64DecodeAction(
-        encoded = actionDTO.getString(KEY_TEXT) ?: "",
+        encoded = actionDTO.getString(0) ?: "",
     )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
-        parameters = listOf(KEY_TEXT),
         functionNameAliases = setOf("base64Decode", "atob"),
+        parameters = 1,
     )
 
     companion object {
-
-        const val TYPE = "base64decode"
-        const val FUNCTION_NAME = "base64decode"
-
-        const val KEY_TEXT = "text"
+        private const val TYPE = "base64decode"
+        private const val FUNCTION_NAME = "base64decode"
     }
 }

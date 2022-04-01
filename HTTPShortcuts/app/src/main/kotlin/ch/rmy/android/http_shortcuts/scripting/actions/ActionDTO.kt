@@ -8,11 +8,11 @@ import org.liquidplayer.javascript.JSValue
 
 class ActionDTO(
     val type: String,
-    val data: Map<String, JSValue?> = emptyMap(),
+    val data: List<JSValue?> = emptyList(),
 ) {
 
-    fun getString(key: String): String? {
-        val value = data[key]
+    fun getString(index: Int): String? {
+        val value = data.getOrNull(index)
         return when {
             value == null || value.isNull || value.isUndefined -> null
             value.isTypedArray -> JSONArray(value.toJSArray().toArray()).toString()
@@ -21,14 +21,14 @@ class ActionDTO(
         }
     }
 
-    fun getInt(key: String): Int? =
-        getString(key)?.toIntOrNull()
+    fun getInt(index: Int): Int? =
+        getString(index)?.toIntOrNull()
 
-    fun getBoolean(key: String): Boolean? =
-        getString(key)?.toBoolean()
+    fun getBoolean(index: Int): Boolean? =
+        getString(index)?.toBoolean()
 
-    fun getObject(key: String): Map<String, Any?>? {
-        val value = data[key]
+    fun getObject(index: Int): Map<String, Any?>? {
+        val value = data.getOrNull(index)
         return when {
             value == null || value.isNull || value.isUndefined -> null
             value.isObject && !value.isArray -> try {
@@ -48,8 +48,8 @@ class ActionDTO(
         }
     }
 
-    fun getList(key: String): List<Any?>? {
-        val value = data[key]
+    fun getList(index: Int): List<Any?>? {
+        val value = data.getOrNull(index)
         return when {
             value == null || value.isNull || value.isUndefined -> null
             value.isTypedArray || value.isArray -> value.toJSArray()
@@ -57,13 +57,13 @@ class ActionDTO(
         }
     }
 
-    fun getByteArray(key: String): ByteArray? {
-        val value = data[key]
+    fun getByteArray(index: Int): ByteArray? {
+        val value = data.getOrNull(index)
         return when {
             value == null -> null
             value.isUint8Array || value.isInt8Array -> value.toJSArray().toArray().map { it.toString().toByte() }.toByteArray()
             value.isString && value.toString().isDigitsOnly() -> ByteArray(1).apply { this[0] = value.toNumber().toInt().toByte() }
-            else -> getString(key)?.toByteArray()
+            else -> getString(index)?.toByteArray()
         }
     }
 }

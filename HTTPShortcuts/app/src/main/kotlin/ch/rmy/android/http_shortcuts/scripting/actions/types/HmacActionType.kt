@@ -8,23 +8,18 @@ class HmacActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = HmacAction(
-        algorithm = actionDTO.getString(KEY_ALGORITHM) ?: "",
-        key = actionDTO.getByteArray(KEY_KEY) ?: ByteArray(0),
-        message = actionDTO.getString(KEY_MESSAGE) ?: "",
+        algorithm = actionDTO.getString(0) ?: "",
+        key = actionDTO.getByteArray(1) ?: ByteArray(0),
+        message = actionDTO.getString(2) ?: "",
     )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
-        parameters = listOf(KEY_ALGORITHM, KEY_KEY, KEY_MESSAGE),
+        parameters = 3,
     )
 
     companion object {
-
-        const val TYPE = "hmac"
-        const val FUNCTION_NAME = "hmac"
-
-        const val KEY_ALGORITHM = "algorithm"
-        const val KEY_KEY = "key"
-        const val KEY_MESSAGE = "message"
+        private const val TYPE = "hmac"
+        private const val FUNCTION_NAME = "hmac"
     }
 }

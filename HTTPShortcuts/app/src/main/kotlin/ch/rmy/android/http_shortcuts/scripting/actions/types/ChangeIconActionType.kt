@@ -9,21 +9,17 @@ class ChangeIconActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = ChangeIconAction(
-        iconName = actionDTO.getString(KEY_ICON) ?: "",
-        shortcutNameOrId = actionDTO.getString(KEY_SHORTCUT_NAME_OR_ID)?.takeUnlessEmpty(),
+        shortcutNameOrId = actionDTO.getString(0)?.takeUnlessEmpty(),
+        iconName = actionDTO.getString(1) ?: "",
     )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
-        parameters = listOf(KEY_SHORTCUT_NAME_OR_ID, KEY_ICON),
+        parameters = 2,
     )
 
     companion object {
-
-        const val TYPE = "change_icon"
-        const val FUNCTION_NAME = "changeIcon"
-
-        const val KEY_ICON = "icon"
-        const val KEY_SHORTCUT_NAME_OR_ID = "shortcut_id"
+        private const val TYPE = "change_icon"
+        private const val FUNCTION_NAME = "changeIcon"
     }
 }
