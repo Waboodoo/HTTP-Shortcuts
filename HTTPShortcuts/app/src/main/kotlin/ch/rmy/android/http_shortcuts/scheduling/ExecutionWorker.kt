@@ -16,8 +16,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 class ExecutionWorker(private val context: Context, workerParams: WorkerParameters) :
     RxWorker(context, workerParams) {
 
-    private val pendingExecutionsRepository = PendingExecutionsRepository()
-
     override fun createWork(): Single<Result> =
         Single.defer {
             val executionId = inputData.getString(INPUT_EXECUTION_ID) ?: return@defer Single.just(Result.failure())
@@ -35,7 +33,8 @@ class ExecutionWorker(private val context: Context, workerParams: WorkerParamete
             }
 
     private fun runPendingExecution(context: Context, id: String): Completable =
-        pendingExecutionsRepository.getPendingExecution(id)
+        PendingExecutionsRepository()
+            .getPendingExecution(id)
             .flatMapCompletable { pendingExecution ->
                 Completable.fromAction {
                     runPendingExecution(context, pendingExecution)

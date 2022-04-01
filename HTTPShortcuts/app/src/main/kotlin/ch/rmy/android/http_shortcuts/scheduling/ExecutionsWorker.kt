@@ -5,6 +5,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.RxWorker
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import ch.rmy.android.http_shortcuts.data.RealmFactory
 import io.reactivex.Single
 
 class ExecutionsWorker(context: Context, workerParams: WorkerParameters) :
@@ -12,7 +13,9 @@ class ExecutionsWorker(context: Context, workerParams: WorkerParameters) :
 
     override fun createWork(): Single<Result> =
         Single.defer {
-            ExecutionScheduler(applicationContext).schedule()
+            RealmFactory.init(applicationContext)
+            ExecutionScheduler(applicationContext)
+                .schedule()
                 .toSingleDefault(Result.success())
                 .onErrorReturnItem(Result.failure())
         }
