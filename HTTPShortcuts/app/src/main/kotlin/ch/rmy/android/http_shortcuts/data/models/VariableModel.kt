@@ -1,6 +1,8 @@
 package ch.rmy.android.http_shortcuts.data.models
 
 import ch.rmy.android.framework.utils.UUIDUtils
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.variables.Variables
@@ -13,10 +15,10 @@ import io.realm.annotations.Required
 @RealmClass(name = "Variable")
 open class VariableModel(
     @PrimaryKey
-    var id: String = "",
+    var id: VariableId = "",
 
     @Required
-    var key: String = "",
+    var key: VariableKey = "",
 
     var value: String? = "",
     var options: RealmList<OptionModel>? = RealmList(),
@@ -123,7 +125,7 @@ open class VariableModel(
 
     companion object {
 
-        const val TEMPORARY_ID: String = "0"
+        const val TEMPORARY_ID: VariableId = "0"
 
         const val FIELD_ID = "id"
         const val FIELD_KEY = "key"

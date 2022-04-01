@@ -2,12 +2,13 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.framework.extensions.truncate
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import io.reactivex.Completable
 
-class SetVariableAction(val variableKeyOrId: String, val value: String) : BaseAction() {
+class SetVariableAction(val variableKeyOrId: VariableKeyOrId, val value: String) : BaseAction() {
 
     private val variableRepository: VariableRepository = VariableRepository()
 

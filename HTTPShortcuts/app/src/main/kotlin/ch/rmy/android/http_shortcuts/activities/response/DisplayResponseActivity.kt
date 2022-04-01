@@ -25,6 +25,7 @@ import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.databinding.ActivityDisplayResponseImageBinding
 import ch.rmy.android.http_shortcuts.databinding.ActivityDisplayResponsePlainBinding
 import ch.rmy.android.http_shortcuts.databinding.ActivityDisplayResponseSyntaxHighlightingBinding
@@ -54,7 +55,7 @@ class DisplayResponseActivity : BaseActivity() {
         file?.let(::saveResponseToFile)
     }
 
-    private val shortcutId: String by lazy {
+    private val shortcutId: ShortcutId by lazy {
         intent?.extras?.getString(EXTRA_SHORTCUT_ID) ?: ""
     }
     private val shortcutName: String by lazy {
@@ -337,7 +338,7 @@ class DisplayResponseActivity : BaseActivity() {
         data class Params(val type: String?, val title: String)
     }
 
-    class IntentBuilder(shortcutId: String) : BaseIntentBuilder(DisplayResponseActivity::class.java) {
+    class IntentBuilder(shortcutId: ShortcutId) : BaseIntentBuilder(DisplayResponseActivity::class.java) {
 
         init {
             intent.putExtra(EXTRA_SHORTCUT_ID, shortcutId)

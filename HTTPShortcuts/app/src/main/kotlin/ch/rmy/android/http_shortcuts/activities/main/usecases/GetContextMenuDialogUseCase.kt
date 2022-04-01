@@ -5,11 +5,12 @@ import ch.rmy.android.framework.extensions.mapIf
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.main.ShortcutListViewModel
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 
 class GetContextMenuDialogUseCase {
 
     @CheckResult
-    operator fun invoke(shortcutId: String, title: String, isPending: Boolean, isMovable: Boolean, viewModel: ShortcutListViewModel) =
+    operator fun invoke(shortcutId: ShortcutId, title: String, isPending: Boolean, isMovable: Boolean, viewModel: ShortcutListViewModel) =
         DialogState.create(DIALOG_ID) {
             title(title)
                 .item(R.string.action_place) {

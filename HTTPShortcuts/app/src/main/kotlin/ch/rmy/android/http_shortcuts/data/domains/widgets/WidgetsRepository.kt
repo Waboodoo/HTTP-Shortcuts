@@ -6,13 +6,14 @@ import ch.rmy.android.http_shortcuts.data.domains.getDeadWidgets
 import ch.rmy.android.http_shortcuts.data.domains.getShortcutById
 import ch.rmy.android.http_shortcuts.data.domains.getWidgetsByIds
 import ch.rmy.android.http_shortcuts.data.domains.getWidgetsForShortcut
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.models.WidgetModel
 import io.reactivex.Completable
 import io.reactivex.Single
 
 class WidgetsRepository : BaseRepository(RealmFactory.getInstance()) {
 
-    fun createWidget(widgetId: Int, shortcutId: String, showLabel: Boolean, labelColor: String?): Completable =
+    fun createWidget(widgetId: Int, shortcutId: ShortcutId, showLabel: Boolean, labelColor: String?): Completable =
         commitTransaction {
             copyOrUpdate(
                 WidgetModel(
@@ -29,7 +30,7 @@ class WidgetsRepository : BaseRepository(RealmFactory.getInstance()) {
             getWidgetsByIds(widgetIds)
         }
 
-    fun getWidgetsByShortcutId(shortcutId: String): Single<List<WidgetModel>> =
+    fun getWidgetsByShortcutId(shortcutId: ShortcutId): Single<List<WidgetModel>> =
         query {
             getWidgetsForShortcut(shortcutId)
         }

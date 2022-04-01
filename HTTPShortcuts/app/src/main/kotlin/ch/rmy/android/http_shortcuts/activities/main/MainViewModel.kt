@@ -24,7 +24,9 @@ import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowNetworkR
 import ch.rmy.android.http_shortcuts.activities.settings.about.AboutActivity
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
+import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.dtos.LauncherShortcut
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
@@ -326,7 +328,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         emitEvent(MainEvent.OpenCurlImport)
     }
 
-    fun onShortcutCreated(shortcutId: String) {
+    fun onShortcutCreated(shortcutId: ShortcutId) {
         categoryRepository.getCategories()
             .subscribe { categories ->
                 this.categories = categories
@@ -336,7 +338,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
             .attachTo(destroyer)
     }
 
-    private fun selectShortcut(shortcutId: String) {
+    private fun selectShortcut(shortcutId: ShortcutId) {
         when (selectionMode) {
             SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT -> returnForHomeScreenShortcutPlacement(shortcutId)
             SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT -> openWidgetSettings(shortcutId)
@@ -345,12 +347,12 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         }
     }
 
-    private fun openWidgetSettings(shortcutId: String) {
+    private fun openWidgetSettings(shortcutId: ShortcutId) {
         val shortcut = getShortcutById(shortcutId) ?: return
         emitEvent(MainEvent.OpenWidgetSettings(shortcut.toLauncherShortcut()))
     }
 
-    private fun returnForHomeScreenShortcutPlacement(shortcutId: String) {
+    private fun returnForHomeScreenShortcutPlacement(shortcutId: ShortcutId) {
         if (launcherShortcutManager.supportsPinning()) {
             dialogState = getShortcutPlacementDialog(this, shortcutId)
         } else {
@@ -358,11 +360,11 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         }
     }
 
-    private fun placeShortcutOnHomeScreenAndFinish(shortcutId: String) {
+    private fun placeShortcutOnHomeScreenAndFinish(shortcutId: ShortcutId) {
         placeOnHomeScreenWithLegacyAndFinish(shortcutId)
     }
 
-    private fun returnForHomeScreenWidgetPlacement(shortcutId: String, showLabel: Boolean, labelColor: String?) {
+    private fun returnForHomeScreenWidgetPlacement(shortcutId: ShortcutId, showLabel: Boolean, labelColor: String?) {
         val widgetId = initData.widgetId ?: return
         val widgetManager = WidgetManager()
         widgetManager
@@ -376,7 +378,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
             .attachTo(destroyer)
     }
 
-    fun onShortcutPlacementConfirmed(shortcutId: String, useLegacyMethod: Boolean) {
+    fun onShortcutPlacementConfirmed(shortcutId: ShortcutId, useLegacyMethod: Boolean) {
         if (useLegacyMethod) {
             placeOnHomeScreenWithLegacyAndFinish(shortcutId)
         } else {
@@ -384,17 +386,17 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         }
     }
 
-    private fun placeOnHomeScreenAndFinish(shortcutId: String) {
+    private fun placeOnHomeScreenAndFinish(shortcutId: ShortcutId) {
         val shortcut = getShortcutById(shortcutId) ?: return
         finishWithOkResult(launcherShortcutManager.createShortcutPinIntent(shortcut.toLauncherShortcut()))
     }
 
-    private fun placeOnHomeScreenWithLegacyAndFinish(shortcutId: String) {
+    private fun placeOnHomeScreenWithLegacyAndFinish(shortcutId: ShortcutId) {
         val shortcut = getShortcutById(shortcutId) ?: return
         finishWithOkResult(IntentUtil.getLegacyShortcutPlacementIntent(context, shortcut.toLauncherShortcut(), install = true))
     }
 
-    private fun returnForPlugin(shortcutId: String) {
+    private fun returnForPlugin(shortcutId: ShortcutId) {
         val shortcut = getShortcutById(shortcutId) ?: return
         finishWithOkResult(
             createIntent {
@@ -414,7 +416,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         )
     }
 
-    private fun getShortcutById(shortcutId: String): ShortcutModel? {
+    private fun getShortcutById(shortcutId: ShortcutId): ShortcutModel? {
         for (category in categories) {
             for (shortcut in category.shortcuts) {
                 if (shortcut.id == shortcutId) {
@@ -425,7 +427,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         return null
     }
 
-    fun onWidgetSettingsSubmitted(shortcutId: String, showLabel: Boolean, labelColor: String?) {
+    fun onWidgetSettingsSubmitted(shortcutId: ShortcutId, showLabel: Boolean, labelColor: String?) {
         returnForHomeScreenWidgetPlacement(shortcutId, showLabel, labelColor)
     }
 
@@ -440,7 +442,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
 
     data class InitData(
         val selectionMode: SelectionMode,
-        val initialCategoryId: String?,
+        val initialCategoryId: CategoryId?,
         val widgetId: Int?,
     )
 }

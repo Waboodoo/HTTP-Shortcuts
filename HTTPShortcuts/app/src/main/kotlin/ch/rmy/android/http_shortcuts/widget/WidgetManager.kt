@@ -12,6 +12,7 @@ import androidx.annotation.CheckResult
 import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.widgets.WidgetsRepository
 import ch.rmy.android.http_shortcuts.data.models.WidgetModel
 import ch.rmy.android.http_shortcuts.utils.IconUtil
@@ -22,7 +23,7 @@ class WidgetManager {
     private val widgetsRepository = WidgetsRepository()
 
     @CheckResult
-    fun createWidget(widgetId: Int, shortcutId: String, showLabel: Boolean, labelColor: String?) =
+    fun createWidget(widgetId: Int, shortcutId: ShortcutId, showLabel: Boolean, labelColor: String?) =
         widgetsRepository.createWidget(widgetId, shortcutId, showLabel, labelColor)
 
     @CheckResult
@@ -37,7 +38,7 @@ class WidgetManager {
             }
 
     @CheckResult
-    fun updateWidgets(context: Context, shortcutId: String): Completable =
+    fun updateWidgets(context: Context, shortcutId: ShortcutId): Completable =
         widgetsRepository.getWidgetsByShortcutId(shortcutId)
             .flatMapCompletable { widgets ->
                 Completable.fromAction {

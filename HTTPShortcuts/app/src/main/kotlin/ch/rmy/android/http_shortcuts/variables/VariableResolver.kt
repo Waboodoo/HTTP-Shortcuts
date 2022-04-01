@@ -1,6 +1,8 @@
 package ch.rmy.android.http_shortcuts.variables
 
 import android.content.Context
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
@@ -15,7 +17,7 @@ class VariableResolver(private val context: Context) {
         variables: List<VariableModel>,
         shortcut: ShortcutModel,
         globalCode: String = "",
-        preResolvedValues: Map<String, String> = emptyMap(),
+        preResolvedValues: Map<VariableKey, String> = emptyMap(),
     ): Single<VariableManager> {
         val variableManager = VariableManager(variables)
         val requiredVariableIds = extractVariableIds(shortcut, variableManager)
@@ -120,7 +122,7 @@ class VariableResolver(private val context: Context) {
 
         private const val MAX_RECURSION_DEPTH = 3
 
-        fun extractVariableIds(shortcut: ShortcutModel, variableLookup: VariableLookup): Set<String> =
+        fun extractVariableIds(shortcut: ShortcutModel, variableLookup: VariableLookup): Set<VariableId> =
             buildSet {
                 addAll(Variables.extractVariableIds(shortcut.url))
                 if (shortcut.authenticationType.usesUsernameAndPassword) {
@@ -163,7 +165,7 @@ class VariableResolver(private val context: Context) {
         private fun extractVariableIdsFromJS(
             code: String,
             variableLookup: VariableLookup,
-        ): Set<String> =
+        ): Set<VariableId> =
             Variables.extractVariableIdsFromJS(code)
                 .plus(
                     Variables.extractVariableKeysFromJS(code)

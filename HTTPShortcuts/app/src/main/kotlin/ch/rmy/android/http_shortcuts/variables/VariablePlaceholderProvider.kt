@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.variables
 
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.dtos.VariablePlaceholder
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
 
@@ -16,7 +17,7 @@ class VariablePlaceholderProvider {
     val hasVariables
         get() = placeholders.isNotEmpty()
 
-    fun findPlaceholderById(variableId: String): VariablePlaceholder? =
+    fun findPlaceholderById(variableId: VariableId): VariablePlaceholder? =
         placeholders
             .firstOrNull { it.variableId == variableId }
 

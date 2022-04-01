@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.data.models
 
 import ch.rmy.android.framework.utils.UUIDUtils.isUUID
+import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import io.realm.RealmList
@@ -16,7 +17,7 @@ open class CategoryModel(
 ) : RealmObject() {
 
     @PrimaryKey
-    var id: String = ""
+    var id: CategoryId = ""
     var shortcuts: RealmList<ShortcutModel> = RealmList()
 
     @Required

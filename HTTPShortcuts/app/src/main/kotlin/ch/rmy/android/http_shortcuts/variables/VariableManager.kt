@@ -1,6 +1,9 @@
 package ch.rmy.android.http_shortcuts.variables
 
 import ch.rmy.android.framework.extensions.mapIf
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import org.json.JSONObject
 import java.io.UnsupportedEncodingException
@@ -20,14 +23,14 @@ class VariableManager(variables: List<VariableModel>) : VariableLookup {
     override fun getVariableByKey(key: String): VariableModel? =
         variablesByKey[key]
 
-    fun getVariableByKeyOrId(keyOrId: String): VariableModel? =
+    fun getVariableByKeyOrId(keyOrId: VariableKeyOrId): VariableModel? =
         if (variablesById.containsKey(keyOrId)) {
             getVariableById(keyOrId)
         } else {
             getVariableByKey(keyOrId)
         }
 
-    fun getVariableValueById(variableId: String): String? =
+    fun getVariableValueById(variableId: VariableId): String? =
         variableValuesById[variableId]
 
     fun getVariableValueByKey(variableKey: String): String? =
@@ -36,7 +39,7 @@ class VariableManager(variables: List<VariableModel>) : VariableLookup {
                 getVariableValueById(variableId)
             }
 
-    fun getVariableValueByKeyOrId(variableKeyOrId: String): String? =
+    fun getVariableValueByKeyOrId(variableKeyOrId: VariableKeyOrId): String? =
         getVariableByKeyOrId(variableKeyOrId)?.id
             ?.let { variableId ->
                 getVariableValueById(variableId)
@@ -46,17 +49,17 @@ class VariableManager(variables: List<VariableModel>) : VariableLookup {
         variableValuesById[variable.id] = encodeValue(variable, value)
     }
 
-    fun setVariableValueByKeyOrId(variableKeyOrId: String, value: String) {
+    fun setVariableValueByKeyOrId(variableKeyOrId: VariableKeyOrId, value: String) {
         getVariableByKeyOrId(variableKeyOrId)
             ?.let { variable ->
                 setVariableValue(variable, value)
             }
     }
 
-    fun getVariableValuesByIds(): Map<String, String> =
+    fun getVariableValuesByIds(): Map<VariableKey, String> =
         variableValuesById
 
-    fun getVariableValuesByKeys(): Map<String, String> =
+    fun getVariableValuesByKeys(): Map<VariableKey, String> =
         variableValuesById
             .mapKeys { entry ->
                 getVariableById(entry.key)!!.key

@@ -9,12 +9,13 @@ import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.utils.DragOrderingHelper
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.databinding.ActivityTriggerShortcutsBinding
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
 
 class TriggerShortcutsActivity : BaseActivity() {
 
-    private val currentShortcutId: String? by lazy {
+    private val currentShortcutId: ShortcutId? by lazy {
         intent.getStringExtra(EXTRA_SHORTCUT_ID)
     }
 
@@ -87,7 +88,7 @@ class TriggerShortcutsActivity : BaseActivity() {
 
     class IntentBuilder : BaseIntentBuilder(TriggerShortcutsActivity::class.java) {
 
-        fun shortcutId(shortcutId: String?) = also {
+        fun shortcutId(shortcutId: ShortcutId?) = also {
             intent.putExtra(EXTRA_SHORTCUT_ID, shortcutId)
         }
     }

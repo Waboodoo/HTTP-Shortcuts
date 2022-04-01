@@ -5,11 +5,12 @@ import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesViewModel
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 
 class GetDeletionDialogUseCase {
 
     @CheckResult
-    operator fun invoke(variableId: String, title: String, message: Localizable, viewModel: VariablesViewModel) =
+    operator fun invoke(variableId: VariableId, title: String, message: Localizable, viewModel: VariablesViewModel) =
         DialogState.create {
             title(title)
                 .message(message)

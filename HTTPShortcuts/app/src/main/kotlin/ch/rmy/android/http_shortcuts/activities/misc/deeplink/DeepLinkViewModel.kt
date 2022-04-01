@@ -10,7 +10,10 @@ import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutNameOrId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 import com.afollestad.materialdialogs.callbacks.onCancel
 
@@ -75,7 +78,7 @@ class DeepLinkViewModel(application: Application) : BaseViewModel<DeepLinkViewMo
             .attachTo(destroyer)
     }
 
-    private fun executeShortcut(shortcutId: String, variableValues: Map<String, String>) {
+    private fun executeShortcut(shortcutId: ShortcutId, variableValues: Map<VariableKey, String>) {
         openActivity(
             ExecuteActivity.IntentBuilder(shortcutId)
                 .variableValues(variableValues)
@@ -83,14 +86,14 @@ class DeepLinkViewModel(application: Application) : BaseViewModel<DeepLinkViewMo
         finish(skipAnimation = true)
     }
 
-    private fun getShortcutNameOrId(): String =
+    private fun getShortcutNameOrId(): ShortcutNameOrId =
         url
             .host
             ?.takeUnless { it == "deep-link" }
             ?: url.lastPathSegment
             ?: ""
 
-    private fun getVariableValues(): Map<String, String> =
+    private fun getVariableValues(): Map<VariableKey, String> =
         url.queryParameterNames
             .filterNot { it.isEmpty() }
             .associateWith { key ->

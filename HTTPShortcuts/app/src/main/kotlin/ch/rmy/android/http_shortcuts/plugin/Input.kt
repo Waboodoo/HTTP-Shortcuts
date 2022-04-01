@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.plugin
 
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import com.joaomgcd.taskerpluginlibrary.input.TaskerInputField
 import com.joaomgcd.taskerpluginlibrary.input.TaskerInputRoot
 
@@ -8,7 +9,7 @@ data class Input
 @JvmOverloads
 constructor(
     @field:TaskerInputField("${FIELD_PREFIX}shortcut_id")
-    val shortcutId: String = "",
+    val shortcutId: ShortcutId = "",
     @field:TaskerInputField("${FIELD_PREFIX}shortcut_name")
     val shortcutName: String = "",
 ) {

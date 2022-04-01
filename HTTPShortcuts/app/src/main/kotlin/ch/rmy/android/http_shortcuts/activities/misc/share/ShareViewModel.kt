@@ -10,7 +10,10 @@ import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
@@ -95,7 +98,7 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
             .filter { it.isShareText || it.isShareTitle }
             .toSet()
 
-    private fun getTargetableShortcutsForTextSharing(variableIds: Set<String>, variableLookup: VariableLookup): List<ShortcutModel> =
+    private fun getTargetableShortcutsForTextSharing(variableIds: Set<VariableId>, variableLookup: VariableLookup): List<ShortcutModel> =
         shortcuts
             .filter { it.hasShareVariable(variableIds, variableLookup) }
 
@@ -116,7 +119,7 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
         }
     }
 
-    private fun executeShortcut(shortcutId: String, variableValues: Map<String, String> = emptyMap()) {
+    private fun executeShortcut(shortcutId: ShortcutId, variableValues: Map<VariableKey, String> = emptyMap()) {
         openActivity(
             ExecuteActivity.IntentBuilder(shortcutId)
                 .variableValues(variableValues)
@@ -142,7 +145,7 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
         finish(skipAnimation = true)
     }
 
-    private fun showShortcutSelection(shortcuts: List<ShortcutModel>, variableValues: Map<String, String> = emptyMap()) {
+    private fun showShortcutSelection(shortcuts: List<ShortcutModel>, variableValues: Map<VariableKey, String> = emptyMap()) {
         dialogState = DialogState.create {
             mapFor(shortcuts) { shortcut ->
                 item(name = shortcut.name, shortcutIcon = shortcut.icon) {
@@ -168,7 +171,7 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
 
     companion object {
 
-        private fun ShortcutModel.hasShareVariable(variableIds: Set<String>, variableLookup: VariableLookup): Boolean {
+        private fun ShortcutModel.hasShareVariable(variableIds: Set<VariableId>, variableLookup: VariableLookup): Boolean {
             val variableIdsInShortcut = VariableResolver.extractVariableIds(this, variableLookup)
             return variableIds.any { variableIdsInShortcut.contains(it) }
         }

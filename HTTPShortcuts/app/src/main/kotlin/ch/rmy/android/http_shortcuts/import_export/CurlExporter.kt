@@ -4,6 +4,7 @@ import android.content.Context
 import ch.rmy.android.framework.extensions.detachFromRealm
 import ch.rmy.android.framework.extensions.mapFor
 import ch.rmy.android.framework.extensions.mapIf
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
@@ -31,7 +32,7 @@ class CurlExporter(val context: Context) {
                     .resolve(variables, shortcut)
             }
 
-    private fun generateCommand(shortcut: ShortcutModel, variableValues: Map<String, String>): CurlCommand =
+    private fun generateCommand(shortcut: ShortcutModel, variableValues: Map<VariableKey, String>): CurlCommand =
         CurlCommand.Builder()
             .url(rawPlaceholdersToResolvedValues(shortcut.url, variableValues))
             .mapIf(shortcut.authenticationType.usesUsernameAndPassword) {

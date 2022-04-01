@@ -15,6 +15,7 @@ import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.utils.VibrationUtil
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.plugin.TaskerIntent
@@ -25,7 +26,7 @@ import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 
 class CodeSnippetPicker(
     private val context: Context,
-    private val currentShortcutId: String?,
+    private val currentShortcutId: ShortcutId?,
     private val variablePlaceholderProvider: VariablePlaceholderProvider,
     private val shortcutPlaceholderProvider: ShortcutPlaceholderProvider,
     private val openIconPicker: (String) -> Unit,

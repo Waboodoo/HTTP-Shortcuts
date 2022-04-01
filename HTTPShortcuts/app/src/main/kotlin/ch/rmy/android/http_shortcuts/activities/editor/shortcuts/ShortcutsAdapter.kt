@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.framework.extensions.setText
 import ch.rmy.android.framework.ui.BaseAdapter
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.databinding.ListEmptyItemBinding
 import ch.rmy.android.http_shortcuts.databinding.ListItemShortcutTriggerBinding
 import io.reactivex.Observable
@@ -51,7 +52,7 @@ class ShortcutsAdapter : BaseAdapter<ShortcutListItem>() {
         private val binding: ListItemShortcutTriggerBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        lateinit var shortcutId: String
+        lateinit var shortcutId: ShortcutId
             private set
 
         init {

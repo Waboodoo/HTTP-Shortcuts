@@ -4,10 +4,11 @@ import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.main.ShortcutListViewModel
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 
 class GetShortcutDeletionDialogUseCase {
 
-    operator fun invoke(shortcutId: String, title: Localizable, viewModel: ShortcutListViewModel) =
+    operator fun invoke(shortcutId: ShortcutId, title: Localizable, viewModel: ShortcutListViewModel) =
         DialogState.create {
             title(title)
                 .message(R.string.confirm_delete_shortcut_message)

@@ -6,6 +6,7 @@ import ch.rmy.android.framework.extensions.detachFromRealm
 import ch.rmy.android.framework.extensions.swap
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.data.RealmFactory
+import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.getBase
 import ch.rmy.android.http_shortcuts.data.domains.getCategoryById
 import ch.rmy.android.http_shortcuts.data.domains.getShortcutById
@@ -19,13 +20,13 @@ import io.reactivex.Single
 
 class ShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
 
-    fun getShortcutById(shortcutId: String): Single<ShortcutModel> =
+    fun getShortcutById(shortcutId: ShortcutId): Single<ShortcutModel> =
         query {
             getShortcutById(shortcutId)
         }
             .map { it.first() }
 
-    fun getShortcutByNameOrId(shortcutNameOrId: String): Single<ShortcutModel> =
+    fun getShortcutByNameOrId(shortcutNameOrId: ShortcutNameOrId): Single<ShortcutModel> =
         query {
             getShortcutByNameOrId(shortcutNameOrId)
         }
@@ -49,12 +50,12 @@ class ShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
                 base.shortcuts
             }
 
-    fun moveShortcutToCategory(shortcutId: String, targetCategoryId: String) =
+    fun moveShortcutToCategory(shortcutId: ShortcutId, targetCategoryId: CategoryId) =
         commitTransaction {
             moveShortcut(shortcutId, targetCategoryId = targetCategoryId)
         }
 
-    fun swapShortcutPositions(categoryId: String, shortcutId1: String, shortcutId2: String) =
+    fun swapShortcutPositions(categoryId: CategoryId, shortcutId1: ShortcutId, shortcutId2: ShortcutId) =
         commitTransaction {
             getCategoryById(categoryId)
                 .findFirst()
@@ -62,7 +63,7 @@ class ShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
                 ?.swap(shortcutId1, shortcutId2) { id }
         }
 
-    private fun RealmTransactionContext.moveShortcut(shortcutId: String, targetPosition: Int? = null, targetCategoryId: String? = null) {
+    private fun RealmTransactionContext.moveShortcut(shortcutId: ShortcutId, targetPosition: Int? = null, targetCategoryId: CategoryId? = null) {
         val shortcut = getShortcutById(shortcutId)
             .findFirst() ?: return
         val categories = getBase()
@@ -85,7 +86,7 @@ class ShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
         }
     }
 
-    fun duplicateShortcut(shortcutId: String, newName: String, newPosition: Int?, categoryId: String) =
+    fun duplicateShortcut(shortcutId: ShortcutId, newName: String, newPosition: Int?, categoryId: CategoryId) =
         commitTransaction {
             val shortcut = getShortcutById(shortcutId)
                 .findFirst()
@@ -95,14 +96,14 @@ class ShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
             moveShortcut(newShortcut.id, newPosition, categoryId)
         }
 
-    fun createTemporaryShortcutFromShortcut(shortcutId: String) =
+    fun createTemporaryShortcutFromShortcut(shortcutId: ShortcutId) =
         commitTransaction {
             val shortcut = getShortcutById(shortcutId)
                 .findFirst()!!
             copyShortcut(shortcut, ShortcutModel.TEMPORARY_ID)
         }
 
-    fun copyTemporaryShortcutToShortcut(shortcutId: String, categoryId: String?) =
+    fun copyTemporaryShortcutToShortcut(shortcutId: ShortcutId, categoryId: CategoryId?) =
         commitTransaction {
             val temporaryShortcut = getTemporaryShortcut()
                 .findFirst() ?: return@commitTransaction
@@ -117,7 +118,7 @@ class ShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
             }
         }
 
-    private fun RealmTransactionContext.copyShortcut(sourceShortcut: ShortcutModel, targetShortcutId: String): ShortcutModel =
+    private fun RealmTransactionContext.copyShortcut(sourceShortcut: ShortcutModel, targetShortcutId: ShortcutId): ShortcutModel =
         sourceShortcut.detachFromRealm()
             .apply {
                 id = targetShortcutId
@@ -130,7 +131,7 @@ class ShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
             }
             .let(::copyOrUpdate)
 
-    fun deleteShortcut(shortcutId: String) =
+    fun deleteShortcut(shortcutId: ShortcutId) =
         commitTransaction {
             getShortcutById(shortcutId)
                 .findFirst()
@@ -142,21 +143,21 @@ class ShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
                 }
         }
 
-    fun setIcon(shortcutId: String, icon: ShortcutIcon): Completable =
+    fun setIcon(shortcutId: ShortcutId, icon: ShortcutIcon): Completable =
         commitTransaction {
             getShortcutById(shortcutId)
                 .findFirst()
                 ?.icon = icon
         }
 
-    fun setName(shortcutId: String, name: String): Completable =
+    fun setName(shortcutId: ShortcutId, name: String): Completable =
         commitTransaction {
             getShortcutById(shortcutId)
                 .findFirst()
                 ?.name = name
         }
 
-    fun setDescription(shortcutId: String, description: String): Completable =
+    fun setDescription(shortcutId: ShortcutId, description: String): Completable =
         commitTransaction {
             getShortcutById(shortcutId)
                 .findFirst()

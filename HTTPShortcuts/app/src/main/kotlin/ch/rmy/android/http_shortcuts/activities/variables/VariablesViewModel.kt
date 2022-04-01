@@ -15,6 +15,8 @@ import ch.rmy.android.http_shortcuts.activities.variables.editor.usecases.GetCre
 import ch.rmy.android.http_shortcuts.activities.variables.editor.usecases.GetDeletionDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.variables.usecases.GetUsedVariableIdsUseCase
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
@@ -36,7 +38,7 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
     private val getUsedVariableIdsUseCase = GetUsedVariableIdsUseCase(shortcutRepository, variableRepository)
 
     private var variables: List<VariableModel> = emptyList()
-    private var usedVariableIds: Set<String>? = null
+    private var usedVariableIds: Set<VariableId>? = null
         set(value) {
             if (field != value) {
                 field = value
@@ -86,7 +88,7 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
                 listOf(VariableListItem.EmptyState)
             }
 
-    fun onVariableMoved(variableId1: String, variableId2: String) {
+    fun onVariableMoved(variableId1: VariableId, variableId2: VariableId) {
         performOperation(
             variableRepository.moveVariable(variableId1, variableId2)
         )
@@ -100,12 +102,12 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
         openURL(ExternalURLs.VARIABLES_DOCUMENTATION)
     }
 
-    fun onVariableClicked(variableId: String) {
+    fun onVariableClicked(variableId: VariableId) {
         val variable = getVariable(variableId) ?: return
         dialogState = getContextMenuDialog(variableId, StringResLocalizable(VariableTypeMappings.getTypeName(variable.variableType)), this)
     }
 
-    private fun getVariable(variableId: String) =
+    private fun getVariable(variableId: VariableId) =
         variables.firstOrNull { it.id == variableId }
 
     fun onCreationDialogVariableTypeSelected(variableType: VariableType) {
@@ -114,7 +116,7 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
         )
     }
 
-    fun onEditOptionSelected(variableId: String) {
+    fun onEditOptionSelected(variableId: VariableId) {
         val variable = getVariable(variableId) ?: return
         openActivity(
             VariableEditorActivity.IntentBuilder(variable.variableType)
@@ -122,7 +124,7 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
         )
     }
 
-    fun onDuplicateOptionSelected(variableId: String) {
+    fun onDuplicateOptionSelected(variableId: VariableId) {
         val variable = getVariable(variableId) ?: return
         performOperation(
             Single.fromCallable {
@@ -136,7 +138,7 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
         }
     }
 
-    private fun generateNewKey(oldKey: String): String {
+    private fun generateNewKey(oldKey: String): VariableKey {
         val base = oldKey.take(KEY_MAX_LENGTH - 1)
         for (i in 2..9) {
             val newKey = "$base$i"
@@ -150,7 +152,7 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
     private fun isVariableKeyInUse(key: String): Boolean =
         variables.any { it.key == key }
 
-    fun onDeletionOptionSelected(variableId: String) {
+    fun onDeletionOptionSelected(variableId: VariableId) {
         val variable = getVariable(variableId) ?: return
         getShortcutNamesWhereVariableIsInUse(variableId)
             .subscribe { shortcutNames ->
@@ -164,7 +166,7 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
             .attachTo(destroyer)
     }
 
-    private fun getShortcutNamesWhereVariableIsInUse(variableId: String): Single<List<String>> {
+    private fun getShortcutNamesWhereVariableIsInUse(variableId: VariableId): Single<List<String>> {
         val variableLookup = VariableManager(variables)
         // TODO: Also check if the variable is used inside another variable
         return shortcutRepository.getShortcuts()
@@ -200,7 +202,7 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
             }
         }
 
-    fun onDeletionConfirmed(variableId: String) {
+    fun onDeletionConfirmed(variableId: VariableId) {
         val variable = getVariable(variableId) ?: return
         performOperation(variableRepository.deleteVariable(variableId)) {
             showSnackbar(StringResLocalizable(R.string.variable_deleted, variable.key))

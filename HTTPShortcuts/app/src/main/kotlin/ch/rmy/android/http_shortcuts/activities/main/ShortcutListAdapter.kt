@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.visible
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.databinding.ListItemShortcutBinding
 
 class ShortcutListAdapter : BaseShortcutAdapter() {
@@ -17,7 +18,7 @@ class ShortcutListAdapter : BaseShortcutAdapter() {
         private val binding: ListItemShortcutBinding,
     ) : BaseShortcutViewHolder(binding.root) {
 
-        override lateinit var shortcutId: String
+        override lateinit var shortcutId: ShortcutId
             private set
 
         init {

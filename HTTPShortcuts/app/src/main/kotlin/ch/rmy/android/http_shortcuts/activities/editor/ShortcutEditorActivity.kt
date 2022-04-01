@@ -24,6 +24,8 @@ import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.icons.IconPickerActivity
+import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.databinding.ActivityShortcutEditorOverviewBinding
@@ -199,10 +201,10 @@ class ShortcutEditorActivity : BaseActivity() {
 
         private const val RESULT_SHORTCUT_ID = "shortcutId"
 
-        override fun parseResult(resultCode: Int, intent: Intent?): String? =
+        override fun parseResult(resultCode: Int, intent: Intent?): ShortcutId? =
             intent?.getStringExtra(RESULT_SHORTCUT_ID)
 
-        fun createResult(shortcutId: String) =
+        fun createResult(shortcutId: ShortcutId) =
             createIntent {
                 putExtra(RESULT_SHORTCUT_ID, shortcutId)
             }
@@ -210,11 +212,11 @@ class ShortcutEditorActivity : BaseActivity() {
 
     class IntentBuilder : BaseIntentBuilder(ShortcutEditorActivity::class.java) {
 
-        fun shortcutId(shortcutId: String) = also {
+        fun shortcutId(shortcutId: ShortcutId) = also {
             intent.putExtra(EXTRA_SHORTCUT_ID, shortcutId)
         }
 
-        fun categoryId(categoryId: String) = also {
+        fun categoryId(categoryId: CategoryId) = also {
             intent.putExtra(EXTRA_CATEGORY_ID, categoryId)
         }
 

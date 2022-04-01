@@ -5,6 +5,7 @@ import androidx.annotation.Keep
 import ch.rmy.android.framework.extensions.getCaseInsensitive
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.tryOrLog
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.exceptions.CanceledByUserException
 import ch.rmy.android.http_shortcuts.exceptions.JavaScriptException
@@ -172,7 +173,7 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
         )
     }
 
-    private fun registerActions(context: Context, shortcutId: String, variableManager: VariableManager, recursionDepth: Int) {
+    private fun registerActions(context: Context, shortcutId: ShortcutId, variableManager: VariableManager, recursionDepth: Int) {
         jsContext.property(
             "_runAction",
             object : JSFunction(jsContext, "run") {

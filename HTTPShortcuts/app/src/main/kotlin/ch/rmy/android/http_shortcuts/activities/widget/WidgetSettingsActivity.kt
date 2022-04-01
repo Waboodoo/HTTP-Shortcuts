@@ -15,6 +15,7 @@ import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.dtos.LauncherShortcut
 import ch.rmy.android.http_shortcuts.databinding.ActivityWidgetSettingsBinding
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
@@ -122,7 +123,7 @@ class WidgetSettingsActivity : BaseActivity() {
                 )
             } else null
 
-        fun createResult(shortcutId: String, labelColor: String, showLabel: Boolean): Intent =
+        fun createResult(shortcutId: ShortcutId, labelColor: String, showLabel: Boolean): Intent =
             createIntent {
                 putExtra(EXTRA_SHORTCUT_ID, shortcutId)
                 putExtra(EXTRA_LABEL_COLOR, labelColor)
@@ -130,7 +131,7 @@ class WidgetSettingsActivity : BaseActivity() {
             }
 
         data class Result(
-            val shortcutId: String,
+            val shortcutId: ShortcutId,
             val labelColor: String,
             val showLabel: Boolean,
         )

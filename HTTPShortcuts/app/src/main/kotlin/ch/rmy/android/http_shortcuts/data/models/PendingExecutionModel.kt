@@ -1,6 +1,8 @@
 package ch.rmy.android.http_shortcuts.data.models
 
 import ch.rmy.android.framework.utils.UUIDUtils
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.Index
@@ -13,7 +15,7 @@ import java.util.Date
 open class PendingExecutionModel(
     @PrimaryKey
     var id: String = "",
-    var shortcutId: String = "",
+    var shortcutId: ShortcutId = "",
     @Suppress("unused")
     @Index
     @Required
@@ -34,8 +36,8 @@ open class PendingExecutionModel(
         const val FIELD_WAIT_FOR_NETWORK = "waitForNetwork"
 
         fun createNew(
-            shortcutId: String,
-            resolvedVariables: Map<String, String> = emptyMap(),
+            shortcutId: ShortcutId,
+            resolvedVariables: Map<VariableKey, String> = emptyMap(),
             tryNumber: Int = 0,
             waitUntil: Date? = null,
             waitForNetwork: Boolean = false,

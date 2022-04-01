@@ -28,7 +28,9 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.response.DisplayResponseActivity
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel
@@ -109,7 +111,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     }
 
     /* Execution Parameters */
-    private val shortcutId: String by lazy {
+    private val shortcutId: ShortcutId by lazy {
         IntentUtil.getShortcutId(intent)
     }
     private val variableValues by lazy {
@@ -698,7 +700,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         SessionMonitor.onSessionComplete()
     }
 
-    class IntentBuilder(private val shortcutId: String? = null) :
+    class IntentBuilder(private val shortcutId: ShortcutId? = null) :
         BaseIntentBuilder(ExecuteActivity::class.java) {
 
         init {
@@ -713,7 +715,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
             return super.build(context)
         }
 
-        private fun shortcut(shortcutId: String, context: Context) = also {
+        private fun shortcut(shortcutId: ShortcutId, context: Context) = also {
             intent.putExtra(EXTRA_SHORTCUT_ID, shortcutId)
             intent.data = Uri.fromParts("content", context.packageName, null)
                 .buildUpon()
@@ -727,7 +729,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
             }
         }
 
-        fun variableValues(variableValues: Map<String, String>) = also {
+        fun variableValues(variableValues: Map<VariableKey, String>) = also {
             intent.putExtra(EXTRA_VARIABLE_VALUES, HashMap(variableValues))
         }
 

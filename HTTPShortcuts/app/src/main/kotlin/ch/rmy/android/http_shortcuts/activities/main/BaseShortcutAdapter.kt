@@ -9,6 +9,7 @@ import ch.rmy.android.framework.extensions.color
 import ch.rmy.android.framework.extensions.setText
 import ch.rmy.android.framework.ui.BaseAdapter
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.databinding.ListEmptyItemBinding
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
@@ -68,7 +69,7 @@ abstract class BaseShortcutAdapter : BaseAdapter<ShortcutListItem>() {
         }
 
     abstract class BaseShortcutViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        abstract val shortcutId: String
+        abstract val shortcutId: ShortcutId
 
         abstract fun setItem(item: ShortcutListItem.Shortcut)
     }

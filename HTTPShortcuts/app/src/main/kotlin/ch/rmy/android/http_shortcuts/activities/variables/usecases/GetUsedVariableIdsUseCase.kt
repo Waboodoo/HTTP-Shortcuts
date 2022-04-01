@@ -1,6 +1,8 @@
 package ch.rmy.android.http_shortcuts.activities.variables.usecases
 
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
@@ -17,7 +19,7 @@ class GetUsedVariableIdsUseCase(
     private val variableRepository: VariableRepository,
 ) {
 
-    operator fun invoke(shortcutId: String? = null): Single<Set<String>> =
+    operator fun invoke(shortcutId: ShortcutId? = null): Single<Set<VariableId>> =
         variableRepository.getVariables()
             .flatMap { variables ->
                 if (shortcutId != null) {
@@ -34,7 +36,7 @@ class GetUsedVariableIdsUseCase(
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
 
-    private fun determineVariablesInUse(variables: List<VariableModel>, shortcuts: List<ShortcutModel>): Set<String> {
+    private fun determineVariablesInUse(variables: List<VariableModel>, shortcuts: List<ShortcutModel>): Set<VariableId> {
         val variableManager = VariableManager(variables)
         return shortcuts
             .flatMap { shortcut ->
@@ -44,10 +46,10 @@ class GetUsedVariableIdsUseCase(
             .toSet()
     }
 
-    private fun getVariablesInUseInVariables(variables: List<VariableModel>): List<String> =
+    private fun getVariablesInUseInVariables(variables: List<VariableModel>): List<VariableId> =
         variables.flatMap(::getVariablesInUseInVariable)
 
-    private fun getVariablesInUseInVariable(variable: VariableModel): Set<String> =
+    private fun getVariablesInUseInVariable(variable: VariableModel): Set<VariableId> =
         when (variable.variableType) {
             VariableType.CONSTANT -> variable.value?.let(Variables::extractVariableIds) ?: emptySet()
             VariableType.SELECT,

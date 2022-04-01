@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import android.content.Context
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.variables.VariableManager
@@ -10,7 +11,7 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 
-class GetVariableAction(val variableKeyOrId: String) : BaseAction() {
+class GetVariableAction(val variableKeyOrId: VariableKeyOrId) : BaseAction() {
 
     override fun executeForValue(executionContext: ExecutionContext): Single<Any> =
         getVariableValue(variableKeyOrId, executionContext.variableManager)
@@ -34,13 +35,13 @@ class GetVariableAction(val variableKeyOrId: String) : BaseAction() {
                 )
             }
 
-    private fun getVariableValue(variableKeyOrId: String, variableManager: VariableManager): Single<Any> =
+    private fun getVariableValue(variableKeyOrId: VariableKeyOrId, variableManager: VariableManager): Single<Any> =
         Single.fromCallable {
             variableManager.getVariableValueByKeyOrId(variableKeyOrId)
                 ?: throw VariableNotFoundException()
         }
 
-    private fun resolveVariable(context: Context, variableKeyOrId: String, variableManager: VariableManager): Completable =
+    private fun resolveVariable(context: Context, variableKeyOrId: VariableKeyOrId, variableManager: VariableManager): Completable =
         Single.fromCallable {
             variableManager.getVariableByKeyOrId(variableKeyOrId)
                 ?: throw VariableNotFoundException()

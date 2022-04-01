@@ -5,11 +5,13 @@ import ch.rmy.android.framework.extensions.mapFor
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.main.ShortcutListViewModel
+import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 
 class GetMoveToCategoryDialogUseCase {
 
     @CheckResult
-    operator fun invoke(shortcutId: String, categoryOptions: List<CategoryOption>, viewModel: ShortcutListViewModel) =
+    operator fun invoke(shortcutId: ShortcutId, categoryOptions: List<CategoryOption>, viewModel: ShortcutListViewModel) =
         DialogState.create {
             title(R.string.title_move_to_category)
                 .mapFor(categoryOptions) { categoryOption ->
@@ -20,5 +22,5 @@ class GetMoveToCategoryDialogUseCase {
                 .build()
         }
 
-    data class CategoryOption(val categoryId: String, val name: String)
+    data class CategoryOption(val categoryId: CategoryId, val name: String)
 }

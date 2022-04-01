@@ -10,6 +10,8 @@ import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.mapIfNotNull
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.activities.main.MainActivity
+import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.dtos.LauncherShortcut
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
@@ -63,7 +65,7 @@ class LauncherShortcutManager(private val context: Context) {
 
     @RequiresApi(Build.VERSION_CODES.N_MR1)
     private fun createShortcutInfo(
-        shortcutId: String,
+        shortcutId: ShortcutId,
         shortcutName: String,
         shortcutIcon: ShortcutIcon,
         rank: Int = 0,
@@ -111,7 +113,7 @@ class LauncherShortcutManager(private val context: Context) {
         throw RuntimeException()
     }
 
-    fun updatePinnedShortcut(shortcutId: String, shortcutName: String, shortcutIcon: ShortcutIcon) {
+    fun updatePinnedShortcut(shortcutId: ShortcutId, shortcutName: String, shortcutIcon: ShortcutIcon) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val shortcutManager = context.getSystemService(ShortcutManager::class.java)!!
             val shortcutInfo = createShortcutInfo(shortcutId, shortcutName, shortcutIcon)
@@ -119,7 +121,7 @@ class LauncherShortcutManager(private val context: Context) {
         }
     }
 
-    fun pinCategory(categoryId: String, categoryName: String) {
+    fun pinCategory(categoryId: CategoryId, categoryName: String) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val shortcutManager = context.getSystemService(ShortcutManager::class.java)!!
             val shortcutInfo = createCategoryShortcutInfo(categoryId, categoryName)
@@ -127,7 +129,7 @@ class LauncherShortcutManager(private val context: Context) {
         }
     }
 
-    fun updatePinnedCategoryShortcut(categoryId: String, categoryName: String) {
+    fun updatePinnedCategoryShortcut(categoryId: CategoryId, categoryName: String) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val shortcutManager = context.getSystemService(ShortcutManager::class.java)!!
             val shortcutInfo = createCategoryShortcutInfo(categoryId, categoryName)
@@ -137,7 +139,7 @@ class LauncherShortcutManager(private val context: Context) {
 
     @RequiresApi(Build.VERSION_CODES.N_MR1)
     private fun createCategoryShortcutInfo(
-        categoryId: String,
+        categoryId: CategoryId,
         categoryName: String,
     ): ShortcutInfo =
         ShortcutInfo.Builder(context, ID_PREFIX_CATEGORY + categoryId)

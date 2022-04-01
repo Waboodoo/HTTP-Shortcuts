@@ -12,6 +12,8 @@ import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.VariableTypeMappings
 import ch.rmy.android.http_shortcuts.data.domains.variables.TemporaryVariableRepository
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
@@ -27,14 +29,14 @@ class VariableEditorViewModel(
     private val outgoingEventBridge = EventBridge(VariableEditorToVariableTypeEvent::class.java)
     private val incomingEventBridge = EventBridge(VariableTypeToVariableEditorEvent::class.java)
 
-    private val variableId: String?
+    private val variableId: VariableId?
         get() = initData.variableId
     private val variableType: VariableType
         get() = initData.variableType
 
     private var oldVariable: VariableModel? = null
     private lateinit var variable: VariableModel
-    private lateinit var variableKeysInUse: List<String>
+    private lateinit var variableKeysInUse: List<VariableKey>
 
     private var isSaving = false
 
@@ -272,7 +274,7 @@ class VariableEditorViewModel(
     }
 
     data class InitData(
-        val variableId: String?,
+        val variableId: VariableId?,
         val variableType: VariableType,
     )
 }

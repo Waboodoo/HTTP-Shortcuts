@@ -5,6 +5,8 @@ import android.text.SpannableStringBuilder
 import android.text.Spanned
 import androidx.annotation.ColorInt
 import ch.rmy.android.framework.utils.UUIDUtils.UUID_REGEX
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.dtos.VariablePlaceholder
 import java.util.LinkedList
 import java.util.regex.Matcher
@@ -35,7 +37,7 @@ object Variables {
     fun isValidVariableKey(variableKey: String) =
         VARIABLE_KEY_REGEX.toRegex().matchEntire(variableKey) != null
 
-    fun rawPlaceholdersToResolvedValues(string: String, variables: Map<String, String>): String {
+    fun rawPlaceholdersToResolvedValues(string: String, variables: Map<VariableKey, String>): String {
         val builder = StringBuilder()
         val matcher = match(string)
         var previousEnd = 0
@@ -52,7 +54,7 @@ object Variables {
     /**
      * Searches for variable placeholders and returns all variable IDs found in them.
      */
-    internal fun extractVariableIds(string: String): Set<String> =
+    internal fun extractVariableIds(string: String): Set<VariableId> =
         buildSet {
             val matcher = match(string)
             while (matcher.find()) {
@@ -123,7 +125,7 @@ object Variables {
     /**
      * Searches for variable placeholders in JS code and returns all variable IDs found in them.
      */
-    internal fun extractVariableIdsFromJS(string: String): Set<String> =
+    internal fun extractVariableIdsFromJS(string: String): Set<VariableId> =
         buildSet {
             val matcher = JS_PATTERN.matcher(string)
             while (matcher.find()) {
@@ -131,7 +133,7 @@ object Variables {
             }
         }
 
-    internal fun extractVariableKeysFromJS(string: String): Set<String> =
+    internal fun extractVariableKeysFromJS(string: String): Set<VariableKey> =
         buildSet {
             val matcher = JS_PATTERN2.matcher(string)
             while (matcher.find()) {
@@ -139,7 +141,7 @@ object Variables {
             }
         }
 
-    private fun toRawPlaceholder(variableId: String) = "$RAW_PLACEHOLDER_PREFIX$variableId$RAW_PLACEHOLDER_SUFFIX"
+    private fun toRawPlaceholder(variableId: VariableId) = "$RAW_PLACEHOLDER_PREFIX$variableId$RAW_PLACEHOLDER_SUFFIX"
 
     fun toPrettyPlaceholder(variableKey: String) = "$PRETTY_PLACEHOLDER_PREFIX$variableKey$PRETTY_PLACEHOLDER_SUFFIX"
 

@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.scripting.shortcuts
 
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import java.util.regex.Pattern
 
 object TriggerShortcutManager {
@@ -7,7 +8,7 @@ object TriggerShortcutManager {
     private const val REGEX = """(?:triggerShortcut|enqueueShortcut)\(/\*\[shortcut]\*/"([^"]+)"/\*\[/shortcut]\*/\);"""
     private val PATTERN = Pattern.compile(REGEX)
 
-    fun getTriggeredShortcutIdsFromCode(code: String): List<String> =
+    fun getTriggeredShortcutIdsFromCode(code: String): List<ShortcutId> =
         buildList {
             val matcher = PATTERN.matcher(code)
             while (matcher.find()) {
@@ -16,7 +17,7 @@ object TriggerShortcutManager {
             }
         }
 
-    fun getCodeFromTriggeredShortcutIds(shortcutIds: List<String>): String =
+    fun getCodeFromTriggeredShortcutIds(shortcutIds: List<ShortcutId>): String =
         shortcutIds.joinToString("\n") { shortcutId ->
             """enqueueShortcut(/*[shortcut]*/"$shortcutId"/*[/shortcut]*/);"""
         }

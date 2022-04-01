@@ -4,12 +4,13 @@ import android.widget.TextView
 import androidx.annotation.CheckResult
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import com.afollestad.materialdialogs.callbacks.onShow
 
 class GetShortcutInfoDialogUseCase {
 
     @CheckResult
-    operator fun invoke(shortcutId: String, shortcutName: String) =
+    operator fun invoke(shortcutId: ShortcutId, shortcutName: String) =
         DialogState.create {
             title(shortcutName)
                 .view(R.layout.shortcut_info_dialog)
@@ -22,7 +23,7 @@ class GetShortcutInfoDialogUseCase {
         }
 
     companion object {
-        private fun getDeepLinkUrl(shortcutId: String) =
+        private fun getDeepLinkUrl(shortcutId: ShortcutId) =
             "http-shortcuts://$shortcutId"
     }
 }

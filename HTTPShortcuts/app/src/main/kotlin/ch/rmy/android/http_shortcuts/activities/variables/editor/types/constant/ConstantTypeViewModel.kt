@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.activities.variables.editor.types.constant
 import android.app.Application
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.BaseVariableTypeViewModel
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 
 class ConstantTypeViewModel(application: Application) :
@@ -33,6 +34,6 @@ class ConstantTypeViewModel(application: Application) :
     }
 
     data class InitData(
-        val variableId: String? = null,
+        val variableId: VariableId? = null,
     )
 }

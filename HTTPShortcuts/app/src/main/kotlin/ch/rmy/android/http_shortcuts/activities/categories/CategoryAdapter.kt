@@ -10,6 +10,7 @@ import ch.rmy.android.framework.extensions.setText
 import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.framework.ui.BaseAdapter
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.databinding.ListItemCategoryBinding
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
@@ -43,7 +44,7 @@ class CategoryAdapter : BaseAdapter<CategoryListItem>() {
         private val binding: ListItemCategoryBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        lateinit var categoryId: String
+        lateinit var categoryId: CategoryId
             private set
 
         init {

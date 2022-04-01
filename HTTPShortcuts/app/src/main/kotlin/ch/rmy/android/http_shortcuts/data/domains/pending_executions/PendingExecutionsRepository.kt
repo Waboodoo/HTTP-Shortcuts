@@ -5,6 +5,8 @@ import ch.rmy.android.framework.utils.Optional
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.domains.getPendingExecution
 import ch.rmy.android.http_shortcuts.data.domains.getPendingExecutions
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.models.PendingExecutionModel
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -23,8 +25,8 @@ class PendingExecutionsRepository : BaseRepository(RealmFactory.getInstance()) {
         }
 
     fun createPendingExecution(
-        shortcutId: String,
-        resolvedVariables: Map<String, String> = emptyMap(),
+        shortcutId: ShortcutId,
+        resolvedVariables: Map<VariableKey, String> = emptyMap(),
         tryNumber: Int = 0,
         waitUntil: Date? = null,
         requiresNetwork: Boolean = false,
@@ -50,7 +52,7 @@ class PendingExecutionsRepository : BaseRepository(RealmFactory.getInstance()) {
                 .deleteAllFromRealm()
         }
 
-    fun removePendingExecutionsForShortcut(shortcutId: String) =
+    fun removePendingExecutionsForShortcut(shortcutId: ShortcutId) =
         commitTransaction {
             getPendingExecutions(shortcutId)
                 .findAll()

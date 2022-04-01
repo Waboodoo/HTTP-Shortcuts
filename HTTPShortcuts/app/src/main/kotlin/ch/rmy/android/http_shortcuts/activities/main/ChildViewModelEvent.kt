@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.main
 
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.dtos.LauncherShortcut
 
 sealed interface ChildViewModelEvent {
@@ -11,5 +12,5 @@ sealed interface ChildViewModelEvent {
 
     data class RemoveShortcutFromHomeScreen(val shortcut: LauncherShortcut) : ChildViewModelEvent
 
-    data class SelectShortcut(val shortcutId: String) : ChildViewModelEvent
+    data class SelectShortcut(val shortcutId: ShortcutId) : ChildViewModelEvent
 }

@@ -17,7 +17,7 @@ import io.reactivex.Single
 
 class VariableRepository : BaseRepository(RealmFactory.getInstance()) {
 
-    fun getVariableByKeyOrId(keyOrId: String): Single<VariableModel> =
+    fun getVariableByKeyOrId(keyOrId: VariableKeyOrId): Single<VariableModel> =
         queryItem {
             getVariableByKeyOrId(keyOrId)
         }
@@ -35,14 +35,14 @@ class VariableRepository : BaseRepository(RealmFactory.getInstance()) {
                 base.variables
             }
 
-    fun setVariableValue(variableId: String, value: String): Completable =
+    fun setVariableValue(variableId: VariableId, value: String): Completable =
         commitTransaction {
             getVariableById(variableId)
                 .findFirst()
                 ?.value = value
         }
 
-    fun moveVariable(variableId1: String, variableId2: String) =
+    fun moveVariable(variableId1: VariableId, variableId2: VariableId) =
         commitTransaction {
             getBase()
                 .findFirst()
@@ -50,7 +50,7 @@ class VariableRepository : BaseRepository(RealmFactory.getInstance()) {
                 ?.swap(variableId1, variableId2) { id }
         }
 
-    fun duplicateVariable(variableId: String, newKey: String) =
+    fun duplicateVariable(variableId: VariableId, newKey: String) =
         commitTransaction {
             val oldVariable = getVariableById(variableId)
                 .findFirst()
@@ -70,7 +70,7 @@ class VariableRepository : BaseRepository(RealmFactory.getInstance()) {
             base.variables.add(oldPosition + 1, newPersistedVariable)
         }
 
-    fun deleteVariable(variableId: String) =
+    fun deleteVariable(variableId: VariableId) =
         commitTransaction {
             getVariableById(variableId)
                 .findFirst()
@@ -80,14 +80,14 @@ class VariableRepository : BaseRepository(RealmFactory.getInstance()) {
                 }
         }
 
-    fun createTemporaryVariableFromVariable(variableId: String): Completable =
+    fun createTemporaryVariableFromVariable(variableId: VariableId): Completable =
         commitTransaction {
             val variable = getVariableById(variableId)
                 .findFirst()!!
             copyVariable(variable, VariableModel.TEMPORARY_ID)
         }
 
-    fun copyTemporaryVariableToVariable(variableId: String) =
+    fun copyTemporaryVariableToVariable(variableId: VariableId) =
         commitTransaction {
             val temporaryVariable = getTemporaryVariable()
                 .findFirst() ?: return@commitTransaction
@@ -99,7 +99,7 @@ class VariableRepository : BaseRepository(RealmFactory.getInstance()) {
             }
         }
 
-    private fun RealmTransactionContext.copyVariable(sourceVariable: VariableModel, targetVariableId: String): VariableModel =
+    private fun RealmTransactionContext.copyVariable(sourceVariable: VariableModel, targetVariableId: VariableId): VariableModel =
         sourceVariable.detachFromRealm()
             .apply {
                 id = targetVariableId

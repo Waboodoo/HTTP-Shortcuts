@@ -25,6 +25,7 @@ import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.icons.IconPickerActivity
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.databinding.ActivityScriptingBinding
 import ch.rmy.android.http_shortcuts.icons.IpackPickerContract
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
@@ -42,7 +43,7 @@ class ScriptingActivity : BaseActivity() {
         icon?.let(viewModel::onIconSelected)
     }
 
-    private val currentShortcutId: String? by lazy {
+    private val currentShortcutId: ShortcutId? by lazy {
         intent.getStringExtra(EXTRA_SHORTCUT_ID)
     }
 
@@ -238,7 +239,7 @@ class ScriptingActivity : BaseActivity() {
 
     class IntentBuilder : BaseIntentBuilder(ScriptingActivity::class.java) {
 
-        fun shortcutId(shortcutId: String?) = also {
+        fun shortcutId(shortcutId: ShortcutId?) = also {
             intent.putExtra(EXTRA_SHORTCUT_ID, shortcutId)
         }
     }

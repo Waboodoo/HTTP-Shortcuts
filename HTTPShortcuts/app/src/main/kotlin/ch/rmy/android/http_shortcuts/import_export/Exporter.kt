@@ -8,7 +8,9 @@ import ch.rmy.android.framework.extensions.mapFor
 import ch.rmy.android.framework.extensions.mapIf
 import ch.rmy.android.framework.extensions.safeRemoveIf
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.models.BaseModel
 import ch.rmy.android.http_shortcuts.data.models.CategoryModel
@@ -38,8 +40,8 @@ class Exporter(private val context: Context) {
     fun exportToUri(
         uri: Uri,
         format: ExportFormat = ExportFormat.ZIP,
-        shortcutId: String? = null,
-        variableIds: Collection<String>? = null,
+        shortcutId: ShortcutId? = null,
+        variableIds: Collection<VariableId>? = null,
         excludeDefaults: Boolean = false,
     ): Single<ExportStatus> =
         getBase(shortcutId, variableIds)
@@ -82,7 +84,7 @@ class Exporter(private val context: Context) {
         return ExportStatus(exportedShortcuts = base.shortcuts.size)
     }
 
-    private fun getBase(shortcutId: String?, variableIds: Collection<String>?): Single<BaseModel> =
+    private fun getBase(shortcutId: ShortcutId?, variableIds: Collection<VariableId>?): Single<BaseModel> =
         appRepository.getBase()
             .map { base ->
                 base.applyIf(shortcutId != null) {

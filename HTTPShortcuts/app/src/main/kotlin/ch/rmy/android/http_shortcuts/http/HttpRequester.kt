@@ -7,6 +7,7 @@ import ch.rmy.android.framework.extensions.mapFor
 import ch.rmy.android.framework.extensions.mapIf
 import ch.rmy.android.framework.extensions.mapIfNotNull
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
@@ -162,7 +163,7 @@ class HttpRequester(private val contentResolver: ContentResolver) {
     private fun attachParameters(
         requestBuilder: RequestBuilder,
         shortcut: ShortcutModel,
-        variables: Map<String, String>,
+        variables: Map<VariableKey, String>,
         fileUploadManager: FileUploadManager?,
     ): RequestBuilder {
         var fileIndex = -1

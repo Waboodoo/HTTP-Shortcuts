@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.framework.extensions.setText
 import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.framework.ui.BaseAdapter
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.databinding.ListEmptyItemBinding
 import ch.rmy.android.http_shortcuts.databinding.ListItemVariableBinding
 import io.reactivex.Observable
@@ -52,7 +53,7 @@ class VariableAdapter : BaseAdapter<VariableListItem>() {
         private val binding: ListItemVariableBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        lateinit var variableId: String
+        lateinit var variableId: VariableId
             private set
 
         init {

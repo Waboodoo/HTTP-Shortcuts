@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.data.models
 
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.utils.UUIDUtils
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
@@ -17,7 +18,7 @@ import io.realm.annotations.Required
 @RealmClass(name = "Shortcut")
 open class ShortcutModel(
     @PrimaryKey
-    var id: String = "",
+    var id: ShortcutId = "",
     icon: ShortcutIcon = ShortcutIcon.NoIcon,
     var executionType: String? = ShortcutExecutionType.APP.type,
     var responseHandling: ResponseHandlingModel? = null,
@@ -262,7 +263,7 @@ open class ShortcutModel(
 
     companion object {
 
-        const val TEMPORARY_ID: String = "0"
+        const val TEMPORARY_ID: ShortcutId = "0"
         const val NAME_MAX_LENGTH = 50
         const val DESCRIPTION_MAX_LENGTH = 200
 

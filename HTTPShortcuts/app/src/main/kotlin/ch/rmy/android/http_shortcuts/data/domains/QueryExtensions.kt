@@ -2,6 +2,11 @@ package ch.rmy.android.http_shortcuts.data.domains
 
 import ch.rmy.android.framework.data.RealmContext
 import ch.rmy.android.framework.extensions.mapIfNotNull
+import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutNameOrId
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.models.AppLockModel
 import ch.rmy.android.http_shortcuts.data.models.BaseModel
 import ch.rmy.android.http_shortcuts.data.models.CategoryModel
@@ -17,12 +22,12 @@ fun RealmContext.getBase(): RealmQuery<BaseModel> =
     realmInstance
         .where<BaseModel>()
 
-fun RealmContext.getCategoryById(categoryId: String): RealmQuery<CategoryModel> =
+fun RealmContext.getCategoryById(categoryId: CategoryId): RealmQuery<CategoryModel> =
     realmInstance
         .where<CategoryModel>()
         .equalTo(CategoryModel.FIELD_ID, categoryId)
 
-fun RealmContext.getShortcutById(shortcutId: String): RealmQuery<ShortcutModel> =
+fun RealmContext.getShortcutById(shortcutId: ShortcutId): RealmQuery<ShortcutModel> =
     realmInstance
         .where<ShortcutModel>()
         .equalTo(ShortcutModel.FIELD_ID, shortcutId)
@@ -30,19 +35,19 @@ fun RealmContext.getShortcutById(shortcutId: String): RealmQuery<ShortcutModel> 
 fun RealmContext.getTemporaryShortcut(): RealmQuery<ShortcutModel> =
     getShortcutById(ShortcutModel.TEMPORARY_ID)
 
-fun RealmContext.getShortcutByNameOrId(shortcutNameOrId: String): RealmQuery<ShortcutModel> =
+fun RealmContext.getShortcutByNameOrId(shortcutNameOrId: ShortcutNameOrId): RealmQuery<ShortcutModel> =
     realmInstance
         .where<ShortcutModel>()
         .equalTo(ShortcutModel.FIELD_ID, shortcutNameOrId)
         .or()
         .equalTo(ShortcutModel.FIELD_NAME, shortcutNameOrId, Case.INSENSITIVE)
 
-fun RealmContext.getVariableById(variableId: String): RealmQuery<VariableModel> =
+fun RealmContext.getVariableById(variableId: VariableId): RealmQuery<VariableModel> =
     realmInstance
         .where<VariableModel>()
         .equalTo(VariableModel.FIELD_ID, variableId)
 
-fun RealmContext.getVariableByKeyOrId(keyOrId: String): RealmQuery<VariableModel> =
+fun RealmContext.getVariableByKeyOrId(keyOrId: VariableKeyOrId): RealmQuery<VariableModel> =
     realmInstance
         .where<VariableModel>()
         .beginGroup()
@@ -58,7 +63,7 @@ fun RealmContext.getTemporaryVariable(): RealmQuery<VariableModel> =
         .where<VariableModel>()
         .equalTo(VariableModel.FIELD_ID, VariableModel.TEMPORARY_ID)
 
-fun RealmContext.getPendingExecutions(shortcutId: String? = null, waitForNetwork: Boolean? = null): RealmQuery<PendingExecutionModel> =
+fun RealmContext.getPendingExecutions(shortcutId: ShortcutId? = null, waitForNetwork: Boolean? = null): RealmQuery<PendingExecutionModel> =
     realmInstance
         .where<PendingExecutionModel>()
         .mapIfNotNull(shortcutId) {
@@ -88,7 +93,7 @@ fun RealmContext.getDeadWidgets(): RealmQuery<WidgetModel> =
         .where<WidgetModel>()
         .isNull(WidgetModel.FIELD_SHORTCUT)
 
-fun RealmContext.getWidgetsForShortcut(shortcutId: String): RealmQuery<WidgetModel> =
+fun RealmContext.getWidgetsForShortcut(shortcutId: ShortcutId): RealmQuery<WidgetModel> =
     realmInstance
         .where<WidgetModel>()
         .equalTo("${WidgetModel.FIELD_SHORTCUT}.${ShortcutModel.FIELD_ID}", shortcutId)

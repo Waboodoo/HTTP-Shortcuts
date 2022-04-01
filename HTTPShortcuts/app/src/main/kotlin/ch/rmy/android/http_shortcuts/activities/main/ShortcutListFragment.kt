@@ -16,6 +16,7 @@ import ch.rmy.android.framework.utils.DragOrderingHelper
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
+import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
@@ -35,7 +36,7 @@ class ShortcutListFragment : BaseFragment<FragmentListBinding>() {
         fileUri?.let(viewModel::onFilePickedForExport)
     }
 
-    val categoryId by lazy {
+    val categoryId: CategoryId by lazy {
         args.getString(ARG_CATEGORY_ID) ?: ""
     }
 
@@ -184,7 +185,7 @@ class ShortcutListFragment : BaseFragment<FragmentListBinding>() {
 
     companion object {
 
-        fun create(categoryId: String, layoutType: CategoryLayoutType, selectionMode: SelectionMode): ShortcutListFragment =
+        fun create(categoryId: CategoryId, layoutType: CategoryLayoutType, selectionMode: SelectionMode): ShortcutListFragment =
             ShortcutListFragment().addArguments {
                 putString(ARG_CATEGORY_ID, categoryId)
                 putString(ARG_CATEGORY_LAYOUT_TYPE, layoutType.toString())

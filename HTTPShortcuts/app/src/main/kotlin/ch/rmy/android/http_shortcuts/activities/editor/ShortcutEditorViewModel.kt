@@ -26,6 +26,8 @@ import ch.rmy.android.http_shortcuts.activities.editor.response.ResponseActivity
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.ScriptingActivity
 import ch.rmy.android.http_shortcuts.activities.editor.shortcuts.TriggerShortcutsActivity
 import ch.rmy.android.http_shortcuts.activities.editor.usecases.FetchFaviconUseCase
+import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
@@ -362,7 +364,7 @@ class ShortcutEditorViewModel(
         }
     }
 
-    private fun onSaveSuccessful(shortcutId: String) {
+    private fun onSaveSuccessful(shortcutId: ShortcutId) {
         launcherShortcutManager.updatePinnedShortcut(shortcutId, shortcut.name, shortcut.icon)
         performOperation(widgetManager.updateWidgets(context, shortcutId))
         waitForOperationsToFinish {
@@ -496,8 +498,8 @@ class ShortcutEditorViewModel(
     }
 
     data class InitData(
-        val categoryId: String?,
-        val shortcutId: String?,
+        val categoryId: CategoryId?,
+        val shortcutId: ShortcutId?,
         val curlCommand: CurlCommand?,
         val executionType: ShortcutExecutionType,
     )

@@ -27,12 +27,13 @@ import ch.rmy.android.http_shortcuts.activities.variables.editor.types.slider.Sl
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.text.TextTypeFragment
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.time.TimeTypeFragment
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.toggle.ToggleTypeFragment
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.databinding.ActivityVariableEditorBinding
 
 class VariableEditorActivity : BaseActivity() {
 
-    private val variableId: String? by lazy {
+    private val variableId: VariableId? by lazy {
         intent.getStringExtra(EXTRA_VARIABLE_ID)
     }
     private val variableType: VariableType by lazy {
@@ -192,7 +193,7 @@ class VariableEditorActivity : BaseActivity() {
             intent.putExtra(EXTRA_VARIABLE_TYPE, type.type)
         }
 
-        fun variableId(variableId: String) = also {
+        fun variableId(variableId: VariableId) = also {
             intent.putExtra(EXTRA_VARIABLE_ID, variableId)
         }
     }

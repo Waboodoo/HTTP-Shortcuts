@@ -3,11 +3,12 @@ package ch.rmy.android.http_shortcuts.activities.widget
 import android.app.Application
 import android.graphics.Color
 import ch.rmy.android.framework.viewmodel.BaseViewModel
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
 class WidgetSettingsViewModel(application: Application) : BaseViewModel<WidgetSettingsViewModel.InitData, WidgetSettingsViewState>(application) {
 
-    private val shortcutId: String
+    private val shortcutId: ShortcutId
         get() = initData.shortcutId
     private val shortcutName: String
         get() = initData.shortcutName
@@ -15,7 +16,7 @@ class WidgetSettingsViewModel(application: Application) : BaseViewModel<WidgetSe
         get() = initData.shortcutIcon
 
     data class InitData(
-        val shortcutId: String,
+        val shortcutId: ShortcutId,
         val shortcutName: String,
         val shortcutIcon: ShortcutIcon,
     )

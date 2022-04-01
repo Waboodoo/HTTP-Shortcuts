@@ -4,11 +4,12 @@ import androidx.annotation.CheckResult
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.main.MainViewModel
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 
 class GetShortcutPlacementDialogUseCase {
 
     @CheckResult
-    operator fun invoke(viewModel: MainViewModel, shortcutId: String) =
+    operator fun invoke(viewModel: MainViewModel, shortcutId: ShortcutId) =
         DialogState.create {
             title(R.string.title_select_placement_method)
                 .message(R.string.description_select_placement_method)

@@ -9,6 +9,7 @@ import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.ui.BaseFragment
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.databinding.VariableEditorConstantBinding
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils.bindVariableViews
@@ -61,7 +62,7 @@ class ConstantTypeFragment private constructor() : BaseFragment<VariableEditorCo
 
     companion object {
 
-        fun create(variableId: String?): ConstantTypeFragment =
+        fun create(variableId: VariableId?): ConstantTypeFragment =
             ConstantTypeFragment().addArguments {
                 putString(ARG_VARIABLE_ID, variableId)
             }

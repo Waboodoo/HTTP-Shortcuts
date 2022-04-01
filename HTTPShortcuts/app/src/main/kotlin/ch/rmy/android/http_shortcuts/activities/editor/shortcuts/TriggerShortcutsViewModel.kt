@@ -14,6 +14,7 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
@@ -34,7 +35,7 @@ class TriggerShortcutsViewModel(application: Application) :
     private val temporaryShortcutRepository = TemporaryShortcutRepository()
     private val shortcutRepository = ShortcutRepository()
 
-    private var shortcutIdsInUse = emptyList<String>()
+    private var shortcutIdsInUse = emptyList<ShortcutId>()
         set(value) {
             field = value
             updateViewState {
@@ -85,7 +86,7 @@ class TriggerShortcutsViewModel(application: Application) :
         shortcutIdsInUse = getTriggeredShortcutIdsFromCode(shortcut.codeOnPrepare)
     }
 
-    private fun getShortcutListItem(shortcutId: String) =
+    private fun getShortcutListItem(shortcutId: ShortcutId) =
         shortcuts
             .firstOrNull { shortcut -> shortcut.id == shortcutId }
             ?.let { shortcutPlaceholder ->
@@ -111,7 +112,7 @@ class TriggerShortcutsViewModel(application: Application) :
         finish()
     }
 
-    fun onShortcutMoved(shortcutId1: String, shortcutId2: String) {
+    fun onShortcutMoved(shortcutId1: ShortcutId, shortcutId2: ShortcutId) {
         shortcutIdsInUse = shortcutIdsInUse.swapped(shortcutId1, shortcutId2) { this }
     }
 
@@ -149,15 +150,15 @@ class TriggerShortcutsViewModel(application: Application) :
         }
     }
 
-    fun onAddShortcutDialogConfirmed(shortcutId: String) {
+    fun onAddShortcutDialogConfirmed(shortcutId: ShortcutId) {
         shortcutIdsInUse = shortcutIdsInUse.plus(shortcutId)
     }
 
-    fun onRemoveShortcutDialogConfirmed(shortcutId: String) {
+    fun onRemoveShortcutDialogConfirmed(shortcutId: ShortcutId) {
         shortcutIdsInUse = shortcutIdsInUse.filter { it != shortcutId }
     }
 
-    fun onShortcutClicked(shortcutId: String) {
+    fun onShortcutClicked(shortcutId: ShortcutId) {
         val message = shortcuts
             .firstOrNull { it.id == shortcutId }
             ?.let { shortcut ->
@@ -167,7 +168,7 @@ class TriggerShortcutsViewModel(application: Application) :
         showRemoveShortcutDialog(shortcutId, message)
     }
 
-    private fun showRemoveShortcutDialog(shortcutId: String, message: Localizable) {
+    private fun showRemoveShortcutDialog(shortcutId: ShortcutId, message: Localizable) {
         dialogState = DialogState.create {
             title(R.string.title_remove_trigger_shortcut)
                 .message(message)
@@ -180,6 +181,6 @@ class TriggerShortcutsViewModel(application: Application) :
     }
 
     data class InitData(
-        val currentShortcutId: String?,
+        val currentShortcutId: ShortcutId?,
     )
 }

@@ -28,7 +28,7 @@ class CategoryRepository : BaseRepository(RealmFactory.getInstance()) {
             getBase().findFirst()!!.categories
         }
 
-    fun getObservableCategory(categoryId: String): Observable<CategoryModel> =
+    fun getObservableCategory(categoryId: CategoryId): Observable<CategoryModel> =
         observeItem {
             getCategoryById(categoryId)
         }
@@ -44,7 +44,7 @@ class CategoryRepository : BaseRepository(RealmFactory.getInstance()) {
             categories.add(copy(category))
         }
 
-    fun deleteCategory(categoryId: String): Completable =
+    fun deleteCategory(categoryId: CategoryId): Completable =
         commitTransaction {
             val category = getCategoryById(categoryId)
                 .findFirst()
@@ -57,35 +57,35 @@ class CategoryRepository : BaseRepository(RealmFactory.getInstance()) {
             category.deleteFromRealm()
         }
 
-    fun setBackground(categoryId: String, background: CategoryBackgroundType): Completable =
+    fun setBackground(categoryId: CategoryId, background: CategoryBackgroundType): Completable =
         commitTransaction {
             getCategoryById(categoryId)
                 .findFirst()
                 ?.categoryBackgroundType = background
         }
 
-    fun renameCategory(categoryId: String, newName: String): Completable =
+    fun renameCategory(categoryId: CategoryId, newName: String): Completable =
         commitTransaction {
             getCategoryById(categoryId)
                 .findFirst()
                 ?.name = newName
         }
 
-    fun toggleCategoryHidden(categoryId: String, hidden: Boolean): Completable =
+    fun toggleCategoryHidden(categoryId: CategoryId, hidden: Boolean): Completable =
         commitTransaction {
             getCategoryById(categoryId)
                 .findFirst()
                 ?.hidden = hidden
         }
 
-    fun setLayoutType(categoryId: String, layoutType: CategoryLayoutType): Completable =
+    fun setLayoutType(categoryId: CategoryId, layoutType: CategoryLayoutType): Completable =
         commitTransaction {
             getCategoryById(categoryId)
                 .findFirst()
                 ?.categoryLayoutType = layoutType
         }
 
-    fun moveCategory(categoryId1: String, categoryId2: String): Completable =
+    fun moveCategory(categoryId1: CategoryId, categoryId2: CategoryId): Completable =
         commitTransaction {
             getBase().findFirst()
                 ?.categories

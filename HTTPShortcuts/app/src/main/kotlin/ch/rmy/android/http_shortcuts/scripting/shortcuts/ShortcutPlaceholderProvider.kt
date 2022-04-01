@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.scripting.shortcuts
 
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 
 class ShortcutPlaceholderProvider {
@@ -12,7 +13,7 @@ class ShortcutPlaceholderProvider {
     var placeholders: List<ShortcutPlaceholder> = cache
         private set
 
-    fun findPlaceholderById(shortcutId: String): ShortcutPlaceholder? =
+    fun findPlaceholderById(shortcutId: ShortcutId): ShortcutPlaceholder? =
         placeholders
             .firstOrNull { it.id == shortcutId }
 

@@ -28,6 +28,8 @@ import ch.rmy.android.http_shortcuts.activities.misc.CurlImportActivity
 import ch.rmy.android.http_shortcuts.activities.settings.importexport.ImportExportActivity
 import ch.rmy.android.http_shortcuts.activities.settings.settings.SettingsActivity
 import ch.rmy.android.http_shortcuts.activities.widget.WidgetSettingsActivity
+import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.databinding.ActivityMainBinding
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
@@ -256,7 +258,7 @@ class MainActivity : BaseActivity(), Entrypoint {
                 )
             } else null
 
-        data class Result(val shortcutId: String, val shortcutName: String)
+        data class Result(val shortcutId: ShortcutId, val shortcutName: String)
     }
 
     class IntentBuilder : BaseIntentBuilder(MainActivity::class.java) {
@@ -266,7 +268,7 @@ class MainActivity : BaseActivity(), Entrypoint {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
 
-        fun categoryId(categoryId: String) = also {
+        fun categoryId(categoryId: CategoryId) = also {
             intent.putExtra(EXTRA_CATEGORY_ID, categoryId)
         }
     }
