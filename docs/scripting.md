@@ -141,6 +141,10 @@ Please note that no dialog will be displayed if the string you pass is empty.
 
 Similar to how JavaScript works in a browser, you can use `prompt()` and `confirm()` to ask the user for input as part of a workflow.
 
+`prompt()` will open a dialog window asking for text input. The entered text is then returned as a string. If the dialog is cancelled, `null` is returned instead. Pass a message in as the first parameter, and optionally a second parameter to prefill the text input field.
+
+`confirm()` will open a confirmation dialog. It returns true if the dialog is confirmed, or false if it is cancelled. Pass a message in as the first parameter.
+
 ```js
 if (confirm('Are you sure?')) {
     // Do something only if the user clicked 'OK'
