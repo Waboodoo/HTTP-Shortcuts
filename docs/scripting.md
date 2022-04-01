@@ -217,6 +217,16 @@ With this function you can rename a shortcut. Simply pass the name or ID of a sh
 renameShortcut('Old Name', 'New Name');
 ```
 
+### changeDescription
+
+With this function you can change the description of a shortcut. Simply pass the name or ID of a shortcut as the first parameter and the new description as the second one. You can also pass an empty string as the first parameter to target the current shortcut.
+
+```js
+changeDescription('My Shortcut', 'New Description');
+```
+
+Note: a shortcut's description is only visible in categories that use a list layout, not in those that use a grid layout.
+
 ### changeIcon
 
 With this function you can change the icon of a shortcut. Simply pass the name or ID of a shortcut as the first parameter and the name of the icon as the second one. You can also pass an empty string as the first parameter to target the current shortcut. This only works with built-in icons. Use the *"Add Code Snippet"* in the app to select an icon.

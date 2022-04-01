@@ -264,6 +264,7 @@ open class ShortcutModel(
 
         const val TEMPORARY_ID: String = "0"
         const val NAME_MAX_LENGTH = 50
+        const val DESCRIPTION_MAX_LENGTH = 200
 
         const val FIELD_ID = "id"
         const val FIELD_NAME = "name"

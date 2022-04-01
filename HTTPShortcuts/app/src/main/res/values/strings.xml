@@ -690,6 +690,8 @@
     <string name="action_type_rename_shortcut_title">Rename Shortcut</string>
     <!-- Shortcut Action Title: Change Shortcut Icon -->
     <string name="action_type_change_icon_title">Change Shortcut Icon</string>
+    <!-- Shortcut Action Title: Change Shortcut Description -->
+    <string name="action_type_change_icon_description">Change Shortcut Description</string>
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">Enqueue Shortcut</string>
     <!-- Shortcut Action Description: Enqueue a shortcut, i.e., execute it after the current one finishes -->
@@ -896,6 +898,8 @@
     <string name="error_shortcut_not_found_for_renaming">Could not rename shortcut \"%1$s\" because it does not exist.</string>
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_changing_icon">Could not change icon of shortcut \"%1$s\" because it does not exist.</string>
+    <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
+    <string name="error_shortcut_not_found_for_changing_description">Could not change description of shortcut \"%1$s\" because it does not exist.</string>
     <!-- Error message: Shown when user tries to use an unsupported hash function -->
     <string name="error_unsupported_hash_algorithm">Unsupported hash algorithm \"%1$s\". Use %2$s.</string>
     <!-- Error message: Shown when user tries to use an unsupported hmac function -->

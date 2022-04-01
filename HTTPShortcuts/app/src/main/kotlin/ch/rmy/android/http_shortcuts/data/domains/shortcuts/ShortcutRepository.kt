@@ -155,4 +155,11 @@ class ShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
                 .findFirst()
                 ?.name = name
         }
+
+    fun setDescription(shortcutId: String, description: String): Completable =
+        commitTransaction {
+            getShortcutById(shortcutId)
+                .findFirst()
+                ?.description = description
+        }
 }

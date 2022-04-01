@@ -5,6 +5,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.Base64DecodeActionT
 import ch.rmy.android.http_shortcuts.scripting.actions.types.Base64EncodeActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.BaseAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.BaseActionType
+import ch.rmy.android.http_shortcuts.scripting.actions.types.ChangeDescriptionActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ChangeIconActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ConfirmActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.CopyToClipboardActionType
@@ -52,6 +53,7 @@ class ActionFactory {
             listOf(
                 Base64DecodeActionType(),
                 Base64EncodeActionType(),
+                ChangeDescriptionActionType(),
                 ChangeIconActionType(),
                 ConfirmActionType(),
                 CopyToClipboardActionType(),

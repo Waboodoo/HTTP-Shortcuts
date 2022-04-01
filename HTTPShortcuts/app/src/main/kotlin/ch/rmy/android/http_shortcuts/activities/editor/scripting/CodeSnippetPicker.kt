@@ -184,6 +184,11 @@ class CodeSnippetPicker(
                     insertText("renameShortcut($shortcutPlaceholder, \"new name", "\");\n")
                 }
             }
+            .item(R.string.action_type_change_icon_description) {
+                actionWithShortcut(R.string.action_type_change_icon_description) { shortcutPlaceholder ->
+                    insertText("changeDescription($shortcutPlaceholder, \"new description", "\");\n")
+                }
+            }
             .item(R.string.action_type_change_icon_title) {
                 actionWithShortcut(R.string.action_type_change_icon_title) { shortcutPlaceholder ->
                     openIconPicker(shortcutPlaceholder)
