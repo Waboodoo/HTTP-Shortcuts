@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.showIfPossible
+import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.utils.Destroyer
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.framework.viewmodel.WithDialog
@@ -61,7 +62,7 @@ abstract class BaseFragment<Binding : ViewBinding> : Fragment() {
         when (event) {
             is ViewModelEvent.OpenActivity -> {
                 logInfo("handleEvent: Opening activity for ${event.intentBuilder}")
-                event.intentBuilder.startActivity(this, event.requestCode)
+                event.intentBuilder.startActivity(this)
             }
             else -> (requireActivity() as BaseActivity).handleEvent(event)
         }

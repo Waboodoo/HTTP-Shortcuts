@@ -53,7 +53,6 @@ private class LazyWithTarget<in T, out V : Any>(private val initializer: (T, KPr
     }
 }
 
-@Deprecated("Avoid using context in a view model")
 val AndroidViewModel.context: Context
     get() = getApplication<Application>().applicationContext
 

@@ -1,11 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.main
 
-import android.app.Activity.RESULT_OK
 import android.app.WallpaperManager
-import android.content.ActivityNotFoundException
-import android.content.Intent
 import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -15,21 +11,29 @@ import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.color
 import ch.rmy.android.framework.extensions.observe
-import ch.rmy.android.framework.extensions.showToast
-import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.ui.BaseFragment
 import ch.rmy.android.framework.utils.DragOrderingHelper
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.databinding.FragmentListBinding
-import ch.rmy.android.http_shortcuts.import_export.ExportFormat
-import ch.rmy.android.http_shortcuts.import_export.ExportUI
+import ch.rmy.android.http_shortcuts.import_export.OpenFilePickerForExportContract
 import ch.rmy.android.http_shortcuts.utils.GridLayoutManager
 
 class ShortcutListFragment : BaseFragment<FragmentListBinding>() {
+
+    private val openShortcutEditor = registerForActivityResult(ShortcutEditorActivity.OpenShortcutEditor) { shortcutId ->
+        if (shortcutId != null) {
+            viewModel.onShortcutEdited()
+        }
+    }
+
+    private val openFilePickerForExport = registerForActivityResult(OpenFilePickerForExportContract) { fileUri ->
+        fileUri?.let(viewModel::onFilePickedForExport)
+    }
 
     val categoryId by lazy {
         args.getString(ARG_CATEGORY_ID) ?: ""
@@ -46,10 +50,6 @@ class ShortcutListFragment : BaseFragment<FragmentListBinding>() {
     private var isDraggingEnabled = false
 
     private var previousBackground: CategoryBackgroundType? = null
-
-    private val exportUI by lazy {
-        destroyer.own(ExportUI(requireActivity()))
-    }
 
     private val viewModel: ShortcutListViewModel by bindViewModel { "$categoryId-$layoutType-$selectionMode" }
 
@@ -160,38 +160,17 @@ class ShortcutListFragment : BaseFragment<FragmentListBinding>() {
 
     override fun handleEvent(event: ViewModelEvent) {
         when (event) {
-            is ShortcutListEvent.ShowFileExportDialog -> showFileExportDialog(event.shortcutId, event.format, event.variableIds)
-            is ShortcutListEvent.StartExport -> startExport(event.shortcutId, event.uri, event.format, event.variableIds)
+            is ShortcutListEvent.OpenShortcutEditor -> openShortcutEditor.launch {
+                shortcutId(event.shortcutId)
+                    .categoryId(event.categoryId)
+            }
+            is ShortcutListEvent.OpenFilePickerForExport -> openFilePickerForExport.launch(
+                OpenFilePickerForExportContract.Params(
+                    format = event.exportFormat,
+                    single = true,
+                )
+            )
             else -> super.handleEvent(event)
-        }
-    }
-
-    private fun showFileExportDialog(shortcutId: String, format: ExportFormat, variableIds: Collection<String>) {
-        exportUI.showExportOptions(format, shortcutId, variableIds) { intent ->
-            viewModel.onFileExportStarted(shortcutId)
-            try {
-                intent.startActivity(this, REQUEST_EXPORT)
-            } catch (e: ActivityNotFoundException) {
-                context?.showToast(R.string.error_not_supported)
-            }
-        }
-    }
-
-    private fun startExport(shortcutId: String, uri: Uri, format: ExportFormat, variableIds: Collection<String>) {
-        exportUI.startExport(uri, format = format, shortcutId = shortcutId, variableIds = variableIds)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
-        super.onActivityResult(requestCode, resultCode, intent)
-        when (requestCode) {
-            REQUEST_EDIT_SHORTCUT -> {
-                viewModel.onShortcutEdited()
-            }
-            REQUEST_EXPORT -> {
-                if (resultCode == RESULT_OK) {
-                    viewModel.onExportDestinationSelected(intent?.data ?: return)
-                }
-            }
         }
     }
 
@@ -211,9 +190,6 @@ class ShortcutListFragment : BaseFragment<FragmentListBinding>() {
                 putString(ARG_CATEGORY_LAYOUT_TYPE, layoutType.toString())
                 putSerializable(ARG_SELECTION_MODE, selectionMode)
             }
-
-        const val REQUEST_EDIT_SHORTCUT = 2
-        private const val REQUEST_EXPORT = 3
 
         private const val ARG_CATEGORY_ID = "categoryId"
         private const val ARG_CATEGORY_LAYOUT_TYPE = "categoryLayoutType"

@@ -1,12 +1,10 @@
 package ch.rmy.android.http_shortcuts.activities.editor
 
 import android.app.Activity
-import android.app.Activity.RESULT_OK
 import android.app.Application
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.color
 import ch.rmy.android.framework.extensions.context
-import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.mapIfNotNull
 import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
@@ -18,7 +16,6 @@ import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
-import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity.Companion.RESULT_SHORTCUT_ID
 import ch.rmy.android.http_shortcuts.activities.editor.advancedsettings.AdvancedSettingsActivity
 import ch.rmy.android.http_shortcuts.activities.editor.authentication.AuthenticationActivity
 import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.BasicRequestSettingsActivity
@@ -369,7 +366,9 @@ class ShortcutEditorViewModel(
         performOperation(widgetManager.updateWidgets(context, shortcutId))
         waitForOperationsToFinish {
             CleanUpWorker.schedule(context)
-            finish(result = RESULT_OK, intent = createIntent { putExtra(RESULT_SHORTCUT_ID, shortcutId) })
+            finishWithOkResult(
+                ShortcutEditorActivity.OpenShortcutEditor.createResult(shortcutId),
+            )
         }
     }
 

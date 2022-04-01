@@ -1,21 +1,15 @@
 package ch.rmy.android.http_shortcuts.activities.settings.importexport
 
-import android.app.Activity
-import android.app.ProgressDialog
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import androidx.core.net.toUri
-import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.initialize
-import ch.rmy.android.framework.extensions.isWebUrl
-import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.launch
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.showToast
-import ch.rmy.android.framework.extensions.startActivity
+import ch.rmy.android.framework.ui.BaseActivityResultContract
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.utils.FilePickerUtil
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
@@ -24,13 +18,13 @@ import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.remote_edit.RemoteEditActivity
 import ch.rmy.android.http_shortcuts.activities.settings.BaseSettingsFragment
 import ch.rmy.android.http_shortcuts.import_export.ExportFormat
-import ch.rmy.android.http_shortcuts.import_export.ExportUI
-import ch.rmy.android.http_shortcuts.import_export.ImportException
-import ch.rmy.android.http_shortcuts.import_export.Importer
-import ch.rmy.android.http_shortcuts.utils.Settings
-import io.reactivex.android.schedulers.AndroidSchedulers
+import ch.rmy.android.http_shortcuts.import_export.OpenFilePickerForExportContract
 
 class ImportExportActivity : BaseActivity() {
+
+    private val openFilePickerForExport = registerForActivityResult(OpenFilePickerForExportContract) { fileUri ->
+        fileUri?.let(viewModel::onFilePickedForExport)
+    }
 
     private val viewModel: ImportExportViewModel by bindViewModel()
     private lateinit var fragment: ImportExportFragment
@@ -64,23 +58,36 @@ class ImportExportActivity : BaseActivity() {
 
     override fun handleEvent(event: ViewModelEvent) {
         when (event) {
-            is ImportExportEvent.StartImportFromURL -> fragment.startImportFromURL(event.url)
+            is ImportExportEvent.OpenFilePickerForExport -> openFilePickerForExport(event.exportFormat)
             else -> super.handleEvent(event)
+        }
+    }
+
+    private fun openFilePickerForExport(exportFormat: ExportFormat) {
+        try {
+            openFilePickerForExport.launch(
+                OpenFilePickerForExportContract.Params(
+                    format = exportFormat,
+                    single = false,
+                )
+            )
+        } catch (e: ActivityNotFoundException) {
+            context.showToast(R.string.error_not_supported)
         }
     }
 
     class ImportExportFragment : BaseSettingsFragment() {
 
         private val openFilePickerForImport = registerForActivityResult(FilePickerUtil.PickFile) { fileUri ->
-            fileUri?.let(::startImport)
+            fileUri?.let(viewModel::onFilePickedForImport)
+        }
+
+        private val openRemoteEditor = registerForActivityResult(RemoteEditActivity.OpenRemoteEditor) { changesImported ->
+            viewModel.onRemoteEditorClosed(changesImported)
         }
 
         private val viewModel: ImportExportViewModel
             get() = (activity as ImportExportActivity).viewModel
-
-        private val exportUI by lazy {
-            destroyer.own(ExportUI(requireActivity()))
-        }
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.import_export, rootKey)
@@ -94,23 +101,13 @@ class ImportExportActivity : BaseActivity() {
             }
 
             initPreference("export") {
-
-                exportUI.showExportOptions(format = getExportFormat()) { intent ->
-                    try {
-                        intent.startActivity(this, REQUEST_EXPORT_TO_DOCUMENTS)
-                    } catch (e: ActivityNotFoundException) {
-                        context?.showToast(R.string.error_not_supported)
-                    }
-                }
+                viewModel.onExportButtonClicked()
             }
 
             initPreference("remote_edit") {
-                openRemoteEditor()
+                openRemoteEditor.launch()
             }
         }
-
-        private fun getExportFormat() =
-            if (Settings(requireContext()).useLegacyExportFormat) ExportFormat.LEGACY_JSON else ExportFormat.ZIP
 
         private fun openGeneralPickerForImport() {
             try {
@@ -120,100 +117,24 @@ class ImportExportActivity : BaseActivity() {
             }
         }
 
-        fun startImportFromURL(url: String) {
-            val uri = url.toUri()
-            persistImportUrl(uri)
-            if (uri.isWebUrl) {
-                startImport(uri)
-            } else {
-                viewModel.onImportFailedDueToInvalidUrl()
-            }
-        }
-
-        private fun openRemoteEditor() {
-            RemoteEditActivity.IntentBuilder()
-                .startActivity(this, REQUEST_REMOTE_EDIT)
-        }
-
-        override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
-            if (resultCode != RESULT_OK || intent == null) {
-                return
-            }
-            when (requestCode) {
-                REQUEST_EXPORT_TO_DOCUMENTS -> {
-                    exportUI.startExport(
-                        intent.data ?: return,
-                        format = getExportFormat(),
-                    )
-                }
-                REQUEST_REMOTE_EDIT -> {
-                    reloadCategoriesWhenLeaving()
-                }
-            }
-        }
-
-        private fun persistImportUrl(url: Uri) {
-            Settings(requireContext()).importUrl = url
-        }
-
-        private fun startImport(uri: Uri) {
-            // TODO: Replace progress dialog with something better
-            val progressDialog = ProgressDialog(activity).apply {
-                setMessage(getString(R.string.import_in_progress))
-                setCanceledOnTouchOutside(false)
-            }
-            Importer(requireContext().applicationContext)
-                .importFromUri(uri, importMode = Importer.ImportMode.MERGE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe {
-                    progressDialog.show()
-                }
-                .doOnEvent { _, _ ->
-                    progressDialog.dismiss()
-                }
-                .subscribe({ status ->
-                    if (status.needsRussianWarning) {
-                        SpecialWarnings.show(requireContext())
-                    }
-                    showSnackbar(
-                        requireContext().resources.getQuantityString(
-                            R.plurals.shortcut_import_success,
-                            status.importedShortcuts,
-                            status.importedShortcuts,
-                        )
-                    )
-                    reloadCategoriesWhenLeaving()
-                }, { e ->
-                    if (e !is ImportException) {
-                        logException(e)
-                    }
-                    viewModel.onImportFailed(e.message ?: e::class.java.simpleName)
-                })
-                .attachTo(destroyer)
-        }
-
-        private fun reloadCategoriesWhenLeaving() {
-            requireActivity().setResult(
-                Activity.RESULT_OK,
-                createIntent {
-                    putExtra(EXTRA_CATEGORIES_CHANGED, true)
-                },
-            )
-        }
-
         override fun onDestroy() {
             super.onDestroy()
             destroyer.destroy()
         }
     }
 
-    class IntentBuilder : BaseIntentBuilder(ImportExportActivity::class.java)
+    object OpenImportExport : BaseActivityResultContract<IntentBuilder, Boolean>(::IntentBuilder) {
 
-    companion object {
+        private const val EXTRA_CATEGORIES_CHANGED = "categories_changed"
 
-        const val EXTRA_CATEGORIES_CHANGED = "categories_changed"
+        override fun parseResult(resultCode: Int, intent: Intent?) =
+            intent?.getBooleanExtra(EXTRA_CATEGORIES_CHANGED, false) ?: false
 
-        private const val REQUEST_EXPORT_TO_DOCUMENTS = 2
-        private const val REQUEST_REMOTE_EDIT = 4
+        fun createResult(categoriesChanged: Boolean) =
+            createIntent {
+                putExtra(EXTRA_CATEGORIES_CHANGED, categoriesChanged)
+            }
     }
+
+    class IntentBuilder : BaseIntentBuilder(ImportExportActivity::class.java)
 }

@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.activities.icons
 
-import android.app.Activity
 import android.app.Application
 import android.net.Uri
 import androidx.core.net.toFile
@@ -72,9 +71,8 @@ class IconPickerViewModel(application: Application) : BaseViewModel<Unit, IconPi
     }
 
     private fun selectIcon(icon: ShortcutIcon.CustomIcon) {
-        finish(
-            result = Activity.RESULT_OK,
-            intent = IconPickerActivity.PickIcon.createResult(icon),
+        finishWithOkResult(
+            IconPickerActivity.PickIcon.createResult(icon),
         )
     }
 

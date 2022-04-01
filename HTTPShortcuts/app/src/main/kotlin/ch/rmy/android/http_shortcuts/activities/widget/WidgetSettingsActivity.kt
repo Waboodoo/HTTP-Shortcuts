@@ -1,13 +1,16 @@
 package ch.rmy.android.http_shortcuts.activities.widget
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.consume
+import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.visible
+import ch.rmy.android.framework.ui.BaseActivityResultContract
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
@@ -105,6 +108,34 @@ class WidgetSettingsActivity : BaseActivity() {
 
     override val navigateUpIcon = R.drawable.ic_clear
 
+    object OpenWidgetSettings : BaseActivityResultContract<IntentBuilder, OpenWidgetSettings.Result?>(::IntentBuilder) {
+
+        private const val EXTRA_SHOW_LABEL = "ch.rmy.android.http_shortcuts.activities.widget.WidgetSettingsActivity.show_label"
+        private const val EXTRA_LABEL_COLOR = "ch.rmy.android.http_shortcuts.activities.widget.WidgetSettingsActivity.label_color"
+
+        override fun parseResult(resultCode: Int, intent: Intent?): Result? =
+            if (resultCode == Activity.RESULT_OK && intent != null) {
+                Result(
+                    shortcutId = intent.getStringExtra(EXTRA_SHORTCUT_ID)!!,
+                    labelColor = intent.getStringExtra(EXTRA_LABEL_COLOR)!!,
+                    showLabel = intent.getBooleanExtra(EXTRA_SHOW_LABEL, true),
+                )
+            } else null
+
+        fun createResult(shortcutId: String, labelColor: String, showLabel: Boolean): Intent =
+            createIntent {
+                putExtra(EXTRA_SHORTCUT_ID, shortcutId)
+                putExtra(EXTRA_LABEL_COLOR, labelColor)
+                putExtra(EXTRA_SHOW_LABEL, showLabel)
+            }
+
+        data class Result(
+            val shortcutId: String,
+            val labelColor: String,
+            val showLabel: Boolean,
+        )
+    }
+
     class IntentBuilder : BaseIntentBuilder(WidgetSettingsActivity::class.java) {
 
         fun shortcut(shortcut: LauncherShortcut) = also {
@@ -115,19 +146,8 @@ class WidgetSettingsActivity : BaseActivity() {
     }
 
     companion object {
-        const val EXTRA_SHORTCUT_ID = "ch.rmy.android.http_shortcuts.activities.widget.WidgetSettingsActivity.shortcut_id"
-        const val EXTRA_SHORTCUT_NAME = "ch.rmy.android.http_shortcuts.activities.widget.WidgetSettingsActivity.shortcut_name"
-        const val EXTRA_SHORTCUT_ICON = "ch.rmy.android.http_shortcuts.activities.widget.WidgetSettingsActivity.shortcut_icon"
-        const val EXTRA_SHOW_LABEL = "ch.rmy.android.http_shortcuts.activities.widget.WidgetSettingsActivity.show_label"
-        const val EXTRA_LABEL_COLOR = "ch.rmy.android.http_shortcuts.activities.widget.WidgetSettingsActivity.label_color"
-
-        fun getShortcutId(intent: Intent): String? =
-            intent.getStringExtra(EXTRA_SHORTCUT_ID)
-
-        fun getLabelColor(intent: Intent): String? =
-            intent.getStringExtra(EXTRA_LABEL_COLOR)
-
-        fun shouldShowLabel(intent: Intent): Boolean =
-            intent.getBooleanExtra(EXTRA_SHOW_LABEL, true)
+        private const val EXTRA_SHORTCUT_ID = "ch.rmy.android.http_shortcuts.activities.widget.WidgetSettingsActivity.shortcut_id"
+        private const val EXTRA_SHORTCUT_NAME = "ch.rmy.android.http_shortcuts.activities.widget.WidgetSettingsActivity.shortcut_name"
+        private const val EXTRA_SHORTCUT_ICON = "ch.rmy.android.http_shortcuts.activities.widget.WidgetSettingsActivity.shortcut_icon"
     }
 }

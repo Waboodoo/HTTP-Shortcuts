@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.plugin
 
 import android.content.Context
+import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.plugin.VariableHelper.extractVariableMap
 import com.joaomgcd.taskerpluginlibrary.action.TaskerPluginRunnerActionNoOutput

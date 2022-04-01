@@ -1,13 +1,16 @@
 package ch.rmy.android.http_shortcuts.activities.categories
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.consume
+import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.initialize
 import ch.rmy.android.framework.extensions.observe
+import ch.rmy.android.framework.ui.BaseActivityResultContract
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.utils.DragOrderingHelper
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
@@ -105,10 +108,17 @@ class CategoriesActivity : BaseActivity() {
         viewModel.onBackPressed()
     }
 
-    class IntentBuilder : BaseIntentBuilder(CategoriesActivity::class.java)
+    object OpenCategories : BaseActivityResultContract<IntentBuilder, Boolean>(::IntentBuilder) {
+        private const val EXTRA_CATEGORIES_CHANGED = "categories_changed"
 
-    companion object {
+        override fun parseResult(resultCode: Int, intent: Intent?): Boolean =
+            intent?.getBooleanExtra(EXTRA_CATEGORIES_CHANGED, false) ?: false
 
-        const val EXTRA_CATEGORIES_CHANGED = "categories_changed"
+        fun createResult(categoriesChanged: Boolean) =
+            createIntent {
+                putExtra(EXTRA_CATEGORIES_CHANGED, categoriesChanged)
+            }
     }
+
+    class IntentBuilder : BaseIntentBuilder(CategoriesActivity::class.java)
 }

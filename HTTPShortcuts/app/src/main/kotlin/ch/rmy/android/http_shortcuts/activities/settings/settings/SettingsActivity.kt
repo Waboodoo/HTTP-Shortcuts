@@ -12,6 +12,8 @@ import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.initialize
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.showSnackbar
+import ch.rmy.android.framework.extensions.startActivity
+import ch.rmy.android.framework.ui.BaseActivityResultContract
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
@@ -111,11 +113,8 @@ class SettingsActivity : BaseActivity() {
         }
 
         private fun restartToApplyThemeChanges() {
-            val returnIntent = createIntent {
-                putExtra(EXTRA_THEME_CHANGED, true)
-            }
             requireActivity().apply {
-                setResult(Activity.RESULT_OK, returnIntent)
+                setResult(Activity.RESULT_OK, OpenSettings.createResult(themeChanged = true))
                 finish()
                 overridePendingTransition(0, 0)
             }
@@ -132,11 +131,25 @@ class SettingsActivity : BaseActivity() {
         }
     }
 
-    class IntentBuilder : BaseIntentBuilder(SettingsActivity::class.java)
+    object OpenSettings : BaseActivityResultContract<IntentBuilder, OpenSettings.Result>(::IntentBuilder) {
 
-    companion object {
+        private const val EXTRA_THEME_CHANGED = "theme_changed"
+        private const val EXTRA_APP_LOCKED = "app_locked"
 
-        const val EXTRA_THEME_CHANGED = "theme_changed"
-        const val EXTRA_APP_LOCKED = "app_locked"
+        override fun parseResult(resultCode: Int, intent: Intent?): Result =
+            Result(
+                themeChanged = intent?.getBooleanExtra(EXTRA_THEME_CHANGED, false) ?: false,
+                appLocked = intent?.getBooleanExtra(EXTRA_APP_LOCKED, false) ?: false,
+            )
+
+        fun createResult(themeChanged: Boolean = false, appLocked: Boolean = false) =
+            createIntent {
+                putExtra(EXTRA_THEME_CHANGED, themeChanged)
+                putExtra(EXTRA_APP_LOCKED, appLocked)
+            }
+
+        data class Result(val themeChanged: Boolean, val appLocked: Boolean)
     }
+
+    class IntentBuilder : BaseIntentBuilder(SettingsActivity::class.java)
 }

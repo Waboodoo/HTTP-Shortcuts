@@ -1,5 +1,6 @@
 package ch.rmy.android.framework.viewmodel
 
+import android.app.Activity
 import android.app.Application
 import android.content.Intent
 import androidx.annotation.StringRes
@@ -7,7 +8,7 @@ import androidx.annotation.UiThread
 import androidx.lifecycle.AndroidViewModel
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.logException
-import ch.rmy.android.framework.ui.BaseIntentBuilder
+import ch.rmy.android.framework.ui.IntentBuilder
 import ch.rmy.android.framework.utils.Destroyer
 import ch.rmy.android.framework.utils.ProgressMonitor
 import ch.rmy.android.framework.utils.localization.Localizable
@@ -145,7 +146,14 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
         emitEvent(ViewModelEvent.Finish(result, intent, skipAnimation))
     }
 
-    protected fun setResult(result: Int, intent: Intent? = null) {
+    protected fun finishWithOkResult(intent: Intent) {
+        finish(
+            result = Activity.RESULT_OK,
+            intent = intent,
+        )
+    }
+
+    protected fun setResult(result: Int = Activity.RESULT_CANCELED, intent: Intent? = null) {
         emitEvent(ViewModelEvent.SetResult(result, intent))
     }
 
@@ -153,8 +161,8 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
         emitEvent(ViewModelEvent.OpenURL(url))
     }
 
-    protected fun openActivity(intentBuilder: BaseIntentBuilder, requestCode: Int? = null) {
-        emitEvent(ViewModelEvent.OpenActivity(intentBuilder, requestCode))
+    protected fun openActivity(intentBuilder: IntentBuilder) {
+        emitEvent(ViewModelEvent.OpenActivity(intentBuilder))
     }
 
     protected fun sendBroadcast(intent: Intent) {

@@ -22,7 +22,6 @@ abstract class ViewModelEvent {
 
     data class OpenActivity(
         val intentBuilder: IntentBuilder,
-        val requestCode: Int? = null,
     ) : ViewModelEvent()
 
     data class SendBroadcast(

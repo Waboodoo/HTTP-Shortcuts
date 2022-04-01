@@ -17,12 +17,19 @@ class GetUsedVariableIdsUseCase(
     private val variableRepository: VariableRepository,
 ) {
 
-    operator fun invoke(): Single<Set<String>> =
+    operator fun invoke(shortcutId: String? = null): Single<Set<String>> =
         variableRepository.getVariables()
             .flatMap { variables ->
-                shortcutRepository.getShortcuts().map { shortcuts ->
-                    determineVariablesInUse(variables, shortcuts)
+                if (shortcutId != null) {
+                    shortcutRepository.getShortcutById(shortcutId)
+                        .map { listOf(it) }
+                        .onErrorReturn { emptyList() }
+                } else {
+                    shortcutRepository.getShortcuts()
                 }
+                    .map { shortcuts ->
+                        determineVariablesInUse(variables, shortcuts)
+                    }
             }
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())

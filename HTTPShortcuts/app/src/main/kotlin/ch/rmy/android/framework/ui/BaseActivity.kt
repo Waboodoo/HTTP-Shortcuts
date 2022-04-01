@@ -23,6 +23,7 @@ import ch.rmy.android.framework.extensions.setTintCompat
 import ch.rmy.android.framework.extensions.showIfPossible
 import ch.rmy.android.framework.extensions.showSnackbar
 import ch.rmy.android.framework.extensions.showToast
+import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.utils.Destroyer
 import ch.rmy.android.framework.utils.SnackbarManager
 import ch.rmy.android.framework.utils.localization.Localizable
@@ -112,7 +113,7 @@ abstract class BaseActivity : AppCompatActivity() {
             is ViewModelEvent.OpenActivity -> {
                 logInfo("handleEvent: Opening activity for ${event.intentBuilder}")
                 try {
-                    event.intentBuilder.startActivity(this, event.requestCode)
+                    event.intentBuilder.startActivity(this)
                 } catch (e: ActivityNotFoundException) {
                     showToast(R.string.error_not_supported)
                 }

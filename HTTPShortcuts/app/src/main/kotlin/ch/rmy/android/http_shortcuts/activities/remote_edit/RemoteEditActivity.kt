@@ -1,16 +1,19 @@
 package ch.rmy.android.http_shortcuts.activities.remote_edit
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.consume
+import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.initialize
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.extensions.setText
 import ch.rmy.android.framework.extensions.setTextSafely
+import ch.rmy.android.framework.ui.BaseActivityResultContract
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
@@ -74,9 +77,17 @@ class RemoteEditActivity : BaseActivity() {
             else -> super.onOptionsItemSelected(item)
         }
 
-    class IntentBuilder : BaseIntentBuilder(RemoteEditActivity::class.java)
+    object OpenRemoteEditor : BaseActivityResultContract<IntentBuilder, Boolean>(::IntentBuilder) {
+        private const val EXTRA_CHANGES_IMPORTED = "changes_imported"
 
-    companion object {
-        const val EXTRA_CHANGES_IMPORTED = "changes_imported"
+        override fun parseResult(resultCode: Int, intent: Intent?): Boolean =
+            intent?.getBooleanExtra(EXTRA_CHANGES_IMPORTED, false) ?: false
+
+        fun createResult(changesImported: Boolean) =
+            createIntent {
+                putExtra(EXTRA_CHANGES_IMPORTED, changesImported)
+            }
     }
+
+    class IntentBuilder : BaseIntentBuilder(RemoteEditActivity::class.java)
 }

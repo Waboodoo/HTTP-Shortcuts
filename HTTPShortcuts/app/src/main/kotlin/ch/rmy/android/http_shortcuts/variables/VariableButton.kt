@@ -8,6 +8,7 @@ import ch.rmy.android.framework.extensions.isDarkThemeEnabled
 import ch.rmy.android.framework.extensions.mapFor
 import ch.rmy.android.framework.extensions.mapIf
 import ch.rmy.android.framework.extensions.setTintCompat
+import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.VariableTypeMappings
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity

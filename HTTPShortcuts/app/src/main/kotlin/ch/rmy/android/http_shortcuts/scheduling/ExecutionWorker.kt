@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.work.RxWorker
 import androidx.work.WorkerParameters
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository

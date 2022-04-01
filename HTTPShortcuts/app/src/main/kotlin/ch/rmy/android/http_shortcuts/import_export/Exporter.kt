@@ -22,6 +22,7 @@ import ch.rmy.android.http_shortcuts.usecases.GetUsedCustomIconsUseCase
 import ch.rmy.android.http_shortcuts.utils.FileUtil
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.io.File
 import java.io.FileInputStream
@@ -70,6 +71,7 @@ class Exporter(private val context: Context) {
                 }
             }
             .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
 
     private fun export(
         writer: Appendable,

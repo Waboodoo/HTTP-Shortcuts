@@ -1,6 +1,8 @@
 package ch.rmy.android.http_shortcuts.activities.main
 
 import android.app.Application
+import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.context
@@ -8,14 +10,16 @@ import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.extensions.toLocalizable
+import ch.rmy.android.framework.ui.IntentBuilder
+import ch.rmy.android.framework.utils.localization.QuantityStringLocalizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.EventBridge
 import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
+import ch.rmy.android.framework.viewmodel.viewstate.ProgressDialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
-import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetContextMenuDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetCurlExportDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetExportOptionsDialogUseCase
@@ -23,6 +27,7 @@ import ch.rmy.android.http_shortcuts.activities.main.usecases.GetMoveOptionsDial
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetMoveToCategoryDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetShortcutDeletionDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetShortcutInfoDialogUseCase
+import ch.rmy.android.http_shortcuts.activities.variables.usecases.GetUsedVariableIdsUseCase
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
@@ -40,11 +45,13 @@ import ch.rmy.android.http_shortcuts.extensions.toLauncherShortcut
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.import_export.CurlExporter
 import ch.rmy.android.http_shortcuts.import_export.ExportFormat
+import ch.rmy.android.http_shortcuts.import_export.Exporter
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
+import ch.rmy.android.http_shortcuts.usecases.GetExportDestinationOptionsDialogUseCase
+import ch.rmy.android.http_shortcuts.utils.FileUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
-import ch.rmy.android.http_shortcuts.variables.VariableManager
-import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import ch.rmy.curlcommand.CurlCommand
+import io.reactivex.disposables.Disposable
 
 class ShortcutListViewModel(
     application: Application,
@@ -64,9 +71,12 @@ class ShortcutListViewModel(
     private val getShortcutInfoDialog = GetShortcutInfoDialogUseCase()
     private val getShortcutDeletionDialog = GetShortcutDeletionDialogUseCase()
     private val getExportOptionsDialog = GetExportOptionsDialogUseCase()
+    private val getExportDestinationOptionsDialog = GetExportDestinationOptionsDialogUseCase()
     private val getMoveOptionsDialog = GetMoveOptionsDialogUseCase()
     private val getContextMenuDialog = GetContextMenuDialogUseCase()
     private val getMoveToCategoryDialog = GetMoveToCategoryDialogUseCase()
+    private val exporter = Exporter(context)
+    private val getUsedVariableIds = GetUsedVariableIdsUseCase(shortcutRepository, variableRepository)
 
     private lateinit var category: CategoryModel
     private var categories: List<CategoryModel> = emptyList()
@@ -75,6 +85,8 @@ class ShortcutListViewModel(
 
     private var exportingShortcutId: String? = null
     private var isAppLocked = false
+
+    private var disposable: Disposable? = null
 
     override var dialogState: DialogState?
         get() = currentViewState.dialogState
@@ -238,11 +250,11 @@ class ShortcutListViewModel(
 
     private fun editShortcut(shortcutId: String) {
         logInfo("Preparing to edit shortcut")
-        openActivity(
-            ShortcutEditorActivity.IntentBuilder()
-                .categoryId(category.id)
-                .shortcutId(shortcutId),
-            requestCode = ShortcutListFragment.REQUEST_EDIT_SHORTCUT,
+        emitEvent(
+            ShortcutListEvent.OpenShortcutEditor(
+                shortcutId = shortcutId,
+                categoryId = category.id,
+            )
         )
     }
 
@@ -391,30 +403,117 @@ class ShortcutListViewModel(
     }
 
     private fun showFileExportDialog(shortcutId: String) {
-        val shortcut = getShortcutById(shortcutId) ?: return
-        emitEvent(
-            ShortcutListEvent.ShowFileExportDialog(
-                shortcutId,
-                format = getPreferredExportFormat(),
-                variableIds = getVariableIdsRequiredForExport(shortcut),
-            )
+        exportingShortcutId = shortcutId
+        dialogState = getExportDestinationOptionsDialog(
+            onExportToFileOptionSelected = {
+                emitEvent(ShortcutListEvent.OpenFilePickerForExport(getExportFormat()))
+            },
+            onExportViaSharingOptionSelected = {
+                sendExport()
+            },
         )
     }
 
-    fun onExportDestinationSelected(uri: Uri) {
+    fun onFilePickedForExport(file: Uri) {
         val shortcut = exportingShortcutId?.let(::getShortcutById) ?: return
-        exportingShortcutId = null
-        emitEvent(
-            ShortcutListEvent.StartExport(
-                shortcutId = shortcut.id,
-                uri = uri,
-                format = getPreferredExportFormat(),
-                variableIds = getVariableIdsRequiredForExport(shortcut),
+        getUsedVariableIds(shortcut.id)
+            .flatMap { variableIds ->
+                exporter.exportToUri(
+                    file,
+                    format = getExportFormat(),
+                    excludeDefaults = true,
+                    shortcutId = shortcut.id,
+                    variableIds = variableIds,
+                )
+            }
+            .doOnSubscribe {
+                showProgressDialog(R.string.export_in_progress)
+            }
+            .doFinally {
+                hideProgressDialog()
+            }
+            .subscribe(
+                { status ->
+                    showSnackbar(
+                        QuantityStringLocalizable(
+                            R.plurals.shortcut_export_success,
+                            status.exportedShortcuts,
+                            status.exportedShortcuts,
+                        )
+                    )
+                },
+                { error ->
+                    logException(error)
+                    dialogState = DialogState.create {
+                        message(context.getString(R.string.export_failed_with_reason, error.message))
+                            .positive(R.string.dialog_ok)
+                            .build()
+                    }
+                },
             )
-        )
+            .also {
+                disposable = it
+            }
+            .attachTo(destroyer)
     }
 
-    private fun getPreferredExportFormat() =
+    private fun sendExport() {
+        val shortcut = exportingShortcutId?.let(::getShortcutById) ?: return
+        val format = getExportFormat()
+        val cacheFile = FileUtil.createCacheFile(context, format.getFileName(single = true))
+
+        getUsedVariableIds(shortcut.id)
+            .flatMap { variableIds ->
+                exporter
+                    .exportToUri(
+                        cacheFile,
+                        excludeDefaults = true,
+                        shortcutId = shortcut.id,
+                        variableIds = variableIds,
+                    )
+            }
+            .doOnSubscribe {
+                showProgressDialog(R.string.export_in_progress)
+            }
+            .doFinally {
+                hideProgressDialog()
+            }
+            .subscribe(
+                {
+                    openActivity(object : IntentBuilder {
+                        override fun build(context: Context) =
+                            Intent(Intent.ACTION_SEND)
+                                .setType(format.fileTypeForSharing)
+                                .putExtra(Intent.EXTRA_STREAM, cacheFile)
+                                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                                .let {
+                                    Intent.createChooser(it, context.getString(R.string.title_export))
+                                }
+                    })
+                },
+                ::handleUnexpectedError,
+            )
+            .also {
+                disposable = it
+            }
+            .attachTo(destroyer)
+    }
+
+    private fun showProgressDialog(message: Int) {
+        dialogState = ProgressDialogState(StringResLocalizable(message), ::onProgressDialogCanceled)
+    }
+
+    private fun hideProgressDialog() {
+        if (dialogState?.id == ProgressDialogState.DIALOG_ID) {
+            dialogState = null
+        }
+    }
+
+    private fun onProgressDialogCanceled() {
+        disposable?.dispose()
+    }
+
+    private fun getExportFormat() =
         if (settings.useLegacyExportFormat) ExportFormat.LEGACY_JSON else ExportFormat.ZIP
 
     fun onMoveToCategoryOptionSelected(shortcutId: String) {
@@ -442,17 +541,6 @@ class ShortcutListViewModel(
         logInfo("Shortcut editing completed")
         eventBridge.submit(ChildViewModelEvent.ShortcutEdited)
     }
-
-    fun onFileExportStarted(shortcutId: String) {
-        exportingShortcutId = shortcutId
-    }
-
-    private fun getVariableIdsRequiredForExport(shortcut: ShortcutModel) =
-        // TODO: Recursively collect variables referenced by other variables
-        VariableResolver.extractVariableIds(
-            shortcut,
-            variableLookup = VariableManager(variables),
-        )
 
     fun onDeletionConfirmed(shortcutId: String) {
         val shortcut = getShortcutById(shortcutId) ?: return

@@ -1,10 +1,8 @@
 package ch.rmy.android.http_shortcuts.activities.categories
 
-import android.app.Activity
 import android.app.Application
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.context
-import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.framework.utils.localization.QuantityStringLocalizable
@@ -74,11 +72,8 @@ class CategoriesViewModel(application: Application) : BaseViewModel<Unit, Catego
     }
 
     private fun finish(hasChanges: Boolean) {
-        finish(
-            result = Activity.RESULT_OK,
-            intent = createIntent {
-                putExtra(CategoriesActivity.EXTRA_CATEGORIES_CHANGED, hasChanges)
-            },
+        finishWithOkResult(
+            CategoriesActivity.OpenCategories.createResult(hasChanges),
         )
     }
 

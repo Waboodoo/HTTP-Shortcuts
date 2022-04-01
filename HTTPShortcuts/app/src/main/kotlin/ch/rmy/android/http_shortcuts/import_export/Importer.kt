@@ -17,6 +17,7 @@ import com.google.gson.JsonParseException
 import com.google.gson.JsonParser
 import com.google.gson.JsonSyntaxException
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.io.BufferedReader
 import java.io.File
@@ -57,6 +58,7 @@ class Importer(private val context: Context) {
                 Single.error(handleError(error))
             }
             .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
 
     private fun importFromZIP(inputStream: InputStream, importMode: ImportMode): ImportStatus {
         var importStatus: ImportStatus? = null

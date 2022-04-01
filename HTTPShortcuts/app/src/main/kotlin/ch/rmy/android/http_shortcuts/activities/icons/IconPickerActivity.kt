@@ -1,12 +1,10 @@
 package ch.rmy.android.http_shortcuts.activities.icons
 
 import android.content.ActivityNotFoundException
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.activity.result.contract.ActivityResultContract
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.createIntent
@@ -14,6 +12,7 @@ import ch.rmy.android.framework.extensions.initialize
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.visible
+import ch.rmy.android.framework.ui.BaseActivityResultContract
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.utils.FilePickerUtil
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
@@ -119,10 +118,7 @@ class IconPickerActivity : BaseActivity() {
             else -> super.onOptionsItemSelected(item)
         }
 
-    object PickIcon : ActivityResultContract<Unit, ShortcutIcon?>() {
-        override fun createIntent(context: Context, input: Unit?): Intent =
-            IntentBuilder().build(context)
-
+    object PickIcon : BaseActivityResultContract<IntentBuilder, ShortcutIcon?>(::IntentBuilder) {
         override fun parseResult(resultCode: Int, intent: Intent?): ShortcutIcon? =
             intent?.getStringExtra(EXTRA_ICON)?.let(ShortcutIcon::fromName)
 

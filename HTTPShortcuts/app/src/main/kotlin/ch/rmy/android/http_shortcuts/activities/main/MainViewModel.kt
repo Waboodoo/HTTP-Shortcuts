@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.activities.main
 
 import android.app.Activity
 import android.app.Application
-import android.content.Intent
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.createIntent
@@ -15,7 +14,6 @@ import ch.rmy.android.framework.viewmodel.EventBridge
 import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.categories.CategoriesActivity
 import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetNetworkRestrictionDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetShortcutCreationDialogUseCase
@@ -23,12 +21,8 @@ import ch.rmy.android.http_shortcuts.activities.main.usecases.GetShortcutPlaceme
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetUnlockDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowChangeLogDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowNetworkRestrictionDialogUseCase
-import ch.rmy.android.http_shortcuts.activities.misc.CurlImportActivity
 import ch.rmy.android.http_shortcuts.activities.settings.about.AboutActivity
-import ch.rmy.android.http_shortcuts.activities.settings.importexport.ImportExportActivity
-import ch.rmy.android.http_shortcuts.activities.settings.settings.SettingsActivity
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
-import ch.rmy.android.http_shortcuts.activities.widget.WidgetSettingsActivity
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.dtos.LauncherShortcut
@@ -37,6 +31,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.CategoryModel
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.extensions.toLauncherShortcut
+import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.usecases.GetChangeLogDialogUseCase
 import ch.rmy.android.http_shortcuts.usecases.GetToolbarTitleChangeDialogUseCase
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
@@ -63,6 +58,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     private val getShortcutCreationDialog = GetShortcutCreationDialogUseCase()
     private val getNetworkRestrictionDialog = GetNetworkRestrictionDialogUseCase(settings)
     private val shouldShowNetworkRestrictionDialog = ShouldShowNetworkRestrictionDialogUseCase(context, settings)
+    private val executionScheduler = ExecutionScheduler(context)
 
     private lateinit var categories: List<CategoryModel>
 
@@ -112,7 +108,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         observeToolbarTitle()
         observeAppLock()
 
-        emitEvent(MainEvent.ScheduleExecutions)
+        scheduleExecutions()
         updateLauncherShortcuts()
 
         if (selectionMode === SelectionMode.NORMAL) {
@@ -129,6 +125,12 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
                 showToast(R.string.instructions_select_shortcut_for_home_screen, long = true)
             }
         }
+    }
+
+    private fun scheduleExecutions() {
+        executionScheduler.schedule()
+            .subscribe()
+            .attachTo(destroyer)
     }
 
     private fun showStartupDialogsIfNeeded() {
@@ -209,11 +211,11 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     fun onSettingsButtonClicked() {
-        openActivity(SettingsActivity.IntentBuilder(), MainActivity.REQUEST_SETTINGS)
+        emitEvent(MainEvent.OpenSettings)
     }
 
     fun onImportExportButtonClicked() {
-        openActivity(ImportExportActivity.IntentBuilder(), MainActivity.REQUEST_IMPORT_EXPORT)
+        emitEvent(MainEvent.OpenImportExport)
     }
 
     fun onAboutButtonClicked() {
@@ -225,7 +227,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     private fun openCategoriesEditor() {
-        openActivity(CategoriesActivity.IntentBuilder(), MainActivity.REQUEST_CATEGORIES)
+        emitEvent(MainEvent.OpenCategories)
     }
 
     fun onVariablesButtonClicked() {
@@ -250,11 +252,12 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
 
     fun onCreationDialogOptionSelected(executionType: ShortcutExecutionType) {
         logInfo("Preparing to open editor for creating shortcut of type $executionType")
-        openActivity(
-            ShortcutEditorActivity.IntentBuilder()
-                .categoryId(currentViewState.activeCategoryId)
-                .executionType(executionType),
-            requestCode = MainActivity.REQUEST_CREATE_SHORTCUT,
+        emitEvent(
+            MainEvent.OpenShortcutEditor(
+                ShortcutEditorActivity.IntentBuilder()
+                    .categoryId(currentViewState.activeCategoryId)
+                    .executionType(executionType)
+            )
         )
     }
 
@@ -319,10 +322,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     fun onCurlImportOptionSelected() {
-        openActivity(
-            CurlImportActivity.IntentBuilder(),
-            requestCode = MainActivity.REQUEST_CREATE_SHORTCUT_FROM_CURL,
-        )
+        emitEvent(MainEvent.OpenCurlImport)
     }
 
     fun onShortcutCreated(shortcutId: String) {
@@ -346,11 +346,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
 
     private fun openWidgetSettings(shortcutId: String) {
         val shortcut = getShortcutById(shortcutId) ?: return
-        openActivity(
-            WidgetSettingsActivity.IntentBuilder()
-                .shortcut(shortcut.toLauncherShortcut()),
-            requestCode = MainActivity.REQUEST_WIDGET_SETTINGS,
-        )
+        emitEvent(MainEvent.OpenWidgetSettings(shortcut.toLauncherShortcut()))
     }
 
     private fun returnForHomeScreenShortcutPlacement(shortcutId: String) {
@@ -408,11 +404,12 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     fun onCurlCommandSubmitted(curlCommand: CurlCommand) {
-        openActivity(
-            ShortcutEditorActivity.IntentBuilder()
-                .categoryId(currentViewState.activeCategoryId)
-                .curlCommand(curlCommand),
-            requestCode = MainActivity.REQUEST_CREATE_SHORTCUT,
+        emitEvent(
+            MainEvent.OpenShortcutEditor(
+                ShortcutEditorActivity.IntentBuilder()
+                    .categoryId(currentViewState.activeCategoryId)
+                    .curlCommand(curlCommand)
+            )
         )
     }
 
@@ -429,13 +426,6 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
 
     fun onWidgetSettingsSubmitted(shortcutId: String, showLabel: Boolean, labelColor: String?) {
         returnForHomeScreenWidgetPlacement(shortcutId, showLabel, labelColor)
-    }
-
-    private fun finishWithOkResult(intent: Intent) {
-        finish(
-            result = Activity.RESULT_OK,
-            intent = intent,
-        )
     }
 
     override fun onDialogDismissed(dialogState: DialogState) {

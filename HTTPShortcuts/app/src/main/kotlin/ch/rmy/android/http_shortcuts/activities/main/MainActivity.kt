@@ -2,14 +2,16 @@ package ch.rmy.android.http_shortcuts.activities.main
 
 import android.app.Activity
 import android.appwidget.AppWidgetManager
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.contract.ActivityResultContract
 import androidx.viewpager.widget.ViewPager
-import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.consume
+import ch.rmy.android.framework.extensions.launch
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.restartWithoutAnimation
 import ch.rmy.android.framework.extensions.titleView
@@ -30,17 +32,52 @@ import ch.rmy.android.http_shortcuts.data.dtos.LauncherShortcut
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.databinding.ActivityMainBinding
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
-import ch.rmy.android.http_shortcuts.plugin.PluginEditActivity
-import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
-import ch.rmy.curlcommand.CurlCommand
 import com.google.android.material.appbar.AppBarLayout
 
 class MainActivity : BaseActivity(), Entrypoint {
 
-    private val executionScheduler by lazy {
-        ExecutionScheduler(applicationContext)
+    private val openSettings = registerForActivityResult(SettingsActivity.OpenSettings) { result ->
+        if (result.themeChanged) {
+            recreate()
+            openSettings()
+            overridePendingTransition(0, 0)
+        } else if (result.appLocked) {
+            viewModel.onAppLocked()
+        }
+    }
+
+    private val openCurlImport = registerForActivityResult(CurlImportActivity.ImportFromCurl) { curlCommand ->
+        curlCommand?.let(viewModel::onCurlCommandSubmitted)
+    }
+
+    private val openWidgetSettings = registerForActivityResult(WidgetSettingsActivity.OpenWidgetSettings) { result ->
+        if (result != null) {
+            viewModel.onWidgetSettingsSubmitted(
+                shortcutId = result.shortcutId,
+                showLabel = result.showLabel,
+                labelColor = result.labelColor,
+            )
+        } else {
+            finish()
+        }
+    }
+
+    private val openShortcutEditor = registerForActivityResult(ShortcutEditorActivity.OpenShortcutEditor) { shortcutId ->
+        shortcutId?.let(viewModel::onShortcutCreated)
+    }
+
+    private val openCategories = registerForActivityResult(CategoriesActivity.OpenCategories) { categoriesChanged ->
+        if (categoriesChanged) {
+            restartWithoutAnimation()
+        }
+    }
+
+    private val openImportExport = registerForActivityResult(ImportExportActivity.OpenImportExport) { categoriesChanged ->
+        if (categoriesChanged) {
+            restartWithoutAnimation()
+        }
     }
 
     private val viewModel: MainViewModel by bindViewModel()
@@ -79,7 +116,7 @@ class MainActivity : BaseActivity(), Entrypoint {
     private fun determineMode(action: String?) = when (action) {
         Intent.ACTION_CREATE_SHORTCUT -> SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT
         AppWidgetManager.ACTION_APPWIDGET_CONFIGURE -> SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT
-        PluginEditActivity.ACTION_SELECT_SHORTCUT_FOR_PLUGIN -> SelectionMode.PLUGIN
+        ACTION_SELECT_SHORTCUT_FOR_PLUGIN -> SelectionMode.PLUGIN
         else -> SelectionMode.NORMAL
     }
 
@@ -145,72 +182,25 @@ class MainActivity : BaseActivity(), Entrypoint {
 
     override fun handleEvent(event: ViewModelEvent) {
         when (event) {
-            is MainEvent.ScheduleExecutions -> scheduleExecutions()
             is MainEvent.UpdateLauncherShortcuts -> updateLauncherShortcuts(event.shortcuts)
+            is MainEvent.OpenCurlImport -> openCurlImport.launch()
+            is MainEvent.OpenWidgetSettings -> openWidgetSettings.launch {
+                shortcut(event.shortcut)
+            }
+            is MainEvent.OpenShortcutEditor -> openShortcutEditor.launch { event.intentBuilder }
+            is MainEvent.OpenCategories -> openCategories.launch()
+            is MainEvent.OpenSettings -> openSettings()
+            is MainEvent.OpenImportExport -> openImportExport.launch()
             else -> super.handleEvent(event)
         }
-    }
-
-    private fun scheduleExecutions() {
-        executionScheduler.schedule()
-            .subscribe()
-            .attachTo(destroyer)
     }
 
     private fun updateLauncherShortcuts(shortcuts: List<LauncherShortcut>) {
         LauncherShortcutManager.updateAppShortcuts(context, shortcuts)
     }
 
-    public override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
-        super.onActivityResult(requestCode, resultCode, intent)
-        if (resultCode != Activity.RESULT_OK || intent == null) {
-            when (requestCode) {
-                REQUEST_WIDGET_SETTINGS -> {
-                    finish()
-                }
-            }
-            return
-        }
-        when (requestCode) {
-            REQUEST_CREATE_SHORTCUT_FROM_CURL -> {
-                val curlCommand = intent.getSerializableExtra(CurlImportActivity.EXTRA_CURL_COMMAND) as CurlCommand
-                viewModel.onCurlCommandSubmitted(curlCommand)
-            }
-            REQUEST_CREATE_SHORTCUT -> {
-                viewModel.onShortcutCreated(intent.getStringExtra(ShortcutEditorActivity.RESULT_SHORTCUT_ID)!!)
-            }
-            REQUEST_SETTINGS -> {
-                if (intent.getBooleanExtra(SettingsActivity.EXTRA_THEME_CHANGED, false)) {
-                    recreate()
-                    openSettings()
-                    overridePendingTransition(0, 0)
-                } else if (intent.getBooleanExtra(SettingsActivity.EXTRA_APP_LOCKED, false)) {
-                    viewModel.onAppLocked()
-                }
-            }
-            REQUEST_IMPORT_EXPORT -> {
-                if (intent.getBooleanExtra(ImportExportActivity.EXTRA_CATEGORIES_CHANGED, false)) {
-                    restartWithoutAnimation()
-                }
-            }
-            REQUEST_CATEGORIES -> {
-                if (intent.getBooleanExtra(CategoriesActivity.EXTRA_CATEGORIES_CHANGED, false)) {
-                    restartWithoutAnimation()
-                }
-            }
-            REQUEST_WIDGET_SETTINGS -> {
-                viewModel.onWidgetSettingsSubmitted(
-                    shortcutId = WidgetSettingsActivity.getShortcutId(intent) ?: return,
-                    showLabel = WidgetSettingsActivity.shouldShowLabel(intent),
-                    labelColor = WidgetSettingsActivity.getLabelColor(intent),
-                )
-            }
-        }
-    }
-
     private fun openSettings() {
-        SettingsActivity.IntentBuilder()
-            .startActivity(this, REQUEST_SETTINGS)
+        openSettings.launch()
     }
 
     override val navigateUpIcon = 0
@@ -260,6 +250,22 @@ class MainActivity : BaseActivity(), Entrypoint {
             }
     }
 
+    object SelectShortcut : ActivityResultContract<Unit, SelectShortcut.Result?>() {
+        override fun createIntent(context: Context, input: Unit): Intent =
+            Intent(context, MainActivity::class.java)
+                .setAction(ACTION_SELECT_SHORTCUT_FOR_PLUGIN)
+
+        override fun parseResult(resultCode: Int, intent: Intent?): Result? =
+            if (resultCode == Activity.RESULT_OK && intent != null) {
+                Result(
+                    shortcutId = intent.getStringExtra(EXTRA_SELECTION_ID)!!,
+                    shortcutName = intent.getStringExtra(EXTRA_SELECTION_NAME)!!,
+                )
+            } else null
+
+        data class Result(val shortcutId: String, val shortcutName: String)
+    }
+
     class IntentBuilder : BaseIntentBuilder(MainActivity::class.java) {
         init {
             intent.action = Intent.ACTION_VIEW
@@ -274,15 +280,10 @@ class MainActivity : BaseActivity(), Entrypoint {
 
     companion object {
 
+        private const val ACTION_SELECT_SHORTCUT_FOR_PLUGIN = "ch.rmy.android.http_shortcuts.plugin"
+
         const val EXTRA_SELECTION_ID = "ch.rmy.android.http_shortcuts.shortcut_id"
         const val EXTRA_SELECTION_NAME = "ch.rmy.android.http_shortcuts.shortcut_name"
         private const val EXTRA_CATEGORY_ID = "ch.rmy.android.http_shortcuts.category_id"
-
-        const val REQUEST_CREATE_SHORTCUT = 1
-        const val REQUEST_CREATE_SHORTCUT_FROM_CURL = 2
-        const val REQUEST_SETTINGS = 3
-        const val REQUEST_CATEGORIES = 4
-        const val REQUEST_WIDGET_SETTINGS = 5
-        const val REQUEST_IMPORT_EXPORT = 6
     }
 }

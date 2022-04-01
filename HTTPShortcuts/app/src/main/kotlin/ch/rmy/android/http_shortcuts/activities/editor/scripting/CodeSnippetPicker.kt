@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.editor.scripting
 
+import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -166,7 +167,10 @@ class CodeSnippetPicker(
         try {
             Intent(RingtoneManager.ACTION_RINGTONE_PICKER)
                 .putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION)
-                .startActivity(context, REQUEST_CODE_SELECT_NOTIFICATION_SOUND)
+                .let { intent ->
+                    // TODO: Refactor this to avoid using startActivityForResult
+                    (context as Activity).startActivityForResult(intent, REQUEST_CODE_SELECT_NOTIFICATION_SOUND)
+                }
         } catch (e: ActivityNotFoundException) {
             logException(e)
             context.showToast(R.string.error_generic)
@@ -332,7 +336,10 @@ class CodeSnippetPicker(
                 item(R.string.action_type_trigger_tasker_title) {
                     try {
                         TaskerIntent.getTaskSelectIntent()
-                            .startActivity(context, REQUEST_CODE_SELECT_TASK)
+                            .let { intent ->
+                                // TODO: Refactor this to avoid using startActivityForResult
+                                (context as Activity).startActivityForResult(intent, REQUEST_CODE_SELECT_TASK)
+                            }
                     } catch (e: ActivityNotFoundException) {
                         logException(e)
                         context.showToast(R.string.error_generic)

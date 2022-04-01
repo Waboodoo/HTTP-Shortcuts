@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.misc
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -9,10 +10,12 @@ import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.focus
 import ch.rmy.android.framework.extensions.observeTextChanges
+import ch.rmy.android.framework.ui.BaseActivityResultContract
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.databinding.ActivityCurlImportBinding
+import ch.rmy.curlcommand.CurlCommand
 import ch.rmy.curlcommand.CurlParser
 
 class CurlImportActivity : BaseActivity() {
@@ -60,19 +63,25 @@ class CurlImportActivity : BaseActivity() {
 
         setResult(
             Activity.RESULT_OK,
-            createIntent {
-                putExtra(EXTRA_CURL_COMMAND, command)
-            },
+            ImportFromCurl.createResult(command),
         )
         finish()
     }
 
     override val navigateUpIcon = R.drawable.ic_clear
 
-    class IntentBuilder : BaseIntentBuilder(CurlImportActivity::class.java)
+    object ImportFromCurl : BaseActivityResultContract<IntentBuilder, CurlCommand?>(::IntentBuilder) {
 
-    companion object {
+        private const val EXTRA_CURL_COMMAND = "curl_command"
 
-        const val EXTRA_CURL_COMMAND = "curl_command"
+        override fun parseResult(resultCode: Int, intent: Intent?): CurlCommand? =
+            intent?.getSerializableExtra(EXTRA_CURL_COMMAND) as? CurlCommand
+
+        fun createResult(command: CurlCommand): Intent =
+            createIntent {
+                putExtra(EXTRA_CURL_COMMAND, command)
+            }
     }
+
+    class IntentBuilder : BaseIntentBuilder(CurlImportActivity::class.java)
 }

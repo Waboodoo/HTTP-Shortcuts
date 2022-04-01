@@ -1,9 +1,7 @@
 package ch.rmy.android.http_shortcuts.plugin
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
-import ch.rmy.android.framework.extensions.startActivity
+import androidx.activity.result.launch
 import ch.rmy.android.framework.ui.Entrypoint
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.main.MainActivity
@@ -15,33 +13,23 @@ import com.joaomgcd.taskerpluginlibrary.input.TaskerInputInfos
 
 class PluginEditActivity : BaseActivity(), TaskerPluginConfig<Input>, Entrypoint {
 
+    private val selectShortcut = registerForActivityResult(MainActivity.SelectShortcut) { result ->
+        if (result != null) {
+            input = Input(
+                shortcutId = result.shortcutId,
+                shortcutName = result.shortcutName,
+            )
+        }
+        TriggerShortcutActionHelper(this)
+            .finishForTasker()
+    }
+
     private var input: Input? = null
 
     private val variableRepository = VariableRepository()
 
     override fun onCreated(savedState: Bundle?) {
-        Intent(this, MainActivity::class.java)
-            .setAction(ACTION_SELECT_SHORTCUT_FOR_PLUGIN)
-            .startActivity(this, REQUEST_SELECT)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
-        super.onActivityResult(requestCode, resultCode, intent)
-        if (requestCode == REQUEST_SELECT) {
-            if (resultCode == Activity.RESULT_OK) {
-                intent?.extras?.let { extras ->
-                    val shortcutId = extras.getString(MainActivity.EXTRA_SELECTION_ID)!!
-                    val shortcutName = extras.getString(MainActivity.EXTRA_SELECTION_NAME)!!
-
-                    input = Input(
-                        shortcutId = shortcutId,
-                        shortcutName = shortcutName,
-                    )
-                }
-            }
-            TriggerShortcutActionHelper(this)
-                .finishForTasker()
-        }
+        selectShortcut.launch()
     }
 
     override val inputForTasker: TaskerInput<Input>
@@ -76,11 +64,5 @@ class PluginEditActivity : BaseActivity(), TaskerPluginConfig<Input>, Entrypoint
 
     override fun assignFromInput(input: TaskerInput<Input>) {
         this.input = input.regular
-    }
-
-    companion object {
-
-        const val ACTION_SELECT_SHORTCUT_FOR_PLUGIN = "ch.rmy.android.http_shortcuts.plugin"
-        private const val REQUEST_SELECT = 1
     }
 }

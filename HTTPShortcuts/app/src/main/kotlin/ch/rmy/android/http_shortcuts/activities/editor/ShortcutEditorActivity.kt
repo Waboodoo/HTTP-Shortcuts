@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.editor
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -7,7 +8,9 @@ import androidx.activity.result.launch
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.consume
+import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.focus
+import ch.rmy.android.framework.extensions.launch
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.observeTextChanges
@@ -15,6 +18,7 @@ import ch.rmy.android.framework.extensions.setMaxLength
 import ch.rmy.android.framework.extensions.setSubtitle
 import ch.rmy.android.framework.extensions.setTextSafely
 import ch.rmy.android.framework.extensions.visible
+import ch.rmy.android.framework.ui.BaseActivityResultContract
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
@@ -191,6 +195,19 @@ class ShortcutEditorActivity : BaseActivity() {
         viewModel.onBackPressed()
     }
 
+    object OpenShortcutEditor : BaseActivityResultContract<IntentBuilder, String?>(::IntentBuilder) {
+
+        private const val RESULT_SHORTCUT_ID = "shortcutId"
+
+        override fun parseResult(resultCode: Int, intent: Intent?): String? =
+            intent?.getStringExtra(RESULT_SHORTCUT_ID)
+
+        fun createResult(shortcutId: String) =
+            createIntent {
+                putExtra(RESULT_SHORTCUT_ID, shortcutId)
+            }
+    }
+
     class IntentBuilder : BaseIntentBuilder(ShortcutEditorActivity::class.java) {
 
         fun shortcutId(shortcutId: String) = also {
@@ -216,7 +233,5 @@ class ShortcutEditorActivity : BaseActivity() {
         private const val EXTRA_CATEGORY_ID = "categoryId"
         private const val EXTRA_CURL_COMMAND = "curlCommand"
         private const val EXTRA_EXECUTION_TYPE = "executionType"
-
-        const val RESULT_SHORTCUT_ID = "shortcutId"
     }
 }

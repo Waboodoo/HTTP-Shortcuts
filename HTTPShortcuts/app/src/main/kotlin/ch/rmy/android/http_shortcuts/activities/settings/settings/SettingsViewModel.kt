@@ -1,10 +1,8 @@
 package ch.rmy.android.http_shortcuts.activities.settings.settings
 
-import android.app.Activity
 import android.app.Application
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.context
-import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.WithDialog
@@ -52,11 +50,8 @@ class SettingsViewModel(application: Application) : BaseViewModel<Unit, Settings
             .compose(progressMonitor.transformer())
             .subscribe(
                 {
-                    finish(
-                        result = Activity.RESULT_OK,
-                        intent = createIntent {
-                            putExtra(SettingsActivity.EXTRA_APP_LOCKED, true)
-                        },
+                    finishWithOkResult(
+                        SettingsActivity.OpenSettings.createResult(appLocked = true),
                     )
                 },
                 { e ->

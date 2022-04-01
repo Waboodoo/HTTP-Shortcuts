@@ -6,6 +6,7 @@ import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.initialize
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.openURL
+import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.utils.InstallUtil
 import ch.rmy.android.http_shortcuts.R

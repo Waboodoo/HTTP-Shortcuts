@@ -1,23 +1,19 @@
 package ch.rmy.android.http_shortcuts.activities.remote_edit
 
-import android.app.Activity
 import android.app.Application
-import android.app.Dialog
-import android.app.ProgressDialog
-import android.content.Context
 import android.text.Html.escapeHtml
 import androidx.annotation.StringRes
 import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.context
-import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.utils.localization.Localizable
+import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
+import ch.rmy.android.framework.viewmodel.viewstate.ProgressDialogState
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.remote_edit.RemoteEditActivity.Companion.EXTRA_CHANGES_IMPORTED
 import ch.rmy.android.http_shortcuts.http.HttpClients
 import ch.rmy.android.http_shortcuts.import_export.Exporter
 import ch.rmy.android.http_shortcuts.import_export.ImportException
@@ -180,10 +176,7 @@ class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, Remote
             .subscribe(
                 {
                     setResult(
-                        result = Activity.RESULT_OK,
-                        intent = createIntent {
-                            putExtra(EXTRA_CHANGES_IMPORTED, true)
-                        },
+                        intent = RemoteEditActivity.OpenRemoteEditor.createResult(changesImported = true),
                     )
                     showSnackbar(R.string.message_remote_edit_download_successful)
                 },
@@ -215,21 +208,11 @@ class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, Remote
         )
 
     private fun showProgressDialog(message: Int) {
-        dialogState = object : DialogState {
-            override val id = PROGRESS_DIALOG_ID
-            override fun createDialog(context: Context, viewModel: WithDialog): Dialog =
-                ProgressDialog(context).apply {
-                    setMessage(context.getString(message))
-                    setCanceledOnTouchOutside(false)
-                    setOnCancelListener {
-                        onProgressDialogCanceled()
-                    }
-                }
-        }
+        dialogState = ProgressDialogState(StringResLocalizable(message), ::onProgressDialogCanceled)
     }
 
     private fun hideProgressDialog() {
-        if (dialogState?.id == PROGRESS_DIALOG_ID) {
+        if (dialogState?.id == ProgressDialogState.DIALOG_ID) {
             dialogState = null
         }
     }
@@ -255,8 +238,6 @@ class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, Remote
     }
 
     companion object {
-
-        private const val PROGRESS_DIALOG_ID = "progress"
 
         private const val REMOTE_BASE_URL = "https://http-shortcuts.rmy.ch/editor"
         private const val REMOTE_API_PATH = "api/files/"
