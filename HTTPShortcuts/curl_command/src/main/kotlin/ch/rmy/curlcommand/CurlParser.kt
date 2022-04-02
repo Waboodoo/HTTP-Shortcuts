@@ -70,6 +70,7 @@ class CurlParser private constructor(arguments: List<String>) {
                         val data = iterator.next()
                         builder.isFormData()
                         builder.data(data)
+                        builder.methodIfNotYetSet("POST")
                         continue@loop
                     }
                     "-m", "--max-time", "--connect-timeout" -> {

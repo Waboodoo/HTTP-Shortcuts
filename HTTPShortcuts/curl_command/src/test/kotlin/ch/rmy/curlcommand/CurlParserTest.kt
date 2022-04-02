@@ -56,6 +56,7 @@ class CurlParserTest {
         val command = CurlParser.parse(target)
         assertEquals(listOf("foo=bar"), command.data)
         assertTrue(command.isFormData)
+        assertEquals("POST", command.method)
     }
 
     @Test
@@ -64,6 +65,7 @@ class CurlParserTest {
         val command = CurlParser.parse(target)
         assertEquals(listOf("foo=bar", "file=@somefile.txt"), command.data)
         assertTrue(command.isFormData)
+        assertEquals("POST", command.method)
     }
 
     @Test
