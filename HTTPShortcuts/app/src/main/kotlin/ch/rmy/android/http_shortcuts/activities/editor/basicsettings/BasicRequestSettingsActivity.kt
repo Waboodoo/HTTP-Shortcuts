@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.editor.basicsettings
 
 import android.os.Bundle
+import android.widget.ArrayAdapter
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.initialize
@@ -23,6 +24,14 @@ class BasicRequestSettingsActivity : BaseActivity() {
     private val variablePlaceholderProvider = VariablePlaceholderProvider()
 
     private lateinit var binding: ActivityBasicRequestSettingsBinding
+
+    private var suggestions: List<String> = emptyList()
+        set(value) {
+            if (field != value) {
+                field = value
+                binding.inputBrowserPackageName.setAdapter(ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, value))
+            }
+        }
 
     override fun onCreated(savedState: Bundle?) {
         viewModel.initialize()
@@ -73,6 +82,7 @@ class BasicRequestSettingsActivity : BaseActivity() {
             binding.inputBrowserPackageName.setTextSafely(viewState.browserPackageName)
             binding.inputBrowserPackageName.visible = viewState.browserPackageNameVisible
             binding.labelBrowserPackageName.visible = viewState.browserPackageNameVisible
+            suggestions = viewState.suggestedBrowserPackageNames
         }
         viewModel.events.observe(this, ::handleEvent)
     }

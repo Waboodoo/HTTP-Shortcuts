@@ -2,7 +2,9 @@ package ch.rmy.android.http_shortcuts.activities.editor.basicsettings
 
 import android.app.Application
 import ch.rmy.android.framework.extensions.attachTo
+import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.viewmodel.BaseViewModel
+import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.usecases.GetAvailableBrowserPackageNamesUseCase
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
@@ -13,6 +15,7 @@ class BasicRequestSettingsViewModel(application: Application) : BaseViewModel<Un
 
     private val temporaryShortcutRepository = TemporaryShortcutRepository()
     private val variableRepository = VariableRepository()
+    private val getAvailableBrowserPackageNames = GetAvailableBrowserPackageNamesUseCase(context)
 
     override fun onInitializationStarted(data: Unit) {
         finalizeInitialization(silent = true)
@@ -45,6 +48,11 @@ class BasicRequestSettingsViewModel(application: Application) : BaseViewModel<Un
                 method = shortcut.method,
                 url = shortcut.url,
                 browserPackageName = shortcut.browserPackageName,
+                suggestedBrowserPackageNames = if (shortcut.type == ShortcutExecutionType.BROWSER) {
+                    getAvailableBrowserPackageNames()
+                } else {
+                    emptyList()
+                },
             )
         }
     }

@@ -59,7 +59,7 @@
                 android:layout_marginTop="4dp"
                 android:text="@string/label_browser_package_name" />
 
-            <EditText
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/input_browser_package_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
