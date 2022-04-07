@@ -23,9 +23,6 @@ class DeepLinkViewModel(application: Application) : BaseViewModel<DeepLinkViewMo
 
     override fun initViewState() = DeepLinkViewState()
 
-    private val url: Uri
-        get() = initData.url!!
-
     override var dialogState: DialogState?
         get() = currentViewState.dialogState
         set(value) {
@@ -35,15 +32,7 @@ class DeepLinkViewModel(application: Application) : BaseViewModel<DeepLinkViewMo
         }
 
     override fun onInitializationStarted(data: InitData) {
-        if (data.url == null) {
-            showMessageDialog(
-                Localizable.create { context ->
-                    HTMLUtil.format(context.getString(R.string.instructions_deep_linking, EXAMPLE_URL))
-                }
-            )
-            return
-        }
-        finalizeInitialization()
+        finalizeInitialization(silent = true)
     }
 
     private fun showMessageDialog(message: Localizable) {
@@ -64,16 +53,26 @@ class DeepLinkViewModel(application: Application) : BaseViewModel<DeepLinkViewMo
     }
 
     override fun onInitialized() {
-        val shortcutIdOrName = getShortcutNameOrId()
+        val deepLinkUrl = initData.url
+        if (deepLinkUrl == null) {
+            showMessageDialog(
+                Localizable.create { context ->
+                    HTMLUtil.format(context.getString(R.string.instructions_deep_linking, EXAMPLE_URL))
+                }
+            )
+            return
+        }
+
+        val shortcutIdOrName = deepLinkUrl.getShortcutNameOrId()
 
         shortcutRepository.getShortcutByNameOrId(shortcutIdOrName)
             .subscribe(
                 { shortcut ->
-                    executeShortcut(shortcut.id, getVariableValues())
+                    executeShortcut(shortcut.id, deepLinkUrl.getVariableValues())
                 },
                 {
                     showMessageDialog(StringResLocalizable(R.string.error_shortcut_not_found_for_deep_link, shortcutIdOrName))
-                }
+                },
             )
             .attachTo(destroyer)
     }
@@ -86,18 +85,17 @@ class DeepLinkViewModel(application: Application) : BaseViewModel<DeepLinkViewMo
         finish(skipAnimation = true)
     }
 
-    private fun getShortcutNameOrId(): ShortcutNameOrId =
-        url
-            .host
+    private fun Uri.getShortcutNameOrId(): ShortcutNameOrId =
+        host
             ?.takeUnless { it == "deep-link" }
-            ?: url.lastPathSegment
+            ?: lastPathSegment
             ?: ""
 
-    private fun getVariableValues(): Map<VariableKey, String> =
-        url.queryParameterNames
+    private fun Uri.getVariableValues(): Map<VariableKey, String> =
+        queryParameterNames
             .filterNot { it.isEmpty() }
             .associateWith { key ->
-                url.getQueryParameter(key) ?: ""
+                getQueryParameter(key) ?: ""
             }
 
     data class InitData(

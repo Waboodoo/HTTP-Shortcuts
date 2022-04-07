@@ -63,7 +63,7 @@ class VoiceViewModel(application: Application) : BaseViewModel<VoiceViewModel.In
                 },
                 {
                     showMessageDialog(StringResLocalizable(R.string.error_shortcut_not_found_for_deep_link, shortcutName))
-                }
+                },
             )
             .attachTo(destroyer)
     }
