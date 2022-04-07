@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.utils
 import android.content.Context
 import androidx.annotation.StringRes
 import ch.rmy.android.framework.extensions.mapIf
+import ch.rmy.android.framework.extensions.truncate
 import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.ResponseTooLargeException
@@ -45,7 +46,7 @@ class ErrorFormatter(private val context: Context) {
                     val responseBody = error.shortcutResponse.getContentAsString(context)
                     if (responseBody.isNotEmpty()) {
                         builder.append("\n\n")
-                        builder.append(responseBody)
+                        builder.append(responseBody.truncate(MAX_ERROR_LENGTH))
                     }
                 }
             } catch (e: ResponseTooLargeException) {
@@ -95,5 +96,6 @@ class ErrorFormatter(private val context: Context) {
 
     companion object {
         private const val MAX_RECURSION_DEPTH = 2
+        private const val MAX_ERROR_LENGTH = 10000
     }
 }
