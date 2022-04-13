@@ -239,6 +239,11 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
+            android:name=".activities.editor.scripting.codesnippets.CodeSnippetPickerActivity"
+            android:label="@string/title_add_code_snippet"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
             android:name=".activities.misc.share.ShareActivity"
             android:configChanges="orientation|screenSize"
             android:excludeFromRecents="true"

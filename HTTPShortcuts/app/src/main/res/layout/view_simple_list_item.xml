@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <include
+        layout="@layout/divider_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height" />
+
+    <TextView
+        android:id="@+id/simple_list_item_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="4dp"
+        android:ellipsize="end"
+        android:maxLength="2"
+        android:textColor="@color/text_color_primary_dark"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/simple_list_item_subtitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_goneMarginBottom="10dp" />
+
+    <TextView
+        android:id="@+id/simple_list_item_subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="10dp"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:textColor="@color/text_color_secondary_dark"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/simple_list_item_title" />
+
+</merge>

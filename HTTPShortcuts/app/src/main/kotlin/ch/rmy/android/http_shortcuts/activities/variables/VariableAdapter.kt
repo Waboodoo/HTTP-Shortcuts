@@ -42,7 +42,7 @@ class VariableAdapter : BaseAdapter<VariableListItem>() {
             else -> null
         }
 
-    override fun bindViewHolder(holder: RecyclerView.ViewHolder, position: Int, item: VariableListItem) {
+    override fun bindViewHolder(holder: RecyclerView.ViewHolder, position: Int, item: VariableListItem, payloads: List<Any>) {
         when (holder) {
             is VariableViewHolder -> holder.setItem(item as VariableListItem.Variable)
             is EmptyStateViewHolder -> holder.setItem(item as VariableListItem.EmptyState)

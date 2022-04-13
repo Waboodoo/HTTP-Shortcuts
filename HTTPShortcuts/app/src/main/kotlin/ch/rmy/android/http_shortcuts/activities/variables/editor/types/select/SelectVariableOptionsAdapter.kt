@@ -29,7 +29,7 @@ class SelectVariableOptionsAdapter : BaseAdapter<OptionItem>() {
     override fun createViewHolder(viewType: Int, parent: ViewGroup, layoutInflater: LayoutInflater) =
         SelectOptionViewHolder(SelectOptionBinding.inflate(layoutInflater, parent, false))
 
-    override fun bindViewHolder(holder: RecyclerView.ViewHolder, position: Int, item: OptionItem) {
+    override fun bindViewHolder(holder: RecyclerView.ViewHolder, position: Int, item: OptionItem, payloads: List<Any>) {
         (holder as SelectOptionViewHolder).setItem(item)
     }
 

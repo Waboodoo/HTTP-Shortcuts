@@ -28,7 +28,7 @@ class IconPickerAdapter : BaseAdapter<IconPickerListItem>() {
     override fun createViewHolder(viewType: Int, parent: ViewGroup, layoutInflater: LayoutInflater): RecyclerView.ViewHolder =
         IconViewHolder(IconPickerListItemBinding.inflate(layoutInflater, parent, false))
 
-    override fun bindViewHolder(holder: RecyclerView.ViewHolder, position: Int, item: IconPickerListItem) {
+    override fun bindViewHolder(holder: RecyclerView.ViewHolder, position: Int, item: IconPickerListItem, payloads: List<Any>) {
         (holder as IconViewHolder).setItem(item)
     }
 

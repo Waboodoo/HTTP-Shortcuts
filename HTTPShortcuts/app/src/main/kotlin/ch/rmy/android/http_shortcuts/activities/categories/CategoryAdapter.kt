@@ -36,7 +36,7 @@ class CategoryAdapter : BaseAdapter<CategoryListItem>() {
     override fun createViewHolder(viewType: Int, parent: ViewGroup, layoutInflater: LayoutInflater): RecyclerView.ViewHolder =
         CategoryViewHolder(ListItemCategoryBinding.inflate(layoutInflater, parent, false))
 
-    override fun bindViewHolder(holder: RecyclerView.ViewHolder, position: Int, item: CategoryListItem) {
+    override fun bindViewHolder(holder: RecyclerView.ViewHolder, position: Int, item: CategoryListItem, payloads: List<Any>) {
         (holder as CategoryViewHolder).setItem(item)
     }
 

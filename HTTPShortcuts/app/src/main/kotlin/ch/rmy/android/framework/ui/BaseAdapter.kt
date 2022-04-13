@@ -24,18 +24,26 @@ abstract class BaseAdapter<T : Any> : RecyclerView.Adapter<RecyclerView.ViewHold
     protected open fun areItemContentsTheSame(oldItem: T, newItem: T): Boolean =
         oldItem == newItem
 
+    protected open fun getChangePayload(oldItem: T, newItem: T): Any? =
+        null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
         createViewHolder(viewType, parent, LayoutInflater.from(parent.context))
             ?: throw IllegalStateException("ViewHolder creation failed, not implemented?")
 
     protected abstract fun createViewHolder(viewType: Int, parent: ViewGroup, layoutInflater: LayoutInflater): RecyclerView.ViewHolder?
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: MutableList<Any>) {
         val item = items[position]
-        bindViewHolder(holder, position, item)
+        bindViewHolder(holder, position, item, payloads)
     }
 
-    protected abstract fun bindViewHolder(holder: RecyclerView.ViewHolder, position: Int, item: T)
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val item = items[position]
+        bindViewHolder(holder, position, item, emptyList())
+    }
+
+    protected abstract fun bindViewHolder(holder: RecyclerView.ViewHolder, position: Int, item: T, payloads: List<Any>)
 
     private val differ = AsyncListDiffer(
         object : ListUpdateCallback {
@@ -62,6 +70,9 @@ abstract class BaseAdapter<T : Any> : RecyclerView.Adapter<RecyclerView.ViewHold
 
                 override fun areContentsTheSame(oldItem: T, newItem: T): Boolean =
                     this@BaseAdapter.areItemContentsTheSame(oldItem, newItem)
+
+                override fun getChangePayload(oldItem: T, newItem: T): Any? =
+                    this@BaseAdapter.getChangePayload(oldItem, newItem)
             },
         )
             .build(),

@@ -36,6 +36,7 @@
     <item name="text_color_secondary_bright" type="color">#B3FFFFFF</item>
     <item name="text_color_secondary_dark" type="color">#B3FFFFFF</item>
     <item name="dialog_icon" type="color">#EEEEEE</item>
+    <item name="expandable_section_icon" type="color">#EEEEEE</item>
 
     <item name="textarea_background" type="color">#FF1F1F1F</item>
     <item name="icon_background" type="color">#99FFFFFF</item>

@@ -48,7 +48,7 @@ class ParameterAdapter(
             else -> null
         }
 
-    override fun bindViewHolder(holder: RecyclerView.ViewHolder, position: Int, item: ParameterListItem) {
+    override fun bindViewHolder(holder: RecyclerView.ViewHolder, position: Int, item: ParameterListItem, payloads: List<Any>) {
         when (holder) {
             is ParameterViewHolder -> holder.setItem(item as ParameterListItem.Parameter)
             is EmptyStateViewHolder -> holder.setItem(item as ParameterListItem.EmptyState)

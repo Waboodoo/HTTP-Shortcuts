@@ -5,9 +5,9 @@ import android.os.Build
 import android.os.Vibrator
 import android.os.VibratorManager
 
-object VibrationUtil {
+class VibrationUtil(private val context: Context) {
 
-    fun getVibrator(context: Context): Vibrator? =
+    fun getVibrator(): Vibrator? =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val vibrationManager = context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
             vibrationManager.defaultVibrator
@@ -17,6 +17,6 @@ object VibrationUtil {
         }
             .takeIf { it.hasVibrator() }
 
-    fun canVibrate(context: Context): Boolean =
-        getVibrator(context) != null
+    fun canVibrate(): Boolean =
+        getVibrator() != null
 }

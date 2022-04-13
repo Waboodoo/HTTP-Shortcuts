@@ -1,20 +1,16 @@
 package ch.rmy.android.http_shortcuts.activities.editor.scripting
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.EditText
-import androidx.activity.result.launch
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.color
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.initialize
 import ch.rmy.android.framework.extensions.insertAroundCursor
-import ch.rmy.android.framework.extensions.launch
+import ch.rmy.android.framework.extensions.mapIfNotNull
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.extensions.setHint
@@ -24,11 +20,9 @@ import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
-import ch.rmy.android.http_shortcuts.activities.icons.IconPickerActivity
+import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.CodeSnippetPickerActivity
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.databinding.ActivityScriptingBinding
-import ch.rmy.android.http_shortcuts.icons.IpackPickerContract
-import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholderProvider
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutSpanManager
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
@@ -36,11 +30,20 @@ import ch.rmy.android.http_shortcuts.variables.Variables
 
 class ScriptingActivity : BaseActivity() {
 
-    private val pickCustomIcon = registerForActivityResult(IconPickerActivity.PickIcon) { icon ->
-        icon?.let(viewModel::onIconSelected)
+    private val pickCodeSnippetForPrepare = registerForActivityResult(CodeSnippetPickerActivity.PickCodeSnippet) { result ->
+        if (result != null) {
+            viewModel.onCodeSnippetForPreparePicked(result.textBeforeCursor, result.textAfterCursor)
+        }
     }
-    private val pickIpackIcon = registerForActivityResult(IpackPickerContract) { icon ->
-        icon?.let(viewModel::onIconSelected)
+    private val pickCodeSnippetForSuccess = registerForActivityResult(CodeSnippetPickerActivity.PickCodeSnippet) { result ->
+        if (result != null) {
+            viewModel.onCodeSnippetForSuccessPicked(result.textBeforeCursor, result.textAfterCursor)
+        }
+    }
+    private val pickCodeSnippetForFailure = registerForActivityResult(CodeSnippetPickerActivity.PickCodeSnippet) { result ->
+        if (result != null) {
+            viewModel.onCodeSnippetForFailurePicked(result.textBeforeCursor, result.textAfterCursor)
+        }
     }
 
     private val currentShortcutId: ShortcutId? by lazy {
@@ -52,16 +55,6 @@ class ScriptingActivity : BaseActivity() {
     private val shortcutPlaceholderProvider = ShortcutPlaceholderProvider()
     private val variablePlaceholderProvider = VariablePlaceholderProvider()
 
-    private val codeSnippetPicker by lazy {
-        CodeSnippetPicker(
-            context,
-            currentShortcutId,
-            variablePlaceholderProvider,
-            shortcutPlaceholderProvider,
-        ) { shortcutPlaceholder ->
-            viewModel.onChangeIconOptionSelected(shortcutPlaceholder)
-        }
-    }
     private val variablePlaceholderColor by lazy {
         color(context, R.color.variable)
     }
@@ -70,8 +63,6 @@ class ScriptingActivity : BaseActivity() {
     }
 
     private lateinit var binding: ActivityScriptingBinding
-
-    private var lastActiveCodeInput: EditText? = null
 
     override fun onCreated(savedState: Bundle?) {
         viewModel.initialize()
@@ -93,7 +84,6 @@ class ScriptingActivity : BaseActivity() {
             viewModel.onAddCodeSnippetSuccessButtonClicked()
         }
         binding.buttonAddCodeSnippetFailure.setOnClickListener {
-            lastActiveCodeInput = binding.inputCodeFailure
             viewModel.onAddCodeSnippetFailureButtonClicked()
         }
 
@@ -161,76 +151,58 @@ class ScriptingActivity : BaseActivity() {
     override fun handleEvent(event: ViewModelEvent) {
         when (event) {
             is ScriptingEvent.ShowCodeSnippetPicker -> {
-                val view = when (event.target) {
-                    ScriptingEvent.ShowCodeSnippetPicker.Target.PREPARE -> {
-                        binding.inputCodePrepare
-                    }
-                    ScriptingEvent.ShowCodeSnippetPicker.Target.SUCCESS -> {
-                        binding.inputCodeSuccess
-                    }
-                    ScriptingEvent.ShowCodeSnippetPicker.Target.FAILURE -> {
-                        binding.inputCodeFailure
-                    }
-                }
                 showCodeSnippetPicker(
-                    view,
+                    event.target,
                     includeFileOptions = event.includeFileOptions,
                     includeResponseOptions = event.includeResponseOptions,
                     includeNetworkErrorOption = event.includeNetworkErrorOption,
                 )
             }
-            is ScriptingEvent.OpenCustomIconPicker -> {
-                pickCustomIcon.launch()
-            }
-            is ScriptingEvent.OpenIpackIconPicker -> {
-                pickIpackIcon.launch()
-            }
-            is ScriptingEvent.InsertChangeIconSnippet -> {
-                insertChangeIconSnippet(event.shortcutPlaceholder, event.icon)
+            is ScriptingEvent.InsertCodeSnippet -> {
+                insertCodeSnippet(
+                    event.target,
+                    event.textBeforeCursor,
+                    event.textAfterCursor,
+                )
             }
             else -> super.handleEvent(event)
         }
     }
 
     private fun showCodeSnippetPicker(
-        editText: EditText,
+        target: TargetCodeFieldType,
         includeFileOptions: Boolean,
         includeResponseOptions: Boolean,
         includeNetworkErrorOption: Boolean,
     ) {
-        lastActiveCodeInput = editText
-        codeSnippetPicker.showCodeSnippetPicker(
-            getCodeInsertion(editText),
-            includeResponseOptions = includeResponseOptions,
-            includeFileOptions = includeFileOptions,
-            includeNetworkErrorOption = includeNetworkErrorOption,
-        )
-    }
-
-    private fun getCodeInsertion(codeInput: EditText): InsertText =
-        { before, after ->
-            codeInput.insertAroundCursor(before, after)
-            Variables.applyVariableFormattingToJS(codeInput.text, variablePlaceholderProvider, variablePlaceholderColor)
-            ShortcutSpanManager.applyShortcutFormattingToJS(codeInput.text, shortcutPlaceholderProvider, shortcutPlaceholderColor)
-        }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            codeSnippetPicker.handleRequestResult(
-                getCodeInsertion(lastActiveCodeInput ?: binding.inputCodePrepare),
-                requestCode,
-                data,
-            )
+        val applyArguments: ((CodeSnippetPickerActivity.IntentBuilder) -> CodeSnippetPickerActivity.IntentBuilder) =
+            { intentBuilder: CodeSnippetPickerActivity.IntentBuilder ->
+                intentBuilder
+                    .mapIfNotNull(currentShortcutId) {
+                        currentShortcutId(it)
+                    }
+                    .includeFileOptions(includeFileOptions)
+                    .includeResponseOptions(includeResponseOptions)
+                    .includeNetworkErrorOption(includeNetworkErrorOption)
+            }
+        when (target) {
+            TargetCodeFieldType.PREPARE -> pickCodeSnippetForPrepare.launch(applyArguments)
+            TargetCodeFieldType.SUCCESS -> pickCodeSnippetForSuccess.launch(applyArguments)
+            TargetCodeFieldType.FAILURE -> pickCodeSnippetForFailure.launch(applyArguments)
         }
     }
 
-    private fun insertChangeIconSnippet(shortcutPlaceholder: String, icon: ShortcutIcon) {
-        codeSnippetPicker.insertChangeIconSnippet(
-            shortcutPlaceholder,
-            getCodeInsertion(lastActiveCodeInput ?: binding.inputCodePrepare),
-            icon,
-        )
+    private fun insertCodeSnippet(target: TargetCodeFieldType, textBeforeCursor: String, textAfterCursor: String) {
+        val codeInput = when (target) {
+            TargetCodeFieldType.PREPARE -> binding.inputCodePrepare
+            TargetCodeFieldType.SUCCESS -> binding.inputCodeSuccess
+            TargetCodeFieldType.FAILURE -> binding.inputCodeFailure
+        }
+        codeInput.insertAroundCursor(textBeforeCursor, textAfterCursor)
+        codeInput.text?.let {
+            Variables.applyVariableFormattingToJS(it, variablePlaceholderProvider, variablePlaceholderColor)
+            ShortcutSpanManager.applyShortcutFormattingToJS(it, shortcutPlaceholderProvider, shortcutPlaceholderColor)
+        }
     }
 
     override fun onBackPressed() {

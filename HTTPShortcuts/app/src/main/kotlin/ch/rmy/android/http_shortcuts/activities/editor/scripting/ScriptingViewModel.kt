@@ -13,9 +13,6 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.extensions.type
-import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
-import ch.rmy.android.http_shortcuts.usecases.GetBuiltInIconPickerDialogUseCase
-import ch.rmy.android.http_shortcuts.usecases.GetIconPickerDialogUseCase
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 
 class ScriptingViewModel(application: Application) : BaseViewModel<Unit, ScriptingViewState>(application), WithDialog {
@@ -23,10 +20,6 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
     private val temporaryShortcutRepository = TemporaryShortcutRepository()
     private val shortcutRepository = ShortcutRepository()
     private val variableRepository = VariableRepository()
-    private val getIconPickerDialog = GetIconPickerDialogUseCase()
-    private val getBuiltInIconPickerDialog = GetBuiltInIconPickerDialogUseCase()
-
-    private var iconPickerShortcutPlaceholder: String? = null
 
     private lateinit var shortcut: ShortcutModel
 
@@ -93,7 +86,7 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
     fun onAddCodeSnippetPrepareButtonClicked() {
         emitEvent(
             ScriptingEvent.ShowCodeSnippetPicker(
-                target = ScriptingEvent.ShowCodeSnippetPicker.Target.PREPARE,
+                target = TargetCodeFieldType.PREPARE,
                 includeResponseOptions = false,
                 includeFileOptions = shortcut.type != ShortcutExecutionType.SCRIPTING,
                 includeNetworkErrorOption = false,
@@ -104,7 +97,7 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
     fun onAddCodeSnippetSuccessButtonClicked() {
         emitEvent(
             ScriptingEvent.ShowCodeSnippetPicker(
-                target = ScriptingEvent.ShowCodeSnippetPicker.Target.SUCCESS,
+                target = TargetCodeFieldType.SUCCESS,
                 includeResponseOptions = true,
                 includeFileOptions = shortcut.type != ShortcutExecutionType.SCRIPTING,
                 includeNetworkErrorOption = false,
@@ -115,7 +108,7 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
     fun onAddCodeSnippetFailureButtonClicked() {
         emitEvent(
             ScriptingEvent.ShowCodeSnippetPicker(
-                target = ScriptingEvent.ShowCodeSnippetPicker.Target.FAILURE,
+                target = TargetCodeFieldType.FAILURE,
                 includeResponseOptions = true,
                 includeFileOptions = shortcut.type != ShortcutExecutionType.SCRIPTING,
                 includeNetworkErrorOption = true,
@@ -166,28 +159,34 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
         }
     }
 
-    fun onChangeIconOptionSelected(shortcutPlaceholder: String) {
-        iconPickerShortcutPlaceholder = shortcutPlaceholder
-        dialogState = getIconPickerDialog(
-            callbacks = object : GetIconPickerDialogUseCase.Callbacks {
-                override fun openBuiltInIconSelectionDialog() {
-                    dialogState = getBuiltInIconPickerDialog(::onIconSelected)
-                }
-
-                override fun openCustomIconPicker() {
-                    emitEvent(ScriptingEvent.OpenCustomIconPicker)
-                }
-
-                override fun openIpackPicker() {
-                    emitEvent(ScriptingEvent.OpenIpackIconPicker)
-                }
-            },
+    fun onCodeSnippetForPreparePicked(textBeforeCursor: String, textAfterCursor: String) {
+        emitEvent(
+            ScriptingEvent.InsertCodeSnippet(
+                target = TargetCodeFieldType.PREPARE,
+                textBeforeCursor = textBeforeCursor,
+                textAfterCursor = textAfterCursor,
+            )
         )
     }
 
-    fun onIconSelected(icon: ShortcutIcon) {
-        emitEvent(ScriptingEvent.InsertChangeIconSnippet(iconPickerShortcutPlaceholder ?: return, icon))
-        iconPickerShortcutPlaceholder = null
+    fun onCodeSnippetForSuccessPicked(textBeforeCursor: String, textAfterCursor: String) {
+        emitEvent(
+            ScriptingEvent.InsertCodeSnippet(
+                target = TargetCodeFieldType.SUCCESS,
+                textBeforeCursor = textBeforeCursor,
+                textAfterCursor = textAfterCursor,
+            )
+        )
+    }
+
+    fun onCodeSnippetForFailurePicked(textBeforeCursor: String, textAfterCursor: String) {
+        emitEvent(
+            ScriptingEvent.InsertCodeSnippet(
+                target = TargetCodeFieldType.FAILURE,
+                textBeforeCursor = textBeforeCursor,
+                textAfterCursor = textAfterCursor,
+            )
+        )
     }
 
     companion object {

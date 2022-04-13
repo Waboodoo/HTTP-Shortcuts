@@ -48,7 +48,7 @@ class RequestHeadersAdapter(
             else -> null
         }
 
-    override fun bindViewHolder(holder: RecyclerView.ViewHolder, position: Int, item: HeaderListItem) {
+    override fun bindViewHolder(holder: RecyclerView.ViewHolder, position: Int, item: HeaderListItem, payloads: List<Any>) {
         when (holder) {
             is HeaderViewHolder -> holder.setItem(item as HeaderListItem.Header)
             is EmptyStateViewHolder -> holder.setItem(item as HeaderListItem.EmptyState)

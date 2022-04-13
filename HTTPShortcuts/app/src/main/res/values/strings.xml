@@ -889,9 +889,9 @@
     <!-- Dialog option: shown in code snippet picker, option allows to get the network error message (if any) -->
     <string name="dialog_code_snippet_response_network_error">Get Network Error</string>
     <!-- Dialog option: shown in code snippet picker, option allows to get the value of a variable -->
-    <string name="dialog_code_snippet_get_variable">Get Variable</string>
+    <string name="dialog_code_snippet_get_variable">Get Variable Value</string>
     <!-- Dialog option: shown in code snippet picker, option allows to set the value of a variable -->
-    <string name="dialog_code_snippet_set_variable">Set Variable</string>
+    <string name="dialog_code_snippet_set_variable">Set Variable Value</string>
     <!-- Error message: Shown in toast when "Trigger Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_triggering">Could not trigger shortcut \"%1$s\" because it does not exist.</string>
     <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->

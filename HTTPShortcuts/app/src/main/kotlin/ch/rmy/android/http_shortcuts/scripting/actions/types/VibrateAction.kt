@@ -13,7 +13,8 @@ import java.util.concurrent.TimeUnit
 class VibrateAction(private val patternId: Int, private val waitForCompletion: Boolean) : BaseAction() {
 
     override fun execute(executionContext: ExecutionContext): Completable {
-        val vibrator = VibrationUtil.getVibrator(executionContext.context)
+        val vibrator = VibrationUtil(executionContext.context)
+            .getVibrator()
             ?: return Completable.complete()
 
         val pattern = findPattern(patternId)

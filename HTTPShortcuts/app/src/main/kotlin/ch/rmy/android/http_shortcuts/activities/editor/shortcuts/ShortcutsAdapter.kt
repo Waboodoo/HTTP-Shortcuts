@@ -41,7 +41,7 @@ class ShortcutsAdapter : BaseAdapter<ShortcutListItem>() {
             else -> null
         }
 
-    override fun bindViewHolder(holder: RecyclerView.ViewHolder, position: Int, item: ShortcutListItem) {
+    override fun bindViewHolder(holder: RecyclerView.ViewHolder, position: Int, item: ShortcutListItem, payloads: List<Any>) {
         when (holder) {
             is EmptyStateViewHolder -> holder.setItem(item as ShortcutListItem.EmptyState)
             is ShortcutViewHolder -> holder.setItem(item as ShortcutListItem.Shortcut)
