@@ -1,13 +1,11 @@
 package ch.rmy.android.http_shortcuts.activities.editor.basicsettings
 
 import android.os.Bundle
-import android.widget.ArrayAdapter
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.initialize
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.observeTextChanges
-import ch.rmy.android.framework.extensions.setTextSafely
 import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.R
@@ -25,11 +23,14 @@ class BasicRequestSettingsActivity : BaseActivity() {
 
     private lateinit var binding: ActivityBasicRequestSettingsBinding
 
-    private var suggestions: List<String> = emptyList()
+    private var browserPackageNameOptions: List<String> = emptyList()
         set(value) {
             if (field != value) {
                 field = value
-                binding.inputBrowserPackageName.setAdapter(ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, value))
+                binding.inputBrowserPackageName.setItemsFromPairs(
+                    listOf(DEFAULT_BROWSER_OPTION to getString(R.string.placeholder_browser_package_name)) +
+                        value.map { it to it }
+                )
             }
         }
 
@@ -54,7 +55,8 @@ class BasicRequestSettingsActivity : BaseActivity() {
     }
 
     private fun initUserInputBindings() {
-        binding.inputMethod.selectionChanges
+        binding.inputMethod
+            .selectionChanges
             .subscribe(viewModel::onMethodChanged)
             .attachTo(destroyer)
 
@@ -66,9 +68,9 @@ class BasicRequestSettingsActivity : BaseActivity() {
             .attachTo(destroyer)
 
         binding.inputBrowserPackageName
-            .observeTextChanges()
+            .selectionChanges
             .subscribe {
-                viewModel.onBrowserPackageNameChanged(it.toString())
+                viewModel.onBrowserPackageNameChanged(it.takeUnless { it == DEFAULT_BROWSER_OPTION } ?: "")
             }
             .attachTo(destroyer)
     }
@@ -79,10 +81,9 @@ class BasicRequestSettingsActivity : BaseActivity() {
             binding.inputMethod.visible = viewState.methodVisible
             binding.inputMethod.selectedItem = viewState.method
             binding.inputUrl.rawString = viewState.url
-            binding.inputBrowserPackageName.setTextSafely(viewState.browserPackageName)
+            browserPackageNameOptions = viewState.browserPackageNameOptions
+            binding.inputBrowserPackageName.selectedItem = viewState.browserPackageName
             binding.inputBrowserPackageName.visible = viewState.browserPackageNameVisible
-            binding.labelBrowserPackageName.visible = viewState.browserPackageNameVisible
-            suggestions = viewState.suggestedBrowserPackageNames
         }
         viewModel.events.observe(this, ::handleEvent)
     }
@@ -105,5 +106,7 @@ class BasicRequestSettingsActivity : BaseActivity() {
             ShortcutModel.METHOD_OPTIONS,
             ShortcutModel.METHOD_TRACE,
         )
+
+        private const val DEFAULT_BROWSER_OPTION = "default"
     }
 }

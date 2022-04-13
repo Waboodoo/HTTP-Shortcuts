@@ -48,8 +48,8 @@ class BasicRequestSettingsViewModel(application: Application) : BaseViewModel<Un
                 method = shortcut.method,
                 url = shortcut.url,
                 browserPackageName = shortcut.browserPackageName,
-                suggestedBrowserPackageNames = if (shortcut.type == ShortcutExecutionType.BROWSER) {
-                    getAvailableBrowserPackageNames()
+                browserPackageNameOptions = if (shortcut.type == ShortcutExecutionType.BROWSER) {
+                    getAvailableBrowserPackageNames(shortcut.browserPackageName)
                 } else {
                     emptyList()
                 },

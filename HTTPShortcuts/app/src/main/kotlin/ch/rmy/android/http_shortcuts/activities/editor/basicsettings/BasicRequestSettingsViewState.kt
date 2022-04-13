@@ -9,5 +9,5 @@ data class BasicRequestSettingsViewState(
     val variables: List<VariableModel>? = null,
     val browserPackageName: String = "",
     val browserPackageNameVisible: Boolean = false,
-    val suggestedBrowserPackageNames: List<String> = emptyList(),
+    val browserPackageNameOptions: List<String> = emptyList(),
 )

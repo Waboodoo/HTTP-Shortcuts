@@ -51,21 +51,12 @@
                     android:layout_alignParentRight="true" />
             </RelativeLayout>
 
-            <TextView
-                android:id="@+id/label_browser_package_name"
-                style="@style/Label"
+            <ch.rmy.android.framework.ui.views.LabelledSpinner
+                android:id="@+id/input_browser_package_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="@string/label_browser_package_name" />
-
-            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                android:id="@+id/input_browser_package_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/placeholder_browser_package_name"
-                android:inputType="text"
-                android:maxLines="1" />
 
         </LinearLayout>
 

@@ -18,10 +18,10 @@
     <string name="label_description">Description</string>
     <!-- Label above input field in editor, for shortcut URL -->
     <string name="label_url">URL</string>
-    <!-- Label above input field in editor, for entering the package name of the browser with which to open the URL -->
+    <!-- Label above select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="label_browser_package_name">Browser Package Name</string>
-    <!-- Placeholder for input field in editor, for entering the package name of the browser with which to open the URL -->
-    <string name="placeholder_browser_package_name">Leave empty for default browser</string>
+    <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
+    <string name="placeholder_browser_package_name">Use default browser</string>
     <!-- Button to save changes made to shortcut/variable -->
     <string name="save_button">Save</string>
     <!-- Button to test changes made to shortcut -->
