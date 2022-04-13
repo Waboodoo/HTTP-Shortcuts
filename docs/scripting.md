@@ -1,3 +1,4 @@
+<a name="scripting"></a>
 # Scripting
 
 When a shortcut is executed it is possible to run JavaScript code snippets before or after execution. You'll find the corresponding settings in the shortcut editor in the *"Scripting"* section.
@@ -7,12 +8,16 @@ When a shortcut is executed it is possible to run JavaScript code snippets befor
 
 Additionally, you'll find an option in the app's settings that allows you to run code before the execution of every shortcut, which can be used to define shared functions.
 
+Most of the [JavaScript's built-in functionalities](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference) can be used normally, e.g., to manipulate [Strings](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) or [Arrays](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array). Additionally, the app has some functions and utlities built in for convenience, all of which are documented below.
+
 Using these code blocks, there are a number of things you can achieve. See the [examples](#examples) below for inspiration.
 
 <a name="handle-response"></a>
 ## Handling the Response
 
-You can access the response of your HTTP request via the `response` object. 
+You can access the response of your HTTP request via the `response` object.
+
+Please note that the `response` object is only available in the *"Run on Success"* code block, and will otherwise be `null`.
 
 ### Getting the Response Body
 
@@ -54,7 +59,7 @@ const myCookieValue = response.cookies['MyCookieName'][0];
 const myCookieValue2 = response.getCookie('MyCookieName2');
 ```
 
-If you need more details about a cookie (e.g. it's expiration timestamp) you can use `response.headers['Set-Cookie']` to read out the cookie headers directly.
+If you need more details about a cookie (e.g. its expiration timestamp) you can use `response.headers['Set-Cookie']` to read out the cookie headers directly.
 
 ### Errors
 
@@ -63,7 +68,7 @@ Please note that the `response` object will be `null` if there was no response f
 <a name="variables"></a>
 ## Reading & Writing Variables
 
-In the app you can create variables to be used in your shortcuts, e.g. to dynamically insert values for a URL, a query parameter or part of the request body. To do so use the variable editor found by clicking the *"{}"* button in the main screen of the app.
+In the app you can create [global variables](variables) to be used in your shortcuts, e.g. to dynamically insert values for a URL, a query parameter or part of the request body. You'll find the variable editor via the "Variables" option in the menu in the app's main screen.
 
 This section explains how you can interact with these variables from a script.
 

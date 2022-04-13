@@ -1,4 +1,4 @@
-A simple Android app that allows you to create shortcuts and widgets that can be placed on your home screen. Each shortcut, when clicked, triggers an HTTP request. Ideal for home automation projects.
+A simple Android app that allows you to create shortcuts and widgets that can be placed on your home screen. Each shortcut, when clicked, triggers an HTTP request, with the possibility of processing and displaying the response in various ways. Ideal for home automation projects.
 
 <a href="https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts"><img alt="Get it on Google Play" src="../assets/play_store.svg" height="80" style="margin-right: 20px"></a><a href="https://f-droid.org/en/packages/ch.rmy.android.http_shortcuts/"><img alt="Get it on F-Droid" src="../assets/f_droid.svg" height="80"></a>
 
@@ -10,7 +10,7 @@ Runs on Android 5 (Lollipop) or newer. For Android 4.0 - Android 4.4.4, download
 
 ## Features
 - Supports HTTP and HTTPS (TLSv1.3), and methods GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS and TRACE
-- Basic Authentication, Digest Authentication & Bearer Authentication
+- Basic Authentication, Digest Authentication, Bearer Authentication and Client Certificate Authentication
 - Custom request headers
 - Custom request body (text only)
 - File upload through form-data parameters
@@ -18,12 +18,12 @@ Runs on Android 5 (Lollipop) or newer. For Android 4.0 - Android 4.4.4, download
 - Built-in icons, support for Ipack icons and custom icons
 - Colorful Themes and Dark Mode support
 - Grouping into categories through tabs
-- Value injection through variables (e.g., text, numbers, passwords, selections, colors, dates, …)
+- Value injection through [global variables](variables.md) (e.g., text, numbers, passwords, selections, colors, dates, …)
 - Run [JavaScript code](scripting.md) before & after execution and invoke actions (e.g., vibrate, show toast, parse JSON response…), allowing to create powerful workflows
 - Import & Export in JSON or cURL format
 - 3rd party integration (e.g. Tasker)
 - Configure it from your browser using the [Web Editor](https://http-shortcuts.rmy.ch/editor)
-- Completely free, and no ads!
+- Completely free, open-source, no ads and [(almost) no tracking](privacy-policy.md)
 
 ## Screenshots
 ![Main Screen](../assets/screenshots/01.png)
