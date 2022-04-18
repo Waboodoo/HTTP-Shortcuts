@@ -69,7 +69,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         get() = initData.selectionMode
 
     override var dialogState: DialogState?
-        get() = currentViewState.dialogState
+        get() = currentViewState?.dialogState
         set(value) {
             updateViewState {
                 copy(dialogState = value)
@@ -238,14 +238,18 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     fun onTabLongClicked() {
-        if (selectionMode == SelectionMode.NORMAL && !currentViewState.isLocked) {
-            openCategoriesEditor()
+        doWithViewState { viewState ->
+            if (selectionMode == SelectionMode.NORMAL && !viewState.isLocked) {
+                openCategoriesEditor()
+            }
         }
     }
 
     fun onToolbarTitleClicked() {
-        if (selectionMode == SelectionMode.NORMAL && !currentViewState.isLocked) {
-            showToolbarTitleChangeDialog(currentViewState.toolbarTitle)
+        doWithViewState { viewState ->
+            if (selectionMode == SelectionMode.NORMAL && !viewState.isLocked) {
+                showToolbarTitleChangeDialog(viewState.toolbarTitle)
+            }
         }
     }
 
@@ -254,14 +258,16 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     fun onCreationDialogOptionSelected(executionType: ShortcutExecutionType) {
-        logInfo("Preparing to open editor for creating shortcut of type $executionType")
-        emitEvent(
-            MainEvent.OpenShortcutEditor(
-                ShortcutEditorActivity.IntentBuilder()
-                    .categoryId(currentViewState.activeCategoryId)
-                    .executionType(executionType)
+        doWithViewState { viewState ->
+            logInfo("Preparing to open editor for creating shortcut of type $executionType")
+            emitEvent(
+                MainEvent.OpenShortcutEditor(
+                    ShortcutEditorActivity.IntentBuilder()
+                        .categoryId(viewState.activeCategoryId)
+                        .executionType(executionType)
+                )
             )
-        )
+        }
     }
 
     fun onCreationDialogHelpButtonClicked() {
@@ -407,13 +413,15 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     fun onCurlCommandSubmitted(curlCommand: CurlCommand) {
-        emitEvent(
-            MainEvent.OpenShortcutEditor(
-                ShortcutEditorActivity.IntentBuilder()
-                    .categoryId(currentViewState.activeCategoryId)
-                    .curlCommand(curlCommand)
+        doWithViewState { viewState ->
+            emitEvent(
+                MainEvent.OpenShortcutEditor(
+                    ShortcutEditorActivity.IntentBuilder()
+                        .categoryId(viewState.activeCategoryId)
+                        .curlCommand(curlCommand)
+                )
             )
-        )
+        }
     }
 
     private fun getShortcutById(shortcutId: ShortcutId): ShortcutModel? {

@@ -40,7 +40,7 @@ class ImportExportViewModel(application: Application) : BaseViewModel<Unit, Impo
     private var disposable: Disposable? = null
 
     override var dialogState: DialogState?
-        get() = currentViewState.dialogState
+        get() = currentViewState?.dialogState
         set(value) {
             updateViewState {
                 copy(dialogState = value)

@@ -29,7 +29,9 @@ class WidgetSettingsViewModel(application: Application) : BaseViewModel<WidgetSe
     )
 
     fun onLabelColorInputClicked() {
-        emitEvent(WidgetSettingsEvent.ShowLabelColorPicker(currentViewState.labelColor))
+        doWithViewState { viewState ->
+            emitEvent(WidgetSettingsEvent.ShowLabelColorPicker(viewState.labelColor))
+        }
     }
 
     fun onShowLabelChanged(enabled: Boolean) {
@@ -45,12 +47,14 @@ class WidgetSettingsViewModel(application: Application) : BaseViewModel<WidgetSe
     }
 
     fun onCreateButtonClicked() {
-        finishWithOkResult(
-            WidgetSettingsActivity.OpenWidgetSettings.createResult(
-                shortcutId = shortcutId,
-                labelColor = currentViewState.labelColorFormatted,
-                showLabel = currentViewState.showLabel,
-            ),
-        )
+        doWithViewState { viewState ->
+            finishWithOkResult(
+                WidgetSettingsActivity.OpenWidgetSettings.createResult(
+                    shortcutId = shortcutId,
+                    labelColor = viewState.labelColorFormatted,
+                    showLabel = viewState.showLabel,
+                ),
+            )
+        }
     }
 }

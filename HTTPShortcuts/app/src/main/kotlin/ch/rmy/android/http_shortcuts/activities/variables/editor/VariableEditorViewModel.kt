@@ -54,7 +54,7 @@ class VariableEditorViewModel(
         }
 
     override var dialogState: DialogState?
-        get() = currentViewState.dialogState
+        get() = currentViewState?.dialogState
         set(value) {
             updateViewState {
                 copy(dialogState = value)
@@ -243,15 +243,14 @@ class VariableEditorViewModel(
     }
 
     fun onAllowShareChanged(enabled: Boolean) {
-        if (!isInitialized) {
-            return
-        }
-        performOperation(
-            temporaryVariableRepository.setSharingSupport(
-                shareText = enabled && currentViewState.shareSupport.text,
-                shareTitle = enabled && currentViewState.shareSupport.title,
+        doWithViewState { viewState ->
+            performOperation(
+                temporaryVariableRepository.setSharingSupport(
+                    shareText = enabled && viewState.shareSupport.text,
+                    shareTitle = enabled && viewState.shareSupport.title,
+                )
             )
-        )
+        }
     }
 
     fun onShareSupportChanged(shareSupport: VariableEditorViewState.ShareSupport) {

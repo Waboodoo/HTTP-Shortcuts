@@ -24,7 +24,7 @@ class DeepLinkViewModel(application: Application) : BaseViewModel<DeepLinkViewMo
     override fun initViewState() = DeepLinkViewState()
 
     override var dialogState: DialogState?
-        get() = currentViewState.dialogState
+        get() = currentViewState?.dialogState
         set(value) {
             updateViewState {
                 copy(dialogState = value)

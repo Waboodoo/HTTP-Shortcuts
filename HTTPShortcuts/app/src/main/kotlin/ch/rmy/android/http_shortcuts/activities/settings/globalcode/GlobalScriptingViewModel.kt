@@ -31,7 +31,7 @@ class GlobalScriptingViewModel(application: Application) : BaseViewModel<Unit, G
     var iconPickerShortcutPlaceholder: String? = null
 
     override var dialogState: DialogState?
-        get() = currentViewState.dialogState
+        get() = currentViewState?.dialogState
         set(value) {
             updateViewState {
                 copy(dialogState = value)
@@ -80,15 +80,17 @@ class GlobalScriptingViewModel(application: Application) : BaseViewModel<Unit, G
     }
 
     fun onBackPressed() {
-        if (currentViewState.saveButtonVisible) {
-            dialogState = DialogState.create {
-                message(R.string.confirm_discard_changes_message)
-                    .positive(R.string.dialog_discard) { onDiscardDialogConfirmed() }
-                    .negative(R.string.dialog_cancel)
-                    .build()
+        doWithViewState { viewState ->
+            if (viewState.saveButtonVisible) {
+                dialogState = DialogState.create {
+                    message(R.string.confirm_discard_changes_message)
+                        .positive(R.string.dialog_discard) { onDiscardDialogConfirmed() }
+                        .negative(R.string.dialog_cancel)
+                        .build()
+                }
+            } else {
+                finish()
             }
-        } else {
-            finish()
         }
     }
 
@@ -97,12 +99,14 @@ class GlobalScriptingViewModel(application: Application) : BaseViewModel<Unit, G
     }
 
     fun onSaveButtonClicked() {
-        appRepository.setGlobalCode(currentViewState.globalCode.trim().takeUnlessEmpty())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                finish()
-            }
-            .attachTo(destroyer)
+        doWithViewState { viewState ->
+            appRepository.setGlobalCode(viewState.globalCode.trim().takeUnlessEmpty())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    finish()
+                }
+                .attachTo(destroyer)
+        }
     }
 
     fun onGlobalCodeChanged(globalCode: String) {

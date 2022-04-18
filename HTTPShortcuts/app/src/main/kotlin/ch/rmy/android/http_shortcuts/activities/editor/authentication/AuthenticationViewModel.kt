@@ -23,7 +23,7 @@ class AuthenticationViewModel(application: Application) : BaseViewModel<Unit, Au
     private val copyCertificateFile = CopyCertificateFileUseCase(context)
 
     override var dialogState: DialogState?
-        get() = currentViewState.dialogState
+        get() = currentViewState?.dialogState
         set(value) {
             updateViewState {
                 copy(dialogState = value)
@@ -122,10 +122,12 @@ class AuthenticationViewModel(application: Application) : BaseViewModel<Unit, Au
     }
 
     fun onClientCertButtonClicked() {
-        if (currentViewState.clientCertParams == null) {
-            showClientCertDialog()
-        } else {
-            onClientCertParamsChanged(null)
+        doWithViewState { viewState ->
+            if (viewState.clientCertParams == null) {
+                showClientCertDialog()
+            } else {
+                onClientCertParamsChanged(null)
+            }
         }
     }
 

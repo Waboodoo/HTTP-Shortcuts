@@ -14,7 +14,7 @@ class AboutViewModel(application: Application) : BaseViewModel<Unit, AboutViewSt
     private val getChangeLogDialog = GetChangeLogDialogUseCase(settings)
 
     override var dialogState: DialogState?
-        get() = currentViewState.dialogState
+        get() = currentViewState?.dialogState
         set(value) {
             updateViewState {
                 copy(dialogState = value)

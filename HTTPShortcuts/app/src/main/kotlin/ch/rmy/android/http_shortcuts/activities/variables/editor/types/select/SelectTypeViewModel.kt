@@ -65,23 +65,21 @@ class SelectTypeViewModel(application: Application) : BaseVariableTypeViewModel<
     }
 
     fun onMultilineChanged(enabled: Boolean) {
-        if (!isInitialized) {
-            return
+        doWithViewState { viewState ->
+            updateViewState {
+                copy(isMultiSelect = enabled)
+            }
+            saveData(viewState)
         }
-        updateViewState {
-            copy(isMultiSelect = enabled)
-        }
-        saveData()
     }
 
     fun onSeparatorChanged(separator: String) {
-        if (!isInitialized) {
-            return
+        doWithViewState { viewState ->
+            updateViewState {
+                copy(separator = separator)
+            }
+            saveData(viewState)
         }
-        updateViewState {
-            copy(separator = separator)
-        }
-        saveData()
     }
 
     fun onAddDialogConfirmed(label: String, value: String) {
@@ -102,12 +100,12 @@ class SelectTypeViewModel(application: Application) : BaseVariableTypeViewModel<
         )
     }
 
-    private fun saveData() {
+    private fun saveData(viewState: SelectTypeViewState) {
         performOperation(
             temporaryVariableRepository.setDataForType(
                 mapOf(
-                    SelectType.KEY_MULTI_SELECT to currentViewState.isMultiSelect.toString(),
-                    SelectType.KEY_SEPARATOR to currentViewState.separator,
+                    SelectType.KEY_MULTI_SELECT to viewState.isMultiSelect.toString(),
+                    SelectType.KEY_SEPARATOR to viewState.separator,
                 )
             )
         )

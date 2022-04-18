@@ -91,7 +91,7 @@ class ShortcutListViewModel(
     private var disposable: Disposable? = null
 
     override var dialogState: DialogState?
-        get() = currentViewState.dialogState
+        get() = currentViewState?.dialogState
         set(value) {
             updateViewState {
                 copy(dialogState = value)
@@ -179,13 +179,13 @@ class ShortcutListViewModel(
     }
 
     fun onPaused() {
-        if (isInitialized && currentViewState.isInMovingMode) {
+        if (isInitialized && currentViewState!!.isInMovingMode) {
             disableMovingMode()
         }
     }
 
     fun onBackPressed(): Boolean =
-        if (isInitialized && currentViewState.isInMovingMode) {
+        if (isInitialized && currentViewState!!.isInMovingMode) {
             disableMovingMode()
             true
         } else {
@@ -221,23 +221,25 @@ class ShortcutListViewModel(
     }
 
     fun onShortcutClicked(shortcutId: ShortcutId) {
-        logInfo("Shortcut clicked")
-        if (currentViewState.isInMovingMode) {
-            showSnackbar(R.string.message_moving_enabled)
-            return
-        }
-        if (initData.selectionMode != SelectionMode.NORMAL) {
-            selectShortcut(shortcutId)
-            return
-        }
-        if (currentViewState.isAppLocked) {
-            executeShortcut(shortcutId)
-            return
-        }
-        when (settings.clickBehavior) {
-            Settings.CLICK_BEHAVIOR_RUN -> executeShortcut(shortcutId)
-            Settings.CLICK_BEHAVIOR_EDIT -> editShortcut(shortcutId)
-            Settings.CLICK_BEHAVIOR_MENU -> showContextMenu(shortcutId)
+        doWithViewState { viewState ->
+            logInfo("Shortcut clicked")
+            if (viewState.isInMovingMode) {
+                showSnackbar(R.string.message_moving_enabled)
+                return@doWithViewState
+            }
+            if (initData.selectionMode != SelectionMode.NORMAL) {
+                selectShortcut(shortcutId)
+                return@doWithViewState
+            }
+            if (viewState.isAppLocked) {
+                executeShortcut(shortcutId)
+                return@doWithViewState
+            }
+            when (settings.clickBehavior) {
+                Settings.CLICK_BEHAVIOR_RUN -> executeShortcut(shortcutId)
+                Settings.CLICK_BEHAVIOR_EDIT -> editShortcut(shortcutId)
+                Settings.CLICK_BEHAVIOR_MENU -> showContextMenu(shortcutId)
+            }
         }
     }
 
@@ -278,8 +280,10 @@ class ShortcutListViewModel(
         categories.size > 1
 
     fun onShortcutLongClicked(shortcutId: ShortcutId) {
-        if (currentViewState.isLongClickingEnabled) {
-            showContextMenu(shortcutId)
+        doWithViewState { viewState ->
+            if (viewState.isLongClickingEnabled) {
+                showContextMenu(shortcutId)
+            }
         }
     }
 

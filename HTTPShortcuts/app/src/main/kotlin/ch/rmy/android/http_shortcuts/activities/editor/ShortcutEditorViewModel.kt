@@ -88,7 +88,7 @@ class ShortcutEditorViewModel(
         get() = initData.executionType
 
     override var dialogState: DialogState?
-        get() = currentViewState.dialogState
+        get() = currentViewState?.dialogState
         set(value) {
             updateViewState {
                 copy(dialogState = value)
@@ -316,21 +316,25 @@ class ShortcutEditorViewModel(
     }
 
     fun onTestButtonClicked() {
-        if (!currentViewState.testButtonVisible) {
-            return
-        }
-        waitForOperationsToFinish {
-            openActivity(ExecuteActivity.IntentBuilder(TEMPORARY_ID))
+        doWithViewState { viewState ->
+            if (!viewState.testButtonVisible) {
+                return@doWithViewState
+            }
+            waitForOperationsToFinish {
+                openActivity(ExecuteActivity.IntentBuilder(TEMPORARY_ID))
+            }
         }
     }
 
     fun onSaveButtonClicked() {
-        if (!currentViewState.saveButtonVisible || isSaving) {
-            return
-        }
-        isSaving = true
-        waitForOperationsToFinish {
-            trySave()
+        doWithViewState { viewState ->
+            if (!viewState.saveButtonVisible || isSaving) {
+                return@doWithViewState
+            }
+            isSaving = true
+            waitForOperationsToFinish {
+                trySave()
+            }
         }
     }
 

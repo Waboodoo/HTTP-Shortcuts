@@ -8,6 +8,7 @@ import androidx.annotation.UiThread
 import androidx.lifecycle.AndroidViewModel
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.mapFor
 import ch.rmy.android.framework.ui.IntentBuilder
 import ch.rmy.android.framework.utils.Destroyer
 import ch.rmy.android.framework.utils.ProgressMonitor
@@ -36,7 +37,8 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
     val viewState: Observable<ViewState>
         get() = viewStateSubject.observeOn(AndroidSchedulers.mainThread())
 
-    protected lateinit var currentViewState: ViewState
+    protected var currentViewState: ViewState? = null
+        private set
 
     protected fun emitEvent(event: ViewModelEvent) {
         eventSubject.onNext(event)
@@ -44,11 +46,27 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
 
     private var suppressViewStatePublishing = false
 
+    private val delayedViewStateUpdates = mutableListOf<ViewState.() -> ViewState>()
+    private val delayedViewStateActions = mutableListOf<(ViewState) -> Unit>()
+
+    @UiThread
+    protected fun doWithViewState(action: (ViewState) -> Unit) {
+        if (currentViewState != null) {
+            action(currentViewState!!)
+        } else {
+            delayedViewStateActions.add(action)
+        }
+    }
+
     @UiThread
     protected fun updateViewState(mutation: ViewState.() -> ViewState) {
-        currentViewState = mutation(currentViewState)
+        if (currentViewState == null) {
+            delayedViewStateUpdates.add(mutation)
+            return
+        }
+        currentViewState = mutation(currentViewState!!)
         if (!suppressViewStatePublishing) {
-            viewStateSubject.onNext(currentViewState)
+            viewStateSubject.onNext(currentViewState!!)
         }
     }
 
@@ -61,7 +79,9 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
         suppressViewStatePublishing = true
         action()
         suppressViewStatePublishing = false
-        viewStateSubject.onNext(currentViewState)
+        if (currentViewState != null) {
+            viewStateSubject.onNext(currentViewState!!)
+        }
     }
 
     protected val destroyer = Destroyer()
@@ -94,12 +114,19 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
         if (isInitialized) {
             throw IllegalStateException("view model already initialized")
         }
+        val publishViewState = delayedViewStateUpdates.isNotEmpty() || !silent
         currentViewState = initViewState()
-        if (!silent) {
-            viewStateSubject.onNext(currentViewState)
+            .mapFor(delayedViewStateUpdates) {
+                it()
+            }
+        delayedViewStateUpdates.clear()
+        if (publishViewState) {
+            viewStateSubject.onNext(currentViewState!!)
         }
         isInitialized = true
         onInitialized()
+        delayedViewStateActions.forEach { it(currentViewState!!) }
+        delayedViewStateActions.clear()
     }
 
     protected open fun onInitialized() {

@@ -40,7 +40,7 @@ class CategoriesViewModel(application: Application) : BaseViewModel<Unit, Catego
     private var hasChanged = false
 
     override var dialogState: DialogState?
-        get() = currentViewState.dialogState
+        get() = currentViewState?.dialogState
         set(value) {
             updateViewState {
                 copy(dialogState = value)

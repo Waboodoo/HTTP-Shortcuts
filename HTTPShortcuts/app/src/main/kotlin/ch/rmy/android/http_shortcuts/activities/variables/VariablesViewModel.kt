@@ -47,7 +47,7 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
         }
 
     override var dialogState: DialogState?
-        get() = currentViewState.dialogState
+        get() = currentViewState?.dialogState
         set(value) {
             updateViewState {
                 copy(dialogState = value)

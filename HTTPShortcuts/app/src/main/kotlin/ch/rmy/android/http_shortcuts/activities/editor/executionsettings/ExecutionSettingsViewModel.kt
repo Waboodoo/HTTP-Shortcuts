@@ -22,7 +22,7 @@ class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit,
     private val launcherShortcutManager = LauncherShortcutManager(context)
 
     override var dialogState: DialogState?
-        get() = currentViewState.dialogState
+        get() = currentViewState?.dialogState
         set(value) {
             updateViewState {
                 copy(dialogState = value)
@@ -99,13 +99,15 @@ class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit,
     }
 
     private fun showDelayDialog() {
-        dialogState = getDelayDialog(
-            delay = currentViewState.delay,
-            getLabel = { duration ->
-                DurationLocalizable(duration)
-            },
-            onDelayChanged = ::onDelayChanged,
-        )
+        doWithViewState { viewState ->
+            dialogState = getDelayDialog(
+                delay = viewState.delay,
+                getLabel = { duration ->
+                    DurationLocalizable(duration)
+                },
+                onDelayChanged = ::onDelayChanged,
+            )
+        }
     }
 
     fun onBackPressed() {

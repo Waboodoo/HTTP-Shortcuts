@@ -30,7 +30,7 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
         }
 
     override var dialogState: DialogState?
-        get() = currentViewState.dialogState
+        get() = currentViewState?.dialogState
         set(value) {
             updateViewState {
                 copy(dialogState = value)
@@ -148,10 +148,12 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
     }
 
     fun onAddParameterButtonClicked() {
-        if (currentViewState.requestBodyType == RequestBodyType.FORM_DATA) {
-            showParameterTypeDialog()
-        } else {
-            emitEvent(RequestBodyEvent.ShowAddParameterForStringDialog)
+        doWithViewState { viewState ->
+            if (viewState.requestBodyType == RequestBodyType.FORM_DATA) {
+                showParameterTypeDialog()
+            } else {
+                emitEvent(RequestBodyEvent.ShowAddParameterForStringDialog)
+            }
         }
     }
 
@@ -205,15 +207,17 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
     }
 
     fun onBodyContentChanged(bodyContent: String) {
-        if (currentViewState.contentType.isEmpty() && bodyContent.isJsonObjectStart()) {
-            onContentTypeChanged("application/json")
+        doWithViewState { viewState ->
+            if (viewState.contentType.isEmpty() && bodyContent.isJsonObjectStart()) {
+                onContentTypeChanged("application/json")
+            }
+            updateViewState {
+                copy(bodyContent = bodyContent)
+            }
+            performOperation(
+                temporaryShortcutRepository.setBodyContent(bodyContent)
+            )
         }
-        updateViewState {
-            copy(bodyContent = bodyContent)
-        }
-        performOperation(
-            temporaryShortcutRepository.setBodyContent(bodyContent)
-        )
     }
 
     fun onBackPressed() {

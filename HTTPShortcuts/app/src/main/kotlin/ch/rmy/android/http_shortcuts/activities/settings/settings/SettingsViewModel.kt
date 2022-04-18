@@ -19,7 +19,7 @@ class SettingsViewModel(application: Application) : BaseViewModel<Unit, Settings
     private val getToolbarTitleChangeDialog = GetToolbarTitleChangeDialogUseCase()
 
     override var dialogState: DialogState?
-        get() = currentViewState.dialogState
+        get() = currentViewState?.dialogState
         set(value) {
             updateViewState {
                 copy(dialogState = value)

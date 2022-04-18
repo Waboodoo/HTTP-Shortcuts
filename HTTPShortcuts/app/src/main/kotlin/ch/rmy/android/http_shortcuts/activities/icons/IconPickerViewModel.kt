@@ -34,7 +34,7 @@ class IconPickerViewModel(application: Application) : BaseViewModel<Unit, IconPi
     private lateinit var icons: List<IconPickerListItem>
 
     override var dialogState: DialogState?
-        get() = currentViewState.dialogState
+        get() = currentViewState?.dialogState
         set(value) {
             updateViewState {
                 copy(dialogState = value)
@@ -61,8 +61,10 @@ class IconPickerViewModel(application: Application) : BaseViewModel<Unit, IconPi
     )
 
     override fun onInitialized() {
-        if (currentViewState.icons.isEmpty()) {
-            showImagePicker()
+        doWithViewState { viewState ->
+            if (viewState.icons.isEmpty()) {
+                showImagePicker()
+            }
         }
     }
 
@@ -93,18 +95,20 @@ class IconPickerViewModel(application: Application) : BaseViewModel<Unit, IconPi
     }
 
     fun onIconCreated(iconUri: Uri) {
-        val iconName = IconUtil.generateCustomIconName()
-        iconUri.toFile().renameTo(File(context.filesDir, iconName))
-        val icon = ShortcutIcon.CustomIcon(iconName)
+        doWithViewState { viewState ->
+            val iconName = IconUtil.generateCustomIconName()
+            iconUri.toFile().renameTo(File(context.filesDir, iconName))
+            val icon = ShortcutIcon.CustomIcon(iconName)
 
-        val isFirstIcon = currentViewState.icons.isEmpty()
-        updateViewState {
-            copy(
-                icons = icons.plus(IconPickerListItem(icon, isUnused = true)),
-            )
-        }
-        if (isFirstIcon) {
-            selectIcon(icon)
+            val isFirstIcon = viewState.icons.isEmpty()
+            updateViewState {
+                copy(
+                    icons = icons.plus(IconPickerListItem(icon, isUnused = true)),
+                )
+            }
+            if (isFirstIcon) {
+                selectIcon(icon)
+            }
         }
     }
 
@@ -113,16 +117,18 @@ class IconPickerViewModel(application: Application) : BaseViewModel<Unit, IconPi
     }
 
     fun onIconLongClicked(icon: ShortcutIcon.CustomIcon) {
-        val isUnused = currentViewState.icons.find { it.icon == icon }?.isUnused ?: return
-        val message = StringResLocalizable(
-            if (isUnused) {
-                R.string.confirm_delete_custom_icon_message
-            } else {
-                R.string.confirm_delete_custom_icon_still_in_use_message
+        doWithViewState { viewState ->
+            val isUnused = viewState.icons.find { it.icon == icon }?.isUnused ?: return@doWithViewState
+            val message = StringResLocalizable(
+                if (isUnused) {
+                    R.string.confirm_delete_custom_icon_message
+                } else {
+                    R.string.confirm_delete_custom_icon_still_in_use_message
+                }
+            )
+            updateViewState {
+                copy(dialogState = getDeletionDialog(icon, message, ::onDeletionConfirmed))
             }
-        )
-        updateViewState {
-            copy(dialogState = getDeletionDialog(icon, message, ::onDeletionConfirmed))
         }
     }
 
@@ -142,19 +148,21 @@ class IconPickerViewModel(application: Application) : BaseViewModel<Unit, IconPi
     }
 
     private fun onBulkDeletionConfirmed() {
-        val icons = currentViewState.icons.filter { it.isUnused }
-        Completable.fromAction {
-            icons.forEach {
-                it.icon.getFile(context)?.delete()
+        doWithViewState { viewState ->
+            val icons = viewState.icons.filter { it.isUnused }
+            Completable.fromAction {
+                icons.forEach {
+                    it.icon.getFile(context)?.delete()
+                }
             }
-        }
-            .subscribeOn(Schedulers.io())
-            .subscribe()
-            .attachTo(destroyer)
-        updateViewState {
-            copy(
-                icons = this.icons.filterNot { it.isUnused },
-            )
+                .subscribeOn(Schedulers.io())
+                .subscribe()
+                .attachTo(destroyer)
+            updateViewState {
+                copy(
+                    icons = this.icons.filterNot { it.isUnused },
+                )
+            }
         }
     }
 }

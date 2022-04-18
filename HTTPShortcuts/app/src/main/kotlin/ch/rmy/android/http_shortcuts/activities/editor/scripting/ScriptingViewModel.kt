@@ -31,7 +31,7 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
     private lateinit var shortcut: ShortcutModel
 
     override var dialogState: DialogState?
-        get() = currentViewState.dialogState
+        get() = currentViewState?.dialogState
         set(value) {
             updateViewState {
                 copy(dialogState = value)

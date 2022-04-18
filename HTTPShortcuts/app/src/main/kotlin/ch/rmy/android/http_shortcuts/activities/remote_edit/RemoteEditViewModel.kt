@@ -65,7 +65,7 @@ class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, Remote
         serverUrl.toUri()
 
     override var dialogState: DialogState?
-        get() = currentViewState.dialogState
+        get() = currentViewState?.dialogState
         set(value) {
             updateViewState {
                 copy(dialogState = value)
@@ -127,8 +127,10 @@ class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, Remote
     }
 
     fun onUploadButtonClicked() {
-        if (currentViewState.canUpload) {
-            startUpload()
+        doWithViewState { viewState ->
+            if (viewState.canUpload) {
+                startUpload()
+            }
         }
     }
 
@@ -158,8 +160,10 @@ class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, Remote
     }
 
     fun onDownloadButtonClicked() {
-        if (currentViewState.canDownload) {
-            startDownload()
+        doWithViewState { viewState ->
+            if (viewState.canDownload) {
+                startDownload()
+            }
         }
     }
 

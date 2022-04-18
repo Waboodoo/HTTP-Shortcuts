@@ -42,13 +42,13 @@ class SliderTypeViewModel(application: Application) : BaseVariableTypeViewModel<
     }
 
     private fun storeData() {
-        with(currentViewState) {
+        doWithViewState { viewState ->
             performOperation(
                 temporaryVariableRepository.setDataForType(
                     SliderType.getData(
-                        maxValue = maxValue,
-                        minValue = minValue,
-                        stepValue = stepSize,
+                        maxValue = viewState.maxValue,
+                        minValue = viewState.minValue,
+                        stepValue = viewState.stepSize,
                     )
                 )
             )
@@ -56,7 +56,7 @@ class SliderTypeViewModel(application: Application) : BaseVariableTypeViewModel<
     }
 
     override fun validate(): Boolean =
-        with(currentViewState) {
+        with(currentViewState!!) {
             when {
                 maxValue <= minValue -> {
                     showToast(R.string.error_slider_max_not_greater_than_min)

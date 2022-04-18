@@ -20,7 +20,7 @@ class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, 
     private val getTimeoutDialog = GetTimeoutDialogUseCase()
 
     override var dialogState: DialogState?
-        get() = currentViewState.dialogState
+        get() = currentViewState?.dialogState
         set(value) {
             updateViewState {
                 copy(dialogState = value)
@@ -137,13 +137,15 @@ class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, 
     }
 
     private fun showTimeoutDialog() {
-        dialogState = getTimeoutDialog(
-            currentViewState.timeout,
-            getLabel = { duration ->
-                DurationLocalizable(duration)
-            },
-            onTimeoutChanged = ::onTimeoutChanged,
-        )
+        doWithViewState { viewState ->
+            dialogState = getTimeoutDialog(
+                viewState.timeout,
+                getLabel = { duration ->
+                    DurationLocalizable(duration)
+                },
+                onTimeoutChanged = ::onTimeoutChanged,
+            )
+        }
     }
 
     fun onBackPressed() {

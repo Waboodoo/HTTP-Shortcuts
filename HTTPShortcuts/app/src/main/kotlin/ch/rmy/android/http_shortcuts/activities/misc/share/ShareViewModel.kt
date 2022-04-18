@@ -38,7 +38,7 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
         get() = initData.fileUris
 
     override var dialogState: DialogState?
-        get() = currentViewState.dialogState
+        get() = currentViewState?.dialogState
         set(value) {
             updateViewState {
                 copy(dialogState = value)
