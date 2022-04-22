@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import androidx.core.net.toUri
 import androidx.preference.Preference
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.createIntent
@@ -102,7 +103,10 @@ class SettingsActivity : BaseActivity() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 initPreference("allow_overlay") {
                     try {
-                        startActivity(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION))
+                        startActivity(
+                            Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
+                                .setData("package:${requireContext().packageName}".toUri())
+                        )
                     } catch (e: ActivityNotFoundException) {
                         showSnackbar(R.string.error_not_supported)
                     }

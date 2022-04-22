@@ -31,7 +31,7 @@ class TriggerShortcutActionRunner : TaskerPluginRunnerActionNoOutput<Input>() {
         } catch (e: SessionMonitor.SessionStartException) {
             TaskerPluginResultError(
                 0,
-                "Failed to trigger shortcut. Check the app's Troubleshooting section " +
+                "Failed to trigger shortcut. Check HTTP Shortcuts' Troubleshooting section " +
                     "in the Settings for options to mitigate this.",
             )
         }
