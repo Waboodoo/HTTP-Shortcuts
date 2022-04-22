@@ -15,6 +15,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import ch.rmy.android.framework.ui.views.PanelButton
+import ch.rmy.android.framework.utils.SimpleAnimationListener
 import ch.rmy.android.framework.utils.SimpleTextWatcher
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.http_shortcuts.R
@@ -181,18 +182,46 @@ val RecyclerView.ViewHolder.context: Context
     get() = itemView.context
 
 fun View.zoomSwap(action: () -> Unit) {
-    animation?.cancel()
+    stopAndRemoveAnimations()
     val zoomOut = AnimationUtils.loadAnimation(context, R.anim.zoom_out)
-    zoomOut.setAnimationListener(object : Animation.AnimationListener {
-        override fun onAnimationEnd(animation: Animation?) {
+    zoomOut.setAnimationListener(object : SimpleAnimationListener {
+        override fun onAnimationEnd(animation: Animation) {
             action.invoke()
             val zoomIn = AnimationUtils.loadAnimation(context, R.anim.zoom_in)
             startAnimation(zoomIn)
         }
-
-        override fun onAnimationRepeat(animation: Animation?) = Unit
-
-        override fun onAnimationStart(animation: Animation?) = Unit
     })
     startAnimation(zoomOut)
+}
+
+fun View.stopAndRemoveAnimations() {
+    animation?.setAnimationListener(null)
+    animation?.cancel()
+    clearAnimation()
+}
+
+fun View.zoomToggle(visible: Boolean) {
+    val zoomToggleState = (getTag(R.string.animation_zoom_toggle) as? Boolean) ?: this.visible
+    if (!visible && zoomToggleState) {
+        setTag(R.string.animation_zoom_toggle, false)
+        stopAndRemoveAnimations()
+        val zoomOut = AnimationUtils.loadAnimation(context, R.anim.zoom_out)
+        zoomOut.setAnimationListener(object : SimpleAnimationListener {
+            override fun onAnimationEnd(animation: Animation) {
+                this@zoomToggle.visible = false
+            }
+        })
+        startAnimation(zoomOut)
+    } else if (visible && !zoomToggleState) {
+        setTag(R.string.animation_zoom_toggle, true)
+        stopAndRemoveAnimations()
+        val zoomIn = AnimationUtils.loadAnimation(context, R.anim.zoom_in)
+        this.visible = true
+        zoomIn.setAnimationListener(object : SimpleAnimationListener {
+            override fun onAnimationStart(animation: Animation) {
+                this@zoomToggle.visible = true
+            }
+        })
+        startAnimation(zoomIn)
+    }
 }

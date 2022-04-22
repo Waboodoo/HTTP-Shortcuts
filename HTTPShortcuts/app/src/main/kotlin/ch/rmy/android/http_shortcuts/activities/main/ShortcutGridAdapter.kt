@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.visible
-import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import ch.rmy.android.framework.extensions.zoomToggle
 import ch.rmy.android.http_shortcuts.databinding.GridItemShortcutBinding
 
 class ShortcutGridAdapter : BaseShortcutAdapter() {
@@ -17,9 +17,6 @@ class ShortcutGridAdapter : BaseShortcutAdapter() {
     inner class ShortcutViewHolder(
         private val binding: GridItemShortcutBinding,
     ) : BaseShortcutViewHolder(binding.root) {
-
-        override lateinit var shortcutId: ShortcutId
-            private set
 
         init {
             binding.root.setOnClickListener {
@@ -36,11 +33,14 @@ class ShortcutGridAdapter : BaseShortcutAdapter() {
             }
         }
 
-        override fun setItem(item: ShortcutListItem.Shortcut) {
-            shortcutId = item.id
+        override fun setItem(item: ShortcutListItem.Shortcut, isUpdate: Boolean) {
             binding.name.text = item.name
-            binding.icon.setIcon(item.icon)
-            binding.waitingIcon.visible = item.isPending
+            binding.icon.setIcon(item.icon, animated = isUpdate)
+            if (isUpdate) {
+                binding.waitingIcon.zoomToggle(item.isPending)
+            } else {
+                binding.waitingIcon.visible = item.isPending
+            }
             val primaryColor = getPrimaryTextColor(context, item.textColor)
             binding.waitingIcon.imageTintList = ColorStateList.valueOf(primaryColor)
             binding.name.setTextColor(primaryColor)

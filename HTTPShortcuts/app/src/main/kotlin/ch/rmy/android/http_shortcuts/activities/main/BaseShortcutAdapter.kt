@@ -34,6 +34,13 @@ abstract class BaseShortcutAdapter : BaseAdapter<ShortcutListItem>() {
             is ShortcutListItem.EmptyState -> newItem is ShortcutListItem.EmptyState
         }
 
+    override fun getChangePayload(oldItem: ShortcutListItem, newItem: ShortcutListItem): Any? {
+        if (oldItem is ShortcutListItem.Shortcut && newItem is ShortcutListItem.Shortcut) {
+            return Unit
+        }
+        return null
+    }
+
     override fun getItemViewType(position: Int): Int =
         when (items[position]) {
             is ShortcutListItem.Shortcut -> VIEW_TYPE_SHORTCUT
@@ -69,9 +76,18 @@ abstract class BaseShortcutAdapter : BaseAdapter<ShortcutListItem>() {
         }
 
     abstract class BaseShortcutViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        abstract val shortcutId: ShortcutId
+        lateinit var shortcutId: ShortcutId
+            protected set
 
-        abstract fun setItem(item: ShortcutListItem.Shortcut)
+        private var previousShortcutId: ShortcutId? = null
+
+        fun setItem(item: ShortcutListItem.Shortcut) {
+            shortcutId = item.id
+            setItem(item, isUpdate = previousShortcutId == shortcutId)
+            previousShortcutId = shortcutId
+        }
+
+        abstract fun setItem(item: ShortcutListItem.Shortcut, isUpdate: Boolean)
     }
 
     inner class EmptyStateViewHolder(

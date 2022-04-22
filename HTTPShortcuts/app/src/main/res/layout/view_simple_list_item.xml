@@ -16,7 +16,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="4dp"
         android:ellipsize="end"
-        android:maxLength="2"
+        android:maxLines="2"
         android:textColor="@color/text_color_primary_dark"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/simple_list_item_subtitle"
