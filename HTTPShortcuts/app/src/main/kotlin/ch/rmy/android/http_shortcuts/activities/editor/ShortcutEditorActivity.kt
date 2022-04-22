@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.launch
+import androidx.core.view.isVisible
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.focus
+import ch.rmy.android.framework.extensions.isVisible
 import ch.rmy.android.framework.extensions.launch
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.observe
@@ -17,7 +19,6 @@ import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.extensions.setMaxLength
 import ch.rmy.android.framework.extensions.setSubtitle
 import ch.rmy.android.framework.extensions.setTextSafely
-import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.framework.ui.BaseActivityResultContract
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
@@ -66,7 +67,7 @@ class ShortcutEditorActivity : BaseActivity() {
     private fun initViews() {
         binding = applyBinding(ActivityShortcutEditorOverviewBinding.inflate(layoutInflater))
         binding.inputShortcutName.setMaxLength(ShortcutModel.NAME_MAX_LENGTH)
-        binding.mainView.visible = false
+        binding.mainView.isVisible = false
         title = ""
     }
 
@@ -118,30 +119,30 @@ class ShortcutEditorActivity : BaseActivity() {
 
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
-            binding.loadingIndicator.visible = false
-            binding.mainView.visible = true
+            binding.loadingIndicator.isVisible = false
+            binding.mainView.isVisible = true
             val type = viewState.shortcutExecutionType
             setTitle(viewState.toolbarTitle)
             setSubtitle(viewState.toolbarSubtitle)
             binding.inputIcon.setIcon(viewState.shortcutIcon, animated = true)
             binding.inputIcon.alpha = if (viewState.iconLoading) 0.7f else 1f
             binding.iconContainer.isClickable = viewState.isIconClickable
-            binding.iconLoadingIndicator.visible = viewState.iconLoading
+            binding.iconLoadingIndicator.isVisible = viewState.iconLoading
             binding.inputShortcutName.setTextSafely(viewState.shortcutName)
             binding.inputDescription.setTextSafely(viewState.shortcutDescription)
-            binding.buttonBasicRequestSettings.visible = type.usesUrl
-            binding.dividerBelowBasicRequestSettings.visible = type.usesUrl
-            binding.buttonHeaders.visible = type.usesRequestOptions
-            binding.dividerBelowHeaders.visible = type.usesRequestOptions
-            binding.buttonRequestBody.visible = type.usesRequestOptions
-            binding.dividerBelowRequestBody.visible = type.usesRequestOptions
-            binding.buttonAuthentication.visible = type.usesRequestOptions
-            binding.dividerBelowAuthentication.visible = type.usesRequestOptions
-            binding.buttonResponseHandling.visible = type.usesResponse
-            binding.buttonAdvancedTechnicalSettings.visible = type.usesRequestOptions
-            binding.buttonScripting.visible = type.usesScriptingEditor
-            binding.buttonTriggerShortcuts.visible = type == ShortcutExecutionType.TRIGGER
-            binding.dividerBelowScripting.visible = type.usesScriptingEditor || type == ShortcutExecutionType.TRIGGER
+            binding.buttonBasicRequestSettings.isVisible = type.usesUrl
+            binding.dividerBelowBasicRequestSettings.isVisible = type.usesUrl
+            binding.buttonHeaders.isVisible = type.usesRequestOptions
+            binding.dividerBelowHeaders.isVisible = type.usesRequestOptions
+            binding.buttonRequestBody.isVisible = type.usesRequestOptions
+            binding.dividerBelowRequestBody.isVisible = type.usesRequestOptions
+            binding.buttonAuthentication.isVisible = type.usesRequestOptions
+            binding.dividerBelowAuthentication.isVisible = type.usesRequestOptions
+            binding.buttonResponseHandling.isVisible = type.usesResponse
+            binding.buttonAdvancedTechnicalSettings.isVisible = type.usesRequestOptions
+            binding.buttonScripting.isVisible = type.usesScriptingEditor
+            binding.buttonTriggerShortcuts.isVisible = type == ShortcutExecutionType.TRIGGER
+            binding.dividerBelowScripting.isVisible = type.usesScriptingEditor || type == ShortcutExecutionType.TRIGGER
             binding.buttonBasicRequestSettings.setSubtitle(viewState.basicSettingsSubtitle)
             binding.buttonHeaders.setSubtitle(viewState.headersSubtitle)
             binding.buttonRequestBody.setSubtitle(viewState.requestBodySettingsSubtitle)

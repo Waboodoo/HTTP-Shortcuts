@@ -5,9 +5,9 @@ import android.content.Context
 import android.content.res.TypedArray
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
 import ch.rmy.android.framework.extensions.addRippleAnimation
 import ch.rmy.android.framework.extensions.layoutInflater
-import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.databinding.ViewSimpleListItemBinding
 
@@ -27,7 +27,7 @@ class SimpleListItemView
         set(value) {
             field = value
             binding.simpleListItemSubtitle.text = value
-            binding.simpleListItemSubtitle.visible = !value.isNullOrEmpty()
+            binding.simpleListItemSubtitle.isVisible = !value.isNullOrEmpty()
         }
 
     init {

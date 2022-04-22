@@ -4,12 +4,13 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.core.view.isVisible
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.isDarkThemeEnabled
+import ch.rmy.android.framework.extensions.isVisible
 import ch.rmy.android.framework.extensions.openURL
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.tryOrLog
-import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
@@ -56,8 +57,8 @@ class AcknowledgmentActivity : BaseActivity() {
     }
 
     private fun reveal() {
-        binding.acknowledgmentsWebview.visible = true
-        binding.loadingIndicator.visible = false
+        binding.acknowledgmentsWebview.isVisible = true
+        binding.loadingIndicator.isVisible = false
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

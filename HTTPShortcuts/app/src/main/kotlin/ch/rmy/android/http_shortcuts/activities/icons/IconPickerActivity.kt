@@ -5,13 +5,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.core.view.isVisible
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.initialize
+import ch.rmy.android.framework.extensions.isVisible
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.observe
-import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.framework.ui.BaseActivityResultContract
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.utils.FilePickerUtil
@@ -77,8 +78,8 @@ class IconPickerActivity : BaseActivity() {
 
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
-            binding.loadingIndicator.visible = false
-            binding.buttonCreateIcon.visible = true
+            binding.loadingIndicator.isVisible = false
+            binding.buttonCreateIcon.isVisible = true
             adapter.items = viewState.icons
             layoutManager.setEmpty(viewState.isEmptyStateVisible)
             deleteMenuItem?.isVisible = viewState.isDeleteButtonVisible

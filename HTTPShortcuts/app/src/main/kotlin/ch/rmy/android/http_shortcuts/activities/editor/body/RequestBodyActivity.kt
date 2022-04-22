@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.editor.body
 
 import android.os.Bundle
 import android.widget.ArrayAdapter
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
@@ -9,7 +10,6 @@ import ch.rmy.android.framework.extensions.initialize
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.extensions.setTextSafely
-import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.utils.DragOrderingHelper
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
@@ -125,10 +125,10 @@ class RequestBodyActivity : BaseActivity() {
             binding.inputRequestBodyType.selectedItem = viewState.requestBodyType.type
             binding.inputContentType.setTextSafely(viewState.contentType)
             binding.inputBodyContent.rawString = viewState.bodyContent
-            binding.parameterList.visible = viewState.parameterListVisible
-            binding.buttonAddParameter.visible = viewState.addParameterButtonVisible
-            binding.containerInputContentType.visible = viewState.contentTypeVisible
-            binding.containerInputBodyContent.visible = viewState.bodyContentVisible
+            binding.parameterList.isVisible = viewState.parameterListVisible
+            binding.buttonAddParameter.isVisible = viewState.addParameterButtonVisible
+            binding.containerInputContentType.isVisible = viewState.contentTypeVisible
+            binding.containerInputBodyContent.isVisible = viewState.bodyContentVisible
             setDialogState(viewState.dialogState, viewModel)
         }
         viewModel.events.observe(this, ::handleEvent)

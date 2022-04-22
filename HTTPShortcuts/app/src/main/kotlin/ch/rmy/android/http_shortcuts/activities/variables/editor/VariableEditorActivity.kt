@@ -5,15 +5,16 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.core.view.isVisible
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.focus
+import ch.rmy.android.framework.extensions.isVisible
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.observeChecked
 import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.extensions.setTextSafely
-import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.framework.ui.BaseFragment
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
@@ -60,7 +61,7 @@ class VariableEditorActivity : BaseActivity() {
 
     private fun initViews() {
         binding = applyBinding(ActivityVariableEditorBinding.inflate(layoutInflater))
-        binding.mainView.visible = false
+        binding.mainView.isVisible = false
         title = ""
 
         defaultColor = binding.inputVariableKey.textColors
@@ -139,11 +140,11 @@ class VariableEditorActivity : BaseActivity() {
 
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
-            binding.loadingIndicator.visible = false
-            binding.mainView.visible = true
+            binding.loadingIndicator.isVisible = false
+            binding.mainView.isVisible = true
             setTitle(viewState.title)
             setSubtitle(viewState.subtitle)
-            binding.dialogTitleContainer.visible = viewState.titleInputVisible
+            binding.dialogTitleContainer.isVisible = viewState.titleInputVisible
             binding.inputVariableKey.error = viewState.variableKeyInputError?.localize(context)
             binding.inputVariableKey.setTextSafely(viewState.variableKey)
             binding.inputVariableTitle.setTextSafely(viewState.variableTitle)
@@ -158,7 +159,7 @@ class VariableEditorActivity : BaseActivity() {
             if (viewState.shareSupportVisible) {
                 binding.inputShareSupport.selectedItem = viewState.shareSupport.name
             }
-            binding.inputShareSupport.visible = viewState.shareSupportVisible
+            binding.inputShareSupport.isVisible = viewState.shareSupportVisible
             setDialogState(viewState.dialogState, viewModel)
         }
         viewModel.events.observe(this, ::handleEvent)

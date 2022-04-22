@@ -3,11 +3,11 @@ package ch.rmy.android.http_shortcuts.activities.categories
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.dimen
 import ch.rmy.android.framework.extensions.setText
-import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.framework.ui.BaseAdapter
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
@@ -85,9 +85,9 @@ class CategoryAdapter : BaseAdapter<CategoryListItem>() {
 
         private fun updateLayoutTypeIcon(layoutType: CategoryLayoutType?) {
             if (layoutType == null) {
-                binding.layoutTypeIcon.visible = false
+                binding.layoutTypeIcon.isVisible = false
             } else {
-                binding.layoutTypeIcon.visible = true
+                binding.layoutTypeIcon.isVisible = true
                 binding.layoutTypeIcon.setImageResource(
                     when (layoutType) {
                         CategoryLayoutType.GRID -> R.drawable.ic_grid

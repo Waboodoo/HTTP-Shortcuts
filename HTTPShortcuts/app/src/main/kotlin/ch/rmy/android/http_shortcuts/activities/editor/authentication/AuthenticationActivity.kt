@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.editor.authentication
 
 import android.content.ActivityNotFoundException
 import android.os.Bundle
+import androidx.core.view.isVisible
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.initialize
@@ -9,7 +10,6 @@ import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.extensions.setSubtitle
 import ch.rmy.android.framework.extensions.showToast
-import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.utils.FilePickerUtil
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
@@ -91,9 +91,9 @@ class AuthenticationActivity : BaseActivity() {
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
             viewState.variables?.let(variablePlaceholderProvider::applyVariables)
-            binding.containerUsername.visible = viewState.isUsernameAndPasswordVisible
-            binding.containerPassword.visible = viewState.isUsernameAndPasswordVisible
-            binding.containerToken.visible = viewState.isTokenVisible
+            binding.containerUsername.isVisible = viewState.isUsernameAndPasswordVisible
+            binding.containerPassword.isVisible = viewState.isUsernameAndPasswordVisible
+            binding.containerToken.isVisible = viewState.isTokenVisible
             binding.inputAuthenticationType.selectedItem = viewState.authenticationType.type
             binding.inputUsername.rawString = viewState.username
             binding.inputPassword.rawString = viewState.password

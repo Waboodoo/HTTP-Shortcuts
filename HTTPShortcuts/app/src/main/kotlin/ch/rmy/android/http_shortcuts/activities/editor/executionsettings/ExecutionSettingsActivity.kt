@@ -1,13 +1,13 @@
 package ch.rmy.android.http_shortcuts.activities.editor.executionsettings
 
 import android.os.Bundle
+import androidx.core.view.isVisible
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.initialize
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.observeChecked
 import ch.rmy.android.framework.extensions.setSubtitle
-import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
@@ -56,9 +56,9 @@ class ExecutionSettingsActivity : BaseActivity() {
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
             binding.inputRequireConfirmation.isChecked = viewState.requireConfirmation
-            binding.inputLauncherShortcut.visible = viewState.launcherShortcutOptionVisible
+            binding.inputLauncherShortcut.isVisible = viewState.launcherShortcutOptionVisible
             binding.inputLauncherShortcut.isChecked = viewState.launcherShortcut
-            binding.inputQuickTileShortcut.visible = viewState.quickSettingsTileShortcutOptionVisible
+            binding.inputQuickTileShortcut.isVisible = viewState.quickSettingsTileShortcutOptionVisible
             binding.inputQuickTileShortcut.isChecked = viewState.quickSettingsTileShortcut
             binding.inputWaitForConnection.isChecked = viewState.waitForConnection
             binding.inputDelay.setSubtitle(viewState.delaySubtitle)

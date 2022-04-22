@@ -3,12 +3,12 @@ package ch.rmy.android.http_shortcuts.activities.editor.body
 import android.content.Context
 import android.view.View
 import android.widget.EditText
+import androidx.core.view.isVisible
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.showIfPossible
 import ch.rmy.android.framework.extensions.showSoftKeyboard
-import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.framework.utils.Destroyer
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
@@ -67,7 +67,7 @@ class FileParameterDialog(
                 keyInput.rawString = keyName
                 fileNameInput.setText(fileName)
 
-                dialog.findViewById<View>(R.id.file_name_input_container).visible = showFileNameOption
+                dialog.findViewById<View>(R.id.file_name_input_container).isVisible = showFileNameOption
 
                 dialog.setOnShowListener {
                     keyInput.showSoftKeyboard()

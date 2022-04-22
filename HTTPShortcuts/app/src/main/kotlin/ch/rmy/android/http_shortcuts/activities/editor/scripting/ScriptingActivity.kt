@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.view.Menu
 import android.view.MenuItem
+import androidx.core.view.isVisible
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.color
@@ -15,7 +16,6 @@ import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.setHint
 import ch.rmy.android.framework.extensions.setTextSafely
-import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
@@ -138,8 +138,8 @@ class ScriptingActivity : BaseActivity() {
             viewState.shortcuts?.let(shortcutPlaceholderProvider::applyShortcuts)
             binding.inputCodePrepare.minLines = viewState.codePrepareMinLines
             binding.inputCodePrepare.setHint(viewState.codePrepareHint)
-            binding.labelCodePrepare.visible = viewState.codePrepareVisible
-            binding.containerPostRequestScripting.visible = viewState.postRequestScriptingVisible
+            binding.labelCodePrepare.isVisible = viewState.codePrepareVisible
+            binding.containerPostRequestScripting.isVisible = viewState.postRequestScriptingVisible
             binding.inputCodeSuccess.setTextSafely(processTextForView(viewState.codeOnSuccess))
             binding.inputCodeFailure.setTextSafely(processTextForView(viewState.codeOnFailure))
             binding.inputCodePrepare.setTextSafely(processTextForView(viewState.codeOnPrepare))

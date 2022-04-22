@@ -8,14 +8,15 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContract
+import androidx.core.view.isVisible
 import androidx.viewpager.widget.ViewPager
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.consume
+import ch.rmy.android.framework.extensions.isVisible
 import ch.rmy.android.framework.extensions.launch
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.restartWithoutAnimation
 import ch.rmy.android.framework.extensions.titleView
-import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.framework.ui.BaseFragment
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.ui.Entrypoint
@@ -152,13 +153,13 @@ class MainActivity : BaseActivity(), Entrypoint {
 
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
-            binding.loadingIndicator.visible = false
+            binding.loadingIndicator.isVisible = false
             setTitle(viewState.toolbarTitleLocalizable)
             adapter.setCategories(viewState.categoryTabItems, viewState.selectionMode)
             setTabLongPressListener()
             activeCategoryIndex = viewState.activeCategoryIndex
-            binding.tabs.visible = viewState.isTabBarVisible
-            binding.buttonCreateShortcut.visible = viewState.isCreateButtonVisible
+            binding.tabs.isVisible = viewState.isTabBarVisible
+            binding.buttonCreateShortcut.isVisible = viewState.isCreateButtonVisible
             menuItemSettings?.isVisible = viewState.isRegularMenuButtonVisible
             menuItemImportExport?.isVisible = viewState.isRegularMenuButtonVisible
             menuItemAbout?.isVisible = viewState.isRegularMenuButtonVisible

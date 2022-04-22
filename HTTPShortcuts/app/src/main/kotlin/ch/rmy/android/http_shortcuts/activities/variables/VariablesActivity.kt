@@ -3,12 +3,13 @@ package ch.rmy.android.http_shortcuts.activities.variables
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.initialize
+import ch.rmy.android.framework.extensions.isVisible
 import ch.rmy.android.framework.extensions.observe
-import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.utils.DragOrderingHelper
 import ch.rmy.android.http_shortcuts.R
@@ -71,8 +72,8 @@ class VariablesActivity : BaseActivity() {
 
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
-            binding.loadingIndicator.visible = false
-            binding.buttonCreateVariable.visible = true
+            binding.loadingIndicator.isVisible = false
+            binding.buttonCreateVariable.isVisible = true
             adapter.items = viewState.variables
             isDraggingEnabled = viewState.isDraggingEnabled
             setDialogState(viewState.dialogState, viewModel)

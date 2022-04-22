@@ -17,11 +17,11 @@ import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
+import androidx.core.view.isVisible
 import androidx.core.widget.ImageViewCompat
 import ch.rmy.android.framework.extensions.color
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.showIfPossible
-import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.icons.IconView
@@ -248,26 +248,26 @@ open class DialogBuilder(val context: Context) {
             val regularIconView: ImageView = view.findViewById(R.id.menu_item_regular_icon)
 
             labelView.text = item.name
-            descriptionView.visible = item.description != null
+            descriptionView.isVisible = item.description != null
             descriptionView.text = item.description
             when {
                 item.shortcutIcon != null -> {
                     shortcutIconView.setIcon(item.shortcutIcon)
-                    shortcutIconView.visible = true
-                    regularIconView.visible = false
-                    iconContainer.visible = true
+                    shortcutIconView.isVisible = true
+                    regularIconView.isVisible = false
+                    iconContainer.isVisible = true
                 }
                 item.iconRes != null -> {
-                    shortcutIconView.visible = false
-                    regularIconView.visible = true
-                    iconContainer.visible = true
+                    shortcutIconView.isVisible = false
+                    regularIconView.isVisible = true
+                    iconContainer.isVisible = true
                     regularIconView.setImageResource(item.iconRes)
                     ImageViewCompat.setImageTintList(regularIconView, ColorStateList.valueOf(color(context, R.color.dialog_icon)))
                 }
                 else -> {
-                    shortcutIconView.visible = false
-                    regularIconView.visible = false
-                    iconContainer.visible = false
+                    shortcutIconView.isVisible = false
+                    regularIconView.isVisible = false
+                    iconContainer.isVisible = false
                 }
             }
 
@@ -288,7 +288,7 @@ open class DialogBuilder(val context: Context) {
             val checkBox: CheckBox = view.findViewById(R.id.menu_item_checkbox)
 
             labelView.text = item.name
-            descriptionView.visible = item.description != null
+            descriptionView.isVisible = item.description != null
             descriptionView.text = item.description
             checkBox.isChecked = item.checked
 

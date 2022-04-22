@@ -5,11 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.core.view.isVisible
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.observe
-import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.framework.ui.BaseActivityResultContract
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
@@ -58,7 +58,7 @@ class WidgetSettingsActivity : BaseActivity() {
 
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
-            binding.widgetLabel.visible = viewState.showLabel
+            binding.widgetLabel.isVisible = viewState.showLabel
             binding.inputLabelColor.isEnabled = viewState.showLabel
             binding.widgetIcon.setIcon(viewState.shortcutIcon)
             binding.widgetLabel.text = viewState.shortcutName

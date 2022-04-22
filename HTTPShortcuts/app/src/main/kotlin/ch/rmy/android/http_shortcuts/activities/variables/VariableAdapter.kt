@@ -2,9 +2,9 @@ package ch.rmy.android.http_shortcuts.activities.variables
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.framework.extensions.setText
-import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.framework.ui.BaseAdapter
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.databinding.ListEmptyItemBinding
@@ -66,7 +66,7 @@ class VariableAdapter : BaseAdapter<VariableListItem>() {
             variableId = item.id
             binding.name.text = item.key
             binding.type.setText(item.type)
-            binding.unused.visible = item.isUnused
+            binding.unused.isVisible = item.isUnused
         }
     }
 

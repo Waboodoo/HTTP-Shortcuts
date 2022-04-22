@@ -8,10 +8,10 @@ import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.CheckBox
+import androidx.core.view.isVisible
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.isDarkThemeEnabled
 import ch.rmy.android.framework.extensions.openURL
-import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
@@ -52,12 +52,12 @@ class GetChangeLogDialogUseCase(
                                         document.getElementById('root').className = 'dark';
                                     """
                                     ) {
-                                        webView.visible = true
-                                        loadingIndicator.visible = false
+                                        webView.isVisible = true
+                                        loadingIndicator.isVisible = false
                                     }
                                 } else {
-                                    webView.visible = true
-                                    loadingIndicator.visible = false
+                                    webView.isVisible = true
+                                    loadingIndicator.isVisible = false
                                 }
                             }
 

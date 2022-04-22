@@ -12,6 +12,7 @@ import android.widget.CompoundButton
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import ch.rmy.android.framework.ui.views.PanelButton
@@ -25,23 +26,10 @@ import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 import kotlin.math.min
 
-var View.visible: Boolean
-    get() = this.visibility == View.VISIBLE
+var ViewBinding.isVisible: Boolean
+    get() = root.isVisible
     set(value) {
-        val newState = if (value) {
-            View.VISIBLE
-        } else {
-            View.GONE
-        }
-        if (visibility != newState) {
-            visibility = newState
-        }
-    }
-
-var ViewBinding.visible: Boolean
-    get() = root.visible
-    set(value) {
-        root.visible = value
+        root.isVisible = value
     }
 
 val View.layoutInflater: LayoutInflater
@@ -201,14 +189,14 @@ fun View.stopAndRemoveAnimations() {
 }
 
 fun View.zoomToggle(visible: Boolean) {
-    val zoomToggleState = (getTag(R.string.animation_zoom_toggle) as? Boolean) ?: this.visible
+    val zoomToggleState = (getTag(R.string.animation_zoom_toggle) as? Boolean) ?: isVisible
     if (!visible && zoomToggleState) {
         setTag(R.string.animation_zoom_toggle, false)
         stopAndRemoveAnimations()
         val zoomOut = AnimationUtils.loadAnimation(context, R.anim.zoom_out)
         zoomOut.setAnimationListener(object : SimpleAnimationListener {
             override fun onAnimationEnd(animation: Animation) {
-                this@zoomToggle.visible = false
+                isVisible = false
             }
         })
         startAnimation(zoomOut)
@@ -216,10 +204,10 @@ fun View.zoomToggle(visible: Boolean) {
         setTag(R.string.animation_zoom_toggle, true)
         stopAndRemoveAnimations()
         val zoomIn = AnimationUtils.loadAnimation(context, R.anim.zoom_in)
-        this.visible = true
+        isVisible = true
         zoomIn.setAnimationListener(object : SimpleAnimationListener {
             override fun onAnimationStart(animation: Animation) {
-                this@zoomToggle.visible = true
+                isVisible = true
             }
         })
         startAnimation(zoomIn)

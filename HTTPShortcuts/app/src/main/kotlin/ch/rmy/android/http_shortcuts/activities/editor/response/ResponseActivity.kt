@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.editor.response
 
 import android.os.Bundle
+import androidx.core.view.isVisible
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.initialize
@@ -8,7 +9,6 @@ import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.observeChecked
 import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.extensions.setHint
-import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
@@ -89,9 +89,9 @@ class ResponseActivity : BaseActivity() {
             binding.inputResponseFailureOutput.selectedItem = viewState.responseFailureOutput
             binding.inputIncludeMetaInformation.isChecked = viewState.includeMetaInformation
             binding.inputSuccessMessage.rawString = viewState.successMessage
-            binding.inputResponseUiType.visible = viewState.responseUiTypeVisible
-            binding.containerInputSuccessMessage.visible = viewState.successMessageVisible
-            binding.inputIncludeMetaInformation.visible = viewState.includeMetaInformationVisible
+            binding.inputResponseUiType.isVisible = viewState.responseUiTypeVisible
+            binding.containerInputSuccessMessage.isVisible = viewState.successMessageVisible
+            binding.inputIncludeMetaInformation.isVisible = viewState.includeMetaInformationVisible
         }
         viewModel.events.observe(this, ::handleEvent)
     }

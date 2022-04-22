@@ -3,9 +3,9 @@ package ch.rmy.android.http_shortcuts.activities.main
 import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.context
-import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.framework.extensions.zoomToggle
 import ch.rmy.android.http_shortcuts.databinding.GridItemShortcutBinding
 
@@ -39,7 +39,7 @@ class ShortcutGridAdapter : BaseShortcutAdapter() {
             if (isUpdate) {
                 binding.waitingIcon.zoomToggle(item.isPending)
             } else {
-                binding.waitingIcon.visible = item.isPending
+                binding.waitingIcon.isVisible = item.isPending
             }
             val primaryColor = getPrimaryTextColor(context, item.textColor)
             binding.waitingIcon.imageTintList = ColorStateList.valueOf(primaryColor)

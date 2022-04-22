@@ -3,7 +3,7 @@ package ch.rmy.android.http_shortcuts.utils
 import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
-import ch.rmy.android.framework.extensions.visible
+import androidx.core.view.isVisible
 import ch.rmy.android.framework.utils.Destroyable
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
@@ -34,7 +34,7 @@ class ProgressIndicator(private val activity: BaseActivity) : Destroyable {
     fun hideProgress() {
         handler.removeCallbacks(showProgressRunnable)
         if (layoutLoaded) {
-            activity.baseView?.visible = false
+            activity.baseView?.isVisible = false
         }
     }
 

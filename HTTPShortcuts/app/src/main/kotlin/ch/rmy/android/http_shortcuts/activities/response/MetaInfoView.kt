@@ -6,9 +6,9 @@ import android.text.SpannableStringBuilder
 import android.text.style.StyleSpan
 import android.util.AttributeSet
 import android.widget.FrameLayout
+import androidx.core.view.isVisible
 import ch.rmy.android.framework.extensions.layoutInflater
 import ch.rmy.android.framework.extensions.tryOrIgnore
-import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.http_shortcuts.databinding.ViewMetaInfoBinding
 
 class MetaInfoView @JvmOverloads constructor(
@@ -20,12 +20,12 @@ class MetaInfoView @JvmOverloads constructor(
     private val binding = ViewMetaInfoBinding.inflate(layoutInflater, this, true)
 
     fun showGeneralInfo(data: List<Pair<String, String>>) {
-        binding.generalContainer.visible = true
+        binding.generalContainer.isVisible = true
         binding.generalView.text = toStyledSpan(data)
     }
 
     fun showHeaders(headers: List<Pair<String, String>>) {
-        binding.headersContainer.visible = true
+        binding.headersContainer.isVisible = true
         binding.headersView.text = toStyledSpan(headers)
     }
 

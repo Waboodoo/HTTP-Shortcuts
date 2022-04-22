@@ -1,12 +1,12 @@
 package ch.rmy.android.http_shortcuts.activities.editor.basicsettings
 
 import android.os.Bundle
+import androidx.core.view.isVisible
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.initialize
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.observeTextChanges
-import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
@@ -78,12 +78,12 @@ class BasicRequestSettingsActivity : BaseActivity() {
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
             viewState.variables?.let(variablePlaceholderProvider::applyVariables)
-            binding.inputMethod.visible = viewState.methodVisible
+            binding.inputMethod.isVisible = viewState.methodVisible
             binding.inputMethod.selectedItem = viewState.method
             binding.inputUrl.rawString = viewState.url
             browserPackageNameOptions = viewState.browserPackageNameOptions
             binding.inputBrowserPackageName.selectedItem = viewState.browserPackageName
-            binding.inputBrowserPackageName.visible = viewState.browserPackageNameVisible
+            binding.inputBrowserPackageName.isVisible = viewState.browserPackageNameVisible
         }
         viewModel.events.observe(this, ::handleEvent)
     }
