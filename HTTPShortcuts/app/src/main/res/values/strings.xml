@@ -782,7 +782,7 @@
     <string name="subtitle_request_headers_none">No headers set</string>
     <!-- Section subtitle, shown in shortcut editor when the shortcut has one or more custom HTTP headers -->
     <plurals name="subtitle_request_headers_pattern">
-        <item quantity="one">1 header set</item>
+        <item quantity="one">%d header set</item>
         <item quantity="other">%d headers set</item>
     </plurals>
     <!-- Section subtitle, shown in shortcut editor when no authentication behavior is defined -->
@@ -799,7 +799,7 @@
     <string name="subtitle_request_body_params_none">No parameters set</string>
     <!-- Section subtitle, shown in shortcut editor when one or more (POST) parameters are set -->
     <plurals name="subtitle_request_body_params_pattern">
-        <item quantity="one">1 parameter set</item>
+        <item quantity="one">%d parameter set</item>
         <item quantity="other">%d parameters set</item>
     </plurals>
     <!-- Section subtitle, shown in shortcut editor when no custom request body is set -->
@@ -951,7 +951,7 @@
     <!-- Settings option: Used in language picker to allow user to pick the default language, i.e., the system language -->
     <string name="language_default">System Default</string>
     <!-- Error: Shown in toast when user tries to add a variable placeholder to a text beyond its maximum size -->
-    <string name="error_text_too_long_for_variable">Text exceeds %d character limit. Cannot insert variable placeholder.</string>
+    <string name="error_text_too_long_for_variable">Text exceeds character limit of %d. Cannot insert variable placeholder.</string>
     <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->
     <string name="instructions_select_shortcut_for_home_screen">Select or create a shortcut to place it on the home screen.</string>
     <!-- Label: Shown when user selects a widget to place on the home screen, shown for the customizable widget (as opposite to the generic shortcut) -->
@@ -968,7 +968,7 @@
     <string name="error_invalid_character">Invalid character: %s</string>
     <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
     <plurals name="warning_variable_still_in_use_in_shortcuts">
-        <item quantity="one">This variable is still in use in 1 shortcut: %1$s</item>
+        <item quantity="one">This variable is still in use in %2$d shortcut: %1$s</item>
         <item quantity="other">This variable is still in use in %2$d shortcuts: %1$s</item>
     </plurals>
     <!-- Error: Shown when the text-to-speech action fails to speak a piece of text -->

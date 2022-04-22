@@ -6,7 +6,6 @@ import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import ch.rmy.android.framework.extensions.addRippleAnimation
 import ch.rmy.android.framework.extensions.layoutInflater
-import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.databinding.ViewExpandableSectionBinding
 import kotlin.time.Duration.Companion.milliseconds
 
