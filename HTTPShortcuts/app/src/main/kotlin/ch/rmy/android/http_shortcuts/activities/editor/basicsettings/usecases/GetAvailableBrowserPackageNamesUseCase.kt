@@ -5,23 +5,27 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.runIf
+import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.models.InstalledBrowser
 
 class GetAvailableBrowserPackageNamesUseCase(
     private val context: Context,
 ) {
 
-    operator fun invoke(currentValue: String): List<String> =
+    operator fun invoke(currentValue: String): List<InstalledBrowser> =
         context.packageManager.queryIntentActivities(
             Intent(Intent.ACTION_VIEW, "https://http-shortcuts.rmy.ch".toUri()),
             PackageManager.MATCH_ALL,
         )
             .map {
-                it.activityInfo.packageName
+                InstalledBrowser(
+                    packageName = it.activityInfo.packageName,
+                    appName = it.activityInfo.applicationInfo.loadLabel(context.packageManager)?.toString(),
+                )
             }
-            .let { browserPackageNames ->
-                browserPackageNames.runIf(currentValue.isNotEmpty() && currentValue !in browserPackageNames) {
-                    plus(currentValue)
+            .let { browsers ->
+                browsers.runIf(currentValue.isNotEmpty() && browsers.none { it.packageName == currentValue }) {
+                    plus(InstalledBrowser(packageName = currentValue))
                 }
             }
-            .sorted()
+            .sortedBy { it.appName ?: it.packageName }
 }

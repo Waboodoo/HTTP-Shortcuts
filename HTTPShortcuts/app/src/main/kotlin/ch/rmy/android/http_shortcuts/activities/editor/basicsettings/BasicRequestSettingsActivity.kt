@@ -10,6 +10,7 @@ import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.models.InstalledBrowser
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.databinding.ActivityBasicRequestSettingsBinding
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
@@ -23,13 +24,13 @@ class BasicRequestSettingsActivity : BaseActivity() {
 
     private lateinit var binding: ActivityBasicRequestSettingsBinding
 
-    private var browserPackageNameOptions: List<String> = emptyList()
+    private var installedBrowsers: List<InstalledBrowser> = emptyList()
         set(value) {
             if (field != value) {
                 field = value
                 binding.inputBrowserPackageName.setItemsFromPairs(
                     listOf(DEFAULT_BROWSER_OPTION to getString(R.string.placeholder_browser_package_name)) +
-                        value.map { it to it }
+                        value.map { it.packageName to (it.appName ?: it.packageName) }
                 )
             }
         }
@@ -81,7 +82,7 @@ class BasicRequestSettingsActivity : BaseActivity() {
             binding.inputMethod.isVisible = viewState.methodVisible
             binding.inputMethod.selectedItem = viewState.method
             binding.inputUrl.rawString = viewState.url
-            browserPackageNameOptions = viewState.browserPackageNameOptions
+            installedBrowsers = viewState.browserPackageNameOptions
             binding.inputBrowserPackageName.selectedItem = viewState.browserPackageName
             binding.inputBrowserPackageName.isVisible = viewState.browserPackageNameVisible
         }
