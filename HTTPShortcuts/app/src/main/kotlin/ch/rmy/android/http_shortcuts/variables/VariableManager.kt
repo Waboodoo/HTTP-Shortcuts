@@ -1,6 +1,6 @@
 package ch.rmy.android.http_shortcuts.variables
 
-import ch.rmy.android.framework.extensions.mapIf
+import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
@@ -74,10 +74,10 @@ class VariableManager(variables: List<VariableModel>) : VariableLookup {
     companion object {
         private fun encodeValue(variable: VariableModel, value: String) =
             value
-                .mapIf(variable.jsonEncode) {
+                .runIf(variable.jsonEncode) {
                     JSONObject.quote(this).drop(1).dropLast(1)
                 }
-                .mapIf(variable.urlEncode) {
+                .runIf(variable.urlEncode) {
                     try {
                         URLEncoder.encode(this, "utf-8")
                     } catch (e: UnsupportedEncodingException) {

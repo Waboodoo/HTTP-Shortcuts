@@ -8,7 +8,7 @@ import android.view.WindowManager
 import androidx.annotation.RequiresApi
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logException
-import ch.rmy.android.framework.extensions.mapFor
+import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
@@ -62,7 +62,7 @@ class QuickTileService : TileService() {
     private fun showPickerDialog(shortcuts: List<ShortcutModel>) {
         applyTheme()
         val dialog = DialogBuilder(context)
-            .mapFor(shortcuts) { shortcut ->
+            .runFor(shortcuts) { shortcut ->
                 item(name = shortcut.name, shortcutIcon = shortcut.icon) {
                     executeShortcut(shortcut.id)
                 }

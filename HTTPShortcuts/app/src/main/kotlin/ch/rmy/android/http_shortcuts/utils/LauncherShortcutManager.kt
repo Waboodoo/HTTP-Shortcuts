@@ -7,7 +7,7 @@ import android.content.pm.ShortcutManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import ch.rmy.android.framework.extensions.logException
-import ch.rmy.android.framework.extensions.mapIfNotNull
+import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.activities.main.MainActivity
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
@@ -80,7 +80,7 @@ class LauncherShortcutManager(private val context: Context) {
                 ExecuteActivity.IntentBuilder(shortcutId)
                     .build(context)
             )
-            .mapIfNotNull(icon) {
+            .runIfNotNull(icon) {
                 setIcon(it)
             }
             .build()

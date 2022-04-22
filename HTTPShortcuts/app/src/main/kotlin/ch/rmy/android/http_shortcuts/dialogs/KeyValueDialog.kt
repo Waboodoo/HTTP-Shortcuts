@@ -5,8 +5,8 @@ import android.text.InputType
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import ch.rmy.android.framework.extensions.attachTo
-import ch.rmy.android.framework.extensions.mapIfNotNull
 import ch.rmy.android.framework.extensions.observeTextChanges
+import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.showIfPossible
 import ch.rmy.android.framework.extensions.showSoftKeyboard
 import ch.rmy.android.framework.utils.Destroyer
@@ -48,7 +48,7 @@ class KeyValueDialog(
                 val valueText = valueField.rawString
                 subject.onSuccess(Event.DataChangedEvent(keyText to valueText))
             }
-            .mapIfNotNull(data) {
+            .runIfNotNull(data) {
                 neutral(R.string.dialog_remove) {
                     subject.onSuccess(Event.DataRemovedEvent)
                 }

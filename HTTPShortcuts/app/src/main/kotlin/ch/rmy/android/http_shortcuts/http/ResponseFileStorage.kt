@@ -2,7 +2,7 @@ package ch.rmy.android.http_shortcuts.http
 
 import android.content.Context
 import android.net.Uri
-import ch.rmy.android.framework.extensions.mapIf
+import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.http_shortcuts.utils.FileUtil
 import okhttp3.Response
 import java.io.File
@@ -27,7 +27,7 @@ class ResponseFileStorage(private val context: Context, private val id: String) 
 
     private fun getStream(response: Response): InputStream =
         response.body!!.byteStream()
-            .mapIf(isGzipped(response)) {
+            .runIf(isGzipped(response)) {
                 GZIPInputStream(this)
             }
 

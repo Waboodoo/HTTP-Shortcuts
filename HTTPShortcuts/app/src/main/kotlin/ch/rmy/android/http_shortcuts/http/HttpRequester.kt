@@ -3,9 +3,9 @@ package ch.rmy.android.http_shortcuts.http
 import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
-import ch.rmy.android.framework.extensions.mapFor
-import ch.rmy.android.framework.extensions.mapIf
-import ch.rmy.android.framework.extensions.mapIfNotNull
+import ch.rmy.android.framework.extensions.runFor
+import ch.rmy.android.framework.extensions.runIf
+import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
@@ -108,33 +108,33 @@ class HttpRequester(private val contentResolver: ContentResolver) {
                 val request = RequestBuilder(shortcut.method, requestData.url)
                     .header(HttpHeaders.CONNECTION, "close")
                     .userAgent(UserAgentUtil.userAgent)
-                    .mapIf(shortcut.usesCustomBody()) {
+                    .runIf(shortcut.usesCustomBody()) {
                         contentType(determineContentType(shortcut))
                             .body(requestData.body)
                     }
-                    .mapIf(shortcut.usesFileBody()) {
+                    .runIf(shortcut.usesFileBody()) {
                         val file = fileUploadManager?.getFile(0)
-                        mapIfNotNull(file) {
+                        runIfNotNull(file) {
                             contentType(determineContentType(shortcut) ?: it.mimeType)
                                 .body(contentResolver.openInputStream(it.data)!!, length = it.fileSize)
                         }
                     }
-                    .mapIf(shortcut.usesRequestParameters()) {
+                    .runIf(shortcut.usesRequestParameters()) {
                         contentType(determineContentType(shortcut))
                             .run {
                                 attachParameters(this, shortcut, variables, fileUploadManager)
                             }
                     }
-                    .mapFor(shortcut.headers) { header ->
+                    .runFor(shortcut.headers) { header ->
                         header(
                             Variables.rawPlaceholdersToResolvedValues(header.key, variables),
                             Variables.rawPlaceholdersToResolvedValues(header.value, variables)
                         )
                     }
-                    .mapIf(shortcut.authenticationType == ShortcutAuthenticationType.BASIC) {
+                    .runIf(shortcut.authenticationType == ShortcutAuthenticationType.BASIC) {
                         basicAuth(requestData.username, requestData.password)
                     }
-                    .mapIf(shortcut.authenticationType == ShortcutAuthenticationType.BEARER) {
+                    .runIf(shortcut.authenticationType == ShortcutAuthenticationType.BEARER) {
                         bearerAuth(requestData.authToken)
                     }
                     .build()
@@ -167,14 +167,14 @@ class HttpRequester(private val contentResolver: ContentResolver) {
         fileUploadManager: FileUploadManager?,
     ): RequestBuilder {
         var fileIndex = -1
-        return requestBuilder.mapFor(shortcut.parameters) { parameter ->
+        return requestBuilder.runFor(shortcut.parameters) { parameter ->
             val parameterName = Variables.rawPlaceholdersToResolvedValues(parameter.key, variables)
             when {
                 parameter.isFilesParameter -> {
-                    mapIfNotNull(fileUploadManager) {
+                    runIfNotNull(fileUploadManager) {
                         fileIndex++
                         val files = it.getFiles(fileIndex)
-                        mapFor(files) { file ->
+                        runFor(files) { file ->
                             fileParameter(
                                 name = "$parameterName[]",
                                 fileName = parameter.fileName.ifEmpty { file.fileName },
@@ -186,9 +186,9 @@ class HttpRequester(private val contentResolver: ContentResolver) {
                     }
                 }
                 parameter.isFileParameter -> {
-                    mapIfNotNull(fileUploadManager) {
+                    runIfNotNull(fileUploadManager) {
                         fileIndex++
-                        mapIfNotNull(it.getFile(fileIndex)) { file ->
+                        runIfNotNull(it.getFile(fileIndex)) { file ->
                             fileParameter(
                                 name = parameterName,
                                 fileName = parameter.fileName.ifEmpty { file.fileName },

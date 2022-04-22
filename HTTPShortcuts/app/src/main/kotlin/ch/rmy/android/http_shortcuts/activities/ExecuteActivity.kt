@@ -13,9 +13,9 @@ import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.finishWithoutAnimation
 import ch.rmy.android.framework.extensions.logException
-import ch.rmy.android.framework.extensions.mapFor
-import ch.rmy.android.framework.extensions.mapIf
-import ch.rmy.android.framework.extensions.mapIfNotNull
+import ch.rmy.android.framework.extensions.runFor
+import ch.rmy.android.framework.extensions.runIf
+import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
@@ -373,10 +373,10 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         }
         fileUploadManager = FileUploadManager.Builder(contentResolver)
             .withSharedFiles(fileUris)
-            .mapIf(shortcut.usesFileBody()) {
+            .runIf(shortcut.usesFileBody()) {
                 addFileRequest()
             }
-            .mapFor(shortcut.parameters) { parameter ->
+            .runFor(shortcut.parameters) { parameter ->
                 when {
                     parameter.isFilesParameter -> {
                         addFileRequest(multiple = true)
@@ -515,7 +515,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                 throw InvalidUrlException(url)
             }
             Intent(Intent.ACTION_VIEW, uri)
-                .mapIf(shortcut.browserPackageName.isNotEmpty()) {
+                .runIf(shortcut.browserPackageName.isNotEmpty()) {
                     setPackage(shortcut.browserPackageName)
                 }
                 .startActivity(this)
@@ -658,16 +658,16 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                 DisplayResponseActivity.IntentBuilder(shortcutId)
                     .name(shortcutName)
                     .type(response?.contentType)
-                    .mapIfNotNull(output) {
+                    .runIfNotNull(output) {
                         text(it)
                     }
-                    .mapIfNotNull(response?.contentFile) {
+                    .runIfNotNull(response?.contentFile) {
                         responseFileUri(it)
                     }
-                    .mapIfNotNull(response?.url) {
+                    .runIfNotNull(response?.url) {
                         url(it)
                     }
-                    .mapIf(shortcut.responseHandling?.includeMetaInfo == true) {
+                    .runIf(shortcut.responseHandling?.includeMetaInfo == true) {
                         showDetails(true)
                             .timing(response?.timing)
                             .headers(response?.headers)

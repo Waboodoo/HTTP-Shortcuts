@@ -4,8 +4,8 @@ import android.app.Application
 import android.net.Uri
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.context
-import ch.rmy.android.framework.extensions.mapFor
-import ch.rmy.android.framework.extensions.mapIf
+import ch.rmy.android.framework.extensions.runFor
+import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
@@ -68,7 +68,7 @@ class CodeSnippetPickerViewModel(application: Application) :
                         expanded = expanded,
                     )
                 )
-                    .mapIf(expanded) {
+                    .runIf(expanded) {
                         plus(
                             item.codeSnippetItems
                                 .mapIndexed { codeSnippetIndex, codeSnippetItem ->
@@ -127,8 +127,8 @@ class CodeSnippetPickerViewModel(application: Application) :
                 .item(R.string.label_insert_action_code_for_current_shortcut) {
                     callback("\"\"")
                 }
-                .mapFor(shortcutPlaceholderProvider.placeholders) { shortcut ->
-                    mapIf(shortcut.id != currentShortcutId) {
+                .runFor(shortcutPlaceholderProvider.placeholders) { shortcut ->
+                    runIf(shortcut.id != currentShortcutId) {
                         item(name = shortcut.name, shortcutIcon = shortcut.icon) {
                             callback("/*[shortcut]*/\"${shortcut.id}\"/*[/shortcut]*/")
                         }
@@ -163,7 +163,7 @@ class CodeSnippetPickerViewModel(application: Application) :
             return
         }
         dialogState = DialogState.create {
-            mapFor(variablePlaceholderProvider.placeholders) { variable ->
+            runFor(variablePlaceholderProvider.placeholders) { variable ->
                 item(name = variable.variableKey, descriptionRes = VariableTypeMappings.getTypeName(variable.variableType)) {
                     returnResult("getVariable(/*[variable]*/\"${variable.variableId}\"/*[/variable]*/)", "")
                 }
@@ -194,7 +194,7 @@ class CodeSnippetPickerViewModel(application: Application) :
             return
         }
         dialogState = DialogState.create {
-            mapFor(variablePlaceholderProvider.placeholders) { variable ->
+            runFor(variablePlaceholderProvider.placeholders) { variable ->
                 item(name = variable.variableKey, descriptionRes = VariableTypeMappings.getTypeName(variable.variableType)) {
                     returnResult("setVariable(/*[variable]*/\"${variable.variableId}\"/*[/variable]*/, \"", "\");\n")
                 }

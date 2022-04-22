@@ -4,7 +4,7 @@ import android.app.Application
 import android.net.Uri
 import androidx.annotation.StringRes
 import ch.rmy.android.framework.extensions.attachTo
-import ch.rmy.android.framework.extensions.mapFor
+import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
@@ -147,7 +147,7 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
 
     private fun showShortcutSelection(shortcuts: List<ShortcutModel>, variableValues: Map<VariableKey, String> = emptyMap()) {
         dialogState = DialogState.create {
-            mapFor(shortcuts) { shortcut ->
+            runFor(shortcuts) { shortcut ->
                 item(name = shortcut.name, shortcutIcon = shortcut.icon) {
                     executeShortcut(shortcut.id, variableValues)
                 }

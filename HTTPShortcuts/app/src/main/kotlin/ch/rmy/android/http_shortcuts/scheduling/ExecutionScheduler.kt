@@ -7,8 +7,8 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import ch.rmy.android.framework.extensions.logException
-import ch.rmy.android.framework.extensions.mapIf
-import ch.rmy.android.framework.extensions.mapIfNotNull
+import ch.rmy.android.framework.extensions.runIf
+import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.models.PendingExecutionModel
 import io.reactivex.Completable
@@ -54,10 +54,10 @@ class ExecutionScheduler(private val context: Context) {
                             .putString(ExecutionWorker.INPUT_EXECUTION_ID, pendingExecution.id)
                             .build()
                     )
-                    .mapIfNotNull(delay) {
+                    .runIfNotNull(delay) {
                         setInitialDelay(it, TimeUnit.MILLISECONDS)
                     }
-                    .mapIf(withNetworkConstraints) {
+                    .runIf(withNetworkConstraints) {
                         setConstraints(
                             Constraints.Builder()
                                 .setRequiredNetworkType(NetworkType.CONNECTED)

@@ -1,6 +1,6 @@
 package ch.rmy.android.http_shortcuts.http
 
-import ch.rmy.android.framework.extensions.mapIfNotNull
+import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.http_shortcuts.exceptions.InvalidBearerAuthException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidHeaderException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidUrlException
@@ -105,15 +105,15 @@ class RequestBuilder(private val method: String, url: String) {
     }
 
     fun build(): Request = requestBuilder
-        .also {
-            it.method(
+        .run {
+            method(
                 method,
                 if (HttpMethod.permitsRequestBody(method)) {
                     getBody()
                 } else null,
             )
         }
-        .mapIfNotNull(userAgent) {
+        .runIfNotNull(userAgent) {
             header(HttpHeaders.USER_AGENT, it)
         }
         .build()

@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.data.domains
 
 import ch.rmy.android.framework.data.RealmContext
-import ch.rmy.android.framework.extensions.mapIfNotNull
+import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutNameOrId
@@ -66,10 +66,10 @@ fun RealmContext.getTemporaryVariable(): RealmQuery<VariableModel> =
 fun RealmContext.getPendingExecutions(shortcutId: ShortcutId? = null, waitForNetwork: Boolean? = null): RealmQuery<PendingExecutionModel> =
     realmInstance
         .where<PendingExecutionModel>()
-        .mapIfNotNull(shortcutId) {
+        .runIfNotNull(shortcutId) {
             equalTo(PendingExecutionModel.FIELD_SHORTCUT_ID, it)
         }
-        .mapIfNotNull(waitForNetwork) {
+        .runIfNotNull(waitForNetwork) {
             equalTo(PendingExecutionModel.FIELD_WAIT_FOR_NETWORK, it)
         }
         .sort(PendingExecutionModel.FIELD_ENQUEUED_AT)

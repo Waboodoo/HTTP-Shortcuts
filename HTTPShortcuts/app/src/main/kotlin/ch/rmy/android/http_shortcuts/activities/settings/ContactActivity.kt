@@ -10,8 +10,8 @@ import android.view.MenuItem
 import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.consume
-import ch.rmy.android.framework.extensions.mapIfNotNull
 import ch.rmy.android.framework.extensions.observeTextChanges
+import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.extensions.tryOrLog
@@ -81,7 +81,7 @@ class ContactActivity : BaseActivity() {
                 .putExtra(Intent.EXTRA_SUBJECT, subject)
                 .putExtra(Intent.EXTRA_TEXT, text)
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                .mapIfNotNull(attachment) {
+                .runIfNotNull(attachment) {
                     addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                         .putExtra(Intent.EXTRA_STREAM, it)
                 }

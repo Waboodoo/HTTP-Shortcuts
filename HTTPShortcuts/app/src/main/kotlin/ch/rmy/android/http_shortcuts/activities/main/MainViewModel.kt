@@ -6,7 +6,7 @@ import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.logInfo
-import ch.rmy.android.framework.extensions.mapIf
+import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
@@ -95,7 +95,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
 
     private fun getCategoryTabItems() =
         categories
-            .mapIf(selectionMode == SelectionMode.NORMAL) {
+            .runIf(selectionMode == SelectionMode.NORMAL) {
                 filterNot { it.hidden }
             }
             .map { category ->
@@ -286,7 +286,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
 
     fun onSwitchedToCategory(position: Int) {
         val activateCategoryId = categories
-            .mapIf(selectionMode == SelectionMode.NORMAL) {
+            .runIf(selectionMode == SelectionMode.NORMAL) {
                 filterNot { it.hidden }
             }
             .getOrNull(position)?.id ?: return

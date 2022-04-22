@@ -5,7 +5,7 @@ import android.graphics.Typeface
 import android.text.SpannableString
 import android.text.style.StyleSpan
 import ch.rmy.android.framework.extensions.attachTo
-import ch.rmy.android.framework.extensions.mapFor
+import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.framework.utils.localization.Localizable
@@ -141,7 +141,7 @@ class TriggerShortcutsViewModel(application: Application) :
     private fun showShortcutPickerForAdding(placeholders: List<ShortcutPlaceholder>) {
         dialogState = DialogState.create {
             title(R.string.title_add_trigger_shortcut)
-                .mapFor(placeholders) { shortcut ->
+                .runFor(placeholders) { shortcut ->
                     item(name = shortcut.name, shortcutIcon = shortcut.icon) {
                         onAddShortcutDialogConfirmed(shortcut.id)
                     }

@@ -8,8 +8,8 @@ import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import ch.rmy.android.framework.extensions.consume
-import ch.rmy.android.framework.extensions.mapIf
 import ch.rmy.android.framework.extensions.openURL
+import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.tryOrIgnore
 import ch.rmy.android.http_shortcuts.utils.UserAgentUtil
 
@@ -49,7 +49,7 @@ class ResponseWebView @JvmOverloads constructor(
 
     fun loadFromString(data: String, baseUrl: String?) {
         val url = baseUrl
-            ?.mapIf(!baseUrl.endsWith("/")) {
+            ?.runIf(!baseUrl.endsWith("/")) {
                 plus("/")
             }
         loadDataWithBaseURL(url, data, "text/html", "UTF-8", null)

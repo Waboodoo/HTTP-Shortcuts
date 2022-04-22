@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.u
 import android.content.Context
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import ch.rmy.android.framework.extensions.mapIf
 import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.framework.utils.VibrationUtil
 import ch.rmy.android.framework.utils.localization.Localizable
@@ -105,11 +104,11 @@ class GenerateCodeSnippetItemsUseCase(context: Context) {
                 item(R.string.action_tts) {
                     insertText("speak(\"", "\");\n")
                 }
-                    .mapIf(vibrationUtil.canVibrate()) {
-                        item(R.string.action_type_vibrate_title) {
-                            insertText("vibrate();\n", "")
-                        }
+                if (vibrationUtil.canVibrate()) {
+                    item(R.string.action_type_vibrate_title) {
+                        insertText("vibrate();\n", "")
                     }
+                }
             }
             section(R.string.dialog_code_snippet_modify_shortcuts, R.drawable.ic_modify_shortcuts) {
                 item(R.string.action_type_rename_shortcut_title) {

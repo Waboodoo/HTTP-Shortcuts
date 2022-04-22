@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.core.net.toUri
-import ch.rmy.android.framework.extensions.mapIf
+import ch.rmy.android.framework.extensions.runIf
 
 class GetAvailableBrowserPackageNamesUseCase(
     private val context: Context,
@@ -19,7 +19,7 @@ class GetAvailableBrowserPackageNamesUseCase(
                 it.activityInfo.packageName
             }
             .let { browserPackageNames ->
-                browserPackageNames.mapIf(currentValue.isNotEmpty() && currentValue !in browserPackageNames) {
+                browserPackageNames.runIf(currentValue.isNotEmpty() && currentValue !in browserPackageNames) {
                     plus(currentValue)
                 }
             }

@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import androidx.core.net.toUri
-import ch.rmy.android.framework.extensions.mapIf
+import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionDTO
 
@@ -22,8 +22,8 @@ class PlaySoundActionType : BaseActionType() {
         private const val TYPE = "play_sound"
         private const val FUNCTION_NAME = "playSound"
 
-        private fun String.normalize(): String? =
-            mapIf(!contains("://")) {
+        private fun String.normalize(): String =
+            runIf(!contains("://")) {
                 CONTENT_PREFIX + this
             }
 

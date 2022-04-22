@@ -3,7 +3,7 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
-import ch.rmy.android.framework.extensions.mapIf
+import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.utils.VibrationUtil
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import io.reactivex.Completable
@@ -22,7 +22,7 @@ class VibrateAction(private val patternId: Int, private val waitForCompletion: B
             pattern.execute(vibrator)
         }
             .subscribeOn(AndroidSchedulers.mainThread())
-            .mapIf(waitForCompletion) {
+            .runIf(waitForCompletion) {
                 delay(pattern.duration, TimeUnit.MILLISECONDS)
             }
     }

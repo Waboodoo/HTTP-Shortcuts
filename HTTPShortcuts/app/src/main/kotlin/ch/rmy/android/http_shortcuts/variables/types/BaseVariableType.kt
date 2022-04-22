@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.variables.types
 
 import android.content.Context
-import ch.rmy.android.framework.extensions.mapIf
+import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
@@ -21,7 +21,7 @@ abstract class BaseVariableType {
             emitter: SingleEmitter<String>,
         ) =
             DialogBuilder(context)
-                .mapIf(variable.title.isNotEmpty()) {
+                .runIf(variable.title.isNotEmpty()) {
                     title(variable.title)
                 }
                 .dismissListener {
@@ -29,7 +29,7 @@ abstract class BaseVariableType {
                 }
 
         internal fun Single<String>.storeValueIfNeeded(variable: VariableModel, variablesRepository: VariableRepository): Single<String> =
-            mapIf(variable.rememberValue) {
+            runIf(variable.rememberValue) {
                 flatMap { resolvedValue ->
                     variablesRepository.setVariableValue(variable.id, resolvedValue)
                         .toSingle { resolvedValue }

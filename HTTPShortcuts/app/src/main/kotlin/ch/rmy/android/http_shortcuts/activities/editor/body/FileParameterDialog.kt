@@ -4,8 +4,8 @@ import android.content.Context
 import android.view.View
 import android.widget.EditText
 import ch.rmy.android.framework.extensions.attachTo
-import ch.rmy.android.framework.extensions.mapIf
 import ch.rmy.android.framework.extensions.observeTextChanges
+import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.showIfPossible
 import ch.rmy.android.framework.extensions.showSoftKeyboard
 import ch.rmy.android.framework.extensions.visible
@@ -45,7 +45,7 @@ class FileParameterDialog(
                 val keyText = keyField.rawString
                 subject.onSuccess(Event.DataChangedEvent(keyName = keyText, fileName = fileNameField.text.toString()))
             }
-            .mapIf(showRemoveOption) {
+            .runIf(showRemoveOption) {
                 neutral(R.string.dialog_remove) {
                     subject.onSuccess(Event.DataRemovedEvent)
                 }

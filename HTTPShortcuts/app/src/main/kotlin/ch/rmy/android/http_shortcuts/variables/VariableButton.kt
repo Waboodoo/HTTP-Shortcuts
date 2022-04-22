@@ -5,8 +5,8 @@ import android.graphics.Color
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageButton
 import ch.rmy.android.framework.extensions.isDarkThemeEnabled
-import ch.rmy.android.framework.extensions.mapFor
-import ch.rmy.android.framework.extensions.mapIf
+import ch.rmy.android.framework.extensions.runFor
+import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.setTintCompat
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.http_shortcuts.R
@@ -51,7 +51,7 @@ class VariableButton : AppCompatImageButton {
             .title(R.string.help_title_variables)
             .message(if (allowEditing) R.string.help_text_variable_button else R.string.help_text_variable_button_for_variables)
             .positive(android.R.string.ok)
-            .mapIf(allowEditing) {
+            .runIf(allowEditing) {
                 neutral(R.string.button_create_first_variable) { openVariableEditor() }
             }
             .show()
@@ -65,12 +65,12 @@ class VariableButton : AppCompatImageButton {
     private fun openVariableSelectionDialog() {
         DialogBuilder(context)
             .title(R.string.dialog_title_variable_selection)
-            .mapFor(variablePlaceholderProvider.placeholders) { placeholder ->
+            .runFor(variablePlaceholderProvider.placeholders) { placeholder ->
                 item(name = placeholder.variableKey, descriptionRes = VariableTypeMappings.getTypeName(placeholder.variableType)) {
                     variableSubject.onNext(placeholder)
                 }
             }
-            .mapIf(allowEditing) {
+            .runIf(allowEditing) {
                 neutral(R.string.label_edit_variables) { openVariableEditor() }
             }
             .showIfPossible()

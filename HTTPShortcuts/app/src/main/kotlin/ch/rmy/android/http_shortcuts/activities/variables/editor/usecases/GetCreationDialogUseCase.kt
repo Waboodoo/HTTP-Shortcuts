@@ -1,8 +1,8 @@
 package ch.rmy.android.http_shortcuts.activities.variables.editor.usecases
 
 import androidx.annotation.CheckResult
-import ch.rmy.android.framework.extensions.mapFor
-import ch.rmy.android.framework.extensions.mapIf
+import ch.rmy.android.framework.extensions.runFor
+import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
@@ -17,7 +17,7 @@ class GetCreationDialogUseCase {
     operator fun invoke(viewModel: VariablesViewModel) =
         DialogState.create {
             title(R.string.title_select_variable_type)
-                .mapFor(getOptions()) { option ->
+                .runFor(getOptions()) { option ->
                     when (option) {
                         is VariableTypeOption.Separator -> separator()
                         is VariableTypeOption.Variable -> {
@@ -39,7 +39,7 @@ class GetCreationDialogUseCase {
                         type = typeMapping.type,
                     )
                 )
-                    .mapIf(typeMapping.type == VariableType.CONSTANT) {
+                    .runIf(typeMapping.type == VariableType.CONSTANT) {
                         plusElement(VariableTypeOption.Separator)
                     }
             }

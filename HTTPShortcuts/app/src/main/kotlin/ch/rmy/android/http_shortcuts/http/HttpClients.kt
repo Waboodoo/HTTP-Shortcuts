@@ -2,8 +2,8 @@ package ch.rmy.android.http_shortcuts.http
 
 import android.content.Context
 import ch.rmy.android.framework.extensions.logException
-import ch.rmy.android.framework.extensions.mapIf
-import ch.rmy.android.framework.extensions.mapIfNotNull
+import ch.rmy.android.framework.extensions.runIf
+import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.exceptions.ClientCertException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidProxyException
@@ -43,7 +43,7 @@ internal object HttpClients {
                 createDefaultOkHttpClientBuilder(context, clientCertParams)
             }
             )
-            .mapIf(username != null && password != null) {
+            .runIf(username != null && password != null) {
                 val authenticator = DigestAuthenticator(Credentials(username, password))
                 authenticator(authenticator)
             }
@@ -52,10 +52,10 @@ internal object HttpClients {
             .connectTimeout(timeout, TimeUnit.MILLISECONDS)
             .readTimeout(timeout, TimeUnit.MILLISECONDS)
             .writeTimeout(timeout, TimeUnit.MILLISECONDS)
-            .mapIfNotNull(cookieJar) {
+            .runIfNotNull(cookieJar) {
                 cookieJar(it)
             }
-            .mapIf(proxyHost != null && proxyPort != null) {
+            .runIf(proxyHost != null && proxyPort != null) {
                 try {
                     proxy(Proxy(Proxy.Type.HTTP, InetSocketAddress(proxyHost!!, proxyPort!!)))
                 } catch (e: IllegalArgumentException) {

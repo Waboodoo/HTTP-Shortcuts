@@ -19,7 +19,7 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.core.widget.ImageViewCompat
 import ch.rmy.android.framework.extensions.color
-import ch.rmy.android.framework.extensions.mapIf
+import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.showIfPossible
 import ch.rmy.android.framework.extensions.visible
 import ch.rmy.android.framework.utils.localization.Localizable
@@ -169,7 +169,7 @@ open class DialogBuilder(val context: Context) {
     }
 
     fun build(): MaterialDialog =
-        dialog.mapIf(items.isNotEmpty()) {
+        dialog.runIf(items.isNotEmpty()) {
             val listView = (LayoutInflater.from(context).inflate(R.layout.menu_dialog, null, false) as ListView)
                 .apply {
                     adapter = MenuListAdapter(context, items, dialog)

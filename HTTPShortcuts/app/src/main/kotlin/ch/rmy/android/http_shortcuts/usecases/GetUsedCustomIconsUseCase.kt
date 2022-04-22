@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.usecases
 
 import androidx.annotation.CheckResult
-import ch.rmy.android.framework.extensions.mapIfNotNull
+import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.utils.Optional
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
@@ -37,7 +37,7 @@ class GetUsedCustomIconsUseCase(
 
     private fun getCustomShortcutIcons(base: BaseModel, temporaryShortcut: ShortcutModel?) =
         base.shortcuts
-            .mapIfNotNull(temporaryShortcut, List<ShortcutModel>::plus)
+            .runIfNotNull(temporaryShortcut, List<ShortcutModel>::plus)
             .asSequence()
             .map { it.icon }
             .filterIsInstance(ShortcutIcon.CustomIcon::class.java)
@@ -54,7 +54,7 @@ class GetUsedCustomIconsUseCase(
         IconUtil.extractCustomIconNames(base.globalCode ?: "")
             .plus(
                 base.shortcuts
-                    .mapIfNotNull(temporaryShortcut, List<ShortcutModel>::plus)
+                    .runIfNotNull(temporaryShortcut, List<ShortcutModel>::plus)
                     .flatMap(::getReferencedIconNames)
             )
 

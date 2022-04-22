@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.categories.usecases
 
 import androidx.annotation.CheckResult
-import ch.rmy.android.framework.extensions.mapIf
+import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
@@ -26,17 +26,17 @@ class GetContextMenuDialogUseCase {
                 .item(R.string.action_rename) {
                     viewModel.onRenameCategoryOptionSelected(categoryId)
                 }
-                .mapIf(showOptionVisible) {
+                .runIf(showOptionVisible) {
                     item(R.string.action_show_category) {
                         viewModel.onCategoryVisibilityChanged(categoryId, hidden = false)
                     }
                 }
-                .mapIf(hideOptionVisible) {
+                .runIf(hideOptionVisible) {
                     item(R.string.action_hide_category) {
                         viewModel.onCategoryVisibilityChanged(categoryId, hidden = true)
                     }
                 }
-                .mapIf(changeLayoutTypeOptionVisible) {
+                .runIf(changeLayoutTypeOptionVisible) {
                     item(R.string.action_change_category_layout_type) {
                         viewModel.onLayoutTypeOptionSelected(categoryId)
                     }
@@ -44,12 +44,12 @@ class GetContextMenuDialogUseCase {
                             viewModel.onBackgroundTypeOptionSelected(categoryId)
                         }
                 }
-                .mapIf(placeOnHomeScreenOptionVisible) {
+                .runIf(placeOnHomeScreenOptionVisible) {
                     item(R.string.action_place_category) {
                         viewModel.onPlaceOnHomeScreenSelected(categoryId)
                     }
                 }
-                .mapIf(deleteOptionVisible) {
+                .runIf(deleteOptionVisible) {
                     item(R.string.action_delete) {
                         viewModel.onCategoryDeletionSelected(categoryId)
                     }

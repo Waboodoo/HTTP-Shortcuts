@@ -5,7 +5,7 @@ import android.app.Application
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.color
 import ch.rmy.android.framework.extensions.context
-import ch.rmy.android.framework.extensions.mapIfNotNull
+import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.framework.utils.localization.Localizable
@@ -104,7 +104,7 @@ class ShortcutEditorViewModel(
         } else {
             shortcutRepository.createTemporaryShortcutFromShortcut(data.shortcutId)
         }
-            .mapIfNotNull(data.curlCommand) {
+            .runIfNotNull(data.curlCommand) {
                 andThen(temporaryShortcutRepository.importFromCurl(it))
             }
             .subscribe(

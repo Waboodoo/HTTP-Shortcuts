@@ -10,9 +10,9 @@ import ch.rmy.android.framework.extensions.color
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.initialize
 import ch.rmy.android.framework.extensions.insertAroundCursor
-import ch.rmy.android.framework.extensions.mapIfNotNull
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.observeTextChanges
+import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.setHint
 import ch.rmy.android.framework.extensions.setTextSafely
 import ch.rmy.android.framework.extensions.visible
@@ -178,7 +178,7 @@ class ScriptingActivity : BaseActivity() {
         val applyArguments: ((CodeSnippetPickerActivity.IntentBuilder) -> CodeSnippetPickerActivity.IntentBuilder) =
             { intentBuilder: CodeSnippetPickerActivity.IntentBuilder ->
                 intentBuilder
-                    .mapIfNotNull(currentShortcutId) {
+                    .runIfNotNull(currentShortcutId) {
                         currentShortcutId(it)
                     }
                     .includeFileOptions(includeFileOptions)

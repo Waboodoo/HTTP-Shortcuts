@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.main.usecases
 
 import androidx.annotation.CheckResult
-import ch.rmy.android.framework.extensions.mapIf
+import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.main.ShortcutListViewModel
@@ -19,7 +19,7 @@ class GetContextMenuDialogUseCase {
                 .item(R.string.action_run) {
                     viewModel.onExecuteOptionSelected(shortcutId)
                 }
-                .mapIf(isPending) {
+                .runIf(isPending) {
                     item(R.string.action_cancel_pending) {
                         viewModel.onCancelPendingExecutionOptionSelected(shortcutId)
                     }
@@ -28,7 +28,7 @@ class GetContextMenuDialogUseCase {
                 .item(R.string.action_edit) {
                     viewModel.onEditOptionSelected(shortcutId)
                 }
-                .mapIf(isMovable) {
+                .runIf(isMovable) {
                     item(R.string.action_move) {
                         viewModel.onMoveOptionSelected(shortcutId)
                     }

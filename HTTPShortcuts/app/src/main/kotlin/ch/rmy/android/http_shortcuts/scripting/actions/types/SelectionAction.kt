@@ -1,6 +1,6 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
-import ch.rmy.android.framework.extensions.mapFor
+import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.exceptions.JavaScriptException
@@ -18,7 +18,7 @@ class SelectionAction(
         return if (options.isNotEmpty()) {
             Single.create<String> { emitter ->
                 DialogBuilder(executionContext.context)
-                    .mapFor(options.entries) { entry ->
+                    .runFor(options.entries) { entry ->
                         item(name = entry.value) {
                             emitter.onSuccess("-${entry.key}")
                         }

@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.variables.types
 
 import android.content.Context
-import ch.rmy.android.framework.extensions.mapFor
+import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
@@ -19,7 +19,7 @@ internal class SelectType : BaseVariableType() {
                     .run {
                         if (isMultiSelect(variable)) {
                             val selectedOptions = mutableSetOf<String>()
-                            mapFor(variable.options!!) { option ->
+                            runFor(variable.options!!) { option ->
                                 checkBoxItem(name = option.labelOrValue) { isChecked ->
                                     if (isChecked) {
                                         selectedOptions.add(option.id)
@@ -38,7 +38,7 @@ internal class SelectType : BaseVariableType() {
                                     }
                             }
                         } else {
-                            mapFor(variable.options!!) { option ->
+                            runFor(variable.options!!) { option ->
                                 item(name = option.labelOrValue) {
                                     emitter.onSuccess(option.value)
                                 }

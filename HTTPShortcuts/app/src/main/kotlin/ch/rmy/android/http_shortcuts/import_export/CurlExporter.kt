@@ -2,8 +2,8 @@ package ch.rmy.android.http_shortcuts.import_export
 
 import android.content.Context
 import ch.rmy.android.framework.extensions.detachFromRealm
-import ch.rmy.android.framework.extensions.mapFor
-import ch.rmy.android.framework.extensions.mapIf
+import ch.rmy.android.framework.extensions.runFor
+import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
@@ -35,33 +35,33 @@ class CurlExporter(val context: Context) {
     private fun generateCommand(shortcut: ShortcutModel, variableValues: Map<VariableKey, String>): CurlCommand =
         CurlCommand.Builder()
             .url(rawPlaceholdersToResolvedValues(shortcut.url, variableValues))
-            .mapIf(shortcut.authenticationType.usesUsernameAndPassword) {
+            .runIf(shortcut.authenticationType.usesUsernameAndPassword) {
                 username(rawPlaceholdersToResolvedValues(shortcut.username, variableValues))
                     .password(rawPlaceholdersToResolvedValues(shortcut.password, variableValues))
             }
-            .mapIf(shortcut.authenticationType == ShortcutAuthenticationType.BEARER) {
+            .runIf(shortcut.authenticationType == ShortcutAuthenticationType.BEARER) {
                 header(HttpHeaders.AUTHORIZATION, "Bearer ${shortcut.authToken}")
             }
-            .mapIf(!shortcut.proxyHost.isNullOrEmpty() && shortcut.proxyPort != null) {
+            .runIf(!shortcut.proxyHost.isNullOrEmpty() && shortcut.proxyPort != null) {
                 proxy(shortcut.proxyHost!!, shortcut.proxyPort!!)
             }
             .method(shortcut.method)
-            .mapIf(shortcut.timeout != 10000) {
+            .runIf(shortcut.timeout != 10000) {
                 timeout(shortcut.timeout)
             }
-            .mapFor(shortcut.headers) { header ->
+            .runFor(shortcut.headers) { header ->
                 header(
                     rawPlaceholdersToResolvedValues(header.key, variableValues),
                     rawPlaceholdersToResolvedValues(header.value, variableValues)
                 )
             }
-            .mapIf(shortcut.usesFileBody()) {
+            .runIf(shortcut.usesFileBody()) {
                 usesBinaryData()
             }
-            .mapIf(shortcut.usesRequestParameters()) {
+            .runIf(shortcut.usesRequestParameters()) {
                 if (shortcut.bodyType == RequestBodyType.FORM_DATA) {
                     isFormData()
-                        .mapFor(shortcut.parameters) { parameter ->
+                        .runFor(shortcut.parameters) { parameter ->
                             if (parameter.isFileParameter || parameter.isFilesParameter) {
                                 addFileParameter(
                                     rawPlaceholdersToResolvedValues(parameter.key, variableValues),
@@ -74,7 +74,7 @@ class CurlExporter(val context: Context) {
                             }
                         }
                 } else {
-                    mapFor(shortcut.parameters) { parameter ->
+                    runFor(shortcut.parameters) { parameter ->
                         addParameter(
                             rawPlaceholdersToResolvedValues(parameter.key, variableValues),
                             rawPlaceholdersToResolvedValues(parameter.value, variableValues),
@@ -82,7 +82,7 @@ class CurlExporter(val context: Context) {
                     }
                 }
             }
-            .mapIf(shortcut.usesCustomBody()) {
+            .runIf(shortcut.usesCustomBody()) {
                 header(HttpHeaders.CONTENT_TYPE, shortcut.contentType.ifEmpty { ShortcutModel.DEFAULT_CONTENT_TYPE })
                     .data(rawPlaceholdersToResolvedValues(shortcut.bodyContent, variableValues))
             }

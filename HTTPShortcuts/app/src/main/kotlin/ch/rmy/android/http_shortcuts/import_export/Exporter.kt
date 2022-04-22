@@ -4,8 +4,8 @@ import android.content.Context
 import android.net.Uri
 import ch.rmy.android.framework.extensions.applyIf
 import ch.rmy.android.framework.extensions.logException
-import ch.rmy.android.framework.extensions.mapFor
-import ch.rmy.android.framework.extensions.mapIf
+import ch.rmy.android.framework.extensions.runFor
+import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.safeRemoveIf
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
@@ -105,8 +105,8 @@ class Exporter(private val context: Context) {
             GsonUtil.gson
                 .newBuilder()
                 .setPrettyPrinting()
-                .mapIf(excludeDefaults) {
-                    mapFor(MODEL_CLASSES) { clazz ->
+                .runIf(excludeDefaults) {
+                    runFor(MODEL_CLASSES) { clazz ->
                         registerTypeAdapter(clazz, serializer)
                     }
                 }

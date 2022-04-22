@@ -3,7 +3,7 @@ package ch.rmy.android.framework.ui
 import android.content.Context
 import android.content.Intent
 import androidx.activity.result.contract.ActivityResultContract
-import ch.rmy.android.framework.extensions.mapIfNotNull
+import ch.rmy.android.framework.extensions.runIfNotNull
 
 abstract class BaseActivityResultContract<T : IntentBuilder, Result>(
     private val createIntentBuilder: (() -> T),
@@ -11,6 +11,6 @@ abstract class BaseActivityResultContract<T : IntentBuilder, Result>(
 
     override fun createIntent(context: Context, input: (T.() -> T)?): Intent =
         createIntentBuilder()
-            .mapIfNotNull(input) { it() }
+            .runIfNotNull(input) { it() }
             .build(context)
 }

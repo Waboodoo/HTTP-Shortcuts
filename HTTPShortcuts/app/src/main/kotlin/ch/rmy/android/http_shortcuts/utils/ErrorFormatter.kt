@@ -2,7 +2,7 @@ package ch.rmy.android.http_shortcuts.utils
 
 import android.content.Context
 import androidx.annotation.StringRes
-import ch.rmy.android.framework.extensions.mapIf
+import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.truncate
 import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.R
@@ -82,7 +82,7 @@ class ErrorFormatter(private val context: Context) {
 
     private fun getCauseChain(error: Throwable, recursionDepth: Int = 0): List<Throwable> =
         listOf(error)
-            .mapIf(error.cause != null && error.cause != error && recursionDepth < MAX_RECURSION_DEPTH) {
+            .runIf(error.cause != null && error.cause != error && recursionDepth < MAX_RECURSION_DEPTH) {
                 plus(getCauseChain(error.cause!!, recursionDepth + 1))
             }
 

@@ -2,7 +2,7 @@ package ch.rmy.android.http_shortcuts.data.domains.app
 
 import ch.rmy.android.framework.data.BaseRepository
 import ch.rmy.android.framework.data.RealmTransactionContext
-import ch.rmy.android.framework.extensions.mapIfNotNull
+import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.utils.Optional
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.domains.getAppLock
@@ -167,11 +167,11 @@ class AppRepository : BaseRepository(RealmFactory.getInstance()) {
             val temporaryVariable = getTemporaryVariable().findFirst()
             val categories = base.categories
             val shortcuts = base.shortcuts
-                .mapIfNotNull(temporaryShortcut) {
+                .runIfNotNull(temporaryShortcut) {
                     plus(it)
                 }
             val variables = base.variables.toList()
-                .mapIfNotNull(temporaryVariable) {
+                .runIfNotNull(temporaryVariable) {
                     plus(it)
                 }
 

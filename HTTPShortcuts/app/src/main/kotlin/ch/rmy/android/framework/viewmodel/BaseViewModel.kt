@@ -8,7 +8,7 @@ import androidx.annotation.UiThread
 import androidx.lifecycle.AndroidViewModel
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.logException
-import ch.rmy.android.framework.extensions.mapFor
+import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.ui.IntentBuilder
 import ch.rmy.android.framework.utils.Destroyer
 import ch.rmy.android.framework.utils.ProgressMonitor
@@ -116,7 +116,7 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
         }
         val publishViewState = delayedViewStateUpdates.isNotEmpty() || !silent
         currentViewState = initViewState()
-            .mapFor(delayedViewStateUpdates) {
+            .runFor(delayedViewStateUpdates) {
                 it()
             }
         delayedViewStateUpdates.clear()
