@@ -1,8 +1,6 @@
 package ch.rmy.android.framework.ui.views
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.TypedArray
 import android.util.AttributeSet
 import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -48,15 +46,9 @@ class ExpandableSection
 
     init {
         addRippleAnimation()
-
         if (attrs != null) {
-            var a: TypedArray? = null
-            try {
-                @SuppressLint("Recycle")
-                a = context.obtainStyledAttributes(attrs, ATTRIBUTE_IDS)
+            context.obtainStyledAttributes(attrs, ATTRIBUTE_IDS).use { a ->
                 title = a.getText(ATTRIBUTE_IDS.indexOf(android.R.attr.text)) ?: ""
-            } finally {
-                a?.recycle()
             }
         }
     }

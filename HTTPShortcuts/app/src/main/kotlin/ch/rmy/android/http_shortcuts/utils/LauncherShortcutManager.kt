@@ -6,6 +6,7 @@ import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.core.content.getSystemService
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
@@ -29,7 +30,7 @@ class LauncherShortcutManager(private val context: Context) {
     @RequiresApi(Build.VERSION_CODES.N_MR1)
     private fun update(shortcuts: Collection<LauncherShortcut>) {
         try {
-            val shortcutManager = context.getSystemService(ShortcutManager::class.java)!!
+            val shortcutManager = context.getSystemService<ShortcutManager>()!!
             val max = try {
                 shortcutManager.maxShortcutCountPerActivity
             } catch (e: Exception) {
@@ -88,7 +89,7 @@ class LauncherShortcutManager(private val context: Context) {
 
     fun supportsPinning(): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val shortcutManager = context.getSystemService(ShortcutManager::class.java)!!
+            val shortcutManager = context.getSystemService<ShortcutManager>()!!
             if (shortcutManager.isRequestPinShortcutSupported) {
                 return true
             }
@@ -98,7 +99,7 @@ class LauncherShortcutManager(private val context: Context) {
 
     fun pinShortcut(shortcut: LauncherShortcut) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val shortcutManager = context.getSystemService(ShortcutManager::class.java)!!
+            val shortcutManager = context.getSystemService<ShortcutManager>()!!
             val shortcutInfo = createShortcutInfo(shortcut)
             shortcutManager.requestPinShortcut(shortcutInfo, null)
         }
@@ -106,7 +107,7 @@ class LauncherShortcutManager(private val context: Context) {
 
     fun createShortcutPinIntent(shortcut: LauncherShortcut): Intent {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val shortcutManager = context.getSystemService(ShortcutManager::class.java)!!
+            val shortcutManager = context.getSystemService<ShortcutManager>()!!
             val shortcutInfo = createShortcutInfo(shortcut)
             return shortcutManager.createShortcutResultIntent(shortcutInfo)
         }
@@ -115,7 +116,7 @@ class LauncherShortcutManager(private val context: Context) {
 
     fun updatePinnedShortcut(shortcutId: ShortcutId, shortcutName: String, shortcutIcon: ShortcutIcon) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val shortcutManager = context.getSystemService(ShortcutManager::class.java)!!
+            val shortcutManager = context.getSystemService<ShortcutManager>()!!
             val shortcutInfo = createShortcutInfo(shortcutId, shortcutName, shortcutIcon)
             shortcutManager.updateShortcuts(listOf(shortcutInfo))
         }
@@ -123,7 +124,7 @@ class LauncherShortcutManager(private val context: Context) {
 
     fun pinCategory(categoryId: CategoryId, categoryName: String) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val shortcutManager = context.getSystemService(ShortcutManager::class.java)!!
+            val shortcutManager = context.getSystemService<ShortcutManager>()!!
             val shortcutInfo = createCategoryShortcutInfo(categoryId, categoryName)
             shortcutManager.requestPinShortcut(shortcutInfo, null)
         }
@@ -131,7 +132,7 @@ class LauncherShortcutManager(private val context: Context) {
 
     fun updatePinnedCategoryShortcut(categoryId: CategoryId, categoryName: String) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val shortcutManager = context.getSystemService(ShortcutManager::class.java)!!
+            val shortcutManager = context.getSystemService<ShortcutManager>()!!
             val shortcutInfo = createCategoryShortcutInfo(categoryId, categoryName)
             shortcutManager.updateShortcuts(listOf(shortcutInfo))
         }

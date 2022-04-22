@@ -1,8 +1,6 @@
 package ch.rmy.android.framework.ui.views
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.TypedArray
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
@@ -32,16 +30,10 @@ class SimpleListItemView
 
     init {
         addRippleAnimation()
-
         if (attrs != null) {
-            var a: TypedArray? = null
-            try {
-                @SuppressLint("Recycle")
-                a = context.obtainStyledAttributes(attrs, ATTRIBUTE_IDS)
+            context.obtainStyledAttributes(attrs, ATTRIBUTE_IDS).use { a ->
                 title = a.getText(ATTRIBUTE_IDS.indexOf(android.R.attr.text)) ?: ""
                 subtitle = a.getText(ATTRIBUTE_IDS.indexOf(R.attr.subtitle)) ?: ""
-            } finally {
-                a?.recycle()
             }
         }
     }

@@ -72,10 +72,10 @@ fun View.showSoftKeyboard() {
 
 fun View.addRippleAnimation(borderless: Boolean = false) {
     val attrs = intArrayOf(if (borderless) R.attr.selectableItemBackgroundBorderless else R.attr.selectableItemBackground)
-    val typedArray = context.obtainStyledAttributes(attrs)
-    val backgroundResource = typedArray.getResourceId(0, 0)
-    typedArray.recycle()
-    setBackgroundResource(backgroundResource)
+    context.obtainStyledAttributes(attrs).use { typedArray ->
+        val backgroundResource = typedArray.getResourceId(0, 0)
+        setBackgroundResource(backgroundResource)
+    }
 }
 
 val Toolbar.titleView: TextView?
