@@ -215,6 +215,7 @@ class CategoriesViewModel(application: Application) : BaseViewModel<Unit, Catego
                             shortcut.icon
                         },
                     layoutType = category.categoryLayoutType.takeUnless { category.hidden },
+                    hidden = category.hidden,
                 )
             }
     }

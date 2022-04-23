@@ -57,6 +57,7 @@ class CategoryAdapter : BaseAdapter<CategoryListItem>() {
             categoryId = item.id
             binding.name.setText(item.name)
             binding.description.setText(item.description)
+            binding.name.alpha = if (item.hidden) 0.7f else 1f
 
             updateIcons(item.icons)
             updateLayoutTypeIcon(item.layoutType)

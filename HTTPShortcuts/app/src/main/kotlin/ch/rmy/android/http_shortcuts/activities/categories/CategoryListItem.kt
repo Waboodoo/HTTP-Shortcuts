@@ -10,4 +10,5 @@ data class CategoryListItem(
     val description: Localizable,
     val icons: List<ShortcutIcon>,
     val layoutType: CategoryLayoutType?,
+    val hidden: Boolean,
 )
