@@ -9,6 +9,7 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.widget.ImageViewCompat
 import ch.rmy.android.framework.extensions.isDarkThemeEnabled
+import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.zoomSwap
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.extensions.loadImage
@@ -68,16 +69,14 @@ class IconView : AppCompatImageView {
         }
     }
 
-    private fun requiresBackground(tint: Int?) = if (context.isDarkThemeEnabled()) {
-        tint == Color.BLACK
-    } else {
-        tint == Color.WHITE
-    }
+    private fun requiresBackground(tint: Int?) =
+        tint == (if (context.isDarkThemeEnabled()) Color.BLACK else Color.WHITE)
 
     override fun onDraw(canvas: Canvas?) {
         try {
             super.onDraw(canvas)
-        } catch (e: RuntimeException) {
+        } catch (e: Throwable) {
+            logException(e)
             setImageResource(R.drawable.bitsies_cancel)
         }
     }
