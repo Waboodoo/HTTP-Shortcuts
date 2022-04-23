@@ -12,6 +12,7 @@ import androidx.core.view.isVisible
 import androidx.viewpager.widget.ViewPager
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.consume
+import ch.rmy.android.framework.extensions.finishWithoutAnimation
 import ch.rmy.android.framework.extensions.isVisible
 import ch.rmy.android.framework.extensions.launch
 import ch.rmy.android.framework.extensions.observe
@@ -34,6 +35,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.databinding.ActivityMainBinding
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
+import ch.rmy.android.http_shortcuts.utils.ActivityCloser
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
 import com.google.android.material.appbar.AppBarLayout
 
@@ -112,6 +114,13 @@ class MainActivity : BaseActivity(), Entrypoint {
         initViews()
         initUserInputBindings()
         initViewModelBindings()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (ActivityCloser.shouldCloseMainActivity()) {
+            finishWithoutAnimation()
+        }
     }
 
     private fun determineMode(action: String?) = when (action) {
@@ -232,6 +241,12 @@ class MainActivity : BaseActivity(), Entrypoint {
                 }
             }
         super.onBackPressed()
+        ActivityCloser.onMainActivityClosed()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        ActivityCloser.onMainActivityDestroyed()
     }
 
     private fun setTabLongPressListener() {

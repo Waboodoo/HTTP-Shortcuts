@@ -37,6 +37,7 @@ import ch.rmy.android.http_shortcuts.extensions.loadImage
 import ch.rmy.android.http_shortcuts.extensions.readIntoString
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.http.HttpStatus
+import ch.rmy.android.http_shortcuts.utils.ActivityCloser
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil.TYPE_HTML
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil.TYPE_JSON
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil.TYPE_XML
@@ -322,6 +323,11 @@ class DisplayResponseActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         handler.removeCallbacks(finishRunnable)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        ActivityCloser.onDisplayResponseActivityClosed()
     }
 
     private object OpenFilePicker : ActivityResultContract<OpenFilePicker.Params, Uri?>() {
