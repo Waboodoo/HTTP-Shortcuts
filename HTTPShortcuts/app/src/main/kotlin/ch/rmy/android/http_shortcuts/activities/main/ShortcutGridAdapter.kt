@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.main
 
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
@@ -44,6 +45,11 @@ class ShortcutGridAdapter : BaseShortcutAdapter() {
             val primaryColor = getPrimaryTextColor(context, item.textColor)
             binding.waitingIcon.imageTintList = ColorStateList.valueOf(primaryColor)
             binding.name.setTextColor(primaryColor)
+            if (item.useTextShadow) {
+                binding.name.setShadowLayer(1f, 2f, 2f, getTextShadowColor(context, item.textColor))
+            } else {
+                binding.name.setShadowLayer(0f, 0f, 0f, Color.TRANSPARENT)
+            }
         }
     }
 }

@@ -173,6 +173,7 @@ class ShortcutListViewModel(
                     icon = shortcut.icon,
                     isPending = pendingShortcuts.any { it.shortcutId == shortcut.id },
                     textColor = textColor,
+                    useTextShadow = category.categoryBackgroundType == CategoryBackgroundType.WALLPAPER,
                 )
             }
         }

@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.main
 
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
@@ -47,6 +48,14 @@ class ShortcutListAdapter : BaseShortcutAdapter() {
             binding.waitingIcon.imageTintList = ColorStateList.valueOf(primaryColor)
             binding.name.setTextColor(primaryColor)
             binding.description.setTextColor(getSecondaryTextColor(context, item.textColor))
+            if (item.useTextShadow) {
+                val shadowColor = getTextShadowColor(context, item.textColor)
+                binding.name.setShadowLayer(1f, 2f, 2f, shadowColor)
+                binding.description.setShadowLayer(1f, 2f, 2f, shadowColor)
+            } else {
+                binding.name.setShadowLayer(0f, 0f, 0f, Color.TRANSPARENT)
+                binding.description.setShadowLayer(0f, 0f, 0f, Color.TRANSPARENT)
+            }
         }
     }
 }

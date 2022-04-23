@@ -35,6 +35,8 @@
     <item name="text_color_primary_dark" type="color">#FFFFFFFF</item>
     <item name="text_color_secondary_bright" type="color">#B3FFFFFF</item>
     <item name="text_color_secondary_dark" type="color">#B3FFFFFF</item>
+    <item name="text_color_shadow_bright" type="color">#33000000</item>
+    <item name="text_color_shadow_dark" type="color">#33000000</item>
     <item name="dialog_icon" type="color">#EEEEEE</item>
     <item name="expandable_section_icon" type="color">#EEEEEE</item>
 

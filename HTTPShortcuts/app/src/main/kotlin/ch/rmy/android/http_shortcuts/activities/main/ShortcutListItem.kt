@@ -13,6 +13,7 @@ sealed interface ShortcutListItem {
         val icon: ShortcutIcon,
         val isPending: Boolean,
         val textColor: TextColor,
+        val useTextShadow: Boolean,
     ) : ShortcutListItem
 
     object EmptyState : ShortcutListItem {

@@ -75,6 +75,12 @@ abstract class BaseShortcutAdapter : BaseAdapter<ShortcutListItem>() {
             ShortcutListItem.TextColor.DARK -> color(context, R.color.text_color_secondary_dark)
         }
 
+    protected fun getTextShadowColor(context: Context, textColor: ShortcutListItem.TextColor) =
+        when (textColor) {
+            ShortcutListItem.TextColor.BRIGHT -> color(context, R.color.text_color_shadow_bright)
+            ShortcutListItem.TextColor.DARK -> color(context, R.color.text_color_shadow_dark)
+        }
+
     abstract class BaseShortcutViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         lateinit var shortcutId: ShortcutId
             protected set
