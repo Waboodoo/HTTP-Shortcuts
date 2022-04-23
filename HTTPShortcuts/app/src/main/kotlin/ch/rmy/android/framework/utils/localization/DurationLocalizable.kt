@@ -7,7 +7,7 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
-class DurationLocalizable(private val duration: Duration) : Localizable {
+data class DurationLocalizable(private val duration: Duration) : Localizable {
     override fun localize(context: Context): CharSequence {
         try {
             if (duration < 1.seconds) {
