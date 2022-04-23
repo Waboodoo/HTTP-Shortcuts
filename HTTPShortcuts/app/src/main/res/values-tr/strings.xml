@@ -233,9 +233,10 @@ Başlamak için + düğmesini tıklayın veya Hakkında bölümündeki Belgeleri
     <string name="settings_export">"Kısayolları ve Değişkenleri Dışa Aktar"</string>
 
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
+    <!-- Fuzzy -->
     <plurals name="shortcut_export_success">
-        <item quantity="one">"1 kısayol dışa aktarıldı."</item>
-        <item quantity="other">"%s kısayol dışa aktarıldı."</item>
+        <item quantity="one">"%d kısayol dışa aktarıldı."</item>
+        <item quantity="other">"%d kısayol dışa aktarıldı."</item>
     </plurals>
 
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
@@ -251,9 +252,10 @@ Başlamak için + düğmesini tıklayın veya Hakkında bölümündeki Belgeleri
     <string name="import_failure_reason_invalid_json">"Geçersiz JSON"</string>
 
     <!-- Success message, shown in snackbar when import of shortcuts is successful -->
+    <!-- Fuzzy -->
     <plurals name="shortcut_import_success">
-        <item quantity="one">"1 kısayol içe aktarıldı."</item>
-        <item quantity="other">"%s kısayol içe aktarıldı."</item>
+        <item quantity="one">"%d kısayol içe aktarıldı."</item>
+        <item quantity="other">"%d kısayol içe aktarıldı."</item>
     </plurals>
 
     <!-- Message shown in progress dialog while shortcuts are being imported -->
@@ -383,23 +385,11 @@ Başlamak için + düğmesini tıklayın veya Hakkında bölümündeki Belgeleri
     <!-- Generic action, shown on dialog, to rename things -->
     <string name="action_rename">"Yeniden Adlandır"</string>
 
-    <!-- Action, shown on dropdown when editing a category, for allowing to change the category's layout type -->
-    <string name="action_change_category_layout_type">"Görünüm türünü değiştir"</string>
-
     <!-- Action, shown on dropdown when editing a category, for allowing to hide a category -->
     <string name="action_hide_category">"Gizle"</string>
 
     <!-- Action, shown on dropdown when editing a category, for allowing to show a hidden category -->
     <string name="action_show_category">"Göster"</string>
-
-    <!-- Message, shown in snackbar to confirm to the user that the layout type of a category was changed -->
-    <string name="message_layout_type_changed">"Görünüm türü değiştirildi."</string>
-
-    <!-- Option in context menu for category, allows user to change the background of a category -->
-    <string name="action_change_category_background">"Arka planı değiştir"</string>
-
-    <!-- Success message after background of a category was changed. Shown in snackbar. -->
-    <string name="message_background_type_changed">"Arka plan değiştirildi."</string>
 
     <!-- One of two options when picking the layout for a category: Show shortcuts in a list -->
     <string name="layout_type_linear_list">"Liste"</string>
@@ -407,17 +397,11 @@ Başlamak için + düğmesini tıklayın veya Hakkında bölümündeki Belgeleri
     <!-- One of two options when picking the layout for a category: Show shortcuts in a grid -->
     <string name="layout_type_grid">"Tablo"</string>
 
-    <!-- Option to choose from when selecting the background of a category: Plain white -->
-    <string name="category_background_type_white">"Beyaz"</string>
-
     <!-- Option to choose from when selecting the background of a category: Plain black -->
     <string name="category_background_type_black">"Siyah"</string>
 
     <!-- Option to choose from when selecting the background of a category: Use phone's wallpaper -->
     <string name="category_background_type_wallpaper">"Duvar kağıdı"</string>
-
-    <!-- Option to allow renaming a category -->
-    <string name="title_rename_category">"Kategoriyi Yeniden Adlandır"</string>
 
     <!-- Dialog prompt/placeholder in input field, asking user to enter a name for a category -->
     <string name="placeholder_category_name">"Kategori Adını Girin…"</string>
@@ -432,9 +416,6 @@ Başlamak için + düğmesini tıklayın veya Hakkında bölümündeki Belgeleri
     <string name="confirm_delete_category_message">"Bu kategoriyi sil?
 
 İçindeki tüm kısayollar silinecek."</string>
-
-    <!-- Message, shown in snackbar, to confirm to the user that a category was renamed -->
-    <string name="message_category_renamed">"Kategori yeniden adlandırıldı."</string>
 
     <!-- Message, shown in snackbar, to confirm to the user that a category was hidden -->
     <string name="message_category_hidden">"Kategori gizlendi."</string>
@@ -887,7 +868,7 @@ Daha fazla bilgi için değişken bölümündeki yardım düğmesine tıklayın.
 
     <!-- Section subtitle, shown in shortcut editor when the shortcut has one or more custom HTTP headers -->
     <plurals name="subtitle_request_headers_pattern">
-        <item quantity="one">"1 üstbilgi seti"</item>
+        <item quantity="one">"%d üstbilgi seti"</item>
         <item quantity="other">"%d üstbilgi seti"</item>
     </plurals>
 
@@ -908,7 +889,7 @@ Daha fazla bilgi için değişken bölümündeki yardım düğmesine tıklayın.
 
     <!-- Section subtitle, shown in shortcut editor when one or more (POST) parameters are set -->
     <plurals name="subtitle_request_body_params_pattern">
-        <item quantity="one">"1 parametre seti"</item>
+        <item quantity="one">"%d parametre seti"</item>
         <item quantity="other">"%d parametre seti"</item>
     </plurals>
 
@@ -1066,6 +1047,7 @@ Bu özelliği, bir kısayolu düzenleyerek ve \"%2$s\" içinde bulunan \"%1$s\" 
     <string name="language_default">"Sistem Varsayılanı"</string>
 
     <!-- Error: Shown in toast when user tries to add a variable placeholder to a text beyond its maximum size -->
+    <!-- Fuzzy -->
     <string name="error_text_too_long_for_variable">"Metin %d karakter sınırını aşıyor. Değişken yer tutucu eklenemez.
 "</string>
 
@@ -1091,6 +1073,7 @@ Bu özelliği, bir kısayolu düzenleyerek ve \"%2$s\" içinde bulunan \"%1$s\" 
     <string name="error_invalid_character">"Geçersiz karakter: %s"</string>
 
     <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
+    <!-- Fuzzy -->
     <plurals name="warning_variable_still_in_use_in_shortcuts">
         <item quantity="one">"Bu değişken 1 kısayolda hala kullanılıyor: %1$s"</item>
         <item quantity="other">"Bu değişken %2$d kısayolda hala kullanılıyor: %1$s"</item>

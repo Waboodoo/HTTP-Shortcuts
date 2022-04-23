@@ -234,6 +234,7 @@ Klik tombol + untuk menambah variabel."</string>
     <string name="settings_export">"Ekspor Pintasan &amp; Variabel"</string>
 
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
+    <!-- Fuzzy -->
     <plurals name="shortcut_export_success">
         <item quantity="other">"%d pintasan diekspor."</item>
     </plurals>
@@ -252,6 +253,7 @@ Klik tombol + untuk menambah variabel."</string>
     <string name="import_failure_reason_invalid_json">"JSON tidak valid"</string>
 
     <!-- Success message, shown in snackbar when import of shortcuts is successful -->
+    <!-- Fuzzy -->
     <plurals name="shortcut_import_success">
         <item quantity="other">"%d pintasan diimpor."</item>
     </plurals>
@@ -379,23 +381,11 @@ Klik tombol + untuk menambah variabel."</string>
     <!-- Generic action, shown on dialog, to rename things -->
     <string name="action_rename">"Ganti nama"</string>
 
-    <!-- Action, shown on dropdown when editing a category, for allowing to change the category's layout type -->
-    <string name="action_change_category_layout_type">"Ubah Tipe Tata Letak"</string>
-
     <!-- Action, shown on dropdown when editing a category, for allowing to hide a category -->
     <string name="action_hide_category">"Sembunyikan"</string>
 
     <!-- Action, shown on dropdown when editing a category, for allowing to show a hidden category -->
     <string name="action_show_category">"Tampilkan"</string>
-
-    <!-- Message, shown in snackbar to confirm to the user that the layout type of a category was changed -->
-    <string name="message_layout_type_changed">"Tipe tata letak diubah."</string>
-
-    <!-- Option in context menu for category, allows user to change the background of a category -->
-    <string name="action_change_category_background">"Ubah Latar belakang"</string>
-
-    <!-- Success message after background of a category was changed. Shown in snackbar. -->
-    <string name="message_background_type_changed">"Latar belakang diubah."</string>
 
     <!-- One of two options when picking the layout for a category: Show shortcuts in a list -->
     <string name="layout_type_linear_list">"Daftar"</string>
@@ -403,17 +393,11 @@ Klik tombol + untuk menambah variabel."</string>
     <!-- One of two options when picking the layout for a category: Show shortcuts in a grid -->
     <string name="layout_type_grid">"Grid"</string>
 
-    <!-- Option to choose from when selecting the background of a category: Plain white -->
-    <string name="category_background_type_white">"Putih"</string>
-
     <!-- Option to choose from when selecting the background of a category: Plain black -->
     <string name="category_background_type_black">"Hitam"</string>
 
     <!-- Option to choose from when selecting the background of a category: Use phone's wallpaper -->
     <string name="category_background_type_wallpaper">"Wallpaper"</string>
-
-    <!-- Option to allow renaming a category -->
-    <string name="title_rename_category">"Ganti nama kategori"</string>
 
     <!-- Dialog prompt/placeholder in input field, asking user to enter a name for a category -->
     <string name="placeholder_category_name">"Masukkan Nama Kategori…"</string>
@@ -428,9 +412,6 @@ Klik tombol + untuk menambah variabel."</string>
     <string name="confirm_delete_category_message">"Hapus kategori ini?
 
 Semua pintasan didalamnya akan terhapus."</string>
-
-    <!-- Message, shown in snackbar, to confirm to the user that a category was renamed -->
-    <string name="message_category_renamed">"Nama kategori diubah."</string>
 
     <!-- Message, shown in snackbar, to confirm to the user that a category was hidden -->
     <string name="message_category_hidden">"Kategori tersembunyi."</string>
@@ -1044,6 +1025,7 @@ Untuk menggunakan fitur ini setidaknya Anda memiliki satu pintasan yang mengguna
     <string name="language_default">"Bawaan Sistem"</string>
 
     <!-- Error: Shown in toast when user tries to add a variable placeholder to a text beyond its maximum size -->
+    <!-- Fuzzy -->
     <string name="error_text_too_long_for_variable">"Teks melebihi %d batas karakter. Tidak dapat memasukkan tempat penampung."</string>
 
     <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->

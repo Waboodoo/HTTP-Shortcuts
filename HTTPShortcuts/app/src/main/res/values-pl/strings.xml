@@ -245,8 +245,9 @@
     <string name="settings_export">"Eksportuj skróty"</string>
 
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
+    <!-- Fuzzy -->
     <plurals name="shortcut_export_success">
-        <item quantity="one">"Wyeksportowano 1 skrót."</item>
+        <item quantity="one">"Wyeksportowano %d skrót."</item>
         <item quantity="few">"Wyeksportowano %d skróty."</item>
         <item quantity="many">"Wyeksportowano %d skrótów."</item>
         <item quantity="other">"Wyeksportowano %d skrótów."</item>
@@ -267,8 +268,9 @@
     <string name="import_failure_reason_invalid_json">"Nieprawidłowy JSON"</string>
 
     <!-- Success message, shown in snackbar when import of shortcuts is successful -->
+    <!-- Fuzzy -->
     <plurals name="shortcut_import_success">
-        <item quantity="one">"1 skrót zaimportowany."</item>
+        <item quantity="one">"%d skrót zaimportowany."</item>
         <item quantity="few">"%d skrótów zaimportowano."</item>
         <item quantity="many">"%d skrótów zaimportowano."</item>
         <item quantity="other">"%d skrótów zaimportowano."</item>
@@ -406,23 +408,11 @@
     <!-- Generic action, shown on dialog, to rename things -->
     <string name="action_rename">"Zmień nazwę"</string>
 
-    <!-- Action, shown on dropdown when editing a category, for allowing to change the category's layout type -->
-    <string name="action_change_category_layout_type">"Zmień układu"</string>
-
     <!-- Action, shown on dropdown when editing a category, for allowing to hide a category -->
     <string name="action_hide_category">"Ukryj"</string>
 
     <!-- Action, shown on dropdown when editing a category, for allowing to show a hidden category -->
     <string name="action_show_category">"Pokaż"</string>
-
-    <!-- Message, shown in snackbar to confirm to the user that the layout type of a category was changed -->
-    <string name="message_layout_type_changed">"Układ został zmieniony."</string>
-
-    <!-- Option in context menu for category, allows user to change the background of a category -->
-    <string name="action_change_category_background">"Zmień tło"</string>
-
-    <!-- Success message after background of a category was changed. Shown in snackbar. -->
-    <string name="message_background_type_changed">"Zmieniono tło."</string>
 
     <!-- One of two options when picking the layout for a category: Show shortcuts in a list -->
     <string name="layout_type_linear_list">"Lista"</string>
@@ -430,17 +420,11 @@
     <!-- One of two options when picking the layout for a category: Show shortcuts in a grid -->
     <string name="layout_type_grid">"Siatka"</string>
 
-    <!-- Option to choose from when selecting the background of a category: Plain white -->
-    <string name="category_background_type_white">"Biały"</string>
-
     <!-- Option to choose from when selecting the background of a category: Plain black -->
     <string name="category_background_type_black">"Czarny"</string>
 
     <!-- Option to choose from when selecting the background of a category: Use phone's wallpaper -->
     <string name="category_background_type_wallpaper">"Tapeta"</string>
-
-    <!-- Option to allow renaming a category -->
-    <string name="title_rename_category">"Zmiana nazwy kategorii"</string>
 
     <!-- Dialog prompt/placeholder in input field, asking user to enter a name for a category -->
     <string name="placeholder_category_name">"Wpisz nazwę kategorii"</string>
@@ -455,9 +439,6 @@
     <string name="confirm_delete_category_message">"Usunąć tę kategorię?
 
 Wszystkie zawarte w nim skróty zostaną usunięte."</string>
-
-    <!-- Message, shown in snackbar, to confirm to the user that a category was renamed -->
-    <string name="message_category_renamed">"Nazwa kategorii została zmieniona."</string>
 
     <!-- Message, shown in snackbar, to confirm to the user that a category was hidden -->
     <string name="message_category_hidden">"Kategoria ukryta."</string>
@@ -919,7 +900,7 @@ Więcej informacji można znaleźć w dokumentacji w sekcji zmiennych."</string>
 
     <!-- Section subtitle, shown in shortcut editor when the shortcut has one or more custom HTTP headers -->
     <plurals name="subtitle_request_headers_pattern">
-        <item quantity="one">"Ustawiono 1 własny nagłówek"</item>
+        <item quantity="one">"Ustawiono %d własny nagłówek"</item>
         <item quantity="few">"Ustawiono %d nagłówki"</item>
         <item quantity="many">"Ustawiono %d nagłówków"</item>
         <item quantity="other">"Ustawiono %d nagłówki"</item>
@@ -942,7 +923,7 @@ Więcej informacji można znaleźć w dokumentacji w sekcji zmiennych."</string>
 
     <!-- Section subtitle, shown in shortcut editor when one or more (POST) parameters are set -->
     <plurals name="subtitle_request_body_params_pattern">
-        <item quantity="one">"Ustawiony 1 parametr"</item>
+        <item quantity="one">"Ustawiony %d parametr"</item>
         <item quantity="few">"Ustawiono %d parametry"</item>
         <item quantity="many">"Ustawiono %d parametrów"</item>
         <item quantity="other">"Ustawiono %d parametry"</item>
@@ -1099,6 +1080,7 @@ Możesz włączyć tę funkcję, edytując skrót i zaznaczając pole wyboru \"%
     <string name="language_default">"Domyślny systemowy"</string>
 
     <!-- Error: Shown in toast when user tries to add a variable placeholder to a text beyond its maximum size -->
+    <!-- Fuzzy -->
     <string name="error_text_too_long_for_variable">"Tekst przekracza %d limit znaków.  Nie można wstawić zmiennej zastępczej."</string>
 
     <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->
@@ -1123,6 +1105,7 @@ Możesz włączyć tę funkcję, edytując skrót i zaznaczając pole wyboru \"%
     <string name="error_invalid_character">"Nieprawidłowy znak: %s"</string>
 
     <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
+    <!-- Fuzzy -->
     <plurals name="warning_variable_still_in_use_in_shortcuts">
         <item quantity="one">"Ta zmienna jest nadal używana w 1 skrócie: %1$s"</item>
         <item quantity="few">"Ta zmienna jest nadal używana w %2$d skrótach: %1$s"</item>

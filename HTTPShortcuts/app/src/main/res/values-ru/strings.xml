@@ -351,23 +351,11 @@
     <!-- Generic action, shown on dialog, to rename things -->
     <string name="action_rename">"Переименовать"</string>
 
-    <!-- Action, shown on dropdown when editing a category, for allowing to change the category's layout type -->
-    <string name="action_change_category_layout_type">"Изменить тип макета"</string>
-
     <!-- Action, shown on dropdown when editing a category, for allowing to hide a category -->
     <string name="action_hide_category">"Скрыть"</string>
 
     <!-- Action, shown on dropdown when editing a category, for allowing to show a hidden category -->
     <string name="action_show_category">"Показать"</string>
-
-    <!-- Message, shown in snackbar to confirm to the user that the layout type of a category was changed -->
-    <string name="message_layout_type_changed">"Тип макета изменен."</string>
-
-    <!-- Option in context menu for category, allows user to change the background of a category -->
-    <string name="action_change_category_background">"Изменить фон"</string>
-
-    <!-- Success message after background of a category was changed. Shown in snackbar. -->
-    <string name="message_background_type_changed">"Фон изменен."</string>
 
     <!-- One of two options when picking the layout for a category: Show shortcuts in a list -->
     <string name="layout_type_linear_list">"Список"</string>
@@ -375,17 +363,11 @@
     <!-- One of two options when picking the layout for a category: Show shortcuts in a grid -->
     <string name="layout_type_grid">"Сетка"</string>
 
-    <!-- Option to choose from when selecting the background of a category: Plain white -->
-    <string name="category_background_type_white">"Белый"</string>
-
     <!-- Option to choose from when selecting the background of a category: Plain black -->
     <string name="category_background_type_black">"Черный"</string>
 
     <!-- Option to choose from when selecting the background of a category: Use phone's wallpaper -->
     <string name="category_background_type_wallpaper">"Обои"</string>
-
-    <!-- Option to allow renaming a category -->
-    <string name="title_rename_category">"Переименовать категорию"</string>
 
     <!-- Dialog prompt/placeholder in input field, asking user to enter a name for a category -->
     <string name="placeholder_category_name">"Введите название категории…"</string>
@@ -400,9 +382,6 @@
     <string name="confirm_delete_category_message">"Удалить эту категорию?
 
 Все находящиеся в ней ярлыки будут удалены."</string>
-
-    <!-- Message, shown in snackbar, to confirm to the user that a category was renamed -->
-    <string name="message_category_renamed">"Категория переименована."</string>
 
     <!-- Message, shown in snackbar, to confirm to the user that a category was hidden -->
     <string name="message_category_hidden">"Категория скрыта"</string>
@@ -1027,6 +1006,7 @@
     <string name="language_default">"Сброс настроек по умолчанию"</string>
 
     <!-- Error: Shown in toast when user tries to add a variable placeholder to a text beyond its maximum size -->
+    <!-- Fuzzy -->
     <string name="error_text_too_long_for_variable">"Текст превышает ограничение на %d символов. Невозможно вставить местозаполнитель переменной."</string>
 
     <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->

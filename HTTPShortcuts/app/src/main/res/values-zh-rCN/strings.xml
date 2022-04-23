@@ -231,6 +231,7 @@
     <string name="settings_export">"导出快捷方式"</string>
 
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
+    <!-- Fuzzy -->
     <plurals name="shortcut_export_success">
         <item quantity="other">"已导出一个快捷方式"</item>
     </plurals>
@@ -249,6 +250,7 @@
     <string name="import_failure_reason_invalid_json">"错误的 JSON 文件"</string>
 
     <!-- Success message, shown in snackbar when import of shortcuts is successful -->
+    <!-- Fuzzy -->
     <plurals name="shortcut_import_success">
         <item quantity="other">"已导入一个快捷方式"</item>
     </plurals>
@@ -377,23 +379,11 @@
     <!-- Generic action, shown on dialog, to rename things -->
     <string name="action_rename">"重命名"</string>
 
-    <!-- Action, shown on dropdown when editing a category, for allowing to change the category's layout type -->
-    <string name="action_change_category_layout_type">"更改布局"</string>
-
     <!-- Action, shown on dropdown when editing a category, for allowing to hide a category -->
     <string name="action_hide_category">"隐藏"</string>
 
     <!-- Action, shown on dropdown when editing a category, for allowing to show a hidden category -->
     <string name="action_show_category">"显示"</string>
-
-    <!-- Message, shown in snackbar to confirm to the user that the layout type of a category was changed -->
-    <string name="message_layout_type_changed">"布局已更改"</string>
-
-    <!-- Option in context menu for category, allows user to change the background of a category -->
-    <string name="action_change_category_background">"更改背景颜色"</string>
-
-    <!-- Success message after background of a category was changed. Shown in snackbar. -->
-    <string name="message_background_type_changed">"背景颜色已更改"</string>
 
     <!-- One of two options when picking the layout for a category: Show shortcuts in a list -->
     <string name="layout_type_linear_list">"列表"</string>
@@ -401,17 +391,11 @@
     <!-- One of two options when picking the layout for a category: Show shortcuts in a grid -->
     <string name="layout_type_grid">"网格"</string>
 
-    <!-- Option to choose from when selecting the background of a category: Plain white -->
-    <string name="category_background_type_white">"白色"</string>
-
     <!-- Option to choose from when selecting the background of a category: Plain black -->
     <string name="category_background_type_black">"黑色"</string>
 
     <!-- Option to choose from when selecting the background of a category: Use phone's wallpaper -->
     <string name="category_background_type_wallpaper">"墙纸"</string>
-
-    <!-- Option to allow renaming a category -->
-    <string name="title_rename_category">"重命名分类"</string>
 
     <!-- Dialog prompt/placeholder in input field, asking user to enter a name for a category -->
     <string name="placeholder_category_name">"输入分类名称…"</string>
@@ -424,9 +408,6 @@
 
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of a category and all shortcuts within -->
     <string name="confirm_delete_category_message">"确定删除这个分类？该分类下的所有快捷方式也将被删除。"</string>
-
-    <!-- Message, shown in snackbar, to confirm to the user that a category was renamed -->
-    <string name="message_category_renamed">"分类已重命名"</string>
 
     <!-- Message, shown in snackbar, to confirm to the user that a category was hidden -->
     <string name="message_category_hidden">"类别已隐藏"</string>
@@ -1061,6 +1042,7 @@
     <string name="language_default">"系统默认"</string>
 
     <!-- Error: Shown in toast when user tries to add a variable placeholder to a text beyond its maximum size -->
+    <!-- Fuzzy -->
     <string name="error_text_too_long_for_variable">"字符长度超出上限( %d )，无法插入变量占位符"</string>
 
     <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->
@@ -1085,6 +1067,7 @@
     <string name="error_invalid_character">"非法字符：%s"</string>
 
     <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
+    <!-- Fuzzy -->
     <plurals name="warning_variable_still_in_use_in_shortcuts">
         <item quantity="other">"该变量仍被1个快捷方式调用：%1$s"</item>
     </plurals>
@@ -1663,12 +1646,6 @@
 
     <!-- Dialog message: Shown in dialog when removing a deleted shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
     <string name="message_remove_deleted_trigger_shortcut">"是否从触发快捷方式列表中移除已删除的快捷方式？"</string>
-
-    <!-- Label above input field in editor, for entering the package name of the browser with which to open the URL -->
-    <string name="label_browser_package_name">"浏览器包名"</string>
-
-    <!-- Placeholder for input field in editor, for entering the package name of the browser with which to open the URL -->
-    <string name="placeholder_browser_package_name">"对默认浏览器留空"</string>
 
     <!-- Option in "Change Icon" dialog, allows user to fetch the favicon of the shortcut's URL to use as a shortcut icon -->
     <string name="choose_page_favicon">"获取页面图标"</string>

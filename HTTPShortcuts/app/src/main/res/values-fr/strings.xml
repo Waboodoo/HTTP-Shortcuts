@@ -231,8 +231,9 @@
     <string name="settings_export">"Exporter les raccourcis"</string>
 
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
+    <!-- Fuzzy -->
     <plurals name="shortcut_export_success">
-        <item quantity="one">"1 raccourci exporté."</item>
+        <item quantity="one">"%d raccourci exporté."</item>
         <item quantity="other">"%d raccourcis exportés."</item>
     </plurals>
 
@@ -249,8 +250,9 @@
     <string name="import_failure_reason_invalid_json">"JSON invalide"</string>
 
     <!-- Success message, shown in snackbar when import of shortcuts is successful -->
+    <!-- Fuzzy -->
     <plurals name="shortcut_import_success">
-        <item quantity="one">"1 raccourci importé."</item>
+        <item quantity="one">"%d raccourci importé."</item>
         <item quantity="other">"%d raccourcis importés."</item>
     </plurals>
 
@@ -380,23 +382,11 @@
     <!-- Generic action, shown on dialog, to rename things -->
     <string name="action_rename">"Renommer"</string>
 
-    <!-- Action, shown on dropdown when editing a category, for allowing to change the category's layout type -->
-    <string name="action_change_category_layout_type">"Modifier la disposition"</string>
-
     <!-- Action, shown on dropdown when editing a category, for allowing to hide a category -->
     <string name="action_hide_category">"Cacher"</string>
 
     <!-- Action, shown on dropdown when editing a category, for allowing to show a hidden category -->
     <string name="action_show_category">"Afficher"</string>
-
-    <!-- Message, shown in snackbar to confirm to the user that the layout type of a category was changed -->
-    <string name="message_layout_type_changed">"La disposition à été modifiée"</string>
-
-    <!-- Option in context menu for category, allows user to change the background of a category -->
-    <string name="action_change_category_background">"Changer l'arrière plan"</string>
-
-    <!-- Success message after background of a category was changed. Shown in snackbar. -->
-    <string name="message_background_type_changed">"Arrière plan changé."</string>
 
     <!-- One of two options when picking the layout for a category: Show shortcuts in a list -->
     <string name="layout_type_linear_list">"Liste"</string>
@@ -404,17 +394,11 @@
     <!-- One of two options when picking the layout for a category: Show shortcuts in a grid -->
     <string name="layout_type_grid">"Grille"</string>
 
-    <!-- Option to choose from when selecting the background of a category: Plain white -->
-    <string name="category_background_type_white">"Blanc"</string>
-
     <!-- Option to choose from when selecting the background of a category: Plain black -->
     <string name="category_background_type_black">"Noir"</string>
 
     <!-- Option to choose from when selecting the background of a category: Use phone's wallpaper -->
     <string name="category_background_type_wallpaper">"Fond d'écran"</string>
-
-    <!-- Option to allow renaming a category -->
-    <string name="title_rename_category">"Renommer la catégorie"</string>
 
     <!-- Dialog prompt/placeholder in input field, asking user to enter a name for a category -->
     <string name="placeholder_category_name">"Entrez le nom de la catégorie …"</string>
@@ -429,9 +413,6 @@
     <string name="confirm_delete_category_message">"Supprimer cette catégorie?
 
 Tous les raccourcis contenus dans cette catégorie seront supprimés."</string>
-
-    <!-- Message, shown in snackbar, to confirm to the user that a category was renamed -->
-    <string name="message_category_renamed">"Catégorie renommée."</string>
 
     <!-- Message, shown in snackbar, to confirm to the user that a category was hidden -->
     <string name="message_category_hidden">"Catégorie cachée."</string>
@@ -856,7 +837,7 @@ Voir la documentation dans la section variable pour plus d'informations."</strin
 
     <!-- Section subtitle, shown in shortcut editor when the shortcut has one or more custom HTTP headers -->
     <plurals name="subtitle_request_headers_pattern">
-        <item quantity="one">"1 en-tête défini"</item>
+        <item quantity="one">"%d en-tête défini"</item>
         <item quantity="other">"%d en-têtes définies"</item>
     </plurals>
 
@@ -875,7 +856,7 @@ Voir la documentation dans la section variable pour plus d'informations."</strin
 
     <!-- Section subtitle, shown in shortcut editor when one or more (POST) parameters are set -->
     <plurals name="subtitle_request_body_params_pattern">
-        <item quantity="one">"1 paramètre défini"</item>
+        <item quantity="one">"%d paramètre défini"</item>
         <item quantity="other">"%d paramètres définis"</item>
     </plurals>
 
@@ -993,6 +974,7 @@ Voir la documentation dans la section variable pour plus d'informations."</strin
     <string name="error_invalid_character">"Caractère non valide : %s"</string>
 
     <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
+    <!-- Fuzzy -->
     <plurals name="warning_variable_still_in_use_in_shortcuts">
         <item quantity="one">"Cette variable est encore utilisée dans 1 raccourci : %1$s"</item>
         <item quantity="other">"Cette variable est encore utilisée dans %2$d raccourcis : %1$s"</item>

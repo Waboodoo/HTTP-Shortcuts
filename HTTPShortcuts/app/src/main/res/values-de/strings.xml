@@ -234,8 +234,9 @@ Drücke den + Knopf um eine Variable zu erstellen."</string>
     <string name="settings_export">"Shortcuts &amp; Variablen exportieren"</string>
 
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
+    <!-- Fuzzy -->
     <plurals name="shortcut_export_success">
-        <item quantity="one">"1 Shortcut exportiert."</item>
+        <item quantity="one">"%d Shortcut exportiert."</item>
         <item quantity="other">"%d Shortcuts exportiert."</item>
     </plurals>
 
@@ -253,8 +254,9 @@ Drücke den + Knopf um eine Variable zu erstellen."</string>
     <string name="import_failure_reason_invalid_json">"Ungültiges JSON"</string>
 
     <!-- Success message, shown in snackbar when import of shortcuts is successful -->
+    <!-- Fuzzy -->
     <plurals name="shortcut_import_success">
-        <item quantity="one">"1 Shortcut importiert."</item>
+        <item quantity="one">"%d Shortcut importiert."</item>
         <item quantity="other">"%d Shortcuts importiert."</item>
     </plurals>
 
@@ -384,23 +386,11 @@ Drücke den + Knopf um eine Variable zu erstellen."</string>
     <!-- Generic action, shown on dialog, to rename things -->
     <string name="action_rename">"Umbenennen"</string>
 
-    <!-- Action, shown on dropdown when editing a category, for allowing to change the category's layout type -->
-    <string name="action_change_category_layout_type">"Layouttyp ändern"</string>
-
     <!-- Action, shown on dropdown when editing a category, for allowing to hide a category -->
     <string name="action_hide_category">"Verbergen"</string>
 
     <!-- Action, shown on dropdown when editing a category, for allowing to show a hidden category -->
     <string name="action_show_category">"Zeigen"</string>
-
-    <!-- Message, shown in snackbar to confirm to the user that the layout type of a category was changed -->
-    <string name="message_layout_type_changed">"Layouttyp geändert"</string>
-
-    <!-- Option in context menu for category, allows user to change the background of a category -->
-    <string name="action_change_category_background">"Hintergrund ändern"</string>
-
-    <!-- Success message after background of a category was changed. Shown in snackbar. -->
-    <string name="message_background_type_changed">"Hintergrund geändert."</string>
 
     <!-- One of two options when picking the layout for a category: Show shortcuts in a list -->
     <string name="layout_type_linear_list">"Liste"</string>
@@ -408,17 +398,11 @@ Drücke den + Knopf um eine Variable zu erstellen."</string>
     <!-- One of two options when picking the layout for a category: Show shortcuts in a grid -->
     <string name="layout_type_grid">"Raster"</string>
 
-    <!-- Option to choose from when selecting the background of a category: Plain white -->
-    <string name="category_background_type_white">"Weiß"</string>
-
     <!-- Option to choose from when selecting the background of a category: Plain black -->
     <string name="category_background_type_black">"Schwarz"</string>
 
     <!-- Option to choose from when selecting the background of a category: Use phone's wallpaper -->
     <string name="category_background_type_wallpaper">"Hintergrundbild"</string>
-
-    <!-- Option to allow renaming a category -->
-    <string name="title_rename_category">"Kategorie umbenennen"</string>
 
     <!-- Dialog prompt/placeholder in input field, asking user to enter a name for a category -->
     <string name="placeholder_category_name">"Kategorienamen eingeben…"</string>
@@ -433,9 +417,6 @@ Drücke den + Knopf um eine Variable zu erstellen."</string>
     <string name="confirm_delete_category_message">"Diese Kategorie wirklich löschen?
 
 Alle darin enthaltenen Shortcuts werden gelöscht."</string>
-
-    <!-- Message, shown in snackbar, to confirm to the user that a category was renamed -->
-    <string name="message_category_renamed">"Kategorie umbenannt."</string>
 
     <!-- Message, shown in snackbar, to confirm to the user that a category was hidden -->
     <string name="message_category_hidden">"Kategorie verborgen."</string>
@@ -888,7 +869,7 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
 
     <!-- Section subtitle, shown in shortcut editor when the shortcut has one or more custom HTTP headers -->
     <plurals name="subtitle_request_headers_pattern">
-        <item quantity="one">"1 Header gesetzt"</item>
+        <item quantity="one">"%d Header gesetzt"</item>
         <item quantity="other">"%d Header gesetzt"</item>
     </plurals>
 
@@ -909,7 +890,7 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
 
     <!-- Section subtitle, shown in shortcut editor when one or more (POST) parameters are set -->
     <plurals name="subtitle_request_body_params_pattern">
-        <item quantity="one">"1 Parameter gesetzt"</item>
+        <item quantity="one">"%d Parameter gesetzt"</item>
         <item quantity="other">"%s Parameter gesetzt"</item>
     </plurals>
 
@@ -1066,6 +1047,7 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <string name="language_default">"System-Standard"</string>
 
     <!-- Error: Shown in toast when user tries to add a variable placeholder to a text beyond its maximum size -->
+    <!-- Fuzzy -->
     <string name="error_text_too_long_for_variable">"Text länger als %d Zeichen. Variable kann nicht eingefügt werden."</string>
 
     <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->
@@ -1090,6 +1072,7 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <string name="error_invalid_character">"Ungültiges Zeichen: %s"</string>
 
     <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
+    <!-- Fuzzy -->
     <plurals name="warning_variable_still_in_use_in_shortcuts">
         <item quantity="one">"Diese Variable wird noch von einem Shortcut verwendet: %1$s"</item>
         <item quantity="other">"Diese Variable wird noch von %2$d Shortcuts verwendet: %1$s"</item>
@@ -1669,10 +1652,7 @@ Drücke den + Knopf um loszulegen."</string>
     <string name="message_remove_deleted_trigger_shortcut">"Gelöschten Shortcut aus Liste der auszulösenden Shortcuts entfernen?"</string>
 
     <!-- Label above input field in editor, for entering the package name of the browser with which to open the URL -->
-    <string name="label_browser_package_name">"Package-Name des Browsers"</string>
-
-    <!-- Placeholder for input field in editor, for entering the package name of the browser with which to open the URL -->
-    <string name="placeholder_browser_package_name">"Leer lassen um Standardbrowser zu verwenden"</string>
+    <string name="label_browser_package_name">"Browser"</string>
 
     <!-- Option in "Change Icon" dialog, allows user to fetch the favicon of the shortcut's URL to use as a shortcut icon -->
     <string name="choose_page_favicon">"Favicon der Seite herunterladen"</string>
@@ -1729,4 +1709,34 @@ Trotzdem löschen?"</string>
 
     <!-- Summary/subtitle of section in settings that allows user to change the title of the app's main screen -->
     <string name="settings_app_title_summary">"Ändere den Titel der Startseite"</string>
+
+    <!-- Section subtitle, shown in shortcut editor when using a client certificate for authentication -->
+    <string name="subtitle_authentication_client_cert">"Authentifizierung mit Client-Zertifikat"</string>
+
+    <!-- Shortcut Action Title: Change Shortcut Description -->
+    <string name="action_type_change_icon_description">"Shortcut-Beschreibung ändern"</string>
+
+    <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
+    <string name="error_shortcut_not_found_for_changing_description">"Die Beschreibung des Shortcuts \"%1$s\" konnte nicht geändert werden, da er nicht existiert."</string>
+
+    <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
+    <string name="placeholder_browser_package_name">"Standardbrowser verwenden"</string>
+
+    <!-- Page title, for editing a category -->
+    <string name="title_edit_category">"Kategorie bearbeiten"</string>
+
+    <!-- Option to choose from when selecting the background of a category: Default (white, or black in night mode) -->
+    <string name="category_background_type_default">"Standard"</string>
+
+    <!-- Message, shown in snackbar, to confirm to the user that a category's changes were saved -->
+    <string name="message_category_edited">"Kategorie gespeichert."</string>
+
+    <!-- Label above input field in category editor, for category name -->
+    <string name="label_category_name">"Kategorienname"</string>
+
+    <!-- Label above dropdown input field for selecting the layout type (grid, list) for a category -->
+    <string name="label_category_layout_type">"Layouttyp"</string>
+
+    <!-- Label above dropdown input field for selecting the background for a category -->
+    <string name="label_category_background">"Hintergrund"</string>
 </resources>
