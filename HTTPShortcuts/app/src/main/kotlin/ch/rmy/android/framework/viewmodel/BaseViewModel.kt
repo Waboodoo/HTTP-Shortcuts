@@ -173,7 +173,7 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
         emitEvent(ViewModelEvent.Finish(result, intent, skipAnimation))
     }
 
-    protected fun finishWithOkResult(intent: Intent) {
+    protected fun finishWithOkResult(intent: Intent? = null) {
         finish(
             result = Activity.RESULT_OK,
             intent = intent,

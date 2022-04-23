@@ -4,7 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/activity_background"
-    android:elevation="1dp">
+    android:clickable="true"
+    android:elevation="1dp"
+    android:focusable="true">
 
     <fr.castorflex.android.circularprogressbar.CircularProgressBar
         android:layout_width="48dp"

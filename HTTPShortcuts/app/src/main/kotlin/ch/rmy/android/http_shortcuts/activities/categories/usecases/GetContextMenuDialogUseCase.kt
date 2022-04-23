@@ -16,15 +16,14 @@ class GetContextMenuDialogUseCase {
         title: Localizable,
         hideOptionVisible: Boolean,
         showOptionVisible: Boolean,
-        changeLayoutTypeOptionVisible: Boolean,
         placeOnHomeScreenOptionVisible: Boolean,
         deleteOptionVisible: Boolean,
         viewModel: CategoriesViewModel,
     ) =
         DialogState.create {
             title(title)
-                .item(R.string.action_rename) {
-                    viewModel.onRenameCategoryOptionSelected(categoryId)
+                .item(R.string.action_edit) {
+                    viewModel.onEditCategoryOptionSelected(categoryId)
                 }
                 .runIf(showOptionVisible) {
                     item(R.string.action_show_category) {
@@ -35,14 +34,6 @@ class GetContextMenuDialogUseCase {
                     item(R.string.action_hide_category) {
                         viewModel.onCategoryVisibilityChanged(categoryId, hidden = true)
                     }
-                }
-                .runIf(changeLayoutTypeOptionVisible) {
-                    item(R.string.action_change_category_layout_type) {
-                        viewModel.onLayoutTypeOptionSelected(categoryId)
-                    }
-                        .item(R.string.action_change_category_background) {
-                            viewModel.onBackgroundTypeOptionSelected(categoryId)
-                        }
                 }
                 .runIf(placeOnHomeScreenOptionVisible) {
                     item(R.string.action_place_category) {

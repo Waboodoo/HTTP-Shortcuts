@@ -11,16 +11,10 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.categories.usecases.GetBackgroundTypeDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.categories.usecases.GetContextMenuDialogUseCase
-import ch.rmy.android.http_shortcuts.activities.categories.usecases.GetCreationDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.categories.usecases.GetDeletionDialogUseCase
-import ch.rmy.android.http_shortcuts.activities.categories.usecases.GetLayoutTypeDialogUseCase
-import ch.rmy.android.http_shortcuts.activities.categories.usecases.GetRenameDialogUseCase
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
-import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
-import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.models.CategoryModel
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
@@ -30,11 +24,7 @@ class CategoriesViewModel(application: Application) : BaseViewModel<Unit, Catego
     private val categoryRepository: CategoryRepository = CategoryRepository()
     private val launcherShortcutManager = LauncherShortcutManager(context)
     private val getContextMenuDialog = GetContextMenuDialogUseCase()
-    private val getLayoutTypeDialog = GetLayoutTypeDialogUseCase()
-    private val getBackgroundTypeDialog = GetBackgroundTypeDialogUseCase()
     private val getDeletionDialog = GetDeletionDialogUseCase()
-    private val getRenameDialog = GetRenameDialogUseCase()
-    private val getCreationDialog = GetCreationDialogUseCase()
 
     private lateinit var categories: List<CategoryModel>
     private var hasChanged = false
@@ -89,7 +79,6 @@ class CategoriesViewModel(application: Application) : BaseViewModel<Unit, Catego
             title = category.name.toLocalizable(),
             hideOptionVisible = !category.hidden && categories.count { !it.hidden } > 1,
             showOptionVisible = category.hidden,
-            changeLayoutTypeOptionVisible = !category.hidden,
             placeOnHomeScreenOptionVisible = !category.hidden && launcherShortcutManager.supportsPinning(),
             deleteOptionVisible = category.hidden || categories.count { !it.hidden } > 1,
             viewModel = this,
@@ -113,33 +102,7 @@ class CategoriesViewModel(application: Application) : BaseViewModel<Unit, Catego
     }
 
     fun onCreateCategoryButtonClicked() {
-        dialogState = getCreationDialog(this)
-    }
-
-    fun onCreateDialogConfirmed(name: String) {
-        performOperation(
-            categoryRepository.createCategory(name)
-                .doOnComplete {
-                    hasChanged = true
-                    showSnackbar(R.string.message_category_created)
-                }
-        )
-    }
-
-    fun onRenameCategoryOptionSelected(categoryId: CategoryId) {
-        val category = getCategory(categoryId) ?: return
-        dialogState = getRenameDialog(categoryId, prefill = category.name, this)
-    }
-
-    fun onRenameDialogConfirmed(categoryId: CategoryId, newName: String) {
-        performOperation(
-            categoryRepository.renameCategory(categoryId, newName)
-                .doOnComplete {
-                    hasChanged = true
-                    launcherShortcutManager.updatePinnedCategoryShortcut(categoryId, newName)
-                    showSnackbar(R.string.message_category_renamed)
-                }
-        )
+        emitEvent(CategoriesEvent.OpenCategoryEditor(categoryId = null))
     }
 
     fun onCategoryVisibilityChanged(categoryId: CategoryId, hidden: Boolean) {
@@ -170,27 +133,18 @@ class CategoriesViewModel(application: Application) : BaseViewModel<Unit, Catego
         launcherShortcutManager.pinCategory(category.id, category.name)
     }
 
-    fun onLayoutTypeChanged(categoryId: CategoryId, layoutType: CategoryLayoutType) {
-        performOperation(categoryRepository.setLayoutType(categoryId, layoutType)) {
-            hasChanged = true
-            showSnackbar(R.string.message_layout_type_changed)
-        }
+    fun onEditCategoryOptionSelected(categoryId: CategoryId) {
+        emitEvent(CategoriesEvent.OpenCategoryEditor(categoryId))
     }
 
-    fun onBackgroundTypeChanged(categoryId: CategoryId, backgroundType: CategoryBackgroundType) {
-        emitEvent(CategoriesEvent.RequestFilePermissionsIfNeeded)
-        performOperation(categoryRepository.setBackground(categoryId, backgroundType)) {
-            hasChanged = true
-            showSnackbar(R.string.message_background_type_changed)
-        }
+    fun onCategoryCreated() {
+        hasChanged = true
+        showSnackbar(R.string.message_category_created)
     }
 
-    fun onLayoutTypeOptionSelected(categoryId: CategoryId) {
-        dialogState = getLayoutTypeDialog(categoryId, this)
-    }
-
-    fun onBackgroundTypeOptionSelected(categoryId: CategoryId) {
-        dialogState = getBackgroundTypeDialog(categoryId, this)
+    fun onCategoryEdited() {
+        hasChanged = true
+        showSnackbar(R.string.message_category_edited)
     }
 
     companion object {

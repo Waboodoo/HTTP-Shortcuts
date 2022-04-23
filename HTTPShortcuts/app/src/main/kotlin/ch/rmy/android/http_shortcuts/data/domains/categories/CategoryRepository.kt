@@ -28,6 +28,11 @@ class CategoryRepository : BaseRepository(RealmFactory.getInstance()) {
             getBase().findFirst()!!.categories
         }
 
+    fun getCategory(categoryId: CategoryId): Single<CategoryModel> =
+        queryItem {
+            getCategoryById(categoryId)
+        }
+
     fun getObservableCategory(categoryId: CategoryId): Observable<CategoryModel> =
         observeItem {
             getCategoryById(categoryId)
@@ -57,18 +62,15 @@ class CategoryRepository : BaseRepository(RealmFactory.getInstance()) {
             category.deleteFromRealm()
         }
 
-    fun setBackground(categoryId: CategoryId, background: CategoryBackgroundType): Completable =
+    fun updateCategory(categoryId: CategoryId, name: String, layoutType: CategoryLayoutType, background: CategoryBackgroundType): Completable =
         commitTransaction {
             getCategoryById(categoryId)
                 .findFirst()
-                ?.categoryBackgroundType = background
-        }
-
-    fun renameCategory(categoryId: CategoryId, newName: String): Completable =
-        commitTransaction {
-            getCategoryById(categoryId)
-                .findFirst()
-                ?.name = newName
+                ?.let { category ->
+                    category.name = name
+                    category.categoryLayoutType = layoutType
+                    category.categoryBackgroundType = background
+                }
         }
 
     fun toggleCategoryHidden(categoryId: CategoryId, hidden: Boolean): Completable =
@@ -76,13 +78,6 @@ class CategoryRepository : BaseRepository(RealmFactory.getInstance()) {
             getCategoryById(categoryId)
                 .findFirst()
                 ?.hidden = hidden
-        }
-
-    fun setLayoutType(categoryId: CategoryId, layoutType: CategoryLayoutType): Completable =
-        commitTransaction {
-            getCategoryById(categoryId)
-                .findFirst()
-                ?.categoryLayoutType = layoutType
         }
 
     fun moveCategory(categoryId1: CategoryId, categoryId2: CategoryId): Completable =

@@ -347,48 +347,40 @@
     <string name="settings_licenses_summary">Libraries &amp; resources used</string>
     <!-- Page title, for page showing all configured categories -->
     <string name="title_categories">Categories</string>
+    <!-- Page title, for editing a category -->
+    <string name="title_edit_category">Edit Category</string>
     <!-- Generic action, shown on dialog, to rename things -->
     <string name="action_rename">Rename</string>
-    <!-- Action, shown on dropdown when editing a category, for allowing to change the category's layout type -->
-    <string name="action_change_category_layout_type">Change Layout Type</string>
     <!-- Action, shown on dropdown when editing a category, for allowing to hide a category -->
     <string name="action_hide_category">Hide</string>
     <!-- Action, shown on dropdown when editing a category, for allowing to show a hidden category -->
     <string name="action_show_category">Show</string>
-    <!-- Message, shown in snackbar to confirm to the user that the layout type of a category was changed -->
-    <string name="message_layout_type_changed">Layout type changed.</string>
-    <!-- Option in context menu for category, allows user to change the background of a category -->
-    <string name="action_change_category_background">Change Background</string>
-    <!-- Success message after background of a category was changed. Shown in snackbar. -->
-    <string name="message_background_type_changed">Background changed.</string>
     <!-- One of two options when picking the layout for a category: Show shortcuts in a list -->
     <string name="layout_type_linear_list">List</string>
     <!-- One of two options when picking the layout for a category: Show shortcuts in a grid -->
     <string name="layout_type_grid">Grid</string>
-    <!-- Option to choose from when selecting the background of a category: Plain white -->
-    <string name="category_background_type_white">White</string>
+    <!-- Option to choose from when selecting the background of a category: Default (white, or black in night mode) -->
+    <string name="category_background_type_default">Default</string>
     <!-- Option to choose from when selecting the background of a category: Plain black -->
     <string name="category_background_type_black">Black</string>
     <!-- Option to choose from when selecting the background of a category: Use phone's wallpaper -->
     <string name="category_background_type_wallpaper">Wallpaper</string>
-    <!-- Option to allow renaming a category -->
-    <string name="title_rename_category">Rename Category</string>
     <!-- Dialog prompt/placeholder in input field, asking user to enter a name for a category -->
     <string name="placeholder_category_name">Enter Category Name…</string>
     <!-- Placeholder in input field, asking user to enter a value. Used in varies places -->
     <string name="placeholder_value">Value</string>
-    <!-- Dialog title, shown in editor when creating a new category -->
+    <!-- Page title, shown in editor when creating a new category -->
     <string name="title_create_category">Create Category</string>
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of a category and all shortcuts within -->
     <string name="confirm_delete_category_message">Delete this category?\n\nAll shortcuts contained within will be deleted.</string>
-    <!-- Message, shown in snackbar, to confirm to the user that a category was renamed -->
-    <string name="message_category_renamed">Category renamed.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category was hidden -->
     <string name="message_category_hidden">Category hidden.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category is no longer hidden and visible again -->
     <string name="message_category_visible">Category no longer hidden.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category was created -->
     <string name="message_category_created">Category created.</string>
+    <!-- Message, shown in snackbar, to confirm to the user that a category's changes were saved -->
+    <string name="message_category_edited">Category updated.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category was deleted -->
     <string name="message_category_deleted">Category deleted.</string>
     <!-- Shows numerical count of shortcuts, used to show how many shortcuts are in a given category -->
@@ -1153,4 +1145,10 @@
     <string name="label_share_support_option_title">Title only</string>
     <!-- Label of an option in the share dialog, for receiving the title (subject) and the text -->
     <string name="label_share_support_option_title_and_text">Title and Text</string>
+    <!-- Label above input field in category editor, for category name -->
+    <string name="label_category_name">Category Name</string>
+    <!-- Label above dropdown input field for selecting the layout type (grid, list) for a category -->
+    <string name="label_category_layout_type">Layout Type</string>
+    <!-- Label above dropdown input field for selecting the background for a category -->
+    <string name="label_category_background">Background</string>
 </resources>

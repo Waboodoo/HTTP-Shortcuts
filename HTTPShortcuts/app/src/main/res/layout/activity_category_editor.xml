@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.categories.CategoriesActivity">
+
+    <include layout="@layout/toolbar_layout" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/main_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                style="@style/Label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_category_name" />
+
+            <EditText
+                android:id="@+id/input_category_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:hint="@string/placeholder_category_name"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:maxLength="20"
+                android:maxLines="1" />
+
+            <ch.rmy.android.framework.ui.views.LabelledSpinner
+                android:id="@+id/input_layout_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_category_layout_type" />
+
+            <ch.rmy.android.framework.ui.views.LabelledSpinner
+                android:id="@+id/input_background_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_category_background" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <include
+        android:id="@+id/loading_indicator"
+        layout="@layout/loading_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

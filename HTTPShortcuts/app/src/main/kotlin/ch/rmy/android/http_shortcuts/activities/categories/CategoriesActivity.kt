@@ -9,6 +9,7 @@ import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.initialize
+import ch.rmy.android.framework.extensions.launch
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.ui.BaseActivityResultContract
 import ch.rmy.android.framework.ui.BaseIntentBuilder
@@ -16,11 +17,22 @@ import ch.rmy.android.framework.utils.DragOrderingHelper
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.activities.categories.editor.CategoryEditorActivity
 import ch.rmy.android.http_shortcuts.databinding.ActivityCategoriesBinding
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
-import ch.rmy.android.http_shortcuts.utils.PermissionManager
 
 class CategoriesActivity : BaseActivity() {
+
+    private val openCategoryEditorForCreation = registerForActivityResult(CategoryEditorActivity.OpenCategoryEditor) { success ->
+        if (success) {
+            viewModel.onCategoryCreated()
+        }
+    }
+    private val openCategoryEditorForEditing = registerForActivityResult(CategoryEditorActivity.OpenCategoryEditor) { success ->
+        if (success) {
+            viewModel.onCategoryEdited()
+        }
+    }
 
     private val viewModel: CategoriesViewModel by bindViewModel()
 
@@ -87,8 +99,12 @@ class CategoriesActivity : BaseActivity() {
 
     override fun handleEvent(event: ViewModelEvent) {
         when (event) {
-            is CategoriesEvent.RequestFilePermissionsIfNeeded -> {
-                PermissionManager.requestFileStoragePermissionIfNeeded(this)
+            is CategoriesEvent.OpenCategoryEditor -> {
+                if (event.categoryId != null) {
+                    openCategoryEditorForEditing.launch { categoryId(event.categoryId) }
+                } else {
+                    openCategoryEditorForCreation.launch()
+                }
             }
             else -> super.handleEvent(event)
         }

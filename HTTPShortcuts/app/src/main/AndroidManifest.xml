@@ -152,6 +152,15 @@
                 android:value=".activities.main.MainActivity" />
         </activity>
         <activity
+            android:name=".activities.categories.editor.CategoryEditorActivity"
+            android:label="@string/title_edit_category"
+            android:parentActivityName=".activities.categories.CategoriesActivity"
+            android:windowSoftInputMode="adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.categories.CategoriesActivity" />
+        </activity>
+        <activity
             android:name=".activities.misc.CurlImportActivity"
             android:label="@string/title_curl_import"
             android:parentActivityName=".activities.main.MainActivity"
