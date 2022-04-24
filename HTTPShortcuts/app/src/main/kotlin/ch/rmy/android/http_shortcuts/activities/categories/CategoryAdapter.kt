@@ -91,8 +91,11 @@ class CategoryAdapter : BaseAdapter<CategoryListItem>() {
                 binding.layoutTypeIcon.isVisible = true
                 binding.layoutTypeIcon.setImageResource(
                     when (layoutType) {
-                        CategoryLayoutType.GRID -> R.drawable.ic_grid
                         CategoryLayoutType.LINEAR_LIST -> R.drawable.ic_list
+                        CategoryLayoutType.DENSE_GRID,
+                        CategoryLayoutType.MEDIUM_GRID,
+                        CategoryLayoutType.WIDE_GRID,
+                        -> R.drawable.ic_grid
                     }
                 )
                 binding.layoutTypeIcon.applyTheme()

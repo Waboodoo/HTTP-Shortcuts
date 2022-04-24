@@ -50,7 +50,9 @@ class CategoryEditorActivity : BaseActivity() {
 
         binding.inputLayoutType.setItemsFromPairs(
             CategoryLayoutType.LINEAR_LIST.type to getString(R.string.layout_type_linear_list),
-            CategoryLayoutType.GRID.type to getString(R.string.layout_type_grid),
+            CategoryLayoutType.DENSE_GRID.type to getString(R.string.layout_type_dense_grid),
+            CategoryLayoutType.MEDIUM_GRID.type to getString(R.string.layout_type_medium_grid),
+            CategoryLayoutType.WIDE_GRID.type to getString(R.string.layout_type_wide_grid),
         )
         binding.inputBackgroundType.setItemsFromPairs(
             CategoryBackgroundType.WHITE.type to getString(R.string.category_background_type_default),

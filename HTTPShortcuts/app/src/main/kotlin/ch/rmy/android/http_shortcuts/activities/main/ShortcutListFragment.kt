@@ -81,12 +81,17 @@ class ShortcutListFragment : BaseFragment<FragmentListBinding>() {
     private fun initViews() {
         adapter = when (layoutType) {
             CategoryLayoutType.LINEAR_LIST -> ShortcutListAdapter()
-            CategoryLayoutType.GRID -> ShortcutGridAdapter()
+            CategoryLayoutType.DENSE_GRID,
+            CategoryLayoutType.MEDIUM_GRID,
+            CategoryLayoutType.WIDE_GRID,
+            -> ShortcutGridAdapter()
         }
 
         binding.shortcutList.layoutManager = when (layoutType) {
-            CategoryLayoutType.GRID -> GridLayoutManager(requireContext(), R.dimen.grid_layout_shortcut_width)
             CategoryLayoutType.LINEAR_LIST -> LinearLayoutManager(context)
+            CategoryLayoutType.DENSE_GRID -> GridLayoutManager(requireContext(), R.dimen.grid_layout_shortcut_width_dense)
+            CategoryLayoutType.MEDIUM_GRID -> GridLayoutManager(requireContext(), R.dimen.grid_layout_shortcut_width_medium)
+            CategoryLayoutType.WIDE_GRID -> GridLayoutManager(requireContext(), R.dimen.grid_layout_shortcut_width_wide)
         }
         binding.shortcutList.adapter = adapter
         binding.shortcutList.setHasFixedSize(true)
@@ -105,7 +110,7 @@ class ShortcutListFragment : BaseFragment<FragmentListBinding>() {
 
     private fun initDragOrdering() {
         val dragOrderingHelper = DragOrderingHelper(
-            allowHorizontalDragging = layoutType == CategoryLayoutType.GRID,
+            allowHorizontalDragging = layoutType.supportsHorizontalDragging,
             isEnabledCallback = { isDraggingEnabled },
             getId = { (it as? BaseShortcutAdapter.BaseShortcutViewHolder)?.shortcutId },
         )
