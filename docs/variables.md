@@ -2,6 +2,8 @@
 
 Variables allow you to inject pieces of information dynamically into your shortcuts when executing them. A variable consists of a name and a value which is resolved at execution time, based on its type. For some variable types this means that a prompt dialog is shown that asks for a value, others can be resolved without user input. They are global, meaning that they do not belong to a specific shortcut but can be used by all of them.
 
+Variables are also particularly useful when combined with the app's [Scripting](scripting.md) capabilities, as it allows you to compute a value using a piece of JavaScript, storing that value into a variable and then use that value as part of the HTTP request.
+
 For more details on when variables are resolved see the [Execution Flow](execution-flow.md) documentation.
 
 ## Using Variables
@@ -19,9 +21,9 @@ When creating a variable, you have to select its type. The type dictates how the
 <a name="constant"></a>
 ### Static Variable
 
-A *static variable* (formerly called *constant*) stores a static value, until explicitly changed. It can be used to store a piece of information that is shared across multiple shortcut, such as an authentication token or a domain name. This way it can easily be changed.
+A *static variable* (formerly called *constant*) stores a static value, until explicitly changed. A typical use case is to store a piece of information that is shared across multiple shortcut, such as an authentication token or a domain name. This way it can easily be changed.
 
-It is also possible to change the value of a static variable programmatically before or after a shortcut runs, e.g. to store parts of a HTTP response into it. See the [Scripting](scripting.md#variables) documentation for more details.
+It is also possible to change the value of a static variable programmatically before or after a shortcut runs, e.g., to store parts of a HTTP response into it. See the [Scripting](scripting.md#variables) documentation for more details.
 
 <a name="toggle"></a>
 ### Toggle
@@ -53,9 +55,11 @@ The *date* and *time* types trigger a prompt dialog where a date or time can be 
 <a name="color"></a>
 ### Color
 
-The *color* type triggers a prompt dialog where a color can be selected. Its value is returned in RGB hex format (e.g. ff0000 for red).
+The *color* type triggers a prompt dialog where a color can be selected. Its value is returned in RGB hex format (e.g., ff0000 for red).
 
 
 ## Sharing Values into Variables
 In the advanced settings section of a variable you can mark it as *Allow 'Share …'*. This makes it possible to provide the value of this variable through Android's *Share*-dialog, e.g., by sharing a URL or text snippet from another app. The variable will then assume the shared value during execution.
+
+If you enable this option, you will also find a dropdown further down which lets you pick which part of the shared value the variable should assume: the text, the title (if any), or both.
 

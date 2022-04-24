@@ -4,15 +4,15 @@ Categories can be used to group different shortcuts together into separate tabs 
 
 ### Managing Categories
 
-You can access the categories editor by clicking the left-most icon (three vertical bars) at the while on the app's main screen.
+You can access the categories editor via the "Categories" option in the dropdown menu in the app's main screen, or by long-pressing on any of the category tabs in the main screen.
 
 ### Layout Types
 
-A category's layout type defines how shortcuts within it are displayed. There are currently only 2 options: list, which will display the shortcuts vertically below each other in a list, and grid, which displays them in a grid, similar to Android's home screen.
+A category's layout type defines how shortcuts within it are displayed. There are currently only 3 options: list, which will display the shortcuts vertically below each other in a list, and 3 different types of grid, where shortcuts are displayed in a grid, similar to Android's home screen.
 
 ### Backgrounds
 
-You can change a category's background to either be black, white, or to display your home screen wallpaper.
+You can change a category's background to either use the default (i.e., white or black, depending on whether dark mode is enabled), always black, or to display your home screen wallpaper. Please note that using the latter requires that you grant the app permission to access your files. See the [Privacy Policy](privacy-policy.md) for more information.
 
 ### Hidden Categories
 
