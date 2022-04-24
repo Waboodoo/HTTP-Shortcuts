@@ -59,7 +59,10 @@ tasks.register("syncChangeLog") {
         val flavour = org.intellij.markdown.flavours.commonmark.CommonMarkFlavourDescriptor()
         val parsedTree = org.intellij.markdown.parser.MarkdownParser(flavour)
             .buildMarkdownTreeFromString(changelogMarkdown)
-        val html = org.intellij.markdown.html.HtmlGenerator(changelogMarkdown, parsedTree, flavour).generateHtml()
+        val html = org.intellij.markdown.html.HtmlGenerator(changelogMarkdown, parsedTree, flavour)
+            .generateHtml()
+            .removePrefix("<body>")
+            .removeSuffix("</body>")
         File("app/src/main/assets/changelog.html").writeText(
             template.replace("<!-- CONTENT -->", html)
         )

@@ -1,3 +1,21 @@
+## Version 2.15.0
+
+### Improvements
+- The Code Snippet Picker was redesigned for clarity and easier use
+- In a Browser Shortcut you can now choose which of the installed browsers should be used
+- When using the Grid layout for a category, it is now possible to choose from 3 different types of grid densities
+- It is now possible override the shortcut click behavior on a per category basis
+- The `changeDescription` function was added to allow programmatically updating a shortcut's description
+
+### Miscellaneous
+- The "Client Certificate" option was moved to the "Authentication" section in the shortcut editor
+- In categories that use the "Wallpaper" background, shortcut labels now have a drop shadow for better readability
+- Various small tweaks to performance, app stability and UX improvements
+
+### Bugfixes
+- When using the "-F" parameter in a cURL import, the method is now correctly set to POST instead of GET
+- When the window displaying a response is closed, the app's main screen should now no longer show up unexpectedly
+
 ## Version 2.14.1
 
 ### Bugfixes
