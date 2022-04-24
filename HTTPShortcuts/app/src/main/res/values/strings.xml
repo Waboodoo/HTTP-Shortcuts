@@ -1151,4 +1151,6 @@
     <string name="label_category_layout_type">Layout Type</string>
     <!-- Label above dropdown input field for selecting the background for a category -->
     <string name="label_category_background">Background</string>
+    <!-- Description for the "Customizable Widget", shown in Android's widget picker -->
+    <string name="description_customizable_widget">Choose the color of your shortcut\'s label, or whether to hide the label completely.</string>
 </resources>
