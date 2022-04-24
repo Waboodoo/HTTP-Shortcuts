@@ -38,6 +38,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.domains.widgets.WidgetsRepository
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.models.CategoryModel
 import ch.rmy.android.http_shortcuts.data.models.PendingExecutionModel
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
@@ -236,10 +237,10 @@ class ShortcutListViewModel(
                 executeShortcut(shortcutId)
                 return@doWithViewState
             }
-            when (settings.clickBehavior) {
-                Settings.CLICK_BEHAVIOR_RUN -> executeShortcut(shortcutId)
-                Settings.CLICK_BEHAVIOR_EDIT -> editShortcut(shortcutId)
-                Settings.CLICK_BEHAVIOR_MENU -> showContextMenu(shortcutId)
+            when (category.clickBehavior ?: settings.clickBehavior) {
+                ShortcutClickBehavior.RUN -> executeShortcut(shortcutId)
+                ShortcutClickBehavior.EDIT -> editShortcut(shortcutId)
+                ShortcutClickBehavior.MENU -> showContextMenu(shortcutId)
             }
         }
     }

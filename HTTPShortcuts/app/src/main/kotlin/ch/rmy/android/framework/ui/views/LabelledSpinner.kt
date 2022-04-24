@@ -35,6 +35,10 @@ class LabelledSpinner @JvmOverloads constructor(
         this.items = items.map { (key, value) -> Item(key, value) }
     }
 
+    fun setItemsFromPairs(vararg items: Pair<String, String>) {
+        setItemsFromPairs(items.asList())
+    }
+
     init {
         orientation = VERTICAL
         binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

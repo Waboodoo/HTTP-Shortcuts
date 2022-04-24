@@ -4,6 +4,7 @@ import ch.rmy.android.framework.utils.UUIDUtils.isUUID
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
@@ -14,6 +15,9 @@ import io.realm.annotations.Required
 open class CategoryModel(
     @Required
     var name: String = "",
+    categoryLayoutType: CategoryLayoutType = CategoryLayoutType.LINEAR_LIST,
+    categoryBackgroundType: CategoryBackgroundType = CategoryBackgroundType.WHITE,
+    clickBehavior: ShortcutClickBehavior? = null,
 ) : RealmObject() {
 
     @PrimaryKey
@@ -27,6 +31,8 @@ open class CategoryModel(
     private var background: String = CategoryBackgroundType.WHITE.type
     var hidden: Boolean = false
 
+    private var shortcutClickBehavior: String? = null
+
     var categoryLayoutType
         get() = CategoryLayoutType.parse(layoutType)
         set(value) {
@@ -38,6 +44,18 @@ open class CategoryModel(
         set(value) {
             background = value.type
         }
+
+    var clickBehavior: ShortcutClickBehavior?
+        get() = shortcutClickBehavior?.let(ShortcutClickBehavior::parse)
+        set(value) {
+            shortcutClickBehavior = value?.type
+        }
+
+    init {
+        layoutType = categoryLayoutType.type
+        background = categoryBackgroundType.type
+        shortcutClickBehavior = clickBehavior?.type
+    }
 
     fun validate() {
         if (!isUUID(id) && id.toIntOrNull() == null) {

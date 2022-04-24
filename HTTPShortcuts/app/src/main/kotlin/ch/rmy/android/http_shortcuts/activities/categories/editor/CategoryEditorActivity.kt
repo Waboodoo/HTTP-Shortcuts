@@ -20,6 +20,7 @@ import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.databinding.ActivityCategoryEditorBinding
 import ch.rmy.android.http_shortcuts.utils.PermissionManager
 
@@ -48,17 +49,19 @@ class CategoryEditorActivity : BaseActivity() {
         title = ""
 
         binding.inputLayoutType.setItemsFromPairs(
-            listOf(
-                CategoryLayoutType.LINEAR_LIST.type to getString(R.string.layout_type_linear_list),
-                CategoryLayoutType.GRID.type to getString(R.string.layout_type_grid),
-            )
+            CategoryLayoutType.LINEAR_LIST.type to getString(R.string.layout_type_linear_list),
+            CategoryLayoutType.GRID.type to getString(R.string.layout_type_grid),
         )
         binding.inputBackgroundType.setItemsFromPairs(
-            listOf(
-                CategoryBackgroundType.WHITE.type to getString(R.string.category_background_type_default),
-                CategoryBackgroundType.BLACK.type to getString(R.string.category_background_type_black),
-                CategoryBackgroundType.WALLPAPER.type to getString(R.string.category_background_type_wallpaper),
-            )
+            CategoryBackgroundType.WHITE.type to getString(R.string.category_background_type_default),
+            CategoryBackgroundType.BLACK.type to getString(R.string.category_background_type_black),
+            CategoryBackgroundType.WALLPAPER.type to getString(R.string.category_background_type_wallpaper),
+        )
+        binding.inputClickBehavior.setItemsFromPairs(
+            SHORTCUT_BEHAVIOR_DEFAULT to getString(R.string.settings_click_behavior_global_default),
+            ShortcutClickBehavior.RUN.type to getString(R.string.settings_click_behavior_run),
+            ShortcutClickBehavior.EDIT.type to getString(R.string.settings_click_behavior_edit),
+            ShortcutClickBehavior.MENU.type to getString(R.string.settings_click_behavior_menu),
         )
     }
 
@@ -80,6 +83,14 @@ class CategoryEditorActivity : BaseActivity() {
                 viewModel.onBackgroundChanged(CategoryBackgroundType.parse(it))
             }
             .attachTo(destroyer)
+        binding.inputClickBehavior.selectionChanges
+            .subscribe { clickBehavior ->
+                viewModel.onClickBehaviorChanged(
+                    clickBehavior.takeUnless { it == SHORTCUT_BEHAVIOR_DEFAULT }
+                        ?.let(ShortcutClickBehavior::parse)
+                )
+            }
+            .attachTo(destroyer)
     }
 
     private fun initViewModelBindings() {
@@ -89,6 +100,7 @@ class CategoryEditorActivity : BaseActivity() {
             binding.inputCategoryName.setTextSafely(viewState.categoryName)
             binding.inputLayoutType.selectedItem = viewState.categoryLayoutType.type
             binding.inputBackgroundType.selectedItem = viewState.categoryBackgroundType.type
+            binding.inputClickBehavior.selectedItem = viewState.categoryClickBehavior?.type ?: SHORTCUT_BEHAVIOR_DEFAULT
             saveButton?.isVisible = viewState.saveButtonVisible
             setDialogState(viewState.dialogState, viewModel)
         }
@@ -132,5 +144,6 @@ class CategoryEditorActivity : BaseActivity() {
 
     companion object {
         private const val EXTRA_CATEGORY_ID = "category_id"
+        private const val SHORTCUT_BEHAVIOR_DEFAULT = "default"
     }
 }

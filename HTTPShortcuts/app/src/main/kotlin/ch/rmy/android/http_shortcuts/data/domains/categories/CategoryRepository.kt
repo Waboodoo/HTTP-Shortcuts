@@ -8,6 +8,7 @@ import ch.rmy.android.http_shortcuts.data.domains.getBase
 import ch.rmy.android.http_shortcuts.data.domains.getCategoryById
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.models.CategoryModel
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -38,13 +39,23 @@ class CategoryRepository : BaseRepository(RealmFactory.getInstance()) {
             getCategoryById(categoryId)
         }
 
-    fun createCategory(name: String): Completable =
+    fun createCategory(
+        name: String,
+        layoutType: CategoryLayoutType,
+        background: CategoryBackgroundType,
+        clickBehavior: ShortcutClickBehavior?,
+    ): Completable =
         commitTransaction {
             val base = getBase()
                 .findFirst()
                 ?: return@commitTransaction
             val categories = base.categories
-            val category = CategoryModel(name)
+            val category = CategoryModel(
+                name = name,
+                categoryLayoutType = layoutType,
+                categoryBackgroundType = background,
+                clickBehavior = clickBehavior,
+            )
             category.id = newUUID()
             categories.add(copy(category))
         }
@@ -62,7 +73,13 @@ class CategoryRepository : BaseRepository(RealmFactory.getInstance()) {
             category.deleteFromRealm()
         }
 
-    fun updateCategory(categoryId: CategoryId, name: String, layoutType: CategoryLayoutType, background: CategoryBackgroundType): Completable =
+    fun updateCategory(
+        categoryId: CategoryId,
+        name: String,
+        layoutType: CategoryLayoutType,
+        background: CategoryBackgroundType,
+        clickBehavior: ShortcutClickBehavior?,
+    ): Completable =
         commitTransaction {
             getCategoryById(categoryId)
                 .findFirst()
@@ -70,6 +87,7 @@ class CategoryRepository : BaseRepository(RealmFactory.getInstance()) {
                     category.name = name
                     category.categoryLayoutType = layoutType
                     category.categoryBackgroundType = background
+                    category.clickBehavior = clickBehavior
                 }
         }
 

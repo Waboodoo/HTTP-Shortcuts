@@ -49,6 +49,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/label_category_background" />
 
+            <ch.rmy.android.framework.ui.views.LabelledSpinner
+                android:id="@+id/input_click_behavior"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_click_behavior" />
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

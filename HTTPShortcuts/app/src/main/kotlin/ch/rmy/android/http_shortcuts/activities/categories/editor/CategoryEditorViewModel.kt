@@ -12,6 +12,7 @@ import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.models.CategoryModel
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import io.reactivex.Completable
@@ -63,9 +64,11 @@ class CategoryEditorViewModel(application: Application) :
         categoryName = category.name,
         categoryLayoutType = category.categoryLayoutType,
         categoryBackgroundType = category.categoryBackgroundType,
+        categoryClickBehavior = category.clickBehavior,
         originalCategoryName = category.name,
         originalCategoryLayoutType = category.categoryLayoutType,
         originalCategoryBackgroundType = category.categoryBackgroundType,
+        originalCategoryClickBehavior = category.clickBehavior,
     )
 
     fun onCategoryNameChanged(name: String) {
@@ -91,6 +94,12 @@ class CategoryEditorViewModel(application: Application) :
         }
     }
 
+    fun onClickBehaviorChanged(clickBehavior: ShortcutClickBehavior?) {
+        updateViewState {
+            copy(categoryClickBehavior = clickBehavior)
+        }
+    }
+
     fun onSaveButtonClicked() {
         doWithViewState { viewState ->
             if (!viewState.hasChanges) {
@@ -104,13 +113,19 @@ class CategoryEditorViewModel(application: Application) :
 
     private fun saveChanges(viewState: CategoryEditorViewState): Completable =
         if (isNewCategory) {
-            categoryRepository.createCategory(viewState.categoryName)
+            categoryRepository.createCategory(
+                name = viewState.categoryName,
+                layoutType = viewState.categoryLayoutType,
+                background = viewState.categoryBackgroundType,
+                clickBehavior = viewState.categoryClickBehavior,
+            )
         } else {
             categoryRepository.updateCategory(
                 category.id,
                 name = viewState.categoryName,
                 layoutType = viewState.categoryLayoutType,
                 background = viewState.categoryBackgroundType,
+                clickBehavior = viewState.categoryClickBehavior,
             )
                 .andThen(
                     Completable.fromAction {

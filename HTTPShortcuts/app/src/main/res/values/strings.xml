@@ -192,6 +192,8 @@
     <string name="settings_click_behavior_edit">Edit the Shortcut</string>
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: show options / context menu -->
     <string name="settings_click_behavior_menu">Show the Options Menu</string>
+    <!-- Option in category editor to choose the shortcut click behavior, to set it to the global default -->
+    <string name="settings_click_behavior_global_default">Use global default</string>
     <!-- Title of import/export page, for importing and exporting shortcuts and variables -->
     <string name="title_import_export">Import / Export</string>
     <!-- Section title on settings screen for privacy related settings -->

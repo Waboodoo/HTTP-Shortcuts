@@ -6,6 +6,7 @@ import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.utils.PreferencesStore
 import ch.rmy.android.framework.utils.UUIDUtils
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 
 class Settings(context: Context) : PreferencesStore(context) {
 
@@ -21,8 +22,8 @@ class Settings(context: Context) : PreferencesStore(context) {
     val language: String?
         get() = getString(KEY_LANGUAGE)?.takeUnless { it == LANGUAGE_DEFAULT }
 
-    val clickBehavior: String
-        get() = getString(KEY_CLICK_BEHAVIOR) ?: CLICK_BEHAVIOR_RUN
+    val clickBehavior: ShortcutClickBehavior
+        get() = ShortcutClickBehavior.parse(getString(KEY_CLICK_BEHAVIOR))
 
     @Suppress("unused")
     val isCrashReportingAllowed: Boolean
@@ -77,10 +78,6 @@ class Settings(context: Context) : PreferencesStore(context) {
     companion object {
 
         const val LANGUAGE_DEFAULT = "default"
-
-        const val CLICK_BEHAVIOR_RUN = "run"
-        const val CLICK_BEHAVIOR_EDIT = "edit"
-        const val CLICK_BEHAVIOR_MENU = "menu"
 
         const val THEME_BLUE = "blue"
         const val THEME_GREEN = "green"
