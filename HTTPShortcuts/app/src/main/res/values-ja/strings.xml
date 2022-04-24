@@ -390,9 +390,6 @@
     <!-- One of two options when picking the layout for a category: Show shortcuts in a list -->
     <string name="layout_type_linear_list">"リスト"</string>
 
-    <!-- One of two options when picking the layout for a category: Show shortcuts in a grid -->
-    <string name="layout_type_grid">"グリッド"</string>
-
     <!-- Option to choose from when selecting the background of a category: Plain black -->
     <string name="category_background_type_black">"黒色"</string>
 
