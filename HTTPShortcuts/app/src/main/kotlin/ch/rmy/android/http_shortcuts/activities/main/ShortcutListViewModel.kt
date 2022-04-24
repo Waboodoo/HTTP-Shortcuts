@@ -10,6 +10,7 @@ import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.extensions.toLocalizable
+import ch.rmy.android.framework.extensions.truncate
 import ch.rmy.android.framework.ui.IntentBuilder
 import ch.rmy.android.framework.utils.localization.QuantityStringLocalizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
@@ -341,6 +342,7 @@ class ShortcutListViewModel(
         val shortcut = getShortcutById(shortcutId) ?: return
         val name = shortcut.name
         val newName = context.getString(R.string.template_shortcut_name_copy, shortcut.name)
+            .truncate(ShortcutModel.NAME_MAX_LENGTH)
         val categoryId = category.id
 
         val newPosition = category.shortcuts

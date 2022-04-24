@@ -67,6 +67,7 @@ class RemoteEditManager(
                 file.delete()
             }
         }
+            .subscribeOn(Schedulers.io())
 
     fun download(deviceId: String, password: String): Single<Importer.ImportStatus> =
         Single.fromCallable {

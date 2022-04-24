@@ -70,10 +70,20 @@ open class CategoryModel(
             throw IllegalArgumentException("Invalid background: $background")
         }
 
+        if (name.isBlank()) {
+            throw IllegalArgumentException("Category without a name found")
+        }
+
+        if (name.length > NAME_MAX_LENGTH) {
+            throw IllegalArgumentException("Category name too long: $name")
+        }
+
         shortcuts.forEach(ShortcutModel::validate)
     }
 
     companion object {
         const val FIELD_ID = "id"
+
+        const val NAME_MAX_LENGTH = 50
     }
 }

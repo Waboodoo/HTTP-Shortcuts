@@ -34,7 +34,6 @@
                 android:hint="@string/placeholder_category_name"
                 android:importantForAutofill="no"
                 android:inputType="text"
-                android:maxLength="20"
                 android:maxLines="1" />
 
             <ch.rmy.android.framework.ui.views.LabelledSpinner

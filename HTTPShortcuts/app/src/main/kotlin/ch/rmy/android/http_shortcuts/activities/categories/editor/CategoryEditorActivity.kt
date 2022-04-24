@@ -11,6 +11,7 @@ import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.isVisible
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.observeTextChanges
+import ch.rmy.android.framework.extensions.setMaxLength
 import ch.rmy.android.framework.extensions.setTextSafely
 import ch.rmy.android.framework.ui.BaseActivityResultContract
 import ch.rmy.android.framework.ui.BaseIntentBuilder
@@ -21,6 +22,7 @@ import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
+import ch.rmy.android.http_shortcuts.data.models.CategoryModel
 import ch.rmy.android.http_shortcuts.databinding.ActivityCategoryEditorBinding
 import ch.rmy.android.http_shortcuts.utils.PermissionManager
 
@@ -47,6 +49,8 @@ class CategoryEditorActivity : BaseActivity() {
     private fun initViews() {
         binding = applyBinding(ActivityCategoryEditorBinding.inflate(layoutInflater))
         title = ""
+
+        binding.inputCategoryName.setMaxLength(CategoryModel.NAME_MAX_LENGTH)
 
         binding.inputLayoutType.setItemsFromPairs(
             CategoryLayoutType.LINEAR_LIST.type to getString(R.string.layout_type_linear_list),
