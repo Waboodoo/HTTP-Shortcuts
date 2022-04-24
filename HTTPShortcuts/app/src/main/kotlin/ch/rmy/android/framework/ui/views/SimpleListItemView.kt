@@ -3,6 +3,7 @@ package ch.rmy.android.framework.ui.views
 import android.content.Context
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.res.use
 import androidx.core.view.isVisible
 import ch.rmy.android.framework.extensions.addRippleAnimation
 import ch.rmy.android.framework.extensions.layoutInflater

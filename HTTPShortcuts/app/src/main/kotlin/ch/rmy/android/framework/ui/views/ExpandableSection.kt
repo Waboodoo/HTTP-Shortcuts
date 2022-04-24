@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.res.use
 import ch.rmy.android.framework.extensions.addRippleAnimation
 import ch.rmy.android.framework.extensions.layoutInflater
 import ch.rmy.android.http_shortcuts.databinding.ViewExpandableSectionBinding

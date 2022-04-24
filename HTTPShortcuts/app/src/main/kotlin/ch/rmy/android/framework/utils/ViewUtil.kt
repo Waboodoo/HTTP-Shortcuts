@@ -3,6 +3,7 @@ package ch.rmy.android.framework.utils
 import android.content.Context
 import android.util.AttributeSet
 import androidx.annotation.AttrRes
+import androidx.core.content.res.use
 
 object ViewUtil {
     fun getAttributeValue(context: Context, attrs: AttributeSet?, @AttrRes attributeId: Int): Int? =

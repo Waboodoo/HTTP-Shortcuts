@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.utils
 
 import android.content.Context
 import android.graphics.Color
+import androidx.core.content.res.use
 import ch.rmy.android.framework.extensions.color
 import ch.rmy.android.framework.extensions.isDarkThemeEnabled
 import ch.rmy.android.http_shortcuts.R
@@ -53,11 +54,8 @@ class ThemeHelper(context: Context) {
         if (isDarkThemeEnabled) {
             color(context, R.color.primary_color)
         } else {
-            val attributes = context.obtainStyledAttributes(intArrayOf(R.attr.colorPrimary))
-            try {
+            context.obtainStyledAttributes(intArrayOf(R.attr.colorPrimary)).use { attributes ->
                 attributes.getColor(0, color(context, R.color.primary_alt0))
-            } finally {
-                attributes.recycle()
             }
         }
 }

@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.core.content.res.use
 import ch.rmy.android.framework.extensions.layoutInflater
 import ch.rmy.android.http_shortcuts.databinding.LabelledSpinnerBinding
 import io.reactivex.Observable
