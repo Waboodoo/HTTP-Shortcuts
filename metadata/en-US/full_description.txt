@@ -3,11 +3,10 @@ Place shortcuts (widgets) on your home screen to submit HTTP requests to all you
 <ul>
 <li>HTTP and HTTPS</li>
 <li>GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS and TRACE</li>
-<li>Basic Authentication, Digest Authentication & Bearer Authentication</li>
+<li>Basic Authentication, Digest Authentication, Bearer Authentication & Client Certificate Authentication</li>
 <li>Custom request headers</li>
 <li>Custom request body (text only)</li>
 <li>Upload files as form-data</li>
-<li>Option to accept all certificates (if you know what you're doing)</li>
 <li>Support for HTTP proxies</li>
 <li>Built-in icons, support for Ipack icons and custom icons</li>
 <li>Display response as a toast, window or dialog, or run silently</li>
