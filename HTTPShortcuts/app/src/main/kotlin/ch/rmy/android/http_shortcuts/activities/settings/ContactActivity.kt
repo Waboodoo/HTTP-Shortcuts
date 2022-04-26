@@ -107,11 +107,20 @@ class ContactActivity : BaseActivity() {
     private fun collectMetaData() =
         MetaData(
             androidSdkVersion = Build.VERSION.SDK_INT,
-            appVersion = packageManager.getPackageInfo(packageName, 0).versionName,
+            appVersionCode = getVersionCode(),
             device = "${Build.MANUFACTURER} ${Build.MODEL}",
             language = Locale.getDefault().language,
             userId = Settings(context).userId,
         )
+
+    private fun getVersionCode(): Long =
+        with(packageManager.getPackageInfo(packageName, 0)) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                longVersionCode
+            } else {
+                versionCode.toLong()
+            }
+        }
 
     class IntentBuilder : BaseIntentBuilder(ContactActivity::class.java)
 
