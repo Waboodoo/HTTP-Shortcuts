@@ -12,15 +12,12 @@ import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.ui.BaseActivityResultContract
 import ch.rmy.android.framework.ui.BaseIntentBuilder
-import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.dtos.LauncherShortcut
 import ch.rmy.android.http_shortcuts.databinding.ActivityWidgetSettingsBinding
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
-import com.skydoves.colorpickerview.ColorPickerDialog
-import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
 
 class WidgetSettingsActivity : BaseActivity() {
 
@@ -64,38 +61,9 @@ class WidgetSettingsActivity : BaseActivity() {
             binding.widgetLabel.text = viewState.shortcutName
             binding.inputLabelColor.subtitle = viewState.labelColorFormatted
             binding.widgetLabel.setTextColor(viewState.labelColor)
+            setDialogState(viewState.dialogState, viewModel)
         }
         viewModel.events.observe(this, ::handleEvent)
-    }
-
-    override fun handleEvent(event: ViewModelEvent) {
-        when (event) {
-            is WidgetSettingsEvent.ShowLabelColorPicker -> showLabelColorPicker(event.initialColor)
-            else -> super.handleEvent(event)
-        }
-    }
-
-    private fun showLabelColorPicker(initialColor: Int) {
-        // TODO: Migrate this dialog into a viewstate
-        ColorPickerDialog.Builder(context)
-            .setPositiveButton(
-                R.string.dialog_ok,
-                ColorEnvelopeListener { envelope, fromUser ->
-                    if (fromUser) {
-                        viewModel.onLabelColorSelected(envelope.color)
-                    }
-                },
-            )
-            .setNegativeButton(R.string.dialog_cancel) { dialogInterface, _ ->
-                dialogInterface.dismiss()
-            }
-            .attachAlphaSlideBar(false)
-            .attachBrightnessSlideBar(true)
-            .setBottomSpace(12)
-            .apply {
-                colorPickerView.setInitialColor(initialColor)
-            }
-            .show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

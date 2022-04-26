@@ -3,10 +3,17 @@ package ch.rmy.android.http_shortcuts.activities.widget
 import android.app.Application
 import android.graphics.Color
 import ch.rmy.android.framework.viewmodel.BaseViewModel
+import ch.rmy.android.framework.viewmodel.WithDialog
+import ch.rmy.android.framework.viewmodel.viewstate.DialogState
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
+import com.skydoves.colorpickerview.ColorPickerDialog
+import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
 
-class WidgetSettingsViewModel(application: Application) : BaseViewModel<WidgetSettingsViewModel.InitData, WidgetSettingsViewState>(application) {
+class WidgetSettingsViewModel(application: Application) :
+    BaseViewModel<WidgetSettingsViewModel.InitData, WidgetSettingsViewState>(application),
+    WithDialog {
 
     private val shortcutId: ShortcutId
         get() = initData.shortcutId
@@ -21,6 +28,14 @@ class WidgetSettingsViewModel(application: Application) : BaseViewModel<WidgetSe
         val shortcutIcon: ShortcutIcon,
     )
 
+    override var dialogState: DialogState?
+        get() = currentViewState?.dialogState
+        set(value) {
+            updateViewState {
+                copy(dialogState = value)
+            }
+        }
+
     override fun initViewState() = WidgetSettingsViewState(
         showLabel = true,
         labelColor = Color.WHITE,
@@ -29,8 +44,35 @@ class WidgetSettingsViewModel(application: Application) : BaseViewModel<WidgetSe
     )
 
     fun onLabelColorInputClicked() {
+        showColorPicker()
+    }
+
+    private fun showColorPicker() {
         doWithViewState { viewState ->
-            emitEvent(WidgetSettingsEvent.ShowLabelColorPicker(viewState.labelColor))
+            dialogState = DialogState.create("widget-color-picker") {
+                ColorPickerDialog.Builder(context)
+                    .setPositiveButton(
+                        R.string.dialog_ok,
+                        ColorEnvelopeListener { envelope, fromUser ->
+                            if (fromUser) {
+                                onLabelColorSelected(envelope.color)
+                            }
+                        },
+                    )
+                    .setNegativeButton(R.string.dialog_cancel) { dialogInterface, _ ->
+                        dialogInterface.dismiss()
+                    }
+                    .setOnDismissListener {
+                        dialogState?.let(::onDialogDismissed)
+                    }
+                    .attachAlphaSlideBar(false)
+                    .attachBrightnessSlideBar(true)
+                    .setBottomSpace(12)
+                    .apply {
+                        colorPickerView.setInitialColor(viewState.labelColor)
+                    }
+                    .create()
+            }
         }
     }
 

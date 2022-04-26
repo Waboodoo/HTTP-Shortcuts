@@ -110,26 +110,31 @@ class CategoryEditorViewModel(application: Application) :
     }
 
     fun onColorButtonClicked() {
-        dialogState = DialogState.create("color-picker") {
-            ColorPickerDialog.Builder(context)
-                .setPositiveButton(
-                    R.string.dialog_ok,
-                    ColorEnvelopeListener { envelope, fromUser ->
-                        if (fromUser) {
-                            onBackgroundColorSelected(envelope.color)
-                        }
-                    },
-                )
-                .setNegativeButton(R.string.dialog_cancel) { dialogInterface, _ ->
-                    dialogInterface.dismiss()
-                }
-                .attachAlphaSlideBar(false)
-                .attachBrightnessSlideBar(true)
-                .setBottomSpace(12)
-                .apply {
-                    colorPickerView.setInitialColor(currentViewState?.backgroundColor ?: Color.BLACK)
-                }
-                .create()
+        doWithViewState { viewState ->
+            dialogState = DialogState.create("category-color-picker") {
+                ColorPickerDialog.Builder(context)
+                    .setPositiveButton(
+                        R.string.dialog_ok,
+                        ColorEnvelopeListener { envelope, fromUser ->
+                            if (fromUser) {
+                                onBackgroundColorSelected(envelope.color)
+                            }
+                        },
+                    )
+                    .setNegativeButton(R.string.dialog_cancel) { dialogInterface, _ ->
+                        dialogInterface.dismiss()
+                    }
+                    .setOnDismissListener {
+                        dialogState?.let(::onDialogDismissed)
+                    }
+                    .attachAlphaSlideBar(false)
+                    .attachBrightnessSlideBar(true)
+                    .setBottomSpace(12)
+                    .apply {
+                        colorPickerView.setInitialColor(viewState.backgroundColor)
+                    }
+                    .create()
+            }
         }
     }
 

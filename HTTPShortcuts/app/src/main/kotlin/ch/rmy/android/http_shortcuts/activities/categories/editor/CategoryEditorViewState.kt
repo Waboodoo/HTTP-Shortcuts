@@ -33,7 +33,7 @@ data class CategoryEditorViewState(
         get() = categoryBackgroundType is CategoryBackgroundType.Color
 
     val backgroundColor: Int
-        get() = (categoryBackgroundType as? CategoryBackgroundType.Color)?.color ?: Color.BLACK
+        get() = (categoryBackgroundType as? CategoryBackgroundType.Color)?.color ?: Color.WHITE
 
     val backgroundColorAsText: String
         get() = (categoryBackgroundType as? CategoryBackgroundType.Color)?.getHexString() ?: ""
