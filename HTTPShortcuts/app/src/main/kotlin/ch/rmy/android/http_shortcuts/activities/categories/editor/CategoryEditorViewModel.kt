@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.categories.editor
 
 import android.app.Application
+import android.graphics.Color
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
@@ -8,6 +9,7 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.categories.editor.models.CategoryBackground
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
@@ -15,6 +17,8 @@ import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.models.CategoryModel
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
+import com.skydoves.colorpickerview.ColorPickerDialog
+import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
 import io.reactivex.Completable
 
 class CategoryEditorViewModel(application: Application) :
@@ -83,13 +87,18 @@ class CategoryEditorViewModel(application: Application) :
         }
     }
 
-    fun onBackgroundChanged(backgroundType: CategoryBackgroundType) {
+    fun onBackgroundChanged(backgroundType: CategoryBackground) {
         doWithViewState { viewState ->
-            if (backgroundType == CategoryBackgroundType.WALLPAPER && viewState.categoryBackgroundType != CategoryBackgroundType.WALLPAPER) {
+            if (backgroundType == CategoryBackground.WALLPAPER && viewState.categoryBackground != CategoryBackground.WALLPAPER) {
                 emitEvent(CategoryEditorEvent.RequestFilePermissionsIfNeeded)
             }
+            val newCategoryBackgroundType = when (backgroundType) {
+                CategoryBackground.DEFAULT -> CategoryBackgroundType.Default
+                CategoryBackground.COLOR -> CategoryBackgroundType.Color(viewState.backgroundColor)
+                CategoryBackground.WALLPAPER -> CategoryBackgroundType.Wallpaper
+            }
             updateViewState {
-                copy(categoryBackgroundType = backgroundType)
+                copy(categoryBackgroundType = newCategoryBackgroundType)
             }
         }
     }
@@ -97,6 +106,36 @@ class CategoryEditorViewModel(application: Application) :
     fun onClickBehaviorChanged(clickBehavior: ShortcutClickBehavior?) {
         updateViewState {
             copy(categoryClickBehavior = clickBehavior)
+        }
+    }
+
+    fun onColorButtonClicked() {
+        dialogState = DialogState.create("color-picker") {
+            ColorPickerDialog.Builder(context)
+                .setPositiveButton(
+                    R.string.dialog_ok,
+                    ColorEnvelopeListener { envelope, fromUser ->
+                        if (fromUser) {
+                            onBackgroundColorSelected(envelope.color)
+                        }
+                    },
+                )
+                .setNegativeButton(R.string.dialog_cancel) { dialogInterface, _ ->
+                    dialogInterface.dismiss()
+                }
+                .attachAlphaSlideBar(false)
+                .attachBrightnessSlideBar(true)
+                .setBottomSpace(12)
+                .apply {
+                    colorPickerView.setInitialColor(currentViewState?.backgroundColor ?: Color.BLACK)
+                }
+                .create()
+        }
+    }
+
+    private fun onBackgroundColorSelected(color: Int) {
+        updateViewState {
+            copy(categoryBackgroundType = CategoryBackgroundType.Color(color))
         }
     }
 

@@ -367,8 +367,8 @@
     <string name="layout_type_wide_grid">Wide Grid</string>
     <!-- Option to choose from when selecting the background of a category: Default (white, or black in night mode) -->
     <string name="category_background_type_default">Default</string>
-    <!-- Option to choose from when selecting the background of a category: Plain black -->
-    <string name="category_background_type_black">Black</string>
+    <!-- Option to choose from when selecting the background of a category: custom color -->
+    <string name="category_background_type_color">Color</string>
     <!-- Option to choose from when selecting the background of a category: Use phone's wallpaper -->
     <string name="category_background_type_wallpaper">Wallpaper</string>
     <!-- Dialog prompt/placeholder in input field, asking user to enter a name for a category -->

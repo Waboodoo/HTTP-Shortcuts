@@ -76,6 +76,7 @@ class WidgetSettingsActivity : BaseActivity() {
     }
 
     private fun showLabelColorPicker(initialColor: Int) {
+        // TODO: Migrate this dialog into a viewstate
         ColorPickerDialog.Builder(context)
             .setPositiveButton(
                 R.string.dialog_ok,

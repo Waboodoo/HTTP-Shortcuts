@@ -142,15 +142,15 @@ class ShortcutListFragment : BaseFragment<FragmentListBinding>() {
         previousBackground = background
         binding.background.apply {
             when (background) {
-                CategoryBackgroundType.WHITE -> {
+                is CategoryBackgroundType.Default -> {
                     setImageDrawable(null)
                     setBackgroundColor(color(requireContext(), R.color.activity_background))
                 }
-                CategoryBackgroundType.BLACK -> {
+                is CategoryBackgroundType.Color -> {
                     setImageDrawable(null)
-                    setBackgroundColor(color(requireContext(), R.color.activity_background_dark))
+                    setBackgroundColor(background.color)
                 }
-                CategoryBackgroundType.WALLPAPER -> {
+                is CategoryBackgroundType.Wallpaper -> {
                     wallpaper
                         ?.also {
                             setImageDrawable(it)

@@ -33,7 +33,6 @@
     <item name="variable" type="color">#FF3F51B5</item>
     <item name="shortcut" type="color">#FF51B53F</item>
     <item name="activity_background" type="color">#FAFAFA</item>
-    <item name="activity_background_dark" type="color">#FF101010</item>
     <item name="text_color_primary_bright" type="color">#FAFAFA</item>
     <item name="text_color_primary_dark" type="color">#000000</item>
     <item name="text_color_secondary_bright" type="color">#C0C0C0</item>

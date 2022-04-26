@@ -8,7 +8,7 @@ data class ShortcutListViewState(
     val shortcuts: List<ShortcutListItem> = emptyList(),
     val isInMovingMode: Boolean = false,
     val isAppLocked: Boolean = false,
-    val background: CategoryBackgroundType = CategoryBackgroundType.WHITE,
+    val background: CategoryBackgroundType = CategoryBackgroundType.Default,
 ) {
     val isDraggingEnabled
         get() = !isAppLocked && isInMovingMode

@@ -14,4 +14,6 @@
     <string name="label_widget">Customisable Widget</string>
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">Allow Receiving Value from Share Dialogue</string>
+    <!-- Option to choose from when selecting the background of a category: custom color -->
+    <string name="category_background_type_color">Colour</string>
 </resources>

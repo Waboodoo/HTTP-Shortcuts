@@ -48,6 +48,20 @@
                 android:layout_height="wrap_content"
                 android:text="@string/label_category_background" />
 
+            <TextView
+                android:id="@+id/input_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:padding="8dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:shadowColor="#aa000000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="5"
+                android:textColor="#ffffff" />
+
             <ch.rmy.android.framework.ui.views.LabelledSpinner
                 android:id="@+id/input_click_behavior"
                 android:layout_width="match_parent"

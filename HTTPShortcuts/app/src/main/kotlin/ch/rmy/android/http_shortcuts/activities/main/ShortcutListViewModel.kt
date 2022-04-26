@@ -163,9 +163,9 @@ class ShortcutListViewModel(
             listOf(ShortcutListItem.EmptyState)
         } else {
             val textColor = when (category.categoryBackgroundType) {
-                CategoryBackgroundType.WHITE -> ShortcutListItem.TextColor.DARK
-                CategoryBackgroundType.BLACK -> ShortcutListItem.TextColor.BRIGHT
-                CategoryBackgroundType.WALLPAPER -> ShortcutListItem.TextColor.BRIGHT
+                is CategoryBackgroundType.Default -> ShortcutListItem.TextColor.DARK
+                is CategoryBackgroundType.Color -> ShortcutListItem.TextColor.BRIGHT
+                is CategoryBackgroundType.Wallpaper -> ShortcutListItem.TextColor.BRIGHT
             }
             shortcuts.map { shortcut ->
                 ShortcutListItem.Shortcut(
@@ -175,7 +175,7 @@ class ShortcutListViewModel(
                     icon = shortcut.icon,
                     isPending = pendingShortcuts.any { it.shortcutId == shortcut.id },
                     textColor = textColor,
-                    useTextShadow = category.categoryBackgroundType == CategoryBackgroundType.WALLPAPER,
+                    useTextShadow = category.categoryBackgroundType.useTextShadow,
                 )
             }
         }

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.core.view.isVisible
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.consume
@@ -18,8 +19,8 @@ import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.activities.categories.editor.models.CategoryBackground
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
-import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.models.CategoryModel
@@ -59,9 +60,9 @@ class CategoryEditorActivity : BaseActivity() {
             CategoryLayoutType.WIDE_GRID.type to getString(R.string.layout_type_wide_grid),
         )
         binding.inputBackgroundType.setItemsFromPairs(
-            CategoryBackgroundType.WHITE.type to getString(R.string.category_background_type_default),
-            CategoryBackgroundType.BLACK.type to getString(R.string.category_background_type_black),
-            CategoryBackgroundType.WALLPAPER.type to getString(R.string.category_background_type_wallpaper),
+            CategoryBackground.DEFAULT.name to getString(R.string.category_background_type_default),
+            CategoryBackground.COLOR.name to getString(R.string.category_background_type_color),
+            CategoryBackground.WALLPAPER.name to getString(R.string.category_background_type_wallpaper),
         )
         binding.inputClickBehavior.setItemsFromPairs(
             SHORTCUT_BEHAVIOR_DEFAULT to getString(R.string.settings_click_behavior_global_default),
@@ -69,6 +70,9 @@ class CategoryEditorActivity : BaseActivity() {
             ShortcutClickBehavior.EDIT.type to getString(R.string.settings_click_behavior_edit),
             ShortcutClickBehavior.MENU.type to getString(R.string.settings_click_behavior_menu),
         )
+        binding.inputColor.setOnClickListener {
+            viewModel.onColorButtonClicked()
+        }
     }
 
     private fun initUserInputBindings() {
@@ -86,7 +90,7 @@ class CategoryEditorActivity : BaseActivity() {
 
         binding.inputBackgroundType.selectionChanges
             .subscribe {
-                viewModel.onBackgroundChanged(CategoryBackgroundType.parse(it))
+                viewModel.onBackgroundChanged(CategoryBackground.valueOf(it))
             }
             .attachTo(destroyer)
         binding.inputClickBehavior.selectionChanges
@@ -105,8 +109,13 @@ class CategoryEditorActivity : BaseActivity() {
             setTitle(viewState.toolbarTitle)
             binding.inputCategoryName.setTextSafely(viewState.categoryName)
             binding.inputLayoutType.selectedItem = viewState.categoryLayoutType.type
-            binding.inputBackgroundType.selectedItem = viewState.categoryBackgroundType.type
+            binding.inputBackgroundType.selectedItem = viewState.categoryBackground.name
             binding.inputClickBehavior.selectedItem = viewState.categoryClickBehavior?.type ?: SHORTCUT_BEHAVIOR_DEFAULT
+            binding.inputColor.isVisible = viewState.colorButtonVisible
+            if (viewState.colorButtonVisible) {
+                binding.inputColor.text = viewState.backgroundColorAsText
+                binding.inputColor.setBackgroundColor(viewState.backgroundColor)
+            }
             saveButton?.isVisible = viewState.saveButtonVisible
             setDialogState(viewState.dialogState, viewModel)
         }

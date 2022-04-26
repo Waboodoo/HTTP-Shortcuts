@@ -1,7 +1,9 @@
 package ch.rmy.android.http_shortcuts.activities.categories.editor
 
+import android.graphics.Color
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
+import ch.rmy.android.http_shortcuts.activities.categories.editor.models.CategoryBackground
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
@@ -26,4 +28,20 @@ data class CategoryEditorViewState(
 
     val saveButtonVisible: Boolean =
         hasChanges && categoryName.isNotBlank()
+
+    val colorButtonVisible: Boolean
+        get() = categoryBackgroundType is CategoryBackgroundType.Color
+
+    val backgroundColor: Int
+        get() = (categoryBackgroundType as? CategoryBackgroundType.Color)?.color ?: Color.BLACK
+
+    val backgroundColorAsText: String
+        get() = (categoryBackgroundType as? CategoryBackgroundType.Color)?.getHexString() ?: ""
+
+    val categoryBackground: CategoryBackground
+        get() = when (categoryBackgroundType) {
+            is CategoryBackgroundType.Default -> CategoryBackground.DEFAULT
+            is CategoryBackgroundType.Color -> CategoryBackground.COLOR
+            is CategoryBackgroundType.Wallpaper -> CategoryBackground.WALLPAPER
+        }
 }

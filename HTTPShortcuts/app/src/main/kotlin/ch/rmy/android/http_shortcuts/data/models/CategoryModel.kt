@@ -16,7 +16,7 @@ open class CategoryModel(
     @Required
     var name: String = "",
     categoryLayoutType: CategoryLayoutType = CategoryLayoutType.LINEAR_LIST,
-    categoryBackgroundType: CategoryBackgroundType = CategoryBackgroundType.WHITE,
+    categoryBackgroundType: CategoryBackgroundType = CategoryBackgroundType.Default,
     clickBehavior: ShortcutClickBehavior? = null,
 ) : RealmObject() {
 
@@ -28,7 +28,7 @@ open class CategoryModel(
     private var layoutType: String = CategoryLayoutType.LINEAR_LIST.type
 
     @Required
-    private var background: String = CategoryBackgroundType.WHITE.type
+    private var background: String = CategoryBackgroundType.Default.serialize()
     var hidden: Boolean = false
 
     private var shortcutClickBehavior: String? = null
@@ -42,7 +42,7 @@ open class CategoryModel(
     var categoryBackgroundType
         get() = CategoryBackgroundType.parse(background)
         set(value) {
-            background = value.type
+            background = value.serialize()
         }
 
     var clickBehavior: ShortcutClickBehavior?
@@ -53,7 +53,7 @@ open class CategoryModel(
 
     init {
         layoutType = categoryLayoutType.type
-        background = categoryBackgroundType.type
+        background = categoryBackgroundType.serialize()
         shortcutClickBehavior = clickBehavior?.type
     }
 
@@ -64,10 +64,6 @@ open class CategoryModel(
 
         if (CategoryLayoutType.values().none { it.type == layoutType }) {
             throw IllegalArgumentException("Invalid layout type: $layoutType")
-        }
-
-        if (CategoryBackgroundType.values().none { it.type == background }) {
-            throw IllegalArgumentException("Invalid background: $background")
         }
 
         if (name.isBlank()) {
