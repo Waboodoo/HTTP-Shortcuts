@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.scripting
 import android.content.Context
 import androidx.annotation.Keep
 import ch.rmy.android.framework.extensions.getCaseInsensitive
+import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
@@ -179,8 +180,27 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
             object : JSFunction(jsContext, "run") {
                 @Suppress("unused")
                 @Keep
-                fun run(actionType: String, data: List<JSValue?>): JSValue? {
+                fun run(actionType: String, rawData: JSValue?): JSValue? {
                     logInfo("Running action of type: $actionType")
+
+                    val data = when {
+                        rawData?.isArray == true -> {
+                            rawData
+                                .toJSArray()
+                                .toList()
+                                .map { it as? JSValue }
+                        }
+                        rawData?.isObject == true -> {
+                            logException(Exception("Unexpectedly received JSObject instead of JSArray as argument for \"$actionType\" action"))
+                            rawData
+                                .toObject()
+                                .let { obj ->
+                                    obj.propertyNames()
+                                        .map(obj::property)
+                                }
+                        }
+                        else -> emptyList()
+                    }
                     val action = actionFactory.fromDTO(
                         ActionDTO(
                             type = actionType,
