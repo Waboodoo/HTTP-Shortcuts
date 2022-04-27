@@ -129,19 +129,30 @@ class ShortcutEditorActivity : BaseActivity() {
             binding.iconContainer.isClickable = viewState.isIconClickable
             binding.iconLoadingIndicator.isVisible = viewState.iconLoading
             binding.inputShortcutName.setTextSafely(viewState.shortcutName)
+            binding.inputShortcutName.isEnabled = !viewState.isInputDisabled
             binding.inputDescription.setTextSafely(viewState.shortcutDescription)
+            binding.inputDescription.isEnabled = !viewState.isInputDisabled
             binding.buttonBasicRequestSettings.isVisible = type.usesUrl
+            binding.buttonBasicRequestSettings.isEnabled = !viewState.isInputDisabled
             binding.dividerBelowBasicRequestSettings.isVisible = type.usesUrl
             binding.buttonHeaders.isVisible = type.usesRequestOptions
+            binding.buttonHeaders.isEnabled = !viewState.isInputDisabled
             binding.dividerBelowHeaders.isVisible = type.usesRequestOptions
             binding.buttonRequestBody.isVisible = type.usesRequestOptions
+            binding.buttonRequestBody.isEnabled = !viewState.isInputDisabled
             binding.dividerBelowRequestBody.isVisible = type.usesRequestOptions
             binding.buttonAuthentication.isVisible = type.usesRequestOptions
+            binding.buttonAuthentication.isEnabled = !viewState.isInputDisabled
             binding.dividerBelowAuthentication.isVisible = type.usesRequestOptions
             binding.buttonResponseHandling.isVisible = type.usesResponse
+            binding.buttonResponseHandling.isEnabled = !viewState.isInputDisabled
             binding.buttonAdvancedTechnicalSettings.isVisible = type.usesRequestOptions
+            binding.buttonAdvancedTechnicalSettings.isEnabled = !viewState.isInputDisabled
             binding.buttonScripting.isVisible = type.usesScriptingEditor
+            binding.buttonScripting.isEnabled = !viewState.isInputDisabled
             binding.buttonTriggerShortcuts.isVisible = type == ShortcutExecutionType.TRIGGER
+            binding.buttonTriggerShortcuts.isEnabled = !viewState.isInputDisabled
+            binding.buttonExecutionSettings.isEnabled = !viewState.isInputDisabled
             binding.dividerBelowScripting.isVisible = type.usesScriptingEditor || type == ShortcutExecutionType.TRIGGER
             binding.buttonBasicRequestSettings.setSubtitle(viewState.basicSettingsSubtitle)
             binding.buttonHeaders.setSubtitle(viewState.headersSubtitle)
@@ -150,8 +161,8 @@ class ShortcutEditorActivity : BaseActivity() {
             binding.buttonScripting.setSubtitle(viewState.scriptingSubtitle)
             binding.buttonTriggerShortcuts.setSubtitle(viewState.triggerShortcutsSubtitle)
             binding.buttonRequestBody.isEnabled = viewState.requestBodyButtonEnabled
-            testMenuItem?.isVisible = viewState.testButtonVisible
-            saveMenuItem?.isVisible = viewState.saveButtonVisible
+            testMenuItem?.isVisible = viewState.isExecuteButtonVisible
+            saveMenuItem?.isVisible = viewState.isSaveButtonVisible
             setDialogState(viewState.dialogState, viewModel)
         }
         viewModel.events.observe(this, ::handleEvent)

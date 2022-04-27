@@ -73,6 +73,14 @@ class ShortcutEditorViewModel(
     }
 
     private var isSaving = false
+        set(value) {
+            if (field != value) {
+                field = value
+                updateViewState {
+                    copy(isInputDisabled = value)
+                }
+            }
+        }
 
     private var oldShortcut: ShortcutModel? = null
 
@@ -145,8 +153,8 @@ class ShortcutEditorViewModel(
                         shortcutIcon = shortcut.icon,
                         shortcutName = shortcut.name,
                         shortcutDescription = shortcut.description,
-                        testButtonVisible = canExecute(),
-                        saveButtonVisible = hasChanges(),
+                        isExecutable = canExecute(),
+                        hasChanges = hasChanges(),
                         requestBodyButtonEnabled = shortcut.allowsBody(),
                         basicSettingsSubtitle = getBasicSettingsSubtitle(),
                         headersSubtitle = getHeadersSubtitle(),
@@ -283,6 +291,9 @@ class ShortcutEditorViewModel(
         }
 
     fun onShortcutIconChanged(icon: ShortcutIcon) {
+        if (isSaving) {
+            return
+        }
         updateViewState {
             copy(shortcutIcon = icon)
         }
@@ -292,7 +303,7 @@ class ShortcutEditorViewModel(
     }
 
     fun onShortcutNameChanged(name: String) {
-        if (!isInitialized) {
+        if (!isInitialized || isSaving) {
             return
         }
         updateViewState {
@@ -304,7 +315,7 @@ class ShortcutEditorViewModel(
     }
 
     fun onShortcutDescriptionChanged(description: String) {
-        if (!isInitialized) {
+        if (!isInitialized || isSaving) {
             return
         }
         updateViewState {
@@ -316,8 +327,11 @@ class ShortcutEditorViewModel(
     }
 
     fun onTestButtonClicked() {
+        if (isSaving) {
+            return
+        }
         doWithViewState { viewState ->
-            if (!viewState.testButtonVisible) {
+            if (!viewState.isExecutable) {
                 return@doWithViewState
             }
             waitForOperationsToFinish {
@@ -327,8 +341,11 @@ class ShortcutEditorViewModel(
     }
 
     fun onSaveButtonClicked() {
+        if (isSaving) {
+            return
+        }
         doWithViewState { viewState ->
-            if (!viewState.saveButtonVisible || isSaving) {
+            if (!viewState.hasChanges || isSaving) {
                 return@doWithViewState
             }
             isSaving = true
@@ -362,7 +379,10 @@ class ShortcutEditorViewModel(
         val shortcutId = shortcutId ?: newUUID()
         performOperation(
             shortcutRepository.copyTemporaryShortcutToShortcut(shortcutId, categoryId?.takeIf { isNewShortcut })
-                .andThen(temporaryShortcutRepository.deleteTemporaryShortcut()),
+                .andThen(temporaryShortcutRepository.deleteTemporaryShortcut())
+                .doOnError {
+                    isSaving = false
+                },
         ) {
             onSaveSuccessful(shortcutId)
         }
@@ -380,6 +400,9 @@ class ShortcutEditorViewModel(
     }
 
     fun onBackPressed() {
+        if (isSaving) {
+            return
+        }
         waitForOperationsToFinish {
             if (hasChanges()) {
                 showDiscardDialog()
@@ -407,26 +430,44 @@ class ShortcutEditorViewModel(
     }
 
     fun onBasicRequestSettingsButtonClicked() {
+        if (isSaving) {
+            return
+        }
         openActivity(BasicRequestSettingsActivity.IntentBuilder())
     }
 
     fun onHeadersButtonClicked() {
+        if (isSaving) {
+            return
+        }
         openActivity(RequestHeadersActivity.IntentBuilder())
     }
 
     fun onRequestBodyButtonClicked() {
+        if (isSaving) {
+            return
+        }
         openActivity(RequestBodyActivity.IntentBuilder())
     }
 
     fun onAuthenticationButtonClicked() {
+        if (isSaving) {
+            return
+        }
         openActivity(AuthenticationActivity.IntentBuilder())
     }
 
     fun onResponseHandlingButtonClicked() {
+        if (isSaving) {
+            return
+        }
         openActivity(ResponseActivity.IntentBuilder())
     }
 
     fun onScriptingButtonClicked() {
+        if (isSaving) {
+            return
+        }
         openActivity(
             ScriptingActivity.IntentBuilder()
                 .shortcutId(shortcutId)
@@ -434,6 +475,9 @@ class ShortcutEditorViewModel(
     }
 
     fun onTriggerShortcutsButtonClicked() {
+        if (isSaving) {
+            return
+        }
         openActivity(
             TriggerShortcutsActivity.IntentBuilder()
                 .shortcutId(shortcutId)
@@ -441,14 +485,23 @@ class ShortcutEditorViewModel(
     }
 
     fun onExecutionSettingsButtonClicked() {
+        if (isSaving) {
+            return
+        }
         openActivity(ExecutionSettingsActivity.IntentBuilder())
     }
 
     fun onAdvancedSettingsButtonClicked() {
+        if (isSaving) {
+            return
+        }
         openActivity(AdvancedSettingsActivity.IntentBuilder())
     }
 
     fun onIconClicked() {
+        if (isSaving) {
+            return
+        }
         dialogState = getIconPickerDialog(
             includeFaviconOption = hasUrl(),
             callbacks = object : GetIconPickerDialogUseCase.Callbacks {
@@ -474,6 +527,9 @@ class ShortcutEditorViewModel(
     }
 
     fun onFetchFaviconOptionSelected() {
+        if (isSaving) {
+            return
+        }
         fetchFavicon(shortcut.url)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

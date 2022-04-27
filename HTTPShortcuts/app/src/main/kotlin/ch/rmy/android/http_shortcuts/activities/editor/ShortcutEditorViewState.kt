@@ -13,8 +13,8 @@ data class ShortcutEditorViewState(
     val shortcutIcon: ShortcutIcon = ShortcutIcon.NoIcon,
     val shortcutName: String = "",
     val shortcutDescription: String = "",
-    val testButtonVisible: Boolean = false,
-    val saveButtonVisible: Boolean = false,
+    val isExecutable: Boolean = false,
+    val hasChanges: Boolean = false,
     val requestBodyButtonEnabled: Boolean = false,
     val basicSettingsSubtitle: Localizable = Localizable.EMPTY,
     val headersSubtitle: Localizable = Localizable.EMPTY,
@@ -24,7 +24,14 @@ data class ShortcutEditorViewState(
     val scriptingSubtitle: Localizable = Localizable.EMPTY,
     val triggerShortcutsSubtitle: Localizable = Localizable.EMPTY,
     val iconLoading: Boolean = false,
+    val isInputDisabled: Boolean = false,
 ) {
     val isIconClickable
-        get() = !iconLoading
+        get() = !iconLoading && !isInputDisabled
+
+    val isSaveButtonVisible
+        get() = hasChanges && !isInputDisabled
+
+    val isExecuteButtonVisible
+        get() = isExecutable && !isInputDisabled
 }
