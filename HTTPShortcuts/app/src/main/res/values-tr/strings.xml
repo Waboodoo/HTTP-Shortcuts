@@ -394,9 +394,6 @@ Başlamak için + düğmesini tıklayın veya Hakkında bölümündeki Belgeleri
     <!-- One of two options when picking the layout for a category: Show shortcuts in a list -->
     <string name="layout_type_linear_list">"Liste"</string>
 
-    <!-- Option to choose from when selecting the background of a category: Plain black -->
-    <string name="category_background_type_black">"Siyah"</string>
-
     <!-- Option to choose from when selecting the background of a category: Use phone's wallpaper -->
     <string name="category_background_type_wallpaper">"Duvar kağıdı"</string>
 

@@ -360,9 +360,6 @@
     <!-- One of two options when picking the layout for a category: Show shortcuts in a list -->
     <string name="layout_type_linear_list">"Список"</string>
 
-    <!-- Option to choose from when selecting the background of a category: Plain black -->
-    <string name="category_background_type_black">"Черный"</string>
-
     <!-- Option to choose from when selecting the background of a category: Use phone's wallpaper -->
     <string name="category_background_type_wallpaper">"Обои"</string>
 

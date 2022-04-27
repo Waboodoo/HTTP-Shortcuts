@@ -388,9 +388,6 @@
     <!-- One of two options when picking the layout for a category: Show shortcuts in a list -->
     <string name="layout_type_linear_list">"列表"</string>
 
-    <!-- Option to choose from when selecting the background of a category: Plain black -->
-    <string name="category_background_type_black">"黑色"</string>
-
     <!-- Option to choose from when selecting the background of a category: Use phone's wallpaper -->
     <string name="category_background_type_wallpaper">"墙纸"</string>
 
