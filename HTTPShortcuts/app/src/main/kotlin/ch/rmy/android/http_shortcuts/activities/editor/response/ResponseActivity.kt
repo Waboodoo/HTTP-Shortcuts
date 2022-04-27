@@ -5,6 +5,7 @@ import androidx.core.view.isVisible
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.initialize
+import ch.rmy.android.framework.extensions.isVisible
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.observeChecked
 import ch.rmy.android.framework.extensions.observeTextChanges
@@ -82,6 +83,7 @@ class ResponseActivity : BaseActivity() {
 
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
+            binding.loadingIndicator.isVisible = false
             viewState.variables?.let(variablePlaceholderProvider::applyVariables)
             binding.inputSuccessMessage.setHint(viewState.successMessageHint)
             binding.inputResponseUiType.selectedItem = viewState.responseUiType
