@@ -20,7 +20,7 @@ object FilePickerUtil {
 
     object PickFiles : ActivityResultContract<Boolean, List<Uri>?>() {
         override fun createIntent(context: Context, input: Boolean): Intent =
-            createIntent(multiple = true)
+            createIntent(multiple = input)
 
         override fun parseResult(resultCode: Int, intent: Intent?): List<Uri>? =
             if (resultCode == AppCompatActivity.RESULT_OK) {
