@@ -5,7 +5,7 @@
 - You now have the option to use the camera to take a picture and use it as the request body or as a form parameter
 - In a Browser Shortcut you can now choose which of the installed browsers should be used
 - When using the Grid layout for a category, it is now possible to choose from 3 different types of grid densities
-- It is now possible override the shortcut click behavior on a per category basis
+- It is now possible to override the shortcut click behavior on a per category basis
 - Categories can now have a custom background color
 - The `changeDescription` function was added to allow programmatically updating a shortcut's description
 
