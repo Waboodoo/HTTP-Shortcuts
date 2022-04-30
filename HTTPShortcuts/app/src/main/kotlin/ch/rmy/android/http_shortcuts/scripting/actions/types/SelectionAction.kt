@@ -2,9 +2,9 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
-import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.exceptions.JavaScriptException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
+import ch.rmy.android.http_shortcuts.utils.DialogBuilder
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 

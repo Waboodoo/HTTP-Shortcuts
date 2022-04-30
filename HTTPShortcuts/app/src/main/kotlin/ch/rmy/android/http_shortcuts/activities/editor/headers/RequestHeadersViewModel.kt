@@ -1,18 +1,29 @@
 package ch.rmy.android.http_shortcuts.activities.editor.headers
 
 import android.app.Application
+import android.content.Context
 import ch.rmy.android.framework.extensions.attachTo
+import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.swapped
+import ch.rmy.android.framework.utils.localization.Localizable
+import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
+import ch.rmy.android.framework.viewmodel.WithDialog
+import ch.rmy.android.framework.viewmodel.viewstate.DialogState
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.HeaderModel
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.usecases.GetKeyValueDialogUseCase
+import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 
-class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, RequestHeadersViewState>(application) {
+class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, RequestHeadersViewState>(application), WithDialog {
 
     private val temporaryShortcutRepository = TemporaryShortcutRepository()
     private val variableRepository = VariableRepository()
+    private val getKeyValueDialog = GetKeyValueDialogUseCase()
+    private val variablePlaceholderProvider = VariablePlaceholderProvider()
 
     private var headers: List<HeaderModel> = emptyList()
         set(value) {
@@ -21,6 +32,14 @@ class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, Re
                 copy(
                     headerItems = mapHeaders(value),
                 )
+            }
+        }
+
+    override var dialogState: DialogState?
+        get() = currentViewState?.dialogState
+        set(value) {
+            updateViewState {
+                copy(dialogState = value)
             }
         }
 
@@ -40,6 +59,7 @@ class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, Re
 
         variableRepository.getObservableVariables()
             .subscribe { variables ->
+                variablePlaceholderProvider.applyVariables(variables)
                 updateViewState {
                     copy(variables = variables)
                 }
@@ -64,10 +84,49 @@ class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, Re
     }
 
     fun onAddHeaderButtonClicked() {
-        emitEvent(RequestHeadersEvent.ShowAddHeaderDialog)
+        showAddHeaderDialog()
     }
 
-    fun onAddHeaderDialogConfirmed(key: String, value: String) {
+    private fun showAddHeaderDialog() {
+        showKeyValueDialog(
+            title = StringResLocalizable(R.string.title_custom_header_add),
+            keyLabel = StringResLocalizable(R.string.label_custom_header_key),
+            valueLabel = StringResLocalizable(R.string.label_custom_header_value),
+            suggestions = SUGGESTED_KEYS,
+            keyValidator = { validateHeaderName(context, it) },
+            valueValidator = { validateHeaderValue(context, it) },
+            onConfirm = ::onAddHeaderDialogConfirmed,
+        )
+    }
+
+    private fun showKeyValueDialog(
+        title: Localizable,
+        keyLabel: Localizable,
+        valueLabel: Localizable,
+        key: String? = null,
+        value: String? = null,
+        suggestions: Array<String>? = null,
+        keyValidator: (CharSequence) -> String? = { _ -> null },
+        valueValidator: (CharSequence) -> String? = { _ -> null },
+        onConfirm: (key: String, value: String) -> Unit,
+        onRemove: () -> Unit = {},
+    ) {
+        dialogState = getKeyValueDialog(
+            variablePlaceholderProvider = variablePlaceholderProvider,
+            title = title,
+            keyLabel = keyLabel,
+            valueLabel = valueLabel,
+            key = key,
+            value = value,
+            suggestions = suggestions,
+            keyValidator = keyValidator,
+            valueValidator = valueValidator,
+            onConfirm = onConfirm,
+            onRemove = onRemove,
+        )
+    }
+
+    private fun onAddHeaderDialogConfirmed(key: String, value: String) {
         temporaryShortcutRepository.addHeader(key, value)
             .compose(progressMonitor.singleTransformer())
             .subscribe { newHeader ->
@@ -76,7 +135,7 @@ class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, Re
             .attachTo(destroyer)
     }
 
-    fun onEditHeaderDialogConfirmed(headerId: String, key: String, value: String) {
+    private fun onEditHeaderDialogConfirmed(headerId: String, key: String, value: String) {
         headers = headers
             .map { header ->
                 if (header.id == headerId) {
@@ -90,7 +149,7 @@ class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, Re
         )
     }
 
-    fun onRemoveHeaderButtonClicked(headerId: String) {
+    private fun onRemoveHeaderButtonClicked(headerId: String) {
         headers = headers.filter { header ->
             header.id != headerId
         }
@@ -104,8 +163,27 @@ class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, Re
             header.id == id
         }
             ?.let { header ->
-                emitEvent(RequestHeadersEvent.ShowEditHeaderDialog(id, header.key, header.value))
+                showEditHeaderDialog(id, header.key, header.value)
             }
+    }
+
+    private fun showEditHeaderDialog(headerId: String, headerKey: String, headerValue: String) {
+        showKeyValueDialog(
+            title = StringResLocalizable(R.string.title_custom_header_edit),
+            keyLabel = StringResLocalizable(R.string.label_custom_header_key),
+            valueLabel = StringResLocalizable(R.string.label_custom_header_value),
+            key = headerKey,
+            value = headerValue,
+            suggestions = SUGGESTED_KEYS,
+            keyValidator = { validateHeaderName(context, it) },
+            valueValidator = { validateHeaderValue(context, it) },
+            onConfirm = { newKey: String, newValue: String ->
+                onEditHeaderDialogConfirmed(headerId, newKey, newValue)
+            },
+            onRemove = {
+                onRemoveHeaderButtonClicked(headerId)
+            },
+        )
     }
 
     fun onBackPressed() {
@@ -125,6 +203,60 @@ class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, Re
             }
                 .ifEmpty {
                     listOf(HeaderListItem.EmptyState)
+                }
+
+        val SUGGESTED_KEYS = arrayOf(
+            "Accept",
+            "Accept-Charset",
+            "Accept-Encoding",
+            "Accept-Language",
+            "Accept-Datetime",
+            "Authorization",
+            "Cache-Control",
+            "Connection",
+            "Cookie",
+            "Content-Length",
+            "Content-MD5",
+            "Content-Type",
+            "Date",
+            "Expect",
+            "Forwarded",
+            "From",
+            "Host",
+            "If-Match",
+            "If-Modified-Since",
+            "If-None-Match",
+            "If-Range",
+            "If-Unmodified-Since",
+            "Max-Forwards",
+            "Origin",
+            "Pragma",
+            "Proxy-Authorization",
+            "Range",
+            "Referer",
+            "TE",
+            "User-Agent",
+            "Upgrade",
+            "Via",
+            "Warning",
+        )
+
+        private fun validateHeaderName(context: Context, name: CharSequence): String? =
+            name
+                .firstOrNull { c ->
+                    c <= '\u0020' || c >= '\u007f'
+                }
+                ?.let { invalidChar ->
+                    context.getString(R.string.error_invalid_character, invalidChar)
+                }
+
+        private fun validateHeaderValue(context: Context, value: CharSequence): String? =
+            value
+                .firstOrNull { c ->
+                    (c <= '\u001f' && c != '\t') || c >= '\u007f'
+                }
+                ?.let { invalidChar ->
+                    context.getString(R.string.error_invalid_character, invalidChar)
                 }
     }
 }

@@ -4,9 +4,9 @@ import android.Manifest
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentActivity
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
+import ch.rmy.android.http_shortcuts.utils.DialogBuilder
 import ch.rmy.android.http_shortcuts.utils.WifiUtil
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Completable

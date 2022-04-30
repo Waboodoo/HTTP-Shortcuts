@@ -13,7 +13,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.VariableTypeMappings
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.data.dtos.VariablePlaceholder
-import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
+import ch.rmy.android.http_shortcuts.utils.DialogBuilder
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 

@@ -12,12 +12,10 @@ import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.extensions.setTextSafely
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.utils.DragOrderingHelper
-import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.databinding.ActivityRequestBodyBinding
-import ch.rmy.android.http_shortcuts.dialogs.KeyValueDialog
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
@@ -132,121 +130,6 @@ class RequestBodyActivity : BaseActivity() {
             setDialogState(viewState.dialogState, viewModel)
         }
         viewModel.events.observe(this, ::handleEvent)
-    }
-
-    override fun handleEvent(event: ViewModelEvent) {
-        when (event) {
-            is RequestBodyEvent.ShowAddParameterForStringDialog -> {
-                showAddDialogForStringParameter()
-            }
-            is RequestBodyEvent.ShowAddParameterForFileDialog -> {
-                showAddDialogForFileParameter(event.multiple, event.image)
-            }
-            is RequestBodyEvent.ShowEditParameterForStringDialog -> {
-                showEditDialogForStringParameter(event.parameterId, event.key, event.value)
-            }
-            is RequestBodyEvent.ShowEditParameterForFileDialog -> {
-                showEditDialogForFileParameter(event.parameterId, event.key, event.showFileNameOption, event.fileName, event.image)
-            }
-            else -> super.handleEvent(event)
-        }
-    }
-
-    private fun showAddDialogForStringParameter() {
-        KeyValueDialog(
-            variablePlaceholderProvider = variablePlaceholderProvider,
-            title = getString(R.string.title_post_param_add),
-            keyLabel = getString(R.string.label_post_param_key),
-            valueLabel = getString(R.string.label_post_param_value),
-            isMultiLine = true,
-        )
-            .show(context)
-            .subscribe { event ->
-                when (event) {
-                    is KeyValueDialog.Event.DataChangedEvent -> viewModel.onAddStringParameterDialogConfirmed(event.data.first, event.data.second)
-                    is KeyValueDialog.Event.DataRemovedEvent -> Unit
-                }
-            }
-            .attachTo(destroyer)
-    }
-
-    private fun showAddDialogForFileParameter(multiple: Boolean, image: Boolean) {
-        FileParameterDialog(
-            variablePlaceholderProvider = variablePlaceholderProvider,
-            title = getString(
-                when {
-                    image -> R.string.title_post_param_add_image
-                    multiple -> R.string.title_post_param_add_files
-                    else -> R.string.title_post_param_add_file
-                }
-            ),
-            showFileNameOption = !multiple,
-        )
-            .show(context)
-            .subscribe { event ->
-                when (event) {
-                    is FileParameterDialog.Event.DataChangedEvent -> viewModel.onAddFileParameterDialogConfirmed(
-                        event.keyName,
-                        event.fileName,
-                        multiple,
-                        image,
-                    )
-                    is FileParameterDialog.Event.DataRemovedEvent -> Unit
-                }
-            }
-            .attachTo(destroyer)
-    }
-
-    private fun showEditDialogForStringParameter(parameterId: String, key: String, value: String) {
-        KeyValueDialog(
-            variablePlaceholderProvider = variablePlaceholderProvider,
-            title = getString(R.string.title_post_param_edit),
-            keyLabel = getString(R.string.label_post_param_key),
-            valueLabel = getString(R.string.label_post_param_value),
-            data = key to value,
-            isMultiLine = true,
-        )
-            .show(context)
-            .subscribe { event ->
-                when (event) {
-                    is KeyValueDialog.Event.DataChangedEvent -> {
-                        viewModel.onEditParameterDialogConfirmed(parameterId, event.data.first, value = event.data.second)
-                    }
-                    is KeyValueDialog.Event.DataRemovedEvent -> {
-                        viewModel.onRemoveParameterButtonClicked(parameterId)
-                    }
-                }
-            }
-            .attachTo(destroyer)
-    }
-
-    private fun showEditDialogForFileParameter(
-        parameterId: String,
-        key: String,
-        showFileNameOption: Boolean,
-        fileName: String,
-        image: Boolean,
-    ) {
-        FileParameterDialog(
-            variablePlaceholderProvider = variablePlaceholderProvider,
-            title = getString(if (image) R.string.title_post_param_edit_image else R.string.title_post_param_edit_file),
-            showRemoveOption = true,
-            showFileNameOption = showFileNameOption,
-            keyName = key,
-            fileName = fileName,
-        )
-            .show(context)
-            .subscribe { event ->
-                when (event) {
-                    is FileParameterDialog.Event.DataChangedEvent -> {
-                        viewModel.onEditParameterDialogConfirmed(parameterId, event.keyName, fileName = event.fileName)
-                    }
-                    is FileParameterDialog.Event.DataRemovedEvent -> {
-                        viewModel.onRemoveParameterButtonClicked(parameterId)
-                    }
-                }
-            }
-            .attachTo(destroyer)
     }
 
     override fun onBackPressed() {

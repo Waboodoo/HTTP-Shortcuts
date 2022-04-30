@@ -4,7 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import ch.rmy.android.framework.viewmodel.WithDialog
-import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
+import ch.rmy.android.http_shortcuts.utils.DialogBuilder
 
 interface DialogState {
     fun createDialog(context: Context, viewModel: WithDialog): Dialog
@@ -20,7 +20,7 @@ interface DialogState {
     }
 
     companion object {
-        fun create(id: String? = null, transform: DialogBuilder.() -> Dialog): DialogState =
+        fun create(id: String? = null, onDismiss: (() -> Unit)? = null, transform: DialogBuilder.() -> Dialog): DialogState =
             object : DialogState {
                 override val id: String?
                     get() = id
@@ -28,6 +28,7 @@ interface DialogState {
                 override fun createDialog(context: Context, viewModel: WithDialog) =
                     DialogBuilder(context)
                         .dismissListener {
+                            onDismiss?.invoke()
                             viewModel.onDialogDismissed(this)
                         }
                         .transform()

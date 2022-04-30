@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.dialogs
+package ch.rmy.android.http_shortcuts.utils
 
 import android.annotation.SuppressLint
 import android.app.Dialog

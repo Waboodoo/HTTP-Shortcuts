@@ -1,16 +1,12 @@
 package ch.rmy.android.http_shortcuts.activities.editor.advancedsettings.usecases
 
-import android.app.Dialog
-import android.content.Context
 import android.widget.SeekBar
 import android.widget.TextView
 import ch.rmy.android.framework.extensions.setText
 import ch.rmy.android.framework.utils.SimpleOnSeekBarChangeListener
 import ch.rmy.android.framework.utils.localization.Localizable
-import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.dialogs.DialogBuilder
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
@@ -23,32 +19,27 @@ class GetTimeoutDialogUseCase {
         getLabel: (Duration) -> Localizable,
         onTimeoutChanged: (timeout: Duration) -> Unit,
     ): DialogState =
-        object : DialogState {
-            override fun createDialog(context: Context, viewModel: WithDialog): Dialog =
-                DialogBuilder(context)
-                    .title(R.string.label_timeout)
-                    .view(R.layout.dialog_time_picker)
-                    .positive(R.string.dialog_ok) {
-                        val slider = it.findViewById<SeekBar>(R.id.slider)
-                        onTimeoutChanged(progressToTimeout(slider.progress))
-                    }
-                    .dismissListener {
-                        viewModel.onDialogDismissed(this)
-                    }
-                    .build()
-                    .show {
-                        val slider = findViewById<SeekBar>(R.id.slider)
-                        val label = findViewById<TextView>(R.id.slider_value)
+        DialogState.create(id = "timeout-dialog") {
+            title(R.string.label_timeout)
+                .view(R.layout.dialog_time_picker)
+                .positive(R.string.dialog_ok) {
+                    val slider = it.findViewById<SeekBar>(R.id.slider)
+                    onTimeoutChanged(progressToTimeout(slider.progress))
+                }
+                .build()
+                .show {
+                    val slider = findViewById<SeekBar>(R.id.slider)
+                    val label = findViewById<TextView>(R.id.slider_value)
 
-                        slider.max = TIMEOUT_OPTIONS.lastIndex
-                        slider.setOnSeekBarChangeListener(object : SimpleOnSeekBarChangeListener() {
-                            override fun onProgressChanged(slider: SeekBar, progress: Int, fromUser: Boolean) {
-                                label.text = getLabel(progressToTimeout(progress)).localize(context)
-                            }
-                        })
-                        label.setText(getLabel(timeout))
-                        slider.progress = timeoutToProgress(timeout)
-                    }
+                    slider.max = TIMEOUT_OPTIONS.lastIndex
+                    slider.setOnSeekBarChangeListener(object : SimpleOnSeekBarChangeListener() {
+                        override fun onProgressChanged(slider: SeekBar, progress: Int, fromUser: Boolean) {
+                            label.text = getLabel(progressToTimeout(progress)).localize(context)
+                        }
+                    })
+                    label.setText(getLabel(timeout))
+                    slider.progress = timeoutToProgress(timeout)
+                }
         }
 
     companion object {

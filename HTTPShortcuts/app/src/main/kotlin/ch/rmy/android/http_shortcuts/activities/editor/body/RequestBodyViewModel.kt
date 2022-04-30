@@ -3,22 +3,29 @@ package ch.rmy.android.http_shortcuts.activities.editor.body
 import android.app.Application
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.swapped
+import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.editor.body.usecases.GetFileParameterDialogUseCase
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.models.ParameterModel
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.usecases.GetKeyValueDialogUseCase
+import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 
 class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, RequestBodyViewState>(application), WithDialog {
 
     private val temporaryShortcutRepository = TemporaryShortcutRepository()
     private val variableRepository = VariableRepository()
+    private val variablePlaceholderProvider = VariablePlaceholderProvider()
+    private val getFileParameterDialog = GetFileParameterDialogUseCase()
+    private val getKeyValueDialog = GetKeyValueDialogUseCase()
 
     private var parameters: List<ParameterModel> = emptyList()
         set(value) {
@@ -54,6 +61,7 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
 
         variableRepository.getObservableVariables()
             .subscribe { variables ->
+                variablePlaceholderProvider.applyVariables(variables)
                 updateViewState {
                     copy(variables = variables)
                 }
@@ -100,7 +108,7 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
         )
     }
 
-    fun onAddStringParameterDialogConfirmed(key: String, value: String) {
+    private fun onAddStringParameterDialogConfirmed(key: String, value: String) {
         temporaryShortcutRepository.addStringParameter(key, value)
             .compose(progressMonitor.singleTransformer())
             .subscribe { newParameter ->
@@ -109,7 +117,7 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
             .attachTo(destroyer)
     }
 
-    fun onAddFileParameterDialogConfirmed(key: String, fileName: String, multiple: Boolean, image: Boolean) {
+    private fun onAddFileParameterDialogConfirmed(key: String, fileName: String, multiple: Boolean, image: Boolean) {
         temporaryShortcutRepository.addFileParameter(key, fileName, multiple, image)
             .compose(progressMonitor.singleTransformer())
             .subscribe { newParameter ->
@@ -118,7 +126,7 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
             .attachTo(destroyer)
     }
 
-    fun onEditParameterDialogConfirmed(parameterId: String, key: String, value: String = "", fileName: String = "") {
+    private fun onEditParameterDialogConfirmed(parameterId: String, key: String, value: String = "", fileName: String = "") {
         parameters = parameters
             .map { parameter ->
                 if (parameter.id == parameterId) {
@@ -138,7 +146,7 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
         )
     }
 
-    fun onRemoveParameterButtonClicked(parameterId: String) {
+    private fun onRemoveParameterButtonClicked(parameterId: String) {
         parameters = parameters
             .filter { parameter ->
                 parameter.id != parameterId
@@ -153,28 +161,96 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
             if (viewState.requestBodyType == RequestBodyType.FORM_DATA) {
                 showParameterTypeDialog()
             } else {
-                emitEvent(RequestBodyEvent.ShowAddParameterForStringDialog)
+                showAddParameterDialogForString()
             }
         }
+    }
+
+    private fun showParameterDialog(
+        title: Localizable,
+        showRemoveOption: Boolean = false,
+        showFileNameOption: Boolean = false,
+        keyName: String = "",
+        fileName: String = "",
+        onConfirm: (keyName: String, fileName: String) -> Unit,
+        onRemove: () -> Unit = {},
+    ) {
+        dialogState = getFileParameterDialog(
+            variablePlaceholderProvider = variablePlaceholderProvider,
+            title = title,
+            showRemoveOption = showRemoveOption,
+            showFileNameOption = showFileNameOption,
+            keyName = keyName,
+            fileName = fileName,
+            onConfirm = onConfirm,
+            onRemove = onRemove,
+        )
+    }
+
+    private fun showKeyValueDialog(
+        title: Localizable,
+        keyLabel: Localizable,
+        valueLabel: Localizable,
+        key: String? = null,
+        value: String? = null,
+        onConfirm: (key: String, value: String) -> Unit,
+        onRemove: () -> Unit = {},
+    ) {
+        dialogState = getKeyValueDialog(
+            variablePlaceholderProvider = variablePlaceholderProvider,
+            title = title,
+            keyLabel = keyLabel,
+            valueLabel = valueLabel,
+            key = key,
+            value = value,
+            isMultiLine = true,
+            onConfirm = onConfirm,
+            onRemove = onRemove,
+        )
     }
 
     private fun showParameterTypeDialog() {
         dialogState = DialogState.create {
             title(R.string.dialog_title_parameter_type)
-                .item(R.string.option_parameter_type_string) {
-                    emitEvent(RequestBodyEvent.ShowAddParameterForStringDialog)
-                }
+                .item(R.string.option_parameter_type_string, action = ::showAddParameterDialogForString)
                 .item(R.string.option_parameter_type_image) {
-                    emitEvent(RequestBodyEvent.ShowAddParameterForFileDialog(image = true))
+                    showAddParameterDialogForFile(image = true)
                 }
                 .item(R.string.option_parameter_type_file) {
-                    emitEvent(RequestBodyEvent.ShowAddParameterForFileDialog())
+                    showAddParameterDialogForFile()
                 }
                 .item(R.string.option_parameter_type_files) {
-                    emitEvent(RequestBodyEvent.ShowAddParameterForFileDialog(multiple = true))
+                    showAddParameterDialogForFile(multiple = true)
                 }
                 .build()
         }
+    }
+
+    private fun showAddParameterDialogForString() {
+        showKeyValueDialog(
+            title = StringResLocalizable(R.string.title_post_param_add),
+            keyLabel = StringResLocalizable(R.string.label_post_param_key),
+            valueLabel = StringResLocalizable(R.string.label_post_param_value),
+            onConfirm = { key: String, value: String ->
+                onAddStringParameterDialogConfirmed(key, value)
+            },
+        )
+    }
+
+    private fun showAddParameterDialogForFile(multiple: Boolean = false, image: Boolean = false) {
+        showParameterDialog(
+            title = StringResLocalizable(
+                when {
+                    image -> R.string.title_post_param_add_image
+                    multiple -> R.string.title_post_param_add_files
+                    else -> R.string.title_post_param_add_file
+                }
+            ),
+            showFileNameOption = !multiple,
+            onConfirm = { keyName: String, fileName: String ->
+                onAddFileParameterDialogConfirmed(key = keyName, fileName = fileName, multiple = multiple, image = image)
+            },
+        )
     }
 
     fun onParameterClicked(id: String) {
@@ -182,44 +258,84 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
             parameter.id == id
         }
             ?.let { parameter ->
-                emitEvent(
-                    when (parameter.parameterType) {
-                        ParameterType.STRING -> {
-                            RequestBodyEvent.ShowEditParameterForStringDialog(
-                                id,
-                                parameter.key,
-                                parameter.value,
-                            )
-                        }
-                        ParameterType.FILE -> {
-                            RequestBodyEvent.ShowEditParameterForFileDialog(
-                                id,
-                                parameter.key,
-                                showFileNameOption = true,
-                                fileName = parameter.fileName,
-                            )
-                        }
-                        ParameterType.IMAGE,
-                        -> {
-                            RequestBodyEvent.ShowEditParameterForFileDialog(
-                                id,
-                                parameter.key,
-                                showFileNameOption = true,
-                                fileName = parameter.fileName,
-                                image = true,
-                            )
-                        }
-                        ParameterType.FILES -> {
-                            RequestBodyEvent.ShowEditParameterForFileDialog(
-                                id,
-                                parameter.key,
-                                showFileNameOption = false,
-                                fileName = parameter.fileName,
-                            )
-                        }
+                when (parameter.parameterType) {
+                    ParameterType.STRING -> {
+                        showEditParameterDialogForString(
+                            id,
+                            parameter.key,
+                            parameter.value,
+                        )
                     }
-                )
+                    ParameterType.FILE -> {
+                        showEditParameterDialogForFile(
+                            id,
+                            parameter.key,
+                            showFileNameOption = true,
+                            fileName = parameter.fileName,
+                        )
+                    }
+                    ParameterType.IMAGE,
+                    -> {
+                        showEditParameterDialogForFile(
+                            id,
+                            parameter.key,
+                            showFileNameOption = true,
+                            fileName = parameter.fileName,
+                            image = true,
+                        )
+                    }
+                    ParameterType.FILES -> {
+                        showEditParameterDialogForFile(
+                            id,
+                            parameter.key,
+                            showFileNameOption = false,
+                            fileName = parameter.fileName,
+                        )
+                    }
+                }
             }
+    }
+
+    private fun showEditParameterDialogForString(
+        parameterId: String,
+        parameterKey: String,
+        value: String,
+    ) {
+        showKeyValueDialog(
+            title = StringResLocalizable(R.string.title_post_param_edit),
+            keyLabel = StringResLocalizable(R.string.label_post_param_key),
+            valueLabel = StringResLocalizable(R.string.label_post_param_value),
+            key = parameterKey,
+            value = value,
+            onConfirm = { newKey: String, newValue: String ->
+                onEditParameterDialogConfirmed(parameterId, newKey, newValue)
+            },
+            onRemove = {
+                onRemoveParameterButtonClicked(parameterId)
+            },
+        )
+    }
+
+    private fun showEditParameterDialogForFile(
+        parameterId: String,
+        parameterKey: String,
+        showFileNameOption: Boolean,
+        fileName: String,
+        image: Boolean = false,
+    ) {
+        showParameterDialog(
+            title = StringResLocalizable(if (image) R.string.title_post_param_edit_image else R.string.title_post_param_edit_file),
+            showRemoveOption = true,
+            showFileNameOption = showFileNameOption,
+            keyName = parameterKey,
+            fileName = fileName,
+            onConfirm = { newKey: String, newFileName: String ->
+                onEditParameterDialogConfirmed(parameterId = parameterId, key = newKey, fileName = newFileName)
+            },
+            onRemove = {
+                onRemoveParameterButtonClicked(parameterId)
+            }
+        )
     }
 
     fun onContentTypeChanged(contentType: String) {
