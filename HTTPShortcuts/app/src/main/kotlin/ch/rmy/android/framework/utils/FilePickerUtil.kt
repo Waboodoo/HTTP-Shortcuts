@@ -3,8 +3,10 @@ package ch.rmy.android.framework.utils
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.provider.MediaStore
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.appcompat.app.AppCompatActivity
+import ch.rmy.android.http_shortcuts.utils.FileUtil.createCacheFile
 
 object FilePickerUtil {
 
@@ -47,4 +49,23 @@ object FilePickerUtil {
                 putExtra(Intent.EXTRA_ALLOW_MULTIPLE, multiple)
                 addCategory(Intent.CATEGORY_OPENABLE)
             }
+
+    object OpenCamera : ActivityResultContract<Unit, (Context) -> Uri?>() {
+
+        private const val IMAGE_FILE_NAME = "camera_image.jpg"
+
+        override fun createIntent(context: Context, input: Unit?): Intent =
+            Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                .apply {
+                    putExtra(MediaStore.EXTRA_OUTPUT, createCacheFile(context, IMAGE_FILE_NAME))
+                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                }
+
+        override fun parseResult(resultCode: Int, intent: Intent?) =
+            if (resultCode == AppCompatActivity.RESULT_OK) {
+                { context: Context ->
+                    createCacheFile(context, IMAGE_FILE_NAME)
+                }
+            } else null
+    }
 }

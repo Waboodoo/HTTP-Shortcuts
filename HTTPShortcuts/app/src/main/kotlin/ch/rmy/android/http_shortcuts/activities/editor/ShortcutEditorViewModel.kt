@@ -232,7 +232,8 @@ class ShortcutEditorViewModel(
                     }
                 }
                 RequestBodyType.FILE -> StringResLocalizable(R.string.subtitle_request_body_file)
-                else -> if (shortcut.bodyContent.isBlank()) {
+                RequestBodyType.IMAGE -> StringResLocalizable(R.string.subtitle_request_body_image)
+                RequestBodyType.CUSTOM_TEXT -> if (shortcut.bodyContent.isBlank()) {
                     StringResLocalizable(R.string.subtitle_request_body_none)
                 } else {
                     StringResLocalizable(

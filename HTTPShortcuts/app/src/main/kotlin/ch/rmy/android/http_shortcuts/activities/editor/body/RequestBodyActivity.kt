@@ -254,6 +254,7 @@ class RequestBodyActivity : BaseActivity() {
             RequestBodyType.FORM_DATA to R.string.request_body_option_form_data,
             RequestBodyType.X_WWW_FORM_URLENCODE to R.string.request_body_option_x_www_form_urlencoded,
             RequestBodyType.FILE to R.string.request_body_option_file,
+            RequestBodyType.IMAGE to R.string.request_body_option_image,
         )
 
         private val CONTENT_TYPE_SUGGESTIONS = listOf(

@@ -8,6 +8,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageView
+import androidx.activity.result.launch
 import androidx.core.app.ActivityCompat
 import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.attachTo
@@ -139,6 +140,13 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         } else {
             finishWithoutAnimation()
         }
+    }
+    private val openCamera = registerForActivityResult(FilePickerUtil.OpenCamera) { resultCallback ->
+        resultCallback?.invoke(this)
+            ?.let { file ->
+                resumeAfterFileRequest(fileUris = listOf(file))
+            }
+            ?: finishWithoutAnimation()
     }
 
     /* Caches / State */
@@ -368,13 +376,16 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
             }
 
     private fun createFileUploadManagerIfNeeded() {
-        if (fileUploadManager != null || (!shortcut.usesRequestParameters() && !shortcut.usesFileBody())) {
+        if (fileUploadManager != null || (!shortcut.usesRequestParameters() && !shortcut.usesGenericFileBody() && !shortcut.usesImageFileBody())) {
             return
         }
         fileUploadManager = FileUploadManager.Builder(contentResolver)
             .withSharedFiles(fileUris)
-            .runIf(shortcut.usesFileBody()) {
+            .runIf(shortcut.usesGenericFileBody()) {
                 addFileRequest()
+            }
+            .runIf(shortcut.usesImageFileBody()) {
+                addFileRequest(image = true)
             }
             .runFor(shortcut.parameters) { parameter ->
                 when {
@@ -396,13 +407,17 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         return if (fileRequest == null) {
             executeWithActions()
         } else {
-            openFilePickerForFileParameter(multiple = fileRequest.multiple)
+            openFilePickerForFileParameter(multiple = fileRequest.multiple, image = fileRequest.image)
         }
     }
 
-    private fun openFilePickerForFileParameter(multiple: Boolean): Completable =
+    private fun openFilePickerForFileParameter(multiple: Boolean, image: Boolean): Completable =
         try {
-            pickFiles.launch(multiple)
+            if (image) {
+                openCamera.launch()
+            } else {
+                pickFiles.launch(multiple)
+            }
             Completable.error(ResumeLaterException())
         } catch (e: ActivityNotFoundException) {
             Completable.error(UnsupportedFeatureException())

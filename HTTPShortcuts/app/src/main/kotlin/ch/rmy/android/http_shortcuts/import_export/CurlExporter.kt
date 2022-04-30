@@ -55,7 +55,7 @@ class CurlExporter(val context: Context) {
                     rawPlaceholdersToResolvedValues(header.value, variableValues)
                 )
             }
-            .runIf(shortcut.usesFileBody()) {
+            .runIf(shortcut.usesGenericFileBody() || shortcut.usesImageFileBody()) {
                 usesBinaryData()
             }
             .runIf(shortcut.usesRequestParameters()) {

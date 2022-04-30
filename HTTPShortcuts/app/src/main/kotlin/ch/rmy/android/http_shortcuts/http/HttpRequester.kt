@@ -112,7 +112,7 @@ class HttpRequester(private val contentResolver: ContentResolver) {
                         contentType(determineContentType(shortcut))
                             .body(requestData.body)
                     }
-                    .runIf(shortcut.usesFileBody()) {
+                    .runIf(shortcut.usesGenericFileBody() || shortcut.usesImageFileBody()) {
                         val file = fileUploadManager?.getFile(0)
                         runIfNotNull(file) {
                             contentType(determineContentType(shortcut) ?: it.mimeType)

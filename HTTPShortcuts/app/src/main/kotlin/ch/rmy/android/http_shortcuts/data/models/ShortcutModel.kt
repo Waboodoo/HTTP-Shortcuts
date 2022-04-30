@@ -139,7 +139,11 @@ open class ShortcutModel(
 
     fun usesCustomBody() = allowsBody() && bodyType == RequestBodyType.CUSTOM_TEXT
 
-    fun usesFileBody() = allowsBody() && bodyType == RequestBodyType.FILE
+    fun usesGenericFileBody() =
+        allowsBody() && bodyType == RequestBodyType.FILE
+
+    fun usesImageFileBody() =
+        allowsBody() && bodyType == RequestBodyType.IMAGE
 
     fun isSameAs(other: ShortcutModel): Boolean {
         if (other.name != name ||

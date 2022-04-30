@@ -4,6 +4,7 @@ import android.app.Application
 import android.net.Uri
 import androidx.annotation.StringRes
 import ch.rmy.android.framework.extensions.attachTo
+import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.WithDialog
@@ -102,12 +103,19 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
         shortcuts
             .filter { it.hasShareVariable(variableIds, variableLookup) }
 
-    private fun getTargetableShortcutsForFileSharing(): List<ShortcutModel> =
+    private fun getTargetableShortcutsForFileSharing(isImage: Boolean?): List<ShortcutModel> =
         shortcuts
-            .filter { it.hasFileParameter() || it.usesFileBody() }
+            .filter {
+                it.hasFileParameter()
+                    || it.usesGenericFileBody()
+                    || (isImage != false && it.usesImageFileBody())
+            }
 
     private fun handleFileSharing() {
-        val shortcutsForFileSharing = getTargetableShortcutsForFileSharing()
+        val isImage = fileUris.singleOrNull()
+            ?.let(context.contentResolver::getType)
+            ?.contains("image", ignoreCase = true)
+        val shortcutsForFileSharing = getTargetableShortcutsForFileSharing(isImage)
         when (shortcutsForFileSharing.size) {
             0 -> {
                 showInstructions(R.string.error_not_suitable_shortcuts)

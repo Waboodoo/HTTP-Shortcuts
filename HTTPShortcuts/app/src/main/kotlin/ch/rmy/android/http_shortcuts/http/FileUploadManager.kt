@@ -92,7 +92,7 @@ class FileUploadManager private constructor(
 
     data class File(val mimeType: String, val fileName: String, val data: Uri, val fileSize: Long?)
 
-    class FileRequest(val multiple: Boolean)
+    class FileRequest(val multiple: Boolean, val image: Boolean)
 
     class Builder(private val contentResolver: ContentResolver) {
 
@@ -103,8 +103,8 @@ class FileUploadManager private constructor(
             this.sharedFiles = fileUris
         }
 
-        fun addFileRequest(multiple: Boolean = false) = also {
-            fileRequests.add(FileRequest(multiple))
+        fun addFileRequest(multiple: Boolean = false, image: Boolean = false) = also {
+            fileRequests.add(FileRequest(multiple, image))
         }
 
         fun build() = FileUploadManager(

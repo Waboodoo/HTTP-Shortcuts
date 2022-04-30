@@ -634,6 +634,8 @@
     <string name="request_body_option_custom_text">Custom Text</string>
     <!-- Dropdown option for request body: file (i.e., user gets to pick a file which is used as the request body) -->
     <string name="request_body_option_file">File (Picker)</string>
+    <!-- Dropdown option for request body: image (i.e., user gets to take a picture with the camera which is used as the request body) -->
+    <string name="request_body_option_image">Image (Camera)</string>
     <!-- Label above input box for Request Content-Type -->
     <string name="label_content_type">Content-Type</string>
     <!-- Button to copy the cURL export of a shortcut to the clipboard -->
@@ -804,6 +806,8 @@
     <string name="subtitle_request_body_none">No request body set</string>
     <!-- Section subtitle, shown in shortcut editor when request body is set to 'File' -->
     <string name="subtitle_request_body_file">File request body set</string>
+    <!-- Section subtitle, shown in shortcut editor when request body is set to 'Image' -->
+    <string name="subtitle_request_body_image">Image request body set</string>
     <!-- Section subtitle, shown in shortcut editor when a custom request body is set. %s is a placeholder for the data type, e.g. application/json -->
     <string name="subtitle_request_body_custom">Custom request body set (%s)</string>
     <!-- Section subtitle, shown for "Custom Request Body" option when it is not available because the selected HTTP method (%1$s) does not support a request body -->
