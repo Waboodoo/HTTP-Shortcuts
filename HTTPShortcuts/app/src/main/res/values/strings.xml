@@ -139,7 +139,7 @@
     <!-- Title of dialog to add a new files parameter to a shortcut -->
     <string name="title_post_param_add_files">Add Files Parameter</string>
     <!-- Label of input field to provide the name/key of a parameter of a shortcut -->
-    <string name="label_post_param_key">Parameter</string>
+    <string name="label_post_param_key">Parameter Name</string>
     <!-- Label of input field to provide the file name for a file parameter of a shortcut -->
     <string name="label_post_param_file_name">File Name (optional)</string>
     <!-- Label of input field to provide the value of a parameter of a shortcut -->
@@ -945,7 +945,7 @@
     <!-- Dialog title: Shown in dialog when adding a new request parameter and user has to pick its type -->
     <string name="dialog_title_parameter_type">Parameter Type</string>
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for string parameter -->
-    <string name="option_parameter_type_string">String (default)</string>
+    <string name="option_parameter_type_string">Text</string>
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for file parameter -->
     <string name="option_parameter_type_file">Single File</string>
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for image parameter -->
