@@ -261,7 +261,6 @@ open class ShortcutModel(
             throw IllegalArgumentException("Invalid delay: $delay")
         }
 
-        parameters.forEach(ParameterModel::validate)
         responseHandling?.validate()
     }
 

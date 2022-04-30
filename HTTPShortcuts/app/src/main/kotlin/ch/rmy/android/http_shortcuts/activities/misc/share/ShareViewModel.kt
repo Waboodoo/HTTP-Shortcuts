@@ -106,9 +106,9 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
     private fun getTargetableShortcutsForFileSharing(isImage: Boolean?): List<ShortcutModel> =
         shortcuts
             .filter {
-                it.hasFileParameter()
-                    || it.usesGenericFileBody()
-                    || (isImage != false && it.usesImageFileBody())
+                it.hasFileParameter() ||
+                    it.usesGenericFileBody() ||
+                    (isImage != false && it.usesImageFileBody())
             }
 
     private fun handleFileSharing() {

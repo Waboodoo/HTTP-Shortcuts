@@ -125,7 +125,7 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
                         id = parameterId,
                         key = key,
                         value = value,
-                        type = parameter.type,
+                        parameterType = parameter.parameterType,
                         fileName = parameter.fileName,
                     )
                 } else {

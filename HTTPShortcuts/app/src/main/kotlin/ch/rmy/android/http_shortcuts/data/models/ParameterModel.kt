@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.data.models
 
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
+import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
@@ -15,9 +16,22 @@ open class ParameterModel(
     var key: String = "",
     @Required
     var value: String = "",
-    var type: String = TYPE_STRING,
+    parameterType: ParameterType = ParameterType.STRING,
     var fileName: String = "",
 ) : RealmObject() {
+
+    @Required
+    private var type: String = ParameterType.STRING.type
+
+    var parameterType: ParameterType
+        get() = ParameterType.parse(type)
+        set(value) {
+            type = value.type
+        }
+
+    init {
+        type = parameterType.type
+    }
 
     fun isSameAs(other: ParameterModel) =
         other.key == key &&
@@ -26,24 +40,11 @@ open class ParameterModel(
             other.fileName == fileName
 
     val isStringParameter: Boolean
-        get() = type == TYPE_STRING
+        get() = type == ParameterType.STRING.type
 
     val isFileParameter: Boolean
-        get() = type == TYPE_FILE
+        get() = type == ParameterType.FILE.type
 
     val isFilesParameter: Boolean
-        get() = type == TYPE_FILES
-
-    fun validate() {
-        if (type !in setOf(TYPE_STRING, TYPE_FILE, TYPE_FILES)) {
-            throw IllegalArgumentException("Invalid parameter type: $type")
-        }
-    }
-
-    companion object {
-
-        const val TYPE_STRING = "string"
-        const val TYPE_FILE = "file"
-        const val TYPE_FILES = "files"
-    }
+        get() = type == ParameterType.FILES.type
 }

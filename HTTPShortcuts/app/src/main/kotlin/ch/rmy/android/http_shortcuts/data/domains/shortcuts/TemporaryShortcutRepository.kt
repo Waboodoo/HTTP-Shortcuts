@@ -7,6 +7,7 @@ import ch.rmy.android.framework.extensions.swap
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryShortcut
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
+import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
@@ -154,7 +155,7 @@ class TemporaryShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
     fun addStringParameter(key: String, value: String) =
         Single.defer {
             val parameter = ParameterModel(
-                type = ParameterModel.TYPE_STRING,
+                parameterType = ParameterType.STRING,
                 key = key.trim(),
                 value = value,
             )
@@ -169,7 +170,7 @@ class TemporaryShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
     fun addFileParameter(key: String, fileName: String, multiple: Boolean) =
         Single.defer {
             val parameter = ParameterModel(
-                type = if (multiple) ParameterModel.TYPE_FILES else ParameterModel.TYPE_FILE,
+                parameterType = if (multiple) ParameterType.FILES else ParameterType.FILE,
                 key = key.trim(),
                 fileName = fileName,
             )
@@ -358,7 +359,7 @@ class TemporaryShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
                     val parameter = if (value.startsWith("@") && curlCommand.isFormData) {
                         ParameterModel(
                             key = decode(key),
-                            type = ParameterModel.TYPE_FILE,
+                            parameterType = ParameterType.FILE,
                         )
                     } else {
                         ParameterModel(
