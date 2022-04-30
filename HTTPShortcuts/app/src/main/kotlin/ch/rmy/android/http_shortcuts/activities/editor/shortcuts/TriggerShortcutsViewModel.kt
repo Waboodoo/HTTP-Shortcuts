@@ -150,11 +150,11 @@ class TriggerShortcutsViewModel(application: Application) :
         }
     }
 
-    fun onAddShortcutDialogConfirmed(shortcutId: ShortcutId) {
+    private fun onAddShortcutDialogConfirmed(shortcutId: ShortcutId) {
         shortcutIdsInUse = shortcutIdsInUse.plus(shortcutId)
     }
 
-    fun onRemoveShortcutDialogConfirmed(shortcutId: ShortcutId) {
+    private fun onRemoveShortcutDialogConfirmed(shortcutId: ShortcutId) {
         shortcutIdsInUse = shortcutIdsInUse.filter { it != shortcutId }
     }
 

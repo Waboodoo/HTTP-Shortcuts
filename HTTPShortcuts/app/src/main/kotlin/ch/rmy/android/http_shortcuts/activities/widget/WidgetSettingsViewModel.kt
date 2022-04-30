@@ -82,7 +82,7 @@ class WidgetSettingsViewModel(application: Application) :
         }
     }
 
-    fun onLabelColorSelected(color: Int) {
+    private fun onLabelColorSelected(color: Int) {
         updateViewState {
             copy(labelColor = color)
         }

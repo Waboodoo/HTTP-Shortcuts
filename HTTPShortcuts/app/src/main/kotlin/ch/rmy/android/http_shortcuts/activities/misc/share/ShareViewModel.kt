@@ -19,6 +19,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
+import ch.rmy.android.http_shortcuts.utils.FileTypeUtil
 import ch.rmy.android.http_shortcuts.variables.VariableLookup
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
@@ -115,7 +116,7 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
     private fun handleFileSharing() {
         val isImage = fileUris.singleOrNull()
             ?.let(context.contentResolver::getType)
-            ?.contains("image", ignoreCase = true)
+            ?.let(FileTypeUtil::isImage)
         val shortcutsForFileSharing = getTargetableShortcutsForFileSharing(isImage)
         when (shortcutsForFileSharing.size) {
             0 -> {

@@ -119,31 +119,22 @@ open class DialogBuilder(val context: Context) {
         dialog.setOnDismissListener { onDismissListener() }
     }
 
-    fun positive(@StringRes buttonText: Int, action: ((MaterialDialog) -> Unit)? = null) =
-        positive(context.getString(buttonText), action)
-
-    fun positive(buttonText: String, action: ((MaterialDialog) -> Unit)? = null) = also {
-        dialog.positiveButton(text = buttonText, click = {
+    fun positive(@StringRes buttonText: Int, action: ((MaterialDialog) -> Unit)? = null) = also {
+        dialog.positiveButton(buttonText) {
             action?.invoke(it)
-        })
+        }
     }
 
-    fun negative(@StringRes buttonText: Int, action: ((MaterialDialog) -> Unit)? = null) =
-        negative(context.getString(buttonText), action)
-
-    fun negative(buttonText: String, action: ((MaterialDialog) -> Unit)? = null) = also {
-        dialog.negativeButton(text = buttonText, click = {
+    fun negative(@StringRes buttonText: Int, action: ((MaterialDialog) -> Unit)? = null) = also {
+        dialog.negativeButton(buttonText) {
             action?.invoke(it)
-        })
+        }
     }
 
-    fun neutral(@StringRes buttonText: Int, action: ((MaterialDialog) -> Unit)? = null) =
-        neutral(context.getString(buttonText), action)
-
-    fun neutral(buttonText: String, action: ((MaterialDialog) -> Unit)? = null) = also {
-        dialog.neutralButton(text = buttonText, click = {
+    fun neutral(@StringRes buttonText: Int, action: ((MaterialDialog) -> Unit)? = null) = also {
+        dialog.neutralButton(buttonText) {
             action?.invoke(it)
-        })
+        }
     }
 
     @SuppressLint("CheckResult")

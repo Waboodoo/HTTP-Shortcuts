@@ -437,7 +437,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
             .dismissListener {
                 emitter.cancel()
             }
-            .positive(getString(R.string.action_label_select)) {
+            .positive(R.string.action_label_select) {
                 WifiUtil.showWifiPicker(this)
             }
             .negative(R.string.dialog_cancel)

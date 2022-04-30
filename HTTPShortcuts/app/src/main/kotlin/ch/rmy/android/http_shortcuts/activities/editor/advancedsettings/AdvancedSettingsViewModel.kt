@@ -96,7 +96,7 @@ class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, 
         )
     }
 
-    fun onTimeoutChanged(timeout: Duration) {
+    private fun onTimeoutChanged(timeout: Duration) {
         updateViewState {
             copy(timeout = timeout)
         }

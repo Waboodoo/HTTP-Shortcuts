@@ -82,7 +82,7 @@ class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit,
         )
     }
 
-    fun onDelayChanged(delay: Duration) {
+    private fun onDelayChanged(delay: Duration) {
         performOperation(
             temporaryShortcutRepository.setDelay(delay)
         )
