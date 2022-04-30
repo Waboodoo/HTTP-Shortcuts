@@ -153,6 +153,7 @@ Klik tombol + untuk menambah variabel."</string>
     <string name="title_post_param_add_file">"Tambahk Parameter File"</string>
 
     <!-- Label of input field to provide the name/key of a parameter of a shortcut -->
+    <!-- Fuzzy -->
     <string name="label_post_param_key">"Parameter"</string>
 
     <!-- Label of input field to provide the file name for a file parameter of a shortcut -->
@@ -1001,6 +1002,7 @@ Untuk menggunakan fitur ini setidaknya Anda memiliki satu pintasan yang mengguna
     <string name="dialog_title_parameter_type">"Tipe Parameter"</string>
 
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for string parameter -->
+    <!-- Fuzzy -->
     <string name="option_parameter_type_string">"Teks (bawaan)"</string>
 
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for file parameter -->

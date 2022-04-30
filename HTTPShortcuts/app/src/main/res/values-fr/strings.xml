@@ -149,6 +149,7 @@
     <string name="title_post_param_add_file">"Ajouter un fichier de paramètre"</string>
 
     <!-- Label of input field to provide the name/key of a parameter of a shortcut -->
+    <!-- Fuzzy -->
     <string name="label_post_param_key">"Paramètre"</string>
 
     <!-- Label of input field to provide the file name for a file parameter of a shortcut -->

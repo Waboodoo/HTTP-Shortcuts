@@ -153,7 +153,7 @@ Drücke den + Knopf um eine Variable zu erstellen."</string>
     <string name="title_post_param_add_file">"Datei-Parameter hinzufügen"</string>
 
     <!-- Label of input field to provide the name/key of a parameter of a shortcut -->
-    <string name="label_post_param_key">"Parameter"</string>
+    <string name="label_post_param_key">"Parametername"</string>
 
     <!-- Label of input field to provide the file name for a file parameter of a shortcut -->
     <string name="label_post_param_file_name">"Dateiname (optional)"</string>
@@ -234,7 +234,6 @@ Drücke den + Knopf um eine Variable zu erstellen."</string>
     <string name="settings_export">"Shortcuts &amp; Variablen exportieren"</string>
 
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
-    <!-- Fuzzy -->
     <plurals name="shortcut_export_success">
         <item quantity="one">"%d Shortcut exportiert."</item>
         <item quantity="other">"%d Shortcuts exportiert."</item>
@@ -254,7 +253,6 @@ Drücke den + Knopf um eine Variable zu erstellen."</string>
     <string name="import_failure_reason_invalid_json">"Ungültiges JSON"</string>
 
     <!-- Success message, shown in snackbar when import of shortcuts is successful -->
-    <!-- Fuzzy -->
     <plurals name="shortcut_import_success">
         <item quantity="one">"%d Shortcut importiert."</item>
         <item quantity="other">"%d Shortcuts importiert."</item>
@@ -1023,7 +1021,7 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <string name="dialog_title_parameter_type">"Parametertyp"</string>
 
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for string parameter -->
-    <string name="option_parameter_type_string">"String (standard)"</string>
+    <string name="option_parameter_type_string">"Text"</string>
 
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for file parameter -->
     <string name="option_parameter_type_file">"Einzelne Datei"</string>
@@ -1041,7 +1039,6 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <string name="language_default">"System-Standard"</string>
 
     <!-- Error: Shown in toast when user tries to add a variable placeholder to a text beyond its maximum size -->
-    <!-- Fuzzy -->
     <string name="error_text_too_long_for_variable">"Text länger als %d Zeichen. Variable kann nicht eingefügt werden."</string>
 
     <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->
@@ -1066,7 +1063,6 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <string name="error_invalid_character">"Ungültiges Zeichen: %s"</string>
 
     <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
-    <!-- Fuzzy -->
     <plurals name="warning_variable_still_in_use_in_shortcuts">
         <item quantity="one">"Diese Variable wird noch von einem Shortcut verwendet: %1$s"</item>
         <item quantity="other">"Diese Variable wird noch von %2$d Shortcuts verwendet: %1$s"</item>
@@ -1751,4 +1747,22 @@ Trotzdem löschen?"</string>
 
     <!-- Option to choose from when selecting the background of a category: custom color -->
     <string name="category_background_type_color">"Farbe"</string>
+
+    <!-- Title of dialog to edit an image parameter on a shortcut -->
+    <string name="title_post_param_edit_image">"Bild-Parameter bearbeiten"</string>
+
+    <!-- Title of dialog to add a new image parameter to a shortcut -->
+    <string name="title_post_param_add_image">"Bild-Parameter hinzufügen"</string>
+
+    <!-- Dropdown option for request body: image (i.e., user gets to take a picture with the camera which is used as the request body) -->
+    <string name="request_body_option_image">"Bild (Kamera)"</string>
+
+    <!-- Section subtitle, shown in shortcut editor when request body is set to 'Image' -->
+    <string name="subtitle_request_body_image">"Request-Body aus Bild"</string>
+
+    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for image parameter -->
+    <string name="option_parameter_type_image">"Bild (Kamera)"</string>
+
+    <!-- Subtitle: Shown in request parameter editor underneath every image parameter to indicate their type -->
+    <string name="subtitle_parameter_value_image">"Bild"</string>
 </resources>

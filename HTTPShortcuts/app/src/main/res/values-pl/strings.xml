@@ -163,6 +163,7 @@
     <string name="title_post_param_add_file">"Dodaj parametr pliku"</string>
 
     <!-- Label of input field to provide the name/key of a parameter of a shortcut -->
+    <!-- Fuzzy -->
     <string name="label_post_param_key">"Parametr"</string>
 
     <!-- Label of input field to provide the file name for a file parameter of a shortcut -->
@@ -1056,6 +1057,7 @@ Możesz włączyć tę funkcję, edytując skrót i zaznaczając pole wyboru \"%
     <string name="label_response_headers">"Nagłówek"</string>
 
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for string parameter -->
+    <!-- Fuzzy -->
     <string name="option_parameter_type_string">"Ciąg (domyślny)"</string>
 
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for file parameter -->

@@ -131,6 +131,7 @@
     <string name="title_post_param_add">"Afegir paràmetre"</string>
 
     <!-- Label of input field to provide the name/key of a parameter of a shortcut -->
+    <!-- Fuzzy -->
     <string name="label_post_param_key">"Paràmetre"</string>
 
     <!-- Label of input field to provide the value of a parameter of a shortcut -->

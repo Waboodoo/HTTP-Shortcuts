@@ -149,6 +149,7 @@
     <string name="title_post_param_add_file">"Добавить параметр файла"</string>
 
     <!-- Label of input field to provide the name/key of a parameter of a shortcut -->
+    <!-- Fuzzy -->
     <string name="label_post_param_key">"Параметр"</string>
 
     <!-- Label of input field to provide the file name for a file parameter of a shortcut -->
@@ -982,6 +983,7 @@
     <string name="dialog_title_parameter_type">"Тип параметра"</string>
 
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for string parameter -->
+    <!-- Fuzzy -->
     <string name="option_parameter_type_string">"Строка (по умолчанию)"</string>
 
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for file parameter -->
