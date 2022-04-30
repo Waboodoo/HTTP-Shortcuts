@@ -6,6 +6,7 @@ import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
+import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
@@ -62,15 +63,21 @@ class CurlExporter(val context: Context) {
                 if (shortcut.bodyType == RequestBodyType.FORM_DATA) {
                     isFormData()
                         .runFor(shortcut.parameters) { parameter ->
-                            if (parameter.isFileParameter || parameter.isFilesParameter) {
-                                addFileParameter(
-                                    rawPlaceholdersToResolvedValues(parameter.key, variableValues),
-                                )
-                            } else {
-                                addParameter(
-                                    rawPlaceholdersToResolvedValues(parameter.key, variableValues),
-                                    rawPlaceholdersToResolvedValues(parameter.value, variableValues),
-                                )
+                            when (parameter.parameterType) {
+                                ParameterType.FILE,
+                                ParameterType.FILES,
+                                ParameterType.IMAGE,
+                                -> {
+                                    addFileParameter(
+                                        rawPlaceholdersToResolvedValues(parameter.key, variableValues),
+                                    )
+                                }
+                                ParameterType.STRING -> {
+                                    addParameter(
+                                        rawPlaceholdersToResolvedValues(parameter.key, variableValues),
+                                        rawPlaceholdersToResolvedValues(parameter.value, variableValues),
+                                    )
+                                }
                             }
                         }
                 } else {

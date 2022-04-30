@@ -140,13 +140,13 @@ class RequestBodyActivity : BaseActivity() {
                 showAddDialogForStringParameter()
             }
             is RequestBodyEvent.ShowAddParameterForFileDialog -> {
-                showAddDialogForFileParameter(event.multiple)
+                showAddDialogForFileParameter(event.multiple, event.image)
             }
             is RequestBodyEvent.ShowEditParameterForStringDialog -> {
                 showEditDialogForStringParameter(event.parameterId, event.key, event.value)
             }
             is RequestBodyEvent.ShowEditParameterForFileDialog -> {
-                showEditDialogForFileParameter(event.parameterId, event.key, event.showFileNameOption, event.fileName)
+                showEditDialogForFileParameter(event.parameterId, event.key, event.showFileNameOption, event.fileName, event.image)
             }
             else -> super.handleEvent(event)
         }
@@ -170,10 +170,16 @@ class RequestBodyActivity : BaseActivity() {
             .attachTo(destroyer)
     }
 
-    private fun showAddDialogForFileParameter(multiple: Boolean) {
+    private fun showAddDialogForFileParameter(multiple: Boolean, image: Boolean) {
         FileParameterDialog(
             variablePlaceholderProvider = variablePlaceholderProvider,
-            title = getString(if (multiple) R.string.title_post_param_add_files else R.string.title_post_param_add_file),
+            title = getString(
+                when {
+                    image -> R.string.title_post_param_add_image
+                    multiple -> R.string.title_post_param_add_files
+                    else -> R.string.title_post_param_add_file
+                }
+            ),
             showFileNameOption = !multiple,
         )
             .show(context)
@@ -183,6 +189,7 @@ class RequestBodyActivity : BaseActivity() {
                         event.keyName,
                         event.fileName,
                         multiple,
+                        image,
                     )
                     is FileParameterDialog.Event.DataRemovedEvent -> Unit
                 }
@@ -218,10 +225,11 @@ class RequestBodyActivity : BaseActivity() {
         key: String,
         showFileNameOption: Boolean,
         fileName: String,
+        image: Boolean,
     ) {
         FileParameterDialog(
             variablePlaceholderProvider = variablePlaceholderProvider,
-            title = getString(R.string.title_post_param_edit_file),
+            title = getString(if (image) R.string.title_post_param_edit_image else R.string.title_post_param_edit_file),
             showRemoveOption = true,
             showFileNameOption = showFileNameOption,
             keyName = key,

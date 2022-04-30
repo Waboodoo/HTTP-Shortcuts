@@ -5,7 +5,10 @@ import ch.rmy.android.framework.viewmodel.ViewModelEvent
 abstract class RequestBodyEvent : ViewModelEvent() {
     object ShowAddParameterForStringDialog : RequestBodyEvent()
 
-    data class ShowAddParameterForFileDialog(val multiple: Boolean) : RequestBodyEvent()
+    data class ShowAddParameterForFileDialog(
+        val multiple: Boolean = false,
+        val image: Boolean = false,
+    ) : RequestBodyEvent()
 
     data class ShowEditParameterForStringDialog(
         val parameterId: String,
@@ -18,5 +21,6 @@ abstract class RequestBodyEvent : ViewModelEvent() {
         val key: String,
         val showFileNameOption: Boolean,
         val fileName: String,
+        val image: Boolean = false,
     ) : RequestBodyEvent()
 }

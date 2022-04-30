@@ -167,10 +167,14 @@ class TemporaryShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
                 .toSingleDefault(parameter)
         }
 
-    fun addFileParameter(key: String, fileName: String, multiple: Boolean) =
+    fun addFileParameter(key: String, fileName: String, multiple: Boolean, image: Boolean) =
         Single.defer {
             val parameter = ParameterModel(
-                parameterType = if (multiple) ParameterType.FILES else ParameterType.FILE,
+                parameterType = when {
+                    image -> ParameterType.IMAGE
+                    multiple -> ParameterType.FILES
+                    else -> ParameterType.FILE
+                },
                 key = key.trim(),
                 fileName = fileName,
             )

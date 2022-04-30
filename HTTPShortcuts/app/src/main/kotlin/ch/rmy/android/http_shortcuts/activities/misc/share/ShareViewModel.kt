@@ -16,6 +16,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
+import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import ch.rmy.android.http_shortcuts.variables.VariableLookup
@@ -106,7 +107,7 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
     private fun getTargetableShortcutsForFileSharing(isImage: Boolean?): List<ShortcutModel> =
         shortcuts
             .filter {
-                it.hasFileParameter() ||
+                it.hasFileParameter(isImage) ||
                     it.usesGenericFileBody() ||
                     (isImage != false && it.usesImageFileBody())
             }
@@ -184,7 +185,15 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
             return variableIds.any { variableIdsInShortcut.contains(it) }
         }
 
-        private fun ShortcutModel.hasFileParameter(): Boolean =
-            parameters.any { it.isFileParameter || it.isFilesParameter }
+        private fun ShortcutModel.hasFileParameter(isImage: Boolean?): Boolean =
+            parameters.any {
+                when (it.parameterType) {
+                    ParameterType.STRING -> false
+                    ParameterType.FILE,
+                    ParameterType.FILES,
+                    -> true
+                    ParameterType.IMAGE -> isImage != false
+                }
+            }
     }
 }

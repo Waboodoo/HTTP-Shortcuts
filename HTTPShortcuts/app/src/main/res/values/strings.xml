@@ -128,10 +128,14 @@
     <string name="title_post_param_edit">Edit Parameter</string>
     <!-- Title of dialog to edit a file parameter on a shortcut -->
     <string name="title_post_param_edit_file">Edit File Parameter</string>
+    <!-- Title of dialog to edit an image parameter on a shortcut -->
+    <string name="title_post_param_edit_image">Edit Image Parameter</string>
     <!-- Title of dialog to add a new parameter to a shortcut -->
     <string name="title_post_param_add">Add Parameter</string>
     <!-- Title of dialog to add a new file parameter to a shortcut -->
     <string name="title_post_param_add_file">Add File Parameter</string>
+    <!-- Title of dialog to add a new image parameter to a shortcut -->
+    <string name="title_post_param_add_image">Add Image Parameter</string>
     <!-- Title of dialog to add a new files parameter to a shortcut -->
     <string name="title_post_param_add_files">Add Files Parameter</string>
     <!-- Label of input field to provide the name/key of a parameter of a shortcut -->
@@ -944,10 +948,14 @@
     <string name="option_parameter_type_string">String (default)</string>
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for file parameter -->
     <string name="option_parameter_type_file">Single File</string>
+    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for image parameter -->
+    <string name="option_parameter_type_image">Image (Camera)</string>
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for files parameter -->
     <string name="option_parameter_type_files">Multiple Files</string>
     <!-- Subtitle: Shown in request parameter editor underneath every file parameter to indicate their type -->
     <string name="subtitle_parameter_value_file">File</string>
+    <!-- Subtitle: Shown in request parameter editor underneath every image parameter to indicate their type -->
+    <string name="subtitle_parameter_value_image">Image</string>
     <!-- Subtitle: Shown in request parameter editor underneath every files parameter to indicate their type -->
     <string name="subtitle_parameter_value_files">Files</string>
     <!-- Settings option: Used in language picker to allow user to pick the default language, i.e., the system language -->

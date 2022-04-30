@@ -33,6 +33,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
+import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
@@ -388,14 +389,11 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                 addFileRequest(image = true)
             }
             .runFor(shortcut.parameters) { parameter ->
-                when {
-                    parameter.isFilesParameter -> {
-                        addFileRequest(multiple = true)
-                    }
-                    parameter.isFileParameter -> {
-                        addFileRequest(multiple = false)
-                    }
-                    else -> this
+                when (parameter.parameterType) {
+                    ParameterType.STRING -> this
+                    ParameterType.FILE -> addFileRequest(multiple = false)
+                    ParameterType.FILES -> addFileRequest(multiple = true)
+                    ParameterType.IMAGE -> addFileRequest(image = true)
                 }
             }
             .build()

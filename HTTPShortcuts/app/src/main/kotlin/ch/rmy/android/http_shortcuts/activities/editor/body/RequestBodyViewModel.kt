@@ -10,6 +10,7 @@ import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
+import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.models.ParameterModel
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
@@ -108,8 +109,8 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
             .attachTo(destroyer)
     }
 
-    fun onAddFileParameterDialogConfirmed(key: String, fileName: String, multiple: Boolean) {
-        temporaryShortcutRepository.addFileParameter(key, fileName, multiple)
+    fun onAddFileParameterDialogConfirmed(key: String, fileName: String, multiple: Boolean, image: Boolean) {
+        temporaryShortcutRepository.addFileParameter(key, fileName, multiple, image)
             .compose(progressMonitor.singleTransformer())
             .subscribe { newParameter ->
                 parameters = parameters.plus(newParameter)
@@ -163,8 +164,11 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
                 .item(R.string.option_parameter_type_string) {
                     emitEvent(RequestBodyEvent.ShowAddParameterForStringDialog)
                 }
+                .item(R.string.option_parameter_type_image) {
+                    emitEvent(RequestBodyEvent.ShowAddParameterForFileDialog(image = true))
+                }
                 .item(R.string.option_parameter_type_file) {
-                    emitEvent(RequestBodyEvent.ShowAddParameterForFileDialog(multiple = false))
+                    emitEvent(RequestBodyEvent.ShowAddParameterForFileDialog())
                 }
                 .item(R.string.option_parameter_type_files) {
                     emitEvent(RequestBodyEvent.ShowAddParameterForFileDialog(multiple = true))
@@ -179,19 +183,40 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
         }
             ?.let { parameter ->
                 emitEvent(
-                    if (parameter.isFileParameter || parameter.isFilesParameter) {
-                        RequestBodyEvent.ShowEditParameterForFileDialog(
-                            id,
-                            parameter.key,
-                            showFileNameOption = parameter.isFileParameter,
-                            fileName = parameter.fileName,
-                        )
-                    } else {
-                        RequestBodyEvent.ShowEditParameterForStringDialog(
-                            id,
-                            parameter.key,
-                            parameter.value,
-                        )
+                    when (parameter.parameterType) {
+                        ParameterType.STRING -> {
+                            RequestBodyEvent.ShowEditParameterForStringDialog(
+                                id,
+                                parameter.key,
+                                parameter.value,
+                            )
+                        }
+                        ParameterType.FILE -> {
+                            RequestBodyEvent.ShowEditParameterForFileDialog(
+                                id,
+                                parameter.key,
+                                showFileNameOption = true,
+                                fileName = parameter.fileName,
+                            )
+                        }
+                        ParameterType.IMAGE,
+                        -> {
+                            RequestBodyEvent.ShowEditParameterForFileDialog(
+                                id,
+                                parameter.key,
+                                showFileNameOption = true,
+                                fileName = parameter.fileName,
+                                image = true,
+                            )
+                        }
+                        ParameterType.FILES -> {
+                            RequestBodyEvent.ShowEditParameterForFileDialog(
+                                id,
+                                parameter.key,
+                                showFileNameOption = false,
+                                fileName = parameter.fileName,
+                            )
+                        }
                     }
                 )
             }
@@ -233,14 +258,11 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
                     id = parameter.id,
                     key = parameter.key,
                     value = parameter.value.takeIf { parameter.isStringParameter },
-                    label = when {
-                        parameter.isFileParameter -> {
-                            StringResLocalizable(R.string.subtitle_parameter_value_file)
-                        }
-                        parameter.isFilesParameter -> {
-                            StringResLocalizable(R.string.subtitle_parameter_value_files)
-                        }
-                        else -> null
+                    label = when (parameter.parameterType) {
+                        ParameterType.FILE -> StringResLocalizable(R.string.subtitle_parameter_value_file)
+                        ParameterType.FILES -> StringResLocalizable(R.string.subtitle_parameter_value_files)
+                        ParameterType.IMAGE -> StringResLocalizable(R.string.subtitle_parameter_value_image)
+                        ParameterType.STRING -> null
                     },
                 )
             }

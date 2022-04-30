@@ -41,10 +41,4 @@ open class ParameterModel(
 
     val isStringParameter: Boolean
         get() = type == ParameterType.STRING.type
-
-    val isFileParameter: Boolean
-        get() = type == ParameterType.FILE.type
-
-    val isFilesParameter: Boolean
-        get() = type == ParameterType.FILES.type
 }

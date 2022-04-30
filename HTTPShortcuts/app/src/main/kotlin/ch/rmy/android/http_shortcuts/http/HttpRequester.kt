@@ -8,6 +8,7 @@ import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
+import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
@@ -169,8 +170,8 @@ class HttpRequester(private val contentResolver: ContentResolver) {
         var fileIndex = -1
         return requestBuilder.runFor(shortcut.parameters) { parameter ->
             val parameterName = Variables.rawPlaceholdersToResolvedValues(parameter.key, variables)
-            when {
-                parameter.isFilesParameter -> {
+            when (parameter.parameterType) {
+                ParameterType.FILES -> {
                     runIfNotNull(fileUploadManager) {
                         fileIndex++
                         val files = it.getFiles(fileIndex)
@@ -185,7 +186,8 @@ class HttpRequester(private val contentResolver: ContentResolver) {
                         }
                     }
                 }
-                parameter.isFileParameter -> {
+                ParameterType.IMAGE,
+                ParameterType.FILE -> {
                     runIfNotNull(fileUploadManager) {
                         fileIndex++
                         runIfNotNull(it.getFile(fileIndex)) { file ->
@@ -199,7 +201,7 @@ class HttpRequester(private val contentResolver: ContentResolver) {
                         }
                     }
                 }
-                else -> {
+                ParameterType.STRING -> {
                     parameter(
                         name = parameterName,
                         value = Variables.rawPlaceholdersToResolvedValues(parameter.value, variables),
