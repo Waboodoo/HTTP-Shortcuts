@@ -297,9 +297,11 @@ class ShortcutEditorViewModel(
         updateViewState {
             copy(shortcutIcon = icon)
         }
-        performOperation(
-            temporaryShortcutRepository.setIcon(icon)
-        )
+        doWithViewState {
+            performOperation(
+                temporaryShortcutRepository.setIcon(icon)
+            )
+        }
     }
 
     fun onShortcutNameChanged(name: String) {
