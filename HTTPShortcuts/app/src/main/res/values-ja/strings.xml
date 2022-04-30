@@ -235,7 +235,6 @@
     <string name="settings_export">"ショートカットと変数をエクスポート"</string>
 
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
-    <!-- Fuzzy -->
     <plurals name="shortcut_export_success">
         <item quantity="other">"%d 個のショートカットをエクスポート完了"</item>
     </plurals>
@@ -253,7 +252,6 @@
     <string name="import_failure_reason_invalid_json">"無効なJSON"</string>
 
     <!-- Success message, shown in snackbar when import of shortcuts is successful -->
-    <!-- Fuzzy -->
     <plurals name="shortcut_import_success">
         <item quantity="other">"%d 個のショートカットをインポート完了"</item>
     </plurals>
@@ -1033,8 +1031,7 @@
     <string name="language_default">"システムの既定値"</string>
 
     <!-- Error: Shown in toast when user tries to add a variable placeholder to a text beyond its maximum size -->
-    <!-- Fuzzy -->
-    <string name="error_text_too_long_for_variable">"%d 文字数を超えています。変数プレースホルダーを挿入できません。"</string>
+    <string name="error_text_too_long_for_variable">"%d 文字数を超過しています。変数プレースホルダーを挿入できません。"</string>
 
     <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->
     <string name="instructions_select_shortcut_for_home_screen">"ホーム画面に配置するには、ショートカットを選択するか、作成してください。"</string>
@@ -1058,9 +1055,8 @@
     <string name="error_invalid_character">"無効な文字：%s"</string>
 
     <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
-    <!-- Fuzzy -->
     <plurals name="warning_variable_still_in_use_in_shortcuts">
-        <item quantity="other">"この変数は %2$d つのショートカットで使用中です：%1$s"</item>
+        <item quantity="other">"この変数は %2$dつのショートカットで使用中です：%1$s"</item>
     </plurals>
 
     <!-- dialog title, shown when creating new variable and user is prompted to select the type of the variable -->
@@ -1635,6 +1631,9 @@
     <!-- Dialog message: Shown in dialog when removing a deleted shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
     <string name="message_remove_deleted_trigger_shortcut">"削除したショートカットを「トリガー ショートカット」リストから消去しますか？"</string>
 
+    <!-- Label above input field in editor, for entering the package name of the browser with which to open the URL -->
+    <string name="label_browser_package_name">"ブラウザ"</string>
+
     <!-- Option in "Change Icon" dialog, allows user to fetch the favicon of the shortcut's URL to use as a shortcut icon -->
     <string name="choose_page_favicon">"ページのファビコンを取得"</string>
 
@@ -1702,4 +1701,40 @@
 
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="placeholder_browser_package_name">"デフォルトのブラウザを使用"</string>
+
+    <!-- Page title, for editing a category -->
+    <string name="title_edit_category">"カテゴリーを編集"</string>
+
+    <!-- Option to choose from when selecting the background of a category: Default (white, or black in night mode) -->
+    <string name="category_background_type_default">"デフォルト"</string>
+
+    <!-- Message, shown in snackbar, to confirm to the user that a category's changes were saved -->
+    <string name="message_category_edited">"カテゴリーを更新しました"</string>
+
+    <!-- Label above input field in category editor, for category name -->
+    <string name="label_category_name">"カテゴリー名"</string>
+
+    <!-- Label above dropdown input field for selecting the layout type (grid, list) for a category -->
+    <string name="label_category_layout_type">"レイアウト タイプ"</string>
+
+    <!-- Label above dropdown input field for selecting the background for a category -->
+    <string name="label_category_background">"バックグラウンド"</string>
+
+    <!-- Option in category editor to choose the shortcut click behavior, to set it to the global default -->
+    <string name="settings_click_behavior_global_default">"グローバルのデフォルトを使用"</string>
+
+    <!-- Description for the "Customizable Widget", shown in Android's widget picker -->
+    <string name="description_customizable_widget">"ショートカットのラベルの色、ラベルの表示／非表示を選択してください。"</string>
+
+    <!-- Option when picking the layout for a category: Show shortcuts in a dense grid -->
+    <string name="layout_type_dense_grid">"グリッド密度"</string>
+
+    <!-- Option when picking the layout for a category: Show shortcuts in a medium grid -->
+    <string name="layout_type_medium_grid">"グリッド中間"</string>
+
+    <!-- Option when picking the layout for a category: Show shortcuts in a wide grid -->
+    <string name="layout_type_wide_grid">"グリッド広め"</string>
+
+    <!-- Option to choose from when selecting the background of a category: custom color -->
+    <string name="category_background_type_color">"色"</string>
 </resources>
