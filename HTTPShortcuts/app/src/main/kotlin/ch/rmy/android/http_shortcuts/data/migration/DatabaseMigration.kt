@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.data.migration
 
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.data.migration.migrations.CategoryBackgroundMigration
+import ch.rmy.android.http_shortcuts.data.migration.migrations.CategoryLayoutMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ParameterTypeMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.RemoveLegacyActionsMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceActionsWithScriptsMigration
@@ -387,6 +388,7 @@ class DatabaseMigration : RealmMigration {
                     .addField("shortcutClickBehavior", String::class.java)
             }
             50L -> CategoryBackgroundMigration.migrateRealm(realm)
+            51L -> CategoryLayoutMigration.migrateRealm(realm)
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -412,6 +414,6 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 50L
+        const val VERSION = 51L
     }
 }

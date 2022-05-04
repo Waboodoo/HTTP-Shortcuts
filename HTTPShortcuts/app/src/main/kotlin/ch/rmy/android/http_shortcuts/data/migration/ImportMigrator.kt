@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.data.migration
 
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.data.migration.migrations.CategoryBackgroundMigration
+import ch.rmy.android.http_shortcuts.data.migration.migrations.CategoryLayoutMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ParameterTypeMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.RemoveLegacyActionsMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceActionsWithScriptsMigration
@@ -146,6 +147,9 @@ internal object ImportMigrator {
             }
             50L -> { // 2.15.0
                 CategoryBackgroundMigration.migrateImport(base)
+            }
+            51L -> { // 2.15.1
+                CategoryLayoutMigration.migrateImport(base)
             }
         }
     }

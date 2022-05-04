@@ -29,6 +29,10 @@ class ShouldShowChangeLogDialogUseCase(
         IMPORTANT_VERSIONS.all { it <= (lastSeenVersion ?: 0L) }
 
     companion object {
+        /**
+         * Contains all version numbers which are considered important enough that they may force the displaying of the changelog dialog, even when
+         * the user has set it to never appear automatically on updates. This can be used to announce important (e.g. breaking) changes.
+         */
         private val IMPORTANT_VERSIONS = setOf(
             204,
         )

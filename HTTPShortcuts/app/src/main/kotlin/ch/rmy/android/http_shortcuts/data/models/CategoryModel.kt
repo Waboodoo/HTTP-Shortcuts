@@ -62,7 +62,7 @@ open class CategoryModel(
             throw IllegalArgumentException("Invalid category ID found, must be UUID: $id")
         }
 
-        if (CategoryLayoutType.values().none { it.type == layoutType }) {
+        if (CategoryLayoutType.values().none { it.type == layoutType || it.legacyAlias == layoutType }) {
             throw IllegalArgumentException("Invalid layout type: $layoutType")
         }
 

@@ -1,3 +1,8 @@
+## Version 2.15.1
+
+### Bugfixes
+- Fixed error when importing categories that use grid layout
+
 ## Version 2.15.0
 
 ### Improvements
