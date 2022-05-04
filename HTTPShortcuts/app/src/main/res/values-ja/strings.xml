@@ -632,7 +632,7 @@
     <string name="title_export">"エクスポート中…"</string>
 
     <!-- Dialog option on Export dialog, for exporting by storing in a file -->
-    <string name="button_export_to_general">"ドキュメント（保存したファイル）"</string>
+    <string name="button_export_to_general">"ドキュメント（ファイル保存）"</string>
 
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
     <string name="button_export_send_to">"その他のアプリ（共有）"</string>
@@ -752,7 +752,7 @@
     <string name="label_advanced_technical_settings">"高度な設定"</string>
 
     <!-- Section subtitle in shortcut editor, shown below "Advanced Technical Settings" -->
-    <string name="label_advanced_technical_settings_subtitle">"この意味を理解している人："</string>
+    <string name="label_advanced_technical_settings_subtitle">"しっかり理解した上で操作する"</string>
 
     <!-- Shortcut Action Title: Show Toast (small popup message) -->
     <string name="action_type_toast_title">"ポップアップメッセージを表示"</string>
@@ -1452,7 +1452,7 @@
     <string name="settings_use_legacy_export_format">"レガシー(旧式)のファイル形式を使用"</string>
 
     <!-- Subtitle of setting that allows the user to enable exporting using the legacy file format -->
-    <string name="settings_use_legacy_export_format_summary">"古いファイル形式（つまり、JSONファイル１つ）を使用してショートカットと変数をエクスポートできるようにします。 これにより、カスタム ショートカット アイコンのエクスポートを防止します。"</string>
+    <string name="settings_use_legacy_export_format_summary">"古いファイル形式（つまり、JSONファイル１つ）を使用してショートカットと変数をエクスポートできるようにします。 これにより、カスタム ショートカット アイコンをエクスポートに含めません。"</string>
 
     <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
     <string name="label_client_cert">"クライアント証明認証"</string>
@@ -1594,7 +1594,7 @@
     <string name="dialog_code_snippet_response_cookie">"名前でレスポンス クッキー(Cookie)を取得"</string>
 
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
-    <string name="empty_state_trigger_shortcuts">"トリガーするショートカットはまだ追加していません。"</string>
+    <string name="empty_state_trigger_shortcuts">"トリガーするショートカットが追加されていません。"</string>
 
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts_instructions">"このマルチショートカットの一部としてトリガーする全てのショートカットをこのリストに追加します。
