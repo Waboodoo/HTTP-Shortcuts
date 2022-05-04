@@ -191,7 +191,7 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
                                 .map { it as? JSValue }
                         }
                         rawData?.isObject == true -> {
-                            logException(Exception("Unexpectedly received JSObject instead of JSArray as argument for \"$actionType\" action"))
+                            // Legacy support
                             rawData
                                 .toObject()
                                 .let { obj ->
