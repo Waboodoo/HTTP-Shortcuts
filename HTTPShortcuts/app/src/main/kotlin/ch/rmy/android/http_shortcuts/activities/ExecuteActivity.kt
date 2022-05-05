@@ -636,9 +636,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
 
     private fun displayOutput(output: String?, response: ShortcutResponse? = null): Completable =
         when (shortcut.responseHandling?.uiType) {
-            ResponseHandlingModel.UI_TYPE_TOAST,
-            null,
-            -> {
+            ResponseHandlingModel.UI_TYPE_TOAST -> {
                 showToast(
                     (output ?: response?.getContentAsString(context) ?: "")
                         .truncate(maxLength = TOAST_MAX_LENGTH)
@@ -648,7 +646,9 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                 )
                 Completable.complete()
             }
-            ResponseHandlingModel.UI_TYPE_DIALOG -> {
+            ResponseHandlingModel.UI_TYPE_DIALOG,
+            null,
+            -> {
                 DialogBuilder(context)
                     .title(shortcutName)
                     .let { builder ->
