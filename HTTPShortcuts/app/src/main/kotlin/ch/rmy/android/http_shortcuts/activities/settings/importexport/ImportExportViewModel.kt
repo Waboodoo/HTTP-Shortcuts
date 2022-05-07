@@ -20,6 +20,7 @@ import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.framework.viewmodel.viewstate.ProgressDialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.settings.importexport.usecases.GetRussianWarningDialogUseCase
+import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.import_export.ExportFormat
 import ch.rmy.android.http_shortcuts.import_export.Exporter
 import ch.rmy.android.http_shortcuts.import_export.ImportException
@@ -28,14 +29,28 @@ import ch.rmy.android.http_shortcuts.usecases.GetExportDestinationOptionsDialogU
 import ch.rmy.android.http_shortcuts.utils.FileUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
 import io.reactivex.disposables.Disposable
+import javax.inject.Inject
 
 class ImportExportViewModel(application: Application) : BaseViewModel<Unit, ImportExportViewState>(application), WithDialog {
 
-    private val settings = Settings(context)
-    private val getExportDestinationOptionsDialog = GetExportDestinationOptionsDialogUseCase()
-    private val exporter = Exporter(context)
-    private val importer = Importer(context)
-    private val getRussianWarningDialog = GetRussianWarningDialogUseCase()
+    @Inject
+    lateinit var settings: Settings
+
+    @Inject
+    lateinit var getExportDestinationOptionsDialog: GetExportDestinationOptionsDialogUseCase
+
+    @Inject
+    lateinit var exporter: Exporter
+
+    @Inject
+    lateinit var importer: Importer
+
+    @Inject
+    lateinit var getRussianWarningDialog: GetRussianWarningDialogUseCase
+
+    init {
+        getApplicationComponent().inject(this)
+    }
 
     private var disposable: Disposable? = null
 

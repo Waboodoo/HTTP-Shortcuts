@@ -27,6 +27,7 @@ import ch.rmy.android.http_shortcuts.activities.editor.response.ResponseActivity
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.ScriptingActivity
 import ch.rmy.android.http_shortcuts.activities.editor.shortcuts.TriggerShortcutsActivity
 import ch.rmy.android.http_shortcuts.activities.editor.usecases.FetchFaviconUseCase
+import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.SessionInfoStore
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
@@ -55,22 +56,45 @@ import ch.rmy.curlcommand.CurlCommand
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 class ShortcutEditorViewModel(
     application: Application,
 ) : BaseViewModel<ShortcutEditorViewModel.InitData, ShortcutEditorViewState>(application), WithDialog {
 
-    private val shortcutRepository = ShortcutRepository()
-    private val temporaryShortcutRepository = TemporaryShortcutRepository()
-    private val variableRepository = VariableRepository()
-    private val widgetManager = WidgetManager()
-    private val fetchFavicon = FetchFaviconUseCase(context)
-    private val getIconPickerDialog = GetIconPickerDialogUseCase()
-    private val getBuiltInIconPickerDialog = GetBuiltInIconPickerDialogUseCase()
-    private val launcherShortcutManager = LauncherShortcutManager(context)
-    private val sessionInfoStore = SessionInfoStore(context)
+    @Inject
+    lateinit var shortcutRepository: ShortcutRepository
 
-    private val variablePlaceholderProvider = VariablePlaceholderProvider()
+    @Inject
+    lateinit var temporaryShortcutRepository: TemporaryShortcutRepository
+
+    @Inject
+    lateinit var variableRepository: VariableRepository
+
+    @Inject
+    lateinit var widgetManager: WidgetManager
+
+    @Inject
+    lateinit var fetchFavicon: FetchFaviconUseCase
+
+    @Inject
+    lateinit var getIconPickerDialog: GetIconPickerDialogUseCase
+
+    @Inject
+    lateinit var getBuiltInIconPickerDialog: GetBuiltInIconPickerDialogUseCase
+
+    @Inject
+    lateinit var launcherShortcutManager: LauncherShortcutManager
+
+    @Inject
+    lateinit var sessionInfoStore: SessionInfoStore
+
+    @Inject
+    lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
+
+    init {
+        getApplicationComponent().inject(this)
+    }
 
     private val variablePlaceholderColor by lazy {
         color(context, R.color.variable)

@@ -18,8 +18,11 @@ import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
 import com.afollestad.materialdialogs.WhichButton
 import com.afollestad.materialdialogs.actions.getActionButton
+import javax.inject.Inject
 
-class GetKeyValueDialogUseCase {
+class GetKeyValueDialogUseCase
+@Inject
+constructor() {
 
     operator fun invoke(
         variablePlaceholderProvider: VariablePlaceholderProvider,

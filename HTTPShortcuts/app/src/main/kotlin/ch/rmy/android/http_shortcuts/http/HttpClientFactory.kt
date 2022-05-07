@@ -18,11 +18,14 @@ import java.net.Proxy
 import java.security.KeyStore
 import java.security.SecureRandom
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 import javax.net.ssl.KeyManagerFactory
 import javax.net.ssl.SSLContext
 import javax.net.ssl.X509TrustManager
 
-internal object HttpClients {
+class HttpClientFactory
+@Inject
+constructor() {
 
     fun getClient(
         context: Context,

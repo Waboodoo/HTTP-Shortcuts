@@ -11,16 +11,19 @@ import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.models.InstalledBrowser
+import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.databinding.ActivityBasicRequestSettingsBinding
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils.bindVariableViews
+import javax.inject.Inject
 
 class BasicRequestSettingsActivity : BaseActivity() {
 
-    private val viewModel: BasicRequestSettingsViewModel by bindViewModel()
+    @Inject
+    lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
 
-    private val variablePlaceholderProvider = VariablePlaceholderProvider()
+    private val viewModel: BasicRequestSettingsViewModel by bindViewModel()
 
     private lateinit var binding: ActivityBasicRequestSettingsBinding
 
@@ -34,6 +37,10 @@ class BasicRequestSettingsActivity : BaseActivity() {
                 )
             }
         }
+
+    override fun inject(applicationComponent: ApplicationComponent) {
+        applicationComponent.inject(this)
+    }
 
     override fun onCreated(savedState: Bundle?) {
         viewModel.initialize()

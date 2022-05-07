@@ -11,16 +11,24 @@ import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
+import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.utils.DialogBuilder
 import ch.rmy.android.http_shortcuts.utils.ThemeHelper
+import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.N)
 class QuickTileService : TileService() {
 
-    private val shortcutRepository = ShortcutRepository()
+    @Inject
+    lateinit var shortcutRepository: ShortcutRepository
+
+    override fun onCreate() {
+        super.onCreate()
+        context.getApplicationComponent().inject(this)
+    }
 
     override fun onClick() {
         val shortcuts = getShortcuts()

@@ -15,8 +15,14 @@ import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import ch.rmy.android.http_shortcuts.variables.Variables.rawPlaceholdersToResolvedValues
 import ch.rmy.curlcommand.CurlCommand
 import io.reactivex.Single
+import javax.inject.Inject
 
-class CurlExporter(val context: Context) {
+class CurlExporter
+@Inject
+constructor(
+    private val context: Context,
+    private val variableRepository: VariableRepository,
+) {
 
     fun generateCommand(shortcut: ShortcutModel): Single<CurlCommand> {
         val detachedShortcut = shortcut.detachFromRealm()
@@ -27,7 +33,8 @@ class CurlExporter(val context: Context) {
     }
 
     private fun resolveVariables(shortcut: ShortcutModel) =
-        VariableRepository().getVariables()
+        variableRepository
+            .getVariables()
             .flatMap { variables ->
                 VariableResolver(context)
                     .resolve(variables, shortcut)

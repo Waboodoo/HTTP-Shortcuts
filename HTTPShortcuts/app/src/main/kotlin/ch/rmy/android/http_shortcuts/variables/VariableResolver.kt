@@ -107,7 +107,7 @@ class VariableResolver(private val context: Context) {
 
             val variableType = VariableTypeFactory.getType(variable.variableType)
             completable = completable.concatWith(
-                variableType.resolveValue(context, variable)
+                variableType.resolve(context, variable)
                     .doOnSuccess { resolvedValue ->
                         resolvedVariables[variable] = resolvedValue
                     }

@@ -1,8 +1,8 @@
 package ch.rmy.android.http_shortcuts.data.domains.pending_executions
 
 import ch.rmy.android.framework.data.BaseRepository
+import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.framework.utils.Optional
-import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.domains.getPendingExecution
 import ch.rmy.android.http_shortcuts.data.domains.getPendingExecutions
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
@@ -11,8 +11,13 @@ import ch.rmy.android.http_shortcuts.data.models.PendingExecutionModel
 import io.reactivex.Observable
 import io.reactivex.Single
 import java.util.Date
+import javax.inject.Inject
 
-class PendingExecutionsRepository : BaseRepository(RealmFactory.getInstance()) {
+class PendingExecutionsRepository
+@Inject
+constructor(
+    realmFactory: RealmFactory,
+) : BaseRepository(realmFactory) {
 
     fun getPendingExecution(id: String): Single<PendingExecutionModel> =
         queryItem {

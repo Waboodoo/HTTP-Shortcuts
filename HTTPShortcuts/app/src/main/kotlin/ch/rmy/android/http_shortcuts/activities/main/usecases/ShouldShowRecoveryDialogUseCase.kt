@@ -5,8 +5,11 @@ import ch.rmy.android.http_shortcuts.activities.main.models.RecoveryInfo
 import ch.rmy.android.http_shortcuts.data.SessionInfoStore
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import io.reactivex.Single
+import javax.inject.Inject
 
-class ShouldShowRecoveryDialogUseCase(
+class ShouldShowRecoveryDialogUseCase
+@Inject
+constructor(
     private val temporaryShortcutRepository: TemporaryShortcutRepository,
     private val sessionInfoStore: SessionInfoStore,
 ) {

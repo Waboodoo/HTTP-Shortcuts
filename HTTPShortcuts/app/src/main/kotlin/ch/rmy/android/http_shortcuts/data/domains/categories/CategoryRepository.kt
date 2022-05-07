@@ -1,9 +1,9 @@
 package ch.rmy.android.http_shortcuts.data.domains.categories
 
 import ch.rmy.android.framework.data.BaseRepository
+import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.framework.extensions.swap
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
-import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.domains.getBase
 import ch.rmy.android.http_shortcuts.data.domains.getCategoryById
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
@@ -13,8 +13,13 @@ import ch.rmy.android.http_shortcuts.data.models.CategoryModel
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
+import javax.inject.Inject
 
-class CategoryRepository : BaseRepository(RealmFactory.getInstance()) {
+class CategoryRepository
+@Inject
+constructor(
+    realmFactory: RealmFactory,
+) : BaseRepository(realmFactory) {
 
     fun getCategories(): Single<List<CategoryModel>> =
         queryItem {

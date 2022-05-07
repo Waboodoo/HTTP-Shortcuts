@@ -4,12 +4,14 @@ import android.content.Context
 import androidx.annotation.CheckResult
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.VersionUtil.getVersion
+import javax.inject.Inject
 
-class ShouldShowChangeLogDialogUseCase(
+class ShouldShowChangeLogDialogUseCase
+@Inject
+constructor(
     private val context: Context,
+    private val settings: Settings,
 ) {
-
-    private val settings: Settings = Settings(context)
 
     @CheckResult
     operator fun invoke(): Boolean {

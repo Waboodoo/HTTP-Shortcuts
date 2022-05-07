@@ -5,6 +5,8 @@ import android.os.Bundle
 import ch.rmy.android.framework.ui.BaseActivity
 import ch.rmy.android.framework.ui.Entrypoint
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
+import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.utils.DialogBuilder
 import ch.rmy.android.http_shortcuts.utils.LocaleHelper
@@ -24,6 +26,7 @@ abstract class BaseActivity : BaseActivity() {
     }
 
     final override fun onCreate(savedInstanceState: Bundle?) {
+        inject(getApplicationComponent())
         if (initializeWithTheme) {
             setTheme(themeHelper.theme)
         }
@@ -38,6 +41,10 @@ abstract class BaseActivity : BaseActivity() {
                 throw e
             }
         }
+    }
+
+    protected open fun inject(applicationComponent: ApplicationComponent) {
+        // intentionally left blank
     }
 
     protected open fun onCreated(savedState: Bundle?) {

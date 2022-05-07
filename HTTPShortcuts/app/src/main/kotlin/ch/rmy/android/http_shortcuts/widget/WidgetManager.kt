@@ -17,10 +17,13 @@ import ch.rmy.android.http_shortcuts.data.domains.widgets.WidgetsRepository
 import ch.rmy.android.http_shortcuts.data.models.WidgetModel
 import ch.rmy.android.http_shortcuts.utils.IconUtil
 import io.reactivex.Completable
+import javax.inject.Inject
 
-class WidgetManager {
-
-    private val widgetsRepository = WidgetsRepository()
+class WidgetManager
+@Inject
+constructor(
+    private val widgetsRepository: WidgetsRepository,
+) {
 
     @CheckResult
     fun createWidget(widgetId: Int, shortcutId: ShortcutId, showLabel: Boolean, labelColor: String?) =

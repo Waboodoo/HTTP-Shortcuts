@@ -15,23 +15,31 @@ import ch.rmy.android.framework.utils.FilePickerUtil
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.databinding.ActivityAuthenticationBinding
 import ch.rmy.android.http_shortcuts.utils.ClientCertUtil
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
+import javax.inject.Inject
 
 class AuthenticationActivity : BaseActivity() {
+
+    @Inject
+    lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
 
     private val openFilePickerForCertificate = registerForActivityResult(FilePickerUtil.PickFile) { fileUri ->
         fileUri?.let(viewModel::onCertificateFileSelected)
     }
 
     private val viewModel: AuthenticationViewModel by bindViewModel()
-    private val variablePlaceholderProvider = VariablePlaceholderProvider()
 
     private lateinit var binding: ActivityAuthenticationBinding
+
+    override fun inject(applicationComponent: ApplicationComponent) {
+        applicationComponent.inject(this)
+    }
 
     override fun onCreated(savedState: Bundle?) {
         viewModel.initialize()

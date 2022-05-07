@@ -12,26 +12,34 @@ import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.observeChecked
 import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.extensions.setTextSafely
-import ch.rmy.android.framework.ui.BaseFragment
 import ch.rmy.android.framework.utils.Destroyer
 import ch.rmy.android.framework.utils.DragOrderingHelper
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.BaseFragment
+import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.databinding.VariableEditorSelectBinding
 import ch.rmy.android.http_shortcuts.utils.DialogBuilder
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils.bindVariableViews
+import javax.inject.Inject
 
 class SelectTypeFragment : BaseFragment<VariableEditorSelectBinding>() {
 
+    @Inject
+    lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
+
     private val viewModel: SelectTypeViewModel by bindViewModel()
 
-    private val variablePlaceholderProvider = VariablePlaceholderProvider()
     private lateinit var adapter: SelectVariableOptionsAdapter
 
     private var isDraggingEnabled = false
+
+    override fun inject(applicationComponent: ApplicationComponent) {
+        applicationComponent.inject(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

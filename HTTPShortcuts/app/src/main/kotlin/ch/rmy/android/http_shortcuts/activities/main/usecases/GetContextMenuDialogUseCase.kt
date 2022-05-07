@@ -6,8 +6,11 @@ import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.main.ShortcutListViewModel
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import javax.inject.Inject
 
-class GetContextMenuDialogUseCase {
+class GetContextMenuDialogUseCase
+@Inject
+constructor() {
 
     @CheckResult
     operator fun invoke(shortcutId: ShortcutId, title: String, isPending: Boolean, isMovable: Boolean, viewModel: ShortcutListViewModel) =

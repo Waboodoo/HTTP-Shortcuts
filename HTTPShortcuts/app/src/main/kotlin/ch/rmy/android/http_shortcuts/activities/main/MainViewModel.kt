@@ -17,6 +17,7 @@ import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
+import ch.rmy.android.http_shortcuts.activities.main.models.CategoryTabItem
 import ch.rmy.android.http_shortcuts.activities.main.models.RecoveryInfo
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetNetworkRestrictionDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetRecoveryDialogUseCase
@@ -28,7 +29,7 @@ import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowNetworkR
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowRecoveryDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.settings.about.AboutActivity
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
-import ch.rmy.android.http_shortcuts.data.SessionInfoStore
+import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
@@ -46,33 +47,70 @@ import ch.rmy.android.http_shortcuts.usecases.GetToolbarTitleChangeDialogUseCase
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
-import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
 import ch.rmy.curlcommand.CurlCommand
 import io.reactivex.Single
 import org.mindrot.jbcrypt.BCrypt
+import javax.inject.Inject
 
 class MainViewModel(application: Application) : BaseViewModel<MainViewModel.InitData, MainViewState>(application), WithDialog {
 
-    private val categoryRepository: CategoryRepository = CategoryRepository()
-    private val appRepository: AppRepository = AppRepository()
-    private val launcherShortcutMapper: LauncherShortcutMapper = LauncherShortcutMapper()
+    @Inject
+    lateinit var categoryRepository: CategoryRepository
+
+    @Inject
+    lateinit var appRepository: AppRepository
+
+    @Inject
+    lateinit var launcherShortcutMapper: LauncherShortcutMapper
+
+    @Inject
+    lateinit var temporaryShortcutRepository: TemporaryShortcutRepository
+
+    @Inject
+    lateinit var shouldShowRecoveryDialog: ShouldShowRecoveryDialogUseCase
+
+    @Inject
+    lateinit var shouldShowChangeLogDialog: ShouldShowChangeLogDialogUseCase
+
+    @Inject
+    lateinit var getChangeLogDialog: GetChangeLogDialogUseCase
+
+    @Inject
+    lateinit var getToolbarTitleChangeDialog: GetToolbarTitleChangeDialogUseCase
+
+    @Inject
+    lateinit var getShortcutPlacementDialog: GetShortcutPlacementDialogUseCase
+
+    @Inject
+    lateinit var getUnlockDialog: GetUnlockDialogUseCase
+
+    @Inject
+    lateinit var getShortcutCreationDialog: GetShortcutCreationDialogUseCase
+
+    @Inject
+    lateinit var getNetworkRestrictionDialog: GetNetworkRestrictionDialogUseCase
+
+    @Inject
+    lateinit var shouldShowNetworkRestrictionDialog: ShouldShowNetworkRestrictionDialogUseCase
+
+    @Inject
+    lateinit var executionScheduler: ExecutionScheduler
+
+    @Inject
+    lateinit var launcherShortcutManager: LauncherShortcutManager
+
+    @Inject
+    lateinit var getRecoveryDialog: GetRecoveryDialogUseCase
+
+    @Inject
+    lateinit var widgetManager: WidgetManager
+
     private val eventBridge = EventBridge(ChildViewModelEvent::class.java)
-    private val shouldShowChangeLogDialog = ShouldShowChangeLogDialogUseCase(context)
-    private val temporaryShortcutRepository = TemporaryShortcutRepository()
-    private val sessionInfoStore = SessionInfoStore(context)
-    private val shouldShowRecoveryDialog = ShouldShowRecoveryDialogUseCase(temporaryShortcutRepository, sessionInfoStore)
-    private val settings = Settings(context)
-    private val getChangeLogDialog = GetChangeLogDialogUseCase(settings)
-    private val getToolbarTitleChangeDialog = GetToolbarTitleChangeDialogUseCase()
-    private val getShortcutPlacementDialog = GetShortcutPlacementDialogUseCase()
-    private val getUnlockDialog = GetUnlockDialogUseCase()
-    private val getShortcutCreationDialog = GetShortcutCreationDialogUseCase()
-    private val getNetworkRestrictionDialog = GetNetworkRestrictionDialogUseCase(settings)
-    private val shouldShowNetworkRestrictionDialog = ShouldShowNetworkRestrictionDialogUseCase(context, settings)
-    private val executionScheduler = ExecutionScheduler(context)
-    private val launcherShortcutManager = LauncherShortcutManager(context)
-    private val getRecoveryDialog = GetRecoveryDialogUseCase()
+
+    init {
+        getApplicationComponent().inject(this)
+    }
 
     private lateinit var categories: List<CategoryModel>
 
@@ -414,7 +452,6 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
 
     private fun returnForHomeScreenWidgetPlacement(shortcutId: ShortcutId, showLabel: Boolean, labelColor: String?) {
         val widgetId = initData.widgetId ?: return
-        val widgetManager = WidgetManager()
         widgetManager
             .createWidget(widgetId, shortcutId, showLabel, labelColor)
             .andThen(widgetManager.updateWidgets(context, shortcutId))

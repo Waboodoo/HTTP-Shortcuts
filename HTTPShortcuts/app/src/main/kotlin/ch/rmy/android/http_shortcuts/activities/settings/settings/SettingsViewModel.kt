@@ -8,15 +8,24 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.http.CookieManager
 import ch.rmy.android.http_shortcuts.usecases.GetToolbarTitleChangeDialogUseCase
 import org.mindrot.jbcrypt.BCrypt
+import javax.inject.Inject
 
 class SettingsViewModel(application: Application) : BaseViewModel<Unit, SettingsViewState>(application), WithDialog {
 
-    private val appRepository = AppRepository()
-    private val getToolbarTitleChangeDialog = GetToolbarTitleChangeDialogUseCase()
+    @Inject
+    lateinit var appRepository: AppRepository
+
+    @Inject
+    lateinit var getToolbarTitleChangeDialog: GetToolbarTitleChangeDialogUseCase
+
+    init {
+        getApplicationComponent().inject(this)
+    }
 
     override var dialogState: DialogState?
         get() = currentViewState?.dialogState

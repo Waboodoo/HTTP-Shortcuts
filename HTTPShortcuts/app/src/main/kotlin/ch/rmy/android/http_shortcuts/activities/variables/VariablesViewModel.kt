@@ -14,6 +14,7 @@ import ch.rmy.android.http_shortcuts.activities.variables.editor.usecases.GetCon
 import ch.rmy.android.http_shortcuts.activities.variables.editor.usecases.GetCreationDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.variables.editor.usecases.GetDeletionDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.variables.usecases.GetUsedVariableIdsUseCase
+import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
@@ -27,15 +28,31 @@ import ch.rmy.android.http_shortcuts.variables.Variables.KEY_MAX_LENGTH
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 class VariablesViewModel(application: Application) : BaseViewModel<Unit, VariablesViewState>(application), WithDialog {
 
-    private val variableRepository = VariableRepository()
-    private val shortcutRepository = ShortcutRepository()
-    private val getDeletionDialog = GetDeletionDialogUseCase()
-    private val getContextMenuDialog = GetContextMenuDialogUseCase()
-    private val getCreationDialog = GetCreationDialogUseCase()
-    private val getUsedVariableIdsUseCase = GetUsedVariableIdsUseCase(shortcutRepository, variableRepository)
+    @Inject
+    lateinit var variableRepository: VariableRepository
+
+    @Inject
+    lateinit var shortcutRepository: ShortcutRepository
+
+    @Inject
+    lateinit var getDeletionDialog: GetDeletionDialogUseCase
+
+    @Inject
+    lateinit var getContextMenuDialog: GetContextMenuDialogUseCase
+
+    @Inject
+    lateinit var getCreationDialog: GetCreationDialogUseCase
+
+    @Inject
+    lateinit var getUsedVariableIdsUseCase: GetUsedVariableIdsUseCase
+
+    init {
+        getApplicationComponent().inject(this)
+    }
 
     private var variables: List<VariableModel> = emptyList()
     private var usedVariableIds: Set<VariableId>? = null

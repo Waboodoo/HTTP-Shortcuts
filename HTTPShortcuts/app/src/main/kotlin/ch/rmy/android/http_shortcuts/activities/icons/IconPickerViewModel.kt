@@ -13,23 +13,36 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.icons.usecases.GetBulkDeletionDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.icons.usecases.GetDeletionDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.icons.usecases.GetIconListItemsUseCase
+import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
-import ch.rmy.android.http_shortcuts.usecases.GetUsedCustomIconsUseCase
 import ch.rmy.android.http_shortcuts.utils.IconUtil
 import io.reactivex.Completable
 import io.reactivex.schedulers.Schedulers
 import java.io.File
+import javax.inject.Inject
 
 class IconPickerViewModel(application: Application) : BaseViewModel<Unit, IconPickerViewState>(application), WithDialog {
 
-    private val appRepository = AppRepository()
-    private val temporaryShortcutRepository = TemporaryShortcutRepository()
-    private val getUsedCustomIcons = GetUsedCustomIconsUseCase(appRepository, temporaryShortcutRepository)
-    private val getIconListItems = GetIconListItemsUseCase(context, getUsedCustomIcons)
-    private val getDeletionDialog = GetDeletionDialogUseCase()
-    private val getBulkDeletionDialog = GetBulkDeletionDialogUseCase()
+    @Inject
+    lateinit var appRepository: AppRepository
+
+    @Inject
+    lateinit var temporaryShortcutRepository: TemporaryShortcutRepository
+
+    @Inject
+    lateinit var getIconListItems: GetIconListItemsUseCase
+
+    @Inject
+    lateinit var getDeletionDialog: GetDeletionDialogUseCase
+
+    @Inject
+    lateinit var getBulkDeletionDialog: GetBulkDeletionDialogUseCase
+
+    init {
+        getApplicationComponent().inject(this)
+    }
 
     private lateinit var icons: List<IconPickerListItem>
 

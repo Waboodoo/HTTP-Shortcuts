@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.activities.categories
 
 import android.app.Application
 import ch.rmy.android.framework.extensions.attachTo
-import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.framework.utils.localization.QuantityStringLocalizable
@@ -13,18 +12,28 @@ import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.categories.usecases.GetContextMenuDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.categories.usecases.GetDeletionDialogUseCase
+import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.models.CategoryModel
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
+import javax.inject.Inject
 
 class CategoriesViewModel(application: Application) : BaseViewModel<Unit, CategoriesViewState>(application), WithDialog {
 
-    private val categoryRepository: CategoryRepository = CategoryRepository()
-    private val launcherShortcutManager = LauncherShortcutManager(context)
-    private val getContextMenuDialog = GetContextMenuDialogUseCase()
-    private val getDeletionDialog = GetDeletionDialogUseCase()
+    @Inject
+    lateinit var categoryRepository: CategoryRepository
+    @Inject
+    lateinit var launcherShortcutManager: LauncherShortcutManager
+    @Inject
+    lateinit var getContextMenuDialog: GetContextMenuDialogUseCase
+    @Inject
+    lateinit var getDeletionDialog: GetDeletionDialogUseCase
+
+    init {
+        getApplicationComponent().inject(this)
+    }
 
     private lateinit var categories: List<CategoryModel>
     private var hasChanged = false

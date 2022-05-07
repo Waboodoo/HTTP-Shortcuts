@@ -7,8 +7,13 @@ import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.utils.PreferencesStore
 import ch.rmy.android.framework.utils.UUIDUtils
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
+import javax.inject.Inject
 
-class Settings(context: Context) : PreferencesStore(context) {
+class Settings
+@Inject
+constructor(
+    context: Context,
+) : PreferencesStore(context) {
 
     val userId: String
         get() = getString(KEY_USER_ID)

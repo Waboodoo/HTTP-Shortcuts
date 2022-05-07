@@ -4,8 +4,13 @@ import android.content.Context
 import ch.rmy.android.framework.utils.PreferencesStore
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import javax.inject.Inject
 
-class SessionInfoStore(context: Context) : PreferencesStore(context, PREF_NAME) {
+class SessionInfoStore
+@Inject
+constructor(
+    context: Context,
+) : PreferencesStore(context, PREF_NAME) {
 
     var editingShortcutId: ShortcutId?
         get() = getString(KEY_EDITING_SHORTCUT_ID)

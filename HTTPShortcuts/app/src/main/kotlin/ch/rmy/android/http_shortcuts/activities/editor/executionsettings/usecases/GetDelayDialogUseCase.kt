@@ -6,13 +6,16 @@ import ch.rmy.android.framework.utils.SimpleOnSeekBarChangeListener
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
+import javax.inject.Inject
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
-class GetDelayDialogUseCase {
+class GetDelayDialogUseCase
+@Inject
+constructor() {
 
     operator fun invoke(
         delay: Duration,

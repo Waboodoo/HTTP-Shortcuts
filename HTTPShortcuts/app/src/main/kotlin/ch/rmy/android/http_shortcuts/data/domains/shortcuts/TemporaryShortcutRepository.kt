@@ -1,10 +1,10 @@
 package ch.rmy.android.http_shortcuts.data.domains.shortcuts
 
 import ch.rmy.android.framework.data.BaseRepository
+import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.framework.data.RealmTransactionContext
 import ch.rmy.android.framework.extensions.getCaseInsensitive
 import ch.rmy.android.framework.extensions.swap
-import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryShortcut
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
@@ -22,9 +22,14 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import java.net.URLDecoder
+import javax.inject.Inject
 import kotlin.time.Duration
 
-class TemporaryShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
+class TemporaryShortcutRepository
+@Inject
+constructor(
+    realmFactory: RealmFactory,
+) : BaseRepository(realmFactory) {
 
     fun getObservableTemporaryShortcut(): Observable<ShortcutModel> =
         observeItem {

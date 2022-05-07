@@ -6,8 +6,11 @@ import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesViewModel
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import javax.inject.Inject
 
-class GetDeletionDialogUseCase {
+class GetDeletionDialogUseCase
+@Inject
+constructor() {
 
     @CheckResult
     operator fun invoke(variableId: VariableId, title: String, message: Localizable, viewModel: VariablesViewModel) =

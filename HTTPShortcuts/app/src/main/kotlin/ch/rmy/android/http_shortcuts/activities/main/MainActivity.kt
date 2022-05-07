@@ -18,12 +18,12 @@ import ch.rmy.android.framework.extensions.launch
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.restartWithoutAnimation
 import ch.rmy.android.framework.extensions.titleView
-import ch.rmy.android.framework.ui.BaseFragment
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.ui.Entrypoint
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.activities.BaseFragment
 import ch.rmy.android.http_shortcuts.activities.categories.CategoriesActivity
 import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
 import ch.rmy.android.http_shortcuts.activities.misc.CurlImportActivity

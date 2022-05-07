@@ -10,8 +10,11 @@ import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.IconUtil
 import io.reactivex.Single
+import javax.inject.Inject
 
-class GetUsedCustomIconsUseCase(
+class GetUsedCustomIconsUseCase
+@Inject
+constructor(
     private val appRepository: AppRepository,
     private val temporaryShortcutRepository: TemporaryShortcutRepository,
 ) {

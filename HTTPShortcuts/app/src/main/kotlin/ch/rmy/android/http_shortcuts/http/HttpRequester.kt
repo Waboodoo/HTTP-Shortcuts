@@ -22,8 +22,17 @@ import io.reactivex.schedulers.Schedulers
 import okhttp3.CookieJar
 import okhttp3.Response
 import java.net.UnknownHostException
+import javax.inject.Inject
 
-class HttpRequester(private val contentResolver: ContentResolver) {
+class HttpRequester
+@Inject
+constructor(
+    private val context: Context,
+    private val httpClientFactory: HttpClientFactory,
+) {
+
+    private val contentResolver: ContentResolver
+        get() = context.contentResolver
 
     fun executeShortcut(
         context: Context,
@@ -93,7 +102,7 @@ class HttpRequester(private val contentResolver: ContentResolver) {
             .create<ShortcutResponse> { emitter ->
                 val variables = variableManager.getVariableValuesByIds()
                 val useDigestAuth = shortcut.authenticationType == ShortcutAuthenticationType.DIGEST
-                val client = HttpClients.getClient(
+                val client = httpClientFactory.getClient(
                     context = context,
                     clientCertParams = shortcut.clientCertParams,
                     acceptAllCertificates = shortcut.acceptAllCertificates,
@@ -187,7 +196,8 @@ class HttpRequester(private val contentResolver: ContentResolver) {
                     }
                 }
                 ParameterType.IMAGE,
-                ParameterType.FILE -> {
+                ParameterType.FILE,
+                -> {
                     runIfNotNull(fileUploadManager) {
                         fileIndex++
                         runIfNotNull(it.getFile(fileIndex)) { file ->

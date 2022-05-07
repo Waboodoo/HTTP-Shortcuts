@@ -14,7 +14,8 @@ import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.framework.viewmodel.viewstate.ProgressDialogState
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.http.HttpClients
+import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
+import ch.rmy.android.http_shortcuts.http.HttpClientFactory
 import ch.rmy.android.http_shortcuts.import_export.Exporter
 import ch.rmy.android.http_shortcuts.import_export.ImportException
 import ch.rmy.android.http_shortcuts.import_export.Importer
@@ -24,10 +25,25 @@ import ch.rmy.android.http_shortcuts.utils.StringUtils
 import ch.rmy.android.http_shortcuts.utils.Validation
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import javax.inject.Inject
 
 class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, RemoteEditViewState>(application), WithDialog {
 
-    private val settings = Settings(context)
+    @Inject
+    lateinit var settings: Settings
+
+    @Inject
+    lateinit var exporter: Exporter
+
+    @Inject
+    lateinit var importer: Importer
+
+    @Inject
+    lateinit var httpClientFactory: HttpClientFactory
+
+    init {
+        getApplicationComponent().inject(this)
+    }
 
     private var disposable: Disposable? = null
 
@@ -202,13 +218,13 @@ class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, Remote
     private fun getRemoteEditManager() =
         RemoteEditManager(
             context = context,
-            client = HttpClients.getClient(context),
+            client = httpClientFactory.getClient(context),
             baseUrl = getRemoteBaseUrl()
                 .buildUpon()
                 .appendEncodedPath(REMOTE_API_PATH)
                 .build(),
-            exporter = Exporter(context),
-            importer = Importer(context),
+            exporter = exporter,
+            importer = importer,
         )
 
     private fun showProgressDialog(message: Int) {

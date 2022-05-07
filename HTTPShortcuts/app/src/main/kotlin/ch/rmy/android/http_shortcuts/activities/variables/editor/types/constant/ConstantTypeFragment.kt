@@ -8,17 +8,24 @@ import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.observeTextChanges
-import ch.rmy.android.framework.ui.BaseFragment
+import ch.rmy.android.http_shortcuts.activities.BaseFragment
+import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.databinding.VariableEditorConstantBinding
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils.bindVariableViews
+import javax.inject.Inject
 
 class ConstantTypeFragment private constructor() : BaseFragment<VariableEditorConstantBinding>() {
 
+    @Inject
+    lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
+
     private val viewModel: ConstantTypeViewModel by bindViewModel()
 
-    private val variablePlaceholderProvider = VariablePlaceholderProvider()
+    override fun inject(applicationComponent: ApplicationComponent) {
+        applicationComponent.inject(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

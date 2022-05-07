@@ -6,8 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import ch.rmy.android.framework.utils.RxUtils
 import ch.rmy.android.framework.utils.UUIDUtils
 import io.reactivex.Single
+import javax.inject.Inject
 
-class CopyCertificateFileUseCase(
+class CopyCertificateFileUseCase
+@Inject
+constructor(
     private val context: Context,
 ) {
 

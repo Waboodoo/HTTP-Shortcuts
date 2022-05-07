@@ -2,8 +2,11 @@ package ch.rmy.android.http_shortcuts.activities.icons.usecases
 
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
+import javax.inject.Inject
 
-class GetBulkDeletionDialogUseCase {
+class GetBulkDeletionDialogUseCase
+@Inject
+constructor() {
 
     operator fun invoke(onDeletionConfirmed: () -> Unit) =
         DialogState.create {

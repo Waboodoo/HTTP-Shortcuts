@@ -21,14 +21,22 @@ import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.CodeSnippetPickerActivity
+import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.databinding.ActivityScriptingBinding
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholderProvider
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutSpanManager
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
+import javax.inject.Inject
 
 class ScriptingActivity : BaseActivity() {
+
+    @Inject
+    lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
+
+    @Inject
+    lateinit var shortcutPlaceholderProvider: ShortcutPlaceholderProvider
 
     private val pickCodeSnippetForPrepare = registerForActivityResult(CodeSnippetPickerActivity.PickCodeSnippet) { result ->
         if (result != null) {
@@ -52,9 +60,6 @@ class ScriptingActivity : BaseActivity() {
 
     private val viewModel: ScriptingViewModel by bindViewModel()
 
-    private val shortcutPlaceholderProvider = ShortcutPlaceholderProvider()
-    private val variablePlaceholderProvider = VariablePlaceholderProvider()
-
     private val variablePlaceholderColor by lazy {
         color(context, R.color.variable)
     }
@@ -63,6 +68,10 @@ class ScriptingActivity : BaseActivity() {
     }
 
     private lateinit var binding: ActivityScriptingBinding
+
+    override fun inject(applicationComponent: ApplicationComponent) {
+        applicationComponent.inject(this)
+    }
 
     override fun onCreated(savedState: Bundle?) {
         viewModel.initialize()

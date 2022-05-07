@@ -1,11 +1,11 @@
 package ch.rmy.android.http_shortcuts.data.domains.shortcuts
 
 import ch.rmy.android.framework.data.BaseRepository
+import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.framework.data.RealmTransactionContext
 import ch.rmy.android.framework.extensions.detachFromRealm
 import ch.rmy.android.framework.extensions.swap
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
-import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.getBase
 import ch.rmy.android.http_shortcuts.data.domains.getCategoryById
@@ -17,8 +17,13 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
+import javax.inject.Inject
 
-class ShortcutRepository : BaseRepository(RealmFactory.getInstance()) {
+class ShortcutRepository
+@Inject
+constructor(
+    realmFactory: RealmFactory,
+) : BaseRepository(realmFactory) {
 
     fun getShortcutById(shortcutId: ShortcutId): Single<ShortcutModel> =
         query {

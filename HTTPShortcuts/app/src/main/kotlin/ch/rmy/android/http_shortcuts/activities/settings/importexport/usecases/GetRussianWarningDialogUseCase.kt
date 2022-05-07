@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.settings.importexport.usecases
 
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
+import javax.inject.Inject
 
 /**
  * This class deals with showing a warning message to Russian users of the app. I know
@@ -9,7 +10,9 @@ import ch.rmy.android.http_shortcuts.R
  * in Russian without providing ANY kind of context as to what they are even trying to
  * do. If you have any information regarding this, please let me know. Thank you.
  */
-class GetRussianWarningDialogUseCase {
+class GetRussianWarningDialogUseCase
+@Inject
+constructor() {
 
     operator fun invoke(): DialogState =
         DialogState.create {

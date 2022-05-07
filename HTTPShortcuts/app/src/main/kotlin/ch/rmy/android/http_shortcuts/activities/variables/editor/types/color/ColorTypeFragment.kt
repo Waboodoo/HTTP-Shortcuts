@@ -8,7 +8,7 @@ import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.initialize
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.observeChecked
-import ch.rmy.android.framework.ui.BaseFragment
+import ch.rmy.android.http_shortcuts.activities.BaseFragment
 import ch.rmy.android.http_shortcuts.databinding.VariableEditorColorBinding
 
 class ColorTypeFragment : BaseFragment<VariableEditorColorBinding>() {

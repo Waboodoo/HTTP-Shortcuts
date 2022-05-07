@@ -13,17 +13,25 @@ import ch.rmy.android.framework.extensions.setHint
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel
 import ch.rmy.android.http_shortcuts.databinding.ActivityResponseBinding
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
+import javax.inject.Inject
 
 class ResponseActivity : BaseActivity() {
 
+    @Inject
+    lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
+
     private val viewModel: ResponseViewModel by bindViewModel()
-    private val variablePlaceholderProvider = VariablePlaceholderProvider()
 
     private lateinit var binding: ActivityResponseBinding
+
+    override fun inject(applicationComponent: ApplicationComponent) {
+        applicationComponent.inject(this)
+    }
 
     override fun onCreated(savedState: Bundle?) {
         viewModel.initialize()

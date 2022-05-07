@@ -8,8 +8,11 @@ import ch.rmy.android.http_shortcuts.icons.BuiltInIconAdapter
 import ch.rmy.android.http_shortcuts.icons.Icons
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.GridLayoutManager
+import javax.inject.Inject
 
-class GetBuiltInIconPickerDialogUseCase {
+class GetBuiltInIconPickerDialogUseCase
+@Inject
+constructor() {
 
     operator fun invoke(onIconSelected: (ShortcutIcon.BuiltInIcon) -> Unit): DialogState =
         DialogState.create(DIALOG_ID) {

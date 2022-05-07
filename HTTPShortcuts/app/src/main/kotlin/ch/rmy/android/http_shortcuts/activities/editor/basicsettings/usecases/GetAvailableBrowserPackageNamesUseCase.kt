@@ -7,8 +7,11 @@ import android.os.Build
 import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.models.InstalledBrowser
+import javax.inject.Inject
 
-class GetAvailableBrowserPackageNamesUseCase(
+class GetAvailableBrowserPackageNamesUseCase
+@Inject
+constructor(
     private val context: Context,
 ) {
 

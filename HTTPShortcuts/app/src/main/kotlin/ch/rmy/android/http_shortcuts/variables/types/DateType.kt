@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.DialogInterface
 import ch.rmy.android.framework.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import ch.rmy.android.http_shortcuts.extensions.cancel
@@ -16,10 +17,16 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import javax.inject.Inject
 
-internal class DateType : BaseVariableType() {
+class DateType : BaseVariableType() {
 
-    private val variablesRepository = VariableRepository()
+    @Inject
+    lateinit var variablesRepository: VariableRepository
+
+    override fun inject(applicationComponent: ApplicationComponent) {
+        applicationComponent.inject(this)
+    }
 
     override fun resolveValue(context: Context, variable: VariableModel): Single<String> =
         Single.create<Date> { emitter ->

@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets
 import android.app.Application
 import android.net.Uri
 import ch.rmy.android.framework.extensions.attachTo
-import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.viewmodel.BaseViewModel
@@ -13,6 +12,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.usecases.GenerateCodeSnippetItemsUseCase
 import ch.rmy.android.http_shortcuts.activities.variables.VariableTypeMappings
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
+import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
@@ -24,17 +24,35 @@ import ch.rmy.android.http_shortcuts.usecases.GetIconPickerDialogUseCase
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs.getScriptingDocumentation
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
+import javax.inject.Inject
 
 class CodeSnippetPickerViewModel(application: Application) :
     BaseViewModel<CodeSnippetPickerViewModel.InitData, CodeSnippetPickerViewState>(application), WithDialog {
 
-    private val shortcutRepository = ShortcutRepository()
-    private val variableRepository = VariableRepository()
-    private val getIconPickerDialog = GetIconPickerDialogUseCase()
-    private val getBuiltInIconPickerDialog = GetBuiltInIconPickerDialogUseCase()
-    private val generateCodeSnippetItems = GenerateCodeSnippetItemsUseCase(context)
-    private val variablePlaceholderProvider = VariablePlaceholderProvider()
-    private val shortcutPlaceholderProvider = ShortcutPlaceholderProvider()
+    @Inject
+    lateinit var shortcutRepository: ShortcutRepository
+
+    @Inject
+    lateinit var variableRepository: VariableRepository
+
+    @Inject
+    lateinit var getIconPickerDialog: GetIconPickerDialogUseCase
+
+    @Inject
+    lateinit var getBuiltInIconPickerDialog: GetBuiltInIconPickerDialogUseCase
+
+    @Inject
+    lateinit var generateCodeSnippetItems: GenerateCodeSnippetItemsUseCase
+
+    @Inject
+    lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
+
+    @Inject
+    lateinit var shortcutPlaceholderProvider: ShortcutPlaceholderProvider
+
+    init {
+        getApplicationComponent().inject(this)
+    }
 
     private var iconPickerShortcutPlaceholder: String? = null
 

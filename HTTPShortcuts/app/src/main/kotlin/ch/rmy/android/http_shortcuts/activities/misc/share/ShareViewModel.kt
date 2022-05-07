@@ -11,6 +11,7 @@ import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
+import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
@@ -24,11 +25,19 @@ import ch.rmy.android.http_shortcuts.variables.VariableLookup
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import com.afollestad.materialdialogs.callbacks.onCancel
+import javax.inject.Inject
 
 class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.InitData, ShareViewState>(application), WithDialog {
 
-    private val shortcutRepository = ShortcutRepository()
-    private val variableRepository = VariableRepository()
+    @Inject
+    lateinit var shortcutRepository: ShortcutRepository
+
+    @Inject
+    lateinit var variableRepository: VariableRepository
+
+    init {
+        getApplicationComponent().inject(this)
+    }
 
     private lateinit var shortcuts: List<ShortcutModel>
     private lateinit var variables: List<VariableModel>

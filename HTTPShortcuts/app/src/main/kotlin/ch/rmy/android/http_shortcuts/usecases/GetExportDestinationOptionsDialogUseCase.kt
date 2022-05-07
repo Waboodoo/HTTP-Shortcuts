@@ -2,8 +2,11 @@ package ch.rmy.android.http_shortcuts.usecases
 
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
+import javax.inject.Inject
 
-class GetExportDestinationOptionsDialogUseCase {
+class GetExportDestinationOptionsDialogUseCase
+@Inject
+constructor() {
 
     operator fun invoke(
         onExportToFileOptionSelected: () -> Unit,

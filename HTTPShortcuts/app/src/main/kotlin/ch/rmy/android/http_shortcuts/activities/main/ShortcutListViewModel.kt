@@ -29,6 +29,7 @@ import ch.rmy.android.http_shortcuts.activities.main.usecases.GetMoveToCategoryD
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetShortcutDeletionDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetShortcutInfoDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.variables.usecases.GetUsedVariableIdsUseCase
+import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
@@ -56,31 +57,74 @@ import ch.rmy.android.http_shortcuts.utils.FileUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.curlcommand.CurlCommand
 import io.reactivex.disposables.Disposable
+import javax.inject.Inject
 
 class ShortcutListViewModel(
     application: Application,
 ) : BaseViewModel<ShortcutListViewModel.InitData, ShortcutListViewState>(application), WithDialog {
 
-    private val appRepository = AppRepository()
-    private val shortcutRepository = ShortcutRepository()
-    private val categoryRepository = CategoryRepository()
-    private val variableRepository = VariableRepository()
-    private val pendingExecutionsRepository = PendingExecutionsRepository()
-    private val widgetsRepository = WidgetsRepository()
-    private val curlExporter = CurlExporter(context)
+    @Inject
+    lateinit var appRepository: AppRepository
+
+    @Inject
+    lateinit var shortcutRepository: ShortcutRepository
+
+    @Inject
+    lateinit var categoryRepository: CategoryRepository
+
+    @Inject
+    lateinit var variableRepository: VariableRepository
+
+    @Inject
+    lateinit var pendingExecutionsRepository: PendingExecutionsRepository
+
+    @Inject
+    lateinit var widgetsRepository: WidgetsRepository
+
+    @Inject
+    lateinit var curlExporter: CurlExporter
+
+    @Inject
+    lateinit var executionScheduler: ExecutionScheduler
+
+    @Inject
+    lateinit var settings: Settings
+
+    @Inject
+    lateinit var getCurlExportDialog: GetCurlExportDialogUseCase
+
+    @Inject
+    lateinit var getShortcutInfoDialog: GetShortcutInfoDialogUseCase
+
+    @Inject
+    lateinit var getShortcutDeletionDialog: GetShortcutDeletionDialogUseCase
+
+    @Inject
+    lateinit var getExportOptionsDialog: GetExportOptionsDialogUseCase
+
+    @Inject
+    lateinit var getExportDestinationOptionsDialog: GetExportDestinationOptionsDialogUseCase
+
+    @Inject
+    lateinit var getMoveOptionsDialog: GetMoveOptionsDialogUseCase
+
+    @Inject
+    lateinit var getContextMenuDialog: GetContextMenuDialogUseCase
+
+    @Inject
+    lateinit var getMoveToCategoryDialog: GetMoveToCategoryDialogUseCase
+
+    @Inject
+    lateinit var exporter: Exporter
+
+    @Inject
+    lateinit var getUsedVariableIds: GetUsedVariableIdsUseCase
+
     private val eventBridge = EventBridge(ChildViewModelEvent::class.java)
-    private val executionScheduler = ExecutionScheduler(application)
-    private val settings = Settings(context)
-    private val getCurlExportDialog = GetCurlExportDialogUseCase()
-    private val getShortcutInfoDialog = GetShortcutInfoDialogUseCase()
-    private val getShortcutDeletionDialog = GetShortcutDeletionDialogUseCase()
-    private val getExportOptionsDialog = GetExportOptionsDialogUseCase()
-    private val getExportDestinationOptionsDialog = GetExportDestinationOptionsDialogUseCase()
-    private val getMoveOptionsDialog = GetMoveOptionsDialogUseCase()
-    private val getContextMenuDialog = GetContextMenuDialogUseCase()
-    private val getMoveToCategoryDialog = GetMoveToCategoryDialogUseCase()
-    private val exporter = Exporter(context)
-    private val getUsedVariableIds = GetUsedVariableIdsUseCase(shortcutRepository, variableRepository)
+
+    init {
+        getApplicationComponent().inject(this)
+    }
 
     private lateinit var category: CategoryModel
     private var categories: List<CategoryModel> = emptyList()

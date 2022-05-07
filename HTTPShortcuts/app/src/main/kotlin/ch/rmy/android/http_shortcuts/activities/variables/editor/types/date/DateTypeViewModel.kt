@@ -3,11 +3,16 @@ package ch.rmy.android.http_shortcuts.activities.variables.editor.types.date
 import android.app.Application
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.BaseVariableTypeViewModel
+import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.variables.types.DateType
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class DateTypeViewModel(application: Application) : BaseVariableTypeViewModel<Unit, DateTypeViewState>(application) {
+
+    init {
+        getApplicationComponent().inject(this)
+    }
 
     override fun initViewState() = DateTypeViewState(
         dateFormat = DateType.getDateFormat(variable),

@@ -15,8 +15,13 @@ import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.dtos.LauncherShortcut
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
+import javax.inject.Inject
 
-class LauncherShortcutManager(private val context: Context) {
+class LauncherShortcutManager
+@Inject
+constructor(
+    private val context: Context,
+) {
 
     fun supportsLauncherShortcuts() =
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1

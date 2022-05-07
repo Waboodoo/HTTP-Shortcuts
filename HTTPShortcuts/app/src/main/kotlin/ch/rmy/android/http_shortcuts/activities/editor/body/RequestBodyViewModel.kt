@@ -10,6 +10,7 @@ import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.body.usecases.GetFileParameterDialogUseCase
+import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
@@ -18,14 +19,28 @@ import ch.rmy.android.http_shortcuts.data.models.ParameterModel
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.usecases.GetKeyValueDialogUseCase
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
+import javax.inject.Inject
 
 class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, RequestBodyViewState>(application), WithDialog {
 
-    private val temporaryShortcutRepository = TemporaryShortcutRepository()
-    private val variableRepository = VariableRepository()
-    private val variablePlaceholderProvider = VariablePlaceholderProvider()
-    private val getFileParameterDialog = GetFileParameterDialogUseCase()
-    private val getKeyValueDialog = GetKeyValueDialogUseCase()
+    @Inject
+    lateinit var temporaryShortcutRepository: TemporaryShortcutRepository
+
+    @Inject
+    lateinit var variableRepository: VariableRepository
+
+    @Inject
+    lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
+
+    @Inject
+    lateinit var getFileParameterDialog: GetFileParameterDialogUseCase
+
+    @Inject
+    lateinit var getKeyValueDialog: GetKeyValueDialogUseCase
+
+    init {
+        getApplicationComponent().inject(this)
+    }
 
     private var parameters: List<ParameterModel> = emptyList()
         set(value) {

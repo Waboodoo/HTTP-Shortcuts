@@ -5,8 +5,11 @@ import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.categories.CategoriesViewModel
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
+import javax.inject.Inject
 
-class GetDeletionDialogUseCase {
+class GetDeletionDialogUseCase
+@Inject
+constructor() {
 
     @CheckResult
     operator fun invoke(categoryId: CategoryId, viewModel: CategoriesViewModel) =

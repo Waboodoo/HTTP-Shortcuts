@@ -1,11 +1,16 @@
-package ch.rmy.android.framework.utils
+package ch.rmy.android.http_shortcuts.utils
 
 import android.content.Context
 import android.os.Build
 import android.os.Vibrator
 import android.os.VibratorManager
+import javax.inject.Inject
 
-class VibrationUtil(private val context: Context) {
+class VibrationUtil
+@Inject
+constructor(
+    private val context: Context,
+) {
 
     fun getVibrator(): Vibrator? =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {

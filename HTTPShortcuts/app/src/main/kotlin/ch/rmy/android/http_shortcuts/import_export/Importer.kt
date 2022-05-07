@@ -29,10 +29,14 @@ import java.net.URISyntaxException
 import java.net.URL
 import java.util.zip.ZipException
 import java.util.zip.ZipInputStream
+import javax.inject.Inject
 
-class Importer(private val context: Context) {
-
-    private val appRepository = AppRepository()
+class Importer
+@Inject
+constructor(
+    private val context: Context,
+    private val appRepository: AppRepository,
+) {
 
     fun importFromUri(uri: Uri, importMode: ImportMode): Single<ImportStatus> =
         RxUtils

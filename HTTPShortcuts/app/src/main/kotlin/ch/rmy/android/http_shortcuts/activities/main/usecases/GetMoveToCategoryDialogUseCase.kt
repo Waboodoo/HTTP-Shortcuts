@@ -7,8 +7,11 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.main.ShortcutListViewModel
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import javax.inject.Inject
 
-class GetMoveToCategoryDialogUseCase {
+class GetMoveToCategoryDialogUseCase
+@Inject
+constructor() {
 
     @CheckResult
     operator fun invoke(shortcutId: ShortcutId, categoryOptions: List<CategoryOption>, viewModel: ShortcutListViewModel) =

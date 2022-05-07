@@ -4,8 +4,11 @@ import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.main.ShortcutListViewModel
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import javax.inject.Inject
 
-class GetMoveOptionsDialogUseCase {
+class GetMoveOptionsDialogUseCase
+@Inject
+constructor() {
 
     operator fun invoke(shortcutId: ShortcutId, viewModel: ShortcutListViewModel) =
         DialogState.create {

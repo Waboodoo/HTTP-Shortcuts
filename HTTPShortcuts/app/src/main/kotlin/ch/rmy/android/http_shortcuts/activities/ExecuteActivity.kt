@@ -27,6 +27,7 @@ import ch.rmy.android.framework.utils.DateUtil
 import ch.rmy.android.framework.utils.FilePickerUtil
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.response.DisplayResponseActivity
+import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
@@ -82,6 +83,7 @@ import okhttp3.CookieJar
 import java.io.IOException
 import java.net.UnknownHostException
 import java.util.HashMap
+import javax.inject.Inject
 import kotlin.math.pow
 
 class ExecuteActivity : BaseActivity(), Entrypoint {
@@ -92,10 +94,23 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     override val supportsSnackbars: Boolean
         get() = false
 
-    private val shortcutRepository = ShortcutRepository()
-    private val variableRepository = VariableRepository()
-    private val appRepository = AppRepository()
-    private val pendingExecutionsRepository = PendingExecutionsRepository()
+    @Inject
+    lateinit var shortcutRepository: ShortcutRepository
+
+    @Inject
+    lateinit var variableRepository: VariableRepository
+
+    @Inject
+    lateinit var appRepository: AppRepository
+
+    @Inject
+    lateinit var pendingExecutionsRepository: PendingExecutionsRepository
+
+    @Inject
+    lateinit var executionScheduler: ExecutionScheduler
+
+    @Inject
+    lateinit var httpRequester: HttpRequester
 
     private lateinit var shortcut: ShortcutModel
     private lateinit var globalCode: String
@@ -106,10 +121,6 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
 
     private val scriptExecutor: ScriptExecutor by lazy {
         ScriptExecutor(context, ActionFactory())
-    }
-
-    private val executionScheduler by lazy {
-        ExecutionScheduler(applicationContext)
     }
 
     /* Execution Parameters */
@@ -171,6 +182,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     }
 
     override fun onCreated(savedState: Bundle?) {
+        getApplicationComponent().inject(this)
         SessionMonitor.onSessionStarted()
 
         appRepository.getGlobalCode()
@@ -544,7 +556,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         Variables.rawPlaceholdersToResolvedValues(string, variableManager.getVariableValuesByIds())
 
     private fun executeShortcut(): Completable =
-        HttpRequester(contentResolver)
+        httpRequester
             .executeShortcut(
                 context,
                 shortcut,

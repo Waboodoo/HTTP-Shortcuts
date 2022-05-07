@@ -2,20 +2,30 @@ package ch.rmy.android.http_shortcuts.activities.editor.basicsettings
 
 import android.app.Application
 import ch.rmy.android.framework.extensions.attachTo
-import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.usecases.GetAvailableBrowserPackageNamesUseCase
+import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.extensions.type
+import javax.inject.Inject
 
 class BasicRequestSettingsViewModel(application: Application) : BaseViewModel<Unit, BasicRequestSettingsViewState>(application) {
 
-    private val temporaryShortcutRepository = TemporaryShortcutRepository()
-    private val variableRepository = VariableRepository()
-    private val getAvailableBrowserPackageNames = GetAvailableBrowserPackageNamesUseCase(context)
+    @Inject
+    lateinit var temporaryShortcutRepository: TemporaryShortcutRepository
+
+    @Inject
+    lateinit var variableRepository: VariableRepository
+
+    @Inject
+    lateinit var getAvailableBrowserPackageNames: GetAvailableBrowserPackageNamesUseCase
+
+    init {
+        getApplicationComponent().inject(this)
+    }
 
     override fun onInitializationStarted(data: Unit) {
         finalizeInitialization(silent = true)

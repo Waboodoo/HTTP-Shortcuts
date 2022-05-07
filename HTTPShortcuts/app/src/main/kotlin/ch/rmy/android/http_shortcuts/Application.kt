@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.multidex.MultiDex
 import ch.rmy.android.framework.WithRealm
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
+import ch.rmy.android.http_shortcuts.dagger.DaggerApplicationComponent
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.logging.Logging
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
@@ -15,6 +17,12 @@ import org.conscrypt.Conscrypt
 import java.security.Security
 
 class Application : android.app.Application(), WithRealm {
+
+    val applicationComponent: ApplicationComponent by lazy {
+        DaggerApplicationComponent.builder()
+            .application(this)
+            .build()
+    }
 
     override var isRealmAvailable: Boolean = false
         private set

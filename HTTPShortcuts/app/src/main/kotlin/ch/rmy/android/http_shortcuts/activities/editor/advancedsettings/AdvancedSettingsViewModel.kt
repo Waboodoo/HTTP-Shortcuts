@@ -7,17 +7,28 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.activities.editor.advancedsettings.usecases.GetTimeoutDialogUseCase
+import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import javax.inject.Inject
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
 class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, AdvancedSettingsViewState>(application), WithDialog {
 
-    private val temporaryShortcutRepository = TemporaryShortcutRepository()
-    private val variableRepository = VariableRepository()
-    private val getTimeoutDialog = GetTimeoutDialogUseCase()
+    @Inject
+    lateinit var temporaryShortcutRepository: TemporaryShortcutRepository
+
+    @Inject
+    lateinit var variableRepository: VariableRepository
+
+    @Inject
+    lateinit var getTimeoutDialog: GetTimeoutDialogUseCase
+
+    init {
+        getApplicationComponent().inject(this)
+    }
 
     override var dialogState: DialogState?
         get() = currentViewState?.dialogState

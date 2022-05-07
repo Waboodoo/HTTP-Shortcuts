@@ -3,9 +3,14 @@ package ch.rmy.android.http_shortcuts.activities.variables.editor.types.slider
 import android.app.Application
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.BaseVariableTypeViewModel
+import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.variables.types.SliderType
 
 class SliderTypeViewModel(application: Application) : BaseVariableTypeViewModel<Unit, SliderTypeViewState>(application) {
+
+    init {
+        getApplicationComponent().inject(this)
+    }
 
     override fun initViewState() = SliderTypeViewState(
         rememberValue = variable.rememberValue,

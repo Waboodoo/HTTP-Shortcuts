@@ -10,8 +10,11 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.VariableTypeMappings
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesViewModel
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
+import javax.inject.Inject
 
-class GetCreationDialogUseCase {
+class GetCreationDialogUseCase
+@Inject
+constructor() {
 
     @CheckResult
     operator fun invoke(viewModel: VariablesViewModel) =

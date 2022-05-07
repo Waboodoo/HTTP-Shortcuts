@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.data.domains.widgets
 
 import ch.rmy.android.framework.data.BaseRepository
-import ch.rmy.android.http_shortcuts.data.RealmFactory
+import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.domains.getDeadWidgets
 import ch.rmy.android.http_shortcuts.data.domains.getShortcutById
 import ch.rmy.android.http_shortcuts.data.domains.getWidgetsByIds
@@ -10,8 +10,13 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.models.WidgetModel
 import io.reactivex.Completable
 import io.reactivex.Single
+import javax.inject.Inject
 
-class WidgetsRepository : BaseRepository(RealmFactory.getInstance()) {
+class WidgetsRepository
+@Inject
+constructor(
+    realmFactory: RealmFactory,
+) : BaseRepository(realmFactory) {
 
     fun createWidget(widgetId: Int, shortcutId: ShortcutId, showLabel: Boolean, labelColor: String?): Completable =
         commitTransaction {

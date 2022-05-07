@@ -9,8 +9,11 @@ import ch.rmy.android.http_shortcuts.utils.IconUtil
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-class GetIconListItemsUseCase(
+class GetIconListItemsUseCase
+@Inject
+constructor(
     private val context: Context,
     private val getUsedCustomIconsUseCase: GetUsedCustomIconsUseCase,
 ) {

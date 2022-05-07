@@ -6,8 +6,11 @@ import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.main.MainViewModel
+import javax.inject.Inject
 
-class GetUnlockDialogUseCase {
+class GetUnlockDialogUseCase
+@Inject
+constructor() {
 
     @CheckResult
     operator fun invoke(viewModel: MainViewModel, message: Localizable) =

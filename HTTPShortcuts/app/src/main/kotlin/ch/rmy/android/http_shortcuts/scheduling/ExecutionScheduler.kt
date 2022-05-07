@@ -15,10 +15,14 @@ import io.reactivex.Completable
 import java.util.Calendar
 import java.util.Date
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-class ExecutionScheduler(private val context: Context) {
-
-    private val pendingExecutionsRepository = PendingExecutionsRepository()
+class ExecutionScheduler
+@Inject
+constructor(
+    private val context: Context,
+    private val pendingExecutionsRepository: PendingExecutionsRepository,
+) {
 
     fun schedule(): Completable =
         schedule(withNetworkConstraints = true)

@@ -13,8 +13,11 @@ import ch.rmy.android.http_shortcuts.variables.Variables
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-class GetUsedVariableIdsUseCase(
+class GetUsedVariableIdsUseCase
+@Inject
+constructor(
     private val shortcutRepository: ShortcutRepository,
     private val variableRepository: VariableRepository,
 ) {

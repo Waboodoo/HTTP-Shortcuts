@@ -6,15 +6,24 @@ import androidx.work.WorkerParameters
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
+import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.models.PendingExecutionModel
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
+import javax.inject.Inject
 
 class ExecutionWorker(private val context: Context, workerParams: WorkerParameters) :
     RxWorker(context, workerParams) {
+
+    @Inject
+    lateinit var pendingExecutionsRepository: PendingExecutionsRepository
+
+    init {
+        getApplicationComponent().inject(this)
+    }
 
     override fun createWork(): Single<Result> =
         Single.defer {
@@ -33,7 +42,7 @@ class ExecutionWorker(private val context: Context, workerParams: WorkerParamete
             }
 
     private fun runPendingExecution(context: Context, id: String): Completable =
-        PendingExecutionsRepository()
+        pendingExecutionsRepository
             .getPendingExecution(id)
             .flatMapCompletable { pendingExecution ->
                 Completable.fromAction {

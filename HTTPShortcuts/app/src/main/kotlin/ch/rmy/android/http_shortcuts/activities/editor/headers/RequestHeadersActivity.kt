@@ -10,18 +10,27 @@ import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.utils.DragOrderingHelper
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.databinding.ActivityRequestHeadersBinding
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
+import javax.inject.Inject
+
 class RequestHeadersActivity : BaseActivity() {
 
+    @Inject
+    lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
+
     private val viewModel: RequestHeadersViewModel by bindViewModel()
-    private val variablePlaceholderProvider = VariablePlaceholderProvider()
 
     private lateinit var binding: ActivityRequestHeadersBinding
 
     private lateinit var adapter: RequestHeadersAdapter
     private var isDraggingEnabled = false
+
+    override fun inject(applicationComponent: ApplicationComponent) {
+        applicationComponent.inject(this)
+    }
 
     override fun onCreated(savedState: Bundle?) {
         viewModel.initialize()

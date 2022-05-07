@@ -1,9 +1,9 @@
 package ch.rmy.android.http_shortcuts.data.domains.variables
 
 import ch.rmy.android.framework.data.BaseRepository
+import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.framework.data.RealmTransactionContext
 import ch.rmy.android.framework.extensions.swap
-import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryVariable
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.data.models.OptionModel
@@ -11,8 +11,13 @@ import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.realm.RealmList
+import javax.inject.Inject
 
-class TemporaryVariableRepository : BaseRepository(RealmFactory.getInstance()) {
+class TemporaryVariableRepository
+@Inject
+constructor(
+    realmFactory: RealmFactory,
+) : BaseRepository(realmFactory) {
 
     fun getObservableTemporaryVariable(): Observable<VariableModel> =
         observeItem {

@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.BitmapFactory
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.utils.Optional
-import ch.rmy.android.http_shortcuts.http.HttpClients
+import ch.rmy.android.http_shortcuts.http.HttpClientFactory
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.IconUtil
 import ch.rmy.android.http_shortcuts.utils.UserAgentUtil
@@ -13,10 +13,16 @@ import ch.rmy.favicongrabber.models.IconResult
 import io.reactivex.Single
 import java.io.File
 import java.lang.Exception
+import javax.inject.Inject
 
-class FetchFaviconUseCase(private val context: Context) {
+class FetchFaviconUseCase
+@Inject
+constructor(
+    private val context: Context,
+    httpClientFactory: HttpClientFactory,
+) {
 
-    private val client = HttpClients.getClient(context)
+    private val client = httpClientFactory.getClient(context)
 
     operator fun invoke(url: String): Single<Optional<ShortcutIcon>> {
         val iconSize = IconUtil.getIconSize(context)

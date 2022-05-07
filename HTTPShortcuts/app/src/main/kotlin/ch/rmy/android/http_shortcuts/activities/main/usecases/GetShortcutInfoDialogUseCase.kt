@@ -6,8 +6,11 @@ import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import com.afollestad.materialdialogs.callbacks.onShow
+import javax.inject.Inject
 
-class GetShortcutInfoDialogUseCase {
+class GetShortcutInfoDialogUseCase
+@Inject
+constructor() {
 
     @CheckResult
     operator fun invoke(shortcutId: ShortcutId, shortcutName: String) =

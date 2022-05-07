@@ -6,8 +6,11 @@ import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.utils.Settings
 import com.afollestad.materialdialogs.callbacks.onShow
+import javax.inject.Inject
 
-class GetNetworkRestrictionDialogUseCase(
+class GetNetworkRestrictionDialogUseCase
+@Inject
+constructor(
     private val settings: Settings,
 ) {
 

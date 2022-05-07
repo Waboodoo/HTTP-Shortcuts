@@ -4,7 +4,7 @@ import android.content.Context
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import io.reactivex.Single
 
-internal class ConstantType : BaseVariableType() {
+class ConstantType : BaseVariableType() {
 
     override fun resolveValue(context: Context, variable: VariableModel) =
         Single.fromCallable {

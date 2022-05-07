@@ -9,11 +9,13 @@ import ch.rmy.android.http_shortcuts.activities.variables.editor.VariableEditorT
 import ch.rmy.android.http_shortcuts.activities.variables.editor.VariableTypeToVariableEditorEvent
 import ch.rmy.android.http_shortcuts.data.domains.variables.TemporaryVariableRepository
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
+import javax.inject.Inject
 
 abstract class BaseVariableTypeViewModel<InitData : Any, ViewState : Any>(application: Application) :
     BaseViewModel<InitData, ViewState>(application) {
 
-    protected val temporaryVariableRepository = TemporaryVariableRepository()
+    @Inject
+    lateinit var temporaryVariableRepository: TemporaryVariableRepository
 
     private val incomingEventBridge = EventBridge(VariableEditorToVariableTypeEvent::class.java)
     private val outgoingEventBridge = EventBridge(VariableTypeToVariableEditorEvent::class.java)

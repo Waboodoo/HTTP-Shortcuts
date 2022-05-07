@@ -11,10 +11,10 @@ import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.color
 import ch.rmy.android.framework.extensions.observe
-import ch.rmy.android.framework.ui.BaseFragment
 import ch.rmy.android.framework.utils.DragOrderingHelper
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.BaseFragment
 import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType

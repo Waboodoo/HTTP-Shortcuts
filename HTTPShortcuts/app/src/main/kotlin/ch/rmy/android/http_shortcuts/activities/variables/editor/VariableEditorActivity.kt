@@ -15,11 +15,11 @@ import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.observeChecked
 import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.extensions.setTextSafely
-import ch.rmy.android.framework.ui.BaseFragment
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.activities.BaseFragment
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.color.ColorTypeFragment
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.constant.ConstantTypeFragment
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.date.DateTypeFragment

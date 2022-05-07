@@ -18,8 +18,11 @@ import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
 import com.afollestad.materialdialogs.WhichButton
 import com.afollestad.materialdialogs.actions.getActionButton
+import javax.inject.Inject
 
-class GetFileParameterDialogUseCase {
+class GetFileParameterDialogUseCase
+@Inject
+constructor() {
 
     @CheckResult
     operator fun invoke(

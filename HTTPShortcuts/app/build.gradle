@@ -140,6 +140,10 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
 
+    /* Dependency Injection */
+    implementation 'com.google.dagger:dagger:2.41'
+    kapt 'com.google.dagger:dagger-compiler:2.41'
+
     /* Support libraries */
     implementation 'androidx.core:core-ktx:1.7.0@aar'
     implementation 'androidx.appcompat:appcompat:1.4.1'

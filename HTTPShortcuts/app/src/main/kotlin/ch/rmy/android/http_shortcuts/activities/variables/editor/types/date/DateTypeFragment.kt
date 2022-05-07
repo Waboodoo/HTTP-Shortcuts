@@ -10,7 +10,7 @@ import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.observeChecked
 import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.extensions.setTextSafely
-import ch.rmy.android.framework.ui.BaseFragment
+import ch.rmy.android.http_shortcuts.activities.BaseFragment
 import ch.rmy.android.http_shortcuts.databinding.VariableEditorDateBinding
 
 class DateTypeFragment : BaseFragment<VariableEditorDateBinding>() {

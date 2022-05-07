@@ -19,8 +19,11 @@ import ch.rmy.android.http_shortcuts.utils.DialogBuilder
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.VersionUtil
 import com.afollestad.materialdialogs.callbacks.onShow
+import javax.inject.Inject
 
-class GetChangeLogDialogUseCase(
+class GetChangeLogDialogUseCase
+@Inject
+constructor(
     private val settings: Settings,
 ) {
 

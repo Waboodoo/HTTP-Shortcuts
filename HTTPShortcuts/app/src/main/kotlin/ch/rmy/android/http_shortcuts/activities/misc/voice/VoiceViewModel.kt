@@ -9,13 +9,20 @@ import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
+import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import com.afollestad.materialdialogs.callbacks.onCancel
+import javax.inject.Inject
 
 class VoiceViewModel(application: Application) : BaseViewModel<VoiceViewModel.InitData, VoiceViewState>(application), WithDialog {
 
-    private val shortcutRepository = ShortcutRepository()
+    @Inject
+    lateinit var shortcutRepository: ShortcutRepository
+
+    init {
+        getApplicationComponent().inject(this)
+    }
 
     override fun initViewState() = VoiceViewState()
 

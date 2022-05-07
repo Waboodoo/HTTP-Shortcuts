@@ -9,8 +9,11 @@ import ch.rmy.android.http_shortcuts.utils.ShareUtil
 import ch.rmy.curlcommand.CurlCommand
 import ch.rmy.curlcommand.CurlConstructor
 import com.afollestad.materialdialogs.callbacks.onShow
+import javax.inject.Inject
 
-class GetCurlExportDialogUseCase {
+class GetCurlExportDialogUseCase
+@Inject
+constructor() {
 
     operator fun invoke(title: String, command: CurlCommand): DialogState =
         DialogState.create(DIALOG_ID) {

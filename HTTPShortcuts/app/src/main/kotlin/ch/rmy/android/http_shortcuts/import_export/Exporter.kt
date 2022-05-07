@@ -9,7 +9,6 @@ import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.safeRemoveIf
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
-import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.models.BaseModel
@@ -30,12 +29,15 @@ import java.io.File
 import java.io.FileInputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
+import javax.inject.Inject
 
-class Exporter(private val context: Context) {
-
-    private val appRepository = AppRepository()
-    private val temporaryShortcutRepository = TemporaryShortcutRepository()
-    private val getUsedCustomIcons = GetUsedCustomIconsUseCase(appRepository, temporaryShortcutRepository)
+class Exporter
+@Inject
+constructor(
+    private val context: Context,
+    private val appRepository: AppRepository,
+    private val getUsedCustomIcons: GetUsedCustomIconsUseCase,
+) {
 
     fun exportToUri(
         uri: Uri,

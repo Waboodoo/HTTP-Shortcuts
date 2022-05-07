@@ -5,13 +5,18 @@ import androidx.activity.result.launch
 import ch.rmy.android.framework.ui.Entrypoint
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.main.MainActivity
+import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import com.joaomgcd.taskerpluginlibrary.config.TaskerPluginConfig
 import com.joaomgcd.taskerpluginlibrary.input.TaskerInput
 import com.joaomgcd.taskerpluginlibrary.input.TaskerInputInfo
 import com.joaomgcd.taskerpluginlibrary.input.TaskerInputInfos
+import javax.inject.Inject
 
 class PluginEditActivity : BaseActivity(), TaskerPluginConfig<Input>, Entrypoint {
+
+    @Inject
+    lateinit var variableRepository: VariableRepository
 
     private val selectShortcut = registerForActivityResult(MainActivity.SelectShortcut) { result ->
         if (result != null) {
@@ -26,7 +31,9 @@ class PluginEditActivity : BaseActivity(), TaskerPluginConfig<Input>, Entrypoint
 
     private var input: Input? = null
 
-    private val variableRepository = VariableRepository()
+    override fun inject(applicationComponent: ApplicationComponent) {
+        applicationComponent.inject(this)
+    }
 
     override fun onCreated(savedState: Bundle?) {
         selectShortcut.launch()

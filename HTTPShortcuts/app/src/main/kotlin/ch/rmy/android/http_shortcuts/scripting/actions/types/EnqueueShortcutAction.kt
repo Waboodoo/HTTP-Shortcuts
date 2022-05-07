@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.framework.utils.DateUtil
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutNameOrId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
@@ -9,6 +10,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import io.reactivex.Completable
+import javax.inject.Inject
 
 class EnqueueShortcutAction(
     private val shortcutNameOrId: ShortcutNameOrId?,
@@ -16,8 +18,15 @@ class EnqueueShortcutAction(
     private val delay: Int?,
 ) : BaseAction() {
 
-    private val shortcutRepository = ShortcutRepository()
-    private val pendingExecutionsRepository = PendingExecutionsRepository()
+    @Inject
+    lateinit var shortcutRepository: ShortcutRepository
+
+    @Inject
+    lateinit var pendingExecutionsRepository: PendingExecutionsRepository
+
+    override fun inject(applicationComponent: ApplicationComponent) {
+        applicationComponent.inject(this)
+    }
 
     override fun execute(executionContext: ExecutionContext): Completable {
         if (executionContext.recursionDepth >= MAX_RECURSION_DEPTH) {

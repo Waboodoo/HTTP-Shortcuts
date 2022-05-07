@@ -3,8 +3,11 @@ package ch.rmy.android.http_shortcuts.usecases
 import androidx.annotation.CheckResult
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
+import javax.inject.Inject
 
-class GetToolbarTitleChangeDialogUseCase {
+class GetToolbarTitleChangeDialogUseCase
+@Inject
+constructor() {
 
     @CheckResult
     operator fun invoke(onToolbarTitleChangeSubmitted: (String) -> Unit, oldTitle: String) =

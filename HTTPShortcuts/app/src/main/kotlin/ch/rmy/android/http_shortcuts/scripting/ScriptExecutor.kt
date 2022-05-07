@@ -209,7 +209,7 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
 
                     return try {
                         action
-                            ?.executeForValue(
+                            ?.run(
                                 ExecutionContext(
                                     context = context,
                                     shortcutId = shortcutId,

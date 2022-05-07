@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.activities.main
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.main.models.CategoryTabItem
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 
 class CategoryPagerAdapter(

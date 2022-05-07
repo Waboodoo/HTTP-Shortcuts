@@ -5,16 +5,25 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.RxWorker
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import io.reactivex.Single
+import javax.inject.Inject
 
 class ExecutionsWorker(context: Context, workerParams: WorkerParameters) :
     RxWorker(context, workerParams) {
 
+    @Inject
+    lateinit var executionScheduler: ExecutionScheduler
+
+    init {
+        getApplicationComponent().inject(this)
+    }
+
     override fun createWork(): Single<Result> =
         Single.defer {
             RealmFactory.init(applicationContext)
-            ExecutionScheduler(applicationContext)
+            executionScheduler
                 .schedule()
                 .toSingleDefault(Result.success())
                 .onErrorReturnItem(Result.failure())

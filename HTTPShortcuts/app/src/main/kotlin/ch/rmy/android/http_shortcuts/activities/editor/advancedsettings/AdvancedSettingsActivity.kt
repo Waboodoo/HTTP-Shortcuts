@@ -12,16 +12,24 @@ import ch.rmy.android.framework.extensions.setTextSafely
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.databinding.ActivityAdvancedSettingsBinding
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
+import javax.inject.Inject
 
 class AdvancedSettingsActivity : BaseActivity() {
 
+    @Inject
+    lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
+
     private val viewModel: AdvancedSettingsViewModel by bindViewModel()
-    private val variablePlaceholderProvider = VariablePlaceholderProvider()
 
     private lateinit var binding: ActivityAdvancedSettingsBinding
+
+    override fun inject(applicationComponent: ApplicationComponent) {
+        applicationComponent.inject(this)
+    }
 
     override fun onCreated(savedState: Bundle?) {
         viewModel.initialize()
