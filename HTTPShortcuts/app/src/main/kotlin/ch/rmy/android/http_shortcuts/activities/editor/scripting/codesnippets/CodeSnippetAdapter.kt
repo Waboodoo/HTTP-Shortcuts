@@ -10,6 +10,7 @@ import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.ui.BaseAdapter
 import ch.rmy.android.framework.ui.views.ExpandableSection
 import ch.rmy.android.framework.ui.views.SimpleListItemView
+import ch.rmy.android.http_shortcuts.R
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
@@ -18,6 +19,7 @@ class CodeSnippetAdapter : BaseAdapter<ItemWrapper>() {
     sealed interface UserEvent {
         data class SectionClicked(val id: Int) : UserEvent
         data class CodeSnippetClicked(val id: Int) : UserEvent
+        data class CodeSnippetAuxiliaryIconClicked(val id: Int) : UserEvent
     }
 
     private val userEventSubject = PublishSubject.create<UserEvent>()
@@ -108,12 +110,16 @@ class CodeSnippetAdapter : BaseAdapter<ItemWrapper>() {
             view.setOnClickListener {
                 userEventSubject.onNext(UserEvent.CodeSnippetClicked(codeSnippetId))
             }
+            view.setAuxiliaryIconClickListener {
+                userEventSubject.onNext(UserEvent.CodeSnippetAuxiliaryIconClicked(codeSnippetId))
+            }
         }
 
         fun setItem(item: ItemWrapper.CodeSnippet) {
             codeSnippetId = item.id
             view.title = item.codeSnippetItem.title.localize(context)
             view.subtitle = item.codeSnippetItem.description?.localize(context)
+            view.auxiliaryIcon = if (item.codeSnippetItem.docRef != null) R.drawable.ic_info else null
         }
     }
 

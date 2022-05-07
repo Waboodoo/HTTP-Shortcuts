@@ -27,6 +27,7 @@ The response body is available as a string via `response.body`.
 const myBody = response.body;
 ```
 
+<a name="response-headers"></a>
 ### Getting Response Headers
 
 The response headers are available as an object (key-value-pairs) via `response.headers`. Each key corresponds to the name of the header and its value is an array of strings of all the headers with that name.
@@ -39,6 +40,7 @@ const contentType = response.headers['Content-Type'][0];
 const contentLength = response.getHeader('Content-Length');
 ```
 
+<a name="response-status"></a>
 ### Getting the Status Code
 
 The response's HTTP status code is available as an integer via `response.statusCode`.
@@ -47,6 +49,7 @@ The response's HTTP status code is available as an integer via `response.statusC
 const isNotFound = response.statusCode == 404;
 ```
 
+<a name="response-cookies"></a>
 ### Getting Cookies
 
 The response's cookies are available as an object (key-value-pairs) via `response.cookies`. Each key corresponds to the name of the cookie and its value is an array of strings of all the cookies with that name.
@@ -61,6 +64,7 @@ const myCookieValue2 = response.getCookie('MyCookieName2');
 
 If you need more details about a cookie (e.g. its expiration timestamp) you can use `response.headers['Set-Cookie']` to read out the cookie headers directly.
 
+<a name="response-errors"></a>
 ### Errors
 
 Please note that the `response` object will be `null` if there was no response from the server, i.e., in case of a network error. In that case, you can inspect the `networkError` to get a string describing the error.
@@ -122,6 +126,7 @@ selectedFiles[0].type;
 
 This section describes how you can interact with the user (i.e., you), during the execution of a shortcut, e.g., to ask for additional input, to confirm an action or to display information.
 
+<a name="show-toast"></a>
 ### showToast
 
 With this function you can display a toast message on the screen. Simply pass your message as the first parameter.
@@ -132,6 +137,7 @@ showToast('Hello World');
 
 Please note that no toast will be displayed if the string you pass is empty.
 
+<a name="show-dialog"></a>
 ### showDialog
 
 With this function you can display a dialog window on the screen. Simply pass your message as the first parameter, and optionally a title for the dialog as the second paramter. The dialog will be displayed until its *"OK"* button is pressed.
@@ -142,6 +148,7 @@ showDialog('My Message', 'My Title');
 
 Please note that no dialog will be displayed if the string you pass is empty.
 
+<a name="prompt-confirm"></a>
 ### prompt, confirm
 
 Similar to how JavaScript works in a browser, you can use `prompt()` and `confirm()` to ask the user for input as part of a workflow.
@@ -199,6 +206,7 @@ speak('Dieser Text ist deutsch', 'de');
 
 This function may not be supported by all devices.
 
+<a name="vibrate"></a>
 ### vibrate
 
 With this function you can cause the device to vibrate (if supported). As an optional first parameter, you can pass the number of the vibration pattern you want to use, and as an optional second paramter you can pass a boolean denoting whether the execution should wait for the vibration pattern to finish or not.
@@ -218,6 +226,7 @@ vibrate(2, true);
 
 This section lists all the built-in functions which you can use to modify existing shortcuts programmatically.
 
+<a name="rename-shortcut"></a>
 ### renameShortcut
 
 With this function you can rename a shortcut. Simply pass the name or ID of a shortcut as the first parameter and the new name as the second one. You can also pass an empty string as the first parameter to target the current shortcut.
@@ -226,6 +235,7 @@ With this function you can rename a shortcut. Simply pass the name or ID of a sh
 renameShortcut('Old Name', 'New Name');
 ```
 
+<a name="change-description"></a>
 ### changeDescription
 
 With this function you can change the description of a shortcut. Simply pass the name or ID of a shortcut as the first parameter and the new description as the second one. You can also pass an empty string as the first parameter to target the current shortcut.
@@ -236,6 +246,7 @@ changeDescription('My Shortcut', 'New Description');
 
 Note: a shortcut's description is only visible in categories that use a list layout, not in those that use a grid layout.
 
+<a name="change-icon"></a>
 ### changeIcon
 
 With this function you can change the icon of a shortcut. Simply pass the name or ID of a shortcut as the first parameter and the name of the icon as the second one. You can also pass an empty string as the first parameter to target the current shortcut. This only works with built-in icons. Use the *"Add Code Snippet"* in the app to select an icon.
@@ -249,14 +260,18 @@ changeIcon('My Shortcut', 'bitsies_lightbulb');
 
 This section lists some of the options you have to control the execution flow of your script.
 
+<a name="wait"></a>
 ### wait
 
-The `wait` function allows you to delay execution by waiting (also called sleeping) for a specified number of milliseconds before continueing with the execution of the script.
+The `wait` function allows you to delay execution by waiting (also called sleeping) for a specified number of milliseconds before continuing with the execution of the script.
 
 ```js
 wait(3000); // delay execution by 3 seconds
 ```
 
+Please note that this is a blocking action, meaning that you will not be able to interact with the app during the waiting time.
+
+<a name="abort"></a>
 ### abort
 
 With the `abort` function you can abort the execution of the shortcut.
@@ -270,6 +285,7 @@ abort();
 
 This section lists some of the built-in text processing functions.
 
+<a name="base-64"></a>
 ### base64encode and base64decode
 
 With the `base64encode` and `base64decode` functions you can encode or decode a given string using Base64.
@@ -281,6 +297,7 @@ const decoded = base64decode(encoded);
 
 The return type of `base64encode` is a string, the returned value of `base64decode` is a `Uint8Array`. You can use `toString()` to convert it to a string if needed.
 
+<a name="hash"></a>
 ### hash
 
 With the `hash` function you can compute the hash of a given string. The first parameter denotes the hashing algorithm to use (supported algorithms are `MD5`, `SHA-1`, `SHA-256`, and `SHA-512`) and the second one the string to hash. The return value is in hex format.
@@ -333,6 +350,7 @@ The result variable now holds the following object:
 */
 ```
 
+<a name="to-string-to-hex-string"></a>
 ### toString and toHexString
 
 The functions `toString` and `toHexString` can be used to convert a `Uint8Array` to a string, which is particularly useful in combination with the `hmac` and `base64decode` functions.
@@ -401,6 +419,7 @@ With this function you can retrieve the SSID (i.e., the name) of the Wi-Fi netwo
 const mySSID = getWifiSSID();
 ```
 
+<a name="open-app"></a>
 ### openApp
 
 The `openApp` function allows you to open another app via its package name. If no app with the given package name is installed, an error is displayed.
@@ -409,6 +428,7 @@ The `openApp` function allows you to open another app via its package name. If n
 openApp('com.github.android'); // Opens the Github app
 ```
 
+<a name="open-url"></a>
 ### openUrl
 
 This function allows you to open a URL in an other app. This typically opens a browser, but it can also be used to invoke a deep-link into another app. An error message is displayed if the URL is malformed or if there is no app installed that can handle the URL.

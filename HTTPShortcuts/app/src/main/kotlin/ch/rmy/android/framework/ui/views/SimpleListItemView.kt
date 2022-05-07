@@ -29,6 +29,19 @@ class SimpleListItemView
             binding.simpleListItemSubtitle.isVisible = !value.isNullOrEmpty()
         }
 
+    var auxiliaryIcon: Int? = null
+        set(value) {
+            field = value
+            with(binding.simpleListItemAuxiliaryIcon) {
+                isVisible = if (value != null) {
+                    setImageResource(value)
+                    true
+                } else {
+                    false
+                }
+            }
+        }
+
     init {
         addRippleAnimation()
         if (attrs != null) {
@@ -37,6 +50,10 @@ class SimpleListItemView
                 subtitle = a.getText(ATTRIBUTE_IDS.indexOf(R.attr.subtitle)) ?: ""
             }
         }
+    }
+
+    fun setAuxiliaryIconClickListener(listener: () -> Unit) {
+        binding.simpleListItemAuxiliaryIcon.setOnClickListener { listener() }
     }
 
     companion object {

@@ -81,6 +81,9 @@ class CodeSnippetPickerActivity : BaseActivity() {
                 is CodeSnippetAdapter.UserEvent.CodeSnippetClicked -> {
                     viewModel.onCodeSnippetClicked(event.id)
                 }
+                is CodeSnippetAdapter.UserEvent.CodeSnippetAuxiliaryIconClicked -> {
+                    viewModel.onCodeSnippetDocRefButtonClicked(event.id)
+                }
             }
         }
     }

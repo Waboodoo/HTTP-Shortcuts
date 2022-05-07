@@ -22,6 +22,7 @@ import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholderProv
 import ch.rmy.android.http_shortcuts.usecases.GetBuiltInIconPickerDialogUseCase
 import ch.rmy.android.http_shortcuts.usecases.GetIconPickerDialogUseCase
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
+import ch.rmy.android.http_shortcuts.utils.ExternalURLs.getScriptingDocumentation
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 
 class CodeSnippetPickerViewModel(application: Application) :
@@ -261,6 +262,20 @@ class CodeSnippetPickerViewModel(application: Application) :
                 ?.codeSnippetItem
                 ?.action
                 ?.invoke()
+        }
+    }
+
+    fun onCodeSnippetDocRefButtonClicked(id: Int) {
+        doWithViewState { viewState ->
+            (
+                viewState.items
+                    .firstOrNull { it is ItemWrapper.CodeSnippet && it.id == id }
+                    as? ItemWrapper.CodeSnippet
+                )
+                ?.codeSnippetItem
+                ?.docRef
+                ?.let(::getScriptingDocumentation)
+                ?.let(::openURL)
         }
     }
 

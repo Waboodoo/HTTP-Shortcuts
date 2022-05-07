@@ -23,7 +23,7 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/action_about"
-        android:icon="@drawable/ic_shortcut_info"
+        android:icon="@drawable/ic_info"
         android:title="@string/title_about"
         app:showAsAction="never" />
     <item
