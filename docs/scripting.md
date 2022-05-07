@@ -301,6 +301,38 @@ const myHMACasHex = toHexString(myHMAX);
 // the value of `myHMACasHex` is '34d60d40202ae16ae3dd70c9715b1900f9fe30cf10af483e74ea8f6bef18bd09' now.
 ```
 
+<a name="parse-xml"></a>
+### parseXML
+
+The `parseXML` function allows to parse an XML string into an object representation. Each XML element is converted into a JS object with attributes `name`, `attributes`, `children`, and `text` (if any), as is showcased by the following example:
+
+```js
+const myXML = `<element>
+    <foo bar="123">Hello World</foo>
+</element>`;
+
+const result = parseXML(myXML);
+
+/*
+The result variable now holds the following object:
+{
+    "name": "element",
+    "attributes": {},
+    "children": [
+        {
+            "name": "foo",
+            "attributes": {
+                "bar": "123"
+            },
+            "children": [],
+            "text": "Hello World"
+        }
+    ],
+    "text": "\n    \n"
+}
+*/
+```
+
 ### toString and toHexString
 
 The functions `toString` and `toHexString` can be used to convert a `Uint8Array` to a string, which is particularly useful in combination with the `hmac` and `base64decode` functions.

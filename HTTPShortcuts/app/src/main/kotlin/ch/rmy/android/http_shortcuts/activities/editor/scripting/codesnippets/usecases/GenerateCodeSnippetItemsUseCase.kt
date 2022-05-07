@@ -142,6 +142,12 @@ class GenerateCodeSnippetItemsUseCase(context: Context) {
                 }
             }
             section(R.string.dialog_code_snippet_text_processing, R.drawable.ic_text_processing) {
+                item(R.string.action_type_parse_json) {
+                    insertText("JSON.parse(\"", "\");\n")
+                }
+                item(R.string.action_type_parse_xml) {
+                    insertText("parseXML(\"", "\");\n")
+                }
                 item("MD5".toLocalizable()) {
                     insertText("hash(\"MD5\", \"", "\");\n")
                 }
