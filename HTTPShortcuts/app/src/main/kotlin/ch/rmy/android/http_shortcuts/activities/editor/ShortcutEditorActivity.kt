@@ -57,6 +57,7 @@ class ShortcutEditorActivity : BaseActivity() {
                 executionType = intent.getStringExtra(EXTRA_EXECUTION_TYPE)
                     ?.let(ShortcutExecutionType::get)
                     ?: ShortcutExecutionType.APP,
+                recoveryMode = intent.getBooleanExtra(EXTRA_RECOVERY_MODE, false),
             ),
         )
         initViews()
@@ -239,6 +240,10 @@ class ShortcutEditorActivity : BaseActivity() {
         fun executionType(type: ShortcutExecutionType) = also {
             intent.putExtra(EXTRA_EXECUTION_TYPE, type.type)
         }
+
+        fun recoveryMode() = also {
+            intent.putExtra(EXTRA_RECOVERY_MODE, true)
+        }
     }
 
     companion object {
@@ -247,5 +252,6 @@ class ShortcutEditorActivity : BaseActivity() {
         private const val EXTRA_CATEGORY_ID = "categoryId"
         private const val EXTRA_CURL_COMMAND = "curlCommand"
         private const val EXTRA_EXECUTION_TYPE = "executionType"
+        private const val EXTRA_RECOVERY_MODE = "recoveryMode"
     }
 }

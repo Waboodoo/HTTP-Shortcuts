@@ -7,6 +7,8 @@ import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runIf
+import ch.rmy.android.framework.extensions.runIfNotNull
+import ch.rmy.android.framework.extensions.subscribeOptional
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
@@ -15,18 +17,23 @@ import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
+import ch.rmy.android.http_shortcuts.activities.main.models.RecoveryInfo
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetNetworkRestrictionDialogUseCase
+import ch.rmy.android.http_shortcuts.activities.main.usecases.GetRecoveryDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetShortcutCreationDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetShortcutPlacementDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetUnlockDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowChangeLogDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowNetworkRestrictionDialogUseCase
+import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowRecoveryDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.settings.about.AboutActivity
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
+import ch.rmy.android.http_shortcuts.data.SessionInfoStore
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.dtos.LauncherShortcut
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
@@ -52,6 +59,9 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     private val launcherShortcutMapper: LauncherShortcutMapper = LauncherShortcutMapper()
     private val eventBridge = EventBridge(ChildViewModelEvent::class.java)
     private val shouldShowChangeLogDialog = ShouldShowChangeLogDialogUseCase(context)
+    private val temporaryShortcutRepository = TemporaryShortcutRepository()
+    private val sessionInfoStore = SessionInfoStore(context)
+    private val shouldShowRecoveryDialog = ShouldShowRecoveryDialogUseCase(temporaryShortcutRepository, sessionInfoStore)
     private val settings = Settings(context)
     private val getChangeLogDialog = GetChangeLogDialogUseCase(settings)
     private val getToolbarTitleChangeDialog = GetToolbarTitleChangeDialogUseCase()
@@ -62,6 +72,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     private val shouldShowNetworkRestrictionDialog = ShouldShowNetworkRestrictionDialogUseCase(context, settings)
     private val executionScheduler = ExecutionScheduler(context)
     private val launcherShortcutManager = LauncherShortcutManager(context)
+    private val getRecoveryDialog = GetRecoveryDialogUseCase()
 
     private lateinit var categories: List<CategoryModel>
 
@@ -137,11 +148,42 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     private fun showStartupDialogsIfNeeded() {
-        if (shouldShowChangeLogDialog()) {
-            dialogState = getChangeLogDialog(whatsNew = true)
-        } else {
-            showNetworkRestrictionWarningDialogIfNeeded()
-        }
+        shouldShowRecoveryDialog()
+            .subscribeOptional { recoveryInfo ->
+                if (recoveryInfo != null) {
+                    showRecoveryDialog(recoveryInfo)
+                } else {
+                    if (shouldShowChangeLogDialog()) {
+                        dialogState = getChangeLogDialog(whatsNew = true)
+                    } else {
+                        showNetworkRestrictionWarningDialogIfNeeded()
+                    }
+                }
+            }
+            .attachTo(destroyer)
+    }
+
+    private fun showRecoveryDialog(recoveryInfo: RecoveryInfo) {
+        dialogState = getRecoveryDialog(
+            recoveryInfo,
+            onRecover = {
+                emitEvent(
+                    MainEvent.OpenShortcutEditor(
+                        ShortcutEditorActivity.IntentBuilder()
+                            .runIfNotNull(recoveryInfo.shortcutId) {
+                                shortcutId(it)
+                            }
+                            .runIfNotNull(recoveryInfo.categoryId) {
+                                categoryId(it)
+                            }
+                            .recoveryMode()
+                    )
+                )
+            },
+            onDiscard = {
+                performOperation(temporaryShortcutRepository.deleteTemporaryShortcut())
+            },
+        )
     }
 
     private fun showNetworkRestrictionWarningDialogIfNeeded() {

@@ -5,9 +5,14 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 
-abstract class PreferencesStore(context: Context) {
+abstract class PreferencesStore(context: Context, preferencesName: String? = null) {
 
-    private val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+    private val preferences: SharedPreferences =
+        if (preferencesName != null) {
+            context.getSharedPreferences(preferencesName, Context.MODE_PRIVATE)
+        } else {
+            PreferenceManager.getDefaultSharedPreferences(context)
+        }
 
     protected fun getString(key: String): String? =
         preferences.getString(key, null)

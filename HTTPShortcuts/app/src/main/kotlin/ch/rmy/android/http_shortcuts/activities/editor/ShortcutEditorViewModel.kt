@@ -6,6 +6,7 @@ import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.color
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.runIfNotNull
+import ch.rmy.android.framework.extensions.subscribeOptional
 import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.framework.utils.localization.Localizable
@@ -26,6 +27,7 @@ import ch.rmy.android.http_shortcuts.activities.editor.response.ResponseActivity
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.ScriptingActivity
 import ch.rmy.android.http_shortcuts.activities.editor.shortcuts.TriggerShortcutsActivity
 import ch.rmy.android.http_shortcuts.activities.editor.usecases.FetchFaviconUseCase
+import ch.rmy.android.http_shortcuts.data.SessionInfoStore
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
@@ -50,6 +52,7 @@ import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
 import ch.rmy.curlcommand.CurlCommand
+import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -65,6 +68,7 @@ class ShortcutEditorViewModel(
     private val getIconPickerDialog = GetIconPickerDialogUseCase()
     private val getBuiltInIconPickerDialog = GetBuiltInIconPickerDialogUseCase()
     private val launcherShortcutManager = LauncherShortcutManager(context)
+    private val sessionInfoStore = SessionInfoStore(context)
 
     private val variablePlaceholderProvider = VariablePlaceholderProvider()
 
@@ -104,13 +108,19 @@ class ShortcutEditorViewModel(
         }
 
     override fun onInitializationStarted(data: InitData) {
-        if (data.shortcutId == null) {
-            temporaryShortcutRepository.createNewTemporaryShortcut(
-                initialIcon = Icons.getRandomInitialIcon(context),
-                executionType = executionType,
-            )
-        } else {
-            shortcutRepository.createTemporaryShortcutFromShortcut(data.shortcutId)
+        sessionInfoStore.editingShortcutId = data.shortcutId
+        sessionInfoStore.editingShortcutCategoryId = data.categoryId
+        when {
+            data.recoveryMode -> Completable.complete()
+            data.shortcutId == null -> {
+                temporaryShortcutRepository.createNewTemporaryShortcut(
+                    initialIcon = Icons.getRandomInitialIcon(context),
+                    executionType = executionType,
+                )
+            }
+            else -> {
+                shortcutRepository.createTemporaryShortcutFromShortcut(data.shortcutId)
+            }
         }
             .runIfNotNull(data.curlCommand) {
                 andThen(temporaryShortcutRepository.importFromCurl(it))
@@ -170,7 +180,7 @@ class ShortcutEditorViewModel(
     }
 
     private fun hasChanges() =
-        oldShortcut?.isSameAs(shortcut) == false || initData.curlCommand != null
+        initData.recoveryMode || oldShortcut?.isSameAs(shortcut) == false || initData.curlCommand != null
 
     private fun canExecute() =
         !shortcut.type.usesUrl ||
@@ -546,9 +556,8 @@ class ShortcutEditorViewModel(
                     copy(iconLoading = false)
                 }
             }
-            .subscribe(
-                { iconOptional ->
-                    val icon = iconOptional.value
+            .subscribeOptional(
+                { icon ->
                     if (icon != null) {
                         onShortcutIconChanged(icon)
                     } else {
@@ -565,5 +574,6 @@ class ShortcutEditorViewModel(
         val shortcutId: ShortcutId?,
         val curlCommand: CurlCommand?,
         val executionType: ShortcutExecutionType,
+        val recoveryMode: Boolean,
     )
 }
