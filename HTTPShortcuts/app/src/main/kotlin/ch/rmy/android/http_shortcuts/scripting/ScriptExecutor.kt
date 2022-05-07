@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts.scripting
 import android.content.Context
 import androidx.annotation.Keep
 import ch.rmy.android.framework.extensions.getCaseInsensitive
-import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId

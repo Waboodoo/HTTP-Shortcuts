@@ -16,6 +16,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.HashActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.HmacActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.OpenAppActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.OpenURLActionType
+import ch.rmy.android.http_shortcuts.scripting.actions.types.ParseXMLActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.PlaySoundActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.RenameShortcutActionType
@@ -64,6 +65,7 @@ class ActionFactory {
                 HmacActionType(),
                 OpenAppActionType(),
                 OpenURLActionType(),
+                ParseXMLActionType(),
                 PlaySoundActionType(),
                 PromptActionType(),
                 RenameShortcutActionType(),
