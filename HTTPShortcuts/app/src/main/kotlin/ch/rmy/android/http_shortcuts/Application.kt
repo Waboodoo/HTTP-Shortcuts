@@ -15,6 +15,7 @@ import com.facebook.stetho.Stetho
 import io.reactivex.plugins.RxJavaPlugins
 import org.conscrypt.Conscrypt
 import java.security.Security
+import javax.inject.Inject
 
 class Application : android.app.Application(), WithRealm {
 
@@ -24,11 +25,17 @@ class Application : android.app.Application(), WithRealm {
             .build()
     }
 
+    @Inject
+    lateinit var localeHelper: LocaleHelper
+
     override var isRealmAvailable: Boolean = false
         private set
 
     override fun onCreate() {
         super.onCreate()
+        applicationComponent.inject(this)
+        localeHelper.applyLocaleFromSettings()
+
         Security.insertProviderAt(Conscrypt.newProvider(), 1)
 
         Logging.initCrashReporting(context)
@@ -49,7 +56,7 @@ class Application : android.app.Application(), WithRealm {
 
     public override fun attachBaseContext(base: Context) {
         MultiDex.install(base)
-        super.attachBaseContext(LocaleHelper.applyLocale(base))
+        super.attachBaseContext(base)
     }
 
     private val context: Context

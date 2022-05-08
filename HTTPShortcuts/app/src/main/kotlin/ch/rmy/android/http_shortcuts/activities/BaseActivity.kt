@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.activities
 
-import android.content.Context
 import android.os.Bundle
 import ch.rmy.android.framework.ui.BaseActivity
 import ch.rmy.android.framework.ui.Entrypoint
@@ -9,7 +8,6 @@ import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.utils.DialogBuilder
-import ch.rmy.android.http_shortcuts.utils.LocaleHelper
 import ch.rmy.android.http_shortcuts.utils.ThemeHelper
 
 abstract class BaseActivity : BaseActivity() {
@@ -20,10 +18,6 @@ abstract class BaseActivity : BaseActivity() {
 
     open val initializeWithTheme: Boolean
         get() = true
-
-    override fun attachBaseContext(base: Context) {
-        super.attachBaseContext(LocaleHelper.applyLocale(base))
-    }
 
     final override fun onCreate(savedInstanceState: Bundle?) {
         inject(getApplicationComponent())

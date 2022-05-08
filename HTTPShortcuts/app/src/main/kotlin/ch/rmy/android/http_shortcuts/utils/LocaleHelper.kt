@@ -1,39 +1,39 @@
 package ch.rmy.android.http_shortcuts.utils
 
-import android.annotation.TargetApi
-import android.content.Context
-import android.os.Build
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import java.util.Locale
+import javax.inject.Inject
 
-object LocaleHelper {
+class LocaleHelper
+@Inject
+constructor(
+    private val settings: Settings,
+) {
 
     private var deviceLocale: Locale? = null
 
-    fun applyLocale(context: Context): Context {
+    fun applyLocaleFromSettings() {
+        applyLocale(settings.language)
+    }
+
+    fun applyLocale(locale: String?) {
         if (deviceLocale == null) {
             deviceLocale = Locale.getDefault()
         }
-        val preferredLocale = getPersistedLocale(context)
+        val preferredLocale = locale
             ?.let(::getLocale)
             ?: run {
                 if (deviceLocale == Locale.getDefault()) {
-                    return context
+                    return
                 }
                 deviceLocale!!
             }
-        return setLocale(context, preferredLocale)
+        setLocale(preferredLocale)
     }
 
-    private fun getPersistedLocale(context: Context): String? =
-        Settings(context).language
-
-    private fun setLocale(context: Context, locale: Locale): Context {
-        Locale.setDefault(locale)
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            updateResources(context, locale)
-        } else {
-            updateResourcesLegacy(context, locale)
-        }
+    private fun setLocale(locale: Locale) {
+        AppCompatDelegate.setApplicationLocales(LocaleListCompat.create(locale))
     }
 
     private fun getLocale(localeSpec: String): Locale {
@@ -45,25 +45,5 @@ object LocaleHelper {
         } else {
             Locale(language)
         }
-    }
-
-    @TargetApi(Build.VERSION_CODES.N)
-    private fun updateResources(context: Context, locale: Locale): Context =
-        context.createConfigurationContext(
-            context.resources.configuration
-                .apply {
-                    setLocale(locale)
-                    setLayoutDirection(locale)
-                }
-        )
-
-    @Suppress("DEPRECATION")
-    private fun updateResourcesLegacy(context: Context, locale: Locale): Context {
-        val resources = context.resources
-        val configuration = resources.configuration
-        configuration.locale = locale
-        configuration.setLayoutDirection(locale)
-        resources.updateConfiguration(configuration, resources.displayMetrics)
-        return context
     }
 }

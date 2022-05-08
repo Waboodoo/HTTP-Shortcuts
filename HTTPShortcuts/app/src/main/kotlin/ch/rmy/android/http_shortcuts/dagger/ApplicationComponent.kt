@@ -82,6 +82,8 @@ interface ApplicationComponent {
         fun build(): ApplicationComponent
     }
 
+    fun inject(application: Application)
+
     fun inject(categoriesViewModel: CategoriesViewModel)
 
     fun inject(categoryEditorViewModel: CategoryEditorViewModel)

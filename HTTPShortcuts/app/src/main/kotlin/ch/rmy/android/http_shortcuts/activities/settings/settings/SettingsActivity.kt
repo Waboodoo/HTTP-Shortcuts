@@ -59,8 +59,8 @@ class SettingsActivity : BaseActivity() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.preferences, rootKey)
 
-            initListPreference("language") {
-                restartToApplyThemeChanges()
+            initListPreference("language") { newLanguage ->
+                viewModel.onLanguageChanged(newLanguage as String)
             }
 
             initListPreference("click_behavior")

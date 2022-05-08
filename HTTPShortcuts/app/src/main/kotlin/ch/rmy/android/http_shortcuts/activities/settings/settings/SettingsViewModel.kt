@@ -12,6 +12,8 @@ import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.http.CookieManager
 import ch.rmy.android.http_shortcuts.usecases.GetToolbarTitleChangeDialogUseCase
+import ch.rmy.android.http_shortcuts.utils.LocaleHelper
+import ch.rmy.android.http_shortcuts.utils.Settings
 import org.mindrot.jbcrypt.BCrypt
 import javax.inject.Inject
 
@@ -22,6 +24,9 @@ class SettingsViewModel(application: Application) : BaseViewModel<Unit, Settings
 
     @Inject
     lateinit var getToolbarTitleChangeDialog: GetToolbarTitleChangeDialogUseCase
+
+    @Inject
+    lateinit var localeHelper: LocaleHelper
 
     init {
         getApplicationComponent().inject(this)
@@ -105,5 +110,9 @@ class SettingsViewModel(application: Application) : BaseViewModel<Unit, Settings
         performOperation(appRepository.setToolbarTitle(newTitle)) {
             showSnackbar(R.string.message_title_changed)
         }
+    }
+
+    fun onLanguageChanged(newLanguage: String) {
+        localeHelper.applyLocale(newLanguage.takeUnless { it == Settings.LANGUAGE_DEFAULT })
     }
 }
