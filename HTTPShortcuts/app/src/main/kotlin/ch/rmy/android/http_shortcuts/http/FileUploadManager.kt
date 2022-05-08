@@ -5,12 +5,14 @@ import android.content.res.AssetFileDescriptor
 import android.net.Uri
 import android.webkit.MimeTypeMap
 import ch.rmy.android.framework.extensions.tryOrLog
+import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.utils.FileUtil
 import java.io.FileNotFoundException
 
 class FileUploadManager private constructor(
     private val contentResolver: ContentResolver,
     private val sharedFileUris: List<Uri>,
+    private val forwardedFileIds: List<String>,
     private val fileRequests: Iterator<FileRequest>,
 ) {
 
@@ -20,12 +22,30 @@ class FileUploadManager private constructor(
         val sharedFiles = sharedFileUris.iterator()
         while (sharedFiles.hasNext()) {
             val request = getNextFileRequest() ?: break
-            if (request.multiple) {
-                registeredFiles.add(sharedFiles.asSequence().toList().map(::uriToFile))
-            } else {
-                registeredFiles.add(listOf(sharedFiles.next().let(::uriToFile)))
-            }
+            registerFiles(
+                if (request.multiple) {
+                    sharedFiles.asSequence().toList().map(::uriToFile)
+                } else {
+                    listOf(sharedFiles.next().let(::uriToFile))
+                }
+            )
         }
+        val forwardedFiles = forwardedFileIds.iterator()
+        while (forwardedFiles.hasNext()) {
+            val request = getNextFileRequest() ?: break
+            registerFiles(
+                if (request.multiple) {
+                    forwardedFiles.asSequence().toList().mapNotNull(::getFileById)
+                } else {
+                    forwardedFiles.next().let(::getFileById)?.let(::listOf) ?: emptyList()
+                }
+            )
+        }
+    }
+
+    private fun registerFiles(files: List<File>) {
+        registeredFiles.add(files)
+        files.associateByTo(fileLookup) { it.id }
     }
 
     fun getFiles(): List<File> =
@@ -41,7 +61,7 @@ class FileUploadManager private constructor(
         fileRequests.takeIf { it.hasNext() }?.next()
 
     fun fulfilFileRequest(fileUris: List<Uri>) {
-        registeredFiles.add(fileUris.map(::uriToFile))
+        registerFiles(fileUris.map(::uriToFile))
     }
 
     private fun getType(file: Uri): String =
@@ -50,12 +70,16 @@ class FileUploadManager private constructor(
     private fun uriToFile(uri: Uri): File =
         getType(uri).let { type ->
             File(
+                id = generateId(),
                 mimeType = type,
                 fileName = getFileName(uri, type),
                 data = uri,
                 fileSize = getFileSize(uri),
             )
         }
+
+    private fun getFileById(fileId: String): File? =
+        fileLookup[fileId]
 
     private fun getFileName(file: Uri, type: String): String {
         // Case 1: The file was shared into the app and we can look up its original name instead of using the name of the cache file
@@ -90,17 +114,31 @@ class FileUploadManager private constructor(
             null
         }
 
-    data class File(val mimeType: String, val fileName: String, val data: Uri, val fileSize: Long?)
+    private fun generateId(): String =
+        "file-${newUUID()}"
+
+    data class File(
+        val id: String,
+        val mimeType: String,
+        val fileName: String,
+        val data: Uri,
+        val fileSize: Long?,
+    )
 
     class FileRequest(val multiple: Boolean, val image: Boolean)
 
     class Builder(private val contentResolver: ContentResolver) {
 
         private var sharedFiles: List<Uri>? = null
+        private var forwardedFileIds: List<String>? = null
         private val fileRequests = mutableListOf<FileRequest>()
 
         fun withSharedFiles(fileUris: List<Uri>) = also {
             this.sharedFiles = fileUris
+        }
+
+        fun withForwardedFiles(forwardedFileIds: List<String>) = also {
+            this.forwardedFileIds = forwardedFileIds
         }
 
         fun addFileRequest(multiple: Boolean = false, image: Boolean = false) = also {
@@ -110,7 +148,8 @@ class FileUploadManager private constructor(
         fun build() = FileUploadManager(
             contentResolver = contentResolver,
             sharedFileUris = sharedFiles ?: emptyList(),
-            fileRequests = fileRequests.iterator()
+            forwardedFileIds = forwardedFileIds ?: emptyList(),
+            fileRequests = fileRequests.iterator(),
         )
     }
 
@@ -118,5 +157,7 @@ class FileUploadManager private constructor(
 
         private const val FALLBACK_TYPE = "application/octet-stream"
         private const val DEFAULT_FILE_NAME = "file"
+
+        private val fileLookup = mutableMapOf<String, File>()
     }
 }

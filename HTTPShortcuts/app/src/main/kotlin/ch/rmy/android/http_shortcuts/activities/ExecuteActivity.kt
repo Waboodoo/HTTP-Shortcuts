@@ -139,6 +139,13 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     private val fileUris: List<Uri> by lazy {
         intent.extras?.getParcelableArrayList<Uri>(EXTRA_FILES) ?: emptyList<Uri>()
     }
+    private val fileIds: List<String> by lazy {
+        variableValues["\$files"]
+            ?.trim('[', ']')
+            ?.split(",")
+            ?.map { it.trim(' ', '"') }
+            ?: emptyList()
+    }
     private val executionId: String? by lazy {
         intent.extras?.getString(EXTRA_EXECUTION_SCHEDULE_ID)
     }
@@ -394,6 +401,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         }
         fileUploadManager = FileUploadManager.Builder(contentResolver)
             .withSharedFiles(fileUris)
+            .withForwardedFiles(fileIds)
             .runIf(shortcut.usesGenericFileBody()) {
                 addFileRequest()
             }

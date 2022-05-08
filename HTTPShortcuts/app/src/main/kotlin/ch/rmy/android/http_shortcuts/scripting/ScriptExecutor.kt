@@ -141,6 +141,7 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
             fileUploadManager?.getFiles()
                 ?.map { file ->
                     mapOf(
+                        "id" to file.id,
                         "name" to file.fileName,
                         "size" to file.fileSize,
                         "type" to file.mimeType,
