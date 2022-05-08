@@ -48,5 +48,4 @@
     <item name="loading_spinner_background" type="color">#FAFAFA</item>
 
     <item name="splash_background" type="color">@color/brand_icon</item>
-    <item name="splash_status_bar" type="color">@color/brand_icon_dark</item>
 </resources>
