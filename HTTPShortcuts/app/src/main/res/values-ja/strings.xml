@@ -453,31 +453,31 @@
     <string name="variable_type_constant">"固定変数"</string>
 
     <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
-    <string name="variable_type_text">"テキスト入力"</string>
+    <string name="variable_type_text">"テキストを入力"</string>
 
     <!-- Type of variable: Number Input, i.e., a dialog that asks user to enter a number -->
-    <string name="variable_type_number">"数字の入力"</string>
+    <string name="variable_type_number">"数字を入力"</string>
 
     <!-- Type of variable: Slider, i.e. a horizontal bar that allows to pick a number by sliding a knob left or right -->
     <string name="variable_type_slider">"スライドバーで入力"</string>
 
     <!-- Type of variable: Password Input, i.e., a dialog that asks user to enter a password -->
-    <string name="variable_type_password">"パスワード入力"</string>
+    <string name="variable_type_password">"パスワードを入力"</string>
 
     <!-- Type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
-    <string name="variable_type_select">"複数の選択"</string>
+    <string name="variable_type_select">"複数選択の入力(配列)"</string>
 
     <!-- Type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
     <string name="variable_type_toggle">"切り替えスイッチ"</string>
 
     <!-- Type of variable: Date Input, i.e., a dialog that asks user to pick a date in a calendar -->
-    <string name="variable_type_date">"日付の入力"</string>
+    <string name="variable_type_date">"日付を入力"</string>
 
     <!-- Type of variable: Time Input, i.e., a dialog that asks user to pick a time in a clock -->
-    <string name="variable_type_time">"時間の入力"</string>
+    <string name="variable_type_time">"時間を入力"</string>
 
     <!-- Type of variable: Color Input, i.e., a dialog that asks user to pick a color in a color picker -->
-    <string name="variable_type_color">"色の入力"</string>
+    <string name="variable_type_color">"色を入力"</string>
 
     <!-- Error message, information user that the variable name they entered is not valid -->
     <string name="warning_invalid_variable_key">"変数名には、英語アルファベットのアンダースコア、数字、文字のみを含めることができます。"</string>
@@ -583,7 +583,7 @@
     <string name="share_title">"共有する…"</string>
 
     <!-- Section title, for section in variable editor containing options specific to the variable type -->
-    <string name="section_input_options">"選択を入力"</string>
+    <string name="section_input_options">"入力の設定"</string>
 
     <!-- Checkbox value, shown in variable editor, allows to enable a variable to remember its previous value -->
     <string name="label_remember_value">"値を記憶する"</string>
@@ -1518,7 +1518,7 @@
     <string name="action_rerun_shortcut">"リターン"</string>
 
     <!-- Checkbox value, shown in variable editor, allows to enable multiline input for a text variable -->
-    <string name="label_multiline">"複数行"</string>
+    <string name="label_multiline">"複数の行"</string>
 
     <!-- Instructions shown below the "JSON encode" checkbox in the variable editor -->
     <string name="message_json_encode_instructions">"リクエスト ボディなど、JSON文字列内でこの変数を使用している場合は、これを有効にしてください。特殊文字はエスケープされます。"</string>
@@ -1527,7 +1527,7 @@
     <string name="message_url_encode_instructions">"この変数をURL内で使用している場合、例えば、クエリー文字列の一部として使用している場合は、これを有効にしてください。特殊文字はエスケープされます。"</string>
 
     <!-- Name of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
-    <string name="settings_allow_overlay">"他のアプリ上にフロート表示を許可"</string>
+    <string name="settings_allow_overlay">"他のアプリ上に重ねて表示を許可"</string>
 
     <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
     <string name="settings_allow_overlay_summary">"クイック設定タイルから、または、サードパーティーのアプリからトリガーされた時に、ショートカットが動作しない場合に有効にしてください。"</string>
@@ -1552,7 +1552,7 @@
     <string name="label_select_variable_separator">"区切りセパレーター"</string>
 
     <!-- Checkbox value, shown in variable editor for Select variables, allows to enable multi select -->
-    <string name="label_select_variable_multi_select">"「複数を選択」できるように許可する"</string>
+    <string name="label_select_variable_multi_select">"「複数を選択可能」を許可する"</string>
 
     <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails -->
     <string name="error_action_type_send_wol_failed">"Wake-on-LAN パケット送信に失敗： %s"</string>
@@ -1727,7 +1727,7 @@
     <string name="description_customizable_widget">"ショートカットのラベルの色、ラベルの表示／非表示を選択してください。"</string>
 
     <!-- Option when picking the layout for a category: Show shortcuts in a dense grid -->
-    <string name="layout_type_dense_grid">"グリッド密度"</string>
+    <string name="layout_type_dense_grid">"グリッド細め"</string>
 
     <!-- Option when picking the layout for a category: Show shortcuts in a medium grid -->
     <string name="layout_type_medium_grid">"グリッド中間"</string>

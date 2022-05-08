@@ -125,6 +125,7 @@
     <string name="title_post_param_add">"Adicionar parâmetro"</string>
 
     <!-- Label of input field to provide the name/key of a parameter of a shortcut -->
+    <!-- Fuzzy -->
     <string name="label_post_param_key">"Parâmetro"</string>
 
     <!-- Label of input field to provide the value of a parameter of a shortcut -->
@@ -315,20 +316,8 @@
     <!-- Generic action, shown on dialog, to rename things -->
     <string name="action_rename">"Renomear"</string>
 
-    <!-- Action, shown on dropdown when editing a category, for allowing to change the category's layout type -->
-    <string name="action_change_category_layout_type">"Mudar tipo do layout"</string>
-
-    <!-- Message, shown in snackbar to confirm to the user that the layout type of a category was changed -->
-    <string name="message_layout_type_changed">"Tipo do layout modificado"</string>
-
     <!-- One of two options when picking the layout for a category: Show shortcuts in a list -->
     <string name="layout_type_linear_list">"Lista"</string>
-
-    <!-- One of two options when picking the layout for a category: Show shortcuts in a grid -->
-    <string name="layout_type_grid">"Grade"</string>
-
-    <!-- Option to allow renaming a category -->
-    <string name="title_rename_category">"Renomear Categoria"</string>
 
     <!-- Dialog prompt/placeholder in input field, asking user to enter a name for a category -->
     <string name="placeholder_category_name">"Informe o Nome da Categoria…"</string>
@@ -343,9 +332,6 @@
     <string name="confirm_delete_category_message">"Excluir esta categoria?
 
 Todos os atalhos contidos nela serão excluídos."</string>
-
-    <!-- Message, shown in snackbar, to confirm to the user that a category was renamed -->
-    <string name="message_category_renamed">"Categoria renomeada."</string>
 
     <!-- Message, shown in snackbar, to confirm to the user that a category was created -->
     <string name="message_category_created">"Categoria criada."</string>

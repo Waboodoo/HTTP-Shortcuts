@@ -107,7 +107,7 @@
     <string name="change_icon">"Endre ikonet"</string>
 
     <!-- Option in "Change Icon" dialog, allows user to select a custom image to use as a shortcut icon -->
-    <string name="choose_image">"Velg selvvalgt bilde"</string>
+    <string name="choose_image">"Selvvalgt bilde"</string>
 
     <!-- Option in "Change Icon" dialog, allows user to select an icon from an Ipack icon set (from a third-party icon app) -->
     <string name="choose_ipack_icon">"Velg Ipack-ikon"</string>
@@ -125,6 +125,7 @@
     <string name="title_post_param_add">"Legg til et parameter"</string>
 
     <!-- Label of input field to provide the name/key of a parameter of a shortcut -->
+    <!-- Fuzzy -->
     <string name="label_post_param_key">"Parameter"</string>
 
     <!-- Label of input field to provide the value of a parameter of a shortcut -->
@@ -309,20 +310,8 @@
     <!-- Generic action, shown on dialog, to rename things -->
     <string name="action_rename">"Gi nytt navn"</string>
 
-    <!-- Action, shown on dropdown when editing a category, for allowing to change the category's layout type -->
-    <string name="action_change_category_layout_type">"Endre oppsettstype"</string>
-
-    <!-- Message, shown in snackbar to confirm to the user that the layout type of a category was changed -->
-    <string name="message_layout_type_changed">"Oppsettstypen er blitt endret"</string>
-
     <!-- One of two options when picking the layout for a category: Show shortcuts in a list -->
     <string name="layout_type_linear_list">"Liste"</string>
-
-    <!-- One of two options when picking the layout for a category: Show shortcuts in a grid -->
-    <string name="layout_type_grid">"Rutenett"</string>
-
-    <!-- Option to allow renaming a category -->
-    <string name="title_rename_category">"Gi kategorien nytt navn"</string>
 
     <!-- Dialog prompt/placeholder in input field, asking user to enter a name for a category -->
     <string name="placeholder_category_name">"Skriv inn et kategorinavn…"</string>
@@ -337,9 +326,6 @@
     <string name="confirm_delete_category_message">"Vil du slette denne kategorien?
 
 Alle snarveier i den vil bli slettet."</string>
-
-    <!-- Message, shown in snackbar, to confirm to the user that a category was renamed -->
-    <string name="message_category_renamed">"Kategorien fikk et nytt navn."</string>
 
     <!-- Message, shown in snackbar, to confirm to the user that a category was created -->
     <string name="message_category_created">"Kategorien ble laget."</string>
@@ -379,7 +365,7 @@ Alle snarveier i den vil bli slettet."</string>
 
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
     <!-- Fuzzy -->
-    <string name="variable_type_constant">"Konstant"</string>
+    <string name="variable_type_constant">"Statisk variabel"</string>
 
     <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
     <string name="variable_type_text">"Tekstinndata"</string>
