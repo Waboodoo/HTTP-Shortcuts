@@ -9,7 +9,7 @@ import androidx.core.net.toUri
 import ch.rmy.android.http_shortcuts.R
 
 object IpackPickerContract : ActivityResultContract<Unit, ShortcutIcon.ExternalResourceIcon?>() {
-    override fun createIntent(context: Context, input: Unit?): Intent =
+    override fun createIntent(context: Context, input: Unit): Intent =
         getIpackIntent(context)
 
     override fun parseResult(resultCode: Int, intent: Intent?): ShortcutIcon.ExternalResourceIcon? =

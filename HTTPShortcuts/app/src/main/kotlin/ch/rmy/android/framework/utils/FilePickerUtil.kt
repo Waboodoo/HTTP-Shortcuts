@@ -50,18 +50,18 @@ object FilePickerUtil {
                 addCategory(Intent.CATEGORY_OPENABLE)
             }
 
-    object OpenCamera : ActivityResultContract<Unit, (Context) -> Uri?>() {
+    object OpenCamera : ActivityResultContract<Unit, ((Context) -> Uri)?>() {
 
         private const val IMAGE_FILE_NAME = "camera_image.jpg"
 
-        override fun createIntent(context: Context, input: Unit?): Intent =
+        override fun createIntent(context: Context, input: Unit): Intent =
             Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                 .apply {
                     putExtra(MediaStore.EXTRA_OUTPUT, createCacheFile(context, IMAGE_FILE_NAME))
                     addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 }
 
-        override fun parseResult(resultCode: Int, intent: Intent?) =
+        override fun parseResult(resultCode: Int, intent: Intent?): ((Context) -> Uri)? =
             if (resultCode == AppCompatActivity.RESULT_OK) {
                 { context: Context ->
                     createCacheFile(context, IMAGE_FILE_NAME)
