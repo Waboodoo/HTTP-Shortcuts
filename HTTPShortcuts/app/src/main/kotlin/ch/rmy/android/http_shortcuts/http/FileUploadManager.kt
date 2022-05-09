@@ -115,7 +115,7 @@ class FileUploadManager private constructor(
         }
 
     private fun generateId(): String =
-        "file-${newUUID()}"
+        newUUID()
 
     data class File(
         val id: String,
