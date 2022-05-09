@@ -43,9 +43,6 @@ constructor(
                     id = ShortcutModel.TEMPORARY_ID,
                     icon = initialIcon,
                     executionType = executionType.type,
-                    responseHandling = if (executionType == ShortcutExecutionType.APP) {
-                        ResponseHandlingModel()
-                    } else null,
                 )
             )
         }

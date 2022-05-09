@@ -4,6 +4,8 @@ import ch.rmy.android.framework.utils.Optional
 import ch.rmy.android.http_shortcuts.activities.main.models.RecoveryInfo
 import ch.rmy.android.http_shortcuts.data.SessionInfoStore
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
+import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -18,7 +20,7 @@ constructor(
             .map { shortcut ->
                 val shortcutId = sessionInfoStore.editingShortcutId
                 val categoryId = sessionInfoStore.editingShortcutCategoryId
-                if (shortcutId != null || categoryId != null) {
+                if ((shortcutId != null || categoryId != null) && shortcut.hasChanges()) {
                     Optional(
                         RecoveryInfo(
                             shortcutName = shortcut.name,
@@ -31,4 +33,12 @@ constructor(
                 }
             }
             .onErrorReturn { Optional.empty() }
+
+    private fun ShortcutModel.hasChanges() =
+        !isSameAs(
+            ShortcutModel(
+                icon = icon.takeIf { it is ShortcutIcon.BuiltInIcon } ?: ShortcutIcon.NoIcon,
+                executionType = executionType,
+            )
+        )
 }

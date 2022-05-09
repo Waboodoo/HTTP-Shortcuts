@@ -21,7 +21,6 @@ open class ShortcutModel(
     var id: ShortcutId = "",
     icon: ShortcutIcon = ShortcutIcon.NoIcon,
     var executionType: String? = ShortcutExecutionType.APP.type,
-    var responseHandling: ResponseHandlingModel? = null,
 ) : RealmObject() {
 
     @Required
@@ -75,6 +74,8 @@ open class ShortcutModel(
     @Required
     var contentType: String = ""
 
+    var responseHandling: ResponseHandlingModel? = null
+
     var requireConfirmation: Boolean = false
 
     var followRedirects: Boolean = true
@@ -126,6 +127,12 @@ open class ShortcutModel(
             authentication = value.type
         }
 
+    init {
+        if (executionType == ShortcutExecutionType.APP.type) {
+            responseHandling = ResponseHandlingModel()
+        }
+    }
+
     fun allowsBody(): Boolean =
         METHOD_POST == method ||
             METHOD_PUT == method ||
@@ -176,7 +183,6 @@ open class ShortcutModel(
             other.wifiSsid != wifiSsid ||
             other.clientCert != clientCert ||
             other.browserPackageName != browserPackageName
-
         ) {
             return false
         }
