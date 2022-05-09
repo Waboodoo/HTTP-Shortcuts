@@ -1,6 +1,19 @@
 ## Version 2.16.0
 
-Work in progress
+### Scripting
+- There is now a `parseXML` function available
+- The Code Snippet Picker now contains an entry for `JSON.parse()` for easier access
+- The Code Snippet Picker now allows to quickly jump to the documentation of each entry
+- The `enqueueShortcut` function now allows to forward selected files to other shortcuts (experimental)
+
+### Improvements
+- If the app crashes or is unintentionally closed while creating or editing a shortcut, the app will offer to recover the unsaved changes the next time it is opened
+- Added a button to the Troubleshooting section which allows Xiaomi users to more easily reach the permission screen, to fix the issue of shortcuts not working properly when triggered from the home screen
+
+### Bugfixes
+- Javascript errors from a Scripting shortcut are now disabled in a dialog window instead of a toast
+- Choosing a different language in the Settings screen now more reliably applies that language to the app
+- When selecting Italian as the app's language, the app is now actually set to Italian instead of Indonesian
 
 ## Version 2.15.1
 

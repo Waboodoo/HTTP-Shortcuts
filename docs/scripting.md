@@ -121,6 +121,14 @@ selectedFiles[0].size;
 selectedFiles[0].type;
 ```
 
+Each file also has a unique ID, which is currently only useful if you want to forward these files to another shortcut using the [`enqueueShortcut`](#trigger-shortcut) function.
+
+```js
+selectedFiles[0].id;
+
+const allFileIds = selectedFiles.map(file => file.id);
+```
+
 <a name="user-interaction"></a>
 ## User Interaction
 
@@ -391,6 +399,27 @@ enqueueShortcut('My Other Shortcut', null, 10 * 60 * 1000); // runs in 10 minute
 ```
 
 Note that the shortcut will only be executed once the current shortcut (and all shortcuts that have been enqueued before it) has finished executing. It will *not* be executed immediately.
+
+#### Forwarding Files
+
+When enqueuing a shortcut, it is possible to forward one or more selected files to it. This can be useful if you have a shortcut that uses a file in a form parameter or its request body, and you want to use the same file also for another shortcut to include in another request. To do this, pass the [IDs of the files](#files) in via the special `$files` variable. You can pass either a single file ID or an array of file IDs, as shown in the following examples:
+
+```js
+// Pass a single file
+enqueueShortcut('My Other Shortcut', {
+    '$files': selectedFiles[0].id,
+});
+
+// Pass 2 file
+enqueueShortcut('My Other Shortcut', {
+    '$files': [selectedFiles[0].id, selectedFiles[1].id],
+});
+
+// Pass all files
+enqueueShortcut('My Other Shortcut', {
+    '$files': selectedFiles.map(file => file.id),
+});
+```
 
 <a name="copy-to-clipboard"></a>
 ### copyToClipboard
