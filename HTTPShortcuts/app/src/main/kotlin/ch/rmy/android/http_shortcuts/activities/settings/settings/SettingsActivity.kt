@@ -114,6 +114,22 @@ class SettingsActivity : BaseActivity() {
             } else {
                 findPreference<Preference>("allow_overlay")!!.isVisible = false
             }
+
+            if (Build.MANUFACTURER?.equals("xiaomi", ignoreCase = true) == true) {
+                initPreference("allow_overlay_xiaomi") {
+                    try {
+                        startActivity(
+                            Intent("miui.intent.action.APP_PERM_EDITOR")
+                                .setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions.PermissionsEditorActivity")
+                                .putExtra("extra_pkgname", requireContext().packageName)
+                        )
+                    } catch (e: ActivityNotFoundException) {
+                        showSnackbar(R.string.error_not_supported)
+                    }
+                }
+            } else {
+                findPreference<Preference>("allow_overlay_xiaomi")!!.isVisible = false
+            }
         }
 
         private fun restartToApplyThemeChanges() {

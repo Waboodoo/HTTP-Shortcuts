@@ -87,6 +87,12 @@
             app:summary="@string/settings_allow_overlay_summary"
             app:title="@string/settings_allow_overlay" />
 
+        <Preference
+            app:icon="@drawable/ic_overlay"
+            app:key="allow_overlay_xiaomi"
+            app:summary="@string/settings_allow_overlay_xiaomi_summary"
+            app:title="@string/settings_allow_overlay_xiaomi" />
+
         <SwitchPreference
             app:key="force_foreground"
             app:persistent="true"

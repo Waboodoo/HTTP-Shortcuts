@@ -190,6 +190,10 @@
     <string name="settings_allow_overlay">Allow Displaying Over Other Apps</string>
     <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
     <string name="settings_allow_overlay_summary">Enable if shortcuts are not working when triggered from Quick Settings Tile or 3rd party app</string>
+    <!-- Name of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
+    <string name="settings_allow_overlay_xiaomi">Allow Displaying Pop-Up Windows While in Background</string>
+    <!-- Subtitle of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
+    <string name="settings_allow_overlay_xiaomi_summary">Enable if shortcuts are not working when triggered from Home Screen</string>
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: execute the shortcut (i.e., send request) -->
     <string name="settings_click_behavior_run">Execute the Shortcut</string>
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: edit the shortcut -->
