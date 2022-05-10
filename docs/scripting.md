@@ -6,7 +6,7 @@ When a shortcut is executed it is possible to run JavaScript code snippets befor
 ![Scripting Option in Shortcut Editor](../assets/documentation/scripting/01.png)
 ![Scripting Editor](../assets/documentation/scripting/02.png)
 
-Additionally, you'll find an option in the app's settings that allows you to run code before the execution of every shortcut, which can be used to define shared functions.
+Additionally, you'll find an option in the app's settings (labeled "Global Scripting") that allows you to run code before the execution of every shortcut, which can be used to define shared functions.
 
 Most of the [JavaScript's built-in functionalities](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference) can be used normally, e.g., to manipulate [Strings](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) or [Arrays](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array). Additionally, the app has some functions and utlities built in for convenience, all of which are documented below.
 
@@ -460,7 +460,7 @@ openApp('com.github.android'); // Opens the Github app
 <a name="open-url"></a>
 ### openUrl
 
-This function allows you to open a URL in an other app. This typically opens a browser, but it can also be used to invoke a deep-link into another app. An error message is displayed if the URL is malformed or if there is no app installed that can handle the URL.
+This function allows you to open a URL in another app. This typically opens a browser, but it can also be used to invoke a deep-link into another app. An error message is displayed if the URL is malformed or if there is no app installed that can handle the URL.
 
 ```js
 openUrl('https://www.wikipedia.org/');
@@ -494,8 +494,9 @@ Each extra consists of the following properties:
 |type|The type of the extra|`'string'` (default), `'boolean'`, `'int'`, `'long'`, `'double'`, `'float'`|
 |value|The value of the extra|depends on the `type`|
 
+Please note that it is unfortunately *not* possible to send intents that require the app to hold a specific permission, as there is no way to dynamically add such a permission to the app. This is a technical limitation that the app itself cannot address. The recommended workaround is to use a 3rd-party automation app such as Tasker to perform such actions and trigger their tasks/workflows either via an intent or via the `triggerTaskerTask` function (see below). Another possibility would be to fork the app, add the required permission to it and build it yourself.
 
-Here is an example of how this function can be used:
+Here is a generic example showing the syntax:
 
 ```js
 sendIntent({
@@ -513,7 +514,28 @@ sendIntent({
 });
 ```
 
-Please note that it is unfortunately *not* possible to send intents that require the app to hold a specific permission, as there is no way to dynamically add such a permission to the app. This is a technical limitation that the app itself cannot address. The recommended workaround is to use a 3rd-party automation app such as Tasker to perform such actions and trigger their tasks/workflows either via an intent or via the `triggerTaskerTask` function (see below). Another possibility would be to fork the app, add the required permission to it and build it yourself.
+The following example shows how you can use this function to open another application, in this case a browser to display a website:
+
+```js
+sendIntent({
+    type: 'activity',
+    action: 'android.intent.action.VIEW',
+    dataUri: 'https://example.com',
+});
+```
+The above example is equivalent to calling `openUrl('https://example.com')`.
+
+If you want to just open a specific app without sending any data to it, you can do so by specifying the app's package name and using the `android.intent.action.MAIN` action. The following example will just open Google Chrome:
+
+```js
+sendIntent({
+    type: 'activity',
+    action: 'android.intent.action.MAIN',
+    packageName: 'com.android.chrome',
+});
+```
+
+The above example is equivalent to calling `openApp('com.android.chrome')`.
 
 <a name="trigger-tasker-task"></a>
 ### Trigger Tasker Task
@@ -613,29 +635,4 @@ This example shows how you can have the received response be read out loud (usin
 speak(response.body);
 ```
 
-### Open another application
-
-This example shows how you can use the [sendIntent](#send-intent) function to open another application, in this case a browser to display a website:
-
-```js
-sendIntent({
-    type: 'activity',
-    action: 'android.intent.action.VIEW',
-    dataUri: 'https://example.com',
-});
-```
-The above example is equivalent to calling `openUrl('https://example.com')`.
-
-
-If you want to just open a specific app without sending any data to it, you can do so by specifying the app's package name and using the `android.intent.action.MAIN` action. The following example will just open Google Chrome:
-
-```js
-sendIntent({
-    type: 'activity',
-    action: 'android.intent.action.MAIN',
-    packageName: 'com.android.chrome',
-});
-```
-
-The above example is equivalent to calling `openApp('com.android.chrome')`.
 
