@@ -159,7 +159,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     protected fun setDialogState(dialogState: DialogState?, viewModel: WithDialog) {
-        if (currentDialogState == dialogState) {
+        if (currentDialogState == dialogState && !(currentDialog == null && currentDialogState != null)) {
             return
         }
         logInfo("Setting dialog state: ${dialogState?.let { it.id ?: "no-id" } ?: "no dialog"}")

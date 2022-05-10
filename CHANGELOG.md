@@ -11,7 +11,8 @@
 - Added a button to the Troubleshooting section which allows Xiaomi users to more easily reach the permission screen, to fix the issue of shortcuts not working properly when triggered from the home screen
 
 ### Bugfixes
-- Javascript errors from a Scripting shortcut are now disabled in a dialog window instead of a toast
+- Dialog windows no longer disappear when switching away from and then back to the app
+- Javascript errors from a Scripting shortcut are now displayed in a dialog window instead of a toast
 - Choosing a different language in the Settings screen now more reliably applies that language to the app
 - When selecting Italian as the app's language, the app is now actually set to Italian instead of Indonesian
 
