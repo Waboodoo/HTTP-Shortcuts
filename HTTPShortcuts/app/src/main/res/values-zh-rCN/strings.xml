@@ -1785,4 +1785,10 @@
 
     <!-- Button label, shown on dialog that asks user if they want to recover a shortcut that has unsaved changes -->
     <string name="button_recover">"恢复"</string>
+
+    <!-- Name of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
+    <string name="settings_allow_overlay_xiaomi">"允许在后台显示弹出窗口"</string>
+
+    <!-- Subtitle of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
+    <string name="settings_allow_overlay_xiaomi_summary">"如果从主屏幕触发快捷方式不起作用，则启用"</string>
 </resources>

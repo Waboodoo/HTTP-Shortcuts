@@ -1789,4 +1789,7 @@ Trotzdem löschen?"</string>
 
     <!-- Subtitle of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
     <string name="settings_allow_overlay_xiaomi_summary">"Hilft falls Shortcuts nicht vom Homescreen aus gestartet werden können"</string>
+
+    <!-- Message displayed in notification while a shortcut is being executed that was triggered from Tasker -->
+    <string name="running_tasker_plugin">"Tasker führt einen Shortcut aus"</string>
 </resources>
