@@ -1187,4 +1187,6 @@
     <string name="message_unsaved_changes_detected_no_name">Unsaved changes on a shortcut were found. Would you like to recover the changes and continue editing?</string>
     <!-- Button label, shown on dialog that asks user if they want to recover a shortcut that has unsaved changes -->
     <string name="button_recover">Recover</string>
+    <!-- Message displayed in notification while a shortcut is being executed that was triggered from Tasker -->
+    <string name="running_tasker_plugin">Tasker is triggering a Shortcut</string>
 </resources>
