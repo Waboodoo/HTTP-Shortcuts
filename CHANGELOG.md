@@ -5,14 +5,16 @@
 - The Code Snippet Picker now contains an entry for `JSON.parse()` for easier access
 - The Code Snippet Picker now allows to quickly jump to the documentation of each entry
 - The `enqueueShortcut` function now allows to forward selected files to other shortcuts (experimental)
+- Variables used in Scripting are now evaluated lazily, which means a dynamic variable (e.g. a text input prompt) will only try to resolve its value if that value is actually needed
 
 ### Improvements
 - If the app crashes or is unintentionally closed while creating or editing a shortcut, the app will offer to recover the unsaved changes the next time it is opened
 - Added a button to the Troubleshooting section which allows Xiaomi users to more easily reach the permission screen, to fix the issue of shortcuts not working properly when triggered from the home screen
+- Long running shortcuts can now be cancelled with the back button
 
 ### Bugfixes
 - Dialog windows no longer disappear when switching away from and then back to the app
-- Javascript errors from a Scripting shortcut are now displayed in a dialog window instead of a toast
+- Javascript errors from a Scripting shortcut are now displayed in a dialog window instead of a toast, and the line number is no longer skewed by use of the Global Scripting feature
 - Choosing a different language in the Settings screen now more reliably applies that language to the app
 - When selecting Italian as the app's language, the app is now actually set to Italian instead of Indonesian
 
