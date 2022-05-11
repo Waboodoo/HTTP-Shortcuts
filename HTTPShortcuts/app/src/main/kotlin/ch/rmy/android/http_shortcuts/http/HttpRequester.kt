@@ -153,6 +153,11 @@ constructor(
 
                 client
                     .newCall(request)
+                    .apply {
+                        emitter.setCancellable {
+                            cancel()
+                        }
+                    }
                     .execute()
                     .use { okHttpResponse ->
                         val contentFile = if (shortcut.usesResponseBody) {

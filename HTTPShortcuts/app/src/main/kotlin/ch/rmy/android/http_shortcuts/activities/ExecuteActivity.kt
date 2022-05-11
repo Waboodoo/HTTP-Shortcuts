@@ -303,6 +303,12 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                     }
                 }
             )
+            .run {
+                if (!shouldFinishImmediately()) {
+                    // TODO: Find out if the condition can be removed, as ideally we'd always be attached to the destroyer
+                    attachTo(destroyer)
+                }
+            }
     }
 
     private fun requiresConfirmation() =
@@ -721,10 +727,6 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         }
         fileUploadManager!!.fulfilFileRequest(fileUris ?: emptyList())
         subscribeAndFinishAfterIfNeeded(executeWithFileRequests())
-    }
-
-    override fun onBackPressed() {
-        // Prevent cancelling. Not optimal, but will have to do for now
     }
 
     override fun onDestroy() {

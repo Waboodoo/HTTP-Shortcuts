@@ -266,10 +266,10 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
                         const ${alias.functionName} = (${parameterNames.joinToString()}) => {
                             const result = _runAction("$actionName", [
                                 ${
-                            parameterNames.joinToString { parameter ->
-                                // Cast numbers to strings to avoid rounding errors
-                                "typeof($parameter) === 'number' ? `\${$parameter}` : $parameter"
-                            }
+                        parameterNames.joinToString { parameter ->
+                            // Cast numbers to strings to avoid rounding errors
+                            "typeof($parameter) === 'number' ? `\${$parameter}` : $parameter"
+                        }
                         }
                             ]);
                             return _convertResult(result);
