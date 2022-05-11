@@ -231,7 +231,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     }
 
     private fun onDataLoaded() {
-        if (!(::shortcut).isInitialized || !(::globalCode).isInitialized) {
+        if (!(::shortcut).isInitialized || !(::globalCode).isInitialized || isFinishing) {
             return
         }
         setTheme(themeHelper.transparentTheme)
@@ -321,9 +321,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
 
     private fun shouldFinishImmediately() =
         shouldFinishAfterExecution() &&
-            shortcut.codeOnPrepare.isEmpty() &&
-            shortcut.codeOnSuccess.isEmpty() &&
-            shortcut.codeOnFailure.isEmpty() &&
+            !usesScripting() &&
             !NetworkUtil.isNetworkPerformanceRestricted(context) &&
             !Settings(context).isForceForegroundEnabled
 
