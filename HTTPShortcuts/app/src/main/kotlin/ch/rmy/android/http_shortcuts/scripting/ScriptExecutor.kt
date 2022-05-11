@@ -38,47 +38,54 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
 
     private var lastException: Throwable? = null
 
-    fun execute(
-        script: String,
+    fun initialize(
         shortcut: ShortcutModel,
         variableManager: VariableManager,
         fileUploadManager: FileUploadManager?,
+        recursionDepth: Int = 0,
+    ): Completable =
+        runWithExceptionHandling {
+            registerShortcut(shortcut)
+            registerFiles(fileUploadManager)
+            registerActions(context, shortcut.id, variableManager, recursionDepth)
+        }
+
+    private fun runWithExceptionHandling(block: () -> Unit): Completable =
+        Completable.create { emitter ->
+            jsContext.setExceptionHandler { exception ->
+                if (!emitter.isDisposed) {
+                    emitter.onError(lastException ?: exception)
+                }
+            }
+            block()
+            emitter.onComplete()
+        }
+            .onErrorResumeNext { e ->
+                Completable.error(
+                    when (e) {
+                        is JSException -> if (e.error.message() == "java.lang.reflect.InvocationTargetException") {
+                            JavaScriptException("Invalid function arguments", e)
+                        } else {
+                            JavaScriptException(e)
+                        }
+                        is JSONException -> JavaScriptException(e)
+                        else -> e
+                    }
+                )
+            }
+
+    fun execute(
+        script: String,
         response: ShortcutResponse? = null,
         error: Exception? = null,
-        recursionDepth: Int = 0,
     ): Completable =
         if (script.isEmpty()) {
             Completable.complete()
         } else {
-            Completable.create { emitter ->
-                jsContext.setExceptionHandler { exception ->
-                    if (!emitter.isDisposed) {
-                        emitter.onError(lastException ?: exception)
-                    }
-                }
-
-                registerShortcut(shortcut)
+            runWithExceptionHandling {
                 registerResponse(response, error)
-                registerFiles(fileUploadManager)
-
-                registerActions(context, shortcut.id, variableManager, recursionDepth)
-
                 jsContext.evaluateScript(script)
-                emitter.onComplete()
             }
-                .onErrorResumeNext { e ->
-                    Completable.error(
-                        when (e) {
-                            is JSException -> if (e.error.message() == "java.lang.reflect.InvocationTargetException") {
-                                JavaScriptException("Invalid function arguments", e)
-                            } else {
-                                JavaScriptException(e)
-                            }
-                            is JSONException -> JavaScriptException(e)
-                            else -> e
-                        }
-                    )
-                }
         }
 
     private fun registerShortcut(shortcut: ShortcutModel) {
@@ -259,10 +266,10 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
                         const ${alias.functionName} = (${parameterNames.joinToString()}) => {
                             const result = _runAction("$actionName", [
                                 ${
-                        parameterNames.joinToString { parameter ->
-                            // Cast numbers to strings to avoid rounding errors
-                            "typeof($parameter) === 'number' ? `\${$parameter}` : $parameter"
-                        }
+                            parameterNames.joinToString { parameter ->
+                                // Cast numbers to strings to avoid rounding errors
+                                "typeof($parameter) === 'number' ? `\${$parameter}` : $parameter"
+                            }
                         }
                             ]);
                             return _convertResult(result);

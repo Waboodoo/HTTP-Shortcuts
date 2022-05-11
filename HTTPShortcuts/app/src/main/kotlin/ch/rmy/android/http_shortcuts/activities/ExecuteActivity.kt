@@ -512,19 +512,23 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
             .subscribeOn(AndroidSchedulers.mainThread())
             .concatWith(checkWifiNetworkSsid())
             .concatWith(
-                if (tryNumber == 0 || (tryNumber == 1 && shortcut.delay > 0)) {
-                    val script = if (globalCode.isEmpty()) {
-                        shortcut.codeOnPrepare
-                    } else {
-                        "$globalCode;\n${shortcut.codeOnPrepare}"
-                    }
-                    scriptExecutor.execute(
-                        script = script,
+                if ((tryNumber == 0 || (tryNumber == 1 && shortcut.delay > 0)) && usesScripting()) {
+                    scriptExecutor.initialize(
                         shortcut = shortcut,
                         variableManager = variableManager,
                         fileUploadManager = fileUploadManager,
                         recursionDepth = recursionDepth,
                     )
+                        .andThen(
+                            scriptExecutor.execute(
+                                script = globalCode,
+                            )
+                        )
+                        .andThen(
+                            scriptExecutor.execute(
+                                script = shortcut.codeOnPrepare,
+                            )
+                        )
                         .subscribeOn(Schedulers.computation())
                         .observeOn(AndroidSchedulers.mainThread())
                 } else {
@@ -538,6 +542,12 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                     else -> Completable.complete()
                 }
             )
+
+    private fun usesScripting() =
+        shortcut.codeOnPrepare.isNotEmpty() ||
+            shortcut.codeOnSuccess.isNotEmpty() ||
+            shortcut.codeOnFailure.isNotEmpty() ||
+            globalCode.isNotEmpty()
 
     private fun openShortcutInBrowser(): Completable = Completable.fromAction {
         val url = injectVariables(shortcut.url)
@@ -578,11 +588,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                     scriptExecutor
                         .execute(
                             script = shortcut.codeOnFailure,
-                            shortcut = shortcut,
-                            variableManager = variableManager,
-                            fileUploadManager = fileUploadManager,
                             error = error as? Exception,
-                            recursionDepth = recursionDepth,
                         )
                         .subscribeOn(Schedulers.computation())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -595,11 +601,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                 scriptExecutor
                     .execute(
                         script = shortcut.codeOnSuccess,
-                        shortcut = shortcut,
-                        variableManager = variableManager,
-                        fileUploadManager = fileUploadManager,
                         response = response,
-                        recursionDepth = recursionDepth,
                     )
                     .subscribeOn(Schedulers.computation())
                     .observeOn(AndroidSchedulers.mainThread())
