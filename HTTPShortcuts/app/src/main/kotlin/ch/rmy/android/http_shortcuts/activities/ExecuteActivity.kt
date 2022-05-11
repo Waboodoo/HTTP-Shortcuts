@@ -14,6 +14,7 @@ import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.finishWithoutAnimation
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.runIfNotNull
@@ -435,8 +436,10 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     private fun openFilePickerForFileParameter(multiple: Boolean, image: Boolean): Completable =
         try {
             if (image) {
+                logInfo("Opening camera for form parameter / request parameter")
                 openCamera.launch()
             } else {
+                logInfo("Opening file picker for form parameter / request parameter")
                 pickFiles.launch(multiple)
             }
             Completable.error(ResumeLaterException())

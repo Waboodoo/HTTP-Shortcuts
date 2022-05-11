@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.http
 import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
+import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.runIfNotNull
@@ -151,6 +152,7 @@ constructor(
 
                 responseFileStorage.clear()
 
+                logInfo("Starting HTTP request")
                 client
                     .newCall(request)
                     .apply {
@@ -160,6 +162,7 @@ constructor(
                     }
                     .execute()
                     .use { okHttpResponse ->
+                        logInfo("HTTP request completed")
                         val contentFile = if (shortcut.usesResponseBody) {
                             responseFileStorage.store(okHttpResponse)
                         } else {
