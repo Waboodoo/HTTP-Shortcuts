@@ -16,12 +16,10 @@ class VariableResolver(private val context: Context) {
     fun resolve(
         variables: List<VariableModel>,
         shortcut: ShortcutModel,
-        globalCode: String = "",
         preResolvedValues: Map<VariableKey, String> = emptyMap(),
     ): Single<VariableManager> {
         val variableManager = VariableManager(variables)
-        val requiredVariableIds = extractVariableIds(shortcut, variableManager)
-            .plus(extractVariableIdsFromJS(globalCode, variableManager))
+        val requiredVariableIds = extractVariableIds(shortcut, variableManager, includeScripting = false)
             .toMutableSet()
 
         val preResolvedVariables = mutableMapOf<VariableModel, String>()
@@ -122,7 +120,7 @@ class VariableResolver(private val context: Context) {
 
         private const val MAX_RECURSION_DEPTH = 3
 
-        fun extractVariableIds(shortcut: ShortcutModel, variableLookup: VariableLookup): Set<VariableId> =
+        fun extractVariableIds(shortcut: ShortcutModel, variableLookup: VariableLookup, includeScripting: Boolean = true): Set<VariableId> =
             buildSet {
                 addAll(Variables.extractVariableIds(shortcut.url))
                 if (shortcut.authenticationType.usesUsernameAndPassword) {
@@ -145,17 +143,20 @@ class VariableResolver(private val context: Context) {
                     addAll(Variables.extractVariableIds(header.key))
                     addAll(Variables.extractVariableIds(header.value))
                 }
-                addAll(extractVariableIdsFromJS(shortcut.codeOnPrepare, variableLookup))
-                addAll(extractVariableIdsFromJS(shortcut.codeOnSuccess, variableLookup))
-                addAll(extractVariableIdsFromJS(shortcut.codeOnFailure, variableLookup))
 
                 if (shortcut.proxyHost != null) {
                     addAll(Variables.extractVariableIds(shortcut.proxyHost!!))
                 }
 
-                addAll(Variables.extractVariableIds(shortcut.codeOnPrepare))
-                addAll(Variables.extractVariableIds(shortcut.codeOnSuccess))
-                addAll(Variables.extractVariableIds(shortcut.codeOnFailure))
+                if (includeScripting) {
+                    addAll(extractVariableIdsFromJS(shortcut.codeOnPrepare, variableLookup))
+                    addAll(extractVariableIdsFromJS(shortcut.codeOnSuccess, variableLookup))
+                    addAll(extractVariableIdsFromJS(shortcut.codeOnFailure, variableLookup))
+
+                    addAll(Variables.extractVariableIds(shortcut.codeOnPrepare))
+                    addAll(Variables.extractVariableIds(shortcut.codeOnSuccess))
+                    addAll(Variables.extractVariableIds(shortcut.codeOnFailure))
+                }
 
                 if (shortcut.responseHandling != null && shortcut.responseHandling!!.successOutput == ResponseHandlingModel.SUCCESS_OUTPUT_MESSAGE) {
                     addAll(Variables.extractVariableIds(shortcut.responseHandling!!.successMessage))

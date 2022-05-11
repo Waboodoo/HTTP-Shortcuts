@@ -374,7 +374,6 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                     .resolve(
                         variables,
                         shortcut,
-                        globalCode,
                         variableValues,
                     )
             }
