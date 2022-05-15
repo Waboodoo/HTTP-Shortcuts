@@ -294,6 +294,15 @@ open class DialogBuilder(val context: Context) {
 
         private fun getSeparatorView(convertView: View?, parent: ViewGroup): View =
             convertView ?: layoutInflater.inflate(R.layout.menu_dialog_separator, parent, false)
+
+        override fun areAllItemsEnabled(): Boolean =
+            false
+
+        override fun isEnabled(position: Int): Boolean =
+            when (getItemViewType(position)) {
+                TYPE_CLICKABLE_ITEM -> true
+                else -> false
+            }
     }
 
     companion object {
