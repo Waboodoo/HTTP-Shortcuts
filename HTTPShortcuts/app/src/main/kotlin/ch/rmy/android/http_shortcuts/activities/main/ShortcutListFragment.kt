@@ -73,6 +73,7 @@ class ShortcutListFragment : BaseFragment<FragmentListBinding>() {
     }
 
     override fun setupViews() {
+        previousBackground = null
         initViews()
         initUserInputBindings()
         initViewModelBindings()

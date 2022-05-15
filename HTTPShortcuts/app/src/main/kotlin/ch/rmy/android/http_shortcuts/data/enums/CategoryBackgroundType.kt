@@ -35,6 +35,9 @@ sealed interface CategoryBackgroundType {
         override val useTextShadow: Boolean
             get() = true
 
+        override fun toString() =
+            serialize()
+
         companion object {
             const val PREFIX = "color="
 
