@@ -38,6 +38,9 @@ constructor(
                     .view(R.layout.changelog_dialog)
                     .title(if (whatsNew) R.string.changelog_title_whats_new else R.string.changelog_title)
                     .positive(android.R.string.ok)
+                    .dismissListener {
+                        viewModel.onDialogDismissed(this)
+                    }
                     .build()
                     .onShow { dialog ->
                         settings.changeLogLastVersion = VersionUtil.getVersion(context)
