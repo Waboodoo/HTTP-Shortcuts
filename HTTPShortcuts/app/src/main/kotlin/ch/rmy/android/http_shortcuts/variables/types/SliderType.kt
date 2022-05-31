@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.widget.SeekBar
 import android.widget.TextView
+import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.utils.SimpleOnSeekBarChangeListener
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
@@ -12,6 +13,7 @@ import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 class SliderType : BaseVariableType() {
 
@@ -24,16 +26,17 @@ class SliderType : BaseVariableType() {
 
     override fun resolveValue(context: Context, variable: VariableModel): Single<String> =
         Single.create<String> { emitter ->
+            val range = findRange(variable)
             val view = LayoutInflater.from(context).inflate(R.layout.variable_dialog_slider, null)
 
             val slider = view.findViewById<SeekBar>(R.id.slider)
             val label = view.findViewById<TextView>(R.id.slider_value)
 
-            slider.max = findSliderMax(variable)
+            slider.max = findSliderMax(range)
 
             if (variable.rememberValue) {
-                val value = variable.value?.toIntOrNull() ?: 0
-                val sliderValue = (value - findMin(variable)) / findStep(variable)
+                val value = variable.value?.toDoubleOrNull() ?: 0.0
+                val sliderValue = findSliderValue(value, range)
                 if (sliderValue >= 0 && sliderValue <= slider.max) {
                     slider.progress = sliderValue
                 }
@@ -41,16 +44,16 @@ class SliderType : BaseVariableType() {
 
             slider.setOnSeekBarChangeListener(object : SimpleOnSeekBarChangeListener() {
                 override fun onProgressChanged(slider: SeekBar, progress: Int, fromUser: Boolean) {
-                    label.text = findValue(slider, variable)
+                    label.text = findValue(slider.progress, range)
                 }
             })
-            label.text = findValue(slider, variable)
+            label.text = findValue(slider.progress, range)
 
             createDialogBuilder(context, variable, emitter)
                 .view(view)
                 .positive(R.string.dialog_ok) {
                     if (variable.isValid) {
-                        val value = findValue(slider, variable)
+                        val value = findValue(slider.progress, range)
                         emitter.onSuccess(value)
                     }
                 }
@@ -60,11 +63,13 @@ class SliderType : BaseVariableType() {
             .subscribeOn(AndroidSchedulers.mainThread())
             .storeValueIfNeeded(variable, variablesRepository)
 
-    private fun findSliderMax(variable: VariableModel): Int =
-        ((findMax(variable) - findMin(variable)) / findStep(variable))
-
-    private fun findValue(slider: SeekBar, variable: VariableModel): String =
-        (slider.progress * findStep(variable) + findMin(variable)).toString()
+    data class Range(
+        val min: Double,
+        val max: Double,
+        val step: Double,
+    ) {
+        val isIntsOnly = min.toString().endsWith(".0") && max.toString().endsWith(".0") && step.toString().endsWith(".0")
+    }
 
     companion object {
 
@@ -72,23 +77,48 @@ class SliderType : BaseVariableType() {
         private const val KEY_MAX = "max"
         private const val KEY_STEP = "step"
 
-        const val DEFAULT_MIN = 0
-        const val DEFAULT_MAX = 100
-        const val DEFAULT_STEP = 1
+        const val DEFAULT_MIN = 0.0
+        const val DEFAULT_MAX = 100.0
+        const val DEFAULT_STEP = 1.0
 
-        fun findMax(variable: VariableModel): Int =
-            variable.dataForType[KEY_MAX]?.toDoubleOrNull()?.toInt() ?: DEFAULT_MAX
+        fun findMax(variable: VariableModel): Double =
+            variable.dataForType[KEY_MAX]?.toDoubleOrNull() ?: DEFAULT_MAX
 
-        fun findMin(variable: VariableModel): Int =
-            variable.dataForType[KEY_MIN]?.toDoubleOrNull()?.toInt() ?: DEFAULT_MIN
+        fun findMin(variable: VariableModel): Double =
+            variable.dataForType[KEY_MIN]?.toDoubleOrNull() ?: DEFAULT_MIN
 
-        fun findStep(variable: VariableModel): Int =
-            variable.dataForType[KEY_STEP]?.toDoubleOrNull()?.toInt() ?: DEFAULT_STEP
+        fun findStep(variable: VariableModel): Double =
+            variable.dataForType[KEY_STEP]?.toDoubleOrNull() ?: DEFAULT_STEP
 
-        fun getData(maxValue: Int, minValue: Int, stepValue: Int) = mapOf(
+        fun getData(maxValue: Double, minValue: Double, stepValue: Double) = mapOf(
             KEY_MAX to maxValue.toString(),
             KEY_MIN to minValue.toString(),
             KEY_STEP to stepValue.toString(),
         )
+
+        private fun findRange(variable: VariableModel): Range =
+            Range(
+                min = findMin(variable),
+                max = findMax(variable),
+                step = findStep(variable),
+            )
+
+        private fun findSliderMax(range: Range): Int =
+            with(range) {
+                ((max - min) / step).toInt()
+            }
+
+        private fun findSliderValue(value: Double, range: Range): Int =
+            with(range) {
+                ((value - min) / step).toInt()
+            }
+
+        private fun findValue(sliderValue: Int, range: Range): String =
+            with(range) {
+                ((10000 * (sliderValue * step + min)).roundToInt() / 10000.0).toString()
+                    .runIf(isIntsOnly) {
+                        removeSuffix(".0")
+                    }
+            }
     }
 }
