@@ -468,7 +468,7 @@
     <string name="variable_type_select">"複数選択の入力(配列)"</string>
 
     <!-- Type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
-    <string name="variable_type_toggle">"切り替えスイッチ"</string>
+    <string name="variable_type_toggle">"切り替えスイッチで入力"</string>
 
     <!-- Type of variable: Date Input, i.e., a dialog that asks user to pick a date in a calendar -->
     <string name="variable_type_date">"日付を入力"</string>
@@ -477,7 +477,7 @@
     <string name="variable_type_time">"時間を入力"</string>
 
     <!-- Type of variable: Color Input, i.e., a dialog that asks user to pick a color in a color picker -->
-    <string name="variable_type_color">"色を入力"</string>
+    <string name="variable_type_color">"色ピッカーで入力"</string>
 
     <!-- Error message, information user that the variable name they entered is not valid -->
     <string name="warning_invalid_variable_key">"変数名には、英語アルファベットのアンダースコア、数字、文字のみを含めることができます。"</string>
@@ -773,7 +773,7 @@
     <string name="action_type_change_icon_title">"ショートカット アイコンを変更"</string>
 
     <!-- Shortcut Action Title: Trigger a shortcut, i.e., execute it -->
-    <string name="action_type_trigger_shortcut_title">"トリガー ショートカット"</string>
+    <string name="action_type_trigger_shortcut_title">"トリガー 待ちショートカット"</string>
 
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
     <string name="action_type_abort_execution">"実行を中止"</string>
@@ -987,7 +987,7 @@
     <string name="error_can_only_import_from_http_url">"有効なHTTP URLからのインポートのみ"</string>
 
     <!-- Action Label: Shown on Quick Settings Title that allows the user to quickly trigger a shortcut without opening the app -->
-    <string name="action_quick_settings_tile_trigger">"トリガー ショートカット"</string>
+    <string name="action_quick_settings_tile_trigger">"ショートカットをトリガー"</string>
 
     <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
     <string name="instructions_quick_settings_tile">"「クイック設定タイル」でトリガーできるショートカットがありません。
@@ -1123,7 +1123,7 @@
     <string name="placeholder_javascript_code_failure">"ここにJavaScriptコードを追加すると、リクエストが失敗した場合にこのスクリプトを実行します。"</string>
 
     <!-- Section title in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger -->
-    <string name="label_trigger_shortcuts">"トリガーショートカット"</string>
+    <string name="label_trigger_shortcuts">"ショートカット選択"</string>
 
     <!-- Section subtitle in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger. No shortcuts set. -->
     <string name="label_trigger_shortcuts_subtitle_none">"ショートカットの選択なし"</string>
@@ -1198,7 +1198,7 @@
     <string name="settings_force_foreground">"フォアグラウンドでリクエストを実行"</string>
 
     <!-- Subtitle of setting that allows the user to enable running all HTTP requests in the foreground. This is the description of a troubleshooting option, to prevent requests from failing when the app is in the background -->
-    <string name="settings_force_foreground_summary">"アプリ外部からショートカットが機能しない場合に有効にする"</string>
+    <string name="settings_force_foreground_summary">"アプリ外部からショートカットが機能しない場合に有効にしてください"</string>
 
     <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
     <string name="settings_troubleshooting">"トラブルシューティング"</string>
@@ -1452,7 +1452,7 @@
     <string name="settings_use_legacy_export_format">"レガシー(旧式)のファイル形式を使用"</string>
 
     <!-- Subtitle of setting that allows the user to enable exporting using the legacy file format -->
-    <string name="settings_use_legacy_export_format_summary">"古いファイル形式（つまり、JSONファイル１つ）を使用してショートカットと変数をエクスポートできるようにします。 これにより、カスタム ショートカット アイコンをエクスポートに含めません。"</string>
+    <string name="settings_use_legacy_export_format_summary">"古いファイル形式（つまり、JSONファイル１つ）を使用してショートカットと変数をエクスポートできるようにします。 JSON形式のエクスポートには、カスタム ショートカットのアイコンを含めることはできません。"</string>
 
     <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
     <string name="label_client_cert">"クライアント証明認証"</string>
@@ -1597,9 +1597,9 @@
     <string name="empty_state_trigger_shortcuts">"トリガーするショートカットが追加されていません。"</string>
 
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
-    <string name="empty_state_trigger_shortcuts_instructions">"このマルチショートカットの一部としてトリガーする全てのショートカットをこのリストに追加します。
+    <string name="empty_state_trigger_shortcuts_instructions">"このマルチショートカットとして(トリガー)実行する全てのショートカットをこのリストに追加してください。
 
-［＋］ボタンをクリックして開始します"</string>
+［＋］ボタンをクリックして既存のトリガーから選択して追加します"</string>
 
     <!-- Shortcut Action Title: Open a URL (e.g. in a browser) -->
     <string name="action_type_open_url_title">"URLを開く"</string>
@@ -1748,7 +1748,6 @@
     <string name="request_body_option_image">"画像(カメラ)"</string>
 
     <!-- Section subtitle, shown in shortcut editor when request body is set to 'Image' -->
-    <!-- Fuzzy -->
     <string name="subtitle_request_body_image">"リクエストボディに画像セット"</string>
 
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for image parameter -->
@@ -1756,4 +1755,31 @@
 
     <!-- Subtitle: Shown in request parameter editor underneath every image parameter to indicate their type -->
     <string name="subtitle_parameter_value_image">"画像"</string>
+
+    <!-- Title of an action in the code snippet picker: Parse a JSON string -->
+    <string name="action_type_parse_json">"JSON解析"</string>
+
+    <!-- Title of an action in the code snippet picker: Parse an XML string -->
+    <string name="action_type_parse_xml">"XML解析"</string>
+
+    <!-- Title of dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it -->
+    <string name="title_unsaved_changes_detected">"未保存のショートカットあり"</string>
+
+    <!-- Message on dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it. %s is a placeholder for the shortcut's name -->
+    <string name="message_unsaved_changes_detected">"未保存のショートカット変更「%s」が見つかりました。その変更を復元して編集を続けますか？"</string>
+
+    <!-- Message on dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it. -->
+    <string name="message_unsaved_changes_detected_no_name">"未保存のショートカット変更が見つかりました。その変更を復元して編集を続けますか？"</string>
+
+    <!-- Button label, shown on dialog that asks user if they want to recover a shortcut that has unsaved changes -->
+    <string name="button_recover">"復元"</string>
+
+    <!-- Name of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
+    <string name="settings_allow_overlay_xiaomi">"バックグラウンドで使用時にポップアップのウィンドウ表示を許可"</string>
+
+    <!-- Subtitle of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
+    <string name="settings_allow_overlay_xiaomi_summary">"ホーム画面からトリガー時に、ショートカットが動作しない場合に、有効にしてください"</string>
+
+    <!-- Message displayed in notification while a shortcut is being executed that was triggered from Tasker -->
+    <string name="running_tasker_plugin">"Tasker がショートカットをトリガー"</string>
 </resources>

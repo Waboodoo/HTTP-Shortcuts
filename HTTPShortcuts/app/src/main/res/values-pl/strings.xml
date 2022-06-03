@@ -88,10 +88,12 @@
     <string name="empty_state_shortcuts_instructions">"Aby zacząć kliknij w +"</string>
 
     <!-- Empty state, shown in list when there are no variables yet -->
-    <string name="empty_state_variables">"brak zmiennych"</string>
+    <string name="empty_state_variables">"Nie masz jeszcze żadnych zmiennych."</string>
 
     <!-- Empty state instructions, shown in list when there are no variables yet -->
-    <string name="empty_state_variables_instructions">"Aby dodać zmienną kliknij w +"</string>
+    <string name="empty_state_variables_instructions">"Zmienne umożliwiają dynamiczne wstawianie wartości do skrótów, np. do adresu URL, nagłówków lub treści żądania. Podczas edytowania skrótu poszukaj przycisku „{}”, aby znaleźć wszystkie miejsca, w których można wstawić symbol zastępczy zmiennej.
+
+Kliknij przycisk +, aby dodać zmienną."</string>
 
     <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
     <string name="confirm_delete_shortcut_message">"Usunąć ten skrót?"</string>
@@ -239,7 +241,7 @@
     <string name="settings_crash_reporting_allow">"Wysyłaj raporty z błędów i pomóż rozwijać aplikację"</string>
 
     <!-- Option for crash reporting opt out -->
-    <string name="settings_crash_reporting_disallow">"Nie wysyłaj\u0020"</string>
+    <string name="settings_crash_reporting_disallow">"Nie wysyłaj żadnych raportów o awariach"</string>
 
     <!-- Button in settings page to start export of shortcuts -->
     <!-- Fuzzy -->
@@ -1690,7 +1692,7 @@ Usunąć mimo to?"</string>
     <string name="error_failed_to_fetch_favicon">"Nie udało się pobrać ikony. Ta witryna może nie mieć odpowiedniej."</string>
 
     <!-- label, displayed next to variable in variables list when a variable is not used anywhere -->
-    <string name="label_variable_unused">"nie używany"</string>
+    <string name="label_variable_unused">"nieużyta"</string>
 
     <!-- Label of an option in the share dialog, for receiving only the text -->
     <string name="label_share_support_option_text">"Tylko tekst"</string>
