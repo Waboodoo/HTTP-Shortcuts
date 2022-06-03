@@ -1,3 +1,14 @@
+## Version 2.17.0
+
+### Improvements
+- Slider variables now support floating point numbers
+
+### Bugfixes
+- Triggering a shortcut via a deep-link from an NFC tag now works as expected (thanks [@granoeste](https://github.com/granoeste))
+- When switching between categories, their background is now always correctly displayed
+- The changelog dialog no longer shows up again unexpectedly after being dismissed
+- The horizontal separator lines in menu dialogs are no longer clickable
+
 ## Version 2.16.0
 
 ### Scripting
