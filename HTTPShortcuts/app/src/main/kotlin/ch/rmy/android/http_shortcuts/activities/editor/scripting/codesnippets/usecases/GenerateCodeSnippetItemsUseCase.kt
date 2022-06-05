@@ -25,29 +25,29 @@ constructor(
             if (initData.includeResponseOptions) {
                 section(R.string.dialog_code_snippet_handle_response, R.drawable.ic_handle_response) {
                     item(R.string.dialog_code_snippet_response_body, docRef = "handle-response") {
-                        insertText("response.body", "")
+                        insertText("response.body")
                     }
                     item(R.string.dialog_code_snippet_response_body_json, docRef = "handle-response") {
-                        insertText("JSON.parse(response.body)", "")
+                        insertText("JSON.parse(response.body)")
                     }
                     item(R.string.dialog_code_snippet_response_headers, docRef = "response-headers") {
-                        insertText("response.headers", "")
+                        insertText("response.headers")
                     }
                     item(R.string.dialog_code_snippet_response_header, docRef = "response-headers") {
                         insertText("response.getHeader(\"", "\")")
                     }
                     item(R.string.dialog_code_snippet_response_status_code, docRef = "response-status") {
-                        insertText("response.statusCode", "")
+                        insertText("response.statusCode")
                     }
                     item(R.string.dialog_code_snippet_response_cookies, docRef = "response-cookies") {
-                        insertText("response.cookies", "")
+                        insertText("response.cookies")
                     }
                     item(R.string.dialog_code_snippet_response_cookie, docRef = "response-cookies") {
                         insertText("response.getCookie(\"", "\")")
                     }
                     if (initData.includeNetworkErrorOption) {
                         item(R.string.dialog_code_snippet_response_network_error, docRef = "response-errors") {
-                            insertText("networkError", "")
+                            insertText("networkError")
                         }
                     }
                 }
@@ -62,25 +62,25 @@ constructor(
             }
             section(R.string.dialog_code_snippet_shortcut_info, R.drawable.ic_info) {
                 item(R.string.dialog_code_snippet_get_shortcut_id, docRef = "shortcut-info") {
-                    insertText("shortcut.id", "")
+                    insertText("shortcut.id")
                 }
                 item(R.string.dialog_code_snippet_get_shortcut_name, docRef = "shortcut-info") {
-                    insertText("shortcut.name", "")
+                    insertText("shortcut.name")
                 }
                 item(R.string.dialog_code_snippet_get_shortcut_description, docRef = "shortcut-info") {
-                    insertText("shortcut.description", "")
+                    insertText("shortcut.description")
                 }
             }
             if (initData.includeFileOptions) {
                 section(R.string.dialog_code_snippet_files, R.drawable.ic_files) {
                     item(R.string.dialog_code_snippet_get_file_name, docRef = "files") {
-                        insertText("selectedFiles[0].name", "")
+                        insertText("selectedFiles[0].name")
                     }
                     item(R.string.dialog_code_snippet_get_file_type, docRef = "files") {
-                        insertText("selectedFiles[0].size", "")
+                        insertText("selectedFiles[0].size")
                     }
                     item(R.string.dialog_code_snippet_get_file_size, docRef = "files") {
-                        insertText("selectedFiles[0].type", "")
+                        insertText("selectedFiles[0].type")
                     }
                 }
             }
@@ -92,7 +92,7 @@ constructor(
                     insertText("showDialog(\"Message\"", ", \"Title\");\n")
                 }
                 item(R.string.action_type_selection_title, docRef = "show-selection") {
-                    insertText("showSelection({\n\"option1\": \"Option 1\",\n\"option2\": \"Option 2\",\n});\n", "")
+                    insertText("showSelection({\n\"option1\": \"Option 1\",\n\"option2\": \"Option 2\",\n});\n")
                 }
                 item(R.string.action_type_prompt_title, docRef = "prompt-confirm") {
                     insertText("prompt(\"Message", "\");\n")
@@ -108,7 +108,7 @@ constructor(
                 }
                 if (vibrationUtil.canVibrate()) {
                     item(R.string.action_type_vibrate_title, docRef = "vibrate") {
-                        insertText("vibrate();\n", "")
+                        insertText("vibrate();\n")
                     }
                 }
             }
@@ -140,7 +140,7 @@ constructor(
                     insertText("wait(1000 /* milliseconds */", ");\n")
                 }
                 item(R.string.action_type_abort_execution, docRef = "abort") {
-                    insertText("abort();\n", "")
+                    insertText("abort();\n")
                 }
             }
             section(R.string.dialog_code_snippet_text_processing, R.drawable.ic_text_processing) {
@@ -192,19 +192,22 @@ constructor(
             }
             section(R.string.dialog_code_snippet_network, R.drawable.ic_network) {
                 item(R.string.action_type_get_wifi_ip_address, docRef = "get-wifi-ip-address") {
-                    insertText("getWifiIPAddress();\n", "")
+                    insertText("getWifiIPAddress();\n")
                 }
                 item(R.string.action_type_get_wifi_ssid, docRef = "get-wifi-ssid") {
-                    insertText("getWifiSSID();\n", "")
+                    insertText("getWifiSSID();\n")
                 }
                 item(R.string.action_type_wake_on_lan, docRef = "wol") {
                     insertText("wakeOnLan(\"", "\");\n")
                 }
             }
             section(R.string.dialog_code_snippet_misc, R.drawable.ic_misc) {
+                item(R.string.action_type_generate_uuid, docRef = "uuid-v4") {
+                    insertText("uuidv4();")
+                }
                 item(R.string.action_type_trigger_shortcut_title, R.string.action_type_trigger_shortcut_description, docRef = "trigger-shortcut") {
                     pickShortcut(R.string.action_type_trigger_shortcut_title) { shortcutPlaceholder ->
-                        insertText("enqueueShortcut($shortcutPlaceholder);\n", "")
+                        insertText("enqueueShortcut($shortcutPlaceholder);\n")
                     }
                 }
                 item(R.string.action_copy_to_clipboard_title, docRef = "copy-to-clipboard") {
@@ -288,7 +291,7 @@ constructor(
         }
 
         private class ActionContext(val sendEvent: (Event) -> Unit) {
-            fun insertText(textBeforeCursor: String, textAfterCursor: String) {
+            fun insertText(textBeforeCursor: String, textAfterCursor: String = "") {
                 sendEvent(Event.InsertText(textBeforeCursor, textAfterCursor))
             }
 

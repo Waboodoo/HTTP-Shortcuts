@@ -2,6 +2,7 @@
 
 ### Improvements
 - Slider variables now support floating point numbers
+- You can now use the `uuidv4()` function in Scripting to generate random UUIDs
 
 ### Bugfixes
 - Triggering a shortcut via a deep-link from an NFC tag now works as expected (thanks [@granoeste](https://github.com/granoeste))

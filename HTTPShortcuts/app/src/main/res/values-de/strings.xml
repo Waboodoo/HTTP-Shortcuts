@@ -1792,4 +1792,10 @@ Trotzdem löschen?"</string>
 
     <!-- Message displayed in notification while a shortcut is being executed that was triggered from Tasker -->
     <string name="running_tasker_plugin">"Tasker führt einen Shortcut aus"</string>
+
+    <!-- Shortcut Action Title: generate a random UUID (Universal Unique Identifier, version 4) -->
+    <string name="action_type_generate_uuid">"Zufällige UUID generieren"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options for interacting with the network or querying its state -->
+    <string name="dialog_code_snippet_network">"Netzwerk"</string>
 </resources>

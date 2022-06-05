@@ -28,6 +28,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.ToHexStringActionTy
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ToStringActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ToastActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.TriggerTaskerTaskActionType
+import ch.rmy.android.http_shortcuts.scripting.actions.types.UUIDActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.VibrateActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.WaitActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.WakeOnLanActionType
@@ -77,6 +78,7 @@ class ActionFactory {
                 ToHexStringActionType(),
                 ToStringActionType(),
                 TriggerTaskerTaskActionType(),
+                UUIDActionType(),
                 VibrateActionType(),
                 WaitActionType(),
                 WakeOnLanActionType(),

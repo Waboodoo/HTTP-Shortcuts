@@ -421,6 +421,15 @@ enqueueShortcut('My Other Shortcut', {
 });
 ```
 
+<a name="uuid-v4"></a>
+### Generate UUID
+
+You can use the `uuidv4()` function to generate a random UUID (**U**niversal **U**nique **Id**entifier, version 4). The returned value is of type string.
+
+```js
+const myUUID = uuidv4();
+```
+
 <a name="copy-to-clipboard"></a>
 ### copyToClipboard
 
