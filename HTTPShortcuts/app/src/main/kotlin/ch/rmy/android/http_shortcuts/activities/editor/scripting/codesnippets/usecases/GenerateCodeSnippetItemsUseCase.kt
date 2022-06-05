@@ -190,6 +190,17 @@ constructor(
                     insertText("", ".trim()")
                 }
             }
+            section(R.string.dialog_code_snippet_network, R.drawable.ic_network) {
+                item(R.string.action_type_get_wifi_ip_address, docRef = "get-wifi-ip-address") {
+                    insertText("getWifiIPAddress();\n", "")
+                }
+                item(R.string.action_type_get_wifi_ssid, docRef = "get-wifi-ssid") {
+                    insertText("getWifiSSID();\n", "")
+                }
+                item(R.string.action_type_wake_on_lan, docRef = "wol") {
+                    insertText("wakeOnLan(\"", "\");\n")
+                }
+            }
             section(R.string.dialog_code_snippet_misc, R.drawable.ic_misc) {
                 item(R.string.action_type_trigger_shortcut_title, R.string.action_type_trigger_shortcut_description, docRef = "trigger-shortcut") {
                     pickShortcut(R.string.action_type_trigger_shortcut_title) { shortcutPlaceholder ->
@@ -198,12 +209,6 @@ constructor(
                 }
                 item(R.string.action_copy_to_clipboard_title, docRef = "copy-to-clipboard") {
                     insertText("copyToClipboard(\"", "\");\n")
-                }
-                item(R.string.action_type_get_wifi_ip_address, docRef = "get-wifi-ip-address") {
-                    insertText("getWifiIPAddress();\n", "")
-                }
-                item(R.string.action_type_get_wifi_ssid, docRef = "get-wifi-ssid") {
-                    insertText("getWifiSSID();\n", "")
                 }
                 item(R.string.action_type_open_url_title, docRef = "open-url") {
                     insertText("openUrl(\"https://", "\");\n")
@@ -218,9 +223,6 @@ constructor(
                     item(R.string.action_type_trigger_tasker_title, docRef = "trigger-tasker-task") {
                         sendEvent(Event.PickTaskerTask)
                     }
-                }
-                item(R.string.action_type_wake_on_lan, docRef = "wol") {
-                    insertText("wakeOnLan(\"", "\");\n")
                 }
             }
         }
