@@ -7,6 +7,7 @@ import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
+import android.webkit.WebView
 import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.EditText
@@ -17,6 +18,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import ch.rmy.android.framework.ui.views.PanelButton
+import ch.rmy.android.framework.utils.Destroyer
 import ch.rmy.android.framework.utils.SimpleAnimationListener
 import ch.rmy.android.framework.utils.SimpleTextWatcher
 import ch.rmy.android.framework.utils.localization.Localizable
@@ -213,4 +215,8 @@ fun View.zoomToggle(visible: Boolean) {
         })
         startAnimation(zoomIn)
     }
+}
+
+fun WebView.attachTo(destroyer: Destroyer) {
+    destroyer.own { destroy() }
 }

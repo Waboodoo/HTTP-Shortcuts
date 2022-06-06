@@ -1,6 +1,8 @@
 package ch.rmy.android.framework.extensions
 
 import androidx.lifecycle.LifecycleOwner
+import ch.rmy.android.framework.utils.Destroyable
+import ch.rmy.android.framework.utils.Destroyer
 import ch.rmy.android.framework.utils.Optional
 import ch.rmy.android.framework.utils.RxLifecycleObserver
 import io.reactivex.Observable
@@ -33,3 +35,13 @@ fun <T : Any> Single<Optional<T>>.subscribeOptional(
     subscribe { optional ->
         onSuccess(optional.value)
     }
+
+fun Disposable.toDestroyable() = object : Destroyable {
+    override fun destroy() {
+        dispose()
+    }
+}
+
+fun Disposable.attachTo(destroyer: Destroyer) {
+    destroyer.own { dispose() }
+}

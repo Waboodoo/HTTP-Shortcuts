@@ -187,9 +187,11 @@ class DisplayResponseActivity : BaseActivity() {
             if (showDetails) {
                 val binding = applyBinding(ActivityDisplayResponseWebviewWithDetailsBinding.inflate(layoutInflater))
                 binding.responseWebView.loadFromString(text, url)
+                binding.responseWebView.attachTo(destroyer)
             } else {
                 val binding = applyBinding(ActivityDisplayResponseWebviewBinding.inflate(layoutInflater))
                 binding.responseWebView.loadFromString(text, url)
+                binding.responseWebView.attachTo(destroyer)
             }
         } catch (e: Exception) {
             logException(e)
@@ -202,9 +204,11 @@ class DisplayResponseActivity : BaseActivity() {
             if (showDetails) {
                 val binding = applyBinding(ActivityDisplayResponseSyntaxHighlightingWithDetailsBinding.inflate(layoutInflater))
                 binding.formattedResponseText.setCode(text, language)
+                binding.formattedResponseText.attachTo(destroyer)
             } else {
                 val binding = applyBinding(ActivityDisplayResponseSyntaxHighlightingBinding.inflate(layoutInflater))
                 binding.formattedResponseText.setCode(text, language)
+                binding.formattedResponseText.attachTo(destroyer)
             }
         } catch (e: Exception) {
             logException(e)
@@ -328,6 +332,7 @@ class DisplayResponseActivity : BaseActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         ActivityCloser.onDisplayResponseActivityClosed()
+        finish()
     }
 
     private object OpenFilePicker : ActivityResultContract<OpenFilePicker.Params, Uri?>() {

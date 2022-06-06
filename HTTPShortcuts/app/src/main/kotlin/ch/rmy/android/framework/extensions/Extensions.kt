@@ -11,9 +11,6 @@ import androidx.annotation.DrawableRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.util.Predicate
-import ch.rmy.android.framework.utils.Destroyable
-import ch.rmy.android.framework.utils.Destroyer
-import io.reactivex.disposables.Disposable
 
 @ColorInt
 fun color(context: Context, @ColorRes colorRes: Int): Int =
@@ -49,16 +46,6 @@ inline fun <T, U> T.runFor(iterable: Iterable<U>, block: T.(U) -> T): T {
         item = block.invoke(item, iterator.next())
     }
     return item
-}
-
-fun Disposable.toDestroyable() = object : Destroyable {
-    override fun destroy() {
-        dispose()
-    }
-}
-
-fun Disposable.attachTo(destroyer: Destroyer) {
-    destroyer.own { dispose() }
 }
 
 fun <T> Map<String, T>.getCaseInsensitive(key: String): T? =
