@@ -137,8 +137,11 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
                 },
                 READ_ONLY,
             )
-            jsContext.property("response", responseJsObject, READ_ONLY)
+            responseJsObject
         }
+            .let {
+                jsContext.property("response", it, READ_ONLY)
+            }
         jsContext.property("networkError", error?.message, READ_ONLY)
     }
 
