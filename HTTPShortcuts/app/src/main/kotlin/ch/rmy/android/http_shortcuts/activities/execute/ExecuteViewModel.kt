@@ -35,6 +35,15 @@ class ExecuteViewModel(
     private lateinit var globalCode: String
     private lateinit var shortcut: ShortcutModel
 
+    private val fileIds: List<String> by lazy {
+        // TODO: Move this into a use case?
+        initData.variableValues["\$files"]
+            ?.trim('[', ']')
+            ?.split(",")
+            ?.map { it.trim(' ', '"') }
+            ?: emptyList()
+    }
+
     init {
         getApplicationComponent().inject(this)
     }
@@ -83,7 +92,14 @@ class ExecuteViewModel(
 
     private fun onDataLoaded() {
         finalizeInitialization(silent = true)
-        emitEvent(ExecuteEvent.Execute(shortcut, globalCode))
+        emitEvent(
+            ExecuteEvent.Execute(
+                shortcut = shortcut,
+                variableValues = initData.variableValues,
+                fileIds = fileIds,
+                globalCode = globalCode,
+            )
+        )
     }
 
     private fun onDataLoadError(error: Throwable) {
@@ -115,6 +131,7 @@ class ExecuteViewModel(
 
     data class InitData(
         val shortcutId: ShortcutId,
+        val variableValues: Map<String, String>,
         val executionId: String?,
     )
 }

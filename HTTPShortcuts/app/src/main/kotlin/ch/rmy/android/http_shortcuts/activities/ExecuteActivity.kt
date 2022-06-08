@@ -116,7 +116,10 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
 
     private val viewModel: ExecuteViewModel by bindViewModel()
 
+    /* TODO: Get rid of these fields */
     private lateinit var shortcut: ShortcutModel
+    private lateinit var variableValues: Map<String, String>
+    private lateinit var fileIds: List<String>
     private lateinit var globalCode: String
 
     private val progressIndicator: ProgressIndicator by lazy {
@@ -128,12 +131,6 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     }
 
     /* Execution Parameters */
-    private val shortcutId: ShortcutId by lazy {
-        IntentUtil.getShortcutId(intent)
-    }
-    private val variableValues by lazy {
-        IntentUtil.getVariableValues(intent)
-    }
     private val tryNumber by lazy {
         intent.extras?.getInt(EXTRA_TRY_NUMBER) ?: 0
     }
@@ -142,13 +139,6 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     }
     private val fileUris: List<Uri> by lazy {
         intent.extras?.getParcelableArrayList<Uri>(EXTRA_FILES) ?: emptyList<Uri>()
-    }
-    private val fileIds: List<String> by lazy {
-        variableValues["\$files"]
-            ?.trim('[', ']')
-            ?.split(",")
-            ?.map { it.trim(' ', '"') }
-            ?: emptyList()
     }
     private val shortcutName by lazy {
         shortcut.name.ifEmpty { getString(R.string.shortcut_safe_name) }
@@ -196,6 +186,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         viewModel.initialize(
             ExecuteViewModel.InitData(
                 shortcutId = IntentUtil.getShortcutId(intent),
+                variableValues = IntentUtil.getVariableValues(intent),
                 executionId = intent.extras?.getString(EXTRA_EXECUTION_SCHEDULE_ID),
             )
         )
@@ -214,6 +205,8 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         when (event) {
             is ExecuteEvent.Execute -> {
                 this.shortcut = event.shortcut
+                this.variableValues = event.variableValues
+                this.fileIds = event.fileIds
                 this.globalCode = event.globalCode
                 onDataLoaded()
             }
@@ -581,7 +574,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                 context,
                 shortcut,
                 variableManager,
-                ResponseFileStorage(context, shortcutId),
+                ResponseFileStorage(context, shortcut.id),
                 fileUploadManager,
                 if (shortcut.acceptCookies) cookieJar else null,
             )
@@ -692,7 +685,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
             }
             ResponseHandlingModel.UI_TYPE_WINDOW -> {
                 progressIndicator.hideProgress()
-                DisplayResponseActivity.IntentBuilder(shortcutId)
+                DisplayResponseActivity.IntentBuilder(shortcut.id)
                     .name(shortcutName)
                     .type(response?.contentType)
                     .runIfNotNull(output) {
