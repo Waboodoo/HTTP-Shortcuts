@@ -784,8 +784,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
 
     companion object {
 
-        const val ACTION_EXECUTE_SHORTCUT =
-            "ch.rmy.android.http_shortcuts.resolveVariablesAndExecute"
+        const val ACTION_EXECUTE_SHORTCUT = "ch.rmy.android.http_shortcuts.execute"
 
         const val EXTRA_SHORTCUT_ID = "id"
         const val EXTRA_VARIABLE_VALUES = "variable_values"
