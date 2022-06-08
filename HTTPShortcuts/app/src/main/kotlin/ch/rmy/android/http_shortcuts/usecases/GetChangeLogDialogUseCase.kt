@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.CheckBox
@@ -38,9 +39,6 @@ constructor(
                     .view(R.layout.changelog_dialog)
                     .title(if (whatsNew) R.string.changelog_title_whats_new else R.string.changelog_title)
                     .positive(android.R.string.ok)
-                    .dismissListener {
-                        viewModel.onDialogDismissed(this)
-                    }
                     .build()
                     .onShow { dialog ->
                         settings.changeLogLastVersion = VersionUtil.getVersion(context)
@@ -67,8 +65,8 @@ constructor(
                                 }
                             }
 
-                            override fun shouldOverrideUrlLoading(view: WebView, url: String) = consume {
-                                context.openURL(url)
+                            override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest) = consume {
+                                context.openURL(request.url)
                             }
                         }
 
@@ -79,6 +77,11 @@ constructor(
                         showAtStartupCheckbox.isChecked = !settings.isChangeLogPermanentlyHidden
                         showAtStartupCheckbox.setOnCheckedChangeListener { _, isChecked ->
                             settings.isChangeLogPermanentlyHidden = !isChecked
+                        }
+
+                        dialog.setOnDismissListener {
+                            webView.destroy()
+                            viewModel.onDialogDismissed(this)
                         }
                     }
 

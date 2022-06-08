@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.misc
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.core.view.isVisible
@@ -37,8 +38,8 @@ class AcknowledgmentActivity : BaseActivity() {
                         }
                     }
 
-                    override fun shouldOverrideUrlLoading(view: WebView, url: String) = consume {
-                        context.openURL(url)
+                    override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest) = consume {
+                        context.openURL(request.url)
                     }
                 }
 
@@ -48,6 +49,7 @@ class AcknowledgmentActivity : BaseActivity() {
                 } else {
                     loadUrl(ACKNOWLEDGMENTS_ASSET_URL)
                 }
+                destroyer.own { destroy() }
             }
         }
             ?: run {

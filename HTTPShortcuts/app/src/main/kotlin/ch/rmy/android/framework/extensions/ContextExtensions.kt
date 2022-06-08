@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
+import android.net.Uri
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.core.net.toUri
@@ -18,13 +19,17 @@ fun Context.showToast(@StringRes message: Int, long: Boolean = false) {
     Toast.makeText(this, message, if (long) Toast.LENGTH_LONG else Toast.LENGTH_SHORT).show()
 }
 
-fun Context.openURL(url: String) {
+fun Context.openURL(url: Uri) {
     try {
-        Intent(Intent.ACTION_VIEW, url.toUri())
+        Intent(Intent.ACTION_VIEW, url)
             .startActivity(this)
     } catch (e: ActivityNotFoundException) {
         showToast(R.string.error_not_supported)
     }
+}
+
+fun Context.openURL(url: String) {
+    openURL(url.toUri())
 }
 
 fun Fragment.openURL(url: String) {
