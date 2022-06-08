@@ -12,9 +12,11 @@ import androidx.activity.result.launch
 import androidx.core.app.ActivityCompat
 import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.attachTo
+import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.finishWithoutAnimation
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
+import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.runIfNotNull
@@ -26,10 +28,12 @@ import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.ui.Entrypoint
 import ch.rmy.android.framework.utils.DateUtil
 import ch.rmy.android.framework.utils.FilePickerUtil
+import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.execute.ExecuteEvent
+import ch.rmy.android.http_shortcuts.activities.execute.ExecuteViewModel
 import ch.rmy.android.http_shortcuts.activities.response.DisplayResponseActivity
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
-import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
@@ -102,9 +106,6 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     lateinit var variableRepository: VariableRepository
 
     @Inject
-    lateinit var appRepository: AppRepository
-
-    @Inject
     lateinit var pendingExecutionsRepository: PendingExecutionsRepository
 
     @Inject
@@ -112,6 +113,8 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
 
     @Inject
     lateinit var httpRequester: HttpRequester
+
+    private val viewModel: ExecuteViewModel by bindViewModel()
 
     private lateinit var shortcut: ShortcutModel
     private lateinit var globalCode: String
@@ -146,9 +149,6 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
             ?.split(",")
             ?.map { it.trim(' ', '"') }
             ?: emptyList()
-    }
-    private val executionId: String? by lazy {
-        intent.extras?.getString(EXTRA_EXECUTION_SCHEDULE_ID)
     }
     private val shortcutName by lazy {
         shortcut.name.ifEmpty { getString(R.string.shortcut_safe_name) }
@@ -193,46 +193,36 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         getApplicationComponent().inject(this)
         SessionMonitor.onSessionStarted()
 
-        appRepository.getGlobalCode()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { globalCode ->
-                    this.globalCode = globalCode
-                    onDataLoaded()
-                },
-                { error ->
-                    logException(error)
-                    showToast(getString(R.string.error_generic), long = true)
-                    finishWithoutAnimation()
-                },
+        viewModel.initialize(
+            ExecuteViewModel.InitData(
+                shortcutId = IntentUtil.getShortcutId(intent),
+                executionId = intent.extras?.getString(EXTRA_EXECUTION_SCHEDULE_ID),
             )
-            .attachTo(destroyer)
+        )
 
-        if (executionId != null) {
-            pendingExecutionsRepository.removePendingExecution(executionId!!)
-        } else {
-            Completable.complete()
+        initViewModelBindings()
+    }
+
+    private fun initViewModelBindings() {
+        viewModel.viewState.observe(this) { viewState ->
+            setDialogState(viewState.dialogState, viewModel)
         }
-            .andThen(shortcutRepository.getShortcutById(shortcutId))
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { shortcut ->
-                    this.shortcut = shortcut
-                    onDataLoaded()
-                },
-                { error ->
-                    if (error !is NoSuchElementException) {
-                        logException(error)
-                    }
-                    showToast(getString(R.string.shortcut_not_found), long = true)
-                    finishWithoutAnimation()
-                },
-            )
-            .attachTo(destroyer)
+        viewModel.events.observe(this, ::handleEvent)
+    }
+
+    override fun handleEvent(event: ViewModelEvent) {
+        when (event) {
+            is ExecuteEvent.Execute -> {
+                this.shortcut = event.shortcut
+                this.globalCode = event.globalCode
+                onDataLoaded()
+            }
+            else -> super.handleEvent(event)
+        }
     }
 
     private fun onDataLoaded() {
-        if (!(::shortcut).isInitialized || !(::globalCode).isInitialized || isFinishing) {
+        if (isFinishing) {
             return
         }
         setTheme(themeHelper.transparentTheme)

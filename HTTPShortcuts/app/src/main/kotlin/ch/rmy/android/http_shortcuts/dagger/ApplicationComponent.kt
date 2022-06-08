@@ -22,6 +22,7 @@ import ch.rmy.android.http_shortcuts.activities.editor.scripting.ScriptingActivi
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.ScriptingViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.CodeSnippetPickerViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.shortcuts.TriggerShortcutsViewModel
+import ch.rmy.android.http_shortcuts.activities.execute.ExecuteViewModel
 import ch.rmy.android.http_shortcuts.activities.icons.IconPickerViewModel
 import ch.rmy.android.http_shortcuts.activities.main.MainViewModel
 import ch.rmy.android.http_shortcuts.activities.main.ShortcutListViewModel
@@ -211,4 +212,6 @@ interface ApplicationComponent {
     fun inject(textTypeViewModel: TextTypeViewModel)
 
     fun inject(timeTypeViewModel: TimeTypeViewModel)
+
+    fun inject(executeViewModel: ExecuteViewModel)
 }
