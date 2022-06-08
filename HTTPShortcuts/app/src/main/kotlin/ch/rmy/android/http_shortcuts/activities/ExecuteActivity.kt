@@ -563,6 +563,12 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
             if (!Validation.isValidUrl(uri)) {
                 throw InvalidUrlException(url)
             }
+            if (uri.scheme?.equals("file", ignoreCase = true) == true) {
+                // TODO: Localize error message
+                throw UserException.create {
+                    "URLs with file:// scheme are not supported"
+                }
+            }
             Intent(Intent.ACTION_VIEW, uri)
                 .runIf(shortcut.browserPackageName.isNotEmpty()) {
                     setPackage(shortcut.browserPackageName)

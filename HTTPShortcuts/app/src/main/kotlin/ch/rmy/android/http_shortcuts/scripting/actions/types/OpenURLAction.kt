@@ -13,8 +13,14 @@ class OpenURLAction(private val url: String) : BaseAction() {
 
     override fun execute(executionContext: ExecutionContext): Completable =
         Completable.fromAction {
+            val uri = url.toUri()
+            if (uri.scheme?.equals("file", ignoreCase = true) == true) {
+                throw ActionException {
+                    "Opening files using openUrl() is not supported"
+                }
+            }
             try {
-                Intent(Intent.ACTION_VIEW, url.toUri())
+                Intent(Intent.ACTION_VIEW, uri)
                     .startActivity(executionContext.context)
             } catch (e: ActivityNotFoundException) {
                 throw ActionException { context ->
