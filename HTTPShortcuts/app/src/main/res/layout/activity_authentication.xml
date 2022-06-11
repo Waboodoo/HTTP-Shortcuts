@@ -117,7 +117,10 @@
                     android:layout_alignParentEnd="true" />
             </RelativeLayout>
 
-            <include layout="@layout/divider_line" />
+            <include layout="@layout/divider_line"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divider_height"
+                android:layout_marginTop="8dp" />
 
             <ch.rmy.android.framework.ui.views.PanelButton
                 android:id="@+id/button_client_cert"
