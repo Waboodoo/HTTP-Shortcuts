@@ -35,7 +35,6 @@ class ResponseWebView @JvmOverloads constructor(
         }
 
         with(settings) {
-            setAppCacheEnabled(false)
             cacheMode = WebSettings.LOAD_NO_CACHE
             javaScriptEnabled = false
             saveFormData = false
