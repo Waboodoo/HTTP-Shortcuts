@@ -231,6 +231,17 @@ Vibration patterns:
 vibrate(2, true);
 ```
 
+<a name="scan-barcode"></a>
+### scanBarcode
+
+The `scanBarcode` function lets you scan a barcode (e.g. a QR code). On success the function returns the raw data of the barcode as a string. If the scanner is cancelled, null is returned instead.
+
+```js
+const code = scanBarcode();
+```
+
+The scanning itself is done by an external app, specifically [QR Droid](https://play.google.com/store/apps/details?id=la.droid.qr), which means you need to have that app installed for this function to work. This also means that the HTTP Shortcuts itself will not need access to your camera directly.
+
 <a name="modify-shortcuts"></a>
 ## Modify Shortcuts
 

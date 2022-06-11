@@ -62,8 +62,11 @@ import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.plugin.SessionMonitor
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionsWorker
+import ch.rmy.android.http_shortcuts.scripting.ActionRequest
+import ch.rmy.android.http_shortcuts.scripting.ActionResult
 import ch.rmy.android.http_shortcuts.scripting.ScriptExecutor
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionFactory
+import ch.rmy.android.http_shortcuts.utils.BarcodeScannerContract
 import ch.rmy.android.http_shortcuts.utils.DialogBuilder
 import ch.rmy.android.http_shortcuts.utils.ErrorFormatter
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil.isImage
@@ -127,7 +130,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     }
 
     private val scriptExecutor: ScriptExecutor by lazy {
-        ScriptExecutor(context, ActionFactory())
+        ScriptExecutor(context, ActionFactory(), sendRequest = ::onActionRequest)
     }
 
     /* Execution Parameters */
@@ -157,6 +160,15 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                 resumeAfterFileRequest(fileUris = listOf(file))
             }
             ?: finishWithoutAnimation()
+    }
+    private val scanBarcode = registerForActivityResult(BarcodeScannerContract) { result ->
+        scriptExecutor.pushActionResult(
+            if (result != null) {
+                ActionResult.ScanBarcodeResult.Success(result)
+            } else {
+                ActionResult.Cancelled
+            }
+        )
     }
 
     /* Caches / State */
@@ -532,6 +544,18 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                     else -> Completable.complete()
                 }
             )
+
+    private fun onActionRequest(request: ActionRequest) {
+        when (request) {
+            ActionRequest.ScanBarcode -> {
+                try {
+                    scanBarcode.launch()
+                } catch (e: ActivityNotFoundException) {
+                    scriptExecutor.pushActionResult(ActionResult.ScanBarcodeResult.ScannerAppNotInstalled)
+                }
+            }
+        }
+    }
 
     private fun usesScripting() =
         shortcut.codeOnPrepare.isNotEmpty() ||

@@ -11,14 +11,14 @@ abstract class BaseAction {
     open fun execute(executionContext: ExecutionContext): Completable =
         Completable.complete()
 
-    open fun executeForValue(executionContext: ExecutionContext): Single<Any> =
+    open fun executeForValue(executionContext: ExecutionContext): Single<out Any> =
         execute(executionContext).toSingleDefault(NO_RESULT)
 
     protected open fun inject(applicationComponent: ApplicationComponent) {
         // intentionally left blank
     }
 
-    fun run(executionContext: ExecutionContext): Single<Any> {
+    fun run(executionContext: ExecutionContext): Single<out Any> {
         inject(executionContext.context.getApplicationComponent())
         return executeForValue(executionContext)
     }

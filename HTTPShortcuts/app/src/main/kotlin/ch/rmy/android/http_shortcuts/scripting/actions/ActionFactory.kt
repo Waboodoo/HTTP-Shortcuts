@@ -20,6 +20,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.ParseXMLActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.PlaySoundActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.RenameShortcutActionType
+import ch.rmy.android.http_shortcuts.scripting.actions.types.ScanBarcodeActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SelectionActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SendIntentActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SetVariableActionType
@@ -70,6 +71,7 @@ class ActionFactory {
                 PlaySoundActionType(),
                 PromptActionType(),
                 RenameShortcutActionType(),
+                ScanBarcodeActionType(),
                 SelectionActionType(),
                 SendIntentActionType(),
                 SetVariableActionType(),

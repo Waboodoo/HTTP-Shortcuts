@@ -10,6 +10,7 @@ import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.Co
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.CodeSnippetPickerViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.SectionItem
 import ch.rmy.android.http_shortcuts.plugin.TaskerUtil
+import ch.rmy.android.http_shortcuts.utils.CameraUtil
 import ch.rmy.android.http_shortcuts.utils.VibrationUtil
 import javax.inject.Inject
 
@@ -17,6 +18,7 @@ class GenerateCodeSnippetItemsUseCase
 @Inject
 constructor(
     private val vibrationUtil: VibrationUtil,
+    private val cameraUtil: CameraUtil,
     private val taskerUtil: TaskerUtil,
 ) {
 
@@ -109,6 +111,15 @@ constructor(
                 if (vibrationUtil.canVibrate()) {
                     item(R.string.action_type_vibrate_title, docRef = "vibrate") {
                         insertText("vibrate();\n")
+                    }
+                }
+                if (cameraUtil.hasCamera()) {
+                    item(
+                        R.string.action_type_scan_barcode_title,
+                        description = R.string.action_type_scan_barcode_description,
+                        docRef = "scan-barcode",
+                    ) {
+                        insertText("scanBarcode();\n")
                     }
                 }
             }

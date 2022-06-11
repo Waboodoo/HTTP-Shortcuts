@@ -3,8 +3,11 @@ package ch.rmy.android.http_shortcuts.scripting
 import android.content.Context
 import androidx.annotation.Keep
 import ch.rmy.android.framework.extensions.getCaseInsensitive
+import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
+import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.tryOrLog
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.exceptions.CanceledByUserException
@@ -18,6 +21,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.ActionFactory
 import ch.rmy.android.http_shortcuts.scripting.actions.types.BaseAction
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import io.reactivex.Completable
+import io.reactivex.Single
 import org.json.JSONException
 import org.liquidplayer.javascript.JSContext
 import org.liquidplayer.javascript.JSException
@@ -26,7 +30,11 @@ import org.liquidplayer.javascript.JSObject
 import org.liquidplayer.javascript.JSUint8Array
 import org.liquidplayer.javascript.JSValue
 
-class ScriptExecutor(private val context: Context, private val actionFactory: ActionFactory) {
+class ScriptExecutor(
+    private val context: Context,
+    private val actionFactory: ActionFactory,
+    private val sendRequest: (ActionRequest) -> Unit,
+) {
 
     private val jsContext by lazy {
         JSContext()
@@ -37,6 +45,8 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
     }
 
     private var lastException: Throwable? = null
+
+    private var sendResult: ((ActionResult) -> Unit)? = null
 
     fun initialize(
         shortcut: ShortcutModel,
@@ -73,6 +83,16 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
                     }
                 )
             }
+
+    fun pushActionResult(result: ActionResult) {
+        if (sendResult == null) {
+            // TODO: Remove this error handling once I know whether/how it triggers
+            context.showToast(R.string.error_generic)
+            logException(IllegalStateException("ScriptExecutor received result but no callback was available to handle it"))
+            return
+        }
+        sendResult!!.invoke(result)
+    }
 
     fun execute(
         script: String,
@@ -226,6 +246,15 @@ class ScriptExecutor(private val context: Context, private val actionFactory: Ac
                                     shortcutId = shortcutId,
                                     variableManager = variableManager,
                                     recursionDepth = recursionDepth,
+                                    callback = { request ->
+                                        Single.create { emitter ->
+                                            if (sendResult != null) {
+                                                throw IllegalStateException("Another action is already waiting for a result")
+                                            }
+                                            sendResult = emitter::onSuccess
+                                            sendRequest(request)
+                                        }
+                                    },
                                 )
                             )
                             ?.blockingGet()
