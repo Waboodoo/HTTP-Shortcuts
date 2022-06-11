@@ -1794,4 +1794,10 @@
 
     <!-- Message displayed in notification while a shortcut is being executed that was triggered from Tasker -->
     <string name="running_tasker_plugin">"Tasker 正触发一个快捷方式"</string>
+
+    <!-- Shortcut Action Title: generate a random UUID (Universal Unique Identifier, version 4) -->
+    <string name="action_type_generate_uuid">"生成随机 UUID"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options for interacting with the network or querying its state -->
+    <string name="dialog_code_snippet_network">"网络"</string>
 </resources>
