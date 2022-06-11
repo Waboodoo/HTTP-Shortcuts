@@ -8,7 +8,7 @@ When a shortcut is executed it is possible to run JavaScript code snippets befor
 
 Additionally, you'll find an option in the app's settings (labeled "Global Scripting") that allows you to run code before the execution of every shortcut, which can be used to define shared functions.
 
-Most of the [JavaScript's built-in functionalities](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference) can be used normally, e.g., to manipulate [Strings](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) or [Arrays](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array). Additionally, the app has some functions and utlities built in for convenience, all of which are documented below.
+Most of [JavaScript's built-in functionalities](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference) can be used normally, e.g., to manipulate [Strings](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) or [Arrays](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array). Additionally, the app has some functions and utilities built in for convenience, all of which are documented below.
 
 Using these code blocks, there are a number of things you can achieve. See the [examples](#examples) below for inspiration.
 
@@ -152,6 +152,8 @@ With this function you can display a dialog window on the screen. Simply pass yo
 
 ```js
 showDialog('My Message', 'My Title');
+
+showDialog('You can also use <b>basic</b> <i>HTML</i> for formatting the message.');
 ```
 
 Please note that no dialog will be displayed if the string you pass is empty.
@@ -257,7 +259,7 @@ Note: a shortcut's description is only visible in categories that use a list lay
 <a name="change-icon"></a>
 ### changeIcon
 
-With this function you can change the icon of a shortcut. Simply pass the name or ID of a shortcut as the first parameter and the name of the icon as the second one. You can also pass an empty string as the first parameter to target the current shortcut. This only works with built-in icons. Use the *"Add Code Snippet"* in the app to select an icon.
+With this function you can change the icon of a shortcut. Simply pass the name or ID of a shortcut as the first parameter and the name of the icon as the second one. You can also pass an empty string as the first parameter to target the current shortcut. Use the *"Add Code Snippet"* in the app to select an icon.
 
 ```js
 changeIcon('My Shortcut', 'bitsies_lightbulb');
@@ -322,7 +324,7 @@ With the `hmac` function you can compute the [HMAC](https://en.wikipedia.org/wik
 
 ```js
 const myHMAC = hmac('SHA-256', 'my_key123', 'Hello world');
-const myHMACasHex = toHexString(myHMAX);
+const myHMACasHex = toHexString(myHMAC);
 // the value of `myHMACasHex` is '34d60d40202ae16ae3dd70c9715b1900f9fe30cf10af483e74ea8f6bef18bd09' now.
 ```
 
@@ -369,6 +371,38 @@ const result = toString(myValue);
 // the value of `result` is 'Hello' now.
 ```
 
+<a name="network"></a>
+## Network
+
+<a name="get-wifi-ip-address"></a>
+### getWifiIPAddress
+
+With this function you can retrieve the IPv4 address of the device on the current Wi-Fi. It will return `null` if there is currently no Wi-Fi connection.
+
+```js
+const myIP = getWifiIPAddress();
+```
+
+<a name="get-wifi-ssid"></a>
+### getWifiSSID
+
+With this function you can retrieve the SSID (i.e., the name) of the Wi-Fi network the device is currently connected to. It will return `null` if there is currently no Wi-Fi connection.
+
+```js
+const mySSID = getWifiSSID();
+```
+
+<a name="wol"></a>
+### Wake-on-LAN
+
+You can use the `wakeOnLan` function to send a magic packet to turn on another device on your network. The first parameter has to be the MAC-address of the device. As the optional second parameter, you can pass the network/broadcast address to be used, and as the third parameter you can define the port.
+
+```js
+wakeOnLan('01-23-45-67-89-ab');
+
+wakeOnLan('01-23-45-67-89-ab', '255.255.255.255', 9);
+```
+
 <a name="misc"></a>
 ## Miscellaneous Built-In Functions
 
@@ -383,7 +417,7 @@ With this function you can enqueue a shortcut to execute after the current one. 
 enqueueShortcut('My Other Shortcut');
 ```
 
-Optionally you can pass an object as the second parameter to provide values for variables. This will not change the stored value of the variable but they will assume the specified value when the other shortcut is executed. This is particularly useful for dynamic variable types (such as *"Text Input"* or *"Multiple Choice Selection"*).
+Optionally you can pass an object as the second parameter to provide values for variables. This will not change the stored values of the variables but they will assume the specified value when the other shortcut is executed. This is particularly useful for dynamic variable types (such as *"Text Input"* or *"Multiple Choice Selection"*).
 
 ```js
 enqueueShortcut('My Other Shortcut', {
@@ -410,7 +444,7 @@ enqueueShortcut('My Other Shortcut', {
     '$files': selectedFiles[0].id,
 });
 
-// Pass 2 file
+// Pass 2 files
 enqueueShortcut('My Other Shortcut', {
     '$files': [selectedFiles[0].id, selectedFiles[1].id],
 });
@@ -439,24 +473,6 @@ With this function you can copy a value to the device's clipboard. Simply pass t
 copyToClipboard('Hello World');
 ```
 
-<a name="get-wifi-ip-address"></a>
-### getWifiIPAddress
-
-With this function you can retrieve the IPv4 address of the device on the current Wi-Fi. It will return `null` if there is currently no Wi-Fi connection.
-
-```js
-const myIP = getWifiIPAddress();
-```
-
-<a name="get-wifi-ssid"></a>
-### getWifiSSID
-
-With this function you can retrieve the SSID (i.e., the name) of the Wi-Fi network the device is currently connected to. It will return `null` if there is currently no Wi-Fi connection.
-
-```js
-const mySSID = getWifiSSID();
-```
-
 <a name="open-app"></a>
 ### openApp
 
@@ -474,6 +490,8 @@ This function allows you to open a URL in another app. This typically opens a br
 ```js
 openUrl('https://www.wikipedia.org/');
 ```
+
+Please note that this can not be used to open files.
 
 <a name="send-intent"></a>
 ### Send Intent
@@ -558,18 +576,6 @@ triggerTaskerTask('mytask', {
     andAnother: 'world',
 });
 ```
-
-<a name="wol"></a>
-### Wake-on-LAN
-
-You can use the `wakeOnLan` function to send a magic packet to turn on another device on your network. The first parameter has to be the MAC-address of the device. As the optional second parameter, you can pass the network/broadcast address to be used, and as the third parameter you can define the port.
-
-```js
-wakeOnLan('01-23-45-67-89-ab');
-
-wakeOnLan('01-23-45-67-89-ab', '255.255.255.255', 9);
-```
-
 
 <a name="examples"></a>
 ## Examples
