@@ -697,7 +697,7 @@
     <!-- Shortcut Action Title: Scan Barcode (e.g. QR Code) -->
     <string name="action_type_scan_barcode_title">Scan Barcode</string>
     <!-- Shortcut Action Description: Scan Barcode (e.g. QR Code) -->
-    <string name="action_type_scan_barcode_description">Requires the \'QR Droid\' app to be installed</string>
+    <string name="action_type_scan_barcode_description">Requires the \'QR Droid\' or \'Binary Eye\' app to be installed</string>
     <!-- Shortcut Action Title: Change Shortcut Name -->
     <string name="action_type_rename_shortcut_title">Rename Shortcut</string>
     <!-- Shortcut Action Title: Change Shortcut Icon -->
@@ -923,7 +923,7 @@
     <!-- Error message: Shown when user tries to use an unsupported hmac function -->
     <string name="error_unsupported_hmac_algorithm">Unsupported HMAC algorithm \"%1$s\" or invalid key. Use %2$s.</string>
     <!-- Error message: Shown when the user tries to use the 'scanBarcode' function but doesn't have the required app installed -->
-    <string name="error_barcode_scanner_not_installed">The \'QR Droid\' app needs to be installed to scan barcodes.</string>
+    <string name="error_barcode_scanner_not_installed">The \'QR Droid\' or \'Binary Eye\' app needs to be installed to scan barcodes.</string>
     <!-- Settings option for dark mode: when selected the app will always use Dark Mode -->
     <string name="settings_dark_theme_options_on">Always Dark</string>
     <!-- Settings option for dark mode: when selected the app will never use Dark Mode -->

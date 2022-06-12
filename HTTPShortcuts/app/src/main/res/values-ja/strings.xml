@@ -1782,4 +1782,21 @@
 
     <!-- Message displayed in notification while a shortcut is being executed that was triggered from Tasker -->
     <string name="running_tasker_plugin">"Tasker がショートカットをトリガー"</string>
+
+    <!-- Shortcut Action Title: generate a random UUID (Universal Unique Identifier, version 4) -->
+    <string name="action_type_generate_uuid">"ランダムなUUIDを生成"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options for interacting with the network or querying its state -->
+    <string name="dialog_code_snippet_network">"ネットワーク"</string>
+
+    <!-- Shortcut Action Title: Scan Barcode (e.g. QR Code) -->
+    <string name="action_type_scan_barcode_title">"バーコードをスキャン"</string>
+
+    <!-- Shortcut Action Description: Scan Barcode (e.g. QR Code) -->
+    <!-- Fuzzy -->
+    <string name="action_type_scan_barcode_description">"QR Droid アプリのインストールが必要"</string>
+
+    <!-- Error message: Shown when the user tries to use the 'scanBarcode' function but doesn't have the required app installed -->
+    <!-- Fuzzy -->
+    <string name="error_barcode_scanner_not_installed">"バーコードをスキャンするためには、 QR Droid アプリをインストールする必要があります。"</string>
 </resources>

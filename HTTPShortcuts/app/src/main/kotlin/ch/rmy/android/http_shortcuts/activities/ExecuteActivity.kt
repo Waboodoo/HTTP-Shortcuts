@@ -547,13 +547,15 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
 
     private fun onActionRequest(request: ActionRequest) {
         when (request) {
-            ActionRequest.ScanBarcode -> {
-                try {
-                    scanBarcode.launch()
-                } catch (e: ActivityNotFoundException) {
-                    scriptExecutor.pushActionResult(ActionResult.ScanBarcodeResult.ScannerAppNotInstalled)
-                }
-            }
+            ActionRequest.ScanBarcode -> openBarcodeScanner()
+        }
+    }
+
+    private fun openBarcodeScanner() {
+        try {
+            scanBarcode.launch()
+        } catch (e: ActivityNotFoundException) {
+            scriptExecutor.pushActionResult(ActionResult.ScanBarcodeResult.ScannerAppNotInstalled)
         }
     }
 

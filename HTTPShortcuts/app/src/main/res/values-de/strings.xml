@@ -1803,8 +1803,8 @@ Trotzdem löschen?"</string>
     <string name="action_type_scan_barcode_title">"Barcode scannen"</string>
 
     <!-- Shortcut Action Description: Scan Barcode (e.g. QR Code) -->
-    <string name="action_type_scan_barcode_description">"Benötigt die 'QR Droid'-App"</string>
+    <string name="action_type_scan_barcode_description">"Benötigt die 'QR Droid'- oder 'Binary Eye'-App"</string>
 
     <!-- Error message: Shown when the user tries to use the 'scanBarcode' function but doesn't have the required app installed -->
-    <string name="error_barcode_scanner_not_installed">"Die 'QR Droid'-App muss installiert sein um Barcodes scannen zu können."</string>
+    <string name="error_barcode_scanner_not_installed">"Die 'QR Droid'- oder 'Binary Eye'-App muss installiert sein um Barcodes scannen zu können."</string>
 </resources>

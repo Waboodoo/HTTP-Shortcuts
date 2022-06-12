@@ -26,6 +26,9 @@
             <category android:name="android.intent.category.BROWSABLE" />
             <data android:scheme="https" />
         </intent>
+
+        <package android:name="de.markusfisch.android.binaryeye" />
+        <package android:name="la.droid.qr" />
     </queries>
 
     <application

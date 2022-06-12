@@ -1800,4 +1800,13 @@
 
     <!-- Dialog option: shown in code snippet picker, shows options for interacting with the network or querying its state -->
     <string name="dialog_code_snippet_network">"网络"</string>
+
+    <!-- Shortcut Action Title: Scan Barcode (e.g. QR Code) -->
+    <string name="action_type_scan_barcode_title">"扫描条形码"</string>
+
+    <!-- Shortcut Action Description: Scan Barcode (e.g. QR Code) -->
+    <string name="action_type_scan_barcode_description">"需安装“QR Droid”应用"</string>
+
+    <!-- Error message: Shown when the user tries to use the 'scanBarcode' function but doesn't have the required app installed -->
+    <string name="error_barcode_scanner_not_installed">"要扫描条形码需安装“QR Droid”应用"</string>
 </resources>
