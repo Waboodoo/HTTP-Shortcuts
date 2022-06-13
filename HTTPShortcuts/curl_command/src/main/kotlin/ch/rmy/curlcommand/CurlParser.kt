@@ -38,9 +38,9 @@ class CurlParser private constructor(arguments: List<String>) {
                         continue@loop
                     }
                     "-H", "--header" -> {
-                        val header = iterator.next().split(": ", limit = 2)
+                        val header = iterator.next().split(":", limit = 2)
                         if (header.size == 2) {
-                            builder.header(header[0], header[1])
+                            builder.header(header[0], header[1].removePrefix(" "))
                         }
                         continue@loop
                     }
