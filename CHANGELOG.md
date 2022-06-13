@@ -4,8 +4,12 @@
 - It is now possible to integrate with the 'QR Droid', 'Barcode Scanner' or 'Binary Eye' app to scan barcodes and use their contents in Scripting, via the new `scanBarcode()` function
 - There is now a `getLocation()` function which allows you to query your device's physical location
 
+### Miscellaneous
+- Minor reorganization of the shortcut editor layout
+- Added a helper text that explains what toasts are
+
 ### Bugfixes
-- All webviews (e.g. for displaying responses) are not properly stopped when their window is closed, preventing them from using resources in the background
+- All webviews (e.g. for displaying responses) are now properly stopped when their window is closed, preventing them from using resources in the background
 - In Scripting, the `response` variable is always defined. When no response is available, it is set to `null` instead of being undefined.
 - Headers without a space between the name and value are now correctly imported from cURL
 - The order of launcher shortcuts is now updated immediately when shortcuts are moved around within a category
