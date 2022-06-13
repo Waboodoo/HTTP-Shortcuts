@@ -1133,6 +1133,8 @@
     <string name="message_deep_link_instructions">You can trigger this shortcut by invoking this URL from another app, e.g., via a QR scanner or NFC reader. Append query parameters to the URL to pass variable values.</string>
     <!-- Message: Hint to the user that additional/advanced options are available for response handling through scripting.  -->
     <string name="message_response_handling_scripting_hint">If you need more advanced options for processing and displaying the response, check out the \'%s\' section, which lets you define custom logic using JavaScript code.</string>
+    <!-- Message: Brief explanation of what a toast message is and what its limitations are  -->
+    <string name="message_response_handling_toast_limitations">Toasts are best suited for very short messages, as they are limited to only 2 lines of text.</string>
     <!-- Shortcut Action Title: Allows converting a byte array into a string of hexadecimal codes using the Scripting feature -->
     <string name="action_type_to_hex_string">Bytes to Hex String</string>
     <!-- Shortcut Action Title: Allows converting a byte array into a string using the Scripting feature -->

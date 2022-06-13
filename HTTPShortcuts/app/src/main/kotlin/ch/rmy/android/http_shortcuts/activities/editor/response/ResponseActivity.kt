@@ -102,6 +102,7 @@ class ResponseActivity : BaseActivity() {
             binding.inputResponseUiType.isVisible = viewState.responseUiTypeVisible
             binding.containerInputSuccessMessage.isVisible = viewState.successMessageVisible
             binding.inputIncludeMetaInformation.isVisible = viewState.includeMetaInformationVisible
+            binding.warningToastLimitations.isVisible = viewState.showToastInfo
         }
         viewModel.events.observe(this, ::handleEvent)
     }

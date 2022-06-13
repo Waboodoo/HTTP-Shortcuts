@@ -25,4 +25,7 @@ data class ResponseViewState(
 
     val includeMetaInformationVisible
         get() = responseUiType == ResponseHandlingModel.UI_TYPE_WINDOW && hasOutput
+
+    val showToastInfo
+        get() = responseUiType == ResponseHandlingModel.UI_TYPE_TOAST
 }

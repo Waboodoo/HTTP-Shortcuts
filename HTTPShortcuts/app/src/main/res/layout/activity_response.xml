@@ -69,6 +69,14 @@
                 android:layout_marginBottom="8dp"
                 android:text="@string/label_response_handling_type" />
 
+            <TextView
+                android:id="@+id/warning_toast_limitations"
+                style="@style/InfoLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="@string/message_response_handling_toast_limitations" />
+
             <CheckBox
                 android:id="@+id/input_include_meta_information"
                 android:layout_width="match_parent"

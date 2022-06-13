@@ -329,6 +329,7 @@ class DisplayResponseActivity : BaseActivity() {
         handler.removeCallbacks(finishRunnable)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         super.onBackPressed()
         ActivityCloser.onDisplayResponseActivityClosed()
