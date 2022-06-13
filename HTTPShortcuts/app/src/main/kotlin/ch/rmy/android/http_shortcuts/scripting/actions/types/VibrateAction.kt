@@ -4,17 +4,25 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import ch.rmy.android.framework.extensions.runIf
+import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.VibrationUtil
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 class VibrateAction(private val patternId: Int, private val waitForCompletion: Boolean) : BaseAction() {
 
+    @Inject
+    lateinit var vibrationUtil: VibrationUtil
+
+    override fun inject(applicationComponent: ApplicationComponent) {
+        applicationComponent.inject(this)
+    }
+
     override fun execute(executionContext: ExecutionContext): Completable {
-        val vibrator = VibrationUtil(executionContext.context)
-            .getVibrator()
+        val vibrator = vibrationUtil.getVibrator()
             ?: return Completable.complete()
 
         val pattern = findPattern(patternId)

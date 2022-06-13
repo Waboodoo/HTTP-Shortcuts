@@ -57,6 +57,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.ChangeIconAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.EnqueueShortcutAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.RenameShortcutAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SetVariableAction
+import ch.rmy.android.http_shortcuts.scripting.actions.types.VibrateAction
 import ch.rmy.android.http_shortcuts.tiles.QuickTileService
 import ch.rmy.android.http_shortcuts.variables.types.ColorType
 import ch.rmy.android.http_shortcuts.variables.types.DateType
@@ -212,6 +213,8 @@ interface ApplicationComponent {
     fun inject(textTypeViewModel: TextTypeViewModel)
 
     fun inject(timeTypeViewModel: TimeTypeViewModel)
+
+    fun inject(vibrateAction: VibrateAction)
 
     fun inject(executeViewModel: ExecuteViewModel)
 }
