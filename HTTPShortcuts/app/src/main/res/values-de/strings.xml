@@ -1807,4 +1807,16 @@ Trotzdem löschen?"</string>
 
     <!-- Error message: Shown when the user tries to use the 'scanBarcode' function but doesn't have the required app installed -->
     <string name="error_barcode_scanner_not_installed">"Die 'QR Droid'- oder 'Binary Eye'-App muss installiert sein um Barcodes scannen zu können."</string>
+
+    <!-- Shortcut Action Title: Get the device's current (physical) location -->
+    <string name="action_type_get_location_title">"Aktuellen Standort abfragen"</string>
+
+    <!-- Message: Brief explanation of what a toast message is and what its limitations are -->
+    <string name="message_response_handling_toast_limitations">"Toasts eignen sich am besten für kurze Nachrichten, da sie auf 2 Textzeilen limitiert sind."</string>
+
+    <!-- Error message: Shown to the user when the app tries to determine the device's current location but failed, e.g. because of a missing permission -->
+    <string name="error_failed_to_get_location">"Der Standort konnte nicht ermittelt werden."</string>
+
+    <!-- Shortcut Action Description: Get the device's current (physical) location -->
+    <string name="action_type_get_location_description">"Fragt den physikalischen Standort des Gerätes und gibt ihn als Objekt zurück"</string>
 </resources>
