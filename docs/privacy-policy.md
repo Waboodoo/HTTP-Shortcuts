@@ -23,5 +23,8 @@ The use of this feature is non-essential and the app can otherwise be fully used
 The app may request access to your device's file system. This is only used for displaying your home screen wallpaper as the background of a category. No other files on your device are ever accessed. The use of this feature is optional.
 
 ### Location Access
-The app may request the permission to access your device's physical location. This is only used for checking the SSID of the wifi the device is currently connected to. The physical location itself is never accessed by the app. The use of this feature is optional.
+The app may request the permission to access your device's physical location. This is used for 2 specific features only, both of which are non-essential and completely optional to use:
+
+- Checking the SSID of the wifi the device is currently connected to
+- Using the [`getLocation()`](scripting#get-location) function for Scripting
 
