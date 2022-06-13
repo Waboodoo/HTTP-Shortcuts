@@ -12,19 +12,22 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:paddingTop="16dp"
             android:paddingBottom="16dp">
 
             <FrameLayout
                 android:id="@+id/icon_container"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
                 android:layout_gravity="center"
-                android:background="?selectableItemBackgroundBorderless">
+                android:layout_marginEnd="8dp"
+                android:background="?selectableItemBackgroundBorderless"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <ch.rmy.android.http_shortcuts.icons.IconView
                     android:id="@+id/input_icon"
@@ -36,8 +39,8 @@
 
                 <fr.castorflex.android.circularprogressbar.CircularProgressBar
                     android:id="@+id/icon_loading_indicator"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
                     android:layout_gravity="center"
                     android:indeterminate="true"
                     android:visibility="gone"
@@ -51,29 +54,45 @@
             </FrameLayout>
 
             <TextView
+                android:id="@+id/label_shortcut_name"
                 style="@style/Label"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:text="@string/label_name" />
+                android:text="@string/label_name"
+                app:layout_constraintBottom_toBottomOf="@+id/icon_container"
+                app:layout_constraintEnd_toStartOf="@+id/icon_container"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0" />
 
             <EditText
                 android:id="@+id/input_shortcut_name"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:inputType="text"
-                android:maxLines="1" />
+                android:maxLength="200"
+                android:maxLines="1"
+                app:layout_constraintEnd_toStartOf="@+id/icon_container"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/label_shortcut_name"
+                app:layout_constraintVertical_bias="0" />
 
             <TextView
+                android:id="@+id/label_description"
                 style="@style/Label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:text="@string/label_description" />
+                android:text="@string/label_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/input_shortcut_name"
+                app:layout_constraintVertical_bias="0" />
 
             <EditText
                 android:id="@+id/input_description"
@@ -81,126 +100,141 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginBottom="32dp"
                 android:importantForAutofill="no"
                 android:inputType="textNoSuggestions"
-                android:maxLength="200" />
+                android:maxLength="200"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/label_description"
+                app:layout_constraintVertical_bias="0" />
 
-            <include layout="@layout/divider_line" />
-
-            <ch.rmy.android.framework.ui.views.PanelButton
-                android:id="@+id/button_basic_request_settings"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:text="@string/section_basic_request" />
+                android:layout_marginTop="20dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/input_description">
 
-            <include
-                android:id="@+id/divider_below_basic_request_settings"
-                layout="@layout/divider_line"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/divider_height" />
+                <include layout="@layout/divider_line" />
 
-            <ch.rmy.android.framework.ui.views.PanelButton
-                android:id="@+id/button_headers"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:text="@string/section_request_headers" />
+                <ch.rmy.android.framework.ui.views.PanelButton
+                    android:id="@+id/button_basic_request_settings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/section_basic_request" />
 
-            <include
-                android:id="@+id/divider_below_headers"
-                layout="@layout/divider_line"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/divider_height" />
+                <include
+                    android:id="@+id/divider_below_basic_request_settings"
+                    layout="@layout/divider_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_height" />
 
-            <ch.rmy.android.framework.ui.views.PanelButton
-                android:id="@+id/button_request_body"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:text="@string/section_request_body" />
+                <ch.rmy.android.framework.ui.views.PanelButton
+                    android:id="@+id/button_headers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/section_request_headers" />
 
-            <include
-                android:id="@+id/divider_below_request_body"
-                layout="@layout/divider_line"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/divider_height" />
+                <include
+                    android:id="@+id/divider_below_headers"
+                    layout="@layout/divider_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_height" />
 
-            <ch.rmy.android.framework.ui.views.PanelButton
-                android:id="@+id/button_authentication"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:text="@string/section_authentication" />
+                <ch.rmy.android.framework.ui.views.PanelButton
+                    android:id="@+id/button_request_body"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/section_request_body" />
 
-            <include
-                android:id="@+id/divider_below_authentication"
-                layout="@layout/divider_line"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/divider_height" />
+                <include
+                    android:id="@+id/divider_below_request_body"
+                    layout="@layout/divider_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_height" />
 
-            <ch.rmy.android.framework.ui.views.PanelButton
-                android:id="@+id/button_response_handling"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:text="@string/label_response_handling"
-                app:subtitle="@string/label_response_handling_subtitle" />
+                <ch.rmy.android.framework.ui.views.PanelButton
+                    android:id="@+id/button_authentication"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/section_authentication" />
 
-            <include layout="@layout/divider_line" />
+                <include
+                    android:id="@+id/divider_below_authentication"
+                    layout="@layout/divider_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_height" />
 
-            <ch.rmy.android.framework.ui.views.PanelButton
-                android:id="@+id/button_scripting"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:text="@string/label_scripting"
-                app:subtitle="@string/label_scripting_subtitle" />
+                <ch.rmy.android.framework.ui.views.PanelButton
+                    android:id="@+id/button_response_handling"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/label_response_handling"
+                    app:subtitle="@string/label_response_handling_subtitle" />
 
-            <ch.rmy.android.framework.ui.views.PanelButton
-                android:id="@+id/button_trigger_shortcuts"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:text="@string/label_trigger_shortcuts" />
+                <include layout="@layout/divider_line" />
 
-            <include
-                android:id="@+id/divider_below_scripting"
-                layout="@layout/divider_line"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/divider_height" />
+                <ch.rmy.android.framework.ui.views.PanelButton
+                    android:id="@+id/button_scripting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/label_scripting"
+                    app:subtitle="@string/label_scripting_subtitle" />
 
-            <ch.rmy.android.framework.ui.views.PanelButton
-                android:id="@+id/button_execution_settings"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:text="@string/label_execution_settings"
-                app:subtitle="@string/label_execution_settings_subtitle" />
+                <ch.rmy.android.framework.ui.views.PanelButton
+                    android:id="@+id/button_trigger_shortcuts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/label_trigger_shortcuts" />
 
-            <include layout="@layout/divider_line" />
+                <include
+                    android:id="@+id/divider_below_scripting"
+                    layout="@layout/divider_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_height" />
 
-            <ch.rmy.android.framework.ui.views.PanelButton
-                android:id="@+id/button_advanced_technical_settings"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:text="@string/label_advanced_technical_settings"
-                app:subtitle="@string/label_advanced_technical_settings_subtitle" />
+                <ch.rmy.android.framework.ui.views.PanelButton
+                    android:id="@+id/button_execution_settings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/label_execution_settings"
+                    app:subtitle="@string/label_execution_settings_subtitle" />
 
-            <include layout="@layout/divider_line" />
+                <include layout="@layout/divider_line" />
 
-        </LinearLayout>
+                <ch.rmy.android.framework.ui.views.PanelButton
+                    android:id="@+id/button_advanced_technical_settings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/label_advanced_technical_settings"
+                    app:subtitle="@string/label_advanced_technical_settings_subtitle" />
+
+                <include layout="@layout/divider_line" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
 
