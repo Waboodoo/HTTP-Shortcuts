@@ -1,7 +1,7 @@
 ## Version 2.18.0
 
 ### Improvements
-- It is now possible to integrate with the 'QR Droid' or 'Binary Eye' app to scan barcodes and use their contents in Scripting, via the new `scanBarcode()` function
+- It is now possible to integrate with the 'QR Droid', 'Barcode Scanner' or 'Binary Eye' app to scan barcodes and use their contents in Scripting, via the new `scanBarcode()` function
 
 ### Bugfixes
 - All webviews (e.g. for displaying responses) are not properly stopped when their window is closed, preventing them from using resources in the background

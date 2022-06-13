@@ -27,7 +27,11 @@
             <data android:scheme="https" />
         </intent>
 
+        <intent>
+            <action android:name="com.google.zxing.client.android.SCAN" />
+        </intent>
         <package android:name="de.markusfisch.android.binaryeye" />
+        <package android:name="com.google.zxing.client.android" />
         <package android:name="la.droid.qr" />
     </queries>
 

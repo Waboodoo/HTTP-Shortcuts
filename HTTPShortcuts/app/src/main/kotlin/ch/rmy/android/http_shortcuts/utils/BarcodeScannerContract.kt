@@ -42,7 +42,16 @@ object BarcodeScannerContract : ActivityResultContract<Unit, String?>() {
             },
             getResult = {
                 getStringExtra("SCAN_RESULT")
-            }
+            },
+        ),
+        ZXING(
+            createIntent = {
+                Intent("com.google.zxing.client.android.SCAN")
+                    .setPackage("com.google.zxing.client.android")
+            },
+            getResult = {
+                getStringExtra("SCAN_RESULT")
+            },
         ),
         QR_DROID(
             createIntent = {
@@ -52,7 +61,7 @@ object BarcodeScannerContract : ActivityResultContract<Unit, String?>() {
             },
             getResult = {
                 getStringExtra("la.droid.qr.result")
-            }
-        )
+            },
+        ),
     }
 }
