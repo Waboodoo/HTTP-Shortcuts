@@ -12,6 +12,8 @@ Most of [JavaScript's built-in functionalities](https://developer.mozilla.org/en
 
 Using these code blocks, there are a number of things you can achieve. See the [examples](#examples) below for inspiration.
 
+**Pro-tip:** Writing code on a phone is tedious. If you're intending to write longer blocks of code, I recommend you check out the [Web Editor](https://http-shortcuts.rmy.ch/editor/) for more convenient configuration of your shortcuts.
+
 <a name="handle-response"></a>
 ## Handling the Response
 
