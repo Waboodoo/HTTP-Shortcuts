@@ -724,6 +724,10 @@
     <string name="error_action_type_send_wol_invalid_mac_address">Invalid MAC address: %s</string>
     <!-- Shortcut Action Title: Trigger a task in Tasker -->
     <string name="action_type_trigger_tasker_title">Trigger Tasker Task</string>
+    <!-- Shortcut Action Title: Get the device's current (physical) location -->
+    <string name="action_type_get_location_title">Get Current Location</string>
+    <!-- Shortcut Action Description: Get the device's current (physical) location -->
+    <string name="action_type_get_location_description">Queries the device\'s physical location and returns it as an object</string>
     <!-- Shortcut Action Title: Send a Wake-on-LAN packet to remotely turn on a computer -->
     <string name="action_type_wake_on_lan">Wake-on-LAN</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
@@ -1155,6 +1159,8 @@
     <string name="error_invalid_base64">Invalid Base64: %s</string>
     <!-- Error message: Shown to the user when the app tries to determine the SSID (name) of the current Wi-Fi but failed, e.g. because of a missing permission -->
     <string name="error_failed_to_get_wifi_ssid">Failed to determine the SSID of the current Wi-Fi.</string>
+    <!-- Error message: Shown to the user when the app tries to determine the device's current location but failed, e.g. because of a missing permission -->
+    <string name="error_failed_to_get_location">The device\'s physical location could not be determined.</string>
     <!-- Placeholder: help text shown for body content input field, where the user can define the HTTP request body -->
     <string name="placeholder_request_body_content">Enter the raw HTTP request body here. You can add variable placeholders via the \"{}\" button.</string>
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon -->

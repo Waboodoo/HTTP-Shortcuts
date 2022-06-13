@@ -55,6 +55,7 @@ import ch.rmy.android.http_shortcuts.scheduling.ExecutionsWorker
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ChangeDescriptionAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ChangeIconAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.EnqueueShortcutAction
+import ch.rmy.android.http_shortcuts.scripting.actions.types.GetLocationAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.RenameShortcutAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SetVariableAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.VibrateAction
@@ -217,4 +218,6 @@ interface ApplicationComponent {
     fun inject(vibrateAction: VibrateAction)
 
     fun inject(executeViewModel: ExecuteViewModel)
+
+    fun inject(getLocationAction: GetLocationAction)
 }

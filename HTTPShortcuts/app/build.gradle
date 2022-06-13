@@ -195,6 +195,9 @@ dependencies {
     /* Scripting */
     implementation 'com.github.LiquidPlayer:LiquidCore:0.6.2'
 
+    /* Location lookup (for Scripting) */
+    implementation 'com.google.android.gms:play-services-location:20.0.0'
+
     /* Password hashing */
     implementation 'org.mindrot:jbcrypt:0.4'
 

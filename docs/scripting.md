@@ -590,6 +590,31 @@ triggerTaskerTask('mytask', {
 });
 ```
 
+<a name="get-location"></a>
+### Get Location
+If you want to query your device's physical location, you can do so via the `getLocation()` function. It can take up to 20 seconds for the location request to complete, and it might not always be possible to determine the location.
+
+The resulting object consists of the following fields:
+
+|Field|Description|Type|
+|---|---|---|
+|status|Indicates whether a location could be determined. Will be `'success'` or `'unknown'`|string|
+|latitude|The latitude in degrees, or null if the location is unknown|number|
+|latitude|The longitude in degrees, or null if the location is unknown|number|
+|accuracy|The estimated horizontal accuracy radius in meters at the 68th percentile confidence level, or null if the location or the accuracy is unknown|number|
+|coordinates|The latitude and longitude concatenated with a comma, for convenience|depends on the `type`|string|
+
+```js
+const myLocation = getLocation();
+if (myLocation.status == 'success') {
+    alert(`I am currently at ${myLocation.coordinates}`);
+} else {
+    alert('I am so lost right now');
+}
+```
+
+Please note that this function requires that Google Play Services are installed on the device and that you grant location permission to the app.
+
 <a name="examples"></a>
 ## Examples
 

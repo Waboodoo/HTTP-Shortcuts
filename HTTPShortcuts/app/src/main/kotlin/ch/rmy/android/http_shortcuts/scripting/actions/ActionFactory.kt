@@ -11,6 +11,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.ConfirmActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.CopyToClipboardActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.DialogActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.EnqueueShortcutActionType
+import ch.rmy.android.http_shortcuts.scripting.actions.types.GetLocationActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.GetVariableActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.HashActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.HmacActionType
@@ -62,6 +63,7 @@ class ActionFactory {
                 CopyToClipboardActionType(),
                 DialogActionType(),
                 EnqueueShortcutActionType(),
+                GetLocationActionType(),
                 GetVariableActionType(),
                 HashActionType(),
                 HmacActionType(),

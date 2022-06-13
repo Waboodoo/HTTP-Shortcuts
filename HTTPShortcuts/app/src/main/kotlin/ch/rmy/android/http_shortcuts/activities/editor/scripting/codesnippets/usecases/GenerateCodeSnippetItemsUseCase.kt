@@ -11,6 +11,7 @@ import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.Co
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.SectionItem
 import ch.rmy.android.http_shortcuts.plugin.TaskerUtil
 import ch.rmy.android.http_shortcuts.utils.CameraUtil
+import ch.rmy.android.http_shortcuts.utils.PlayServicesUtil
 import ch.rmy.android.http_shortcuts.utils.VibrationUtil
 import javax.inject.Inject
 
@@ -20,6 +21,7 @@ constructor(
     private val vibrationUtil: VibrationUtil,
     private val cameraUtil: CameraUtil,
     private val taskerUtil: TaskerUtil,
+    private val playServicesUtil: PlayServicesUtil,
 ) {
 
     operator fun invoke(initData: CodeSnippetPickerViewModel.InitData, callback: (Event) -> Unit): List<SectionItem> =
@@ -236,6 +238,15 @@ constructor(
                 if (taskerUtil.isTaskerAvailable()) {
                     item(R.string.action_type_trigger_tasker_title, docRef = "trigger-tasker-task") {
                         sendEvent(Event.PickTaskerTask)
+                    }
+                }
+                if (playServicesUtil.isPlayServicesAvailable()) {
+                    item(
+                        R.string.action_type_get_location_title,
+                        description = R.string.action_type_get_location_description,
+                        docRef = "get-location",
+                    ) {
+                        insertText("getLocation();\n")
                     }
                 }
             }
