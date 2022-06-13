@@ -23,7 +23,7 @@
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_gravity="center"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="12dp"
                 android:background="?selectableItemBackgroundBorderless"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1"
