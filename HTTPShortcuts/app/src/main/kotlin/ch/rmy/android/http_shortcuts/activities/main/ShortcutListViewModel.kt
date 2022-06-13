@@ -54,6 +54,7 @@ import ch.rmy.android.http_shortcuts.import_export.Exporter
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.usecases.GetExportDestinationOptionsDialogUseCase
 import ch.rmy.android.http_shortcuts.utils.FileUtil
+import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.curlcommand.CurlCommand
 import io.reactivex.disposables.Disposable
@@ -119,6 +120,12 @@ class ShortcutListViewModel(
 
     @Inject
     lateinit var getUsedVariableIds: GetUsedVariableIdsUseCase
+
+    @Inject
+    lateinit var launcherShortcutMapper: LauncherShortcutMapper
+
+    @Inject
+    lateinit var launcherShortcutManager: LauncherShortcutManager
 
     private val eventBridge = EventBridge(ChildViewModelEvent::class.java)
 
@@ -256,6 +263,15 @@ class ShortcutListViewModel(
             copy(isInMovingMode = false)
         }
         eventBridge.submit(ChildViewModelEvent.MovingModeChanged(false))
+        updateLauncherShortcuts()
+    }
+
+    private fun updateLauncherShortcuts() {
+        categoryRepository.getCategories()
+            .subscribe { categories ->
+                launcherShortcutManager.updateAppShortcuts(launcherShortcutMapper(categories))
+            }
+            .attachTo(destroyer)
     }
 
     fun onShortcutMoved(shortcutId1: ShortcutId, shortcutId2: ShortcutId) {
@@ -588,6 +604,9 @@ class ShortcutListViewModel(
             shortcutRepository.moveShortcutToCategory(shortcutId, categoryId)
         ) {
             showSnackbar(StringResLocalizable(R.string.shortcut_moved, shortcut.name))
+            if (shortcut.launcherShortcut) {
+                updateLauncherShortcuts()
+            }
         }
     }
 
