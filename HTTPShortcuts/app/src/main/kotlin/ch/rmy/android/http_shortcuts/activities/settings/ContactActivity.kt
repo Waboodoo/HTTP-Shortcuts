@@ -18,13 +18,18 @@ import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.databinding.ActivityContactBinding
 import ch.rmy.android.http_shortcuts.utils.FileUtil
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
 import java.util.Locale
+import javax.inject.Inject
 
 class ContactActivity : BaseActivity() {
+
+    @Inject
+    lateinit var settings: Settings
 
     private lateinit var binding: ActivityContactBinding
 
@@ -37,6 +42,7 @@ class ContactActivity : BaseActivity() {
         }
 
     override fun onCreated(savedState: Bundle?) {
+        getApplicationComponent().inject(this)
         binding = applyBinding(ActivityContactBinding.inflate(layoutInflater))
         setTitle(R.string.title_contact)
 

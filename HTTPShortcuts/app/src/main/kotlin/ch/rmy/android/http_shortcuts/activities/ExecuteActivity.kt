@@ -103,6 +103,9 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         get() = false
 
     @Inject
+    lateinit var settings: Settings
+
+    @Inject
     lateinit var shortcutRepository: ShortcutRepository
 
     @Inject
@@ -325,7 +328,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         shouldFinishAfterExecution() &&
             !usesScripting() &&
             !NetworkUtil.isNetworkPerformanceRestricted(context) &&
-            !Settings(context).isForceForegroundEnabled
+            !settings.isForceForegroundEnabled
 
     private fun promptForConfirmationIfNeeded(): Completable =
         if (requiresConfirmation()) {
