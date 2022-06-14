@@ -10,6 +10,7 @@
 ### Miscellaneous
 - Minor reorganization of the shortcut editor layout
 - Added a helper text that explains what toasts are
+- Moved the "Become a Translator" call-to-action up to a more prominent position
 
 ### Bugfixes
 - All webviews (e.g. for displaying responses) are now properly stopped when their window is closed, preventing them from using resources in the background
