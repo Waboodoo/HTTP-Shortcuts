@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.misc.deeplink
 
 import android.app.Application
 import android.net.Uri
+import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
@@ -10,6 +11,7 @@ import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
+import ch.rmy.android.http_shortcuts.activities.main.MainActivity
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutNameOrId
@@ -70,8 +72,17 @@ class DeepLinkViewModel(application: Application) : BaseViewModel<DeepLinkViewMo
             return
         }
 
-        val shortcutIdOrName = deepLinkUrl.getShortcutNameOrId()
+        val importUrl = deepLinkUrl.getImportUrl()
+        if (importUrl != null) {
+            openActivity(
+                MainActivity.IntentBuilder()
+                    .importUrl(importUrl)
+            )
+            finish(skipAnimation = true)
+            return
+        }
 
+        val shortcutIdOrName = deepLinkUrl.getShortcutNameOrId()
         shortcutRepository.getShortcutByNameOrId(shortcutIdOrName)
             .subscribe(
                 { shortcut ->
@@ -91,6 +102,11 @@ class DeepLinkViewModel(application: Application) : BaseViewModel<DeepLinkViewMo
         )
         finish(skipAnimation = true)
     }
+
+    private fun Uri.getImportUrl(): Uri? =
+        takeIf { host == "import" && path?.trimEnd('/') == "" }
+            ?.getQueryParameter("url")
+            ?.toUri()
 
     private fun Uri.getShortcutNameOrId(): ShortcutNameOrId =
         host

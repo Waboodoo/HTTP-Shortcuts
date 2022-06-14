@@ -2,10 +2,10 @@ package ch.rmy.android.http_shortcuts.activities.settings.importexport
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.createIntent
-import ch.rmy.android.framework.extensions.initialize
 import ch.rmy.android.framework.extensions.launch
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.showToast
@@ -30,7 +30,11 @@ class ImportExportActivity : BaseActivity() {
     private lateinit var fragment: ImportExportFragment
 
     override fun onCreated(savedState: Bundle?) {
-        viewModel.initialize()
+        viewModel.initialize(
+            ImportExportViewModel.InitData(
+                importUrl = intent.extras?.getParcelable(EXTRA_IMPORT_URL),
+            )
+        )
         initViews(savedState == null)
         initViewModelBindings()
     }
@@ -136,5 +140,13 @@ class ImportExportActivity : BaseActivity() {
             }
     }
 
-    class IntentBuilder : BaseIntentBuilder(ImportExportActivity::class.java)
+    class IntentBuilder : BaseIntentBuilder(ImportExportActivity::class.java) {
+        fun importUrl(importUrl: Uri) = also {
+            intent.putExtra(EXTRA_IMPORT_URL, importUrl)
+        }
+    }
+
+    companion object {
+        private const val EXTRA_IMPORT_URL = "ch.rmy.android.http_shortcuts.import_url"
+    }
 }

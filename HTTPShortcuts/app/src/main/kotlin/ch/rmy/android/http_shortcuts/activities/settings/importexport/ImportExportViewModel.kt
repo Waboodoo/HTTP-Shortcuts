@@ -31,7 +31,9 @@ import ch.rmy.android.http_shortcuts.utils.Settings
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
-class ImportExportViewModel(application: Application) : BaseViewModel<Unit, ImportExportViewState>(application), WithDialog {
+class ImportExportViewModel(application: Application) :
+    BaseViewModel<ImportExportViewModel.InitData, ImportExportViewState>(application),
+    WithDialog {
 
     @Inject
     lateinit var settings: Settings
@@ -64,15 +66,21 @@ class ImportExportViewModel(application: Application) : BaseViewModel<Unit, Impo
 
     override fun initViewState() = ImportExportViewState()
 
-    fun onImportFromURLButtonClicked() {
-        openImportUrlDialog()
+    override fun onInitialized() {
+        if (initData.importUrl != null) {
+            openImportUrlDialog(initData.importUrl!!.toString())
+        }
     }
 
-    private fun openImportUrlDialog() {
+    fun onImportFromURLButtonClicked() {
+        openImportUrlDialog(prefill = settings.importUrl?.toString() ?: "")
+    }
+
+    private fun openImportUrlDialog(prefill: String) {
         dialogState = DialogState.create {
             title(R.string.dialog_title_import_from_url)
                 .textInput(
-                    prefill = Settings(context).importUrl?.toString() ?: "",
+                    prefill = prefill,
                     allowEmpty = false,
                     callback = { startImportFromURL(it.toUri()) },
                 )
@@ -253,4 +261,8 @@ class ImportExportViewModel(application: Application) : BaseViewModel<Unit, Impo
                 .build()
         }
     }
+
+    data class InitData(
+        val importUrl: Uri?,
+    )
 }

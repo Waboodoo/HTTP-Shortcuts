@@ -29,4 +29,7 @@
     - [Text Processing](scripting.md#text-processing)
     - [Miscellaneous](scripting.md#misc)
     - [Examples](scripting.md#examples)
+- [Import / Export](import-export.md)
+    - [Remote Editing](import-export.md#remote-edit)
+    - [Hosting Templates for Easy Importing](import-export.md#import-deep-linking)
 

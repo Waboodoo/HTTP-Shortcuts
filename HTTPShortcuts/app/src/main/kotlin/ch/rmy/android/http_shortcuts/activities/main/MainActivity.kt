@@ -4,6 +4,7 @@ import android.app.Activity
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -109,6 +110,7 @@ class MainActivity : BaseActivity(), Entrypoint {
                 selectionMode = determineMode(intent.action),
                 initialCategoryId = intent?.extras?.getString(EXTRA_CATEGORY_ID),
                 widgetId = WidgetManager.getWidgetIdFromIntent(intent),
+                importUrl = intent?.extras?.getParcelable(EXTRA_IMPORT_URL),
             )
         )
         initViews()
@@ -287,6 +289,10 @@ class MainActivity : BaseActivity(), Entrypoint {
         fun categoryId(categoryId: CategoryId) = also {
             intent.putExtra(EXTRA_CATEGORY_ID, categoryId)
         }
+
+        fun importUrl(importUrl: Uri) = also {
+            intent.putExtra(EXTRA_IMPORT_URL, importUrl)
+        }
     }
 
     companion object {
@@ -296,5 +302,6 @@ class MainActivity : BaseActivity(), Entrypoint {
         const val EXTRA_SELECTION_ID = "ch.rmy.android.http_shortcuts.shortcut_id"
         const val EXTRA_SELECTION_NAME = "ch.rmy.android.http_shortcuts.shortcut_name"
         private const val EXTRA_CATEGORY_ID = "ch.rmy.android.http_shortcuts.category_id"
+        private const val EXTRA_IMPORT_URL = "ch.rmy.android.http_shortcuts.import_url"
     }
 }

@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.main
 
 import android.app.Activity
 import android.app.Application
+import android.net.Uri
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.createIntent
@@ -28,6 +29,7 @@ import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowChangeLo
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowNetworkRestrictionDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowRecoveryDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.settings.about.AboutActivity
+import ch.rmy.android.http_shortcuts.activities.settings.importexport.ImportExportActivity
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
@@ -126,6 +128,13 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         }
 
     override fun onInitializationStarted(data: InitData) {
+        if (data.importUrl != null) {
+            openActivity(
+                ImportExportActivity.IntentBuilder()
+                    .importUrl(data.importUrl)
+            )
+        }
+
         categoryRepository.getCategories()
             .subscribe { categories ->
                 this.categories = categories
@@ -531,5 +540,6 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         val selectionMode: SelectionMode,
         val initialCategoryId: CategoryId?,
         val widgetId: Int?,
+        val importUrl: Uri?,
     )
 }
