@@ -4,7 +4,10 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.launch
 import ch.rmy.android.framework.extensions.observe
@@ -78,6 +81,16 @@ class ImportExportActivity : BaseActivity() {
         } catch (e: ActivityNotFoundException) {
             context.showToast(R.string.error_not_supported)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.variables_activity_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_show_help -> consume { viewModel.onHelpButtonClicked() }
+        else -> super.onOptionsItemSelected(item)
     }
 
     class ImportExportFragment : BaseSettingsFragment() {

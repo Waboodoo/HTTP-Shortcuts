@@ -26,6 +26,7 @@ import ch.rmy.android.http_shortcuts.import_export.Exporter
 import ch.rmy.android.http_shortcuts.import_export.ImportException
 import ch.rmy.android.http_shortcuts.import_export.Importer
 import ch.rmy.android.http_shortcuts.usecases.GetExportDestinationOptionsDialogUseCase
+import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.FileUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
 import io.reactivex.disposables.Disposable
@@ -260,6 +261,10 @@ class ImportExportViewModel(application: Application) :
                 .positive(R.string.dialog_ok)
                 .build()
         }
+    }
+
+    fun onHelpButtonClicked() {
+        openURL(ExternalURLs.IMPORT_EXPORT_DOCUMENTATION)
     }
 
     data class InitData(
