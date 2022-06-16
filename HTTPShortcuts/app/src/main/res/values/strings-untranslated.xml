@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Button text: translate app (prompt to help & become a translator) -->
-    <string name="settings_help_translate" translatable="false">Become a Translator</string>
-    <!-- Summary/subtitle of section in settings that prompts user to help translate the app -->
-    <string name="settings_help_translate_summary" translatable="false">Help me make this app better by translating it into your language!</string>
     <string name="developer_email_address" translatable="false">android@rmy.ch</string>
     <string name="email_subject_contact" translatable="false">HTTP Shortcuts</string>
     <string name="email_text_contact" translatable="false">Hey Roland,\n\n</string>
