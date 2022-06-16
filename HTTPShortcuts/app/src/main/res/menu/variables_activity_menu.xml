@@ -6,4 +6,10 @@
         android:icon="@drawable/ic_help"
         android:title="@string/button_show_help"
         app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_sort"
+        android:icon="@drawable/ic_sort"
+        android:title="@string/button_sort_variables"
+        app:showAsAction="never"/>
 </menu>

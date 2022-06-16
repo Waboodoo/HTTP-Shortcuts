@@ -8,4 +8,7 @@ data class VariablesViewState(
 ) {
     val isDraggingEnabled: Boolean
         get() = variables.size > 1
+
+    val isSortButtonEnabled
+        get() = variables.size > 1
 }

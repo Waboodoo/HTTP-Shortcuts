@@ -113,4 +113,15 @@ constructor(
                 }
             }
             .let(::copyOrUpdate)
+
+    fun sortVariablesAlphabetically() =
+        commitTransaction {
+            val base = getBase()
+                .findFirst()
+                ?: return@commitTransaction
+
+            val sortedVariables = base.variables.sortedBy { it.key.lowercase() }
+            base.variables.clear()
+            base.variables.addAll(sortedVariables)
+        }
 }

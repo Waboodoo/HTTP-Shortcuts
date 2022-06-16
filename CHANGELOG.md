@@ -6,6 +6,7 @@
 
 ### Improvements
 - You can now open the "Import from URL" dialog directly via deep-linking, allowing for convenient two-click importing of shortcuts from tutorials and template collection websites
+- It is now possible to easily sort all variables alphabetically
 
 ### Miscellaneous
 - Minor reorganization of the shortcut editor layout

@@ -1211,4 +1211,8 @@
     <string name="settings_help_translate">Become a Translator</string>
     <!-- Summary/subtitle of section in settings that prompts user to help translate the app -->
     <string name="settings_help_translate_summary">Help me make this app better by translating it into your language!</string>
+    <!-- Button in Variables menu, allowing the user to (alphabetically) sort all variables -->
+    <string name="button_sort_variables">Sort</string>
+    <!-- Message: Shown in a snackbar after all variables have been sorted (alphabetically) -->
+    <string name="message_variables_sorted">Variables sorted.</string>
 </resources>

@@ -23,6 +23,7 @@ class VariablesActivity : BaseActivity() {
 
     private lateinit var binding: ActivityVariablesBinding
     private lateinit var adapter: VariableAdapter
+    private var sortMenuItem: MenuItem? = null
 
     private var isDraggingEnabled = false
 
@@ -76,6 +77,7 @@ class VariablesActivity : BaseActivity() {
             binding.buttonCreateVariable.isVisible = true
             adapter.items = viewState.variables
             isDraggingEnabled = viewState.isDraggingEnabled
+            sortMenuItem?.isEnabled = viewState.isSortButtonEnabled
             setDialogState(viewState.dialogState, viewModel)
         }
         viewModel.events.observe(this, ::handleEvent)
@@ -83,11 +85,13 @@ class VariablesActivity : BaseActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.variables_activity_menu, menu)
+        sortMenuItem = menu.findItem(R.id.action_sort)
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_show_help -> consume { viewModel.onHelpButtonClicked() }
+        R.id.action_sort -> consume { viewModel.onSortButtonClicked() }
         else -> super.onOptionsItemSelected(item)
     }
 

@@ -249,4 +249,10 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
             )
             .attachTo(destroyer)
     }
+
+    fun onSortButtonClicked() {
+        performOperation(variableRepository.sortVariablesAlphabetically()) {
+            showSnackbar(R.string.message_variables_sorted)
+        }
+    }
 }

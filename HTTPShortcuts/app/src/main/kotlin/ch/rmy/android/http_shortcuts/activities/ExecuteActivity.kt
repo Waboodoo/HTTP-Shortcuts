@@ -16,7 +16,6 @@ import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.finishWithoutAnimation
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
-import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.runIfNotNull
@@ -215,8 +214,8 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         viewModel.viewState
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { viewState ->
-            setDialogState(viewState.dialogState, viewModel)
-        }
+                setDialogState(viewState.dialogState, viewModel)
+            }
             .attachTo(destroyer)
         viewModel.events
             .observeOn(AndroidSchedulers.mainThread())
