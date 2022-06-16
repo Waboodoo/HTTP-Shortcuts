@@ -602,7 +602,7 @@ The resulting object consists of the following fields:
 |latitude|The latitude in degrees, or null if the location is unknown|number|
 |latitude|The longitude in degrees, or null if the location is unknown|number|
 |accuracy|The estimated horizontal accuracy radius in meters at the 68th percentile confidence level, or null if the location or the accuracy is unknown|number|
-|coordinates|The latitude and longitude concatenated with a comma, for convenience|depends on the `type`|string|
+|coordinates|The latitude and longitude concatenated with a comma, for convenience|string|
 
 ```js
 const myLocation = getLocation();
