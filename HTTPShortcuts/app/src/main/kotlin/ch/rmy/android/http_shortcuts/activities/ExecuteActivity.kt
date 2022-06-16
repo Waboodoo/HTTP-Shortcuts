@@ -210,10 +210,18 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     }
 
     private fun initViewModelBindings() {
-        viewModel.viewState.observe(this) { viewState ->
+        // Code-smell/tech debt: We cannot use observe here, as the activity also needs to due its job when its not in the foreground
+        // TODO: Factor this out of the activity as much as possible, maybe into a service or worker
+        viewModel.viewState
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { viewState ->
             setDialogState(viewState.dialogState, viewModel)
         }
-        viewModel.events.observe(this, ::handleEvent)
+            .attachTo(destroyer)
+        viewModel.events
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(::handleEvent)
+            .attachTo(destroyer)
     }
 
     override fun handleEvent(event: ViewModelEvent) {
