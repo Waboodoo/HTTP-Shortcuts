@@ -1,7 +1,5 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
-import android.content.Context
-import ch.rmy.android.http_shortcuts.plugin.TaskerIntent
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionDTO
 
@@ -23,8 +21,5 @@ class TriggerTaskerTaskActionType : BaseActionType() {
 
         private const val TYPE = "trigger_tasker_task"
         private const val FUNCTION_NAME = "triggerTaskerTask"
-
-        fun isTaskerAvailable(context: Context): Boolean =
-            TaskerIntent.isTaskerInstalled(context)
     }
 }

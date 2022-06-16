@@ -23,6 +23,7 @@ object Logging {
     fun disableCrashReporting(context: Context) {
     }
 
+    @Suppress("MayBeConstant")
     val supportsCrashReporting: Boolean = false
 
     fun logException(origin: String, e: Throwable) {

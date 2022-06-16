@@ -51,6 +51,7 @@ object Logging {
     private val isAppOutdated
         get() = Date().time - BuildConfig.BUILD_TIMESTAMP.toLong() > MAX_APP_AGE
 
+    @Suppress("MayBeConstant")
     val supportsCrashReporting: Boolean = true
 
     fun disableCrashReporting(context: Context) {

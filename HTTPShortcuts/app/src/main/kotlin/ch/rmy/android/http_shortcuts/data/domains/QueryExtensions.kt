@@ -20,7 +20,7 @@ import io.realm.kotlin.where
 
 fun RealmContext.getBase(): RealmQuery<BaseModel> =
     realmInstance
-        .where<BaseModel>()
+        .where()
 
 fun RealmContext.getCategoryById(categoryId: CategoryId): RealmQuery<CategoryModel> =
     realmInstance
@@ -81,7 +81,7 @@ fun RealmContext.getPendingExecution(id: String): RealmQuery<PendingExecutionMod
 
 fun RealmContext.getAppLock(): RealmQuery<AppLockModel> =
     realmInstance
-        .where<AppLockModel>()
+        .where()
 
 fun RealmContext.getWidgetsByIds(widgetIds: List<Int>): RealmQuery<WidgetModel> =
     realmInstance

@@ -66,7 +66,6 @@ class SendIntentAction(private val jsonData: String) : BaseAction() {
         private const val KEY_EXTRA_VALUE = "value"
         private const val KEY_EXTRA_TYPE = "type"
 
-        private const val EXTRA_TYPE_STRING = "string"
         private const val EXTRA_TYPE_BOOLEAN = "boolean"
         private const val EXTRA_TYPE_INT = "int"
         private const val EXTRA_TYPE_LONG = "long"
@@ -75,7 +74,6 @@ class SendIntentAction(private val jsonData: String) : BaseAction() {
 
         private const val TYPE_ACTIVITY = "activity"
         private const val TYPE_SERVICE = "service"
-        private const val TYPE_BROADCAST = "broadcast"
 
         fun constructIntent(parameters: JSONObject): Intent =
             Intent(parameters.optString(KEY_ACTION)).apply {

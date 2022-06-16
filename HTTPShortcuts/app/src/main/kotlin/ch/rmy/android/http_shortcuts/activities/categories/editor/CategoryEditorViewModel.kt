@@ -1,9 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.categories.editor
 
 import android.app.Application
-import android.graphics.Color
 import ch.rmy.android.framework.extensions.attachTo
-import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.WithDialog
