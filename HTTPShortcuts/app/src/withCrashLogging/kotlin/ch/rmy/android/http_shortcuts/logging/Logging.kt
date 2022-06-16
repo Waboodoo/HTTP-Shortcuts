@@ -77,7 +77,8 @@ object Logging {
         e is IOException ||
             e.cause is IOException ||
             e is InflateException ||
-            e is RealmFactory.RealmNotFoundException
+            e is RealmFactory.RealmNotFoundException ||
+            e.stackTrace.any { it.className.contains("Miui") }
 
     @Suppress("unused")
     fun logInfo(origin: String, message: String) {
