@@ -146,7 +146,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     override fun initViewState() = MainViewState(
         selectionMode = selectionMode,
         categoryTabItems = getCategoryTabItems(),
-        activeCategoryId = initData.initialCategoryId ?: categories.first().id,
+        activeCategoryId = initData.initialCategoryId ?: categories.first { !it.hidden }.id,
         isInMovingMode = false,
         isLocked = false,
     )
