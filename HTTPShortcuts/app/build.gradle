@@ -45,6 +45,7 @@ android {
     }
 
     buildTypes {
+        /* Used for development & testing */
         debug {
             minifyEnabled false
             shrinkResources false
@@ -52,13 +53,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             applicationIdSuffix ".debug"
         }
+        /* Used for F-Droid */
         release {
             minifyEnabled true
             shrinkResources true
 
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-        releaseWithCrashLogging {
+        /* Used for Play Store & Github release page */
+        releaseFull {
             minifyEnabled true
             shrinkResources true
 
@@ -132,9 +135,14 @@ project.configure(project.android, {
         main.java.srcDirs += 'src/main/kotlin'
         test.java.srcDirs += 'src/test/kotlin'
         androidTest.java.srcDirs += 'src/androidTest/kotlin'
+
         debug.java.srcDirs += 'src/withoutCrashLogging/kotlin'
         release.java.srcDirs += 'src/withoutCrashLogging/kotlin'
-        releaseWithCrashLogging.java.srcDirs += 'src/withCrashLogging/kotlin'
+        releaseFull.java.srcDirs += 'src/withCrashLogging/kotlin'
+
+        debug.java.srcDirs += 'src/withGoogleServices/kotlin'
+        release.java.srcDirs += 'src/withoutGoogleServices/kotlin'
+        releaseFull.java.srcDirs += 'src/withGoogleServices/kotlin'
     }
 })
 
@@ -196,13 +204,14 @@ dependencies {
     implementation 'com.github.LiquidPlayer:LiquidCore:0.6.2'
 
     /* Location lookup (for Scripting) */
-    implementation 'com.google.android.gms:play-services-location:20.0.0'
+    debugImplementation 'com.google.android.gms:play-services-location:20.0.0'
+    releaseFullImplementation 'com.google.android.gms:play-services-location:20.0.0'
 
     /* Password hashing */
     implementation 'org.mindrot:jbcrypt:0.4'
 
     /* Crash Reporting */
-    releaseWithCrashLoggingImplementation 'com.bugsnag:bugsnag-android:5.16.0'
+    releaseFullImplementation 'com.bugsnag:bugsnag-android:5.16.0'
 
     /* cURL import & export */
     implementation project(path: ':curl_command')

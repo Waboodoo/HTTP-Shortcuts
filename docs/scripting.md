@@ -613,7 +613,7 @@ if (myLocation.status == 'success') {
 }
 ```
 
-Please note that this function requires that Google Play Services are installed on the device and that you grant location permission to the app.
+Please note that this function requires that Google Play Services are installed on the device and that you grant location permission to the app. This feature is not available in the F-Droid version of the app.
 
 <a name="examples"></a>
 ## Examples

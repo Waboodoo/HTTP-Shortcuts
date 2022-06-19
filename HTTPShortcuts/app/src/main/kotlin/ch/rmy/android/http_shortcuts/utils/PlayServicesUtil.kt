@@ -1,15 +1,18 @@
 package ch.rmy.android.http_shortcuts.utils
 
-import android.content.Context
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.GoogleApiAvailabilityLight
-import javax.inject.Inject
+import ch.rmy.android.framework.utils.Destroyable
 
-class PlayServicesUtil
-@Inject
-constructor(
-    private val context: Context,
-) {
-    fun isPlayServicesAvailable(): Boolean =
-        GoogleApiAvailabilityLight.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS
+interface PlayServicesUtil {
+    fun isPlayServicesAvailable(): Boolean
+
+    fun getLocation(
+        onSuccess: (Location?) -> Unit,
+        onError: (Exception) -> Unit,
+    ): Destroyable
+
+    data class Location(
+        val latitude: Double?,
+        val longitude: Double?,
+        val accuracy: Float?,
+    )
 }

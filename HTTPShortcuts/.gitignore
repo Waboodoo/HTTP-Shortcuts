@@ -5,5 +5,5 @@ build/
 *.iml
 *.aab
 app/release
-app/releaseWithCrashLogging
+app/releaseFull
 /captures/

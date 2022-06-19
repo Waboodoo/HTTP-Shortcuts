@@ -2,7 +2,7 @@
 
 ### Scripting
 - It is now possible to integrate with the 'QR Droid', 'Barcode Scanner' or 'Binary Eye' app to scan barcodes and use their contents in Scripting, via the new `scanBarcode()` function
-- There is now a `getLocation()` function which allows you to query your device's physical location
+- There is now a `getLocation()` function which allows you to query your device's physical location (not available in F-Droid version)
 
 ### Improvements
 - You can now open the "Import from URL" dialog directly via deep-linking, allowing for convenient two-click importing of shortcuts from tutorials and template collection websites

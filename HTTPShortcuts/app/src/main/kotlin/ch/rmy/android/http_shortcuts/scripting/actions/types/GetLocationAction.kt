@@ -1,8 +1,6 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import android.Manifest
-import android.content.Context
-import android.location.Location
 import androidx.fragment.app.FragmentActivity
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.http_shortcuts.R
@@ -10,9 +8,6 @@ import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.PlayServicesUtil
-import com.google.android.gms.location.CurrentLocationRequest
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.tasks.CancellationTokenSource
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -20,7 +15,6 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import org.json.JSONObject
 import javax.inject.Inject
-import kotlin.time.Duration.Companion.seconds
 
 class GetLocationAction : BaseAction() {
 
@@ -34,7 +28,7 @@ class GetLocationAction : BaseAction() {
     override fun executeForValue(executionContext: ExecutionContext): Single<Any> =
         checkForPlayServices()
             .andThen(requestLocationPermissionIfNeeded(executionContext.context as FragmentActivity))
-            .andThen(fetchLocation(executionContext.context))
+            .andThen(fetchLocation())
 
     private fun checkForPlayServices(): Completable =
         Completable.fromAction {
@@ -64,47 +58,35 @@ class GetLocationAction : BaseAction() {
                 }
             }
 
-    private fun fetchLocation(context: Context): Single<Any> =
+    private fun fetchLocation(): Single<Any> =
         Single.create { emitter ->
-            val cancellationTokenSource = CancellationTokenSource()
-            emitter.setCancellable {
-                cancellationTokenSource.cancel()
-            }
-
-            LocationServices.getFusedLocationProviderClient(context)
-                .getCurrentLocation(
-                    CurrentLocationRequest.Builder()
-                        .setDurationMillis(MAX_LOOKUP_TIME.inWholeMilliseconds)
-                        .build(),
-                    cancellationTokenSource.token,
-                )
-                .addOnSuccessListener { location: Location? ->
+            playServicesUtil.getLocation(
+                onSuccess = { location ->
                     emitter.onSuccess(location.toResult())
-                }
-                .addOnCanceledListener {
-                    emitter.onSuccess(NO_RESULT)
-                }
-                .addOnFailureListener { error ->
+                },
+                onError = { error ->
                     logException(error)
                     emitter.onError(
                         ActionException { context ->
                             context.getString(R.string.error_failed_to_get_location)
                         }
                     )
+                },
+            )
+                .let {
+                    emitter.setCancellable { it.destroy() }
                 }
         }
 
     companion object {
-        private val MAX_LOOKUP_TIME = 20.seconds
-
-        private fun Location?.toResult(): JSONObject =
+        private fun PlayServicesUtil.Location?.toResult(): JSONObject =
             when {
                 this != null -> {
                     createJSONObject(
                         status = "success",
                         latitude = latitude,
                         longitude = longitude,
-                        accuracy = if (hasAccuracy()) accuracy else null,
+                        accuracy = accuracy,
                     )
                 }
                 else -> {
