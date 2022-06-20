@@ -1,3 +1,11 @@
+## Version 2.19.0
+
+### Scripting
+- You can now send UDP packets using the `sendUDPPacket` function
+
+### Bugfixes
+- Newly created shortcuts are no longer placed into the first category if that category is hidden
+
 ## Version 2.18.0
 
 ### Scripting

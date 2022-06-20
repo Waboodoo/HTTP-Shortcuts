@@ -63,6 +63,7 @@ class ActionDTO(
             value == null -> null
             value.isUint8Array || value.isInt8Array -> value.toJSArray().toArray().map { it.toString().toByte() }.toByteArray()
             value.isString && value.toString().isDigitsOnly() -> ByteArray(1).apply { this[0] = value.toNumber().toInt().toByte() }
+            value.isArray -> value.toJSArray().mapNotNull { it.toString().toByte() }.toByteArray()
             else -> getString(index)?.toByteArray()
         }
     }

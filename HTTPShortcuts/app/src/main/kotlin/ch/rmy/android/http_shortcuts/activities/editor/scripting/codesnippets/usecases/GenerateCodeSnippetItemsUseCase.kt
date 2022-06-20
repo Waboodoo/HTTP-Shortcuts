@@ -213,6 +213,9 @@ constructor(
                 item(R.string.action_type_wake_on_lan, docRef = "wol") {
                     insertText("wakeOnLan(\"", "\");\n")
                 }
+                item(R.string.action_type_send_udp_packet, docRef = "send-udp-packet") {
+                    insertText("sendUDPPacket(\"message", "\", \"host\", 1337);\n")
+                }
             }
             section(R.string.dialog_code_snippet_misc, R.drawable.ic_misc) {
                 item(R.string.action_type_generate_uuid, docRef = "uuid-v4") {

@@ -24,6 +24,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.RenameShortcutActio
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ScanBarcodeActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SelectionActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SendIntentActionType
+import ch.rmy.android.http_shortcuts.scripting.actions.types.SendUDPPacketActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SetVariableActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.TextToSpeechActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ToHexStringActionType
@@ -76,6 +77,7 @@ class ActionFactory {
                 ScanBarcodeActionType(),
                 SelectionActionType(),
                 SendIntentActionType(),
+                SendUDPPacketActionType(),
                 SetVariableActionType(),
                 TextToSpeechActionType(),
                 ToastActionType(),
