@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.data.migration.migrations
 
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.http_shortcuts.extensions.getArrayOrEmpty
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import io.realm.DynamicRealm
@@ -13,9 +14,9 @@ class RemoveLegacyActionsMigration : BaseMigration {
     private val pattern = "_runAction\\(\"([a-z_]+)\", (\\{.+\\})\\); /\\* built-in \\*/".toPattern()
 
     override fun migrateImport(base: JsonObject) {
-        base.getAsJsonArray("categories")
+        base.getArrayOrEmpty("categories")
             .map { it.asJsonObject }
-            .flatMap { it.getAsJsonArray("shortcuts").asJsonArray }
+            .flatMap { it.getArrayOrEmpty("shortcuts") }
             .map { it.asJsonObject }
             .forEach { shortcut ->
                 migrateField(shortcut, "codeOnPrepare")

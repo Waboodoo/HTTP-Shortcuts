@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.data.migration.migrations
 
+import ch.rmy.android.http_shortcuts.extensions.getArrayOrEmpty
 import com.google.gson.JsonObject
 import io.realm.DynamicRealm
 import io.realm.DynamicRealmObject
@@ -60,13 +61,13 @@ class ReplaceVariableKeysWithIdsMigration : BaseMigration {
     }
 
     override fun migrateImport(base: JsonObject) {
-        val variableMap = base.getAsJsonArray("variables")
+        val variableMap = base.getArrayOrEmpty("variables")
             .map { it.asJsonObject }
             .associate { it.get("key").asString!! to it.get("id").asString!! }
 
-        base.getAsJsonArray("categories")
+        base.getArrayOrEmpty("categories")
             .map { it.asJsonObject }
-            .flatMap { it.getAsJsonArray("shortcuts").asJsonArray }
+            .flatMap { it.getArrayOrEmpty("shortcuts").asJsonArray }
             .map { it.asJsonObject }
             .forEach { shortcut ->
                 migrateField(shortcut, "url", variableMap)
@@ -95,7 +96,7 @@ class ReplaceVariableKeysWithIdsMigration : BaseMigration {
                     }
             }
 
-        base.getAsJsonArray("variables")
+        base.getArrayOrEmpty("variables")
             .map { it.asJsonObject }
             .forEach { variable ->
                 migrateField(variable, "value", variableMap)
