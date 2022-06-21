@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.activities.variables.editor.usecases
+package ch.rmy.android.http_shortcuts.activities.variables.usecases
 
 import androidx.annotation.CheckResult
 import ch.rmy.android.framework.extensions.runFor
@@ -24,7 +24,7 @@ constructor() {
                     when (option) {
                         is VariableTypeOption.Separator -> separator()
                         is VariableTypeOption.Variable -> {
-                            item(name = option.name.localize(context)) {
+                            item(name = option.name.localize(context), description = option.description.localize(context)) {
                                 viewModel.onCreationDialogVariableTypeSelected(option.type)
                             }
                         }
@@ -40,6 +40,7 @@ constructor() {
                     VariableTypeOption.Variable(
                         name = StringResLocalizable(typeMapping.name),
                         type = typeMapping.type,
+                        description = StringResLocalizable(typeMapping.description),
                     )
                 )
                     .runIf(typeMapping.type == VariableType.CONSTANT) {
@@ -48,7 +49,12 @@ constructor() {
             }
 
     private sealed interface VariableTypeOption {
-        data class Variable(val type: VariableType, val name: Localizable) : VariableTypeOption
+        data class Variable(
+            val type: VariableType,
+            val name: Localizable,
+            val description: Localizable,
+        ) : VariableTypeOption
+
         object Separator : VariableTypeOption
     }
 }

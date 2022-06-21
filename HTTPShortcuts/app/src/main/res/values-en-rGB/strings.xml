@@ -16,4 +16,24 @@
     <string name="label_allow_share_into">Allow Receiving Value from Share Dialogue</string>
     <!-- Option to choose from when selecting the background of a category: custom color -->
     <string name="category_background_type_color">Colour</string>
+    <!-- Description for type of variable: Constant, i.e., a variable that always has the same value -->
+    <string name="variable_type_constant_description">Stores a constant value. The value can be changed programmatically via the \'Scripting\' feature</string>
+    <!-- Description for type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
+    <string name="variable_type_text_description">Shows a dialogue with a text input field</string>
+    <!-- Description for type of variable: Number Input, i.e., a dialog that asks user to enter a number -->
+    <string name="variable_type_number_description">Shows a dialogue with a number input field</string>
+    <!-- Description for type of variable: Slider, i.e. a horizontal bar that allows to pick a number by sliding a knob left or right -->
+    <string name="variable_type_slider_description">Shows a dialogue with a number slider with a set minimum and maximum value</string>
+    <!-- Description type of variable: Password Input, i.e., a dialog that asks user to enter a password -->
+    <string name="variable_type_password_description">Shows a dialogue with a password input field</string>
+    <!-- Description for type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
+    <string name="variable_type_select_description">Shows a selection dialogue to pick one or multiple values</string>
+    <!-- Description for type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
+    <string name="variable_type_toggle_description">Switches to a different value every time when used</string>
+    <!-- Description for type of variable: Date Input, i.e., a dialog that asks user to pick a date in a calendar -->
+    <string name="variable_type_date_description">Shows a dialogue with a date picker</string>
+    <!-- Description for type of variable: Time Input, i.e., a dialog that asks user to pick a time in a clock -->
+    <string name="variable_type_time_description">Shows a dialogue with a time picker</string>
+    <!-- Description for type of variable: Color Input, i.e., a dialog that asks user to pick a color in a color picker -->
+    <string name="variable_type_color_description">Shows a dialogue with a color picker</string>
 </resources>
