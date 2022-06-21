@@ -289,11 +289,21 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                             rescheduleExecution()
                                 .andThen(executionScheduler.schedule())
                         } else {
-                            val simple = shortcut.responseHandling?.failureOutput == ResponseHandlingModel.FAILURE_OUTPUT_SIMPLE
-                            displayOutput(
-                                generateOutputFromError(error, simple),
-                                response = (error as? ErrorResponse)?.shortcutResponse
-                            )
+                            when (shortcut.responseHandling?.failureOutput) {
+                                ResponseHandlingModel.FAILURE_OUTPUT_DETAILED -> {
+                                    displayOutput(
+                                        generateOutputFromError(error, simple = false),
+                                        response = (error as? ErrorResponse)?.shortcutResponse,
+                                    )
+                                }
+                                ResponseHandlingModel.FAILURE_OUTPUT_SIMPLE -> {
+                                    displayOutput(
+                                        generateOutputFromError(error, simple = true),
+                                        response = (error as? ErrorResponse)?.shortcutResponse,
+                                    )
+                                }
+                                else -> Completable.complete()
+                            }
                         }
                     }
                 }
