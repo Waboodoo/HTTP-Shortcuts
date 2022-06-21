@@ -63,6 +63,7 @@ class VariableButton : AppCompatImageButton {
     }
 
     private fun openVariableSelectionDialog() {
+        // TODO(https://github.com/Waboodoo/HTTP-Shortcuts/issues/262): Migrate displaying of dialog into view model
         DialogBuilder(context)
             .title(R.string.dialog_title_variable_selection)
             .runFor(variablePlaceholderProvider.placeholders) { placeholder ->
