@@ -180,7 +180,7 @@ dependencies {
     implementation 'com.github.castorflex.smoothprogressbar:library-circular:1.3.0'
 
     /* Image cropping */
-    implementation 'com.github.yalantis:ucrop:2.2.6'
+    implementation 'com.github.yalantis:ucrop:2.2.8'
 
     /* Image display */
     implementation 'com.squareup.picasso:picasso:2.71828'
