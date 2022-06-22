@@ -3,7 +3,11 @@
 ### Scripting
 - You can now send UDP packets using the `sendUDPPacket` function
 
+### Miscellaneous
+- Added helper texts to the variable creation dialog to better explain the different types of variables and their use
+
 ### Bugfixes
+- When a request fails, the response is now displayed according to the configured display type for errors, instead of the one for successful requests
 - Newly created shortcuts are no longer placed into the first category if that category is hidden
 
 ## Version 2.18.0
