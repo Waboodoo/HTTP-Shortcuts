@@ -1110,4 +1110,7 @@ Ezt a funkciót engedélyezheted egy parancsikon szerkesztésével és a \"%1$s\
     <!-- Dialog option, for exporting a single shortcut as cURL -->
     <!-- Fuzzy -->
     <string name="action_export_as_curl">"cURL"</string>
+
+    <!-- Button text: translate app (prompt to help & become a translator) -->
+    <string name="settings_help_translate">"Legyél fordító"</string>
 </resources>

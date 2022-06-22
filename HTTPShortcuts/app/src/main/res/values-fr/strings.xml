@@ -1296,4 +1296,19 @@ Voir la documentation dans la section variable pour plus d'informations."</strin
 
     <!-- Shortcut Action Description: Allows converting a byte array into a string using the Scripting feature -->
     <string name="action_type_to_string_description">"Convertir un \"Uint8Array\" en \"string\""</string>
+
+    <!-- label, displayed next to variable in variables list when a variable is not used anywhere -->
+    <string name="label_variable_unused">"inutilisée"</string>
+
+    <!-- Option to choose from when selecting the background of a category: custom color -->
+    <string name="category_background_type_color">"Couleur"</string>
+
+    <!-- Shortcut Action Title: Scan Barcode (e.g. QR Code) -->
+    <string name="action_type_scan_barcode_title">"Scanner un code barre"</string>
+
+    <!-- Button text: translate app (prompt to help & become a translator) -->
+    <string name="settings_help_translate">"Devenez traducteur"</string>
+
+    <!-- Summary/subtitle of section in settings that prompts user to help translate the app -->
+    <string name="settings_help_translate_summary">"Aidez-moi à améliorer cette application en la traduisant dans votre langue !"</string>
 </resources>

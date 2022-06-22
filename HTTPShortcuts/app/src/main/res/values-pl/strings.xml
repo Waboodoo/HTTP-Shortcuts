@@ -1771,4 +1771,7 @@ Usunąć mimo to?"</string>
 
     <!-- Subtitle: Shown in request parameter editor underneath every image parameter to indicate their type -->
     <string name="subtitle_parameter_value_image">"Obraz"</string>
+
+    <!-- Button text: translate app (prompt to help & become a translator) -->
+    <string name="settings_help_translate">"Zostań tłumaczem"</string>
 </resources>

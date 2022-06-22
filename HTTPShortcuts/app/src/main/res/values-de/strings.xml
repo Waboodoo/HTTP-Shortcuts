@@ -1831,4 +1831,37 @@ Trotzdem löschen?"</string>
 
     <!-- Message: Shown in a snackbar after all variables have been sorted (alphabetically) -->
     <string name="message_variables_sorted">"Variablen sortiert."</string>
+
+    <!-- Description for type of variable: Constant, i.e., a variable that always has the same value -->
+    <string name="variable_type_constant_description">"Speichert einen konstanten Werte. Dieser kann mit dem 'Scripting' feature dynamisch verändert werden."</string>
+
+    <!-- Description for type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
+    <string name="variable_type_text_description">"Zeigt ein Dialogfenster mit einem Text-Eingabefeld an"</string>
+
+    <!-- Description for type of variable: Number Input, i.e., a dialog that asks user to enter a number -->
+    <string name="variable_type_number_description">"Zeigt ein Dialogfenster mit einem Zahlen-Eingabefeld an"</string>
+
+    <!-- Description for type of variable: Slider, i.e. a horizontal bar that allows to pick a number by sliding a knob left or right -->
+    <string name="variable_type_slider_description">"Zeigt ein Dialogfenster mit einem Zahlen-Schieber mit definiertem Minimum und Maximum an"</string>
+
+    <!-- Description type of variable: Password Input, i.e., a dialog that asks user to enter a password -->
+    <string name="variable_type_password_description">"Zeigt ein Dialogfenster mit einem Passwort-Eingabefeld an"</string>
+
+    <!-- Description for type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
+    <string name="variable_type_select_description">"Zeigt ein Auswahl-Dialogfenster zur Wahl eines oder mehrerer Werte an"</string>
+
+    <!-- Description for type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
+    <string name="variable_type_toggle_description">"Wechselt automatisch auf einen anderen Wert bei jeder Verwendung"</string>
+
+    <!-- Description for type of variable: Date Input, i.e., a dialog that asks user to pick a date in a calendar -->
+    <string name="variable_type_date_description">"Zeigt ein Dialogfenster zur Eingabe eines Datums"</string>
+
+    <!-- Description for type of variable: Time Input, i.e., a dialog that asks user to pick a time in a clock -->
+    <string name="variable_type_time_description">"Zeigt ein Dialogfenster zur Eingabe einer Uhrzeit"</string>
+
+    <!-- Description for type of variable: Color Input, i.e., a dialog that asks user to pick a color in a color picker -->
+    <string name="variable_type_color_description">"Zeigt ein Dialogfenster zur Eingabe einer Farbe"</string>
+
+    <!-- Shortcut Action Title: Send a UDP packet to another device on the network -->
+    <string name="action_type_send_udp_packet">"UDP-Packet senden"</string>
 </resources>

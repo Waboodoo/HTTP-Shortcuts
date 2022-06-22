@@ -1793,10 +1793,32 @@
     <string name="action_type_scan_barcode_title">"バーコードをスキャン"</string>
 
     <!-- Shortcut Action Description: Scan Barcode (e.g. QR Code) -->
-    <!-- Fuzzy -->
-    <string name="action_type_scan_barcode_description">"QR Droid アプリのインストールが必要"</string>
+    <string name="action_type_scan_barcode_description">"「QR Droid」「Barcode Scanner」「Binary Eye」などアプリのインストールが必要"</string>
 
     <!-- Error message: Shown when the user tries to use the 'scanBarcode' function but doesn't have the required app installed -->
-    <!-- Fuzzy -->
-    <string name="error_barcode_scanner_not_installed">"バーコードをスキャンするためには、 QR Droid アプリをインストールする必要があります。"</string>
+    <string name="error_barcode_scanner_not_installed">"バーコードをスキャンするためには、 「QR Droid」「Barcode Scanner」「Binary Eye」などのアプリをインストールする必要があります。"</string>
+
+    <!-- Shortcut Action Title: Get the device's current (physical) location -->
+    <string name="action_type_get_location_title">"現在の位置情報を取得"</string>
+
+    <!-- Message: Brief explanation of what a toast message is and what its limitations are -->
+    <string name="message_response_handling_toast_limitations">"ポップアップメッセージは、２行だけのテキストに制限されているため、短いメッセージ表示に最適です。"</string>
+
+    <!-- Error message: Shown to the user when the app tries to determine the device's current location but failed, e.g. because of a missing permission -->
+    <string name="error_failed_to_get_location">"デバイスの物理的な位置情報を検出できませんでした。"</string>
+
+    <!-- Shortcut Action Description: Get the device's current (physical) location -->
+    <string name="action_type_get_location_description">"デバイスの物理的な位置情報を問い合わせ、オブジェクトとして返します"</string>
+
+    <!-- Button text: translate app (prompt to help & become a translator) -->
+    <string name="settings_help_translate">"翻訳者になる"</string>
+
+    <!-- Summary/subtitle of section in settings that prompts user to help translate the app -->
+    <string name="settings_help_translate_summary">"あなたの言語に翻訳して、このアプリをより良いものになるようお手伝いください！"</string>
+
+    <!-- Button in Variables menu, allowing the user to (alphabetically) sort all variables -->
+    <string name="button_sort_variables">"並び替え"</string>
+
+    <!-- Message: Shown in a snackbar after all variables have been sorted (alphabetically) -->
+    <string name="message_variables_sorted">"変数を並び替え"</string>
 </resources>
