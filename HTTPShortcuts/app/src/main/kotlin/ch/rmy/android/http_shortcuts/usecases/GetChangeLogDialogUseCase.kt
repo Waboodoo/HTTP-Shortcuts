@@ -34,7 +34,7 @@ constructor(
 
             private var stateRestored = false
 
-            override fun createDialog(context: Context, viewModel: WithDialog): Dialog =
+            override fun createDialog(context: Context, viewModel: WithDialog?): Dialog =
                 DialogBuilder(context)
                     .view(R.layout.changelog_dialog)
                     .title(if (whatsNew) R.string.changelog_title_whats_new else R.string.changelog_title)
@@ -81,7 +81,7 @@ constructor(
 
                         dialog.setOnDismissListener {
                             webView.destroy()
-                            viewModel.onDialogDismissed(this)
+                            viewModel?.onDialogDismissed(this)
                         }
                     }
 

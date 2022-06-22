@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.activities.editor.body
+package ch.rmy.android.http_shortcuts.activities.editor.body.models
 
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable

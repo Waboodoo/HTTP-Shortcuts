@@ -1,17 +1,11 @@
 package ch.rmy.android.http_shortcuts.activities.variables.editor.types.toggle
 
 import android.app.Application
-import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.BaseVariableTypeViewModel
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
-import javax.inject.Inject
 
 class ToggleTypeViewModel(application: Application) : BaseVariableTypeViewModel<Unit, ToggleTypeViewState>(application) {
-
-    @Inject
-    lateinit var variableRepository: VariableRepository
 
     init {
         getApplicationComponent().inject(this)
@@ -28,17 +22,6 @@ class ToggleTypeViewModel(application: Application) : BaseVariableTypeViewModel<
         updateViewState {
             copy(options = computeOptionList())
         }
-    }
-
-    override fun onInitialized() {
-        super.onInitialized()
-        variableRepository.getObservableVariables()
-            .subscribe { variables ->
-                updateViewState {
-                    copy(variables = variables)
-                }
-            }
-            .attachTo(destroyer)
     }
 
     fun onAddButtonClicked() {

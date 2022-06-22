@@ -11,19 +11,14 @@ import ch.rmy.android.framework.extensions.observeChecked
 import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.extensions.setHint
 import ch.rmy.android.framework.ui.BaseIntentBuilder
+import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel
 import ch.rmy.android.http_shortcuts.databinding.ActivityResponseBinding
-import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
-import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
-import javax.inject.Inject
 
 class ResponseActivity : BaseActivity() {
-
-    @Inject
-    lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
 
     private val viewModel: ResponseViewModel by bindViewModel()
 
@@ -86,13 +81,14 @@ class ResponseActivity : BaseActivity() {
             .subscribe(viewModel::onIncludeMetaInformationChanged)
             .attachTo(destroyer)
 
-        VariableViewUtils.bindVariableViews(binding.inputSuccessMessage, binding.variableButtonSuccessMessage, variablePlaceholderProvider)
+        binding.variableButtonSuccessMessage.setOnClickListener {
+            viewModel.onSuccessMessageVariableButtonClicked()
+        }
     }
 
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
             binding.loadingIndicator.isVisible = false
-            viewState.variables?.let(variablePlaceholderProvider::applyVariables)
             binding.inputSuccessMessage.setHint(viewState.successMessageHint)
             binding.inputResponseUiType.selectedItem = viewState.responseUiType
             binding.inputResponseSuccessOutput.selectedItem = viewState.responseSuccessOutput
@@ -103,8 +99,16 @@ class ResponseActivity : BaseActivity() {
             binding.containerInputSuccessMessage.isVisible = viewState.successMessageVisible
             binding.inputIncludeMetaInformation.isVisible = viewState.includeMetaInformationVisible
             binding.warningToastLimitations.isVisible = viewState.showToastInfo
+            setDialogState(viewState.dialogState, viewModel)
         }
         viewModel.events.observe(this, ::handleEvent)
+    }
+
+    override fun handleEvent(event: ViewModelEvent) {
+        when (event) {
+            is ResponseEvent.InsertVariablePlaceholder -> binding.inputSuccessMessage.insertVariablePlaceholder(event.variablePlaceholder)
+            else -> super.handleEvent(event)
+        }
     }
 
     override fun onBackPressed() {

@@ -61,6 +61,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.RenameShortcutActio
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SetVariableAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.VibrateAction
 import ch.rmy.android.http_shortcuts.tiles.QuickTileService
+import ch.rmy.android.http_shortcuts.variables.VariableEditText
 import ch.rmy.android.http_shortcuts.variables.types.ColorType
 import ch.rmy.android.http_shortcuts.variables.types.DateType
 import ch.rmy.android.http_shortcuts.variables.types.SelectType
@@ -223,4 +224,6 @@ interface ApplicationComponent {
     fun inject(getLocationAction: GetLocationAction)
 
     fun inject(contactActivity: ContactActivity)
+
+    fun inject(variableEditText: VariableEditText)
 }

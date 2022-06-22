@@ -71,6 +71,13 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
     }
 
     @UiThread
+    protected fun emitCurrentViewState() {
+        currentViewState
+            ?.takeUnless { suppressViewStatePublishing }
+            ?.let(viewStateSubject::onNext)
+    }
+
+    @UiThread
     protected fun atomicallyUpdateViewState(action: () -> Unit) {
         if (suppressViewStatePublishing) {
             action()

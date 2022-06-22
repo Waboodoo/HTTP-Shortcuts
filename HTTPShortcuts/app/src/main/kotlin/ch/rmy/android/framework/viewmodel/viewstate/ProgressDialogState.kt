@@ -11,7 +11,7 @@ class ProgressDialogState(
     private val onCanceled: () -> Unit,
 ) : DialogState {
     override val id = DIALOG_ID
-    override fun createDialog(context: Context, viewModel: WithDialog): Dialog =
+    override fun createDialog(context: Context, viewModel: WithDialog?): Dialog =
         ProgressDialog(context).apply {
             setMessage(message.localize(context))
             setCanceledOnTouchOutside(false)

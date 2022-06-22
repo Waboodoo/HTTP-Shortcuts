@@ -5,24 +5,40 @@ import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
+import ch.rmy.android.framework.viewmodel.WithDialog
+import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.BasicRequestSettingsEvent
+import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.usecases.GetVariablePlaceholderPickerDialogUseCase
+import ch.rmy.android.http_shortcuts.usecases.KeepVariablePlaceholderProviderUpdatedUseCase
 import javax.inject.Inject
 
-class ResponseViewModel(application: Application) : BaseViewModel<Unit, ResponseViewState>(application) {
+class ResponseViewModel(application: Application) : BaseViewModel<Unit, ResponseViewState>(application), WithDialog {
 
     @Inject
     lateinit var temporaryShortcutRepository: TemporaryShortcutRepository
 
     @Inject
-    lateinit var variableRepository: VariableRepository
+    lateinit var keepVariablePlaceholderProviderUpdated: KeepVariablePlaceholderProviderUpdatedUseCase
+
+    @Inject
+    lateinit var getVariablePlaceholderPickerDialog: GetVariablePlaceholderPickerDialogUseCase
 
     init {
         getApplicationComponent().inject(this)
     }
+
+    override var dialogState: DialogState?
+        get() = currentViewState?.dialogState
+        set(value) {
+            updateViewState {
+                copy(dialogState = value)
+            }
+        }
 
     override fun onInitializationStarted(data: Unit) {
         finalizeInitialization(silent = true)
@@ -38,12 +54,7 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
             )
             .attachTo(destroyer)
 
-        variableRepository.getObservableVariables()
-            .subscribe { variables ->
-                updateViewState {
-                    copy(variables = variables)
-                }
-            }
+        keepVariablePlaceholderProviderUpdated(::emitCurrentViewState)
             .attachTo(destroyer)
     }
 
@@ -116,6 +127,19 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
         }
         performOperation(
             temporaryShortcutRepository.setResponseIncludeMetaInfo(includeMetaInformation)
+        )
+    }
+
+    fun onSuccessMessageVariableButtonClicked() {
+        dialogState = getVariablePlaceholderPickerDialog.invoke(
+            onVariableSelected = {
+                emitEvent(BasicRequestSettingsEvent.InsertVariablePlaceholder(it))
+            },
+            onEditVariableButtonClicked = {
+                openActivity(
+                    VariablesActivity.IntentBuilder()
+                )
+            },
         )
     }
 

@@ -1,11 +1,11 @@
 package ch.rmy.android.http_shortcuts.activities.editor.response
 
 import ch.rmy.android.framework.utils.localization.Localizable
+import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel
-import ch.rmy.android.http_shortcuts.data.models.VariableModel
 
 data class ResponseViewState(
-    val variables: List<VariableModel>? = null,
+    val dialogState: DialogState? = null,
     val successMessageHint: Localizable = Localizable.EMPTY,
     val responseUiType: String = "",
     val responseSuccessOutput: String = "",

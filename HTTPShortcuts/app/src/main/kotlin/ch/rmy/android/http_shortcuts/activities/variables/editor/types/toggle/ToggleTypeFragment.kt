@@ -18,18 +18,18 @@ import ch.rmy.android.http_shortcuts.databinding.VariableEditorToggleBinding
 import ch.rmy.android.http_shortcuts.utils.DialogBuilder
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
-import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
-import ch.rmy.android.http_shortcuts.variables.VariableViewUtils.bindVariableViews
+import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
 import javax.inject.Inject
 
 class ToggleTypeFragment : BaseFragment<VariableEditorToggleBinding>() {
 
     @Inject
-    lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
+    lateinit var variableViewUtils: VariableViewUtils
+
+    @Inject
+    lateinit var adapter: ToggleVariableOptionsAdapter
 
     private val viewModel: ToggleTypeViewModel by bindViewModel()
-
-    private lateinit var adapter: ToggleVariableOptionsAdapter
 
     private var isDraggingEnabled = false
 
@@ -52,8 +52,6 @@ class ToggleTypeFragment : BaseFragment<VariableEditorToggleBinding>() {
     }
 
     private fun initViews() {
-        adapter = ToggleVariableOptionsAdapter()
-        adapter.variablePlaceholderProvider = variablePlaceholderProvider
         binding.toggleOptionsList.layoutManager = LinearLayoutManager(context)
         binding.toggleOptionsList.adapter = adapter
     }
@@ -87,7 +85,6 @@ class ToggleTypeFragment : BaseFragment<VariableEditorToggleBinding>() {
 
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
-            viewState.variables?.let(variablePlaceholderProvider::applyVariables)
             adapter.items = viewState.options
             isDraggingEnabled = viewState.isDraggingEnabled
         }
@@ -108,8 +105,8 @@ class ToggleTypeFragment : BaseFragment<VariableEditorToggleBinding>() {
         val editorView = layoutInflater.inflate(R.layout.toggle_option_editor_item, null)
         val valueInput = editorView.findViewById<VariableEditText>(R.id.toggle_option_value)
         val valueVariableButton = editorView.findViewById<VariableButton>(R.id.variable_button_value)
-        bindVariableViews(valueInput, valueVariableButton, variablePlaceholderProvider)
-            .attachTo(destroyer)
+
+        variableViewUtils.bindVariableViews(valueInput, valueVariableButton)
 
         DialogBuilder(requireContext())
             .title(R.string.title_add_toggle_option)
@@ -130,8 +127,8 @@ class ToggleTypeFragment : BaseFragment<VariableEditorToggleBinding>() {
         val editorView = layoutInflater.inflate(R.layout.toggle_option_editor_item, null)
         val valueInput = editorView.findViewById<VariableEditText>(R.id.toggle_option_value)
         val valueVariableButton = editorView.findViewById<VariableButton>(R.id.variable_button_value)
-        bindVariableViews(valueInput, valueVariableButton, variablePlaceholderProvider)
-            .attachTo(destroyer)
+
+        variableViewUtils.bindVariableViews(valueInput, valueVariableButton)
 
         valueInput.rawString = value
 

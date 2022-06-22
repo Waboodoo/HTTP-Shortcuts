@@ -8,20 +8,15 @@ import ch.rmy.android.framework.extensions.initialize
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.ui.BaseIntentBuilder
+import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.models.InstalledBrowser
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.databinding.ActivityBasicRequestSettingsBinding
-import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
-import ch.rmy.android.http_shortcuts.variables.VariableViewUtils.bindVariableViews
-import javax.inject.Inject
 
 class BasicRequestSettingsActivity : BaseActivity() {
-
-    @Inject
-    lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
 
     private val viewModel: BasicRequestSettingsViewModel by bindViewModel()
 
@@ -58,8 +53,6 @@ class BasicRequestSettingsActivity : BaseActivity() {
                 it to it
             }
         )
-        bindVariableViews(binding.inputUrl, binding.variableButtonUrl, variablePlaceholderProvider)
-            .attachTo(destroyer)
     }
 
     private fun initUserInputBindings() {
@@ -81,19 +74,32 @@ class BasicRequestSettingsActivity : BaseActivity() {
                 viewModel.onBrowserPackageNameChanged(it.takeUnless { it == DEFAULT_BROWSER_OPTION } ?: "")
             }
             .attachTo(destroyer)
+
+        binding.variableButtonUrl.setOnClickListener {
+            viewModel.onUrlVariableButtonClicked()
+        }
     }
 
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
-            viewState.variables?.let(variablePlaceholderProvider::applyVariables)
             binding.inputMethod.isVisible = viewState.methodVisible
             binding.inputMethod.selectedItem = viewState.method
             binding.inputUrl.rawString = viewState.url
             installedBrowsers = viewState.browserPackageNameOptions
             binding.inputBrowserPackageName.selectedItem = viewState.browserPackageName
             binding.inputBrowserPackageName.isVisible = viewState.browserPackageNameVisible
+            setDialogState(viewState.dialogState, viewModel)
         }
         viewModel.events.observe(this, ::handleEvent)
+    }
+
+    override fun handleEvent(event: ViewModelEvent) {
+        when (event) {
+            is BasicRequestSettingsEvent.InsertVariablePlaceholder -> {
+                binding.inputUrl.insertVariablePlaceholder(event.variablePlaceholder)
+            }
+            else -> super.handleEvent(event)
+        }
     }
 
     override fun onBackPressed() {

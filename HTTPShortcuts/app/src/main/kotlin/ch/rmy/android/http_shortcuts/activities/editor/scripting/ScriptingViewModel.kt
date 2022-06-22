@@ -10,10 +10,10 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.extensions.type
+import ch.rmy.android.http_shortcuts.usecases.KeepVariablePlaceholderProviderUpdatedUseCase
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import javax.inject.Inject
 
@@ -26,7 +26,7 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
     lateinit var shortcutRepository: ShortcutRepository
 
     @Inject
-    lateinit var variableRepository: VariableRepository
+    lateinit var keepVariablePlaceholderProviderUpdated: KeepVariablePlaceholderProviderUpdatedUseCase
 
     init {
         getApplicationComponent().inject(this)
@@ -64,12 +64,7 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
             }
             .attachTo(destroyer)
 
-        variableRepository.getObservableVariables()
-            .subscribe { variables ->
-                updateViewState {
-                    copy(variables = variables)
-                }
-            }
+        keepVariablePlaceholderProviderUpdated(::emitCurrentViewState)
             .attachTo(destroyer)
     }
 

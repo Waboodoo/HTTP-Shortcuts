@@ -143,7 +143,6 @@ class ScriptingActivity : BaseActivity() {
 
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
-            viewState.variables?.let(variablePlaceholderProvider::applyVariables)
             viewState.shortcuts?.let(shortcutPlaceholderProvider::applyShortcuts)
             binding.inputCodePrepare.minLines = viewState.codePrepareMinLines
             binding.inputCodePrepare.setHint(viewState.codePrepareHint)

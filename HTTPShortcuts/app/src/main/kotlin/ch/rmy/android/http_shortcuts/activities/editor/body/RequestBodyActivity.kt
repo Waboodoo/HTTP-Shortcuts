@@ -12,25 +12,23 @@ import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.extensions.setTextSafely
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.utils.DragOrderingHelper
+import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.databinding.ActivityRequestBodyBinding
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
-import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
-import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
 import javax.inject.Inject
 
 class RequestBodyActivity : BaseActivity() {
 
     @Inject
-    lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
+    lateinit var adapter: ParameterAdapter
 
     private val viewModel: RequestBodyViewModel by bindViewModel()
 
     private lateinit var binding: ActivityRequestBodyBinding
-    private lateinit var adapter: ParameterAdapter
 
     private var isDraggingEnabled = false
 
@@ -55,8 +53,6 @@ class RequestBodyActivity : BaseActivity() {
             }
         )
 
-        adapter = ParameterAdapter(variablePlaceholderProvider)
-
         val manager = LinearLayoutManager(context)
         binding.parameterList.layoutManager = manager
         binding.parameterList.setHasFixedSize(true)
@@ -69,7 +65,9 @@ class RequestBodyActivity : BaseActivity() {
             viewModel.onAddParameterButtonClicked()
         }
 
-        VariableViewUtils.bindVariableViews(binding.inputBodyContent, binding.variableButtonBodyContent, variablePlaceholderProvider)
+        binding.variableButtonBodyContent.setOnClickListener {
+            viewModel.onBodyContentVariableButtonClicked()
+        }
 
         binding.inputContentType.setAdapter(ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, CONTENT_TYPE_SUGGESTIONS))
     }
@@ -125,7 +123,6 @@ class RequestBodyActivity : BaseActivity() {
 
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
-            viewState.variables?.let(variablePlaceholderProvider::applyVariables)
             adapter.items = viewState.parameters
             isDraggingEnabled = viewState.isDraggingEnabled
             binding.inputRequestBodyType.selectedItem = viewState.requestBodyType.type
@@ -138,6 +135,13 @@ class RequestBodyActivity : BaseActivity() {
             setDialogState(viewState.dialogState, viewModel)
         }
         viewModel.events.observe(this, ::handleEvent)
+    }
+
+    override fun handleEvent(event: ViewModelEvent) {
+        when (event) {
+            is RequestBodyEvent.InsertVariablePlaceholder -> binding.inputBodyContent.insertVariablePlaceholder(event.variablePlaceholder)
+            else -> super.handleEvent(event)
+        }
     }
 
     override fun onBackPressed() {

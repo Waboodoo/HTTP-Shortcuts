@@ -11,7 +11,9 @@ import ch.rmy.android.framework.extensions.setTextSafely
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.utils.ViewUtil.getAttributeValue
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.dtos.VariablePlaceholder
+import javax.inject.Inject
 
 class VariableEditText @JvmOverloads constructor(
     context: Context,
@@ -19,7 +21,12 @@ class VariableEditText @JvmOverloads constructor(
     defStyleAttr: Int = androidx.appcompat.R.attr.autoCompleteTextViewStyle,
 ) : AppCompatAutoCompleteTextView(context, attrs, defStyleAttr) {
 
-    var variablePlaceholderProvider: VariablePlaceholderProvider? = null
+    @Inject
+    lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
+
+    init {
+        getApplicationComponent().inject(this)
+    }
 
     private val placeholderColor by lazy {
         color(context, R.color.variable)
@@ -30,10 +37,7 @@ class VariableEditText @JvmOverloads constructor(
     var rawString: String
         get() = Variables.variableSpansToRawPlaceholders(text)
         set(value) {
-            val newText = variablePlaceholderProvider
-                ?.let { variablePlaceholderProvider ->
-                    Variables.rawPlaceholdersToVariableSpans(value, variablePlaceholderProvider, placeholderColor)
-                } ?: value
+            val newText = Variables.rawPlaceholdersToVariableSpans(value, variablePlaceholderProvider, placeholderColor)
 
             if ((text ?: "").toString() != newText.toString()) {
                 if (text.isEmpty()) {

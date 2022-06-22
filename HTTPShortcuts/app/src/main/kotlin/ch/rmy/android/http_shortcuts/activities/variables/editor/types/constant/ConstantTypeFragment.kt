@@ -12,14 +12,13 @@ import ch.rmy.android.http_shortcuts.activities.BaseFragment
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.databinding.VariableEditorConstantBinding
-import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
-import ch.rmy.android.http_shortcuts.variables.VariableViewUtils.bindVariableViews
+import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
 import javax.inject.Inject
 
 class ConstantTypeFragment private constructor() : BaseFragment<VariableEditorConstantBinding>() {
 
     @Inject
-    lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
+    lateinit var variableViewUtils: VariableViewUtils
 
     private val viewModel: ConstantTypeViewModel by bindViewModel()
 
@@ -46,8 +45,7 @@ class ConstantTypeFragment private constructor() : BaseFragment<VariableEditorCo
     }
 
     private fun initViews() {
-        bindVariableViews(binding.inputVariableValue, binding.variableButton, variablePlaceholderProvider, allowEditing = false)
-            .attachTo(destroyer)
+        variableViewUtils.bindVariableViews(binding.inputVariableValue, binding.variableButton, allowEditing = false)
     }
 
     private fun initUserInputBindings() {
@@ -61,7 +59,6 @@ class ConstantTypeFragment private constructor() : BaseFragment<VariableEditorCo
 
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
-            viewState.variables?.let(variablePlaceholderProvider::applyVariables)
             binding.inputVariableValue.rawString = viewState.value
         }
         viewModel.events.observe(this, ::handleEvent)

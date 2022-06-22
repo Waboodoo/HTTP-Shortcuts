@@ -9,12 +9,15 @@ import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.authentication.usecases.CopyCertificateFileUseCase
+import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
+import ch.rmy.android.http_shortcuts.data.dtos.VariablePlaceholder
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.usecases.GetVariablePlaceholderPickerDialogUseCase
+import ch.rmy.android.http_shortcuts.usecases.KeepVariablePlaceholderProviderUpdatedUseCase
 import javax.inject.Inject
 
 class AuthenticationViewModel(application: Application) : BaseViewModel<Unit, AuthenticationViewState>(application), WithDialog {
@@ -23,10 +26,13 @@ class AuthenticationViewModel(application: Application) : BaseViewModel<Unit, Au
     lateinit var temporaryShortcutRepository: TemporaryShortcutRepository
 
     @Inject
-    lateinit var variableRepository: VariableRepository
+    lateinit var keepVariablePlaceholderProviderUpdated: KeepVariablePlaceholderProviderUpdatedUseCase
 
     @Inject
     lateinit var copyCertificateFile: CopyCertificateFileUseCase
+
+    @Inject
+    lateinit var getVariablePlaceholderPickerDialog: GetVariablePlaceholderPickerDialogUseCase
 
     init {
         getApplicationComponent().inject(this)
@@ -54,12 +60,7 @@ class AuthenticationViewModel(application: Application) : BaseViewModel<Unit, Au
             )
             .attachTo(destroyer)
 
-        variableRepository.getObservableVariables()
-            .subscribe { variables ->
-                updateViewState {
-                    copy(variables = variables)
-                }
-            }
+        keepVariablePlaceholderProviderUpdated(::emitCurrentViewState)
             .attachTo(destroyer)
     }
 
@@ -190,5 +191,36 @@ class AuthenticationViewModel(application: Application) : BaseViewModel<Unit, Au
         waitForOperationsToFinish {
             finish()
         }
+    }
+
+    fun onUsernameVariableButtonClicked() {
+        showVariableDialog {
+            AuthenticationEvent.InsertVariablePlaceholderForUsername(it)
+        }
+    }
+
+    fun onPasswordVariableButtonClicked() {
+        showVariableDialog {
+            AuthenticationEvent.InsertVariablePlaceholderForPassword(it)
+        }
+    }
+
+    fun onTokenVariableButtonClicked() {
+        showVariableDialog {
+            AuthenticationEvent.InsertVariablePlaceholderForToken(it)
+        }
+    }
+
+    private fun showVariableDialog(onVariablePicked: (VariablePlaceholder) -> AuthenticationEvent) {
+        dialogState = getVariablePlaceholderPickerDialog.invoke(
+            onVariableSelected = {
+                emitEvent(onVariablePicked(it))
+            },
+            onEditVariableButtonClicked = {
+                openActivity(
+                    VariablesActivity.IntentBuilder()
+                )
+            },
+        )
     }
 }

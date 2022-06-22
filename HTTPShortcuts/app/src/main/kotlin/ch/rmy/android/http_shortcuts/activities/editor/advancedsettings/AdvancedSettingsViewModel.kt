@@ -7,10 +7,12 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.activities.editor.advancedsettings.usecases.GetTimeoutDialogUseCase
+import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.usecases.GetVariablePlaceholderPickerDialogUseCase
+import ch.rmy.android.http_shortcuts.usecases.KeepVariablePlaceholderProviderUpdatedUseCase
 import javax.inject.Inject
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
@@ -21,10 +23,13 @@ class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, 
     lateinit var temporaryShortcutRepository: TemporaryShortcutRepository
 
     @Inject
-    lateinit var variableRepository: VariableRepository
+    lateinit var keepVariablePlaceholderProviderUpdated: KeepVariablePlaceholderProviderUpdatedUseCase
 
     @Inject
     lateinit var getTimeoutDialog: GetTimeoutDialogUseCase
+
+    @Inject
+    lateinit var getVariablePlaceholderPickerDialog: GetVariablePlaceholderPickerDialogUseCase
 
     init {
         getApplicationComponent().inject(this)
@@ -52,12 +57,7 @@ class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, 
             )
             .attachTo(destroyer)
 
-        variableRepository.getObservableVariables()
-            .subscribe { variables ->
-                updateViewState {
-                    copy(variables = variables)
-                }
-            }
+        keepVariablePlaceholderProviderUpdated(::emitCurrentViewState)
             .attachTo(destroyer)
     }
 
@@ -163,5 +163,18 @@ class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, 
         waitForOperationsToFinish {
             finish()
         }
+    }
+
+    fun onProxyHostVariableButtonClicked() {
+        dialogState = getVariablePlaceholderPickerDialog.invoke(
+            onVariableSelected = {
+                emitEvent(AdvancedSettingsEvent.InsertVariablePlaceholder(it))
+            },
+            onEditVariableButtonClicked = {
+                openActivity(
+                    VariablesActivity.IntentBuilder()
+                )
+            },
+        )
     }
 }

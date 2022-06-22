@@ -46,6 +46,7 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.TriggerShortcutManager
 import ch.rmy.android.http_shortcuts.usecases.GetBuiltInIconPickerDialogUseCase
 import ch.rmy.android.http_shortcuts.usecases.GetIconPickerDialogUseCase
+import ch.rmy.android.http_shortcuts.usecases.KeepVariablePlaceholderProviderUpdatedUseCase
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.Validation.isAcceptableHttpUrl
 import ch.rmy.android.http_shortcuts.utils.Validation.isAcceptableUrl
@@ -91,6 +92,9 @@ class ShortcutEditorViewModel(
 
     @Inject
     lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
+
+    @Inject
+    lateinit var keepVariablePlaceholderProviderUpdated: KeepVariablePlaceholderProviderUpdatedUseCase
 
     init {
         getApplicationComponent().inject(this)
@@ -160,10 +164,7 @@ class ShortcutEditorViewModel(
             )
             .attachTo(destroyer)
 
-        variableRepository.getObservableVariables()
-            .subscribe { variables ->
-                variablePlaceholderProvider.applyVariables(variables)
-            }
+        keepVariablePlaceholderProviderUpdated(::emitCurrentViewState)
             .attachTo(destroyer)
     }
 

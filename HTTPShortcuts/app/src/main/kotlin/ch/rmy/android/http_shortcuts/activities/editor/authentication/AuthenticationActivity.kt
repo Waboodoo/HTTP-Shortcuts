@@ -20,14 +20,8 @@ import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.databinding.ActivityAuthenticationBinding
 import ch.rmy.android.http_shortcuts.utils.ClientCertUtil
-import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
-import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
-import javax.inject.Inject
 
 class AuthenticationActivity : BaseActivity() {
-
-    @Inject
-    lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
 
     private val openFilePickerForCertificate = registerForActivityResult(FilePickerUtil.PickFile) { fileUri ->
         fileUri?.let(viewModel::onCertificateFileSelected)
@@ -59,12 +53,15 @@ class AuthenticationActivity : BaseActivity() {
     }
 
     private fun initUserInputBindings() {
-        VariableViewUtils.bindVariableViews(binding.inputUsername, binding.variableButtonUsername, variablePlaceholderProvider)
-            .attachTo(destroyer)
-        VariableViewUtils.bindVariableViews(binding.inputPassword, binding.variableButtonPassword, variablePlaceholderProvider)
-            .attachTo(destroyer)
-        VariableViewUtils.bindVariableViews(binding.inputToken, binding.variableButtonToken, variablePlaceholderProvider)
-            .attachTo(destroyer)
+        binding.variableButtonUsername.setOnClickListener {
+            viewModel.onUsernameVariableButtonClicked()
+        }
+        binding.variableButtonPassword.setOnClickListener {
+            viewModel.onPasswordVariableButtonClicked()
+        }
+        binding.variableButtonToken.setOnClickListener {
+            viewModel.onTokenVariableButtonClicked()
+        }
 
         binding.inputAuthenticationType
             .selectionChanges
@@ -98,7 +95,6 @@ class AuthenticationActivity : BaseActivity() {
 
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
-            viewState.variables?.let(variablePlaceholderProvider::applyVariables)
             binding.containerUsername.isVisible = viewState.isUsernameAndPasswordVisible
             binding.containerPassword.isVisible = viewState.isUsernameAndPasswordVisible
             binding.containerToken.isVisible = viewState.isTokenVisible
@@ -120,6 +116,15 @@ class AuthenticationActivity : BaseActivity() {
             }
             is AuthenticationEvent.OpenCertificateFilePicker -> {
                 openCertificateFilePicker()
+            }
+            is AuthenticationEvent.InsertVariablePlaceholderForUsername -> {
+                binding.inputUsername.insertVariablePlaceholder(event.variablePlaceholder)
+            }
+            is AuthenticationEvent.InsertVariablePlaceholderForPassword -> {
+                binding.inputPassword.insertVariablePlaceholder(event.variablePlaceholder)
+            }
+            is AuthenticationEvent.InsertVariablePlaceholderForToken -> {
+                binding.inputToken.insertVariablePlaceholder(event.variablePlaceholder)
             }
             else -> super.handleEvent(event)
         }

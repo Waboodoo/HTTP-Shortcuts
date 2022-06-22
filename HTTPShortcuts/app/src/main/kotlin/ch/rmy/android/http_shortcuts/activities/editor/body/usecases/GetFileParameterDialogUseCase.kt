@@ -14,7 +14,6 @@ import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
-import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
 import com.afollestad.materialdialogs.WhichButton
 import com.afollestad.materialdialogs.actions.getActionButton
@@ -22,11 +21,12 @@ import javax.inject.Inject
 
 class GetFileParameterDialogUseCase
 @Inject
-constructor() {
+constructor(
+    private val variableViewUtils: VariableViewUtils,
+) {
 
     @CheckResult
     operator fun invoke(
-        variablePlaceholderProvider: VariablePlaceholderProvider,
         title: Localizable,
         showRemoveOption: Boolean = false,
         showFileNameOption: Boolean = false,
@@ -59,8 +59,7 @@ constructor() {
                     val fileNameInput = dialog.findViewById<EditText>(R.id.key_file_name)
                     val keyVariableButton = dialog.findViewById(R.id.variable_button_key) as VariableButton
 
-                    VariableViewUtils.bindVariableViews(keyInput, keyVariableButton, variablePlaceholderProvider)
-                        .attachTo(destroyer)
+                    variableViewUtils.bindVariableViews(keyInput, keyVariableButton)
 
                     keyInput.rawString = keyName
                     fileNameInput.setText(fileName)

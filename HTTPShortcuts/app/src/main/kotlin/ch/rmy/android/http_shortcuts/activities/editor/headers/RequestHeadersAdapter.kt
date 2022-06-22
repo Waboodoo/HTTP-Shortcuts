@@ -14,8 +14,11 @@ import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
+import javax.inject.Inject
 
-class RequestHeadersAdapter(
+class RequestHeadersAdapter
+@Inject
+constructor(
     private val variablePlaceholderProvider: VariablePlaceholderProvider,
 ) :
     BaseAdapter<HeaderListItem>() {

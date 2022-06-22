@@ -8,14 +8,18 @@ import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.setText
 import ch.rmy.android.framework.ui.BaseAdapter
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.editor.body.models.ParameterListItem
 import ch.rmy.android.http_shortcuts.databinding.ListEmptyItemBinding
 import ch.rmy.android.http_shortcuts.databinding.ListItemParameterBinding
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
+import javax.inject.Inject
 
-class ParameterAdapter(
+class ParameterAdapter
+@Inject
+constructor(
     private val variablePlaceholderProvider: VariablePlaceholderProvider,
 ) :
     BaseAdapter<ParameterListItem>() {

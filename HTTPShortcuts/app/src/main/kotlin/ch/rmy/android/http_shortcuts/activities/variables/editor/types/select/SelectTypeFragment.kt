@@ -22,18 +22,18 @@ import ch.rmy.android.http_shortcuts.databinding.VariableEditorSelectBinding
 import ch.rmy.android.http_shortcuts.utils.DialogBuilder
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
-import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
-import ch.rmy.android.http_shortcuts.variables.VariableViewUtils.bindVariableViews
+import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
 import javax.inject.Inject
 
 class SelectTypeFragment : BaseFragment<VariableEditorSelectBinding>() {
 
     @Inject
-    lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
+    lateinit var variableViewUtils: VariableViewUtils
+
+    @Inject
+    lateinit var adapter: SelectVariableOptionsAdapter
 
     private val viewModel: SelectTypeViewModel by bindViewModel()
-
-    private lateinit var adapter: SelectVariableOptionsAdapter
 
     private var isDraggingEnabled = false
 
@@ -56,8 +56,6 @@ class SelectTypeFragment : BaseFragment<VariableEditorSelectBinding>() {
     }
 
     private fun initViews() {
-        adapter = SelectVariableOptionsAdapter()
-        adapter.variablePlaceholderProvider = variablePlaceholderProvider
         binding.selectOptionsList.layoutManager = LinearLayoutManager(context)
         binding.selectOptionsList.adapter = adapter
     }
@@ -100,7 +98,6 @@ class SelectTypeFragment : BaseFragment<VariableEditorSelectBinding>() {
 
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
-            viewState.variables?.let(variablePlaceholderProvider::applyVariables)
             adapter.items = viewState.options
             binding.inputSeparator.setTextSafely(viewState.separator)
             binding.inputSeparator.isEnabled = viewState.separatorEnabled
@@ -126,8 +123,7 @@ class SelectTypeFragment : BaseFragment<VariableEditorSelectBinding>() {
         val valueInput = editorView.findViewById<VariableEditText>(R.id.select_option_value)
         val valueVariableButton = editorView.findViewById<VariableButton>(R.id.variable_button_value)
 
-        bindVariableViews(valueInput, valueVariableButton, variablePlaceholderProvider)
-            .attachTo(destroyer)
+        variableViewUtils.bindVariableViews(valueInput, valueVariableButton)
 
         DialogBuilder(requireContext())
             .title(R.string.title_add_select_option)
@@ -153,8 +149,7 @@ class SelectTypeFragment : BaseFragment<VariableEditorSelectBinding>() {
         val valueInput = editorView.findViewById<VariableEditText>(R.id.select_option_value)
         val valueVariableButton = editorView.findViewById<VariableButton>(R.id.variable_button_value)
 
-        bindVariableViews(valueInput, valueVariableButton, variablePlaceholderProvider)
-            .attachTo(destroyer)
+        variableViewUtils.bindVariableViews(valueInput, valueVariableButton)
 
         labelInput.setText(label)
         valueInput.rawString = value

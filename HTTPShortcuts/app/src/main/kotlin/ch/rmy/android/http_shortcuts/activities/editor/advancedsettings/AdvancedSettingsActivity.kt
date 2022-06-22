@@ -10,18 +10,13 @@ import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.extensions.setSubtitle
 import ch.rmy.android.framework.extensions.setTextSafely
 import ch.rmy.android.framework.ui.BaseIntentBuilder
+import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.databinding.ActivityAdvancedSettingsBinding
-import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
-import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
-import javax.inject.Inject
 
 class AdvancedSettingsActivity : BaseActivity() {
-
-    @Inject
-    lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
 
     private val viewModel: AdvancedSettingsViewModel by bindViewModel()
 
@@ -76,14 +71,13 @@ class AdvancedSettingsActivity : BaseActivity() {
         binding.inputTimeout.setOnClickListener {
             viewModel.onTimeoutButtonClicked()
         }
-
-        VariableViewUtils.bindVariableViews(binding.inputProxyHost, binding.variableButtonProxyHost, variablePlaceholderProvider)
-            .attachTo(destroyer)
+        binding.variableButtonProxyHost.setOnClickListener {
+            viewModel.onProxyHostVariableButtonClicked()
+        }
     }
 
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
-            viewState.variables?.let(variablePlaceholderProvider::applyVariables)
             binding.inputFollowRedirects.isChecked = viewState.followRedirects
             binding.inputAcceptCertificates.isChecked = viewState.acceptAllCertificates
             binding.inputAcceptCookies.isChecked = viewState.acceptCookies
@@ -94,6 +88,15 @@ class AdvancedSettingsActivity : BaseActivity() {
             setDialogState(viewState.dialogState, viewModel)
         }
         viewModel.events.observe(this, ::handleEvent)
+    }
+
+    override fun handleEvent(event: ViewModelEvent) {
+        when (event) {
+            is AdvancedSettingsEvent.InsertVariablePlaceholder -> {
+                binding.inputProxyHost.insertVariablePlaceholder(event.variablePlaceholder)
+            }
+            else -> super.handleEvent(event)
+        }
     }
 
     override fun onBackPressed() {

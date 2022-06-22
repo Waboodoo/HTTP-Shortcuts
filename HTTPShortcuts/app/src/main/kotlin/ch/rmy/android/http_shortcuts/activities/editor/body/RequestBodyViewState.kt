@@ -1,14 +1,13 @@
 package ch.rmy.android.http_shortcuts.activities.editor.body
 
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
+import ch.rmy.android.http_shortcuts.activities.editor.body.models.ParameterListItem
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
-import ch.rmy.android.http_shortcuts.data.models.VariableModel
 
 data class RequestBodyViewState(
     val dialogState: DialogState? = null,
     val requestBodyType: RequestBodyType = RequestBodyType.CUSTOM_TEXT,
     val parameters: List<ParameterListItem> = emptyList(),
-    val variables: List<VariableModel>? = null,
     val contentType: String = "",
     val bodyContent: String = "",
 ) {

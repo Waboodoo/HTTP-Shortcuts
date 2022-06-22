@@ -13,19 +13,17 @@ import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.databinding.ActivityRequestHeadersBinding
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
-import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import javax.inject.Inject
 
 class RequestHeadersActivity : BaseActivity() {
 
     @Inject
-    lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
+    lateinit var adapter: RequestHeadersAdapter
 
     private val viewModel: RequestHeadersViewModel by bindViewModel()
 
     private lateinit var binding: ActivityRequestHeadersBinding
 
-    private lateinit var adapter: RequestHeadersAdapter
     private var isDraggingEnabled = false
 
     override fun inject(applicationComponent: ApplicationComponent) {
@@ -42,8 +40,6 @@ class RequestHeadersActivity : BaseActivity() {
     private fun initViews() {
         binding = applyBinding(ActivityRequestHeadersBinding.inflate(layoutInflater))
         setTitle(R.string.section_request_headers)
-
-        adapter = RequestHeadersAdapter(variablePlaceholderProvider)
 
         val manager = LinearLayoutManager(context)
         binding.headerList.layoutManager = manager
@@ -85,7 +81,6 @@ class RequestHeadersActivity : BaseActivity() {
     private fun initViewModelBindings() {
         viewModel.viewState
         viewModel.viewState.observe(this) { viewState ->
-            viewState.variables?.let(variablePlaceholderProvider::applyVariables)
             adapter.items = viewState.headerItems
             isDraggingEnabled = viewState.isDraggingEnabled
             setDialogState(viewState.dialogState, viewModel)

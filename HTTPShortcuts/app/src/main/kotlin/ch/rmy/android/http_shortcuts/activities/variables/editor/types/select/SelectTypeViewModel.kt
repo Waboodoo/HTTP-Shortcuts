@@ -1,18 +1,12 @@
 package ch.rmy.android.http_shortcuts.activities.variables.editor.types.select
 
 import android.app.Application
-import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.BaseVariableTypeViewModel
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.variables.types.SelectType
-import javax.inject.Inject
 
 class SelectTypeViewModel(application: Application) : BaseVariableTypeViewModel<Unit, SelectTypeViewState>(application) {
-
-    @Inject
-    lateinit var variableRepository: VariableRepository
 
     init {
         getApplicationComponent().inject(this)
@@ -31,17 +25,6 @@ class SelectTypeViewModel(application: Application) : BaseVariableTypeViewModel<
         updateViewState {
             copy(options = computeOptionList())
         }
-    }
-
-    override fun onInitialized() {
-        super.onInitialized()
-        variableRepository.getObservableVariables()
-            .subscribe { variables ->
-                updateViewState {
-                    copy(variables = variables)
-                }
-            }
-            .attachTo(destroyer)
     }
 
     fun onOptionClicked(id: String) {

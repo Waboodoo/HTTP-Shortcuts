@@ -13,11 +13,10 @@ import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.HeaderModel
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.usecases.GetKeyValueDialogUseCase
-import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
+import ch.rmy.android.http_shortcuts.usecases.KeepVariablePlaceholderProviderUpdatedUseCase
 import javax.inject.Inject
 
 class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, RequestHeadersViewState>(application), WithDialog {
@@ -26,13 +25,10 @@ class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, Re
     lateinit var temporaryShortcutRepository: TemporaryShortcutRepository
 
     @Inject
-    lateinit var variableRepository: VariableRepository
+    lateinit var keepVariablePlaceholderProviderUpdated: KeepVariablePlaceholderProviderUpdatedUseCase
 
     @Inject
     lateinit var getKeyValueDialog: GetKeyValueDialogUseCase
-
-    @Inject
-    lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
 
     init {
         getApplicationComponent().inject(this)
@@ -70,13 +66,7 @@ class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, Re
             )
             .attachTo(destroyer)
 
-        variableRepository.getObservableVariables()
-            .subscribe { variables ->
-                variablePlaceholderProvider.applyVariables(variables)
-                updateViewState {
-                    copy(variables = variables)
-                }
-            }
+        keepVariablePlaceholderProviderUpdated(::emitCurrentViewState)
             .attachTo(destroyer)
     }
 
@@ -125,7 +115,6 @@ class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, Re
         onRemove: () -> Unit = {},
     ) {
         dialogState = getKeyValueDialog(
-            variablePlaceholderProvider = variablePlaceholderProvider,
             title = title,
             keyLabel = keyLabel,
             valueLabel = valueLabel,

@@ -6,7 +6,6 @@ import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
-import ch.rmy.android.http_shortcuts.data.models.VariableModel
 
 data class AuthenticationViewState(
     val dialogState: DialogState? = null,
@@ -16,7 +15,6 @@ data class AuthenticationViewState(
     val token: String = "",
     val clientCertParams: ClientCertParams? = null,
     val isClientCertButtonEnabled: Boolean = true,
-    val variables: List<VariableModel>? = null,
 ) {
     val isUsernameAndPasswordVisible
         get() = authenticationType.usesUsernameAndPassword

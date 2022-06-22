@@ -3,29 +3,44 @@ package ch.rmy.android.http_shortcuts.activities.editor.basicsettings
 import android.app.Application
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.viewmodel.BaseViewModel
+import ch.rmy.android.framework.viewmodel.WithDialog
+import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.usecases.GetAvailableBrowserPackageNamesUseCase
+import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.extensions.type
+import ch.rmy.android.http_shortcuts.usecases.GetVariablePlaceholderPickerDialogUseCase
+import ch.rmy.android.http_shortcuts.usecases.KeepVariablePlaceholderProviderUpdatedUseCase
 import javax.inject.Inject
 
-class BasicRequestSettingsViewModel(application: Application) : BaseViewModel<Unit, BasicRequestSettingsViewState>(application) {
+class BasicRequestSettingsViewModel(application: Application) : BaseViewModel<Unit, BasicRequestSettingsViewState>(application), WithDialog {
 
     @Inject
     lateinit var temporaryShortcutRepository: TemporaryShortcutRepository
 
     @Inject
-    lateinit var variableRepository: VariableRepository
+    lateinit var keepVariablePlaceholderProviderUpdated: KeepVariablePlaceholderProviderUpdatedUseCase
 
     @Inject
     lateinit var getAvailableBrowserPackageNames: GetAvailableBrowserPackageNamesUseCase
 
+    @Inject
+    lateinit var getVariablePlaceholderPickerDialog: GetVariablePlaceholderPickerDialogUseCase
+
     init {
         getApplicationComponent().inject(this)
     }
+
+    override var dialogState: DialogState?
+        get() = currentViewState?.dialogState
+        set(value) {
+            updateViewState {
+                copy(dialogState = value)
+            }
+        }
 
     override fun onInitializationStarted(data: Unit) {
         finalizeInitialization(silent = true)
@@ -41,12 +56,7 @@ class BasicRequestSettingsViewModel(application: Application) : BaseViewModel<Un
             )
             .attachTo(destroyer)
 
-        variableRepository.getObservableVariables()
-            .subscribe { variables ->
-                updateViewState {
-                    copy(variables = variables)
-                }
-            }
+        keepVariablePlaceholderProviderUpdated(::emitCurrentViewState)
             .attachTo(destroyer)
     }
 
@@ -102,6 +112,19 @@ class BasicRequestSettingsViewModel(application: Application) : BaseViewModel<Un
         }
         performOperation(
             temporaryShortcutRepository.setBrowserPackageName(packageName)
+        )
+    }
+
+    fun onUrlVariableButtonClicked() {
+        dialogState = getVariablePlaceholderPickerDialog.invoke(
+            onVariableSelected = {
+                emitEvent(BasicRequestSettingsEvent.InsertVariablePlaceholder(it))
+            },
+            onEditVariableButtonClicked = {
+                openActivity(
+                    VariablesActivity.IntentBuilder()
+                )
+            },
         )
     }
 }

@@ -21,6 +21,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
+import ch.rmy.android.http_shortcuts.usecases.KeepVariablePlaceholderProviderUpdatedUseCase
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
@@ -49,6 +50,9 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
 
     @Inject
     lateinit var getUsedVariableIdsUseCase: GetUsedVariableIdsUseCase
+
+    @Inject
+    lateinit var keepVariablePlaceholderProviderUpdated: KeepVariablePlaceholderProviderUpdatedUseCase
 
     init {
         getApplicationComponent().inject(this)
@@ -83,6 +87,9 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
                 this.variables = variables
                 recomputeVariablesInViewState()
             }
+            .attachTo(destroyer)
+
+        keepVariablePlaceholderProviderUpdated()
             .attachTo(destroyer)
     }
 

@@ -12,10 +12,13 @@ import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
+import javax.inject.Inject
 
-class SelectVariableOptionsAdapter : BaseAdapter<OptionItem>() {
-
-    lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
+class SelectVariableOptionsAdapter
+@Inject
+constructor(
+    private val variablePlaceholderProvider: VariablePlaceholderProvider,
+) : BaseAdapter<OptionItem>() {
 
     sealed interface UserEvent {
         data class OptionClicked(val id: String) : UserEvent
