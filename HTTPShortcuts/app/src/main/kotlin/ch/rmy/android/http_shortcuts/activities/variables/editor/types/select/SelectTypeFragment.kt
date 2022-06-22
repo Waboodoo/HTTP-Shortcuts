@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts.activities.variables.editor.types.select
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.recyclerview.widget.LinearLayoutManager
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
@@ -12,16 +11,14 @@ import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.observeChecked
 import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.extensions.setTextSafely
-import ch.rmy.android.framework.utils.Destroyer
 import ch.rmy.android.framework.utils.DragOrderingHelper
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseFragment
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
+import ch.rmy.android.http_shortcuts.databinding.SelectOptionEditorItemBinding
 import ch.rmy.android.http_shortcuts.databinding.VariableEditorSelectBinding
 import ch.rmy.android.http_shortcuts.utils.DialogBuilder
-import ch.rmy.android.http_shortcuts.variables.VariableButton
-import ch.rmy.android.http_shortcuts.variables.VariableEditText
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
 import javax.inject.Inject
 
@@ -116,60 +113,39 @@ class SelectTypeFragment : BaseFragment<VariableEditorSelectBinding>() {
     }
 
     private fun showAddDialog() {
-        val destroyer = Destroyer()
-
-        val editorView = layoutInflater.inflate(R.layout.select_option_editor_item, null)
-        val labelInput = editorView.findViewById<EditText>(R.id.select_option_label)
-        val valueInput = editorView.findViewById<VariableEditText>(R.id.select_option_value)
-        val valueVariableButton = editorView.findViewById<VariableButton>(R.id.variable_button_value)
-
-        variableViewUtils.bindVariableViews(valueInput, valueVariableButton)
-
+        val binding = SelectOptionEditorItemBinding.inflate(layoutInflater)
+        variableViewUtils.bindVariableViews(binding.selectOptionValue, binding.variableButtonValue)
         DialogBuilder(requireContext())
             .title(R.string.title_add_select_option)
-            .view(editorView)
+            .view(binding.root)
             .positive(R.string.dialog_ok) {
                 viewModel.onAddDialogConfirmed(
-                    label = labelInput.text.toString(),
-                    value = valueInput.rawString,
+                    label = binding.selectOptionLabel.text.toString(),
+                    value = binding.selectOptionValue.rawString,
                 )
             }
             .negative(R.string.dialog_cancel)
-            .dismissListener {
-                destroyer.destroy()
-            }
             .showIfPossible()
     }
 
     private fun showEditDialog(optionId: String, label: String, value: String) {
-        val destroyer = Destroyer()
-
-        val editorView = layoutInflater.inflate(R.layout.select_option_editor_item, null)
-        val labelInput = editorView.findViewById<EditText>(R.id.select_option_label)
-        val valueInput = editorView.findViewById<VariableEditText>(R.id.select_option_value)
-        val valueVariableButton = editorView.findViewById<VariableButton>(R.id.variable_button_value)
-
-        variableViewUtils.bindVariableViews(valueInput, valueVariableButton)
-
-        labelInput.setText(label)
-        valueInput.rawString = value
-
+        val binding = SelectOptionEditorItemBinding.inflate(layoutInflater)
+        variableViewUtils.bindVariableViews(binding.selectOptionValue, binding.variableButtonValue)
+        binding.selectOptionLabel.setText(label)
+        binding.selectOptionValue.rawString = value
         DialogBuilder(requireContext())
             .title(R.string.title_edit_select_option)
-            .view(editorView)
+            .view(binding.root)
             .positive(R.string.dialog_ok) {
                 viewModel.onEditDialogConfirmed(
                     optionId = optionId,
-                    label = labelInput.text.toString(),
-                    value = valueInput.rawString,
+                    label = binding.selectOptionLabel.text.toString(),
+                    value = binding.selectOptionValue.rawString,
                 )
             }
             .negative(R.string.dialog_cancel)
             .neutral(R.string.dialog_remove) {
                 viewModel.onDeleteOptionSelected(optionId)
-            }
-            .dismissListener {
-                destroyer.destroy()
             }
             .showIfPossible()
     }

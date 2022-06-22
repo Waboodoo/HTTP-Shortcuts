@@ -8,16 +8,14 @@ import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.initialize
 import ch.rmy.android.framework.extensions.observe
-import ch.rmy.android.framework.utils.Destroyer
 import ch.rmy.android.framework.utils.DragOrderingHelper
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseFragment
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
+import ch.rmy.android.http_shortcuts.databinding.ToggleOptionEditorItemBinding
 import ch.rmy.android.http_shortcuts.databinding.VariableEditorToggleBinding
 import ch.rmy.android.http_shortcuts.utils.DialogBuilder
-import ch.rmy.android.http_shortcuts.variables.VariableButton
-import ch.rmy.android.http_shortcuts.variables.VariableEditText
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
 import javax.inject.Inject
 
@@ -100,50 +98,31 @@ class ToggleTypeFragment : BaseFragment<VariableEditorToggleBinding>() {
     }
 
     private fun showAddDialog() {
-        val destroyer = Destroyer()
-
-        val editorView = layoutInflater.inflate(R.layout.toggle_option_editor_item, null)
-        val valueInput = editorView.findViewById<VariableEditText>(R.id.toggle_option_value)
-        val valueVariableButton = editorView.findViewById<VariableButton>(R.id.variable_button_value)
-
-        variableViewUtils.bindVariableViews(valueInput, valueVariableButton)
-
+        val binding = ToggleOptionEditorItemBinding.inflate(layoutInflater)
+        variableViewUtils.bindVariableViews(binding.toggleOptionValue, binding.variableButtonValue)
         DialogBuilder(requireContext())
             .title(R.string.title_add_toggle_option)
-            .view(editorView)
+            .view(binding.root)
             .positive(R.string.dialog_ok) {
-                viewModel.onAddDialogConfirmed(valueInput.rawString)
+                viewModel.onAddDialogConfirmed(binding.toggleOptionValue.rawString)
             }
             .negative(R.string.dialog_cancel)
-            .dismissListener {
-                destroyer.destroy()
-            }
             .showIfPossible()
     }
 
     private fun showEditDialog(optionId: String, value: String) {
-        val destroyer = Destroyer()
-
-        val editorView = layoutInflater.inflate(R.layout.toggle_option_editor_item, null)
-        val valueInput = editorView.findViewById<VariableEditText>(R.id.toggle_option_value)
-        val valueVariableButton = editorView.findViewById<VariableButton>(R.id.variable_button_value)
-
-        variableViewUtils.bindVariableViews(valueInput, valueVariableButton)
-
-        valueInput.rawString = value
-
+        val binding = ToggleOptionEditorItemBinding.inflate(layoutInflater)
+        variableViewUtils.bindVariableViews(binding.toggleOptionValue, binding.variableButtonValue)
+        binding.toggleOptionValue.rawString = value
         DialogBuilder(requireContext())
             .title(R.string.title_edit_toggle_option)
-            .view(editorView)
+            .view(binding.root)
             .positive(R.string.dialog_ok) {
-                viewModel.onEditDialogConfirmed(optionId, value = valueInput.rawString)
+                viewModel.onEditDialogConfirmed(optionId, value = binding.toggleOptionValue.rawString)
             }
             .negative(R.string.dialog_cancel)
             .neutral(R.string.dialog_remove) {
                 viewModel.onDeleteOptionSelected(optionId)
-            }
-            .dismissListener {
-                destroyer.destroy()
             }
             .showIfPossible()
     }

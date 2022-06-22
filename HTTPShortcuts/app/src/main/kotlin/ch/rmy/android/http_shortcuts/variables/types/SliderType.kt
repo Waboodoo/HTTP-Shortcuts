@@ -3,13 +3,13 @@ package ch.rmy.android.http_shortcuts.variables.types
 import android.content.Context
 import android.view.LayoutInflater
 import android.widget.SeekBar
-import android.widget.TextView
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.utils.SimpleOnSeekBarChangeListener
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
+import ch.rmy.android.http_shortcuts.databinding.VariableDialogSliderBinding
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
@@ -27,33 +27,29 @@ class SliderType : BaseVariableType() {
     override fun resolveValue(context: Context, variable: VariableModel): Single<String> =
         Single.create<String> { emitter ->
             val range = findRange(variable)
-            val view = LayoutInflater.from(context).inflate(R.layout.variable_dialog_slider, null)
-
-            val slider = view.findViewById<SeekBar>(R.id.slider)
-            val label = view.findViewById<TextView>(R.id.slider_value)
-
-            slider.max = findSliderMax(range)
+            val binding = VariableDialogSliderBinding.inflate(LayoutInflater.from(context))
+            binding.slider.max = findSliderMax(range)
 
             if (variable.rememberValue) {
                 val value = variable.value?.toDoubleOrNull() ?: 0.0
                 val sliderValue = findSliderValue(value, range)
-                if (sliderValue >= 0 && sliderValue <= slider.max) {
-                    slider.progress = sliderValue
+                if (sliderValue >= 0 && sliderValue <= binding.slider.max) {
+                    binding.slider.progress = sliderValue
                 }
             }
 
-            slider.setOnSeekBarChangeListener(object : SimpleOnSeekBarChangeListener() {
+            binding.slider.setOnSeekBarChangeListener(object : SimpleOnSeekBarChangeListener() {
                 override fun onProgressChanged(slider: SeekBar, progress: Int, fromUser: Boolean) {
-                    label.text = findValue(slider.progress, range)
+                    binding.sliderValue.text = findValue(slider.progress, range)
                 }
             })
-            label.text = findValue(slider.progress, range)
+            binding.sliderValue.text = findValue(binding.slider.progress, range)
 
             createDialogBuilder(context, variable, emitter)
-                .view(view)
+                .view(binding.root)
                 .positive(R.string.dialog_ok) {
                     if (variable.isValid) {
-                        val value = findValue(slider.progress, range)
+                        val value = findValue(binding.slider.progress, range)
                         emitter.onSuccess(value)
                     }
                 }

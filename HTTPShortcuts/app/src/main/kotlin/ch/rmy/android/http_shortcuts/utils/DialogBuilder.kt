@@ -24,6 +24,7 @@ import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.showIfPossible
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.databinding.MenuDialogSeparatorBinding
 import ch.rmy.android.http_shortcuts.icons.IconView
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import com.afollestad.materialdialogs.MaterialDialog
@@ -293,7 +294,7 @@ open class DialogBuilder(val context: Context) {
         }
 
         private fun getSeparatorView(convertView: View?, parent: ViewGroup): View =
-            convertView ?: layoutInflater.inflate(R.layout.menu_dialog_separator, parent, false)
+            convertView ?: MenuDialogSeparatorBinding.inflate(layoutInflater, parent, false).root
 
         override fun areAllItemsEnabled(): Boolean =
             false
