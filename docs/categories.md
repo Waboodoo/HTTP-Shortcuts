@@ -12,7 +12,7 @@ A category's layout type defines how shortcuts within it are displayed. There ar
 
 ### Backgrounds
 
-You can change a category's background to either use the default (i.e., white or black, depending on whether dark mode is enabled), always black, or to display your home screen wallpaper. Please note that using the latter requires that you grant the app permission to access your files. See the [Privacy Policy](privacy-policy.md) for more information.
+You can change a category's background to either use the default (i.e., white or black, depending on whether dark mode is enabled), set it to a specific color, or to display your home screen wallpaper. Please note that using the latter requires that you grant the app permission to access your files. See the [Privacy Policy](privacy-policy.md) for more information.
 
 ### Hidden Categories
 
