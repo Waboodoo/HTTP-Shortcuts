@@ -2,7 +2,7 @@ package ch.rmy.android.http_shortcuts.import_export
 
 import android.content.Context
 import android.net.Uri
-import ch.rmy.android.framework.extensions.applyIf
+import ch.rmy.android.framework.extensions.applyIfNotNull
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.runIf
@@ -42,11 +42,11 @@ constructor(
     fun exportToUri(
         uri: Uri,
         format: ExportFormat = ExportFormat.ZIP,
-        shortcutId: ShortcutId? = null,
+        shortcutIds: Collection<ShortcutId>? = null,
         variableIds: Collection<VariableId>? = null,
         excludeDefaults: Boolean = false,
     ): Single<ExportStatus> =
-        getBase(shortcutId, variableIds)
+        getBase(shortcutIds, variableIds)
             .map { base ->
                 when (format) {
                     ExportFormat.ZIP -> {
@@ -86,17 +86,21 @@ constructor(
         return ExportStatus(exportedShortcuts = base.shortcuts.size)
     }
 
-    private fun getBase(shortcutId: ShortcutId?, variableIds: Collection<VariableId>?): Single<BaseModel> =
+    private fun getBase(shortcutIds: Collection<ShortcutId>?, variableIds: Collection<VariableId>?): Single<BaseModel> =
         appRepository.getBase()
             .map { base ->
-                base.applyIf(shortcutId != null) {
+                base.applyIfNotNull(shortcutIds) {
                     title = null
-                    categories.safeRemoveIf { category ->
-                        category.shortcuts.none { it.id == shortcutId }
+                    categories.forEach { category ->
+                        category.shortcuts.safeRemoveIf { shortcut ->
+                            shortcut.id !in shortcutIds!!
+                        }
                     }
-                    categories.firstOrNull()?.shortcuts?.safeRemoveIf { it.id != shortcutId }
+                    categories.safeRemoveIf { category ->
+                        category.shortcuts.isEmpty()
+                    }
                 }
-                    .applyIf(variableIds != null) {
+                    .applyIfNotNull(variableIds) {
                         variables.safeRemoveIf { !variableIds!!.contains(it.id) }
                     }
             }

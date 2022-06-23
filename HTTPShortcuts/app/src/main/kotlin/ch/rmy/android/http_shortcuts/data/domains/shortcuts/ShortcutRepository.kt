@@ -31,6 +31,14 @@ constructor(
         }
             .map { it.first() }
 
+    fun getShortcutsByIds(shortcutIds: Collection<ShortcutId>): Single<List<ShortcutModel>> =
+        queryItem {
+            getBase()
+        }
+            .map { base ->
+                base.shortcuts.filter { it.id in shortcutIds }
+            }
+
     fun getShortcutByNameOrId(shortcutNameOrId: ShortcutNameOrId): Single<ShortcutModel> =
         query {
             getShortcutByNameOrId(shortcutNameOrId)

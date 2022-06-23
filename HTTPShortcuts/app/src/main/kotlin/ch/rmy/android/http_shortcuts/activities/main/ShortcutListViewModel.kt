@@ -492,7 +492,7 @@ class ShortcutListViewModel(
                     file,
                     format = getExportFormat(),
                     excludeDefaults = true,
-                    shortcutId = shortcut.id,
+                    shortcutIds = setOf(shortcut.id),
                     variableIds = variableIds,
                 )
             }
@@ -538,7 +538,7 @@ class ShortcutListViewModel(
                     .exportToUri(
                         cacheFile,
                         excludeDefaults = true,
-                        shortcutId = shortcut.id,
+                        shortcutIds = setOf(shortcut.id),
                         variableIds = variableIds,
                     )
             }

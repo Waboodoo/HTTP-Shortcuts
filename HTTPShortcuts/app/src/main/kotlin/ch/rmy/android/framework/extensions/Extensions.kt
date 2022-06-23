@@ -33,6 +33,9 @@ inline fun consume(f: () -> Unit): Boolean {
 inline fun <T> T.applyIf(predicate: Boolean, block: T.() -> Unit): T =
     if (predicate) apply(block) else this
 
+inline fun <T, U> T.applyIfNotNull(item: U?, block: T.(U) -> Unit): T =
+    if (item != null) apply { block(item) } else this
+
 inline fun <T> T.runIf(predicate: Boolean, block: T.() -> T): T =
     if (predicate) block(this) else this
 

@@ -22,12 +22,14 @@ constructor(
     private val variableRepository: VariableRepository,
 ) {
 
-    operator fun invoke(shortcutId: ShortcutId? = null): Single<Set<VariableId>> =
+    operator fun invoke(shortcutId: ShortcutId?) =
+        invoke(shortcutId?.let(::setOf))
+
+    operator fun invoke(shortcutIds: Collection<ShortcutId>? = null): Single<Set<VariableId>> =
         variableRepository.getVariables()
             .flatMap { variables ->
-                if (shortcutId != null) {
-                    shortcutRepository.getShortcutById(shortcutId)
-                        .map { listOf(it) }
+                if (shortcutIds != null) {
+                    shortcutRepository.getShortcutsByIds(shortcutIds)
                         .onErrorReturn { emptyList() }
                 } else {
                     shortcutRepository.getShortcuts()
