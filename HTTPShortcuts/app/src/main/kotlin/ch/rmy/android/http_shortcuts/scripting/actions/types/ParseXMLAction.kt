@@ -18,7 +18,7 @@ class ParseXMLAction(private val xmlInput: String) : BaseAction() {
             val elementStack = Stack<JSONObject>()
             Xml.parse(
                 xmlInput,
-                object : SimpleXMLContentHandler() {
+                object : SimpleXMLContentHandler {
 
                     override fun startElement(uri: String?, localName: String, qName: String?, attributes: Attributes) {
                         val element = createElement(localName, attributes)

@@ -38,7 +38,7 @@ class SliderType : BaseVariableType() {
                 }
             }
 
-            binding.slider.setOnSeekBarChangeListener(object : SimpleOnSeekBarChangeListener() {
+            binding.slider.setOnSeekBarChangeListener(object : SimpleOnSeekBarChangeListener {
                 override fun onProgressChanged(slider: SeekBar, progress: Int, fromUser: Boolean) {
                     binding.sliderValue.text = findValue(slider.progress, range)
                 }

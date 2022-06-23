@@ -36,7 +36,7 @@ constructor() {
 
                     slider.max = DELAY_OPTIONS.lastIndex
                     slider.setOnSeekBarChangeListener(
-                        object : SimpleOnSeekBarChangeListener() {
+                        object : SimpleOnSeekBarChangeListener {
                             override fun onProgressChanged(slider: SeekBar, progress: Int, fromUser: Boolean) {
                                 label.text = getLabel(progressToDelay(progress)).localize(context)
                             }

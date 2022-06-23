@@ -108,7 +108,7 @@ fun CheckBox.observeChecked(): Observable<Boolean> {
 
 fun EditText.observeTextChanges(): Observable<CharSequence> {
     val subject = PublishSubject.create<CharSequence>()
-    val watcher = object : SimpleTextWatcher() {
+    val watcher = object : SimpleTextWatcher {
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
             if (getTag(R.string.edit_text_suppress_listeners) != true) {
                 subject.onNext(s)

@@ -35,7 +35,7 @@ constructor() {
                     val label = findViewById<TextView>(R.id.slider_value)
 
                     slider.max = TIMEOUT_OPTIONS.lastIndex
-                    slider.setOnSeekBarChangeListener(object : SimpleOnSeekBarChangeListener() {
+                    slider.setOnSeekBarChangeListener(object : SimpleOnSeekBarChangeListener {
                         override fun onProgressChanged(slider: SeekBar, progress: Int, fromUser: Boolean) {
                             label.text = getLabel(progressToTimeout(progress)).localize(context)
                         }

@@ -4,7 +4,7 @@ import org.xml.sax.Attributes
 import org.xml.sax.ContentHandler
 import org.xml.sax.Locator
 
-open class SimpleXMLContentHandler : ContentHandler {
+interface SimpleXMLContentHandler : ContentHandler {
     override fun setDocumentLocator(locator: Locator?) {
     }
 

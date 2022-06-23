@@ -2,7 +2,7 @@ package ch.rmy.android.framework.utils
 
 import android.widget.SeekBar
 
-open class SimpleOnSeekBarChangeListener : SeekBar.OnSeekBarChangeListener {
+interface SimpleOnSeekBarChangeListener : SeekBar.OnSeekBarChangeListener {
 
     override fun onProgressChanged(slider: SeekBar, progress: Int, fromUser: Boolean) {
     }
