@@ -54,20 +54,20 @@ class SelectTypeViewModel(application: Application) : BaseVariableTypeViewModel<
         emitEvent(SelectTypeEvent.ShowAddDialog)
     }
 
-    fun onMultilineChanged(enabled: Boolean) {
+    fun onMultiSelectChanged(enabled: Boolean) {
+        updateViewState {
+            copy(isMultiSelect = enabled)
+        }
         doWithViewState { viewState ->
-            updateViewState {
-                copy(isMultiSelect = enabled)
-            }
             saveData(viewState)
         }
     }
 
     fun onSeparatorChanged(separator: String) {
+        updateViewState {
+            copy(separator = separator)
+        }
         doWithViewState { viewState ->
-            updateViewState {
-                copy(separator = separator)
-            }
             saveData(viewState)
         }
     }

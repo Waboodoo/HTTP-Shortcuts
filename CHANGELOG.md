@@ -9,6 +9,7 @@
 ### Bugfixes
 - When a request fails, the response is now displayed according to the configured display type for errors, instead of the one for successful requests
 - Newly created shortcuts are no longer placed into the first category if that category is hidden
+- Multiple-Choice variables can now be configured again to allow selecting more than one value at time
 
 ## Version 2.18.0
 

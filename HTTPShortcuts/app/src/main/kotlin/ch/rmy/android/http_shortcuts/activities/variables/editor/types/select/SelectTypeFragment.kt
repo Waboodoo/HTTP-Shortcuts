@@ -70,7 +70,7 @@ class SelectTypeFragment : BaseFragment<VariableEditorSelectBinding>() {
         }
         binding.inputMultiSelect
             .observeChecked()
-            .subscribe(viewModel::onMultilineChanged)
+            .subscribe(viewModel::onMultiSelectChanged)
             .attachTo(destroyer)
         binding.inputSeparator
             .observeTextChanges()
