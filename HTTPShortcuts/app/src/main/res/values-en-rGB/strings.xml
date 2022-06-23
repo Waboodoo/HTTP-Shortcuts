@@ -35,5 +35,5 @@
     <!-- Description for type of variable: Time Input, i.e., a dialog that asks user to pick a time in a clock -->
     <string name="variable_type_time_description">Shows a dialogue with a time picker</string>
     <!-- Description for type of variable: Color Input, i.e., a dialog that asks user to pick a color in a color picker -->
-    <string name="variable_type_color_description">Shows a dialogue with a color picker</string>
+    <string name="variable_type_color_description">Shows a dialogue with a colour picker</string>
 </resources>
