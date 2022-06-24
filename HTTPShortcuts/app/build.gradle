@@ -1,10 +1,10 @@
 plugins {
-    id("de.jansauer.poeditor") version "1.0.0"
+    id("de.jansauer.poeditor") version "1.1.0"
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-kapt")
     id("com.bugsnag.android.gradle")
-    id( "realm-android")
+    id("realm-android")
 }
 
 android {
@@ -118,18 +118,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-}
 
-if (!rootProject.ext.bugsnagAPIKey) {
-    bugsnag {
-        uploadJvmMappings = false
-        uploadNdkMappings = false
-        uploadNdkUnityLibraryMappings = false
-        reportBuilds = false
-    }
-}
-
-project.configure(project.android, {
     sourceSets {
         main.java.srcDirs += "src/main/kotlin"
         test.java.srcDirs += "src/test/kotlin"
@@ -143,7 +132,16 @@ project.configure(project.android, {
         release.java.srcDirs += "src/withoutGoogleServices/kotlin"
         releaseFull.java.srcDirs += "src/withGoogleServices/kotlin"
     }
-})
+}
+
+if (!rootProject.ext.bugsnagAPIKey) {
+    bugsnag {
+        uploadJvmMappings = false
+        uploadNdkMappings = false
+        uploadNdkUnityLibraryMappings = false
+        reportBuilds = false
+    }
+}
 
 dependencies {
     implementation("androidx.multidex:multidex:2.0.1")
