@@ -3,6 +3,9 @@
 ### Scripting
 - You can now send UDP packets using the `sendUDPPacket` function
 
+### Improvements
+- When exporting, you can now select which shortcuts to export, allowing for partial exports
+
 ### Miscellaneous
 - Added helper texts to the variable creation dialog to better explain the different types of variables and their use
 

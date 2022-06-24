@@ -54,6 +54,10 @@
     <string name="action_delete">Delete</string>
     <!-- Shortcut dropdown option: export the shortcut -->
     <string name="action_export">Export</string>
+    <!-- Dialog button: Confirm exporting the selected shortcuts -->
+    <string name="dialog_button_export">Export</string>
+    <!-- Dialog title: shown in dialog when selecting which shortcuts to export -->
+    <string name="dialog_title_select_shortcuts_for_export">Select Shortcuts</string>
     <!-- Shortcut dropdown option: display information about the shortcut -->
     <string name="action_shortcut_information">Show Info</string>
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->

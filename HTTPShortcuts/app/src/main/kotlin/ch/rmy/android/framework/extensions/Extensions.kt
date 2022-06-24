@@ -80,3 +80,11 @@ fun <T, ID : Any> List<T>.swapped(id1: ID, id2: ID, getId: T.() -> ID?): List<T>
             list.add(newPosition, list.removeAt(oldPosition))
         }
 }
+
+fun <T> MutableCollection<T>.addOrRemove(item: T, add: Boolean) {
+    if (add) {
+        add(item)
+    } else {
+        remove(item)
+    }
+}

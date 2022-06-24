@@ -20,7 +20,9 @@ import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.framework.viewmodel.viewstate.ProgressDialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.settings.importexport.usecases.GetRussianWarningDialogUseCase
+import ch.rmy.android.http_shortcuts.activities.settings.importexport.usecases.GetShortcutSelectionDialogUseCase
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.import_export.ExportFormat
 import ch.rmy.android.http_shortcuts.import_export.Exporter
 import ch.rmy.android.http_shortcuts.import_export.ImportException
@@ -41,6 +43,9 @@ class ImportExportViewModel(application: Application) :
 
     @Inject
     lateinit var getExportDestinationOptionsDialog: GetExportDestinationOptionsDialogUseCase
+
+    @Inject
+    lateinit var getShortcutSelectionDialog: GetShortcutSelectionDialogUseCase
 
     @Inject
     lateinit var exporter: Exporter
@@ -94,14 +99,30 @@ class ImportExportViewModel(application: Application) :
             onExportToFileOptionSelected = {
                 emitEvent(ImportExportEvent.OpenFilePickerForExport(getExportFormat()))
             },
-            onExportViaSharingOptionSelected = {
-                sendExport()
-            },
+            onExportViaSharingOptionSelected = ::onExportViaSharingOptionSelected,
         )
     }
 
     fun onFilePickedForExport(file: Uri) {
-        exporter.exportToUri(file, format = getExportFormat(), excludeDefaults = true)
+        getShortcutSelectionDialog { selectedShortcutIds ->
+            startExportToUri(selectedShortcutIds, file)
+        }
+            .subscribe { dialogState ->
+                this.dialogState = dialogState
+            }
+            .attachTo(destroyer)
+    }
+
+    private fun onExportViaSharingOptionSelected() {
+        getShortcutSelectionDialog(::sendExport)
+            .subscribe { dialogState ->
+                this.dialogState = dialogState
+            }
+            .attachTo(destroyer)
+    }
+
+    private fun startExportToUri(shortcutIds: Collection<ShortcutId>?, file: Uri) {
+        exporter.exportToUri(file, shortcutIds = shortcutIds, format = getExportFormat(), excludeDefaults = true)
             .doOnSubscribe {
                 showProgressDialog(R.string.export_in_progress)
             }
@@ -133,12 +154,12 @@ class ImportExportViewModel(application: Application) :
             .attachTo(destroyer)
     }
 
-    private fun sendExport() {
+    private fun sendExport(shortcutIds: Collection<ShortcutId>?) {
         val format = getExportFormat()
         val cacheFile = FileUtil.createCacheFile(context, format.getFileName(single = false))
 
         exporter
-            .exportToUri(cacheFile, excludeDefaults = true)
+            .exportToUri(cacheFile, shortcutIds = shortcutIds, excludeDefaults = true)
             .doOnSubscribe {
                 showProgressDialog(R.string.export_in_progress)
             }

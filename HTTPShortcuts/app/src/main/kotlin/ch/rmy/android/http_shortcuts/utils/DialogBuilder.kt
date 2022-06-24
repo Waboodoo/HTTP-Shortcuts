@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.CheckBox
 import android.widget.ImageView
-import android.widget.ListView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
@@ -24,6 +23,7 @@ import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.showIfPossible
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.databinding.MenuDialogBinding
 import ch.rmy.android.http_shortcuts.databinding.MenuDialogSeparatorBinding
 import ch.rmy.android.http_shortcuts.icons.IconView
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
@@ -162,7 +162,7 @@ open class DialogBuilder(val context: Context) {
 
     fun build(): MaterialDialog =
         dialog.runIf(items.isNotEmpty()) {
-            val listView = (LayoutInflater.from(context).inflate(R.layout.menu_dialog, null, false) as ListView)
+            val listView = MenuDialogBinding.inflate(LayoutInflater.from(context)).root
                 .apply {
                     adapter = MenuListAdapter(context, items, dialog)
                     divider = null

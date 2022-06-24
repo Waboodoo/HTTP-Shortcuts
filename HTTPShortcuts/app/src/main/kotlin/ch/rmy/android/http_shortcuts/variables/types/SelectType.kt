@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.variables.types
 
 import android.content.Context
+import ch.rmy.android.framework.extensions.addOrRemove
 import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
@@ -28,11 +29,7 @@ class SelectType : BaseVariableType() {
                             val selectedOptions = mutableSetOf<String>()
                             runFor(variable.options!!) { option ->
                                 checkBoxItem(name = option.labelOrValue) { isChecked ->
-                                    if (isChecked) {
-                                        selectedOptions.add(option.id)
-                                    } else {
-                                        selectedOptions.remove(option.id)
-                                    }
+                                    selectedOptions.addOrRemove(option.id, isChecked)
                                 }
                                     .positive(R.string.dialog_ok) {
                                         emitter.onSuccess(
