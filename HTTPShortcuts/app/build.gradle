@@ -1,10 +1,11 @@
 plugins {
-    id "de.jansauer.poeditor" version "1.0.0"
+    id("de.jansauer.poeditor") version "1.0.0"
+    id("com.android.application")
+    id("kotlin-android")
+    id("kotlin-kapt")
+    id("com.bugsnag.android.gradle")
+    id( "realm-android")
 }
-apply plugin: "com.android.application"
-apply plugin: "kotlin-android"
-apply plugin: "kotlin-kapt"
-apply plugin: "com.bugsnag.android.gradle"
 
 android {
     namespace = "ch.rmy.android.http_shortcuts"
@@ -19,11 +20,14 @@ android {
         applicationId = "ch.rmy.android.http_shortcuts"
         minSdkVersion(21)
         targetSdkVersion(33)
+
+        // Version name and code must remain as literals so that F-Droid can read them
         versionName = "2.19.0"
         // 11,(2 digits major),(2 digits minor),(2 digits patch),(2 digits build)
         versionCode = 1102190000
-        buildConfigField "String", "BUGSNAG_API_KEY", "\"${rootProject.ext.bugsnagAPIKey}\""
-        buildConfigField "String", "BUILD_TIMESTAMP", "\"${rootProject.ext.buildTimestamp}\""
+
+        buildConfigField("String", "BUGSNAG_API_KEY", "\"${rootProject.ext.bugsnagAPIKey}\"")
+        buildConfigField("String", "BUILD_TIMESTAMP", "\"${rootProject.ext.buildTimestamp}\"")
         multiDexEnabled = true
 
         manifestPlaceholders = [
@@ -238,5 +242,3 @@ poeditor {
     terms(lang: "en", file: "src/main/res/values/strings.xml", updating: "terms_translations", overwrite: true, sync_terms: true)
     // translation definitions omitted as the plugin currently does not support filtering by "translated" status, making its pull feature unusable
 }
-
-apply plugin: "realm-android"
