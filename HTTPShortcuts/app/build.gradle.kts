@@ -7,10 +7,18 @@ plugins {
     id("realm-android")
 }
 
+val kotlinVersion: String by properties
+val hamcrestVersion: String by properties
+val junitVersion: String by properties
+val robolectricVersion: String by properties
+val bugsnagAPIKey: String by rootProject.ext
+val poeditorAPIKey: String by rootProject.ext
+val poeditorProjectId: String by rootProject.ext
+
 android {
     namespace = "ch.rmy.android.http_shortcuts"
 
-    compileSdkVersion(33)
+    compileSdk = 33
 
     kotlinOptions {
         languageVersion = "1.6"
@@ -18,68 +26,60 @@ android {
 
     defaultConfig {
         applicationId = "ch.rmy.android.http_shortcuts"
-        minSdkVersion(21)
-        targetSdkVersion(33)
+        minSdk = 21
+        targetSdk = 33
 
         // Version name and code must remain as literals so that F-Droid can read them
         versionName = "2.19.0"
         // 11,(2 digits major),(2 digits minor),(2 digits patch),(2 digits build)
         versionCode = 1102190000
 
-        buildConfigField("String", "BUGSNAG_API_KEY", "\"${rootProject.ext.bugsnagAPIKey}\"")
-        buildConfigField("String", "BUILD_TIMESTAMP", "\"${rootProject.ext.buildTimestamp}\"")
+        buildConfigField("String", "BUGSNAG_API_KEY", "\"$bugsnagAPIKey\"")
+        buildConfigField("String", "BUILD_TIMESTAMP", "\"${rootProject.ext["buildTimestamp"]}\"")
+
         multiDexEnabled = true
-
-        manifestPlaceholders = [
-            bugsnagAPIKey: rootProject.ext.bugsnagAPIKey ? rootProject.ext.bugsnagAPIKey : "-"
-        ]
-
-        testInstrumentationRunnerArguments = [package: "ch.rmy.android.http_shortcuts"]
-
+        manifestPlaceholders["bugsnagAPIKey"] = bugsnagAPIKey
+        testInstrumentationRunnerArguments["package"] = "ch.rmy.android.http_shortcuts"
         vectorDrawables.useSupportLibrary = true
 
         ndk {
-            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+            abiFilters.addAll(listOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64"))
         }
     }
 
     buildTypes {
         /* Used for development & testing */
-        debug {
-            minifyEnabled = false
-            shrinkResources = false
+        getByName("debug") {
+            isMinifyEnabled = false
+            isShrinkResources = false
 
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             applicationIdSuffix = ".debug"
         }
+
         /* Used for F-Droid */
-        release {
-            minifyEnabled = true
-            shrinkResources = true
+        getByName("release") {
+            isMinifyEnabled = true
+            isShrinkResources = true
 
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
+
         /* Used for Play Store & Github release page */
-        releaseFull {
-            minifyEnabled = true
-            shrinkResources = true
+        create("releaseFull") {
+            isMinifyEnabled = true
+            isShrinkResources = true
 
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-
-            applicationVariants.all { variant ->
-                variant.outputs.all { output ->
-                    outputFileName = "app-" + (output.getFilter(com.android.build.OutputFile.ABI) ?: "universal") + "-release.apk"
-                }
-            }
         }
     }
 
     splits {
         abi {
-            enable = true
+            isEnable = true
             reset()
             include("x86", "x86_64", "armeabi-v7a", "arm64-v8a")
-            universalApk = true
+            isUniversalApk = true
         }
     }
 
@@ -107,10 +107,10 @@ android {
 
     packagingOptions {
         jniLibs {
-            excludes += ["META-INF/*"]
+            excludes.add("META-INF/*")
         }
         resources {
-            excludes += ["META-INF/*"]
+            excludes.add("META-INF/*")
         }
     }
 
@@ -119,27 +119,29 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-    sourceSets {
-        main.java.srcDirs += "src/main/kotlin"
-        test.java.srcDirs += "src/test/kotlin"
-        androidTest.java.srcDirs += "src/androidTest/kotlin"
-
-        debug.java.srcDirs += "src/withoutCrashLogging/kotlin"
-        release.java.srcDirs += "src/withoutCrashLogging/kotlin"
-        releaseFull.java.srcDirs += "src/withCrashLogging/kotlin"
-
-        debug.java.srcDirs += "src/withGoogleServices/kotlin"
-        release.java.srcDirs += "src/withoutGoogleServices/kotlin"
-        releaseFull.java.srcDirs += "src/withGoogleServices/kotlin"
+    sourceSets.getByName("main") {
+        java.setSrcDirs(listOf("src/main/kotlin"))
+    }
+    sourceSets.getByName("test") {
+        java.setSrcDirs(listOf("src/test/kotlin"))
+    }
+    sourceSets.getByName("debug") {
+        java.setSrcDirs(listOf("src/withoutCrashLogging/kotlin", "src/withGoogleServices/kotlin"))
+    }
+    sourceSets.getByName("release") {
+        java.setSrcDirs(listOf("src/withoutCrashLogging/kotlin", "src/withoutGoogleServices/kotlin"))
+    }
+    sourceSets.getByName("releaseFull") {
+        java.setSrcDirs(listOf("src/withCrashLogging/kotlin", "src/withGoogleServices/kotlin"))
     }
 }
 
-if (!rootProject.ext.bugsnagAPIKey) {
+if (bugsnagAPIKey.isNotEmpty()) {
     bugsnag {
-        uploadJvmMappings = false
-        uploadNdkMappings = false
-        uploadNdkUnityLibraryMappings = false
-        reportBuilds = false
+        uploadJvmMappings.set(false)
+        uploadNdkMappings.set(false)
+        uploadNdkUnityLibraryMappings.set(false)
+        reportBuilds.set(false)
     }
 }
 
@@ -166,9 +168,7 @@ dependencies {
     implementation("androidx.core:core-splashscreen:1.0.0-rc01")
 
     /* Dialogs / Activities */
-    implementation("com.afollestad.material-dialogs:core:3.3.0") {
-        transitive = true
-    }
+    implementation("com.afollestad.material-dialogs:core:3.3.0")
     implementation("com.afollestad.material-dialogs:input:3.3.0")
     implementation("com.github.skydoves:colorpickerview:2.2.4")
 
@@ -202,19 +202,19 @@ dependencies {
 
     /* Location lookup (for Scripting) */
     debugImplementation("com.google.android.gms:play-services-location:20.0.0")
-    releaseFullImplementation("com.google.android.gms:play-services-location:20.0.0")
+    "releaseFullImplementation"("com.google.android.gms:play-services-location:20.0.0")
 
     /* Password hashing */
     implementation("org.mindrot:jbcrypt:0.4")
 
     /* Crash Reporting */
-    releaseFullImplementation("com.bugsnag:bugsnag-android:5.16.0")
+    "releaseFullImplementation"("com.bugsnag:bugsnag-android:5.16.0")
 
     /* cURL import & export */
-    implementation(project(path: ":curl_command"))
+    implementation(project(path = ":curl_command"))
 
     /* Favicon fetching */
-    implementation(project(path: ":favicon_grabber"))
+    implementation(project(path = ":favicon_grabber"))
 
     /* JSON serialization & deserialization */
     implementation("com.google.code.gson:gson:2.8.9")
@@ -234,9 +234,15 @@ dependencies {
 }
 
 poeditor {
-    apiKey = rootProject.ext.poeditorAPIKey
-    projectId = rootProject.ext.poeditorProjectId
+    apiKey.set(poeditorAPIKey)
+    projectId.set(poeditorProjectId)
 
-    terms(lang: "en", file: "src/main/res/values/strings.xml", updating: "terms_translations", overwrite: true, sync_terms: true)
+    terms(mapOf(
+        "lang" to "en",
+        "file" to "src/main/res/values/strings.xml",
+        "updating" to "terms_translations",
+        "overwrite" to true,
+        "sync_terms" to true,
+    ))
     // translation definitions omitted as the plugin currently does not support filtering by "translated" status, making its pull feature unusable
 }
