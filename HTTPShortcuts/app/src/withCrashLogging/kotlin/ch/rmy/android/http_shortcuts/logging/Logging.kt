@@ -67,7 +67,7 @@ object Logging {
         }
     }
 
-    @Suppress("unused")
+    @Suppress("UNUSED_PARAMETER")
     fun logException(origin: String, e: Throwable) {
         if (initialized && !shouldIgnore(e)) {
             Bugsnag.notify(e)
@@ -81,7 +81,7 @@ object Logging {
             e is RealmFactory.RealmNotFoundException ||
             e.stackTrace.any { it.className.contains("Miui") }
 
-    @Suppress("unused")
+    @Suppress("UNUSED_PARAMETER")
     fun logInfo(origin: String, message: String) {
         if (initialized) {
             Bugsnag.leaveBreadcrumb(message)

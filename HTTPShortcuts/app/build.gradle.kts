@@ -208,7 +208,7 @@ dependencies {
     implementation("org.mindrot:jbcrypt:0.4")
 
     /* Crash Reporting */
-    "releaseFullImplementation"("com.bugsnag:bugsnag-android:5.16.0")
+    "releaseFullImplementation"("com.bugsnag:bugsnag-android:5.23.1")
 
     /* cURL import & export */
     implementation(project(path = ":curl_command"))
