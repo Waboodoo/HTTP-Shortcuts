@@ -7,7 +7,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.DialogBuilder
-import ch.rmy.android.http_shortcuts.utils.WifiUtil
+import ch.rmy.android.http_shortcuts.utils.NetworkUtil
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -22,7 +22,7 @@ class WifiSSIDAction : BaseAction() {
         }
             .andThen(
                 Single.fromCallable {
-                    WifiUtil.getCurrentSsid(executionContext.context)
+                    NetworkUtil.getCurrentSsid(executionContext.context)
                         ?: NO_RESULT
                 }
             )

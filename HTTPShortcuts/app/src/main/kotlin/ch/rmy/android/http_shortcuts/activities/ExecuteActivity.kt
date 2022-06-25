@@ -76,7 +76,6 @@ import ch.rmy.android.http_shortcuts.utils.NetworkUtil
 import ch.rmy.android.http_shortcuts.utils.ProgressIndicator
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.Validation
-import ch.rmy.android.http_shortcuts.utils.WifiUtil
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import ch.rmy.android.http_shortcuts.variables.Variables
@@ -463,7 +462,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         }
 
     private fun checkWifiNetworkSsid(): Completable =
-        if (shortcut.wifiSsid.isEmpty() || WifiUtil.getCurrentSsid(context).orEmpty() == shortcut.wifiSsid) {
+        if (shortcut.wifiSsid.isEmpty() || NetworkUtil.getCurrentSsid(context).orEmpty() == shortcut.wifiSsid) {
             Completable.fromAction {
                 finishActivityIfNeeded()
             }
@@ -479,7 +478,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                 emitter.cancel()
             }
             .positive(R.string.action_label_select) {
-                WifiUtil.showWifiPicker(this)
+                NetworkUtil.showWifiPicker(this)
             }
             .negative(R.string.dialog_cancel)
             .showIfPossible()
