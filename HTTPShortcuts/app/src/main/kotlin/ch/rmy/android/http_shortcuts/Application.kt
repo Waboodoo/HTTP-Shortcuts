@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts
 
 import android.content.Context
-import androidx.multidex.MultiDex
 import ch.rmy.android.framework.WithRealm
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
@@ -18,6 +17,9 @@ import java.security.Security
 import javax.inject.Inject
 
 class Application : android.app.Application(), WithRealm {
+
+    private val context: Context
+        get() = this
 
     val applicationComponent: ApplicationComponent by lazy {
         DaggerApplicationComponent.builder()
@@ -53,12 +55,4 @@ class Application : android.app.Application(), WithRealm {
 
         DarkThemeHelper.applyDarkThemeSettings(Settings(context).darkThemeSetting)
     }
-
-    public override fun attachBaseContext(base: Context) {
-        MultiDex.install(base)
-        super.attachBaseContext(base)
-    }
-
-    private val context: Context
-        get() = this
 }

@@ -41,7 +41,6 @@ android {
         buildConfigField("String", "BUGSNAG_API_KEY", "\"$bugsnagAPIKey\"")
         buildConfigField("String", "BUILD_TIMESTAMP", "\"${rootProject.ext["buildTimestamp"]}\"")
 
-        multiDexEnabled = true
         manifestPlaceholders["bugsnagAPIKey"] = bugsnagAPIKey
         testInstrumentationRunnerArguments["package"] = "ch.rmy.android.http_shortcuts"
         vectorDrawables.useSupportLibrary = true
@@ -150,7 +149,6 @@ if (bugsnagAPIKey.isNotEmpty()) {
 }
 
 dependencies {
-    implementation("androidx.multidex:multidex:2.0.1")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
 
     /* Dependency Injection */
