@@ -76,7 +76,7 @@ open class DialogBuilder(val context: Context) {
         name: CharSequence? = null,
         @StringRes descriptionRes: Int? = null,
         description: CharSequence? = null,
-        checked: Boolean = false,
+        checked: () -> Boolean,
         action: (Boolean) -> Unit = {},
     ) = also {
         items.add(
@@ -201,7 +201,7 @@ open class DialogBuilder(val context: Context) {
         class CheckBoxItem(
             val name: CharSequence,
             val description: CharSequence?,
-            val checked: Boolean = false,
+            val checked: () -> Boolean,
             val action: ((Boolean) -> Unit),
         ) : MenuItem
     }
@@ -282,7 +282,7 @@ open class DialogBuilder(val context: Context) {
             labelView.text = item.name
             descriptionView.isVisible = item.description != null
             descriptionView.text = item.description
-            checkBox.isChecked = item.checked
+            checkBox.isChecked = item.checked()
 
             view.setOnClickListener {
                 checkBox.toggle()

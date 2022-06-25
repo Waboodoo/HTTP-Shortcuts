@@ -28,7 +28,7 @@ class SelectType : BaseVariableType() {
                         if (isMultiSelect(variable)) {
                             val selectedOptions = mutableSetOf<String>()
                             runFor(variable.options!!) { option ->
-                                checkBoxItem(name = option.labelOrValue) { isChecked ->
+                                checkBoxItem(name = option.labelOrValue, checked = { option.id in selectedOptions }) { isChecked ->
                                     selectedOptions.addOrRemove(option.id, isChecked)
                                 }
                                     .positive(R.string.dialog_ok) {
