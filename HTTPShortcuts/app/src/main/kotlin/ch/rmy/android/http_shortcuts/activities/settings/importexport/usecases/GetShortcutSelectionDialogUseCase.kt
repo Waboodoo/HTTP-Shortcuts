@@ -22,7 +22,7 @@ constructor(
     private val shortcutRepository: ShortcutRepository,
 ) {
 
-    operator fun invoke(onConfirm: (Collection<ShortcutId>) -> Unit): Single<DialogState> =
+    operator fun invoke(onConfirm: (Collection<ShortcutId>?) -> Unit): Single<DialogState> =
         shortcutRepository.getShortcuts()
             .map { shortcuts ->
                 object : DialogState {
@@ -42,7 +42,7 @@ constructor(
                                 }
                             }
                             .positive(R.string.dialog_button_export) {
-                                onConfirm(selectedShortcutIds)
+                                onConfirm(selectedShortcutIds.takeUnless { it.size == shortcuts.size })
                             }
                             .negative(R.string.dialog_cancel)
                             .dismissListener {

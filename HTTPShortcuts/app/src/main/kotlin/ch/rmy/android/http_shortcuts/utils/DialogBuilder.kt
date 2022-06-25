@@ -279,6 +279,9 @@ open class DialogBuilder(val context: Context) {
             val descriptionView: TextView = view.findViewById(R.id.menu_item_description)
             val checkBox: CheckBox = view.findViewById(R.id.menu_item_checkbox)
 
+            // Reset the listener to avoid calling the previous one in case the view was recycled
+            checkBox.setOnCheckedChangeListener(null)
+
             labelView.text = item.name
             descriptionView.isVisible = item.description != null
             descriptionView.text = item.description

@@ -11,6 +11,7 @@ import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.isWebUrl
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.ui.IntentBuilder
+import ch.rmy.android.framework.utils.Optional
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.QuantityStringLocalizable
 import ch.rmy.android.framework.utils.localization.StaticLocalizable
@@ -22,8 +23,10 @@ import ch.rmy.android.framework.viewmodel.viewstate.ProgressDialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.settings.importexport.usecases.GetRussianWarningDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.settings.importexport.usecases.GetShortcutSelectionDialogUseCase
+import ch.rmy.android.http_shortcuts.activities.variables.usecases.GetUsedVariableIdsUseCase
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.import_export.ExportFormat
 import ch.rmy.android.http_shortcuts.import_export.Exporter
 import ch.rmy.android.http_shortcuts.import_export.ImportException
@@ -57,6 +60,9 @@ class ImportExportViewModel(application: Application) :
 
     @Inject
     lateinit var getRussianWarningDialog: GetRussianWarningDialogUseCase
+
+    @Inject
+    lateinit var getUsedVariableIds: GetUsedVariableIdsUseCase
 
     init {
         getApplicationComponent().inject(this)
@@ -131,8 +137,25 @@ class ImportExportViewModel(application: Application) :
             .attachTo(destroyer)
     }
 
+    private fun getVariableIdsForExport(shortcutIds: Collection<ShortcutId>?): Single<Optional<Set<VariableId>>> =
+        if (shortcutIds != null) {
+            getUsedVariableIds(shortcutIds)
+                .map(::Optional)
+        } else {
+            Single.just(Optional.empty())
+        }
+
     private fun startExportToUri(shortcutIds: Collection<ShortcutId>?, file: Uri) {
-        exporter.exportToUri(file, shortcutIds = shortcutIds, format = getExportFormat(), excludeDefaults = true)
+        getVariableIdsForExport(shortcutIds)
+            .flatMap { variableIds ->
+                exporter.exportToUri(
+                    file,
+                    shortcutIds = shortcutIds,
+                    variableIds = variableIds.value,
+                    format = getExportFormat(),
+                    excludeDefaults = true,
+                )
+            }
             .withProgressDialog(R.string.export_in_progress)
             .subscribe(
                 { status ->
@@ -163,8 +186,16 @@ class ImportExportViewModel(application: Application) :
         val format = getExportFormat()
         val cacheFile = FileUtil.createCacheFile(context, format.getFileName(single = false))
 
-        exporter
-            .exportToUri(cacheFile, shortcutIds = shortcutIds, excludeDefaults = true)
+        getVariableIdsForExport(shortcutIds)
+            .flatMap { variableIds ->
+                exporter
+                    .exportToUri(
+                        cacheFile,
+                        shortcutIds = shortcutIds,
+                        variableIds = variableIds.value,
+                        excludeDefaults = true,
+                    )
+            }
             .withProgressDialog(R.string.export_in_progress)
             .subscribe(
                 {
