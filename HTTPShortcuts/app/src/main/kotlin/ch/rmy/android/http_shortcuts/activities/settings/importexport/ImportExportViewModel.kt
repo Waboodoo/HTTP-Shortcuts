@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import androidx.annotation.StringRes
 import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.context
@@ -31,6 +32,7 @@ import ch.rmy.android.http_shortcuts.usecases.GetExportDestinationOptionsDialogU
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.FileUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
+import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
@@ -107,28 +109,31 @@ class ImportExportViewModel(application: Application) :
         getShortcutSelectionDialog { selectedShortcutIds ->
             startExportToUri(selectedShortcutIds, file)
         }
+            .withProgressDialog(R.string.export_in_progress)
             .subscribe { dialogState ->
                 this.dialogState = dialogState
+            }
+            .also {
+                disposable = it
             }
             .attachTo(destroyer)
     }
 
     private fun onExportViaSharingOptionSelected() {
         getShortcutSelectionDialog(::sendExport)
+            .withProgressDialog(R.string.export_in_progress)
             .subscribe { dialogState ->
                 this.dialogState = dialogState
+            }
+            .also {
+                disposable = it
             }
             .attachTo(destroyer)
     }
 
     private fun startExportToUri(shortcutIds: Collection<ShortcutId>?, file: Uri) {
         exporter.exportToUri(file, shortcutIds = shortcutIds, format = getExportFormat(), excludeDefaults = true)
-            .doOnSubscribe {
-                showProgressDialog(R.string.export_in_progress)
-            }
-            .doFinally {
-                hideProgressDialog()
-            }
+            .withProgressDialog(R.string.export_in_progress)
             .subscribe(
                 { status ->
                     showSnackbar(
@@ -160,12 +165,7 @@ class ImportExportViewModel(application: Application) :
 
         exporter
             .exportToUri(cacheFile, shortcutIds = shortcutIds, excludeDefaults = true)
-            .doOnSubscribe {
-                showProgressDialog(R.string.export_in_progress)
-            }
-            .doFinally {
-                hideProgressDialog()
-            }
+            .withProgressDialog(R.string.export_in_progress)
             .subscribe(
                 {
                     openActivity(object : IntentBuilder {
@@ -186,6 +186,14 @@ class ImportExportViewModel(application: Application) :
             }
             .attachTo(destroyer)
     }
+
+    private fun <T> Single<T>.withProgressDialog(@StringRes label: Int): Single<T> =
+        doOnSubscribe {
+            showProgressDialog(label)
+        }
+            .doFinally {
+                hideProgressDialog()
+            }
 
     private fun showProgressDialog(message: Int) {
         dialogState = ProgressDialogState(StringResLocalizable(message), ::onProgressDialogCanceled)
@@ -240,12 +248,7 @@ class ImportExportViewModel(application: Application) :
     private fun startImport(uri: Uri) {
         importer
             .importFromUri(uri, importMode = Importer.ImportMode.MERGE)
-            .doOnSubscribe {
-                showProgressDialog(R.string.import_in_progress)
-            }
-            .doFinally {
-                hideProgressDialog()
-            }
+            .withProgressDialog(R.string.import_in_progress)
             .subscribe(
                 { status ->
                     if (status.needsRussianWarning) {
