@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.extensions
 
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.widget.CheckBox
 import android.widget.ImageView
 import androidx.preference.Preference
 import ch.rmy.android.framework.extensions.isDarkThemeEnabled
@@ -19,6 +20,10 @@ fun TabLayout.applyTheme(themeHelper: ThemeHelper) {
 fun FloatingActionButton.applyTheme(themeHelper: ThemeHelper) {
     drawable?.setTintCompat(Color.WHITE)
     backgroundTintList = ColorStateList.valueOf(themeHelper.getPrimaryColor(context))
+}
+
+fun CheckBox.applyTheme(themeHelper: ThemeHelper) {
+    buttonTintList = ColorStateList.valueOf(themeHelper.getPrimaryColor(context))
 }
 
 fun Preference.applyTheme() {

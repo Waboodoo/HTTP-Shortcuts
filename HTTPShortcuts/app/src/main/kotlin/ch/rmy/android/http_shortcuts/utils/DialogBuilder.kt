@@ -23,8 +23,10 @@ import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.showIfPossible
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.databinding.MenuDialogBinding
 import ch.rmy.android.http_shortcuts.databinding.MenuDialogSeparatorBinding
+import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.icons.IconView
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import com.afollestad.materialdialogs.MaterialDialog
@@ -36,6 +38,9 @@ open class DialogBuilder(val context: Context) {
 
     private val dialog = MaterialDialog(context)
     private val items = mutableListOf<MenuItem>()
+
+    private val themeHelper: ThemeHelper
+        get() = (context as BaseActivity).themeHelper
 
     fun title(@StringRes title: Int) = also {
         dialog.title(res = title)
@@ -166,7 +171,7 @@ open class DialogBuilder(val context: Context) {
         dialog.runIf(items.isNotEmpty()) {
             val listView = MenuDialogBinding.inflate(LayoutInflater.from(context)).root
                 .apply {
-                    adapter = MenuListAdapter(context, items, dialog)
+                    adapter = MenuListAdapter(this@DialogBuilder.context, items, dialog)
                     divider = null
                 }
 
@@ -290,6 +295,7 @@ open class DialogBuilder(val context: Context) {
             descriptionView.isVisible = item.description != null
             descriptionView.text = item.description
             checkBox.isChecked = item.checked()
+            checkBox.applyTheme(themeHelper)
 
             when {
                 item.shortcutIcon != null -> {
