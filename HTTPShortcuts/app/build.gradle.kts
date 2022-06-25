@@ -24,6 +24,10 @@ android {
         languageVersion = "1.6"
     }
 
+    lint {
+        disable.add("MissingTranslation")
+    }
+
     defaultConfig {
         applicationId = "ch.rmy.android.http_shortcuts"
         minSdk = 21
