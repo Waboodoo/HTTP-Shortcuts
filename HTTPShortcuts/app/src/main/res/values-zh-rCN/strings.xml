@@ -1868,4 +1868,10 @@
 
     <!-- Shortcut Action Title: Send a UDP packet to another device on the network -->
     <string name="action_type_send_udp_packet">"发送 UDP 包"</string>
+
+    <!-- Dialog button: Confirm exporting the selected shortcuts -->
+    <string name="dialog_button_export">"导出"</string>
+
+    <!-- Dialog title: shown in dialog when selecting which shortcuts to export -->
+    <string name="dialog_title_select_shortcuts_for_export">"选择快捷方式"</string>
 </resources>
