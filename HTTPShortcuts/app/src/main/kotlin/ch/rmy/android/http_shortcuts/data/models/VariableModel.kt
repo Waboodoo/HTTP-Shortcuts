@@ -8,6 +8,7 @@ import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.variables.Variables
 import io.realm.RealmList
 import io.realm.RealmObject
+import io.realm.annotations.Ignore
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
 import io.realm.annotations.Required
@@ -99,9 +100,19 @@ open class VariableModel(
         return true
     }
 
+    @Ignore
+    private var dataCache: Map<String, String?>? = null
+
     var dataForType: Map<String, String?>
-        get() = GsonUtil.fromJsonObject<Map<String, String?>>(data)[type]?.toMap() ?: emptyMap()
+        get() = dataCache
+            ?: run {
+                (GsonUtil.fromJsonObject<Map<String, String?>>(data)[type]?.toMap() ?: emptyMap())
+                    .also {
+                        dataCache = it
+                    }
+            }
         set(value) {
+            dataCache = value
             val dataMap = GsonUtil.fromJsonObject<Map<String, String?>>(data).toMutableMap()
             dataMap[type] = value
             data = GsonUtil.toJson(dataMap)

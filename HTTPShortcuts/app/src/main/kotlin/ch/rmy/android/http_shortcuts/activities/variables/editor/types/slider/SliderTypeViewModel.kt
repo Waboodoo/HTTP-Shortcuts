@@ -17,6 +17,8 @@ class SliderTypeViewModel(application: Application) : BaseVariableTypeViewModel<
         minValueText = SliderType.findMin(variable).toString(),
         maxValueText = SliderType.findMax(variable).toString(),
         stepSizeText = SliderType.findStep(variable).toString(),
+        prefix = SliderType.findPrefix(variable),
+        suffix = SliderType.findSuffix(variable),
     )
 
     fun onRememberValueChanged(enabled: Boolean) {
@@ -46,6 +48,20 @@ class SliderTypeViewModel(application: Application) : BaseVariableTypeViewModel<
         storeData()
     }
 
+    fun onPrefixChanged(prefix: String) {
+        updateViewState {
+            copy(prefix = prefix)
+        }
+        storeData()
+    }
+
+    fun onSuffixChanged(suffix: String) {
+        updateViewState {
+            copy(suffix = suffix)
+        }
+        storeData()
+    }
+
     private fun storeData() {
         doWithViewState { viewState ->
             performOperation(
@@ -54,6 +70,8 @@ class SliderTypeViewModel(application: Application) : BaseVariableTypeViewModel<
                         maxValue = viewState.maxValue,
                         minValue = viewState.minValue,
                         stepValue = viewState.stepSize,
+                        prefix = viewState.prefix,
+                        suffix = viewState.suffix,
                     )
                 )
             )

@@ -6,6 +6,8 @@ data class SliderTypeViewState(
     val minValueText: String,
     val maxValueText: String,
     val stepSizeText: String,
+    val prefix: String,
+    val suffix: String,
     val rememberValue: Boolean,
 ) {
     val minValue

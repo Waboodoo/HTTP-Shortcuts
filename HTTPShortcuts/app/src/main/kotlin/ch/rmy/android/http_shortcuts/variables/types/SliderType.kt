@@ -27,6 +27,8 @@ class SliderType : BaseVariableType() {
     override fun resolveValue(context: Context, variable: VariableModel): Single<String> =
         Single.create<String> { emitter ->
             val range = findRange(variable)
+            val prefix = findPrefix(variable)
+            val suffix = findSuffix(variable)
             val binding = VariableDialogSliderBinding.inflate(LayoutInflater.from(context))
             binding.slider.max = findSliderMax(range)
 
@@ -40,10 +42,10 @@ class SliderType : BaseVariableType() {
 
             binding.slider.setOnSeekBarChangeListener(object : SimpleOnSeekBarChangeListener {
                 override fun onProgressChanged(slider: SeekBar, progress: Int, fromUser: Boolean) {
-                    binding.sliderValue.text = findValue(slider.progress, range)
+                    binding.sliderValue.text = prefix + findValue(slider.progress, range) + suffix
                 }
             })
-            binding.sliderValue.text = findValue(binding.slider.progress, range)
+            binding.sliderValue.text = prefix + findValue(binding.slider.progress, range) + suffix
 
             createDialogBuilder(context, variable, emitter)
                 .view(binding.root)
@@ -72,6 +74,8 @@ class SliderType : BaseVariableType() {
         private const val KEY_MIN = "min"
         private const val KEY_MAX = "max"
         private const val KEY_STEP = "step"
+        private const val KEY_PREFIX = "prefix"
+        private const val KEY_SUFFIX = "suffix"
 
         const val DEFAULT_MIN = 0.0
         const val DEFAULT_MAX = 100.0
@@ -86,10 +90,18 @@ class SliderType : BaseVariableType() {
         fun findStep(variable: VariableModel): Double =
             variable.dataForType[KEY_STEP]?.toDoubleOrNull() ?: DEFAULT_STEP
 
-        fun getData(maxValue: Double, minValue: Double, stepValue: Double) = mapOf(
+        fun findPrefix(variable: VariableModel): String =
+            variable.dataForType[KEY_PREFIX] ?: ""
+
+        fun findSuffix(variable: VariableModel): String =
+            variable.dataForType[KEY_SUFFIX] ?: ""
+
+        fun getData(maxValue: Double, minValue: Double, stepValue: Double, prefix: String, suffix: String) = mapOf(
             KEY_MAX to maxValue.toString(),
             KEY_MIN to minValue.toString(),
             KEY_STEP to stepValue.toString(),
+            KEY_PREFIX to prefix,
+            KEY_SUFFIX to suffix,
         )
 
         private fun findRange(variable: VariableModel): Range =

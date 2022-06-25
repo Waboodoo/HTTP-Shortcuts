@@ -47,6 +47,30 @@
         android:inputType="numberDecimal"
         android:maxLines="1" />
 
+    <TextView
+        style="@style/Label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/label_variable_slider_prefix" />
+
+    <EditText
+        android:id="@+id/input_slider_prefix"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lines="1" />
+
+    <TextView
+        style="@style/Label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/label_variable_slider_suffix" />
+
+    <EditText
+        android:id="@+id/input_slider_suffix"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lines="1" />
+
     <CheckBox
         android:id="@+id/input_remember_value"
         android:layout_width="match_parent"

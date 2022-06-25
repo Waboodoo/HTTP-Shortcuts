@@ -56,6 +56,20 @@ class SliderTypeFragment : BaseFragment<VariableEditorSliderBinding>() {
                 viewModel.onStepSizeChanged(it.toString())
             }
             .attachTo(destroyer)
+
+        binding.inputSliderPrefix
+            .observeTextChanges()
+            .subscribe {
+                viewModel.onPrefixChanged(it.toString())
+            }
+            .attachTo(destroyer)
+
+        binding.inputSliderSuffix
+            .observeTextChanges()
+            .subscribe {
+                viewModel.onSuffixChanged(it.toString())
+            }
+            .attachTo(destroyer)
     }
 
     private fun initViewModelBindings() {
@@ -63,6 +77,8 @@ class SliderTypeFragment : BaseFragment<VariableEditorSliderBinding>() {
             binding.inputSliderMin.setTextSafely(viewState.minValueText)
             binding.inputSliderMax.setTextSafely(viewState.maxValueText)
             binding.inputSliderStep.setTextSafely(viewState.stepSizeText)
+            binding.inputSliderPrefix.setTextSafely(viewState.prefix)
+            binding.inputSliderSuffix.setTextSafely(viewState.suffix)
             binding.inputRememberValue.isChecked = viewState.rememberValue
         }
         viewModel.events.observe(this, ::handleEvent)
