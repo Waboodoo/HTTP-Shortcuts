@@ -9,7 +9,6 @@ import ch.rmy.android.framework.extensions.color
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.setTextSafely
 import ch.rmy.android.framework.extensions.showToast
-import ch.rmy.android.framework.utils.ViewUtil.getAttributeValue
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.dtos.VariablePlaceholder
@@ -32,7 +31,8 @@ class VariableEditText @JvmOverloads constructor(
         color(context, R.color.variable)
     }
 
-    private val maxLength: Int? = getAttributeValue(context, attrs, android.R.attr.maxLength)
+    private val maxLength: Int? =
+        attrs?.getAttributeIntValue(android.R.attr.maxLength, -1).takeUnless { it == -1 }
 
     var rawString: String
         get() = Variables.variableSpansToRawPlaceholders(text)

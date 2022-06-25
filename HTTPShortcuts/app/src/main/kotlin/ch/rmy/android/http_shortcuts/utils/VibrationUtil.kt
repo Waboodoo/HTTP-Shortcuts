@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Build
 import android.os.Vibrator
 import android.os.VibratorManager
+import androidx.core.content.getSystemService
 import javax.inject.Inject
 
 class VibrationUtil
@@ -14,13 +15,13 @@ constructor(
 
     fun getVibrator(): Vibrator? =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            val vibrationManager = context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
-            vibrationManager.defaultVibrator
+            context.getSystemService<VibratorManager>()
+                ?.defaultVibrator
         } else {
             @Suppress("DEPRECATION")
-            context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+            context.getSystemService()
         }
-            .takeIf { it.hasVibrator() }
+            ?.takeIf { it.hasVibrator() }
 
     fun canVibrate(): Boolean =
         getVibrator() != null

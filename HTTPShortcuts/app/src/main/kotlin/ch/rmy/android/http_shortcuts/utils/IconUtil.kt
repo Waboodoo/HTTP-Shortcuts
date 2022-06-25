@@ -9,6 +9,7 @@ import android.graphics.drawable.Icon
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.getSystemService
 import androidx.core.graphics.scale
 import ch.rmy.android.framework.extensions.setTintCompat
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
@@ -117,7 +118,7 @@ object IconUtil {
         if (iconSizeCached == null) {
             iconSizeCached = max(
                 context.resources.getDimensionPixelSize(android.R.dimen.app_icon_size),
-                (context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager).launcherLargeIconSize
+                context.getSystemService<ActivityManager>()!!.launcherLargeIconSize
             )
         }
         return if (scaled) {

@@ -29,7 +29,7 @@ abstract class BaseAdapter<T : Any> : RecyclerView.Adapter<RecyclerView.ViewHold
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
         createViewHolder(viewType, parent, LayoutInflater.from(parent.context))
-            ?: throw IllegalStateException("ViewHolder creation failed, not implemented?")
+            ?: error("ViewHolder creation failed, not implemented?")
 
     protected abstract fun createViewHolder(viewType: Int, parent: ViewGroup, layoutInflater: LayoutInflater): RecyclerView.ViewHolder?
 

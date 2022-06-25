@@ -249,7 +249,7 @@ class ScriptExecutor(
                                     callback = { request ->
                                         Single.create { emitter ->
                                             if (sendResult != null) {
-                                                throw IllegalStateException("Another action is already waiting for a result")
+                                                error("Another action is already waiting for a result")
                                             }
                                             sendResult = emitter::onSuccess
                                             sendRequest(request)

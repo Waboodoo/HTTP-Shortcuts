@@ -119,7 +119,7 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
 
     protected fun finalizeInitialization(silent: Boolean = false) {
         if (isInitialized) {
-            throw IllegalStateException("view model already initialized")
+            error("view model already initialized")
         }
         val publishViewState = delayedViewStateUpdates.isNotEmpty() || !silent
         currentViewState = initViewState()

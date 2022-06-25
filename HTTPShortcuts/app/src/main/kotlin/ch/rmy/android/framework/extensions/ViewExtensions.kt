@@ -13,7 +13,9 @@ import android.widget.CompoundButton
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.getSystemService
 import androidx.core.content.res.use
+import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
@@ -68,8 +70,8 @@ fun EditText.insertAroundCursor(before: String, after: String = "") {
 fun View.showSoftKeyboard() {
     requestFocus()
     post {
-        (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
-            .showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+        context.getSystemService<InputMethodManager>()
+            ?.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
     }
 }
 
@@ -82,15 +84,9 @@ fun View.addRippleAnimation(borderless: Boolean = false) {
 }
 
 val Toolbar.titleView: TextView?
-    get() {
-        for (i in 0 until childCount) {
-            val child = getChildAt(i) as? TextView
-            if (child != null) {
-                return child
-            }
-        }
-        return null
-    }
+    get() = children
+        .filterIsInstance<TextView>()
+        .firstOrNull()
 
 fun CheckBox.observeChecked(): Observable<Boolean> {
     val subject = PublishSubject.create<Boolean>()

@@ -28,7 +28,7 @@ object Logging {
         }
 
         if (BuildConfig.BUGSNAG_API_KEY.isEmpty()) {
-            throw IllegalStateException("Bugsnag API key not set")
+            error("Bugsnag API key not set")
         }
 
         Bugsnag.start(context, createBugsnagConfig())

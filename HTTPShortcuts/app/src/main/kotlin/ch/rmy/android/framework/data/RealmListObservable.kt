@@ -14,7 +14,7 @@ class RealmListObservable<T : RealmObject>(
 
     override fun registerChangeListener(realmContext: RealmContext, onDataChanged: (List<T>) -> Unit) {
         if (list != null) {
-            throw IllegalStateException("RealmListObservable is already subscribed to.")
+            error("RealmListObservable is already subscribed to.")
         }
         list = query.invoke(realmContext)
             .apply {

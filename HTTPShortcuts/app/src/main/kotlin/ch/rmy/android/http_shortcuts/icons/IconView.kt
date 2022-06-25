@@ -47,7 +47,7 @@ class IconView : AppCompatImageView {
     }
 
     private fun applyImageURI(uri: Uri, tint: Int?) {
-        if (uri.scheme == "file") {
+        if (uri.scheme?.equals("file", ignoreCase = true) == true) {
             loadImage(uri)
         } else {
             Picasso.get().cancelRequest(this)

@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -23,9 +22,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/label_variable_value"
             android:inputType="textMultiLine|textNoSuggestions"
-            android:minLines="1"
-            android:maxLines="12"
             android:maxLength="30000"
+            android:maxLines="12"
+            android:minLines="1"
             android:paddingRight="@dimen/variable_button_spacing">
 
         </ch.rmy.android.http_shortcuts.variables.VariableEditText>

@@ -46,7 +46,7 @@ class CodeSnippetAdapter : BaseAdapter<ItemWrapper>() {
             VIEW_TYPE_CODE_SNIPPET -> {
                 CodeSnippetViewHolder(SimpleListItemView(parent.context).applyLayoutParams())
             }
-            else -> throw IllegalStateException()
+            else -> error("Unexpected view type $viewType")
         }
 
     override fun getItemViewType(position: Int): Int =

@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.net.nsd.NsdManager
 import android.net.nsd.NsdServiceInfo
+import androidx.core.content.getSystemService
 import ch.rmy.android.framework.extensions.logInfo
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
@@ -20,7 +21,7 @@ object ServiceDiscoveryHelper {
         uri.host?.endsWith(SERVICE_NAME_SUFFIX, ignoreCase = true) == true
 
     fun discoverService(context: Context, serviceName: String): Single<ServiceInfo> = Single.create<ServiceInfo> { emitter ->
-        val nsdManager = context.getSystemService(Context.NSD_SERVICE) as NsdManager
+        val nsdManager = requireNotNull(context.getSystemService<NsdManager>())
 
         val discoveryListener = object : NsdManager.DiscoveryListener {
             override fun onStartDiscoveryFailed(serviceType: String?, errorCode: Int) {

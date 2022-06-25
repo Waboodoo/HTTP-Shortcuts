@@ -16,6 +16,7 @@ import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
+import androidx.core.content.getSystemService
 import androidx.core.view.isVisible
 import androidx.core.widget.ImageViewCompat
 import ch.rmy.android.framework.extensions.color
@@ -220,7 +221,7 @@ open class DialogBuilder(val context: Context) {
         private val dialog: Dialog,
     ) : ArrayAdapter<MenuItem>(context, 0, items) {
 
-        private val layoutInflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        private val layoutInflater: LayoutInflater = context.getSystemService()!!
 
         override fun getItemViewType(position: Int): Int =
             when (getItem(position)!!) {
