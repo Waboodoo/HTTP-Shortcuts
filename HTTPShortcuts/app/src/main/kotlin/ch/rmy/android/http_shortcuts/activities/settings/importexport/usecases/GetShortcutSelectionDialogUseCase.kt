@@ -36,7 +36,11 @@ constructor(
                         DialogBuilder(context)
                             .title(R.string.dialog_title_select_shortcuts_for_export)
                             .runFor(shortcuts) { shortcut ->
-                                checkBoxItem(name = shortcut.name, checked = { shortcut.id in selectedShortcutIds }) { isChecked ->
+                                checkBoxItem(
+                                    name = shortcut.name,
+                                    shortcutIcon = shortcut.icon,
+                                    checked = { shortcut.id in selectedShortcutIds },
+                                ) { isChecked ->
                                     selectedShortcutIds.addOrRemove(shortcut.id, isChecked)
                                     onSelectionChanged?.invoke()
                                 }

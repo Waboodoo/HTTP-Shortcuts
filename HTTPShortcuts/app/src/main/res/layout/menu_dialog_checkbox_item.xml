@@ -13,20 +13,25 @@
         android:layout_height="32dp"
         android:layout_centerVertical="true"
         android:layout_marginTop="2dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:layout_marginBottom="2dp" />
+
+    <ch.rmy.android.http_shortcuts.icons.IconView
+        android:id="@+id/menu_item_shortcut_icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="8dp"
+        android:layout_toEndOf="@+id/menu_item_checkbox" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
-        android:layout_toEndOf="@+id/menu_item_checkbox"
-        android:layout_toRightOf="@+id/menu_item_checkbox"
+        android:layout_toEndOf="@+id/menu_item_shortcut_icon"
         android:gravity="center_vertical"
         android:orientation="vertical">
 

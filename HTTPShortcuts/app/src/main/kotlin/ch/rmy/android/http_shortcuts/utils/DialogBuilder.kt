@@ -76,6 +76,7 @@ open class DialogBuilder(val context: Context) {
         name: CharSequence? = null,
         @StringRes descriptionRes: Int? = null,
         description: CharSequence? = null,
+        shortcutIcon: ShortcutIcon? = null,
         checked: () -> Boolean,
         action: (Boolean) -> Unit = {},
     ) = also {
@@ -83,6 +84,7 @@ open class DialogBuilder(val context: Context) {
             MenuItem.CheckBoxItem(
                 name ?: context.getString(nameRes!!),
                 description ?: (descriptionRes?.let { context.getString(it) }),
+                shortcutIcon,
                 checked,
                 action,
             )
@@ -201,6 +203,7 @@ open class DialogBuilder(val context: Context) {
         class CheckBoxItem(
             val name: CharSequence,
             val description: CharSequence?,
+            val shortcutIcon: ShortcutIcon?,
             val checked: () -> Boolean,
             val action: ((Boolean) -> Unit),
         ) : MenuItem
@@ -277,6 +280,7 @@ open class DialogBuilder(val context: Context) {
 
             val labelView: TextView = view.findViewById(R.id.menu_item_label)
             val descriptionView: TextView = view.findViewById(R.id.menu_item_description)
+            val shortcutIconView: IconView = view.findViewById(R.id.menu_item_shortcut_icon)
             val checkBox: CheckBox = view.findViewById(R.id.menu_item_checkbox)
 
             // Reset the listener to avoid calling the previous one in case the view was recycled
@@ -286,6 +290,16 @@ open class DialogBuilder(val context: Context) {
             descriptionView.isVisible = item.description != null
             descriptionView.text = item.description
             checkBox.isChecked = item.checked()
+
+            when {
+                item.shortcutIcon != null -> {
+                    shortcutIconView.setIcon(item.shortcutIcon)
+                    shortcutIconView.isVisible = true
+                }
+                else -> {
+                    shortcutIconView.isVisible = false
+                }
+            }
 
             view.setOnClickListener {
                 checkBox.toggle()
