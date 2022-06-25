@@ -64,6 +64,8 @@ class ImportExportViewModel(application: Application) :
     @Inject
     lateinit var getUsedVariableIds: GetUsedVariableIdsUseCase
 
+    private var shortcutIdsForExport: Collection<ShortcutId>? = null
+
     init {
         getApplicationComponent().inject(this)
     }
@@ -103,6 +105,19 @@ class ImportExportViewModel(application: Application) :
     }
 
     fun onExportButtonClicked() {
+        getShortcutSelectionDialog(::onShortcutsForExportSelected)
+            .withProgressDialog(R.string.export_in_progress)
+            .subscribe { dialogState ->
+                this.dialogState = dialogState
+            }
+            .also {
+                disposable = it
+            }
+            .attachTo(destroyer)
+    }
+
+    private fun onShortcutsForExportSelected(shortcutIds: Collection<ShortcutId>?) {
+        shortcutIdsForExport = shortcutIds
         dialogState = getExportDestinationOptionsDialog(
             onExportToFileOptionSelected = {
                 emitEvent(ImportExportEvent.OpenFilePickerForExport(getExportFormat()))
@@ -112,29 +127,13 @@ class ImportExportViewModel(application: Application) :
     }
 
     fun onFilePickedForExport(file: Uri) {
-        getShortcutSelectionDialog { selectedShortcutIds ->
-            startExportToUri(selectedShortcutIds, file)
-        }
-            .withProgressDialog(R.string.export_in_progress)
-            .subscribe { dialogState ->
-                this.dialogState = dialogState
-            }
-            .also {
-                disposable = it
-            }
-            .attachTo(destroyer)
+        startExportToUri(shortcutIdsForExport, file)
+        shortcutIdsForExport = null
     }
 
     private fun onExportViaSharingOptionSelected() {
-        getShortcutSelectionDialog(::sendExport)
-            .withProgressDialog(R.string.export_in_progress)
-            .subscribe { dialogState ->
-                this.dialogState = dialogState
-            }
-            .also {
-                disposable = it
-            }
-            .attachTo(destroyer)
+        sendExport(shortcutIdsForExport)
+        shortcutIdsForExport = null
     }
 
     private fun getVariableIdsForExport(shortcutIds: Collection<ShortcutId>?): Single<Optional<Set<VariableId>>> =
