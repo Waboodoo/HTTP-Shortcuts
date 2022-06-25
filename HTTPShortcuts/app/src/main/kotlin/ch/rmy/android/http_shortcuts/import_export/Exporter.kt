@@ -6,6 +6,7 @@ import ch.rmy.android.framework.extensions.applyIfNotNull
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.runIf
+import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.safeRemoveIf
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
@@ -58,7 +59,7 @@ constructor(
                             writer.flush()
                             out.closeEntry()
 
-                            getFilesToExport(context, base).forEach { file ->
+                            getFilesToExport(context, base, shortcutIds).forEach { file ->
                                 out.putNextEntry(ZipEntry(file.name))
                                 FileInputStream(file).copyTo(out)
                                 writer.flush()
@@ -130,21 +131,24 @@ constructor(
         }
     }
 
-    private fun getFilesToExport(context: Context, base: BaseModel): List<File> =
-        getShortcutIconFiles(context)
-            .plus(getClientCertFiles(context, base))
+    private fun getFilesToExport(context: Context, base: BaseModel, shortcutIds: Collection<ShortcutId>?): List<File> =
+        getShortcutIconFiles(context, shortcutIds)
+            .plus(getClientCertFiles(context, base, shortcutIds))
             .filter { it.exists() }
             .toList()
 
-    private fun getShortcutIconFiles(context: Context) =
-        getUsedCustomIcons()
+    private fun getShortcutIconFiles(context: Context, shortcutIds: Collection<ShortcutId>?) =
+        getUsedCustomIcons(shortcutIds)
             .blockingGet()
             .mapNotNull {
                 it.getFile(context)
             }
 
-    private fun getClientCertFiles(context: Context, base: BaseModel) =
+    private fun getClientCertFiles(context: Context, base: BaseModel, shortcutIds: Collection<ShortcutId>?) =
         base.shortcuts.asSequence()
+            .runIfNotNull(shortcutIds) { ids ->
+                filter { shortcut -> shortcut.id in ids }
+            }
             .mapNotNull { (it.clientCertParams as? ClientCertParams.File) }
             .map { it.getFile(context) }
 

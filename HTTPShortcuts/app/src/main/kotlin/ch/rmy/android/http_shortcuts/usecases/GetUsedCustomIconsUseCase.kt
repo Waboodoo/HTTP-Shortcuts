@@ -4,6 +4,7 @@ import androidx.annotation.CheckResult
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.utils.Optional
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.models.BaseModel
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
@@ -20,7 +21,10 @@ constructor(
 ) {
 
     @CheckResult
-    operator fun invoke(includeTemporaryShortcut: Boolean = false): Single<List<ShortcutIcon.CustomIcon>> =
+    operator fun invoke(
+        shortcutIds: Collection<ShortcutId>? = null,
+        includeTemporaryShortcut: Boolean = false,
+    ): Single<List<ShortcutIcon.CustomIcon>> =
         appRepository.getBase()
             .flatMap { base ->
                 if (includeTemporaryShortcut) {
@@ -29,7 +33,7 @@ constructor(
                     Single.just(Optional.empty())
                 }
                     .map { temporaryShortcutOptional ->
-                        getCustomShortcutIcons(base, temporaryShortcutOptional.value)
+                        getCustomShortcutIcons(base, shortcutIds, temporaryShortcutOptional.value)
                     }
             }
 
@@ -38,10 +42,13 @@ constructor(
             .map { Optional(it) }
             .onErrorReturn { Optional.empty() }
 
-    private fun getCustomShortcutIcons(base: BaseModel, temporaryShortcut: ShortcutModel?) =
+    private fun getCustomShortcutIcons(base: BaseModel, shortcutIds: Collection<ShortcutId>?, temporaryShortcut: ShortcutModel?) =
         base.shortcuts
             .runIfNotNull(temporaryShortcut, List<ShortcutModel>::plus)
             .asSequence()
+            .runIfNotNull(shortcutIds) { ids ->
+                filter { shortcut -> shortcut.id in ids }
+            }
             .map { it.icon }
             .filterIsInstance(ShortcutIcon.CustomIcon::class.java)
             .plus(
