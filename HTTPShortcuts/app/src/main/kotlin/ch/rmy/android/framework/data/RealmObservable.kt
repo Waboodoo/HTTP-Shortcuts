@@ -18,9 +18,9 @@ abstract class RealmObservable<T : RealmObject>(
         var looper: Looper? = null
         observer.onSubscribe(object : Disposable {
             override fun dispose() {
-                onDispose()
-                isDisposed = true
                 AndroidSchedulers.from(looper ?: return).scheduleDirect {
+                    onDispose()
+                    isDisposed = true
                     realm?.close()
                 }
             }
