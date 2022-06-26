@@ -1,3 +1,5 @@
+import android.annotation.SuppressLint
+
 plugins {
     id("de.jansauer.poeditor") version "1.1.0"
     id("com.android.application")
@@ -182,7 +184,7 @@ dependencies {
     implementation("com.github.yalantis:ucrop:2.2.8")
 
     /* Image display */
-    implementation("com.squareup.picasso:picasso:2.71828")
+    implementation("com.squareup.picasso:picasso:2.8")
 
     /* HTTP & Network */
     implementation("com.squareup.okhttp3:okhttp:4.9.3")
