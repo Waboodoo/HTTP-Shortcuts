@@ -86,7 +86,7 @@ class TriggerShortcutsActivity : BaseActivity() {
         viewModel.events.observe(this, ::handleEvent)
     }
 
-    class IntentBuilder : BaseIntentBuilder(TriggerShortcutsActivity::class.java) {
+    class IntentBuilder : BaseIntentBuilder(TriggerShortcutsActivity::class) {
 
         fun shortcutId(shortcutId: ShortcutId?) = also {
             intent.putExtra(EXTRA_SHORTCUT_ID, shortcutId)

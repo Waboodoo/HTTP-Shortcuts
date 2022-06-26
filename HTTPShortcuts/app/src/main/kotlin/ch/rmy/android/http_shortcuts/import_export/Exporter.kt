@@ -114,7 +114,7 @@ constructor(
                 .setPrettyPrinting()
                 .runIf(excludeDefaults) {
                     runFor(MODEL_CLASSES) { clazz ->
-                        registerTypeAdapter(clazz, serializer)
+                        registerTypeAdapter(clazz.java, serializer)
                     }
                 }
                 .create()
@@ -158,14 +158,14 @@ constructor(
         const val JSON_FILE = "shortcuts.json"
 
         private val MODEL_CLASSES = setOf(
-            BaseModel::class.java,
-            HeaderModel::class.java,
-            ParameterModel::class.java,
-            ShortcutModel::class.java,
-            OptionModel::class.java,
-            VariableModel::class.java,
-            CategoryModel::class.java,
-            ResponseHandlingModel::class.java,
+            BaseModel::class,
+            HeaderModel::class,
+            ParameterModel::class,
+            ShortcutModel::class,
+            OptionModel::class,
+            VariableModel::class,
+            CategoryModel::class,
+            ResponseHandlingModel::class,
         )
     }
 }

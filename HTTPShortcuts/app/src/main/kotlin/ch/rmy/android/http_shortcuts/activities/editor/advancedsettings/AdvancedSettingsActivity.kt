@@ -103,5 +103,5 @@ class AdvancedSettingsActivity : BaseActivity() {
         viewModel.onBackPressed()
     }
 
-    class IntentBuilder : BaseIntentBuilder(AdvancedSettingsActivity::class.java)
+    class IntentBuilder : BaseIntentBuilder(AdvancedSettingsActivity::class)
 }

@@ -109,5 +109,5 @@ class AboutActivity : BaseActivity() {
         }
     }
 
-    class IntentBuilder : BaseIntentBuilder(AboutActivity::class.java)
+    class IntentBuilder : BaseIntentBuilder(AboutActivity::class)
 }

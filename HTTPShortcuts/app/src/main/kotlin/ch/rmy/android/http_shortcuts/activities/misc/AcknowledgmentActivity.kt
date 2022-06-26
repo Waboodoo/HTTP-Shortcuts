@@ -68,7 +68,7 @@ class AcknowledgmentActivity : BaseActivity() {
         binding.acknowledgmentsWebview.saveState(outState)
     }
 
-    class IntentBuilder : BaseIntentBuilder(AcknowledgmentActivity::class.java)
+    class IntentBuilder : BaseIntentBuilder(AcknowledgmentActivity::class)
 
     companion object {
 

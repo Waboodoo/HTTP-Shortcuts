@@ -223,7 +223,7 @@ class ShortcutEditorActivity : BaseActivity() {
             }
     }
 
-    class IntentBuilder : BaseIntentBuilder(ShortcutEditorActivity::class.java) {
+    class IntentBuilder : BaseIntentBuilder(ShortcutEditorActivity::class) {
 
         fun shortcutId(shortcutId: ShortcutId) = also {
             intent.putExtra(EXTRA_SHORTCUT_ID, shortcutId)

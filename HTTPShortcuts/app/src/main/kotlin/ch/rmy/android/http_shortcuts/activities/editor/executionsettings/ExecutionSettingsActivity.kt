@@ -71,5 +71,5 @@ class ExecutionSettingsActivity : BaseActivity() {
         viewModel.onBackPressed()
     }
 
-    class IntentBuilder : BaseIntentBuilder(ExecutionSettingsActivity::class.java)
+    class IntentBuilder : BaseIntentBuilder(ExecutionSettingsActivity::class)
 }

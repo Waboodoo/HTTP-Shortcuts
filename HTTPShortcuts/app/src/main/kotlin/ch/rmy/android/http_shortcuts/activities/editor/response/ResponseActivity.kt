@@ -115,7 +115,7 @@ class ResponseActivity : BaseActivity() {
         viewModel.onBackPressed()
     }
 
-    class IntentBuilder : BaseIntentBuilder(ResponseActivity::class.java)
+    class IntentBuilder : BaseIntentBuilder(ResponseActivity::class)
 
     companion object {
 

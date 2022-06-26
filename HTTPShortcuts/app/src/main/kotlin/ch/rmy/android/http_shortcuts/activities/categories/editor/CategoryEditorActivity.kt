@@ -151,7 +151,7 @@ class CategoryEditorActivity : BaseActivity() {
             resultCode == Activity.RESULT_OK
     }
 
-    class IntentBuilder : BaseIntentBuilder(CategoryEditorActivity::class.java) {
+    class IntentBuilder : BaseIntentBuilder(CategoryEditorActivity::class) {
         fun categoryId(categoryId: CategoryId) = also {
             intent.putExtra(EXTRA_CATEGORY_ID, categoryId)
         }

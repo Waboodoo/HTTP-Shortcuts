@@ -128,7 +128,7 @@ class ContactActivity : BaseActivity() {
             }
         }
 
-    class IntentBuilder : BaseIntentBuilder(ContactActivity::class.java)
+    class IntentBuilder : BaseIntentBuilder(ContactActivity::class)
 
     companion object {
         private const val CAPTCHA_CODE = "HTTP Shortcuts"

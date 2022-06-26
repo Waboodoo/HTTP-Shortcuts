@@ -197,7 +197,7 @@ class VariableEditorActivity : BaseActivity() {
         viewModel.onBackPressed()
     }
 
-    class IntentBuilder(type: VariableType) : BaseIntentBuilder(VariableEditorActivity::class.java) {
+    class IntentBuilder(type: VariableType) : BaseIntentBuilder(VariableEditorActivity::class) {
 
         init {
             intent.putExtra(EXTRA_VARIABLE_TYPE, type.type)

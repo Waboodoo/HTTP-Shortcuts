@@ -279,7 +279,7 @@ class MainActivity : BaseActivity(), Entrypoint {
         data class Result(val shortcutId: ShortcutId, val shortcutName: String)
     }
 
-    class IntentBuilder : BaseIntentBuilder(MainActivity::class.java) {
+    class IntentBuilder : BaseIntentBuilder(MainActivity::class) {
         init {
             intent.action = Intent.ACTION_VIEW
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)

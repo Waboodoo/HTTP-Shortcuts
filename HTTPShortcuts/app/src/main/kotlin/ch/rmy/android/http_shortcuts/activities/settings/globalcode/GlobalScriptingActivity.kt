@@ -159,5 +159,5 @@ class GlobalScriptingActivity : BaseActivity() {
 
     override val navigateUpIcon = R.drawable.ic_clear
 
-    class IntentBuilder : BaseIntentBuilder(GlobalScriptingActivity::class.java)
+    class IntentBuilder : BaseIntentBuilder(GlobalScriptingActivity::class)
 }

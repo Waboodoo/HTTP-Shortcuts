@@ -771,8 +771,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         SessionMonitor.onSessionComplete()
     }
 
-    class IntentBuilder(private val shortcutId: ShortcutId? = null) :
-        BaseIntentBuilder(ExecuteActivity::class.java) {
+    class IntentBuilder(private val shortcutId: ShortcutId? = null) : BaseIntentBuilder(ExecuteActivity::class) {
 
         init {
             intent.action = ACTION_EXECUTE_SHORTCUT

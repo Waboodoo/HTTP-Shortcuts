@@ -350,7 +350,7 @@ class DisplayResponseActivity : BaseActivity() {
         data class Params(val type: String?, val title: String)
     }
 
-    class IntentBuilder(shortcutId: ShortcutId) : BaseIntentBuilder(DisplayResponseActivity::class.java) {
+    class IntentBuilder(shortcutId: ShortcutId) : BaseIntentBuilder(DisplayResponseActivity::class) {
 
         init {
             intent.putExtra(EXTRA_SHORTCUT_ID, shortcutId)

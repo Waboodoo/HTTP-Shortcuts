@@ -136,5 +136,5 @@ class CategoriesActivity : BaseActivity() {
             }
     }
 
-    class IntentBuilder : BaseIntentBuilder(CategoriesActivity::class.java)
+    class IntentBuilder : BaseIntentBuilder(CategoriesActivity::class)
 }

@@ -148,7 +148,7 @@ class RequestBodyActivity : BaseActivity() {
         viewModel.onBackPressed()
     }
 
-    class IntentBuilder : BaseIntentBuilder(RequestBodyActivity::class.java)
+    class IntentBuilder : BaseIntentBuilder(RequestBodyActivity::class)
 
     companion object {
 

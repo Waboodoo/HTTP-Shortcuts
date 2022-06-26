@@ -217,7 +217,7 @@ class ScriptingActivity : BaseActivity() {
         viewModel.onBackPressed()
     }
 
-    class IntentBuilder : BaseIntentBuilder(ScriptingActivity::class.java) {
+    class IntentBuilder : BaseIntentBuilder(ScriptingActivity::class) {
 
         fun shortcutId(shortcutId: ShortcutId?) = also {
             intent.putExtra(EXTRA_SHORTCUT_ID, shortcutId)

@@ -89,5 +89,5 @@ class RemoteEditActivity : BaseActivity() {
             }
     }
 
-    class IntentBuilder : BaseIntentBuilder(RemoteEditActivity::class.java)
+    class IntentBuilder : BaseIntentBuilder(RemoteEditActivity::class)
 }

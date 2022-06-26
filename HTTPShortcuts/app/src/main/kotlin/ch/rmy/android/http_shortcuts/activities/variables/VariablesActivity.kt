@@ -104,5 +104,5 @@ class VariablesActivity : BaseActivity() {
         viewModel.onBackPressed()
     }
 
-    class IntentBuilder : BaseIntentBuilder(VariablesActivity::class.java)
+    class IntentBuilder : BaseIntentBuilder(VariablesActivity::class)
 }

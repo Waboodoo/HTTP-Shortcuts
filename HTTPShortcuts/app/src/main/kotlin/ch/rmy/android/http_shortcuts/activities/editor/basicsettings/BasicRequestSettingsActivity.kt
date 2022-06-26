@@ -106,7 +106,7 @@ class BasicRequestSettingsActivity : BaseActivity() {
         viewModel.onBackPressed()
     }
 
-    class IntentBuilder : BaseIntentBuilder(BasicRequestSettingsActivity::class.java)
+    class IntentBuilder : BaseIntentBuilder(BasicRequestSettingsActivity::class)
 
     companion object {
 

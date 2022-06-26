@@ -131,5 +131,5 @@ class IconPickerActivity : BaseActivity() {
         private const val EXTRA_ICON = "icon"
     }
 
-    class IntentBuilder : BaseIntentBuilder(IconPickerActivity::class.java)
+    class IntentBuilder : BaseIntentBuilder(IconPickerActivity::class)
 }

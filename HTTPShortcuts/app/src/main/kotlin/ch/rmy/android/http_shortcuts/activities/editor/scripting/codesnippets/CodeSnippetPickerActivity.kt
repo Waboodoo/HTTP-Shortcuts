@@ -162,7 +162,7 @@ class CodeSnippetPickerActivity : BaseActivity() {
         data class Result(val textBeforeCursor: String, val textAfterCursor: String)
     }
 
-    class IntentBuilder : BaseIntentBuilder(CodeSnippetPickerActivity::class.java) {
+    class IntentBuilder : BaseIntentBuilder(CodeSnippetPickerActivity::class) {
 
         fun currentShortcutId(shortcutId: ShortcutId) = also {
             intent.putExtra(EXTRA_SHORTCUT_ID, shortcutId)

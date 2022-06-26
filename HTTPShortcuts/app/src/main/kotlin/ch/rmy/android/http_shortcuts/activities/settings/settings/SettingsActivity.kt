@@ -171,5 +171,5 @@ class SettingsActivity : BaseActivity() {
         data class Result(val themeChanged: Boolean, val appLocked: Boolean)
     }
 
-    class IntentBuilder : BaseIntentBuilder(SettingsActivity::class.java)
+    class IntentBuilder : BaseIntentBuilder(SettingsActivity::class)
 }

@@ -153,7 +153,7 @@ class ImportExportActivity : BaseActivity() {
             }
     }
 
-    class IntentBuilder : BaseIntentBuilder(ImportExportActivity::class.java) {
+    class IntentBuilder : BaseIntentBuilder(ImportExportActivity::class) {
         fun importUrl(importUrl: Uri) = also {
             intent.putExtra(EXTRA_IMPORT_URL, importUrl)
         }

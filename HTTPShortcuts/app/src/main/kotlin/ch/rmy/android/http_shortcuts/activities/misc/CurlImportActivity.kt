@@ -83,5 +83,5 @@ class CurlImportActivity : BaseActivity() {
             }
     }
 
-    class IntentBuilder : BaseIntentBuilder(CurlImportActivity::class.java)
+    class IntentBuilder : BaseIntentBuilder(CurlImportActivity::class)
 }

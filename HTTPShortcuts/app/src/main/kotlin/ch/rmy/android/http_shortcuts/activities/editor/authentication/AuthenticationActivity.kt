@@ -154,7 +154,7 @@ class AuthenticationActivity : BaseActivity() {
         viewModel.onBackPressed()
     }
 
-    class IntentBuilder : BaseIntentBuilder(AuthenticationActivity::class.java)
+    class IntentBuilder : BaseIntentBuilder(AuthenticationActivity::class)
 
     companion object {
 

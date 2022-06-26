@@ -106,7 +106,7 @@ class WidgetSettingsActivity : BaseActivity() {
         )
     }
 
-    class IntentBuilder : BaseIntentBuilder(WidgetSettingsActivity::class.java) {
+    class IntentBuilder : BaseIntentBuilder(WidgetSettingsActivity::class) {
 
         fun shortcut(shortcut: LauncherShortcut) = also {
             intent.putExtra(EXTRA_SHORTCUT_ID, shortcut.id)
