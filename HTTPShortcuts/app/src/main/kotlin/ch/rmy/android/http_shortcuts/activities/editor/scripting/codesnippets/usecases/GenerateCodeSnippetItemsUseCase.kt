@@ -99,10 +99,10 @@ constructor(
                     insertText("showSelection({\n\"option1\": \"Option 1\",\n\"option2\": \"Option 2\",\n});\n")
                 }
                 item(R.string.action_type_prompt_title, docRef = "prompt-confirm") {
-                    insertText("prompt(\"Message", "\");\n")
+                    insertText("prompt(\"Message", "\")")
                 }
                 item(R.string.action_type_confirm_title, docRef = "prompt-confirm") {
-                    insertText("confirm(\"Message", "\");\n")
+                    insertText("confirm(\"Message", "\")")
                 }
                 item(R.string.action_play_sound, docRef = "play-sound") {
                     sendEvent(Event.PickNotificationSound)
@@ -121,7 +121,7 @@ constructor(
                         description = R.string.action_type_scan_barcode_description,
                         docRef = "scan-barcode",
                     ) {
-                        insertText("scanBarcode();\n")
+                        insertText("scanBarcode()")
                     }
                 }
             }
@@ -158,46 +158,46 @@ constructor(
             }
             section(R.string.dialog_code_snippet_text_processing, R.drawable.ic_text_processing) {
                 item(R.string.action_type_parse_json) {
-                    insertText("JSON.parse(\"", "\");\n")
+                    insertText("JSON.parse(\"", "\")")
                 }
                 item(R.string.action_type_parse_xml, docRef = "parse-xml") {
-                    insertText("parseXML(\"", "\");\n")
+                    insertText("parseXML(\"", "\")")
                 }
                 item("MD5".toLocalizable(), docRef = "hash") {
-                    insertText("hash(\"MD5\", \"", "\");\n")
+                    insertText("hash(\"MD5\", \"", "\")")
                 }
                 item("SHA-1".toLocalizable(), docRef = "hash") {
-                    insertText("hash(\"SHA-1\", \"", "\");\n")
+                    insertText("hash(\"SHA-1\", \"", "\")")
                 }
                 item("SHA-256".toLocalizable(), docRef = "hash") {
-                    insertText("hash(\"SHA-256\", \"", "\");\n")
+                    insertText("hash(\"SHA-256\", \"", "\")")
                 }
                 item("SHA-512".toLocalizable(), docRef = "hash") {
-                    insertText("hash(\"SHA-512\", \"", "\");\n")
+                    insertText("hash(\"SHA-512\", \"", "\")")
                 }
                 item("HMAC MD5".toLocalizable(), docRef = "hmac") {
-                    insertText("hmac(\"MD5\", \"key", "\", \"message\");\n")
+                    insertText("hmac(\"MD5\", \"key", "\", \"message\")")
                 }
                 item("HMAC SHA-1".toLocalizable(), docRef = "hmac") {
-                    insertText("hmac(\"SHA-1\", \"key", "\", \"message\");\n")
+                    insertText("hmac(\"SHA-1\", \"key", "\", \"message\")")
                 }
                 item("HMAC SHA-256".toLocalizable(), docRef = "hmac") {
-                    insertText("hmac(\"SHA-256\", \"key", "\", \"message\");\n")
+                    insertText("hmac(\"SHA-256\", \"key", "\", \"message\")")
                 }
                 item("HMAC SHA-512".toLocalizable(), docRef = "hmac") {
-                    insertText("hmac(\"SHA-512\", \"key", "\", \"message\");\n")
+                    insertText("hmac(\"SHA-512\", \"key", "\", \"message\")")
                 }
                 item("Base64 Encode".toLocalizable(), R.string.action_type_base64encode_description, docRef = "base-64") {
-                    insertText("base64encode(\"", "\");\n")
+                    insertText("base64encode(\"", "\")")
                 }
                 item("Base64 Decode".toLocalizable(), R.string.action_type_base64decode_description, docRef = "base-64") {
-                    insertText("base64decode(\"", "\");\n")
+                    insertText("base64decode(\"", "\")")
                 }
                 item(R.string.action_type_to_string, R.string.action_type_to_string_description, docRef = "to-string-to-hex-string") {
-                    insertText("toString(", ");\n")
+                    insertText("toString(", ")")
                 }
                 item(R.string.action_type_to_hex_string, R.string.action_type_to_hex_string_description, docRef = "to-string-to-hex-string") {
-                    insertText("toHexString(", ");\n")
+                    insertText("toHexString(", ")")
                 }
                 item(R.string.action_type_trim_string, R.string.action_type_trim_string_description) {
                     insertText("", ".trim()")
@@ -205,10 +205,10 @@ constructor(
             }
             section(R.string.dialog_code_snippet_network, R.drawable.ic_network) {
                 item(R.string.action_type_get_wifi_ip_address, docRef = "get-wifi-ip-address") {
-                    insertText("getWifiIPAddress();\n")
+                    insertText("getWifiIPAddress()")
                 }
                 item(R.string.action_type_get_wifi_ssid, docRef = "get-wifi-ssid") {
-                    insertText("getWifiSSID();\n")
+                    insertText("getWifiSSID()")
                 }
                 item(R.string.action_type_wake_on_lan, docRef = "wol") {
                     insertText("wakeOnLan(\"", "\");\n")
@@ -219,7 +219,7 @@ constructor(
             }
             section(R.string.dialog_code_snippet_misc, R.drawable.ic_misc) {
                 item(R.string.action_type_generate_uuid, docRef = "uuid-v4") {
-                    insertText("uuidv4();")
+                    insertText("uuidv4()")
                 }
                 item(R.string.action_type_trigger_shortcut_title, R.string.action_type_trigger_shortcut_description, docRef = "trigger-shortcut") {
                     pickShortcut(R.string.action_type_trigger_shortcut_title) { shortcutPlaceholder ->
@@ -252,7 +252,7 @@ constructor(
                         description = R.string.action_type_get_location_description,
                         docRef = "get-location",
                     ) {
-                        insertText("getLocation();\n")
+                        insertText("getLocation()")
                     }
                 }
             }
