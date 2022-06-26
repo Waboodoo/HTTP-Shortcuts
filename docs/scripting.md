@@ -347,6 +347,7 @@ const myHMACasHex = toHexString(myHMAC);
 The `parseXML` function allows to parse an XML string into an object representation. Each XML element is converted into a JS object with attributes `name`, `attributes`, `children`, and `text` (if any), as is showcased by the following example:
 
 ```js
+// Given some XML string
 const myXML = `<element>
     <foo bar="123">Hello World</foo>
 </element>`;
@@ -371,6 +372,13 @@ The result variable now holds the following object:
     "text": "\n    \n"
 }
 */
+
+// We can now easily extract the parts we're interested in
+const rootElement = result.name; // will be "element"
+const childElement = result.children[0].name; // will be "foo"
+const childAttributes = Object.keys(result.children[0].attributes); // will be ["bar"]
+const childBarAttribute = result.children[0].attributes.bar; // will be "123"
+const childText = result.children[0].text; // will be "Hello World"
 ```
 
 <a name="to-string-to-hex-string"></a>
