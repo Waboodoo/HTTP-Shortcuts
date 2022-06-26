@@ -49,6 +49,7 @@ import ch.rmy.android.http_shortcuts.activities.variables.editor.types.text.Text
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.time.TimeTypeViewModel
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.toggle.ToggleTypeFragment
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.toggle.ToggleTypeViewModel
+import ch.rmy.android.http_shortcuts.controls.ControlsService
 import ch.rmy.android.http_shortcuts.data.maintenance.CleanUpWorker
 import ch.rmy.android.http_shortcuts.plugin.PluginEditActivity
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionWorker
@@ -232,4 +233,6 @@ interface ApplicationComponent {
     fun inject(copyToClipboardAction: CopyToClipboardAction)
 
     fun inject(getClipboardContentAction: GetClipboardContentAction)
+
+    fun inject(controlsService: ControlsService)
 }
