@@ -186,8 +186,6 @@ dependencies {
 
     /* HTTP & Network */
     implementation("com.squareup.okhttp3:okhttp:4.9.3")
-    implementation("com.facebook.stetho:stetho:1.6.0")
-    implementation("com.facebook.stetho:stetho-okhttp3:1.6.0")
     implementation("io.github.rburgst:okhttp-digest:2.6")
     implementation("com.github.franmontiel:PersistentCookieJar:v1.0.1")
     implementation("org.conscrypt:conscrypt-android:2.5.2")

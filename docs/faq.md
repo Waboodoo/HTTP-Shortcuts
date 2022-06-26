@@ -69,13 +69,6 @@ You can use [Tasker](https://play.google.com/store/apps/details?id=net.dinglisch
 ## Something's not working with my requests. Can I get more detailed information for debugging?
 One way to get more information about the request and the response is by opening the *Reponse Handling* section when editing a shortcut and changing the *Display Type* to *Window* and then ticking the *Show Meta Information* checkbox. This will display the full response in a window, along with all response headers and some additional meta information.
 
-In addition, there is the option to use [Stetho](https://github.com/facebook/stetho), which means you can debug the internal state and the network requests that are sent by following these steps:
-1. Connect your phone to a PC with a USB cable
-2. Open the app on the phone
-3. Open Chrome on the PC
-4. Go to chrome://inspect
-5. Click the *inspect* button below "HTTP Shortcuts (powered by Stetho)"
-
 ## What about voice recognition?
 
 There is currently no support for voice recognition in HTTP Shortcuts, with the exception of a very basic and experimental feature. Try "OK Google, search [Name of Shortcut] in HTTP Shortcuts".

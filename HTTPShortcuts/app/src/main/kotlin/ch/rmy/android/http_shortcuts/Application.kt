@@ -10,7 +10,6 @@ import ch.rmy.android.http_shortcuts.logging.Logging
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
 import ch.rmy.android.http_shortcuts.utils.LocaleHelper
 import ch.rmy.android.http_shortcuts.utils.Settings
-import com.facebook.stetho.Stetho
 import io.reactivex.plugins.RxJavaPlugins
 import org.conscrypt.Conscrypt
 import java.security.Security
@@ -41,8 +40,6 @@ class Application : android.app.Application(), WithRealm {
         Security.insertProviderAt(Conscrypt.newProvider(), 1)
 
         Logging.initCrashReporting(context)
-
-        Stetho.initializeWithDefaults(context)
 
         RxJavaPlugins.setErrorHandler(::logException)
 

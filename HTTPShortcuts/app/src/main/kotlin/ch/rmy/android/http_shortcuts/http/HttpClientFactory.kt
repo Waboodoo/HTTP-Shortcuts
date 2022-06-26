@@ -8,7 +8,6 @@ import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.exceptions.ClientCertException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidProxyException
 import com.burgstaller.okhttp.digest.Credentials
-import com.facebook.stetho.okhttp3.StethoInterceptor
 import okhttp3.ConnectionSpec
 import okhttp3.CookieJar
 import okhttp3.OkHttpClient
@@ -65,7 +64,6 @@ constructor() {
                     throw InvalidProxyException(e.message!!)
                 }
             }
-            .addNetworkInterceptor(StethoInterceptor())
             .build()
 
     private fun createDefaultOkHttpClientBuilder(context: Context, clientCertParams: ClientCertParams?) = OkHttpClient.Builder()
