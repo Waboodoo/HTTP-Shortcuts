@@ -226,6 +226,9 @@ constructor(
                         insertText("enqueueShortcut($shortcutPlaceholder);\n")
                     }
                 }
+                item(R.string.action_get_clipboard_content_title, docRef = "get-clipboard-content") {
+                    insertText("getClipboardContent()")
+                }
                 item(R.string.action_copy_to_clipboard_title, docRef = "copy-to-clipboard") {
                     insertText("copyToClipboard(\"", "\");\n")
                 }

@@ -4,14 +4,26 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import androidx.core.content.getSystemService
+import javax.inject.Inject
 
-object ClipboardUtil {
+class ClipboardUtil
+@Inject
+constructor(
+    private val context: Context,
+) {
 
-    fun copyToClipboard(context: Context, text: String) {
+    fun copyToClipboard(text: String) {
         val clip = ClipData.newPlainText(null, text)
-        getClipboardManager(context)?.setPrimaryClip(clip)
+        clipboardManager?.setPrimaryClip(clip)
     }
 
-    private fun getClipboardManager(context: Context) =
+    fun getFromClipboard(): CharSequence? =
+        clipboardManager
+            ?.primaryClip
+            ?.takeIf { it.itemCount > 0 }
+            ?.getItemAt(0)
+            ?.coerceToText(context)
+
+    private val clipboardManager =
         context.getSystemService<ClipboardManager>()
 }

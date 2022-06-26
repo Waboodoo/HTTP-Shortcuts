@@ -55,7 +55,9 @@ import ch.rmy.android.http_shortcuts.scheduling.ExecutionWorker
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionsWorker
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ChangeDescriptionAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ChangeIconAction
+import ch.rmy.android.http_shortcuts.scripting.actions.types.CopyToClipboardAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.EnqueueShortcutAction
+import ch.rmy.android.http_shortcuts.scripting.actions.types.GetClipboardContentAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.GetLocationAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.RenameShortcutAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SetVariableAction
@@ -226,4 +228,8 @@ interface ApplicationComponent {
     fun inject(contactActivity: ContactActivity)
 
     fun inject(variableEditText: VariableEditText)
+
+    fun inject(copyToClipboardAction: CopyToClipboardAction)
+
+    fun inject(getClipboardContentAction: GetClipboardContentAction)
 }

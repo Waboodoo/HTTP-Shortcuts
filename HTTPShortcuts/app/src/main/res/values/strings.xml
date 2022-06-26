@@ -716,6 +716,8 @@
     <string name="action_type_confirm_title">Ask for Confirmation</string>
     <!-- Shortcut Action Title: Action that allows to copy strings to the device's clipboard -->
     <string name="action_copy_to_clipboard_title">Copy to Clipboard</string>
+    <!-- Shortcut Action Title: Action that allows to retrieve the latest item from the device's clipboard -->
+    <string name="action_get_clipboard_content_title">Get Clipboard Content</string>
     <!-- Shortcut Action Title: Action that allows to read a snippet of text out load (text-to-speech) -->
     <string name="action_tts">Speak (Text-to-Speech)</string>
     <!-- Shortcut Action Title: Action that allows to play a (notification) sound effect -->

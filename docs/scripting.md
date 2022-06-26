@@ -496,17 +496,26 @@ You can use the `uuidv4()` function to generate a random UUID (**U**niversal **U
 const myUUID = uuidv4();
 ```
 
-<a name="copy-to-clipboard"></a>
-### copyToClipboard
+<a name="get-clipboard-content"></a>
+### Get Clipboard Content
 
-With this function you can copy a value to the device's clipboard. Simply pass the value you want to copy as the first parameter.
+The `getClipboardContent` function allows you to query the latest item in your device's clipboard, i.e., the last piece of text that you copied from somewhere. If there is nothing in the clipboard or if its content is not text (e.g., if you copied an image instead), this function will return null instead.
+
+```js
+const clipboardValue = getClipboardContent();
+```
+
+<a name="copy-to-clipboard"></a>
+### Copy to the Clipboard
+
+With the `copyToClipboard` function you can copy a value to the device's clipboard. Simply pass the value you want to copy as the first parameter.
 
 ```js
 copyToClipboard('Hello World');
 ```
 
 <a name="open-app"></a>
-### openApp
+### Open another App
 
 The `openApp` function allows you to open another app via its package name. If no app with the given package name is installed, an error is displayed.
 
@@ -515,7 +524,7 @@ openApp('com.github.android'); // Opens the Github app
 ```
 
 <a name="open-url"></a>
-### openUrl
+### Open a URL
 
 This function allows you to open a URL in another app. This typically opens a browser, but it can also be used to invoke a deep-link into another app. An error message is displayed if the URL is malformed or if there is no app installed that can handle the URL.
 

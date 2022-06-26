@@ -13,7 +13,9 @@ import javax.inject.Inject
 
 class GetCurlExportDialogUseCase
 @Inject
-constructor() {
+constructor(
+    private val clipboardUtil: ClipboardUtil,
+) {
 
     operator fun invoke(title: String, command: CurlCommand): DialogState =
         DialogState.create(DIALOG_ID) {
@@ -23,7 +25,7 @@ constructor() {
                 .view(R.layout.curl_export_dialog)
                 .neutral(android.R.string.cancel)
                 .negative(R.string.share_button) { shareCurlExport(context, curlCommand) }
-                .positive(R.string.button_copy_curl_export) { copyCurlExport(context, curlCommand) }
+                .positive(R.string.button_copy_curl_export) { copyCurlExport(curlCommand) }
                 .build()
                 .onShow { dialog ->
                     dialog.findViewById<TextView>(R.id.curl_export_textview).text = curlCommand
@@ -34,8 +36,8 @@ constructor() {
         ShareUtil.shareText(context, curlCommand)
     }
 
-    private fun copyCurlExport(context: Context, curlCommand: String) {
-        ClipboardUtil.copyToClipboard(context, curlCommand)
+    private fun copyCurlExport(curlCommand: String) {
+        clipboardUtil.copyToClipboard(curlCommand)
     }
 
     companion object {
