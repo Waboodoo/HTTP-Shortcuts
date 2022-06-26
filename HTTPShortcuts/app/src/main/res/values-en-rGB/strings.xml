@@ -6,6 +6,8 @@
     <string name="label_widget_label_color">Label Colour</string>
     <!-- label, shown in variable editor, to allow the user to enter a dialog title that will be shown then the variable is evaluated -->
     <string name="label_variable_title">Dialogue Title (optional)</string>
+    <!-- label, shown in variable editor, to allow the user to enter a dialog text that will be shown when the variable is evaluated -->
+    <string name="label_variable_text">Dialogue Text (optional)</string>
     <!-- Shortcut Action Title: Show Dialog -->
     <string name="action_type_dialog_title">Show Dialogue</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->

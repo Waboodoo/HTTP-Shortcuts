@@ -1,16 +1,20 @@
 package ch.rmy.android.http_shortcuts.data.enums
 
-enum class VariableType(val type: String, val hasDialogTitle: Boolean = false) {
+enum class VariableType(
+    val type: String,
+    val supportsDialogTitle: Boolean = false,
+    val supportsDialogMessage: Boolean = false,
+) {
     CONSTANT("constant"),
-    TEXT("text", hasDialogTitle = true),
-    NUMBER("number", hasDialogTitle = true),
-    PASSWORD("password", hasDialogTitle = true),
-    SELECT("select", hasDialogTitle = true),
+    TEXT("text", supportsDialogTitle = true, supportsDialogMessage = true),
+    NUMBER("number", supportsDialogTitle = true, supportsDialogMessage = true),
+    PASSWORD("password", supportsDialogTitle = true, supportsDialogMessage = true),
+    SELECT("select", supportsDialogTitle = true),
     TOGGLE("toggle"),
-    COLOR("color"),
-    DATE("date"),
-    TIME("time"),
-    SLIDER("slider", hasDialogTitle = true);
+    COLOR("color", supportsDialogTitle = true),
+    DATE("date", supportsDialogTitle = true),
+    TIME("time", supportsDialogTitle = true),
+    SLIDER("slider", supportsDialogTitle = true, supportsDialogMessage = true);
 
     override fun toString() =
         type

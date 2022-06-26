@@ -46,7 +46,8 @@
                 android:id="@+id/dialog_title_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
                     style="@style/Label"
@@ -61,6 +62,29 @@
                     android:inputType="textNoSuggestions"
                     android:maxLength="20"
                     android:maxLines="1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/dialog_message_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    style="@style/Label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_variable_text" />
+
+                <EditText
+                    android:id="@+id/input_variable_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine|textNoSuggestions"
+                    android:maxLength="200"
+                    android:maxLines="3" />
 
             </LinearLayout>
 

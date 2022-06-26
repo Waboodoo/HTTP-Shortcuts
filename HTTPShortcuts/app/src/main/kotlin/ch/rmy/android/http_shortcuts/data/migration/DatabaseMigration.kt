@@ -10,6 +10,7 @@ import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceVariableKe
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ResponseHandlingMigration
 import io.realm.DynamicRealm
 import io.realm.DynamicRealmObject
+import io.realm.FieldAttribute
 import io.realm.RealmList
 import io.realm.RealmMigration
 import java.util.Date
@@ -37,11 +38,11 @@ class DatabaseMigration : RealmMigration {
                     .addField("label", String::class.java)
                     .addField("value", String::class.java)
                 val variableSchema = schema.create("Variable")
-                    .addField("id", Long::class.javaPrimitiveType).addPrimaryKey("id")
-                    .addField("key", String::class.java).setRequired("key", true)
-                    .addField("type", String::class.java).setRequired("type", true)
+                    .addField("id", Long::class.javaPrimitiveType, FieldAttribute.PRIMARY_KEY)
+                    .addField("key", String::class.java, FieldAttribute.REQUIRED)
+                    .addField("type", String::class.java, FieldAttribute.REQUIRED)
                     .addField("value", String::class.java)
-                    .addField("title", String::class.java).setRequired("title", true)
+                    .addField("title", String::class.java, FieldAttribute.REQUIRED)
                     .addField("urlEncode", Boolean::class.javaPrimitiveType)
                     .addField("jsonEncode", Boolean::class.javaPrimitiveType)
                     .addRealmListField("options", optionSchema)
@@ -133,10 +134,8 @@ class DatabaseMigration : RealmMigration {
                 schema.get("PendingExecution")!!.setRequired("enqueuedAt", true)
             }
             16L -> { // 1.20.0
-                schema.get("Shortcut")!!.addField("requestBodyType", String::class.java)
-                schema.get("Shortcut")!!.setRequired("requestBodyType", true)
-                schema.get("Shortcut")!!.addField("contentType", String::class.java)
-                schema.get("Shortcut")!!.setRequired("contentType", true)
+                schema.get("Shortcut")!!.addField("requestBodyType", String::class.java, FieldAttribute.REQUIRED)
+                schema.get("Shortcut")!!.addField("contentType", String::class.java, FieldAttribute.REQUIRED)
 
                 val shortcuts = realm.where("Shortcut").findAll()
                 for (shortcut in shortcuts) {
@@ -178,10 +177,8 @@ class DatabaseMigration : RealmMigration {
             }
             21L -> { // 1.23.0
                 schema.create("AppLock")
-                    .addField("id", Long::class.javaPrimitiveType)
-                    .addPrimaryKey("id")
-                    .addField("passwordHash", String::class.java)
-                    .setRequired("passwordHash", true)
+                    .addField("id", Long::class.javaPrimitiveType, FieldAttribute.PRIMARY_KEY)
+                    .addField("passwordHash", String::class.java, FieldAttribute.REQUIRED)
             }
             22L -> { // 1.24.0
                 schema.get("Shortcut")!!
@@ -224,8 +221,7 @@ class DatabaseMigration : RealmMigration {
                 schema.get("PendingExecution")!!
                     .removePrimaryKey()
                     .removeField("shortcutId")
-                    .addField("shortcutId", String::class.java)
-                    .setRequired("shortcutId", true)
+                    .addField("shortcutId", String::class.java, FieldAttribute.REQUIRED)
                     .addPrimaryKey("shortcutId")
             }
             23L -> { // 1.24.0
@@ -270,8 +266,7 @@ class DatabaseMigration : RealmMigration {
             }
             32L -> { // 1.27.0
                 schema.get("Shortcut")!!
-                    .addField("authToken", String::class.java)
-                    .setRequired("authToken", true)
+                    .addField("authToken", String::class.java, FieldAttribute.REQUIRED)
             }
             33L -> { // 1.28.0
                 RemoveLegacyActionsMigration().migrateRealm(realm)
@@ -300,9 +295,7 @@ class DatabaseMigration : RealmMigration {
                 realm.where("PendingExecution").findAll().deleteAllFromRealm()
                 schema.get("PendingExecution")!!
                     .removePrimaryKey()
-                    .addField("id", String::class.java)
-                    .setRequired("id", true)
-                    .addPrimaryKey("id")
+                    .addField("id", String::class.java, FieldAttribute.REQUIRED, FieldAttribute.PRIMARY_KEY)
             }
             39L -> { // 1.32.1
                 realm.where("Shortcut").findAll().forEach { shortcut ->
@@ -325,18 +318,15 @@ class DatabaseMigration : RealmMigration {
             }
             43L -> { // 2.0.0
                 schema.get("Shortcut")!!
-                    .addField("wifiSsid", String::class.java)
-                    .setRequired("wifiSsid", true)
+                    .addField("wifiSsid", String::class.java, FieldAttribute.REQUIRED)
             }
             44L -> { // 2.3.0
                 schema.get("Shortcut")!!
-                    .addField("clientCertAlias", String::class.java)
-                    .setRequired("clientCertAlias", true)
+                    .addField("clientCertAlias", String::class.java, FieldAttribute.REQUIRED)
             }
             45L -> { // 2.4.0
                 schema.get("Shortcut")!!
-                    .addField("clientCert", String::class.java)
-                    .setRequired("clientCert", true)
+                    .addField("clientCert", String::class.java, FieldAttribute.REQUIRED)
                 realm.where("Shortcut").findAll().forEach { shortcut ->
                     val clientCertAlias = shortcut.getString("clientCertAlias")
                     if (clientCertAlias.isNotEmpty()) {
@@ -380,8 +370,7 @@ class DatabaseMigration : RealmMigration {
             }
             48L -> { // 2.14.0
                 schema.get("Shortcut")!!
-                    .addField("browserPackageName", String::class.java)
-                    .setRequired("browserPackageName", true)
+                    .addField("browserPackageName", String::class.java, FieldAttribute.REQUIRED)
             }
             49L -> { // 2.15.0
                 schema.get("Category")!!
@@ -389,6 +378,10 @@ class DatabaseMigration : RealmMigration {
             }
             50L -> CategoryBackgroundMigration.migrateRealm(realm)
             51L -> CategoryLayoutMigration.migrateRealm(realm)
+            52L -> { // 2.20.0
+                schema.get("Variable")!!
+                    .addField("message", String::class.java, FieldAttribute.REQUIRED)
+            }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -414,6 +407,6 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 51L
+        const val VERSION = 52L
     }
 }

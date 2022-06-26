@@ -424,8 +424,10 @@
     <string name="label_variable_name">Name</string>
     <!-- label, displayed next to variable in variables list when a variable is not used anywhere -->
     <string name="label_variable_unused">unused</string>
-    <!-- label, shown in variable editor, to allow the user to enter a dialog title that will be shown then the variable is evaluated -->
+    <!-- label, shown in variable editor, to allow the user to enter a dialog title that will be shown when the variable is evaluated -->
     <string name="label_variable_title">Dialog Title (optional)</string>
+    <!-- label, shown in variable editor, to allow the user to enter a dialog text that will be shown when the variable is evaluated -->
+    <string name="label_variable_text">Dialog Text (optional)</string>
     <!-- label, shown in variable editor for Date Input variable, to allow the user to specify a date format -->
     <string name="label_variable_date_format">Date Format</string>
     <!-- label, shown in variable editor for Time Input variable, to allow the user to specify a time format -->

@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.variables.types
 
 import android.content.Context
 import android.graphics.Color
+import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
@@ -25,6 +26,9 @@ class ColorType : BaseVariableType() {
     override fun resolveValue(context: Context, variable: VariableModel): Single<String> =
         Single.create<String> { emitter ->
             ColorPickerDialog.Builder(context)
+                .runIf(variable.title.isNotEmpty()) {
+                    setTitle(variable.title)
+                }
                 .setPositiveButton(
                     R.string.dialog_ok,
                     ColorEnvelopeListener { envelope, fromUser ->

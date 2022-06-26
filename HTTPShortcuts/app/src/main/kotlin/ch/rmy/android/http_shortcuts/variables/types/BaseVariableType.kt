@@ -35,6 +35,9 @@ abstract class BaseVariableType {
                 .runIf(variable.title.isNotEmpty()) {
                     title(variable.title)
                 }
+                .runIf(variable.message.isNotEmpty()) {
+                    message(variable.message)
+                }
                 .dismissListener {
                     emitter.cancel()
                 }

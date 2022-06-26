@@ -115,6 +115,13 @@ class VariableEditorActivity : BaseActivity() {
             }
             .attachTo(destroyer)
 
+        binding.inputVariableMessage
+            .observeTextChanges()
+            .subscribe { text ->
+                viewModel.onVariableMessageChanged(text?.toString() ?: "")
+            }
+            .attachTo(destroyer)
+
         binding.inputUrlEncode
             .observeChecked()
             .subscribe(viewModel::onUrlEncodeChanged)
@@ -144,10 +151,12 @@ class VariableEditorActivity : BaseActivity() {
             binding.mainView.isVisible = true
             setTitle(viewState.title)
             setSubtitle(viewState.subtitle)
-            binding.dialogTitleContainer.isVisible = viewState.titleInputVisible
+            binding.dialogTitleContainer.isVisible = viewState.dialogTitleVisible
+            binding.dialogMessageContainer.isVisible = viewState.dialogMessageVisible
             binding.inputVariableKey.error = viewState.variableKeyInputError?.localize(context)
             binding.inputVariableKey.setTextSafely(viewState.variableKey)
             binding.inputVariableTitle.setTextSafely(viewState.variableTitle)
+            binding.inputVariableMessage.setTextSafely(viewState.variableMessage)
             if (viewState.variableKeyErrorHighlighting) {
                 binding.inputVariableKey.setTextColor(Color.RED)
             } else {

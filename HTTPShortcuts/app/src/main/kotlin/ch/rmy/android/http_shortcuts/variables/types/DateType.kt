@@ -38,6 +38,9 @@ class DateType : BaseVariableType() {
                 calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH),
             )
+            if (variable.title.isNotEmpty()) {
+                datePicker.setTitle(variable.title)
+            }
             datePicker.setButton(
                 DialogInterface.BUTTON_POSITIVE,
                 context.getString(R.string.dialog_ok),

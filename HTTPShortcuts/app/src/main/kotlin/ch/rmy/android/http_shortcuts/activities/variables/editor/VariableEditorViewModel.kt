@@ -116,6 +116,7 @@ class VariableEditorViewModel(
                     copy(
                         variableKey = variable.key,
                         variableTitle = variable.title,
+                        variableMessage = variable.message,
                         urlEncodeChecked = variable.urlEncode,
                         jsonEncodeChecked = variable.jsonEncode,
                         allowShareChecked = variable.isShareText || variable.isShareTitle,
@@ -134,7 +135,8 @@ class VariableEditorViewModel(
     override fun initViewState() = VariableEditorViewState(
         title = StringResLocalizable(if (variableId == null) R.string.create_variable else R.string.edit_variable),
         subtitle = StringResLocalizable(VariableTypeMappings.getTypeName(variableType)),
-        titleInputVisible = variableType.hasDialogTitle,
+        dialogTitleVisible = variableType.supportsDialogTitle,
+        dialogMessageVisible = variableType.supportsDialogMessage,
     )
 
     fun onSaveButtonClicked() {
@@ -236,6 +238,12 @@ class VariableEditorViewModel(
     fun onVariableTitleChanged(title: String) {
         performOperation(
             temporaryVariableRepository.setTitle(title)
+        )
+    }
+
+    fun onVariableMessageChanged(message: String) {
+        performOperation(
+            temporaryVariableRepository.setMessage(message)
         )
     }
 

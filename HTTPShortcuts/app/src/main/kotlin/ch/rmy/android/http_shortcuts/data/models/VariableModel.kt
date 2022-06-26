@@ -30,6 +30,8 @@ open class VariableModel(
 
     @Required
     var title: String = "",
+    @Required
+    var message: String = "",
     variableType: VariableType = VariableType.CONSTANT,
 ) : RealmObject() {
 

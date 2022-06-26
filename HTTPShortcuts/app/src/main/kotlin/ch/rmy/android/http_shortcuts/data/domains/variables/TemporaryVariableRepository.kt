@@ -44,6 +44,11 @@ constructor(
             variable.title = title
         }
 
+    fun setMessage(message: String): Completable =
+        commitTransactionForVariable { variable ->
+            variable.message = message
+        }
+
     fun setUrlEncode(enabled: Boolean): Completable =
         commitTransactionForVariable { variable ->
             variable.urlEncode = enabled

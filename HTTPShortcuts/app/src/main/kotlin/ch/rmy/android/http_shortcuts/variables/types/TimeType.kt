@@ -42,6 +42,9 @@ class TimeType : BaseVariableType() {
                 calendar.get(Calendar.MINUTE),
                 DateFormat.is24HourFormat(context),
             )
+            if (variable.title.isNotEmpty()) {
+                timePicker.setTitle(variable.title)
+            }
             timePicker.setCancelable(true)
             timePicker.setCanceledOnTouchOutside(true)
 
