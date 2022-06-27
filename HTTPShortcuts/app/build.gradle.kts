@@ -1,5 +1,3 @@
-import android.annotation.SuppressLint
-
 plugins {
     id("de.jansauer.poeditor") version "1.1.0"
     id("com.android.application")
@@ -13,6 +11,7 @@ val kotlinVersion: String by properties
 val hamcrestVersion: String by properties
 val junitVersion: String by properties
 val robolectricVersion: String by properties
+val mockitoVersion: String by properties
 val bugsnagAPIKey: String by rootProject.ext
 val poeditorAPIKey: String by rootProject.ext
 val poeditorProjectId: String by rootProject.ext
@@ -231,8 +230,10 @@ dependencies {
     testImplementation("org.hamcrest:hamcrest-library:$hamcrestVersion")
     testImplementation("junit:junit:$junitVersion")
     testImplementation("org.robolectric:robolectric:$robolectricVersion")
-    testImplementation("org.robolectric:shadows-multidex:$robolectricVersion")
-    testImplementation("androidx.test:monitor:1.5.0")
+    testImplementation("org.mockito:mockito-core:$mockitoVersion")
+    testImplementation("org.mockito:mockito-inline:$mockitoVersion")
+    testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
+    testImplementation("androidx.test:core-ktx:1.4.0")
 }
 
 poeditor {

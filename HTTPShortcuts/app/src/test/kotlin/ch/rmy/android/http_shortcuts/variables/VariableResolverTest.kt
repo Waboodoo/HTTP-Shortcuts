@@ -3,20 +3,22 @@ package ch.rmy.android.http_shortcuts.variables
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
+import ch.rmy.android.http_shortcuts.test.TestContext
+import ch.rmy.android.http_shortcuts.test.get
+import com.nhaarman.mockitokotlin2.mock
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.RuntimeEnvironment
 
 @RunWith(RobolectricTestRunner::class)
 class VariableResolverTest {
 
-    private val context = RuntimeEnvironment.application.applicationContext
+    private val context = TestContext.create()
 
     @Test
-    fun testVariableResolutionOfConstants() {
+    fun `test variable resolution of static variables`() {
         val variableManager = VariableResolver(context)
             .resolve(
                 variables = listOf(
@@ -24,7 +26,7 @@ class VariableResolverTest {
                 ),
                 shortcut = withContent("{{1234}}")
             )
-            .blockingGet()!!
+            .get()
 
         assertThat(
             variableManager.getVariableValueById("1234"),
@@ -45,7 +47,7 @@ class VariableResolverTest {
     }
 
     @Test
-    fun testVariableResolutionOfConstantsReferencingOtherConstant() {
+    fun `test variable resolution of static variables referencing other static variables`() {
         val variableManager = VariableResolver(context)
             .resolve(
                 variables = listOf(
@@ -54,7 +56,7 @@ class VariableResolverTest {
                 ),
                 shortcut = withContent("{{1234}}")
             )
-            .blockingGet()!!
+            .get()
 
         assertThat(
             variableManager.getVariableValueById("5678"),
@@ -92,60 +94,33 @@ class VariableResolverTest {
     }
 
     @Test
-    fun testVariableResolutionOfConstantsInJSCodeByReferencingVariableKey() {
-        val variableManager = VariableResolver(context)
-            .resolve(
-                variables = listOf(
-                    VariableModel(id = "1234", key = "myVariable", value = "Hello World")
-                ),
-                shortcut = withJSContent("getVariable(\"myVariable\")")
-            )
-            .blockingGet()!!
+    fun `test variable resolution of static variable references in JS code`() {
+        val shortcut = withJSContent(
+            content = """
+            const foo = getVariable(/*[variable]*/"1234"/*[/variable]*/);
+            getVariable("my_variable");
+            """.trimIndent()
+        )
+        val variableLookup = object : VariableLookup {
+            override fun getVariableById(id: String): VariableModel? =
+                when (id) {
+                    "1234" -> mock()
+                    else -> null
+                }
+
+            override fun getVariableByKey(key: String): VariableModel? =
+                when (key) {
+                    "my_variable" -> mock {
+                        on(mock.id).thenReturn("5678")
+                    }
+                    else -> null
+                }
+        }
+        val variableIds = VariableResolver.extractVariableIds(shortcut, variableLookup)
 
         assertThat(
-            variableManager.getVariableValueById("1234"),
-            equalTo("Hello World")
-        )
-        assertThat(
-            variableManager.getVariableValueByKey("myVariable"),
-            equalTo("Hello World")
-        )
-        assertThat(
-            variableManager.getVariableValueByKeyOrId("1234"),
-            equalTo("Hello World")
-        )
-        assertThat(
-            variableManager.getVariableValueByKeyOrId("myVariable"),
-            equalTo("Hello World")
-        )
-    }
-
-    @Test
-    fun testVariableResolutionOfConstantsInJSCodeByReferencingVariableId() {
-        val variableManager = VariableResolver(context)
-            .resolve(
-                variables = listOf(
-                    VariableModel(id = "1234", key = "myVariable", value = "Hello World")
-                ),
-                shortcut = withJSContent("getVariable(/*[variable]*/\"1234\"/*[/variable]*/)")
-            )
-            .blockingGet()!!
-
-        assertThat(
-            variableManager.getVariableValueById("1234"),
-            equalTo("Hello World")
-        )
-        assertThat(
-            variableManager.getVariableValueByKey("myVariable"),
-            equalTo("Hello World")
-        )
-        assertThat(
-            variableManager.getVariableValueByKeyOrId("1234"),
-            equalTo("Hello World")
-        )
-        assertThat(
-            variableManager.getVariableValueByKeyOrId("myVariable"),
-            equalTo("Hello World")
+            variableIds,
+            equalTo(setOf("1234", "5678"))
         )
     }
 

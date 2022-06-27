@@ -14,7 +14,7 @@ import org.robolectric.RobolectricTestRunner
 class SendIntentActionTest {
 
     @Test
-    fun testIntentConstruction() {
+    fun `intent construction`() {
         val parameters = JSONObject(
             """{
             "action": "test",

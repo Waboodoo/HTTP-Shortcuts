@@ -4,6 +4,7 @@ import android.content.Context
 import ch.rmy.android.framework.WithRealm
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
+import ch.rmy.android.http_shortcuts.dagger.ApplicationComponentProvider
 import ch.rmy.android.http_shortcuts.dagger.DaggerApplicationComponent
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.logging.Logging
@@ -15,12 +16,12 @@ import org.conscrypt.Conscrypt
 import java.security.Security
 import javax.inject.Inject
 
-class Application : android.app.Application(), WithRealm {
+class Application : android.app.Application(), ApplicationComponentProvider, WithRealm {
 
     private val context: Context
         get() = this
 
-    val applicationComponent: ApplicationComponent by lazy {
+    override val applicationComponent: ApplicationComponent by lazy {
         DaggerApplicationComponent.builder()
             .application(this)
             .build()

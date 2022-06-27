@@ -1,8 +1,9 @@
 package ch.rmy.android.framework.extensions
 
+import androidx.annotation.IntRange
 import ch.rmy.android.framework.utils.localization.StaticLocalizable
 
-fun String.truncate(maxLength: Int) =
+fun String.truncate(@IntRange(from = 1) maxLength: Int) =
     if (length > maxLength) substring(0, maxLength - 1) + "…" else this
 
 fun String.replacePrefix(oldPrefix: String, newPrefix: String) =
