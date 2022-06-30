@@ -13,10 +13,9 @@ object UserAgentUtil {
                 }
                 ?: return base
             val start = userAgent.indexOf("(")
-            val end = userAgent.lastIndexOf(")")
-            if (start == -1 || end == -1 || start > end) {
+            if (start == -1) {
                 return base
             }
-            return base + " " + userAgent.substring(start, end + 1)
+            return "$base ${userAgent.substring(start)}"
         }
 }
