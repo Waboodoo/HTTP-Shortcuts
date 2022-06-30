@@ -144,10 +144,6 @@
      y="0"
      x="0" />
   <path
-     style="fill:#a6a6a6"
-     id="path48"
-     d="M 130,0.8 A 4.2,4.2 0 0 1 134.2,5 V 35 A 4.2,4.2 0 0 1 130,39.2 H 5 A 4.2,4.2 0 0 1 0.8,35 V 5 A 4.2,4.2 0 0 1 5,0.8 H 130 M 130,0 H 5 A 5,5 0 0 0 0,5 v 30 a 5,5 0 0 0 5,5 h 125 a 5,5 0 0 0 5,-5 V 5 a 5,5 0 0 0 -5,-5 z" />
-  <path
      style="fill:#ffffff;stroke:#ffffff;stroke-width:0.2;stroke-miterlimit:10"
      id="path50"
      stroke-miterlimit="10"
