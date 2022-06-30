@@ -1,15 +1,21 @@
 ## Version 2.20.0
 
 ### Scripting
+- The code snippet picker now has a search feature to make it easier to explore and find available functions for Scripting
 - You can now query the contents of the device's clipboard via the `getClipboardContent` function
 
 ### Improvements
 - With variables of type Text Input, Number Input, or Password Input, you can now choose to display a custom message in the dialog window, and similarly with variables of type Color Input, Date Input, or Time Input, you can now choose to display a title in the dialog window.
 - You can now add a prefix and suffix to be displayed along the number that is displayed in a Number Slider variable's dialog window, e.g., to add a percentage sign or unit
 - When doing a partial export of shortcuts, only those custom icons, variables and client certificates that are really needed are included in the exported file
+- It is now possible to add the same shortcut multiple times to a multi-shortcut, and additionally it is now possible to add multiple shortcuts at once
 
 ### Miscellaneous
 - Stetho (for network traffic inspection via Chrome) was removed from the app, as it was not working properly and posed a potential security risk
+
+### Bugfixes
+- The User-Agent request header no longer contains mismatched parentheses
+- For Right-to-left written languages (specifically Hebrew) the variable picker button no longer overlaps with other views
 
 ## Version 2.19.0
 
