@@ -4,6 +4,7 @@ import android.app.Application
 import android.graphics.Typeface
 import android.text.SpannableString
 import android.text.style.StyleSpan
+import ch.rmy.android.framework.extensions.addOrRemove
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.swapped
@@ -150,19 +151,36 @@ class TriggerShortcutsViewModel(application: Application) :
     }
 
     private fun showShortcutPickerForAdding(placeholders: List<ShortcutPlaceholder>) {
+        val selectedShortcutIds = mutableSetOf<ShortcutId>()
         dialogState = DialogState.create {
             title(R.string.title_add_trigger_shortcut)
                 .runFor(placeholders) { shortcut ->
-                    item(name = shortcut.name, shortcutIcon = shortcut.icon) {
-                        onAddShortcutDialogConfirmed(shortcut.id)
+                    checkBoxItem(
+                        name = shortcut.name,
+                        shortcutIcon = shortcut.icon,
+                        checked = { shortcut.id in selectedShortcutIds },
+                    ) { checked ->
+                        selectedShortcutIds.addOrRemove(shortcut.id, checked)
                     }
+                }
+                .positive(R.string.dialog_ok) {
+                    onAddShortcutDialogConfirmed(
+                        placeholders
+                            .map { it.id }
+                            .filter { it in selectedShortcutIds }
+                    )
                 }
                 .build()
         }
     }
 
-    private fun onAddShortcutDialogConfirmed(shortcutId: ShortcutId) {
-        shortcutIdsInUse = shortcutIdsInUse.plus(ShortcutListItemId(shortcutId, shortcutIdsInUse.size.toString()))
+    private fun onAddShortcutDialogConfirmed(shortcutIds: List<ShortcutId>) {
+        val offset = shortcutIdsInUse.size
+        shortcutIdsInUse = shortcutIdsInUse.plus(
+            shortcutIds.mapIndexed { index, shortcutId ->
+                ShortcutListItemId(shortcutId, (index + offset).toString())
+            }
+        )
     }
 
     private fun onRemoveShortcutDialogConfirmed(id: ShortcutListItemId) {

@@ -1045,8 +1045,8 @@
     <string name="placeholder_javascript_code_success">Add JavaScript code here to run after the shortcut is executed, e.g., to process the response.</string>
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs when execution fails -->
     <string name="placeholder_javascript_code_failure">Add JavaScript code here to run in case the request fails.</string>
-    <!-- Dialog title: Shown in dialog when picking a shortcut to be added to the list of shortcuts that are triggered when a multi-shortcut is executed -->
-    <string name="title_add_trigger_shortcut">Add Shortcut</string>
+    <!-- Dialog title: Shown in dialog when picking one or multiple shortcuts to be added to the list of shortcuts that are triggered when a multi-shortcut is executed -->
+    <string name="title_add_trigger_shortcut">Add Shortcuts</string>
     <!-- Dialog error message: Shown in dialog when picking a shortcut to be added to the list of shortcuts that are triggered when a multi-shortcut is executed but the user doesn't have any shortcuts yet -->
     <string name="error_add_trigger_shortcut_no_shortcuts">There are no shortcuts that can be added. You need to create some additional shortcuts first before you can select them here.</string>
     <!-- Dialog title: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
