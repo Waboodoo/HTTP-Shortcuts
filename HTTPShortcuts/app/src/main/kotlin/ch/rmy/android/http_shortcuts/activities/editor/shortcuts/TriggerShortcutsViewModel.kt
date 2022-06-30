@@ -14,6 +14,8 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.editor.shortcuts.models.ShortcutListItem
+import ch.rmy.android.http_shortcuts.activities.editor.shortcuts.models.ShortcutListItemId
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
@@ -44,7 +46,7 @@ class TriggerShortcutsViewModel(application: Application) :
     private var shortcutInitialized = false
     private lateinit var shortcuts: List<ShortcutModel>
 
-    private var shortcutIdsInUse = emptyList<ShortcutId>()
+    private var shortcutIdsInUse = emptyList<ShortcutListItemId>()
         set(value) {
             field = value
             updateViewState {
@@ -55,7 +57,7 @@ class TriggerShortcutsViewModel(application: Application) :
             }
             performOperation(
                 temporaryShortcutRepository.setCodeOnPrepare(
-                    getCodeFromTriggeredShortcutIds(value)
+                    getCodeFromTriggeredShortcutIds(value.map { it.shortcutId })
                 )
             )
         }
@@ -93,20 +95,21 @@ class TriggerShortcutsViewModel(application: Application) :
 
     private fun initViewStateFromShortcut(shortcut: ShortcutModel) {
         shortcutIdsInUse = getTriggeredShortcutIdsFromCode(shortcut.codeOnPrepare)
+            .mapIndexed { index, shortcutId -> ShortcutListItemId(shortcutId, id = index.toString()) }
     }
 
-    private fun getShortcutListItem(shortcutId: ShortcutId) =
+    private fun getShortcutListItem(id: ShortcutListItemId) =
         shortcuts
-            .firstOrNull { shortcut -> shortcut.id == shortcutId }
+            .firstOrNull { shortcut -> shortcut.id == id.shortcutId }
             ?.let { shortcutPlaceholder ->
                 ShortcutListItem.Shortcut(
-                    id = shortcutId,
+                    id = id,
                     name = shortcutPlaceholder.name.toLocalizable(),
                     icon = shortcutPlaceholder.icon,
                 )
             }
             ?: ShortcutListItem.Shortcut(
-                id = shortcutId,
+                id = id,
                 name = Localizable.create { context ->
                     SpannableString(context.getString(R.string.placeholder_deleted_shortcut))
                         .apply {
@@ -121,14 +124,13 @@ class TriggerShortcutsViewModel(application: Application) :
         finish()
     }
 
-    fun onShortcutMoved(shortcutId1: ShortcutId, shortcutId2: ShortcutId) {
+    fun onShortcutMoved(shortcutId1: ShortcutListItemId, shortcutId2: ShortcutListItemId) {
         shortcutIdsInUse = shortcutIdsInUse.swapped(shortcutId1, shortcutId2) { this }
     }
 
     fun onAddButtonClicked() {
-        val shortcutIdsInUse = shortcutIdsInUse
         val placeholders = shortcuts
-            .filter { it.id != currentShortcutId && it.id !in shortcutIdsInUse }
+            .filter { it.id != currentShortcutId }
             .map(ShortcutPlaceholder::fromShortcut)
 
         if (placeholders.isEmpty()) {
@@ -160,29 +162,29 @@ class TriggerShortcutsViewModel(application: Application) :
     }
 
     private fun onAddShortcutDialogConfirmed(shortcutId: ShortcutId) {
-        shortcutIdsInUse = shortcutIdsInUse.plus(shortcutId)
+        shortcutIdsInUse = shortcutIdsInUse.plus(ShortcutListItemId(shortcutId, shortcutIdsInUse.size.toString()))
     }
 
-    private fun onRemoveShortcutDialogConfirmed(shortcutId: ShortcutId) {
-        shortcutIdsInUse = shortcutIdsInUse.filter { it != shortcutId }
+    private fun onRemoveShortcutDialogConfirmed(id: ShortcutListItemId) {
+        shortcutIdsInUse = shortcutIdsInUse.filter { it != id }
     }
 
-    fun onShortcutClicked(shortcutId: ShortcutId) {
+    fun onShortcutClicked(id: ShortcutListItemId) {
         val message = shortcuts
-            .firstOrNull { it.id == shortcutId }
+            .firstOrNull { it.id == id.shortcutId }
             ?.let { shortcut ->
                 StringResLocalizable(R.string.message_remove_trigger_shortcut, shortcut.name)
             }
             ?: StringResLocalizable(R.string.message_remove_deleted_trigger_shortcut)
-        showRemoveShortcutDialog(shortcutId, message)
+        showRemoveShortcutDialog(id, message)
     }
 
-    private fun showRemoveShortcutDialog(shortcutId: ShortcutId, message: Localizable) {
+    private fun showRemoveShortcutDialog(id: ShortcutListItemId, message: Localizable) {
         dialogState = DialogState.create {
             title(R.string.title_remove_trigger_shortcut)
                 .message(message)
                 .positive(R.string.dialog_remove) {
-                    onRemoveShortcutDialogConfirmed(shortcutId)
+                    onRemoveShortcutDialogConfirmed(id)
                 }
                 .negative(R.string.dialog_cancel)
                 .build()

@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.activities.editor.shortcuts
+package ch.rmy.android.http_shortcuts.activities.editor.shortcuts.models
 
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
@@ -7,7 +7,7 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
 sealed interface ShortcutListItem {
     data class Shortcut(
-        val id: String,
+        val id: ShortcutListItemId,
         val name: Localizable,
         val icon: ShortcutIcon,
     ) : ShortcutListItem

@@ -5,7 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.framework.extensions.setText
 import ch.rmy.android.framework.ui.BaseAdapter
-import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import ch.rmy.android.http_shortcuts.activities.editor.shortcuts.models.ShortcutListItem
+import ch.rmy.android.http_shortcuts.activities.editor.shortcuts.models.ShortcutListItemId
 import ch.rmy.android.http_shortcuts.databinding.ListEmptyItemBinding
 import ch.rmy.android.http_shortcuts.databinding.ListItemShortcutTriggerBinding
 import io.reactivex.Observable
@@ -14,7 +15,7 @@ import io.reactivex.subjects.PublishSubject
 class ShortcutsAdapter : BaseAdapter<ShortcutListItem>() {
 
     sealed interface UserEvent {
-        data class ShortcutClicked(val id: String) : UserEvent
+        data class ShortcutClicked(val id: ShortcutListItemId) : UserEvent
     }
 
     private val userEventSubject = PublishSubject.create<UserEvent>()
@@ -52,17 +53,17 @@ class ShortcutsAdapter : BaseAdapter<ShortcutListItem>() {
         private val binding: ListItemShortcutTriggerBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        lateinit var shortcutId: ShortcutId
+        lateinit var id: ShortcutListItemId
             private set
 
         init {
             binding.root.setOnClickListener {
-                userEventSubject.onNext(UserEvent.ShortcutClicked(shortcutId))
+                userEventSubject.onNext(UserEvent.ShortcutClicked(id))
             }
         }
 
         fun setItem(shortcut: ShortcutListItem.Shortcut) {
-            shortcutId = shortcut.id
+            id = shortcut.id
             binding.name.setText(shortcut.name)
             binding.icon.setIcon(shortcut.icon)
         }

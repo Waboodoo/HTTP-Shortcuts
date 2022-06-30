@@ -67,7 +67,7 @@ class TriggerShortcutsActivity : BaseActivity() {
     private fun initDragOrdering() {
         val dragOrderingHelper = DragOrderingHelper(
             isEnabledCallback = { isDraggingEnabled },
-            getId = { (it as? ShortcutsAdapter.ShortcutViewHolder)?.shortcutId },
+            getId = { (it as? ShortcutsAdapter.ShortcutViewHolder)?.id },
         )
         dragOrderingHelper.attachTo(binding.triggerShortcutsList)
         dragOrderingHelper.movementSource
