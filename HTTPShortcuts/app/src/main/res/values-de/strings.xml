@@ -1142,7 +1142,7 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     </plurals>
 
     <!-- Dialog title: Shown in dialog when picking a shortcut to be added to the list of shortcuts that are triggered when a multi-shortcut is executed -->
-    <string name="title_add_trigger_shortcut">"Shortcut hinzufügen"</string>
+    <string name="title_add_trigger_shortcut">"Shortcuts hinzufügen"</string>
 
     <!-- Dialog error message: Shown in dialog when picking a shortcut to be added to the list of shortcuts that are triggered when a multi-shortcut is executed but the user doesn't have any shortcuts yet -->
     <string name="error_add_trigger_shortcut_no_shortcuts">"Es sind keine Shortcuts vorhanden die hinzugefügt werden können. Du musst erst Shortcuts erstellen bevor du sie hier hinzufügen kannst."</string>
@@ -1863,11 +1863,29 @@ Trotzdem löschen?"</string>
     <string name="variable_type_color_description">"Zeigt ein Dialogfenster zur Eingabe einer Farbe"</string>
 
     <!-- Shortcut Action Title: Send a UDP packet to another device on the network -->
-    <string name="action_type_send_udp_packet">"UDP-Packet senden"</string>
+    <string name="action_type_send_udp_packet">"UDP-Paket senden"</string>
 
     <!-- Dialog button: Confirm exporting the selected shortcuts -->
     <string name="dialog_button_export">"Exportieren"</string>
 
     <!-- Dialog title: shown in dialog when selecting which shortcuts to export -->
     <string name="dialog_title_select_shortcuts_for_export">"Shortcuts auswählen"</string>
+
+    <!-- Label above input box, for prefix text displayed in front of the number in a number slider (input dialog) -->
+    <string name="label_variable_slider_prefix">"Präfix"</string>
+
+    <!-- Label above input box, for suffix text displayed after the number in a number slider (input dialog) -->
+    <string name="label_variable_slider_suffix">"Suffix"</string>
+
+    <!-- label, shown in variable editor, to allow the user to enter a dialog text that will be shown when the variable is evaluated -->
+    <string name="label_variable_text">"Dialog-Text (optional)"</string>
+
+    <!-- Shortcut Action Title: Action that allows to retrieve the latest item from the device's clipboard -->
+    <string name="action_get_clipboard_content_title">"Zwischenablage auslesen"</string>
+
+    <!-- Button label on menu, for searching. Currently only used in Code Snippet picker but might be used to search in other places -->
+    <string name="menu_action_search">"Suchen"</string>
+
+    <!-- Generic message for empty state when a search yields no results, displayed in the middle of the screen -->
+    <string name="instructions_search_no_results">"Keine Ergebnisse"</string>
 </resources>

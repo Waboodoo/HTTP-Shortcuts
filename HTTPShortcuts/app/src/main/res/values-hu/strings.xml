@@ -1036,6 +1036,7 @@ Ezt a funkciót engedélyezheted egy parancsikon szerkesztésével és a \"%1$s\
     </plurals>
 
     <!-- Dialog title: Shown in dialog when picking a shortcut to be added to the list of shortcuts that are triggered when a multi-shortcut is executed -->
+    <!-- Fuzzy -->
     <string name="title_add_trigger_shortcut">"Parancsikon hozzáadása"</string>
 
     <!-- Dialog error message: Shown in dialog when picking a shortcut to be added to the list of shortcuts that are triggered when a multi-shortcut is executed but the user doesn't have any shortcuts yet -->

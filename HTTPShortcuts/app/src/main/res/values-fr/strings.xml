@@ -1019,7 +1019,8 @@ Voir la documentation dans la section variable pour plus d'informations."</strin
     </plurals>
 
     <!-- Dialog title: Shown in dialog when picking a shortcut to be added to the list of shortcuts that are triggered when a multi-shortcut is executed -->
-    <string name="title_add_trigger_shortcut">"Ajouter un raccourci"</string>
+    <!-- Fuzzy -->
+    <string name="title_add_trigger_shortcut">"Ajouter des raccourcis"</string>
 
     <!-- Dialog title: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
     <string name="title_remove_trigger_shortcut">"Supprimer le raccourci"</string>

@@ -1106,6 +1106,7 @@ Untuk menggunakan fitur ini setidaknya Anda memiliki satu pintasan yang mengguna
     <string name="label_trigger_shortcuts_subtitle_none">"Belum ada pintasan dipilih"</string>
 
     <!-- Dialog title: Shown in dialog when picking a shortcut to be added to the list of shortcuts that are triggered when a multi-shortcut is executed -->
+    <!-- Fuzzy -->
     <string name="title_add_trigger_shortcut">"Tambah Pintasan"</string>
 
     <!-- Dialog title: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
