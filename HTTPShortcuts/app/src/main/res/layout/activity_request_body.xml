@@ -30,8 +30,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/input_request_body_type"
             android:orientation="vertical"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
 
             <TextView
                 style="@style/Label"
@@ -60,8 +60,8 @@
                 style="@style/Label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 android:text="@string/label_custom_body" />
 
             <ch.rmy.android.http_shortcuts.variables.VariableEditText
@@ -74,8 +74,8 @@
                 android:inputType="textMultiLine"
                 android:minLines="5"
                 android:gravity="top"
-                android:paddingLeft="16dp"
-                android:paddingRight="@dimen/variable_button_spacing"
+                android:paddingStart="16dp"
+                android:paddingEnd="@dimen/variable_button_spacing"
                 android:textSize="@dimen/request_body_content_font_size"
                 android:typeface="monospace" />
 
@@ -83,8 +83,7 @@
                 android:id="@+id/variable_button_body_content"
                 style="@style/VariableButton"
                 android:layout_below="@+id/label_body_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true" />
+                android:layout_alignParentEnd="true" />
 
         </RelativeLayout>
 

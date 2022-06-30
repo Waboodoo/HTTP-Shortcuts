@@ -4,8 +4,8 @@
     android:layout_height="wrap_content"
     android:background="?android:attr/selectableItemBackground"
     android:minHeight="?android:attr/listPreferredItemHeightSmall"
-    android:paddingLeft="@dimen/abc_dialog_padding_material"
-    android:paddingRight="@dimen/abc_dialog_padding_material">
+    android:paddingStart="@dimen/abc_dialog_padding_material"
+    android:paddingEnd="@dimen/abc_dialog_padding_material">
 
     <CheckBox
         android:id="@+id/menu_item_checkbox"

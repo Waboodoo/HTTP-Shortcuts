@@ -19,16 +19,16 @@
             android:paddingBottom="10dp">
 
             <LinearLayout
-                android:background="@drawable/widget_preview_background"
                 android:layout_width="wrap_content"
                 android:layout_height="108dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
+                android:background="@drawable/widget_preview_background"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:paddingLeft="12dp"
+                android:paddingStart="12dp"
                 android:paddingTop="8dp"
-                android:paddingRight="12dp"
+                android:paddingEnd="12dp"
                 android:paddingBottom="8dp">
 
                 <ch.rmy.android.http_shortcuts.icons.IconView
@@ -55,8 +55,8 @@
                 android:id="@+id/input_show_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:checked="true"
                 android:text="@string/label_show_widget_label" />
 

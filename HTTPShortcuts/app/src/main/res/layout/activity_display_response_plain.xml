@@ -25,9 +25,9 @@
                 android:id="@+id/response_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="16dp"
+                android:paddingStart="16dp"
                 android:paddingTop="10dp"
-                android:paddingRight="16dp"
+                android:paddingEnd="16dp"
                 android:paddingBottom="10dp"
                 android:textIsSelectable="true"
                 android:textSize="@dimen/response_font_size" />

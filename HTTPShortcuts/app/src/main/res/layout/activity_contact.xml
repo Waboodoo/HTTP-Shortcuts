@@ -15,10 +15,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingLeft="16dp"
+            android:paddingStart="10dp"
             android:paddingTop="10dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="10dp">
+            android:paddingEnd="16dp">
 
             <TextView
                 android:id="@+id/contact_instructions"
@@ -35,9 +34,9 @@
                 android:inputType="textNoSuggestions"
                 android:maxLength="30"
                 android:maxLines="1"
-                android:paddingLeft="4dp"
+                android:paddingStart="4dp"
                 android:paddingTop="4dp"
-                android:paddingRight="4dp"
+                android:paddingEnd="4dp"
                 android:paddingBottom="4dp" />
 
         </LinearLayout>

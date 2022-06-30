@@ -11,9 +11,9 @@
         android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
         android:orientation="vertical"
-        android:paddingLeft="16dp"
+        android:paddingStart="16dp"
         android:paddingTop="10dp"
-        android:paddingRight="16dp"
+        android:paddingEnd="16dp"
         android:paddingBottom="10dp">
 
         <TextView
@@ -24,27 +24,27 @@
             android:gravity="start"
             android:maxLines="2"
             android:textAppearance="@style/ListName"
+            app:layout_constraintEnd_toStartOf="@+id/unused"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.5"
-            app:layout_constraintEnd_toStartOf="@+id/unused"
             tools:text="Name but this thing is much longer than expected" />
 
         <TextView
             android:id="@+id/unused"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintWidth_min="wrap"
             android:gravity="end"
             android:maxLines="2"
+            android:text="@string/label_variable_unused"
             android:textAppearance="@style/ListName_auxiliary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1"
             app:layout_constraintStart_toEndOf="@+id/name"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.5"
-            android:text="@string/label_variable_unused"
+            app:layout_constraintWidth_min="wrap"
             tools:text="unused" />
 
         <TextView

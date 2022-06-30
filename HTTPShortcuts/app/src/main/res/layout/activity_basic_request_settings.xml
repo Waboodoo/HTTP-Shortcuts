@@ -41,14 +41,13 @@
                     android:layout_below="@+id/label_url"
                     android:inputType="textNoSuggestions|textUri|textMultiLine"
                     android:maxLines="12"
-                    android:paddingRight="@dimen/variable_button_spacing" />
+                    android:paddingEnd="@dimen/variable_button_spacing" />
 
                 <ch.rmy.android.http_shortcuts.variables.VariableButton
                     android:id="@+id/variable_button_url"
                     style="@style/VariableButton"
                     android:layout_below="@+id/label_url"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true" />
+                    android:layout_alignParentEnd="true" />
             </RelativeLayout>
 
             <ch.rmy.android.framework.ui.views.LabelledSpinner

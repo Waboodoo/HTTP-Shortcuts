@@ -3,6 +3,6 @@
     android:id="@+id/icon_selector_grid"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="24dp"
-    android:paddingRight="24dp"
+    android:paddingStart="24dp"
+    android:paddingEnd="24dp"
     android:paddingBottom="8dp" />

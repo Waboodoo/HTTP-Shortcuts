@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp">
 
     <TextView
         android:id="@+id/label_toggle_option_value"
@@ -19,12 +19,11 @@
         android:layout_below="@+id/label_toggle_option_value"
         android:inputType="text"
         android:maxLines="1"
-        android:paddingRight="@dimen/variable_button_spacing" />
+        android:paddingEnd="@dimen/variable_button_spacing" />
 
     <ch.rmy.android.http_shortcuts.variables.VariableButton
         android:id="@+id/variable_button_value"
         style="@style/VariableButton"
         android:layout_below="@+id/label_toggle_option_value"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>
