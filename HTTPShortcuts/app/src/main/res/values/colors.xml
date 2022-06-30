@@ -47,5 +47,7 @@
     <item name="widget_preview_background" type="color">#99A0A0A0</item>
     <item name="loading_spinner_background" type="color">#FAFAFA</item>
 
+    <item name="empty_state_text_color" type="color">#999999</item>
+
     <item name="splash_background" type="color">@color/brand_icon</item>
 </resources>

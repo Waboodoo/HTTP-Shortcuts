@@ -6,6 +6,17 @@
 
     <include layout="@layout/toolbar_layout" />
 
+    <TextView
+        android:id="@+id/empty_state"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="@string/instructions_search_no_results"
+        android:textColor="@color/empty_state_text_color"
+        android:textSize="14sp"
+        android:visibility="gone" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/section_list"
         android:layout_width="match_parent"

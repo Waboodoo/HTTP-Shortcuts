@@ -6,5 +6,6 @@ data class CodeSnippetItem(
     val title: Localizable,
     val description: Localizable?,
     val docRef: String?,
+    val keywords: Set<String> = emptySet(),
     val action: () -> Unit,
 )

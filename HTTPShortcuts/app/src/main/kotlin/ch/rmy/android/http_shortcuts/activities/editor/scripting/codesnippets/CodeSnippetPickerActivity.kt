@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.launch
+import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.consume
@@ -25,6 +27,7 @@ import ch.rmy.android.http_shortcuts.databinding.ActivityCodeSnippetPickerBindin
 import ch.rmy.android.http_shortcuts.icons.IpackPickerContract
 import ch.rmy.android.http_shortcuts.plugin.TaskerTaskPickerContract
 import ch.rmy.android.http_shortcuts.utils.RingtonePickerContract
+import kotlin.properties.Delegates
 
 class CodeSnippetPickerActivity : BaseActivity() {
 
@@ -46,6 +49,11 @@ class CodeSnippetPickerActivity : BaseActivity() {
     private val adapter = CodeSnippetAdapter()
 
     private lateinit var binding: ActivityCodeSnippetPickerBinding
+    private var searchMenu: MenuItem? = null
+    private var searchStateInitialized = false
+    private var searchQuery: String? by Delegates.observable(null) { _, _, _ ->
+        initSearchMenuStateIfNeeded()
+    }
 
     override fun onCreated(savedState: Bundle?) {
         viewModel.initialize(
@@ -91,6 +99,8 @@ class CodeSnippetPickerActivity : BaseActivity() {
     private fun initViewModelBindings() {
         viewModel.viewState.observe(this) { viewState ->
             adapter.items = viewState.items
+            searchQuery = viewState.searchQuery
+            binding.emptyState.isVisible = viewState.isEmptyStateVisible
             setDialogState(viewState.dialogState, viewModel)
         }
         viewModel.events.observe(this, ::handleEvent)
@@ -133,13 +143,50 @@ class CodeSnippetPickerActivity : BaseActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.scripting_activity_menu, menu)
+        searchStateInitialized = false
+        menuInflater.inflate(R.menu.code_snippet_picker_activity_menu, menu)
+        searchMenu = menu.findItem(R.id.action_search)
+            .apply {
+                initSearchMenuStateIfNeeded()
+                (actionView as SearchView)
+                    .setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                        override fun onQueryTextSubmit(query: String) =
+                            consume { viewModel.onSearchSubmitted(query) }
+
+                        override fun onQueryTextChange(newText: String) =
+                            consume { viewModel.onSearchTyped(newText) }
+                    })
+            }
+            .setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+                override fun onMenuItemActionExpand(menuItem: MenuItem) =
+                    consume(viewModel::onSearchExpanded)
+
+                override fun onMenuItemActionCollapse(menuItem: MenuItem) =
+                    consume(viewModel::onSearchCollapsed)
+            })
         return super.onCreateOptionsMenu(menu)
     }
 
+    private fun initSearchMenuStateIfNeeded() {
+        if (searchStateInitialized) {
+            return
+        }
+        val query = searchQuery ?: return
+        val menuItem = searchMenu ?: return
+        (menuItem.actionView as SearchView).apply {
+            setQuery(query, false)
+            isIconified = false
+        }
+        searchStateInitialized = true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.action_show_help -> consume { viewModel.onHelpButtonClicked() }
+        R.id.action_show_help -> consume(viewModel::onHelpButtonClicked)
         else -> super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+        viewModel.onBackPressed()
     }
 
     object PickCodeSnippet : BaseActivityResultContract<IntentBuilder, PickCodeSnippet.Result?>(::IntentBuilder) {

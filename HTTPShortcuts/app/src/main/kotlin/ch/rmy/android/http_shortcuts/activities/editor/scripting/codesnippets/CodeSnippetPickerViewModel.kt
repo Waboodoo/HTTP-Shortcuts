@@ -10,6 +10,7 @@ import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.usecases.GenerateCodeSnippetItemsUseCase
+import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.usecases.GetItemWrappersUseCase
 import ch.rmy.android.http_shortcuts.activities.variables.VariableTypeMappings
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
@@ -24,6 +25,9 @@ import ch.rmy.android.http_shortcuts.usecases.GetIconPickerDialogUseCase
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs.getScriptingDocumentation
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class CodeSnippetPickerViewModel(application: Application) :
@@ -50,6 +54,9 @@ class CodeSnippetPickerViewModel(application: Application) :
     @Inject
     lateinit var shortcutPlaceholderProvider: ShortcutPlaceholderProvider
 
+    @Inject
+    lateinit var getItemWrappers: GetItemWrappersUseCase
+
     init {
         getApplicationComponent().inject(this)
     }
@@ -64,41 +71,28 @@ class CodeSnippetPickerViewModel(application: Application) :
             }
         }
 
-    private lateinit var sectionItems: List<SectionItem>
+    private var sectionItems: List<SectionItem> = emptyList()
     private var expandedSections = mutableSetOf<Int>()
 
     override fun onInitializationStarted(data: InitData) {
-        sectionItems = generateCodeSnippetItems(initData, ::onCodeSnippetItemEvent)
-        finalizeInitialization()
+        Single.fromCallable {
+            generateCodeSnippetItems(initData, ::onCodeSnippetItemEvent)
+        }
+            .subscribeOn(Schedulers.computation())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { sectionItems ->
+                this.sectionItems = sectionItems
+                finalizeInitialization()
+            }
+            .attachTo(destroyer)
     }
 
     override fun initViewState() = CodeSnippetPickerViewState(
         items = computeItemWrappers(),
     )
 
-    private fun computeItemWrappers(): List<ItemWrapper> =
-        sectionItems
-            .flatMapIndexed { sectionIndex, item ->
-                val expanded = expandedSections.contains(sectionIndex)
-                listOf<ItemWrapper>(
-                    ItemWrapper.Section(
-                        id = sectionIndex,
-                        sectionItem = item,
-                        expanded = expanded,
-                    )
-                )
-                    .runIf(expanded) {
-                        plus(
-                            item.codeSnippetItems
-                                .mapIndexed { codeSnippetIndex, codeSnippetItem ->
-                                    ItemWrapper.CodeSnippet(
-                                        id = codeSnippetIndex + sectionIndex * 1000,
-                                        codeSnippetItem = codeSnippetItem,
-                                    )
-                                }
-                        )
-                    }
-            }
+    private fun computeItemWrappers(query: String? = null): List<ItemWrapper> =
+        getItemWrappers(sectionItems, expandedSections, query)
 
     override fun onInitialized() {
         variableRepository.getObservableVariables()
@@ -258,15 +252,20 @@ class CodeSnippetPickerViewModel(application: Application) :
     }
 
     fun onSectionClicked(id: Int) {
-        if (expandedSections.contains(id)) {
-            expandedSections.remove(id)
-        } else {
-            expandedSections.add(id)
-        }
-        updateViewState {
-            copy(
-                items = computeItemWrappers(),
-            )
+        doWithViewState { viewState ->
+            if (!viewState.searchQuery.isNullOrBlank()) {
+                return@doWithViewState
+            }
+            if (expandedSections.contains(id)) {
+                expandedSections.remove(id)
+            } else {
+                expandedSections.add(id)
+            }
+            updateViewState {
+                copy(
+                    items = computeItemWrappers(),
+                )
+            }
         }
     }
 
@@ -294,6 +293,41 @@ class CodeSnippetPickerViewModel(application: Application) :
                 ?.docRef
                 ?.let(::getScriptingDocumentation)
                 ?.let(::openURL)
+        }
+    }
+
+    fun onSearchExpanded() {
+        updateSearchQuery("")
+    }
+
+    fun onSearchCollapsed() {
+        updateSearchQuery(null)
+    }
+
+    fun onSearchSubmitted(query: String) {
+        updateSearchQuery(query)
+    }
+
+    fun onSearchTyped(query: String) {
+        updateSearchQuery(query)
+    }
+
+    private fun updateSearchQuery(query: String?) {
+        updateViewState {
+            copy(
+                searchQuery = query,
+                items = computeItemWrappers(query),
+            )
+        }
+    }
+
+    fun onBackPressed() {
+        doWithViewState { viewState ->
+            if (viewState.searchQuery != null) {
+                updateSearchQuery(null)
+            } else {
+                finish()
+            }
         }
     }
 
